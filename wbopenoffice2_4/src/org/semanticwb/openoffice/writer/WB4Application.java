@@ -21,7 +21,6 @@ import org.semanticwb.openoffice.OfficeDocument;
 import org.semanticwb.openoffice.OfficeApplication;
 import org.semanticwb.openoffice.WBOfficeException;
 import org.semanticwb.openoffice.WBException;
-import org.semanticwb.openoffice.impress.WB4Impress;
 
 /**
  * Class that Wrap an Office Application
@@ -63,7 +62,7 @@ public class WB4Application extends OfficeApplication
                         XServiceInfo.class, document);
                 if (xServiceInfo.supportsService("com.sun.star.text.TextDocument"))
                 {
-                    WB4Writer writerDocument = new WB4Writer(this.m_xContext, document);
+                    WB4Writer writerDocument = new WB4Writer(document);
                     documents.add(writerDocument);
                 }
             }

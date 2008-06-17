@@ -38,23 +38,25 @@ public class WB4Calc extends OfficeDocument
     public static final String OPENOFFICE_EXTENSION = ".ods";
     public static final String EXCEL_EXTENSION = ".xls";
     public static final String HTML_EXTENSION = ".html";
-    private final XComponentContext m_xContext;
+    private static final String ERROR_NO_SAVE = "No se puede almacenar el documento";
+    private static final String FILTER_NAME = "FilterName";
+    private static final String OVERRIDE_OPTION = "Overwrite";
+    private static final String SCHEMA_FILE = "file:///";    
     private final XComponent document;
 
-    public WB4Calc(XComponentContext m_xContext,XComponent document) throws WBOfficeException
-    {
-        this.m_xContext = m_xContext;
-        this.document=document;        
+    public WB4Calc(XComponent document) throws WBOfficeException
+    {        
+        this.document = document;
     }
+
     public WB4Calc(XComponentContext m_xContext) throws WBOfficeException
-    {
-        this.m_xContext = m_xContext;
+    {        
         XMultiComponentFactory serviceManager = m_xContext.getServiceManager();
         try
         {
             Object desktop = serviceManager.createInstanceWithContext(
                     "com.sun.star.frame.Desktop", m_xContext);
-            XDesktop xdesktop = (XDesktop) UnoRuntime.queryInterface(XDesktop.class, desktop);                                                
+            XDesktop xdesktop = (XDesktop) UnoRuntime.queryInterface(XDesktop.class, desktop);
             document = xdesktop.getCurrentComponent();
         }
         catch (com.sun.star.uno.Exception e)
@@ -132,7 +134,7 @@ public class WB4Calc extends OfficeDocument
         if (xStorable.hasLocation())
         {
             String path = xtd.getURL();
-            if (path.startsWith("file:///"))
+            if (path.startsWith(SCHEMA_FILE))
             {
                 path = path.substring(8);
             }
@@ -167,7 +169,7 @@ public class WB4Calc extends OfficeDocument
         }
         catch (IOException ioe)
         {
-            throw new WBOfficeException("No se puede almacenar el documento", ioe);
+            throw new WBOfficeException(ERROR_NO_SAVE, ioe);
 
         }
     }
@@ -175,15 +177,19 @@ public class WB4Calc extends OfficeDocument
     @Override
     public final File saveAs(File dir, SaveDocumentFormat format) throws WBException
     {
+        File result;
         switch (format)
         {
             case HTML:
-                return this.saveAsHtml(dir);
+                result= this.saveAsHtml(dir);
+                break;
             case OFFICE_2003:
-                return saveAsOffice2003(dir);
+                result= saveAsOffice2003(dir);
+                break;
             default:
-                return saveAsOpenOffice(dir);
+                result=saveAsOpenOffice(dir);                
         }
+        return result;
     }
 
     private File saveAsOpenOffice(File dir) throws WBException
@@ -210,24 +216,24 @@ public class WB4Calc extends OfficeDocument
             File DocFile = new File(dir.getPath() + File.separator + name);
             PropertyValue[] storeProps = new PropertyValue[2];
             storeProps[0] = new PropertyValue();
-            storeProps[0].Name = "FilterName";
+            storeProps[0].Name = FILTER_NAME;
             storeProps[0].Value = "Calc8";
 
             storeProps[1] = new PropertyValue();
-            storeProps[1].Name = "Overwrite";
+            storeProps[1].Name = OVERRIDE_OPTION;
             storeProps[1].Value = true;
             XStorable xStorable = (XStorable) UnoRuntime.queryInterface(XStorable.class, document);
             if (!dir.exists())
             {
                 dir.mkdirs();
             }
-            String url = "file:///" + DocFile.getPath().replace('\\', '/');
+            String url = SCHEMA_FILE + DocFile.getPath().replace('\\', '/');
             xStorable.storeToURL(url, storeProps);
             return DocFile;
         }
         catch (IOException ioe)
         {
-            throw new WBOfficeException("No se puede almacenar el documento", ioe);
+            throw new WBOfficeException(ERROR_NO_SAVE, ioe);
         }
     }
 
@@ -255,26 +261,27 @@ public class WB4Calc extends OfficeDocument
             File DocFile = new File(dir.getPath() + File.separator + name);
             PropertyValue[] storeProps = new PropertyValue[2];
             storeProps[0] = new PropertyValue();
-            storeProps[0].Name = "FilterName";
+            storeProps[0].Name = FILTER_NAME;
             storeProps[0].Value = "MS Excel 97";
 
             storeProps[1] = new PropertyValue();
-            storeProps[1].Name = "Overwrite";
+            storeProps[1].Name = OVERRIDE_OPTION;
             storeProps[1].Value = true;
             XStorable xStorable = (XStorable) UnoRuntime.queryInterface(XStorable.class, document);
             if (!dir.exists())
             {
                 dir.mkdirs();
             }
-            String url = "file:///" + DocFile.getPath().replace('\\', '/');
+            String url = SCHEMA_FILE + DocFile.getPath().replace('\\', '/');
             xStorable.storeToURL(url, storeProps);
             return DocFile;
         }
         catch (IOException ioe)
         {
-            throw new WBOfficeException("No se puede almacenar el documento", ioe);
+            throw new WBOfficeException(ERROR_NO_SAVE, ioe);
         }
     }
+
     @Override
     public void save(File file) throws WBException
     {
@@ -282,15 +289,15 @@ public class WB4Calc extends OfficeDocument
         {
             PropertyValue[] storeProps = new PropertyValue[2];
             storeProps[0] = new PropertyValue();
-            storeProps[0].Name = "FilterName";
+            storeProps[0].Name = FILTER_NAME;
             storeProps[0].Value = "Calc8";
 
             storeProps[1] = new PropertyValue();
-            storeProps[1].Name = "Overwrite";
+            storeProps[1].Name = OVERRIDE_OPTION;
             storeProps[1].Value = true;
 
             XStorable xStorable = (XStorable) UnoRuntime.queryInterface(XStorable.class, document);
-            String url = "file:///" + file.getPath().replace('\\', '/');
+            String url = SCHEMA_FILE + file.getPath().replace('\\', '/');
             xStorable.storeAsURL(url, storeProps);
         }
         catch (IOException wbe)
@@ -319,19 +326,19 @@ public class WB4Calc extends OfficeDocument
                 File DocFile = new File(dir.getPath() + File.separator + name);
                 PropertyValue[] storeProps = new PropertyValue[2];
                 storeProps[0] = new PropertyValue();
-                storeProps[0].Name = "FilterName";
+                storeProps[0].Name = FILTER_NAME;
                 storeProps[0].Value = "MS Excel 97";
 
                 storeProps[1] = new PropertyValue();
-                storeProps[1].Name = "Overwrite";
+                storeProps[1].Name = OVERRIDE_OPTION;
                 storeProps[1].Value = true;
                 XStorable xStorable = (XStorable) UnoRuntime.queryInterface(XStorable.class, document);
-                
+
                 if (!dir.exists())
                 {
                     dir.mkdirs();
                 }
-                String url = "file:///" + DocFile.getPath().replace('\\', '/');                
+                String url = SCHEMA_FILE + DocFile.getPath().replace('\\', '/');
                 xStorable.storeToURL(url, storeProps);
             }
             else
@@ -341,11 +348,11 @@ public class WB4Calc extends OfficeDocument
 
             PropertyValue[] storeProps = new PropertyValue[2];
             storeProps[0] = new PropertyValue();
-            storeProps[0].Name = "FilterName";
+            storeProps[0].Name = FILTER_NAME;
             storeProps[0].Value = "HTML (StarCalc)";
 
             storeProps[1] = new PropertyValue();
-            storeProps[1].Name = "Overwrite";
+            storeProps[1].Name = OVERRIDE_OPTION;
             storeProps[1].Value = true;
 
 
@@ -354,13 +361,13 @@ public class WB4Calc extends OfficeDocument
             {
                 dir.mkdirs();
             }
-            String url = "file:///" + HTMLfile.getPath().replace('\\', '/');                
+            String url = SCHEMA_FILE + HTMLfile.getPath().replace('\\', '/');
             xStorable.storeToURL(url, storeProps);
             return HTMLfile;
         }
         catch (IOException ioe)
         {
-            throw new WBOfficeException("No se puede almacenar el documento", ioe);
+            throw new WBOfficeException(ERROR_NO_SAVE, ioe);
 
         }
 
@@ -416,7 +423,8 @@ public class WB4Calc extends OfficeDocument
         XModifiable xModified = (XModifiable) UnoRuntime.queryInterface(XModifiable.class, document);
         return xModified.isModified();
     }
-     public String getDefaultExtension()
+
+    public String getDefaultExtension()
     {
         return OPENOFFICE_EXTENSION;
     }

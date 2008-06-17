@@ -22,13 +22,12 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.semanticwb.openoffice.DocumentType;
 import org.semanticwb.openoffice.SaveDocumentFormat;
 import org.semanticwb.openoffice.WBException;
 import org.semanticwb.openoffice.calc.WB4Calc;
-import static org.junit.Assert.*;
+
 
 /**
  *
