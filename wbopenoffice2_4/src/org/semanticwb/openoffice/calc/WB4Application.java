@@ -23,7 +23,7 @@ import org.semanticwb.openoffice.WBException;
 import org.semanticwb.openoffice.WBOfficeException;
 
 /**
- *
+ * dgfgdgdg
  * @author victor.lorenzana
  */
 public class WB4Application extends OfficeApplication
