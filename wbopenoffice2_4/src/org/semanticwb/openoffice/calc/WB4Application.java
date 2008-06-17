@@ -55,7 +55,7 @@ public class WB4Application extends OfficeApplication
                         XServiceInfo.class, document);
                 if (xServiceInfo.supportsService("com.sun.star.sheet.SpreadsheetDocument"))
                 {
-                    WB4Calc calDocument = new WB4Calc(this.m_xContext, document);
+                    WB4Calc calDocument = new WB4Calc(document);
                     documents.add(calDocument);
                 }
             }
