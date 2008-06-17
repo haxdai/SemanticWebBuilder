@@ -47,22 +47,19 @@ public class WB4Writer extends OfficeDocument
      * The extension of a HTML Document HTML_EXTENSION=".html"
      */
     public static final String HTML_EXTENSION = ".html";
-    /**
-     * The Context to the Open Office Application
-     */
-    private final XComponentContext m_xContext;
+    private static final String FILTER_NAME = "FilterName";
+    private static final String OVERWRITE = "Overwrite";
+    private static final String SCHEMA_FILE = "file:///";
     /**
      * The Open Office Writer Document that Wraps
      */
     private final XComponent document;
 
-    public WB4Writer(XComponentContext m_xContext,XComponent document) throws WBOfficeException
+    public WB4Writer(XComponent document) throws WBOfficeException
     {
-        this.m_xContext = m_xContext;
-        this.document=document;
+        this.document = document;
     }
-    
-    
+
     /**
      * Contructor to obtain the current document
      * @param m_xContext Conext to the Office Application
@@ -71,7 +68,6 @@ public class WB4Writer extends OfficeDocument
     public WB4Writer(XComponentContext m_xContext) throws WBOfficeException
     {
 
-        this.m_xContext = m_xContext;
 
         XMultiComponentFactory serviceManager = m_xContext.getServiceManager();
         try
@@ -176,7 +172,7 @@ public class WB4Writer extends OfficeDocument
         if (xStorable.hasLocation())
         {
             String path = xtd.getURL();
-            if (path.startsWith("file:///"))
+            if (path.startsWith(SCHEMA_FILE))
             {
                 path = path.substring(8);
             }
@@ -226,15 +222,15 @@ public class WB4Writer extends OfficeDocument
         {
             PropertyValue[] storeProps = new PropertyValue[2];
             storeProps[0] = new PropertyValue();
-            storeProps[0].Name = "FilterName";
+            storeProps[0].Name = FILTER_NAME;
             storeProps[0].Value = "Writer8";
 
             storeProps[1] = new PropertyValue();
-            storeProps[1].Name = "Overwrite";
+            storeProps[1].Name = OVERWRITE;
             storeProps[1].Value = true;
 
-            XStorable xStorable = (XStorable) UnoRuntime.queryInterface(XStorable.class, document);            
-            String url = "file:///" + file.getPath().replace('\\', '/');
+            XStorable xStorable = (XStorable) UnoRuntime.queryInterface(XStorable.class, document);
+            String url = SCHEMA_FILE + file.getPath().replace('\\', '/');
             xStorable.storeAsURL(url, storeProps);
         }
         catch (IOException wbe)
@@ -254,15 +250,19 @@ public class WB4Writer extends OfficeDocument
     @Override
     public File saveAs(File dir, SaveDocumentFormat format) throws WBException
     {
+        File result;
         switch (format)
         {
             case HTML:
-                return this.saveAsHtml(dir);
+                result = this.saveAsHtml(dir);
+                break;
             case OFFICE_2003:
-                return saveAsOffice2003(dir);
+                result = saveAsOffice2003(dir);
+                break;
             default:
-                return saveAsOpenOffice(dir);
+                result = saveAsOpenOffice(dir);
         }
+        return result;
     }
 
     private File saveAsOpenOffice(File dir) throws WBException
@@ -289,18 +289,18 @@ public class WB4Writer extends OfficeDocument
             File DocFile = new File(dir.getPath() + File.separator + name);
             PropertyValue[] storeProps = new PropertyValue[2];
             storeProps[0] = new PropertyValue();
-            storeProps[0].Name = "FilterName";
+            storeProps[0].Name = FILTER_NAME;
             storeProps[0].Value = "Writer8";
 
             storeProps[1] = new PropertyValue();
-            storeProps[1].Name = "Overwrite";
+            storeProps[1].Name = OVERWRITE;
             storeProps[1].Value = true;
             XStorable xStorable = (XStorable) UnoRuntime.queryInterface(XStorable.class, document);
             if (!dir.exists())
             {
                 dir.mkdirs();
             }
-            String url = "file:///" + DocFile.getPath().replace('\\', '/');
+            String url = SCHEMA_FILE + DocFile.getPath().replace('\\', '/');
             xStorable.storeToURL(url, storeProps);
             return DocFile;
         }
@@ -334,18 +334,18 @@ public class WB4Writer extends OfficeDocument
             File DocFile = new File(dir.getPath() + File.separator + name);
             PropertyValue[] storeProps = new PropertyValue[2];
             storeProps[0] = new PropertyValue();
-            storeProps[0].Name = "FilterName";
+            storeProps[0].Name = FILTER_NAME;
             storeProps[0].Value = "MS Word 97";
 
             storeProps[1] = new PropertyValue();
-            storeProps[1].Name = "Overwrite";
+            storeProps[1].Name = OVERWRITE;
             storeProps[1].Value = true;
             XStorable xStorable = (XStorable) UnoRuntime.queryInterface(XStorable.class, document);
             if (!dir.exists())
             {
                 dir.mkdirs();
             }
-            String url = "file:///" + DocFile.getPath().replace('\\', '/');
+            String url = SCHEMA_FILE + DocFile.getPath().replace('\\', '/');
             xStorable.storeToURL(url, storeProps);
             return DocFile;
         }
@@ -380,18 +380,18 @@ public class WB4Writer extends OfficeDocument
                 File DocFile = new File(dir.getPath() + File.separator + name);
                 PropertyValue[] storeProps = new PropertyValue[2];
                 storeProps[0] = new PropertyValue();
-                storeProps[0].Name = "FilterName";
+                storeProps[0].Name = FILTER_NAME;
                 storeProps[0].Value = "MS Word 97";
 
                 storeProps[1] = new PropertyValue();
-                storeProps[1].Name = "Overwrite";
+                storeProps[1].Name = OVERWRITE;
                 storeProps[1].Value = true;
                 XStorable xStorable = (XStorable) UnoRuntime.queryInterface(XStorable.class, document);
                 if (!dir.exists())
                 {
                     dir.mkdirs();
                 }
-                String url = "file:///" + DocFile.getPath().replace('\\', '/');
+                String url = SCHEMA_FILE + DocFile.getPath().replace('\\', '/');
                 xStorable.storeToURL(url, storeProps);
             }
             else
@@ -401,11 +401,11 @@ public class WB4Writer extends OfficeDocument
 
             PropertyValue[] storeProps = new PropertyValue[2];
             storeProps[0] = new PropertyValue();
-            storeProps[0].Name = "FilterName";
+            storeProps[0].Name = FILTER_NAME;
             storeProps[0].Value = "HTML (StarWriter)";
 
             storeProps[1] = new PropertyValue();
-            storeProps[1].Name = "Overwrite";
+            storeProps[1].Name = OVERWRITE;
             storeProps[1].Value = true;
 
 
@@ -414,7 +414,7 @@ public class WB4Writer extends OfficeDocument
             {
                 dir.mkdirs();
             }
-            String url = "file:///" + HTMLfile.getPath().replace('\\', '/');
+            String url = SCHEMA_FILE + HTMLfile.getPath().replace('\\', '/');
             xStorable.storeToURL(url, storeProps);
             return HTMLfile;
         }

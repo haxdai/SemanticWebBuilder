@@ -34,20 +34,23 @@ import org.semanticwb.openoffice.WBOfficeException;
 public class WB4Impress extends OfficeDocument
 {
 
+    public static final String ERROR_NO_SAVE = "No se puede almacenar el documento";
     public static final String OPENOFFICE_EXTENSION = ".odp";
     public static final String PPT_EXTENSION = ".ppt";
     public static final String HTML_EXTENSION = ".html";
-    private final XComponentContext m_xContext;
+    private static final String FILTER_NAME = "FilterName";
+    private static final String OVERWRITE = "Overwrite";
+    private static final String SCHEMA_FILE = "file:///";
+    //private final XComponentContext m_xContext;
     private final XComponent document;
-    
-    public WB4Impress(XComponentContext m_xContext,XComponent document) throws WBOfficeException
+
+    public WB4Impress(XComponent document) throws WBOfficeException
     {
-        this.m_xContext = m_xContext;
-        this.document=document;
+        this.document = document;
     }
+
     public WB4Impress(XComponentContext m_xContext) throws WBOfficeException
     {
-        this.m_xContext = m_xContext;
         XMultiComponentFactory serviceManager = m_xContext.getServiceManager();
         try
         {
@@ -62,8 +65,6 @@ public class WB4Impress extends OfficeDocument
         }
     }
 
-    
-    
     @Override
     public final String getApplicationVersion()
     {
@@ -117,7 +118,7 @@ public class WB4Impress extends OfficeDocument
         if (xStorable.hasLocation())
         {
             String path = xtd.getURL();
-            if (path.startsWith("file:///"))
+            if (path.startsWith(SCHEMA_FILE))
             {
                 path = path.substring(8);
             }
@@ -151,7 +152,7 @@ public class WB4Impress extends OfficeDocument
         }
         catch (IOException ioe)
         {
-            throw new WBOfficeException("No se puede almacenar el documento", ioe);
+            throw new WBOfficeException(ERROR_NO_SAVE, ioe);
 
         }
     }
@@ -159,15 +160,19 @@ public class WB4Impress extends OfficeDocument
     @Override
     public final File saveAs(File dir, SaveDocumentFormat format) throws WBException
     {
+        File result;
         switch (format)
         {
             case HTML:
-                return this.saveAsHtml(dir);
+                result = this.saveAsHtml(dir);
+                break;
             case OFFICE_2003:
-                return saveAsOffice2003(dir);
+                result = saveAsOffice2003(dir);
+                break;
             default:
-                return saveAsOpenOffice(dir);
+                result = saveAsOpenOffice(dir);
         }
+        return result;
     }
 
     private File saveAsOpenOffice(File dir) throws WBException
@@ -194,24 +199,24 @@ public class WB4Impress extends OfficeDocument
             File DocFile = new File(dir.getPath() + File.separator + name);
             PropertyValue[] storeProps = new PropertyValue[2];
             storeProps[0] = new PropertyValue();
-            storeProps[0].Name = "FilterName";
+            storeProps[0].Name = FILTER_NAME;
             storeProps[0].Value = "Impress8";
 
             storeProps[1] = new PropertyValue();
-            storeProps[1].Name = "Overwrite";
+            storeProps[1].Name = OVERWRITE;
             storeProps[1].Value = true;
             XStorable xStorable = (XStorable) UnoRuntime.queryInterface(XStorable.class, document);
             if (!dir.exists())
             {
                 dir.mkdirs();
             }
-            String url = "file:///" + DocFile.getPath().replace('\\', '/');
+            String url = SCHEMA_FILE + DocFile.getPath().replace('\\', '/');
             xStorable.storeToURL(url, storeProps);
             return DocFile;
         }
         catch (IOException ioe)
         {
-            throw new WBOfficeException("No se puede almacenar el documento", ioe);
+            throw new WBOfficeException(ERROR_NO_SAVE, ioe);
         }
     }
 
@@ -239,24 +244,24 @@ public class WB4Impress extends OfficeDocument
             File DocFile = new File(dir.getPath() + File.separator + name);
             PropertyValue[] storeProps = new PropertyValue[2];
             storeProps[0] = new PropertyValue();
-            storeProps[0].Name = "FilterName";
+            storeProps[0].Name = FILTER_NAME;
             storeProps[0].Value = "MS PowerPoint 97";
 
             storeProps[1] = new PropertyValue();
-            storeProps[1].Name = "Overwrite";
+            storeProps[1].Name = OVERWRITE;
             storeProps[1].Value = true;
             XStorable xStorable = (XStorable) UnoRuntime.queryInterface(XStorable.class, document);
             if (!dir.exists())
             {
                 dir.mkdirs();
             }
-            String url = "file:///" + DocFile.getPath().replace('\\', '/');
+            String url = SCHEMA_FILE + DocFile.getPath().replace('\\', '/');
             xStorable.storeToURL(url, storeProps);
             return DocFile;
         }
         catch (IOException ioe)
         {
-            throw new WBOfficeException("No se puede almacenar el documento", ioe);
+            throw new WBOfficeException(ERROR_NO_SAVE, ioe);
         }
     }
 
@@ -267,15 +272,15 @@ public class WB4Impress extends OfficeDocument
         {
             PropertyValue[] storeProps = new PropertyValue[2];
             storeProps[0] = new PropertyValue();
-            storeProps[0].Name = "FilterName";
+            storeProps[0].Name = FILTER_NAME;
             storeProps[0].Value = "Impress8";
 
             storeProps[1] = new PropertyValue();
-            storeProps[1].Name = "Overwrite";
+            storeProps[1].Name = OVERWRITE;
             storeProps[1].Value = true;
 
             XStorable xStorable = (XStorable) UnoRuntime.queryInterface(XStorable.class, document);
-            String url = "file:///" + file.getPath().replace('\\', '/');
+            String url = SCHEMA_FILE + file.getPath().replace('\\', '/');
             xStorable.storeAsURL(url, storeProps);
         }
         catch (IOException wbe)
@@ -303,18 +308,18 @@ public class WB4Impress extends OfficeDocument
                 File DocFile = new File(dir.getPath() + File.separator + name);
                 PropertyValue[] storeProps = new PropertyValue[2];
                 storeProps[0] = new PropertyValue();
-                storeProps[0].Name = "FilterName";
+                storeProps[0].Name = FILTER_NAME;
                 storeProps[0].Value = "MS PowerPoint 97";
 
                 storeProps[1] = new PropertyValue();
-                storeProps[1].Name = "Overwrite";
+                storeProps[1].Name = OVERWRITE;
                 storeProps[1].Value = true;
                 XStorable xStorable = (XStorable) UnoRuntime.queryInterface(XStorable.class, document);
                 if (!dir.exists())
                 {
                     dir.mkdirs();
                 }
-                String url = "file:///" + DocFile.getPath().replace('\\', '/');
+                String url = SCHEMA_FILE + DocFile.getPath().replace('\\', '/');
                 xStorable.storeToURL(url, storeProps);
             }
             else
@@ -324,7 +329,7 @@ public class WB4Impress extends OfficeDocument
 
             PropertyValue[] storeProps = new PropertyValue[2];
             storeProps[0] = new PropertyValue();
-            storeProps[0].Name = "FilterName";
+            storeProps[0].Name = FILTER_NAME;
             storeProps[0].Value = "impress_html_Export";
 
             storeProps[1] = new PropertyValue();
@@ -336,13 +341,13 @@ public class WB4Impress extends OfficeDocument
             {
                 dir.mkdirs();
             }
-            String url = "file:///" + HTMLfile.getPath().replace('\\', '/');
+            String url = SCHEMA_FILE + HTMLfile.getPath().replace('\\', '/');
             xStorable.storeToURL(url, storeProps);
             return HTMLfile;
         }
         catch (IOException ioe)
         {
-            throw new WBOfficeException("No se puede almacenar el documento", ioe);
+            throw new WBOfficeException(ERROR_NO_SAVE, ioe);
 
         }
 

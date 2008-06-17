@@ -56,7 +56,7 @@ public class WB4Application extends OfficeApplication
                         XServiceInfo.class, document);
                 if (xServiceInfo.supportsService("com.sun.star.presentation.PresentationDocument"))
                 {
-                    WB4Impress impressDocument = new WB4Impress(this.m_xContext, document);
+                    WB4Impress impressDocument = new WB4Impress(document);
                     documents.add(impressDocument);
                 }
             }
