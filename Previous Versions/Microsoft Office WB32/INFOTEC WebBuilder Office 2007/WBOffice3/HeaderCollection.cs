@@ -1,0 +1,201 @@
+/*	INFOTEC WebBuilder es una herramienta para el desarrollo de portales de conocimiento, colaboración e integración para Internet, la cual, es una creación original del Fondo de Información y Documentación para la Industria INFOTEC, misma que se encuentra debidamente registrada ante el Registro Público del Derecho de Autor de los Estados Unidos Mexicanos con el No. 03-2002-052312015400-14, para la versión 1; No. 03-2003-012112473900 para la versión 2, y No. 03-2006-012012004000-01 para la versión 3, respectivamente. 
+	INFOTEC pone a su disposición la herramienta INFOTEC WebBuilder a través de su licenciamiento abierto al público (‘open source’), en virtud del cual, usted podrá usarlo en las mismas condiciones con que INFOTEC lo ha diseñado y puesto a su disposición; aprender de él; distribuirlo a terceros; acceder a su código fuente y modificarlo, y combinarlo o enlazarlo con otro software, todo ello de conformidad con los términos y condiciones de la LICENCIA ABIERTA AL PÚBLICO que otorga INFOTEC para la utilización de INFOTEC WebBuilder 3.2
+	INFOTEC no otorga garantía sobre INFOTEC WebBuilder, de ninguna especie y naturaleza, ni implícita ni explícita, siendo usted completamente responsable de la utilización que le dé y asumiendo la totalidad de los riesgos que puedan derivar de la misma.
+	Si usted tiene cualquier duda o comentario sobre INFOTEC WebBuilder, INFOTEC pone a su disposición la siguiente dirección electrónica: http://www.webbuilder.org.mx	
+*/
+using System;
+using System.Collections;
+
+namespace WBOffice3
+{
+	/// <summary>
+	/// Summary description for HeaderCollection.
+	/// </summary>
+	public class HeaderCollection: CollectionBase
+	{
+		/// <summary>
+		/// Constructor por defecto
+		/// </summary>
+		public HeaderCollection()
+		{
+			//
+			// TODO: Add constructor logic here
+			//
+		}
+		/// <summary>
+		/// Constructor basado en una colección de headers
+		/// </summary>
+		/// <param name="value"></param>
+		public HeaderCollection(HeaderCollection value) 
+		{
+			this.AddRange(value);
+		}
+		/// <summary>
+		/// Constructor basado en un array de headers
+		/// </summary>
+		/// <param name="value"></param>
+		public HeaderCollection(HtmlHeader[] value) 
+		{
+			this.AddRange(value);
+		}
+		/// <summary>
+		/// Regresa un header
+		/// </summary>
+		public HtmlHeader this[int index] 
+		{
+			get 
+			{
+				return ((HtmlHeader)(List[index]));
+			}
+			set 
+			{
+				List[index] = value;
+			}
+		}
+		/// <summary>
+		/// Agrega un header
+		/// </summary>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		public int Add(HtmlHeader value) 
+		{
+			return List.Add(value);
+		}
+		/// <summary>
+		/// Agrega un rango de headers
+		/// </summary>
+		/// <param name="value"></param>
+		public void AddRange(HtmlHeader[] value) 
+		{
+			for (int i = 0; (i < value.Length); i = (i + 1)) 
+			{
+				this.Add(value[i]);
+			}
+		}
+		/// <summary>
+		/// Agrega una colección de headers
+		/// </summary>
+		/// <param name="value"></param>
+		public void AddRange(HeaderCollection value) 
+		{
+			for (int i = 0; (i < value.Count); i = (i + 1)) 
+			{
+				this.Add(value[i]);
+			}
+		}
+		/// <summary>
+		/// Indica si contiene un header
+		/// </summary>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		public bool Contains(HtmlHeader value) 
+		{
+			return List.Contains(value);
+		}
+		/// <summary>
+		/// Copia a un array de headers dado un indice
+		/// </summary>
+		/// <param name="array">Array de Headers</param>
+		/// <param name="index">Indice inicial</param>
+		public void CopyTo(HtmlHeader[] array, int index) 
+		{
+			List.CopyTo(array, index);
+		}
+		/// <summary>
+		/// Regresa el indice de un header
+		/// </summary>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		public int IndexOf(HtmlHeader value) 
+		{
+			return List.IndexOf(value);
+		}
+		/// <summary>
+		/// inserta un header en un indice
+		/// </summary>
+		/// <param name="index"></param>
+		/// <param name="value"></param>
+		public void Insert(int index, HtmlHeader value) 
+		{
+			List.Insert(index, value);
+		}
+		/// <summary>
+		/// Regresa un enumerador de headers
+		/// </summary>
+		/// <returns></returns>
+		public new LineEnumerator GetEnumerator() 
+		{
+			return new LineEnumerator(this);
+		}
+		/// <summary>
+		/// Remive eun header
+		/// </summary>
+		/// <param name="value"></param>
+		public void Remove(HtmlHeader value) 
+		{
+			List.Remove(value);
+		}
+		/// <summary>
+		/// Enumerador de headers
+		/// </summary>
+		public class LineEnumerator : object, IEnumerator 
+		{
+            
+			private IEnumerator baseEnumerator;
+            
+			private IEnumerable temp;
+            /// <summary>
+            /// Construne un enumerador de headers en base a una colección dada
+            /// </summary>
+            /// <param name="mappings"></param>
+			public LineEnumerator(HeaderCollection mappings) 
+			{
+				this.temp = ((IEnumerable)(mappings));
+				this.baseEnumerator = temp.GetEnumerator();
+			}
+            /// <summary>
+            /// Regresa el header actual
+            /// </summary>
+			public HtmlHeader Current 
+			{
+				get 
+				{
+					return ((HtmlHeader)(baseEnumerator.Current));
+				}
+			}
+            
+			object IEnumerator.Current 
+			{
+				get 
+				{
+					return baseEnumerator.Current;
+				}
+			}
+            /// <summary>
+            /// Se mueve al siguiente Header
+            /// </summary>
+            /// <returns></returns>
+			public bool MoveNext() 
+			{
+				return baseEnumerator.MoveNext();
+			}
+            
+			bool IEnumerator.MoveNext() 
+			{
+				return baseEnumerator.MoveNext();
+			}
+            /// <summary>
+            /// Reinicial el enumerador
+            /// </summary>
+			public void Reset() 
+			{
+				baseEnumerator.Reset();
+			}
+            
+			void IEnumerator.Reset() 
+			{
+				baseEnumerator.Reset();
+			}
+		}        
+	}
+}

@@ -1,0 +1,615 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="ResMimeType">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="Version">
+		<value>1.0.0.0</value>
+	</resheader>
+	<resheader name="Reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.3102.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="Writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3102.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="CWebBuilder.msg1">
+		<value>Primero usted debe salvar el documento</value>
+	</data>
+	<data name="CWebBuilder.msg2">
+		<value>El documento no esta dado de alta en el sitio</value>
+	</data>
+	<data name="CWebBuilder.msg3">
+		<value>Usted no tiene instalado el archivo de ayuda</value>
+	</data>
+	<data name="CWebBuilder.msg4">
+		<value>Recuerde que para que un archivo sea válido no debe tener: 1. Caracteres de puntuación. 2. Caracteres acentuados. 3. Espacios en blanco. 4. Debe tener extensión</value>
+	</data>
+	<data name="CWebBuilder.msg5">
+		<value>El archivo</value>
+	</data>
+	<data name="CWebBuilder.msg6">
+		<value>no existe ¿Desea continuar?</value>
+	</data>
+	<data name="CWebBuilder.msg7">
+		<value>El documento ya no existe en el sitio, es posible que se haya borrado con anterioridad,¿Desea darlo de alta de nuevo?</value>
+	</data>
+	<data name="CWebBuilder.msg8">
+		<value>El contenido esta en revisión, usted no es un revisor de contenido</value>
+	</data>
+	<data name="CWebBuilder.msg9">
+		<value>El nombre del archivo tiene carácteres de puntuación:</value>
+	</data>
+	<data name="CWebBuilder.msg10">
+		<value>El nombre del archivo tiene espacios en blanco</value>
+	</data>
+	<data name="CWebBuilder.msg11">
+		<value>El nombre del archivo tiene caracteres no válidos:</value>
+	</data>
+	<data name="CWebBuilder.msg12">
+		<value>¿Desea borrar el documento del sitio?</value>
+	</data>
+	<data name="CWebBuilder.msg13">
+		<value>El archivo se borro del sitio</value>
+	</data>
+	<data name="CWebBuilder.msg14">
+		<value>No tiene permisos para borrar contenidos</value>
+	</data>
+	<data name="CWebBuilder.msg15">
+		<value>¿Desea cerrar la sessión INFOTEC WebBuilder?</value>
+	</data>
+	<data name="CWebBuilder.msg16">
+		<value>Debe tener un documento abierto para utilizar esta opción</value>
+	</data>
+	<data name="CWebBuilder.msg17">
+		<value>Primero debe iniciar una sesión de Web Builder</value>
+	</data>
+	<data name="FrmAutoriza.msg1">
+		<value>Usted debe indicar el motivo de rechazo del documento</value>
+	</data>
+	<data name="FrmConfigProxy.msg1">
+		<value>Indique el Servidor Proxy</value>
+	</data>
+	<data name="FrmConfigProxy.msg2">
+		<value>Indique el Puerto del Servidor Proxy</value>
+	</data>
+	<data name="FrmDocFlow.msg1">
+		<value>Se ha publicado el contenido</value>
+	</data>
+	<data name="FrmDocFlow.msg2">
+		<value>El documento se envió al paso</value>
+	</data>
+	<data name="FrmDocFlow.msg3">
+		<value>La recuperación de la lista de todos los documentos en Flujo puede durar algunos segundos</value>
+	</data>
+	<data name="FrmDocFlow.msg4">
+		<value>Sólo un revisor de</value>
+	</data>
+	<data name="FrmDocFlow.msg5">
+		<value>puede autorizar o rechazar este documento</value>
+	</data>
+	<data name="FrmDocFlow.msg6">
+		<value>Un documento no se puede rechazar cuando esta al inicio de un flujo de publicación</value>
+	</data>
+	<data name="FrmDocFlow.msg7">
+		<value>Usted no tiene permiso para publicar este contenido</value>
+	</data>
+	<data name="FrmEditRule.msg1">
+		<value>Usted no tiene permisos para asignar reglas de personalización</value>
+	</data>
+	<data name="FrmEditRule.msg2">
+		<value>Se asignaron correctamente las reglas al contenido</value>
+	</data>
+	<data name="FrmEnviarFlujo.msg1">
+		<value>Se envió el documento a autorización para el grupo de autorización</value>
+	</data>
+	<data name="FrmMoverContenido.msg1">
+		<value>Usted no tiene permiso para agregar contenidos en esta sección</value>
+	</data>
+	<data name="FrmMoverContenido.msg2">
+		<value>Se movió el contenido de sección</value>
+	</data>
+	<data name="FrmNew1.msg1">
+		<value>Favor de indicar el título del contenido</value>
+	</data>
+	<data name="FrmNew2.msg1">
+		<value>Favor de indicar la descripción del contenido</value>
+	</data>
+	<data name="FrmNew3.msg1">
+		<value>Usted no tiene permiso para crear contenidos en esta sección</value>
+	</data>
+	<data name="FrmNewTopic1.msg1">
+		<value>Usted no tiene permisos para crear secciónes dentro de la sección</value>
+	</data>
+	<data name="FrmNewTopic2.msg1">
+		<value>Usted debe selecionar por lo menos el idioma por defecto para poder continuar</value>
+	</data>
+	<data name="FrmNewTopic3.msg1">
+		<value>Indique el título para la sección en el idioma</value>
+	</data>
+	<data name="FrmNewTopic4.msg1">
+		<value>Indique el identificador de sección</value>
+	</data>
+	<data name="FrmOpen3.msg1">
+		<value>Este contenido no fue generado en word, esta en formato html nativo, puede que este contenido no se vea correctamente</value>
+	</data>
+	<data name="FrmOpen3.msg2">
+		<value>Error no esperado en la apertura de documento</value>
+	</data>
+	<data name="FrmOpen3.msg3">
+		<value>Un documento ya existe con el mismo nombre</value>
+	</data>
+	<data name="FrmOpen3.msg4">
+		<value>¿Desea sobreescribirlo?</value>
+	</data>
+	<data name="FrmOpen3.msg5">
+		<value>Favor de cerrar el documento</value>
+	</data>
+	<data name="FrmPassword.msg1">
+		<value>Indique el nuevo password</value>
+	</data>
+	<data name="FrmPassword.msg2">
+		<value>El password no corresponde con la confirmación</value>
+	</data>
+	<data name="FrmPeriodicidad.msg1">
+		<value>Para periodicidad semanal debe indicar por lo menos un día de la semana</value>
+	</data>
+	<data name="FrmPeriodicidad.msg2">
+		<value>Para periodicidad mensual usted debe indicar por lo menos un día de la semana</value>
+	</data>
+	<data name="FrmPeriodicidad.msg3">
+		<value>Para periodicidad mensual usted debe indicar la aparición de cada x meses</value>
+	</data>
+	<data name="FrmPeriodicidad.msg4">
+		<value>Para periodicidad mensual la aparición de cada x meses no puede ser igual a cero</value>
+	</data>
+	<data name="FrmPeriodicidad.msg5">
+		<value>Para periodicidad mensual usted debe indicar el día aparición</value>
+	</data>
+	<data name="FrmPeriodicidad.msg6">
+		<value>Para periodicidad mensual usted debe indicar la aparición de cada x meses</value>
+	</data>
+	<data name="FrmPeriodicidad.msg7">
+		<value>Para periodicidad mensual el día de aparición no puede ser mayor al día 31</value>
+	</data>
+	<data name="FrmPeriodicidad.msg8">
+		<value>Para periodicidad mensual el día de aparición no puede ser igual al día 0</value>
+	</data>
+	<data name="FrmPeriodicidad.msg9">
+		<value>Para periodicidad mensual la aparición de cada x meses no puede ser igual a cero</value>
+	</data>
+	<data name="FrmPeriodicidad.msg10">
+		<value>Para periodicidad anual debe indicar por lo menos un día de la semana</value>
+	</data>
+	<data name="FrmPeriodicidad.msg11">
+		<value>Para periodicidad anual usted debe indicar la aparición de cada x años</value>
+	</data>
+	<data name="FrmPeriodicidad.msg12">
+		<value>Para periodicidad anual la aparición de cada x años no puede ser igual a cero</value>
+	</data>
+	<data name="FrmPeriodicidad.msg13">
+		<value>Para periodicidad anual usted debe indicar el día de la aparición</value>
+	</data>
+	<data name="FrmPeriodicidad.msg14">
+		<value>Para periodicidad anual usted debe indicar la aparición de cada x años</value>
+	</data>
+	<data name="FrmPeriodicidad.msg15">
+		<value>Para periodicidad anual el día de aparición no puede ser mayor al día 31</value>
+	</data>
+	<data name="FrmPeriodicidad.msg16">
+		<value>Para periodicidad anual el día de aparición no puede ser igual al día 0</value>
+	</data>
+	<data name="FrmPeriodicidad.msg17">
+		<value>Para periodicidad anual la aparición de cada x años no puede ser igual a cero</value>
+	</data>
+	<data name="FrmPeriodicidad.msg18">
+		<value>La periodicidad se ha actualizado</value>
+	</data>
+	<data name="FrmProp.msg1">
+		<value>Favor de indicar el título del contenido</value>
+	</data>
+	<data name="FrmProp.msg2">
+		<value>Favor de indicar la descripción del contenido</value>
+	</data>
+	<data name="FrmProp.msg3">
+		<value>No tiene permisos de contenido</value>
+	</data>
+	<data name="FrmProp.msg4">
+		<value>El estado de la sección se ha actualizado a</value>
+	</data>
+	<data name="FrmProp.msg5">
+		<value>El título y la descripción se ha actualizado</value>
+	</data>
+	<data name="FrmProp.msg6">
+		<value>El contenido no se puede activar ya que primero debe tener una autorización</value>
+	</data>
+	<data name="FrmProp.msg7">
+		<value>Usted no tiene permisos de modificar contenido en esta sección</value>
+	</data>
+	<data name="FrmProp.msg8">
+		<value>No se puede inicializar Microsoft Explorer</value>
+	</data>
+	<data name="FrmSplash.msg1">
+		<value>Indique el nombre del usuario</value>
+	</data>
+	<data name="FrmSplash.msg2">
+		<value>Indique la contraseña</value>
+	</data>
+	<data name="FrmSplash.msg3">
+		<value>La dirección web no es válida, no existe o no se puede encontrar el servidor en Internet</value>
+	</data>
+	<data name="FrmSplash.msg4">
+		<value>La dirección web no es válida, ya que debe empezar con http:// ó https://</value>
+	</data>
+	<data name="FrmSplash.msg5">
+		<value>Acceso correcto. Puede continuar con su sesión de INFOTEC WebBuilder</value>
+	</data>
+	<data name="FrmSplash.msg6">
+		<value>Clave o contraseña incorrecta</value>
+	</data>
+	<data name="FrmSplash.msg7">
+		<value>Usted debe configurar la dirección web de la administración</value>
+	</data>
+	<data name="Servicios.msg1">
+		<value>Password actualizado</value>
+	</data>
+	<data name="Servicios.msg2">
+		<value>El Password no se ha actualizado</value>
+	</data>
+	<data name="Servicios.msg3">
+		<value>El contenido ya no existe en el sitio, ya que fue borrado,actualmente se encuentra en la papelera de reciclaje</value>
+	</data>
+	<data name="Servicios.msg4">
+		<value>El contenido no existe en el sitio, fue borrado permanentemente</value>
+	</data>
+	<data name="Servicios.msg5">
+		<value>Estatus de contenido actualizado</value>
+	</data>
+	<data name="Servicios.msg6">
+		<value>La sección se ha creado</value>
+	</data>
+	<data name="CRequest.msg1">
+		<value>Preparando archivos ...</value>
+	</data>
+	<data name="CRequest.msg2">
+		<value>Preparando</value>
+	</data>
+	<data name="CRequest.msg3">
+		<value>Generando archivos de envío ...</value>
+	</data>
+	<data name="CRequest.msg4">
+		<value>Los archivos se han generado</value>
+	</data>
+	<data name="CRequest.msg5">
+		<value>Error en el servicio</value>
+	</data>
+	<data name="CRequest.msg6">
+		<value>Dirección no válida o el servidor se encuentra apagado</value>
+	</data>
+	<data name="CWebBuilder.t1">
+		<value>Presentación Preeliminar</value>
+	</data>
+	<data name="CWebBuilder.t2">
+		<value>Página de INFOTEC</value>
+	</data>
+	<data name="CWebBuilder.t3">
+		<value>Manual de Generación de Contenidos</value>
+	</data>
+	<data name="CWebBuilder.t4">
+		<value>Página de INFOTEC WebBuilder</value>
+	</data>
+	<data name="FrmDetalleDoc.msg1">
+		<value>Nombre del archivo</value>
+	</data>
+	<data name="FrmDetalleDoc.msg2">
+		<value>Ubicación</value>
+	</data>
+	<data name="FrmDetalleDoc.msg3">
+		<value>Palabras</value>
+	</data>
+	<data name="FrmDetalleDoc.msg4">
+		<value>Imagenes y Dibujos</value>
+	</data>
+	<data name="FrmDetalleDoc.msg5">
+		<value>Ligas</value>
+	</data>
+	<data name="FrmDetalleDoc.msg6">
+		<value>Tamaño</value>
+	</data>
+	<data name="FrmDetalleDoc.msg7">
+		<value>Observación</value>
+	</data>
+	<data name="FrmDetalleDoc.msg8">
+		<value>El nombre del archivo es correcto</value>
+	</data>
+	<data name="FrmDetalleDoc.si">
+		<value>Sí</value>
+	</data>
+	<data name="FrmDetalleDoc.no">
+		<value>No</value>
+	</data>
+	<data name="FrmDetalleDoc.msg9">
+		<value>El Nombre del archivo es mayor de 40 caracteres</value>
+	</data>
+	<data name="FrmDetalleDoc.msg10">
+		<value>El nombre tiene caracteres de puntuación</value>
+	</data>
+	<data name="FrmDetalleDoc.msg11">
+		<value>El nombre tiene espacios</value>
+	</data>
+	<data name="FrmDetalleDoc.msg12">
+		<value>El nombre tiene caracteres no válidos</value>
+	</data>
+	<data name="FrmBitacora.msg1">
+		<value>Actualización</value>
+	</data>
+	<data name="FrmBitacora.msg2">
+		<value>Creación</value>
+	</data>
+	<data name="FrmBitacora.msg3">
+		<value>Eliminación</value>
+	</data>
+	<data name="FrmDocFlow.t1">
+		<value>En Revisión</value>
+	</data>
+	<data name="FrmDocFlow.t2">
+		<value>Rechazado</value>
+	</data>
+	<data name="FrmDocFlow.t3">
+		<value>Autorizado</value>
+	</data>
+	<data name="FrmDocFlow.t4">
+		<value>Presentación Preeliminar</value>
+	</data>
+	<data name="FrmDocFlow.t5">
+		<value>Enviar el documento con autorización a</value>
+	</data>
+	<data name="FrmDocFlow.t6">
+		<value>Enviar el documento con rechazo a</value>
+	</data>
+	<data name="FrmNew4.msg1">
+		<value>Archivos enviados</value>
+	</data>
+	<data name="FrmNew4.msg2">
+		<value>Tamaño total de los archivos</value>
+	</data>
+	<data name="FrmNew4.msg3">
+		<value>Identificador de Contenido</value>
+	</data>
+	<data name="FrmNew4.msg4">
+		<value>Versión agregada</value>
+	</data>
+	<data name="FrmNew4.msg5">
+		<value>Versión actual</value>
+	</data>
+	<data name="FrmNew4.msg6">
+		<value>Presentación preeliminar</value>
+	</data>
+	<data name="FrmNewTopic2.t1">
+		<value>Idioma por defecto</value>
+	</data>
+	<data name="FrmOpen2.si">
+		<value>Sí</value>
+	</data>
+	<data name="FrmOpen2.no">
+		<value>No</value>
+	</data>
+	<data name="FrmOpen4.msg1">
+		<value>Contenido</value>
+	</data>
+	<data name="FrmOpen4.msg2">
+		<value>Archivo incluido</value>
+	</data>
+	<data name="FrmOpen4.msg3">
+		<value>Error</value>
+	</data>
+	<data name="FrmOpen4.msg4">
+		<value>Ruta de almacenamiento</value>
+	</data>
+	<data name="FrmOpen4.msg5">
+		<value>Archivo en formato</value>
+	</data>
+	<data name="FrmPeriodicidad.primer">
+		<value>Primer</value>
+	</data>
+	<data name="FrmPeriodicidad.segundo">
+		<value>Segundo</value>
+	</data>
+	<data name="FrmPeriodicidad.tercer">
+		<value>Tercer</value>
+	</data>
+	<data name="FrmPeriodicidad.cuarto">
+		<value>Cuarto</value>
+	</data>
+	<data name="FrmPeriodicidad.ultimo">
+		<value>Último</value>
+	</data>
+	<data name="FrmPeriodicidad.enero">
+		<value>Enero</value>
+	</data>
+	<data name="FrmPeriodicidad.febrero">
+		<value>Febrero</value>
+	</data>
+	<data name="FrmPeriodicidad.marzo">
+		<value>Marzo</value>
+	</data>
+	<data name="FrmPeriodicidad.abril">
+		<value>Abril</value>
+	</data>
+	<data name="FrmPeriodicidad.mayo">
+		<value>Mayo</value>
+	</data>
+	<data name="FrmPeriodicidad.junio">
+		<value>Junio</value>
+	</data>
+	<data name="FrmPeriodicidad.julio">
+		<value>Julio</value>
+	</data>
+	<data name="FrmPeriodicidad.agosto">
+		<value>Agosto</value>
+	</data>
+	<data name="FrmPeriodicidad.septiembre">
+		<value>Septiembre</value>
+	</data>
+	<data name="FrmPeriodicidad.octubre">
+		<value>Octubre</value>
+	</data>
+	<data name="FrmPeriodicidad.noviembre">
+		<value>Noviembre</value>
+	</data>
+	<data name="FrmPeriodicidad.diciembre">
+		<value>Diciembre</value>
+	</data>
+	<data name="t1">
+		<value>Por enviar a autorización</value>
+	</data>
+	<data name="t2">
+		<value>En generación por parte del autor del contenido</value>
+	</data>
+	<data name="t3">
+		<value>En revisión</value>
+	</data>
+	<data name="t4">
+		<value>Rechazado</value>
+	</data>
+	<data name="t5">
+		<value>Autorizado</value>
+	</data>
+	<data name="t6">
+		<value>Listo para publicar</value>
+	</data>
+	<data name="t7">
+		<value>Rechazado al autor del contenido</value>
+	</data>
+	<data name="t8">
+		<value>Visible</value>
+	</data>
+	<data name="t9">
+		<value>No Visible</value>
+	</data>
+	<data name="FrmPeriodicidad.msg33">
+		<value>La fecha de inicio no puede ser anterior a la fecha de término</value>
+	</data>
+	<data name="FrmPassword.msg3">
+		<value>Contraseña se ha cambiado exitosamente</value>
+	</data>
+	<data name="FrmPassword.msg4">
+		<value>Contraseña se no ha cambiado exitosamente</value>
+	</data>
+	<data name="Global.MisSecciones">
+		<value>Mis Secciones</value>
+	</data>
+	<data name="Global.title">
+		<value>INFOTEC WebBuilder</value>
+	</data>
+	<data name="CWebBuilder.deleteasociation">
+		<value>Se ha borrado la asociación del documento con el contenido almacenado en el sitio web</value>
+	</data>
+	<data name="FrmOpen3.msg1excel">
+		<value>Este contenido no fue generado en Excel, esta en formato html nativo, puede que este contenido no se vea correctamente</value>
+	</data>
+	<data name="FrmOpen3.msg1ppt">
+		<value>Este contenido no fue generado en Power Point, esta en formato html nativo, puede que este contenido no se vea correctamente</value>
+	</data>
+	<data name="FrmPeriodicidad.msgtitle">
+		<value>Indique el título de la calendarización</value>
+	</data>
+	<data name="FrmPeriodicidad.msgtitlerep">
+		<value>El título ya existe, debe indicar otro título</value>
+	</data>
+	<data name="openstep4.delete">
+		<value>¿Desea borrar el directorio?</value>
+	</data>
+	<data name="Servicios.msg22">
+		<value>Títulos de sección actualizados</value>
+	</data>
+	<data name="TreeManager.ErrorImagen">
+		<value>Error al intentar mostrar árbol de secciones, imagenes no encontradas, error en el servidor.</value>
+	</data>
+	<data name="CWebBuilder.askquitaasocia">
+		<value>¿Desea quitar la asociación del contenido?</value>
+	</data>
+	<data name="CWebBuilder.mayor40">
+		<value>El nombre del archivo es mayor de 40 caracteres</value>
+	</data>
+	<data name="CHTMLDcoument.err1">
+		<value>El archivo html que se indicó tiene un error ( mal cierre de tags </value>
+	</data>
+	<data name="CHTMLDcoument.err2">
+		<value> ), favor de revisar el archivo</value>
+	</data>
+	<data name="FrmDocFlow.m1">
+		<value>El contenido se ha aprobado en la paso</value>
+	</data>
+	<data name="FrmDocFlow.m2">
+		<value>El contenido se ha rechazado en el paso</value>
+	</data>
+	<data name="FrmDocFlow.m3">
+		<value>El contenido necesita la autorización para publicarse</value>
+	</data>
+	<data name="FrmDocFlow.m4">
+		<value>El contenido se ha enviado a autorizar</value>
+	</data>
+	<data name="FrmRuleTopic.m1">
+		<value>No tiene permisos para asignar reglas de personalización</value>
+	</data>
+	<data name="FrmRuleTopic.m2">
+		<value>¿Desea eliminar la(s) regla(s) del contenido?</value>
+	</data>
+	<data name="FrmRuleTopic.m3">
+		<value>¿Desea eliminar lo(s) rol(es) del contenido?</value>
+	</data>
+	<data name="OpenStep6.filenotfound">
+		<value>No se encontró el archivo</value>
+	</data>
+	<data name="FrmProp.mandarmensaje">
+		<value>¿Desea enviar un mensaje al revisor del contenido?</value>
+	</data>
+	<data name="FrmDocumentosXAutorizar.msg1">
+		<value>Debe indicar el mensaje a enviar</value>
+	</data>
+	<data name="FrmDocumentosXAutorizar.msg2">
+		<value>¿Desea rechazar el contenido?</value>
+	</data>
+	<data name="FrmDocumentosXAutorizar.msg3">
+		<value>Mensaje</value>
+	</data>
+	<data name="FrmDocumentosXAutorizar.msg4">
+		<value>¿Desea autorizar el contenido?</value>
+	</data>
+	<data name="msgneed">
+		<value>Recuerde que el documento necesita ser enviado a autorizar</value>
+	</data>
+	<data name="CWebBuilder.canEdit">
+		<value>El contenido no puede ser editado debido a que el Flujo de publicación no lo permite.</value>
+	</data>
+	<data name="FrmProp.activeSection">
+		<value>Usted no tiene permisos para activar una sección</value>
+	</data>
+</root>

@@ -1,0 +1,38 @@
+﻿<customUI xmlns="http://schemas.microsoft.com/office/2006/01/customui" onLoad="onLoad">
+  <ribbon>
+    <tabs>
+      <tab id="wb31" label="INFOTEC WebBuilder">
+        <group id="SessionWB" label="Session">
+          <button id="init" getVisible="GetInitEnabled" size="large" label="Start Session" onAction="OnInit" getImage="LoadImage" />
+          <button id="close" getVisible="GetCloseEnabled" size="large" label="Close Sessión" onAction="onClose" getImage="LoadImage" />
+        </group>
+        <group id="FileWB" label="Document Options">
+          <button id="open" size="large" label="Open content from the site" onAction="onOpen" getImage="LoadImage" />
+          <button id="save" getVisible="isDocument" size="large" label="Save content to the site" onAction="onSave" getImage="LoadImage" />
+          <button id="preview" getVisible="isWBDocument" size="large" label="Preview of the content" onAction="onPreview" getImage="LoadImage" />
+          <button id="info" getVisible="isWBDocument" size="large" label="Information of the content" onAction="OnInfo" getImage="LoadImage" />
+          <button id="propiedades" getVisible="isWBDocument" size="large" label="Properties of the content" onAction="Onprop" getImage="LoadImage" />
+          <button id="rules" getVisible="isWBDocument" size="large" label="Personalize content" onAction="onCreateRule" getImage="LoadImage" />
+          <button id="deletelink" getVisible="isWBDocument" size="large" label="Delete  association" onAction="onDeleteAsociation" getImage="LoadImage"/>
+          <button id="bitacora" getVisible="isWBDocument" size="large" label="Log of Changes" onAction="onBitacora" getImage="LoadImage"/>
+          <separator/>
+          <button id="pag" getVisible="isWBDocument" size="large" label="Show number of pages" onAction="onMenuPag" getImage="LoadImage" />
+          <separator/>
+          <button id="delete" getVisible="isWBDocument" label="Delete content" size="large" onAction="onDelete" getImage="LoadImage"/>
+        </group>
+        <group id="GeneralWB" label="General Options">
+          <button id="docAutorizar" label="Document flow" onAction="onMuestraFlujo" size="large" getImage="LoadImage" />
+          <!--<button id="addlink" getVisible="isDocument"  label="Add link to section" onAction="onAddLink" size="large" getImage="LoadImage" />-->
+          <button id="createTopic" label="Create Section" onAction="onCreateTopic" getImage="LoadImage" />
+          <button id="changePassword" label="Change password" onAction="onChangePassword" getImage="LoadImage" />
+        </group>
+        <group id="HelpWB" label="INFOTEC WEbBuilder Help">
+          <button id="help" size="large" label="Help on line" onAction="onShowManual" getImage="LoadImage" />
+          <button id="infotec" label="INFOTEC WebBuilder Page" onAction="onShowPagina" getImage="LoadImage" />
+          <button id="About"   label="About de INFOTEC WebBuilder" onAction="onAbout" getImage="LoadImage"/>
+        </group>
+      </tab>
+    </tabs>
+  </ribbon>
+</customUI>
+

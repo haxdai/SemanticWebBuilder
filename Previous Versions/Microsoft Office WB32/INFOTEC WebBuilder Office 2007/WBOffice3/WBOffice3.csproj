@@ -1,0 +1,552 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6063D9AA-6315-4FE8-A26D-2C0EF2D58A9F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WBOffice3</RootNamespace>
+    <AssemblyName>WBOffice3</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>INFOTECWBOFFICE3.pfx</AssemblyOriginatorKeyFile>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'INGLES|AnyCPU' ">
+    <OutputPath>bin\INGLES\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Activity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Atributes.cs" />
+    <Compile Include="AttibuteCollection.cs" />
+    <Compile Include="Attribute.cs" />
+    <Compile Include="AuthorActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CAttibute.cs" />
+    <Compile Include="CCaracteristica.cs" />
+    <Compile Include="CConfig.cs" />
+    <Compile Include="CContentUpload.cs" />
+    <Compile Include="CDownLoadContent.cs" />
+    <Compile Include="CDownLoadTemplate.cs" />
+    <Compile Include="CFileUpload.cs" />
+    <Compile Include="CHTMLDcoument.cs" />
+    <Compile Include="CHttpClient.cs" />
+    <Compile Include="CLibrary.cs" />
+    <Compile Include="ColumnSorter.cs" />
+    <Compile Include="CRequest.cs" />
+    <Compile Include="CTag.cs" />
+    <Compile Include="CTopicUser.cs" />
+    <Compile Include="CTopicUserCollection.cs" />
+    <Compile Include="CUserAdmin.cs" />
+    <Compile Include="CValorCaracterisitca.cs" />
+    <Compile Include="CValoresCollection.cs" />
+    <Compile Include="CWBListViewItem.cs" />
+    <Compile Include="DemoInstall.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DemoInstall.Designer.cs">
+      <DependentUpon>DemoInstall.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EndActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FileParameter.cs" />
+    <Compile Include="FolderTreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FrmAutoriza.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmBitacora.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmConfigProxy.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmDocFlow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmDownLoadFile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmEditarTitulo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmEditRole.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmEditRule.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmEnviarFlujo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmError.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmFileUpload.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmListadoCalendarizacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmMoverContenido.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmNewSection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmPassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmPeriodicidad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmPreview.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmProp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmResumenContenido.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmRuleTopic.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSave.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSelectFlow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSelectFolder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmShowflow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmTitles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HeaderCollection.cs" />
+    <Compile Include="HtmlFileParameter.cs" />
+    <Compile Include="HtmlHeader.cs" />
+    <Compile Include="HtmlParameter.cs" />
+    <Compile Include="HtmlResponse.cs" />
+    <Compile Include="IParameter.cs" />
+    <Compile Include="Link.cs" />
+    <Compile Include="MessageBoxWB3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="New1.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="New2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="New3.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="New4.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="New5.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="New6.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="New7.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PanelWorkflow.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Parameter.cs" />
+    <Compile Include="ParameterCollection.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resumen1.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Servicios.cs" />
+    <Compile Include="TagCollection.cs" />
+    <Compile Include="TopicMap.cs" />
+    <Compile Include="TreeManager.cs" />
+    <Compile Include="WBNode.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Activity.resx">
+      <DependentUpon>Activity.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CLibrary.en.resx">
+      <DependentUpon>CLibrary.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CLibrary.resx">
+      <DependentUpon>CLibrary.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DemoInstall.resx">
+      <DependentUpon>DemoInstall.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmAutoriza.en.resx">
+      <DependentUpon>FrmAutoriza.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmAutoriza.resx">
+      <DependentUpon>FrmAutoriza.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmBitacora.en.resx">
+      <DependentUpon>FrmBitacora.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmBitacora.resx">
+      <DependentUpon>FrmBitacora.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmConfigProxy.en.resx">
+      <DependentUpon>FrmConfigProxy.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmConfigProxy.resx">
+      <DependentUpon>FrmConfigProxy.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmDocFlow.en.resx">
+      <DependentUpon>FrmDocFlow.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmDocFlow.resx">
+      <DependentUpon>FrmDocFlow.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmDownLoadFile.en.resx">
+      <DependentUpon>FrmDownLoadFile.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmDownLoadFile.resx">
+      <DependentUpon>FrmDownLoadFile.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmEditarTitulo.en.resx">
+      <DependentUpon>FrmEditarTitulo.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmEditarTitulo.resx">
+      <DependentUpon>FrmEditarTitulo.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmEditRole.en.resx">
+      <DependentUpon>FrmEditRole.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmEditRole.resx">
+      <DependentUpon>FrmEditRole.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmEditRule.en.resx">
+      <DependentUpon>FrmEditRule.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmEditRule.resx">
+      <DependentUpon>FrmEditRule.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmEnviarFlujo.en.resx">
+      <DependentUpon>FrmEnviarFlujo.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmEnviarFlujo.resx">
+      <DependentUpon>FrmEnviarFlujo.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmError.en.resx">
+      <DependentUpon>FrmError.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmError.resx">
+      <DependentUpon>FrmError.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmFileUpload.en.resx">
+      <DependentUpon>FrmFileUpload.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmFileUpload.resx">
+      <DependentUpon>FrmFileUpload.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmListadoCalendarizacion.en.resx">
+      <DependentUpon>FrmListadoCalendarizacion.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmListadoCalendarizacion.resx">
+      <DependentUpon>FrmListadoCalendarizacion.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmMoverContenido.en.resx">
+      <DependentUpon>FrmMoverContenido.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmMoverContenido.resx">
+      <DependentUpon>FrmMoverContenido.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmNewSection.en.resx">
+      <DependentUpon>FrmNewSection.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmNewSection.resx">
+      <DependentUpon>FrmNewSection.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmPassword.en.resx">
+      <DependentUpon>FrmPassword.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmPassword.resx">
+      <DependentUpon>FrmPassword.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmPeriodicidad.en.resx">
+      <DependentUpon>FrmPeriodicidad.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmPeriodicidad.resx">
+      <DependentUpon>FrmPeriodicidad.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmPreview.en.resx">
+      <DependentUpon>FrmPreview.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmPreview.resx">
+      <DependentUpon>FrmPreview.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmProp.en.resx">
+      <DependentUpon>FrmProp.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmProp.resx">
+      <DependentUpon>FrmProp.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmResumenContenido.en.resx">
+      <DependentUpon>FrmResumenContenido.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmResumenContenido.resx">
+      <DependentUpon>FrmResumenContenido.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmRuleTopic.en.resx">
+      <DependentUpon>FrmRuleTopic.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmRuleTopic.resx">
+      <DependentUpon>FrmRuleTopic.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmSave.en.resx">
+      <DependentUpon>FrmSave.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmSave.resx">
+      <DependentUpon>FrmSave.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmSelectFlow.en.resx">
+      <DependentUpon>FrmSelectFlow.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmSelectFlow.resx">
+      <DependentUpon>FrmSelectFlow.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmSelectFolder.en.resx">
+      <DependentUpon>FrmSelectFolder.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmSelectFolder.resx">
+      <DependentUpon>FrmSelectFolder.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmShowflow.en.resx">
+      <DependentUpon>FrmShowflow.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmShowflow.resx">
+      <DependentUpon>FrmShowflow.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmTitles.en.resx">
+      <DependentUpon>FrmTitles.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmTitles.resx">
+      <DependentUpon>FrmTitles.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MessageBoxWB3.en.resx">
+      <DependentUpon>MessageBoxWB3.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MessageBoxWB3.resx">
+      <DependentUpon>MessageBoxWB3.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="New1.en.resx">
+      <DependentUpon>New1.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="New1.resx">
+      <DependentUpon>New1.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="New2.en.resx">
+      <DependentUpon>New2.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="New2.resx">
+      <DependentUpon>New2.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="New3.en.resx">
+      <DependentUpon>New3.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="New3.resx">
+      <DependentUpon>New3.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="New4.en.resx">
+      <DependentUpon>New4.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="New4.resx">
+      <DependentUpon>New4.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="New5.en.resx">
+      <DependentUpon>New5.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="New5.resx">
+      <DependentUpon>New5.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="New6.en.resx">
+      <DependentUpon>New6.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="New6.resx">
+      <DependentUpon>New6.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="New7.en.resx">
+      <DependentUpon>New7.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="New7.resx">
+      <DependentUpon>New7.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resumen1.en.resx">
+      <DependentUpon>Resumen1.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resumen1.resx">
+      <DependentUpon>Resumen1.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TSWizard\TSWizard.csproj">
+      <Project>{70754148-7BC5-4BB6-9AF6-37722F0392BD}</Project>
+      <Name>TSWizard</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Shell32">
+      <Guid>{50A7E9B0-70EF-11D1-B75A-00A0C90564FE}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="INFOTECWBOFFICE3.pfx" />
+    <None Include="mypriv.pfx" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
