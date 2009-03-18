@@ -1,0 +1,35 @@
+﻿<customUI xmlns="http://schemas.microsoft.com/office/2006/01/customui" onLoad="onLoad">
+  <ribbon>
+    <tabs>
+      <tab id="wb31" label="INFOTEC WebBuilder">
+        <group id="SessionWB" label="Session">
+          <button id="init" getVisible="GetInitEnabled" size="large" label="Iniciar Sessión" onAction="OnInit" getImage="LoadImage" supertip="Inicia una sessión en el sitio de publicación"/>
+          <button id="close" getVisible="GetCloseEnabled" size="large" label="Cerrar Sessión" onAction="onClose" getImage="LoadImage" supertip="Cierra la sessión de inicio en el sitio de publicación"/>
+        </group>
+        <group id="FileWB" label="Opciones de Documento">
+          <button id="open" size="large" label="Abrir Documento" onAction="onOpen" getImage="LoadImage" supertip="Abre un documento almacenado en el sitio de publicación"/>
+          <button id="save" getVisible="isDocument" size="large" label="Guardar Documento" onAction="onSave" getImage="LoadImage" supertip="Almacena el documento en el sitio de publicación"/>
+          <button id="info" getVisible="isWBDocument" size="large" label="Information del contenido" onAction="OnInfo" getImage="LoadImage" />
+          <button id="preview" getVisible="isWBDocument" size="large" label="Presentación Preeliminar" onAction="onPreview" getImage="LoadImage" supertip="Ver el documento almacenado en el sitio"/>
+          <button id="propiedades" getVisible="isWBDocument" size="large" label="Propiedades" onAction="Onprop" getImage="LoadImage" supertip="Cambiar las propiedades del documento como lo son el Título, Descripción, Calendarización,Visibilidad,etc"/>
+          <button id="rules" getVisible="isWBDocument" size="large" label="Reglas" onAction="onCreateRule" getImage="LoadImage" supertip="Asociar al contenido una regla de personalización"/>          
+          <button id="deletelink" getVisible="isWBDocument" size="large" label="Borrar Asociación" supertip="Borra la asociación del contenido con la ubicación en el sitio web" onAction="onDeleteAsociation" getImage="LoadImage"/>
+          <button id="bitacora" getVisible="isWBDocument" size="large" label="Bitácora de cambios" onAction="onBitacora" getImage="LoadImage"/>
+          <separator/>
+          <button id="delete" getVisible="isWBDocument" size="large" supertip="Borra el contenido en el sitio, manteniendo este intacto, borra también la asociación del contenido con el ubicado en el sitio"  label="Borrar Contenido" onAction="onDelete" getImage="LoadImage"/>
+        </group>
+        <group id="GeneralWB" label="Opciones Generales">
+          <button id="docAutorizar" label="Documentos por Autorizar" onAction="onMuestraFlujo" size="large" getImage="LoadImage" supertip="Muestra los documentos pendientes por autorizar"/>
+          <!-- <button id="addlink" getVisible="isDocument"  label="Agregar liga a sección" onAction="onAddLink" size="large" getImage="LoadImage" supertip="Agrega una liga a una página del sitio de publicación dentro de tu contenido"/> -->
+          <button id="createTopic" label="Crear sección" onAction="onCreateTopic" getImage="LoadImage" supertip="Crea una página Web en el sitio de publicación"/>
+          <button id="changePassword" label="Cambiar contraseña" onAction="onChangePassword" getImage="LoadImage" supertip="Cambia tu contraseña de acceso al sitio de publicación"/>
+        </group>
+        <group id="HelpWB" label="Ayuda INFOTEC WEbBuilder">
+          <button id="help" size="large" label="Ayuda en Línea" onAction="onShowManual" getImage="LoadImage" supertip="Ver la documentación de INFOTEC WebBuilder en línea"/>
+          <button id="infotec" label="Página de INFOTEC WebBuilder" onAction="onShowPagina" getImage="LoadImage" supertip="Muestra la página web de infotec"/>
+          <button id="About"   label="Acerca de" onAction="onAbout" getImage="LoadImage" supertip="Muestra la pantalla de acerca de INFOTEC WEbBuilder"/>
+        </group>
+      </tab>
+    </tabs>
+  </ribbon>
+</customUI>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="ResMimeType">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="Version">
+		<value>1.0.0.0</value>
+	</resheader>
+	<resheader name="Reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="Writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="menucrearsec">
+		<value>Create Section</value>
+	</data>
+	<data name="menuacerca">
+		<value>About de INFOTEC WebBuilder</value>
+	</data>
+	<data name="menucambiarcontraseña">
+		<value>Change password</value>
+	</data>
+	<data name="menuinit">
+		<value>Start INFOTEC  WebBuilder session</value>
+	</data>
+	<data name="menuclose">
+		<value>Close INFOTEC WebBuilder session</value>
+	</data>
+	<data name="menuopen">
+		<value>Open content from the site</value>
+	</data>
+	<data name="menusave">
+		<value>Save content to the site</value>
+	</data>
+	<data name="menuprop">
+		<value>Properties of the content</value>
+	</data>
+	<data name="menupreview">
+		<value>Preview of the content</value>
+	</data>
+	<data name="menuinfo">
+		<value>Information of the content</value>
+	</data>
+	<data name="menurule">
+		<value>Personalize content</value>
+	</data>
+	<data name="menudel">
+		<value>Delete content</value>
+	</data>
+	<data name="menuquitar">
+		<value>Delete  association</value>
+	</data>
+	<data name="menuhelp">
+		<value>Help INFOTEC WebBuilder</value>
+	</data>
+	<data name="menubitacora">
+		<value>Log of Changes</value>
+	</data>
+	<data name="menuflujos">
+		<value>Document flow</value>
+	</data>
+	<data name="menuaddlink">
+		<value>Add link to section</value>
+	</data>
+	<data name="msgdescambios">
+		<value>The document has the option "show Revisions", if you want to publish the document, that option must be not enabled, Do you want to continue?</value>
+	</data>
+	<data name="msgneed">
+		<value>Remember that the content must be authorized</value>
+	</data>
+	<data name="msgcrearpag">
+		<value>Do you want to create pages of the content?</value>
+	</data>
+	<data name="msgSiguiente">
+		<value>You must indicate the text for the next pages</value>
+	</data>
+	<data name="msgAnterior">
+		<value>You must indicate the text for the back pages</value>
+	</data>
+	<data name="menuPag">
+		<value>Show number of pages</value>
+	</data>
+	<data name="msgPagDone">
+		<value>The configuration of the number of pages has been updated</value>
+	</data>
+</root>
