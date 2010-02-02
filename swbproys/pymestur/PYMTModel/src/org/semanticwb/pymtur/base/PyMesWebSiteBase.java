@@ -1,9 +1,11 @@
 package org.semanticwb.pymtur.base;
 
 
-public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.Filterable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Activeable,org.semanticwb.model.Undeleteable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Localeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Trashable,org.semanticwb.model.Indexable,org.semanticwb.model.Traceable
+public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.Localeable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Indexable,org.semanticwb.model.Traceable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Filterable,org.semanticwb.model.Trashable,org.semanticwb.model.Activeable,org.semanticwb.model.FilterableClass
 {
        public static final org.semanticwb.platform.SemanticClass pymtur_Event=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Event");
+       public static final org.semanticwb.platform.SemanticClass pymtur_MiPymeSite=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#MiPymeSite");
+       public static final org.semanticwb.platform.SemanticClass pymtur_MiPymeSitePlus=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#MiPymeSitePlus");
        public static final org.semanticwb.platform.SemanticClass pymtur_Instalation=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Instalation");
        public static final org.semanticwb.platform.SemanticClass pymtur_State=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#State");
        public static final org.semanticwb.platform.SemanticClass pymtur_SPCategory=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#SPCategory");
@@ -191,6 +193,54 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
     public boolean hasEvent(String id)
     {
         return org.semanticwb.pymtur.Event.ClassMgr.hasEvent(id, this);
+    }
+
+    public org.semanticwb.pymtur.MiPymeSite getMiPymeSite(String id)
+    {
+        return org.semanticwb.pymtur.MiPymeSite.ClassMgr.getMiPymeSite(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.pymtur.MiPymeSite> listMiPymeSites()
+    {
+        return org.semanticwb.pymtur.MiPymeSite.ClassMgr.listMiPymeSites(this);
+    }
+
+    public org.semanticwb.pymtur.MiPymeSite createMiPymeSite(String id)
+    {
+        return org.semanticwb.pymtur.MiPymeSite.ClassMgr.createMiPymeSite(id,this);
+    }
+
+    public void removeMiPymeSite(String id)
+    {
+        org.semanticwb.pymtur.MiPymeSite.ClassMgr.removeMiPymeSite(id, this);
+    }
+    public boolean hasMiPymeSite(String id)
+    {
+        return org.semanticwb.pymtur.MiPymeSite.ClassMgr.hasMiPymeSite(id, this);
+    }
+
+    public org.semanticwb.pymtur.MiPymeSitePlus getMiPymeSitePlus(String id)
+    {
+        return org.semanticwb.pymtur.MiPymeSitePlus.ClassMgr.getMiPymeSitePlus(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.pymtur.MiPymeSitePlus> listMiPymeSitePluses()
+    {
+        return org.semanticwb.pymtur.MiPymeSitePlus.ClassMgr.listMiPymeSitePluses(this);
+    }
+
+    public org.semanticwb.pymtur.MiPymeSitePlus createMiPymeSitePlus(String id)
+    {
+        return org.semanticwb.pymtur.MiPymeSitePlus.ClassMgr.createMiPymeSitePlus(id,this);
+    }
+
+    public void removeMiPymeSitePlus(String id)
+    {
+        org.semanticwb.pymtur.MiPymeSitePlus.ClassMgr.removeMiPymeSitePlus(id, this);
+    }
+    public boolean hasMiPymeSitePlus(String id)
+    {
+        return org.semanticwb.pymtur.MiPymeSitePlus.ClassMgr.hasMiPymeSitePlus(id, this);
     }
 
     public org.semanticwb.pymtur.Instalation getInstalation(String id)
