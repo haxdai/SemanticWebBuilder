@@ -187,4 +187,9 @@ public abstract class NearestBase extends org.semanticwb.model.SWBClass implemen
     {
         getSemanticObject().setProperty(swb_description, description, lang);
     }
+
+    public org.semanticwb.pymtur.PyMesWebSite getPyMesWebSite()
+    {
+        return (org.semanticwb.pymtur.PyMesWebSite)getSemanticObject().getModel().getModelObject().createGenericInstance();
+    }
 }
