@@ -464,7 +464,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         }
                         fichero = new File(basepath + value);
 
-                        DirectoryObject dirObj = (DirectoryObject) sobj.createGenericInstance();
+                        ServiceProvider dirObj = (ServiceProvider) sobj.createGenericInstance();
                         if (item.getFieldName().equals("dirPhoto"))
                         {
                             dirObj.setPhoto(value);
