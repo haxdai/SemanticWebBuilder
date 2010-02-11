@@ -3,6 +3,7 @@ package org.semanticwb.pymtur.base;
 
 public abstract class SPCategoryBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Activeable,org.semanticwb.model.Resourceable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Undeleteable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Viewable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Referensable,org.semanticwb.model.Searchable,org.semanticwb.model.Rankable,org.semanticwb.model.Hiddenable,org.semanticwb.model.RoleRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Expirable,org.semanticwb.model.Tagable,org.semanticwb.model.Indexable,org.semanticwb.model.Traceable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.FilterableNode,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Trashable
 {
+       public static final org.semanticwb.platform.SemanticProperty pymtur_hasCatServiceProvInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#hasCatServiceProvInv");
        public static final org.semanticwb.platform.SemanticClass pymtur_Instalation=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Instalation");
        public static final org.semanticwb.platform.SemanticProperty pymtur_hasCategoryInstalation=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#hasCategoryInstalation");
        public static final org.semanticwb.platform.SemanticClass pymtur_Service=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Service");
@@ -43,17 +44,6 @@ public abstract class SPCategoryBase extends org.semanticwb.model.WebPage implem
        {
            return (getSPCategory(id, model)!=null);
        }
-   public static java.util.Iterator<org.semanticwb.pymtur.SPCategory> listSPCategoryByUserGroupRef(org.semanticwb.model.UserGroupRef hasusergroupref,org.semanticwb.model.SWBModel model)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.SPCategory> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasUserGroupRef, hasusergroupref.getSemanticObject()));
-       return it;
-   }
-
-   public static java.util.Iterator<org.semanticwb.pymtur.SPCategory> listSPCategoryByUserGroupRef(org.semanticwb.model.UserGroupRef hasusergroupref)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.SPCategory> it=new org.semanticwb.model.GenericIterator(hasusergroupref.getSemanticObject().getModel().listSubjects(swb_hasUserGroupRef,hasusergroupref.getSemanticObject()));
-       return it;
-   }
    public static java.util.Iterator<org.semanticwb.pymtur.SPCategory> listSPCategoryByAssMember(org.semanticwb.model.AssMember hasassmemberinv,org.semanticwb.model.SWBModel model)
    {
        org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.SPCategory> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasAssMemberInv, hasassmemberinv.getSemanticObject()));
@@ -76,50 +66,6 @@ public abstract class SPCategoryBase extends org.semanticwb.model.WebPage implem
        org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.SPCategory> it=new org.semanticwb.model.GenericIterator(haswebpagevirtualparent.getSemanticObject().getModel().listSubjects(swb_hasWebPageVirtualParent,haswebpagevirtualparent.getSemanticObject()));
        return it;
    }
-   public static java.util.Iterator<org.semanticwb.pymtur.SPCategory> listSPCategoryByWebPageVirtualChild(org.semanticwb.model.WebPage haswebpagevirtualchild,org.semanticwb.model.SWBModel model)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.SPCategory> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasWebPageVirtualChild, haswebpagevirtualchild.getSemanticObject()));
-       return it;
-   }
-
-   public static java.util.Iterator<org.semanticwb.pymtur.SPCategory> listSPCategoryByWebPageVirtualChild(org.semanticwb.model.WebPage haswebpagevirtualchild)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.SPCategory> it=new org.semanticwb.model.GenericIterator(haswebpagevirtualchild.getSemanticObject().getModel().listSubjects(swb_hasWebPageVirtualChild,haswebpagevirtualchild.getSemanticObject()));
-       return it;
-   }
-   public static java.util.Iterator<org.semanticwb.pymtur.SPCategory> listSPCategoryByPFlowRef(org.semanticwb.model.PFlowRef haspflowref,org.semanticwb.model.SWBModel model)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.SPCategory> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasPFlowRef, haspflowref.getSemanticObject()));
-       return it;
-   }
-
-   public static java.util.Iterator<org.semanticwb.pymtur.SPCategory> listSPCategoryByPFlowRef(org.semanticwb.model.PFlowRef haspflowref)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.SPCategory> it=new org.semanticwb.model.GenericIterator(haspflowref.getSemanticObject().getModel().listSubjects(swb_hasPFlowRef,haspflowref.getSemanticObject()));
-       return it;
-   }
-   public static java.util.Iterator<org.semanticwb.pymtur.SPCategory> listSPCategoryByTemplateRef(org.semanticwb.model.TemplateRef hastemplateref,org.semanticwb.model.SWBModel model)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.SPCategory> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasTemplateRef, hastemplateref.getSemanticObject()));
-       return it;
-   }
-
-   public static java.util.Iterator<org.semanticwb.pymtur.SPCategory> listSPCategoryByTemplateRef(org.semanticwb.model.TemplateRef hastemplateref)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.SPCategory> it=new org.semanticwb.model.GenericIterator(hastemplateref.getSemanticObject().getModel().listSubjects(swb_hasTemplateRef,hastemplateref.getSemanticObject()));
-       return it;
-   }
-   public static java.util.Iterator<org.semanticwb.pymtur.SPCategory> listSPCategoryByChild(org.semanticwb.model.WebPage haswebpagechild,org.semanticwb.model.SWBModel model)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.SPCategory> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasWebPageChild, haswebpagechild.getSemanticObject()));
-       return it;
-   }
-
-   public static java.util.Iterator<org.semanticwb.pymtur.SPCategory> listSPCategoryByChild(org.semanticwb.model.WebPage haswebpagechild)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.SPCategory> it=new org.semanticwb.model.GenericIterator(haswebpagechild.getSemanticObject().getModel().listSubjects(swb_hasWebPageChild,haswebpagechild.getSemanticObject()));
-       return it;
-   }
    public static java.util.Iterator<org.semanticwb.pymtur.SPCategory> listSPCategoryByCalendarRef(org.semanticwb.model.CalendarRef hascalendarref,org.semanticwb.model.SWBModel model)
    {
        org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.SPCategory> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasCalendarRef, hascalendarref.getSemanticObject()));
@@ -140,6 +86,72 @@ public abstract class SPCategoryBase extends org.semanticwb.model.WebPage implem
    public static java.util.Iterator<org.semanticwb.pymtur.SPCategory> listSPCategoryByParent(org.semanticwb.model.WebPage webpageparent)
    {
        org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.SPCategory> it=new org.semanticwb.model.GenericIterator(webpageparent.getSemanticObject().getModel().listSubjects(swb_webPageParent,webpageparent.getSemanticObject()));
+       return it;
+   }
+   public static java.util.Iterator<org.semanticwb.pymtur.SPCategory> listSPCategoryByCreator(org.semanticwb.model.User creator,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.SPCategory> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_creator, creator.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.SPCategory> listSPCategoryByCreator(org.semanticwb.model.User creator)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.SPCategory> it=new org.semanticwb.model.GenericIterator(creator.getSemanticObject().getModel().listSubjects(swb_creator,creator.getSemanticObject()));
+       return it;
+   }
+   public static java.util.Iterator<org.semanticwb.pymtur.SPCategory> listSPCategoryByUserGroupRef(org.semanticwb.model.UserGroupRef hasusergroupref,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.SPCategory> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasUserGroupRef, hasusergroupref.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.SPCategory> listSPCategoryByUserGroupRef(org.semanticwb.model.UserGroupRef hasusergroupref)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.SPCategory> it=new org.semanticwb.model.GenericIterator(hasusergroupref.getSemanticObject().getModel().listSubjects(swb_hasUserGroupRef,hasusergroupref.getSemanticObject()));
+       return it;
+   }
+   public static java.util.Iterator<org.semanticwb.pymtur.SPCategory> listSPCategoryByWebPageVirtualChild(org.semanticwb.model.WebPage haswebpagevirtualchild,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.SPCategory> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasWebPageVirtualChild, haswebpagevirtualchild.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.SPCategory> listSPCategoryByWebPageVirtualChild(org.semanticwb.model.WebPage haswebpagevirtualchild)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.SPCategory> it=new org.semanticwb.model.GenericIterator(haswebpagevirtualchild.getSemanticObject().getModel().listSubjects(swb_hasWebPageVirtualChild,haswebpagevirtualchild.getSemanticObject()));
+       return it;
+   }
+   public static java.util.Iterator<org.semanticwb.pymtur.SPCategory> listSPCategoryByTemplateRef(org.semanticwb.model.TemplateRef hastemplateref,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.SPCategory> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasTemplateRef, hastemplateref.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.SPCategory> listSPCategoryByTemplateRef(org.semanticwb.model.TemplateRef hastemplateref)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.SPCategory> it=new org.semanticwb.model.GenericIterator(hastemplateref.getSemanticObject().getModel().listSubjects(swb_hasTemplateRef,hastemplateref.getSemanticObject()));
+       return it;
+   }
+   public static java.util.Iterator<org.semanticwb.pymtur.SPCategory> listSPCategoryByPFlowRef(org.semanticwb.model.PFlowRef haspflowref,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.SPCategory> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasPFlowRef, haspflowref.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.SPCategory> listSPCategoryByPFlowRef(org.semanticwb.model.PFlowRef haspflowref)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.SPCategory> it=new org.semanticwb.model.GenericIterator(haspflowref.getSemanticObject().getModel().listSubjects(swb_hasPFlowRef,haspflowref.getSemanticObject()));
+       return it;
+   }
+   public static java.util.Iterator<org.semanticwb.pymtur.SPCategory> listSPCategoryByChild(org.semanticwb.model.WebPage haswebpagechild,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.SPCategory> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasWebPageChild, haswebpagechild.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.SPCategory> listSPCategoryByChild(org.semanticwb.model.WebPage haswebpagechild)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.SPCategory> it=new org.semanticwb.model.GenericIterator(haswebpagechild.getSemanticObject().getModel().listSubjects(swb_hasWebPageChild,haswebpagechild.getSemanticObject()));
        return it;
    }
    public static java.util.Iterator<org.semanticwb.pymtur.SPCategory> listSPCategoryByModifiedBy(org.semanticwb.model.User modifiedby,org.semanticwb.model.SWBModel model)
@@ -206,17 +218,6 @@ public abstract class SPCategoryBase extends org.semanticwb.model.WebPage implem
    public static java.util.Iterator<org.semanticwb.pymtur.SPCategory> listSPCategoryByThisRoleAssMember(org.semanticwb.model.AssMember hasthisroleassmemberinv)
    {
        org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.SPCategory> it=new org.semanticwb.model.GenericIterator(hasthisroleassmemberinv.getSemanticObject().getModel().listSubjects(swb_hasThisRoleAssMemberInv,hasthisroleassmemberinv.getSemanticObject()));
-       return it;
-   }
-   public static java.util.Iterator<org.semanticwb.pymtur.SPCategory> listSPCategoryByCreator(org.semanticwb.model.User creator,org.semanticwb.model.SWBModel model)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.SPCategory> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_creator, creator.getSemanticObject()));
-       return it;
-   }
-
-   public static java.util.Iterator<org.semanticwb.pymtur.SPCategory> listSPCategoryByCreator(org.semanticwb.model.User creator)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.SPCategory> it=new org.semanticwb.model.GenericIterator(creator.getSemanticObject().getModel().listSubjects(swb_creator,creator.getSemanticObject()));
        return it;
    }
    public static java.util.Iterator<org.semanticwb.pymtur.SPCategory> listSPCategoryByRuleRef(org.semanticwb.model.RuleRef hasruleref,org.semanticwb.model.SWBModel model)
