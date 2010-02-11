@@ -22,6 +22,12 @@ public abstract class MiPymeSiteBase extends org.semanticwb.portal.community.Mic
            return new org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MiPymeSite>(it, true);
        }
 
+       public static org.semanticwb.pymtur.MiPymeSite createMiPymeSite(org.semanticwb.model.SWBModel model)
+       {
+           long id=model.getSemanticObject().getModel().getCounter(sclass);
+           return org.semanticwb.pymtur.MiPymeSite.ClassMgr.createMiPymeSite(String.valueOf(id), model);
+       }
+
        public static org.semanticwb.pymtur.MiPymeSite getMiPymeSite(String id, org.semanticwb.model.SWBModel model)
        {
            return (org.semanticwb.pymtur.MiPymeSite)model.getSemanticObject().getModel().getGenericObject(model.getSemanticObject().getModel().getObjectUri(id,sclass),sclass);

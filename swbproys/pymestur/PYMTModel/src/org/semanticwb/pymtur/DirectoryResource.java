@@ -26,6 +26,8 @@ import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.SWBFormMgr;
 import org.semanticwb.portal.api.*;
 import org.semanticwb.base.util.ImageResizer;
+import org.semanticwb.model.WebPage;
+import org.semanticwb.model.WebSite;
 import org.semanticwb.portal.SWBFormButton;
 import org.semanticwb.portal.community.Claimable;
 import org.semanticwb.portal.community.Comment;
@@ -110,7 +112,10 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
         else if (act.equals("add") && getAddJsp() == null)
         {
             path = "/swbadmin/jsp/microsite/directory/directoryAdd.jsp";
-        }
+            String paquete=request.getParameter("paq");
+            if(paquete!=null && paquete.equals("f")) path+="?paq=f";
+            else if(paquete!=null && paquete.equals("m")) path+="?paq=m";
+        } 
         else if (act.equals("add") && getAddJsp() != null)
         {
             path = getAddJsp();
@@ -236,6 +241,8 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
     {
+        WebSite wsite=response.getWebPage().getWebSite();
+        SemanticObject semObjTmp=null;
         User mem = response.getUser();
         Resource base = response.getResourceBase();
         boolean isAdministrator = false;
@@ -337,7 +344,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                 SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
                 try
                 {
-                    DirectoryObject dirObj = (DirectoryObject) semObject.createGenericInstance();
+                    ServiceProvider dirObj = (ServiceProvider) semObject.createGenericInstance();
                     mgr.processForm(request);
 
                     String dirPhoto = request.getParameter("dirPhotoHidden");
@@ -345,14 +352,15 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     {
                         dirObj.setPhoto(dirPhoto);
 
-                    }
-                    String dirHasExtraPhotoHidden = request.getParameter("dirHasExtraPhotoHidden");
-                    if (dirHasExtraPhotoHidden != null)
+                    }  
+                    dirPhoto = request.getParameter("PhotoLogoHidden");
+                    if (dirPhoto != null)
                     {
-                        dirObj.addExtraPhoto(dirHasExtraPhotoHidden);
+                        dirObj.setPhotoLogo(dirPhoto);
 
                     }
-                    processFiles(request, dirObj.getSemanticObject(), dirPhoto);
+                    processFiles(request, wsite, dirObj.getSemanticObject());
+                    semObjTmp=dirObj.getSemanticObject();
                 }
                 catch (FormValidateException e)
                 {
@@ -363,24 +371,45 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
             {
                 SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
                 semObject.remove();
+                semObjTmp=semObject;
                 //SWBUtils.IO.removeDirectory(SWBPortal.getWorkPath() + "/" + semObject.getWorkPath());
             }
             else if (action2.equals(response.Action_ADD))
             {
                 SemanticClass cls = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass(request.getParameter("uri"));
-                SWBFormMgr mgr = new SWBFormMgr(cls, response.getWebPage().getWebSite().getSemanticObject(), null);
+                SWBFormMgr mgr = new SWBFormMgr(cls, wsite.getSemanticObject(), null);
                 mgr.setFilterRequired(false);
                 try
                 {
                     SemanticObject sobj = mgr.processForm(request);
-                    DirectoryObject dirObj = (DirectoryObject) sobj.createGenericInstance();
+                    ServiceProvider dirObj = (ServiceProvider) sobj.createGenericInstance();
                     dirObj.setDirectoryResource(this);
                     dirObj.setWebPage(response.getWebPage());
-                    processFiles(request, dirObj.getSemanticObject(), null);
 
-                    response.setRenderParameter("act", "detail");
-                    response.setRenderParameter("msgCreated", "OK");
-                    response.setRenderParameter("uri", dirObj.getURI());
+                    if(request.getParameter("destination")!=null) {
+                        WebPage wdestination=wsite.getWebPage(request.getParameter("destination"));
+                        if(wdestination!=null && wdestination instanceof Destination){
+                            Destination dest=(Destination)wdestination;
+                            dirObj.setDestination(dest);
+                        }
+                    }
+                    int pymetype=1;
+                    if(request.getParameter("pymetype")!=null) pymetype=Integer.parseInt(request.getParameter("pymetype"));
+                    dirObj.setPymePaqueteType(pymetype);
+                    processFiles(request, wsite, dirObj.getSemanticObject());
+                    semObjTmp=dirObj.getSemanticObject();
+                    /*
+                    if(pymetype==2){
+                        WebPage fichaPage=wsite.getWebPage("ficha");
+                        if(fichaPage!=null){
+                            response.sendRedirect(fichaPage.getUrl()+"?uri="+dirObj.getEncodedURI()+"&act=detail");
+                        }
+                    }*/
+                    if(pymetype==3){
+                        MiPymeSite miPymeSite=MiPymeSite.ClassMgr.createMiPymeSite(wsite);
+                        miPymeSite.setServiceProvider(dirObj);
+                        WebPage wmsitios=wsite.getWebPage("Micrositios");
+                    }
                 }
                 catch (FormValidateException e)
                 {
@@ -396,7 +425,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     dirObj.removeExtraPhoto(request.getParameter("removeAttach"));
                     File file = new File(SWBPortal.getWorkPath() + "/" + semObject.getWorkPath() + "/" + request.getParameter("removeAttach"));
                     file.delete();
-
+                    semObjTmp=dirObj.getSemanticObject();
                 }
             }
             else if (action.equals("admin_update"))
@@ -412,6 +441,14 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
         catch (Exception e)
         {
             log.error(e);
+        }
+        String redirect=request.getParameter("redirect");
+        if(redirect!=null){
+            if(redirect.equals("detail")){
+                response.setRenderParameter("act", "detail");
+                response.setRenderParameter("uri", semObjTmp.getURI());
+
+            }
         }
         response.setMode(response.Mode_VIEW);
     }
@@ -436,7 +473,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
         response.setMode("returnStateMessage");
     }
 
-    private void processFiles(HttpServletRequest request, SemanticObject sobj, String actualPhoto)
+    private void processFiles(HttpServletRequest request, WebSite website, SemanticObject sobj)
     {
         String basepath = SWBPortal.getWorkPath() + sobj.getWorkPath() + "/";
         if (request.getSession().getAttribute(UploadFormElement.FILES_UPLOADED) != null)
@@ -447,8 +484,9 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                 FileItem item = (FileItem) itfilesUploaded.next();
                 if (!item.isFormField())
                 { //Es un campo de tipo file
-                    //int fileSize = ((Long) item.getSize()).intValue();
+                    int fileSize = ((Long) item.getSize()).intValue();
                     String value = item.getName();
+                    System.out.println("foto:"+value);
                     if (value != null && value.trim().length() > 0)
                     {
                         value = value.replace("\\", "/");
@@ -465,18 +503,21 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         fichero = new File(basepath + value);
 
                         ServiceProvider dirObj = (ServiceProvider) sobj.createGenericInstance();
-                        if (item.getFieldName().equals("dirPhoto"))
-                        {
+                        if (item.getFieldName().equals("dirPhoto"))  {
+                            String tmpPhoto=dirObj.getPhoto();
                             dirObj.setPhoto(value);
-                            if (actualPhoto != null)
-                            {
-                                File file = new File(basepath + actualPhoto);
-                                file.delete();
-                            }
-                        }
-                        else if (item.getFieldName().equals("dirHasExtraPhoto"))
-                        {
-                            dirObj.addExtraPhoto(value);
+                            File file = new File(basepath + tmpPhoto);
+                            file.delete();
+                        }else if (item.getFieldName().equals("PhotoLogo"))  {
+                            String tmpPhoto=dirObj.getPhotoLogo();
+                            dirObj.setPhotoLogo(value);
+                            File file = new File(basepath + tmpPhoto);
+                            file.delete();
+                        }else{
+                              PhotoPyme photoPyme = PhotoPyme.ClassMgr.createPhotoPyme(website);
+                              photoPyme.setPhotoImage(value);
+                              photoPyme.setPhotoSize(fileSize);
+                              photoPyme.setPhotoMimeType(item.getContentType());
                         }
 
                         String ext = "";
@@ -577,9 +618,6 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
             {
                 addressList += ";" + org.getCreator().getEmail();
             }
-            /*System.out.println();
-            System.out.println("----------------");
-            System.out.println(messageBody);*/
             SWBUtils.EMAIL.sendBGEmail(addressList, "Notificación de reclamo", messageBody);
         }
 

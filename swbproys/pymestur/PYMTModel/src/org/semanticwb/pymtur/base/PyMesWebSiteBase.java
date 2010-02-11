@@ -213,6 +213,12 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
         return org.semanticwb.pymtur.MiPymeSite.ClassMgr.createMiPymeSite(id,this);
     }
 
+    public org.semanticwb.pymtur.MiPymeSite createMiPymeSite()
+    {
+        long id=getSemanticObject().getModel().getCounter(pymtur_MiPymeSite);
+        return org.semanticwb.pymtur.MiPymeSite.ClassMgr.createMiPymeSite(String.valueOf(id),this);
+    } 
+
     public void removeMiPymeSite(String id)
     {
         org.semanticwb.pymtur.MiPymeSite.ClassMgr.removeMiPymeSite(id, this);
@@ -236,6 +242,12 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
     {
         return org.semanticwb.pymtur.MiPymeSitePlus.ClassMgr.createMiPymeSitePlus(id,this);
     }
+
+    public org.semanticwb.pymtur.MiPymeSitePlus createMiPymeSitePlus()
+    {
+        long id=getSemanticObject().getModel().getCounter(pymtur_MiPymeSitePlus);
+        return org.semanticwb.pymtur.MiPymeSitePlus.ClassMgr.createMiPymeSitePlus(String.valueOf(id),this);
+    } 
 
     public void removeMiPymeSitePlus(String id)
     {

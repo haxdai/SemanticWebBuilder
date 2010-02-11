@@ -67,6 +67,17 @@ public abstract class HospedajeBase extends org.semanticwb.pymtur.ServiceProvide
        org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Hospedaje> it=new org.semanticwb.model.GenericIterator(hasservice.getSemanticObject().getModel().listSubjects(pymtur_hasService,hasservice.getSemanticObject()));
        return it;
    }
+   public static java.util.Iterator<org.semanticwb.pymtur.Hospedaje> listHospedajeByPhotoPyme(org.semanticwb.pymtur.PhotoPyme hasphotopyme,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Hospedaje> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(pymtur_hasPhotoPyme, hasphotopyme.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.Hospedaje> listHospedajeByPhotoPyme(org.semanticwb.pymtur.PhotoPyme hasphotopyme)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Hospedaje> it=new org.semanticwb.model.GenericIterator(hasphotopyme.getSemanticObject().getModel().listSubjects(pymtur_hasPhotoPyme,hasphotopyme.getSemanticObject()));
+       return it;
+   }
    public static java.util.Iterator<org.semanticwb.pymtur.Hospedaje> listHospedajeByDirectoryResource(org.semanticwb.portal.community.DirectoryResource directoryresource,org.semanticwb.model.SWBModel model)
    {
        org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Hospedaje> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swbcomm_directoryResource, directoryresource.getSemanticObject()));
