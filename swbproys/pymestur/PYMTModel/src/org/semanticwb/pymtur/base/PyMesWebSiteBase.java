@@ -429,12 +429,6 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
         return org.semanticwb.pymtur.Hospedaje.ClassMgr.createHospedaje(id,this);
     }
 
-    public org.semanticwb.pymtur.Hospedaje createHospedaje()
-    {
-        long id=getSemanticObject().getModel().getCounter(pymtur_Hospedaje);
-        return org.semanticwb.pymtur.Hospedaje.ClassMgr.createHospedaje(String.valueOf(id),this);
-    } 
-
     public void removeHospedaje(String id)
     {
         org.semanticwb.pymtur.Hospedaje.ClassMgr.removeHospedaje(id, this);
@@ -614,12 +608,6 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
     {
         return org.semanticwb.pymtur.ServiceProvider.ClassMgr.createServiceProvider(id,this);
     }
-
-    public org.semanticwb.pymtur.ServiceProvider createServiceProvider()
-    {
-        long id=getSemanticObject().getModel().getCounter(pymtur_ServiceProvider);
-        return org.semanticwb.pymtur.ServiceProvider.ClassMgr.createServiceProvider(String.valueOf(id),this);
-    } 
 
     public void removeServiceProvider(String id)
     {

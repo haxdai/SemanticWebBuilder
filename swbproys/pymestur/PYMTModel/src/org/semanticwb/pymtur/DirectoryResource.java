@@ -32,6 +32,9 @@ import org.semanticwb.portal.SWBFormButton;
 import org.semanticwb.portal.community.Claimable;
 import org.semanticwb.portal.community.Comment;
 import org.semanticwb.portal.community.DirectoryObject;
+import org.semanticwb.portal.community.MicroSiteType;
+import org.semanticwb.portal.community.MicroSiteUtil;
+import org.semanticwb.portal.community.MicroSiteWebPageUtil;
 import org.semanticwb.portal.community.Organization;
 import org.semanticwb.servlet.internal.UploadFormElement;
 
@@ -406,9 +409,40 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         }
                     }*/
                     if(pymetype==3){
-                        MiPymeSite miPymeSite=MiPymeSite.ClassMgr.createMiPymeSite(wsite);
-                        miPymeSite.setServiceProvider(dirObj);
-                        WebPage wmsitios=wsite.getWebPage("Micrositios");
+                        MicroSitePyme ms = MicroSitePyme.ClassMgr.createMicroSitePyme(dirObj.getId()+"_Microsite",wsite); //TODO:Hacer que sea con el nombre de la pyme en formato de ID
+                        ms.setParent(wsite.getWebPage("Micrositios"));
+                        ms.setTitle(dirObj.getTitle());
+                        ms.setDescription(dirObj.getDescription());
+                        ms.setTags(dirObj.getTags());
+                        ms.setActive(Boolean.TRUE);
+
+                        //Le asigna el tipo de comunidad y el service provider al micrositio
+                        MicroSiteType mstype=MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSite", wsite);
+                        if(mstype!=null){
+                            ms.setType(mstype);
+                            //MiPymeSite mipymeSite=(MiPymeSite)mstype.getSemanticObject().createGenericInstance();
+                            //MiPymeSite mipymeSite = (MiPymeSite)mstype.getMicroSiteClass();
+                            //mipymeSite.setServiceProvider(dirObj);
+                        }
+
+                        ms.setServiceProvider(dirObj);
+                        
+                        if(mstype!=null)
+                        {
+                            GenericIterator <MicroSiteUtil> gitmu=mstype.listMicroSiteUtils();
+                            while(gitmu.hasNext())
+                            {
+                                MicroSiteUtil msu = (MicroSiteUtil)gitmu.next();
+                                MicroSiteWebPageUtil mswpu = MicroSiteWebPageUtil.ClassMgr.createMicroSiteWebPageUtil(ms.getId()+"_"+msu.getId(), wsite);
+                                mswpu.setTitle(msu.getTitle());
+
+                                mswpu.setMicroSite(ms);
+                                mswpu.setMicroSiteUtil(msu);
+
+                                mswpu.setParent(ms);
+                                mswpu.setActive(Boolean.TRUE);
+                            }
+                        }
                     }
                 }
                 catch (FormValidateException e)
@@ -486,7 +520,6 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                 { //Es un campo de tipo file
                     int fileSize = ((Long) item.getSize()).intValue();
                     String value = item.getName();
-                    System.out.println("foto:"+value);
                     if (value != null && value.trim().length() > 0)
                     {
                         value = value.replace("\\", "/");
@@ -600,7 +633,6 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
             String realURL = "http://" + request.getServerName() + ":" + request.getServerPort() +
                     SWBPortal.getContextPath() + dob.getWebPage().getUrl() + "?act=detail&uri=" + dob.getEncodedURI();
 
-            //System.out.println("===" + dob.getWebPage().getRealUrl());
             String defMessageBody = "El elemento \"" + dob.getTitle() + "\" ha sido reclamado por el usuario " +
                     user.getFullName() + " con la siguiente justificación:<br><br>\n\n" +
                     "\"" + sobj.getProperty(Claimable.swbcomm_claimJustify) + "\".<br><br>\n\n" +

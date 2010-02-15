@@ -20,12 +20,6 @@ public abstract class HospedajeBase extends org.semanticwb.pymtur.ServiceProvide
            return new org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Hospedaje>(it, true);
        }
 
-       public static org.semanticwb.pymtur.Hospedaje createHospedaje(org.semanticwb.model.SWBModel model)
-       {
-           long id=model.getSemanticObject().getModel().getCounter(sclass);
-           return org.semanticwb.pymtur.Hospedaje.ClassMgr.createHospedaje(String.valueOf(id), model);
-       }
-
        public static org.semanticwb.pymtur.Hospedaje getHospedaje(String id, org.semanticwb.model.SWBModel model)
        {
            return (org.semanticwb.pymtur.Hospedaje)model.getSemanticObject().getModel().getGenericObject(model.getSemanticObject().getModel().getObjectUri(id,sclass),sclass);
@@ -54,6 +48,17 @@ public abstract class HospedajeBase extends org.semanticwb.pymtur.ServiceProvide
    public static java.util.Iterator<org.semanticwb.pymtur.Hospedaje> listHospedajeByInstalation(org.semanticwb.pymtur.Instalation hasinstalation)
    {
        org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Hospedaje> it=new org.semanticwb.model.GenericIterator(hasinstalation.getSemanticObject().getModel().listSubjects(pymtur_hasInstalation,hasinstalation.getSemanticObject()));
+       return it;
+   }
+   public static java.util.Iterator<org.semanticwb.pymtur.Hospedaje> listHospedajeByMicrosite(org.semanticwb.portal.community.MicroSite microsite,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Hospedaje> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(pymtur_microsite, microsite.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.Hospedaje> listHospedajeByMicrosite(org.semanticwb.portal.community.MicroSite microsite)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Hospedaje> it=new org.semanticwb.model.GenericIterator(microsite.getSemanticObject().getModel().listSubjects(pymtur_microsite,microsite.getSemanticObject()));
        return it;
    }
    public static java.util.Iterator<org.semanticwb.pymtur.Hospedaje> listHospedajeByService(org.semanticwb.pymtur.Service hasservice,org.semanticwb.model.SWBModel model)
@@ -133,6 +138,17 @@ public abstract class HospedajeBase extends org.semanticwb.pymtur.ServiceProvide
        org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Hospedaje> it=new org.semanticwb.model.GenericIterator(creator.getSemanticObject().getModel().listSubjects(swb_creator,creator.getSemanticObject()));
        return it;
    }
+   public static java.util.Iterator<org.semanticwb.pymtur.Hospedaje> listHospedajeByDestinationSec(org.semanticwb.pymtur.Destination destinationsec,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Hospedaje> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(pymtur_destinationSec, destinationsec.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.Hospedaje> listHospedajeByDestinationSec(org.semanticwb.pymtur.Destination destinationsec)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Hospedaje> it=new org.semanticwb.model.GenericIterator(destinationsec.getSemanticObject().getModel().listSubjects(pymtur_destinationSec,destinationsec.getSemanticObject()));
+       return it;
+   }
    public static java.util.Iterator<org.semanticwb.pymtur.Hospedaje> listHospedajeByModifiedBy(org.semanticwb.model.User modifiedby,org.semanticwb.model.SWBModel model)
    {
        org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Hospedaje> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_modifiedBy, modifiedby.getSemanticObject()));
@@ -186,6 +202,17 @@ public abstract class HospedajeBase extends org.semanticwb.pymtur.ServiceProvide
    public static java.util.Iterator<org.semanticwb.pymtur.Hospedaje> listHospedajeByComment(org.semanticwb.portal.community.Comment hascomment)
    {
        org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Hospedaje> it=new org.semanticwb.model.GenericIterator(hascomment.getSemanticObject().getModel().listSubjects(swbcomm_hasComment,hascomment.getSemanticObject()));
+       return it;
+   }
+   public static java.util.Iterator<org.semanticwb.pymtur.Hospedaje> listHospedajeByMicroSitePymeInv(org.semanticwb.pymtur.MicroSitePyme micrositepymeinv,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Hospedaje> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(pymtur_microSitePymeInv, micrositepymeinv.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.Hospedaje> listHospedajeByMicroSitePymeInv(org.semanticwb.pymtur.MicroSitePyme micrositepymeinv)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Hospedaje> it=new org.semanticwb.model.GenericIterator(micrositepymeinv.getSemanticObject().getModel().listSubjects(pymtur_microSitePymeInv,micrositepymeinv.getSemanticObject()));
        return it;
    }
     }
