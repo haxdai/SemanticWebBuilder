@@ -45,17 +45,6 @@ public abstract class MiPymeSitePlusBase extends org.semanticwb.pymtur.MiPymeSit
        {
            return (getMiPymeSitePlus(id, model)!=null);
        }
-   public static java.util.Iterator<org.semanticwb.pymtur.MiPymeSitePlus> listMiPymeSitePlusByServiceProvider(org.semanticwb.pymtur.ServiceProvider serviceprovider,org.semanticwb.model.SWBModel model)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MiPymeSitePlus> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(pymtur_serviceProvider, serviceprovider.getSemanticObject()));
-       return it;
-   }
-
-   public static java.util.Iterator<org.semanticwb.pymtur.MiPymeSitePlus> listMiPymeSitePlusByServiceProvider(org.semanticwb.pymtur.ServiceProvider serviceprovider)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MiPymeSitePlus> it=new org.semanticwb.model.GenericIterator(serviceprovider.getSemanticObject().getModel().listSubjects(pymtur_serviceProvider,serviceprovider.getSemanticObject()));
-       return it;
-   }
     }
 
     public MiPymeSitePlusBase(org.semanticwb.platform.SemanticObject base)

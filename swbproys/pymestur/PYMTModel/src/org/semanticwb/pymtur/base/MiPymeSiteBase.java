@@ -3,8 +3,6 @@ package org.semanticwb.pymtur.base;
 
 public abstract class MiPymeSiteBase extends org.semanticwb.portal.community.MicroSiteClass 
 {
-       public static final org.semanticwb.platform.SemanticClass pymtur_ServiceProvider=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#ServiceProvider");
-       public static final org.semanticwb.platform.SemanticProperty pymtur_serviceProvider=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#serviceProvider");
        public static final org.semanticwb.platform.SemanticClass pymtur_MiPymeSite=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#MiPymeSite");
        public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#MiPymeSite");
     public static class ClassMgr
@@ -47,44 +45,11 @@ public abstract class MiPymeSiteBase extends org.semanticwb.portal.community.Mic
        {
            return (getMiPymeSite(id, model)!=null);
        }
-   public static java.util.Iterator<org.semanticwb.pymtur.MiPymeSite> listMiPymeSiteByServiceProvider(org.semanticwb.pymtur.ServiceProvider serviceprovider,org.semanticwb.model.SWBModel model)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MiPymeSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(pymtur_serviceProvider, serviceprovider.getSemanticObject()));
-       return it;
-   }
-
-   public static java.util.Iterator<org.semanticwb.pymtur.MiPymeSite> listMiPymeSiteByServiceProvider(org.semanticwb.pymtur.ServiceProvider serviceprovider)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MiPymeSite> it=new org.semanticwb.model.GenericIterator(serviceprovider.getSemanticObject().getModel().listSubjects(pymtur_serviceProvider,serviceprovider.getSemanticObject()));
-       return it;
-   }
     }
 
     public MiPymeSiteBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
-    }
-
-    public void setServiceProvider(org.semanticwb.pymtur.ServiceProvider value)
-    {
-        getSemanticObject().setObjectProperty(pymtur_serviceProvider, value.getSemanticObject());
-    }
-
-    public void removeServiceProvider()
-    {
-        getSemanticObject().removeProperty(pymtur_serviceProvider);
-    }
-
-
-    public org.semanticwb.pymtur.ServiceProvider getServiceProvider()
-    {
-         org.semanticwb.pymtur.ServiceProvider ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(pymtur_serviceProvider);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.pymtur.ServiceProvider)obj.createGenericInstance();
-         }
-         return ret;
     }
 
     public org.semanticwb.pymtur.PyMesWebSite getPyMesWebSite()
