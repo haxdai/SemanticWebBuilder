@@ -41,17 +41,6 @@ public abstract class ActivityBase extends org.semanticwb.model.WebPage implemen
        {
            return (getActivity(id, model)!=null);
        }
-   public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByUserGroupRef(org.semanticwb.model.UserGroupRef hasusergroupref,org.semanticwb.model.SWBModel model)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasUserGroupRef, hasusergroupref.getSemanticObject()));
-       return it;
-   }
-
-   public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByUserGroupRef(org.semanticwb.model.UserGroupRef hasusergroupref)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(hasusergroupref.getSemanticObject().getModel().listSubjects(swb_hasUserGroupRef,hasusergroupref.getSemanticObject()));
-       return it;
-   }
    public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByAssMember(org.semanticwb.model.AssMember hasassmemberinv,org.semanticwb.model.SWBModel model)
    {
        org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasAssMemberInv, hasassmemberinv.getSemanticObject()));
@@ -74,50 +63,6 @@ public abstract class ActivityBase extends org.semanticwb.model.WebPage implemen
        org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(haswebpagevirtualparent.getSemanticObject().getModel().listSubjects(swb_hasWebPageVirtualParent,haswebpagevirtualparent.getSemanticObject()));
        return it;
    }
-   public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByWebPageVirtualChild(org.semanticwb.model.WebPage haswebpagevirtualchild,org.semanticwb.model.SWBModel model)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasWebPageVirtualChild, haswebpagevirtualchild.getSemanticObject()));
-       return it;
-   }
-
-   public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByWebPageVirtualChild(org.semanticwb.model.WebPage haswebpagevirtualchild)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(haswebpagevirtualchild.getSemanticObject().getModel().listSubjects(swb_hasWebPageVirtualChild,haswebpagevirtualchild.getSemanticObject()));
-       return it;
-   }
-   public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByPFlowRef(org.semanticwb.model.PFlowRef haspflowref,org.semanticwb.model.SWBModel model)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasPFlowRef, haspflowref.getSemanticObject()));
-       return it;
-   }
-
-   public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByPFlowRef(org.semanticwb.model.PFlowRef haspflowref)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(haspflowref.getSemanticObject().getModel().listSubjects(swb_hasPFlowRef,haspflowref.getSemanticObject()));
-       return it;
-   }
-   public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByTemplateRef(org.semanticwb.model.TemplateRef hastemplateref,org.semanticwb.model.SWBModel model)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasTemplateRef, hastemplateref.getSemanticObject()));
-       return it;
-   }
-
-   public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByTemplateRef(org.semanticwb.model.TemplateRef hastemplateref)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(hastemplateref.getSemanticObject().getModel().listSubjects(swb_hasTemplateRef,hastemplateref.getSemanticObject()));
-       return it;
-   }
-   public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByChild(org.semanticwb.model.WebPage haswebpagechild,org.semanticwb.model.SWBModel model)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasWebPageChild, haswebpagechild.getSemanticObject()));
-       return it;
-   }
-
-   public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByChild(org.semanticwb.model.WebPage haswebpagechild)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(haswebpagechild.getSemanticObject().getModel().listSubjects(swb_hasWebPageChild,haswebpagechild.getSemanticObject()));
-       return it;
-   }
    public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByCalendarRef(org.semanticwb.model.CalendarRef hascalendarref,org.semanticwb.model.SWBModel model)
    {
        org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasCalendarRef, hascalendarref.getSemanticObject()));
@@ -138,6 +83,83 @@ public abstract class ActivityBase extends org.semanticwb.model.WebPage implemen
    public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByParent(org.semanticwb.model.WebPage webpageparent)
    {
        org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(webpageparent.getSemanticObject().getModel().listSubjects(swb_webPageParent,webpageparent.getSemanticObject()));
+       return it;
+   }
+   public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByCreator(org.semanticwb.model.User creator,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_creator, creator.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByCreator(org.semanticwb.model.User creator)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(creator.getSemanticObject().getModel().listSubjects(swb_creator,creator.getSemanticObject()));
+       return it;
+   }
+   public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByActivityRef(org.semanticwb.pymtur.ActivityRef hasactivityrefinv,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(pymtur_hasActivityRefInv, hasactivityrefinv.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByActivityRef(org.semanticwb.pymtur.ActivityRef hasactivityrefinv)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(hasactivityrefinv.getSemanticObject().getModel().listSubjects(pymtur_hasActivityRefInv,hasactivityrefinv.getSemanticObject()));
+       return it;
+   }
+   public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByUserGroupRef(org.semanticwb.model.UserGroupRef hasusergroupref,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasUserGroupRef, hasusergroupref.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByUserGroupRef(org.semanticwb.model.UserGroupRef hasusergroupref)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(hasusergroupref.getSemanticObject().getModel().listSubjects(swb_hasUserGroupRef,hasusergroupref.getSemanticObject()));
+       return it;
+   }
+   public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByWebPageVirtualChild(org.semanticwb.model.WebPage haswebpagevirtualchild,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasWebPageVirtualChild, haswebpagevirtualchild.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByWebPageVirtualChild(org.semanticwb.model.WebPage haswebpagevirtualchild)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(haswebpagevirtualchild.getSemanticObject().getModel().listSubjects(swb_hasWebPageVirtualChild,haswebpagevirtualchild.getSemanticObject()));
+       return it;
+   }
+   public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByTemplateRef(org.semanticwb.model.TemplateRef hastemplateref,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasTemplateRef, hastemplateref.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByTemplateRef(org.semanticwb.model.TemplateRef hastemplateref)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(hastemplateref.getSemanticObject().getModel().listSubjects(swb_hasTemplateRef,hastemplateref.getSemanticObject()));
+       return it;
+   }
+   public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByPFlowRef(org.semanticwb.model.PFlowRef haspflowref,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasPFlowRef, haspflowref.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByPFlowRef(org.semanticwb.model.PFlowRef haspflowref)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(haspflowref.getSemanticObject().getModel().listSubjects(swb_hasPFlowRef,haspflowref.getSemanticObject()));
+       return it;
+   }
+   public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByChild(org.semanticwb.model.WebPage haswebpagechild,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasWebPageChild, haswebpagechild.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByChild(org.semanticwb.model.WebPage haswebpagechild)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(haswebpagechild.getSemanticObject().getModel().listSubjects(swb_hasWebPageChild,haswebpagechild.getSemanticObject()));
        return it;
    }
    public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByModifiedBy(org.semanticwb.model.User modifiedby,org.semanticwb.model.SWBModel model)
@@ -184,17 +206,6 @@ public abstract class ActivityBase extends org.semanticwb.model.WebPage implemen
        org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(hasthisroleassmemberinv.getSemanticObject().getModel().listSubjects(swb_hasThisRoleAssMemberInv,hasthisroleassmemberinv.getSemanticObject()));
        return it;
    }
-   public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByCreator(org.semanticwb.model.User creator,org.semanticwb.model.SWBModel model)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_creator, creator.getSemanticObject()));
-       return it;
-   }
-
-   public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByCreator(org.semanticwb.model.User creator)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(creator.getSemanticObject().getModel().listSubjects(swb_creator,creator.getSemanticObject()));
-       return it;
-   }
    public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByRuleRef(org.semanticwb.model.RuleRef hasruleref,org.semanticwb.model.SWBModel model)
    {
        org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasRuleRef, hasruleref.getSemanticObject()));
@@ -204,17 +215,6 @@ public abstract class ActivityBase extends org.semanticwb.model.WebPage implemen
    public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByRuleRef(org.semanticwb.model.RuleRef hasruleref)
    {
        org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(hasruleref.getSemanticObject().getModel().listSubjects(swb_hasRuleRef,hasruleref.getSemanticObject()));
-       return it;
-   }
-   public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByActivityRef(org.semanticwb.pymtur.ActivityRef hasactivityrefinv,org.semanticwb.model.SWBModel model)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(pymtur_hasActivityRefInv, hasactivityrefinv.getSemanticObject()));
-       return it;
-   }
-
-   public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByActivityRef(org.semanticwb.pymtur.ActivityRef hasactivityrefinv)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(hasactivityrefinv.getSemanticObject().getModel().listSubjects(pymtur_hasActivityRefInv,hasactivityrefinv.getSemanticObject()));
        return it;
    }
    public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByThisTypeAssociation(org.semanticwb.model.Association hasthistypeassociationinv,org.semanticwb.model.SWBModel model)
