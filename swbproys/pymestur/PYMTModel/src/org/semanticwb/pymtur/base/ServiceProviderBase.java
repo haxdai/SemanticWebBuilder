@@ -11,16 +11,20 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
        public static final org.semanticwb.platform.SemanticProperty pymtur_hasService=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#hasService");
        public static final org.semanticwb.platform.SemanticClass pymtur_PhotoPyme=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#PhotoPyme");
        public static final org.semanticwb.platform.SemanticProperty pymtur_hasPhotoPyme=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#hasPhotoPyme");
+       public static final org.semanticwb.platform.SemanticClass pymtur_Promotion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Promotion");
+       public static final org.semanticwb.platform.SemanticProperty pymtur_hasPromotion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#hasPromotion");
        public static final org.semanticwb.platform.SemanticProperty pymtur_callCenter=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#callCenter");
        public static final org.semanticwb.platform.SemanticProperty pymtur_pymeWebSite=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#pymeWebSite");
        public static final org.semanticwb.platform.SemanticClass pymtur_Nearest=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Nearest");
        public static final org.semanticwb.platform.SemanticProperty pymtur_hasNearest=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#hasNearest");
        public static final org.semanticwb.platform.SemanticProperty pymtur_MaxRate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#MaxRate");
+       public static final org.semanticwb.platform.SemanticProperty pymtur_pymeArrive=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#pymeArrive");
        public static final org.semanticwb.platform.SemanticClass pymtur_Destination=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Destination");
        public static final org.semanticwb.platform.SemanticProperty pymtur_destination=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#destination");
        public static final org.semanticwb.platform.SemanticProperty pymtur_pymeRfc=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#pymeRfc");
        public static final org.semanticwb.platform.SemanticProperty pymtur_destinationSec=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#destinationSec");
-       public static final org.semanticwb.platform.SemanticProperty pymtur_environment=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#environment");
+       public static final org.semanticwb.platform.SemanticClass pymtur_Cupon=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Cupon");
+       public static final org.semanticwb.platform.SemanticProperty pymtur_hasCupon=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#hasCupon");
        public static final org.semanticwb.platform.SemanticProperty pymtur_MinRate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#MinRate");
        public static final org.semanticwb.platform.SemanticProperty pymtur_Surroundings=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#Surroundings");
        public static final org.semanticwb.platform.SemanticProperty pymtur_spDomain=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#spDomain");
@@ -132,6 +136,17 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
        org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.ServiceProvider> it=new org.semanticwb.model.GenericIterator(hasdirprofilewebpage.getSemanticObject().getModel().listSubjects(swbcomm_hasDirProfileWebPage,hasdirprofilewebpage.getSemanticObject()));
        return it;
    }
+   public static java.util.Iterator<org.semanticwb.pymtur.ServiceProvider> listServiceProviderByPromotion(org.semanticwb.pymtur.Promotion haspromotion,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.ServiceProvider> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(pymtur_hasPromotion, haspromotion.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.ServiceProvider> listServiceProviderByPromotion(org.semanticwb.pymtur.Promotion haspromotion)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.ServiceProvider> it=new org.semanticwb.model.GenericIterator(haspromotion.getSemanticObject().getModel().listSubjects(pymtur_hasPromotion,haspromotion.getSemanticObject()));
+       return it;
+   }
    public static java.util.Iterator<org.semanticwb.pymtur.ServiceProvider> listServiceProviderByNearest(org.semanticwb.pymtur.Nearest hasnearest,org.semanticwb.model.SWBModel model)
    {
        org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.ServiceProvider> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(pymtur_hasNearest, hasnearest.getSemanticObject()));
@@ -174,6 +189,17 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
    public static java.util.Iterator<org.semanticwb.pymtur.ServiceProvider> listServiceProviderByDestinationSec(org.semanticwb.pymtur.Destination destinationsec)
    {
        org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.ServiceProvider> it=new org.semanticwb.model.GenericIterator(destinationsec.getSemanticObject().getModel().listSubjects(pymtur_destinationSec,destinationsec.getSemanticObject()));
+       return it;
+   }
+   public static java.util.Iterator<org.semanticwb.pymtur.ServiceProvider> listServiceProviderByCupon(org.semanticwb.pymtur.Cupon hascupon,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.ServiceProvider> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(pymtur_hasCupon, hascupon.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.ServiceProvider> listServiceProviderByCupon(org.semanticwb.pymtur.Cupon hascupon)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.ServiceProvider> it=new org.semanticwb.model.GenericIterator(hascupon.getSemanticObject().getModel().listSubjects(pymtur_hasCupon,hascupon.getSemanticObject()));
        return it;
    }
    public static java.util.Iterator<org.semanticwb.pymtur.ServiceProvider> listServiceProviderByModifiedBy(org.semanticwb.model.User modifiedby,org.semanticwb.model.SWBModel model)
@@ -405,6 +431,44 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
          return ret;
     }
 
+    public org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Promotion> listPromotions()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Promotion>(getSemanticObject().listObjectProperties(pymtur_hasPromotion));
+    }
+
+    public boolean hasPromotion(org.semanticwb.pymtur.Promotion promotion)
+    {
+        if(promotion==null)return false;
+        return getSemanticObject().hasObjectProperty(pymtur_hasPromotion,promotion.getSemanticObject());
+    }
+
+    public void addPromotion(org.semanticwb.pymtur.Promotion value)
+    {
+        getSemanticObject().addObjectProperty(pymtur_hasPromotion, value.getSemanticObject());
+    }
+
+    public void removeAllPromotion()
+    {
+        getSemanticObject().removeProperty(pymtur_hasPromotion);
+    }
+
+    public void removePromotion(org.semanticwb.pymtur.Promotion promotion)
+    {
+        getSemanticObject().removeObjectProperty(pymtur_hasPromotion,promotion.getSemanticObject());
+    }
+
+
+    public org.semanticwb.pymtur.Promotion getPromotion()
+    {
+         org.semanticwb.pymtur.Promotion ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(pymtur_hasPromotion);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.pymtur.Promotion)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
     public String getCallCenter()
     {
         return getSemanticObject().getProperty(pymtur_callCenter);
@@ -483,6 +547,16 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
         getSemanticObject().setFloatProperty(pymtur_MaxRate, value);
     }
 
+    public String getPymeArrive()
+    {
+        return getSemanticObject().getProperty(pymtur_pymeArrive);
+    }
+
+    public void setPymeArrive(String value)
+    {
+        getSemanticObject().setProperty(pymtur_pymeArrive, value);
+    }
+
     public String getCity()
     {
         return getSemanticObject().getProperty(swbcomm_city);
@@ -547,16 +621,6 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
          return ret;
     }
 
-    public String getEnvironment()
-    {
-        return getSemanticObject().getProperty(pymtur_environment);
-    }
-
-    public void setEnvironment(String value)
-    {
-        getSemanticObject().setProperty(pymtur_environment, value);
-    }
-
     public int getStep()
     {
         return getSemanticObject().getIntProperty(swb_geoStep);
@@ -585,6 +649,44 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
     public void setLatitude(double value)
     {
         getSemanticObject().setDoubleProperty(swb_latitude, value);
+    }
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Cupon> listCupons()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Cupon>(getSemanticObject().listObjectProperties(pymtur_hasCupon));
+    }
+
+    public boolean hasCupon(org.semanticwb.pymtur.Cupon cupon)
+    {
+        if(cupon==null)return false;
+        return getSemanticObject().hasObjectProperty(pymtur_hasCupon,cupon.getSemanticObject());
+    }
+
+    public void addCupon(org.semanticwb.pymtur.Cupon value)
+    {
+        getSemanticObject().addObjectProperty(pymtur_hasCupon, value.getSemanticObject());
+    }
+
+    public void removeAllCupon()
+    {
+        getSemanticObject().removeProperty(pymtur_hasCupon);
+    }
+
+    public void removeCupon(org.semanticwb.pymtur.Cupon cupon)
+    {
+        getSemanticObject().removeObjectProperty(pymtur_hasCupon,cupon.getSemanticObject());
+    }
+
+
+    public org.semanticwb.pymtur.Cupon getCupon()
+    {
+         org.semanticwb.pymtur.Cupon ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(pymtur_hasCupon);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.pymtur.Cupon)obj.createGenericInstance();
+         }
+         return ret;
     }
 
     public float getMinRate()
