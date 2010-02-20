@@ -396,33 +396,33 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                             dirObj.setDestination(dest);
                         }
                     }
+                    if(request.getParameter("destinationSec")!=null) {
+                        WebPage wdestination=wsite.getWebPage(request.getParameter("destinationSec"));
+                        if(wdestination!=null && wdestination instanceof Destination){
+                            Destination dest=(Destination)wdestination;
+                            dirObj.setDestinationSec(dest);
+                        }
+                    }
                     int pymetype=1;
                     if(request.getParameter("pymetype")!=null) pymetype=Integer.parseInt(request.getParameter("pymetype"));
                     dirObj.setPymePaqueteType(pymetype);
                     processFiles(request, wsite, dirObj.getSemanticObject());
                     semObjTmp=dirObj.getSemanticObject();
-                    /*
-                    if(pymetype==2){
-                        WebPage fichaPage=wsite.getWebPage("ficha");
-                        if(fichaPage!=null){
-                            response.sendRedirect(fichaPage.getUrl()+"?uri="+dirObj.getEncodedURI()+"&act=detail");
-                        }
-                    }*/
-                    if(pymetype==3){
+
+                    if(pymetype==3 || pymetype==4){
                         MicroSitePyme ms = MicroSitePyme.ClassMgr.createMicroSitePyme(dirObj.getId()+"_Microsite",wsite); //TODO:Hacer que sea con el nombre de la pyme en formato de ID
                         ms.setParent(wsite.getWebPage("Micrositios"));
                         ms.setTitle(dirObj.getTitle());
                         ms.setDescription(dirObj.getDescription());
                         ms.setTags(dirObj.getTags());
                         ms.setActive(Boolean.TRUE);
-
+                        
                         //Le asigna el tipo de comunidad y el service provider al micrositio
-                        MicroSiteType mstype=MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSite", wsite);
+                        MicroSiteType mstype=null;
+                        if(pymetype==3) mstype=MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSite", wsite);
+                        else if(pymetype==4) mstype=MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSitePlus", wsite);
                         if(mstype!=null){
                             ms.setType(mstype);
-                            //MiPymeSite mipymeSite=(MiPymeSite)mstype.getSemanticObject().createGenericInstance();
-                            //MiPymeSite mipymeSite = (MiPymeSite)mstype.getMicroSiteClass();
-                            //mipymeSite.setServiceProvider(dirObj);
                         }
 
                         ms.setServiceProvider(dirObj);
@@ -535,6 +535,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         }
                         fichero = new File(basepath + value);
 
+
                         ServiceProvider dirObj = (ServiceProvider) sobj.createGenericInstance();
                         if (item.getFieldName().equals("dirPhoto"))  {
                             String tmpPhoto=dirObj.getPhoto();
@@ -546,11 +547,6 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                             dirObj.setPhotoLogo(value);
                             File file = new File(basepath + tmpPhoto);
                             file.delete();
-                        }else{
-                              PhotoPyme photoPyme = PhotoPyme.ClassMgr.createPhotoPyme(website);
-                              photoPyme.setPhotoImage(value);
-                              photoPyme.setPhotoSize(fileSize);
-                              photoPyme.setPhotoMimeType(item.getContentType());
                         }
 
                         String ext = "";
