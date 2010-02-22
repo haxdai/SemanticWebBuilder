@@ -1,25 +1,29 @@
 package org.semanticwb.pymtur.base;
 
 
-public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.Activeable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Indexable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,org.semanticwb.model.FilterableClass,org.semanticwb.model.FilterableNode,org.semanticwb.model.Localeable,org.semanticwb.model.Filterable,org.semanticwb.model.Trashable
+public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.FilterableClass,org.semanticwb.model.FilterableNode,org.semanticwb.model.Trashable,org.semanticwb.model.Filterable,org.semanticwb.model.Localeable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Indexable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,org.semanticwb.model.Activeable
 {
-       public static final org.semanticwb.platform.SemanticClass pymtur_Event=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Event");
-       public static final org.semanticwb.platform.SemanticClass pymtur_MiPymeSite=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#MiPymeSite");
+       public static final org.semanticwb.platform.SemanticClass swbcomm_MicroSite=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/community#MicroSite");
        public static final org.semanticwb.platform.SemanticClass pymtur_MiPymeSitePlus=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#MiPymeSitePlus");
        public static final org.semanticwb.platform.SemanticClass pymtur_Nearest=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Nearest");
+       public static final org.semanticwb.platform.SemanticClass pymtur_MiPymeSite=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#MiPymeSite");
        public static final org.semanticwb.platform.SemanticClass pymtur_Instalation=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Instalation");
-       public static final org.semanticwb.platform.SemanticClass pymtur_State=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#State");
-       public static final org.semanticwb.platform.SemanticClass pymtur_SPCategory=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#SPCategory");
+       public static final org.semanticwb.platform.SemanticClass pymtur_Hospedaje=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Hospedaje");
+       public static final org.semanticwb.platform.SemanticClass pymtur_ExperienceRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#ExperienceRef");
+       public static final org.semanticwb.platform.SemanticClass pymtur_ActivityRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#ActivityRef");
+       public static final org.semanticwb.platform.SemanticClass pymtur_Experience=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Experience");
+       public static final org.semanticwb.platform.SemanticClass pymtur_ServiceProvider=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#ServiceProvider");
+       public static final org.semanticwb.platform.SemanticClass pymtur_Region=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Region");
+       public static final org.semanticwb.platform.SemanticClass pymtur_Event=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Event");
+       public static final org.semanticwb.platform.SemanticClass pymtur_RFCable=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#RFCable");
+       public static final org.semanticwb.platform.SemanticClass pymtur_RfcType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#RfcType");
+       public static final org.semanticwb.platform.SemanticClass swbcomm_MicroSiteWebPageUtil=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/community#MicroSiteWebPageUtil");
        public static final org.semanticwb.platform.SemanticClass pymtur_SPType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#SPType");
        public static final org.semanticwb.platform.SemanticClass pymtur_Destination=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Destination");
-       public static final org.semanticwb.platform.SemanticClass pymtur_Hospedaje=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Hospedaje");
        public static final org.semanticwb.platform.SemanticClass pymtur_Service=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Service");
-       public static final org.semanticwb.platform.SemanticClass swbcomm_MicroSite=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/community#MicroSite");
-       public static final org.semanticwb.platform.SemanticClass pymtur_Region=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Region");
-       public static final org.semanticwb.platform.SemanticClass swbcomm_MicroSiteWebPageUtil=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/community#MicroSiteWebPageUtil");
+       public static final org.semanticwb.platform.SemanticClass pymtur_SPCategory=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#SPCategory");
+       public static final org.semanticwb.platform.SemanticClass pymtur_State=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#State");
        public static final org.semanticwb.platform.SemanticClass pymtur_Activity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Activity");
-       public static final org.semanticwb.platform.SemanticClass pymtur_ActivityRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#ActivityRef");
-       public static final org.semanticwb.platform.SemanticClass pymtur_ServiceProvider=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#ServiceProvider");
        public static final org.semanticwb.platform.SemanticClass pymtur_PyMesWebSite=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#PyMesWebSite");
        public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#PyMesWebSite");
     public static class ClassMgr
@@ -168,64 +172,28 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
         super(base);
     }
 
-    public org.semanticwb.pymtur.Event getEvent(String id)
+    public org.semanticwb.portal.community.MicroSite getMicroSite(String id)
     {
-        return org.semanticwb.pymtur.Event.ClassMgr.getEvent(id, this);
+        return org.semanticwb.portal.community.MicroSite.ClassMgr.getMicroSite(id, this);
     }
 
-    public java.util.Iterator<org.semanticwb.pymtur.Event> listEvents()
+    public java.util.Iterator<org.semanticwb.portal.community.MicroSite> listMicroSites()
     {
-        return org.semanticwb.pymtur.Event.ClassMgr.listEvents(this);
+        return org.semanticwb.portal.community.MicroSite.ClassMgr.listMicroSites(this);
     }
 
-    public org.semanticwb.pymtur.Event createEvent(String id)
+    public org.semanticwb.portal.community.MicroSite createMicroSite(String id)
     {
-        return org.semanticwb.pymtur.Event.ClassMgr.createEvent(id,this);
+        return org.semanticwb.portal.community.MicroSite.ClassMgr.createMicroSite(id,this);
     }
 
-    public org.semanticwb.pymtur.Event createEvent()
+    public void removeMicroSite(String id)
     {
-        long id=getSemanticObject().getModel().getCounter(pymtur_Event);
-        return org.semanticwb.pymtur.Event.ClassMgr.createEvent(String.valueOf(id),this);
-    } 
-
-    public void removeEvent(String id)
-    {
-        org.semanticwb.pymtur.Event.ClassMgr.removeEvent(id, this);
+        org.semanticwb.portal.community.MicroSite.ClassMgr.removeMicroSite(id, this);
     }
-    public boolean hasEvent(String id)
+    public boolean hasMicroSite(String id)
     {
-        return org.semanticwb.pymtur.Event.ClassMgr.hasEvent(id, this);
-    }
-
-    public org.semanticwb.pymtur.MiPymeSite getMiPymeSite(String id)
-    {
-        return org.semanticwb.pymtur.MiPymeSite.ClassMgr.getMiPymeSite(id, this);
-    }
-
-    public java.util.Iterator<org.semanticwb.pymtur.MiPymeSite> listMiPymeSites()
-    {
-        return org.semanticwb.pymtur.MiPymeSite.ClassMgr.listMiPymeSites(this);
-    }
-
-    public org.semanticwb.pymtur.MiPymeSite createMiPymeSite(String id)
-    {
-        return org.semanticwb.pymtur.MiPymeSite.ClassMgr.createMiPymeSite(id,this);
-    }
-
-    public org.semanticwb.pymtur.MiPymeSite createMiPymeSite()
-    {
-        long id=getSemanticObject().getModel().getCounter(pymtur_MiPymeSite);
-        return org.semanticwb.pymtur.MiPymeSite.ClassMgr.createMiPymeSite(String.valueOf(id),this);
-    } 
-
-    public void removeMiPymeSite(String id)
-    {
-        org.semanticwb.pymtur.MiPymeSite.ClassMgr.removeMiPymeSite(id, this);
-    }
-    public boolean hasMiPymeSite(String id)
-    {
-        return org.semanticwb.pymtur.MiPymeSite.ClassMgr.hasMiPymeSite(id, this);
+        return org.semanticwb.portal.community.MicroSite.ClassMgr.hasMicroSite(id, this);
     }
 
     public org.semanticwb.pymtur.MiPymeSitePlus getMiPymeSitePlus(String id)
@@ -288,6 +256,36 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
         return org.semanticwb.pymtur.Nearest.ClassMgr.hasNearest(id, this);
     }
 
+    public org.semanticwb.pymtur.MiPymeSite getMiPymeSite(String id)
+    {
+        return org.semanticwb.pymtur.MiPymeSite.ClassMgr.getMiPymeSite(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.pymtur.MiPymeSite> listMiPymeSites()
+    {
+        return org.semanticwb.pymtur.MiPymeSite.ClassMgr.listMiPymeSites(this);
+    }
+
+    public org.semanticwb.pymtur.MiPymeSite createMiPymeSite(String id)
+    {
+        return org.semanticwb.pymtur.MiPymeSite.ClassMgr.createMiPymeSite(id,this);
+    }
+
+    public org.semanticwb.pymtur.MiPymeSite createMiPymeSite()
+    {
+        long id=getSemanticObject().getModel().getCounter(pymtur_MiPymeSite);
+        return org.semanticwb.pymtur.MiPymeSite.ClassMgr.createMiPymeSite(String.valueOf(id),this);
+    } 
+
+    public void removeMiPymeSite(String id)
+    {
+        org.semanticwb.pymtur.MiPymeSite.ClassMgr.removeMiPymeSite(id, this);
+    }
+    public boolean hasMiPymeSite(String id)
+    {
+        return org.semanticwb.pymtur.MiPymeSite.ClassMgr.hasMiPymeSite(id, this);
+    }
+
     public org.semanticwb.pymtur.Instalation getInstalation(String id)
     {
         return org.semanticwb.pymtur.Instalation.ClassMgr.getInstalation(id, this);
@@ -318,52 +316,256 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
         return org.semanticwb.pymtur.Instalation.ClassMgr.hasInstalation(id, this);
     }
 
-    public org.semanticwb.pymtur.State getState(String id)
+    public org.semanticwb.pymtur.Hospedaje getHospedaje(String id)
     {
-        return org.semanticwb.pymtur.State.ClassMgr.getState(id, this);
+        return org.semanticwb.pymtur.Hospedaje.ClassMgr.getHospedaje(id, this);
     }
 
-    public java.util.Iterator<org.semanticwb.pymtur.State> listStates()
+    public java.util.Iterator<org.semanticwb.pymtur.Hospedaje> listHospedajes()
     {
-        return org.semanticwb.pymtur.State.ClassMgr.listStates(this);
+        return org.semanticwb.pymtur.Hospedaje.ClassMgr.listHospedajes(this);
     }
 
-    public org.semanticwb.pymtur.State createState(String id)
+    public org.semanticwb.pymtur.Hospedaje createHospedaje(String id)
     {
-        return org.semanticwb.pymtur.State.ClassMgr.createState(id,this);
+        return org.semanticwb.pymtur.Hospedaje.ClassMgr.createHospedaje(id,this);
     }
 
-    public void removeState(String id)
+    public void removeHospedaje(String id)
     {
-        org.semanticwb.pymtur.State.ClassMgr.removeState(id, this);
+        org.semanticwb.pymtur.Hospedaje.ClassMgr.removeHospedaje(id, this);
     }
-    public boolean hasState(String id)
+    public boolean hasHospedaje(String id)
     {
-        return org.semanticwb.pymtur.State.ClassMgr.hasState(id, this);
-    }
-
-    public org.semanticwb.pymtur.SPCategory getSPCategory(String id)
-    {
-        return org.semanticwb.pymtur.SPCategory.ClassMgr.getSPCategory(id, this);
+        return org.semanticwb.pymtur.Hospedaje.ClassMgr.hasHospedaje(id, this);
     }
 
-    public java.util.Iterator<org.semanticwb.pymtur.SPCategory> listSPCategories()
+    public org.semanticwb.pymtur.ExperienceRef getExperienceRef(String id)
     {
-        return org.semanticwb.pymtur.SPCategory.ClassMgr.listSPCategories(this);
+        return org.semanticwb.pymtur.ExperienceRef.ClassMgr.getExperienceRef(id, this);
     }
 
-    public org.semanticwb.pymtur.SPCategory createSPCategory(String id)
+    public java.util.Iterator<org.semanticwb.pymtur.ExperienceRef> listExperienceRefs()
     {
-        return org.semanticwb.pymtur.SPCategory.ClassMgr.createSPCategory(id,this);
+        return org.semanticwb.pymtur.ExperienceRef.ClassMgr.listExperienceRefs(this);
     }
 
-    public void removeSPCategory(String id)
+    public org.semanticwb.pymtur.ExperienceRef createExperienceRef(String id)
     {
-        org.semanticwb.pymtur.SPCategory.ClassMgr.removeSPCategory(id, this);
+        return org.semanticwb.pymtur.ExperienceRef.ClassMgr.createExperienceRef(id,this);
     }
-    public boolean hasSPCategory(String id)
+
+    public void removeExperienceRef(String id)
     {
-        return org.semanticwb.pymtur.SPCategory.ClassMgr.hasSPCategory(id, this);
+        org.semanticwb.pymtur.ExperienceRef.ClassMgr.removeExperienceRef(id, this);
+    }
+    public boolean hasExperienceRef(String id)
+    {
+        return org.semanticwb.pymtur.ExperienceRef.ClassMgr.hasExperienceRef(id, this);
+    }
+
+    public org.semanticwb.pymtur.ActivityRef getActivityRef(String id)
+    {
+        return org.semanticwb.pymtur.ActivityRef.ClassMgr.getActivityRef(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.pymtur.ActivityRef> listActivityRefs()
+    {
+        return org.semanticwb.pymtur.ActivityRef.ClassMgr.listActivityRefs(this);
+    }
+
+    public org.semanticwb.pymtur.ActivityRef createActivityRef(String id)
+    {
+        return org.semanticwb.pymtur.ActivityRef.ClassMgr.createActivityRef(id,this);
+    }
+
+    public org.semanticwb.pymtur.ActivityRef createActivityRef()
+    {
+        long id=getSemanticObject().getModel().getCounter(pymtur_ActivityRef);
+        return org.semanticwb.pymtur.ActivityRef.ClassMgr.createActivityRef(String.valueOf(id),this);
+    } 
+
+    public void removeActivityRef(String id)
+    {
+        org.semanticwb.pymtur.ActivityRef.ClassMgr.removeActivityRef(id, this);
+    }
+    public boolean hasActivityRef(String id)
+    {
+        return org.semanticwb.pymtur.ActivityRef.ClassMgr.hasActivityRef(id, this);
+    }
+
+    public org.semanticwb.pymtur.Experience getExperience(String id)
+    {
+        return org.semanticwb.pymtur.Experience.ClassMgr.getExperience(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.pymtur.Experience> listExperiences()
+    {
+        return org.semanticwb.pymtur.Experience.ClassMgr.listExperiences(this);
+    }
+
+    public org.semanticwb.pymtur.Experience createExperience(String id)
+    {
+        return org.semanticwb.pymtur.Experience.ClassMgr.createExperience(id,this);
+    }
+
+    public void removeExperience(String id)
+    {
+        org.semanticwb.pymtur.Experience.ClassMgr.removeExperience(id, this);
+    }
+    public boolean hasExperience(String id)
+    {
+        return org.semanticwb.pymtur.Experience.ClassMgr.hasExperience(id, this);
+    }
+
+    public org.semanticwb.pymtur.ServiceProvider getServiceProvider(String id)
+    {
+        return org.semanticwb.pymtur.ServiceProvider.ClassMgr.getServiceProvider(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.pymtur.ServiceProvider> listServiceProviders()
+    {
+        return org.semanticwb.pymtur.ServiceProvider.ClassMgr.listServiceProviders(this);
+    }
+
+    public org.semanticwb.pymtur.ServiceProvider createServiceProvider(String id)
+    {
+        return org.semanticwb.pymtur.ServiceProvider.ClassMgr.createServiceProvider(id,this);
+    }
+
+    public void removeServiceProvider(String id)
+    {
+        org.semanticwb.pymtur.ServiceProvider.ClassMgr.removeServiceProvider(id, this);
+    }
+    public boolean hasServiceProvider(String id)
+    {
+        return org.semanticwb.pymtur.ServiceProvider.ClassMgr.hasServiceProvider(id, this);
+    }
+
+    public org.semanticwb.pymtur.Region getRegion(String id)
+    {
+        return org.semanticwb.pymtur.Region.ClassMgr.getRegion(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.pymtur.Region> listRegions()
+    {
+        return org.semanticwb.pymtur.Region.ClassMgr.listRegions(this);
+    }
+
+    public org.semanticwb.pymtur.Region createRegion(String id)
+    {
+        return org.semanticwb.pymtur.Region.ClassMgr.createRegion(id,this);
+    }
+
+    public void removeRegion(String id)
+    {
+        org.semanticwb.pymtur.Region.ClassMgr.removeRegion(id, this);
+    }
+    public boolean hasRegion(String id)
+    {
+        return org.semanticwb.pymtur.Region.ClassMgr.hasRegion(id, this);
+    }
+
+    public org.semanticwb.pymtur.Event getEvent(String id)
+    {
+        return org.semanticwb.pymtur.Event.ClassMgr.getEvent(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.pymtur.Event> listEvents()
+    {
+        return org.semanticwb.pymtur.Event.ClassMgr.listEvents(this);
+    }
+
+    public org.semanticwb.pymtur.Event createEvent(String id)
+    {
+        return org.semanticwb.pymtur.Event.ClassMgr.createEvent(id,this);
+    }
+
+    public org.semanticwb.pymtur.Event createEvent()
+    {
+        long id=getSemanticObject().getModel().getCounter(pymtur_Event);
+        return org.semanticwb.pymtur.Event.ClassMgr.createEvent(String.valueOf(id),this);
+    } 
+
+    public void removeEvent(String id)
+    {
+        org.semanticwb.pymtur.Event.ClassMgr.removeEvent(id, this);
+    }
+    public boolean hasEvent(String id)
+    {
+        return org.semanticwb.pymtur.Event.ClassMgr.hasEvent(id, this);
+    }
+
+    public org.semanticwb.pymtur.RFCable getRFCable(String id)
+    {
+        return org.semanticwb.pymtur.RFCable.ClassMgr.getRFCable(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.pymtur.RFCable> listRFCables()
+    {
+        return org.semanticwb.pymtur.RFCable.ClassMgr.listRFCables(this);
+    }
+
+    public org.semanticwb.pymtur.RFCable createRFCable(String id)
+    {
+        return org.semanticwb.pymtur.RFCable.ClassMgr.createRFCable(id,this);
+    }
+
+    public void removeRFCable(String id)
+    {
+        org.semanticwb.pymtur.RFCable.ClassMgr.removeRFCable(id, this);
+    }
+    public boolean hasRFCable(String id)
+    {
+        return org.semanticwb.pymtur.RFCable.ClassMgr.hasRFCable(id, this);
+    }
+
+    public org.semanticwb.pymtur.RfcType getRfcType(String id)
+    {
+        return org.semanticwb.pymtur.RfcType.ClassMgr.getRfcType(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.pymtur.RfcType> listRfcTypes()
+    {
+        return org.semanticwb.pymtur.RfcType.ClassMgr.listRfcTypes(this);
+    }
+
+    public org.semanticwb.pymtur.RfcType createRfcType(String id)
+    {
+        return org.semanticwb.pymtur.RfcType.ClassMgr.createRfcType(id,this);
+    }
+
+    public void removeRfcType(String id)
+    {
+        org.semanticwb.pymtur.RfcType.ClassMgr.removeRfcType(id, this);
+    }
+    public boolean hasRfcType(String id)
+    {
+        return org.semanticwb.pymtur.RfcType.ClassMgr.hasRfcType(id, this);
+    }
+
+    public org.semanticwb.portal.community.MicroSiteWebPageUtil getMicroSiteWebPageUtil(String id)
+    {
+        return org.semanticwb.portal.community.MicroSiteWebPageUtil.ClassMgr.getMicroSiteWebPageUtil(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.portal.community.MicroSiteWebPageUtil> listMicroSiteWebPageUtils()
+    {
+        return org.semanticwb.portal.community.MicroSiteWebPageUtil.ClassMgr.listMicroSiteWebPageUtils(this);
+    }
+
+    public org.semanticwb.portal.community.MicroSiteWebPageUtil createMicroSiteWebPageUtil(String id)
+    {
+        return org.semanticwb.portal.community.MicroSiteWebPageUtil.ClassMgr.createMicroSiteWebPageUtil(id,this);
+    }
+
+    public void removeMicroSiteWebPageUtil(String id)
+    {
+        org.semanticwb.portal.community.MicroSiteWebPageUtil.ClassMgr.removeMicroSiteWebPageUtil(id, this);
+    }
+    public boolean hasMicroSiteWebPageUtil(String id)
+    {
+        return org.semanticwb.portal.community.MicroSiteWebPageUtil.ClassMgr.hasMicroSiteWebPageUtil(id, this);
     }
 
     public org.semanticwb.pymtur.SPType getSPType(String id)
@@ -414,30 +616,6 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
         return org.semanticwb.pymtur.Destination.ClassMgr.hasDestination(id, this);
     }
 
-    public org.semanticwb.pymtur.Hospedaje getHospedaje(String id)
-    {
-        return org.semanticwb.pymtur.Hospedaje.ClassMgr.getHospedaje(id, this);
-    }
-
-    public java.util.Iterator<org.semanticwb.pymtur.Hospedaje> listHospedajes()
-    {
-        return org.semanticwb.pymtur.Hospedaje.ClassMgr.listHospedajes(this);
-    }
-
-    public org.semanticwb.pymtur.Hospedaje createHospedaje(String id)
-    {
-        return org.semanticwb.pymtur.Hospedaje.ClassMgr.createHospedaje(id,this);
-    }
-
-    public void removeHospedaje(String id)
-    {
-        org.semanticwb.pymtur.Hospedaje.ClassMgr.removeHospedaje(id, this);
-    }
-    public boolean hasHospedaje(String id)
-    {
-        return org.semanticwb.pymtur.Hospedaje.ClassMgr.hasHospedaje(id, this);
-    }
-
     public org.semanticwb.pymtur.Service getService(String id)
     {
         return org.semanticwb.pymtur.Service.ClassMgr.getService(id, this);
@@ -468,76 +646,52 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
         return org.semanticwb.pymtur.Service.ClassMgr.hasService(id, this);
     }
 
-    public org.semanticwb.portal.community.MicroSite getMicroSite(String id)
+    public org.semanticwb.pymtur.SPCategory getSPCategory(String id)
     {
-        return org.semanticwb.portal.community.MicroSite.ClassMgr.getMicroSite(id, this);
+        return org.semanticwb.pymtur.SPCategory.ClassMgr.getSPCategory(id, this);
     }
 
-    public java.util.Iterator<org.semanticwb.portal.community.MicroSite> listMicroSites()
+    public java.util.Iterator<org.semanticwb.pymtur.SPCategory> listSPCategories()
     {
-        return org.semanticwb.portal.community.MicroSite.ClassMgr.listMicroSites(this);
+        return org.semanticwb.pymtur.SPCategory.ClassMgr.listSPCategories(this);
     }
 
-    public org.semanticwb.portal.community.MicroSite createMicroSite(String id)
+    public org.semanticwb.pymtur.SPCategory createSPCategory(String id)
     {
-        return org.semanticwb.portal.community.MicroSite.ClassMgr.createMicroSite(id,this);
+        return org.semanticwb.pymtur.SPCategory.ClassMgr.createSPCategory(id,this);
     }
 
-    public void removeMicroSite(String id)
+    public void removeSPCategory(String id)
     {
-        org.semanticwb.portal.community.MicroSite.ClassMgr.removeMicroSite(id, this);
+        org.semanticwb.pymtur.SPCategory.ClassMgr.removeSPCategory(id, this);
     }
-    public boolean hasMicroSite(String id)
+    public boolean hasSPCategory(String id)
     {
-        return org.semanticwb.portal.community.MicroSite.ClassMgr.hasMicroSite(id, this);
-    }
-
-    public org.semanticwb.pymtur.Region getRegion(String id)
-    {
-        return org.semanticwb.pymtur.Region.ClassMgr.getRegion(id, this);
+        return org.semanticwb.pymtur.SPCategory.ClassMgr.hasSPCategory(id, this);
     }
 
-    public java.util.Iterator<org.semanticwb.pymtur.Region> listRegions()
+    public org.semanticwb.pymtur.State getState(String id)
     {
-        return org.semanticwb.pymtur.Region.ClassMgr.listRegions(this);
+        return org.semanticwb.pymtur.State.ClassMgr.getState(id, this);
     }
 
-    public org.semanticwb.pymtur.Region createRegion(String id)
+    public java.util.Iterator<org.semanticwb.pymtur.State> listStates()
     {
-        return org.semanticwb.pymtur.Region.ClassMgr.createRegion(id,this);
+        return org.semanticwb.pymtur.State.ClassMgr.listStates(this);
     }
 
-    public void removeRegion(String id)
+    public org.semanticwb.pymtur.State createState(String id)
     {
-        org.semanticwb.pymtur.Region.ClassMgr.removeRegion(id, this);
-    }
-    public boolean hasRegion(String id)
-    {
-        return org.semanticwb.pymtur.Region.ClassMgr.hasRegion(id, this);
+        return org.semanticwb.pymtur.State.ClassMgr.createState(id,this);
     }
 
-    public org.semanticwb.portal.community.MicroSiteWebPageUtil getMicroSiteWebPageUtil(String id)
+    public void removeState(String id)
     {
-        return org.semanticwb.portal.community.MicroSiteWebPageUtil.ClassMgr.getMicroSiteWebPageUtil(id, this);
+        org.semanticwb.pymtur.State.ClassMgr.removeState(id, this);
     }
-
-    public java.util.Iterator<org.semanticwb.portal.community.MicroSiteWebPageUtil> listMicroSiteWebPageUtils()
+    public boolean hasState(String id)
     {
-        return org.semanticwb.portal.community.MicroSiteWebPageUtil.ClassMgr.listMicroSiteWebPageUtils(this);
-    }
-
-    public org.semanticwb.portal.community.MicroSiteWebPageUtil createMicroSiteWebPageUtil(String id)
-    {
-        return org.semanticwb.portal.community.MicroSiteWebPageUtil.ClassMgr.createMicroSiteWebPageUtil(id,this);
-    }
-
-    public void removeMicroSiteWebPageUtil(String id)
-    {
-        org.semanticwb.portal.community.MicroSiteWebPageUtil.ClassMgr.removeMicroSiteWebPageUtil(id, this);
-    }
-    public boolean hasMicroSiteWebPageUtil(String id)
-    {
-        return org.semanticwb.portal.community.MicroSiteWebPageUtil.ClassMgr.hasMicroSiteWebPageUtil(id, this);
+        return org.semanticwb.pymtur.State.ClassMgr.hasState(id, this);
     }
 
     public org.semanticwb.pymtur.Activity getActivity(String id)
@@ -562,59 +716,5 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
     public boolean hasActivity(String id)
     {
         return org.semanticwb.pymtur.Activity.ClassMgr.hasActivity(id, this);
-    }
-
-    public org.semanticwb.pymtur.ActivityRef getActivityRef(String id)
-    {
-        return org.semanticwb.pymtur.ActivityRef.ClassMgr.getActivityRef(id, this);
-    }
-
-    public java.util.Iterator<org.semanticwb.pymtur.ActivityRef> listActivityRefs()
-    {
-        return org.semanticwb.pymtur.ActivityRef.ClassMgr.listActivityRefs(this);
-    }
-
-    public org.semanticwb.pymtur.ActivityRef createActivityRef(String id)
-    {
-        return org.semanticwb.pymtur.ActivityRef.ClassMgr.createActivityRef(id,this);
-    }
-
-    public org.semanticwb.pymtur.ActivityRef createActivityRef()
-    {
-        long id=getSemanticObject().getModel().getCounter(pymtur_ActivityRef);
-        return org.semanticwb.pymtur.ActivityRef.ClassMgr.createActivityRef(String.valueOf(id),this);
-    } 
-
-    public void removeActivityRef(String id)
-    {
-        org.semanticwb.pymtur.ActivityRef.ClassMgr.removeActivityRef(id, this);
-    }
-    public boolean hasActivityRef(String id)
-    {
-        return org.semanticwb.pymtur.ActivityRef.ClassMgr.hasActivityRef(id, this);
-    }
-
-    public org.semanticwb.pymtur.ServiceProvider getServiceProvider(String id)
-    {
-        return org.semanticwb.pymtur.ServiceProvider.ClassMgr.getServiceProvider(id, this);
-    }
-
-    public java.util.Iterator<org.semanticwb.pymtur.ServiceProvider> listServiceProviders()
-    {
-        return org.semanticwb.pymtur.ServiceProvider.ClassMgr.listServiceProviders(this);
-    }
-
-    public org.semanticwb.pymtur.ServiceProvider createServiceProvider(String id)
-    {
-        return org.semanticwb.pymtur.ServiceProvider.ClassMgr.createServiceProvider(id,this);
-    }
-
-    public void removeServiceProvider(String id)
-    {
-        org.semanticwb.pymtur.ServiceProvider.ClassMgr.removeServiceProvider(id, this);
-    }
-    public boolean hasServiceProvider(String id)
-    {
-        return org.semanticwb.pymtur.ServiceProvider.ClassMgr.hasServiceProvider(id, this);
     }
 }
