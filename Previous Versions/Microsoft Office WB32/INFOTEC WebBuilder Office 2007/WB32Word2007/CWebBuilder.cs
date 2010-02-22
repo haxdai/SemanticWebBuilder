@@ -482,6 +482,69 @@ namespace WBWord
 			//valida nombre
 			if(ValidaNombre(fname))
 			{
+                foreach (Word.InlineShape shape in doc.InlineShapes)
+                {                    
+                    if (shape.Type == Word.WdInlineShapeType.wdInlineShapeOLEControlObject && shape.OLEFormat != null && shape.OLEFormat.ClassType.StartsWith("ShockwaveFlash.ShockwaveFlash"))
+                    {
+                        DialogResult res=MessageBox.Show("¡Tiene un control de flash insertado, si no lo habilita, este no será publicado!"+"\r\n"+"¿Desea continuar?", resources.GetString("Global.title"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (res == DialogResult.No)
+                        {
+                            return CWebBuilder.user;
+                        }
+                    }                    
+                }
+                String xml = doc.WordOpenXML;
+                XmlDocument docopenXml = new XmlDocument();
+                docopenXml.LoadXml(xml);
+                Debug.WriteLine(docopenXml.OuterXml);
+                XmlNamespaceManager manager = new XmlNamespaceManager(docopenXml.NameTable);
+                //XmlNodeList nodes = docopenXml.GetElementsByTagName("ocxPr", "http://schemas.microsoft.com/office/2006/activeX");                                
+                string prefix = manager.LookupPrefix("http://schemas.microsoft.com/office/2006/activeX");
+                String snamespace = manager.LookupNamespace("ax");
+                if (prefix == null)
+                {
+                    prefix = "ax";
+                    manager.AddNamespace(prefix, "http://schemas.microsoft.com/office/2006/activeX");
+                }
+                prefix = manager.LookupPrefix("http://schemas.microsoft.com/office/2006/xmlPackage");
+                if (prefix == null)
+                {
+                    prefix = "pkg";
+                    manager.AddNamespace(prefix, "http://schemas.microsoft.com/office/2006/xmlPackage");
+                }
+                XmlNodeList nodes = docopenXml.SelectNodes("//pkg:xmlData/ax:ocx/ax:ocxPr", manager);
+                foreach (XmlNode node in nodes)
+                {
+                    if (node is XmlElement)
+                    {
+                        XmlElement ocxPr = (XmlElement)node;
+                        String nameatt = ocxPr.GetAttribute("name", "http://schemas.microsoft.com/office/2006/activeX");
+                        if (nameatt != null && (nameatt.ToLower().Equals("src") || nameatt.ToLower().Equals("movie")))
+                        {
+                            String value = ocxPr.GetAttribute("value", "http://schemas.microsoft.com/office/2006/activeX");
+                            if (value != null && value.ToLower().EndsWith(".swf"))
+                            {
+                                String archivo = value;
+                                System.Uri basepath = new System.Uri(doc.Path + "\\");
+                                System.Uri filepath = new System.Uri(basepath, archivo);
+                                if (filepath.IsFile)
+                                {
+                                    FileInfo farchivo = new FileInfo(filepath.LocalPath);
+                                    if (farchivo.Extension.IndexOf(".") != -1)
+                                    {
+                                        if (!this.ValidaNombre(farchivo))
+                                        {
+                                            FrmDetalleDoc frmresumen = new FrmDetalleDoc();
+                                            frmresumen.ShowDialog();
+                                            return CWebBuilder.user;
+                                        }
+                                        imagenes.Add(farchivo);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
 				CUserAdmin usertemp=CWebBuilder.user;
 				int pos=fname.Name.IndexOf(fname.Extension);
 				String name=fname.Name.Substring(0,pos);
@@ -535,6 +598,11 @@ namespace WBWord
 					}	
 				}
 				catch{}
+
+                
+
+
+
 				foreach(Word.Hyperlink link in  doc.Hyperlinks )
 				{				
 					try
@@ -566,8 +634,9 @@ namespace WBWord
 					}
 					catch{}
 				}
-				//doc.SaveAs(ref strpathHtml,ref objformat ,ref missing,ref missing,ref objfalse,ref missing,ref missing,ref missing,ref missing,ref missing,ref missing);
-                // verifica si es docx
+
+                
+				
                 
                 if (filedocx.Extension.Equals(".docx",StringComparison.CurrentCultureIgnoreCase) || SaveFormat == 12)
                 {

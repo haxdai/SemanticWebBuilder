@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.IO;
 using System.Net;
+using System.Xml;
 using System.Diagnostics;
 using WBOffice3;
 using Word = Microsoft.Office.Interop.Word;
@@ -99,8 +100,93 @@ namespace WBWord
 			{
 				itemdoc.ImageIndex=1;
 			}
+            foreach (Word.InlineShape shape in CWebBuilder.doc.InlineShapes)
+            {
+                if (shape.Type == Word.WdInlineShapeType.wdInlineShapeOLEControlObject && shape.OLEFormat != null && shape.OLEFormat.ClassType.StartsWith("ShockwaveFlash.ShockwaveFlash"))
+                {
+                    MessageBox.Show("¡Tiene un control de flash insertado, si no lo habilita, este no será mostrado en el detalle de documento!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            String xml = CWebBuilder.doc.WordOpenXML;
+            XmlDocument docopenXml = new XmlDocument();
+            docopenXml.LoadXml(xml);
+            Debug.WriteLine(docopenXml.OuterXml);
+            XmlNamespaceManager manager = new XmlNamespaceManager(docopenXml.NameTable);
+            //XmlNodeList nodes = docopenXml.GetElementsByTagName("ocxPr", "http://schemas.microsoft.com/office/2006/activeX");                                
+            string prefix = manager.LookupPrefix("http://schemas.microsoft.com/office/2006/activeX");
+            String snamespace = manager.LookupNamespace("ax");
+            if (prefix == null)
+            {
+                prefix = "ax";
+                manager.AddNamespace(prefix, "http://schemas.microsoft.com/office/2006/activeX");
+            }
+            prefix = manager.LookupPrefix("http://schemas.microsoft.com/office/2006/xmlPackage");
+            if (prefix == null)
+            {
+                prefix = "pkg";
+                manager.AddNamespace(prefix, "http://schemas.microsoft.com/office/2006/xmlPackage");
+            }
+            XmlNodeList nodes = docopenXml.SelectNodes("//pkg:xmlData/ax:ocx/ax:ocxPr", manager);
+            foreach (XmlNode node in nodes)
+            {
+                if (node is XmlElement)
+                {
+                    XmlElement ocxPr = (XmlElement)node;
+                    String nameatt = ocxPr.GetAttribute("name", "http://schemas.microsoft.com/office/2006/activeX");
+                    if (nameatt != null && nameatt.ToLower().Equals("src"))
+                    {
+                        String value = ocxPr.GetAttribute("value", "http://schemas.microsoft.com/office/2006/activeX");
+                        if (value != null && value.ToLower().EndsWith(".swf"))
+                        {
+                            String archivo = value;
+                            System.Uri basepath = new System.Uri(CWebBuilder.doc.FullName);
+                            System.Uri filepath = new System.Uri(basepath, archivo);
+                            if (filepath.IsFile)
+                            {
+                                FileInfo farchivo = new FileInfo(filepath.LocalPath);                                
+                                if (farchivo.Exists)
+                                {
+                                    long tam = (farchivo.Length / 1024);
+                                    if (tam == 0)
+                                    {
+                                        tam++;
+                                    }
+                                    String stam = tam + " KB";
+                                    string[] items = new string[5];
+                                    items[0] = farchivo.Name;
+                                    items[1] = farchivo.Directory.FullName;
+                                    items[2] = stam;
+                                    items[3] = resources.GetString("FrmDetalleDoc.si");
+                                    items[4] = ValidaNombre(farchivo);
+                                    System.Windows.Forms.ListViewItem item = new ListViewItem(items);
+                                    item.ImageIndex = 1;
+                                    if (items[4] != resources.GetString("FrmDetalleDoc.msg8"))
+                                    {
+                                        item.ImageIndex = 0;
+                                    }
+                                    this.listView2.Items.Add(item);
 
+                                }
+                                else
+                                {
+                                    int tam = 0;
+                                    String stam = tam + " KB";
+                                    string[] items = new string[5];
+                                    items[0] = farchivo.Name;
+                                    items[1] = farchivo.Directory.FullName;
+                                    items[2] = stam;
+                                    items[3] = resources.GetString("FrmDetalleDoc.no");
+                                    items[4] = ValidaNombre(farchivo);
+                                    System.Windows.Forms.ListViewItem item = new ListViewItem(items);
+                                    item.ImageIndex = 0;
+                                    this.listView2.Items.Add(item);
 
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
 			foreach(Word.Hyperlink link in  CWebBuilder.doc.Hyperlinks )
 			{
