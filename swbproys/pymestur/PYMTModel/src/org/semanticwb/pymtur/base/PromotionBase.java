@@ -98,16 +98,6 @@ public abstract class PromotionBase extends org.semanticwb.model.SWBClass implem
         getSemanticObject().setProperty(pymtur_promoPeriod, value);
     }
 
-    public String getIconClass()
-    {
-        return getSemanticObject().getProperty(swb_iconClass);
-    }
-
-    public void setIconClass(String value)
-    {
-        getSemanticObject().setProperty(swb_iconClass, value);
-    }
-
     public String getTitle()
     {
         return getSemanticObject().getProperty(swb_title);
@@ -131,6 +121,16 @@ public abstract class PromotionBase extends org.semanticwb.model.SWBClass implem
     public void setTitle(String title, String lang)
     {
         getSemanticObject().setProperty(swb_title, title, lang);
+    }
+
+    public String getIconClass()
+    {
+        return getSemanticObject().getProperty(swb_iconClass);
+    }
+
+    public void setIconClass(String value)
+    {
+        getSemanticObject().setProperty(swb_iconClass, value);
     }
 
     public String getDescription()

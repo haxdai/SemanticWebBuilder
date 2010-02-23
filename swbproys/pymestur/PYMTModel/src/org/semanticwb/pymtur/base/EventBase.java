@@ -3,6 +3,8 @@ package org.semanticwb.pymtur.base;
 
 public abstract class EventBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Resourceable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableClass,org.semanticwb.model.RuleRefable,org.semanticwb.model.Expirable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Indexable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Traceable,org.semanticwb.model.Activeable,org.semanticwb.model.Viewable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Hiddenable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Rankable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Trashable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Referensable,org.semanticwb.model.Searchable
 {
+       public static final org.semanticwb.platform.SemanticClass pymtur_Destination=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Destination");
+       public static final org.semanticwb.platform.SemanticProperty pymtur_hasDestinationEventInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#hasDestinationEventInv");
        public static final org.semanticwb.platform.SemanticClass pymtur_Event=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Event");
        public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Event");
     public static class ClassMgr
@@ -54,6 +56,17 @@ public abstract class EventBase extends org.semanticwb.model.WebPage implements 
    public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByAssMember(org.semanticwb.model.AssMember hasassmemberinv)
    {
        org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(hasassmemberinv.getSemanticObject().getModel().listSubjects(swb_hasAssMemberInv,hasassmemberinv.getSemanticObject()));
+       return it;
+   }
+   public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByDestinationEventInv(org.semanticwb.pymtur.Destination hasdestinationeventinv,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(pymtur_hasDestinationEventInv, hasdestinationeventinv.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByDestinationEventInv(org.semanticwb.pymtur.Destination hasdestinationeventinv)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(hasdestinationeventinv.getSemanticObject().getModel().listSubjects(pymtur_hasDestinationEventInv,hasdestinationeventinv.getSemanticObject()));
        return it;
    }
    public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByVirtualParent(org.semanticwb.model.WebPage haswebpagevirtualparent,org.semanticwb.model.SWBModel model)
@@ -226,6 +239,29 @@ public abstract class EventBase extends org.semanticwb.model.WebPage implements 
     public EventBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Destination> listDestinationEventInvs()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Destination>(getSemanticObject().listObjectProperties(pymtur_hasDestinationEventInv));
+    }
+
+    public boolean hasDestinationEventInv(org.semanticwb.pymtur.Destination destination)
+    {
+        if(destination==null)return false;
+        return getSemanticObject().hasObjectProperty(pymtur_hasDestinationEventInv,destination.getSemanticObject());
+    }
+
+
+    public org.semanticwb.pymtur.Destination getDestinationEventInv()
+    {
+         org.semanticwb.pymtur.Destination ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(pymtur_hasDestinationEventInv);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.pymtur.Destination)obj.createGenericInstance();
+         }
+         return ret;
     }
 
     public org.semanticwb.pymtur.PyMesWebSite getPyMesWebSite()
