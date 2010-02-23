@@ -184,12 +184,12 @@
             // columnHeader1
             // 
             this.columnHeader1.Text = "Archivo";
-            this.columnHeader1.Width = 120;
+            this.columnHeader1.Width = 200;
             // 
             // columnHeader2
             // 
             this.columnHeader2.Text = "Fecha";
-            this.columnHeader2.Width = 100;
+            this.columnHeader2.Width = 120;
             // 
             // FrmInsertDocumentRepository
             // 
