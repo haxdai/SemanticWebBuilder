@@ -17,6 +17,8 @@ namespace WBWord
             this.id = id;
             this.repositoryid = repositoryid;
             this.tpc = tpc;
+            this.SelectedImageIndex = 1;
+            this.ImageIndex = 0;
         }
         public String TopicResource
         {
