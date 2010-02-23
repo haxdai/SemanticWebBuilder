@@ -168,7 +168,8 @@ namespace WBWord
                     {
                         String text = child.GetAttribute("title");
                         String id = child.GetAttribute("id");
-                        FolderRepository folder = new FolderRepository(text, id, siteid, repid);
+                        String tpc = child.GetAttribute("tpc");
+                        FolderRepository folder = new FolderRepository(text, id, siteid, repid,tpc);
                         folderparent.Nodes.Add(folder);
                         String childs = child.GetAttribute("childs");
                         if (childs.Equals("1"))

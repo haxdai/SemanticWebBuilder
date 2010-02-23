@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmInsertDocumentRepository));
             this.panel1 = new System.Windows.Forms.Panel();
             this.buttonInsert = new System.Windows.Forms.Button();
             this.buttonClose = new System.Windows.Forms.Button();
@@ -41,6 +43,7 @@
             this.listViewFiles = new System.Windows.Forms.ListView();
             this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -148,8 +151,11 @@
             // treeViewfolders
             // 
             this.treeViewfolders.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeViewfolders.ImageIndex = 0;
+            this.treeViewfolders.ImageList = this.imageList1;
             this.treeViewfolders.Location = new System.Drawing.Point(0, 0);
             this.treeViewfolders.Name = "treeViewfolders";
+            this.treeViewfolders.SelectedImageIndex = 0;
             this.treeViewfolders.Size = new System.Drawing.Size(205, 343);
             this.treeViewfolders.TabIndex = 0;
             this.treeViewfolders.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewfolders_BeforeExpand);
@@ -177,6 +183,13 @@
             // 
             this.columnHeader2.Text = "Fecha";
             this.columnHeader2.Width = 100;
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "close.png");
+            this.imageList1.Images.SetKeyName(1, "open.png");
             // 
             // FrmInsertDocumentRepository
             // 
@@ -216,5 +229,6 @@
         private System.Windows.Forms.ListView listViewFiles;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.ImageList imageList1;
     }
 }
