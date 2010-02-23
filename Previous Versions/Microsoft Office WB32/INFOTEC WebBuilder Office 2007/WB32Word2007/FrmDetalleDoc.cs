@@ -100,12 +100,18 @@ namespace WBWord
 			{
 				itemdoc.ImageIndex=1;
 			}
+            int countFlash = 0;
             foreach (Word.InlineShape shape in CWebBuilder.doc.InlineShapes)
             {
                 if (shape.Type == Word.WdInlineShapeType.wdInlineShapeOLEControlObject && shape.OLEFormat != null && shape.OLEFormat.ClassType.StartsWith("ShockwaveFlash.ShockwaveFlash"))
                 {
-                    MessageBox.Show("¡Tiene un control de flash insertado, si no lo habilita, este no será mostrado en el detalle de documento!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    countFlash++;
+                    
                 }
+            }
+            if (countFlash > 0)
+            {
+                MessageBox.Show("¡Tiene uno o más controles de flash insertados, si no los habilitan, estos no seran considerados en este detalle!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             String xml = CWebBuilder.doc.WordOpenXML;
             XmlDocument docopenXml = new XmlDocument();

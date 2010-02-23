@@ -482,16 +482,22 @@ namespace WBWord
 			//valida nombre
 			if(ValidaNombre(fname))
 			{
+                int countFlash = 0;
                 foreach (Word.InlineShape shape in doc.InlineShapes)
                 {                    
                     if (shape.Type == Word.WdInlineShapeType.wdInlineShapeOLEControlObject && shape.OLEFormat != null && shape.OLEFormat.ClassType.StartsWith("ShockwaveFlash.ShockwaveFlash"))
                     {
-                        DialogResult res=MessageBox.Show("¡Tiene un control de flash insertado, si no lo habilita, este no será publicado!"+"\r\n"+"¿Desea continuar?", resources.GetString("Global.title"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                        if (res == DialogResult.No)
-                        {
-                            return CWebBuilder.user;
-                        }
+                        countFlash++;
+                        
                     }                    
+                }
+                if (countFlash > 0)
+                {
+                    DialogResult res = MessageBox.Show("¡Tiene uno o más controles de flash insertados, si no los habilitan, estos no seran publicados!" + "\r\n" + "¿Desea continuar?", resources.GetString("Global.title"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (res == DialogResult.No)
+                    {
+                        return CWebBuilder.user;
+                    }
                 }
                 String xml = doc.WordOpenXML;
                 XmlDocument docopenXml = new XmlDocument();
