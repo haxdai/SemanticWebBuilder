@@ -40,10 +40,10 @@
             this.comboBoxSite = new System.Windows.Forms.ComboBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeViewfolders = new System.Windows.Forms.TreeView();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.listViewFiles = new System.Windows.Forms.ListView();
             this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -161,6 +161,13 @@
             this.treeViewfolders.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeViewfolders_BeforeExpand);
             this.treeViewfolders.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewfolders_AfterSelect);
             // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "close.png");
+            this.imageList1.Images.SetKeyName(1, "open.png");
+            // 
             // listViewFiles
             // 
             this.listViewFiles.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -184,13 +191,6 @@
             this.columnHeader2.Text = "Fecha";
             this.columnHeader2.Width = 100;
             // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "close.png");
-            this.imageList1.Images.SetKeyName(1, "open.png");
-            // 
             // FrmInsertDocumentRepository
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -203,6 +203,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmInsertDocumentRepository";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Insertar documento de repositorio de documentos";
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
