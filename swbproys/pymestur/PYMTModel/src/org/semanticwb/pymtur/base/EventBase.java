@@ -1,7 +1,7 @@
 package org.semanticwb.pymtur.base;
 
 
-public abstract class EventBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+public abstract class EventBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Resourceable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableClass,org.semanticwb.model.RuleRefable,org.semanticwb.model.Expirable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Indexable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Traceable,org.semanticwb.model.Activeable,org.semanticwb.model.Viewable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Hiddenable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Rankable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Trashable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Referensable,org.semanticwb.model.Searchable
 {
        public static final org.semanticwb.platform.SemanticClass pymtur_Event=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Event");
        public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Event");
@@ -45,15 +45,48 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
        {
            return (getEvent(id, model)!=null);
        }
-   public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByModifiedBy(org.semanticwb.model.User modifiedby,org.semanticwb.model.SWBModel model)
+   public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByAssMember(org.semanticwb.model.AssMember hasassmemberinv,org.semanticwb.model.SWBModel model)
    {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_modifiedBy, modifiedby.getSemanticObject()));
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasAssMemberInv, hasassmemberinv.getSemanticObject()));
        return it;
    }
 
-   public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByModifiedBy(org.semanticwb.model.User modifiedby)
+   public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByAssMember(org.semanticwb.model.AssMember hasassmemberinv)
    {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(modifiedby.getSemanticObject().getModel().listSubjects(swb_modifiedBy,modifiedby.getSemanticObject()));
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(hasassmemberinv.getSemanticObject().getModel().listSubjects(swb_hasAssMemberInv,hasassmemberinv.getSemanticObject()));
+       return it;
+   }
+   public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByVirtualParent(org.semanticwb.model.WebPage haswebpagevirtualparent,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasWebPageVirtualParent, haswebpagevirtualparent.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByVirtualParent(org.semanticwb.model.WebPage haswebpagevirtualparent)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(haswebpagevirtualparent.getSemanticObject().getModel().listSubjects(swb_hasWebPageVirtualParent,haswebpagevirtualparent.getSemanticObject()));
+       return it;
+   }
+   public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByCalendarRef(org.semanticwb.model.CalendarRef hascalendarref,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasCalendarRef, hascalendarref.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByCalendarRef(org.semanticwb.model.CalendarRef hascalendarref)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(hascalendarref.getSemanticObject().getModel().listSubjects(swb_hasCalendarRef,hascalendarref.getSemanticObject()));
+       return it;
+   }
+   public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByParent(org.semanticwb.model.WebPage webpageparent,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_webPageParent, webpageparent.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByParent(org.semanticwb.model.WebPage webpageparent)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(webpageparent.getSemanticObject().getModel().listSubjects(swb_webPageParent,webpageparent.getSemanticObject()));
        return it;
    }
    public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByCreator(org.semanticwb.model.User creator,org.semanticwb.model.SWBModel model)
@@ -67,125 +100,132 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
        org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(creator.getSemanticObject().getModel().listSubjects(swb_creator,creator.getSemanticObject()));
        return it;
    }
+   public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByUserGroupRef(org.semanticwb.model.UserGroupRef hasusergroupref,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasUserGroupRef, hasusergroupref.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByUserGroupRef(org.semanticwb.model.UserGroupRef hasusergroupref)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(hasusergroupref.getSemanticObject().getModel().listSubjects(swb_hasUserGroupRef,hasusergroupref.getSemanticObject()));
+       return it;
+   }
+   public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByWebPageVirtualChild(org.semanticwb.model.WebPage haswebpagevirtualchild,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasWebPageVirtualChild, haswebpagevirtualchild.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByWebPageVirtualChild(org.semanticwb.model.WebPage haswebpagevirtualchild)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(haswebpagevirtualchild.getSemanticObject().getModel().listSubjects(swb_hasWebPageVirtualChild,haswebpagevirtualchild.getSemanticObject()));
+       return it;
+   }
+   public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByTemplateRef(org.semanticwb.model.TemplateRef hastemplateref,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasTemplateRef, hastemplateref.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByTemplateRef(org.semanticwb.model.TemplateRef hastemplateref)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(hastemplateref.getSemanticObject().getModel().listSubjects(swb_hasTemplateRef,hastemplateref.getSemanticObject()));
+       return it;
+   }
+   public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByPFlowRef(org.semanticwb.model.PFlowRef haspflowref,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasPFlowRef, haspflowref.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByPFlowRef(org.semanticwb.model.PFlowRef haspflowref)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(haspflowref.getSemanticObject().getModel().listSubjects(swb_hasPFlowRef,haspflowref.getSemanticObject()));
+       return it;
+   }
+   public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByChild(org.semanticwb.model.WebPage haswebpagechild,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasWebPageChild, haswebpagechild.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByChild(org.semanticwb.model.WebPage haswebpagechild)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(haswebpagechild.getSemanticObject().getModel().listSubjects(swb_hasWebPageChild,haswebpagechild.getSemanticObject()));
+       return it;
+   }
+   public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByModifiedBy(org.semanticwb.model.User modifiedby,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_modifiedBy, modifiedby.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByModifiedBy(org.semanticwb.model.User modifiedby)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(modifiedby.getSemanticObject().getModel().listSubjects(swb_modifiedBy,modifiedby.getSemanticObject()));
+       return it;
+   }
+   public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByResource(org.semanticwb.model.Resource hasresource,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasResource, hasresource.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByResource(org.semanticwb.model.Resource hasresource)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(hasresource.getSemanticObject().getModel().listSubjects(swb_hasResource,hasresource.getSemanticObject()));
+       return it;
+   }
+   public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByRoleRef(org.semanticwb.model.RoleRef hasroleref,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasRoleRef, hasroleref.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByRoleRef(org.semanticwb.model.RoleRef hasroleref)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(hasroleref.getSemanticObject().getModel().listSubjects(swb_hasRoleRef,hasroleref.getSemanticObject()));
+       return it;
+   }
+   public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByThisRoleAssMember(org.semanticwb.model.AssMember hasthisroleassmemberinv,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasThisRoleAssMemberInv, hasthisroleassmemberinv.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByThisRoleAssMember(org.semanticwb.model.AssMember hasthisroleassmemberinv)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(hasthisroleassmemberinv.getSemanticObject().getModel().listSubjects(swb_hasThisRoleAssMemberInv,hasthisroleassmemberinv.getSemanticObject()));
+       return it;
+   }
+   public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByRuleRef(org.semanticwb.model.RuleRef hasruleref,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasRuleRef, hasruleref.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByRuleRef(org.semanticwb.model.RuleRef hasruleref)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(hasruleref.getSemanticObject().getModel().listSubjects(swb_hasRuleRef,hasruleref.getSemanticObject()));
+       return it;
+   }
+   public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByThisTypeAssociation(org.semanticwb.model.Association hasthistypeassociationinv,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasThisTypeAssociationInv, hasthistypeassociationinv.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.Event> listEventByThisTypeAssociation(org.semanticwb.model.Association hasthistypeassociationinv)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Event> it=new org.semanticwb.model.GenericIterator(hasthistypeassociationinv.getSemanticObject().getModel().listSubjects(swb_hasThisTypeAssociationInv,hasthistypeassociationinv.getSemanticObject()));
+       return it;
+   }
     }
 
     public EventBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
-    }
-
-    public java.util.Date getCreated()
-    {
-        return getSemanticObject().getDateProperty(swb_created);
-    }
-
-    public void setCreated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_created, value);
-    }
-
-    public void setModifiedBy(org.semanticwb.model.User value)
-    {
-        getSemanticObject().setObjectProperty(swb_modifiedBy, value.getSemanticObject());
-    }
-
-    public void removeModifiedBy()
-    {
-        getSemanticObject().removeProperty(swb_modifiedBy);
-    }
-
-
-    public org.semanticwb.model.User getModifiedBy()
-    {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_modifiedBy);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
-    }
-
-    public String getTitle()
-    {
-        return getSemanticObject().getProperty(swb_title);
-    }
-
-    public void setTitle(String value)
-    {
-        getSemanticObject().setProperty(swb_title, value);
-    }
-
-    public String getTitle(String lang)
-    {
-        return getSemanticObject().getProperty(swb_title, null, lang);
-    }
-
-    public String getDisplayTitle(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_title, lang);
-    }
-
-    public void setTitle(String title, String lang)
-    {
-        getSemanticObject().setProperty(swb_title, title, lang);
-    }
-
-    public java.util.Date getUpdated()
-    {
-        return getSemanticObject().getDateProperty(swb_updated);
-    }
-
-    public void setUpdated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_updated, value);
-    }
-
-    public void setCreator(org.semanticwb.model.User value)
-    {
-        getSemanticObject().setObjectProperty(swb_creator, value.getSemanticObject());
-    }
-
-    public void removeCreator()
-    {
-        getSemanticObject().removeProperty(swb_creator);
-    }
-
-
-    public org.semanticwb.model.User getCreator()
-    {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_creator);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
-    }
-
-    public String getDescription()
-    {
-        return getSemanticObject().getProperty(swb_description);
-    }
-
-    public void setDescription(String value)
-    {
-        getSemanticObject().setProperty(swb_description, value);
-    }
-
-    public String getDescription(String lang)
-    {
-        return getSemanticObject().getProperty(swb_description, null, lang);
-    }
-
-    public String getDisplayDescription(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_description, lang);
-    }
-
-    public void setDescription(String description, String lang)
-    {
-        getSemanticObject().setProperty(swb_description, description, lang);
     }
 
     public org.semanticwb.pymtur.PyMesWebSite getPyMesWebSite()

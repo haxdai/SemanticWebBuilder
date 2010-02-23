@@ -389,11 +389,13 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     dirObj.setDirectoryResource(this);
                     dirObj.setWebPage(response.getWebPage());
 
+                    String refirect=null;
                     if(request.getParameter("destination")!=null) {
                         WebPage wdestination=wsite.getWebPage(request.getParameter("destination"));
                         if(wdestination!=null && wdestination instanceof Destination){
                             Destination dest=(Destination)wdestination;
                             dirObj.setDestination(dest);
+                            refirect=dest.getUrl();
                         }
                     }
                     if(request.getParameter("destinationSec")!=null) {
@@ -401,6 +403,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         if(wdestination!=null && wdestination instanceof Destination){
                             Destination dest=(Destination)wdestination;
                             dirObj.setDestinationSec(dest);
+                            if(refirect==null) refirect=dest.getUrl();
                         }
                     }
                     int pymetype=1;
@@ -444,6 +447,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                             }
                         }
                     }
+                    if(refirect!=null) response.sendRedirect(refirect); //Redirecciona al destino en el que se generó la pyme
                 }
                 catch (FormValidateException e)
                 {

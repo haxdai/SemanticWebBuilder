@@ -7,6 +7,7 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
        public static final org.semanticwb.platform.SemanticClass pymtur_MiPymeSitePlus=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#MiPymeSitePlus");
        public static final org.semanticwb.platform.SemanticClass pymtur_Nearest=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Nearest");
        public static final org.semanticwb.platform.SemanticClass pymtur_MiPymeSite=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#MiPymeSite");
+       public static final org.semanticwb.platform.SemanticClass pymtur_TourismType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#TourismType");
        public static final org.semanticwb.platform.SemanticClass pymtur_Instalation=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Instalation");
        public static final org.semanticwb.platform.SemanticClass pymtur_Hospedaje=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Hospedaje");
        public static final org.semanticwb.platform.SemanticClass pymtur_ExperienceRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#ExperienceRef");
@@ -18,11 +19,13 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
        public static final org.semanticwb.platform.SemanticClass pymtur_RFCable=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#RFCable");
        public static final org.semanticwb.platform.SemanticClass pymtur_RfcType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#RfcType");
        public static final org.semanticwb.platform.SemanticClass swbcomm_MicroSiteWebPageUtil=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/community#MicroSiteWebPageUtil");
+       public static final org.semanticwb.platform.SemanticClass pymtur_EventType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#EventType");
        public static final org.semanticwb.platform.SemanticClass pymtur_SPType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#SPType");
        public static final org.semanticwb.platform.SemanticClass pymtur_Destination=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Destination");
        public static final org.semanticwb.platform.SemanticClass pymtur_Service=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Service");
        public static final org.semanticwb.platform.SemanticClass pymtur_SPCategory=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#SPCategory");
        public static final org.semanticwb.platform.SemanticClass pymtur_State=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#State");
+       public static final org.semanticwb.platform.SemanticClass pymtur_ActivityType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#ActivityType");
        public static final org.semanticwb.platform.SemanticClass pymtur_Activity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Activity");
        public static final org.semanticwb.platform.SemanticClass pymtur_PyMesWebSite=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#PyMesWebSite");
        public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#PyMesWebSite");
@@ -284,6 +287,36 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
     public boolean hasMiPymeSite(String id)
     {
         return org.semanticwb.pymtur.MiPymeSite.ClassMgr.hasMiPymeSite(id, this);
+    }
+
+    public org.semanticwb.pymtur.TourismType getTourismType(String id)
+    {
+        return org.semanticwb.pymtur.TourismType.ClassMgr.getTourismType(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.pymtur.TourismType> listTourismTypes()
+    {
+        return org.semanticwb.pymtur.TourismType.ClassMgr.listTourismTypes(this);
+    }
+
+    public org.semanticwb.pymtur.TourismType createTourismType(String id)
+    {
+        return org.semanticwb.pymtur.TourismType.ClassMgr.createTourismType(id,this);
+    }
+
+    public org.semanticwb.pymtur.TourismType createTourismType()
+    {
+        long id=getSemanticObject().getModel().getCounter(pymtur_TourismType);
+        return org.semanticwb.pymtur.TourismType.ClassMgr.createTourismType(String.valueOf(id),this);
+    } 
+
+    public void removeTourismType(String id)
+    {
+        org.semanticwb.pymtur.TourismType.ClassMgr.removeTourismType(id, this);
+    }
+    public boolean hasTourismType(String id)
+    {
+        return org.semanticwb.pymtur.TourismType.ClassMgr.hasTourismType(id, this);
     }
 
     public org.semanticwb.pymtur.Instalation getInstalation(String id)
@@ -568,6 +601,30 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
         return org.semanticwb.portal.community.MicroSiteWebPageUtil.ClassMgr.hasMicroSiteWebPageUtil(id, this);
     }
 
+    public org.semanticwb.pymtur.EventType getEventType(String id)
+    {
+        return org.semanticwb.pymtur.EventType.ClassMgr.getEventType(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.pymtur.EventType> listEventTypes()
+    {
+        return org.semanticwb.pymtur.EventType.ClassMgr.listEventTypes(this);
+    }
+
+    public org.semanticwb.pymtur.EventType createEventType(String id)
+    {
+        return org.semanticwb.pymtur.EventType.ClassMgr.createEventType(id,this);
+    }
+
+    public void removeEventType(String id)
+    {
+        org.semanticwb.pymtur.EventType.ClassMgr.removeEventType(id, this);
+    }
+    public boolean hasEventType(String id)
+    {
+        return org.semanticwb.pymtur.EventType.ClassMgr.hasEventType(id, this);
+    }
+
     public org.semanticwb.pymtur.SPType getSPType(String id)
     {
         return org.semanticwb.pymtur.SPType.ClassMgr.getSPType(id, this);
@@ -692,6 +749,30 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
     public boolean hasState(String id)
     {
         return org.semanticwb.pymtur.State.ClassMgr.hasState(id, this);
+    }
+
+    public org.semanticwb.pymtur.ActivityType getActivityType(String id)
+    {
+        return org.semanticwb.pymtur.ActivityType.ClassMgr.getActivityType(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.pymtur.ActivityType> listActivityTypes()
+    {
+        return org.semanticwb.pymtur.ActivityType.ClassMgr.listActivityTypes(this);
+    }
+
+    public org.semanticwb.pymtur.ActivityType createActivityType(String id)
+    {
+        return org.semanticwb.pymtur.ActivityType.ClassMgr.createActivityType(id,this);
+    }
+
+    public void removeActivityType(String id)
+    {
+        org.semanticwb.pymtur.ActivityType.ClassMgr.removeActivityType(id, this);
+    }
+    public boolean hasActivityType(String id)
+    {
+        return org.semanticwb.pymtur.ActivityType.ClassMgr.hasActivityType(id, this);
     }
 
     public org.semanticwb.pymtur.Activity getActivity(String id)
