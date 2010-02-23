@@ -154,28 +154,10 @@ public class pymesURLContent extends GenericAdmResource {
         String surlfile = "";
         String surlfileHex = "";
         StringBuffer ret = new StringBuffer();
-        NodeList tagbcawb = dom.getElementsByTagName("tagbcawb");
-        String stagbcawb = "bca";
-        if(tagbcawb.getLength() > 0)
-            if(!tagbcawb.item(0).getChildNodes().item(0).getNodeValue().equals(""))
-                stagbcawb = tagbcawb.item(0).getChildNodes().item(0).getNodeValue();
-        NodeList NInfoSource = dom.getElementsByTagName("InfoSource");
-        int iInfoSource = -1;
-        if(NInfoSource.getLength() > 0)
-            iInfoSource = Integer.parseInt(NInfoSource.item(0).getChildNodes().item(0).getNodeValue().trim());
-
-        String baserut = (String) SWBPlatform.getContextPath();
-        //String envia = baserut + sruta + topic.getMap().getId() + "/" + topic.getId() + "/" + base.getId();
         String envia = paramRequest.getRenderUrl().toString();
         if (!surl.toLowerCase().startsWith("http://") && !surl.toLowerCase().startsWith("https://"))
             surl = "http://" + surl;
 
-        pos = surl.lastIndexOf("/");
-        if (pos != -1 && pos > 6) {
-            file = surl.substring(pos + 1);
-
-            surl = surl.substring(0, pos + 1);
-        }
         pos = -1;
         if (surl.startsWith("http://"))
             pos = surl.indexOf("/", 7);
@@ -184,9 +166,11 @@ public class pymesURLContent extends GenericAdmResource {
         if (pos != -1) {
             host = surl.substring(0, pos);
         } else {
-            surl = surl + "/";
-            host = surl;
+            host = surl + "/";
         }
+
+        surl+="/_lang/"+paramRequest.getUser().getLanguage();
+
         String ssign = "";
         if (!param.equals(""))
             ssign = "?";
@@ -264,7 +248,6 @@ public class pymesURLContent extends GenericAdmResource {
                     || tag.getTagString().toLowerCase().equals("form")
                     || tag.getTagString().toLowerCase().equals("area")
                     || tag.getTagString().toLowerCase().equals("meta")
-                    || tag.getTagString().toLowerCase().equals(stagbcawb)
                     ) {
                         if (!tag.isEndTag()) {
                             ret.append("<");
