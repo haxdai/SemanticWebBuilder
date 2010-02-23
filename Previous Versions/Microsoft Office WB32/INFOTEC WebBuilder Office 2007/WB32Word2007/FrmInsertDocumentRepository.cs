@@ -54,6 +54,7 @@ namespace WBWord
         {
             if (this.listViewFiles.SelectedItems.Count == 0)
             {
+                MessageBox.Show(this, "¡Debe seleccionar un archivo del repositorio!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             object missing = Type.Missing;
