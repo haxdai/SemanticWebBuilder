@@ -10,11 +10,20 @@ namespace WBWord
         private String siteid;
         private String repositoryid;
         private String id;
-        public FolderRepository(String text,String id,String siteid,String repositoryid) : base(text)
+        private String tpc;
+        public FolderRepository(String text,String id,String siteid,String repositoryid,String tpc) : base(text)
         {
             this.siteid = siteid;
             this.id = id;
             this.repositoryid = repositoryid;
+            this.tpc = tpc;
+        }
+        public String TopicResource
+        {
+            get
+            {
+                return tpc;
+            }
         }
         public String ID
         {
