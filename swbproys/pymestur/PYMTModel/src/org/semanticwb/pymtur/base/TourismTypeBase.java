@@ -3,6 +3,8 @@ package org.semanticwb.pymtur.base;
 
 public abstract class TourismTypeBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
+       public static final org.semanticwb.platform.SemanticClass pymtur_Destination=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Destination");
+       public static final org.semanticwb.platform.SemanticProperty pymtur_hasDestinationTourismTypeInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#hasDestinationTourismTypeInv");
        public static final org.semanticwb.platform.SemanticClass pymtur_TourismType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#TourismType");
        public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#TourismType");
     public static class ClassMgr
@@ -45,6 +47,17 @@ public abstract class TourismTypeBase extends org.semanticwb.model.SWBClass impl
        {
            return (getTourismType(id, model)!=null);
        }
+   public static java.util.Iterator<org.semanticwb.pymtur.TourismType> listTourismTypeByDestinationTourismTypeInv(org.semanticwb.pymtur.Destination hasdestinationtourismtypeinv,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.TourismType> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(pymtur_hasDestinationTourismTypeInv, hasdestinationtourismtypeinv.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.TourismType> listTourismTypeByDestinationTourismTypeInv(org.semanticwb.pymtur.Destination hasdestinationtourismtypeinv)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.TourismType> it=new org.semanticwb.model.GenericIterator(hasdestinationtourismtypeinv.getSemanticObject().getModel().listSubjects(pymtur_hasDestinationTourismTypeInv,hasdestinationtourismtypeinv.getSemanticObject()));
+       return it;
+   }
    public static java.util.Iterator<org.semanticwb.pymtur.TourismType> listTourismTypeByModifiedBy(org.semanticwb.model.User modifiedby,org.semanticwb.model.SWBModel model)
    {
        org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.TourismType> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_modifiedBy, modifiedby.getSemanticObject()));
@@ -72,6 +85,29 @@ public abstract class TourismTypeBase extends org.semanticwb.model.SWBClass impl
     public TourismTypeBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Destination> listDestinationTourismTypeInvs()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Destination>(getSemanticObject().listObjectProperties(pymtur_hasDestinationTourismTypeInv));
+    }
+
+    public boolean hasDestinationTourismTypeInv(org.semanticwb.pymtur.Destination destination)
+    {
+        if(destination==null)return false;
+        return getSemanticObject().hasObjectProperty(pymtur_hasDestinationTourismTypeInv,destination.getSemanticObject());
+    }
+
+
+    public org.semanticwb.pymtur.Destination getDestinationTourismTypeInv()
+    {
+         org.semanticwb.pymtur.Destination ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(pymtur_hasDestinationTourismTypeInv);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.pymtur.Destination)obj.createGenericInstance();
+         }
+         return ret;
     }
 
     public java.util.Date getCreated()

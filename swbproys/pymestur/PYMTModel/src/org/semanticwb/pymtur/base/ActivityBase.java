@@ -5,6 +5,8 @@ public abstract class ActivityBase extends org.semanticwb.model.WebPage implemen
 {
        public static final org.semanticwb.platform.SemanticClass pymtur_ActivityRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#ActivityRef");
        public static final org.semanticwb.platform.SemanticProperty pymtur_hasActivityRefInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#hasActivityRefInv");
+       public static final org.semanticwb.platform.SemanticClass pymtur_Destination=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Destination");
+       public static final org.semanticwb.platform.SemanticProperty pymtur_hasDestinationActivityInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#hasDestinationActivityInv");
        public static final org.semanticwb.platform.SemanticClass pymtur_Activity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Activity");
        public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Activity");
     public static class ClassMgr
@@ -217,6 +219,17 @@ public abstract class ActivityBase extends org.semanticwb.model.WebPage implemen
        org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(hasruleref.getSemanticObject().getModel().listSubjects(swb_hasRuleRef,hasruleref.getSemanticObject()));
        return it;
    }
+   public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByDestinationActivityInv(org.semanticwb.pymtur.Destination hasdestinationactivityinv,org.semanticwb.model.SWBModel model)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(pymtur_hasDestinationActivityInv, hasdestinationactivityinv.getSemanticObject()));
+       return it;
+   }
+
+   public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByDestinationActivityInv(org.semanticwb.pymtur.Destination hasdestinationactivityinv)
+   {
+       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(hasdestinationactivityinv.getSemanticObject().getModel().listSubjects(pymtur_hasDestinationActivityInv,hasdestinationactivityinv.getSemanticObject()));
+       return it;
+   }
    public static java.util.Iterator<org.semanticwb.pymtur.Activity> listActivityByThisTypeAssociation(org.semanticwb.model.Association hasthistypeassociationinv,org.semanticwb.model.SWBModel model)
    {
        org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasThisTypeAssociationInv, hasthistypeassociationinv.getSemanticObject()));
@@ -254,6 +267,29 @@ public abstract class ActivityBase extends org.semanticwb.model.WebPage implemen
          if(obj!=null)
          {
              ret=(org.semanticwb.pymtur.ActivityRef)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Destination> listDestinationActivityInvs()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Destination>(getSemanticObject().listObjectProperties(pymtur_hasDestinationActivityInv));
+    }
+
+    public boolean hasDestinationActivityInv(org.semanticwb.pymtur.Destination destination)
+    {
+        if(destination==null)return false;
+        return getSemanticObject().hasObjectProperty(pymtur_hasDestinationActivityInv,destination.getSemanticObject());
+    }
+
+
+    public org.semanticwb.pymtur.Destination getDestinationActivityInv()
+    {
+         org.semanticwb.pymtur.Destination ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(pymtur_hasDestinationActivityInv);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.pymtur.Destination)obj.createGenericInstance();
          }
          return ret;
     }

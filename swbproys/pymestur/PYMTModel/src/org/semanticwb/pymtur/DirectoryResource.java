@@ -413,7 +413,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     semObjTmp=dirObj.getSemanticObject();
 
                     if(pymetype==3 || pymetype==4){
-                        MicroSitePyme ms = MicroSitePyme.ClassMgr.createMicroSitePyme(dirObj.getId()+"_Microsite",wsite); //TODO:Hacer que sea con el nombre de la pyme en formato de ID
+                        MicroSitePyme ms = MicroSitePyme.ClassMgr.createMicroSitePyme("Microsite_"+dirObj.getId(),wsite); //TODO:Hacer que sea con el nombre de la pyme en formato de ID
                         ms.setParent(wsite.getWebPage("Micrositios"));
                         ms.setTitle(dirObj.getTitle());
                         ms.setDescription(dirObj.getDescription());
