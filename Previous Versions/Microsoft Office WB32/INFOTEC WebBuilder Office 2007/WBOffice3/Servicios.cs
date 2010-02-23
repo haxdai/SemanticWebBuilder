@@ -1862,6 +1862,93 @@ namespace WBOffice3
 			}
 
 		}
+
+        public XmlDocument getRepositories(String siteid)
+        {
+            err = -1;
+            berror = false;
+            //CRequest r= new CRequest(68,admin); 	
+            CRequest r = new CRequest("getRepositories", admin);
+            r.Parameters.Add(new Parameter("siteid", siteid));
+            System.Xml.XmlDocument resp = r.Request();
+            System.Xml.XmlNodeList errores = resp.GetElementsByTagName("err");
+            if (errores.Count > 0)
+            {
+                foreach (System.Xml.XmlNode errres in errores)
+                {
+                    Parameter perr = new Parameter("error", errres.ChildNodes[1].InnerText);
+
+                }
+                ErroHandle(errores);
+            }
+            return resp;
+        }
+
+        public XmlDocument getHomeRep(String repid,String siteid)
+        {
+            err = -1;
+            berror = false;
+            //CRequest r= new CRequest(68,admin); 	
+            CRequest r = new CRequest("getHomeRep", admin);
+            r.Parameters.Add(new Parameter("siteid", siteid));
+            r.Parameters.Add(new Parameter("repid", repid));
+            System.Xml.XmlDocument resp = r.Request();
+            System.Xml.XmlNodeList errores = resp.GetElementsByTagName("err");
+            if (errores.Count > 0)
+            {
+                foreach (System.Xml.XmlNode errres in errores)
+                {
+                    Parameter perr = new Parameter("error", errres.ChildNodes[1].InnerText);
+
+                }
+                ErroHandle(errores);
+            }
+            return resp;
+        }
+        public XmlDocument getNodesRep(String repid, String siteid, String id)
+        {
+            err = -1;
+            berror = false;
+            //CRequest r= new CRequest(68,admin); 	
+            CRequest r = new CRequest("getNodesRep", admin);
+            r.Parameters.Add(new Parameter("siteid", siteid));
+            r.Parameters.Add(new Parameter("repid", repid));
+            r.Parameters.Add(new Parameter("id", id));
+            System.Xml.XmlDocument resp = r.Request();
+            System.Xml.XmlNodeList errores = resp.GetElementsByTagName("err");
+            if (errores.Count > 0)
+            {
+                foreach (System.Xml.XmlNode errres in errores)
+                {
+                    Parameter perr = new Parameter("error", errres.ChildNodes[1].InnerText);
+
+                }
+                ErroHandle(errores);
+            }
+            return resp;
+        }
+        public XmlDocument getFiles(String repid, String siteid, String id)
+        {
+            err = -1;
+            berror = false;
+            //CRequest r= new CRequest(68,admin); 	
+            CRequest r = new CRequest("getFiles", admin);
+            r.Parameters.Add(new Parameter("siteid", siteid));
+            r.Parameters.Add(new Parameter("repid", repid));
+            r.Parameters.Add(new Parameter("id", id));
+            System.Xml.XmlDocument resp = r.Request();
+            System.Xml.XmlNodeList errores = resp.GetElementsByTagName("err");
+            if (errores.Count > 0)
+            {
+                foreach (System.Xml.XmlNode errres in errores)
+                {
+                    Parameter perr = new Parameter("error", errres.ChildNodes[1].InnerText);
+
+                }
+                ErroHandle(errores);
+            }
+            return resp;
+        }
 		/// <summary>
 		/// Remive los roles
 		/// </summary>
