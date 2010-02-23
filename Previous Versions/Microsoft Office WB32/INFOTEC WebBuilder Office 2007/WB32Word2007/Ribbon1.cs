@@ -419,6 +419,20 @@ namespace WBWord
                 Debug.WriteLine(ue.Message);
             }
         }
+        public void onAddLinkRep(Office.IRibbonControl control)
+        {
+            try
+            {
+
+
+                Connect.wb.addLinkRep(this.applicationObject, user);
+                this.InvalidateControls();
+            }
+            catch (Exception ue)
+            {
+                Debug.WriteLine(ue.Message);
+            }
+        }
         public void onOpen(Office.IRibbonControl control)
         {
             try

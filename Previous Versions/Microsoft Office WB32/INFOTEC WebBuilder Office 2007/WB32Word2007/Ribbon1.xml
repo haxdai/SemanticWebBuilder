@@ -23,6 +23,9 @@
         <group id="GeneralWB" label="Opciones Generales">
           <button id="docAutorizar" label="Documentos por Autorizar" onAction="onMuestraFlujo" size="large" getImage="LoadImage" supertip="Muestra los documentos pendientes por autorizar"/>
           <button id="addlink" getVisible="isDocument" label="Agregar liga a sección" onAction="onAddLink" size="large" getImage="LoadImage" supertip="Agrega una liga a una página del sitio de publicación dentro de tu contenido"/>
+          <separator/>
+          <button id="addLinkToRep" getVisible="isDocument" label="Agregar liga a documento de repositorio" onAction="onAddLinkRep" size="large" getImage="LoadImage" supertip="Agrega una liga a un documento en el repositorio"/>
+          <separator/>
           <button id="createTopic" label="Crear sección" onAction="onCreateTopic" getImage="LoadImage" supertip="Crea una página Web en el sitio de publicación"/>
           <button id="changePassword" label="Cambiar contraseña" onAction="onChangePassword" getImage="LoadImage" supertip="Cambia tu contraseña de acceso al sitio de publicación"/>
         </group>

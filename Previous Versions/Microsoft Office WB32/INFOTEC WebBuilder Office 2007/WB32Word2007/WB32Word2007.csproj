@@ -224,6 +224,10 @@
     </Compile>
     <Compile Include="Connect.cs" />
     <Compile Include="CWebBuilder.cs" />
+    <Compile Include="DummyNode.cs" />
+    <Compile Include="FileRepository.cs">
+    </Compile>
+    <Compile Include="FolderRepository.cs" />
     <Compile Include="FormAddLink.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -238,6 +242,12 @@
     </Compile>
     <Compile Include="FrmDocumentosXAutorizar.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmInsertDocumentRepository.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmInsertDocumentRepository.Designer.cs">
+      <DependentUpon>FrmInsertDocumentRepository.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmOpenContent.cs">
       <SubType>Form</SubType>
@@ -484,6 +494,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="FrmInsertDocumentRepository.resx">
+      <DependentUpon>FrmInsertDocumentRepository.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmSplash.es.resx">
       <DependentUpon>FrmSplash.cs</DependentUpon>
       <SubType>Designer</SubType>

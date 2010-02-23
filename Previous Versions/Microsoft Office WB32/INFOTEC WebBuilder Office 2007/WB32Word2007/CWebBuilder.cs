@@ -352,6 +352,36 @@ namespace WBWord
 			return sb.ToString();
 
 		}
+
+        public CUserAdmin addLinkRep(Word.Application app, CUserAdmin user)
+        {
+            CWebBuilder.app = app;
+            if (isDocumentoNull())
+            {
+                return user;
+            }
+            resultados = new ParameterCollection();
+            parametros = new ParameterCollection();
+            CWebBuilder.doc = (Word.DocumentClass)app.ActiveDocument;
+            CWebBuilder.app = doc.Application;
+            CWebBuilder.user = user; 
+            if (CWebBuilder.user == null || CWebBuilder.user.ID <= 0)
+            {
+                CWebBuilder.user = this.Login(doc.Application);
+            }
+
+            if (CWebBuilder.user == null || CWebBuilder.user.ID <= 0)
+            {
+                CWebBuilder.user = this.Login(doc.Application);
+            }
+            if (!isValidSession())
+            {
+                return user;
+            }
+            FrmInsertDocumentRepository frm = new FrmInsertDocumentRepository();
+            frm.ShowDialog();
+            return CWebBuilder.user;
+        }
 		/// <summary>
 		/// Crea o actualiza un contenido
 		/// </summary>
