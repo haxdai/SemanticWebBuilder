@@ -13,7 +13,8 @@ namespace WBWord
         public FileRepository(String text, String id, String time,String url, FolderRepository folder)
             : base(text)
         {
-            this.SubItems[0].Text = time;
+            this.SubItems[0].Text = text;
+            this.SubItems.Add(time);
             this.folder = folder;
             this.id = id;
             this.url = url;
