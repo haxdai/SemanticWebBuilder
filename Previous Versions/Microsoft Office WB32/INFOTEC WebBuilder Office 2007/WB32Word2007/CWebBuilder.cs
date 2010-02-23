@@ -518,6 +518,7 @@ namespace WBWord
                     prefix = "pkg";
                     manager.AddNamespace(prefix, "http://schemas.microsoft.com/office/2006/xmlPackage");
                 }
+                WBOffice3.DialogResultEx valueres = WBOffice3.DialogResultEx.YES;
                 XmlNodeList nodes = docopenXml.SelectNodes("//pkg:xmlData/ax:ocx/ax:ocxPr", manager);
                 foreach (XmlNode node in nodes)
                 {
@@ -544,7 +545,23 @@ namespace WBWord
                                             frmresumen.ShowDialog();
                                             return CWebBuilder.user;
                                         }
-                                        imagenes.Add(farchivo);
+                                        if (farchivo.Exists)
+                                        {
+                                            imagenes.Add(farchivo);
+                                        }
+                                        else
+                                        {
+                                            if (valueres != DialogResultEx.YESALL)
+                                            {
+                                                valueres = WBOffice3.MessageBoxWB3.Show(resources.GetString("Global.title"), resources.GetString("CWebBuilder.msg5") + " " + farchivo.FullName + " " + resources.GetString("CWebBuilder.msg6") + "");
+                                                //if(MessageBox.Show(resources.GetString("CWebBuilder.msg5") +" "+ farchivo.FullName +" "+ resources.GetString("CWebBuilder.msg6") +"",resources.GetString("Global.title"),MessageBoxButtons.YesNo,MessageBoxIcon.Warning)==DialogResult.No)
+                                                if (valueres == DialogResultEx.CANCEL)
+                                                {
+                                                    return CWebBuilder.user;
+                                                }
+                                            }
+                                        }
+                                        
                                     }
                                 }
                             }
@@ -713,7 +730,7 @@ namespace WBWord
 					}
 					catch{}
 				}
-				WBOffice3.DialogResultEx valueres=WBOffice3.DialogResultEx.YES;
+				
 				foreach(Word.Hyperlink link in  doc.Hyperlinks )
 				{
 					try
