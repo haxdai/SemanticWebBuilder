@@ -28,7 +28,7 @@ namespace WBWord
                         if (child2.Name.Equals("node") && reload != null)
                         {
                             if (reload.StartsWith("getTopicMap"))
-                            {                                
+                            {
                                 String siteid = child2.GetAttribute("id");
                                 String text = child2.GetAttribute("name");
                                 comboBoxSite.Items.Add(new CCaracteristica(text, siteid));
@@ -38,7 +38,7 @@ namespace WBWord
                     }
                 }
             }
-            if (this.comboBoxSite.Items.Count >0 && this.comboBoxSite.SelectedItem == null)
+            if (this.comboBoxSite.Items.Count > 0 && this.comboBoxSite.SelectedItem == null)
             {
                 this.comboBoxSite.SelectedIndex = 0;
             }
@@ -61,7 +61,7 @@ namespace WBWord
             FileRepository filerep = (FileRepository)this.listViewFiles.SelectedItems[0];
             String url = filerep.URL;
             //object address = "wbrelpath://" + url;
-            object address = filerep.FolderRepository.SiteID +"/"+ filerep.FolderRepository.TopicResource +"/_rid/1/_mto/3/"+ url +"?repfop=view&reptp="+ filerep.FolderRepository.ID +"&repfiddoc="+ filerep.ID +"&repinline=true";
+            object address = filerep.FolderRepository.SiteID + "/" + filerep.FolderRepository.TopicResource + "/_rid/1/_mto/3/" + url + "?repfop=view&reptp=" + filerep.FolderRepository.ID + "&repfiddoc=" + filerep.ID + "&repinline=true";
             object text = ((FileRepository)this.listViewFiles.SelectedItems[0]).Text;
             CWebBuilder.doc.Hyperlinks.Add(CWebBuilder.app.Selection.Range, ref address, ref missing, ref missing, ref text, ref missing);
             this.Close();
@@ -69,116 +69,157 @@ namespace WBWord
 
         private void comboBoxSite_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.comboBoxRepository.Items.Clear();
-            this.treeViewfolders.Nodes.Clear();
-            this.listViewFiles.Items.Clear();
-            if (this.comboBoxSite.SelectedItem != null)
+            this.Cursor = Cursors.WaitCursor;
+            try
             {
-                CCaracteristica value = (CCaracteristica)this.comboBoxSite.SelectedItem;
-                String siteid = value.Name;
-                Servicios s = new Servicios(CWebBuilder.user);
-                XmlDocument docRep = s.getRepositories(siteid);
-                foreach (XmlElement enode in docRep.GetElementsByTagName("res"))
+                this.comboBoxRepository.Items.Clear();
+                this.treeViewfolders.Nodes.Clear();
+                this.listViewFiles.Items.Clear();
+                if (this.comboBoxSite.SelectedItem != null)
                 {
-                    foreach (XmlElement child in enode.ChildNodes)
+                    CCaracteristica value = (CCaracteristica)this.comboBoxSite.SelectedItem;
+                    String siteid = value.Name;
+                    Servicios s = new Servicios(CWebBuilder.user);
+                    XmlDocument docRep = s.getRepositories(siteid);
+                    foreach (XmlElement enode in docRep.GetElementsByTagName("res"))
                     {
-                        String repid = child.GetAttribute("id");
-                        String text = child.GetAttribute("name");
-                        String tpc = child.GetAttribute("name");
-                        comboBoxRepository.Items.Add(new CCaracteristica(text, repid));
+                        foreach (XmlElement child in enode.ChildNodes)
+                        {
+                            String repid = child.GetAttribute("id");
+                            String text = child.GetAttribute("name");
+                            String tpc = child.GetAttribute("name");
+                            comboBoxRepository.Items.Add(new CCaracteristica(text, repid));
 
+                        }
                     }
                 }
+                if (this.comboBoxRepository.Items.Count > 0 && this.comboBoxRepository.SelectedItem == null)
+                {
+                    this.comboBoxRepository.SelectedIndex = 0;
+                }
+                if (comboBoxSite.SelectedItem != null && this.comboBoxRepository.Items.Count == 0)
+                {
+                    MessageBox.Show(this, "¡No hay repositorios en el sitio " + comboBoxSite.SelectedItem + "!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
-            if (this.comboBoxRepository.Items.Count > 0 && this.comboBoxRepository.SelectedItem == null)
+            catch { }
+            finally
             {
-                this.comboBoxRepository.SelectedIndex = 0;
+                this.Cursor = Cursors.Default;
             }
         }
 
         private void comboBoxRepository_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.treeViewfolders.Nodes.Clear();
-            this.listViewFiles.Items.Clear();
-            if (this.comboBoxRepository.SelectedItem != null && this.comboBoxSite.SelectedItem != null)
+            this.Cursor = Cursors.WaitCursor;
+            try
             {
-                CCaracteristica value = (CCaracteristica)this.comboBoxRepository.SelectedItem;
-                String repid = value.Name;
-                String siteid = ((CCaracteristica)this.comboBoxSite.SelectedItem).Name;
-                Servicios s = new Servicios(CWebBuilder.user);
-                XmlDocument homedoc = s.getHomeRep(repid, siteid);
-                foreach (XmlElement enode in homedoc.GetElementsByTagName("res"))
+                this.treeViewfolders.Nodes.Clear();
+                this.listViewFiles.Items.Clear();
+                if (this.comboBoxRepository.SelectedItem != null && this.comboBoxSite.SelectedItem != null)
                 {
-                    foreach (XmlElement child in enode.ChildNodes)
+                    CCaracteristica value = (CCaracteristica)this.comboBoxRepository.SelectedItem;
+                    String repid = value.Name;
+                    String siteid = ((CCaracteristica)this.comboBoxSite.SelectedItem).Name;
+                    Servicios s = new Servicios(CWebBuilder.user);
+                    XmlDocument homedoc = s.getHomeRep(repid, siteid);
+                    foreach (XmlElement enode in homedoc.GetElementsByTagName("res"))
                     {
-                        this.treeViewfolders.Nodes.Clear();
-                        String text = child.GetAttribute("title");
-                        String id = child.GetAttribute("id");
-                        String tpc = child.GetAttribute("tpc");
-                        FolderRepository folder = new FolderRepository(text, id, siteid, repid,tpc);
-                        this.treeViewfolders.Nodes.Add(folder);
-                        String childs = child.GetAttribute("childs");
-                        if (childs.Equals("1"))
+                        foreach (XmlElement child in enode.ChildNodes)
                         {
-                            folder.Nodes.Add(new DummyNode());
+                            this.treeViewfolders.Nodes.Clear();
+                            String text = child.GetAttribute("title");
+                            String id = child.GetAttribute("id");
+                            String tpc = child.GetAttribute("tpc");
+                            FolderRepository folder = new FolderRepository(text, id, siteid, repid, tpc);
+                            this.treeViewfolders.Nodes.Add(folder);
+                            String childs = child.GetAttribute("childs");
+                            if (childs.Equals("1"))
+                            {
+                                folder.Nodes.Add(new DummyNode());
+                            }
                         }
                     }
+
                 }
-
-
+            }
+            catch { }
+            finally
+            {
+                this.Cursor = Cursors.Default;
             }
         }
 
         private void treeViewfolders_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            this.listViewFiles.Items.Clear();
-            if (e.Node is FolderRepository)
+            this.Cursor = Cursors.WaitCursor;
+            try
             {
-                FolderRepository folder = (FolderRepository)e.Node;
-                Servicios s = new Servicios(CWebBuilder.user);
-                XmlDocument docFiles = s.getFiles(folder.RepositoryID, folder.SiteID, folder.ID);
-                foreach (XmlElement enode in docFiles.GetElementsByTagName("res"))
+                this.listViewFiles.Items.Clear();
+                if (e.Node is FolderRepository)
                 {
-                    foreach (XmlElement child in enode.ChildNodes)
+                    FolderRepository folder = (FolderRepository)e.Node;
+                    Servicios s = new Servicios(CWebBuilder.user);
+                    XmlDocument docFiles = s.getFiles(folder.RepositoryID, folder.SiteID, folder.ID);
+                    foreach (XmlElement enode in docFiles.GetElementsByTagName("res"))
                     {
-                        String text = child.GetAttribute("title");
-                        String id = child.GetAttribute("id");
-                        String date = child.GetAttribute("date");
-                        String url = child.GetAttribute("url");
-                        FileRepository file = new FileRepository(text, id, date, url, folder);
-                        this.listViewFiles.Items.Add(file);
+                        foreach (XmlElement child in enode.ChildNodes)
+                        {
+                            String text = child.GetAttribute("title");
+                            String id = child.GetAttribute("id");
+                            String date = child.GetAttribute("date");
+                            String url = child.GetAttribute("url");
+                            FileRepository file = new FileRepository(text, id, date, url, folder);
+                            this.listViewFiles.Items.Add(file);
+                        }
                     }
                 }
             }
+            catch { }
+            finally
+            {
+                this.Cursor=Cursors.Default;
+            }
+        
+        
         }
 
         private void treeViewfolders_BeforeExpand(object sender, TreeViewCancelEventArgs e)
         {
-            if (e.Node.Nodes.Count == 1 && e.Node.Nodes[0] is DummyNode)
+            this.Cursor = Cursors.WaitCursor;
+            try
             {
-                e.Node.Nodes.Clear();
-                Servicios s = new Servicios(CWebBuilder.user);
-                FolderRepository folderparent = (FolderRepository)e.Node;
-                String siteid = folderparent.SiteID;
-                String repid = folderparent.RepositoryID;
-                String folderid = folderparent.ID;
-                XmlDocument docchilds = s.getNodesRep(repid, siteid, folderid);
-                foreach (XmlElement enode in docchilds.GetElementsByTagName("res"))
+                if (e.Node.Nodes.Count == 1 && e.Node.Nodes[0] is DummyNode)
                 {
-                    foreach (XmlElement child in enode.ChildNodes)
+                    e.Node.Nodes.Clear();
+                    Servicios s = new Servicios(CWebBuilder.user);
+                    FolderRepository folderparent = (FolderRepository)e.Node;
+                    String siteid = folderparent.SiteID;
+                    String repid = folderparent.RepositoryID;
+                    String folderid = folderparent.ID;
+                    XmlDocument docchilds = s.getNodesRep(repid, siteid, folderid);
+                    foreach (XmlElement enode in docchilds.GetElementsByTagName("res"))
                     {
-                        String text = child.GetAttribute("title");
-                        String id = child.GetAttribute("id");
-                        String tpc = child.GetAttribute("tpc");
-                        FolderRepository folder = new FolderRepository(text, id, siteid, repid,tpc);
-                        folderparent.Nodes.Add(folder);
-                        String childs = child.GetAttribute("childs");
-                        if (childs.Equals("1"))
+                        foreach (XmlElement child in enode.ChildNodes)
                         {
-                            folder.Nodes.Add(new DummyNode());
+                            String text = child.GetAttribute("title");
+                            String id = child.GetAttribute("id");
+                            String tpc = child.GetAttribute("tpc");
+                            FolderRepository folder = new FolderRepository(text, id, siteid, repid, tpc);
+                            folderparent.Nodes.Add(folder);
+                            String childs = child.GetAttribute("childs");
+                            if (childs.Equals("1"))
+                            {
+                                folder.Nodes.Add(new DummyNode());
+                            }
                         }
                     }
                 }
+            }
+            catch { }
+            finally
+            {
+                this.Cursor = Cursors.Default;
             }
         }
     }
