@@ -379,6 +379,11 @@ namespace WBWord
                 return user;
             }
             FrmInsertDocumentRepository frm = new FrmInsertDocumentRepository();
+            if (frm.comboBoxSite.Items.Count == 0)
+            {
+                MessageBox.Show("¡No hay sitios en el servidor!", frm.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return CWebBuilder.user;
+            }            
             frm.ShowDialog();
             return CWebBuilder.user;
         }

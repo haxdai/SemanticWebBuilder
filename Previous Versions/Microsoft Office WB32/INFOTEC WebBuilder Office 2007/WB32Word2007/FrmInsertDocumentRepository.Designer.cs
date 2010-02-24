@@ -174,7 +174,10 @@
             this.columnHeader1,
             this.columnHeader2});
             this.listViewFiles.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listViewFiles.FullRowSelect = true;
+            this.listViewFiles.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.listViewFiles.Location = new System.Drawing.Point(0, 0);
+            this.listViewFiles.MultiSelect = false;
             this.listViewFiles.Name = "listViewFiles";
             this.listViewFiles.Size = new System.Drawing.Size(410, 343);
             this.listViewFiles.TabIndex = 0;
@@ -222,14 +225,14 @@
         private System.Windows.Forms.Button buttonClose;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox comboBoxSite;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.ComboBox comboBoxRepository;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TreeView treeViewfolders;
         private System.Windows.Forms.ListView listViewFiles;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ImageList imageList1;
+        public System.Windows.Forms.ComboBox comboBoxSite;
+        public System.Windows.Forms.ComboBox comboBoxRepository;
     }
 }
