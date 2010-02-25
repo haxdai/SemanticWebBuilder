@@ -89,11 +89,11 @@ public class ServiceProviderParser extends GenericParser {
 
     @Override
     public Map<String, IndexTerm> getIndexTerms(Searchable gen) {
-        Map map = super.getIndexTerms(gen);
+        Map map2 = super.getIndexTerms(gen);
         try {
-            map.put("destination", new IndexTerm("destination", getDestination(gen), false, IndexTerm.INDEXED_ANALYZED));
+            map2.put("destination", new IndexTerm("destination", getDestination(gen), false, IndexTerm.INDEXED_ANALYZED));
         } catch (Exception e) {
         }       //Error de parseo no se registra
-        return map;
+        return map2;
     }
 }
