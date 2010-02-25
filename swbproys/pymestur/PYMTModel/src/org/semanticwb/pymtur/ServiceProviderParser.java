@@ -5,10 +5,15 @@
 
 package org.semanticwb.pymtur;
 
+import java.io.StringReader;
 import java.util.HashMap;
+import java.util.Map;
 import org.semanticwb.SWBPortal;
+import org.semanticwb.base.util.parser.html.HTMLParser;
 import org.semanticwb.model.Searchable;
 import org.semanticwb.model.WebPage;
+import org.semanticwb.portal.indexer.IndexTerm;
+import org.semanticwb.portal.indexer.SWBIndexer;
 import org.semanticwb.portal.indexer.parser.GenericParser;
 
 /**
@@ -77,5 +82,21 @@ public class ServiceProviderParser extends GenericParser {
             ret=super.getIndexCategory(page);
         }
         return ret;
+    }
+
+    public String getDestination(Searchable gen) {
+        String ret = "";
+        ret = ((ServiceProvider)gen).getDestination().getTitle();
+        return ret;
+    }
+
+    @Override
+    public Map<String, IndexTerm> getIndexTerms(Searchable gen) {
+        Map map = super.getIndexTerms(gen);
+        try {
+            map.put("destination", new IndexTerm("destination", getDestination(gen), false, IndexTerm.INDEXED_ANALYZED));
+        } catch (Exception e) {
+        }       //Error de parseo no se registra
+        return map;
     }
 }
