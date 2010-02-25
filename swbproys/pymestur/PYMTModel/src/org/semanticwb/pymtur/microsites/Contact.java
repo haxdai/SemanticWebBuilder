@@ -57,8 +57,6 @@ public class Contact extends GenericAdmResource {
         response.setContentType("text/html;charset=iso-8859-1");
 
         String site = base.getWebSite().getDisplayTitle(paramsRequest.getUser().getLanguage());
-        String contact = base.getAttribute("email");
-
         String name = request.getParameter("name");
         String customer = request.getParameter("email");
         String subject = request.getParameter("subject");
@@ -82,7 +80,7 @@ public class Contact extends GenericAdmResource {
             {
                 // send email to contact
                 InternetAddress address1 = new InternetAddress();
-                address1.setAddress(contact);
+                address1.setAddress(sprovider.getContactEmail());
                 ArrayList<InternetAddress> aAddress = new ArrayList<InternetAddress>();
                 aAddress.add(address1);
                 SWBUtils.EMAIL.sendMail(customer, name, aAddress, null, null, subject, "text/plain", msgToContact.toString(), null, null, null);
@@ -92,7 +90,7 @@ public class Contact extends GenericAdmResource {
                 address1.setAddress(customer);
                 aAddress = new ArrayList<InternetAddress>();
                 aAddress.add(address1);
-                SWBUtils.EMAIL.sendMail(contact, name, aAddress, null, null, subject, "text/plain", msgToCustomer.toString(), null, null, null);
+                SWBUtils.EMAIL.sendMail(sprovider.getContactEmail(), name, aAddress, null, null, subject, "text/plain", msgToCustomer.toString(), null, null, null);
                 out.print("Su correo fue enviado exitosamente");
 
             }else{
