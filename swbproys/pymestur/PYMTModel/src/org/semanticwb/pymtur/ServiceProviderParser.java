@@ -5,15 +5,12 @@
 
 package org.semanticwb.pymtur;
 
-import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
 import org.semanticwb.SWBPortal;
-import org.semanticwb.base.util.parser.html.HTMLParser;
 import org.semanticwb.model.Searchable;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.portal.indexer.IndexTerm;
-import org.semanticwb.portal.indexer.SWBIndexer;
 import org.semanticwb.portal.indexer.parser.GenericParser;
 
 /**
