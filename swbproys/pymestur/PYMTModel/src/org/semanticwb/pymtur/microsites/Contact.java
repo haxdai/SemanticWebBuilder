@@ -51,11 +51,6 @@ public class Contact extends GenericAdmResource {
 
     public void doSendEmail(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramsRequest) throws SWBResourceException, IOException {
         ServiceProvider sprovider = ((MicroSitePyme)paramsRequest.getWebPage()).getServiceProvider();
-        System.out.println("sprovider="+sprovider);
-        System.out.println("tel="+sprovider.getContactPhoneNumber());
-        System.out.println("nombre contacto="+sprovider.getContactName());
-        System.out.println("email contacto="+sprovider.getContactEmail());
-
 
         Resource base = getResourceBase();
         PrintWriter out = response.getWriter();
@@ -116,14 +111,7 @@ public class Contact extends GenericAdmResource {
         PrintWriter out = response.getWriter();
         String email = request.getParameter("email");
 
-
         ServiceProvider sprovider = ((MicroSitePyme)paramsRequest.getWebPage()).getServiceProvider();
-        System.out.println("sprovider="+sprovider);
-        System.out.println("tel="+sprovider.getContactPhoneNumber());
-        System.out.println("nombre contacto="+sprovider.getContactName());
-        System.out.println("email contacto="+sprovider.getContactEmail());
-
-
         if(email == null) {
             User user = paramsRequest.getUser();
             boolean modal = Boolean.parseBoolean(base.getAttribute("modal"));
