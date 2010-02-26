@@ -3,171 +3,179 @@ package org.semanticwb.pymtur.base;
 
 public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.FilterableClass,org.semanticwb.model.FilterableNode,org.semanticwb.model.Trashable,org.semanticwb.model.Filterable,org.semanticwb.model.Localeable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Indexable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,org.semanticwb.model.Activeable
 {
-       public static final org.semanticwb.platform.SemanticClass swbcomm_MicroSite=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/community#MicroSite");
-       public static final org.semanticwb.platform.SemanticClass pymtur_MiPymeSitePlus=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#MiPymeSitePlus");
-       public static final org.semanticwb.platform.SemanticClass pymtur_Nearest=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Nearest");
-       public static final org.semanticwb.platform.SemanticClass pymtur_MiPymeSite=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#MiPymeSite");
-       public static final org.semanticwb.platform.SemanticClass pymtur_TourismType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#TourismType");
-       public static final org.semanticwb.platform.SemanticClass pymtur_Instalation=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Instalation");
-       public static final org.semanticwb.platform.SemanticClass pymtur_Hospedaje=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Hospedaje");
-       public static final org.semanticwb.platform.SemanticClass pymtur_ExperienceRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#ExperienceRef");
-       public static final org.semanticwb.platform.SemanticClass pymtur_ActivityRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#ActivityRef");
-       public static final org.semanticwb.platform.SemanticClass pymtur_Experience=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Experience");
-       public static final org.semanticwb.platform.SemanticClass pymtur_ServiceProvider=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#ServiceProvider");
-       public static final org.semanticwb.platform.SemanticClass pymtur_Region=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Region");
-       public static final org.semanticwb.platform.SemanticClass pymtur_Event=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Event");
-       public static final org.semanticwb.platform.SemanticClass pymtur_RFCable=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#RFCable");
-       public static final org.semanticwb.platform.SemanticClass pymtur_RfcType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#RfcType");
-       public static final org.semanticwb.platform.SemanticClass swbcomm_MicroSiteWebPageUtil=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/community#MicroSiteWebPageUtil");
-       public static final org.semanticwb.platform.SemanticClass pymtur_EventType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#EventType");
-       public static final org.semanticwb.platform.SemanticClass pymtur_SPType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#SPType");
-       public static final org.semanticwb.platform.SemanticClass pymtur_Destination=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Destination");
-       public static final org.semanticwb.platform.SemanticClass pymtur_Service=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Service");
-       public static final org.semanticwb.platform.SemanticClass pymtur_SPCategory=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#SPCategory");
-       public static final org.semanticwb.platform.SemanticClass pymtur_State=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#State");
-       public static final org.semanticwb.platform.SemanticClass pymtur_ActivityType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#ActivityType");
-       public static final org.semanticwb.platform.SemanticClass pymtur_Activity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Activity");
-       public static final org.semanticwb.platform.SemanticClass pymtur_PyMesWebSite=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#PyMesWebSite");
-       public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#PyMesWebSite");
+    public static final org.semanticwb.platform.SemanticClass swbcomm_MicroSite=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/community#MicroSite");
+    public static final org.semanticwb.platform.SemanticClass pymtur_MiPymeSitePlus=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#MiPymeSitePlus");
+    public static final org.semanticwb.platform.SemanticClass pymtur_Nearest=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Nearest");
+    public static final org.semanticwb.platform.SemanticClass pymtur_MiPymeSite=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#MiPymeSite");
+    public static final org.semanticwb.platform.SemanticClass pymtur_TourismType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#TourismType");
+    public static final org.semanticwb.platform.SemanticClass pymtur_Instalation=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Instalation");
+    public static final org.semanticwb.platform.SemanticClass pymtur_Hospedaje=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Hospedaje");
+    public static final org.semanticwb.platform.SemanticClass pymtur_ExperienceRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#ExperienceRef");
+    public static final org.semanticwb.platform.SemanticClass pymtur_Experience=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Experience");
+    public static final org.semanticwb.platform.SemanticClass pymtur_ServiceProvider=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#ServiceProvider");
+    public static final org.semanticwb.platform.SemanticClass pymtur_Region=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Region");
+    public static final org.semanticwb.platform.SemanticClass pymtur_Event=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Event");
+    public static final org.semanticwb.platform.SemanticClass pymtur_RFCable=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#RFCable");
+    public static final org.semanticwb.platform.SemanticClass pymtur_RfcType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#RfcType");
+    public static final org.semanticwb.platform.SemanticClass swbcomm_MicroSiteWebPageUtil=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/community#MicroSiteWebPageUtil");
+    public static final org.semanticwb.platform.SemanticClass pymtur_EventType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#EventType");
+    public static final org.semanticwb.platform.SemanticClass pymtur_SPType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#SPType");
+    public static final org.semanticwb.platform.SemanticClass pymtur_Destination=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Destination");
+    public static final org.semanticwb.platform.SemanticClass pymtur_Service=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Service");
+    public static final org.semanticwb.platform.SemanticClass pymtur_SPCategory=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#SPCategory");
+    public static final org.semanticwb.platform.SemanticClass pymtur_State=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#State");
+    public static final org.semanticwb.platform.SemanticClass pymtur_ActivityType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#ActivityType");
+    public static final org.semanticwb.platform.SemanticClass pymtur_Activity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Activity");
+    public static final org.semanticwb.platform.SemanticClass pymtur_PyMesWebSite=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#PyMesWebSite");
+    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#PyMesWebSite");
+
     public static class ClassMgr
     {
 
-       public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSites(org.semanticwb.model.SWBModel model)
-       {
-           java.util.Iterator it=model.getSemanticObject().getModel().listInstancesOfClass(sclass);
-           return new org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite>(it, true);
-       }
+        public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSites(org.semanticwb.model.SWBModel model)
+        {
+            java.util.Iterator it=model.getSemanticObject().getModel().listInstancesOfClass(sclass);
+            return new org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite>(it, true);
+        }
 
-       public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSites()
-       {
-           java.util.Iterator it=sclass.listInstances();
-           return new org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite>(it, true);
-       }
+        public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSites()
+        {
+            java.util.Iterator it=sclass.listInstances();
+            return new org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite>(it, true);
+        }
 
-       public static org.semanticwb.pymtur.PyMesWebSite getPyMesWebSite(String id)
-       {
-           org.semanticwb.platform.SemanticMgr mgr=org.semanticwb.SWBPlatform.getSemanticMgr();
-           org.semanticwb.pymtur.PyMesWebSite ret=null;
-           org.semanticwb.platform.SemanticModel model=mgr.getModel(id);
-           if(model!=null)
-           {
-               org.semanticwb.platform.SemanticObject obj=model.getSemanticObject(model.getObjectUri(id,sclass));
-               if(obj!=null)
-               {
-                   ret=(org.semanticwb.pymtur.PyMesWebSite)obj.createGenericInstance();
-               }
-           }
-           return ret;
-       }
+        public static org.semanticwb.pymtur.PyMesWebSite getPyMesWebSite(String id)
+        {
+            org.semanticwb.platform.SemanticMgr mgr=org.semanticwb.SWBPlatform.getSemanticMgr();
+            org.semanticwb.pymtur.PyMesWebSite ret=null;
+            org.semanticwb.platform.SemanticModel model=mgr.getModel(id);
+            if(model!=null)
+            {
+                org.semanticwb.platform.SemanticObject obj=model.getSemanticObject(model.getObjectUri(id,sclass));
+                if(obj!=null)
+                {
+                    ret=(org.semanticwb.pymtur.PyMesWebSite)obj.createGenericInstance();
+                }
+            }
+            return ret;
+        }
 
-       public static org.semanticwb.pymtur.PyMesWebSite createPyMesWebSite(String id, String namespace)
-       {
-           org.semanticwb.platform.SemanticMgr mgr=org.semanticwb.SWBPlatform.getSemanticMgr();
-           org.semanticwb.platform.SemanticModel model=mgr.createModel(id, namespace);
-           return (org.semanticwb.pymtur.PyMesWebSite)model.createGenericObject(model.getObjectUri(id, sclass), sclass);
-       }
+        public static org.semanticwb.pymtur.PyMesWebSite createPyMesWebSite(String id, String namespace)
+        {
+            org.semanticwb.platform.SemanticMgr mgr=org.semanticwb.SWBPlatform.getSemanticMgr();
+            org.semanticwb.platform.SemanticModel model=mgr.createModel(id, namespace);
+            return (org.semanticwb.pymtur.PyMesWebSite)model.createGenericObject(model.getObjectUri(id, sclass), sclass);
+        }
 
-       public static void removePyMesWebSite(String id)
-       {
-           org.semanticwb.pymtur.PyMesWebSite obj=getPyMesWebSite(id);
-           if(obj!=null)
-           {
-               obj.remove();
-           }
-       }
+        public static void removePyMesWebSite(String id)
+        {
+            org.semanticwb.pymtur.PyMesWebSite obj=getPyMesWebSite(id);
+            if(obj!=null)
+            {
+                obj.remove();
+            }
+        }
 
-       public static boolean hasPyMesWebSite(String id)
-       {
-           return (getPyMesWebSite(id)!=null);
-       }
-   public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByLanguage(org.semanticwb.model.Language language,org.semanticwb.model.SWBModel model)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_language, language.getSemanticObject()));
-       return it;
-   }
+        public static boolean hasPyMesWebSite(String id)
+        {
+            return (getPyMesWebSite(id)!=null);
+        }
 
-   public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByLanguage(org.semanticwb.model.Language language)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(language.getSemanticObject().getModel().listSubjects(swb_language,language.getSemanticObject()));
-       return it;
-   }
-   public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteBySubModel(org.semanticwb.model.SWBModel hassubmodel,org.semanticwb.model.SWBModel model)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasSubModel, hassubmodel.getSemanticObject()));
-       return it;
-   }
+        public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByLanguage(org.semanticwb.model.Language language,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_language, language.getSemanticObject()));
+            return it;
+        }
 
-   public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteBySubModel(org.semanticwb.model.SWBModel hassubmodel)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(hassubmodel.getSemanticObject().getModel().listSubjects(swb_hasSubModel,hassubmodel.getSemanticObject()));
-       return it;
-   }
-   public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByModifiedBy(org.semanticwb.model.User modifiedby,org.semanticwb.model.SWBModel model)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_modifiedBy, modifiedby.getSemanticObject()));
-       return it;
-   }
+        public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByLanguage(org.semanticwb.model.Language language)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(language.getSemanticObject().getModel().listSubjects(swb_language,language.getSemanticObject()));
+            return it;
+        }
 
-   public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByModifiedBy(org.semanticwb.model.User modifiedby)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(modifiedby.getSemanticObject().getModel().listSubjects(swb_modifiedBy,modifiedby.getSemanticObject()));
-       return it;
-   }
-   public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByParentWebSite(org.semanticwb.model.WebSite parentwebsite,org.semanticwb.model.SWBModel model)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_parentWebSite, parentwebsite.getSemanticObject()));
-       return it;
-   }
+        public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteBySubModel(org.semanticwb.model.SWBModel hassubmodel,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasSubModel, hassubmodel.getSemanticObject()));
+            return it;
+        }
 
-   public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByParentWebSite(org.semanticwb.model.WebSite parentwebsite)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(parentwebsite.getSemanticObject().getModel().listSubjects(swb_parentWebSite,parentwebsite.getSemanticObject()));
-       return it;
-   }
-   public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByUserRepository(org.semanticwb.model.UserRepository userrepository,org.semanticwb.model.SWBModel model)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_userRepository, userrepository.getSemanticObject()));
-       return it;
-   }
+        public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteBySubModel(org.semanticwb.model.SWBModel hassubmodel)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(hassubmodel.getSemanticObject().getModel().listSubjects(swb_hasSubModel,hassubmodel.getSemanticObject()));
+            return it;
+        }
 
-   public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByUserRepository(org.semanticwb.model.UserRepository userrepository)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(userrepository.getSemanticObject().getModel().listSubjects(swb_userRepository,userrepository.getSemanticObject()));
-       return it;
-   }
-   public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByCreator(org.semanticwb.model.User creator,org.semanticwb.model.SWBModel model)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_creator, creator.getSemanticObject()));
-       return it;
-   }
+        public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByModifiedBy(org.semanticwb.model.User modifiedby,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_modifiedBy, modifiedby.getSemanticObject()));
+            return it;
+        }
 
-   public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByCreator(org.semanticwb.model.User creator)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(creator.getSemanticObject().getModel().listSubjects(swb_creator,creator.getSemanticObject()));
-       return it;
-   }
-   public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByHomePage(org.semanticwb.model.WebPage homepage,org.semanticwb.model.SWBModel model)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_homePage, homepage.getSemanticObject()));
-       return it;
-   }
+        public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByModifiedBy(org.semanticwb.model.User modifiedby)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(modifiedby.getSemanticObject().getModel().listSubjects(swb_modifiedBy,modifiedby.getSemanticObject()));
+            return it;
+        }
 
-   public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByHomePage(org.semanticwb.model.WebPage homepage)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(homepage.getSemanticObject().getModel().listSubjects(swb_homePage,homepage.getSemanticObject()));
-       return it;
-   }
-   public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByDefaultTemplate(org.semanticwb.model.Template defaulttemplate,org.semanticwb.model.SWBModel model)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_defaultTemplate, defaulttemplate.getSemanticObject()));
-       return it;
-   }
+        public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByParentWebSite(org.semanticwb.model.WebSite parentwebsite,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_parentWebSite, parentwebsite.getSemanticObject()));
+            return it;
+        }
 
-   public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByDefaultTemplate(org.semanticwb.model.Template defaulttemplate)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(defaulttemplate.getSemanticObject().getModel().listSubjects(swb_defaultTemplate,defaulttemplate.getSemanticObject()));
-       return it;
-   }
+        public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByParentWebSite(org.semanticwb.model.WebSite parentwebsite)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(parentwebsite.getSemanticObject().getModel().listSubjects(swb_parentWebSite,parentwebsite.getSemanticObject()));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByUserRepository(org.semanticwb.model.UserRepository userrepository,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_userRepository, userrepository.getSemanticObject()));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByUserRepository(org.semanticwb.model.UserRepository userrepository)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(userrepository.getSemanticObject().getModel().listSubjects(swb_userRepository,userrepository.getSemanticObject()));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByCreator(org.semanticwb.model.User creator,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_creator, creator.getSemanticObject()));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByCreator(org.semanticwb.model.User creator)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(creator.getSemanticObject().getModel().listSubjects(swb_creator,creator.getSemanticObject()));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByHomePage(org.semanticwb.model.WebPage homepage,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_homePage, homepage.getSemanticObject()));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByHomePage(org.semanticwb.model.WebPage homepage)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(homepage.getSemanticObject().getModel().listSubjects(swb_homePage,homepage.getSemanticObject()));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByDefaultTemplate(org.semanticwb.model.Template defaulttemplate,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_defaultTemplate, defaulttemplate.getSemanticObject()));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByDefaultTemplate(org.semanticwb.model.Template defaulttemplate)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(defaulttemplate.getSemanticObject().getModel().listSubjects(swb_defaultTemplate,defaulttemplate.getSemanticObject()));
+            return it;
+        }
     }
 
     public PyMesWebSiteBase(org.semanticwb.platform.SemanticObject base)
@@ -395,36 +403,6 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
     public boolean hasExperienceRef(String id)
     {
         return org.semanticwb.pymtur.ExperienceRef.ClassMgr.hasExperienceRef(id, this);
-    }
-
-    public org.semanticwb.pymtur.ActivityRef getActivityRef(String id)
-    {
-        return org.semanticwb.pymtur.ActivityRef.ClassMgr.getActivityRef(id, this);
-    }
-
-    public java.util.Iterator<org.semanticwb.pymtur.ActivityRef> listActivityRefs()
-    {
-        return org.semanticwb.pymtur.ActivityRef.ClassMgr.listActivityRefs(this);
-    }
-
-    public org.semanticwb.pymtur.ActivityRef createActivityRef(String id)
-    {
-        return org.semanticwb.pymtur.ActivityRef.ClassMgr.createActivityRef(id,this);
-    }
-
-    public org.semanticwb.pymtur.ActivityRef createActivityRef()
-    {
-        long id=getSemanticObject().getModel().getCounter(pymtur_ActivityRef);
-        return org.semanticwb.pymtur.ActivityRef.ClassMgr.createActivityRef(String.valueOf(id),this);
-    } 
-
-    public void removeActivityRef(String id)
-    {
-        org.semanticwb.pymtur.ActivityRef.ClassMgr.removeActivityRef(id, this);
-    }
-    public boolean hasActivityRef(String id)
-    {
-        return org.semanticwb.pymtur.ActivityRef.ClassMgr.hasActivityRef(id, this);
     }
 
     public org.semanticwb.pymtur.Experience getExperience(String id)
