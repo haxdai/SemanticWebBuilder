@@ -31,9 +31,7 @@ import org.semanticwb.model.Resource;
 import org.semanticwb.model.Traceable;
 import org.semanticwb.model.User;
 import org.semanticwb.model.UserGroup;
-import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
-import org.semanticwb.platform.SemanticClass;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.SWBFormButton;
 import org.semanticwb.portal.SWBFormMgr;
@@ -43,9 +41,6 @@ import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.community.Claimable;
 import org.semanticwb.portal.community.Comment;
 import org.semanticwb.portal.community.DirectoryObject;
-import org.semanticwb.portal.community.MicroSiteType;
-import org.semanticwb.portal.community.MicroSiteUtil;
-import org.semanticwb.portal.community.MicroSiteWebPageUtil;
 import org.semanticwb.portal.community.Organization;
 import org.semanticwb.servlet.internal.UploadFormElement;
 
@@ -479,6 +474,7 @@ public class ProviderDirectory extends org.semanticwb.pymtur.base.DirectoryResou
                 ? message : "");
     }
 
+    @Override
     public String replaceTags(String str, HttpServletRequest request, SWBActionResponse response)
     {
         DirectoryObject dob = null;
