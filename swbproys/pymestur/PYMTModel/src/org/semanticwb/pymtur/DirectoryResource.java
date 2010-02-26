@@ -5,6 +5,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.SocketException;
+import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
@@ -97,6 +101,14 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
+        Enumeration<String> names = request.getParameterNames();
+        HashMap<String, String> pars = new HashMap<String, String>();
+
+        while (names.hasMoreElements()) {
+            String key = names.nextElement();
+            pars.put(key, request.getParameter(key));
+        }
+        
         if (paramRequest.getAction().equals("excel"))
         {
             response.setContentType("application/vnd.ms-excel");
@@ -143,7 +155,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
         RequestDispatcher dis = request.getRequestDispatcher(path);
         try
         {
-            request.setAttribute("itDirObjs", listDirectoryObjects());
+            request.setAttribute("itDirObjs", getDirectoryObjects((Destination)paramRequest.getWebPage(), pars));
             request.setAttribute("sobj", getDirectoryClass());
             request.setAttribute("paramRequest", paramRequest);
             dis.include(request, response);
@@ -890,6 +902,95 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
             }
         }
         return res;
+    }
+
+    private Iterator<ServiceProvider> getDirectoryObjects(Destination dest, HashMap<String, String> pars) {
+        Iterator<ServiceProvider> it_res = null;
+        ArrayList<ServiceProvider> providers = new ArrayList<ServiceProvider>();
+
+        //Obtener por destino (se va a sustituir por la búsqueda)
+        if (dest != null) {
+            it_res = ServiceProvider.ClassMgr.listServiceProviderByDestination(dest);
+        } else {
+            it_res = ServiceProvider.ClassMgr.listServiceProviders();
+        }
+
+        while (it_res.hasNext()) {
+            ServiceProvider sp = it_res.next();
+            providers.add(sp);
+        }
+
+        it_res = providers.iterator();
+        providers = new ArrayList<ServiceProvider>();
+
+        //Filtrar por tipo de hospedaje
+        if (pars.get("spType") != null) {
+            SPType t = (SPType)SemanticObject.createSemanticObject(URLDecoder.decode(pars.get("spType"))).createGenericInstance();
+            while (it_res.hasNext()) {
+                ServiceProvider sp = it_res.next();
+                if (((SPType)sp.getWebPage()).equals(t)) {
+                    providers.add(sp);
+                }
+            }
+        }
+
+        it_res = providers.iterator();
+        providers = new ArrayList<ServiceProvider>();
+
+        //Filtrar por tipo de evento
+        if (pars.get("evtType") != null) {
+            Event e = (Event)SemanticObject.createSemanticObject(URLDecoder.decode(pars.get("evtType"))).createGenericInstance();
+            while (it_res.hasNext()) {
+                ServiceProvider sp = it_res.next();
+                if (((Event)sp.getWebPage()).equals(e)) {
+                    providers.add(sp);
+                }
+            }
+        }
+
+        it_res = providers.iterator();
+        providers = new ArrayList<ServiceProvider>();
+
+        //Filtrar por actividad
+        if (pars.get("actType") != null) {
+            Activity a = (Activity)SemanticObject.createSemanticObject(URLDecoder.decode(pars.get("actType"))).createGenericInstance();
+            while (it_res.hasNext()) {
+                ServiceProvider sp = it_res.next();
+                if (((Activity)sp.getWebPage()).equals(a)) {
+                    providers.add(sp);
+                }
+            }
+        }
+
+        /*Filtrar por tipo de turismo
+        it_res = providers.iterator();
+        providers = new ArrayList<ServiceProvider>();
+
+        if (pars.get("turType") != null) {
+            TourismType t = (TourismType)SemanticObject.createSemanticObject(URLDecoder.decode(pars.get("turType"))).createGenericInstance();
+            while (it_res.hasNext()) {
+                ServiceProvider sp = it_res.next();
+                if (((TourismType)sp.getWebPage()).equals(t)) {
+                    providers.add(sp);
+                }
+            }
+        }*/
+
+        /*Filtrar por experiencia
+        it_res = providers.iterator();
+        providers = new ArrayList<ServiceProvider>();
+
+        if (pars.get("turType") != null) {
+            TourismType t = (TourismType)SemanticObject.createSemanticObject(URLDecoder.decode(pars.get("turType"))).createGenericInstance();
+            while (it_res.hasNext()) {
+                ServiceProvider sp = it_res.next();
+                if (((TourismType)sp.getWebPage()).equals(t)) {
+                    providers.add(sp);
+                }
+            }
+        }*/
+
+        return providers.iterator();
     }
 
 }
