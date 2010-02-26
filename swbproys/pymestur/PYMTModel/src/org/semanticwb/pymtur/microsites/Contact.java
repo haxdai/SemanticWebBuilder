@@ -18,6 +18,7 @@ import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.User;
+import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.GenericAdmResource;
 import org.semanticwb.portal.api.SWBResourceException;
@@ -50,7 +51,19 @@ public class Contact extends GenericAdmResource {
     }
 
     public void doSendEmail(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramsRequest) throws SWBResourceException, IOException {
-        ServiceProvider sprovider = ((MicroSitePyme)paramsRequest.getWebPage()).getServiceProvider();
+        SemanticObject sobj;
+        ServiceProvider sprovider = null;
+        
+        try {
+            sprovider = ((MicroSitePyme)paramsRequest.getWebPage()).getServiceProvider();
+        }catch(Exception e) {
+            String uri = request.getParameter("uri");
+            sobj=SemanticObject.createSemanticObject(uri);
+            if(sobj.getGenericInstance() instanceof MicroSitePyme) {
+                MicroSitePyme msp = (MicroSitePyme) sobj.getGenericInstance();
+                sprovider=msp.getServiceProvider();
+            }
+        }
 
         Resource base = getResourceBase();
         PrintWriter out = response.getWriter();
@@ -110,10 +123,24 @@ public class Contact extends GenericAdmResource {
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramsRequest) throws SWBResourceException, IOException {
+        SemanticObject sobj;
+        ServiceProvider sprovider = null;
+
+        try {
+            sprovider = ((MicroSitePyme)paramsRequest.getWebPage()).getServiceProvider();
+        }catch(Exception e) {
+            String uri = request.getParameter("uri");
+            sobj=SemanticObject.createSemanticObject(uri);
+            if(sobj.getGenericInstance() instanceof MicroSitePyme) {
+                MicroSitePyme msp = (MicroSitePyme) sobj.getGenericInstance();
+                sprovider=msp.getServiceProvider();
+            }
+        }
+        
         Resource base = getResourceBase();
         PrintWriter out = response.getWriter();
         String email = request.getParameter("email");
-        ServiceProvider sprovider = ((MicroSitePyme)paramsRequest.getWebPage()).getServiceProvider();
+
         String cuentaCorreo = sprovider.getContactEmail();
         if (cuentaCorreo == null) {
             cuentaCorreo = sprovider.getCreator().getEmail();
@@ -125,7 +152,7 @@ public class Contact extends GenericAdmResource {
             if (modal) {
                 out.println("<script type=\"text/javascript\">");
                 out.println("  function justdoit(url) {");
-                out.println("    alert(postText(url));");
+                out.println("    alert('msg='+postText(url));");
                 out.println("  }");
 
                 out.println("  function createCoverDiv(divId, bgcolor, opacity) {");
@@ -169,7 +196,7 @@ public class Contact extends GenericAdmResource {
                 if (sprovider.getContactPhoneNumber() != null) {
                     out.println("<p>Puedes contact&aacute;rnos por tel&eaucte;fono al n&uacute;mero: " + sprovider.getContactPhoneNumber());
                     if (cuentaCorreo != null) {
-                        out.println("<br>O si lo prefieres, env&iacute;a un correo electr&oacute;nico proporcionando la siguiente informaci&oacute;n:");
+                        out.println("<br/>O si lo prefieres, env&iacute;a un correo electr&oacute;nico proporcionando la siguiente informaci&oacute;n:");
                     }
                     out.println("</p>");
                 }
@@ -197,7 +224,7 @@ public class Contact extends GenericAdmResource {
                 out.print("<tr>");
                 out.print("<td colspan=\"2\" align=\"center\"><br>");
                 SWBResourceURL url=paramsRequest.getRenderUrl();
-                url.setCallMethod(url.Call_DIRECT).setMode("sendEmail");
+                url.setCallMethod(url.Call_DIRECT).setMode("sendEmail").setParameter("uri", request.getParameter("uri"));
                 if (cuentaCorreo != null) {
                     out.print("<input name=\"submit\" type=\"button\" onclick=\"justdoit(\\'"+url+"\\'+\\'?name=\\'+dojo.byId(\\'name\\').value+\\'&email=\\'+dojo.byId(\\'email\\').value+\\'&subject=\\'+dojo.byId(\\'subject\\').value+\\'&message=\\'+dojo.byId(\\'message\\').value);removeCoverDiv(\\''+divId+'\\')\" value=\""+paramsRequest.getLocaleString("send")+"\" />");
                     out.print("&nbsp;&nbsp;&nbsp;");
