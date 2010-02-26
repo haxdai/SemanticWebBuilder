@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.SocketException;
+import java.util.Date;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -42,7 +43,7 @@ import org.semanticwb.portal.community.MicroSiteWebPageUtil;
 import org.semanticwb.portal.community.Organization;
 import org.semanticwb.servlet.internal.UploadFormElement;
 
-public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResourceBase 
+public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResourceBase
 {
     private static Logger log = SWBUtils.getLogger(DirectoryResource.class);
 
@@ -108,7 +109,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
             String key = names.nextElement();
             pars.put(key, request.getParameter(key));
         }
-        
+
         if (paramRequest.getAction().equals("excel"))
         {
             response.setContentType("application/vnd.ms-excel");
@@ -130,7 +131,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
             String paquete=request.getParameter("paq");
             if(paquete!=null && paquete.equals("f")) path+="?paq=f";
             else if(paquete!=null && paquete.equals("m")) path+="?paq=m";
-        } 
+        }
         else if (act.equals("add") && getAddJsp() != null)
         {
             path = getAddJsp();
@@ -367,7 +368,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     {
                         dirObj.setPhoto(dirPhoto);
 
-                    }  
+                    }
                     dirPhoto = request.getParameter("PhotoLogoHidden");
                     if (dirPhoto != null)
                     {
@@ -400,6 +401,8 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     ServiceProvider dirObj = (ServiceProvider) sobj.createGenericInstance();
                     dirObj.setDirectoryResource(this);
                     dirObj.setWebPage(response.getWebPage());
+                    dirObj.setSpCreator(user);
+                    dirObj.setCreated(new Date());
 
                     String refirect=null;
                     if(request.getParameter("destination")!=null) {
@@ -431,7 +434,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         ms.setDescription(dirObj.getDescription());
                         ms.setTags(dirObj.getTags());
                         ms.setActive(Boolean.TRUE);
-                        
+
                         //Le asigna el tipo de comunidad y el service provider al micrositio
                         MicroSiteType mstype=null;
                         if(pymetype==3) mstype=MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSite", wsite);
@@ -441,7 +444,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         }
 
                         ms.setServiceProvider(dirObj);
-                        
+
                         if(mstype!=null)
                         {
                             GenericIterator <MicroSiteUtil> gitmu=mstype.listMicroSiteUtils();

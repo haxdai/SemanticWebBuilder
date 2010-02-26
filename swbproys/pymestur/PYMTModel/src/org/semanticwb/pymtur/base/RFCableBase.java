@@ -3,62 +3,64 @@ package org.semanticwb.pymtur.base;
 
 public abstract class RFCableBase extends org.semanticwb.model.base.GenericObjectBase 
 {
-       public static final org.semanticwb.platform.SemanticClass pymtur_RfcType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#RfcType");
-       public static final org.semanticwb.platform.SemanticProperty pymtur_rfcType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#rfcType");
-       public static final org.semanticwb.platform.SemanticProperty pymtur_codigo_postal=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#codigo_postal");
-       public static final org.semanticwb.platform.SemanticProperty pymtur_rfc=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#rfc");
-       public static final org.semanticwb.platform.SemanticProperty pymtur_numero=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#numero");
-       public static final org.semanticwb.platform.SemanticProperty pymtur_nombre_o_razon=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#nombre_o_razon");
-       public static final org.semanticwb.platform.SemanticProperty pymtur_calle=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#calle");
-       public static final org.semanticwb.platform.SemanticProperty pymtur_colonia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#colonia");
-       public static final org.semanticwb.platform.SemanticProperty pymtur_ciudad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#ciudad");
-       public static final org.semanticwb.platform.SemanticClass pymtur_RFCable=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#RFCable");
-       public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#RFCable");
+    public static final org.semanticwb.platform.SemanticClass pymtur_RfcType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#RfcType");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_rfcType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#rfcType");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_codigo_postal=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#codigo_postal");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_rfc=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#rfc");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_numero=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#numero");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_nombre_o_razon=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#nombre_o_razon");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_calle=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#calle");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_colonia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#colonia");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_ciudad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#ciudad");
+    public static final org.semanticwb.platform.SemanticClass pymtur_RFCable=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#RFCable");
+    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#RFCable");
+
     public static class ClassMgr
     {
 
-       public static java.util.Iterator<org.semanticwb.pymtur.RFCable> listRFCables(org.semanticwb.model.SWBModel model)
-       {
-           java.util.Iterator it=model.getSemanticObject().getModel().listInstancesOfClass(sclass);
-           return new org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.RFCable>(it, true);
-       }
+        public static java.util.Iterator<org.semanticwb.pymtur.RFCable> listRFCables(org.semanticwb.model.SWBModel model)
+        {
+            java.util.Iterator it=model.getSemanticObject().getModel().listInstancesOfClass(sclass);
+            return new org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.RFCable>(it, true);
+        }
 
-       public static java.util.Iterator<org.semanticwb.pymtur.RFCable> listRFCables()
-       {
-           java.util.Iterator it=sclass.listInstances();
-           return new org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.RFCable>(it, true);
-       }
+        public static java.util.Iterator<org.semanticwb.pymtur.RFCable> listRFCables()
+        {
+            java.util.Iterator it=sclass.listInstances();
+            return new org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.RFCable>(it, true);
+        }
 
-       public static org.semanticwb.pymtur.RFCable getRFCable(String id, org.semanticwb.model.SWBModel model)
-       {
-           return (org.semanticwb.pymtur.RFCable)model.getSemanticObject().getModel().getGenericObject(model.getSemanticObject().getModel().getObjectUri(id,sclass),sclass);
-       }
+        public static org.semanticwb.pymtur.RFCable getRFCable(String id, org.semanticwb.model.SWBModel model)
+        {
+            return (org.semanticwb.pymtur.RFCable)model.getSemanticObject().getModel().getGenericObject(model.getSemanticObject().getModel().getObjectUri(id,sclass),sclass);
+        }
 
-       public static org.semanticwb.pymtur.RFCable createRFCable(String id, org.semanticwb.model.SWBModel model)
-       {
-           return (org.semanticwb.pymtur.RFCable)model.getSemanticObject().getModel().createGenericObject(model.getSemanticObject().getModel().getObjectUri(id, sclass), sclass);
-       }
+        public static org.semanticwb.pymtur.RFCable createRFCable(String id, org.semanticwb.model.SWBModel model)
+        {
+            return (org.semanticwb.pymtur.RFCable)model.getSemanticObject().getModel().createGenericObject(model.getSemanticObject().getModel().getObjectUri(id, sclass), sclass);
+        }
 
-       public static void removeRFCable(String id, org.semanticwb.model.SWBModel model)
-       {
-           model.getSemanticObject().getModel().removeSemanticObject(model.getSemanticObject().getModel().getObjectUri(id,sclass));
-       }
+        public static void removeRFCable(String id, org.semanticwb.model.SWBModel model)
+        {
+            model.getSemanticObject().getModel().removeSemanticObject(model.getSemanticObject().getModel().getObjectUri(id,sclass));
+        }
 
-       public static boolean hasRFCable(String id, org.semanticwb.model.SWBModel model)
-       {
-           return (getRFCable(id, model)!=null);
-       }
-   public static java.util.Iterator<org.semanticwb.pymtur.RFCable> listRFCableByRfcType(org.semanticwb.pymtur.RfcType rfctype,org.semanticwb.model.SWBModel model)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.RFCable> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(pymtur_rfcType, rfctype.getSemanticObject()));
-       return it;
-   }
+        public static boolean hasRFCable(String id, org.semanticwb.model.SWBModel model)
+        {
+            return (getRFCable(id, model)!=null);
+        }
 
-   public static java.util.Iterator<org.semanticwb.pymtur.RFCable> listRFCableByRfcType(org.semanticwb.pymtur.RfcType rfctype)
-   {
-       org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.RFCable> it=new org.semanticwb.model.GenericIterator(rfctype.getSemanticObject().getModel().listSubjects(pymtur_rfcType,rfctype.getSemanticObject()));
-       return it;
-   }
+        public static java.util.Iterator<org.semanticwb.pymtur.RFCable> listRFCableByRfcType(org.semanticwb.pymtur.RfcType rfctype,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.RFCable> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(pymtur_rfcType, rfctype.getSemanticObject()));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.pymtur.RFCable> listRFCableByRfcType(org.semanticwb.pymtur.RfcType rfctype)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.RFCable> it=new org.semanticwb.model.GenericIterator(rfctype.getSemanticObject().getModel().listSubjects(pymtur_rfcType,rfctype.getSemanticObject()));
+            return it;
+        }
     }
 
     public RFCableBase(org.semanticwb.platform.SemanticObject base)
@@ -75,7 +77,6 @@ public abstract class RFCableBase extends org.semanticwb.model.base.GenericObjec
     {
         getSemanticObject().removeProperty(pymtur_rfcType);
     }
-
 
     public org.semanticwb.pymtur.RfcType getRfcType()
     {
