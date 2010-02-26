@@ -61,7 +61,7 @@ namespace WBWord
             FileRepository filerep = (FileRepository)this.listViewFiles.SelectedItems[0];
             String url = filerep.URL;
             //object address = "wbrelpath://" + url;
-            object address = "wbrelpath://"+filerep.FolderRepository.TopicResource + "/_rid/1/_mto/3/" + url + "?repfop=view&reptp=" + filerep.FolderRepository.ID + "&repfiddoc=" + filerep.ID + "&repinline=true";
+            object address = "wbrelpath://" + "../../"+filerep.FolderRepository.SiteID+"/"+ filerep.FolderRepository.TopicResource + "/_rid/1/_mto/3/" + url + "?repfop=view&reptp=" + filerep.FolderRepository.ID + "&repfiddoc=" + filerep.ID + "&repinline=true";
             object text = ((FileRepository)this.listViewFiles.SelectedItems[0]).Text;
             CWebBuilder.doc.Hyperlinks.Add(CWebBuilder.app.Selection.Range, ref address, ref missing, ref missing, ref text, ref missing);
             this.Close();
