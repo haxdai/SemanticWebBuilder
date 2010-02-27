@@ -1,8 +1,10 @@
 package org.semanticwb.pymtur.base;
 
 
-public abstract class ExperienceBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Resourceable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableClass,org.semanticwb.model.RuleRefable,org.semanticwb.model.Expirable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Indexable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Traceable,org.semanticwb.model.Activeable,org.semanticwb.model.Viewable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Hiddenable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Rankable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Trashable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Referensable,org.semanticwb.model.Searchable
+public abstract class ExperienceBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
+    public static final org.semanticwb.platform.SemanticClass pymtur_Destination=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Destination");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_hasDestinationExperienceInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#hasDestinationExperienceInv");
     public static final org.semanticwb.platform.SemanticClass pymtur_Experience=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Experience");
     public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Experience");
 
@@ -19,6 +21,12 @@ public abstract class ExperienceBase extends org.semanticwb.model.WebPage implem
         {
             java.util.Iterator it=sclass.listInstances();
             return new org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience>(it, true);
+        }
+
+        public static org.semanticwb.pymtur.Experience createExperience(org.semanticwb.model.SWBModel model)
+        {
+            long id=model.getSemanticObject().getModel().getCounter(sclass);
+            return org.semanticwb.pymtur.Experience.ClassMgr.createExperience(String.valueOf(id), model);
         }
 
         public static org.semanticwb.pymtur.Experience getExperience(String id, org.semanticwb.model.SWBModel model)
@@ -41,123 +49,15 @@ public abstract class ExperienceBase extends org.semanticwb.model.WebPage implem
             return (getExperience(id, model)!=null);
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.Experience> listExperienceByAssMember(org.semanticwb.model.AssMember hasassmemberinv,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.pymtur.Experience> listExperienceByDestinationExperienceInv(org.semanticwb.pymtur.Destination hasdestinationexperienceinv,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasAssMemberInv, hasassmemberinv.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(pymtur_hasDestinationExperienceInv, hasdestinationexperienceinv.getSemanticObject()));
             return it;
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.Experience> listExperienceByAssMember(org.semanticwb.model.AssMember hasassmemberinv)
+        public static java.util.Iterator<org.semanticwb.pymtur.Experience> listExperienceByDestinationExperienceInv(org.semanticwb.pymtur.Destination hasdestinationexperienceinv)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience> it=new org.semanticwb.model.GenericIterator(hasassmemberinv.getSemanticObject().getModel().listSubjects(swb_hasAssMemberInv,hasassmemberinv.getSemanticObject()));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.Experience> listExperienceByVirtualParent(org.semanticwb.model.WebPage haswebpagevirtualparent,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasWebPageVirtualParent, haswebpagevirtualparent.getSemanticObject()));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.Experience> listExperienceByVirtualParent(org.semanticwb.model.WebPage haswebpagevirtualparent)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience> it=new org.semanticwb.model.GenericIterator(haswebpagevirtualparent.getSemanticObject().getModel().listSubjects(swb_hasWebPageVirtualParent,haswebpagevirtualparent.getSemanticObject()));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.Experience> listExperienceByCalendarRef(org.semanticwb.model.CalendarRef hascalendarref,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasCalendarRef, hascalendarref.getSemanticObject()));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.Experience> listExperienceByCalendarRef(org.semanticwb.model.CalendarRef hascalendarref)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience> it=new org.semanticwb.model.GenericIterator(hascalendarref.getSemanticObject().getModel().listSubjects(swb_hasCalendarRef,hascalendarref.getSemanticObject()));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.Experience> listExperienceByParent(org.semanticwb.model.WebPage webpageparent,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_webPageParent, webpageparent.getSemanticObject()));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.Experience> listExperienceByParent(org.semanticwb.model.WebPage webpageparent)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience> it=new org.semanticwb.model.GenericIterator(webpageparent.getSemanticObject().getModel().listSubjects(swb_webPageParent,webpageparent.getSemanticObject()));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.Experience> listExperienceByCreator(org.semanticwb.model.User creator,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_creator, creator.getSemanticObject()));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.Experience> listExperienceByCreator(org.semanticwb.model.User creator)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience> it=new org.semanticwb.model.GenericIterator(creator.getSemanticObject().getModel().listSubjects(swb_creator,creator.getSemanticObject()));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.Experience> listExperienceByUserGroupRef(org.semanticwb.model.UserGroupRef hasusergroupref,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasUserGroupRef, hasusergroupref.getSemanticObject()));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.Experience> listExperienceByUserGroupRef(org.semanticwb.model.UserGroupRef hasusergroupref)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience> it=new org.semanticwb.model.GenericIterator(hasusergroupref.getSemanticObject().getModel().listSubjects(swb_hasUserGroupRef,hasusergroupref.getSemanticObject()));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.Experience> listExperienceByWebPageVirtualChild(org.semanticwb.model.WebPage haswebpagevirtualchild,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasWebPageVirtualChild, haswebpagevirtualchild.getSemanticObject()));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.Experience> listExperienceByWebPageVirtualChild(org.semanticwb.model.WebPage haswebpagevirtualchild)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience> it=new org.semanticwb.model.GenericIterator(haswebpagevirtualchild.getSemanticObject().getModel().listSubjects(swb_hasWebPageVirtualChild,haswebpagevirtualchild.getSemanticObject()));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.Experience> listExperienceByTemplateRef(org.semanticwb.model.TemplateRef hastemplateref,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasTemplateRef, hastemplateref.getSemanticObject()));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.Experience> listExperienceByTemplateRef(org.semanticwb.model.TemplateRef hastemplateref)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience> it=new org.semanticwb.model.GenericIterator(hastemplateref.getSemanticObject().getModel().listSubjects(swb_hasTemplateRef,hastemplateref.getSemanticObject()));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.Experience> listExperienceByPFlowRef(org.semanticwb.model.PFlowRef haspflowref,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasPFlowRef, haspflowref.getSemanticObject()));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.Experience> listExperienceByPFlowRef(org.semanticwb.model.PFlowRef haspflowref)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience> it=new org.semanticwb.model.GenericIterator(haspflowref.getSemanticObject().getModel().listSubjects(swb_hasPFlowRef,haspflowref.getSemanticObject()));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.Experience> listExperienceByChild(org.semanticwb.model.WebPage haswebpagechild,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasWebPageChild, haswebpagechild.getSemanticObject()));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.Experience> listExperienceByChild(org.semanticwb.model.WebPage haswebpagechild)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience> it=new org.semanticwb.model.GenericIterator(haswebpagechild.getSemanticObject().getModel().listSubjects(swb_hasWebPageChild,haswebpagechild.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience> it=new org.semanticwb.model.GenericIterator(hasdestinationexperienceinv.getSemanticObject().getModel().listSubjects(pymtur_hasDestinationExperienceInv,hasdestinationexperienceinv.getSemanticObject()));
             return it;
         }
 
@@ -173,63 +73,15 @@ public abstract class ExperienceBase extends org.semanticwb.model.WebPage implem
             return it;
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.Experience> listExperienceByResource(org.semanticwb.model.Resource hasresource,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.pymtur.Experience> listExperienceByCreator(org.semanticwb.model.User creator,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasResource, hasresource.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_creator, creator.getSemanticObject()));
             return it;
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.Experience> listExperienceByResource(org.semanticwb.model.Resource hasresource)
+        public static java.util.Iterator<org.semanticwb.pymtur.Experience> listExperienceByCreator(org.semanticwb.model.User creator)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience> it=new org.semanticwb.model.GenericIterator(hasresource.getSemanticObject().getModel().listSubjects(swb_hasResource,hasresource.getSemanticObject()));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.Experience> listExperienceByRoleRef(org.semanticwb.model.RoleRef hasroleref,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasRoleRef, hasroleref.getSemanticObject()));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.Experience> listExperienceByRoleRef(org.semanticwb.model.RoleRef hasroleref)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience> it=new org.semanticwb.model.GenericIterator(hasroleref.getSemanticObject().getModel().listSubjects(swb_hasRoleRef,hasroleref.getSemanticObject()));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.Experience> listExperienceByThisRoleAssMember(org.semanticwb.model.AssMember hasthisroleassmemberinv,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasThisRoleAssMemberInv, hasthisroleassmemberinv.getSemanticObject()));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.Experience> listExperienceByThisRoleAssMember(org.semanticwb.model.AssMember hasthisroleassmemberinv)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience> it=new org.semanticwb.model.GenericIterator(hasthisroleassmemberinv.getSemanticObject().getModel().listSubjects(swb_hasThisRoleAssMemberInv,hasthisroleassmemberinv.getSemanticObject()));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.Experience> listExperienceByRuleRef(org.semanticwb.model.RuleRef hasruleref,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasRuleRef, hasruleref.getSemanticObject()));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.Experience> listExperienceByRuleRef(org.semanticwb.model.RuleRef hasruleref)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience> it=new org.semanticwb.model.GenericIterator(hasruleref.getSemanticObject().getModel().listSubjects(swb_hasRuleRef,hasruleref.getSemanticObject()));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.Experience> listExperienceByThisTypeAssociation(org.semanticwb.model.Association hasthistypeassociationinv,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasThisTypeAssociationInv, hasthistypeassociationinv.getSemanticObject()));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.Experience> listExperienceByThisTypeAssociation(org.semanticwb.model.Association hasthistypeassociationinv)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience> it=new org.semanticwb.model.GenericIterator(hasthistypeassociationinv.getSemanticObject().getModel().listSubjects(swb_hasThisTypeAssociationInv,hasthistypeassociationinv.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Experience> it=new org.semanticwb.model.GenericIterator(creator.getSemanticObject().getModel().listSubjects(swb_creator,creator.getSemanticObject()));
             return it;
         }
     }
@@ -237,6 +89,144 @@ public abstract class ExperienceBase extends org.semanticwb.model.WebPage implem
     public ExperienceBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Destination> listDestinationExperienceInvs()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Destination>(getSemanticObject().listObjectProperties(pymtur_hasDestinationExperienceInv));
+    }
+
+    public boolean hasDestinationExperienceInv(org.semanticwb.pymtur.Destination destination)
+    {
+        boolean ret=false;
+        if(destination!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(pymtur_hasDestinationExperienceInv,destination.getSemanticObject());
+        }
+        return ret;
+    }
+
+    public org.semanticwb.pymtur.Destination getDestinationExperienceInv()
+    {
+         org.semanticwb.pymtur.Destination ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(pymtur_hasDestinationExperienceInv);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.pymtur.Destination)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+    public java.util.Date getCreated()
+    {
+        return getSemanticObject().getDateProperty(swb_created);
+    }
+
+    public void setCreated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_created, value);
+    }
+
+    public void setModifiedBy(org.semanticwb.model.User value)
+    {
+        getSemanticObject().setObjectProperty(swb_modifiedBy, value.getSemanticObject());
+    }
+
+    public void removeModifiedBy()
+    {
+        getSemanticObject().removeProperty(swb_modifiedBy);
+    }
+
+    public org.semanticwb.model.User getModifiedBy()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_modifiedBy);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+    public String getTitle()
+    {
+        return getSemanticObject().getProperty(swb_title);
+    }
+
+    public void setTitle(String value)
+    {
+        getSemanticObject().setProperty(swb_title, value);
+    }
+
+    public String getTitle(String lang)
+    {
+        return getSemanticObject().getProperty(swb_title, null, lang);
+    }
+
+    public String getDisplayTitle(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_title, lang);
+    }
+
+    public void setTitle(String title, String lang)
+    {
+        getSemanticObject().setProperty(swb_title, title, lang);
+    }
+
+    public java.util.Date getUpdated()
+    {
+        return getSemanticObject().getDateProperty(swb_updated);
+    }
+
+    public void setUpdated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_updated, value);
+    }
+
+    public void setCreator(org.semanticwb.model.User value)
+    {
+        getSemanticObject().setObjectProperty(swb_creator, value.getSemanticObject());
+    }
+
+    public void removeCreator()
+    {
+        getSemanticObject().removeProperty(swb_creator);
+    }
+
+    public org.semanticwb.model.User getCreator()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_creator);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+    public String getDescription()
+    {
+        return getSemanticObject().getProperty(swb_description);
+    }
+
+    public void setDescription(String value)
+    {
+        getSemanticObject().setProperty(swb_description, value);
+    }
+
+    public String getDescription(String lang)
+    {
+        return getSemanticObject().getProperty(swb_description, null, lang);
+    }
+
+    public String getDisplayDescription(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_description, lang);
+    }
+
+    public void setDescription(String description, String lang)
+    {
+        getSemanticObject().setProperty(swb_description, description, lang);
     }
 
     public org.semanticwb.pymtur.PyMesWebSite getPyMesWebSite()
