@@ -397,6 +397,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                 mgr.setFilterRequired(false);
                 try
                 {
+                    SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("").listInstances();
                     SemanticObject sobj = mgr.processForm(request);
                     ServiceProvider dirObj = (ServiceProvider) sobj.createGenericInstance();
                     dirObj.setDirectoryResource(this);
@@ -910,90 +911,41 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
     private Iterator<ServiceProvider> getDirectoryObjects(Destination dest, HashMap<String, String> pars) {
         Iterator<ServiceProvider> it_res = null;
         ArrayList<ServiceProvider> providers = new ArrayList<ServiceProvider>();
+        ArrayList<ServiceProvider> tar = new ArrayList<ServiceProvider>();
+        Iterator<SemanticObject> so_it = dest.getWebSite().getSemanticObject().getModel().listInstancesOfClass(ServiceProvider.sclass);
 
-        //Obtener por destino (se va a sustituir por la búsqueda)
-        if (dest != null) {
-            it_res = ServiceProvider.ClassMgr.listServiceProviderByDestination(dest);
-        } else {
-            it_res = ServiceProvider.ClassMgr.listServiceProviders();
-        }
-
-        while (it_res.hasNext()) {
-            ServiceProvider sp = it_res.next();
+        while (so_it.hasNext()) {
+            SemanticObject so = so_it.next();
+            ServiceProvider sp = (ServiceProvider)so.createGenericInstance();
             providers.add(sp);
         }
 
+        //Filtrar por destino
         it_res = providers.iterator();
-        providers = new ArrayList<ServiceProvider>();
+        while(it_res.hasNext()) {
+            ServiceProvider sp = it_res.next();
+            if (sp.getDestination() != null) {
+                if (sp.getDestination().getURI().equals(dest.getURI())) {
+                    tar.add(sp);
+                }
+            }
+        }
 
         //Filtrar por tipo de hospedaje
         if (pars.get("spType") != null) {
+            providers = tar;
+            it_res = providers.iterator();
+            tar = new ArrayList<ServiceProvider>();
             SPType t = (SPType)SemanticObject.createSemanticObject(URLDecoder.decode(pars.get("spType"))).createGenericInstance();
             while (it_res.hasNext()) {
                 ServiceProvider sp = it_res.next();
                 if (((SPType)sp.getWebPage()).equals(t)) {
-                    providers.add(sp);
+                    tar.add(sp);
                 }
             }
         }
 
-        it_res = providers.iterator();
-        providers = new ArrayList<ServiceProvider>();
-
-        //Filtrar por tipo de evento
-        if (pars.get("evtType") != null) {
-            Event e = (Event)SemanticObject.createSemanticObject(URLDecoder.decode(pars.get("evtType"))).createGenericInstance();
-            while (it_res.hasNext()) {
-                ServiceProvider sp = it_res.next();
-                if (((Event)sp.getWebPage()).equals(e)) {
-                    providers.add(sp);
-                }
-            }
-        }
-
-        it_res = providers.iterator();
-        providers = new ArrayList<ServiceProvider>();
-
-        //Filtrar por actividad
-        if (pars.get("actType") != null) {
-            Activity a = (Activity)SemanticObject.createSemanticObject(URLDecoder.decode(pars.get("actType"))).createGenericInstance();
-            while (it_res.hasNext()) {
-                ServiceProvider sp = it_res.next();
-                if (((Activity)sp.getWebPage()).equals(a)) {
-                    providers.add(sp);
-                }
-            }
-        }
-
-        /*Filtrar por tipo de turismo
-        it_res = providers.iterator();
-        providers = new ArrayList<ServiceProvider>();
-
-        if (pars.get("turType") != null) {
-            TourismType t = (TourismType)SemanticObject.createSemanticObject(URLDecoder.decode(pars.get("turType"))).createGenericInstance();
-            while (it_res.hasNext()) {
-                ServiceProvider sp = it_res.next();
-                if (((TourismType)sp.getWebPage()).equals(t)) {
-                    providers.add(sp);
-                }
-            }
-        }*/
-
-        /*Filtrar por experiencia
-        it_res = providers.iterator();
-        providers = new ArrayList<ServiceProvider>();
-
-        if (pars.get("turType") != null) {
-            TourismType t = (TourismType)SemanticObject.createSemanticObject(URLDecoder.decode(pars.get("turType"))).createGenericInstance();
-            while (it_res.hasNext()) {
-                ServiceProvider sp = it_res.next();
-                if (((TourismType)sp.getWebPage()).equals(t)) {
-                    providers.add(sp);
-                }
-            }
-        }*/
-
-        return providers.iterator();
+        return tar.iterator();
     }
 
 }
