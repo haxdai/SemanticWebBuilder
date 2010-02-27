@@ -284,18 +284,6 @@ public abstract class HospedajeBase extends org.semanticwb.pymtur.ServiceProvide
             return it;
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.Hospedaje> listHospedajeByExperienceRef(org.semanticwb.pymtur.ExperienceRef hasexperienceref,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Hospedaje> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(pymtur_hasExperienceRef, hasexperienceref.getSemanticObject()));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.Hospedaje> listHospedajeByExperienceRef(org.semanticwb.pymtur.ExperienceRef hasexperienceref)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Hospedaje> it=new org.semanticwb.model.GenericIterator(hasexperienceref.getSemanticObject().getModel().listSubjects(pymtur_hasExperienceRef,hasexperienceref.getSemanticObject()));
-            return it;
-        }
-
         public static java.util.Iterator<org.semanticwb.pymtur.Hospedaje> listHospedajeByMicroSitePymeInv(org.semanticwb.pymtur.MicroSitePyme micrositepymeinv,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Hospedaje> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(pymtur_microSitePymeInv, micrositepymeinv.getSemanticObject()));

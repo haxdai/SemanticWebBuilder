@@ -43,8 +43,6 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
     public static final org.semanticwb.platform.SemanticProperty pymtur_MinRate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#MinRate");
     public static final org.semanticwb.platform.SemanticProperty pymtur_spInstalationsPymePhotosComments=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#spInstalationsPymePhotosComments");
     public static final org.semanticwb.platform.SemanticProperty pymtur_pymePaqueteType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#pymePaqueteType");
-    public static final org.semanticwb.platform.SemanticClass pymtur_ExperienceRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#ExperienceRef");
-    public static final org.semanticwb.platform.SemanticProperty pymtur_hasExperienceRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#hasExperienceRef");
     public static final org.semanticwb.platform.SemanticClass pymtur_MicroSitePyme=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#MicroSitePyme");
     public static final org.semanticwb.platform.SemanticProperty pymtur_microSitePymeInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#microSitePymeInv");
     public static final org.semanticwb.platform.SemanticProperty pymtur_PhotoLogo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#PhotoLogo");
@@ -313,18 +311,6 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
         public static java.util.Iterator<org.semanticwb.pymtur.ServiceProvider> listServiceProviderByComment(org.semanticwb.portal.community.Comment hascomment)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.ServiceProvider> it=new org.semanticwb.model.GenericIterator(hascomment.getSemanticObject().getModel().listSubjects(swbcomm_hasComment,hascomment.getSemanticObject()));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.ServiceProvider> listServiceProviderByExperienceRef(org.semanticwb.pymtur.ExperienceRef hasexperienceref,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.ServiceProvider> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(pymtur_hasExperienceRef, hasexperienceref.getSemanticObject()));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.ServiceProvider> listServiceProviderByExperienceRef(org.semanticwb.pymtur.ExperienceRef hasexperienceref)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.ServiceProvider> it=new org.semanticwb.model.GenericIterator(hasexperienceref.getSemanticObject().getModel().listSubjects(pymtur_hasExperienceRef,hasexperienceref.getSemanticObject()));
             return it;
         }
 
@@ -1098,47 +1084,6 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
     public void setPymePaqueteType(int value)
     {
         getSemanticObject().setIntProperty(pymtur_pymePaqueteType, value);
-    }
-
-    public org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.ExperienceRef> listExperienceRefs()
-    {
-        return new org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.ExperienceRef>(getSemanticObject().listObjectProperties(pymtur_hasExperienceRef));
-    }
-
-    public boolean hasExperienceRef(org.semanticwb.pymtur.ExperienceRef experienceref)
-    {
-        boolean ret=false;
-        if(experienceref!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(pymtur_hasExperienceRef,experienceref.getSemanticObject());
-        }
-        return ret;
-    }
-
-    public void addExperienceRef(org.semanticwb.pymtur.ExperienceRef value)
-    {
-        getSemanticObject().addObjectProperty(pymtur_hasExperienceRef, value.getSemanticObject());
-    }
-
-    public void removeAllExperienceRef()
-    {
-        getSemanticObject().removeProperty(pymtur_hasExperienceRef);
-    }
-
-    public void removeExperienceRef(org.semanticwb.pymtur.ExperienceRef experienceref)
-    {
-        getSemanticObject().removeObjectProperty(pymtur_hasExperienceRef,experienceref.getSemanticObject());
-    }
-
-    public org.semanticwb.pymtur.ExperienceRef getExperienceRef()
-    {
-         org.semanticwb.pymtur.ExperienceRef ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(pymtur_hasExperienceRef);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.pymtur.ExperienceRef)obj.createGenericInstance();
-         }
-         return ret;
     }
 
     public void setMicroSitePymeInv(org.semanticwb.pymtur.MicroSitePyme value)
