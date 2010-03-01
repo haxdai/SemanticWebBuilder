@@ -102,6 +102,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
+        WebSite site = paramRequest.getWebPage().getWebSite();
         Enumeration<String> names = request.getParameterNames();
         HashMap<String, String> pars = new HashMap<String, String>();
 
@@ -160,7 +161,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
         }
         try
         {
-            request.setAttribute("itDirObjs", getDirectoryObjects(dest, pars));
+            request.setAttribute("itDirObjs", getDirectoryObjects(site, dest, pars));
             request.setAttribute("sobj", getDirectoryClass());
             request.setAttribute("paramRequest", paramRequest);
             dis.include(request, response);
@@ -912,11 +913,11 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
         return res;
     }
 
-    private Iterator<ServiceProvider> getDirectoryObjects(Destination dest, HashMap<String, String> pars) {
+    private Iterator<ServiceProvider> getDirectoryObjects(WebSite site, Destination dest, HashMap<String, String> pars) {
         Iterator<ServiceProvider> it_res = null;
         ArrayList<ServiceProvider> providers = new ArrayList<ServiceProvider>();
         ArrayList<ServiceProvider> tar = new ArrayList<ServiceProvider>();
-        Iterator<SemanticObject> so_it = dest.getWebSite().getSemanticObject().getModel().listInstancesOfClass(ServiceProvider.sclass);
+        Iterator<SemanticObject> so_it = site.getSemanticObject().getModel().listInstancesOfClass(ServiceProvider.sclass);
 
         while (so_it.hasNext()) {
             SemanticObject so = so_it.next();
