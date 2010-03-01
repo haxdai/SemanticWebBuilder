@@ -10,6 +10,7 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
     public static final org.semanticwb.platform.SemanticClass pymtur_TourismType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#TourismType");
     public static final org.semanticwb.platform.SemanticClass pymtur_Instalation=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Instalation");
     public static final org.semanticwb.platform.SemanticClass pymtur_Hospedaje=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Hospedaje");
+    public static final org.semanticwb.platform.SemanticClass pymtur_ExperienceType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#ExperienceType");
     public static final org.semanticwb.platform.SemanticClass pymtur_Experience=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Experience");
     public static final org.semanticwb.platform.SemanticClass pymtur_ServiceProvider=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#ServiceProvider");
     public static final org.semanticwb.platform.SemanticClass pymtur_Region=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Region");
@@ -378,6 +379,36 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
     public boolean hasHospedaje(String id)
     {
         return org.semanticwb.pymtur.Hospedaje.ClassMgr.hasHospedaje(id, this);
+    }
+
+    public org.semanticwb.pymtur.ExperienceType getExperienceType(String id)
+    {
+        return org.semanticwb.pymtur.ExperienceType.ClassMgr.getExperienceType(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.pymtur.ExperienceType> listExperienceTypes()
+    {
+        return org.semanticwb.pymtur.ExperienceType.ClassMgr.listExperienceTypes(this);
+    }
+
+    public org.semanticwb.pymtur.ExperienceType createExperienceType(String id)
+    {
+        return org.semanticwb.pymtur.ExperienceType.ClassMgr.createExperienceType(id,this);
+    }
+
+    public org.semanticwb.pymtur.ExperienceType createExperienceType()
+    {
+        long id=getSemanticObject().getModel().getCounter(pymtur_ExperienceType);
+        return org.semanticwb.pymtur.ExperienceType.ClassMgr.createExperienceType(String.valueOf(id),this);
+    } 
+
+    public void removeExperienceType(String id)
+    {
+        org.semanticwb.pymtur.ExperienceType.ClassMgr.removeExperienceType(id, this);
+    }
+    public boolean hasExperienceType(String id)
+    {
+        return org.semanticwb.pymtur.ExperienceType.ClassMgr.hasExperienceType(id, this);
     }
 
     public org.semanticwb.pymtur.Experience getExperience(String id)
