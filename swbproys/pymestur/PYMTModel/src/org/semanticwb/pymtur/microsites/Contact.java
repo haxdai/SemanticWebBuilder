@@ -52,23 +52,26 @@ public class Contact extends GenericAdmResource {
     }
 
     public void doSendEmail(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramsRequest) throws SWBResourceException, IOException {
-        SemanticObject sobj;
-        ServiceProvider sprovider = null;
+        response.setContentType("text/html; charset=ISO-8859-1");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
         
-        try {
-            sprovider = ((MicroSitePyme)paramsRequest.getWebPage()).getServiceProvider();
-        }catch(Exception e) {
-            String uri = request.getParameter("uri");
-            sobj=SemanticObject.createSemanticObject(uri);
-            if(sobj.getGenericInstance() instanceof MicroSitePyme) {
-                MicroSitePyme msp = (MicroSitePyme) sobj.getGenericInstance();
-                sprovider=msp.getServiceProvider();
-            }
+        ServiceProvider sprovider = null;
+        WebPage community = null;
+        WebPage currentpage = (WebPage) request.getAttribute("webpage");
+        if(currentpage == null) {
+            currentpage = paramsRequest.getWebPage();
         }
+        if(currentpage instanceof MicroSitePyme) {
+            community = currentpage;
+        }else {
+            community = currentpage.getParent();
+        }
+        MicroSitePyme ms = (MicroSitePyme)community;
+        sprovider = ms.getServiceProvider();
 
         Resource base = getResourceBase();
         PrintWriter out = response.getWriter();
-        response.setContentType("text/html;charset=iso-8859-1");
 
         String site = base.getWebSite().getDisplayTitle(paramsRequest.getUser().getLanguage());
         String name = request.getParameter("name");
@@ -124,36 +127,23 @@ public class Contact extends GenericAdmResource {
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramsRequest) throws SWBResourceException, IOException {
-        SemanticObject sobj = null;
+        response.setContentType("text/html; charset=ISO-8859-1");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
+        
         ServiceProvider sprovider = null;
-
-        try {
-
-            WebPage community = null;
-            WebPage currentpage = (WebPage) request.getAttribute("webpage");
-
-            if (currentpage == null) {
-                currentpage = paramsRequest.getWebPage();
-            }
-
-            if (currentpage instanceof MicroSitePyme) {
-                community = currentpage;
-            } else {
-                community = currentpage.getParent();
-            }
-            if (community != null) {
-                MicroSitePyme ms = (MicroSitePyme) community;
-                sprovider = ms.getServiceProvider();
-            }
-        } catch (Exception e) {
-
-            String uri = request.getParameter("uri");
-            sobj=SemanticObject.createSemanticObject(uri);
-            if(sobj.getGenericInstance() instanceof MicroSitePyme) {
-                MicroSitePyme msp = (MicroSitePyme) sobj.getGenericInstance();
-                sprovider=msp.getServiceProvider();
-            }
+        WebPage community = null;
+        WebPage currentpage = (WebPage) request.getAttribute("webpage");
+        if(currentpage == null) {
+            currentpage = paramsRequest.getWebPage();
         }
+        if(currentpage instanceof MicroSitePyme) {
+            community = currentpage;
+        }else {
+            community = currentpage.getParent();
+        }
+        MicroSitePyme ms = (MicroSitePyme)community;
+        sprovider = ms.getServiceProvider();
         
         Resource base = getResourceBase();
         PrintWriter out = response.getWriter();
