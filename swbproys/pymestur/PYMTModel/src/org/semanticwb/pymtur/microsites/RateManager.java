@@ -158,7 +158,7 @@ public class RateManager extends GenericAdmResource {
                 }
                 rulesScript.append("</optgroup>");
             }
-            out.println("<tr><td align=\"right\" width=\"40%\">Rol/Grupo de usuarios para admnistración de tarifas: </td>");
+            out.println("<tr><td align=\"right\" width=\"40%\">Rol/Grupo de usuarios para admnistrar: </td>");
             out.println("<td><select name=\""+MGR_ATTR+"\">"+rulesScript+"</select></td></tr>");
             out.println("</table>");
             out.println("</fieldset>");

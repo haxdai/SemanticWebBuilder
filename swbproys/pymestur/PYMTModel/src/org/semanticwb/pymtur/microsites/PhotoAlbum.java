@@ -3,6 +3,8 @@ package org.semanticwb.pymtur.microsites;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -37,8 +39,8 @@ import org.semanticwb.platform.SemanticOntology;
  * @author carlos.ramos
  */
 
-public class PhotoAlbun extends GenericResource {
-    private static Logger log = SWBUtils.getLogger(PhotoAlbun.class);
+public class PhotoAlbum extends GenericResource {
+    private static Logger log = SWBUtils.getLogger(PhotoAlbum.class);
     private WBAdmResourceUtils admResUtils=new WBAdmResourceUtils();
     private String workPath;
     private String webWorkPath;
@@ -47,6 +49,7 @@ public class PhotoAlbun extends GenericResource {
     private static final String ADMIN_AXN = "admin_update";
     private static final String MGR_ATTR = "edit";
     private static final String UPDATE_DONE = "ok";
+    private static final String ADD = "add";
 
     @Override
     public void setResourceBase(Resource base) {
@@ -70,21 +73,19 @@ public class PhotoAlbun extends GenericResource {
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
 
-        Resource base = getResourceBase();
-        PrintWriter out = response.getWriter();
-
-//        SemanticObject sobj;
-//        ServiceProvider sprovider = null;
-//        try {
-//            sprovider = ((MicroSitePyme)paramsRequest.getWebPage()).getServiceProvider();
-//        }catch(Exception e) {
-//            String uri = request.getParameter("uri");
-//            sobj=SemanticObject.createSemanticObject(uri);
-//            if(sobj.getGenericInstance() instanceof MicroSitePyme) {
-//                MicroSitePyme msp = (MicroSitePyme) sobj.getGenericInstance();
-//                sprovider=msp.getServiceProvider();
-//            }
-//        }
+        ServiceProvider sprovider = null;
+        WebPage community = null;
+        WebPage currentpage = (WebPage) request.getAttribute("webpage");
+        if(currentpage == null) {
+            currentpage = paramsRequest.getWebPage();
+        }
+        if(currentpage instanceof MicroSitePyme) {
+            community = currentpage;
+        }else {
+            community = currentpage.getParent();
+        }
+        MicroSitePyme ms = (MicroSitePyme)community;
+        sprovider = ms.getServiceProvider();
 
         /*sprovider.listEstablishmentPymePhotos()
         sprovider.listExtraPhotos()
@@ -119,22 +120,9 @@ public class PhotoAlbun extends GenericResource {
 //    }
 //}
 
-        ServiceProvider sprovider = null;
-        WebPage community = null;
-        WebPage currentpage = (WebPage) request.getAttribute("webpage");
-        if(currentpage == null) {
-            currentpage = paramsRequest.getWebPage();
-        }
-        if(currentpage instanceof MicroSitePyme) {
-            community = currentpage;
-        }else {
-            community = currentpage.getParent();
-        }
-        MicroSitePyme ms = (MicroSitePyme)community;
-        sprovider = ms.getServiceProvider();
-
-
-
+        Resource base = getResourceBase();
+        PrintWriter out = response.getWriter();
+        
         if(paramsRequest.getCallMethod()==paramsRequest.Call_STRATEGY) {
             ArrayList<String> photos = new ArrayList<String>();
             Iterator<String> it = base.getAttributeNames();
@@ -221,139 +209,31 @@ public class PhotoAlbun extends GenericResource {
             }
             out.println("});");
             out.println("</script>");
-        }
-    }
 
-    @Override
-    public void doAdmin(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        response.setContentType("text/html;charset=iso-8859-1");
-        PrintWriter out = response.getWriter();
-
-        Resource base=getResourceBase();
-
-        String msg = "Operación indefinida";
-        String action = null != request.getParameter("act") && !"".equals(request.getParameter("act").trim()) ? request.getParameter("act").trim() : paramRequest.getAction();
-
-        if(action.equalsIgnoreCase("add") || action.equalsIgnoreCase("edit")) {
-            out.println(getForm(request, paramRequest));
-        }else if(action.equalsIgnoreCase("update")) {
-            FileUpload fup = new FileUpload();
-            try {
-                fup.getFiles(request, response);
-                
-                String value = null!=fup.getValue("width") && !"".equals(fup.getValue("width").trim()) ? fup.getValue("width").trim() : "180";
-                base.setAttribute("width", value);
-                value = null!=fup.getValue("height") && !"".equals(fup.getValue("height").trim()) ? fup.getValue("height").trim() : "180";
-                base.setAttribute("height", value);
-                
-                int i = 1;
-                int width = Integer.parseInt(base.getAttribute("width"));
-                String filenameAttr, removeChk;
-                do {
-                //for(int j=0; j<15; j++) {
-                    filenameAttr = "imggallery_" + base.getId() + "_" + i;
-                    removeChk = "remove_" + base.getId() + "_" + i;
-                    value = null!=fup.getValue(removeChk) && !"".equals(fup.getValue(removeChk).trim()) ? fup.getValue(removeChk).trim() : "0";
-
-                    if("1".equals(value) && base.getAttribute(filenameAttr)!=null) {
-                        File file = new File(workPath + base.getAttribute(filenameAttr));
-                        file.delete();
-                        file = new File(workPath + _thumbnail + base.getAttribute(filenameAttr));
-                        file.delete();
-                        base.removeAttribute(filenameAttr);
-                    }else {
-                        value = null!=fup.getFileName(filenameAttr) && !"".equals(fup.getFileName(filenameAttr).trim()) ? fup.getFileName(filenameAttr).trim() : null;
-                        if(value!=null) {
-                            String filename = admResUtils.getFileName(base, value);
-                            if(filename!=null && !filename.trim().equals(""))
-                            {
-                                if (!admResUtils.isFileType(filename, "bmp|jpg|jpeg|gif|png")){
-                                    msg = "El archivo no corresponde a ninguna de las extensiones requeridas: <i>bmp, jpg, jpeg, gif, png</i>: " + filename;
-                                }else {
-                                    if (admResUtils.uploadFile(base, fup, filenameAttr)){
-                                        File image = new File(workPath + filename);
-                                        File thumbnail = new File(workPath + _thumbnail + filename);
-                                        ImageResizer.resizeCrop(image, width, thumbnail, "jpeg");
-                                        base.setAttribute(filenameAttr, filename);
-                                    }else {
-                                        msg = "No se realizaron correctamente los cambios al subir el archivo <i>" + value + "</i>.";
-                                    }
-                                }
-                            }else {
-                                msg = "No se realizaron correctamente los cambios al subir el archivo <i>" + value + "</i>.";
-                            }
-                        }
-                    }
-                    i++;
-                //}
-                } while(value!=null || base.getAttribute(filenameAttr)!=null);
-
-                base.updateAttributesToDB();
-
-                msg = "Se actualiz&oacute; exitosamente el recurso con identificador "+ base.getId();
-                out.println("<script type=\"text/javascript\" language=\"JavaScript\">");
-                out.println("   alert('"+msg+"');");
-                out.println("   location='"+paramRequest.getRenderUrl().setAction("edit").toString()+"';");
-                out.println("</script>");
-            }catch(Exception e) {
-                log.error(e);
-                msg = "Se present&oacute; un error al actualizar el recurso con identificador "+ base.getId();
+            if(userCanEdit(paramsRequest.getUser())) {
+                out.print(getFormManager(paramsRequest));
             }
         }
-        else if(action.equals("remove"))
-        {
-            msg=admResUtils.removeResource(base);
-            out.println(
-                "<script type=\"text/javascript\" language=\"JavaScript\">"+
-                "   alert('"+msg+"');"+
-                "</script>");
-        }
-        out.flush();
     }
 
-    private String getForm(javax.servlet.http.HttpServletRequest request, SWBParamRequest paramRequest) {
-        StringBuffer ret=new StringBuffer();
+    private String getFormManager(SWBParamRequest paramsRequest) {
         Resource base=getResourceBase();
-        try {
-            SWBResourceURL url = paramRequest.getRenderUrl().setMode(paramRequest.Mode_ADMIN);
-            url.setAction("update");
+        StringBuffer ret=new StringBuffer();
 
-            ret.append("<script type=\"text/javascript\">");
-            ret.append("  dojo.require(\"dijit.form.NumberTextBox\");");
-            ret.append("  dojo.require(\"dijit.form.Button\");");
-            ret.append("</script>");
+ret.append("<script type=\"text/javascript\">");
+ret.append("  dojo.require(\"dijit.form.NumberTextBox\");");
+ret.append("  dojo.require(\"dijit.form.Button\");");
+ret.append("</script>");
 
-            ret.append("\n<div class=\"swbform\"> ");
-            ret.append("\n<form id=\"frmIG_"+base.getId()+"\" name=\"frmIG_"+base.getId()+"\" method=\"post\" enctype=\"multipart/form-data\" action=\""+ url.toString()+"\"> ");
+SWBResourceURL urlA = paramsRequest.getActionUrl();
+urlA.setAction(ADMIN_AXN);
+ret.append("\n<div class=\"swbform\"> ");
+ret.append("\n<form id=\"frm_pa_"+base.getId()+"\" name=\"frm_pa_"+base.getId()+"\" method=\"post\" action=\""+ urlA+"\"> ");
 
-            ret.append("\n<fieldset> ");
-            ret.append("\n<legend>Datos</legend>");
-            ret.append("\n<table width=\"100%\"  border=\"0\" cellpadding=\"5\" cellspacing=\"0\"> ");
-
-            ret.append("\n<tr>");
-            ret.append("\n<td width=\"200\" align=\"right\">T&iacute;tulo</td>");
-            ret.append("\n<td>");
-            ret.append("\n<input type=\"text\" size=\"50\" maxlength=\"50\" name=\"title\" value=\""+base.getAttribute("title", "")+"\" />");
-            ret.append("\n</td>");
-            ret.append("\n</tr>");
-
-            String width = base.getAttribute("width", "220");
-            ret.append("\n<tr>");
-            ret.append("\n<td width=\"200\" align=\"right\">Ancho</td>");
-            ret.append("\n<td>");
-            ret.append("\n<input id=\"width\" name=\"width\" type=\"text\" dojoType=\"dijit.form.NumberTextBox\" value=\""+width+"\" invalidMessage=\"Valor inv&aacute;lido\" size=\"5\" maxlength=\"4\" constraints=\"{min:1, pattern:'####'}\" />");
-            ret.append("\n</td>");
-            ret.append("\n</tr>");
-
-            String height = base.getAttribute("height", "150");
-            ret.append("\n<tr>");
-            ret.append("\n<td width=\"200\" align=\"right\">Alto</td>");
-            ret.append("\n<td>");
-            ret.append("\n<input id=\"height\" name=\"height\" type=\"text\" dojoType=\"dijit.form.NumberTextBox\" value=\""+height+"\" invalidMessage=\"Valor inv&aacute;lido\" size=\"5\" maxlength=\"4\" constraints=\"{min:1, pattern:'####'}\" />");
-            ret.append("\n</td>");
-            ret.append("\n</tr>");
-
-/****************************************************/
+ret.append("\n<fieldset> ");
+ret.append("\n<legend>Datos</legend>");
+ret.append("\n<table width=\"100%\"  border=\"0\" cellpadding=\"5\" cellspacing=\"0\"> ");
+        /****************************************************/
             ret.append("\n<tr>");
             ret.append("\n<td width=\"200\" align=\"right\">* Lista de im&aacute;genes (<i>bmp, jpg, jpeg, gif, png</i>)</td>");
             ret.append("\n<td>");
@@ -380,60 +260,16 @@ public class PhotoAlbun extends GenericResource {
             ret.append("\n</td>  ");
             ret.append("\n</tr>  ");
 /****************************************************/
-WebSite wsite = paramRequest.getWebPage().getWebSite();
-User user = paramRequest.getUser();
-String roleName = base.getAttribute(MGR_ATTR, "0");
-StringBuffer rulesScript = new StringBuffer("");
-String selected = "";
-if(roleName.equals("0"))
-    selected = " selected=\"selected\" ";
-rulesScript.append("<option value=\"0\" "+selected+">Ninguno</option>");
-
-Iterator<Role> roles = wsite.getUserRepository().listRoles();
-if(roles.hasNext()) {
-    rulesScript.append("<optgroup label=\"Roles\">");
-    while (roles.hasNext()) {
-        Role oRole = roles.next();
-        selected = "";
-        if (roleName.equalsIgnoreCase(oRole.getURI())) {
-            selected = " selected=\"selected\" ";
-        }
-        rulesScript.append("<option value=\""+URLEncoder.encode(oRole.getURI(), "UTF-8")+"\" "+selected+">"+oRole.getDisplayTitle(user.getLanguage())+"</option>");
-    }
-    rulesScript.append("</optgroup>");
-}
-
-Iterator<UserGroup> ugroups = wsite.getUserRepository().listUserGroups();
-if(ugroups.hasNext()) {
-    rulesScript.append("<optgroup label=\"User Groups\">");
-    while (ugroups.hasNext()) {
-        UserGroup oUG = ugroups.next();
-        selected = "";
-        if (roleName.equalsIgnoreCase(oUG.getURI())) {
-            selected = " selected=\"selected\" ";
-        }
-        rulesScript.append("<option value=\""+URLEncoder.encode(oUG.getURI(), "UTF-8")+"\" "+selected+">"+oUG.getDisplayTitle(user.getLanguage())+"</option>");
-    }
-    rulesScript.append("</optgroup>");
-}
-
-
-            ret.append("\n<tr><td colspan=\"2\" height=\"10\"></td></tr>");
-            ret.append("\n</table> ");
-            ret.append("\n</fieldset> ");
-
-            ret.append("\n<fieldset> ");
-            ret.append("\n<table width=\"100%\"  border=\"0\" cellpadding=\"5\" cellspacing=\"0\"> ");
-            ret.append("\n <tr><td>");
-            ret.append("\n <button dojoType=\"dijit.form.Button\" type=\"submit\" name=\"submitImgGal\" value=\"Submit\" onclick=\"if(jsValida())return true; else return false; \">Guardar</button>&nbsp;");
-            ret.append("\n <button dojoType=\"dijit.form.Button\" type=\"reset\">Restablecer</button>");
-            ret.append("\n </td></tr>");
-            ret.append("\n</table> ");
-            ret.append("\n</fieldset> ");
-
-            ret.append("\n</form>  ");
-            ret.append("\n* Datos requeridos");
-            ret.append("\n</div>  ");
+ret.append("\n<fieldset> ");
+ret.append("\n<table width=\"100%\"  border=\"0\" cellpadding=\"5\" cellspacing=\"0\"> ");
+ret.append("\n <tr><td>");
+ret.append("\n <button dojoType=\"dijit.form.Button\" type=\"submit\" name=\"submitImgGal\" value=\"Submit\" onclick=\"if(jsValida())return true; else return false; \">Guardar</button>&nbsp;");
+ret.append("\n <button dojoType=\"dijit.form.Button\" type=\"reset\">Restablecer</button>");
+ret.append("\n </td></tr>");
+ret.append("\n</table> ");
+ret.append("\n</fieldset> ");
+ret.append("\n</form>  ");
+ret.append("\n</div>  ");
 
             ret.append("\n<script type=\"text/javascript\"> ");
             ret.append("\nfunction addRowToTable(tblId, filename, img, cellSufix) { ");
@@ -538,10 +374,237 @@ if(ugroups.hasNext()) {
                 }
             }
             ret.append("\n</script>");
-        }catch(Exception e) {
-            log.error(e);
-        }
+
+
         return ret.toString();
+    }
+
+    @Override
+    public void doAdmin(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("text/html; charset=iso-8859-1");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
+        
+        PrintWriter out = response.getWriter();
+        
+        if(request.getParameter(UPDATE_DONE)!=null) {
+            Resource base=getResourceBase();
+            out.println("<script type=\"text/javascript\">");
+            out.println("   alert('Se actualizó exitosamente el recurso con identificador "+base.getId()+"');");
+            out.println("   location='"+paramRequest.getRenderUrl()+"';");
+            out.println("</script>");
+        }else {
+            out.println(getForm(request, paramRequest));
+        }
+
+//        String msg = "Operación indefinida";
+//        String action = null != request.getParameter("act") && !"".equals(request.getParameter("act").trim()) ? request.getParameter("act").trim() : paramRequest.getAction();
+//
+//        if(action.equalsIgnoreCase("add") || action.equalsIgnoreCase("edit")) {
+//            out.println(getForm(request, paramRequest));
+//        }else if(action.equalsIgnoreCase("update")) {
+//            FileUpload fup = new FileUpload();
+//            try {
+//                fup.getFiles(request, response);
+//
+//                String value = null!=fup.getValue("width") && !"".equals(fup.getValue("width").trim()) ? fup.getValue("width").trim() : "180";
+//                base.setAttribute("width", value);
+//                value = null!=fup.getValue("height") && !"".equals(fup.getValue("height").trim()) ? fup.getValue("height").trim() : "180";
+//                base.setAttribute("height", value);
+//
+//                int i = 1;
+//                int width = Integer.parseInt(base.getAttribute("width"));
+//                String filenameAttr, removeChk;
+//                do {
+//                    filenameAttr = "imggallery_" + base.getId() + "_" + i;
+//                    removeChk = "remove_" + base.getId() + "_" + i;
+//                    value = null!=fup.getValue(removeChk) && !"".equals(fup.getValue(removeChk).trim()) ? fup.getValue(removeChk).trim() : "0";
+//
+//                    if("1".equals(value) && base.getAttribute(filenameAttr)!=null) {
+//                        File file = new File(workPath + base.getAttribute(filenameAttr));
+//                        file.delete();
+//                        file = new File(workPath + _thumbnail + base.getAttribute(filenameAttr));
+//                        file.delete();
+//                        base.removeAttribute(filenameAttr);
+//                    }else {
+//                        value = null!=fup.getFileName(filenameAttr) && !"".equals(fup.getFileName(filenameAttr).trim()) ? fup.getFileName(filenameAttr).trim() : null;
+//                        if(value!=null) {
+//                            String filename = admResUtils.getFileName(base, value);
+//                            if(filename!=null && !filename.trim().equals(""))
+//                            {
+//                                if (!admResUtils.isFileType(filename, "bmp|jpg|jpeg|gif|png")){
+//                                    msg = "El archivo no corresponde a ninguna de las extensiones requeridas: <i>bmp, jpg, jpeg, gif, png</i>: " + filename;
+//                                }else {
+//                                    if (admResUtils.uploadFile(base, fup, filenameAttr)){
+//                                        File image = new File(workPath + filename);
+//                                        File thumbnail = new File(workPath + _thumbnail + filename);
+//                                        ImageResizer.resizeCrop(image, width, thumbnail, "jpeg");
+//                                        base.setAttribute(filenameAttr, filename);
+//                                    }else {
+//                                        msg = "No se realizaron correctamente los cambios al subir el archivo <i>" + value + "</i>.";
+//                                    }
+//                                }
+//                            }else {
+//                                msg = "No se realizaron correctamente los cambios al subir el archivo <i>" + value + "</i>.";
+//                            }
+//                        }
+//                    }
+//                    i++;
+//                } while(value!=null || base.getAttribute(filenameAttr)!=null);
+//
+//                base.updateAttributesToDB();
+//
+//                msg = "Se actualiz&oacute; exitosamente el recurso con identificador "+ base.getId();
+//                out.println("<script type=\"text/javascript\" language=\"JavaScript\">");
+//                out.println("   alert('"+msg+"');");
+//                out.println("   location='"+paramRequest.getRenderUrl().setAction("edit").toString()+"';");
+//                out.println("</script>");
+//            }catch(Exception e) {
+//                log.error(e);
+//                msg = "Se present&oacute; un error al actualizar el recurso con identificador "+ base.getId();
+//            }
+//        }
+//        else if(action.equals("remove"))
+//        {
+//            msg=admResUtils.removeResource(base);
+//            out.println(
+//                "<script type=\"text/javascript\" language=\"JavaScript\">"+
+//                "   alert('"+msg+"');"+
+//                "</script>");
+//        }
+        out.flush();
+    }
+
+    private String getForm(javax.servlet.http.HttpServletRequest request, SWBParamRequest paramRequest) {
+        StringBuffer ret=new StringBuffer();
+        Resource base=getResourceBase();
+
+        ret.append("<script type=\"text/javascript\">");
+        ret.append("  dojo.require(\"dijit.form.NumberTextBox\");");
+        ret.append("  dojo.require(\"dijit.form.Button\");");
+        ret.append("</script>");
+
+        SWBResourceURL urlA = paramRequest.getActionUrl();
+        urlA.setAction(ADMIN_AXN);
+        ret.append("\n<div class=\"swbform\"> ");
+        ret.append("\n<form id=\"frm_pa_"+base.getId()+"\" name=\"frm_pa_"+base.getId()+"\" method=\"post\" action=\""+ urlA+"\"> ");
+
+        ret.append("\n<fieldset> ");
+        ret.append("\n<legend>Datos</legend>");
+        ret.append("\n<table width=\"100%\"  border=\"0\" cellpadding=\"5\" cellspacing=\"0\"> ");
+
+        ret.append("\n<tr>");
+        ret.append("\n<td width=\"35%\" align=\"right\">T&iacute;tulo:&nbsp;</td>");
+        ret.append("\n<td>");
+        ret.append("\n<input type=\"text\" size=\"50\" maxlength=\"50\" name=\"title\" value=\""+base.getAttribute("title", "")+"\" />");
+        ret.append("\n</td>");
+        ret.append("\n</tr>");
+
+        String width = base.getAttribute("width", "220");
+        ret.append("\n<tr>");
+        ret.append("\n<td width=\"35%\" align=\"right\">Ancho de la imagen miniatura <small>pixels</small>:&nbsp;</td>");
+        ret.append("\n<td>");
+        ret.append("\n<input id=\"width\" name=\"width\" type=\"text\" dojoType=\"dijit.form.NumberTextBox\" value=\""+width+"\" invalidMessage=\"Valor inv&aacute;lido\" size=\"5\" maxlength=\"4\" constraints=\"{min:1, pattern:'####'}\" />");
+        ret.append("\n</td>");
+        ret.append("\n</tr>");
+
+        String height = base.getAttribute("height", "150");
+        ret.append("\n<tr>");
+        ret.append("\n<td width=\"35%\" align=\"right\">Alto de la imagen miniatura <small>pixels</small>:&nbsp;</td>");
+        ret.append("\n<td>");
+        ret.append("\n<input id=\"height\" name=\"height\" type=\"text\" dojoType=\"dijit.form.NumberTextBox\" value=\""+height+"\" invalidMessage=\"Valor inv&aacute;lido\" size=\"5\" maxlength=\"4\" constraints=\"{min:1, pattern:'####'}\" />");
+        ret.append("\n</td>");
+        ret.append("\n</tr>");
+            
+        WebSite wsite = paramRequest.getWebPage().getWebSite();
+        User user = paramRequest.getUser();
+        String roleName = base.getAttribute(MGR_ATTR, "0");
+        StringBuffer rulesScript = new StringBuffer("");
+        String selected = "";
+        if(roleName.equals("0"))
+            selected = " selected=\"selected\" ";
+        rulesScript.append("<option value=\"0\" "+selected+">Ninguno</option>");
+
+        Iterator<Role> roles = wsite.getUserRepository().listRoles();
+        if(roles.hasNext()) {
+            rulesScript.append("<optgroup label=\"Roles\">");
+            while (roles.hasNext()) {
+                Role oRole = roles.next();
+                selected = "";
+                if (roleName.equalsIgnoreCase(oRole.getURI())) {
+                    selected = " selected=\"selected\" ";
+                }
+                try {
+                    rulesScript.append("<option value=\""+URLEncoder.encode(oRole.getURI(), "UTF-8")+"\" "+selected+">"+oRole.getDisplayTitle(user.getLanguage())+"</option>");
+                }catch(UnsupportedEncodingException ue) {
+                }
+            }
+            rulesScript.append("</optgroup>");
+        }
+
+        Iterator<UserGroup> ugroups = wsite.getUserRepository().listUserGroups();
+        if(ugroups.hasNext()) {
+            rulesScript.append("<optgroup label=\"User Groups\">");
+            while (ugroups.hasNext()) {
+                UserGroup oUG = ugroups.next();
+                selected = "";
+                if (roleName.equalsIgnoreCase(oUG.getURI())) {
+                    selected = " selected=\"selected\" ";
+                }
+                try {
+                    rulesScript.append("<option value=\""+URLEncoder.encode(oUG.getURI(), "UTF-8")+"\" "+selected+">"+oUG.getDisplayTitle(user.getLanguage())+"</option>");
+                }catch(UnsupportedEncodingException ue) {
+                }
+            }
+            rulesScript.append("</optgroup>");
+        }
+        ret.append("\n<tr>");
+        ret.append("\n<td width=\"35%\" align=\"right\">Rol/Grupo de usuarios para admnistrar:&nbsp;</td>");
+        ret.append("\n<td><select name=\""+MGR_ATTR+"\">"+rulesScript+"</select></td></tr>");
+        ret.append("\n</tr>");
+
+        ret.append("\n<tr><td colspan=\"2\" height=\"10\"></td></tr>");
+        ret.append("\n</table> ");
+        ret.append("\n</fieldset> ");
+
+        ret.append("\n<fieldset> ");
+        ret.append("\n<table width=\"100%\"  border=\"0\" cellpadding=\"5\" cellspacing=\"0\"> ");
+        ret.append("\n <tr><td>");
+        ret.append("\n <button dojoType=\"dijit.form.Button\" type=\"submit\" name=\"submitImgGal\" value=\"Submit\" onclick=\"if(jsValida())return true; else return false; \">Guardar</button>&nbsp;");
+        ret.append("\n <button dojoType=\"dijit.form.Button\" type=\"reset\">Restablecer</button>");
+        ret.append("\n </td></tr>");
+        ret.append("\n</table> ");
+        ret.append("\n</fieldset> ");
+
+        ret.append("\n</form>  ");
+        ret.append("\n* Datos requeridos");
+        ret.append("\n</div>  ");
+
+        return ret.toString();
+    }
+
+    @Override
+    public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
+        Resource base = getResourceBase();
+        String action = response.getAction();
+
+        if(action.equalsIgnoreCase(ADMIN_AXN)) {
+            String value = request.getParameter(MGR_ATTR)!=null ? request.getParameter(MGR_ATTR):"0";
+            base.setAttribute(MGR_ATTR, URLDecoder.decode(value, "UTF-8"));
+            value = request.getParameter("title")!=null ? request.getParameter("title"):"No title";
+            base.setAttribute("title", value);
+            value = request.getParameter("width")!=null ? request.getParameter("width"):"150";
+            base.setAttribute("width", value);
+            value = request.getParameter("height")!=null ? request.getParameter("height"):"150";
+            base.setAttribute("height", value);
+            try {
+                getResourceBase().updateAttributesToDB();
+                response.setRenderParameter(UPDATE_DONE, UPDATE_DONE);
+            }catch (Exception e) {
+                log.error("Error al guardar Role/UserGroup para acceso al RateManager. ", e);
+            }
+            
+        }
     }
 
     private boolean userCanEdit(final User user) {
