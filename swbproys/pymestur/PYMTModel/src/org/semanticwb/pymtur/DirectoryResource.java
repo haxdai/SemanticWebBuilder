@@ -402,7 +402,6 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                 mgr.setFilterRequired(false);
                 try
                 {
-                    SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("").listInstances();
                     SemanticObject sobj = mgr.processForm(request);
                     ServiceProvider dirObj = (ServiceProvider) sobj.createGenericInstance();
                     dirObj.setDirectoryResource(this);
