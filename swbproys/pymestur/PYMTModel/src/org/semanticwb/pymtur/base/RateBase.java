@@ -26,6 +26,12 @@ public abstract class RateBase extends org.semanticwb.model.SWBClass
             return new org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Rate>(it, true);
         }
 
+        public static org.semanticwb.pymtur.Rate createRate(org.semanticwb.model.SWBModel model)
+        {
+            long id=model.getSemanticObject().getModel().getCounter(sclass);
+            return org.semanticwb.pymtur.Rate.ClassMgr.createRate(String.valueOf(id), model);
+        }
+
         public static org.semanticwb.pymtur.Rate getRate(String id, org.semanticwb.model.SWBModel model)
         {
             return (org.semanticwb.pymtur.Rate)model.getSemanticObject().getModel().getGenericObject(model.getSemanticObject().getModel().getObjectUri(id,sclass),sclass);
