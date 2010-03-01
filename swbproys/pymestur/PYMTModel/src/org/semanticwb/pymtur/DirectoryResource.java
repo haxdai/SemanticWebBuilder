@@ -154,9 +154,13 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
         }
 
         RequestDispatcher dis = request.getRequestDispatcher(path);
+        Destination dest = null;
+        if (paramRequest.getWebPage() instanceof Destination) {
+            dest = (Destination) paramRequest.getWebPage();
+        }
         try
         {
-            request.setAttribute("itDirObjs", getDirectoryObjects((Destination)paramRequest.getWebPage(), pars));
+            request.setAttribute("itDirObjs", getDirectoryObjects(dest, pars));
             request.setAttribute("sobj", getDirectoryClass());
             request.setAttribute("paramRequest", paramRequest);
             dis.include(request, response);
@@ -921,31 +925,20 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
         }
 
         //Filtrar por destino
-        it_res = providers.iterator();
-        while(it_res.hasNext()) {
-            ServiceProvider sp = it_res.next();
-            if (sp.getDestination() != null) {
-                if (sp.getDestination().getURI().equals(dest.getURI())) {
-                    tar.add(sp);
-                }
-            }
-        }
-
-        //Filtrar por tipo de hospedaje
-        if (pars.get("spType") != null) {
-            providers = tar;
+        if (dest != null) {
             it_res = providers.iterator();
-            tar = new ArrayList<ServiceProvider>();
-            SPType t = (SPType)SemanticObject.createSemanticObject(URLDecoder.decode(pars.get("spType"))).createGenericInstance();
-            while (it_res.hasNext()) {
+            while(it_res.hasNext()) {
                 ServiceProvider sp = it_res.next();
-                if (((SPType)sp.getWebPage()).equals(t)) {
-                    tar.add(sp);
+                if (sp.getDestination() != null) {
+                    if (sp.getDestination().getURI().equals(dest.getURI())) {
+                        tar.add(sp);
+                    }
                 }
             }
+            providers = tar;
         }
 
-        return tar.iterator();
+        return providers.iterator();
     }
 
 }
