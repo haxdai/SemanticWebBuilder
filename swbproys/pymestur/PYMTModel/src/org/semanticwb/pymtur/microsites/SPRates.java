@@ -19,14 +19,14 @@ import org.semanticwb.portal.api.SWBResourceException;
  *
  * @author jorge.jimenez
  */
-public class ListSPActivities extends GenericResource{
+public class SPRates extends GenericResource{
 
-    private static Logger log = SWBUtils.getLogger(ListSPActivities.class);
+    private static Logger log = SWBUtils.getLogger(SPRates.class);
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
 
-        RequestDispatcher dis = request.getRequestDispatcher("/work/models/etour/jsp/pymestur/microsite/listSPActivities.jsp");
+        RequestDispatcher dis = request.getRequestDispatcher("/work/models/etour/jsp/pymestur/microsite/spRates.jsp");
         try {
             request.setAttribute("paramRequest", paramRequest);
             dis.include(request, response);
