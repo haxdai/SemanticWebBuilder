@@ -18,6 +18,7 @@ import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.User;
+import org.semanticwb.model.WebPage;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.GenericAdmResource;
@@ -123,12 +124,29 @@ public class Contact extends GenericAdmResource {
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramsRequest) throws SWBResourceException, IOException {
-        SemanticObject sobj;
+        SemanticObject sobj = null;
         ServiceProvider sprovider = null;
 
         try {
-            sprovider = ((MicroSitePyme)paramsRequest.getWebPage()).getServiceProvider();
-        }catch(Exception e) {
+
+            WebPage community = null;
+            WebPage currentpage = (WebPage) request.getAttribute("webpage");
+
+            if (currentpage == null) {
+                currentpage = paramsRequest.getWebPage();
+            }
+
+            if (currentpage instanceof MicroSitePyme) {
+                community = currentpage;
+            } else {
+                community = currentpage.getParent();
+            }
+            if (community != null) {
+                MicroSitePyme ms = (MicroSitePyme) community;
+                sprovider = ms.getServiceProvider();
+            }
+        } catch (Exception e) {
+
             String uri = request.getParameter("uri");
             sobj=SemanticObject.createSemanticObject(uri);
             if(sobj.getGenericInstance() instanceof MicroSitePyme) {
