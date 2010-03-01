@@ -381,6 +381,7 @@ public class PhotoAlbun extends GenericResource {
             ret.append("\n</tr>  ");
 /****************************************************/
 WebSite wsite = paramRequest.getWebPage().getWebSite();
+User user = paramRequest.getUser();
 String roleName = base.getAttribute(MGR_ATTR, "0");
 StringBuffer rulesScript = new StringBuffer("");
 String selected = "";
