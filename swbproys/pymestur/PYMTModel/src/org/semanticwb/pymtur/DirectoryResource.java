@@ -459,6 +459,11 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                                 MicroSiteWebPageUtil mswpu = MicroSiteWebPageUtil.ClassMgr.createMicroSiteWebPageUtil(ms.getId()+"_"+msu.getId(), wsite);
                                 mswpu.setTitle(msu.getTitle());
 
+                                if(msu.getDescription()!=null && msu.getDescription().trim().length()>0)
+                                {
+                                    mswpu.setSortName(msu.getDescription());
+                                }
+
                                 mswpu.setMicroSite(ms);
                                 mswpu.setMicroSiteUtil(msu);
 
