@@ -25,7 +25,7 @@ public class CuponManager extends GenericResource {
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        RequestDispatcher dis = request.getRequestDispatcher("/work/models/etour/jsp/pymestur/microsite/spPromotions.jsp");
+        RequestDispatcher dis = request.getRequestDispatcher("/work/models/etour/jsp/pymestur/microsite/spCupons.jsp");
         try {
             request.setAttribute("paramRequest", paramRequest);
             dis.include(request, response);
