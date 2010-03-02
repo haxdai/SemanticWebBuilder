@@ -13,17 +13,15 @@ import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
-import org.semanticwb.pymtur.Promotion;
+import org.semanticwb.pymtur.Cupon;
 import org.semanticwb.pymtur.ServiceProvider;
 
 /**
  *
  * @author carlos.ramos
  */
-
-
-public class PromotionManager extends GenericResource {
-    private static Logger log = SWBUtils.getLogger(PromotionManager.class);
+public class CuponManager extends GenericResource {
+    private static Logger log = SWBUtils.getLogger(CuponManager.class);
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
@@ -42,15 +40,15 @@ public class PromotionManager extends GenericResource {
         String action=response.getAction();
         if(action.equals(response.Action_ADD)){
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
-            SWBFormMgr mgr = new SWBFormMgr(Promotion.sclass, semObject, null);
+            SWBFormMgr mgr = new SWBFormMgr(Cupon.sclass, semObject, null);
             mgr.setFilterRequired(false);
             try
             {
                 SemanticObject sobj = mgr.processForm(request);
-                Promotion promo = (Promotion) sobj.createGenericInstance();
+                Cupon cupon = (Cupon) sobj.createGenericInstance();
 
                 ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
-                serviceProv.addPromotion(promo);
+                serviceProv.addCupon(cupon);
             }catch(Exception e){
                 log.error(e);
             }
@@ -66,12 +64,12 @@ public class PromotionManager extends GenericResource {
             }
         }else if(action.equals(response.Action_REMOVE)){
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
-            Promotion promo = (Promotion) semObject.createGenericInstance();
+            Cupon cupon = (Cupon) semObject.createGenericInstance();
 
             SemanticObject semObjectProv = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
             ServiceProvider serviceProv = (ServiceProvider) semObjectProv.createGenericInstance();
 
-            serviceProv.removePromotion(promo);
+            serviceProv.removeCupon(cupon);
             semObject.remove();
         }
     }
