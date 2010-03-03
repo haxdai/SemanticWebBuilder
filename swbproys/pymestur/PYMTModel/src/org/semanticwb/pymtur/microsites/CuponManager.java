@@ -38,7 +38,8 @@ public class CuponManager extends GenericResource {
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
     {
         String action=response.getAction();
-        if(action.equals(response.Action_ADD)){
+        if(action.equals("add_cupon")) {
+            System.out.println("crear promocion");
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
             SWBFormMgr mgr = new SWBFormMgr(Cupon.sclass, semObject, null);
             mgr.setFilterRequired(false);
@@ -52,7 +53,7 @@ public class CuponManager extends GenericResource {
             }catch(Exception e){
                 log.error(e);
             }
-        }else if(action.equals(response.Action_EDIT)){
+        }else if(action.equals("edit_cupon")) {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
             SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
             mgr.setFilterRequired(false);
@@ -62,7 +63,7 @@ public class CuponManager extends GenericResource {
             }catch(Exception e){
                 log.error(e);
             }
-        }else if(action.equals(response.Action_REMOVE)){
+        }else if(action.equals("remove_cupon")) {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
             Cupon cupon = (Cupon) semObject.createGenericInstance();
 
