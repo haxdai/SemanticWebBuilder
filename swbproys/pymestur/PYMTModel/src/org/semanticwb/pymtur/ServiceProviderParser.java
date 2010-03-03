@@ -18,6 +18,7 @@ import org.semanticwb.portal.indexer.parser.GenericParser;
  * @author hasdai
  */
 public class ServiceProviderParser extends GenericParser {
+    public static final String ATT_DESTINATION = "destination";
 
     @Override
     public String getType(Searchable gen) {
@@ -72,25 +73,30 @@ public class ServiceProviderParser extends GenericParser {
     @Override
     public String getIndexCategory(Searchable gen)
     {
+        ServiceProvider sp = (ServiceProvider) gen;
         String ret="";
-        WebPage page=getWebPage(gen);
-        if(page!=null)
+        WebPage page = getWebPage(gen);
+        if(page != null)
         {
-            ret=super.getIndexCategory(page);
+            ret = super.getIndexCategory(page);
         }
-        return ret;
+        //System.out.println("===" + sp.getTitle() + "[" + ret + "]" + sp.getURI());
+        return ret;        
     }
 
     public String getDestination(Searchable gen) {
         String ret = "";
-        ret = ((ServiceProvider)gen).getDestination().getTitle();
+        if (((ServiceProvider)gen).getDestination() != null) {
+            ret = ((ServiceProvider)gen).getDestination().getTitle();
+            //System.out.println(" === " + ret);
+        }
         return ret;
     }
 
     @Override
     public Map<String, IndexTerm> getIndexTerms(Searchable gen) {
         Map map = super.getIndexTerms(gen);
-        map.put("destination", new IndexTerm("destination", getDestination(gen), false, IndexTerm.INDEXED_ANALYZED));
+        map.put(ATT_DESTINATION, new IndexTerm(ATT_DESTINATION, getDestination(gen), false, IndexTerm.INDEXED_ANALYZED));
         return map;
     }
 }
