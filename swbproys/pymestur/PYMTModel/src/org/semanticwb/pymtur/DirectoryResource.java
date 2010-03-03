@@ -938,11 +938,18 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
 
     private Iterator<ServiceProvider> getDirectoryObjects(SWBParamRequest paramRequest, HashMap<String, String> pars) {
         Destination dest = null;
+        SPType type = null;
         ArrayList<ServiceProvider> providers = new ArrayList<ServiceProvider>();
-        SearchQuery query=new SearchQuery();
+        SearchQuery query = new SearchQuery();
 
         if (paramRequest.getWebPage() instanceof Destination) {
             dest = (Destination)paramRequest.getWebPage();
+            //System.out.println("::Estoy parado en un destino");
+        }
+        
+        if (paramRequest.getWebPage() instanceof SPType) {
+            //System.out.println("::Estoy parado en un SPType");
+            type = (SPType)paramRequest.getWebPage();
         }
         
         //Buscar los service providers
@@ -954,18 +961,23 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
             query.addTerm(new SearchTerm(ServiceProviderParser.ATT_DESTINATION, dest.getTitle(), SearchTerm.OPER_AND));
         }
 
+        if (type != null) {
+            //System.out.println("--->Filtrando por tipo(padre): " + type.getTitle());
+            query.addTerm(new SearchTerm(SWBIndexer.ATT_CATEGORY, type.getId(), SearchTerm.OPER_AND));
+        }
+
         //Filtrar por tipo de service provider
         String spType = pars.get("spType");
-        if (spType != null && !spType.trim().equals("")) {            
+        if (spType != null && !spType.trim().equals("")) {
             SPType spt = (SPType) SemanticObject.createSemanticObject(URLDecoder.decode(spType)).createGenericInstance();
-            //System.out.println("--->Filtrando por spType: " + spt.getId());
+            //System.out.println("--->Filtrando por tipo(argumento): " + spt.getId());
             query.addTerm(new SearchTerm(SWBIndexer.ATT_CATEGORY, spt.getId(), SearchTerm.OPER_AND));
         }
 
         //Filtrar por tipo de service provider fijo
         spType = pars.get("fixedSpType");
         if (spType != null && !spType.trim().equals("")) {
-            //System.out.println("--->Filtrando por spType fijo: " + spType);
+            //System.out.println("--->Filtrando por tipo fijo: " + spType);
             query.addTerm(new SearchTerm(SWBIndexer.ATT_CATEGORY, spType, SearchTerm.OPER_AND));
         }
 
