@@ -87,12 +87,14 @@ public class DestinationParser extends GenericParser {
     @Override
     public String getIndexCategory(Searchable gen)
     {
-        String ret="";
-        WebPage page=getWebPage(gen);
-        if(page!=null)
+        Destination dest = (Destination)gen;
+        String ret = "";
+        WebPage page = getWebPage(gen);
+        if(page != null)
         {
-            ret=super.getIndexCategory(page);
+            ret = super.getIndexCategory(page);
         }
+        //System.out.println("::Category==>" + dest.getTitle() + "[" + ret + "]::" + dest.getEncodedURI());
         return ret;
     }
 
@@ -104,7 +106,7 @@ public class DestinationParser extends GenericParser {
             Experience exp = it_exp.next();
             ret += " " + exp.getTitle();
         }
-
+        //System.out.println("::Experience==>" + dest.getTitle() + "[" + ret + "]");
         return ret.trim();
     }
 
@@ -116,7 +118,7 @@ public class DestinationParser extends GenericParser {
             Event evt = it_ev.next();
             ret += " " + evt.getTitle();
         }
-
+        //System.out.println("::Event==>" + dest.getTitle() + "[" + ret + "]");
         return ret.trim();
     }
 
@@ -128,7 +130,7 @@ public class DestinationParser extends GenericParser {
             Activity act = it_act.next();
             ret += " " + act.getTitle();
         }
-
+        //System.out.println("::Activity==>" + dest.getTitle() + "[" + ret + "]");
         return ret.trim();
     }
 
@@ -140,7 +142,7 @@ public class DestinationParser extends GenericParser {
             TourismType tt = it_tt.next();
             ret += " " + tt.getTitle();
         }
-
+        //System.out.println("::TourismType==>" + dest.getTitle() + "[" + ret + "]");
         return ret.trim();
     }
 
@@ -148,7 +150,7 @@ public class DestinationParser extends GenericParser {
     public Map<String, IndexTerm> getIndexTerms(Searchable gen) {
         Map map = super.getIndexTerms(gen);
         map.put(ATT_EXPERIENCE, new IndexTerm(ATT_EXPERIENCE, getDestinationExperiences(gen), false, IndexTerm.INDEXED_ANALYZED));
-        map.put(ATT_EVENT, new IndexTerm(ATT_EVENT, getDestinationExperiences(gen), false, IndexTerm.INDEXED_ANALYZED));
+        map.put(ATT_EVENT, new IndexTerm(ATT_EVENT, getDestinationEvents(gen), false, IndexTerm.INDEXED_ANALYZED));
         map.put(ATT_ACTIVITY, new IndexTerm(ATT_ACTIVITY, getDestinationActivities(gen), false, IndexTerm.INDEXED_ANALYZED));
         map.put(ATT_TOURTYPE, new IndexTerm(ATT_TOURTYPE, getDestinationTourismTypes(gen), false, IndexTerm.INDEXED_ANALYZED));
         return map;
