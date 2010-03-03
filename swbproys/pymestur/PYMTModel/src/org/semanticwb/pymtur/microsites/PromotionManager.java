@@ -3,13 +3,13 @@ package org.semanticwb.pymtur.microsites;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Enumeration;
 import java.util.Iterator;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
-import org.semanticwb.model.Resource;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.SWBFormMgr;
@@ -20,7 +20,6 @@ import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.pymtur.MicroSitePyme;
 import org.semanticwb.pymtur.Promotion;
 import org.semanticwb.pymtur.ServiceProvider;
-import sun.security.krb5.internal.p;
 
 /**
  *
@@ -83,13 +82,13 @@ public class PromotionManager extends GenericResource {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
             SWBFormMgr mgr = new SWBFormMgr(Promotion.sclass, semObject, null);
             mgr.setFilterRequired(false);
-            try
-            {
-                SemanticObject sobj = mgr.processForm(request);
-                Promotion promo = (Promotion) sobj.createGenericInstance();
-
-                ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
-                serviceProv.addPromotion(promo);
+            try {
+                if( isValidValue(request.getParameter("title")) && isValidNumber(request.getParameter("description")) ) {
+                    SemanticObject sobj = mgr.processForm(request);
+                    Promotion promo = (Promotion) sobj.createGenericInstance();
+                    ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
+                    serviceProv.addPromotion(promo);
+                }
             }catch(Exception e){
                 log.error(e);
             }
@@ -113,5 +112,24 @@ public class PromotionManager extends GenericResource {
             serviceProv.removePromotion(promo);
             semObject.remove();
         }
+    }
+
+    private boolean isValidValue(String param) {
+        boolean validValue = false;
+        if( param!=null && param.trim().length()>0 )
+            validValue = true;
+        return validValue;
+    }
+
+    private boolean isValidNumber(String param) {
+        boolean validValue = false;
+        if( param!=null && param.trim().length()>0 )
+            try {
+                Double.parseDouble(param);
+                validValue = true;
+            }catch(NumberFormatException  nfe) {
+                validValue = false;
+            }
+        return validValue;
     }
 }

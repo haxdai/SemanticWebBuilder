@@ -2,6 +2,7 @@
 package org.semanticwb.pymtur.microsites;
 
 import java.io.IOException;
+import java.util.Enumeration;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,17 +40,16 @@ public class CuponManager extends GenericResource {
     {
         String action=response.getAction();
         if(action.equals("add_cupon")) {
-            System.out.println("crear promocion");
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
             SWBFormMgr mgr = new SWBFormMgr(Cupon.sclass, semObject, null);
             mgr.setFilterRequired(false);
-            try
-            {
-                SemanticObject sobj = mgr.processForm(request);
-                Cupon cupon = (Cupon) sobj.createGenericInstance();
-
-                ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
-                serviceProv.addCupon(cupon);
+            try {
+                if( isValidValue(request.getParameter("title")) && isValidNumber(request.getParameter("description")) ) {
+                    SemanticObject sobj = mgr.processForm(request);
+                    Cupon cupon = (Cupon) sobj.createGenericInstance();
+                    ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
+                    serviceProv.addCupon(cupon);
+                }
             }catch(Exception e){
                 log.error(e);
             }
@@ -73,5 +73,24 @@ public class CuponManager extends GenericResource {
             serviceProv.removeCupon(cupon);
             semObject.remove();
         }
+    }
+
+    private boolean isValidValue(String param) {
+        boolean validValue = false;
+        if( param!=null && param.trim().length()>0 )
+            validValue = true;
+        return validValue;
+    }
+
+    private boolean isValidNumber(String param) {
+        boolean validValue = false;
+        if( param!=null && param.trim().length()>0 )
+            try {
+                Double.parseDouble(param);
+                validValue = true;
+            }catch(NumberFormatException  nfe) {
+                validValue = false;
+            }
+        return validValue;
     }
 }
