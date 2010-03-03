@@ -30,7 +30,6 @@ public class SPRates extends GenericResource{
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-
         RequestDispatcher dis = request.getRequestDispatcher("/work/models/etour/jsp/pymestur/microsite/spRates.jsp");
         try {
             request.setAttribute("paramRequest", paramRequest);
@@ -44,7 +43,7 @@ public class SPRates extends GenericResource{
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
     {
         String action=response.getAction();
-        if(action.equals(response.Action_ADD)){
+        if(action.equals("add_rate")) {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
             SWBFormMgr mgr = new SWBFormMgr(Rate.sclass, semObject, null);
             mgr.setFilterRequired(false);
@@ -58,7 +57,7 @@ public class SPRates extends GenericResource{
             }catch(Exception e){
                 log.error(e);
             }
-        }else if(action.equals(response.Action_EDIT)){
+        }else if(action.equals("edit_rate")) {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
             SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
             mgr.setFilterRequired(false);
@@ -68,7 +67,7 @@ public class SPRates extends GenericResource{
             }catch(Exception e){
                 log.error(e);
             }
-        }else if(action.equals(response.Action_REMOVE)){
+        }else if(action.equals("remove_rate")) {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
             Rate rate = (Rate) semObject.createGenericInstance();
 
