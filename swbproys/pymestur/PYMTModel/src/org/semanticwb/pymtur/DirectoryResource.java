@@ -937,11 +937,14 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
     }
 
     private Iterator<ServiceProvider> getDirectoryObjects(SWBParamRequest paramRequest, HashMap<String, String> pars) {
-        Destination dest = (Destination)paramRequest.getWebPage();
+        Destination dest = null;
         ArrayList<ServiceProvider> providers = new ArrayList<ServiceProvider>();
-
         SearchQuery query=new SearchQuery();
 
+        if (paramRequest.getWebPage() instanceof Destination) {
+            dest = (Destination)paramRequest.getWebPage();
+        }
+        
         //Buscar los service providers
         query.addTerm(new SearchTerm(SWBIndexer.ATT_CLASS, "ServiceProvider", SearchTerm.OPER_AND));
 
