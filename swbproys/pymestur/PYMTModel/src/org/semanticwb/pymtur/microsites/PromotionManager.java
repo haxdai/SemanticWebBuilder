@@ -53,29 +53,16 @@ public class PromotionManager extends GenericResource {
             MicroSitePyme ms = (MicroSitePyme)community;
             sprovider = ms.getServiceProvider();
 
-
-//urlAction.setAction(urlAction.Action_REMOVE+"_promo");
-//urlAction.setParameter("sprovider", sprovider.getEncodedURI());
-out.println("<h4>PROMOCIONES</h4>");
-out.println("<ul>");
-Iterator<Promotion> itpromos = sprovider.listPromotions();
-while(itpromos.hasNext()) {
-    Promotion promo = itpromos.next();
-    out.println("  <li><a href=\"#\">"+promo.getDisplayTitle(paramRequest.getUser().getLanguage())+"</a></li>");
-}
-out.println("</ul>");
-out.flush();
-
-
-
-//            out.println("<h4>PROMOCIONES</h4>");
-//            out.println("<ul>");
-//            out.println("  <li><a href=\"#\">Promociones en modo estrategia...</a></li>");
-//            out.println("  <li><a href=\"#\">Promo 1. Cuarta noche grátis durante el invierno.</a></li>");
-//            out.println("  <li><a href=\"#\">Promo 2. Paseo en bote nocturno.</a></li>");
-//            out.println("  <li><a href=\"#\">Promo 3. 20% de descuento en tarifas, alimentos y bebidas.</a></li>");
-//            out.println("  <li><a href=\"#\">Promo 4. 35% de descuento en habitaci&oacute;n doble.</a></li>");
-//            out.println("</ul>");
+            out.println("<h4>PROMOCIONES</h4>");
+            Iterator<Promotion> itpromos = sprovider.listPromotions();
+            if(itpromos.hasNext()) {                
+                out.println("<ul>");
+                while(itpromos.hasNext()) {
+                    Promotion promo = itpromos.next();
+                    out.println("  <li><a href=\"#\">"+promo.getDisplayTitle(paramRequest.getUser().getLanguage())+"</a></li>");
+                }
+                out.println("</ul>");
+            }
             out.flush();
         }else {
             RequestDispatcher dis = request.getRequestDispatcher("/work/models/etour/jsp/pymestur/microsite/spPromotions.jsp");
