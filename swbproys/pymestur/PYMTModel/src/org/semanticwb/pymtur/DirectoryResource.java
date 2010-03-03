@@ -5,8 +5,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.SocketException;
-import java.util.Date;
 import java.net.URLDecoder;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -41,11 +41,28 @@ import org.semanticwb.portal.community.MicroSiteType;
 import org.semanticwb.portal.community.MicroSiteUtil;
 import org.semanticwb.portal.community.MicroSiteWebPageUtil;
 import org.semanticwb.portal.community.Organization;
+import org.semanticwb.portal.indexer.SWBIndexer;
+import org.semanticwb.portal.indexer.searcher.SearchDocument;
+import org.semanticwb.portal.indexer.searcher.SearchQuery;
+import org.semanticwb.portal.indexer.searcher.SearchResults;
+import org.semanticwb.portal.indexer.searcher.SearchTerm;
 import org.semanticwb.servlet.internal.UploadFormElement;
 
 public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResourceBase
 {
     private static Logger log = SWBUtils.getLogger(DirectoryResource.class);
+    private HashMap<String, String> langCodes;
+    private String[] stopWords = {"a", "ante", "bajo", "cabe", "con",
+        "contra", "de", "desde", "durante",
+        "en", "entre", "hacia", "hasta",
+        "mediante", "para", "por", "según",
+        "sin", "sobre", "tras", "el", "la",
+        "los", "las", "ellos", "ellas", "un",
+        "uno", "unos", "una", "unas", "y", "o",
+        "pero", "si", "no", "como", "que", "su",
+        "sus", "esto", "eso", "esta", "esa",
+        "esos", "esas", "del"
+    };
 
     public DirectoryResource()
     {
@@ -56,6 +73,23 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
     {
         super(base);
     }
+
+    @Override
+    public void setResourceBase(Resource base) throws SWBResourceException {
+        super.setResourceBase(base);
+        try {
+            langCodes = new HashMap<String, String>();
+            langCodes.put("es", "Spanish");
+            langCodes.put("en", "English");
+            langCodes.put("de", "Dutch");
+            langCodes.put("pt", "Portuguese");
+            langCodes.put("ru", "Russian");
+        } catch (Exception e) {
+            log.error(e);
+        }
+    }
+
+
 
     @Override
     public void doAdmin(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
@@ -102,7 +136,6 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
-        WebSite site = paramRequest.getWebPage().getWebSite();
         Enumeration<String> names = request.getParameterNames();
         HashMap<String, String> pars = new HashMap<String, String>();
 
@@ -110,7 +143,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
             String key = names.nextElement();
             pars.put(key, request.getParameter(key));
         }
-
+        
         if (paramRequest.getAction().equals("excel"))
         {
             response.setContentType("application/vnd.ms-excel");
@@ -161,7 +194,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
         }
         try
         {
-            request.setAttribute("itDirObjs", getDirectoryObjects(site, dest, pars));
+            request.setAttribute("itDirObjs", getDirectoryObjects(paramRequest, pars));
             request.setAttribute("sobj", getDirectoryClass());
             request.setAttribute("paramRequest", paramRequest);
             dis.include(request, response);
@@ -917,33 +950,48 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
         return res;
     }
 
-    private Iterator<ServiceProvider> getDirectoryObjects(WebSite site, Destination dest, HashMap<String, String> pars) {
-        Iterator<ServiceProvider> it_res = null;
+    private Iterator<ServiceProvider> getDirectoryObjects(SWBParamRequest paramRequest, HashMap<String, String> pars) {
+        Destination dest = (Destination)paramRequest.getWebPage();
         ArrayList<ServiceProvider> providers = new ArrayList<ServiceProvider>();
-        ArrayList<ServiceProvider> tar = new ArrayList<ServiceProvider>();
-        Iterator<SemanticObject> so_it = site.getSemanticObject().getModel().listInstancesOfClass(ServiceProvider.sclass);
 
-        while (so_it.hasNext()) {
-            SemanticObject so = so_it.next();
-            ServiceProvider sp = (ServiceProvider)so.createGenericInstance();
-            providers.add(sp);
-        }
+        SearchQuery query=new SearchQuery();
 
-        //Filtrar por destino
+        //Buscar los service providers
+        query.addTerm(new SearchTerm(SWBIndexer.ATT_CLASS, "ServiceProvider", SearchTerm.OPER_AND));
+
+        //Filtrar por destinos
         if (dest != null) {
-            it_res = providers.iterator();
-            while(it_res.hasNext()) {
-                ServiceProvider sp = it_res.next();
-                if (sp.getDestination() != null) {
-                    if (sp.getDestination().getURI().equals(dest.getURI())) {
-                        tar.add(sp);
-                    }
-                }
-            }
-            providers = tar;
+            //System.out.println("--->Filtrando por destino: " + dest.getTitle());
+            query.addTerm(new SearchTerm(ServiceProviderParser.ATT_DESTINATION, dest.getTitle(), SearchTerm.OPER_AND));
         }
 
-        return providers.iterator();
-    }
+        //Filtrar por tipo de service provider
+        String spType = pars.get("spType");
+        if (spType != null && !spType.trim().equals("")) {            
+            SPType spt = (SPType) SemanticObject.createSemanticObject(URLDecoder.decode(spType)).createGenericInstance();
+            //System.out.println("--->Filtrando por spType: " + spt.getId());
+            query.addTerm(new SearchTerm(SWBIndexer.ATT_CATEGORY, spt.getId(), SearchTerm.OPER_AND));
+        }
 
+        //Filtrar por tipo de service provider fijo
+        spType = pars.get("fixedSpType");
+        if (spType != null && !spType.trim().equals("")) {
+            //System.out.println("--->Filtrando por spType fijo: " + spType);
+            query.addTerm(new SearchTerm(SWBIndexer.ATT_CATEGORY, spType, SearchTerm.OPER_AND));
+        }
+
+        //Ejecutar la busqueda
+        SearchResults sres = SWBPortal.getIndexMgr().getDefaultIndexer().search(query, paramRequest.getUser());
+
+        //Obtiene la lista de searchables y la transforma a una lista de serviceproviders
+        Iterator<SearchDocument> docs = sres.listDocuments();
+        while(docs.hasNext()) {
+            SearchDocument doc = docs.next();
+            if (doc.getSearchable() != null) {
+                ServiceProvider sp = (ServiceProvider)doc.getSearchable().getSemanticObject().createGenericInstance();
+                providers.add(sp);
+            }
+        }
+        return providers.iterator();
+    }   
 }
