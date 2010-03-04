@@ -16,10 +16,12 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
     public static final org.semanticwb.platform.SemanticClass pymtur_Region=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Region");
     public static final org.semanticwb.platform.SemanticClass pymtur_Event=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Event");
     public static final org.semanticwb.platform.SemanticClass pymtur_RFCable=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#RFCable");
+    public static final org.semanticwb.platform.SemanticClass pymtur_CuponType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#CuponType");
     public static final org.semanticwb.platform.SemanticClass pymtur_RfcType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#RfcType");
     public static final org.semanticwb.platform.SemanticClass swbcomm_MicroSiteWebPageUtil=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/community#MicroSiteWebPageUtil");
     public static final org.semanticwb.platform.SemanticClass pymtur_EventType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#EventType");
     public static final org.semanticwb.platform.SemanticClass pymtur_SPType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#SPType");
+    public static final org.semanticwb.platform.SemanticClass pymtur_PromotionType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#PromotionType");
     public static final org.semanticwb.platform.SemanticClass pymtur_Destination=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Destination");
     public static final org.semanticwb.platform.SemanticClass pymtur_Service=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Service");
     public static final org.semanticwb.platform.SemanticClass pymtur_SPCategory=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#SPCategory");
@@ -543,6 +545,36 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
         return org.semanticwb.pymtur.RFCable.ClassMgr.hasRFCable(id, this);
     }
 
+    public org.semanticwb.pymtur.CuponType getCuponType(String id)
+    {
+        return org.semanticwb.pymtur.CuponType.ClassMgr.getCuponType(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.pymtur.CuponType> listCuponTypes()
+    {
+        return org.semanticwb.pymtur.CuponType.ClassMgr.listCuponTypes(this);
+    }
+
+    public org.semanticwb.pymtur.CuponType createCuponType(String id)
+    {
+        return org.semanticwb.pymtur.CuponType.ClassMgr.createCuponType(id,this);
+    }
+
+    public org.semanticwb.pymtur.CuponType createCuponType()
+    {
+        long id=getSemanticObject().getModel().getCounter(pymtur_CuponType);
+        return org.semanticwb.pymtur.CuponType.ClassMgr.createCuponType(String.valueOf(id),this);
+    } 
+
+    public void removeCuponType(String id)
+    {
+        org.semanticwb.pymtur.CuponType.ClassMgr.removeCuponType(id, this);
+    }
+    public boolean hasCuponType(String id)
+    {
+        return org.semanticwb.pymtur.CuponType.ClassMgr.hasCuponType(id, this);
+    }
+
     public org.semanticwb.pymtur.RfcType getRfcType(String id)
     {
         return org.semanticwb.pymtur.RfcType.ClassMgr.getRfcType(id, this);
@@ -637,6 +669,36 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
     public boolean hasSPType(String id)
     {
         return org.semanticwb.pymtur.SPType.ClassMgr.hasSPType(id, this);
+    }
+
+    public org.semanticwb.pymtur.PromotionType getPromotionType(String id)
+    {
+        return org.semanticwb.pymtur.PromotionType.ClassMgr.getPromotionType(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.pymtur.PromotionType> listPromotionTypes()
+    {
+        return org.semanticwb.pymtur.PromotionType.ClassMgr.listPromotionTypes(this);
+    }
+
+    public org.semanticwb.pymtur.PromotionType createPromotionType(String id)
+    {
+        return org.semanticwb.pymtur.PromotionType.ClassMgr.createPromotionType(id,this);
+    }
+
+    public org.semanticwb.pymtur.PromotionType createPromotionType()
+    {
+        long id=getSemanticObject().getModel().getCounter(pymtur_PromotionType);
+        return org.semanticwb.pymtur.PromotionType.ClassMgr.createPromotionType(String.valueOf(id),this);
+    } 
+
+    public void removePromotionType(String id)
+    {
+        org.semanticwb.pymtur.PromotionType.ClassMgr.removePromotionType(id, this);
+    }
+    public boolean hasPromotionType(String id)
+    {
+        return org.semanticwb.pymtur.PromotionType.ClassMgr.hasPromotionType(id, this);
     }
 
     public org.semanticwb.pymtur.Destination getDestination(String id)

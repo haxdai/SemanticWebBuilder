@@ -6,7 +6,6 @@
 package org.semanticwb.pymtur.microsites;
 
 import java.io.IOException;
-import java.util.Enumeration;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -56,7 +55,6 @@ public class SPRates extends GenericResource{
                     serviceProv.addRate(rate);
                 }
             }catch(Exception e){
-                e.printStackTrace();
                 log.error(e);
             }
         }else if(action.equals("edit_rate")) {
