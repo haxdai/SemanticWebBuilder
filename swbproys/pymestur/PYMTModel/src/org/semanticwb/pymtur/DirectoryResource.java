@@ -952,21 +952,22 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
             type = (SPType)paramRequest.getWebPage();
         }
         
-        //Buscar los service providers
+        //Consulta para obtener todos los ServiceProviders
         query.addTerm(new SearchTerm(SWBIndexer.ATT_CLASS, "ServiceProvider", SearchTerm.OPER_AND));
 
-        //Filtrar por destinos
+        //Restringir a que contengan cierto destino
         if (dest != null) {
             //System.out.println("--->Filtrando por destino: " + dest.getTitle());
             query.addTerm(new SearchTerm(ServiceProviderParser.ATT_DESTINATION, dest.getTitle(), SearchTerm.OPER_AND));
         }
 
+        //Restringir a que sean de cierto SPType
         if (type != null) {
             //System.out.println("--->Filtrando por tipo(padre): " + type.getTitle());
             query.addTerm(new SearchTerm(SWBIndexer.ATT_CATEGORY, type.getId(), SearchTerm.OPER_AND));
         }
 
-        //Filtrar por tipo de service provider
+        //Restringir a que sean de cierto SPType cuando éste se especifica por parámetro
         String spType = pars.get("spType");
         if (spType != null && !spType.trim().equals("")) {
             SPType spt = (SPType) SemanticObject.createSemanticObject(URLDecoder.decode(spType)).createGenericInstance();
@@ -974,7 +975,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
             query.addTerm(new SearchTerm(SWBIndexer.ATT_CATEGORY, spt.getId(), SearchTerm.OPER_AND));
         }
 
-        //Filtrar por tipo de service provider fijo
+        //Restringir a que sean de cierto SPType cuando éste se especifica desde el panel de búsqueda
         spType = pars.get("fixedSpType");
         if (spType != null && !spType.trim().equals("")) {
             //System.out.println("--->Filtrando por tipo fijo: " + spType);
@@ -984,7 +985,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
         //Ejecutar la busqueda
         SearchResults sres = SWBPortal.getIndexMgr().getDefaultIndexer().search(query, paramRequest.getUser());
 
-        //Obtiene la lista de searchables y la transforma a una lista de serviceproviders
+        //Obtener la lista de searchables y transformala a una lista de serviceproviders
         Iterator<SearchDocument> docs = sres.listDocuments();
         while(docs.hasNext()) {
             SearchDocument doc = docs.next();
@@ -993,6 +994,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                 providers.add(sp);
             }
         }
+        
         return providers.iterator();
     }   
 }
