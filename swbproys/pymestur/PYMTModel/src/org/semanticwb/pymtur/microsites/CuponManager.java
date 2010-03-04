@@ -36,15 +36,14 @@ public class CuponManager extends GenericResource {
     }
 
     @Override
-    public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
-    {
+    public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException  {
         String action=response.getAction();
         if(action.equals("add_cupon")) {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
             SWBFormMgr mgr = new SWBFormMgr(Cupon.sclass, semObject, null);
             mgr.setFilterRequired(false);
             try {
-                if( isValidValue(request.getParameter("title")) && isValidNumber(request.getParameter("description")) ) {
+                if( isValidValue(request.getParameter("title")) && isValidValue(request.getParameter("description")) ) {
                     SemanticObject sobj = mgr.processForm(request);
                     Cupon cupon = (Cupon) sobj.createGenericInstance();
                     ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
