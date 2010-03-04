@@ -10,6 +10,8 @@ package org.semanticwb.pymtur.microsites;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
 import javax.mail.internet.InternetAddress;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -62,13 +64,19 @@ public class Contact extends GenericAdmResource {
         if(currentpage == null) {
             currentpage = paramsRequest.getWebPage();
         }
-        if(currentpage instanceof MicroSitePyme) {
-            community = currentpage;
-        }else {
-            community = currentpage.getParent();
+
+        if(paramsRequest.getArgument("iscommunity","false").equals("true")){
+            if(currentpage instanceof MicroSitePyme) {
+                community = currentpage;
+            }else {
+                community = currentpage.getParent();
+            }
+            MicroSitePyme ms = (MicroSitePyme)community;
+            sprovider = ms.getServiceProvider();
+        }else{
+            SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
+            sprovider = (ServiceProvider) semObject.createGenericInstance();
         }
-        MicroSitePyme ms = (MicroSitePyme)community;
-        sprovider = ms.getServiceProvider();
 
         Resource base = getResourceBase();
         PrintWriter out = response.getWriter();
@@ -136,14 +144,20 @@ public class Contact extends GenericAdmResource {
         WebPage currentpage = (WebPage) request.getAttribute("webpage");
         if(currentpage == null) {
             currentpage = paramsRequest.getWebPage();
+        }        
+
+       if(paramsRequest.getArgument("iscommunity","false").equals("true")){
+            if(currentpage instanceof MicroSitePyme) {
+                community = currentpage;
+            }else {
+                community = currentpage.getParent();
+            }
+            MicroSitePyme ms = (MicroSitePyme)community;
+            sprovider = ms.getServiceProvider();
+        }else{
+            SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
+            sprovider = (ServiceProvider) semObject.createGenericInstance();
         }
-        if(currentpage instanceof MicroSitePyme) {
-            community = currentpage;
-        }else {
-            community = currentpage.getParent();
-        }
-        MicroSitePyme ms = (MicroSitePyme)community;
-        sprovider = ms.getServiceProvider();
         
         Resource base = getResourceBase();
         PrintWriter out = response.getWriter();
@@ -198,7 +212,9 @@ public class Contact extends GenericAdmResource {
                 out.print("<td colspan=\"2\">");
                 if (sprovider.getTitle(user.getLanguage()) != null) {
                     out.print("<center>" + sprovider.getTitle(user.getLanguage()) + "</center>");
-                } else {
+                }else if (sprovider.getTitle() != null) {
+                    out.print("<center>" + sprovider.getTitle() + "</center>");
+                }else {
                     out.print("<p align=\"center\">Ponte en contacto con nosotros</p>");
                 }
                 if (sprovider.getContactPhoneNumber() != null) {
