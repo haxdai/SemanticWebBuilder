@@ -75,15 +75,14 @@ public class PromotionManager extends GenericResource {
     }
 
     @Override
-    public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
-    {
+    public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         String action=response.getAction();
         if(action.equals("add_promo")) {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
             SWBFormMgr mgr = new SWBFormMgr(Promotion.sclass, semObject, null);
             mgr.setFilterRequired(false);
             try {
-                if( isValidValue(request.getParameter("title")) && isValidNumber(request.getParameter("description")) ) {
+                if( isValidValue(request.getParameter("title")) && isValidValue(request.getParameter("description")) ) {
                     SemanticObject sobj = mgr.processForm(request);
                     Promotion promo = (Promotion) sobj.createGenericInstance();
                     ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
