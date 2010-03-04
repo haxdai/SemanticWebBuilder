@@ -55,7 +55,7 @@ public class ServiceProviderParser extends GenericParser {
         ServiceProvider sp = (ServiceProvider)gen;
         WebPage wpFicha = sp.getWebPage().getWebSite().getWebPage("ficha");
         MicroSitePyme ms = sp.getMicroSitePymeInv();
-        
+
         if(wpFicha != null && sp.getPymePaqueteType() > 1) {
             ret = wpFicha.getUrl() + "?uri=" + sp.getEncodedURI() + "&act=detail";
         } else if(sp.getPymePaqueteType() >= 3 && ms != null) {
@@ -111,7 +111,7 @@ public class ServiceProviderParser extends GenericParser {
             ret = super.getIndexCategory(page);
         }
         //System.out.println("===" + sp.getTitle() + "[" + ret + "]" + sp.getURI());
-        return ret;        
+        return ret;
     }
 
     public String getDestination(Searchable gen) {
