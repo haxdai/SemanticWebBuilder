@@ -87,8 +87,8 @@ public class DestinationParser extends GenericParser {
     @Override
     public String getIndexCategory(Searchable gen)
     {
-        Destination dest = (Destination)gen;
         String ret = "";
+        //Destination dest = (Destination)gen;
         WebPage page = getWebPage(gen);
         if(page != null)
         {
