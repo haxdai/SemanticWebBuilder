@@ -49,13 +49,14 @@ public class SPRates extends GenericResource{
             SWBFormMgr mgr = new SWBFormMgr(Rate.sclass, semObject, null);
             mgr.setFilterRequired(false);
             try {
-                if( isValidValue(request.getParameter("planType")) && isValidNumber(request.getParameter("HighSeason")) && isValidNumber(request.getParameter("Capacity")) && isValidNumber(request.getParameter("lowSeason")) && isValidValue(request.getParameter("serviceType")) ) {
+                if(isValidValue(request.getParameter("planType")) && isValidNumber(request.getParameter("HighSeason")) && isValidNumber(request.getParameter("Capacity")) && isValidNumber(request.getParameter("lowSeason")) && isValidValue(request.getParameter("serviceType")) ) {
                     SemanticObject sobj = mgr.processForm(request);
                     Rate rate = (Rate) sobj.createGenericInstance();
                     ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
                     serviceProv.addRate(rate);
                 }
             }catch(Exception e){
+                e.printStackTrace();
                 log.error(e);
             }
         }else if(action.equals("edit_rate")) {
