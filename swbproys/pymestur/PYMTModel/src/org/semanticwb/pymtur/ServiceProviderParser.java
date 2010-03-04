@@ -51,7 +51,18 @@ public class ServiceProviderParser extends GenericParser {
 
     @Override
     public String getUrl(Searchable gen) {
-        return ((ServiceProvider)gen).getWebPage().getUrl();// + "?act=detail&uri=" +gen.getSemanticObject().getEncodedURI();
+        String ret = "#";
+        ServiceProvider sp = (ServiceProvider)gen;
+        WebPage wpFicha = sp.getWebPage().getWebSite().getWebPage("ficha");
+        MicroSitePyme ms = sp.getMicroSitePymeInv();
+        
+        if(wpFicha != null && sp.getPymePaqueteType() > 1) {
+            ret = wpFicha.getUrl() + "?uri=" + sp.getEncodedURI() + "&act=detail";
+        } else if(sp.getPymePaqueteType() >= 3 && ms != null) {
+            ret = ms.getUrl();
+        }
+
+        return ret;
     }
 
     @Override
@@ -92,8 +103,8 @@ public class ServiceProviderParser extends GenericParser {
     @Override
     public String getIndexCategory(Searchable gen)
     {
-        ServiceProvider sp = (ServiceProvider) gen;
         String ret="";
+        //ServiceProvider sp = (ServiceProvider) gen;
         WebPage page = getWebPage(gen);
         if(page != null)
         {
