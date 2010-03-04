@@ -7,6 +7,7 @@ public abstract class PromotionBase extends org.semanticwb.model.SWBClass implem
     public static final org.semanticwb.platform.SemanticProperty pymtur_promoServiceProviderInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#promoServiceProviderInv");
     public static final org.semanticwb.platform.SemanticProperty pymtur_promoImg=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#promoImg");
     public static final org.semanticwb.platform.SemanticProperty pymtur_promoPeriod=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#promoPeriod");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_promoType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#promoType");
     public static final org.semanticwb.platform.SemanticClass pymtur_Promotion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Promotion");
     public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Promotion");
 
@@ -133,6 +134,16 @@ public abstract class PromotionBase extends org.semanticwb.model.SWBClass implem
     public void setTitle(String title, String lang)
     {
         getSemanticObject().setProperty(swb_title, title, lang);
+    }
+
+    public String getPromoType()
+    {
+        return getSemanticObject().getProperty(pymtur_promoType);
+    }
+
+    public void setPromoType(String value)
+    {
+        getSemanticObject().setProperty(pymtur_promoType, value);
     }
 
     public String getDescription()
