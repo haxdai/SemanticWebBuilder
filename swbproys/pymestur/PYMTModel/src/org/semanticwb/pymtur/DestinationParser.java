@@ -88,13 +88,11 @@ public class DestinationParser extends GenericParser {
     public String getIndexCategory(Searchable gen)
     {
         String ret = "";
-        //Destination dest = (Destination)gen;
         WebPage page = getWebPage(gen);
         if(page != null)
         {
             ret = super.getIndexCategory(page);
         }
-        //System.out.println("::Category==>" + dest.getTitle() + "[" + ret + "]::" + dest.getEncodedURI());
         return ret;
     }
 
@@ -106,7 +104,6 @@ public class DestinationParser extends GenericParser {
             Experience exp = it_exp.next();
             ret += " " + exp.getTitle();
         }
-        //System.out.println("::Experience==>" + dest.getTitle() + "[" + ret + "]");
         return ret.trim();
     }
 
@@ -118,7 +115,6 @@ public class DestinationParser extends GenericParser {
             Event evt = it_ev.next();
             ret += " " + evt.getTitle();
         }
-        //System.out.println("::Event==>" + dest.getTitle() + "[" + ret + "]");
         return ret.trim();
     }
 
@@ -130,7 +126,6 @@ public class DestinationParser extends GenericParser {
             Activity act = it_act.next();
             ret += " " + act.getTitle();
         }
-        //System.out.println("::Activity==>" + dest.getTitle() + "[" + ret + "]");
         return ret.trim();
     }
 
@@ -142,7 +137,6 @@ public class DestinationParser extends GenericParser {
             TourismType tt = it_tt.next();
             ret += " " + tt.getTitle();
         }
-        //System.out.println("::TourismType==>" + dest.getTitle() + "[" + ret + "]");
         return ret.trim();
     }
 
