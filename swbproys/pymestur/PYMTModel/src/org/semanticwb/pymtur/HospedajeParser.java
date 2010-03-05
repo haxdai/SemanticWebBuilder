@@ -32,7 +32,6 @@ import org.semanticwb.model.Searchable;
 public class HospedajeParser extends ServiceProviderParser {
     @Override
     public String getType(Searchable gen) {
-        return "Hospedaje";
+        return "ServiceProvider";
     }
-
 }
