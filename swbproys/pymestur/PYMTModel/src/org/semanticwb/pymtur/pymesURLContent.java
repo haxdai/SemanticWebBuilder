@@ -15,7 +15,6 @@ import javax.servlet.http.*;
 import org.w3c.dom.*;
 
 import org.semanticwb.Logger;
-import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.WebPage;
