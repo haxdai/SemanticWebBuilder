@@ -22,16 +22,11 @@
 **/
 package org.semanticwb.pymtur;
 
-import org.semanticwb.model.Searchable;
-
 /**
  * Parser para los service providers de tipo hospedaje. Extiende del parser
  * para los service providers generales.
  * @author Hasdai Pacheco {haxdai@gmail.com}
  */
 public class HospedajeParser extends ServiceProviderParser {
-    @Override
-    public String getType(Searchable gen) {
-        return "ServiceProvider";
-    }
+    
 }
