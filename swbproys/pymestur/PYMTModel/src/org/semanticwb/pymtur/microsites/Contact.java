@@ -206,10 +206,9 @@ public class Contact extends GenericAdmResource {
 
                 out.println("    var contactContainer=document.createElement('div');");
                 out.print("contactContainer.innerHTML = ");
-                out.print("'<form action=\"\" method=\"post\" >");
-                out.print("<table width=\"90%\" bgcolor=\"#FFFFFF\">");
-                out.print("<tr>");
-                out.print("<td colspan=\"2\">");
+                out.print("'<div id=\"contacto\">");
+                out.print("<form id=\"frmContact\" action=\"\" method=\"post\" class=\"form\" >");
+                out.print("<p>");
                 if (sprovider.getTitle(user.getLanguage()) != null) {
                     out.print("<center>" + sprovider.getTitle(user.getLanguage()) + "</center>");
                 }else if (sprovider.getTitle() != null) {
@@ -220,46 +219,47 @@ public class Contact extends GenericAdmResource {
                 if (sprovider.getContactPhoneNumber() != null) {
                     out.println("<p>Puedes contact&aacute;rnos por tel&eaucte;fono al n&uacute;mero: " + sprovider.getContactPhoneNumber());
                     if (cuentaCorreo != null) {
-                        out.println("<br/>O si lo prefieres, env&iacute;a un correo electr&oacute;nico proporcionando la siguiente informaci&oacute;n:");
+                        out.println("<br />. Si lo prefieres, env&iacute;anos un correo electr&oacute;nico proporcionando la siguiente informaci&oacute;n:");
                     }
                     out.println("</p>");
                 }
-                out.print("</td>");
-                out.print("</tr>");
-                out.print("<tr><td colspan=\"2\"><hr /></td></tr>");
+                out.print("</p>");
+                out.print("<p><hr /></p>");
                 if (cuentaCorreo != null) {
-                    out.print("<tr>");
-                    out.print("<td width=\"20%\">"+paramsRequest.getLocaleString("name")+"</td>");
-                    out.print("<td><input name=\"name\" id=\"name\" size=\"50\" value=\""+(user.isSigned()?user.getFullName():"")+"\" /></td>");
-                    out.print("</tr>");
-                    out.print("<tr>");
-                    out.print("<td>"+paramsRequest.getLocaleString("email")+"</td>");
-                    out.print("<td><input name=\"email\" id=\"email\" size=\"50\" value=\""+(user.isSigned()?user.getEmail():"")+"\" /></td>");
-                    out.print("</tr>");
-                    out.print("<tr>");
-                    out.print("<td>"+paramsRequest.getLocaleString("subject")+"</td>");
-                    out.print("<td ><input name=\"subject\" id=\"subject\" size=\"50\" /></td>");
-                    out.print("</tr>");
-                    out.print("<tr>");
-                    out.print("<td>"+paramsRequest.getLocaleString("message")+"</td>");
-                    out.print("<td ><textarea name=\"message\" id=\"message\" cols=\"40\" rows=\"5\"></textarea></td>");
-                    out.print("</tr>");
+                    out.print("<p>");
+                    out.print("<label for=\"name\">"+paramsRequest.getLocaleString("name")+"</label>");
+                    out.print("<input name=\"name\" id=\"name\" size=\"50\" value=\""+(user.isSigned()?user.getFullName():"")+"\" />");
+                    out.print("</p>");
+
+                    out.print("<p>");
+                    out.print("<label for=\"email\">"+paramsRequest.getLocaleString("email")+"</label>");
+                    out.print("<input name=\"email\" id=\"email\" size=\"50\" value=\""+(user.isSigned()?user.getEmail():"")+"\" />");
+                    out.print("</p>");
+
+                    out.print("<p>");
+                    out.print("<label for=\"subject\">"+paramsRequest.getLocaleString("subject")+"</label>");
+                    out.print("<input name=\"subject\" id=\"subject\" size=\"50\" />");
+                    out.print("</p>");
+                    out.print("<p>");
+                    out.print("<label for=\"message\">"+paramsRequest.getLocaleString("message")+"</label>");
+                    out.print("<textarea name=\"message\" id=\"message\" cols=\"40\" rows=\"5\"></textarea>");
+                    out.print("</p>");
                 }
-                out.print("<tr>");
-                out.print("<td colspan=\"2\" align=\"center\"><br>");
+                out.print("<p>");
                 SWBResourceURL url=paramsRequest.getRenderUrl();
                 url.setCallMethod(url.Call_DIRECT).setMode("sendEmail").setParameter("uri", request.getParameter("uri"));
                 if (cuentaCorreo != null) {
-                    out.print("<input name=\"submit\" type=\"button\" onclick=\"justdoit(\\'"+url+"\\'+\\'?name=\\'+dojo.byId(\\'name\\').value+\\'&email=\\'+dojo.byId(\\'email\\').value+\\'&subject=\\'+dojo.byId(\\'subject\\').value+\\'&message=\\'+dojo.byId(\\'message\\').value);removeCoverDiv(\\''+divId+'\\')\" value=\""+paramsRequest.getLocaleString("send")+"\" />");
-                    out.print("&nbsp;&nbsp;&nbsp;");
-                    out.print("<input name=\"reset\" type=\"reset\" value=\""+paramsRequest.getLocaleString("reset")+"\" />");
-                    out.print("&nbsp;&nbsp;&nbsp;");
+                    out.print("<label for=\"contactoEnviar\">Enviar</label>");
+                    out.print("<input name=\"submit\" id=\"contactoEnviar\" type=\"button\" onclick=\"justdoit(\\'"+url+"\\'+\\'?name=\\'+dojo.byId(\\'name\\').value+\\'&email=\\'+dojo.byId(\\'email\\').value+\\'&subject=\\'+dojo.byId(\\'subject\\').value+\\'&message=\\'+dojo.byId(\\'message\\').value);removeCoverDiv(\\''+divId+'\\')\" value=\""+paramsRequest.getLocaleString("send")+"\" />");
+                    out.print("<label for=\"contactoRestablecer\">Enviar</label>");
+                    out.print("<input name=\"reset\" id=\"contactoRestablecer\" type=\"reset\" value=\""+paramsRequest.getLocaleString("reset")+"\" />");
                 }
-                out.print("<input name=\"cancel\" type=\"button\" onclick=\"removeCoverDiv(\\''+divId+'\\')\" value=\""+paramsRequest.getLocaleString("cancel")+"\" /><br>");
-                out.print("</td>");
-                out.print("</tr>");
-                out.print("</table>");
-                out.print("</form>';");
+                out.print("<label for=\"contactoCancelar\">Enviar</label>");
+                out.print("<input name=\"cancel\" id=\"contactoCancelar\" type=\"button\" onclick=\"removeCoverDiv(\\''+divId+'\\')\" value=\""+paramsRequest.getLocaleString("cancel")+"\" /><br>");
+                out.print("</p>");
+                out.print("</form>");
+                out.print("</div>';");
+
                 out.println("    var cwidth=500;");
                 out.println("    var cheight=500;");
                 out.println("    contactContainer.id='s_'+divId;");
@@ -274,6 +274,7 @@ public class Contact extends GenericAdmResource {
                 out.println("    document.body.appendChild(contactContainer);");
                 out.println("  }");
                 out.println("</script>");
+
                 if ( base.getAttribute("link")!=null )
                     out.println("<a href=\"#\" onclick=\"displayImage('cover01','#000000',80)\">"+base.getAttribute("link")+"</a>");
                 else if ( base.getAttribute("label")!=null )
