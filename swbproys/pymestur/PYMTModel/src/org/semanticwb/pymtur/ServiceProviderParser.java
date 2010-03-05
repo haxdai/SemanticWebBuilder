@@ -41,12 +41,13 @@ public class ServiceProviderParser extends GenericParser {
 
     @Override
     public String getType(Searchable gen) {
+        System.out.println("===>Indexando un serviceprovider");
         return "ServiceProvider";
     }
 
     @Override
     public String getSummary(Searchable gen, String lang) {
-        return ((ServiceProvider)gen).getDescription();
+        return ((ServiceProvider)gen).getDescription(lang);
     }
 
     @Override
@@ -104,13 +105,13 @@ public class ServiceProviderParser extends GenericParser {
     public String getIndexCategory(Searchable gen)
     {
         String ret="";
-        //ServiceProvider sp = (ServiceProvider) gen;
+        ServiceProvider sp = (ServiceProvider) gen;
         WebPage page = getWebPage(gen);
         if(page != null)
         {
             ret = super.getIndexCategory(page);
         }
-        //System.out.println("===" + sp.getTitle() + "[" + ret + "]" + sp.getURI());
+        System.out.println("===" + sp.getTitle() + "[" + ret + "]" + sp.getURI());
         return ret;
     }
 
@@ -118,7 +119,7 @@ public class ServiceProviderParser extends GenericParser {
         String ret = "";
         if (((ServiceProvider)gen).getDestination() != null) {
             ret = ((ServiceProvider)gen).getDestination().getTitle();
-            //System.out.println(" === " + ret);
+            System.out.println(" === " + ret);
         }
         return ret;
     }
