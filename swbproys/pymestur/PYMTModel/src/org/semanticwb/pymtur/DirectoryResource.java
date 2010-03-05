@@ -944,11 +944,9 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
 
         if (paramRequest.getWebPage() instanceof Destination) {
             dest = (Destination)paramRequest.getWebPage();
-            //System.out.println("::Estoy parado en un destino");
         }
         
         if (paramRequest.getWebPage() instanceof SPType) {
-            //System.out.println("::Estoy parado en un SPType");
             type = (SPType)paramRequest.getWebPage();
         }
         
@@ -957,13 +955,11 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
 
         //Restringir a que contengan cierto destino
         if (dest != null) {
-            //System.out.println("--->Filtrando por destino: " + dest.getTitle());
             query.addTerm(new SearchTerm(ServiceProviderParser.ATT_DESTINATION, dest.getTitle(), SearchTerm.OPER_AND));
         }
 
         //Restringir a que sean de cierto SPType
         if (type != null) {
-            //System.out.println("--->Filtrando por tipo(padre): " + type.getTitle());
             query.addTerm(new SearchTerm(SWBIndexer.ATT_CATEGORY, type.getId(), SearchTerm.OPER_AND));
         }
 
@@ -971,14 +967,12 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
         String spType = pars.get("spType");
         if (spType != null && !spType.trim().equals("")) {
             SPType spt = (SPType) SemanticObject.createSemanticObject(URLDecoder.decode(spType)).createGenericInstance();
-            //System.out.println("--->Filtrando por tipo(argumento): " + spt.getId());
             query.addTerm(new SearchTerm(SWBIndexer.ATT_CATEGORY, spt.getId(), SearchTerm.OPER_AND));
         }
 
         //Restringir a que sean de cierto SPType cuando éste se especifica desde el panel de búsqueda
         spType = pars.get("fixedSpType");
         if (spType != null && !spType.trim().equals("")) {
-            //System.out.println("--->Filtrando por tipo fijo: " + spType);
             query.addTerm(new SearchTerm(SWBIndexer.ATT_CATEGORY, spType, SearchTerm.OPER_AND));
         }
 
