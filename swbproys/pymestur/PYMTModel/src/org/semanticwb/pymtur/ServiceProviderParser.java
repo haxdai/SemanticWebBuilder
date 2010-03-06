@@ -56,12 +56,13 @@ public class ServiceProviderParser extends GenericParser {
         WebPage wpFicha = sp.getWebPage().getWebSite().getWebPage("ficha");
         MicroSitePyme ms = sp.getMicroSitePymeInv();
 
-        if(wpFicha != null && sp.getPymePaqueteType() > 1) {
+        if (wpFicha != null && sp.getPymePaqueteType() > 1) {
             ret = wpFicha.getUrl() + "?uri=" + sp.getEncodedURI() + "&act=detail";
         } else if(sp.getPymePaqueteType() >= 3 && ms != null) {
             ret = ms.getUrl();
+        } else if (sp.getDestination() != null) {
+            ret = sp.getDestination().getUrl();
         }
-
         return ret;
     }
 
