@@ -81,6 +81,16 @@ public abstract class CuponBase extends org.semanticwb.model.SWBClass implements
         getSemanticObject().setProperty(pymtur_cuponType, value);
     }
 
+    public String getCuponImg()
+    {
+        return getSemanticObject().getProperty(pymtur_cuponImg);
+    }
+
+    public void setCuponImg(String value)
+    {
+        getSemanticObject().setProperty(pymtur_cuponImg, value);
+    }
+
     public String getCuponPeriod()
     {
         return getSemanticObject().getProperty(pymtur_cuponPeriod);
