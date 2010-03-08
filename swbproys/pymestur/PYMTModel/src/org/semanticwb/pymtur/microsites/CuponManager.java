@@ -46,6 +46,7 @@ public class CuponManager extends GenericResource {
                 if( isValidValue(request.getParameter("title")) && isValidValue(request.getParameter("description")) ) {
                     SemanticObject sobj = mgr.processForm(request);
                     Cupon cupon = (Cupon) sobj.createGenericInstance();
+                    cupon.getSemanticObject().setProperty(cupon.pymtur_cuponImg, request.getParameter("is"));
                     ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
                     serviceProv.addCupon(cupon);
                 }
