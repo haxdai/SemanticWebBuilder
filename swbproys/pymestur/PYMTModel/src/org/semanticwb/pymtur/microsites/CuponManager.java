@@ -42,26 +42,31 @@ public class CuponManager extends GenericResource {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
             SWBFormMgr mgr = new SWBFormMgr(Cupon.sclass, semObject, null);
             mgr.setFilterRequired(false);
-            try {
-                if( isValidValue(request.getParameter("title")) && isValidValue(request.getParameter("description")) ) {
+            if( isValidValue(request.getParameter("title")) && isValidValue(request.getParameter("description")) ) {
+                try {
                     SemanticObject sobj = mgr.processForm(request);
                     Cupon cupon = (Cupon) sobj.createGenericInstance();
-                    cupon.getSemanticObject().setProperty(cupon.pymtur_cuponImg, request.getParameter("is"));
+                    cupon.setCuponImg(request.getParameter("is"));
+                    //cupon.getSemanticObject().setProperty(cupon.pymtur_cuponImg, request.getParameter("is"));
                     ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
                     serviceProv.addCupon(cupon);
+                }catch(Exception e){
+                    log.error(e);
                 }
-            }catch(Exception e){
-                log.error(e);
             }
         }else if(action.equals("edit_cupon")) {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
             SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
             mgr.setFilterRequired(false);
-            try
-            {
-                mgr.processForm(request);
-            }catch(Exception e){
-                log.error(e);
+            if( isValidValue(request.getParameter("title")) && isValidValue(request.getParameter("description")) ) {
+                try {
+                    //mgr.processForm(request);
+                    SemanticObject sobj = mgr.processForm(request);
+                    Cupon cupon = (Cupon) sobj.createGenericInstance();
+                    cupon.setCuponImg(request.getParameter("is"));
+                }catch(Exception e){
+                    log.error(e);
+                }
             }
         }else if(action.equals("remove_cupon")) {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
