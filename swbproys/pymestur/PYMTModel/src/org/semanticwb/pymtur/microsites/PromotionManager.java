@@ -84,26 +84,30 @@ System.out.println("img="+request.getParameter("is"));
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
             SWBFormMgr mgr = new SWBFormMgr(Promotion.sclass, semObject, null);
             mgr.setFilterRequired(false);
-            try {
-                if( isValidValue(request.getParameter("title")) && isValidValue(request.getParameter("description")) ) {
+            if( isValidValue(request.getParameter("title")) && isValidValue(request.getParameter("description")) ) {
+                try {
                     SemanticObject sobj = mgr.processForm(request);
                     Promotion promo = (Promotion) sobj.createGenericInstance();
                     promo.setPromoImg(request.getParameter("is"));
                     ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
                     serviceProv.addPromotion(promo);
+                }catch(Exception e){
+                    log.error(e);
                 }
-            }catch(Exception e){
-                log.error(e);
             }
         }else if(action.equals("edit_promo")) {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
             SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
             mgr.setFilterRequired(false);
-            try
-            {
-                mgr.processForm(request);
-            }catch(Exception e){
-                log.error(e);
+            if( isValidValue(request.getParameter("title")) && isValidValue(request.getParameter("description")) ) {
+                try {
+                    //mgr.processForm(request);
+                    SemanticObject sobj = mgr.processForm(request);
+                    Promotion promo = (Promotion) sobj.createGenericInstance();
+                    promo.setPromoImg(request.getParameter("is"));
+                }catch(Exception e){
+                    log.error(e);
+                }
             }
         }else if(action.equals("remove_promo")) {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
