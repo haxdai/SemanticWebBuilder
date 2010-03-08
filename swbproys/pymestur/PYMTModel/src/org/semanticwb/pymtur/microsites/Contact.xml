@@ -4,8 +4,6 @@
 
 	<form name="frmContact" action="true" method="POST" enctype="multipart/form-data">
         <fieldset legend="Datos">
-            <input type="TEXT" name="email" label="Dirección de Correo Electrónico del contacto:" size="50"/>
-
             <statictext name="txtTarget">¿Cómo desea mostrar el recurso de contacto?:</statictext>
             <input type="RADIO" name="modal" label="Modal" value="true"/>
             <input type="RADIO" name="modal" label="No Modal" value="false"/>
@@ -51,15 +49,6 @@
         <![CDATA[
             if(!document.frmContact.modal[0].checked && !document.frmContact.modal[1].checked)
                     document.frmContact.modal[1].checked=true;
-                    
-            function jsValida(frm) {
-                if(frm.email.value==null || frm.email.value=='' || frm.email.value==' ') {
-                    alert('Indique la dirección de correo electrónico del contacto.');
-                    frm.email.focus();
-                    return false;
-                }
-                return true;
-            }
         ]]>
     </script>
 </admresource>
