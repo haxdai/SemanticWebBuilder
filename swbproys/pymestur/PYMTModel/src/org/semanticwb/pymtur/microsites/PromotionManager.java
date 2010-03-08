@@ -76,9 +76,6 @@ public class PromotionManager extends GenericResource {
 
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
-System.out.println("img="+request.getParameter("is"));
-
-
         String action=response.getAction();
         if(action.equals("add_promo")) {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
