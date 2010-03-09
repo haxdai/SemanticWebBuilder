@@ -427,6 +427,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     dirObj.setWebPage(response.getWebPage());
                     dirObj.setSpCreator(user);
                     dirObj.setCreated(new Date());
+                    dirObj.setSpStatus(1);
 
                     String refirect=null;
                     if(request.getParameter("destination")!=null) {
