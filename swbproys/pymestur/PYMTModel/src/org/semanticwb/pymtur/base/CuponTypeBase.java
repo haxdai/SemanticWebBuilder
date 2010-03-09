@@ -49,25 +49,25 @@ public abstract class CuponTypeBase extends org.semanticwb.model.SWBClass implem
 
         public static java.util.Iterator<org.semanticwb.pymtur.CuponType> listCuponTypeByModifiedBy(org.semanticwb.model.User modifiedby,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.CuponType> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_modifiedBy, modifiedby.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.CuponType> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, modifiedby.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.CuponType> listCuponTypeByModifiedBy(org.semanticwb.model.User modifiedby)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.CuponType> it=new org.semanticwb.model.GenericIterator(modifiedby.getSemanticObject().getModel().listSubjects(swb_modifiedBy,modifiedby.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.CuponType> it=new org.semanticwb.model.GenericIterator(modifiedby.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,modifiedby.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.CuponType> listCuponTypeByCreator(org.semanticwb.model.User creator,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.CuponType> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_creator, creator.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.CuponType> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, creator.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.CuponType> listCuponTypeByCreator(org.semanticwb.model.User creator)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.CuponType> it=new org.semanticwb.model.GenericIterator(creator.getSemanticObject().getModel().listSubjects(swb_creator,creator.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.CuponType> it=new org.semanticwb.model.GenericIterator(creator.getSemanticObject().getModel().listSubjectsByClass(swb_creator,creator.getSemanticObject(),sclass));
             return it;
         }
     }

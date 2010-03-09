@@ -45,253 +45,253 @@ public abstract class MicroSitePymeBase extends org.semanticwb.portal.community.
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByAssMember(org.semanticwb.model.AssMember hasassmemberinv,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasAssMemberInv, hasassmemberinv.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasAssMemberInv, hasassmemberinv.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByAssMember(org.semanticwb.model.AssMember hasassmemberinv)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(hasassmemberinv.getSemanticObject().getModel().listSubjects(swb_hasAssMemberInv,hasassmemberinv.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(hasassmemberinv.getSemanticObject().getModel().listSubjectsByClass(swb_hasAssMemberInv,hasassmemberinv.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByVirtualParent(org.semanticwb.model.WebPage haswebpagevirtualparent,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasWebPageVirtualParent, haswebpagevirtualparent.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualParent, haswebpagevirtualparent.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByVirtualParent(org.semanticwb.model.WebPage haswebpagevirtualparent)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(haswebpagevirtualparent.getSemanticObject().getModel().listSubjects(swb_hasWebPageVirtualParent,haswebpagevirtualparent.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(haswebpagevirtualparent.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualParent,haswebpagevirtualparent.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByCalendarRef(org.semanticwb.model.CalendarRef hascalendarref,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasCalendarRef, hascalendarref.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasCalendarRef, hascalendarref.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByCalendarRef(org.semanticwb.model.CalendarRef hascalendarref)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(hascalendarref.getSemanticObject().getModel().listSubjects(swb_hasCalendarRef,hascalendarref.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(hascalendarref.getSemanticObject().getModel().listSubjectsByClass(swb_hasCalendarRef,hascalendarref.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByParent(org.semanticwb.model.WebPage webpageparent,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_webPageParent, webpageparent.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_webPageParent, webpageparent.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByParent(org.semanticwb.model.WebPage webpageparent)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(webpageparent.getSemanticObject().getModel().listSubjects(swb_webPageParent,webpageparent.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(webpageparent.getSemanticObject().getModel().listSubjectsByClass(swb_webPageParent,webpageparent.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByAbout(org.semanticwb.model.WebPage about,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swbcomm_about, about.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swbcomm_about, about.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByAbout(org.semanticwb.model.WebPage about)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(about.getSemanticObject().getModel().listSubjects(swbcomm_about,about.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(about.getSemanticObject().getModel().listSubjectsByClass(swbcomm_about,about.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByMember(org.semanticwb.portal.community.Member hasmsmembersinv,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swbcomm_hasMSMembersInv, hasmsmembersinv.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swbcomm_hasMSMembersInv, hasmsmembersinv.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByMember(org.semanticwb.portal.community.Member hasmsmembersinv)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(hasmsmembersinv.getSemanticObject().getModel().listSubjects(swbcomm_hasMSMembersInv,hasmsmembersinv.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(hasmsmembersinv.getSemanticObject().getModel().listSubjectsByClass(swbcomm_hasMSMembersInv,hasmsmembersinv.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByServiceProvider(org.semanticwb.pymtur.ServiceProvider serviceprovider,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(pymtur_serviceProvider, serviceprovider.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(pymtur_serviceProvider, serviceprovider.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByServiceProvider(org.semanticwb.pymtur.ServiceProvider serviceprovider)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(serviceprovider.getSemanticObject().getModel().listSubjects(pymtur_serviceProvider,serviceprovider.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(serviceprovider.getSemanticObject().getModel().listSubjectsByClass(pymtur_serviceProvider,serviceprovider.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByCreator(org.semanticwb.model.User creator,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_creator, creator.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, creator.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByCreator(org.semanticwb.model.User creator)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(creator.getSemanticObject().getModel().listSubjects(swb_creator,creator.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(creator.getSemanticObject().getModel().listSubjectsByClass(swb_creator,creator.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByUserGroupRef(org.semanticwb.model.UserGroupRef hasusergroupref,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasUserGroupRef, hasusergroupref.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef, hasusergroupref.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByUserGroupRef(org.semanticwb.model.UserGroupRef hasusergroupref)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(hasusergroupref.getSemanticObject().getModel().listSubjects(swb_hasUserGroupRef,hasusergroupref.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(hasusergroupref.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef,hasusergroupref.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByWebPageVirtualChild(org.semanticwb.model.WebPage haswebpagevirtualchild,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasWebPageVirtualChild, haswebpagevirtualchild.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualChild, haswebpagevirtualchild.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByWebPageVirtualChild(org.semanticwb.model.WebPage haswebpagevirtualchild)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(haswebpagevirtualchild.getSemanticObject().getModel().listSubjects(swb_hasWebPageVirtualChild,haswebpagevirtualchild.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(haswebpagevirtualchild.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualChild,haswebpagevirtualchild.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByPFlowRef(org.semanticwb.model.PFlowRef haspflowref,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasPFlowRef, haspflowref.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef, haspflowref.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByPFlowRef(org.semanticwb.model.PFlowRef haspflowref)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(haspflowref.getSemanticObject().getModel().listSubjects(swb_hasPFlowRef,haspflowref.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(haspflowref.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef,haspflowref.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByTemplateRef(org.semanticwb.model.TemplateRef hastemplateref,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasTemplateRef, hastemplateref.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef, hastemplateref.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByTemplateRef(org.semanticwb.model.TemplateRef hastemplateref)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(hastemplateref.getSemanticObject().getModel().listSubjects(swb_hasTemplateRef,hastemplateref.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(hastemplateref.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef,hastemplateref.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByChild(org.semanticwb.model.WebPage haswebpagechild,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasWebPageChild, haswebpagechild.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageChild, haswebpagechild.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByChild(org.semanticwb.model.WebPage haswebpagechild)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(haswebpagechild.getSemanticObject().getModel().listSubjects(swb_hasWebPageChild,haswebpagechild.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(haswebpagechild.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageChild,haswebpagechild.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByMicroSiteUtil(org.semanticwb.portal.community.MicroSiteWebPageUtil hasmicrositeutilsinv,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swbcomm_hasMicroSiteUtilsInv, hasmicrositeutilsinv.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swbcomm_hasMicroSiteUtilsInv, hasmicrositeutilsinv.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByMicroSiteUtil(org.semanticwb.portal.community.MicroSiteWebPageUtil hasmicrositeutilsinv)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(hasmicrositeutilsinv.getSemanticObject().getModel().listSubjects(swbcomm_hasMicroSiteUtilsInv,hasmicrositeutilsinv.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(hasmicrositeutilsinv.getSemanticObject().getModel().listSubjectsByClass(swbcomm_hasMicroSiteUtilsInv,hasmicrositeutilsinv.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByModifiedBy(org.semanticwb.model.User modifiedby,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_modifiedBy, modifiedby.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, modifiedby.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByModifiedBy(org.semanticwb.model.User modifiedby)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(modifiedby.getSemanticObject().getModel().listSubjects(swb_modifiedBy,modifiedby.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(modifiedby.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,modifiedby.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByResource(org.semanticwb.model.Resource hasresource,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasResource, hasresource.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasResource, hasresource.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByResource(org.semanticwb.model.Resource hasresource)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(hasresource.getSemanticObject().getModel().listSubjects(swb_hasResource,hasresource.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(hasresource.getSemanticObject().getModel().listSubjectsByClass(swb_hasResource,hasresource.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByRoleRef(org.semanticwb.model.RoleRef hasroleref,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasRoleRef, hasroleref.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef, hasroleref.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByRoleRef(org.semanticwb.model.RoleRef hasroleref)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(hasroleref.getSemanticObject().getModel().listSubjects(swb_hasRoleRef,hasroleref.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(hasroleref.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef,hasroleref.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByType(org.semanticwb.portal.community.MicroSiteType type,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swbcomm_type, type.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swbcomm_type, type.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByType(org.semanticwb.portal.community.MicroSiteType type)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(type.getSemanticObject().getModel().listSubjects(swbcomm_type,type.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(type.getSemanticObject().getModel().listSubjectsByClass(swbcomm_type,type.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByThisRoleAssMember(org.semanticwb.model.AssMember hasthisroleassmemberinv,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasThisRoleAssMemberInv, hasthisroleassmemberinv.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisRoleAssMemberInv, hasthisroleassmemberinv.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByThisRoleAssMember(org.semanticwb.model.AssMember hasthisroleassmemberinv)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(hasthisroleassmemberinv.getSemanticObject().getModel().listSubjects(swb_hasThisRoleAssMemberInv,hasthisroleassmemberinv.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(hasthisroleassmemberinv.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisRoleAssMemberInv,hasthisroleassmemberinv.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByRuleRef(org.semanticwb.model.RuleRef hasruleref,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasRuleRef, hasruleref.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef, hasruleref.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByRuleRef(org.semanticwb.model.RuleRef hasruleref)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(hasruleref.getSemanticObject().getModel().listSubjects(swb_hasRuleRef,hasruleref.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(hasruleref.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef,hasruleref.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByThisTypeAssociation(org.semanticwb.model.Association hasthistypeassociationinv,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_hasThisTypeAssociationInv, hasthistypeassociationinv.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisTypeAssociationInv, hasthistypeassociationinv.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.MicroSitePyme> listMicroSitePymeByThisTypeAssociation(org.semanticwb.model.Association hasthistypeassociationinv)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(hasthistypeassociationinv.getSemanticObject().getModel().listSubjects(swb_hasThisTypeAssociationInv,hasthistypeassociationinv.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.MicroSitePyme> it=new org.semanticwb.model.GenericIterator(hasthistypeassociationinv.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisTypeAssociationInv,hasthistypeassociationinv.getSemanticObject(),sclass));
             return it;
         }
     }

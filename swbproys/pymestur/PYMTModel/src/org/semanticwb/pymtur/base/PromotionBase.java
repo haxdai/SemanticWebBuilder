@@ -54,13 +54,13 @@ public abstract class PromotionBase extends org.semanticwb.model.SWBClass implem
 
         public static java.util.Iterator<org.semanticwb.pymtur.Promotion> listPromotionByPromoServiceProviderInv(org.semanticwb.pymtur.ServiceProvider promoserviceproviderinv,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Promotion> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(pymtur_promoServiceProviderInv, promoserviceproviderinv.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Promotion> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(pymtur_promoServiceProviderInv, promoserviceproviderinv.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.Promotion> listPromotionByPromoServiceProviderInv(org.semanticwb.pymtur.ServiceProvider promoserviceproviderinv)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Promotion> it=new org.semanticwb.model.GenericIterator(promoserviceproviderinv.getSemanticObject().getModel().listSubjects(pymtur_promoServiceProviderInv,promoserviceproviderinv.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Promotion> it=new org.semanticwb.model.GenericIterator(promoserviceproviderinv.getSemanticObject().getModel().listSubjectsByClass(pymtur_promoServiceProviderInv,promoserviceproviderinv.getSemanticObject(),sclass));
             return it;
         }
     }

@@ -51,37 +51,37 @@ public abstract class InstalationBase extends org.semanticwb.model.SWBClass impl
 
         public static java.util.Iterator<org.semanticwb.pymtur.Instalation> listInstalationByServiceProvider(org.semanticwb.pymtur.ServiceProvider hasinstserviceproviderinv,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Instalation> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(pymtur_hasInstServiceProviderInv, hasinstserviceproviderinv.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Instalation> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(pymtur_hasInstServiceProviderInv, hasinstserviceproviderinv.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.Instalation> listInstalationByServiceProvider(org.semanticwb.pymtur.ServiceProvider hasinstserviceproviderinv)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Instalation> it=new org.semanticwb.model.GenericIterator(hasinstserviceproviderinv.getSemanticObject().getModel().listSubjects(pymtur_hasInstServiceProviderInv,hasinstserviceproviderinv.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Instalation> it=new org.semanticwb.model.GenericIterator(hasinstserviceproviderinv.getSemanticObject().getModel().listSubjectsByClass(pymtur_hasInstServiceProviderInv,hasinstserviceproviderinv.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.Instalation> listInstalationByModifiedBy(org.semanticwb.model.User modifiedby,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Instalation> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_modifiedBy, modifiedby.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Instalation> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, modifiedby.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.Instalation> listInstalationByModifiedBy(org.semanticwb.model.User modifiedby)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Instalation> it=new org.semanticwb.model.GenericIterator(modifiedby.getSemanticObject().getModel().listSubjects(swb_modifiedBy,modifiedby.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Instalation> it=new org.semanticwb.model.GenericIterator(modifiedby.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,modifiedby.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.Instalation> listInstalationByCreator(org.semanticwb.model.User creator,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Instalation> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(swb_creator, creator.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Instalation> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, creator.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.Instalation> listInstalationByCreator(org.semanticwb.model.User creator)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Instalation> it=new org.semanticwb.model.GenericIterator(creator.getSemanticObject().getModel().listSubjects(swb_creator,creator.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Instalation> it=new org.semanticwb.model.GenericIterator(creator.getSemanticObject().getModel().listSubjectsByClass(swb_creator,creator.getSemanticObject(),sclass));
             return it;
         }
     }

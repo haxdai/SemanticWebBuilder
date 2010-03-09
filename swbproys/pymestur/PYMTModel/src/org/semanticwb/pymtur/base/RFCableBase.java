@@ -52,13 +52,13 @@ public abstract class RFCableBase extends org.semanticwb.model.base.GenericObjec
 
         public static java.util.Iterator<org.semanticwb.pymtur.RFCable> listRFCableByRfcType(org.semanticwb.pymtur.RfcType rfctype,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.RFCable> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjects(pymtur_rfcType, rfctype.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.RFCable> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(pymtur_rfcType, rfctype.getSemanticObject(),sclass));
             return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.RFCable> listRFCableByRfcType(org.semanticwb.pymtur.RfcType rfctype)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.RFCable> it=new org.semanticwb.model.GenericIterator(rfctype.getSemanticObject().getModel().listSubjects(pymtur_rfcType,rfctype.getSemanticObject()));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.RFCable> it=new org.semanticwb.model.GenericIterator(rfctype.getSemanticObject().getModel().listSubjectsByClass(pymtur_rfcType,rfctype.getSemanticObject(),sclass));
             return it;
         }
     }
