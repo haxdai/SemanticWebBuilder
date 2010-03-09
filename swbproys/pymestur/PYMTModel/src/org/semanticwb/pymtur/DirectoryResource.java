@@ -52,6 +52,7 @@ import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.SWBFormMgr;
 import org.semanticwb.portal.api.*;
 import org.semanticwb.base.util.ImageResizer;
+import org.semanticwb.model.Dns;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.portal.SWBFormButton;
@@ -459,6 +460,13 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         ms.setDescription(dirObj.getDescription());
                         ms.setTags(dirObj.getTags());
                         ms.setActive(Boolean.TRUE);
+
+                        if(pymetype==4 && request.getParameter("pymeDomain")!=null){
+                            Dns newDns=Dns.ClassMgr.createDns(wsite);
+                            newDns.setDns(request.getParameter("pymeDomain"));
+                            newDns.setWebPage(ms);
+                            newDns.setCreator(user);
+                        }
 
                         //Le asigna el tipo de comunidad y el service provider al micrositio
                         MicroSiteType mstype=null;
