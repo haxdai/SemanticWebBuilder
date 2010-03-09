@@ -461,7 +461,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         ms.setTags(dirObj.getTags());
                         ms.setActive(Boolean.TRUE);
 
-                        if(pymetype==4 && request.getParameter("pymeDomain")!=null){
+                        if(pymetype==4 && request.getParameter("pymeDomain")!=null){ //Se asigna el DNS al Micrositio siempre y cuando sea de tipo 4 (PREMIER)
                             Dns newDns=Dns.ClassMgr.createDns(wsite);
                             newDns.setDns(request.getParameter("pymeDomain"));
                             newDns.setWebPage(ms);
