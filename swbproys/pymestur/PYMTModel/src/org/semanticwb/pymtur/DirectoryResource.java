@@ -282,6 +282,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
     {
+        System.out.println("===::in processAction");
         WebSite wsite=response.getWebPage().getWebSite();
         SemanticObject semObjTmp=null;
         User mem = response.getUser();
@@ -309,6 +310,8 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
         String action = request.getParameter("act");
         String action2 = response.getAction();
         if (action2 == null) {
+            System.out.println("===::Action:" + action2);
+            System.out.println("===::act parameter:" + action);
             action2 = "undefined";
             return;
         }
@@ -534,6 +537,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                 }
             } else if (action.equals("acceptRegistry"))
             {
+                System.out.println("===::accepting" + request.getParameter("uri"));
                 SemanticObject semObject = SemanticObject.createSemanticObject(URLDecoder.decode(request.getParameter("uri")));
                 ServiceProvider servProp = (ServiceProvider) semObject.createGenericInstance();
                 servProp.setSpStatus(2);
@@ -543,6 +547,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     servProp.setSpStatusComment(statComm);
                 }
             } else if (action.equals("unRegister")) {
+                System.out.println("===::unregistering" + request.getParameter("uri"));
                 SemanticObject semObject = SemanticObject.createSemanticObject(URLDecoder.decode(request.getParameter("uri")));
                 ServiceProvider servProp = (ServiceProvider) semObject.createGenericInstance();
                 servProp.setSpStatus(4);
