@@ -131,7 +131,9 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
 
         while (names.hasMoreElements()) {
             String key = names.nextElement();
-            pars.put(key, request.getParameter(key));
+            if (!request.getParameter(key).trim().equals("")) {
+                pars.put(key, request.getParameter(key));
+            }
         }
         
         if (paramRequest.getAction().equals("excel"))
@@ -974,39 +976,40 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
         ArrayList<ServiceProvider> providers = new ArrayList<ServiceProvider>();
         SearchQuery query = new SearchQuery();
 
+        //Consulta para obtener todos los ServiceProviders
+        query.addTerm(new SearchTerm(SWBIndexer.ATT_CLASS, "ServiceProvider", SearchTerm.OPER_AND));
+        
         if (paramRequest.getWebPage() instanceof Destination) {
             dest = (Destination)paramRequest.getWebPage();
+            //Restringir a que contengan cierto destino
+            if (dest != null) {
+                query.addTerm(new SearchTerm(ServiceProviderParser.ATT_DESTINATION, dest.getTitle(), SearchTerm.OPER_AND));
+            }
+            
+            //Restringir a que sean de cierto SPType cuando éste se especifica desde el panel de búsqueda
+            //Si no se selecciona nada, por defecto son hoteles
+            String spType = pars.get("spType");
+            if (spType != null && !spType.trim().equals("")) {
+                SPType spt = (SPType) SemanticObject.createSemanticObject(URLDecoder.decode(spType)).createGenericInstance();
+                query.addTerm(new SearchTerm(SWBIndexer.ATT_CATEGORY, spt.getId(), SearchTerm.OPER_AND));
+            } else {
+                query.addTerm(new SearchTerm(SWBIndexer.ATT_CATEGORY, "Hotel", SearchTerm.OPER_AND));
+            }
         }
         
         if (paramRequest.getWebPage() instanceof SPType) {
             type = (SPType)paramRequest.getWebPage();
-        }
-        
-        //Consulta para obtener todos los ServiceProviders
-        query.addTerm(new SearchTerm(SWBIndexer.ATT_CLASS, "ServiceProvider", SearchTerm.OPER_AND));
-
-        //Restringir a que contengan cierto destino
-        if (dest != null) {
-            query.addTerm(new SearchTerm(ServiceProviderParser.ATT_DESTINATION, dest.getTitle(), SearchTerm.OPER_AND));
-        }
-
-        //Restringir a que sean de cierto SPType
-        if (type != null) {
-            query.addTerm(new SearchTerm(SWBIndexer.ATT_CATEGORY, type.getId(), SearchTerm.OPER_AND));
-        }
+            //Restringir a que sean de cierto SPType
+            if (type != null) {
+                query.addTerm(new SearchTerm(SWBIndexer.ATT_CATEGORY, type.getId(), SearchTerm.OPER_AND));
+            }
+        }               
 
         //Restringir a que sean de cierto SPType cuando éste se especifica por parámetro
-        String spType = pars.get("spType");
-        if (spType != null && !spType.trim().equals("")) {
-            SPType spt = (SPType) SemanticObject.createSemanticObject(URLDecoder.decode(spType)).createGenericInstance();
-            query.addTerm(new SearchTerm(SWBIndexer.ATT_CATEGORY, spt.getId(), SearchTerm.OPER_AND));
-        }
-
-        //Restringir a que sean de cierto SPType cuando éste se especifica desde el panel de búsqueda
-        spType = pars.get("fixedSpType");
+        String spType = pars.get("fixedSpType");
         if (spType != null && !spType.trim().equals("")) {
             query.addTerm(new SearchTerm(SWBIndexer.ATT_CATEGORY, spType, SearchTerm.OPER_AND));
-        }
+        }        
 
         //Ejecutar la busqueda
         SearchResults sres = SWBPortal.getIndexMgr().getDefaultIndexer().search(query, paramRequest.getUser());
@@ -1022,5 +1025,5 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
         }
         
         return providers.iterator();
-    }   
+    }
 }
