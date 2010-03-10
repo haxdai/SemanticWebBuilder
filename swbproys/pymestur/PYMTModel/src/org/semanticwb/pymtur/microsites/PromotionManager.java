@@ -19,6 +19,7 @@ import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.pymtur.MicroSitePyme;
 import org.semanticwb.pymtur.Promotion;
+import org.semanticwb.pymtur.PromotionType;
 import org.semanticwb.pymtur.ServiceProvider;
 
 /**
@@ -77,6 +78,7 @@ public class PromotionManager extends GenericResource {
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         String action=response.getAction();
+
         if(action.equals("add_promo")) {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
             SWBFormMgr mgr = new SWBFormMgr(Promotion.sclass, semObject, null);
@@ -85,9 +87,11 @@ public class PromotionManager extends GenericResource {
                 try {
                     SemanticObject sobj = mgr.processForm(request);
                     Promotion promo = (Promotion) sobj.createGenericInstance();
-                    promo.setPromoImg(request.getParameter("is"));
+                    //PromotionType promoType = PromotionType.ClassMgr.getPromotionType(request.getParameter("is"), response.getWebPage().getWebSite());
+                    promo.setPromoType(request.getParameter("is"));
+                    promo.setPromoImg(request.getParameter("pimg"));
                     ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
-                    serviceProv.addPromotion(promo);
+                    serviceProv.addPromotion(promo);                    
                 }catch(Exception e){
                     log.error(e);
                 }
@@ -98,7 +102,6 @@ public class PromotionManager extends GenericResource {
             mgr.setFilterRequired(false);
             if( isValidValue(request.getParameter("title")) && isValidValue(request.getParameter("description")) ) {
                 try {
-                    //mgr.processForm(request);
                     SemanticObject sobj = mgr.processForm(request);
                     Promotion promo = (Promotion) sobj.createGenericInstance();
                     promo.setPromoImg(request.getParameter("is"));
