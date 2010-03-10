@@ -305,10 +305,13 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
         {
             return;                                       //si el usuario no pertenece a la red sale;
         }
+        
         String action = request.getParameter("act");
-
-
         String action2 = response.getAction();
+        if (action2 == null) {
+            action2 = "undefined";
+        }
+
         try
         {
             if ("vote".equals(action))
@@ -528,11 +531,25 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     base.setAttribute("editRole", editaccess);
                     base.updateAttributesToDB();
                 }
-            }else if (action.equals("acceptRegistry"))
+            } else if (action.equals("acceptRegistry"))
             {
-                SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
+                SemanticObject semObject = SemanticObject.createSemanticObject(URLDecoder.decode(request.getParameter("uri")));
                 ServiceProvider servProp = (ServiceProvider) semObject.createGenericInstance();
                 servProp.setSpStatus(2);
+
+                String statComm = request.getParameter("statusComment");
+                if (statComm != null) {
+                    servProp.setSpStatusComment(statComm);
+                }
+            } else if (action.equals("unRegister")) {
+                SemanticObject semObject = SemanticObject.createSemanticObject(URLDecoder.decode(request.getParameter("uri")));
+                ServiceProvider servProp = (ServiceProvider) semObject.createGenericInstance();
+                servProp.setSpStatus(4);
+
+                String statComm = request.getParameter("statusComment");
+                if (statComm != null) {
+                    servProp.setSpStatusComment(statComm);
+                }
             }
         }
         catch (Exception e)
