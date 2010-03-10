@@ -307,17 +307,11 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
             return;                                       //si el usuario no pertenece a la red sale;
         }
         
-        String action = request.getParameter("act");
+        //String action = request.getParameter("act");
         String action2 = response.getAction();
-        if (action2 == null) {
-            System.out.println("===::Action:" + action2);
-            System.out.println("===::act parameter:" + action);
-            action2 = "undefined";
-            return;
-        }
-
         try
         {
+            /*
             if ("vote".equals(action))
             {
                 rank(request, response);
@@ -386,7 +380,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
             {
                 unClaim(request, response);
             }
-            else if (action2.equals(response.Action_EDIT))
+            else*/ if (action2.equals(response.Action_EDIT))
             {
                 SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
                 SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
@@ -515,6 +509,36 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     log.event(e);
                 }
             }
+            else if (action2.equals("admin_update"))
+            {
+                String editaccess = request.getParameter("editar");
+                if (editaccess != null)
+                {
+                    base.setAttribute("editRole", editaccess);
+                    base.updateAttributesToDB();
+                }
+            } else if (action2.equals("acceptRegistry"))
+            {
+                System.out.println("===::accepting" + request.getParameter("uri"));
+                SemanticObject semObject = SemanticObject.createSemanticObject(URLDecoder.decode(request.getParameter("uri")));
+                ServiceProvider servProp = (ServiceProvider) semObject.createGenericInstance();
+                servProp.setSpStatus(2);
+
+                String statComm = request.getParameter("statusComment");
+                if (statComm != null) {
+                    servProp.setSpStatusComment(statComm);
+                }
+            } else if (action2.equals("unRegister")) {
+                System.out.println("===::unregistering" + request.getParameter("uri"));
+                SemanticObject semObject = SemanticObject.createSemanticObject(URLDecoder.decode(request.getParameter("uri")));
+                ServiceProvider servProp = (ServiceProvider) semObject.createGenericInstance();
+                servProp.setSpStatus(4);
+
+                String statComm = request.getParameter("statusComment");
+                if (statComm != null) {
+                    servProp.setSpStatusComment(statComm);
+                }
+            }/*
             else if (action.equals("removeAttach"))
             {
                 if (request.getParameter("removeAttach") != null)
@@ -526,37 +550,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     file.delete();
                     semObjTmp=dirObj.getSemanticObject();
                 }
-            }
-            else if (action.equals("admin_update"))
-            {
-                String editaccess = request.getParameter("editar");
-                if (editaccess != null)
-                {
-                    base.setAttribute("editRole", editaccess);
-                    base.updateAttributesToDB();
-                }
-            } else if (action.equals("acceptRegistry"))
-            {
-                System.out.println("===::accepting" + request.getParameter("uri"));
-                SemanticObject semObject = SemanticObject.createSemanticObject(URLDecoder.decode(request.getParameter("uri")));
-                ServiceProvider servProp = (ServiceProvider) semObject.createGenericInstance();
-                servProp.setSpStatus(2);
-
-                String statComm = request.getParameter("statusComment");
-                if (statComm != null) {
-                    servProp.setSpStatusComment(statComm);
-                }
-            } else if (action.equals("unRegister")) {
-                System.out.println("===::unregistering" + request.getParameter("uri"));
-                SemanticObject semObject = SemanticObject.createSemanticObject(URLDecoder.decode(request.getParameter("uri")));
-                ServiceProvider servProp = (ServiceProvider) semObject.createGenericInstance();
-                servProp.setSpStatus(4);
-
-                String statComm = request.getParameter("statusComment");
-                if (statComm != null) {
-                    servProp.setSpStatusComment(statComm);
-                }
-            }
+            }*/
         }
         catch (Exception e)
         {
