@@ -100,11 +100,12 @@ public class PromotionManager extends GenericResource {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
             SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
             mgr.setFilterRequired(false);
-            if( isValidValue(request.getParameter("title")) && isValidValue(request.getParameter("description")) ) {
+            if( isValidValue(request.getParameter("title")) && isValidValue(request.getParameter("description")) && isValidValue(request.getParameter("pimg")) ) {
                 try {
                     SemanticObject sobj = mgr.processForm(request);
                     Promotion promo = (Promotion) sobj.createGenericInstance();
-                    promo.setPromoImg(request.getParameter("is"));
+                    promo.setPromoType(request.getParameter("is"));
+                    promo.setPromoImg(request.getParameter("pimg"));
                 }catch(Exception e){
                     log.error(e);
                 }
