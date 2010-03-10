@@ -310,6 +310,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
         String action2 = response.getAction();
         if (action2 == null) {
             action2 = "undefined";
+            return;
         }
 
         try
