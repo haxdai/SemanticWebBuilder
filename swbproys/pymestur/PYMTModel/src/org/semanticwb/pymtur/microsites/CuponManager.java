@@ -46,7 +46,8 @@ public class CuponManager extends GenericResource {
                 try {
                     SemanticObject sobj = mgr.processForm(request);
                     Cupon cupon = (Cupon) sobj.createGenericInstance();
-                    cupon.setCuponImg(request.getParameter("is"));
+                    cupon.setCuponType(request.getParameter("is"));
+                    cupon.setCuponImg(request.getParameter("pimg"));
                     ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
                     serviceProv.addCupon(cupon);
                 }catch(Exception e){
@@ -57,11 +58,12 @@ public class CuponManager extends GenericResource {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
             SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
             mgr.setFilterRequired(false);
-            if( isValidValue(request.getParameter("title")) && isValidValue(request.getParameter("description")) ) {
+            if( isValidValue(request.getParameter("title")) && isValidValue(request.getParameter("description")) && isValidValue(request.getParameter("pimg")) ) {
                 try {
                     SemanticObject sobj = mgr.processForm(request);
                     Cupon cupon = (Cupon) sobj.createGenericInstance();
-                    cupon.setCuponImg(request.getParameter("is"));
+                    cupon.setCuponType(request.getParameter("is"));
+                    cupon.setCuponImg(request.getParameter("pimg"));
                 }catch(Exception e){
                     log.error(e);
                 }
