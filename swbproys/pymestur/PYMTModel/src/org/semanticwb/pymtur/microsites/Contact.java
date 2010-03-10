@@ -137,15 +137,17 @@ public class Contact extends GenericAdmResource {
         response.setContentType("text/html; charset=ISO-8859-1");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
-        
+
+        String cuentaCorreo=null;
         ServiceProvider sprovider = null;
+        User user=paramsRequest.getUser();
         WebPage community = null;
         WebPage currentpage = (WebPage) request.getAttribute("webpage");
         if(currentpage == null) {
             currentpage = paramsRequest.getWebPage();
         }        
 
-       if(paramsRequest.getArgument("iscommunity","false").equals("true")){
+       if(paramsRequest.getArgument("iscommunity","false").equals("true")){ //Se ve el recurso desde un micrositio
             if(currentpage instanceof MicroSitePyme) {
                 community = currentpage;
             }else {
@@ -153,22 +155,30 @@ public class Contact extends GenericAdmResource {
             }
             MicroSitePyme ms = (MicroSitePyme)community;
             sprovider = ms.getServiceProvider();
-        }else{
-            SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
+            cuentaCorreo = sprovider.getContactEmail();
+            if (cuentaCorreo == null) {
+                cuentaCorreo = sprovider.getCreator().getEmail();
+            }
+        }else if(request.getParameter("uri")!=null){
+            SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri")); //Se ve el recurso desde una ficha
             sprovider = (ServiceProvider) semObject.createGenericInstance();
+
+            cuentaCorreo = sprovider.getContactEmail();
+            if (cuentaCorreo == null) {
+                cuentaCorreo = sprovider.getCreator().getEmail();
+            }
+        }else if(user.getEmail()!=null){ //Se ve el recurso desde una página cualquiera
+            cuentaCorreo=user.getEmail();
+        }else {
+            cuentaCorreo="";
         }
         
         Resource base = getResourceBase();
         PrintWriter out = response.getWriter();
         String email = request.getParameter("email");
 
-        String cuentaCorreo = sprovider.getContactEmail();
-        if (cuentaCorreo == null) {
-            cuentaCorreo = sprovider.getCreator().getEmail();
-        }
-
+       
         if (email == null) {
-            User user = paramsRequest.getUser();
             boolean modal = Boolean.parseBoolean(base.getAttribute("modal"));
             if (modal) {
                 out.println("<script type=\"text/javascript\">");
