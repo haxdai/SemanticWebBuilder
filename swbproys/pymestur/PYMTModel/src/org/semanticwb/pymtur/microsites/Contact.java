@@ -45,91 +45,85 @@ public class Contact extends GenericAdmResource {
     }
 
     @Override
-    public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramsRequest) throws SWBResourceException, IOException {
-        if(paramsRequest.getMode().equalsIgnoreCase("sendEmail")) {
-            doSendEmail(request,response,paramsRequest);
+    public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        if(paramRequest.getMode().equalsIgnoreCase("sendEmail")) {
+            doSendEmail(request,response,paramRequest);
         }else {
-            super.processRequest(request, response, paramsRequest);
+            super.processRequest(request, response, paramRequest);
         }
     }
 
-    public void doSendEmail(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramsRequest) throws SWBResourceException, IOException {
-        response.setContentType("text/html; charset=ISO-8859-1");
+    public void doSendEmail(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("text/html; charset=utf-8");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
-        
+
         ServiceProvider sprovider = null;
         WebPage community = null;
         WebPage currentpage = (WebPage) request.getAttribute("webpage");
         if(currentpage == null) {
-            currentpage = paramsRequest.getWebPage();
+            currentpage = paramRequest.getWebPage();
         }
-
-        if(paramsRequest.getArgument("iscommunity","false").equals("true")){
-            if(currentpage instanceof MicroSitePyme) {
-                community = currentpage;
-            }else {
-                community = currentpage.getParent();
-            }
-            MicroSitePyme ms = (MicroSitePyme)community;
-            sprovider = ms.getServiceProvider();
-        }else{
-            SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
-            sprovider = (ServiceProvider) semObject.createGenericInstance();
+        if(currentpage instanceof MicroSitePyme) {
+            community = currentpage;
+        }else {
+            community = currentpage.getParent();
         }
+        MicroSitePyme ms = (MicroSitePyme)community;
+        sprovider = ms.getServiceProvider();
 
         Resource base = getResourceBase();
         PrintWriter out = response.getWriter();
 
-        String site = base.getWebSite().getDisplayTitle(paramsRequest.getUser().getLanguage());
-        String name = request.getParameter("name");
-        String customer = request.getParameter("email");
+        String site = base.getWebSite().getDisplayTitle(paramRequest.getUser().getLanguage());
+        String customerName = request.getParameter("name");
+        String customerEmail = request.getParameter("email");
         String subject = request.getParameter("subject");
-        String message = request.getParameter("message");
-        StringBuilder msgToCustomer = new StringBuilder();
-        String cuentaCorreo = sprovider.getContactEmail();
+        String message = request.getParameter("message");        
+        String sproviderEmail = sprovider.getContactEmail();
 
-        if (cuentaCorreo == null) {
-            cuentaCorreo = sprovider.getCreator().getEmail();
+        if (sproviderEmail == null) {
+            sproviderEmail = sprovider.getCreator().getEmail();
         }
-
-        msgToCustomer.append("Gracias por contactarnos...\nEn un lapso de 24 horas responderemos a tu correo electr\363nico.");
-        msgToCustomer.append("Contacto: "+sprovider.getContactName()+"\n");
-        msgToCustomer.append(cuentaCorreo+"\n");
-        msgToCustomer.append(sprovider.getContactPhoneNumber());
-
-        StringBuilder msgToContact = new StringBuilder();
-        msgToContact.append("Site: "+site);
-        msgToContact.append("\nNombre: "+name);
-        msgToContact.append("\nemail: "+customer);
-        msgToContact.append("\nAsunto: "+subject);
-        msgToContact.append("\nMensaje: "+message);
-
         try {
-            if( customer!=null && customer.trim().length()>0 && message!=null && message.trim().length()>0 && cuentaCorreo!=null ) {
+            if( customerEmail!=null && customerEmail.trim().length()>0 && message!=null && message.trim().length()>0 && sproviderEmail!=null ) {
+                StringBuilder msgToCustomer = new StringBuilder();
+                msgToCustomer.append(paramRequest.getLocaleString("dear")+" "+customerName+" :\n");
+                msgToCustomer.append(paramRequest.getLocaleString("greating"));
+                msgToCustomer.append(sprovider.getContactName()+"\n");
+                msgToCustomer.append(sproviderEmail+"\n");
+                msgToCustomer.append(sprovider.getContactPhoneNumber());
+
+                StringBuilder msgToContact = new StringBuilder();
+                msgToContact.append("Site: "+site);
+                msgToContact.append("\nNombre: "+customerName);
+                msgToContact.append("\nemail: "+customerEmail);
+                msgToContact.append("\nAsunto: "+subject);
+                msgToContact.append("\nMensaje: "+message);
+
                 // send email to contact
                 InternetAddress address1 = new InternetAddress();
-                address1.setAddress(cuentaCorreo);
+                address1.setAddress(sproviderEmail);
                 ArrayList<InternetAddress> aAddress = new ArrayList<InternetAddress>();
                 aAddress.add(address1);
-                SWBUtils.EMAIL.sendMail(customer, name, aAddress, null, null, subject, "text/plain", msgToContact.toString(), null, null, null);
+                SWBUtils.EMAIL.sendMail(customerEmail, customerName, aAddress, null, null, subject, "text/plain", msgToContact.toString(), null, null, null);
 
                 // send email to customer
                 address1 = new InternetAddress();
-                address1.setAddress(customer);
+                address1.setAddress(customerEmail);
                 aAddress = new ArrayList<InternetAddress>();
                 aAddress.add(address1);
-                SWBUtils.EMAIL.sendMail(sprovider.getContactEmail(), name, aAddress, null, null, subject, "text/plain", msgToCustomer.toString(), null, null, null);
-                out.print("Su correo fue enviado exitosamente");
+                SWBUtils.EMAIL.sendMail(sprovider.getContactEmail(), customerName, aAddress, null, null, subject, "text/plain", msgToCustomer.toString(), null, null, null);
+                out.print(paramRequest.getLocaleString("thanks"));
 
             } else {
-                out.println("Lo sentimos, por el momento no fue posible enviar su comentario.<br>");
-                out.println("Falta información para el envío de su correo:<br/>");
-                out.println("Debe escribir su correo electrónico y mensaje como minimo<br/><br/>");
+                out.println(paramRequest.getLocaleString("apologies"));
             }
         } catch (Exception e) {
             out.print(e);
         }
+        out.flush();
+        out.close();
     }
 
     @Override
@@ -184,7 +178,7 @@ public class Contact extends GenericAdmResource {
                 out.println("<script type=\"text/javascript\">");
 
                 out.println("  function sendEmail(url) {");
-                out.println("    alert('msg='+postText(url));");
+                out.println("    alert(postText(url));");
                 out.println("  }");
 
                 out.println("  function createCoverDiv(divId, bgcolor, opacity) {");
