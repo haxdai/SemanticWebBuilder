@@ -30,7 +30,11 @@ public class MyBusiness extends GenericResource{
         try
         {
             request.setAttribute("paramRequest", paramRequest);
-            request.setAttribute("showAll", "1");
+            if(paramRequest.getCallMethod()==paramRequest.Call_CONTENT) {
+                request.setAttribute("showAll", "1");
+            }else {
+                request.setAttribute("showAll", "0");
+            }
             dis.include(request, response);
         }
         catch (Exception e)
