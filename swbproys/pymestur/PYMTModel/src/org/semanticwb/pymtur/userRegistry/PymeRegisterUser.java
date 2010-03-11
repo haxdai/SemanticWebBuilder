@@ -171,6 +171,7 @@ public class PymeRegisterUser extends GenericAdmResource {
     }
 
     private void setUserExtendedAttributes(HttpServletRequest request, User user){
+        System.out.println("setUserExtendedAttributes");
         try {
                 Iterator<SemanticProperty> list = org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#pymeExtendedAttributes").listProperties();
                 while (list.hasNext()) {
@@ -179,7 +180,11 @@ public class PymeRegisterUser extends GenericAdmResource {
                         user.removeExtendedAttribute(sp);
                     } else {
                         if (sp.isString()) {
+                            System.out.println("sp:"+sp);
+                            System.out.println("valor:"+SWBUtils.XML.replaceXMLChars(request.getParameter(sp.getName())));
                             user.setExtendedAttribute(sp, SWBUtils.XML.replaceXMLChars(request.getParameter(sp.getName())));
+
+                            System.out.println("valor puesto:"+user.getExtendedAttribute(sp));
                         }
                         else if (sp.isInt()) {
                             try {
