@@ -4,6 +4,7 @@ package org.semanticwb.pymtur.base;
 public abstract class PymePhotoBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticProperty pymtur_photoSize=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#photoSize");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_photoThumbnail=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#photoThumbnail");
     public static final org.semanticwb.platform.SemanticProperty pymtur_photoMimeType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#photoMimeType");
     public static final org.semanticwb.platform.SemanticProperty pymtur_PhotoImage=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#PhotoImage");
     public static final org.semanticwb.platform.SemanticClass pymtur_PymePhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#PymePhoto");
@@ -64,6 +65,16 @@ public abstract class PymePhotoBase extends org.semanticwb.model.SWBClass implem
     public void setPhotoSize(int value)
     {
         getSemanticObject().setIntProperty(pymtur_photoSize, value);
+    }
+
+    public String getPhotoThumbnail()
+    {
+        return getSemanticObject().getProperty(pymtur_photoThumbnail);
+    }
+
+    public void setPhotoThumbnail(String value)
+    {
+        getSemanticObject().setProperty(pymtur_photoThumbnail, value);
     }
 
     public String getPhotoMimeType()
