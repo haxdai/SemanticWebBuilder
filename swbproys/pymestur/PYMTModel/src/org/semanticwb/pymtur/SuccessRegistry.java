@@ -26,7 +26,7 @@ public class SuccessRegistry extends GenericResource{
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
-         RequestDispatcher dis = request.getRequestDispatcher("/work/models/etour/jsp/pymestur/successRegistry.jsp");
+         RequestDispatcher dis = request.getRequestDispatcher("/work/models/etour/jsp/pymestur/userRegistry/successRegistry.jsp");
         try
         {
             request.setAttribute("paramRequest", paramRequest);
