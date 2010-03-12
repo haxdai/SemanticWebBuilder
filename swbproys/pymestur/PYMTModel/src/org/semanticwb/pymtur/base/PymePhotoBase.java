@@ -57,14 +57,14 @@ public abstract class PymePhotoBase extends org.semanticwb.model.SWBClass implem
         super(base);
     }
 
-    public int getPhotoSize()
+    public float getPhotoSize()
     {
-        return getSemanticObject().getIntProperty(pymtur_photoSize);
+        return getSemanticObject().getFloatProperty(pymtur_photoSize);
     }
 
-    public void setPhotoSize(int value)
+    public void setPhotoSize(float value)
     {
-        getSemanticObject().setIntProperty(pymtur_photoSize, value);
+        getSemanticObject().setFloatProperty(pymtur_photoSize, value);
     }
 
     public String getPhotoThumbnail()
