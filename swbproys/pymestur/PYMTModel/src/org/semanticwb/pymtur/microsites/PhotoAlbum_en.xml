@@ -2,11 +2,16 @@
 <admresource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<xslfile>admresource.xslt</xslfile>
 
-	<form name="frmPhotoAlbum" action="true" method="POST">
+	<form name="frmPhotoAlbum" action="true" method="POST" enctype="multipart/form-data">
         <fieldset legend="Datos">
             <input type="TEXT" name="title" label="Título:" size="50"/>
             <input type="TEXT" name="width" label="Ancho de imagen (pixeles):" size="4" maxlength="4" jsrequired="true" jsvaltype="js_numbers"  />
             <input type="TEXT" name="height" label="Alto de imagen (pixeles):" size="4" maxlength="4" jsrequired="true" jsvaltype="js_numbers"  />
+
+            <statictext name="txtTarget">Grupo:</statictext>
+            <input type="RADIO" name="gpophotos" label="Establecimiento" value="establishment" checked="true" />
+            <input type="RADIO" name="gpophotos" label="Instalaciones" value="instalation"/>
+            <input type="RADIO" name="gpophotos" label="Más fotos" value="more"/>
         </fieldset>
 
         <fieldset>
@@ -25,7 +30,9 @@
         dojo.addOnLoad(function(){
             dojo.connect(dijit.byId("btnSave"), "onClick",
                 function() {
-                    dojo.byId("frmContact").submit();
+                    if(jsValida(dojo.byId("frmPhotoAlbum"))) {
+                        dojo.byId("frmPhotoAlbum").submit();
+                    }
                 }
             );
         });
@@ -47,19 +54,16 @@
 
 
             function jsValida(frm) {
-                if(frm.width.value==null || frm.width.value=='' || frm.textcolor.value==' ') {
+                if(frm.width.value==null || frm.width.value=='' || frm.width.value==' ') {
                     alert('Indique el ancho de imagen.');
                     frm.width.focus();
                     return false;
                 }
-
                 if(frm.height.value==null || frm.height.value=='' || frm.height.value==' ') {
                     alert('Indique el alto de imagen.');
                     frm.height.focus();
                     return false;
                 }
-
-
                 return true;
             }
         ]]>
