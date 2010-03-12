@@ -2,14 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.semanticwb.pymtur.userRegistry;
 
 /**
  *
  * @author jorge.jimenez
  */
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
@@ -118,7 +116,7 @@ public class PymeRegisterUser extends GenericAdmResource {
                 newUser.setSecondLastName(SWBUtils.XML.replaceXMLChars(request.getParameter("secondLastName")));
                 newUser.setEmail(SWBUtils.XML.replaceXMLChars(request.getParameter("email")));
                 newUser.setPassword(pwd);
-                setUserExtendedAttributes(request, user);
+                setUserExtendedAttributes(request, newUser);
 
                 try {
                     newUser.checkCredential(pwd.toCharArray());
@@ -127,7 +125,8 @@ public class PymeRegisterUser extends GenericAdmResource {
                 }
                 if (!isTwoSteps) {
                     user = newUser;
-                    response.sendRedirect(response.getWebPage().getRealUrl());
+                    //response.sendRedirect(response.getWebPage().getRealUrl());
+                    response.sendRedirect(response.getWebPage().getWebSite().getWebPage("Registro_Exitoso").getUrl());
                 }
                 //comentar para 2 pasos
                 if (isTwoSteps) {
@@ -161,7 +160,7 @@ public class PymeRegisterUser extends GenericAdmResource {
             user.setLastName(SWBUtils.XML.replaceXMLChars(request.getParameter("usrLastName")));
             user.setSecondLastName(SWBUtils.XML.replaceXMLChars(request.getParameter("usrSecondLastName")));
             user.setEmail(SWBUtils.XML.replaceXMLChars(request.getParameter("usrEmail")));
-            
+
             setUserExtendedAttributes(request, user);
 
             response.setMode(response.Mode_VIEW);
@@ -170,55 +169,45 @@ public class PymeRegisterUser extends GenericAdmResource {
         }
     }
 
-    private void setUserExtendedAttributes(HttpServletRequest request, User user){
-        System.out.println("setUserExtendedAttributes");
+    private void setUserExtendedAttributes(HttpServletRequest request, User user) {
         try {
-                Iterator<SemanticProperty> list = org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#pymeExtendedAttributes").listProperties();
-                while (list.hasNext()) {
-                    SemanticProperty sp = list.next();
-                    if (null == request.getParameter(sp.getName())) {
-                        user.removeExtendedAttribute(sp);
-                    } else {
-                        if (sp.isString()) {
-                            System.out.println("sp:"+sp);
-                            System.out.println("valor:"+SWBUtils.XML.replaceXMLChars(request.getParameter(sp.getName())));
-                            user.setExtendedAttribute(sp, SWBUtils.XML.replaceXMLChars(request.getParameter(sp.getName())));
-
-                            System.out.println("valor puesto:"+user.getExtendedAttribute(sp));
+            Iterator<SemanticProperty> list = org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#pymeExtendedAttributes").listProperties();
+            while (list.hasNext()) {
+                SemanticProperty sp = list.next();
+                if (null == request.getParameter(sp.getName())) {
+                    user.removeExtendedAttribute(sp);
+                } else {
+                    if (sp.isString()) {
+                        user.setExtendedAttribute(sp, SWBUtils.XML.replaceXMLChars(request.getParameter(sp.getName())));
+                        user.getSemanticObject().setProperty(sp, SWBUtils.XML.replaceXMLChars(request.getParameter(sp.getName())));
+                    } else if (sp.isInt()) {
+                        try {
+                            Integer val = Integer.valueOf(request.getParameter(sp.getName()));
+                            user.setExtendedAttribute(sp, val);
+                        } catch (Exception ne) {
                         }
-                        else if (sp.isInt()) {
-                            try {
-                                Integer val = Integer.valueOf(request.getParameter(sp.getName()));
-                                user.setExtendedAttribute(sp, val);
-                            } catch (Exception ne) {
-                            }
+                    } else if (sp.isDouble()) {
+                        try {
+                            Double val = Double.valueOf(request.getParameter(sp.getName()));
+                            user.setExtendedAttribute(sp, val);
+                        } catch (Exception ne) {
                         }
-                        else if (sp.isDouble()) {
-                            try {
-                                Double val = Double.valueOf(request.getParameter(sp.getName()));
-                                user.setExtendedAttribute(sp, val);
-                            } catch (Exception ne) {
-                            }
+                    } else if (sp.isDate()) {
+                        try {
+                            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+                            Date val = sf.parse(request.getParameter(sp.getName()));
+                            user.setExtendedAttribute(sp, val);
+                        } catch (Exception ne) {
+                            ne.printStackTrace();
                         }
-                        else if (sp.isDate()) {
-                            try {
-                                SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-                                Date val = sf.parse(request.getParameter(sp.getName()));
-                                user.setExtendedAttribute(sp, val);
-                            } catch (Exception ne) {
-                                ne.printStackTrace();
-                            }
-                        }
-
                     }
+
                 }
-            } catch (SWBException nex) {
-                log.error(nex);
             }
+        } catch (SWBException nex) {
+            log.error(nex);
+        }
     }
-
-
-
 
     @Override
     public void doEdit(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
