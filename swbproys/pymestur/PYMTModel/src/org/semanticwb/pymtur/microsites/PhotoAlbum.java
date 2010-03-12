@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.semanticwb.Logger;
-import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.Resource;
@@ -23,14 +22,10 @@ import org.semanticwb.pymtur.ServiceProvider;
 
 import org.semanticwb.portal.util.FileUpload;
 import org.semanticwb.base.util.ImageResizer;
-import org.semanticwb.model.GenericObject;
-import org.semanticwb.model.Role;
 import org.semanticwb.model.User;
-import org.semanticwb.model.UserGroup;
 import org.semanticwb.model.WebPage;
-import org.semanticwb.model.WebSite;
-import org.semanticwb.platform.SemanticOntology;
 import org.semanticwb.pymtur.Promotion;
+import org.semanticwb.pymtur.PymePhoto;
 
 /**
  *
@@ -39,15 +34,11 @@ import org.semanticwb.pymtur.Promotion;
 
 public class PhotoAlbum extends GenericAdmResource {
     private static Logger log = SWBUtils.getLogger(PhotoAlbum.class);
-    private WBAdmResourceUtils admResUtils=new WBAdmResourceUtils();
-    private String workPath;
-    private String webWorkPath;
-
     private static final String _thumbnail = "thumbn_";
-    private static final String ADMIN_AXN = "admin_update";
-    private static final String MGR_ATTR = "edit";
-    private static final String UPDATE_DONE = "ok";
-    private static final String ADD = "add";
+
+    private WBAdmResourceUtils admResUtils = new WBAdmResourceUtils();
+    private String workPath;
+    private String webWorkPath;    
 
     @Override
     public void setResourceBase(Resource base) {
@@ -58,11 +49,6 @@ public class PhotoAlbum extends GenericAdmResource {
         }catch(Exception e) {
             log.error("Error while setting resource base: "+base.getId() +"-"+ base.getTitle(), e);
         }
-    }
-
-    @Override
-    public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramsRequest) throws SWBResourceException, IOException {
-        super.processRequest(request, response, paramsRequest);
     }
 
     @Override
@@ -86,69 +72,35 @@ public class PhotoAlbum extends GenericAdmResource {
         sprovider = ms.getServiceProvider();
 
 
-//        PymePhoto pp = PymePhoto.ClassMgr.createPymePhoto(currentpage.getWebSite());
-//        pp.setPhotoImage("");
-//        sprovider.addEstablishmentPymePhoto(pp);
-//        sprovider.listEstablishmentPymePhotos();
-//        sprovider.
-
-System.out.println("\n\n\n\n");
-System.out.println("sprovider.getId()="+sprovider.getId());
-System.out.println("sprovider.getContactName()="+sprovider.getContactName());
-Iterator<Promotion> ite=sprovider.listPromotions();
-while(ite.hasNext()) {
-    Promotion p=ite.next();
-    System.out.println("promocion --- id="+p.getId()+", title="+p.getTitle()+", desc="+p.getDescription());
-}
-
-
-        /*sprovider.listEstablishmentPymePhotos()
-        sprovider.listExtraPhotos()
-        sprovider.listInstalationsPymePhotos()
-        sprovider.listMorePymePhotos()*/
-//final int size = 6;
-//ArrayList<PymePhoto> photos = new ArrayList(size);
-//Iterator<PymePhoto> it = sprovider.listEstablishmentPymePhotos();
-//while(it.hasNext() && photos.size()<size) {
-//    photos.add(it.next());
+//System.out.println("\n\n");
+//System.out.println("sprovider.getId()="+sprovider.getId());
+//System.out.println("sprovider.getContactName()="+sprovider.getContactName());
+//Iterator<Promotion> ite=sprovider.listPromotions();
+//while(ite.hasNext()) {
+//    Promotion p=ite.next();
+//    System.out.println("promocion --- id="+p.getId()+", title="+p.getTitle()+", desc="+p.getDescription());
 //}
-//if(photos.size()<size) {
-//    it = sprovider.listInstalationsPymePhotos();
-//    while(it.hasNext() && photos.size()<size) {
-//        photos.add(it.next());
-//    }
-//    if(photos.size()<size) {
-//        it = sprovider.listMorePymePhotos();
-//        while(it.hasNext() && photos.size()<size) {
-//            photos.add(it.next());
-//        }
-//    }
-//}
-//Hospedaje host = null;
-//if(sprovider instanceof Hospedaje) {
-//    host = (Hospedaje)sprovider;
-//    if(photos.size()<size) {
-//        it = host.listRoomPymePhotos();
-//        while(it.hasNext() && photos.size()<size) {
-//            photos.add(it.next());
-//        }
-//    }
-//}
+
 
         Resource base = getResourceBase();
         PrintWriter out = response.getWriter();
-        
-        if(paramRequest.getCallMethod()==paramRequest.Call_STRATEGY) {
-            ArrayList<String> photos = new ArrayList<String>();
-            Iterator<String> it = base.getAttributeNames();
-            while(it.hasNext()) {
-                String attname = it.next();
-                String attval = base.getAttribute(attname);
-                if( attval!=null && attname.startsWith("imggallery_") ) {
-                    photos.add(webWorkPath + attval);
-                }
-            }
 
+        String action = paramRequest.getAction();
+        System.out.println("\n\n\ndoview action en paramrequest="+paramRequest.getAction());
+        if( paramRequest.Action_ADD.equalsIgnoreCase(action) ) {
+            System.out.println("add");
+            add(request, response, sprovider);
+        }
+        
+        ArrayList<String> photos = new ArrayList<String>();
+        Iterator<PymePhoto> it = sprovider.listEstablishmentPymePhotos();
+        while(it.hasNext()) {
+            PymePhoto pp = it.next();
+            System.out.println("url imagen="+pp.getPhotoImage());
+            photos.add(pp.getPhotoImage());
+        }
+
+        if(paramRequest.getCallMethod()==paramRequest.Call_STRATEGY) {
             out.println("<div id=\"panelFotos\">");
             out.println("<h4>las fotos</h4>");
             out.println("<p>");
@@ -161,7 +113,7 @@ while(ite.hasNext()) {
                 out.println("</span>");
                 i++;
             }
-            out.println("<br/>");
+            out.println("<br />");
             out.println("<a href=\"#\" onclick=\"showdialog()\">Ver todas las fotos</a>");
             out.println("</p>");
             out.println("</div>");
@@ -189,15 +141,15 @@ while(ite.hasNext()) {
             out.println("    }");
             out.println("</script>");
         }else {
-            ArrayList<String> photos = new ArrayList<String>();
-            Iterator<String> it = base.getAttributeNames();
-            while(it.hasNext()) {
-                String attname = it.next();
-                String attval = base.getAttribute(attname);
-                if( attval!=null && attname.startsWith("imggallery_") ) {
-                    photos.add(webWorkPath + attval);
-                }
-            }
+//            ArrayList<String> photos = new ArrayList<String>();
+//            Iterator<String> it = base.getAttributeNames();
+//            while(it.hasNext()) {
+//                String attname = it.next();
+//                String attval = base.getAttribute(attname);
+//                if( attval!=null && attname.startsWith("imggallery_") ) {
+//                    photos.add(webWorkPath + attval);
+//                }
+//            }
             out.println("<div class=\"reticula_1_columnas\">");
             out.println("<h1>FOTOS</h1>");
             out.println("<div class=\"reticula_fotos\">");
@@ -224,19 +176,13 @@ while(ite.hasNext()) {
             }
             out.println("});");
             out.println("</script>");
-
-
-
-
-            String action = request.getParameter("act");
-            System.out.println("doview action="+action);
-            if( paramRequest.Action_ADD.equalsIgnoreCase(action) ) {
-                System.out.println("add");
-                add(request, response, paramRequest);
-            }else {
-                System.out.println("else");
+            
+            boolean userCanEdit=false;
+            User user=paramRequest.getUser();
+            if(user.getURI()!=null && sprovider.getCreator().getURI().equals(user.getURI()))
+                userCanEdit=true;
+            if(userCanEdit)
                 out.print(getFormManager(paramRequest));
-            }
         }
     }
 
@@ -250,7 +196,8 @@ ret.append("  dojo.require(\"dijit.form.Button\");");
 ret.append("</script>");
 
 SWBResourceURL url = paramRequest.getRenderUrl();
-url.setMode(paramRequest.Mode_VIEW).setParameter("act", paramRequest.Action_ADD);
+url.setMode(paramRequest.Mode_VIEW);
+url.setAction(paramRequest.Action_ADD);
 
 ret.append("\n<div class=\"swbform\"> ");
 ret.append("\n<form id=\"frm_pa_"+base.getId()+"\" name=\"frm_pa_"+base.getId()+"\" method=\"post\" enctype=\"multipart/form-data\" action=\""+ url+"\"> ");
@@ -403,18 +350,10 @@ ret.append("\n</div>  ");
         return ret.toString();
     }
 
-    private void add(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+    private void add(HttpServletRequest request, HttpServletResponse response, ServiceProvider sprovider) throws SWBResourceException, IOException {
         System.out.println("\n\nadding.....");
         Resource base = getResourceBase();
-        String value;/* = request.getParameter(MGR_ATTR)!=null ? request.getParameter(MGR_ATTR):"0";
-        base.setAttribute(MGR_ATTR, URLDecoder.decode(value, "UTF-8"));
-        value = request.getParameter("title")!=null ? request.getParameter("title"):"No title";
-        base.setAttribute("title", value);
-        value = request.getParameter("width")!=null ? request.getParameter("width"):"150";
-        base.setAttribute("width", value);
-        value = request.getParameter("height")!=null ? request.getParameter("height"):"150";
-        base.setAttribute("height", value);*/
-
+        String value;
         FileUpload fup = new FileUpload();
         fup.getFiles(request, response);
         int i = 1;
@@ -435,30 +374,46 @@ ret.append("\n</div>  ");
                 System.out.println("image="+filenameAttr);
                 value = null!=fup.getFileName(filenameAttr) && !"".equals(fup.getFileName(filenameAttr).trim()) ? fup.getFileName(filenameAttr).trim() : null;
                 System.out.println("value="+value);
-                if(value!=null) {
-                    System.out.println("value="+value);
+                if(value!=null) {                    
                     String filename = admResUtils.getFileName(base, value);
-                    if(filename!=null && !filename.trim().equals(""))
+                    System.out.println("graba archivo "+filename);
+                    if( filename!=null && filename.trim().length()>0 )
                     {
-//                            if (!admResUtils.isFileType(filename, "bmp|jpg|jpeg|gif|png")){
-//                                msg = "El archivo no corresponde a ninguna de las extensiones requeridas: <i>bmp, jpg, jpeg, gif, png</i>: " + filename;
-//                            }else {
-                        if(admResUtils.isFileType(filename, "bmp|jpg|jpeg|gif|png")){
-                            if (admResUtils.uploadFile(base, fup, filenameAttr)){
+                        if(admResUtils.isFileType(filename, "bmp|jpg|jpeg|gif|png")) {
+                            if (admResUtils.uploadFile(base, fup, filenameAttr)) {
+                                System.out.println("filenameAttr="+filenameAttr);
+                                //final String path = SWBPortal.getWorkPath()+sprovider.getWorkPath()+"/gallery/establishment/";
+                                final String path = sprovider.getWorkPath()+"/gallery/establishment/";
+                                System.out.println("path REAL="+SWBPortal.getWorkPath()+path);
+                                File sprovDir = new File(SWBPortal.getWorkPath()+path);
+                                System.out.println("sprovDir es directorio? "+sprovDir.isDirectory());
+                                System.out.println("sprovDir es archivo? "+sprovDir.isFile());
+                                if( !sprovDir.exists() ) {
+                                    sprovDir.mkdir();
+                                    System.out.println("dir no existia, se creo");
+                                }else{
+                                    System.out.println("dir ya existe");
+                                }
+                                
+                                
+                                //SWBUtils.IO.copy(filename, filename, true, workPath, workPath);
                                 File image = new File(workPath + filename);
-                                File thumbnail = new File(workPath + _thumbnail + filename);
-                                ImageResizer.resizeCrop(image, width, thumbnail, "jpeg");
-                                base.setAttribute(filenameAttr, filename);
-                                System.out.println("imagen added");
+                                boolean success = image.renameTo(new File(sprovDir, filename));
+                                System.out.println("success="+success);
+                                if(success) {
+                                    System.out.println("path web="+SWBPortal.getWorkPath()+path+filename);
+                                    image = new File(SWBPortal.getWorkPath()+path+filename);
+                                    File thumbnail = new File(SWBPortal.getWorkPath()+path + _thumbnail + filename);
+                                    ImageResizer.resizeCrop(image, width, thumbnail, "jpeg");
+                                    /*base.setAttribute(filenameAttr, filename);*/
+                                    PymePhoto pp = PymePhoto.ClassMgr.createPymePhoto(sprovider.getWebPage().getWebSite());
+                                    pp.setPhotoImage(SWBPortal.getWebWorkPath()+path+filename);
+                                    sprovider.addEstablishmentPymePhoto(pp);
+                                    System.out.println("imagen added");
+                                }
                             }
-//                                else {
-//                                    msg = "No se realizaron correctamente los cambios al subir el archivo <i>" + value + "</i>.";
-//                                }
                         }
                     }
-//                        else {
-//                            msg = "No se realizaron correctamente los cambios al subir el archivo <i>" + value + "</i>.";
-//                        }
                 }
             }
             i++;
@@ -471,62 +426,5 @@ ret.append("\n</div>  ");
             log.error("Error al guardar Role/UserGroup para acceso al RateManager. ", e);
             System.out.println("error..."+e);
         }
-    }
-
-    @Override
-    public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
-        Resource base = getResourceBase();
-        String action = response.getAction();
-
-        if(action.equalsIgnoreCase(response.Action_ADD)) {
-            System.out.println("\n\nadding.....");
-            response.setRenderParameter("act", action);
-        }
-    }
-
-    private boolean userCanEdit(final User user) {
-        boolean access = false;
-        String roleName = getResourceBase().getAttribute("editRole", "0");
-        try {
-            if( user!=null && !roleName.equals("0") ) {
-                SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
-                GenericObject gobj = null;
-                try {
-                    gobj = ont.getGenericObject(roleName);
-                } catch (Exception e) {
-                    log.error("Errror InlineEdit.userCanEdit()", e);
-                }
-
-                UserGroup ugrp = null;
-                Role urole = null;
-
-                if(!roleName.equals("0")) {
-                    if(gobj != null) {
-                        if(gobj instanceof UserGroup) {
-                            ugrp = (UserGroup) gobj;
-                            if(user.hasUserGroup(ugrp)) {
-                                access = true;
-                            }
-                        }else if(gobj instanceof Role) {
-                            urole = (Role) gobj;
-                            if(user.hasRole(urole)) {
-                                access = true;
-                            }
-                        }
-                    }else {
-                        access = true;
-                    }
-                }else {
-                    access = true;
-                }
-            }
-        }catch(Exception e) {
-            access = false;
-        }
-
-        if( roleName.equals("0") || user==null )
-            access=true;
-
-        return access ;
     }
 }
