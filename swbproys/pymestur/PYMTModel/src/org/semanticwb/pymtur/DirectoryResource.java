@@ -1005,6 +1005,14 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
             }
         }               
 
+        if (!(paramRequest.getWebPage() instanceof Destination) && !(paramRequest.getWebPage() instanceof SPType)) {
+            String spType = pars.get("spType");
+            if (spType != null && !spType.trim().equals("")) {
+                SPType spt = (SPType) SemanticObject.createSemanticObject(URLDecoder.decode(spType)).createGenericInstance();
+                query.addTerm(new SearchTerm(SWBIndexer.ATT_CATEGORY, spt.getId(), SearchTerm.OPER_AND));
+            }
+        }
+
         //Restringir a que sean de cierto SPType cuando éste se especifica por parámetro
         String spType = pars.get("fixedSpType");
         if (spType != null && !spType.trim().equals("")) {
