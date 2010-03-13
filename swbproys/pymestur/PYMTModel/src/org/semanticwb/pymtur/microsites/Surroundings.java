@@ -37,10 +37,8 @@ public class Surroundings extends GenericResource{
         String path = null;
         if (wp instanceof MicroSitePyme) {
             community = wp;
-            System.out.println("Es instancia de MicroSitePyme");
         } else {
             community = wp.getParent();
-            System.out.println("No es instancia de MicroSitePyme");
         }
         String siteUri = ((MicroSitePyme) community).getType().getURI();
         
@@ -59,16 +57,3 @@ public class Surroundings extends GenericResource{
     }
 
 }
-/*
-         WebPage community = null;
-        WebPage currentpage = (WebPage) request.getAttribute("webpage");
-        if(currentpage == null) {
-            currentpage = paramRequest.getWebPage();
-        }
-        if(currentpage instanceof MicroSitePyme) {
-            community = currentpage;
-        }else {
-            community = currentpage.getParent();
-        }
-        MicroSitePyme ms = (MicroSitePyme)community;
-*/
