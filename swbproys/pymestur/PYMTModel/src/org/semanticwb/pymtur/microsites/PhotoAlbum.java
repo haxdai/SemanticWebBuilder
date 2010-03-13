@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,12 +23,16 @@ import org.semanticwb.portal.admin.admresources.util.WBAdmResourceUtils;
 import org.semanticwb.pymtur.MicroSitePyme;
 import org.semanticwb.pymtur.ServiceProvider;
 
-import org.semanticwb.portal.util.FileUpload;
 import org.semanticwb.base.util.ImageResizer;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebPage;
-import org.semanticwb.pymtur.Promotion;
 import org.semanticwb.pymtur.PymePhoto;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.ProgressListener;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 /**
  *
@@ -93,7 +100,7 @@ public class PhotoAlbum extends GenericAdmResource {
             photos.add(pp.getPhotoImage());
         }
 
-        final String path = sprovider.getWorkPath()+"/gallery/"+base.getAttribute("gpophotos")+"/";
+        final String path = sprovider.getWorkPath()+"/photos/"+base.getAttribute("gpophotos")+"/";
         if(paramRequest.getCallMethod()==paramRequest.Call_STRATEGY) {
 //            out.println("<div id=\"panelFotos\">");
 //            out.println("<h4>FOTOS</h4>");
@@ -272,8 +279,10 @@ public class PhotoAlbum extends GenericAdmResource {
         ret.append("\n    var removeCheckInput = document.createElement('input'); ");
         ret.append("\n    removeCheckInput.type = 'checkbox'; ");
         ret.append("\n    if(cellSufix) { ");
-        ret.append("\n        removeCheckInput.name = 'remove_'+cellSufix; ");
+        //ret.append("\n        removeCheckInput.name = 'remove_'+cellSufix; ");
+        ret.append("\n        removeCheckInput.name = 'remove'; ");
         ret.append("\n        removeCheckInput.id = 'remove_'+cellSufix; ");
+        ret.append("\n        removeCheckInput.value = cellSufix; ");
         ret.append("\n    }else { ");
         ret.append("\n        removeCheckInput.name = 'remove_"+base.getId()+"_'+iteration; ");
         ret.append("\n        removeCheckInput.id = 'remove_"+base.getId()+"_'+iteration; ");
@@ -284,7 +293,7 @@ public class PhotoAlbum extends GenericAdmResource {
         ret.append("\n    }else { ");
         ret.append("\n        removeCheckInput.disabled = true; ");
         ret.append("\n    } ");
-        ret.append("\n    removeCheckInput.value = '1'; ");
+        //ret.append("\n    removeCheckInput.value = '1'; ");
         ret.append("\n    removeCheckCell.appendChild(removeCheckInput); ");
         ret.append("\n ");
         ret.append("\n    // celda nombre de archivo ");
@@ -295,6 +304,7 @@ public class PhotoAlbum extends GenericAdmResource {
         ret.append("\n    } ");
         ret.append("\n    filenameCell.style.textAlign = 'left'; ");
         ret.append("\n ");
+        ret.append("\n    // celda input file ");
         ret.append("\n    var imgCell = row.insertCell(4); ");
         ret.append("\n    if(img) { ");
         ret.append("\n        imgCell.style.textAlign = 'center'; ");
@@ -302,7 +312,7 @@ public class PhotoAlbum extends GenericAdmResource {
         ret.append("\n            editCheckInput.disabled = false; ");
         ret.append("\n    }else { ");
         ret.append("\n        // file uploader ");
-        ret.append("\n        imgCell.style.textAlign = 'right'; ");
+        ret.append("\n        imgCell.style.textAlign = 'left'; ");
         ret.append("\n        var fileInput = document.createElement('input'); ");
         ret.append("\n        fileInput.type = 'file'; ");
         ret.append("\n        fileInput.name = 'imggallery_"+base.getId()+"_'+iteration; ");
@@ -319,18 +329,8 @@ public class PhotoAlbum extends GenericAdmResource {
         ret.append("        tbl.deleteRow(lastRow - 1); ");
         ret.append("    } ");
         ret.append("}\n");
-
-//        Iterator<String> it = base.getAttributeNames();
-//        while(it.hasNext()) {
-//            String attname = it.next();
-//            String attval = base.getAttribute(attname);
-//            if(attval!=null && attname.startsWith("imggallery_")) {
-//                String img = "<img src=\""+webWorkPath+_thumbnail+attval+"\" alt=\""+attname+"\" border=\"0\" />";
-//                ret.append("\naddRowToTable_"+base.getId()+"('igtbl_"+base.getId()+"', '"+base.getAttribute(attname)+"', '"+img+"', '"+attname.substring(11)+"'); ");
-//            }
-//        }
         
-        /*final String path = sprovider.getWorkPath()+"/gallery/"+base.getAttribute("gpophotos")+"/";
+        final String path = sprovider.getWorkPath()+"/photos/"+base.getAttribute("gpophotos")+"/";
         Iterator<PymePhoto> it = null;
         if(base.getAttribute("gpophotos").equalsIgnoreCase("establishment")) {
             it = sprovider.listEstablishmentPymePhotos();
@@ -342,8 +342,8 @@ public class PhotoAlbum extends GenericAdmResource {
         while(it.hasNext()) {
             PymePhoto pp = it.next();
             String img = "<img src=\""+SWBPortal.getWebWorkPath()+path+pp.getPhotoThumbnail()+"\" alt=\""+pp.getPhotoImage()+"\" />";
-            ret.append("\naddRowToTable_"+base.getId()+"('igtbl_"+base.getId()+"', '"+pp.getPhotoImage()+"', '"+img+"'); ");
-        }*/
+            ret.append("addRowToTable_"+base.getId()+"('igtbl_"+base.getId()+"', '"+pp.getPhotoImage()+"', '"+img+"', '"+pp.getId()+"'); \n");
+        }
 
         ret.append("\n</script>");
 
@@ -352,72 +352,115 @@ public class PhotoAlbum extends GenericAdmResource {
 
     private void add(HttpServletRequest request, HttpServletResponse response, ServiceProvider sprovider) throws SWBResourceException, IOException {
         Resource base = getResourceBase();
-        String value;
-        FileUpload fup = new FileUpload();
-        fup.getFiles(request, response);
-        int i = 1;
-        int width = Integer.parseInt(base.getAttribute("width"));
-        String filenameAttr, removeChk;
-        do {
-            filenameAttr = "imggallery_" + base.getId() + "_" + i;
-            removeChk = "remove_" + base.getId() + "_" + i;
-            value = null!=fup.getValue(removeChk) && !"".equals(fup.getValue(removeChk).trim()) ? fup.getValue(removeChk).trim() : "0";
+        File sprovDir = new File(SWBPortal.getWorkPath()+sprovider.getWorkPath());
+        if( !sprovDir.exists() )
+            sprovDir.mkdir();
+        sprovDir = new File(SWBPortal.getWorkPath()+sprovider.getWorkPath()+"/photos/");
+        if( !sprovDir.exists() )
+            sprovDir.mkdir();
+        sprovDir = new File(SWBPortal.getWorkPath()+sprovider.getWorkPath()+"/photos/"+base.getAttribute("gpophotos")+"/");
+        if( !sprovDir.exists() )
+            sprovDir.mkdir();
+        int width;
+        try {
+            width = Integer.parseInt(base.getAttribute("width"));
+        }catch(NumberFormatException nfe) {
+            width = 82;
+        }
 
-            if("1".equals(value) && base.getAttribute(filenameAttr)!=null) {
-                File file = new File(workPath + base.getAttribute(filenameAttr));
-                file.delete();
-                file = new File(workPath + _thumbnail + base.getAttribute(filenameAttr));
-                file.delete();
-                base.removeAttribute(filenameAttr);
-            }else {
-                File sprovGallery = new File(SWBPortal.getWorkPath()+sprovider.getWorkPath()+"/gallery/");
-                if( !sprovGallery.exists() ) {
-                    sprovGallery.mkdir();
+        final String fspath = SWBPortal.getWorkPath()+sprovider.getWorkPath()+"/photos/"+base.getAttribute("gpophotos")+"/";
+        
+        try
+        {
+            boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+            if (isMultipart)
+            {
+                File tmpwrk = new File(SWBPortal.getWorkPath() + "/tmp");
+                if (!tmpwrk.exists())
+                {
+                    tmpwrk.mkdirs();
                 }
-                System.out.println("filenameAttr="+filenameAttr);
-                value = null!=fup.getFileName(filenameAttr) && !"".equals(fup.getFileName(filenameAttr).trim()) ? fup.getFileName(filenameAttr).trim() : null;
-                System.out.println("value="+value);
-                if(value!=null) {                    
-                    String filename = admResUtils.getFileName(base, value);
-                    if( filename!=null && filename.trim().length()>0 )
+                FileItemFactory factory = new DiskFileItemFactory(1 * 1024 * 1024, tmpwrk);
+                ServletFileUpload upload = new ServletFileUpload(factory);
+                ProgressListener progressListener = new ProgressListener()
+                {
+
+                    private long kBytes = -1;
+
+                    public void update(long pBytesRead, long pContentLength, int pItems)
                     {
-                        if(admResUtils.isFileType(filename, "bmp|jpg|jpeg|gif|png")) {
-                            if (admResUtils.uploadFile(base, fup, filenameAttr)) {
-                                final String path = sprovider.getWorkPath()+"/gallery/"+base.getAttribute("gpophotos")+"/";
-                                File sprovDir = new File(SWBPortal.getWorkPath()+path);
-                                if( !sprovDir.exists() ) {
-                                    sprovDir.mkdir();
-                                }
-                                
-                                File image = new File(workPath + filename);
-                                boolean success = image.renameTo(new File(sprovDir, filename));
-                                if(success) {
-                                    image = new File(SWBPortal.getWorkPath()+path+filename);
-                                    File thumbnail = new File(SWBPortal.getWorkPath()+path + _thumbnail + filename);
-                                    ImageResizer.resizeCrop(image, width, thumbnail, "jpeg");
-                                    PymePhoto pp = PymePhoto.ClassMgr.createPymePhoto(sprovider.getWebPage().getWebSite());
-                                    pp.setPhotoImage(filename);
-                                    pp.setPhotoThumbnail(_thumbnail+filename);
-                                    if(base.getAttribute("gpophotos").equalsIgnoreCase("establishment"))
-                                        sprovider.addEstablishmentPymePhoto(pp);
-                                    else if(base.getAttribute("gpophotos").equalsIgnoreCase("instalation"))
-                                        sprovider.addInstalationsPymePhoto(pp);
-                                    if(base.getAttribute("gpophotos").equalsIgnoreCase("more"))
-                                        sprovider.addMorePymePhoto(pp);
-                                }
+                        long mBytes = pBytesRead / 10000;
+                        if (kBytes == mBytes)
+                        {
+                            return;
+                        }
+                        kBytes = mBytes;
+                        int percent = (int) (pBytesRead * 100 / pContentLength);
+                    }
+                };
+                upload.setProgressListener(progressListener);
+                List items = upload.parseRequest(request); /* FileItem */
+                FileItem currentFile = null;
+                Iterator iter = items.iterator();
+                while (iter.hasNext())
+                {
+                    FileItem item = (FileItem) iter.next();
+
+                    if( item.isFormField() ) {                        
+                        System.out.println("este campo no es multipart..."+item.getFieldName()+",value="+item.getString());
+                        String action = item.getFieldName();
+                        String value = item.getString();
+                        PymePhoto pp = PymePhoto.ClassMgr.getPymePhoto(value, sprovider.getWebPage().getWebSite());
+                        if(pp!=null) {
+                            System.out.println("tenemos un pymephoto con imagen "+pp.getPhotoImage());
+                            if("remove".equalsIgnoreCase(action)) {
+                                System.out.println("eliminando pymephoto "+pp.getId());
+                                if(base.getAttribute("gpophotos").equalsIgnoreCase("establishment"))
+                                    sprovider.removeEstablishmentPymePhoto(pp);
+                                else if(base.getAttribute("gpophotos").equalsIgnoreCase("instalation"))
+                                    sprovider.removeInstalationsPymePhoto(pp);
+                                else if(base.getAttribute("gpophotos").equalsIgnoreCase("more"))
+                                    sprovider.removeMorePymePhoto(pp);
+                                pp.remove();
+                                System.out.println("pymephoto "+pp.getId()+" eliminado");
                             }
+                        }
+                    }else {
+                        System.out.println("este campo es archivo..."+item.getFieldName());
+                        currentFile = item;
+                        try
+                        {
+                            long serial = (new Date()).getTime();
+                            String filename = serial + "_" + currentFile.getFieldName() + currentFile.getName().substring(currentFile.getName().lastIndexOf("."));
+
+                            File image = new File(fspath + filename);
+                            File thumbnail = new File(fspath + "thumbn_" + filename);
+                            currentFile.write(image);
+                            //ImageResizer.resize(image, width, true, thumbnail, "jpeg" );
+                            ImageResizer.resizeCrop(image, width, thumbnail, "jpeg");
+
+                            PymePhoto pp = PymePhoto.ClassMgr.createPymePhoto(sprovider.getWebPage().getWebSite());
+                            pp.setPhotoImage(filename);
+                            pp.setPhotoThumbnail(_thumbnail+filename);
+                            pp.setPhotoSize(SWBUtils.IO.getFileSize(image));
+                            if(base.getAttribute("gpophotos").equalsIgnoreCase("establishment"))
+                                sprovider.addEstablishmentPymePhoto(pp);
+                            else if(base.getAttribute("gpophotos").equalsIgnoreCase("instalation"))
+                                sprovider.addInstalationsPymePhoto(pp);
+                            else if(base.getAttribute("gpophotos").equalsIgnoreCase("more"))
+                                sprovider.addMorePymePhoto(pp);
+
+                        } catch (StringIndexOutOfBoundsException iobe)
+                        {
+                            iobe.printStackTrace();
                         }
                     }
                 }
             }
-            i++;
-        } while(value!=null || base.getAttribute(filenameAttr)!=null);
-
-        try {
-            getResourceBase().updateAttributesToDB();
-        }catch (Exception e) {
-            log.error("Error while adding attributos to resource instance PhotoAlbum with id: "+base.getId() +"-"+ base.getTitle(), e);
-            System.out.println(e);
+        }catch (Exception ex)
+        {
+            log.error("Error while adding attributos to resource instance PhotoAlbum with id: "+base.getId() +"-"+ base.getTitle(), ex);
+            ex.printStackTrace();
         }
     }
 }
