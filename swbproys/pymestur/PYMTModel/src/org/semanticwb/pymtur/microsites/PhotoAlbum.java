@@ -256,8 +256,10 @@ public class PhotoAlbum extends GenericAdmResource {
         ret.append("\n    var editCheckInput = document.createElement('input'); ");
         ret.append("\n    editCheckInput.type = 'checkbox'; ");
         ret.append("\n    if(cellSufix) { ");
-        ret.append("\n        editCheckInput.name = 'edit_'+cellSufix; ");
+        //ret.append("\n        editCheckInput.name = 'edit_'+cellSufix; ");
+        ret.append("\n        editCheckInput.name = 'edit'; ");
         ret.append("\n        editCheckInput.id = 'edit_'+cellSufix; ");
+        ret.append("\n        editCheckInput.value = cellSufix; ");
         ret.append("\n    }else { ");
         ret.append("\n        editCheckInput.name = 'edit_"+base.getId()+"_'+iteration; ");
         ret.append("\n        editCheckInput.id = 'edit_"+base.getId()+"_'+iteration; ");
@@ -267,8 +269,8 @@ public class PhotoAlbum extends GenericAdmResource {
         ret.append("\n    editCheckInput.onclick = function(){ ");
         ret.append("\n        if(editCheckInput.checked) { ");
         ret.append("\n            row.cells[row.cells.length-1].innerHTML = '<input type=\"file\" id=\"imggallery_"+base.getId()+"_'+iteration+'\" name=\"imggallery_"+base.getId()+"_'+iteration+'\" size=\"40\" />'; ");
-        ret.append("\n            editCheckInput.checked = false; ");
-        ret.append("\n            editCheckInput.disabled = true; ");
+        //ret.append("\n            editCheckInput.checked = false; ");
+        //ret.append("\n            editCheckInput.disabled = true; ");
         ret.append("\n        } ");
         ret.append("\n    }; ");
         ret.append("\n    editCheckCell.appendChild(editCheckInput); ");
@@ -413,7 +415,7 @@ public class PhotoAlbum extends GenericAdmResource {
                         PymePhoto pp = PymePhoto.ClassMgr.getPymePhoto(value, sprovider.getWebPage().getWebSite());
                         if(pp!=null) {
                             System.out.println("tenemos un pymephoto con imagen "+pp.getPhotoImage());
-                            if("remove".equalsIgnoreCase(action)) {
+                            if("remove".equalsIgnoreCase(action) || "edit".equalsIgnoreCase(action)) {
                                 System.out.println("eliminando pymephoto "+pp.getId());
                                 if(base.getAttribute("gpophotos").equalsIgnoreCase("establishment"))
                                     sprovider.removeEstablishmentPymePhoto(pp);
