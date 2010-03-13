@@ -284,7 +284,6 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
     {
-        System.out.println("===::in processAction");
         WebSite wsite=response.getWebPage().getWebSite();
         SemanticObject semObjTmp=null;
         User mem = response.getUser();
@@ -458,7 +457,8 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
 
                     if(pymetype==3 || pymetype==4){
                         MicroSitePyme ms = MicroSitePyme.ClassMgr.createMicroSitePyme("Microsite_"+dirObj.getId(),wsite); //TODO:Hacer que sea con el nombre de la pyme en formato de ID
-                        ms.setParent(wsite.getWebPage("Micrositios"));
+                        if(pymetype==3) ms.setParent(wsite.getWebPage("Micrositios"));
+                        else if(pymetype==4) ms.setParent(wsite.getWebPage("MsPremier"));
                         ms.setTitle(dirObj.getTitle());
                         ms.setDescription(dirObj.getDescription());
                         ms.setTags(dirObj.getTags());
@@ -521,7 +521,6 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                 }
             } else if (action2.equals("acceptRegistry"))
             {
-                System.out.println("===::accepting" + request.getParameter("uri"));
                 SemanticObject semObject = SemanticObject.createSemanticObject(URLDecoder.decode(request.getParameter("uri")));
                 ServiceProvider servProp = (ServiceProvider) semObject.createGenericInstance();
                 servProp.setSpStatus(2);
@@ -531,7 +530,6 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     servProp.setSpStatusComment(statComm);
                 }
             } else if (action2.equals("unRegister")) {
-                System.out.println("===::unregistering" + request.getParameter("uri"));
                 SemanticObject semObject = SemanticObject.createSemanticObject(URLDecoder.decode(request.getParameter("uri")));
                 ServiceProvider servProp = (ServiceProvider) semObject.createGenericInstance();
                 servProp.setSpStatus(4);
