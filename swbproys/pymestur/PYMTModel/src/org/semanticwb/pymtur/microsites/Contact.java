@@ -10,9 +10,8 @@ package org.semanticwb.pymtur.microsites;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
 import javax.mail.internet.InternetAddress;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
@@ -126,6 +125,28 @@ public class Contact extends GenericAdmResource {
         out.close();
     }
 
+
+
+    
+    @Override
+    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("text/html; charset=iso-8859-1");
+        response.setHeader("Cache-Control","no-cache"); //HTTP 1.1
+        response.setHeader("Pragma","no-cache"); //HTTP 1.0
+        response.setDateHeader ("Expires", 0); //prevents caching at the proxy server
+
+         try {
+            String jspFile=paramRequest.getResourceBase().getAttribute("jspfile","/work/models/etour/jsp/pymestur/microsite/contact.jsp");
+            request.setAttribute("webWorkPath", webWorkPath);
+            request.setAttribute("paramRequest", paramRequest);
+            RequestDispatcher rd = request.getRequestDispatcher(jspFile);
+            rd.include(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramsRequest) throws SWBResourceException, IOException {
         response.setContentType("text/html; charset=ISO-8859-1");
@@ -211,6 +232,7 @@ public class Contact extends GenericAdmResource {
                 out.println("    var contactContainer=document.createElement('div');");
                 
                 //out.print("contactContainer.innerHTML = ");
+                out.println("alert('salida 0');");
                 out.println("var s = new String('');");
 
                 out.println("s = s.concat('<div id=\"contacto\">');");
@@ -271,7 +293,8 @@ public class Contact extends GenericAdmResource {
                 out.println("s = s.concat('</form>');");
                 out.println("s = s.concat('</div>');");
                 out.println("contactContainer.innerHTML = s;");
-                //out.println("alert(s);");
+                out.println("alert('salida 1');");
+                out.println("alert(s);");
 
                 out.println("    var cwidth=500;");
                 out.println("    var cheight=500;");
@@ -340,6 +363,6 @@ public class Contact extends GenericAdmResource {
             out.println("Debe escribir su correo electrónico y mensaje como minimo<br/><br/>");
             out.println("<pre>");
         }
-    }
+    }**/
 }
 
