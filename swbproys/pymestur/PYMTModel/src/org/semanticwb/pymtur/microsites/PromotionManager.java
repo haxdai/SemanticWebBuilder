@@ -38,6 +38,7 @@ import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.community.MicroSiteType;
+import org.semanticwb.portal.community.MicroSiteWebPageUtil;
 import org.semanticwb.pymtur.MicroSitePyme;
 import org.semanticwb.pymtur.Promotion;
 import org.semanticwb.pymtur.ServiceProvider;
@@ -71,12 +72,21 @@ public class PromotionManager extends GenericResource {
             MicroSitePyme ms = (MicroSitePyme)community;
             sprovider = ms.getServiceProvider();
 
+            String promoUrl = "#";
+            Iterator<MicroSiteWebPageUtil> it_msu = ms.listMicroSiteUtils();
+            while (it_msu.hasNext()) {
+                MicroSiteWebPageUtil msu = it_msu.next();
+                if (msu.getTitle().toLowerCase().endsWith("tarifas")) {
+                    promoUrl = msu.getUrl();
+                }
+            }
+
             Iterator<Promotion> itpromos = sprovider.listPromotions();
             if(itpromos.hasNext()) {                
                 out.println("<ul>");
                 while(itpromos.hasNext()) {
                     Promotion promo = itpromos.next();
-                    out.println("  <li><a href=\"#\">"+promo.getDisplayTitle(paramRequest.getUser().getLanguage())+"</a></li>");
+                    out.println("  <li><a href=\"" + promoUrl + "\">"+promo.getDisplayTitle(paramRequest.getUser().getLanguage())+"</a></li>");
                 }
                 out.println("</ul>");
             }
