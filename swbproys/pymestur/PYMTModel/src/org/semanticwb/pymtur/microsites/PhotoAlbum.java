@@ -65,20 +65,6 @@ public class PhotoAlbum extends GenericAdmResource {
         response.setHeader("Pragma", "no-cache");
 
         ServiceProvider sprovider = null;
-//        WebPage community = null;
-//        WebPage currentpage = (WebPage) request.getAttribute("webpage");
-//        if(currentpage == null) {
-//            currentpage = paramRequest.getWebPage();
-//        }
-//        if(currentpage instanceof MicroSitePyme) {
-//            community = currentpage;
-//        }else {
-//            community = currentpage.getParent();
-//        }
-//        MicroSitePyme ms = (MicroSitePyme)community;
-//        sprovider = ms.getServiceProvider();
-
-
         WebPage wp = paramRequest.getWebPage();
         WebPage community = null;
         String path = null;
@@ -92,8 +78,10 @@ public class PhotoAlbum extends GenericAdmResource {
         String siteUri = ((MicroSitePyme) community).getType().getURI();
 
         if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSite", wp.getWebSite()).getURI().equals(siteUri)) {
+            System.out.println("\n\npyme");
             renderResourceForMiPyme(request, response, paramRequest, sprovider);
         } else if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSitePlus", wp.getWebSite()).getURI().equals(siteUri)) {
+            System.out.println("\n\npyme plus");
             renderResourceForMiPymePlus(request, response, paramRequest, sprovider);
         }
 
@@ -555,9 +543,9 @@ public class PhotoAlbum extends GenericAdmResource {
             out.println("    }");
             out.println("</script>");
         }else {
-            out.println("<div class=\"reticula_1_columnas\">");
-            out.println("<h1>"+base.getDisplayTitle(paramRequest.getUser().getLanguage())+"</h1>");
-            out.println("<div class=\"reticula_fotos\">");
+            //out.println("<h2 class=\"subtitleLevel1\" id=\"subtitleFotos\">"+base.getDisplayTitle(paramRequest.getUser().getLanguage())+"</h2>");
+            //out.println("<div>");
+            out.println("<div class=\"holderPhotoPreviews\">");
             int i=0;
             for(String image : photos) {
                 if(i%3==0)
@@ -568,11 +556,10 @@ public class PhotoAlbum extends GenericAdmResource {
                 //out.println("</a>");
                 out.println("<input type=\"button\" value=\"ver foto\" id=\""+"pac_"+i+"_"+base.getId()+"\" />");
                 out.println("</div>");
-                if(i%3==0)
-                    out.println("</div>");
                 i++;
+                if(i%3==0)
+                    out.println("</div>");                
             }
-            out.println("</div>");
             out.println("</div>");
 
             out.println("<script type=\"text/javascript\">");
