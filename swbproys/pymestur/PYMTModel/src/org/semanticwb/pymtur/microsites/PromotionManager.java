@@ -71,7 +71,6 @@ public class PromotionManager extends GenericResource {
             MicroSitePyme ms = (MicroSitePyme)community;
             sprovider = ms.getServiceProvider();
 
-            out.println("<h4>PROMOCIONES</h4>");
             Iterator<Promotion> itpromos = sprovider.listPromotions();
             if(itpromos.hasNext()) {                
                 out.println("<ul>");
