@@ -78,10 +78,8 @@ public class PhotoAlbum extends GenericAdmResource {
         String siteUri = ((MicroSitePyme) community).getType().getURI();
 
         if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSite", wp.getWebSite()).getURI().equals(siteUri)) {
-            System.out.println("\n\npyme");
             renderResourceForMiPyme(request, response, paramRequest, sprovider);
         } else if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSitePlus", wp.getWebSite()).getURI().equals(siteUri)) {
-            System.out.println("\n\npyme plus");
             renderResourceForMiPymePlus(request, response, paramRequest, sprovider);
         }
 
@@ -479,6 +477,7 @@ public class PhotoAlbum extends GenericAdmResource {
     }
 
     private void renderResourceForMiPymePlus(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest, ServiceProvider sprovider) throws SWBResourceException, IOException {
+        System.out.println("a");
         Resource base = getResourceBase();
         PrintWriter out = response.getWriter();
 
@@ -487,25 +486,28 @@ public class PhotoAlbum extends GenericAdmResource {
             add(request, response, sprovider);
         }
 
+        System.out.println("b");
         Iterator<PymePhoto> it = null;
         if(base.getAttribute("gpophotos").equalsIgnoreCase("establishment")) {
+            System.out.println("cestablishment");
             it = sprovider.listEstablishmentPymePhotos();
         }else if(base.getAttribute("gpophotos").equalsIgnoreCase("instalation")) {
+            System.out.println("cinstalation");
             it = sprovider.listInstalationsPymePhotos();
         }else if(base.getAttribute("gpophotos").equalsIgnoreCase("more")) {
+            System.out.println("cmore");
             it = sprovider.listMorePymePhotos();
         }
         ArrayList<String> photos = new ArrayList<String>();
-        while(it.hasNext()) {
+        while(it.hasNext()) {            
             PymePhoto pp = it.next();
             photos.add(pp.getPhotoImage());
+            System.out.println("imagen:"+pp.getPhotoImage());
         }
         
         final String path = sprovider.getWorkPath()+"/photos/"+base.getAttribute("gpophotos")+"/";
         if(paramRequest.getCallMethod()==paramRequest.Call_STRATEGY) {
-//            out.println("<div id=\"panelFotos\">");
-//            out.println("<h4>FOTOS</h4>");
-//            out.println("<p>");
+            System.out.println("Call_STRATEGY");
             int i=0;
             for(String image : photos) {
                 out.println("<span class=\"marco\">");
@@ -517,8 +519,6 @@ public class PhotoAlbum extends GenericAdmResource {
             }
             out.println("<br />");
             out.println("<a href=\"#\" onclick=\"showdialog()\">Ver todas las fotos</a>");
-//            out.println("</p>");
-//            out.println("</div>");
 
             out.println("<script type=\"text/javascript\">");
             out.println("dojo.require(\"dojox.image.Lightbox\");");
@@ -543,9 +543,12 @@ public class PhotoAlbum extends GenericAdmResource {
             out.println("    }");
             out.println("</script>");
         }else {
+            System.out.println("Call_CONTENT");
+            System.out.println("1");
             out.println("<div class=\"holderPhotoPreviews\">");
             int i=0;
             for(String image : photos) {
+                System.out.println("2");
                 if(i%3==0)
                     out.println("<div class=\"photoRow\">");
                 out.println("<div class=\"photoPreview\">");
@@ -553,12 +556,14 @@ public class PhotoAlbum extends GenericAdmResource {
                 out.println("<input type=\"button\" value=\"ver foto\" id=\""+"pac_"+i+"_"+base.getId()+"\" />");
                 out.println("</div>");
                 i++;
-                if(i%3==0 || (i+1)==photos.size())
+                if(i%3==0 || i==photos.size())
                     out.println("</div>");                
             }
             out.println("</div>");
+            System.out.println("3");
 
             if(photos.size()>0) {
+                System.out.println("4");
                 out.println("<script type=\"text/javascript\">");
                 out.println("dojo.require(\"dojox.image.Lightbox\");");
                 out.println("dojo.addOnLoad(function(){");
@@ -570,6 +575,7 @@ public class PhotoAlbum extends GenericAdmResource {
                 }
                 out.println("});");
                 out.println("</script>");
+                System.out.println("5");
             }
 
             boolean userCanEdit=false;
