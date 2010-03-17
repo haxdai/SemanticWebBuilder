@@ -507,6 +507,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                             }
                         }
                     }
+                    
                     //Envía correo al creador del service provider
                     String siteName = wsite.getDisplayTitle(response.getUser().getLanguage());
                     if(user.getEmail()!=null){
@@ -520,7 +521,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                             staticText=staticText+"En un periodo no mayor a 24 hrs, le notificaremos sobre la activación y puesta en línea.<br/><br/><br>";
                             staticText=staticText+"Reciba un cordial saludo..<br/><br/>";
                             staticText=staticText+"Atentamente sus amigos de:<br/><br/>";
-                            staticText=staticText+"<b>Pymes Turisticas de México</b>,<br/>";
+                            staticText=staticText+"<b>SIENTE MÉXICO</b>,<br/>";
                         }                           
                            staticText = replaceTags(staticText, request, response, user, siteName);                           
                            SWBUtils.EMAIL.sendBGEmail(user.getEmail(), "Contacto del Sitio - Confirmación de registro", staticText);
@@ -551,6 +552,24 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                 if (statComm != null) {
                     servProp.setSpStatusComment(statComm);
                 }
+
+                //Envía correo al creador del service provider para confirmar su registro
+                String siteName = wsite.getDisplayTitle(response.getUser().getLanguage());
+                if(user.getEmail()!=null){
+                    String staticText=base.getAttribute("dirEmailAcceptTxt");
+
+                    if(staticText==null || staticText.trim().length()==0){
+                        staticText="Hola <b>{user}</b>,<br/><br/><br/>";
+                        staticText=staticText+"Nos complace informarle que el registro de su empresa " + "<b>" + servProp.getTitle() + "</b>" + " ha sido aceptado.<br/><br/>";
+                        staticText=staticText+"<br/><br/><br/>";
+                        staticText=staticText+"Son muchos los beneficios que usted recibirá para la misma.<br/><br/>";
+                        staticText=staticText+"Reciba un cordial saludo..<br/><br/>";
+                        staticText=staticText+"Atentamente sus amigos de:<br/><br/>";
+                        staticText=staticText+"<b>SIENTE MÉXICO</b>,<br/>";
+                    }
+                       staticText = replaceTags(staticText, request, response, user, siteName);
+                       SWBUtils.EMAIL.sendBGEmail(user.getEmail(), "Contacto del Sitio - Aceptación de registro", staticText);
+                }
             } else if (action2.equals("unRegister")) {
                 SemanticObject semObject = SemanticObject.createSemanticObject(URLDecoder.decode(request.getParameter("uri")));
                 ServiceProvider servProp = (ServiceProvider) semObject.createGenericInstance();
@@ -559,6 +578,27 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                 String statComm = request.getParameter("statusComment");
                 if (statComm != null) {
                     servProp.setSpStatusComment(statComm);
+                }
+
+                //Envía correo al creador del service provider para notificar su baja
+                String siteName = wsite.getDisplayTitle(response.getUser().getLanguage());
+                if(user.getEmail()!=null){
+                    String staticText=base.getAttribute("dirEmailUnRegisterTxt");
+
+                    if(staticText==null || staticText.trim().length()==0){
+                        staticText="Hola <b>{user}</b>,<br/><br/><br/>";
+                        staticText=staticText+"Le informamos que el registro de su empresa " + "<b>" + servProp.getTitle() + "</b>" + " ha sido revocado por las siguientes razones:<br/><br/>";
+                        if (statComm != null) {
+                            staticText=staticText+statComm;
+                        }
+                        staticText=staticText+"<br/><br/><br/>";
+                        staticText=staticText+"Puede ponerse en contacto con el administrador para recibir más información.<br/><br/>";
+                        staticText=staticText+"Reciba un cordial saludo..<br/><br/>";
+                        staticText=staticText+"Atentamente sus amigos de:<br/><br/>";
+                        staticText=staticText+"<b>SIENTE MÉXICO</b>,<br/>";
+                    }
+                       staticText = replaceTags(staticText, request, response, user, siteName);
+                       SWBUtils.EMAIL.sendBGEmail(user.getEmail(), "Contacto del Sitio - Revocación de registro", staticText);
                 }
             }/*
             else if (action.equals("removeAttach"))
@@ -998,32 +1038,32 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
 
         //Consulta para obtener todos los ServiceProviders
         query.addTerm(new SearchTerm(SWBIndexer.ATT_CLASS, "ServiceProvider", SearchTerm.OPER_AND));
-        
+
         if (paramRequest.getWebPage() instanceof Destination) {
             dest = (Destination)paramRequest.getWebPage();
             //Restringir a que contengan cierto destino
             if (dest != null) {
                 query.addTerm(new SearchTerm(ServiceProviderParser.ATT_DESTINATION, dest.getTitle(), SearchTerm.OPER_AND));
             }
-            
+
             //Restringir a que sean de cierto SPType cuando éste se especifica desde el panel de búsqueda
             //Si no se selecciona nada, por defecto son hoteles
             String spType = pars.get("spType");
             if (spType != null && !spType.trim().equals("")) {
                 SPType spt = (SPType) SemanticObject.createSemanticObject(URLDecoder.decode(spType)).createGenericInstance();
                 query.addTerm(new SearchTerm(SWBIndexer.ATT_CATEGORY, spt.getId(), SearchTerm.OPER_AND));
-            } else {
+            }/* else {
                 query.addTerm(new SearchTerm(SWBIndexer.ATT_CATEGORY, "Hotel", SearchTerm.OPER_AND));
-            }
+            }*/
         }
-        
+
         if (paramRequest.getWebPage() instanceof SPType) {
             type = (SPType)paramRequest.getWebPage();
             //Restringir a que sean de cierto SPType
             if (type != null) {
                 query.addTerm(new SearchTerm(SWBIndexer.ATT_CATEGORY, type.getId(), SearchTerm.OPER_AND));
             }
-        }               
+        }
 
         if (!(paramRequest.getWebPage() instanceof Destination) && !(paramRequest.getWebPage() instanceof SPType)) {
             String spType = pars.get("spType");
@@ -1037,7 +1077,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
         String spType = pars.get("fixedSpType");
         if (spType != null && !spType.trim().equals("")) {
             query.addTerm(new SearchTerm(SWBIndexer.ATT_CATEGORY, spType, SearchTerm.OPER_AND));
-        }        
+        }
 
         //Ejecutar la busqueda
         SearchResults sres = SWBPortal.getIndexMgr().getDefaultIndexer().search(query, paramRequest.getUser());
@@ -1051,7 +1091,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                 providers.add(sp);
             }
         }
-        
+
         return providers.iterator();
     }
 
