@@ -33,6 +33,7 @@ import org.apache.commons.fileupload.ProgressListener;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.semanticwb.portal.community.MicroSiteType;
+import org.semanticwb.portal.community.MicroSiteWebPageUtil;
 
 /**
  *
@@ -76,7 +77,7 @@ public class PhotoAlbum extends GenericAdmResource {
         MicroSitePyme ms = (MicroSitePyme)community;
         sprovider = ms.getServiceProvider();
         String siteUri = ((MicroSitePyme) community).getType().getURI();
-
+        
         if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSite", wp.getWebSite()).getURI().equals(siteUri)) {
             renderResourceForMiPyme(request, response, paramRequest, sprovider);
         } else if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSitePlus", wp.getWebSite()).getURI().equals(siteUri)) {
@@ -314,14 +315,11 @@ public class PhotoAlbum extends GenericAdmResource {
                     FileItem item = (FileItem) iter.next();
 
                     if( item.isFormField() ) {                        
-                        System.out.println("este campo no es multipart..."+item.getFieldName()+",value="+item.getString());
                         String action = item.getFieldName();
                         String value = item.getString();
                         PymePhoto pp = PymePhoto.ClassMgr.getPymePhoto(value, sprovider.getWebPage().getWebSite());
                         if(pp!=null) {
-                            System.out.println("tenemos un pymephoto con imagen "+pp.getPhotoImage());
                             if("remove".equalsIgnoreCase(action) || "edit".equalsIgnoreCase(action)) {
-                                System.out.println("eliminando pymephoto "+pp.getId());
                                 if(base.getAttribute("gpophotos").equalsIgnoreCase("establishment")) {
                                     sprovider.removeEstablishmentPymePhoto(pp);
                                     pp.remove();
@@ -335,7 +333,6 @@ public class PhotoAlbum extends GenericAdmResource {
                             }
                         }
                     }else {
-                        System.out.println("este campo es archivo..."+item.getFieldName());
                         currentFile = item;
                         try
                         {
@@ -477,7 +474,6 @@ public class PhotoAlbum extends GenericAdmResource {
     }
 
     private void renderResourceForMiPymePlus(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest, ServiceProvider sprovider) throws SWBResourceException, IOException {
-        System.out.println("a");
         Resource base = getResourceBase();
         PrintWriter out = response.getWriter();
 
@@ -486,39 +482,44 @@ public class PhotoAlbum extends GenericAdmResource {
             add(request, response, sprovider);
         }
 
-        System.out.println("b");
         Iterator<PymePhoto> it = null;
         if(base.getAttribute("gpophotos").equalsIgnoreCase("establishment")) {
-            System.out.println("cestablishment");
             it = sprovider.listEstablishmentPymePhotos();
         }else if(base.getAttribute("gpophotos").equalsIgnoreCase("instalation")) {
-            System.out.println("cinstalation");
             it = sprovider.listInstalationsPymePhotos();
         }else if(base.getAttribute("gpophotos").equalsIgnoreCase("more")) {
-            System.out.println("cmore");
             it = sprovider.listMorePymePhotos();
         }
         ArrayList<String> photos = new ArrayList<String>();
         while(it.hasNext()) {            
             PymePhoto pp = it.next();
             photos.add(pp.getPhotoImage());
-            System.out.println("imagen:"+pp.getPhotoImage());
         }
         
         final String path = sprovider.getWorkPath()+"/photos/"+base.getAttribute("gpophotos")+"/";
         if(paramRequest.getCallMethod()==paramRequest.Call_STRATEGY) {
-            System.out.println("Call_STRATEGY");
+            out.println("<div class=\"photosHolder\">");
             int i=0;
             for(String image : photos) {
-                out.println("<span class=\"marco\">");
                 out.println("<a href=\"#\" id=\""+"pa_"+i+"_"+base.getId()+"\">");
                 out.println("<img height=\"62\" width=\"82\" alt=\""+image+"\" src=\""+SWBPortal.getWebWorkPath()+path+_thumbnail+image+"\" />");
                 out.println("</a>");
-                out.println("</span>");
                 i++;
             }
-            out.println("<br />");
-            out.println("<a href=\"#\" onclick=\"showdialog()\">Ver todas las fotos</a>");
+            out.println("</div>");
+            
+            String url = "#";
+            MicroSitePyme ms = sprovider.getMicroSitePymeInv();
+            Iterator<MicroSiteWebPageUtil> msutils = ms.listMicroSiteUtils();
+            while (msutils.hasNext()) {
+                MicroSiteWebPageUtil msu = msutils.next();
+                System.out.println("url msutil="+msu.getUrl());
+                if (msu.getTitle().toLowerCase().endsWith("fotos")) {
+                    url = msu.getUrl();
+                    break;
+                }
+            }
+            out.println("<a href=\""+url+"\">Ver todas las fotos</a>");
 
             out.println("<script type=\"text/javascript\">");
             out.println("dojo.require(\"dojox.image.Lightbox\");");
@@ -545,6 +546,7 @@ public class PhotoAlbum extends GenericAdmResource {
         }else {
             System.out.println("Call_CONTENT");
             System.out.println("1");
+            out.println("<h3 class=\"subtitleLevel2\">"+base.getDisplayTitle(paramRequest.getUser().getLanguage())+"</h3>");
             out.println("<div class=\"holderPhotoPreviews\">");
             int i=0;
             for(String image : photos) {
