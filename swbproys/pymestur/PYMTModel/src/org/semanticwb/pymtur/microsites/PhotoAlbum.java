@@ -32,6 +32,7 @@ import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.ProgressListener;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.community.MicroSiteType;
 import org.semanticwb.portal.community.MicroSiteWebPageUtil;
 
@@ -69,21 +70,27 @@ public class PhotoAlbum extends GenericAdmResource {
         WebPage wp = paramRequest.getWebPage();
         WebPage community = null;
         String path = null;
-        if (wp instanceof MicroSitePyme) {
-            community = wp;
-        } else {
-            community = wp.getParent();
-        }
-        MicroSitePyme ms = (MicroSitePyme)community;
-        sprovider = ms.getServiceProvider();
-        String siteUri = ((MicroSitePyme) community).getType().getURI();
-        
-        if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSite", wp.getWebSite()).getURI().equals(siteUri)) {
-            renderResourceForMiPyme(request, response, paramRequest, sprovider);
-        } else if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSitePlus", wp.getWebSite()).getURI().equals(siteUri)) {
+       
+        if(paramRequest.getArgument("iscommunity","false").equals("true")){ //Se ve el recurso desde un micrositio
+            if(wp instanceof MicroSitePyme) {
+                community = wp;
+            }else {
+                wp = wp.getParent();
+            }
+            MicroSitePyme ms = (MicroSitePyme)community;
+            sprovider = ms.getServiceProvider();
+            String siteUri = ((MicroSitePyme) community).getType().getURI();
+
+            if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSite", wp.getWebSite()).getURI().equals(siteUri)) {
+                renderResourceForMiPyme(request, response, paramRequest, sprovider);
+            } else if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSitePlus", wp.getWebSite()).getURI().equals(siteUri)) {
+                renderResourceForMiPymePlus(request, response, paramRequest, sprovider);
+            }
+        }else if(request.getParameter("uri")!=null){
+            SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri")); //Se ve el recurso desde una ficha
+            sprovider = (ServiceProvider) semObject.createGenericInstance();
             renderResourceForMiPymePlus(request, response, paramRequest, sprovider);
         }
-
     }
 
     private String getFormManager(SWBParamRequest paramRequest, ServiceProvider sprovider) {
