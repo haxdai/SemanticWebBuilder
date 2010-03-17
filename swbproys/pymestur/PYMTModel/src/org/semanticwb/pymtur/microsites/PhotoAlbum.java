@@ -71,11 +71,11 @@ public class PhotoAlbum extends GenericAdmResource {
         WebPage community = null;
         String path = null;
        
-        if(paramRequest.getArgument("iscommunity","false").equals("true")){ //Se ve el recurso desde un micrositio
+        if(request.getParameter("uri")==null){ //Se ve el recurso desde un micrositio
             if(wp instanceof MicroSitePyme) {
                 community = wp;
             }else {
-                wp = wp.getParent();
+                community = wp.getParent();
             }
             MicroSitePyme ms = (MicroSitePyme)community;
             sprovider = ms.getServiceProvider();
@@ -84,12 +84,12 @@ public class PhotoAlbum extends GenericAdmResource {
             if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSite", wp.getWebSite()).getURI().equals(siteUri)) {
                 renderResourceForMiPyme(request, response, paramRequest, sprovider);
             } else if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSitePlus", wp.getWebSite()).getURI().equals(siteUri)) {
-                renderResourceForMiPymePlus(request, response, paramRequest, sprovider);
+                renderResourceForMiPymePlus(request, response, paramRequest, sprovider, true);
             }
         }else if(request.getParameter("uri")!=null){
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri")); //Se ve el recurso desde una ficha
             sprovider = (ServiceProvider) semObject.createGenericInstance();
-            renderResourceForMiPymePlus(request, response, paramRequest, sprovider);
+            renderResourceForMiPymePlus(request, response, paramRequest, sprovider, false);
         }
     }
 
@@ -480,7 +480,7 @@ public class PhotoAlbum extends GenericAdmResource {
         }
     }
 
-    private void renderResourceForMiPymePlus(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest, ServiceProvider sprovider) throws SWBResourceException, IOException {
+    private void renderResourceForMiPymePlus(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest, ServiceProvider sprovider, boolean showMoreLink) throws SWBResourceException, IOException {
         Resource base = getResourceBase();
         PrintWriter out = response.getWriter();
 
@@ -525,7 +525,9 @@ public class PhotoAlbum extends GenericAdmResource {
                     break;
                 }
             }
-            out.println("<a href=\""+url+"\">Ver todas las fotos</a>");
+            if(showMoreLink){
+                out.println("<a href=\""+url+"\">Ver todas las fotos</a>");
+            }
 
             out.println("<script type=\"text/javascript\">");
             out.println("dojo.require(\"dojox.image.Lightbox\");");
