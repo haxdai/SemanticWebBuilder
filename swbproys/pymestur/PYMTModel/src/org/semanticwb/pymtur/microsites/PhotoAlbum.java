@@ -513,7 +513,6 @@ public class PhotoAlbum extends GenericAdmResource {
             Iterator<MicroSiteWebPageUtil> msutils = ms.listMicroSiteUtils();
             while (msutils.hasNext()) {
                 MicroSiteWebPageUtil msu = msutils.next();
-                System.out.println("url msutil="+msu.getUrl());
                 if (msu.getTitle().toLowerCase().endsWith("fotos")) {
                     url = msu.getUrl();
                     break;
@@ -544,13 +543,10 @@ public class PhotoAlbum extends GenericAdmResource {
             out.println("    }");
             out.println("</script>");
         }else {
-            System.out.println("Call_CONTENT");
-            System.out.println("1");
             out.println("<h3 class=\"subtitleLevel2\">"+base.getDisplayTitle(paramRequest.getUser().getLanguage())+"</h3>");
             out.println("<div class=\"holderPhotoPreviews\">");
             int i=0;
             for(String image : photos) {
-                System.out.println("2");
                 if(i%3==0)
                     out.println("<div class=\"photoRow\">");
                 out.println("<div class=\"photoPreview\">");
@@ -562,10 +558,8 @@ public class PhotoAlbum extends GenericAdmResource {
                     out.println("</div>");                
             }
             out.println("</div>");
-            System.out.println("3");
 
             if(photos.size()>0) {
-                System.out.println("4");
                 out.println("<script type=\"text/javascript\">");
                 out.println("dojo.require(\"dojox.image.Lightbox\");");
                 out.println("dojo.addOnLoad(function(){");
@@ -577,7 +571,6 @@ public class PhotoAlbum extends GenericAdmResource {
                 }
                 out.println("});");
                 out.println("</script>");
-                System.out.println("5");
             }
 
             boolean userCanEdit=false;
