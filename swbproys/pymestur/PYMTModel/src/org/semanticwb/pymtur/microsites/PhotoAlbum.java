@@ -61,6 +61,15 @@ public class PhotoAlbum extends GenericAdmResource {
     }
 
     @Override
+    public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        if(paramRequest.getMode().equalsIgnoreCase("sheet")) {
+            doSheet(request,response,paramRequest);
+        }else {
+            super.processRequest(request, response, paramRequest);
+        }
+    }
+
+    @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setContentType("text/html; charset=ISO-8859-1");
         response.setHeader("Cache-Control", "no-cache");
@@ -71,7 +80,7 @@ public class PhotoAlbum extends GenericAdmResource {
         WebPage community = null;
         String path = null;
        
-        if(request.getParameter("uri")==null){ //Se ve el recurso desde un micrositio
+        if(request.getParameter("uri")==null) { //Se ve el recurso desde un micrositio
             if(wp instanceof MicroSitePyme) {
                 community = wp;
             }else {
@@ -449,7 +458,6 @@ public class PhotoAlbum extends GenericAdmResource {
             for(String image : photos) {
                 out.println("<span>");
                 out.println("<a href=\"#\" id=\""+"pac_"+i+"_"+base.getId()+"\">");
-                //out.println("<img alt=\"\" src=\""+image.substring(0, image.lastIndexOf("/"))+"/"+_thumbnail+image.substring(image.lastIndexOf("/")+1)+"\" />");
                 out.println("<img alt=\""+image+"\" src=\""+SWBPortal.getWebWorkPath()+path+_thumbnail+image+"\" />");
                 out.println("</a>");
                 out.println("</span>");
@@ -515,18 +523,23 @@ public class PhotoAlbum extends GenericAdmResource {
             }
             out.println("</div>");
             
-            String url = "#";
+            String surl = "#";
             MicroSitePyme ms = sprovider.getMicroSitePymeInv();
             Iterator<MicroSiteWebPageUtil> msutils = ms.listMicroSiteUtils();
             while (msutils.hasNext()) {
                 MicroSiteWebPageUtil msu = msutils.next();
                 if (msu.getTitle().toLowerCase().endsWith("fotos")) {
-                    url = msu.getUrl();
+                    surl = msu.getUrl();
                     break;
                 }
             }
-            if(showMoreLink){
-                out.println("<a href=\""+url+"\">Ver todas las fotos</a>");
+            if(showMoreLink) {
+                out.println("<a href=\""+surl+"\">Ver todas las fotos</a>");
+            }else if(sprovider.getPymePaqueteType()==2) {
+                SWBResourceURL url = paramRequest.getRenderUrl();
+                url.setMode("sheet");
+                url.setParameter("uri", sprovider.getURI());
+                url.setParameter("show", "true");
             }
 
             out.println("<script type=\"text/javascript\">");
@@ -588,6 +601,23 @@ public class PhotoAlbum extends GenericAdmResource {
                 userCanEdit=true;
             if(userCanEdit)
                 out.print(getFormManager(paramRequest, sprovider));
+        }
+    }
+
+    public void doSheet(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("text/html; charset=UTF-8");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
+
+        ServiceProvider sprovider = null;
+        WebPage wp = paramRequest.getWebPage();
+
+        if(request.getParameter("uri")!=null){
+            SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri")); //Se ve el recurso desde una ficha
+            sprovider = (ServiceProvider) semObject.createGenericInstance();
+            boolean fshow = Boolean.getBoolean(request.getParameter("show"));
+            if(fshow)
+                response.getWriter().print(this.getFormManager(paramRequest, sprovider));
         }
     }
 }
