@@ -561,8 +561,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     if(staticText==null || staticText.trim().length()==0){
                         staticText="Hola <b>{user}</b>,<br/><br/><br/>";
                         staticText=staticText+"Nos complace informarle que el registro de su empresa " + "<b>" + servProp.getTitle() + "</b>" + " ha sido aceptado.<br/><br/>";
-                        staticText=staticText+"<br/><br/><br/>";
-                        staticText=staticText+"Son muchos los beneficios que usted recibirá para la misma.<br/><br/>";
+                        staticText=staticText+"<br/>" + "Son muchos los beneficios que usted recibirá para la misma.<br/><br/>";
                         staticText=staticText+"Reciba un cordial saludo..<br/><br/>";
                         staticText=staticText+"Atentamente sus amigos de:<br/><br/>";
                         staticText=staticText+"<b>SIENTE MÉXICO</b>,<br/>";
@@ -591,8 +590,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         if (statComm != null) {
                             staticText=staticText+statComm;
                         }
-                        staticText=staticText+"<br/><br/><br/>";
-                        staticText=staticText+"Puede ponerse en contacto con el administrador para recibir más información.<br/><br/>";
+                        staticText=staticText+"<br/>" + "Puede ponerse en contacto con el administrador para recibir más información.<br/><br/>";
                         staticText=staticText+"Reciba un cordial saludo..<br/><br/>";
                         staticText=staticText+"Atentamente sus amigos de:<br/><br/>";
                         staticText=staticText+"<b>SIENTE MÉXICO</b>,<br/>";
