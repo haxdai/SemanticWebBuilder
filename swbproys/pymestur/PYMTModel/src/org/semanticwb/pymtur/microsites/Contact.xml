@@ -12,8 +12,7 @@
             <input type="TEXT" name="link" label="Texto de la liga:" size="50"/>
             <input type="TEXT" name="label" label="Etiqueta del botón:" size="50"/>
             <input type="FILE" name="image" label="Imagen (bmp, gif, jpg, jpeg, png):" showfile="true" filetype="bmp|jpg|jpeg|gif|png" isshowfiletype="true" isremovefile="true" removemsg="Quitar imagen" size="40"/>
-
-            <input type="FILE" name="jspfile" label="Jsp de despliegue:" showfile="true" filetype="jsp" isshowfiletype="true" isremovefile="true" removemsg="Eliminar archivo" size="40"/>
+            <input type="TEXT" name="jspfile" label="Ruta del JSP:" size="50" jspatron="[\w\/\-]+(\.jsp)$" invalidMessage="El archivo debe tener extensión: jsp" />
         </fieldset>
 
         <fieldset>
