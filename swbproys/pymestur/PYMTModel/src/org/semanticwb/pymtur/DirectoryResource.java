@@ -56,6 +56,7 @@ import org.semanticwb.model.Dns;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.portal.SWBFormButton;
+import org.semanticwb.portal.TemplateImp;
 import org.semanticwb.portal.community.Claimable;
 import org.semanticwb.portal.community.Comment;
 import org.semanticwb.portal.community.DirectoryObject;
@@ -247,6 +248,8 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                 ? message : "");
     }
 
+
+    /*
     @Override
     public String replaceTags(String str, HttpServletRequest request, SWBActionResponse response)
     {
@@ -279,7 +282,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
         str=SWBUtils.TEXT.replaceAll(str, "{workpath}", SWBPortal.getWorkPath());
         str=SWBUtils.TEXT.replaceAll(str, "{websiteid}", response.getWebPage().getWebSiteId());
         return str;
-    }
+    }**/
 
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
@@ -504,6 +507,25 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                             }
                         }
                     }
+                    //Envía correo al creador del service provider
+                    String siteName = wsite.getDisplayTitle(response.getUser().getLanguage());
+                    if(user.getEmail()!=null){
+                        String staticText=base.getAttribute("dirEmailTxt");
+                        
+                        if(staticText==null || staticText.trim().length()==0){
+                            staticText="Hola <b>{user}</b>,<br/><br/><br/>";
+                            staticText=staticText+"Nos complace el registro de su empresa:,<br/><br/>";
+                            staticText=staticText+"<b>"+dirObj.getTitle()+"</b><br/><br/><br/>";
+                            staticText=staticText+"Son muchos los beneficios que usted recibirá para la misma.<br/><br/>";
+                            staticText=staticText+"En un periodo no mayor a 24 hrs, le notificaremos sobre la activación y puesta en línea.<br/><br/><br>";
+                            staticText=staticText+"Reciba un cordial saludo..<br/><br/>";
+                            staticText=staticText+"Atentamente sus amigos de:<br/><br/>";
+                            staticText=staticText+"<b>Pymes Turisticas de México</b>,<br/>";
+                        }                           
+                           staticText = replaceTags(staticText, request, response, user, siteName);                           
+                           SWBUtils.EMAIL.sendBGEmail(user.getEmail(), "Contacto del Sitio - Confirmación de registro", staticText);
+                    }
+                    //Termina envío de correo al creador
                     if(refirect!=null) response.sendRedirect(refirect); //Redirecciona al destino en el que se generó la pyme
                 }
                 catch (FormValidateException e)
@@ -1031,5 +1053,49 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
         }
         
         return providers.iterator();
+    }
+
+    public String replaceTags(String str, HttpServletRequest request, SWBActionResponse paramRequest, User newUser, String siteName) {
+        if (str == null || str.trim().length() == 0) {
+            return "";
+        }
+
+        str = str.trim();
+        //TODO: codificar cualquier atributo o texto
+
+        Iterator it = SWBUtils.TEXT.findInterStr(str, "{request.getParameter(\"", "\")}");
+        while (it.hasNext()) {
+            String s = (String) it.next();
+            str = SWBUtils.TEXT.replaceAll(str, "{request.getParameter(\"" + s + "\")}", request.getParameter(replaceTags(s, request, paramRequest, newUser, siteName)));
+        }
+
+        it = SWBUtils.TEXT.findInterStr(str, "{session.getAttribute(\"", "\")}");
+        while (it.hasNext()) {
+            String s = (String) it.next();
+            str = SWBUtils.TEXT.replaceAll(str, "{session.getAttribute(\"" + s + "\")}", (String) request.getSession().getAttribute(replaceTags(s, request, paramRequest, newUser, siteName)));
+        }
+
+        it = SWBUtils.TEXT.findInterStr(str, "{getEnv(\"", "\")}");
+        while (it.hasNext()) {
+            String s = (String) it.next();
+            str = SWBUtils.TEXT.replaceAll(str, "{getEnv(\"" + s + "\")}", SWBPlatform.getEnv(replaceTags(s, request, paramRequest, newUser, siteName)));
+        }
+
+        str = SWBUtils.TEXT.replaceAll(str, "{user.login}", paramRequest.getUser().getLogin());
+        str = SWBUtils.TEXT.replaceAll(str, "{user.email}", paramRequest.getUser().getEmail());
+        str = SWBUtils.TEXT.replaceAll(str, "{user.language}", paramRequest.getUser().getLanguage());
+        str = SWBUtils.TEXT.replaceAll(str, "{webpath}", SWBPortal.getContextPath());
+        str = SWBUtils.TEXT.replaceAll(str, "{distpath}", SWBPortal.getDistributorPath());
+        str = SWBUtils.TEXT.replaceAll(str, "{webworkpath}", SWBPortal.getWebWorkPath());
+        str = SWBUtils.TEXT.replaceAll(str, "{workpath}", SWBPortal.getWorkPath());
+        str = SWBUtils.TEXT.replaceAll(str, "{websiteid}", paramRequest.getWebPage().getWebSiteId());
+        str = SWBUtils.TEXT.replaceAll(str, "{user}", newUser.getFullName());
+        str = SWBUtils.TEXT.replaceAll(str, "{siteName}", siteName);
+        if (str.indexOf("{templatepath}") > -1) {
+            //TODO:pasar template por paramrequest
+            TemplateImp template = (TemplateImp) SWBPortal.getTemplateMgr().getTemplate(paramRequest.getUser(), paramRequest.getWebPage());
+            str = SWBUtils.TEXT.replaceAll(str, "{templatepath}", template.getActualPath());
+        }
+        return str;
     }
 }
