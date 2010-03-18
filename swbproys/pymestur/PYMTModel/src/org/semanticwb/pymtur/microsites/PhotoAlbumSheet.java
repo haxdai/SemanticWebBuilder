@@ -3,6 +3,7 @@ package org.semanticwb.pymtur.microsites;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -62,19 +63,13 @@ public class PhotoAlbumSheet extends GenericAdmResource {
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
 
-        System.out.println("\n\n");        
-
         ServiceProvider sprovider = null;
-        System.out.println("doView ");
-        System.out.println("parametro uri="+request.getParameter("uri"));
         if(request.getParameter("uri")!=null){
-            System.out.println("ficha");
-            SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
+            //String suri = URLDecoder.decode(request.getParameter("uri"), "utf-8");
+            String suri = request.getParameter("uri");
+            SemanticObject semObject = SemanticObject.createSemanticObject(suri);
             sprovider = (ServiceProvider) semObject.createGenericInstance();
-            System.out.println("sprovider="+sprovider);
             renderResourceForSheet(request, response, paramRequest, sprovider);
-        }else {
-            System.out.println("NO HAY URI");
         }
     }
 
@@ -91,6 +86,7 @@ public class PhotoAlbumSheet extends GenericAdmResource {
         url.setAction(paramRequest.Action_ADD);
         url.setParameter("uri", sprovider.getURI());
         url.setParameter("showAdmPhotos", "true");
+        url.setCallMethod(paramRequest.Call_DIRECT);
 
         ret.append("\n<div class=\"swbform\"> ");
         ret.append("\n<form id=\"frm_pa_"+base.getId()+"\" name=\"frm_pa_"+base.getId()+"\" method=\"post\" enctype=\"multipart/form-data\" action=\""+ url+"\"> ");
@@ -365,12 +361,6 @@ public class PhotoAlbumSheet extends GenericAdmResource {
         Resource base = getResourceBase();
         PrintWriter out = response.getWriter();
 
-        /*String action = paramRequest.getAction();
-        System.out.println("\n\naction="+action);
-        if( action!=null && action.equalsIgnoreCase(paramRequest.Action_ADD+"_"+base.getAttribute("gpophotos")) ) {
-            add(request, response, sprovider);
-        }*/
-
         Iterator<PymePhoto> it = null;
         if(base.getAttribute("gpophotos").equalsIgnoreCase("establishment")) {
             it = sprovider.listEstablishmentPymePhotos();
@@ -400,6 +390,7 @@ public class PhotoAlbumSheet extends GenericAdmResource {
                 i++;
             }
             out.println("<br />");
+            
 if(sprovider.getPymePaqueteType()==2) {
     boolean userCanEdit=false;
     User user=paramRequest.getUser();
@@ -410,17 +401,11 @@ if(sprovider.getPymePaqueteType()==2) {
     /*if(userCanEdit) {*/
     String address = paramRequest.getWebPage().getUrl();
     address += "?showAdmPhotos=true&act=detail&uri="+sprovider.getEncodedURI();
-    //out.println("<a href=\""+address+"\">Agregar fotos</a>");
+    
     SWBResourceURL url = paramRequest.getRenderUrl();
+    url.setCallMethod(paramRequest.Call_DIRECT);
     url.setParameter("showAdmPhotos", "true").setParameter("uri", sprovider.getURI());
     out.println("<a href=\""+url+"\">Agregar fotos</a>");
-
-        /*SWBResourceURL url = paramRequest.getRenderUrl();
-        url.setMode("sheet");
-        url.setParameter("act", "detail");
-        url.setParameter("uri", sprovider.getURI());
-        url.setParameter("show", "true");
-        out.println("<a href=\""+url+"\">Administrar las fotos</a>");*/
     /*}*/
 }
 //            out.println("<a href=\"#\" onclick=\"showdialog()\">Ver todas las fotos</a>");
@@ -483,9 +468,11 @@ if(sprovider.getPymePaqueteType()==2) {
                 SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
                 ServiceProvider sprovider = (ServiceProvider) semObject.createGenericInstance();
                 add(request, sprovider);
-                response.setRenderParameter("uri", request.getParameter("uri"));
-                response.setRenderParameter("showAdmPhotos", request.getParameter("showAdmPhotos"));
-                response.setRenderParameter("act", "detail");
+//                response.setRenderParameter("uri", request.getParameter("uri"));
+//                response.setRenderParameter("showAdmPhotos", "false");
+//                response.setRenderParameter("act", "detail");
+               // response.setCallMethod(response.Call_CONTENT);
+                response.sendRedirect(response.getWebPage().getUrl()+"?showAdmPhotos=false&act=detail&uri="+sprovider.getEncodedURI());
             }
         }
     }
