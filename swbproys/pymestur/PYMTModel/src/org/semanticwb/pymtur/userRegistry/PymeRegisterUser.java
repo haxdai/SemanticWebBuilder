@@ -60,7 +60,7 @@ public class PymeRegisterUser extends GenericAdmResource {
         } else {
             if (msg != null && msg.equals("regfail")) {
                 out.println("<pre>" +
-                        "<b><font color=\"red\">Error al registrar el usuario, favor de volverlo a intentar" +
+                        "<b><font color=\"red\">Error al capturar los caracteres de la imagen de seguridad." +
                         "</b></font></pre>");
             }
             if (act.equals("add")) {
