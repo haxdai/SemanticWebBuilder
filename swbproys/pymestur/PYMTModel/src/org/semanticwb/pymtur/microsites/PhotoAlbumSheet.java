@@ -3,7 +3,6 @@ package org.semanticwb.pymtur.microsites;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -20,13 +19,11 @@ import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.admin.admresources.util.WBAdmResourceUtils;
 
-import org.semanticwb.pymtur.MicroSitePyme;
+import org.semanticwb.pymtur.PymePhoto;
 import org.semanticwb.pymtur.ServiceProvider;
 
 import org.semanticwb.base.util.ImageResizer;
 import org.semanticwb.model.User;
-import org.semanticwb.model.WebPage;
-import org.semanticwb.pymtur.PymePhoto;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
@@ -34,8 +31,6 @@ import org.apache.commons.fileupload.ProgressListener;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.semanticwb.platform.SemanticObject;
-import org.semanticwb.portal.community.MicroSiteType;
-import org.semanticwb.portal.community.MicroSiteWebPageUtil;
 
 /**
  *
@@ -63,17 +58,13 @@ public class PhotoAlbumSheet extends GenericAdmResource {
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        response.setContentType("text/html; charset=ISO-8859-1");
+        response.setContentType("text/html; charset=utf-8");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
 
         System.out.println("\n\n");        
 
         ServiceProvider sprovider = null;
-        WebPage wp = paramRequest.getWebPage();
-        WebPage community = null;
-        String path = null;
-
         System.out.println("doView ");
         System.out.println("parametro uri="+request.getParameter("uri"));
         if(request.getParameter("uri")!=null){
@@ -91,34 +82,25 @@ public class PhotoAlbumSheet extends GenericAdmResource {
         Resource base=getResourceBase();
         StringBuffer ret=new StringBuffer();
 
-        ret.append("<script type=\"text/javascript\" src=\"/swbadmin/js/dojo/dojo/dojo.js\" ></script>");
         ret.append("<script type=\"text/javascript\">");
         ret.append("  dojo.require(\"dijit.form.NumberTextBox\");");
         ret.append("  dojo.require(\"dijit.form.Button\");");
         ret.append("</script>");
 
-        /*SWBResourceURL url = paramRequest.getRenderUrl();
-        url.setMode(paramRequest.Mode_VIEW);
-        url.setAction(paramRequest.Action_ADD+"_"+base.getAttribute("gpophotos"));
-        url.setParameter("uri", sprovider.getURI());
-        url.setParameter("showAdmPhotos", "true");*/
         SWBResourceURL url = paramRequest.getActionUrl();
-        url.setAction(paramRequest.Action_ADD+"_"+base.getAttribute("gpophotos"));
+        url.setAction(paramRequest.Action_ADD);
         url.setParameter("uri", sprovider.getURI());
         url.setParameter("showAdmPhotos", "true");
-
-
-        //url.setAction(paramRequest.Action_ADD+"_"+base.getAttribute("gpophotos"));
 
         ret.append("\n<div class=\"swbform\"> ");
         ret.append("\n<form id=\"frm_pa_"+base.getId()+"\" name=\"frm_pa_"+base.getId()+"\" method=\"post\" enctype=\"multipart/form-data\" action=\""+ url+"\"> ");
         ret.append("\n<fieldset> ");
-        ret.append("\n<table width=\"98%\"  border=\"0\" cellpadding=\"5\" cellspacing=\"0\"> ");
-        /****************************************************/
+        ret.append("\n<table width=\"98%\" border=\"0\" cellpadding=\"5\" cellspacing=\"0\"> ");
+        ret.append("\n<tr><td>Lista de im&aacute;genes (<i>bmp, jpg, jpeg, gif, png</i>)</td></tr>");
         ret.append("\n<tr>");
-        ret.append("\n<td width=\"200\" align=\"right\">* Lista de im&aacute;genes (<i>bmp, jpg, jpeg, gif, png</i>)</td>");
+        //ret.append("\n<td width=\"200\" align=\"right\">* Lista de im&aacute;genes (<i>bmp, jpg, jpeg, gif, png</i>)</td>");
         ret.append("\n<td>");
-        ret.append("\n<div id=\"igcontainer_"+base.getId()+"\" style=\"background-color:#F0F0F0; width:520px; overflow:visible\"> ");
+        ret.append("\n<div id=\"igcontainer_"+base.getId()+"\" style=\"background-color:#F0F0F0; width:99%; overflow:visible\"> ");
         ret.append("\n<div id=\"iggrid_"+base.getId()+"\" style=\"width:99%;left:2px;top:20px;overflow:scroll; background-color:#EFEFEF\"> ");
         ret.append("\n  <table id=\"igtbl_"+base.getId()+"\" width=\"99%\" cellspacing=\"1\" bgcolor=\"#769CCB\" align=\"center\"> ");
         ret.append("\n  <tr bgcolor=\"#E1EAF7\"> ");
@@ -141,14 +123,11 @@ public class PhotoAlbumSheet extends GenericAdmResource {
         ret.append("\n</td>  ");
         ret.append("\n</tr>  ");
 
-        /****************************************************/
-        //ret.append("\n<fieldset> ");
-        //ret.append("\n<table width=\"99%\"  border=\"0\" cellpadding=\"5\" cellspacing=\"0\"> ");
-        ret.append("\n <tr><td colspan=\"2\">");
+        ret.append("\n <tr><td>");
         ret.append("\n <button dojoType=\"dijit.form.Button\" type=\"submit\" name=\"submitImgGal\" value=\"Submit\" >Guardar</button>&nbsp;");
         ret.append("\n <button dojoType=\"dijit.form.Button\" type=\"reset\">Limpiar</button>");
-        //ret.append("\n <input type=\"hidden\" name=\"uri\" value=\""+sprovider.getURI()+"\" />");
         ret.append("\n </td></tr>");
+
         ret.append("\n</table> ");
         ret.append("\n</fieldset> ");
         ret.append("\n</form>  ");
@@ -245,7 +224,7 @@ public class PhotoAlbumSheet extends GenericAdmResource {
         ret.append("\nfunction removeRowFromTable(tblId) { ");
         ret.append("    var tbl = document.getElementById(tblId); ");
         ret.append("    var lastRow = tbl.rows.length; ");
-        ret.append("    if(lastRow >= 2) { ");
+        ret.append("    if(lastRow > 2) { ");
         ret.append("        tbl.deleteRow(lastRow - 1); ");
         ret.append("    } ");
         ret.append("}\n");
@@ -495,161 +474,19 @@ if(sprovider.getPymePaqueteType()==2) {
         }
     }
 
-    private void renderResourceForMiPymePlus(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest, ServiceProvider sprovider, boolean showMoreLink) throws SWBResourceException, IOException {
-        Resource base = getResourceBase();
-        PrintWriter out = response.getWriter();
-
-        String action = paramRequest.getAction();
-        if( action!=null && action.equalsIgnoreCase(paramRequest.Action_ADD+"_"+base.getAttribute("gpophotos")) ) {
-            add(request, sprovider);
-        }
-
-        Iterator<PymePhoto> it = null;
-        if(base.getAttribute("gpophotos").equalsIgnoreCase("establishment")) {
-            it = sprovider.listEstablishmentPymePhotos();
-        }else if(base.getAttribute("gpophotos").equalsIgnoreCase("instalation")) {
-            it = sprovider.listInstalationsPymePhotos();
-        }else if(base.getAttribute("gpophotos").equalsIgnoreCase("more")) {
-            it = sprovider.listMorePymePhotos();
-        }
-        ArrayList<String> photos = new ArrayList<String>();
-        while(it.hasNext()) {
-            PymePhoto pp = it.next();
-            photos.add(pp.getPhotoImage());
-        }
-
-        final String path = sprovider.getWorkPath()+"/photos/"+base.getAttribute("gpophotos")+"/";
-        if(paramRequest.getCallMethod()==paramRequest.Call_STRATEGY) {
-            out.println("<div class=\"photosHolder\">");
-            int i=0;
-            for(String image : photos) {
-                out.println("<a href=\"#\" id=\""+"pa_"+i+"_"+base.getId()+"\">");
-                out.println("<img height=\"62\" width=\"82\" alt=\""+image+"\" src=\""+SWBPortal.getWebWorkPath()+path+_thumbnail+image+"\" />");
-                out.println("</a>");
-                i++;
-            }
-            out.println("</div>");
-
-
-            System.out.println("tipo paquete="+sprovider.getPymePaqueteType());
-            if(showMoreLink) {
-                System.out.println("mostrar liga");
-                String surl = "#";
-                MicroSitePyme ms = sprovider.getMicroSitePymeInv();
-                Iterator<MicroSiteWebPageUtil> msutils = ms.listMicroSiteUtils();
-                while (msutils.hasNext()) {
-                    MicroSiteWebPageUtil msu = msutils.next();
-                    if (msu.getTitle().toLowerCase().endsWith("fotos")) {
-                        surl = msu.getUrl();
-                        break;
-                    }
-                }
-                out.println("<a href=\""+surl+"\">Ver todas las fotos</a>");
-            }else if(sprovider.getPymePaqueteType()==2) {
-                boolean userCanEdit=false;
-                User user=paramRequest.getUser();
-                System.out.println("user.uri="+user.getURI());
-                System.out.println("sprovider.creator uri="+sprovider.getCreator().getURI());
-                if(user.getURI()!=null && sprovider.getCreator().getURI().equals(user.getURI()))
-                    userCanEdit=true;
-                System.out.println("url en modo sheet");
-                //if(userCanEdit) {
-String address = paramRequest.getWebPage().getUrl();
-address += "?show=true&uri="+sprovider.getEncodedURI()+"&act=detail";
-out.println("<a href=\""+address+"\">Administrar las fotos</a>");
-
-                    /*SWBResourceURL url = paramRequest.getRenderUrl();
-                    url.setMode("sheet");
-                    url.setParameter("act", "detail");
-                    url.setParameter("uri", sprovider.getURI());
-                    url.setParameter("show", "true");
-                    out.println("<a href=\""+url+"\">Administrar las fotos</a>");*/
-                //}
-            }
-
-            out.println("<script type=\"text/javascript\">");
-            out.println("dojo.require(\"dojox.image.Lightbox\");");
-            out.println("dojo.addOnLoad(function(){");
-            i=0;
-            for(String image : photos) {
-                out.println("var lb_"+i+" = new dojox.image.Lightbox({ title:'"+image+"',  href:'"+SWBPortal.getWebWorkPath()+path+image+"' }, 'pa_"+i+"_"+base.getId()+"');");
-                out.println("lb_"+i+".startup();");
-                i++;
-            }
-
-            out.println("var dialog = new dojox.image.LightboxDialog({});");
-            for(int j=0; j<photos.size(); j++) {
-                out.println("dialog.addImage( lb_"+j+", 'group2' );");
-            }
-            out.println("        dialog.startup();");
-            out.println("    });");
-
-            out.println("    function showdialog() {");
-            out.println("        var dialog = dijit.byId('dojoxLightboxDialog');");
-            out.println("        dialog.show( { group:'group2'} );");
-            out.println("    }");
-            out.println("</script>");
-        }else {
-            out.println("<h3 class=\"subtitleLevel2\">"+base.getDisplayTitle(paramRequest.getUser().getLanguage())+"</h3>");
-            out.println("<div class=\"holderPhotoPreviews\">");
-            int i=0;
-            for(String image : photos) {
-                if(i%3==0)
-                    out.println("<div class=\"photoRow\">");
-                out.println("<div class=\"photoPreview\">");
-                out.println("<img alt=\""+image+"\" src=\""+SWBPortal.getWebWorkPath()+path+_thumbnail+image+"\" />");
-                out.println("<input type=\"button\" value=\"ver foto\" id=\""+"pac_"+i+"_"+base.getId()+"\" />");
-                out.println("</div>");
-                i++;
-                if(i%3==0 || i==photos.size())
-                    out.println("</div>");
-            }
-            out.println("</div>");
-
-            if(photos.size()>0) {
-                out.println("<script type=\"text/javascript\">");
-                out.println("dojo.require(\"dojox.image.Lightbox\");");
-                out.println("dojo.addOnLoad(function(){");
-                i=0;
-                for(String image : photos) {
-                    out.println("var lb_"+i+" = new dojox.image.Lightbox({ title:'"+image+"', href:'"+SWBPortal.getWebWorkPath()+path+image+"' }, 'pac_"+i+"_"+base.getId()+"');");
-                    out.println("lb_"+i+".startup();");
-                    i++;
-                }
-                out.println("});");
-                out.println("</script>");
-            }
-
-            boolean userCanEdit=false;
-            User user=paramRequest.getUser();
-            if(user.getURI()!=null && sprovider.getCreator().getURI().equals(user.getURI()))
-                userCanEdit=true;
-            if(userCanEdit)
-                out.print(getFormManager(paramRequest, sprovider));
-        }
-    }
-
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         Resource base = getResourceBase();
         String action = response.getAction();
-        System.out.println("\n\naction="+action);
-        if( action!=null && action.equalsIgnoreCase(response.Action_ADD+"_"+base.getAttribute("gpophotos")) ) {
-            System.out.println("parametro uri="+request.getParameter("uri"));
-            if(request.getParameter("uri")!=null){
-                System.out.println("ficha");
+        if( response.Action_ADD.equals(action) ) {
+            if(request.getParameter("uri")!=null) {
                 SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
                 ServiceProvider sprovider = (ServiceProvider) semObject.createGenericInstance();
-                System.out.println("sprovider="+sprovider);
                 add(request, sprovider);
                 response.setRenderParameter("uri", request.getParameter("uri"));
                 response.setRenderParameter("showAdmPhotos", request.getParameter("showAdmPhotos"));
-            }else {
-                System.out.println("NO HAY URI");
+                response.setRenderParameter("act", "detail");
             }
-
-
-
         }
     }
 
