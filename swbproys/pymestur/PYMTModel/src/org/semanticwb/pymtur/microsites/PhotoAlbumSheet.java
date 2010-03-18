@@ -97,14 +97,15 @@ public class PhotoAlbumSheet extends GenericAdmResource {
         ret.append("  dojo.require(\"dijit.form.Button\");");
         ret.append("</script>");
 
-        SWBResourceURL url = paramRequest.getRenderUrl();
+        /*SWBResourceURL url = paramRequest.getRenderUrl();
         url.setMode(paramRequest.Mode_VIEW);
         url.setAction(paramRequest.Action_ADD+"_"+base.getAttribute("gpophotos"));
         url.setParameter("uri", sprovider.getURI());
-        url.setParameter("showAdmPhotos", "true");
-        /*SWBResourceURL url = paramRequest.getActionUrl();
+        url.setParameter("showAdmPhotos", "true");*/
+        SWBResourceURL url = paramRequest.getActionUrl();
         url.setAction(paramRequest.Action_ADD+"_"+base.getAttribute("gpophotos"));
-        url.setParameter("uri", sprovider.getURI());*/
+        url.setParameter("uri", sprovider.getURI());
+        url.setParameter("showAdmPhotos", "true");
 
 
         //url.setAction(paramRequest.Action_ADD+"_"+base.getAttribute("gpophotos"));
@@ -641,6 +642,8 @@ out.println("<a href=\""+address+"\">Administrar las fotos</a>");
                 ServiceProvider sprovider = (ServiceProvider) semObject.createGenericInstance();
                 System.out.println("sprovider="+sprovider);
                 add(request, sprovider);
+                response.setRenderParameter("uri", request.getParameter("uri"));
+                response.setRenderParameter("showAdmPhotos", request.getParameter("showAdmPhotos"));
             }else {
                 System.out.println("NO HAY URI");
             }
