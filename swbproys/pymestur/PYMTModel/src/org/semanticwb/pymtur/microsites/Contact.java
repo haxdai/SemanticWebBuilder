@@ -69,9 +69,11 @@ public class Contact extends GenericAdmResource {
             }
             MicroSitePyme ms = (MicroSitePyme)community;
             sprovider = ms.getServiceProvider();
+            System.out.println("doSendEmail... por micrositio sprovider="+sprovider);
         }else {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri")); //Se ve el recurso desde una ficha
             sprovider = (ServiceProvider) semObject.createGenericInstance();
+            System.out.println("doView... por ficha sprovider="+sprovider);
         }
         Resource base = getResourceBase();
         PrintWriter out = response.getWriter();
@@ -130,6 +132,7 @@ public class Contact extends GenericAdmResource {
             }
         } catch (Exception e) {
             log.error("Error in resource Contact, in PymTur Project, while bringing HTML by ajax. ", e);
+            System.out.println("******************** error\n"+e);
         }
         out.flush();
         out.close();
@@ -163,6 +166,8 @@ public class Contact extends GenericAdmResource {
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
 
+                System.out.println("\n\n\n");
+
         String customerEmail = null;
         User user = paramRequest.getUser();
         ServiceProvider sprovider = null;
@@ -177,9 +182,11 @@ public class Contact extends GenericAdmResource {
             }
             MicroSitePyme ms = (MicroSitePyme)community;
             sprovider = ms.getServiceProvider();
+            System.out.println("doView... por micrositio sprovider="+sprovider);
         }else {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri")); //Se ve el recurso desde una ficha
             sprovider = (ServiceProvider) semObject.createGenericInstance();
+            System.out.println("doView... por ficha sprovider="+sprovider);
         }
 
         /*if( user.getEmail()!=null && user.getEmail().length()>0 ){ //Se ve el recurso desde una página cualquiera
@@ -264,7 +271,7 @@ public class Contact extends GenericAdmResource {
                 out.println("s = s.concat('</p>');");
                 out.println("s = s.concat('<p  id=\"cmdContact\">');");
                 SWBResourceURL url=paramRequest.getRenderUrl();
-                url.setCallMethod(url.Call_DIRECT).setMode("sendEmail").setParameter("uri", request.getParameter("uri"));
+                url.setCallMethod(url.Call_DIRECT).setMode("sendEmail").setParameter("uri", sprovider.getURI());
                 out.println("s = s.concat('<label for=\"contactoEnviar\">Enviar</label>');");
                 out.println("s = s.concat('<input name=\"submit\" id=\"contactoEnviar\" type=\"button\" onclick=\"sendEmail(\\'"+url+"\\'+\\'&name=\\'+dojo.byId(\\'name\\').value+\\'&email=\\'+dojo.byId(\\'email\\').value+\\'&subject=\\'+dojo.byId(\\'subject\\').value+\\'&message=\\'+dojo.byId(\\'message\\').value); removeCoverDiv(\\''+divId+'\\')\" value=\""+paramRequest.getLocaleString("send")+"\" />');");
                 out.println("s = s.concat('<label for=\"contactoRestablecer\">Limpiar</label>');");
