@@ -69,11 +69,9 @@ public class Contact extends GenericAdmResource {
             }
             MicroSitePyme ms = (MicroSitePyme)community;
             sprovider = ms.getServiceProvider();
-            System.out.println("doSendEmail... por micrositio sprovider="+sprovider);
         }else {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri")); //Se ve el recurso desde una ficha
             sprovider = (ServiceProvider) semObject.createGenericInstance();
-            System.out.println("doView... por ficha sprovider="+sprovider);
         }
         Resource base = getResourceBase();
         PrintWriter out = response.getWriter();
@@ -132,7 +130,6 @@ public class Contact extends GenericAdmResource {
             }
         } catch (Exception e) {
             log.error("Error in resource Contact, in PymTur Project, while bringing HTML by ajax. ", e);
-            System.out.println("******************** error\n"+e);
         }
         out.flush();
         out.close();
@@ -166,8 +163,6 @@ public class Contact extends GenericAdmResource {
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
 
-                System.out.println("\n\n\n");
-
         String customerEmail = null;
         User user = paramRequest.getUser();
         ServiceProvider sprovider = null;
@@ -182,11 +177,9 @@ public class Contact extends GenericAdmResource {
             }
             MicroSitePyme ms = (MicroSitePyme)community;
             sprovider = ms.getServiceProvider();
-            System.out.println("doView... por micrositio sprovider="+sprovider);
         }else {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri")); //Se ve el recurso desde una ficha
             sprovider = (ServiceProvider) semObject.createGenericInstance();
-            System.out.println("doView... por ficha sprovider="+sprovider);
         }
 
         /*if( user.getEmail()!=null && user.getEmail().length()>0 ){ //Se ve el recurso desde una página cualquiera
