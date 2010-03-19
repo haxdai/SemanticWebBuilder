@@ -1,7 +1,7 @@
 package org.semanticwb.pymtur.base;
 
 
-public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.FilterableClass,org.semanticwb.model.FilterableNode,org.semanticwb.model.Trashable,org.semanticwb.model.Filterable,org.semanticwb.model.Localeable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Indexable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,org.semanticwb.model.Activeable
+public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.Activeable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Indexable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,org.semanticwb.model.FilterableClass,org.semanticwb.model.FilterableNode,org.semanticwb.model.Localeable,org.semanticwb.model.Filterable,org.semanticwb.model.Trashable
 {
     public static final org.semanticwb.platform.SemanticClass swbcomm_MicroSite=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/community#MicroSite");
     public static final org.semanticwb.platform.SemanticClass pymtur_MiPymeSitePlus=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#MiPymeSitePlus");
@@ -15,9 +15,7 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
     public static final org.semanticwb.platform.SemanticClass pymtur_ServiceProvider=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#ServiceProvider");
     public static final org.semanticwb.platform.SemanticClass pymtur_Region=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Region");
     public static final org.semanticwb.platform.SemanticClass pymtur_Event=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Event");
-    public static final org.semanticwb.platform.SemanticClass pymtur_RFCable=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#RFCable");
     public static final org.semanticwb.platform.SemanticClass pymtur_CuponType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#CuponType");
-    public static final org.semanticwb.platform.SemanticClass pymtur_RfcType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#RfcType");
     public static final org.semanticwb.platform.SemanticClass swbcomm_MicroSiteWebPageUtil=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/community#MicroSiteWebPageUtil");
     public static final org.semanticwb.platform.SemanticClass pymtur_EventType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#EventType");
     public static final org.semanticwb.platform.SemanticClass pymtur_SPType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#SPType");
@@ -521,30 +519,6 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
         return org.semanticwb.pymtur.Event.ClassMgr.hasEvent(id, this);
     }
 
-    public org.semanticwb.pymtur.RFCable getRFCable(String id)
-    {
-        return org.semanticwb.pymtur.RFCable.ClassMgr.getRFCable(id, this);
-    }
-
-    public java.util.Iterator<org.semanticwb.pymtur.RFCable> listRFCables()
-    {
-        return org.semanticwb.pymtur.RFCable.ClassMgr.listRFCables(this);
-    }
-
-    public org.semanticwb.pymtur.RFCable createRFCable(String id)
-    {
-        return org.semanticwb.pymtur.RFCable.ClassMgr.createRFCable(id,this);
-    }
-
-    public void removeRFCable(String id)
-    {
-        org.semanticwb.pymtur.RFCable.ClassMgr.removeRFCable(id, this);
-    }
-    public boolean hasRFCable(String id)
-    {
-        return org.semanticwb.pymtur.RFCable.ClassMgr.hasRFCable(id, this);
-    }
-
     public org.semanticwb.pymtur.CuponType getCuponType(String id)
     {
         return org.semanticwb.pymtur.CuponType.ClassMgr.getCuponType(id, this);
@@ -573,30 +547,6 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
     public boolean hasCuponType(String id)
     {
         return org.semanticwb.pymtur.CuponType.ClassMgr.hasCuponType(id, this);
-    }
-
-    public org.semanticwb.pymtur.RfcType getRfcType(String id)
-    {
-        return org.semanticwb.pymtur.RfcType.ClassMgr.getRfcType(id, this);
-    }
-
-    public java.util.Iterator<org.semanticwb.pymtur.RfcType> listRfcTypes()
-    {
-        return org.semanticwb.pymtur.RfcType.ClassMgr.listRfcTypes(this);
-    }
-
-    public org.semanticwb.pymtur.RfcType createRfcType(String id)
-    {
-        return org.semanticwb.pymtur.RfcType.ClassMgr.createRfcType(id,this);
-    }
-
-    public void removeRfcType(String id)
-    {
-        org.semanticwb.pymtur.RfcType.ClassMgr.removeRfcType(id, this);
-    }
-    public boolean hasRfcType(String id)
-    {
-        return org.semanticwb.pymtur.RfcType.ClassMgr.hasRfcType(id, this);
     }
 
     public org.semanticwb.portal.community.MicroSiteWebPageUtil getMicroSiteWebPageUtil(String id)

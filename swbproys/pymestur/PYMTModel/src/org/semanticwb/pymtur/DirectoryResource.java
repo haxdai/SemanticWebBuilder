@@ -555,7 +555,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
 
                 //Envía correo al creador del service provider para confirmar su registro
                 String siteName = wsite.getDisplayTitle(response.getUser().getLanguage());
-                if(user.getEmail()!=null){
+                if(servProp.getCreator().getEmail()!=null){
                     String staticText=base.getAttribute("dirEmailAcceptTxt");
 
                     if(staticText==null || staticText.trim().length()==0){
@@ -567,7 +567,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         staticText=staticText+"<b>SIENTE MÉXICO</b>,<br/>";
                     }
                        staticText = replaceTags(staticText, request, response, user, siteName);
-                       SWBUtils.EMAIL.sendBGEmail(user.getEmail(), "Contacto del Sitio - Aceptación de registro", staticText);
+                       SWBUtils.EMAIL.sendBGEmail(servProp.getCreator().getEmail(), "Contacto del Sitio - Aceptación de registro", staticText);
                 }
             } else if (action2.equals("unRegister")) {
                 SemanticObject semObject = SemanticObject.createSemanticObject(URLDecoder.decode(request.getParameter("uri")));
@@ -581,7 +581,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
 
                 //Envía correo al creador del service provider para notificar su baja
                 String siteName = wsite.getDisplayTitle(response.getUser().getLanguage());
-                if(user.getEmail()!=null){
+                if(servProp.getCreator().getEmail()!=null){
                     String staticText=base.getAttribute("dirEmailUnRegisterTxt");
 
                     if(staticText==null || staticText.trim().length()==0){
@@ -596,7 +596,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         staticText=staticText+"<b>SIENTE MÉXICO</b>,<br/>";
                     }
                        staticText = replaceTags(staticText, request, response, user, siteName);
-                       SWBUtils.EMAIL.sendBGEmail(user.getEmail(), "Contacto del Sitio - Revocación de registro", staticText);
+                       SWBUtils.EMAIL.sendBGEmail(servProp.getCreator().getEmail(), "Contacto del Sitio - Revocación de registro", staticText);
                 }
             }/*
             else if (action.equals("removeAttach"))

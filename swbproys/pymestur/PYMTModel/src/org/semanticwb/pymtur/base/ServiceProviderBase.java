@@ -1,19 +1,20 @@
 package org.semanticwb.pymtur.base;
 
 
-public abstract class ServiceProviderBase extends org.semanticwb.portal.community.DirectoryObject implements org.semanticwb.portal.community.Contactable,org.semanticwb.model.Tagable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,org.semanticwb.portal.community.Interactiveable,org.semanticwb.model.Rankable,org.semanticwb.model.Geolocalizable,org.semanticwb.model.Searchable,org.semanticwb.portal.community.Addressable
+public abstract class ServiceProviderBase extends org.semanticwb.portal.community.DirectoryObject implements org.semanticwb.model.Traceable,org.semanticwb.model.Searchable,org.semanticwb.portal.community.Interactiveable,org.semanticwb.model.Rankable,org.semanticwb.portal.community.Contactable,org.semanticwb.portal.community.Addressable,org.semanticwb.model.Tagable,org.semanticwb.model.Geolocalizable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticClass pymtur_Instalation=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Instalation");
     public static final org.semanticwb.platform.SemanticProperty pymtur_hasInstalation=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#hasInstalation");
     public static final org.semanticwb.platform.SemanticProperty pymtur_spSlogan=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#spSlogan");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_rfcDomicilioFiscal=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#rfcDomicilioFiscal");
     public static final org.semanticwb.platform.SemanticProperty pymtur_spStatus=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#spStatus");
     public static final org.semanticwb.platform.SemanticClass pymtur_Service=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Service");
     public static final org.semanticwb.platform.SemanticProperty pymtur_hasService=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#hasService");
     public static final org.semanticwb.platform.SemanticProperty pymtur_spCuponsComment=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#spCuponsComment");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_rfcRazonSocial=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#rfcRazonSocial");
     public static final org.semanticwb.platform.SemanticProperty pymtur_spPromotionsComment=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#spPromotionsComment");
     public static final org.semanticwb.platform.SemanticClass pymtur_Promotion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Promotion");
     public static final org.semanticwb.platform.SemanticProperty pymtur_hasPromotion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#hasPromotion");
-    public static final org.semanticwb.platform.SemanticProperty pymtur_callCenter=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#callCenter");
     public static final org.semanticwb.platform.SemanticClass pymtur_PymePhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#PymePhoto");
     public static final org.semanticwb.platform.SemanticProperty pymtur_hasMorePymePhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#hasMorePymePhoto");
     public static final org.semanticwb.platform.SemanticProperty pymtur_pymeWebSite=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#pymeWebSite");
@@ -29,6 +30,7 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
     public static final org.semanticwb.platform.SemanticProperty pymtur_spRatesComment=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#spRatesComment");
     public static final org.semanticwb.platform.SemanticProperty pymtur_NearestDescr=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#NearestDescr");
     public static final org.semanticwb.platform.SemanticProperty pymtur_destinationSec=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#destinationSec");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_rfcPersonType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#rfcPersonType");
     public static final org.semanticwb.platform.SemanticClass pymtur_Activity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Activity");
     public static final org.semanticwb.platform.SemanticProperty pymtur_hasSPActivity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#hasSPActivity");
     public static final org.semanticwb.platform.SemanticProperty pymtur_spActivitiesDescr=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#spActivitiesDescr");
@@ -37,6 +39,7 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
     public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
     public static final org.semanticwb.platform.SemanticProperty pymtur_spCreator=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#spCreator");
     public static final org.semanticwb.platform.SemanticProperty pymtur_pymeDomain=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#pymeDomain");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_rfc=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#rfc");
     public static final org.semanticwb.platform.SemanticProperty pymtur_micrositeCss=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#micrositeCss");
     public static final org.semanticwb.platform.SemanticProperty pymtur_spServicesDescr=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#spServicesDescr");
     public static final org.semanticwb.platform.SemanticClass pymtur_Cupon=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Cupon");
@@ -407,6 +410,16 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
         getSemanticObject().setProperty(pymtur_spSlogan, value);
     }
 
+    public String getRfcDomicilioFiscal()
+    {
+        return getSemanticObject().getProperty(pymtur_rfcDomicilioFiscal);
+    }
+
+    public void setRfcDomicilioFiscal(String value)
+    {
+        getSemanticObject().setProperty(pymtur_rfcDomicilioFiscal, value);
+    }
+
     public int getSpStatus()
     {
         return getSemanticObject().getIntProperty(pymtur_spStatus);
@@ -478,6 +491,16 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
         getSemanticObject().setProperty(pymtur_spCuponsComment, value);
     }
 
+    public String getRfcRazonSocial()
+    {
+        return getSemanticObject().getProperty(pymtur_rfcRazonSocial);
+    }
+
+    public void setRfcRazonSocial(String value)
+    {
+        getSemanticObject().setProperty(pymtur_rfcRazonSocial, value);
+    }
+
     public String getSpPromotionsComment()
     {
         return getSemanticObject().getProperty(pymtur_spPromotionsComment);
@@ -527,16 +550,6 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
              ret=(org.semanticwb.pymtur.Promotion)obj.createGenericInstance();
          }
          return ret;
-    }
-
-    public String getCallCenter()
-    {
-        return getSemanticObject().getProperty(pymtur_callCenter);
-    }
-
-    public void setCallCenter(String value)
-    {
-        getSemanticObject().setProperty(pymtur_callCenter, value);
     }
 
     public org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PymePhoto> listMorePymePhotos()
@@ -835,6 +848,16 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
          return ret;
     }
 
+    public String getRfcPersonType()
+    {
+        return getSemanticObject().getProperty(pymtur_rfcPersonType);
+    }
+
+    public void setRfcPersonType(String value)
+    {
+        getSemanticObject().setProperty(pymtur_rfcPersonType, value);
+    }
+
     public org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity> listSPActivities()
     {
         return new org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Activity>(getSemanticObject().listObjectProperties(pymtur_hasSPActivity));
@@ -955,6 +978,16 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
     public void setIntNumber(String value)
     {
         getSemanticObject().setProperty(swbcomm_intNumber, value);
+    }
+
+    public String getRfc()
+    {
+        return getSemanticObject().getProperty(pymtur_rfc);
+    }
+
+    public void setRfc(String value)
+    {
+        getSemanticObject().setProperty(pymtur_rfc, value);
     }
 
     public String getMicrositeCss()
