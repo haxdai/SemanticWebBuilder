@@ -619,8 +619,9 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
         String redirect=request.getParameter("redirect");
         if(redirect!=null){
             if(redirect.equals("detail")){
-                response.setRenderParameter("act", "detail");
-                response.setRenderParameter("uri", semObjTmp.getURI());
+                //response.setRenderParameter("act", "detail");
+                //response.setRenderParameter("uri", semObjTmp.getURI());
+                response.sendRedirect(response.getWebPage().getUrl()+"?act=detail&uri="+semObjTmp.getEncodedURI());
 
             }
         }
