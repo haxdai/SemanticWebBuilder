@@ -368,10 +368,6 @@ public class PhotoAlbumSheet extends GenericAdmResource {
         Resource base = getResourceBase();
         PrintWriter out = response.getWriter();
 
-        if(sprovider.getPymePaqueteType()!=2) {
-            return;
-        }
-
         Iterator<PymePhoto> it = null;
         if(base.getAttribute("gpophotos").equalsIgnoreCase("establishment")) {
             it = sprovider.listEstablishmentPymePhotos();
@@ -444,7 +440,7 @@ public class PhotoAlbumSheet extends GenericAdmResource {
             if(request.getParameter("uri")!=null) {
                 SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
                 ServiceProvider sprovider = (ServiceProvider) semObject.createGenericInstance();
-                if( sprovider!=null && sprovider.getPymePaqueteType()==2 ) {
+                if( sprovider!=null ) {
                     add(request, sprovider);
                 }
                 response.sendRedirect(response.getWebPage().getUrl()+"?act=detail&uri="+sprovider.getEncodedURI());
