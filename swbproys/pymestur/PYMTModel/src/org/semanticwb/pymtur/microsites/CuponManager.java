@@ -23,11 +23,17 @@
 package org.semanticwb.pymtur.microsites;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
+import org.semanticwb.model.Resource;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.SWBFormMgr;
@@ -78,6 +84,7 @@ public class CuponManager extends GenericResource {
 
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException  {
+        Resource base = getResourceBase();
         String action=response.getAction();
         if(action.equals("add_cupon")) {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
@@ -89,6 +96,18 @@ public class CuponManager extends GenericResource {
                     Cupon cupon = (Cupon) sobj.createGenericInstance();
                     cupon.setCuponType(request.getParameter("is"));
                     cupon.setCuponImg(request.getParameter("pimg"));
+                    cupon.setCuponConditions(request.getParameter("constraint")==null?"":request.getParameter("constraint"));
+                    try {
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+                        String date = request.getParameter("datei");
+                        Date di = sdf.parse(date);
+                        date = request.getParameter("datef");
+                        Date df = sdf.parse(date);
+                        DateFormat dfr =DateFormat.getDateInstance(DateFormat.MEDIUM, new Locale(response.getUser().getLanguage()));
+                        cupon.setCuponPeriod(dfr.format(di)+" Al "+dfr.format(df));
+                    }catch(ParseException pe) {
+                        log.error("Las fechas no son parseables. Resource "+base.getTitle()+" with id "+base.getId(), pe);
+                    }
                     ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
                     serviceProv.addCupon(cupon);
                 }catch(Exception e){
