@@ -400,6 +400,7 @@ public class PhotoAlbumSheet extends GenericAdmResource {
                 SWBResourceURL url = paramRequest.getRenderUrl();
                 url.setCallMethod(paramRequest.Call_DIRECT);
                 url.setParameter("uri", sprovider.getURI());
+                url.setParameter("showAdmPhotos", "true");
                 out.println("<a href=\""+url+"\">Agregar fotos</a>");
             }
 
@@ -427,8 +428,9 @@ public class PhotoAlbumSheet extends GenericAdmResource {
 
             out.println("</script>");
         }else {
+            boolean show = Boolean.parseBoolean(request.getParameter("showAdmPhotos"));
             User user=paramRequest.getUser();
-            if(user.getURI()!=null && sprovider.getCreator().getURI().equals(user.getURI()))
+            if( show && user.getURI()!=null && sprovider.getCreator().getURI().equals(user.getURI()) )
                 out.print(getFormManager(paramRequest, sprovider));
         }
     }
