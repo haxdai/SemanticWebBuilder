@@ -104,7 +104,8 @@ public class CuponManager extends GenericResource {
                         date = request.getParameter("datef");
                         Date df = sdf.parse(date);
                         DateFormat dfr =DateFormat.getDateInstance(DateFormat.MEDIUM, new Locale(response.getUser().getLanguage()));
-                        cupon.setCuponPeriod(dfr.format(di)+" Al "+dfr.format(df));
+                        cupon.setCuponPeriodIni(dfr.format(di));
+                        cupon.setCuponPeriodFin(dfr.format(df));
                     }catch(ParseException pe) {
                         log.error("Las fechas no son parseables. Resource "+base.getTitle()+" with id "+base.getId(), pe);
                     }
