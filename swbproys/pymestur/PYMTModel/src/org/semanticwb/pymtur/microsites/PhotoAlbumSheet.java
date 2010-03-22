@@ -401,7 +401,7 @@ public class PhotoAlbumSheet extends GenericAdmResource {
                 url.setCallMethod(paramRequest.Call_DIRECT);
                 url.setParameter("uri", sprovider.getURI());
                 url.setParameter("showAdmPhotos", "true");
-                out.println("<a href=\""+url+"\">Agregar fotos</a>");
+                out.println("<a href=\""+url+"\" class=\"ligaCol2\">Agregar fotos</a>");
             }
 
             out.println("<script type=\"text/javascript\">");

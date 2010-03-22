@@ -28,9 +28,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.Resource;
@@ -97,18 +99,17 @@ public class CuponManager extends GenericResource {
                     cupon.setCuponType(request.getParameter("is"));
                     cupon.setCuponImg(request.getParameter("pimg"));
                     cupon.setCuponConditions(request.getParameter("constraint")==null?"":request.getParameter("constraint"));
-                    try {
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+//                    try {
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                         String date = request.getParameter("datei");
                         Date di = sdf.parse(date);
                         date = request.getParameter("datef");
-                        Date df = sdf.parse(date);
-                        DateFormat dfr =DateFormat.getDateInstance(DateFormat.MEDIUM, new Locale(response.getUser().getLanguage()));
-                        cupon.setCuponPeriodIni(dfr.format(di));
-                        cupon.setCuponPeriodFin(dfr.format(df));
-                    }catch(ParseException pe) {
-                        log.error("Las fechas no son parseables. Resource "+base.getTitle()+" with id "+base.getId(), pe);
-                    }
+                        Date df = sdf.parse(date);                        
+                        cupon.setCuponPeriodIni(sdf.format(di));
+                        cupon.setCuponPeriodFin(sdf.format(df));
+//                    }catch(ParseException pe) {
+//                        log.error("Las fechas no son parseables. Resource "+base.getTitle()+" with id "+base.getId(), pe);
+//                    }
                     ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
                     serviceProv.addCupon(cupon);
                 }catch(Exception e){
@@ -125,6 +126,14 @@ public class CuponManager extends GenericResource {
                     Cupon cupon = (Cupon) sobj.createGenericInstance();
                     cupon.setCuponType(request.getParameter("is"));
                     cupon.setCuponImg(request.getParameter("pimg"));
+                    cupon.setCuponConditions(request.getParameter("constraint")==null?"":request.getParameter("constraint"));
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    String date = request.getParameter("datei");
+                    Date di = sdf.parse(date);
+                    date = request.getParameter("datef");
+                    Date df = sdf.parse(date);
+                    cupon.setCuponPeriodIni(sdf.format(di));
+                    cupon.setCuponPeriodFin(sdf.format(df));
                 }catch(Exception e){
                     log.error(e);
                 }
