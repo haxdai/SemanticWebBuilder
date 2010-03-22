@@ -26,7 +26,9 @@ package org.semanticwb.pymtur;
 import java.util.HashMap;
 import java.util.Map;
 import org.semanticwb.SWBPortal;
+import org.semanticwb.model.Role;
 import org.semanticwb.model.Searchable;
+import org.semanticwb.model.User;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.portal.indexer.IndexTerm;
 import org.semanticwb.portal.indexer.parser.GenericParser;
@@ -122,9 +124,27 @@ public class ServiceProviderParser extends GenericParser {
     }
 
     @Override
+    public boolean canUserView(Searchable gen, User user) {
+        boolean isAdminProviders = false;
+        boolean isAccepted = false;
+
+        Role role = user.getUserRepository().getRole("adminProviders");
+        if (user.isRegistered() && user.isSigned()) {
+            if (role != null && user.hasRole(role)) {
+                isAdminProviders = true;
+            }
+        }
+
+        if (((ServiceProvider)gen).getSpStatus() == 2) {
+            isAccepted = true;            
+        }
+        return super.canUserView(gen, user) && (isAccepted || isAdminProviders);
+    }
+
+    @Override
     public Map<String, IndexTerm> getIndexTerms(Searchable gen) {
         Map map = super.getIndexTerms(gen);
         map.put(ATT_DESTINATION, new IndexTerm(ATT_DESTINATION, getDestination(gen), false, IndexTerm.INDEXED_ANALYZED));
         return map;
-    }
+    }    
 }
