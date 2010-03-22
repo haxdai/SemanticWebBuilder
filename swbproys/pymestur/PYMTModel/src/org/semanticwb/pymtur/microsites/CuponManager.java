@@ -99,7 +99,7 @@ public class CuponManager extends GenericResource {
                     cupon.setCuponType(request.getParameter("is"));
                     cupon.setCuponImg(request.getParameter("pimg"));
                     cupon.setCuponConditions(request.getParameter("constraint")==null?"":request.getParameter("constraint"));
-//                    try {
+                    try {
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                         String date = request.getParameter("datei");
                         Date di = sdf.parse(date);
@@ -107,9 +107,9 @@ public class CuponManager extends GenericResource {
                         Date df = sdf.parse(date);                        
                         cupon.setCuponPeriodIni(sdf.format(di));
                         cupon.setCuponPeriodFin(sdf.format(df));
-//                    }catch(ParseException pe) {
-//                        log.error("Las fechas no son parseables. Resource "+base.getTitle()+" with id "+base.getId(), pe);
-//                    }
+                    }catch(ParseException pe) {
+                        log.error("Las fechas no son parseables. Resource "+base.getTitle()+" with id "+base.getId(), pe);
+                    }
                     ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
                     serviceProv.addCupon(cupon);
                 }catch(Exception e){
