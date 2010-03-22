@@ -288,6 +288,8 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
     {
         WebSite wsite=response.getWebPage().getWebSite();
+        WebPage pageFicha = wsite.getWebPage("ficha");
+        String server = "http://" + request.getServerName() + ":" + request.getServerPort();
         SemanticObject semObjTmp=null;
         User mem = response.getUser();
         Resource base = response.getResourceBase();
@@ -527,7 +529,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                            SWBUtils.EMAIL.sendBGEmail(user.getEmail(), "Contacto del Sitio - Confirmación de registro", staticText);
                     }
                     //Termina envío de correo al creador
-                    if(refirect!=null) response.sendRedirect(refirect); //Redirecciona al destino en el que se generó la pyme
+                    if(refirect!=null) response.sendRedirect(refirect+"?newReg=1"); //Redirecciona al destino en el que se generó la pyme
                 }
                 catch (FormValidateException e)
                 {
@@ -561,6 +563,11 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     if(staticText==null || staticText.trim().length()==0){
                         staticText="Hola <b>{user}</b>,<br/><br/><br/>";
                         staticText=staticText+"Nos complace informarle que el registro de su empresa " + "<b>" + servProp.getTitle() + "</b>" + " ha sido aceptado.<br/><br/>";
+                        if(servProp.getPymePaqueteType()==1){
+                            staticText=staticText+"<br/>" + "Para ver su anuncio de click en la siguiente liga:"+server+servProp.getDestination().getUrl()+"<br/><br/>";
+                        }else if(servProp.getPymePaqueteType()>1 && pageFicha!=null){
+                            staticText=staticText+"<br/>" + "Para ver su anuncio de click en la siguiente liga:<br/><br/>"+server+pageFicha.getUrl()+"?uri="+servProp.getEncodedURI()+"<br/><br/>";
+                        }
                         staticText=staticText+"<br/>" + "Son muchos los beneficios que usted recibirá para la misma.<br/><br/>";
                         staticText=staticText+"Reciba un cordial saludo..<br/><br/>";
                         staticText=staticText+"Atentamente sus amigos de:<br/><br/>";
