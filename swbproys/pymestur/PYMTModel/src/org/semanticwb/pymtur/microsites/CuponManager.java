@@ -142,6 +142,7 @@ public class CuponManager extends GenericResource {
                     log.error(e);
                 }
             }
+            System.out.println("\n\n\n\n************************************\n"+action);
         }else if(action.equals("remove_cupon")) {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
             Cupon cupon = (Cupon) semObject.createGenericInstance();
