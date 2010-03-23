@@ -134,7 +134,7 @@ public class PromotionManager extends GenericResource {
                     Promotion promo = (Promotion) sobj.createGenericInstance();
                     //PromotionType promoType = PromotionType.ClassMgr.getPromotionType(request.getParameter("is"), response.getWebPage().getWebSite());
                     promo.setPromoType(request.getParameter("is"));
-                    promo.setPromoImg(request.getParameter("pimg"));
+                    promo.setPromoImg(  (request.getParameter("pimg")!=null&&request.getParameter("pimg").length()>0?request.getParameter("pimg"):null)  );
                     ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
                     serviceProv.addPromotion(promo);                    
                 }catch(Exception e){

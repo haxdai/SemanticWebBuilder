@@ -97,7 +97,10 @@ public class CuponManager extends GenericResource {
                     SemanticObject sobj = mgr.processForm(request);
                     Cupon cupon = (Cupon) sobj.createGenericInstance();
                     cupon.setCuponType(request.getParameter("is"));
-                    cupon.setCuponImg(request.getParameter("pimg"));
+                    System.out.println("pimg="+request.getParameter("pimg")+"-----");
+                    if(request.getParameter("pimg")!=null)
+                        System.out.println("pimg NO es NULO");
+                    cupon.setCuponImg(  (request.getParameter("pimg")!=null&&request.getParameter("pimg").length()>0?request.getParameter("pimg"):null)  );
                     cupon.setCuponConditions(request.getParameter("constraint")==null?"":request.getParameter("constraint"));
                     try {
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
