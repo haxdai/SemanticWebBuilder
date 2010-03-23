@@ -97,9 +97,6 @@ public class CuponManager extends GenericResource {
                     SemanticObject sobj = mgr.processForm(request);
                     Cupon cupon = (Cupon) sobj.createGenericInstance();
                     cupon.setCuponType(request.getParameter("is"));
-                    System.out.println("pimg="+request.getParameter("pimg")+"-----");
-                    if(request.getParameter("pimg")!=null)
-                        System.out.println("pimg NO es NULO");
                     cupon.setCuponImg(  (request.getParameter("pimg")!=null&&request.getParameter("pimg").length()>0?request.getParameter("pimg"):null)  );
                     cupon.setCuponConditions(request.getParameter("constraint")==null?"":request.getParameter("constraint"));
                     try {
@@ -145,7 +142,6 @@ public class CuponManager extends GenericResource {
                     log.error(e);
                 }
             }
-            System.out.println("\n\n\n\n************************************\n"+action);
         }else if(action.equals("remove_cupon")) {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
             Cupon cupon = (Cupon) semObject.createGenericInstance();
