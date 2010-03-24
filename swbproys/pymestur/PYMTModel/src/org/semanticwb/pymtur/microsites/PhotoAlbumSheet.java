@@ -60,11 +60,6 @@ public class PhotoAlbumSheet extends GenericAdmResource {
         Resource base=getResourceBase();
         StringBuffer ret=new StringBuffer();
 
-        ret.append("<script type=\"text/javascript\">");
-        ret.append("  dojo.require(\"dijit.form.NumberTextBox\");");
-        ret.append("  dojo.require(\"dijit.form.Button\");");
-        ret.append("</script>");
-
         SWBResourceURL url = paramRequest.getActionUrl();
         url.setAction(paramRequest.Action_ADD);
         url.setParameter("uri", sprovider.getURI());
