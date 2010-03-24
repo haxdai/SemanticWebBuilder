@@ -52,11 +52,10 @@ public class PromotionManager extends GenericResource {
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("text/html; charset=utf-8");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
         if(paramRequest.getCallMethod()==paramRequest.Call_STRATEGY) {
-            response.setContentType("text/html; charset=ISO-8859-1");
-            response.setHeader("Cache-Control", "no-cache");
-            response.setHeader("Pragma", "no-cache");
-
             PrintWriter out = response.getWriter();
             ServiceProvider sprovider = null;
             WebPage community = null;
