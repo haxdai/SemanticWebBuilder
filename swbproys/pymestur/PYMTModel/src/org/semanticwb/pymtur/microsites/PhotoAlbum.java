@@ -76,11 +76,7 @@ public class PhotoAlbum extends GenericAdmResource {
         StringBuffer ret=new StringBuffer();
 
         ret.append("<script type=\"text/javascript\">");
-        ret.append("  dojo.require(\"dijit.form.NumberTextBox\");");
-        ret.append("  dojo.require(\"dijit.form.Button\");");
-
         ret.append("  var opened_"+base.getId()+"=0;");
-
         ret.append("</script>");
         
         SWBResourceURL url = paramRequest.getActionUrl();
