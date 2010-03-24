@@ -78,13 +78,18 @@ public class PhotoAlbum extends GenericAdmResource {
         ret.append("<script type=\"text/javascript\">");
         ret.append("  dojo.require(\"dijit.form.NumberTextBox\");");
         ret.append("  dojo.require(\"dijit.form.Button\");");
+
+        ret.append("  var opened_"+base.getId()+"=0;");
+
         ret.append("</script>");
         
         SWBResourceURL url = paramRequest.getActionUrl();
         url.setAction(paramRequest.Action_ADD+"_"+base.getAttribute("gpophotos"));
         url.setParameter("uri", sprovider.getURI());
 
-        ret.append("\n<div class=\"swbform\"> ");
+        ret.append("\n<a href=\"#\" id=\"showadm_"+base.getId()+"\" onclick=\"if(opened_"+base.getId()+"==1){collapse('admPhotoAlbum_"+base.getId()+"',250,150); this.innerHTML='[+] abrir'; opened_"+base.getId()+"=0;}else{expande('admPhotoAlbum_"+base.getId()+"',250,150); this.innerHTML='[-] cerrar'; opened_"+base.getId()+"=1;}\">[+] abrir</a>");
+
+        ret.append("\n<div class=\"swbform\" id=\"admPhotoAlbum_"+base.getId()+"\" > ");
         ret.append("\n<form id=\"frm_pa_"+base.getId()+"\" name=\"frm_pa_"+base.getId()+"\" method=\"post\" enctype=\"multipart/form-data\" action=\""+ url+"\"> ");
         ret.append("\n<fieldset> ");
         ret.append("\n<table width=\"98%\"  border=\"0\" cellpadding=\"5\" cellspacing=\"0\"> ");
@@ -125,9 +130,13 @@ public class PhotoAlbum extends GenericAdmResource {
         ret.append("\n</table> ");
         ret.append("\n</fieldset> ");
         ret.append("\n</form>  ");
+
         ret.append("\n</div>  ");
 
         ret.append("\n<script type=\"text/javascript\"> ");
+
+        ret.append("dojo.addOnLoad(function(){collapse('admPhotoAlbum_"+base.getId()+"',0,0)});");
+
         ret.append("\nfunction addRowToTable_"+base.getId()+"(tblId, filename, img, cellSufix) { ");
         ret.append("\n    var tbl = document.getElementById(tblId); ");
         ret.append("\n    var lastRow = tbl.rows.length; ");
