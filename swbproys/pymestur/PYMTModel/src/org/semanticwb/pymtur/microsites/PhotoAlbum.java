@@ -83,54 +83,37 @@ public class PhotoAlbum extends GenericAdmResource {
         url.setAction(paramRequest.Action_ADD+"_"+base.getAttribute("gpophotos"));
         url.setParameter("uri", sprovider.getURI());
 
+        ret.append("\n <div class=\"photoAdminWrapper\">");
+
         ret.append("\n<a href=\"#\" id=\"showadm_"+base.getId()+"\" onclick=\"if(opened_"+base.getId()+"==1){collapse('admPhotoAlbum_"+base.getId()+"',250,150); this.innerHTML='[+] abrir'; opened_"+base.getId()+"=0;}else{expande('admPhotoAlbum_"+base.getId()+"',250,150); this.innerHTML='[-] cerrar'; opened_"+base.getId()+"=1;}\">[+] abrir</a>");
-
         ret.append("\n<div class=\"swbform\" id=\"admPhotoAlbum_"+base.getId()+"\" > ");
-        ret.append("\n<form id=\"frm_pa_"+base.getId()+"\" name=\"frm_pa_"+base.getId()+"\" method=\"post\" enctype=\"multipart/form-data\" action=\""+ url+"\"> ");
-        ret.append("\n<fieldset> ");
-        ret.append("\n<table width=\"98%\"  border=\"0\" cellpadding=\"5\" cellspacing=\"0\"> ");
+        ret.append("<p>Lista de im&aacute;genes (<span class=\"italic\">bmp, jpg, jpeg, gif, png</span>)</p>");
 
-        ret.append("\n<tr>");
-        ret.append("\n<td>Lista de im&aacute;genes (<i>bmp, jpg, jpeg, gif, png</i>)</td>");
-        ret.append("\n</tr>");
-        ret.append("\n<tr>");
-        ret.append("\n<td>");
-        ret.append("\n<div id=\"igcontainer_"+base.getId()+"\" style=\"background-color:#F0F0F0; width:95%; overflow:visible\"> ");
-        ret.append("\n<div id=\"iggrid_"+base.getId()+"\" style=\"width:99%;left:2px;top:20px;overflow:scroll; background-color:#EFEFEF\"> ");
-        ret.append("\n  <table id=\"igtbl_"+base.getId()+"\" width=\"99%\" cellspacing=\"1\" bgcolor=\"#769CCB\" align=\"center\"> ");
-        ret.append("\n  <tr bgcolor=\"#E1EAF7\"> ");
-        ret.append("\n    <td align=\"center\" colspan=\"4\">Administraci&oacute;n de im&aacute;genes</td> ");
-        ret.append("\n    <td align=\"right\">");
-        ret.append("\n    <input type=\"button\" value=\"Agregar\" onclick=\"addRowToTable_"+base.getId()+"('igtbl_"+base.getId()+"');\" />&nbsp;  ");
-        ret.append("\n    <input type=\"button\" value=\"Cancelar\" onclick=\"removeRowFromTable('igtbl_"+base.getId()+"');\"/></td> ");
-        ret.append("\n    </td>");
-        ret.append("\n  </tr> ");
-        ret.append("\n  <tr bgcolor=\"#769CCB\"> ");
-        ret.append("\n    <th align=\"center\" scope=\"col\" style=\"text-align:center;\" width=\"10\" height=\"20\" nowrap=\"nowrap\">&nbsp;</th> ");
-        ret.append("\n    <th align=\"center\" scope=\"col\" style=\"text-align:center;\" width=\"20\" height=\"20\" nowrap=\"nowrap\">Editar</th> ");
-        ret.append("\n    <th align=\"center\" scope=\"col\" style=\"text-align:center;\" width=\"30\" height=\"20\" nowrap=\"nowrap\">Eliminar</th> ");
-        ret.append("\n    <th align=\"center\" scope=\"col\" style=\"text-align:center;\" width=\"40%\" height=\"20\" nowrap=\"nowrap\">Archivo</th> ");
-        ret.append("\n    <th align=\"center\" scope=\"col\" style=\"text-align:center;\" width=\"40%\" height=\"20\" nowrap=\"nowrap\">Imagen</th> ");
+        ret.append("\n<form id=\"frm_pa_"+base.getId()+"\" name=\"frm_pa_"+base.getId()+"\" method=\"post\" enctype=\"multipart/form-data\" action=\""+ url+"\"> ");
+        ret.append("\n <div class=\"btnAddPhotoAdmin\">");
+        ret.append("\n    <input type=\"button\" value=\"Agregar\" onclick=\"addRowToTable_"+base.getId()+"('igtbl_"+base.getId()+"');\" /> ");
+        ret.append("\n    <input type=\"button\" value=\"Cancelar\" onclick=\"removeRowFromTable('igtbl_"+base.getId()+"');\" /> ");
+        ret.append("\n </div>");
+        ret.append("\n  <table id=\"igtbl_"+base.getId()+"\" width=\"99%\" cellspacing=\"1\" align=\"center\"> ");
+        ret.append("\n  <caption>Administraci&oacute;n de im&aacute;genes</caption>");
+        ret.append("\n  <tr> ");
+        ret.append("\n    <th align=\"center\" scope=\"col\" width=\"10\" height=\"20\" nowrap=\"nowrap\">&nbsp;</th> ");
+        ret.append("\n    <th align=\"center\" scope=\"col\" width=\"20\" height=\"20\" nowrap=\"nowrap\">Editar</th> ");
+        ret.append("\n    <th align=\"center\" scope=\"col\" width=\"30\" height=\"20\" nowrap=\"nowrap\">Eliminar</th> ");
+        ret.append("\n    <th align=\"center\" scope=\"col\" width=\"40%\" height=\"20\" nowrap=\"nowrap\">Archivo</th> ");
+        ret.append("\n    <th align=\"center\" scope=\"col\" width=\"40%\" height=\"20\" nowrap=\"nowrap\">Imagen</th> ");
         ret.append("\n  </tr> ");
         ret.append("\n  </table> ");
-        ret.append("\n</div> ");
-        ret.append("\n</div> ");
-        ret.append("\n</td>  ");
-        ret.append("\n</tr>  ");
-        
-        ret.append("\n <tr><td>");
+
+        ret.append("\n <div class=\"btnPhotoAdmin\">");
         ret.append("\n <button dojoType=\"dijit.form.Button\" type=\"submit\" name=\"submitImgGal\" value=\"Submit\" >Guardar</button>&nbsp;");
         ret.append("\n <button dojoType=\"dijit.form.Button\" type=\"reset\">Restablecer</button>");
-        ret.append("\n </td></tr>");
-
-        ret.append("\n</table> ");
-        ret.append("\n</fieldset> ");
+        ret.append("\n </div>");
         ret.append("\n</form>  ");
-
         ret.append("\n</div>  ");
 
+        ret.append("\n </div>");
         ret.append("\n<script type=\"text/javascript\"> ");
-
         ret.append("dojo.addOnLoad(function(){collapse('admPhotoAlbum_"+base.getId()+"',0,0)});");
 
         ret.append("\nfunction addRowToTable_"+base.getId()+"(tblId, filename, img, cellSufix) { ");
@@ -138,7 +121,6 @@ public class PhotoAlbum extends GenericAdmResource {
         ret.append("\n    var lastRow = tbl.rows.length; ");
         ret.append("\n    var iteration = lastRow-1; // descontar el renglon de titulo ");
         ret.append("\n    var row = tbl.insertRow(lastRow); ");
-        ret.append("\n    row.style.backgroundColor = '#F4F4DD'; ");
         ret.append("\n ");
         ret.append("\n    // celda folio ");
         ret.append("\n    var folioCell = row.insertCell(0); ");
