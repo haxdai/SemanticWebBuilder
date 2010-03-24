@@ -568,6 +568,9 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         }else if(servProp.getPymePaqueteType()>1 && pageFicha!=null){
                             staticText=staticText+"<br/>" + "Para ver su anuncio de click en la siguiente liga:<br/><br/>"+server+pageFicha.getUrl()+"?uri="+servProp.getEncodedURI()+"<br/><br/>";
                         }
+                        if(servProp.getPymePaqueteType()>3){
+                            staticText=staticText+"<br/>" + "El dominio registrado es:<br/><br/>"+servProp.getPymeDomain()+"<br/><br/>";
+                        }
                         staticText=staticText+"<br/>" + "Son muchos los beneficios que usted recibirá para la misma.<br/><br/>";
                         staticText=staticText+"Reciba un cordial saludo..<br/><br/>";
                         staticText=staticText+"Atentamente sus amigos de:<br/><br/>";
@@ -690,11 +693,13 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                             dirObj.setPhoto(value);
                             File file = new File(basepath + tmpPhoto);
                             file.delete();
+                            //Foto principal 281/187
                         }else if (item.getFieldName().equals("PhotoLogo"))  {
                             String tmpPhoto=dirObj.getPhotoLogo();
                             dirObj.setPhotoLogo(value);
                             File file = new File(basepath + tmpPhoto);
                             file.delete();
+                            //Foto Logo 79/78
                         }
 
                         String ext = "";
@@ -708,7 +713,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         try
                         {
                             item.write(fichero);
-                            ImageResizer.resize(fichero, 180, true, fichero, ext);
+                            ImageResizer.resize(fichero, 187, true, fichero, ext);
                         }
                         catch (Exception e)
                         {
