@@ -87,7 +87,7 @@ public class PhotoAlbum extends GenericAdmResource {
 
         ret.append("\n<a href=\"#\" id=\"showadm_"+base.getId()+"\" onclick=\"if(opened_"+base.getId()+"==1){collapse('admPhotoAlbum_"+base.getId()+"',250,150); this.innerHTML='[+] abrir'; opened_"+base.getId()+"=0;}else{expande('admPhotoAlbum_"+base.getId()+"',250,150); this.innerHTML='[-] cerrar'; opened_"+base.getId()+"=1;}\">[+] abrir</a>");
         ret.append("\n<div class=\"swbform\" id=\"admPhotoAlbum_"+base.getId()+"\" > ");
-        ret.append("<p>Lista de im&aacute;genes (<span class=\"italic\">bmp, jpg, jpeg, gif, png</span>)</p>");
+        ret.append("<h2>Administraci&oacute;n de im&aacute;genes</h2>");
 
         ret.append("\n<form id=\"frm_pa_"+base.getId()+"\" name=\"frm_pa_"+base.getId()+"\" method=\"post\" enctype=\"multipart/form-data\" action=\""+ url+"\"> ");
         ret.append("\n <div class=\"btnAddPhotoAdmin\">");
@@ -95,7 +95,7 @@ public class PhotoAlbum extends GenericAdmResource {
         ret.append("\n    <input type=\"button\" value=\"Cancelar\" onclick=\"removeRowFromTable('igtbl_"+base.getId()+"');\" /> ");
         ret.append("\n </div>");
         ret.append("\n  <table id=\"igtbl_"+base.getId()+"\" width=\"99%\" cellspacing=\"1\" align=\"center\"> ");
-        ret.append("\n  <caption>Administraci&oacute;n de im&aacute;genes</caption>");
+        ret.append("\n  <caption>Lista de im&aacute;genes (<span class=\"italic\">bmp, jpg, jpeg, gif, png</span>)</caption>");
         ret.append("\n  <tr> ");
         ret.append("\n    <th align=\"center\" scope=\"col\" width=\"10\" height=\"20\" nowrap=\"nowrap\">&nbsp;</th> ");
         ret.append("\n    <th align=\"center\" scope=\"col\" width=\"20\" height=\"20\" nowrap=\"nowrap\">Editar</th> ");
