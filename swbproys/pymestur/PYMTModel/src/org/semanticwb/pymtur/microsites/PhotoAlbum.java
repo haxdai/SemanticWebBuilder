@@ -547,6 +547,7 @@ public class PhotoAlbum extends GenericAdmResource {
                 if(i%3==0 || i==photos.size())
                     out.println("</div>");                
             }
+            out.println("<p class=\"previewsDescription\">&nbsp;</p>");
             out.println("</div>");
 
             if(photos.size()>0) {
