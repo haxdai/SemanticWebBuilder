@@ -533,7 +533,7 @@ public class PhotoAlbum extends GenericAdmResource {
             out.println("    }");
             out.println("</script>");
         }else {
-            out.println("<h2 class=\"subtitleLevel1\" id=\"subtitleFotos\">"+base.getDisplayTitle(paramRequest.getUser().getLanguage())+"</h2>");
+            out.println("<h3 class=\"subtitleLevel2\">"+base.getDisplayTitle(paramRequest.getUser().getLanguage())+"</h3>");
             out.println("<div class=\"holderPhotoPreviews\">");
             int i=0;
             for(String image : photos) {
