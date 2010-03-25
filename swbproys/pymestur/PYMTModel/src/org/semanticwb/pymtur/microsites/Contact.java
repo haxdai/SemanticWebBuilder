@@ -80,7 +80,7 @@ public class Contact extends GenericAdmResource {
         String customerName = request.getParameter("name");
         String customerEmail = request.getParameter("email");
         String subject = request.getParameter("subject");
-        String message = request.getParameter("message");        
+        String message = request.getParameter("message");
         String sproviderEmail = sprovider.getContactEmail();
 
         if (sproviderEmail == null) {
@@ -134,28 +134,6 @@ public class Contact extends GenericAdmResource {
         out.flush();
         out.close();
     }
-
-
-
-    
-    /*@Override
-    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        response.setContentType("text/html; charset=iso-8859-1");
-        response.setHeader("Cache-Control","no-cache"); //HTTP 1.1
-        response.setHeader("Pragma","no-cache"); //HTTP 1.0
-        response.setDateHeader ("Expires", 0); //prevents caching at the proxy server
-
-         try {
-            String jspFile=paramRequest.getResourceBase().getAttribute("jspfile","/work/models/etour/jsp/pymestur/microsite/contact.jsp");
-            request.setAttribute("webWorkPath", webWorkPath);
-            request.setAttribute("paramRequest", paramRequest);
-            RequestDispatcher rd = request.getRequestDispatcher(jspFile);
-            rd.include(request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
-
  
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
@@ -301,7 +279,7 @@ public class Contact extends GenericAdmResource {
                 else
                     out.println("<img alt=\""+base.getAttribute("image")+"\" src=\""+webWorkPath+"/"+base.getAttribute("image")+"\" onclick=\"displayImage('cover01','#000000',80)\" />");
             }else {
-                if (customerEmail != null) {
+                //if (customerEmail != null) {
                     out.print("<div id=\"contacto\">");
                     out.print("<form id=\"frmContact\" action=\""+paramRequest.getActionUrl()+"\" method=\"post\" class=\"form\" >");
                     out.print("<p>");
@@ -322,16 +300,16 @@ public class Contact extends GenericAdmResource {
                     out.print("<label for=\"message\">"+paramRequest.getLocaleString("message")+"</label>");
                     out.print("<textarea name=\"message\" id=\"message\" cols=\"40\" rows=\"5\"></textarea>");
                     out.print("</p>");
-                }
+                //}
                 out.print("<p>");
                 SWBResourceURL url=paramRequest.getRenderUrl();
                 url.setCallMethod(url.Call_DIRECT).setMode("sendEmail").setParameter("uri", request.getParameter("uri"));
-                if (customerEmail != null) {
+                //if (customerEmail != null) {
                     out.print("<label for=\"contactoEnviar\">Enviar</label>");
                     out.print("<input name=\"submit\" id=\"contactoEnviar\" type=\"button\" onclick=\"sendEmail(\\'"+url+"\\'+\\'?name=\\'+dojo.byId(\\'name\\').value+\\'&email=\\'+dojo.byId(\\'email\\').value+\\'&subject=\\'+dojo.byId(\\'subject\\').value+\\'&message=\\'+dojo.byId(\\'message\\').value);removeCoverDiv(\\''+divId+'\\')\" value=\""+paramRequest.getLocaleString("send")+"\" />");
                     out.print("<label for=\"contactoRestablecer\">Enviar</label>");
                     out.print("<input name=\"reset\" id=\"contactoRestablecer\" type=\"reset\" value=\""+paramRequest.getLocaleString("reset")+"\" />");
-                }
+                //}
                 out.print("<label for=\"contactoCancelar\">Enviar</label>");
                 out.print("<input name=\"cancel\" id=\"contactoCancelar\" type=\"button\" onclick=\"removeCoverDiv(\\''+divId+'\\')\" value=\""+paramRequest.getLocaleString("cancel")+"\" /><br>");
                 out.print("</p>");
