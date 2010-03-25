@@ -91,8 +91,31 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
 
+
         if (request.getParameter("errorMsg") != null) {
-            response.getWriter().println("<font color=\"RED\"><b>" + request.getParameter("errorMsg") + "</b></font>");
+            PrintWriter out=response.getWriter();
+            out.println("<font color=\"RED\"><b>");
+            if (request.getParameter("errorMsg").equals("01")) {
+                out.println("Se Presento un error en la edición del registro, favor de intentarlo nuevamente o contactactar al administrador del portal");
+            }else if (request.getParameter("errorMsg").equals("02")) {
+                out.println("Se Presento un error en la eliminación del registro, favor de intentarlo nuevamente o contactactar al administrador del portal");
+            }else if (request.getParameter("errorMsg").equals("03")) {
+                out.println("Se Presento un error en la creación del registro, favor de intentarlo nuevamente o contactactar al administrador del portal");
+            }else if (request.getParameter("errorMsg").equals("04")) {
+                out.println("Se Presento un error en la aceptación del registro, favor de intentarlo nuevamente o contactactar al administrador del portal");
+            }else if (request.getParameter("errorMsg").equals("05")) {
+                out.println("Se Presentó un error en el desregistro del elemento, favor de intentarlo nuevamente o contactactar al administrador del portal");
+            }else if (request.getParameter("errorMsg").equals("20")) {
+                out.println("Se Presentó un error, favor de intentarlo nuevamente o contactactar al administrador del portal");
+            }
+            out.println("</b></font>");
+        }else if (request.getParameter("sucMsg") != null) {
+            PrintWriter out=response.getWriter();
+            out.println("<font color=\"RED\"><b>");
+            if(request.getParameter("sucMsg").equals("01")){
+                out.println("El registro se modificó exitosamente...");
+            }
+            out.println("</b></font>");
         }
 
         Enumeration<String> names = request.getParameterNames();
@@ -242,7 +265,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     }
                     semObjTmp = dirObj.getSemanticObject();
                 } catch (FormValidateException e) {
-                    response.setRenderParameter("errorMsg", "Se Presento un error en la edición del registro, favor de intentarlo nuevamente o contactactar al administrador del portal");
+                    response.setRenderParameter("errorMsg", "01");
                     log.error(e);
                 }
             } else if (action2.equals(response.Action_REMOVE)) {
@@ -255,7 +278,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         semObjTmp = semObject;
                     }
                 } catch (Exception e) {
-                    response.setRenderParameter("errorMsg", "Se Presento un error en la eliminación del registro, favor de intentarlo nuevamente o contactactar al administrador del portal");
+                    response.setRenderParameter("errorMsg", "02");
                     log.error(e);
                 }
             } else if (action2.equals(response.Action_ADD)) {
@@ -374,7 +397,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         response.sendRedirect(refirect + "?newReg=1"); //Redirecciona al destino en el que se generó la pyme
                     }
                 } catch (FormValidateException e) {
-                    response.setRenderParameter("errorMsg", "Se Presento un error en la creación del registro, favor de intentarlo nuevamente o contactactar al administrador del portal");
+                    response.setRenderParameter("errorMsg", "03");
                     log.error(e);
                 }
             } else if (action2.equals("admin_update")) {
@@ -400,7 +423,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         String staticText = base.getAttribute("dirEmailAcceptTxt");
 
                         if (staticText == null || staticText.trim().length() == 0) {
-                            staticText = "Hola <b>{user}</b>,<br/><br/><br/>";
+                            staticText = "Hola <b>"+servProp.getCreator().getFullName()+"</b>,<br/><br/><br/>";
                             staticText = staticText + "Nos complace informarle que el registro de su empresa " + "<b>" + servProp.getTitle() + "</b>" + " ha sido aceptado.<br/><br/>";
                             if (servProp.getPymePaqueteType() == 1) {
                                 staticText = staticText + "<br/>" + "Para ver su anuncio de click en la siguiente liga:" + server + servProp.getDestination().getUrl() + "<br/><br/>";
@@ -419,7 +442,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         SWBUtils.EMAIL.sendBGEmail(servProp.getCreator().getEmail(), "Contacto del Sitio - Aceptación de registro", staticText);
                     }
                 } catch (Exception e) {
-                    response.setRenderParameter("errorMsg", "Se Presento un error en la aceptación del registro, favor de intentarlo nuevamente o contactactar al administrador del portal");
+                    response.setRenderParameter("errorMsg", "04");
                     log.error(e);
                 }
             } else if (action2.equals("unRegister") && (isUserIsAdminProvider || isAdministrator)) {
@@ -439,7 +462,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         String staticText = base.getAttribute("dirEmailUnRegisterTxt");
 
                         if (staticText == null || staticText.trim().length() == 0) {
-                            staticText = "Hola <b>{user}</b>,<br/><br/><br/>";
+                            staticText = "Hola <b>"+servProp.getCreator().getFullName()+"</b>,<br/><br/><br/>";
                             staticText = staticText + "Le informamos que el registro de su empresa " + "<b>" + servProp.getTitle() + "</b>" + " ha sido revocado por las siguientes razones:<br/><br/>";
                             if (statComm != null) {
                                 staticText = staticText + statComm;
@@ -453,12 +476,12 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         SWBUtils.EMAIL.sendBGEmail(servProp.getCreator().getEmail(), "Contacto del Sitio - Revocación de registro", staticText);
                     }
                 } catch (Exception e) {
-                    response.setRenderParameter("errorMsg", "Se Presento un error en el desregistro del elemento, favor de intentarlo nuevamente o contactactar al administrador del portal");
+                    response.setRenderParameter("errorMsg", "05");
                     log.error(e);
                 }
             }
         } catch (Exception e) {
-            response.setRenderParameter("errorMsg", "Se Presento un error, favor de intentarlo nuevamente o contactactar al administrador del portal");
+            response.setRenderParameter("errorMsg", "20");
             log.error(e);
         }
         String redirect = request.getParameter("redirect");
@@ -466,7 +489,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
             if (redirect.equals("detail")) {
                 //response.setRenderParameter("act", "detail");
                 //response.setRenderParameter("uri", semObjTmp.getURI());
-                response.sendRedirect(response.getWebPage().getUrl() + "?act=detail&uri=" + semObjTmp.getEncodedURI());
+                response.sendRedirect(response.getWebPage().getUrl() + "?act=detail&sucMsg=01&uri=" + semObjTmp.getEncodedURI());
 
             }
         }
