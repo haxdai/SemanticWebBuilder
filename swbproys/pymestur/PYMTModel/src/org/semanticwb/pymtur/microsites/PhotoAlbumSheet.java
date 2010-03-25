@@ -99,7 +99,6 @@ public class PhotoAlbumSheet extends GenericAdmResource {
         ret.append("\n    var lastRow = tbl.rows.length; ");
         ret.append("\n    var iteration = lastRow-1; // descontar el renglon de titulo ");
         ret.append("\n    var row = tbl.insertRow(lastRow); ");
-        ret.append("\n    row.style.backgroundColor = '#F4F4DD'; ");
         ret.append("\n ");
         ret.append("\n    // celda folio ");
         ret.append("\n    var folioCell = row.insertCell(0); ");
