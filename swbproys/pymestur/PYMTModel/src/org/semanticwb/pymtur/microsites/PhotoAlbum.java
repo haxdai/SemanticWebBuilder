@@ -192,7 +192,7 @@ public class PhotoAlbum extends GenericAdmResource {
         ret.append("\n        fileInput.type = 'file'; ");
         ret.append("\n        fileInput.name = 'imggallery_"+base.getId()+"_'+iteration; ");
         ret.append("\n        fileInput.id = 'imggallery_"+base.getId()+"_'+iteration; ");
-        ret.append("\n        fileInput.size = 40; ");
+        //ret.append("\n        fileInput.size = 40; ");
         ret.append("\n        imgCell.appendChild(fileInput); ");
         ret.append("\n    } ");
         ret.append("\n} ");
