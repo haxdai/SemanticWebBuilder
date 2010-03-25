@@ -63,48 +63,34 @@ public class PhotoAlbumSheet extends GenericAdmResource {
         SWBResourceURL url = paramRequest.getActionUrl();
         url.setAction(paramRequest.Action_ADD);
         url.setParameter("uri", sprovider.getURI());
-        /*url.setParameter("showAdmPhotos", "true");*/
         url.setCallMethod(paramRequest.Call_DIRECT);
 
+        ret.append("\n <div class=\"photoAdminWrapper\">");
+
         ret.append("\n<div class=\"swbform\"> ");
+        ret.append("<h2>Administraci&oacute;n de im&aacute;genes</h2>");
         ret.append("\n<form id=\"frm_pa_"+base.getId()+"\" name=\"frm_pa_"+base.getId()+"\" method=\"post\" enctype=\"multipart/form-data\" action=\""+url+"\"> ");
-        ret.append("\n<fieldset> ");
-        ret.append("\n<table width=\"98%\" border=\"0\" cellpadding=\"5\" cellspacing=\"0\"> ");
-        ret.append("\n<tr><td>Lista de im&aacute;genes (<i>bmp, jpg, jpeg, gif, png</i>)</td></tr>");
-        ret.append("\n<tr>");
-        ret.append("\n<td>");
-        ret.append("\n<div id=\"igcontainer_"+base.getId()+"\" style=\"background-color:#F0F0F0; width:99%; overflow:visible\"> ");
-        ret.append("\n<div id=\"iggrid_"+base.getId()+"\" style=\"width:99%;left:2px;top:20px;overflow:scroll; background-color:#EFEFEF\"> ");
-        ret.append("\n  <table id=\"igtbl_"+base.getId()+"\" width=\"99%\" cellspacing=\"1\" bgcolor=\"#769CCB\" align=\"center\"> ");
-        ret.append("\n  <tr bgcolor=\"#E1EAF7\"> ");
-        ret.append("\n    <td align=\"center\" colspan=\"4\">Administraci&oacute;n de im&aacute;genes</td> ");
-        ret.append("\n    <td align=\"right\">");
-        ret.append("\n    <input type=\"button\" value=\"Agregar\" onclick=\"addRowToTable_"+base.getId()+"('igtbl_"+base.getId()+"');\" />&nbsp;  ");
-        ret.append("\n    <input type=\"button\" value=\"Cancelar\" onclick=\"removeRowFromTable('igtbl_"+base.getId()+"');\"/></td> ");
-        ret.append("\n    </td>");
-        ret.append("\n  </tr> ");
-        ret.append("\n  <tr bgcolor=\"#769CCB\"> ");
-        ret.append("\n    <th align=\"center\" scope=\"col\" style=\"text-align:center;\" width=\"10\" height=\"20\" nowrap=\"nowrap\">&nbsp;</th> ");
-        ret.append("\n    <th align=\"center\" scope=\"col\" style=\"text-align:center;\" width=\"20\" height=\"20\" nowrap=\"nowrap\">Editar</th> ");
-        ret.append("\n    <th align=\"center\" scope=\"col\" style=\"text-align:center;\" width=\"30\" height=\"20\" nowrap=\"nowrap\">Eliminar</th> ");
-        ret.append("\n    <th align=\"center\" scope=\"col\" style=\"text-align:center;\" width=\"40%\" height=\"20\" nowrap=\"nowrap\">Archivo</th> ");
-        ret.append("\n    <th align=\"center\" scope=\"col\" style=\"text-align:center;\" width=\"40%\" height=\"20\" nowrap=\"nowrap\">Imagen</th> ");
+        ret.append("\n <div class=\"btnAddPhotoAdmin\">");
+        ret.append("\n    <input type=\"button\" value=\"Agregar\" onclick=\"addRowToTable_"+base.getId()+"('igtbl_"+base.getId()+"');\" /> ");
+        ret.append("\n    <input type=\"button\" value=\"Cancelar\" onclick=\"removeRowFromTable('igtbl_"+base.getId()+"');\" /> ");
+        ret.append("\n </div>");
+        ret.append("\n  <table id=\"igtbl_"+base.getId()+"\" width=\"99%\" cellspacing=\"1\" align=\"center\"> ");
+        ret.append("\n  <caption>Lista de im&aacute;genes <span class=\"italic\">(bmp, jpg, jpeg, gif, png)</span></caption>");
+        ret.append("\n  <tr> ");
+        ret.append("\n    <th align=\"center\" scope=\"col\" width=\"10\" height=\"20\" nowrap=\"nowrap\">&nbsp;</th> ");
+        ret.append("\n    <th align=\"center\" scope=\"col\" width=\"20\" height=\"20\" nowrap=\"nowrap\">Editar</th> ");
+        ret.append("\n    <th align=\"center\" scope=\"col\" width=\"30\" height=\"20\" nowrap=\"nowrap\">Eliminar</th> ");
+        ret.append("\n    <th align=\"center\" scope=\"col\" width=\"40%\" height=\"20\" nowrap=\"nowrap\">Archivo</th> ");
+        ret.append("\n    <th align=\"center\" scope=\"col\" width=\"40%\" height=\"20\" nowrap=\"nowrap\">Imagen</th> ");
         ret.append("\n  </tr> ");
         ret.append("\n  </table> ");
-        ret.append("\n</div> ");
-        ret.append("\n</div> ");
-        ret.append("\n</td>  ");
-        ret.append("\n</tr>  ");
-
-        ret.append("\n <tr><td>");
+        ret.append("\n <div class=\"btnPhotoAdmin\">");
         ret.append("\n <button dojoType=\"dijit.form.Button\" type=\"submit\" name=\"submitImgGal\" value=\"Submit\" >Guardar</button>&nbsp;");
         ret.append("\n <button dojoType=\"dijit.form.Button\" type=\"reset\">Limpiar</button>&nbsp;");
         ret.append("\n <button dojoType=\"dijit.form.Button\" type=\"submit\" name=\"exit\" value=\"exit\" >Salir</button>");
-        ret.append("\n </td></tr>");
-
-        ret.append("\n</table> ");
-        ret.append("\n</fieldset> ");
+        ret.append("\n </div>");
         ret.append("\n</form>  ");
+        ret.append("\n</div>  ");
         ret.append("\n</div>  ");
 
         ret.append("\n<script type=\"text/javascript\"> ");
