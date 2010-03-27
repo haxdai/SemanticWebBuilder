@@ -130,6 +130,7 @@ public class Contact extends GenericAdmResource {
             }
         } catch (Exception e) {
             log.error("Error in resource Contact, in PymTur Project, while bringing HTML by ajax. ", e);
+            out.print(paramRequest.getLocaleString("apologies"));
         }
         out.flush();
         out.close();
