@@ -141,8 +141,7 @@ public class Contact extends GenericAdmResource {
         response.setContentType("text/html; charset=ISO-8859-1");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
-
-        String customerEmail = null;
+        
         User user = paramRequest.getUser();
         ServiceProvider sprovider = null;
         WebPage wp = paramRequest.getWebPage();
@@ -160,10 +159,7 @@ public class Contact extends GenericAdmResource {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri")); //Se ve el recurso desde una ficha
             sprovider = (ServiceProvider) semObject.createGenericInstance();
         }
-
-        /*if( user.getEmail()!=null && user.getEmail().length()>0 ){ //Se ve el recurso desde una página cualquiera
-            customerEmail = user.getEmail();
-        }*/
+        
         Resource base = getResourceBase();
         PrintWriter out = response.getWriter();
         String email = request.getParameter("email");
