@@ -71,7 +71,7 @@ public class PhotoAlbumSheet extends GenericAdmResource {
         ret.append("<head>");
         ret.append("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=ISO8859-1\" >");
         ret.append("<title></title>");
-        ret.append("<link href=\""+SWBPortal.getWebWorkPath()+"/models/"+base.getWebSiteId()+"/css/images/estilos.css\" rel=\"stylesheet\" type=\"text/css\" >");
+        ret.append("<link href=\""+SWBPortal.getWebWorkPath()+"/models/"+base.getWebSiteId()+"/css/images/estilos.css\" rel=\"stylesheet\" type=\"text/css\" ></link>");
         ret.append("<script type=\"text/javascript\" src=\""+SWBPortal.getContextPath()+"/swbadmin/js/dojo/dojo/dojo.js\"></script>");
         ret.append("<script type=\"text/javascript\" src=\""+SWBPortal.getContextPath()+"/swbadmin/js/swb.js\"></script>");
         ret.append("<script type=\"text/javascript\" src=\""+SWBPortal.getWebWorkPath()+"/models/"+base.getWebSiteId()+"/css/pymestur.js\"></script>");
