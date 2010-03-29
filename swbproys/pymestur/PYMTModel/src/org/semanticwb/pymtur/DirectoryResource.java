@@ -428,7 +428,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                             if (servProp.getPymePaqueteType() == 1) {
                                 staticText = staticText + "<br/>" + "Para ver su anuncio de click en la siguiente liga:" + server + servProp.getDestination().getUrl() + "<br/><br/>";
                             } else if (servProp.getPymePaqueteType() > 1 && pageFicha != null) {
-                                staticText = staticText + "<br/>" + "Para ver su anuncio de click en la siguiente liga:<br/><br/>" + server + pageFicha.getUrl() + "?uri=" + servProp.getEncodedURI() + "<br/><br/>";
+                                staticText = staticText + "<br/>" + "Para ver su anuncio de click en la siguiente liga:<br/><br/>" + server + pageFicha.getUrl() + "?uri=" + servProp.getEncodedURI() + "&act=detail<br/><br/>";
                             }
                             if (servProp.getPymePaqueteType() > 3 && servProp.getPymeDomain() != null) {
                                 staticText = staticText + "<br/>" + "El dominio registrado es:<br/><br/>" + servProp.getPymeDomain() + "<br/><br/>";

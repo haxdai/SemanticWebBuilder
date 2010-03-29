@@ -46,6 +46,8 @@ public class PymeRegisterUser extends GenericAdmResource {
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         PrintWriter out = response.getWriter();
         String act = request.getParameter("act");
+        User user=paramRequest.getUser();
+
         if (act == null) {
             act = "add";
             if (paramRequest.getUser().isSigned()) {
@@ -55,13 +57,21 @@ public class PymeRegisterUser extends GenericAdmResource {
 
         String path = "/swbadmin/jsp/microsite/RegisterUser/linkNewUser.groovy";
         String msg = request.getParameter("msg");
-        if (msg != null && msg.equals("ok")) {
+        if (msg != null && msg.equals("ok")) { //Cuando el registro es en dos pasos
             path = "/swbadmin/jsp/microsite/RegisterUser/messages.jsp";
-        } else {
+        }
+        else {
             if (msg != null && msg.equals("regfail")) {
                 out.println("<pre>" +
                         "<b><font color=\"red\">Error al capturar los caracteres de la imagen de seguridad." +
                         "</b></font></pre>");
+            }else if (msg != null && msg.equals("editok")) {
+                String editSucc=paramRequest.getResourceBase().getAttribute("editSucc");
+                if(editSucc!=null && editSucc.trim().length()>0){
+                    String siteName = paramRequest.getWebPage().getWebSite().getDisplayTitle(user.getLanguage());
+                    editSucc = replaceTags(editSucc, request, paramRequest, user, siteName, null);
+                }
+                out.println(editSucc);                        
             }
             if (act.equals("add")) {
                 path = "/work/models/etour/jsp/pymestur/userRegistry/newUser.jsp";
@@ -136,7 +146,7 @@ public class PymeRegisterUser extends GenericAdmResource {
                     String server = "http://" + request.getServerName() + ":" + request.getServerPort();
                     String page2Confirm = server + website.getWebPage("confirmRegistry").getUrl() + "?login=" + newUser.getLogin();
 
-                    String staticText = replaceTags(base.getAttribute("emailMsg"), request, response, newUser, siteName, page2Confirm);
+                    String staticText = replaceTags(base.getAttribute("emailMsg"), request, (SWBParamRequest)response, newUser, siteName, page2Confirm);
                     response.setRenderParameter("msg", "ok");
                     response.setMode(response.Mode_VIEW);
                     response.setCallMethod(response.Call_CONTENT);
@@ -163,6 +173,7 @@ public class PymeRegisterUser extends GenericAdmResource {
 
             setUserExtendedAttributes(request, user);
 
+            response.setRenderParameter("msg", "editok");
             response.setMode(response.Mode_VIEW);
             response.setCallMethod(response.Call_CONTENT);
             return;
@@ -243,7 +254,7 @@ public class PymeRegisterUser extends GenericAdmResource {
         }
     }
 
-    public String replaceTags(String str, HttpServletRequest request, SWBActionResponse paramRequest, User newUser, String siteName, String page2Confirm) {
+    public String replaceTags(String str, HttpServletRequest request, SWBParamRequest paramRequest, User newUser, String siteName, String page2Confirm) {
         if (str == null || str.trim().length() == 0) {
             return "";
         }

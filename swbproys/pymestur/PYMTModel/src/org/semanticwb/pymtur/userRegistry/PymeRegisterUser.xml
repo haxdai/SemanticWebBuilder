@@ -6,6 +6,7 @@
             <fieldset legend="Datos">
                 <input type="CHECKBOX" name="twosteps" label="Registro en 2 pasos:" value="1" />
                 <textarea name="emailMsg" label="Texto para correo(2 pasos):" rows="5" cols="38" wrap="virtual" jsrequired="true"/>
+                <textarea name="editSucc" label="Texto para Edición de perfil exitoso:" rows="5" cols="38" wrap="virtual" jsrequired="true"/>
             </fieldset>
             <fieldset>
                 <statictext name="b">
