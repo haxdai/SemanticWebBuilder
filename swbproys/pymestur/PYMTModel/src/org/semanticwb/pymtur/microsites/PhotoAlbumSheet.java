@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -65,8 +66,36 @@ public class PhotoAlbumSheet extends GenericAdmResource {
         url.setParameter("uri", sprovider.getURI());
         url.setCallMethod(paramRequest.Call_DIRECT);
 
-        ret.append("\n <div class=\"photoAdminWrapper\">");
+        String htmlPath = SWBPortal.getWebWorkPath()+"/models/"+base.getWebSiteId()+"/css/header.html";
+        System.out.println("htmlPath="+htmlPath+", contexto="+SWBPortal.getContextPath());
 
+
+        ret.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">");
+        ret.append("<html lang=\"es-mx\">");
+        ret.append("<head>");
+        ret.append("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=ISO8859-1\" >");
+        ret.append("<title></title>");
+        ret.append("<link href=\""+SWBPortal.getWebWorkPath()+"/models/"+base.getWebSiteId()+"/css/images/estilos.css\" rel=\"stylesheet\" type=\"text/css\" >");
+        ret.append("<script type=\"text/javascript\" src=\""+SWBPortal.getContextPath()+"/swbadmin/js/dojo/dojo/dojo.js\"></script>");
+        ret.append("<script type=\"text/javascript\" src=\""+SWBPortal.getContextPath()+"/swbadmin/js/swb.js\"></script>");
+        ret.append("<script type=\"text/javascript\" src=\""+SWBPortal.getWebWorkPath()+"/models/"+base.getWebSiteId()+"/css/pymestur.js\"></script>");
+        ret.append("<link rel='stylesheet' type='text/css' media='all' href='"+SWBPortal.getContextPath()+"/swbadmin/js/dojo/dijit/themes/soria/soria.css'></link>");
+        ret.append("<script type=\"text/javascript\">");
+        ret.append("        var djConfig = {");
+        ret.append("            parseOnLoad: true,");
+        ret.append("            isDebug: false,");
+        ret.append("            locale: 'en-us',");
+        ret.append("            extraLocale: ['ja-jp']");
+        ret.append("        };");
+        ret.append("</script>");
+        ret.append("<script type=\"text/javascript\" >");
+        ret.append("    dojo.require(\"dijit.form.Form\");");
+        ret.append("    dojo.require(\"dijit.form.Button\");");
+        ret.append("</script>");
+        ret.append("</head>");
+        ret.append("<body class=\"soria\">");
+
+        ret.append("\n <div class=\"photoAdminWrapper\">");
         ret.append("\n<div class=\"swbform\"> ");
         ret.append("<h2>Administraci&oacute;n de im&aacute;genes</h2>");
         ret.append("\n<form id=\"frm_pa_"+base.getId()+"\" name=\"frm_pa_"+base.getId()+"\" method=\"post\" enctype=\"multipart/form-data\" action=\""+url+"\"> ");
@@ -197,9 +226,10 @@ public class PhotoAlbumSheet extends GenericAdmResource {
             String img = "<img src=\""+SWBPortal.getWebWorkPath()+path+pp.getPhotoThumbnail()+"\" alt=\""+pp.getPhotoImage()+"\" />";
             ret.append("addRowToTable_"+base.getId()+"('igtbl_"+base.getId()+"', '"+pp.getPhotoImage()+"', '"+img+"', '"+pp.getId()+"'); \n");
         }
-
         ret.append("\n</script>");
         
+        ret.append("</body>");
+        ret.append("</html>");
         return ret.toString();
     }
 
