@@ -91,7 +91,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
 
-
+        User user=paramRequest.getUser();
         if (request.getParameter("errorMsg") != null) {
             PrintWriter out=response.getWriter();
             out.println("<font color=\"RED\"><b>");
@@ -113,7 +113,8 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
             PrintWriter out=response.getWriter();
             out.println("<font color=\"RED\"><b>");
             if(request.getParameter("sucMsg").equals("01")){
-                out.println("El registro se modificó exitosamente...");
+                out.println("Estimado (a) "+user.getFullName()+","+
+                            "La edición de tu información ha sido realizada de manera exitosa.");
             }
             out.println("</b></font>");
         }
@@ -380,21 +381,27 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         String staticText = base.getAttribute("dirEmailTxt");
 
                         if (staticText == null || staticText.trim().length() == 0) {
-                            staticText = "Hola <b>{user}</b>,<br/><br/><br/>";
-                            staticText = staticText + "Nos complace el registro de su empresa:,<br/><br/>";
-                            staticText = staticText + "<b>" + dirObj.getTitle() + "</b><br/><br/><br/>";
-                            staticText = staticText + "Son muchos los beneficios que usted recibirá para la misma.<br/><br/>";
-                            staticText = staticText + "En un periodo no mayor a 24 hrs, le notificaremos sobre la activación y puesta en línea.<br/><br/><br>";
-                            staticText = staticText + "Reciba un cordial saludo..<br/><br/>";
-                            staticText = staticText + "Atentamente sus amigos de:<br/><br/>";
-                            staticText = staticText + "<b>SIENTE MÉXICO</b>,<br/>";
+                            staticText="Estimado (a) {user} , <br/><br/>"+
+                            "Nos complace el registro de tu empresa: <br/>"+
+                            "<b>"+dirObj.getTitle()+"</b><br/>" +
+                            "Son muchos los beneficios que recibirás para la misma.<br/>"+
+                            "En un periodo no mayor a 24 hrs., te notificaremos sobre la publicación de";
+                            if(pymetype==2){
+                                staticText=staticText+" la ficha, con los datos de tu empresa, en el portal \"Siente México\". <br/><br/>";
+                            }else if(pymetype==3){
+                                staticText=staticText+" tu Micrositio.<br/><br/>";
+                            }else if(pymetype==4){
+                                staticText=staticText+" tu página web.<br/><br/>";
+                            }
+                            staticText=staticText+"Atentamente tus amigos de:<br/>"+
+                            "\"SIENTE MÉXICO\"";
                         }
                         staticText = replaceTags(staticText, request, response, user, siteName);
                         SWBUtils.EMAIL.sendBGEmail(user.getEmail(), "Contacto del Sitio - Confirmación de registro", staticText);
                     }
                     //Termina envío de correo al creador
                     if (refirect != null) {
-                        response.sendRedirect(refirect + "?newReg=1"); //Redirecciona al destino en el que se generó la pyme
+                        response.sendRedirect(refirect + "?newReg=1&uri="+dirObj.getEncodedURI()); //Redirecciona al destino en el que se generó la pyme
                     }
                 } catch (FormValidateException e) {
                     response.setRenderParameter("errorMsg", "03");
@@ -423,22 +430,29 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         String staticText = base.getAttribute("dirEmailAcceptTxt");
 
                         if (staticText == null || staticText.trim().length() == 0) {
-                            staticText = "Hola <b>"+servProp.getCreator().getFullName()+"</b>,<br/><br/><br/>";
-                            staticText = staticText + "Nos complace informarle que el registro de su empresa " + "<b>" + servProp.getTitle() + "</b>" + " ha sido aceptado.<br/><br/>";
-                            if (servProp.getPymePaqueteType() == 1) {
-                                staticText = staticText + "<br/>" + "Para ver su anuncio de click en la siguiente liga:" + server + servProp.getDestination().getUrl() + "<br/><br/>";
-                            } else if (servProp.getPymePaqueteType() > 1 && pageFicha != null) {
-                                staticText = staticText + "<br/>" + "Para ver su anuncio de click en la siguiente liga:<br/><br/>" + server + pageFicha.getUrl() + "?uri=" + servProp.getEncodedURI() + "&act=detail<br/><br/>";
+                            staticText = "Estimado (a) {user} ,<br/><br/>" +
+                            "Nos complace informarte que";
+                            if (servProp.getPymePaqueteType() == 2) {
+                                staticText=staticText+" la ficha";
+                            }if (servProp.getPymePaqueteType() == 3) {
+                                staticText=staticText+" el Micrositio";
+                            }if (servProp.getPymePaqueteType() == 4) {
+                                staticText=staticText+" la página web";
                             }
-                            if (servProp.getPymePaqueteType() > 3 && servProp.getPymeDomain() != null) {
-                                staticText = staticText + "<br/>" + "El dominio registrado es:<br/><br/>" + servProp.getPymeDomain() + "<br/><br/>";
+                            staticText=staticText+ " con los datos de tu empresa:<br/>"+
+                            "<b>"+servProp.getTitle()+"</b><br/>"+
+                            "ha sido publicada.<br><br/>"+
+                            "Puedes consultarla en línea dando click en la siguiente liga<br/><br/>";
+                            if (servProp.getPymePaqueteType() > 1 && pageFicha != null) {
+                                staticText = staticText + server + pageFicha.getUrl() + "?uri=" + servProp.getEncodedURI() + "&act=detail<br/><br/>";
+                            }if (servProp.getPymePaqueteType() > 3 && servProp.getPymeDomain() != null) {
+                                staticText = staticText + "El dominio registrado es:<br/><br/>" + servProp.getPymeDomain() + "<br/><br/>";
                             }
-                            staticText = staticText + "<br/>" + "Son muchos los beneficios que usted recibirá para la misma.<br/><br/>";
-                            staticText = staticText + "Reciba un cordial saludo..<br/><br/>";
-                            staticText = staticText + "Atentamente sus amigos de:<br/><br/>";
-                            staticText = staticText + "<b>SIENTE MÉXICO</b>,<br/>";
+                            staticText=staticText+"Si deseas editar tu información podrás hacerlo firmándote en el portal \"Siente México\"<br/> con el usuario y contraseña que elegiste para tu registro.<br/><br/>" +
+                            "Atentamente sus amigos de:<br/><br/>"+
+                            "<b>\"SIENTE MÉXICO</b>\"";
                         }
-                        staticText = replaceTags(staticText, request, response, user, siteName);
+                        staticText = replaceTags(staticText, request, response, servProp.getCreator(), siteName);
                         SWBUtils.EMAIL.sendBGEmail(servProp.getCreator().getEmail(), "Contacto del Sitio - Aceptación de registro", staticText);
                     }
                 } catch (Exception e) {
@@ -462,17 +476,24 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         String staticText = base.getAttribute("dirEmailUnRegisterTxt");
 
                         if (staticText == null || staticText.trim().length() == 0) {
-                            staticText = "Hola <b>"+servProp.getCreator().getFullName()+"</b>,<br/><br/><br/>";
-                            staticText = staticText + "Le informamos que el registro de su empresa " + "<b>" + servProp.getTitle() + "</b>" + " ha sido revocado por las siguientes razones:<br/><br/>";
+                            staticText="Estimado (a) {user},<br/>"+
+                            "Lamentamos informarte que la publicación de tu empresa:</br><br/>" +
+                            "<b>"+servProp.getTitle()+"</b></br><br/>";
                             if (statComm != null) {
-                                staticText = staticText + statComm;
+                                staticText=staticText+"no se pudo concretar debido al siguiente motivo:</br></br>"+
+                                statComm+"<br/><br/>";
+                            }else{
+                                staticText=staticText+
+                                "-	Su empresa no es considerada una empresa turística<br/>"+
+                                "-	Sus datos están incompletos o son erróneos<br/>";
                             }
-                            staticText = staticText + "<br/>" + "Puede ponerse en contacto con el administrador para recibir más información.<br/><br/>";
-                            staticText = staticText + "Reciba un cordial saludo..<br/><br/>";
-                            staticText = staticText + "Atentamente sus amigos de:<br/><br/>";
-                            staticText = staticText + "<b>SIENTE MÉXICO</b>,<br/>";
+                            staticText=staticText+"Si tienes alguna duda consúltanos en:<br/><br/>"+
+
+                            "Atentamente tus amigos de:<br/>"+
+                            "\"SIENTE MÉXICO\"";
+
                         }
-                        staticText = replaceTags(staticText, request, response, user, siteName);
+                        staticText = replaceTags(staticText, request, response, servProp.getCreator(), siteName);
                         SWBUtils.EMAIL.sendBGEmail(servProp.getCreator().getEmail(), "Contacto del Sitio - Revocación de registro", staticText);
                     }
                 } catch (Exception e) {
