@@ -180,7 +180,7 @@ public class Contact extends GenericAdmResource {
                 out.println("    layer.style.width='100%';");
                 out.println("    layer.style.height='100%';");
                 out.println("    layer.style.backgroundColor=bgcolor;");
-                out.println("    layer.style.position='absolute';");
+                out.println("    layer.style.position='fixed';");
                 out.println("    layer.style.top=0;");
                 out.println("    layer.style.left=0;");
                 out.println("    layer.style.zIndex=1000;");
