@@ -211,6 +211,8 @@ public class PhotoAlbum extends GenericAdmResource {
             it = sprovider.listEstablishmentPymePhotos();
         }else if(base.getAttribute("gpophotos").equalsIgnoreCase("instalation")) {
             it = sprovider.listInstalationsPymePhotos();
+        }else if(base.getAttribute("gpophotos").equalsIgnoreCase("category")) {
+            it = sprovider.listSpCategoryPymePhotos();
         }else if(base.getAttribute("gpophotos").equalsIgnoreCase("more")) {
             it = sprovider.listMorePymePhotos();
         }
@@ -297,13 +299,24 @@ public class PhotoAlbum extends GenericAdmResource {
                                     }catch(Exception e) {
                                         log.error("Error while deletting file in resource instance PhotoAlbum with id: "+base.getId() +"-"+ base.getTitle(), e);
                                     }
-                                }else if(base.getAttribute("gpophotos").equalsIgnoreCase("instalation")) {                                    
+                                }else if(base.getAttribute("gpophotos").equalsIgnoreCase("instalation")) {
                                     try {
                                         File f = new File(fspath+pp.getPhotoImage());
                                         f.delete();
                                         f = new File(fspath+_thumbnail+pp.getPhotoImage());
                                         f.delete();
                                         sprovider.removeInstalationsPymePhoto(pp);
+                                        pp.remove();
+                                    }catch(Exception e) {
+                                        log.error("Error while deletting file in resource instance PhotoAlbum with id: "+base.getId() +"-"+ base.getTitle(), e);
+                                    }
+                                }else if(base.getAttribute("gpophotos").equalsIgnoreCase("category")) {
+                                    try {
+                                        File f = new File(fspath+pp.getPhotoImage());
+                                        f.delete();
+                                        f = new File(fspath+_thumbnail+pp.getPhotoImage());
+                                        f.delete();
+                                        sprovider.removeSpCategoryPymePhoto(pp);
                                         pp.remove();
                                     }catch(Exception e) {
                                         log.error("Error while deletting file in resource instance PhotoAlbum with id: "+base.getId() +"-"+ base.getTitle(), e);
@@ -354,6 +367,8 @@ public class PhotoAlbum extends GenericAdmResource {
                             sprovider.addEstablishmentPymePhoto(pp);
                         else if(base.getAttribute("gpophotos").equalsIgnoreCase("instalation"))
                             sprovider.addInstalationsPymePhoto(pp);
+                        else if(base.getAttribute("gpophotos").equalsIgnoreCase("category"))
+                            sprovider.addSpCategoryPymePhoto(pp);
                         else if(base.getAttribute("gpophotos").equalsIgnoreCase("more"))
                             sprovider.addMorePymePhoto(pp);
                     }
@@ -477,9 +492,12 @@ public class PhotoAlbum extends GenericAdmResource {
             it = sprovider.listEstablishmentPymePhotos();
         }else if(base.getAttribute("gpophotos").equalsIgnoreCase("instalation")) {
             it = sprovider.listInstalationsPymePhotos();
+        }else if(base.getAttribute("gpophotos").equalsIgnoreCase("category")) {
+            it = sprovider.listSpCategoryPymePhotos();
         }else if(base.getAttribute("gpophotos").equalsIgnoreCase("more")) {
             it = sprovider.listMorePymePhotos();
         }
+
         ArrayList<String> photos = new ArrayList<String>();
         while(it.hasNext()) {            
             PymePhoto pp = it.next();
@@ -533,7 +551,11 @@ public class PhotoAlbum extends GenericAdmResource {
             out.println("    }");
             out.println("</script>");
         }else {
-            out.println("<h3 class=\"subtitleLevel2\">"+base.getDisplayTitle(paramRequest.getUser().getLanguage())+"</h3>");
+            if(base.getAttribute("gpophotos").equalsIgnoreCase("category"))
+                out.println("<h3 class=\"subtitleLevel2\">"+base.getDisplayTitle(paramRequest.getUser().getLanguage())+" "+sprovider.getSemanticObject().getSemanticClass().getName()+"</h3>");
+            else
+                out.println("<h3 class=\"subtitleLevel2\">"+base.getDisplayTitle(paramRequest.getUser().getLanguage())+"</h3>");
+
             out.println("<div class=\"holderPhotoPreviews\">");
             int i=0;
             for(String image : photos) {

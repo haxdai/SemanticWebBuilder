@@ -11,6 +11,7 @@
             <statictext name="txtTarget">Grupo:</statictext>
             <input type="RADIO" name="gpophotos" label="Establecimiento" value="establishment" checked="true" />
             <input type="RADIO" name="gpophotos" label="Instalaciones" value="instalation"/>
+            <input type="RADIO" name="gpophotos" label="Category" value="category"/>
             <input type="RADIO" name="gpophotos" label="Más fotos" value="more"/>
         </fieldset>
 
