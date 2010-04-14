@@ -568,22 +568,6 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         }
                         fichero = new File(basepath + value);
 
-
-                        ServiceProvider dirObj = (ServiceProvider) sobj.createGenericInstance();
-                        if (item.getFieldName().equals("dirPhoto")) {
-                            String tmpPhoto = dirObj.getPhoto();
-                            dirObj.setPhoto(value);
-                            File file = new File(basepath + tmpPhoto);
-                            file.delete();
-                        //Foto principal 281/187
-                        } else if (item.getFieldName().equals("PhotoLogo")) {
-                            String tmpPhoto = dirObj.getPhotoLogo();
-                            dirObj.setPhotoLogo(value);
-                            File file = new File(basepath + tmpPhoto);
-                            file.delete();
-                        //Foto Logo 79/78
-                        }
-
                         String ext = "";
                         pos = -1;
                         pos = value.indexOf(".");
@@ -591,12 +575,34 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                             ext = value.substring(pos + 1);
                         }
 
-                        try {
-                            item.write(fichero);
-                            ImageResizer.resize(fichero, 187, true, fichero, ext);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            log.debug(e);
+
+                        ServiceProvider dirObj = (ServiceProvider) sobj.createGenericInstance();
+                        if (item.getFieldName().equals("dirPhoto")) {
+                            String tmpPhoto = dirObj.getPhoto();
+                            dirObj.setPhoto(value);
+                            File file = new File(basepath + tmpPhoto);
+                            file.delete();
+
+                            try {
+                                item.write(fichero);
+                                ImageResizer.resize(fichero, 336, 224, true, fichero, ext);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                log.debug(e);
+                            }
+                        } else if (item.getFieldName().equals("PhotoLogo")) {
+                            String tmpPhoto = dirObj.getPhotoLogo();
+                            dirObj.setPhotoLogo(value);
+                            File file = new File(basepath + tmpPhoto);
+                            file.delete();
+
+                            try {
+                                item.write(fichero);
+                                ImageResizer.resize(fichero, 90, 67, true, fichero, ext);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                log.debug(e);
+                            }
                         }
                     }
                 }
