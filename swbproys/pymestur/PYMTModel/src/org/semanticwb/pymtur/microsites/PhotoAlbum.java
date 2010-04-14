@@ -552,7 +552,7 @@ public class PhotoAlbum extends GenericAdmResource {
             out.println("</script>");
         }else {
             if(base.getAttribute("gpophotos").equalsIgnoreCase("category"))
-                out.println("<h3 class=\"subtitleLevel2\">"+base.getDisplayTitle(paramRequest.getUser().getLanguage())+" "+sprovider.getSemanticObject().getSemanticClass().getName()+"</h3>");
+                out.println("<h3 class=\"subtitleLevel2\">"+base.getDisplayTitle(paramRequest.getUser().getLanguage())+" "+sprovider.getSemanticObject().getSemanticClass().getName().toUpperCase()+"</h3>");
             else
                 out.println("<h3 class=\"subtitleLevel2\">"+base.getDisplayTitle(paramRequest.getUser().getLanguage())+"</h3>");
 
