@@ -11,7 +11,8 @@ namespace WBWord
         private String repositoryid;
         private String id;
         private String tpc;
-        public FolderRepository(String text,String id,String siteid,String repositoryid,String tpc) : base(text)
+        private String url;
+        public FolderRepository(String text,String id,String siteid,String repositoryid,String tpc,String url) : base(text)
         {
             this.siteid = siteid;
             this.id = id;
@@ -19,6 +20,14 @@ namespace WBWord
             this.tpc = tpc;
             this.SelectedImageIndex = 1;
             this.ImageIndex = 0;
+            this.url = url;
+        }
+        public String URL
+        {
+            get
+            {
+                return url;
+            }
         }
         public String TopicResource
         {
