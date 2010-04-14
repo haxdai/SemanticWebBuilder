@@ -126,18 +126,6 @@ public abstract class PaqTemplateBase extends org.semanticwb.model.WebPage imple
             return it;
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.PaqTemplate> listPaqTemplateByTemplateRef(org.semanticwb.model.TemplateRef hastemplateref,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PaqTemplate> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef, hastemplateref.getSemanticObject(),sclass));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.PaqTemplate> listPaqTemplateByTemplateRef(org.semanticwb.model.TemplateRef hastemplateref)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PaqTemplate> it=new org.semanticwb.model.GenericIterator(hastemplateref.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef,hastemplateref.getSemanticObject(),sclass));
-            return it;
-        }
-
         public static java.util.Iterator<org.semanticwb.pymtur.PaqTemplate> listPaqTemplateByPFlowRef(org.semanticwb.model.PFlowRef haspflowref,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PaqTemplate> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef, haspflowref.getSemanticObject(),sclass));
@@ -147,6 +135,18 @@ public abstract class PaqTemplateBase extends org.semanticwb.model.WebPage imple
         public static java.util.Iterator<org.semanticwb.pymtur.PaqTemplate> listPaqTemplateByPFlowRef(org.semanticwb.model.PFlowRef haspflowref)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PaqTemplate> it=new org.semanticwb.model.GenericIterator(haspflowref.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef,haspflowref.getSemanticObject(),sclass));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.pymtur.PaqTemplate> listPaqTemplateByTemplateRef(org.semanticwb.model.TemplateRef hastemplateref,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PaqTemplate> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef, hastemplateref.getSemanticObject(),sclass));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.pymtur.PaqTemplate> listPaqTemplateByTemplateRef(org.semanticwb.model.TemplateRef hastemplateref)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PaqTemplate> it=new org.semanticwb.model.GenericIterator(hastemplateref.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef,hastemplateref.getSemanticObject(),sclass));
             return it;
         }
 

@@ -50,9 +50,13 @@ import org.semanticwb.portal.SWBFormMgr;
 import org.semanticwb.portal.api.*;
 import org.semanticwb.base.util.ImageResizer;
 import org.semanticwb.model.Dns;
+import org.semanticwb.model.GenericObject;
 import org.semanticwb.model.Role;
+import org.semanticwb.model.Template;
+import org.semanticwb.model.TemplateRef;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
+import org.semanticwb.platform.SemanticOntology;
 import org.semanticwb.portal.SWBFormButton;
 import org.semanticwb.portal.TemplateImp;
 import org.semanticwb.portal.community.DirectoryObject;
@@ -64,6 +68,7 @@ import org.semanticwb.portal.indexer.searcher.SearchDocument;
 import org.semanticwb.portal.indexer.searcher.SearchQuery;
 import org.semanticwb.portal.indexer.searcher.SearchResults;
 import org.semanticwb.portal.indexer.searcher.SearchTerm;
+import org.semanticwb.pymtur.util.PymturUtils;
 import org.semanticwb.servlet.internal.UploadFormElement;
 
 public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResourceBase {
@@ -295,6 +300,8 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     dirObj.setCreated(new Date());
                     dirObj.setSpStatus(1);
 
+                    PymturUtils.logServiceProvider(dirObj, 1, "MiPyME Registered", user, wsite);
+
                     String refirect = null;
                     if (request.getParameter("destination") != null) {
                         WebPage wdestination = wsite.getWebPage(request.getParameter("destination"));
@@ -333,6 +340,26 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         ms.setDescription(dirObj.getDescription());
                         ms.setTags(dirObj.getTags());
                         ms.setActive(Boolean.TRUE);
+
+                        //Se asigna plantilla (Por el momento solo si es de paquete tipo 4)
+                        if (pymetype == 4) {
+                            if(request.getParameter("tplURI")!=null){
+                                SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("tplURI"));
+                                Template template = (Template) semObject.createGenericInstance();
+                                TemplateRef tmpRef = wsite.createTemplateRef();
+                                tmpRef.setTemplate(template);
+                                tmpRef.setActive(Boolean.TRUE);
+                                tmpRef.setInherit(TemplateRef.INHERIT_ACTUALANDCHILDS);
+                                tmpRef.setValid(Boolean.TRUE);
+                                tmpRef.setPriority(3);
+                                ms.addTemplateRef(tmpRef);
+                            }
+                            if(request.getParameter("varianTplURI")!=null){
+                                SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("varianTplURI"));
+                                VariantPaqTemplate varianTpl = (VariantPaqTemplate) semObject.createGenericInstance();
+                                dirObj.setVariantPaqTemplate(varianTpl);
+                            }
+                        }
 
                         String sdomain = request.getParameter("pymeDomain");
                         if (pymetype == 4 && sdomain != null && sdomain.trim().length() > 0) { //Se asigna el DNS al Micrositio siempre y cuando sea de tipo 4 (PREMIER)
@@ -418,6 +445,8 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     SemanticObject semObject = SemanticObject.createSemanticObject(URLDecoder.decode(request.getParameter("uri")));
                     ServiceProvider servProp = (ServiceProvider) semObject.createGenericInstance();
                     servProp.setSpStatus(2);
+                    PymturUtils.logServiceProvider(servProp, 2, "MiPyME accept Registry", user, wsite);
+
 
                     String statComm = request.getParameter("statusComment");
                     if (statComm != null) {
@@ -464,6 +493,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     SemanticObject semObject = SemanticObject.createSemanticObject(URLDecoder.decode(request.getParameter("uri")));
                     ServiceProvider servProp = (ServiceProvider) semObject.createGenericInstance();
                     servProp.setSpStatus(4);
+                    PymturUtils.logServiceProvider(servProp, 4, "MiPyME unRegister", user, wsite);
 
                     String statComm = request.getParameter("statusComment");
                     if (statComm != null) {
