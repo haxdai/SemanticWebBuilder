@@ -9,17 +9,27 @@ namespace WBWord
     {
         private FolderRepository folder;
         private String id;
+        private String filename;
         private String url;
-        public FileRepository(String text, String id, String time,String url, FolderRepository folder)
+        public FileRepository(String text, String id, String time, String filename, FolderRepository folder,String url)
             : base(text)
         {
             this.SubItems[0].Text = text;
             this.SubItems.Add(time);
             this.folder = folder;
             this.id = id;
+            this.filename = filename;
             this.url = url;
 
         }
+        public String FileName
+        {
+            get
+            {
+                return filename;
+            }
+        }
+
         public String URL
         {
             get
@@ -27,7 +37,6 @@ namespace WBWord
                 return url;
             }
         }
-
 
         public String ID
         {

@@ -59,9 +59,11 @@ namespace WBWord
             }
             object missing = Type.Missing;
             FileRepository filerep = (FileRepository)this.listViewFiles.SelectedItems[0];
-            String url = filerep.URL;
+            String url = filerep.FolderRepository.URL;
+            String name = filerep.FileName;
             //object address = "wbrelpath://" + url;
-            object address = "wbrelpath://" + "../../"+filerep.FolderRepository.SiteID+"/"+ filerep.FolderRepository.TopicResource + "/_rid/1/_mto/3/" + url + "?repfop=view&reptp=" + filerep.FolderRepository.ID + "&repfiddoc=" + filerep.ID + "&repinline=true";
+            //object address = "wbrelpath://" + "../../"+filerep.FolderRepository.SiteID+"/"+ filerep.FolderRepository.TopicResource + "/_rid/1/_mto/3/" + name + "?repfop=view&reptp=" + filerep.FolderRepository.ID + "&repfiddoc=" + filerep.ID + "&repinline=true";
+            object address = "wbrelpath://" + "../../../" + filerep.FolderRepository.URL+"/_rid/1/_mto/3/" + name + "?repfop=view&reptp=" + filerep.FolderRepository.ID + "&repfiddoc=" + filerep.ID + "&repinline=true";
             object text = ((FileRepository)this.listViewFiles.SelectedItems[0]).Text;
             CWebBuilder.doc.Hyperlinks.Add(CWebBuilder.app.Selection.Range, ref address, ref missing, ref missing, ref text, ref missing);
             this.Close();
@@ -131,7 +133,8 @@ namespace WBWord
                             String text = child.GetAttribute("title");
                             String id = child.GetAttribute("id");
                             String tpc = child.GetAttribute("tpc");
-                            FolderRepository folder = new FolderRepository(text, id, siteid, repid, tpc);
+                            String url = child.GetAttribute("url");
+                            FolderRepository folder = new FolderRepository(text, id, siteid, repid, tpc,url);
                             this.treeViewfolders.Nodes.Add(folder);
                             String childs = child.GetAttribute("childs");
                             if (childs.Equals("1"))
@@ -168,8 +171,9 @@ namespace WBWord
                             String text = child.GetAttribute("title");
                             String id = child.GetAttribute("id");
                             String date = child.GetAttribute("date");
+                            String name = child.GetAttribute("name");
                             String url = child.GetAttribute("url");
-                            FileRepository file = new FileRepository(text, id, date, url, folder);
+                            FileRepository file = new FileRepository(text, id, date, name, folder,url);
                             this.listViewFiles.Items.Add(file);
                         }
                     }
@@ -205,7 +209,8 @@ namespace WBWord
                             String text = child.GetAttribute("title");
                             String id = child.GetAttribute("id");
                             String tpc = child.GetAttribute("tpc");
-                            FolderRepository folder = new FolderRepository(text, id, siteid, repid, tpc);
+                            String url = child.GetAttribute("url");
+                            FolderRepository folder = new FolderRepository(text, id, siteid, repid, tpc,url);
                             folderparent.Nodes.Add(folder);
                             String childs = child.GetAttribute("childs");
                             if (childs.Equals("1"))
