@@ -125,18 +125,6 @@ public abstract class StateBase extends org.semanticwb.model.WebPage implements 
             return it;
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.State> listStateByTemplateRef(org.semanticwb.model.TemplateRef hastemplateref,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.State> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef, hastemplateref.getSemanticObject(),sclass));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.State> listStateByTemplateRef(org.semanticwb.model.TemplateRef hastemplateref)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.State> it=new org.semanticwb.model.GenericIterator(hastemplateref.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef,hastemplateref.getSemanticObject(),sclass));
-            return it;
-        }
-
         public static java.util.Iterator<org.semanticwb.pymtur.State> listStateByPFlowRef(org.semanticwb.model.PFlowRef haspflowref,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.State> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef, haspflowref.getSemanticObject(),sclass));
@@ -146,6 +134,18 @@ public abstract class StateBase extends org.semanticwb.model.WebPage implements 
         public static java.util.Iterator<org.semanticwb.pymtur.State> listStateByPFlowRef(org.semanticwb.model.PFlowRef haspflowref)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.State> it=new org.semanticwb.model.GenericIterator(haspflowref.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef,haspflowref.getSemanticObject(),sclass));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.pymtur.State> listStateByTemplateRef(org.semanticwb.model.TemplateRef hastemplateref,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.State> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef, hastemplateref.getSemanticObject(),sclass));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.pymtur.State> listStateByTemplateRef(org.semanticwb.model.TemplateRef hastemplateref)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.State> it=new org.semanticwb.model.GenericIterator(hastemplateref.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef,hastemplateref.getSemanticObject(),sclass));
             return it;
         }
 

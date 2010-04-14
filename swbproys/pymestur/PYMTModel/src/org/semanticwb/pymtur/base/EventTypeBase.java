@@ -125,18 +125,6 @@ public abstract class EventTypeBase extends org.semanticwb.model.WebPage impleme
             return it;
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.EventType> listEventTypeByTemplateRef(org.semanticwb.model.TemplateRef hastemplateref,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.EventType> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef, hastemplateref.getSemanticObject(),sclass));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.EventType> listEventTypeByTemplateRef(org.semanticwb.model.TemplateRef hastemplateref)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.EventType> it=new org.semanticwb.model.GenericIterator(hastemplateref.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef,hastemplateref.getSemanticObject(),sclass));
-            return it;
-        }
-
         public static java.util.Iterator<org.semanticwb.pymtur.EventType> listEventTypeByPFlowRef(org.semanticwb.model.PFlowRef haspflowref,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.EventType> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef, haspflowref.getSemanticObject(),sclass));
@@ -146,6 +134,18 @@ public abstract class EventTypeBase extends org.semanticwb.model.WebPage impleme
         public static java.util.Iterator<org.semanticwb.pymtur.EventType> listEventTypeByPFlowRef(org.semanticwb.model.PFlowRef haspflowref)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.EventType> it=new org.semanticwb.model.GenericIterator(haspflowref.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef,haspflowref.getSemanticObject(),sclass));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.pymtur.EventType> listEventTypeByTemplateRef(org.semanticwb.model.TemplateRef hastemplateref,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.EventType> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef, hastemplateref.getSemanticObject(),sclass));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.pymtur.EventType> listEventTypeByTemplateRef(org.semanticwb.model.TemplateRef hastemplateref)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.EventType> it=new org.semanticwb.model.GenericIterator(hastemplateref.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef,hastemplateref.getSemanticObject(),sclass));
             return it;
         }
 

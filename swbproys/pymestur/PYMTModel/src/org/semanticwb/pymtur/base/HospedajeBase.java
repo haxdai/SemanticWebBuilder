@@ -3,9 +3,6 @@ package org.semanticwb.pymtur.base;
 
 public abstract class HospedajeBase extends org.semanticwb.pymtur.ServiceProvider implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Rankable,org.semanticwb.model.Searchable,org.semanticwb.portal.community.Interactiveable,org.semanticwb.portal.community.Addressable,org.semanticwb.model.Geolocalizable,org.semanticwb.model.Tagable,org.semanticwb.model.Traceable,org.semanticwb.portal.community.Contactable
 {
-    public static final org.semanticwb.platform.SemanticClass pymtur_PymePhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#PymePhoto");
-    public static final org.semanticwb.platform.SemanticProperty pymtur_hasSPCategoryPymePhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#hasSPCategoryPymePhoto");
-    public static final org.semanticwb.platform.SemanticProperty pymtur_spCategoryPhotosComments=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#spCategoryPhotosComments");
     public static final org.semanticwb.platform.SemanticClass pymtur_Hospedaje=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Hospedaje");
     public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Hospedaje");
 
@@ -42,18 +39,6 @@ public abstract class HospedajeBase extends org.semanticwb.pymtur.ServiceProvide
         public static boolean hasHospedaje(String id, org.semanticwb.model.SWBModel model)
         {
             return (getHospedaje(id, model)!=null);
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.Hospedaje> listHospedajeBySPCategoryPymePhoto(org.semanticwb.pymtur.PymePhoto hasspcategorypymephoto,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Hospedaje> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(pymtur_hasSPCategoryPymePhoto, hasspcategorypymephoto.getSemanticObject(),sclass));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.Hospedaje> listHospedajeBySPCategoryPymePhoto(org.semanticwb.pymtur.PymePhoto hasspcategorypymephoto)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Hospedaje> it=new org.semanticwb.model.GenericIterator(hasspcategorypymephoto.getSemanticObject().getModel().listSubjectsByClass(pymtur_hasSPCategoryPymePhoto,hasspcategorypymephoto.getSemanticObject(),sclass));
-            return it;
         }
 
         public static java.util.Iterator<org.semanticwb.pymtur.Hospedaje> listHospedajeByInstalation(org.semanticwb.pymtur.Instalation hasinstalation,org.semanticwb.model.SWBModel model)
@@ -284,6 +269,18 @@ public abstract class HospedajeBase extends org.semanticwb.pymtur.ServiceProvide
             return it;
         }
 
+        public static java.util.Iterator<org.semanticwb.pymtur.Hospedaje> listHospedajeBySpCategoryPymePhoto(org.semanticwb.pymtur.PymePhoto hasspcategorypymephoto,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Hospedaje> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(pymtur_hasSpCategoryPymePhoto, hasspcategorypymephoto.getSemanticObject(),sclass));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.pymtur.Hospedaje> listHospedajeBySpCategoryPymePhoto(org.semanticwb.pymtur.PymePhoto hasspcategorypymephoto)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Hospedaje> it=new org.semanticwb.model.GenericIterator(hasspcategorypymephoto.getSemanticObject().getModel().listSubjectsByClass(pymtur_hasSpCategoryPymePhoto,hasspcategorypymephoto.getSemanticObject(),sclass));
+            return it;
+        }
+
         public static java.util.Iterator<org.semanticwb.pymtur.Hospedaje> listHospedajeByComment(org.semanticwb.portal.community.Comment hascomment,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Hospedaje> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swbcomm_hasComment, hascomment.getSemanticObject(),sclass));
@@ -324,57 +321,6 @@ public abstract class HospedajeBase extends org.semanticwb.pymtur.ServiceProvide
     public HospedajeBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
-    }
-
-    public org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PymePhoto> listSPCategoryPymePhotos()
-    {
-        return new org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PymePhoto>(getSemanticObject().listObjectProperties(pymtur_hasSPCategoryPymePhoto));
-    }
-
-    public boolean hasSPCategoryPymePhoto(org.semanticwb.pymtur.PymePhoto pymephoto)
-    {
-        boolean ret=false;
-        if(pymephoto!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(pymtur_hasSPCategoryPymePhoto,pymephoto.getSemanticObject());
-        }
-        return ret;
-    }
-
-    public void addSPCategoryPymePhoto(org.semanticwb.pymtur.PymePhoto value)
-    {
-        getSemanticObject().addObjectProperty(pymtur_hasSPCategoryPymePhoto, value.getSemanticObject());
-    }
-
-    public void removeAllSPCategoryPymePhoto()
-    {
-        getSemanticObject().removeProperty(pymtur_hasSPCategoryPymePhoto);
-    }
-
-    public void removeSPCategoryPymePhoto(org.semanticwb.pymtur.PymePhoto pymephoto)
-    {
-        getSemanticObject().removeObjectProperty(pymtur_hasSPCategoryPymePhoto,pymephoto.getSemanticObject());
-    }
-
-    public org.semanticwb.pymtur.PymePhoto getSPCategoryPymePhoto()
-    {
-         org.semanticwb.pymtur.PymePhoto ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(pymtur_hasSPCategoryPymePhoto);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.pymtur.PymePhoto)obj.createGenericInstance();
-         }
-         return ret;
-    }
-
-    public String getSpCategoryPhotosComments()
-    {
-        return getSemanticObject().getProperty(pymtur_spCategoryPhotosComments);
-    }
-
-    public void setSpCategoryPhotosComments(String value)
-    {
-        getSemanticObject().setProperty(pymtur_spCategoryPhotosComments, value);
     }
 
     public org.semanticwb.pymtur.PyMesWebSite getPyMesWebSite()

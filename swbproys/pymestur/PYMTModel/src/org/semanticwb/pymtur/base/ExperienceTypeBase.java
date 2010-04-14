@@ -131,18 +131,6 @@ public abstract class ExperienceTypeBase extends org.semanticwb.model.WebPage im
             return it;
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.ExperienceType> listExperienceTypeByTemplateRef(org.semanticwb.model.TemplateRef hastemplateref,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.ExperienceType> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef, hastemplateref.getSemanticObject(),sclass));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.ExperienceType> listExperienceTypeByTemplateRef(org.semanticwb.model.TemplateRef hastemplateref)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.ExperienceType> it=new org.semanticwb.model.GenericIterator(hastemplateref.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef,hastemplateref.getSemanticObject(),sclass));
-            return it;
-        }
-
         public static java.util.Iterator<org.semanticwb.pymtur.ExperienceType> listExperienceTypeByPFlowRef(org.semanticwb.model.PFlowRef haspflowref,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.ExperienceType> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef, haspflowref.getSemanticObject(),sclass));
@@ -152,6 +140,18 @@ public abstract class ExperienceTypeBase extends org.semanticwb.model.WebPage im
         public static java.util.Iterator<org.semanticwb.pymtur.ExperienceType> listExperienceTypeByPFlowRef(org.semanticwb.model.PFlowRef haspflowref)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.ExperienceType> it=new org.semanticwb.model.GenericIterator(haspflowref.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef,haspflowref.getSemanticObject(),sclass));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.pymtur.ExperienceType> listExperienceTypeByTemplateRef(org.semanticwb.model.TemplateRef hastemplateref,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.ExperienceType> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef, hastemplateref.getSemanticObject(),sclass));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.pymtur.ExperienceType> listExperienceTypeByTemplateRef(org.semanticwb.model.TemplateRef hastemplateref)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.ExperienceType> it=new org.semanticwb.model.GenericIterator(hastemplateref.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef,hastemplateref.getSemanticObject(),sclass));
             return it;
         }
 
