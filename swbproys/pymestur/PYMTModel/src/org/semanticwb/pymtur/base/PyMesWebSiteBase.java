@@ -15,7 +15,9 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
     public static final org.semanticwb.platform.SemanticClass pymtur_Experience=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Experience");
     public static final org.semanticwb.platform.SemanticClass pymtur_ServiceProvider=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#ServiceProvider");
     public static final org.semanticwb.platform.SemanticClass pymtur_Region=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Region");
+    public static final org.semanticwb.platform.SemanticClass pymtur_Parameter=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Parameter");
     public static final org.semanticwb.platform.SemanticClass pymtur_Event=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Event");
+    public static final org.semanticwb.platform.SemanticClass pymtur_Paquete=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Paquete");
     public static final org.semanticwb.platform.SemanticClass pymtur_CuponType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#CuponType");
     public static final org.semanticwb.platform.SemanticClass swbcomm_MicroSiteWebPageUtil=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/community#MicroSiteWebPageUtil");
     public static final org.semanticwb.platform.SemanticClass pymtur_EventType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#EventType");
@@ -515,6 +517,30 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
         return org.semanticwb.pymtur.Region.ClassMgr.hasRegion(id, this);
     }
 
+    public org.semanticwb.pymtur.Parameter getParameter(String id)
+    {
+        return org.semanticwb.pymtur.Parameter.ClassMgr.getParameter(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.pymtur.Parameter> listParameters()
+    {
+        return org.semanticwb.pymtur.Parameter.ClassMgr.listParameters(this);
+    }
+
+    public org.semanticwb.pymtur.Parameter createParameter(String id)
+    {
+        return org.semanticwb.pymtur.Parameter.ClassMgr.createParameter(id,this);
+    }
+
+    public void removeParameter(String id)
+    {
+        org.semanticwb.pymtur.Parameter.ClassMgr.removeParameter(id, this);
+    }
+    public boolean hasParameter(String id)
+    {
+        return org.semanticwb.pymtur.Parameter.ClassMgr.hasParameter(id, this);
+    }
+
     public org.semanticwb.pymtur.Event getEvent(String id)
     {
         return org.semanticwb.pymtur.Event.ClassMgr.getEvent(id, this);
@@ -543,6 +569,30 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
     public boolean hasEvent(String id)
     {
         return org.semanticwb.pymtur.Event.ClassMgr.hasEvent(id, this);
+    }
+
+    public org.semanticwb.pymtur.Paquete getPaquete(String id)
+    {
+        return org.semanticwb.pymtur.Paquete.ClassMgr.getPaquete(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.pymtur.Paquete> listPaquetes()
+    {
+        return org.semanticwb.pymtur.Paquete.ClassMgr.listPaquetes(this);
+    }
+
+    public org.semanticwb.pymtur.Paquete createPaquete(String id)
+    {
+        return org.semanticwb.pymtur.Paquete.ClassMgr.createPaquete(id,this);
+    }
+
+    public void removePaquete(String id)
+    {
+        org.semanticwb.pymtur.Paquete.ClassMgr.removePaquete(id, this);
+    }
+    public boolean hasPaquete(String id)
+    {
+        return org.semanticwb.pymtur.Paquete.ClassMgr.hasPaquete(id, this);
     }
 
     public org.semanticwb.pymtur.CuponType getCuponType(String id)
