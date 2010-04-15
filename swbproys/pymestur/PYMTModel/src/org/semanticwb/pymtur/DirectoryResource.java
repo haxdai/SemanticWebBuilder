@@ -321,7 +321,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                             }
                         }
                     }
-                    int pymetype = 1;
+                    int pymetype = PymturUtils.PAQ_DIRECTORIO;
                     if (request.getParameter("pymetype") != null) {
                         pymetype = Integer.parseInt(request.getParameter("pymetype"));
                     }
@@ -329,11 +329,11 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     processFiles(request, wsite, dirObj.getSemanticObject());
                     semObjTmp = dirObj.getSemanticObject();
 
-                    if (pymetype == 3 || pymetype == 4) {
+                    if (pymetype == PymturUtils.PAQ_MICROSITIO || pymetype == PymturUtils.PAQ_PREMIER) {
                         MicroSitePyme ms = MicroSitePyme.ClassMgr.createMicroSitePyme("Microsite_" + dirObj.getId(), wsite); //TODO:Hacer que sea con el nombre de la pyme en formato de ID
-                        if (pymetype == 3) {
+                        if (pymetype == PymturUtils.PAQ_MICROSITIO) {
                             ms.setParent(wsite.getWebPage("Micrositios"));
-                        } else if (pymetype == 4) {
+                        } else if (pymetype == PymturUtils.PAQ_PREMIER) {
                             ms.setParent(wsite.getWebPage("MsPremier"));
                         }
                         ms.setTitle(dirObj.getTitle());
@@ -341,8 +341,8 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         ms.setTags(dirObj.getTags());
                         ms.setActive(Boolean.TRUE);
 
-                        //Se asigna plantilla (Por el momento solo si es de paquete tipo 4)
-                        if (pymetype == 4) {
+                        //Se asigna plantilla (Por el momento solo si es de paquete tipo 4 - Premier)
+                        if (pymetype == PymturUtils.PAQ_PREMIER) {
                             if(request.getParameter("tplURI")!=null){
                                 SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("tplURI"));
                                 Template template = (Template) semObject.createGenericInstance();
@@ -362,7 +362,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         }
 
                         String sdomain = request.getParameter("pymeDomain");
-                        if (pymetype == 4 && sdomain != null && sdomain.trim().length() > 0) { //Se asigna el DNS al Micrositio siempre y cuando sea de tipo 4 (PREMIER)
+                        if (pymetype == PymturUtils.PAQ_PREMIER && sdomain != null && sdomain.trim().length() > 0) { //Se asigna el DNS al Micrositio siempre y cuando sea de tipo 4 (PREMIER)
                             Dns newDns = Dns.ClassMgr.createDns(wsite);
                             newDns.setDns(request.getParameter("pymeDomain"));
                             newDns.setWebPage(ms);
@@ -371,9 +371,9 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
 
                         //Le asigna el tipo de comunidad y el service provider al micrositio
                         MicroSiteType mstype = null;
-                        if (pymetype == 3) {
+                        if (pymetype == PymturUtils.PAQ_MICROSITIO) {
                             mstype = MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSite", wsite);
-                        } else if (pymetype == 4) {
+                        } else if (pymetype == PymturUtils.PAQ_PREMIER) {
                             mstype = MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSitePlus", wsite);
                         }
                         if (mstype != null) {
@@ -413,11 +413,11 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                             "<b>"+dirObj.getTitle()+"</b><br/>" +
                             "Son muchos los beneficios que recibirás para la misma.<br/>"+
                             "En un periodo no mayor a 24 hrs., te notificaremos sobre la publicación de";
-                            if(pymetype==2){
+                            if(pymetype==PymturUtils.PAQ_FICHA){
                                 staticText=staticText+" la ficha, con los datos de tu empresa, en el portal \"Siente México\". <br/><br/>";
-                            }else if(pymetype==3){
+                            }else if(pymetype==PymturUtils.PAQ_MICROSITIO){
                                 staticText=staticText+" tu Micrositio.<br/><br/>";
-                            }else if(pymetype==4){
+                            }else if(pymetype==PymturUtils.PAQ_PREMIER){
                                 staticText=staticText+" tu página web.<br/><br/>";
                             }
                             staticText=staticText+"Atentamente tus amigos de:<br/>"+
@@ -461,20 +461,20 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         if (staticText == null || staticText.trim().length() == 0) {
                             staticText = "Estimado (a) {user} ,<br/><br/>" +
                             "Nos complace informarte que";
-                            if (servProp.getPymePaqueteType() == 2) {
+                            if (servProp.getPymePaqueteType() == PymturUtils.PAQ_FICHA) {
                                 staticText=staticText+" la ficha";
-                            }if (servProp.getPymePaqueteType() == 3) {
+                            }if (servProp.getPymePaqueteType() == PymturUtils.PAQ_MICROSITIO) {
                                 staticText=staticText+" el Micrositio";
-                            }if (servProp.getPymePaqueteType() == 4) {
+                            }if (servProp.getPymePaqueteType() == PymturUtils.PAQ_PREMIER) {
                                 staticText=staticText+" la página web";
                             }
                             staticText=staticText+ " con los datos de tu empresa:<br/>"+
                             "<b>"+servProp.getTitle()+"</b><br/>"+
                             "ha sido publicada.<br><br/>"+
                             "Puedes consultarla en línea dando click en la siguiente liga<br/><br/>";
-                            if (servProp.getPymePaqueteType() > 1 && pageFicha != null) {
+                            if (servProp.getPymePaqueteType() > PymturUtils.PAQ_DIRECTORIO && pageFicha != null) {
                                 staticText = staticText + server + pageFicha.getUrl() + "?uri=" + servProp.getEncodedURI() + "&act=detail<br/><br/>";
-                            }if (servProp.getPymePaqueteType() > 3 && servProp.getPymeDomain() != null) {
+                            }if (servProp.getPymePaqueteType() > PymturUtils.PAQ_MICROSITIO && servProp.getPymeDomain() != null) {
                                 staticText = staticText + "El dominio registrado es:<br/><br/>" + servProp.getPymeDomain() + "<br/><br/>";
                             }
                             staticText=staticText+"Si deseas editar tu información podrás hacerlo firmándote en el portal \"Siente México\"<br/> con el usuario y contraseña que elegiste para tu registro.<br/><br/>" +

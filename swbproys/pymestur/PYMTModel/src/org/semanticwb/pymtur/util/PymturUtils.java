@@ -18,14 +18,21 @@ import org.semanticwb.pymtur.ServiceProvider;
  */
 public class PymturUtils {
 
-    public static final int Registrado=1;
-    public static final int Pagado=2;
-    public static final int Aclaracion=3;
-    public static final int Activado=4;
-    public static final int Desactivado=5;
-    public static final int Rechazado=6;
-    public static final int Baja=7;
+    //PAQUETES
+    public static final int PAQ_DIRECTORIO=1;
+    public static final int PAQ_FICHA=2;
+    public static final int PAQ_MICROSITIO=3;
+    public static final int PAQ_PREMIER=4;
 
+    //ESTATUS
+    public static final int ESTATUS_REGISTRADO=1;
+    public static final int ESTATUS_PAGADO=2;
+    public static final int ESTATUS_ACLARACION=3;
+    public static final int ESTATUS_ACTIVADO=4;
+    public static final int ESTATUS_DESACTIVADO=5;
+    public static final int ESTATUS_RECHAZADO=6;
+    public static final int ESTATUS_BAJA=7;
+    
     public static boolean logServiceProvider(ServiceProvider serviceProvider, int status, String comment, User user, SWBModel model){
         PymesLog pymesLog=PymesLog.ClassMgr.createPymesLog(model);
         pymesLog.setServiceProviderLog(serviceProvider);
