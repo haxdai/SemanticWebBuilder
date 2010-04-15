@@ -10,8 +10,10 @@ namespace WBWord
         private FolderRepository folder;
         private String id;
         private String filename;
-        private String url;
-        public FileRepository(String text, String id, String time, String filename, FolderRepository folder,String url)
+        private String tp;
+        private String tm;
+        private String resid;
+        public FileRepository(String text, String id, String time, String filename, FolderRepository folder,String tp,String tm,String resid)
             : base(text)
         {
             this.SubItems[0].Text = text;
@@ -19,7 +21,9 @@ namespace WBWord
             this.folder = folder;
             this.id = id;
             this.filename = filename;
-            this.url = url;
+            this.tp = tp;
+            this.tm = tm;
+            this.resid = resid;
 
         }
         public String FileName
@@ -29,12 +33,28 @@ namespace WBWord
                 return filename;
             }
         }
-
-        public String URL
+        public String ResourceID
         {
             get
             {
-                return url;
+                return resid;
+            }
+        }
+
+
+        public String Topic
+        {
+            get
+            {
+                return tp;
+            }
+        }
+
+        public String Map
+        {
+            get
+            {
+                return tm;
             }
         }
 

@@ -63,7 +63,7 @@ namespace WBWord
             String name = filerep.FileName;
             //object address = "wbrelpath://" + url;
             //object address = "wbrelpath://" + "../../"+filerep.FolderRepository.SiteID+"/"+ filerep.FolderRepository.TopicResource + "/_rid/1/_mto/3/" + name + "?repfop=view&reptp=" + filerep.FolderRepository.ID + "&repfiddoc=" + filerep.ID + "&repinline=true";
-            object address = "wbrelpath://" + "../../../" + filerep.FolderRepository.URL+"/_rid/1/_mto/3/" + name + "?repfop=view&reptp=" + filerep.FolderRepository.ID + "&repfiddoc=" + filerep.ID + "&repinline=true";
+            object address = "wbrelpath://" + "../../../" + filerep.FolderRepository.URL + "/_vtp/"+filerep.Map+"/"+filerep.Topic + "/_rid/"+  filerep.ResourceID +"/_mto/3/" + name + "?repfop=view&reptp=" + filerep.FolderRepository.ID + "&repfiddoc=" + filerep.ID + "&repinline=true";
             object text = ((FileRepository)this.listViewFiles.SelectedItems[0]).Text;
             CWebBuilder.doc.Hyperlinks.Add(CWebBuilder.app.Selection.Range, ref address, ref missing, ref missing, ref text, ref missing);
             this.Close();
@@ -172,8 +172,10 @@ namespace WBWord
                             String id = child.GetAttribute("id");
                             String date = child.GetAttribute("date");
                             String name = child.GetAttribute("name");
-                            String url = child.GetAttribute("url");
-                            FileRepository file = new FileRepository(text, id, date, name, folder,url);
+                            String tp = child.GetAttribute("tp");
+                            String tm = child.GetAttribute("tm");
+                            String resid = child.GetAttribute("resid");
+                            FileRepository file = new FileRepository(text, id, date, name, folder, tp, tm, resid);
                             this.listViewFiles.Items.Add(file);
                         }
                     }
