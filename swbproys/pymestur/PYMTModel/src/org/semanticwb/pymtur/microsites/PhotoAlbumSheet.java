@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -31,6 +30,7 @@ import org.apache.commons.fileupload.ProgressListener;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.semanticwb.platform.SemanticObject;
+import org.semanticwb.pymtur.Paquete;
 
 /**
  *
@@ -95,10 +95,13 @@ public class PhotoAlbumSheet extends GenericAdmResource {
         ret.append("\n<div class=\"swbform\"> ");
         ret.append("<h2>Administraci&oacute;n de im&aacute;genes</h2>");
         ret.append("\n<form id=\"frm_pa_"+base.getId()+"\" name=\"frm_pa_"+base.getId()+"\" method=\"post\" enctype=\"multipart/form-data\" action=\""+url+"\"> ");
-        ret.append("\n <div class=\"btnAddPhotoAdmin\">");
-        ret.append("\n    <input type=\"button\" value=\"Agregar\" onclick=\"addRowToTable_"+base.getId()+"('igtbl_"+base.getId()+"');\" /> ");
-        ret.append("\n    <input type=\"button\" value=\"Cancelar\" onclick=\"removeRowFromTable('igtbl_"+base.getId()+"');\" /> ");
-        ret.append("\n </div>");
+
+        if(canAddPhotos(paramRequest, sprovider)) {
+            ret.append("\n <div class=\"btnAddPhotoAdmin\">");
+            ret.append("\n    <input type=\"button\" value=\"Agregar\" onclick=\"addRowToTable_"+base.getId()+"('igtbl_"+base.getId()+"');\" /> ");
+            ret.append("\n    <input type=\"button\" value=\"Cancelar\" onclick=\"removeRowFromTable('igtbl_"+base.getId()+"');\" /> ");
+            ret.append("\n </div>");
+        }
         ret.append("\n  <table id=\"igtbl_"+base.getId()+"\" width=\"99%\" cellspacing=\"1\" align=\"center\"> ");
         ret.append("\n  <caption>Lista de im&aacute;genes <span class=\"italic\">(bmp, jpg, jpeg, gif, png)</span></caption>");
         ret.append("\n  <tr> ");
@@ -297,6 +300,7 @@ public class PhotoAlbumSheet extends GenericAdmResource {
                                         f = new File(fspath+_thumbnail+pp.getPhotoImage());
                                         f.delete();
                                         sprovider.removeEstablishmentPymePhoto(pp);
+                                        sprovider.setSpTotPhotos(sprovider.getSpTotPhotos()-1);
                                         pp.remove();
                                     }catch(Exception e) {
                                         log.error("Error while deletting file in resource instance PhotoAlbum with id: "+base.getId() +"-"+ base.getTitle(), e);
@@ -308,6 +312,19 @@ public class PhotoAlbumSheet extends GenericAdmResource {
                                         f = new File(fspath+_thumbnail+pp.getPhotoImage());
                                         f.delete();
                                         sprovider.removeInstalationsPymePhoto(pp);
+                                        sprovider.setSpTotPhotos(sprovider.getSpTotPhotos()-1);
+                                        pp.remove();
+                                    }catch(Exception e) {
+                                        log.error("Error while deletting file in resource instance PhotoAlbum with id: "+base.getId() +"-"+ base.getTitle(), e);
+                                    }
+                                }else if(base.getAttribute("gpophotos").equalsIgnoreCase("category")) {
+                                    try {
+                                        File f = new File(fspath+pp.getPhotoImage());
+                                        f.delete();
+                                        f = new File(fspath+_thumbnail+pp.getPhotoImage());
+                                        f.delete();
+                                        sprovider.removeSpCategoryPymePhoto(pp);
+                                        sprovider.setSpTotPhotos(sprovider.getSpTotPhotos()-1);
                                         pp.remove();
                                     }catch(Exception e) {
                                         log.error("Error while deletting file in resource instance PhotoAlbum with id: "+base.getId() +"-"+ base.getTitle(), e);
@@ -319,6 +336,7 @@ public class PhotoAlbumSheet extends GenericAdmResource {
                                         f = new File(fspath+_thumbnail+pp.getPhotoImage());
                                         f.delete();
                                         sprovider.removeMorePymePhoto(pp);
+                                        sprovider.setSpTotPhotos(sprovider.getSpTotPhotos()-1);
                                         pp.remove();
                                     }catch(Exception e) {
                                         log.error("Error while deletting file in resource instance PhotoAlbum with id: "+base.getId() +"-"+ base.getTitle(), e);
@@ -354,12 +372,19 @@ public class PhotoAlbumSheet extends GenericAdmResource {
                         pp.setPhotoImage(filename);
                         pp.setPhotoThumbnail(_thumbnail+filename);
                         pp.setPhotoSize(SWBUtils.IO.getFileSize(image));
-                        if(base.getAttribute("gpophotos").equalsIgnoreCase("establishment"))
+                        if(base.getAttribute("gpophotos").equalsIgnoreCase("establishment")) {
                             sprovider.addEstablishmentPymePhoto(pp);
-                        else if(base.getAttribute("gpophotos").equalsIgnoreCase("instalation"))
+                            sprovider.setSpTotPhotos(sprovider.getSpTotPhotos()+1);
+                        }else if(base.getAttribute("gpophotos").equalsIgnoreCase("instalation")) {
                             sprovider.addInstalationsPymePhoto(pp);
-                        else if(base.getAttribute("gpophotos").equalsIgnoreCase("more"))
+                            sprovider.setSpTotPhotos(sprovider.getSpTotPhotos()+1);
+                        }else if(base.getAttribute("gpophotos").equalsIgnoreCase("category")) {
+                            sprovider.addSpCategoryPymePhoto(pp);
+                            sprovider.setSpTotPhotos(sprovider.getSpTotPhotos()+1);
+                        }else if(base.getAttribute("gpophotos").equalsIgnoreCase("more")) {
                             sprovider.addMorePymePhoto(pp);
+                            sprovider.setSpTotPhotos(sprovider.getSpTotPhotos()+1);
+                        }
                     }
                 }
             }
@@ -454,6 +479,16 @@ public class PhotoAlbumSheet extends GenericAdmResource {
                 response.sendRedirect(response.getWebPage().getUrl()+"?act=detail&uri="+sprovider.getEncodedURI());
             }
         }
+    }
+
+    private boolean canAddPhotos(SWBParamRequest paramRequest, ServiceProvider sprovider) {
+        boolean canAdd = false;
+        int topPhotos = sprovider.getSpTotPhotos();
+        int packageType = sprovider.getPymePaqueteType();
+        int numMaxPhotos = Paquete.ClassMgr.getPaquete(Integer.toString(packageType), paramRequest.getWebPage().getWebSite()).getPaq_NumMaxPhotos();
+        if(topPhotos<numMaxPhotos)
+            canAdd = true;
+        return canAdd;
     }
 
 }

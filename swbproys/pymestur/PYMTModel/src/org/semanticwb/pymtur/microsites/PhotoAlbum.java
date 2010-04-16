@@ -91,14 +91,14 @@ public class PhotoAlbum extends GenericAdmResource {
         ret.append("<h2>Administraci&oacute;n de im&aacute;genes</h2>");
 
         ret.append("\n<form id=\"frm_pa_"+base.getId()+"\" name=\"frm_pa_"+base.getId()+"\" method=\"post\" enctype=\"multipart/form-data\" action=\""+ url+"\"> ");
-        ret.append("\n <div class=\"btnAddPhotoAdmin\">");
 
         if(canAddPhotos(paramRequest, sprovider)) {
+            ret.append("\n <div class=\"btnAddPhotoAdmin\">");
             ret.append("\n    <input type=\"button\" value=\"Agregar\" onclick=\"addRowToTable_"+base.getId()+"('igtbl_"+base.getId()+"');\" /> ");
             ret.append("\n    <input type=\"button\" value=\"Cancelar\" onclick=\"removeRowFromTable('igtbl_"+base.getId()+"');\" /> ");
+            ret.append("\n </div>");
         }
 
-        ret.append("\n </div>");
         ret.append("\n  <table id=\"igtbl_"+base.getId()+"\" width=\"99%\" cellspacing=\"1\" align=\"center\"> ");
         ret.append("\n  <caption>Lista de im&aacute;genes <span class=\"italic\">(bmp, jpg, jpeg, gif, png)</span></caption>");
         ret.append("\n  <tr> ");
