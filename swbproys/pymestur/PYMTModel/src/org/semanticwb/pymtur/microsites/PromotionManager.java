@@ -135,7 +135,8 @@ public class PromotionManager extends GenericResource {
                     promo.setPromoType(request.getParameter("is"));
                     promo.setPromoImg(  (request.getParameter("pimg")!=null&&request.getParameter("pimg").length()>0?request.getParameter("pimg"):null)  );
                     ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
-                    serviceProv.addPromotion(promo);                    
+                    serviceProv.addPromotion(promo);
+                    serviceProv.setSpTotPromotions(serviceProv.getSpTotPromotions()+1);
                 }catch(Exception e){
                     log.error(e);
                 }
@@ -162,6 +163,7 @@ public class PromotionManager extends GenericResource {
             ServiceProvider serviceProv = (ServiceProvider) semObjectProv.createGenericInstance();
 
             serviceProv.removePromotion(promo);
+            serviceProv.setSpTotPromotions(serviceProv.getSpTotPromotions()-1);
             semObject.remove();
         }
     }

@@ -112,6 +112,7 @@ public class CuponManager extends GenericResource {
                     }
                     ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
                     serviceProv.addCupon(cupon);
+                    serviceProv.setSpTotCupones(serviceProv.getSpTotCupones()+1);
                 }catch(Exception e){
                     log.error(e);
                 }
@@ -150,6 +151,7 @@ public class CuponManager extends GenericResource {
             ServiceProvider serviceProv = (ServiceProvider) semObjectProv.createGenericInstance();
 
             serviceProv.removeCupon(cupon);
+            serviceProv.setSpTotCupones(serviceProv.getSpTotCupones()-1);
             semObject.remove();
         }
     }
