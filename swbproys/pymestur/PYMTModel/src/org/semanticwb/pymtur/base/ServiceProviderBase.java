@@ -395,6 +395,16 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
         getSemanticObject().setProperty(swbcomm_extNumber, value);
     }
 
+    public int getSpTotPhotos()
+    {
+        return getSemanticObject().getIntProperty(pymtur_spTotPhotos);
+    }
+
+    public void setSpTotPhotos(int value)
+    {
+        getSemanticObject().setIntProperty(pymtur_spTotPhotos, value);
+    }
+
     public org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Instalation> listInstalations()
     {
         return new org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Instalation>(getSemanticObject().listObjectProperties(pymtur_hasInstalation));
