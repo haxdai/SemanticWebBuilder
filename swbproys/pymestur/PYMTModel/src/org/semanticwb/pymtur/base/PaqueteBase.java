@@ -4,7 +4,9 @@ package org.semanticwb.pymtur.base;
 public abstract class PaqueteBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
     public static final org.semanticwb.platform.SemanticProperty pymtur_paq_Price=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#paq_Price");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_paq_NumMaxCupones=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#paq_NumMaxCupones");
     public static final org.semanticwb.platform.SemanticProperty pymtur_paq_NumMaxPhotos=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#paq_NumMaxPhotos");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_paq_NumMaxPromotions=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#paq_NumMaxPromotions");
     public static final org.semanticwb.platform.SemanticClass pymtur_Paquete=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Paquete");
     public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Paquete");
 
@@ -83,6 +85,16 @@ public abstract class PaqueteBase extends org.semanticwb.model.SWBClass implemen
         getSemanticObject().setFloatProperty(pymtur_paq_Price, value);
     }
 
+    public int getPaq_NumMaxCupones()
+    {
+        return getSemanticObject().getIntProperty(pymtur_paq_NumMaxCupones);
+    }
+
+    public void setPaq_NumMaxCupones(int value)
+    {
+        getSemanticObject().setIntProperty(pymtur_paq_NumMaxCupones, value);
+    }
+
     public java.util.Date getCreated()
     {
         return getSemanticObject().getDateProperty(swb_created);
@@ -157,6 +169,16 @@ public abstract class PaqueteBase extends org.semanticwb.model.SWBClass implemen
     public void setUpdated(java.util.Date value)
     {
         getSemanticObject().setDateProperty(swb_updated, value);
+    }
+
+    public int getPaq_NumMaxPromotions()
+    {
+        return getSemanticObject().getIntProperty(pymtur_paq_NumMaxPromotions);
+    }
+
+    public void setPaq_NumMaxPromotions(int value)
+    {
+        getSemanticObject().setIntProperty(pymtur_paq_NumMaxPromotions, value);
     }
 
     public void setCreator(org.semanticwb.model.User value)
