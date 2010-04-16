@@ -15,19 +15,24 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
     public static final org.semanticwb.platform.SemanticClass pymtur_Experience=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Experience");
     public static final org.semanticwb.platform.SemanticClass pymtur_ServiceProvider=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#ServiceProvider");
     public static final org.semanticwb.platform.SemanticClass pymtur_Region=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Region");
+    public static final org.semanticwb.platform.SemanticClass pymtur_RejectReason=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#RejectReason");
     public static final org.semanticwb.platform.SemanticClass pymtur_Parameter=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Parameter");
     public static final org.semanticwb.platform.SemanticClass pymtur_Event=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Event");
     public static final org.semanticwb.platform.SemanticClass pymtur_Paquete=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Paquete");
+    public static final org.semanticwb.platform.SemanticClass pymtur_UnActivationReason=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#UnActivationReason");
     public static final org.semanticwb.platform.SemanticClass pymtur_CuponType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#CuponType");
+    public static final org.semanticwb.platform.SemanticClass pymtur_RemoveReason=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#RemoveReason");
     public static final org.semanticwb.platform.SemanticClass swbcomm_MicroSiteWebPageUtil=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/community#MicroSiteWebPageUtil");
     public static final org.semanticwb.platform.SemanticClass pymtur_EventType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#EventType");
     public static final org.semanticwb.platform.SemanticClass pymtur_VariantPaqTemplate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#VariantPaqTemplate");
     public static final org.semanticwb.platform.SemanticClass pymtur_SPType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#SPType");
     public static final org.semanticwb.platform.SemanticClass pymtur_PromotionType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#PromotionType");
     public static final org.semanticwb.platform.SemanticClass pymtur_Destination=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Destination");
+    public static final org.semanticwb.platform.SemanticClass pymtur_InteresLink=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#InteresLink");
     public static final org.semanticwb.platform.SemanticClass pymtur_Service=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Service");
     public static final org.semanticwb.platform.SemanticClass pymtur_SPCategory=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#SPCategory");
     public static final org.semanticwb.platform.SemanticClass pymtur_State=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#State");
+    public static final org.semanticwb.platform.SemanticClass pymtur_Bank=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Bank");
     public static final org.semanticwb.platform.SemanticClass pymtur_ActivityType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#ActivityType");
     public static final org.semanticwb.platform.SemanticClass pymtur_Activity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Activity");
     public static final org.semanticwb.platform.SemanticClass pymtur_PyMesWebSite=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#PyMesWebSite");
@@ -517,6 +522,36 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
         return org.semanticwb.pymtur.Region.ClassMgr.hasRegion(id, this);
     }
 
+    public org.semanticwb.pymtur.RejectReason getRejectReason(String id)
+    {
+        return org.semanticwb.pymtur.RejectReason.ClassMgr.getRejectReason(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.pymtur.RejectReason> listRejectReasons()
+    {
+        return org.semanticwb.pymtur.RejectReason.ClassMgr.listRejectReasons(this);
+    }
+
+    public org.semanticwb.pymtur.RejectReason createRejectReason(String id)
+    {
+        return org.semanticwb.pymtur.RejectReason.ClassMgr.createRejectReason(id,this);
+    }
+
+    public org.semanticwb.pymtur.RejectReason createRejectReason()
+    {
+        long id=getSemanticObject().getModel().getCounter(pymtur_RejectReason);
+        return org.semanticwb.pymtur.RejectReason.ClassMgr.createRejectReason(String.valueOf(id),this);
+    } 
+
+    public void removeRejectReason(String id)
+    {
+        org.semanticwb.pymtur.RejectReason.ClassMgr.removeRejectReason(id, this);
+    }
+    public boolean hasRejectReason(String id)
+    {
+        return org.semanticwb.pymtur.RejectReason.ClassMgr.hasRejectReason(id, this);
+    }
+
     public org.semanticwb.pymtur.Parameter getParameter(String id)
     {
         return org.semanticwb.pymtur.Parameter.ClassMgr.getParameter(id, this);
@@ -595,6 +630,36 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
         return org.semanticwb.pymtur.Paquete.ClassMgr.hasPaquete(id, this);
     }
 
+    public org.semanticwb.pymtur.UnActivationReason getUnActivationReason(String id)
+    {
+        return org.semanticwb.pymtur.UnActivationReason.ClassMgr.getUnActivationReason(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.pymtur.UnActivationReason> listUnActivationReasons()
+    {
+        return org.semanticwb.pymtur.UnActivationReason.ClassMgr.listUnActivationReasons(this);
+    }
+
+    public org.semanticwb.pymtur.UnActivationReason createUnActivationReason(String id)
+    {
+        return org.semanticwb.pymtur.UnActivationReason.ClassMgr.createUnActivationReason(id,this);
+    }
+
+    public org.semanticwb.pymtur.UnActivationReason createUnActivationReason()
+    {
+        long id=getSemanticObject().getModel().getCounter(pymtur_UnActivationReason);
+        return org.semanticwb.pymtur.UnActivationReason.ClassMgr.createUnActivationReason(String.valueOf(id),this);
+    } 
+
+    public void removeUnActivationReason(String id)
+    {
+        org.semanticwb.pymtur.UnActivationReason.ClassMgr.removeUnActivationReason(id, this);
+    }
+    public boolean hasUnActivationReason(String id)
+    {
+        return org.semanticwb.pymtur.UnActivationReason.ClassMgr.hasUnActivationReason(id, this);
+    }
+
     public org.semanticwb.pymtur.CuponType getCuponType(String id)
     {
         return org.semanticwb.pymtur.CuponType.ClassMgr.getCuponType(id, this);
@@ -623,6 +688,36 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
     public boolean hasCuponType(String id)
     {
         return org.semanticwb.pymtur.CuponType.ClassMgr.hasCuponType(id, this);
+    }
+
+    public org.semanticwb.pymtur.RemoveReason getRemoveReason(String id)
+    {
+        return org.semanticwb.pymtur.RemoveReason.ClassMgr.getRemoveReason(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.pymtur.RemoveReason> listRemoveReasons()
+    {
+        return org.semanticwb.pymtur.RemoveReason.ClassMgr.listRemoveReasons(this);
+    }
+
+    public org.semanticwb.pymtur.RemoveReason createRemoveReason(String id)
+    {
+        return org.semanticwb.pymtur.RemoveReason.ClassMgr.createRemoveReason(id,this);
+    }
+
+    public org.semanticwb.pymtur.RemoveReason createRemoveReason()
+    {
+        long id=getSemanticObject().getModel().getCounter(pymtur_RemoveReason);
+        return org.semanticwb.pymtur.RemoveReason.ClassMgr.createRemoveReason(String.valueOf(id),this);
+    } 
+
+    public void removeRemoveReason(String id)
+    {
+        org.semanticwb.pymtur.RemoveReason.ClassMgr.removeRemoveReason(id, this);
+    }
+    public boolean hasRemoveReason(String id)
+    {
+        return org.semanticwb.pymtur.RemoveReason.ClassMgr.hasRemoveReason(id, this);
     }
 
     public org.semanticwb.portal.community.MicroSiteWebPageUtil getMicroSiteWebPageUtil(String id)
@@ -775,6 +870,36 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
         return org.semanticwb.pymtur.Destination.ClassMgr.hasDestination(id, this);
     }
 
+    public org.semanticwb.pymtur.InteresLink getInteresLink(String id)
+    {
+        return org.semanticwb.pymtur.InteresLink.ClassMgr.getInteresLink(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.pymtur.InteresLink> listInteresLinks()
+    {
+        return org.semanticwb.pymtur.InteresLink.ClassMgr.listInteresLinks(this);
+    }
+
+    public org.semanticwb.pymtur.InteresLink createInteresLink(String id)
+    {
+        return org.semanticwb.pymtur.InteresLink.ClassMgr.createInteresLink(id,this);
+    }
+
+    public org.semanticwb.pymtur.InteresLink createInteresLink()
+    {
+        long id=getSemanticObject().getModel().getCounter(pymtur_InteresLink);
+        return org.semanticwb.pymtur.InteresLink.ClassMgr.createInteresLink(String.valueOf(id),this);
+    } 
+
+    public void removeInteresLink(String id)
+    {
+        org.semanticwb.pymtur.InteresLink.ClassMgr.removeInteresLink(id, this);
+    }
+    public boolean hasInteresLink(String id)
+    {
+        return org.semanticwb.pymtur.InteresLink.ClassMgr.hasInteresLink(id, this);
+    }
+
     public org.semanticwb.pymtur.Service getService(String id)
     {
         return org.semanticwb.pymtur.Service.ClassMgr.getService(id, this);
@@ -851,6 +976,30 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
     public boolean hasState(String id)
     {
         return org.semanticwb.pymtur.State.ClassMgr.hasState(id, this);
+    }
+
+    public org.semanticwb.pymtur.Bank getBank(String id)
+    {
+        return org.semanticwb.pymtur.Bank.ClassMgr.getBank(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.pymtur.Bank> listBanks()
+    {
+        return org.semanticwb.pymtur.Bank.ClassMgr.listBanks(this);
+    }
+
+    public org.semanticwb.pymtur.Bank createBank(String id)
+    {
+        return org.semanticwb.pymtur.Bank.ClassMgr.createBank(id,this);
+    }
+
+    public void removeBank(String id)
+    {
+        org.semanticwb.pymtur.Bank.ClassMgr.removeBank(id, this);
+    }
+    public boolean hasBank(String id)
+    {
+        return org.semanticwb.pymtur.Bank.ClassMgr.hasBank(id, this);
     }
 
     public org.semanticwb.pymtur.ActivityType getActivityType(String id)
