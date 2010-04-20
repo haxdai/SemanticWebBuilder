@@ -488,37 +488,41 @@ public class PhotoAlbum extends GenericAdmResource {
             out.println("    }");
             out.println("</script>");
         }else {
-            out.println("<div class=\"reticula_1_columnas\">");
-            out.println("<h1>"+base.getDisplayTitle(paramRequest.getUser().getLanguage())+"</h1>");
-            out.println("<div class=\"reticula_fotos\">");
-            int i=0;
-            for(String image : photos) {
-                out.println("<span>");
-                out.println("<a href=\"#\" id=\""+"pac_"+i+"_"+base.getId()+"\">");
-                out.println("<img alt=\""+image+"\" src=\""+SWBPortal.getWebWorkPath()+path+_thumbnail+image+"\" />");
-                out.println("</a>");
-                out.println("</span>");
-                i++;
-            }
-            out.println("</div>");
-            out.println("</div>");
-
-            out.println("<script type=\"text/javascript\">");
-            out.println("dojo.require(\"dojox.image.Lightbox\");");
-            out.println("dojo.addOnLoad(function(){");
-            i=0;
-            for(String image : photos) {
-                out.println("var lb_"+i+" = new dojox.image.Lightbox({ title:'', href:'"+SWBPortal.getWebWorkPath()+path+image+"' }, 'pac_"+i+"_"+base.getId()+"');");
-                out.println("lb_"+i+".startup();");
-                i++;
-            }
-            out.println("});");
-            out.println("</script>");
-
             boolean userCanEdit=false;
             User user=paramRequest.getUser();
             if(user.getURI()!=null && sprovider.getCreator().getURI().equals(user.getURI()))
                 userCanEdit=true;
+            
+            if( userCanEdit || photos.size()>0 ) {
+                out.println("<div class=\"reticula_1_columnas\">");
+                out.println("<h1>"+base.getDisplayTitle(paramRequest.getUser().getLanguage())+"</h1>");
+                out.println("<div class=\"reticula_fotos\">");
+                int i=0;
+                for(String image : photos) {
+                    out.println("<span>");
+                    out.println("<a href=\"#\" id=\""+"pac_"+i+"_"+base.getId()+"\">");
+                    out.println("<img alt=\""+image+"\" src=\""+SWBPortal.getWebWorkPath()+path+_thumbnail+image+"\" />");
+                    out.println("</a>");
+                    out.println("</span>");
+                    i++;
+                }
+                if(i>0) {
+                }
+                out.println("</div>");
+                out.println("</div>");
+
+                out.println("<script type=\"text/javascript\">");
+                out.println("dojo.require(\"dojox.image.Lightbox\");");
+                out.println("dojo.addOnLoad(function(){");
+                i=0;
+                for(String image : photos) {
+                    out.println("var lb_"+i+" = new dojox.image.Lightbox({ title:'', href:'"+SWBPortal.getWebWorkPath()+path+image+"' }, 'pac_"+i+"_"+base.getId()+"');");
+                    out.println("lb_"+i+".startup();");
+                    i++;
+                }
+                out.println("});");
+                out.println("</script>");
+            }
             if(userCanEdit)
                 out.print(getFormManager(paramRequest, sprovider));
         }
@@ -592,48 +596,51 @@ public class PhotoAlbum extends GenericAdmResource {
             out.println("    }");
             out.println("</script>");
         }else {
-            if(base.getAttribute("gpophotos").equalsIgnoreCase("category")) {
-                if(sprovider.getSemanticObject().getSemanticClass().getName().equalsIgnoreCase("hospedaje"))
-                    out.println("<h3 class=\"subtitleLevel2\">FOTOS DE HABITACIONES</h3>");
-                else if(sprovider.getSemanticObject().getSemanticClass().getName().equalsIgnoreCase("restaurante"))
-                    out.println("<h3 class=\"subtitleLevel2\">FOTOS DE PLATILLOS</h3>");
-            }else
-                out.println("<h3 class=\"subtitleLevel2\">"+base.getDisplayTitle(paramRequest.getUser().getLanguage())+"</h3>");
-
-            out.println("<div class=\"holderPhotoPreviews\">");
-            int i=0;
-            for(String image : photos) {
-                if(i%3==0)
-                    out.println("<div class=\"photoRow\">");
-                out.println("<div class=\"photoPreview\">");
-                out.println("<img alt=\""+image+"\" src=\""+SWBPortal.getWebWorkPath()+path+_thumbnail+image+"\" />");
-                out.println("<input type=\"button\" value=\"ver foto\" id=\""+"pac_"+i+"_"+base.getId()+"\" />");
-                out.println("</div>");
-                i++;
-                if(i%3==0 || i==photos.size())
-                    out.println("</div>");                
-            }
-            out.println("<p class=\"previewsDescription\">&nbsp;</p>");
-            out.println("</div>");
-
-            if(photos.size()>0) {
-                out.println("<script type=\"text/javascript\">");
-                out.println("dojo.require(\"dojox.image.Lightbox\");");
-                out.println("dojo.addOnLoad(function(){");
-                i=0;
-                for(String image : photos) {
-                    out.println("var lb_"+i+" = new dojox.image.Lightbox({ title:'', href:'"+SWBPortal.getWebWorkPath()+path+image+"' }, 'pac_"+i+"_"+base.getId()+"');");
-                    out.println("lb_"+i+".startup();");
-                    i++;
-                }
-                out.println("});");
-                out.println("</script>");
-            }
-
             boolean userCanEdit=false;
             User user=paramRequest.getUser();
             if(user.getURI()!=null && sprovider.getCreator().getURI().equals(user.getURI()))
                 userCanEdit=true;
+
+            if( userCanEdit || photos.size()>0 ) {
+                if(base.getAttribute("gpophotos").equalsIgnoreCase("category")) {
+                    if(sprovider.getSemanticObject().getSemanticClass().getName().equalsIgnoreCase("hospedaje"))
+                        out.println("<h3 class=\"subtitleLevel2\">FOTOS DE HABITACIONES</h3>");
+                    else if(sprovider.getSemanticObject().getSemanticClass().getName().equalsIgnoreCase("restaurante"))
+                        out.println("<h3 class=\"subtitleLevel2\">FOTOS DE PLATILLOS</h3>");
+                }else
+                    out.println("<h3 class=\"subtitleLevel2\">"+base.getDisplayTitle(paramRequest.getUser().getLanguage())+"</h3>");
+
+                out.println("<div class=\"holderPhotoPreviews\">");
+                int i=0;
+                for(String image : photos) {
+                    if(i%3==0)
+                        out.println("<div class=\"photoRow\">");
+                    out.println("<div class=\"photoPreview\">");
+                    out.println("<img alt=\""+image+"\" src=\""+SWBPortal.getWebWorkPath()+path+_thumbnail+image+"\" />");
+                    out.println("<input type=\"button\" value=\"ver foto\" id=\""+"pac_"+i+"_"+base.getId()+"\" />");
+                    out.println("</div>");
+                    i++;
+                    if(i%3==0 || i==photos.size())
+                        out.println("</div>");
+                }
+                out.println("<p class=\"previewsDescription\">&nbsp;</p>");
+                out.println("</div>");
+
+                if(photos.size()>0) {
+                    out.println("<script type=\"text/javascript\">");
+                    out.println("dojo.require(\"dojox.image.Lightbox\");");
+                    out.println("dojo.addOnLoad(function(){");
+                    i=0;
+                    for(String image : photos) {
+                        out.println("var lb_"+i+" = new dojox.image.Lightbox({ title:'', href:'"+SWBPortal.getWebWorkPath()+path+image+"' }, 'pac_"+i+"_"+base.getId()+"');");
+                        out.println("lb_"+i+".startup();");
+                        i++;
+                    }
+                    out.println("});");
+                    out.println("</script>");
+                }
+            }
+
             if(userCanEdit)
                 out.print(getFormManager(paramRequest, sprovider));
         }
