@@ -385,7 +385,7 @@ public class PhotoAlbumSheet extends GenericAdmResource {
                         }
                         File thumbnail = new File(fspath + "thumbn_" + filename);
                         try {
-                            ImageResizer.resizeCrop(image, width, thumbnail, "jpeg");
+                            ImageResizer.shrinkTo(image, thnWidth, thnHeight, thumbnail, "jpeg");
                         }catch(IOException e) {
                             log.error("Error while writting thumbnail in resource instance PhotoAlbumSheet with id: "+base.getId() +"-"+ base.getTitle(), e);
                         }
