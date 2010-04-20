@@ -445,7 +445,8 @@ public class PhotoAlbum extends GenericAdmResource {
             for(String image : photos) {
                 out.println("<span class=\"marco\">");
                 out.println("<a href=\"#\" id=\""+"pa_"+i+"_"+base.getId()+"\">");
-                out.println("<img height=\"62\" width=\"82\" alt=\""+image+"\" src=\""+SWBPortal.getWebWorkPath()+path+_thumbnail+image+"\" />");
+                //out.println("<img height=\"62\" width=\"82\" alt=\""+image+"\" src=\""+SWBPortal.getWebWorkPath()+path+_thumbnail+image+"\" />");
+                out.println("<img alt=\""+image+"\" src=\""+SWBPortal.getWebWorkPath()+path+_thumbnail+image+"\" />");
                 out.println("</a>");
                 out.println("</span>");
                 i++;
@@ -655,10 +656,11 @@ public class PhotoAlbum extends GenericAdmResource {
 
     private boolean canAddPhotos(SWBParamRequest paramRequest, ServiceProvider sprovider) {
         boolean canAdd = false;
-        int topPhotos = sprovider.getSpTotPhotos();
+        int totPhotos = sprovider.getSpTotPhotos();
         int packageType = sprovider.getPymePaqueteType();
         int numMaxPhotos = Paquete.ClassMgr.getPaquete(Integer.toString(packageType), paramRequest.getWebPage().getWebSite()).getPaq_NumMaxPhotos();
-        if(topPhotos<numMaxPhotos)
+        System.out.println("sprovider="+sprovider+", totPhotos="+totPhotos+", numMaxPhotos="+numMaxPhotos+", packageType="+packageType);
+        if(totPhotos<numMaxPhotos)
             canAdd = true;
         return canAdd;
     }
