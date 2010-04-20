@@ -8,8 +8,8 @@
             <input type="TEXT" name="width" label="Ancho de imagen (pixeles):" size="4" maxlength="4" jsrequired="true" jsvaltype="js_numbers"  />
             <input type="TEXT" name="height" label="Alto de imagen (pixeles):" size="4" maxlength="4" jsrequired="true" jsvaltype="js_numbers"  />
 
-            <input type="TEXT" name="thnWidth" label="Ancho de imagen miniatura (pixeles):" size="4" maxlength="4" jsrequired="true" jsvaltype="js_numbers"  />
-            <input type="TEXT" name="thnHeight" label="Alto de imagen miniatura (pixeles):" size="4" maxlength="4" jsrequired="true" jsvaltype="js_numbers"  />
+            <input type="TEXT" name="thnwidth" label="Ancho de imagen miniatura (pixeles):" size="4" maxlength="4" jsrequired="true" jsvaltype="js_numbers"  />
+            <input type="TEXT" name="thnheight" label="Alto de imagen miniatura (pixeles):" size="4" maxlength="4" jsrequired="true" jsvaltype="js_numbers"  />
 
             <statictext name="txtTarget">Grupo:</statictext>
             <input type="RADIO" name="gpophotos" label="Establecimiento" value="establishment" checked="true" />
