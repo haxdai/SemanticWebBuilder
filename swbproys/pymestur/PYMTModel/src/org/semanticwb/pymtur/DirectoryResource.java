@@ -266,6 +266,28 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
 
                         }
                         processFiles(request, wsite, dirObj.getSemanticObject());
+
+                        //Asignacion de plantilla y estilos a la Pag Web (si aplica)
+                        if (dirObj.getPymePaqueteType() == PymturUtils.PAQ_PREMIER) {
+                            if (request.getParameter("tplURI") != null &&
+                                    !dirObj.getMicroSitePymeInv().getTemplateRef().getTemplate().getURI().equalsIgnoreCase(request.getParameter("tplURI"))) {
+                                SemanticObject semObjectTmplt = SemanticObject.createSemanticObject(request.getParameter("tplURI"));
+                                Template template = (Template) semObjectTmplt.createGenericInstance();
+                                TemplateRef tmpRef = dirObj.getMicroSitePymeInv().getTemplateRef();
+                                tmpRef.setTemplate(template);
+                                tmpRef.setActive(Boolean.TRUE);
+                                tmpRef.setInherit(TemplateRef.INHERIT_ACTUALANDCHILDS);
+                                tmpRef.setValid(Boolean.TRUE);
+                                tmpRef.setPriority(3);
+                            }
+                            if (request.getParameter("varianTplURI") != null &&
+                                    !dirObj.getVariantPaqTemplate().getURI().equalsIgnoreCase(request.getParameter("varianTplURI"))) {
+                                SemanticObject semObjectVT = SemanticObject.createSemanticObject(request.getParameter("varianTplURI"));
+                                VariantPaqTemplate varianTpl = (VariantPaqTemplate) semObjectVT.createGenericInstance();
+                                dirObj.setVariantPaqTemplate(varianTpl);
+                            }
+
+                        }
                     }
                     semObjTmp = dirObj.getSemanticObject();
                 } catch (FormValidateException e) {
