@@ -243,11 +243,30 @@ public class PhotoAlbumSheet extends GenericAdmResource {
         sprovDir = new File(SWBPortal.getWorkPath()+sprovider.getWorkPath()+"/photos/"+base.getAttribute("gpophotos")+"/");
         if( !sprovDir.exists() )
             sprovDir.mkdir();
+
         int width;
         try {
-            width = Integer.parseInt(base.getAttribute("width", "82"));
+            width = Integer.parseInt(base.getAttribute("width","640"));
         }catch(NumberFormatException nfe) {
-            width = 82;
+            width = 640;
+        }
+        int height;
+        try {
+            height = Integer.parseInt(base.getAttribute("height","480"));
+        }catch(NumberFormatException nfe) {
+            height = 480;
+        }
+        int thnWidth;
+        try {
+            thnWidth = Integer.parseInt(base.getAttribute("thnwidth","82"));
+        }catch(NumberFormatException nfe) {
+            thnWidth = 82;
+        }
+        int thnHeight;
+        try {
+            thnHeight = Integer.parseInt(base.getAttribute("thnheight","82"));
+        }catch(NumberFormatException nfe) {
+            thnHeight = 82;
         }
 
         final String fspath = SWBPortal.getWorkPath()+sprovider.getWorkPath()+"/photos/"+base.getAttribute("gpophotos")+"/";
@@ -356,8 +375,11 @@ public class PhotoAlbumSheet extends GenericAdmResource {
                         }
 
                         File image = new File(fspath + filename);
+                        File shrink = new File(fspath +"_"+ filename);
+                        boolean shrinked = false;
                         try {
                             item.write(image);
+                            shrinked = ImageResizer.shrinkTo(image, width, height, shrink, "jpeg");
                         }catch(Exception e) {
                             log.error("Error while writting file in resource instance PhotoAlbumSheet with id: "+base.getId() +"-"+ base.getTitle(), e);
                         }
@@ -366,6 +388,11 @@ public class PhotoAlbumSheet extends GenericAdmResource {
                             ImageResizer.resizeCrop(image, width, thumbnail, "jpeg");
                         }catch(IOException e) {
                             log.error("Error while writting thumbnail in resource instance PhotoAlbumSheet with id: "+base.getId() +"-"+ base.getTitle(), e);
+                        }
+                        if(shrinked) {
+                            image.delete();
+                            shrink.renameTo(image);
+                            image = shrink;
                         }
 
                         PymePhoto pp = PymePhoto.ClassMgr.createPymePhoto(sprovider.getWebPage().getWebSite());
