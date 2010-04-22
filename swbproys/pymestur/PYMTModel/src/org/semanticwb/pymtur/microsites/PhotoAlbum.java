@@ -430,6 +430,8 @@ public class PhotoAlbum extends GenericAdmResource {
             it = sprovider.listEstablishmentPymePhotos();
         }else if(base.getAttribute("gpophotos").equalsIgnoreCase("instalation")) {
             it = sprovider.listInstalationsPymePhotos();
+        }else if(base.getAttribute("gpophotos").equalsIgnoreCase("category")) {
+            it = sprovider.listSpCategoryPymePhotos();
         }else if(base.getAttribute("gpophotos").equalsIgnoreCase("more")) {
             it = sprovider.listMorePymePhotos();
         }
