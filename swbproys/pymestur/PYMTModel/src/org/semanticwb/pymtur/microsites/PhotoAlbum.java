@@ -623,7 +623,17 @@ public class PhotoAlbum extends GenericAdmResource {
                     if(i%3==0 || i==photos.size())
                         out.println("</div>");
                 }
-                out.println("<p class=\"previewsDescription\">&nbsp;</p>");
+
+                if( base.getAttribute("gpophotos").equalsIgnoreCase("establishment") && sprovider.getSpEstablishmentPymePhotosComments()!=null ) {
+                    out.println("<p class=\"previewsDescription\">"+sprovider.getSpEstablishmentPymePhotosComments()+"</p>");
+                }else if( base.getAttribute("gpophotos").equalsIgnoreCase("instalation") && sprovider.getSpInstalationsPymePhotosComments()!=null ) {
+                    out.println("<p class=\"previewsDescription\">"+sprovider.getSpInstalationsPymePhotosComments()+"</p>");
+                }else if( base.getAttribute("gpophotos").equalsIgnoreCase("category") && sprovider.getSpCategoryPymePhotoCommens()!=null ) {
+                    out.println("<p class=\"previewsDescription\">"+sprovider.getSpCategoryPymePhotoCommens()+"</p>");
+                }else if(base.getAttribute("gpophotos").equalsIgnoreCase("more") && sprovider.getSpMorePymePhotosComments()!=null ) {
+                    out.println("<p class=\"previewsDescription\">"+sprovider.getSpMorePymePhotosComments()+"</p>");
+                }
+
                 out.println("</div>");
 
                 if(photos.size()>0) {
