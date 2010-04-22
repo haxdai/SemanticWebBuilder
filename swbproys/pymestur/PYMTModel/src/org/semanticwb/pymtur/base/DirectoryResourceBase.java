@@ -11,7 +11,9 @@ public abstract class DirectoryResourceBase extends org.semanticwb.portal.commun
     public static final org.semanticwb.platform.SemanticClass swbcomm_DirectoryObject=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/community#DirectoryObject");
     public static final org.semanticwb.platform.SemanticProperty swbcomm_hasDirectoryObjectInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/community#hasDirectoryObjectInv");
     public static final org.semanticwb.platform.SemanticProperty swbcomm_dirAddJsp=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/community#dirAddJsp");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_NumMaxPageToDisplay=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#NumMaxPageToDisplay");
     public static final org.semanticwb.platform.SemanticProperty swbcomm_dirClaimMessage=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/community#dirClaimMessage");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_numMaxItemsbyPage=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#numMaxItemsbyPage");
     public static final org.semanticwb.platform.SemanticProperty swbcomm_dirDetailJsp=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/community#dirDetailJsp");
     public static final org.semanticwb.platform.SemanticClass pymtur_DirectoryResource=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#DirectoryResource");
     public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#DirectoryResource");
@@ -108,6 +110,16 @@ public abstract class DirectoryResourceBase extends org.semanticwb.portal.commun
         getSemanticObject().setProperty(swbcomm_dirAddJsp, value);
     }
 
+    public int getNumMaxPageToDisplay()
+    {
+        return getSemanticObject().getIntProperty(pymtur_NumMaxPageToDisplay);
+    }
+
+    public void setNumMaxPageToDisplay(int value)
+    {
+        getSemanticObject().setIntProperty(pymtur_NumMaxPageToDisplay, value);
+    }
+
     public String getDirClaimMessage()
     {
         return getSemanticObject().getProperty(swbcomm_dirClaimMessage);
@@ -116,6 +128,16 @@ public abstract class DirectoryResourceBase extends org.semanticwb.portal.commun
     public void setDirClaimMessage(String value)
     {
         getSemanticObject().setProperty(swbcomm_dirClaimMessage, value);
+    }
+
+    public int getNumMaxItemsbyPage()
+    {
+        return getSemanticObject().getIntProperty(pymtur_numMaxItemsbyPage);
+    }
+
+    public void setNumMaxItemsbyPage(int value)
+    {
+        getSemanticObject().setIntProperty(pymtur_numMaxItemsbyPage, value);
     }
 
     public String getDetailJsp()

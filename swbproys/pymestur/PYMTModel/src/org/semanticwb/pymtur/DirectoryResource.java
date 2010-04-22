@@ -164,6 +164,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
         try {
             request.setAttribute("itDirObjs", getDirectoryObjects(paramRequest, pars));
             request.setAttribute("sobj", getDirectoryClass());
+            request.setAttribute("DirectoryResource", this);
             request.setAttribute("paramRequest", paramRequest);
             dis.include(request, response);
         } catch (Exception e) {
