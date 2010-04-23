@@ -497,8 +497,15 @@ public class PhotoAlbum extends GenericAdmResource {
             
             if( userCanEdit || photos.size()>0 ) {
                 out.println("<div class=\"reticula_1_columnas\">");
-                out.println("<h1>"+base.getDisplayTitle(paramRequest.getUser().getLanguage())+"</h1>");
+                if(base.getAttribute("gpophotos").equalsIgnoreCase("category")) {
+                    if(sprovider.getSemanticObject().getSemanticClass().getName().equalsIgnoreCase("hospedaje"))
+                        out.println("<h1 class=\"subtitleLevel2\">FOTOS DE HABITACIONES</h1>");
+                    else if(sprovider.getSemanticObject().getSemanticClass().getName().equalsIgnoreCase("restaurante"))
+                        out.println("<h1 class=\"subtitleLevel2\">FOTOS DE PLATILLOS</h1>");
+                }else
+                    out.println("<h1 class=\"subtitleLevel2\">"+base.getDisplayTitle(paramRequest.getUser().getLanguage())+"</h1>");
                 out.println("<div class=\"reticula_fotos\">");
+                
                 int i=0;
                 for(String image : photos) {
                     out.println("<span>");
