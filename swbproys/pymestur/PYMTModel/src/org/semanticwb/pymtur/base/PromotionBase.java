@@ -52,15 +52,15 @@ public abstract class PromotionBase extends org.semanticwb.model.SWBClass implem
             return (getPromotion(id, model)!=null);
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.Promotion> listPromotionByPromoServiceProviderInv(org.semanticwb.pymtur.ServiceProvider promoserviceproviderinv,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.pymtur.Promotion> listPromotionByPromoServiceProviderInv(org.semanticwb.pymtur.ServiceProvider value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Promotion> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(pymtur_promoServiceProviderInv, promoserviceproviderinv.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Promotion> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(pymtur_promoServiceProviderInv, value.getSemanticObject(),sclass));
             return it;
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.Promotion> listPromotionByPromoServiceProviderInv(org.semanticwb.pymtur.ServiceProvider promoserviceproviderinv)
+        public static java.util.Iterator<org.semanticwb.pymtur.Promotion> listPromotionByPromoServiceProviderInv(org.semanticwb.pymtur.ServiceProvider value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Promotion> it=new org.semanticwb.model.GenericIterator(promoserviceproviderinv.getSemanticObject().getModel().listSubjectsByClass(pymtur_promoServiceProviderInv,promoserviceproviderinv.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Promotion> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(pymtur_promoServiceProviderInv,value.getSemanticObject(),sclass));
             return it;
         }
     }

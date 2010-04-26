@@ -54,27 +54,27 @@ public abstract class PymesLogBase extends org.semanticwb.model.SWBClass
             return (getPymesLog(id, model)!=null);
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.PymesLog> listPymesLogByLogUser(org.semanticwb.model.User loguser,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.pymtur.PymesLog> listPymesLogByLogUser(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PymesLog> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(pymtur_logUser, loguser.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PymesLog> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(pymtur_logUser, value.getSemanticObject(),sclass));
             return it;
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.PymesLog> listPymesLogByLogUser(org.semanticwb.model.User loguser)
+        public static java.util.Iterator<org.semanticwb.pymtur.PymesLog> listPymesLogByLogUser(org.semanticwb.model.User value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PymesLog> it=new org.semanticwb.model.GenericIterator(loguser.getSemanticObject().getModel().listSubjectsByClass(pymtur_logUser,loguser.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PymesLog> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(pymtur_logUser,value.getSemanticObject(),sclass));
             return it;
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.PymesLog> listPymesLogByServiceProviderLog(org.semanticwb.pymtur.ServiceProvider serviceproviderlog,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.pymtur.PymesLog> listPymesLogByServiceProviderLog(org.semanticwb.pymtur.ServiceProvider value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PymesLog> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(pymtur_serviceProviderLog, serviceproviderlog.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PymesLog> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(pymtur_serviceProviderLog, value.getSemanticObject(),sclass));
             return it;
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.PymesLog> listPymesLogByServiceProviderLog(org.semanticwb.pymtur.ServiceProvider serviceproviderlog)
+        public static java.util.Iterator<org.semanticwb.pymtur.PymesLog> listPymesLogByServiceProviderLog(org.semanticwb.pymtur.ServiceProvider value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PymesLog> it=new org.semanticwb.model.GenericIterator(serviceproviderlog.getSemanticObject().getModel().listSubjectsByClass(pymtur_serviceProviderLog,serviceproviderlog.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PymesLog> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(pymtur_serviceProviderLog,value.getSemanticObject(),sclass));
             return it;
         }
     }

@@ -49,39 +49,39 @@ public abstract class ServiceBase extends org.semanticwb.model.SWBClass implemen
             return (getService(id, model)!=null);
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.Service> listServiceByModifiedBy(org.semanticwb.model.User modifiedby,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.pymtur.Service> listServiceByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Service> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, modifiedby.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Service> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
             return it;
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.Service> listServiceByModifiedBy(org.semanticwb.model.User modifiedby)
+        public static java.util.Iterator<org.semanticwb.pymtur.Service> listServiceByModifiedBy(org.semanticwb.model.User value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Service> it=new org.semanticwb.model.GenericIterator(modifiedby.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,modifiedby.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Service> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
             return it;
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.Service> listServiceByCreator(org.semanticwb.model.User creator,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.pymtur.Service> listServiceByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Service> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, creator.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Service> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
             return it;
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.Service> listServiceByCreator(org.semanticwb.model.User creator)
+        public static java.util.Iterator<org.semanticwb.pymtur.Service> listServiceByCreator(org.semanticwb.model.User value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Service> it=new org.semanticwb.model.GenericIterator(creator.getSemanticObject().getModel().listSubjectsByClass(swb_creator,creator.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Service> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.Service> listServiceByServiceProvider(org.semanticwb.pymtur.ServiceProvider hassrvserviceproviderinv,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.pymtur.Service> listServiceByServiceProvider(org.semanticwb.pymtur.ServiceProvider value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Service> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(pymtur_hasSrvServiceProviderInv, hassrvserviceproviderinv.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Service> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(pymtur_hasSrvServiceProviderInv, value.getSemanticObject(),sclass));
             return it;
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.Service> listServiceByServiceProvider(org.semanticwb.pymtur.ServiceProvider hassrvserviceproviderinv)
+        public static java.util.Iterator<org.semanticwb.pymtur.Service> listServiceByServiceProvider(org.semanticwb.pymtur.ServiceProvider value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Service> it=new org.semanticwb.model.GenericIterator(hassrvserviceproviderinv.getSemanticObject().getModel().listSubjectsByClass(pymtur_hasSrvServiceProviderInv,hassrvserviceproviderinv.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Service> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(pymtur_hasSrvServiceProviderInv,value.getSemanticObject(),sclass));
             return it;
         }
     }
@@ -208,12 +208,12 @@ public abstract class ServiceBase extends org.semanticwb.model.SWBClass implemen
         return new org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.ServiceProvider>(getSemanticObject().listObjectProperties(pymtur_hasSrvServiceProviderInv));
     }
 
-    public boolean hasServiceProvider(org.semanticwb.pymtur.ServiceProvider serviceprovider)
+    public boolean hasServiceProvider(org.semanticwb.pymtur.ServiceProvider value)
     {
         boolean ret=false;
-        if(serviceprovider!=null)
+        if(value!=null)
         {
-           ret=getSemanticObject().hasObjectProperty(pymtur_hasSrvServiceProviderInv,serviceprovider.getSemanticObject());
+           ret=getSemanticObject().hasObjectProperty(pymtur_hasSrvServiceProviderInv,value.getSemanticObject());
         }
         return ret;
     }

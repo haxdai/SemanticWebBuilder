@@ -49,39 +49,39 @@ public abstract class TourismTypeBase extends org.semanticwb.model.SWBClass impl
             return (getTourismType(id, model)!=null);
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.TourismType> listTourismTypeByDestinationTourismTypeInv(org.semanticwb.pymtur.Destination hasdestinationtourismtypeinv,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.pymtur.TourismType> listTourismTypeByDestinationTourismTypeInv(org.semanticwb.pymtur.Destination value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.TourismType> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(pymtur_hasDestinationTourismTypeInv, hasdestinationtourismtypeinv.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.TourismType> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(pymtur_hasDestinationTourismTypeInv, value.getSemanticObject(),sclass));
             return it;
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.TourismType> listTourismTypeByDestinationTourismTypeInv(org.semanticwb.pymtur.Destination hasdestinationtourismtypeinv)
+        public static java.util.Iterator<org.semanticwb.pymtur.TourismType> listTourismTypeByDestinationTourismTypeInv(org.semanticwb.pymtur.Destination value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.TourismType> it=new org.semanticwb.model.GenericIterator(hasdestinationtourismtypeinv.getSemanticObject().getModel().listSubjectsByClass(pymtur_hasDestinationTourismTypeInv,hasdestinationtourismtypeinv.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.TourismType> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(pymtur_hasDestinationTourismTypeInv,value.getSemanticObject(),sclass));
             return it;
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.TourismType> listTourismTypeByModifiedBy(org.semanticwb.model.User modifiedby,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.pymtur.TourismType> listTourismTypeByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.TourismType> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, modifiedby.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.TourismType> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
             return it;
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.TourismType> listTourismTypeByModifiedBy(org.semanticwb.model.User modifiedby)
+        public static java.util.Iterator<org.semanticwb.pymtur.TourismType> listTourismTypeByModifiedBy(org.semanticwb.model.User value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.TourismType> it=new org.semanticwb.model.GenericIterator(modifiedby.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,modifiedby.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.TourismType> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
             return it;
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.TourismType> listTourismTypeByCreator(org.semanticwb.model.User creator,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.pymtur.TourismType> listTourismTypeByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.TourismType> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, creator.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.TourismType> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
             return it;
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.TourismType> listTourismTypeByCreator(org.semanticwb.model.User creator)
+        public static java.util.Iterator<org.semanticwb.pymtur.TourismType> listTourismTypeByCreator(org.semanticwb.model.User value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.TourismType> it=new org.semanticwb.model.GenericIterator(creator.getSemanticObject().getModel().listSubjectsByClass(swb_creator,creator.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.TourismType> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
     }
@@ -96,12 +96,12 @@ public abstract class TourismTypeBase extends org.semanticwb.model.SWBClass impl
         return new org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Destination>(getSemanticObject().listObjectProperties(pymtur_hasDestinationTourismTypeInv));
     }
 
-    public boolean hasDestinationTourismTypeInv(org.semanticwb.pymtur.Destination destination)
+    public boolean hasDestinationTourismTypeInv(org.semanticwb.pymtur.Destination value)
     {
         boolean ret=false;
-        if(destination!=null)
+        if(value!=null)
         {
-           ret=getSemanticObject().hasObjectProperty(pymtur_hasDestinationTourismTypeInv,destination.getSemanticObject());
+           ret=getSemanticObject().hasObjectProperty(pymtur_hasDestinationTourismTypeInv,value.getSemanticObject());
         }
         return ret;
     }

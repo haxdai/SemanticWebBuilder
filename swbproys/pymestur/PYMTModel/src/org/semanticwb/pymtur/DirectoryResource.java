@@ -56,7 +56,6 @@ import org.semanticwb.model.TemplateRef;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.portal.SWBFormButton;
-import org.semanticwb.portal.TemplateImp;
 import org.semanticwb.portal.community.DirectoryObject;
 import org.semanticwb.portal.community.MicroSiteType;
 import org.semanticwb.portal.community.MicroSiteUtil;
@@ -426,9 +425,10 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     //Envía correo al creador del service provider
                     String siteName = wsite.getDisplayTitle(response.getUser().getLanguage());
                     if (user.getEmail() != null) {
-                        String staticText = base.getAttribute("dirEmailTxt");
-
-                        if (staticText == null || staticText.trim().length() == 0) {
+                        EmailText emailText=EmailText.ClassMgr.getEmailText("EMAIL_PYMEREGISTRY", wsite);
+                        if(emailText!=null){
+                            String staticText = PymturUtils.replaceTagsRegistry(emailText.getEmailText(), request, response, user, siteName, dirObj);
+                            /*
                             staticText="Estimado (a) {user} , <br/><br/>"+
                             "Nos complace el registro de tu empresa: <br/>"+
                             "<b>"+dirObj.getTitle()+"</b><br/>" +
@@ -443,9 +443,11 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                             }
                             staticText=staticText+"Atentamente tus amigos de:<br/>"+
                             "\"SIENTE MÉXICO\"";
+                             * */
+                            if(staticText!=null && staticText.trim().length()>0){
+                                SWBUtils.EMAIL.sendBGEmail(user.getEmail(), "Contacto del Sitio - Confirmación de registro", staticText);
+                            }
                         }
-                        staticText = replaceTags(staticText, request, response, user, siteName);
-                        SWBUtils.EMAIL.sendBGEmail(user.getEmail(), "Contacto del Sitio - Confirmación de registro", staticText);
                     }
                     //Termina envío de correo al creador
                     if (refirect != null) {
@@ -477,33 +479,36 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     //Envía correo al creador del service provider para confirmar su registro
                     String siteName = wsite.getDisplayTitle(response.getUser().getLanguage());
                     if (servProp.getCreator().getEmail() != null) {
-                        String staticText = base.getAttribute("dirEmailAcceptTxt");
-
-                        if (staticText == null || staticText.trim().length() == 0) {
-                            staticText = "Estimado (a) {user} ,<br/><br/>" +
-                            "Nos complace informarte que";
-                            if (servProp.getPymePaqueteType() == PymturUtils.PAQ_FICHA) {
-                                staticText=staticText+" la ficha";
-                            }if (servProp.getPymePaqueteType() == PymturUtils.PAQ_MICROSITIO) {
-                                staticText=staticText+" el Micrositio";
-                            }if (servProp.getPymePaqueteType() == PymturUtils.PAQ_PREMIER) {
-                                staticText=staticText+" la página web";
+                            EmailText emailText=EmailText.ClassMgr.getEmailText("EMAIL_ACCEPTREGISTRY", wsite);
+                            if(emailText!=null){
+                                String staticText = PymturUtils.replaceTagsAcceptRegistry(emailText.getEmailText(), request, response, user, siteName, servProp, pageFicha);
+                                /*
+                                staticText = "Estimado (a) {user} ,<br/><br/>" +
+                                "Nos complace informarte que";
+                                if (servProp.getPymePaqueteType() == PymturUtils.PAQ_FICHA) {
+                                    staticText=staticText+" la ficha";
+                                }if (servProp.getPymePaqueteType() == PymturUtils.PAQ_MICROSITIO) {
+                                    staticText=staticText+" el Micrositio";
+                                }if (servProp.getPymePaqueteType() == PymturUtils.PAQ_PREMIER) {
+                                    staticText=staticText+" la página web";
+                                }
+                                staticText=staticText+ " con los datos de tu empresa:<br/>"+
+                                "<b>"+servProp.getTitle()+"</b><br/>"+
+                                "ha sido publicada.<br><br/>"+
+                                "Puedes consultarla en línea dando click en la siguiente liga<br/><br/>";
+                                if (servProp.getPymePaqueteType() > PymturUtils.PAQ_DIRECTORIO && pageFicha != null) {
+                                    staticText = staticText + server + pageFicha.getUrl() + "?uri=" + servProp.getEncodedURI() + "&act=detail<br/><br/>";
+                                }if (servProp.getPymePaqueteType() > PymturUtils.PAQ_MICROSITIO && servProp.getPymeDomain() != null) {
+                                    staticText = staticText + "El dominio registrado es:<br/><br/>" + servProp.getPymeDomain() + "<br/><br/>";
+                                }
+                                staticText=staticText+"Si deseas editar tu información podrás hacerlo firmándote en el portal \"Siente México\"<br/> con el usuario y contraseña que elegiste para tu registro.<br/><br/>" +
+                                "Atentamente sus amigos de:<br/><br/>"+
+                                "<b>\"SIENTE MÉXICO</b>\"";
+                                 * */
+                                if(staticText!=null && staticText.trim().length()>0){
+                                    SWBUtils.EMAIL.sendBGEmail(servProp.getCreator().getEmail(), "Contacto del Sitio - Aceptación de registro", staticText);
+                                }
                             }
-                            staticText=staticText+ " con los datos de tu empresa:<br/>"+
-                            "<b>"+servProp.getTitle()+"</b><br/>"+
-                            "ha sido publicada.<br><br/>"+
-                            "Puedes consultarla en línea dando click en la siguiente liga<br/><br/>";
-                            if (servProp.getPymePaqueteType() > PymturUtils.PAQ_DIRECTORIO && pageFicha != null) {
-                                staticText = staticText + server + pageFicha.getUrl() + "?uri=" + servProp.getEncodedURI() + "&act=detail<br/><br/>";
-                            }if (servProp.getPymePaqueteType() > PymturUtils.PAQ_MICROSITIO && servProp.getPymeDomain() != null) {
-                                staticText = staticText + "El dominio registrado es:<br/><br/>" + servProp.getPymeDomain() + "<br/><br/>";
-                            }
-                            staticText=staticText+"Si deseas editar tu información podrás hacerlo firmándote en el portal \"Siente México\"<br/> con el usuario y contraseña que elegiste para tu registro.<br/><br/>" +
-                            "Atentamente sus amigos de:<br/><br/>"+
-                            "<b>\"SIENTE MÉXICO</b>\"";
-                        }
-                        staticText = replaceTags(staticText, request, response, servProp.getCreator(), siteName);
-                        SWBUtils.EMAIL.sendBGEmail(servProp.getCreator().getEmail(), "Contacto del Sitio - Aceptación de registro", staticText);
                     }
                 } catch (Exception e) {
                     response.setRenderParameter("errorMsg", "04");
@@ -524,9 +529,10 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     //Envía correo al creador del service provider para notificar su baja
                     String siteName = wsite.getDisplayTitle(response.getUser().getLanguage());
                     if (servProp.getCreator().getEmail() != null) {
-                        String staticText = base.getAttribute("dirEmailUnRegisterTxt");
-
-                        if (staticText == null || staticText.trim().length() == 0) {
+                        EmailText emailText=EmailText.ClassMgr.getEmailText("EMAIL_REJECTREGISTRY", wsite);
+                        if(emailText!=null){
+                            String staticText = PymturUtils.replaceTagsRejectRegistry(emailText.getEmailText(), request, response, user, siteName, servProp);
+                            /*
                             staticText="Estimado (a) {user},<br/>"+
                             "Lamentamos informarte que la publicación de tu empresa:</br><br/>" +
                             "<b>"+servProp.getTitle()+"</b></br><br/>";
@@ -542,10 +548,12 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
 
                             "Atentamente tus amigos de:<br/>"+
                             "\"SIENTE MÉXICO\"";
+                             * */
 
+                            if(staticText!=null && staticText.trim().length()>0){
+                                SWBUtils.EMAIL.sendBGEmail(servProp.getCreator().getEmail(), "Contacto del Sitio - Revocación de registro", staticText);
+                            }
                         }
-                        staticText = replaceTags(staticText, request, response, servProp.getCreator(), siteName);
-                        SWBUtils.EMAIL.sendBGEmail(servProp.getCreator().getEmail(), "Contacto del Sitio - Revocación de registro", staticText);
                     }
                 } catch (Exception e) {
                     response.setRenderParameter("errorMsg", "05");
@@ -726,48 +734,5 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
 
         return providers.iterator();
     }
-
-    public String replaceTags(String str, HttpServletRequest request, SWBActionResponse paramRequest, User newUser, String siteName) {
-        if (str == null || str.trim().length() == 0) {
-            return "";
-        }
-
-        str = str.trim();
-        //TODO: codificar cualquier atributo o texto
-
-        Iterator it = SWBUtils.TEXT.findInterStr(str, "{request.getParameter(\"", "\")}");
-        while (it.hasNext()) {
-            String s = (String) it.next();
-            str = SWBUtils.TEXT.replaceAll(str, "{request.getParameter(\"" + s + "\")}", request.getParameter(replaceTags(s, request, paramRequest, newUser, siteName)));
-        }
-
-        it = SWBUtils.TEXT.findInterStr(str, "{session.getAttribute(\"", "\")}");
-        while (it.hasNext()) {
-            String s = (String) it.next();
-            str = SWBUtils.TEXT.replaceAll(str, "{session.getAttribute(\"" + s + "\")}", (String) request.getSession().getAttribute(replaceTags(s, request, paramRequest, newUser, siteName)));
-        }
-
-        it = SWBUtils.TEXT.findInterStr(str, "{getEnv(\"", "\")}");
-        while (it.hasNext()) {
-            String s = (String) it.next();
-            str = SWBUtils.TEXT.replaceAll(str, "{getEnv(\"" + s + "\")}", SWBPlatform.getEnv(replaceTags(s, request, paramRequest, newUser, siteName)));
-        }
-
-        str = SWBUtils.TEXT.replaceAll(str, "{user.login}", paramRequest.getUser().getLogin());
-        str = SWBUtils.TEXT.replaceAll(str, "{user.email}", paramRequest.getUser().getEmail());
-        str = SWBUtils.TEXT.replaceAll(str, "{user.language}", paramRequest.getUser().getLanguage());
-        str = SWBUtils.TEXT.replaceAll(str, "{webpath}", SWBPortal.getContextPath());
-        str = SWBUtils.TEXT.replaceAll(str, "{distpath}", SWBPortal.getDistributorPath());
-        str = SWBUtils.TEXT.replaceAll(str, "{webworkpath}", SWBPortal.getWebWorkPath());
-        str = SWBUtils.TEXT.replaceAll(str, "{workpath}", SWBPortal.getWorkPath());
-        str = SWBUtils.TEXT.replaceAll(str, "{websiteid}", paramRequest.getWebPage().getWebSiteId());
-        str = SWBUtils.TEXT.replaceAll(str, "{user}", newUser.getFullName());
-        str = SWBUtils.TEXT.replaceAll(str, "{siteName}", siteName);
-        if (str.indexOf("{templatepath}") > -1) {
-            //TODO:pasar template por paramrequest
-            TemplateImp template = (TemplateImp) SWBPortal.getTemplateMgr().getTemplate(paramRequest.getUser(), paramRequest.getWebPage());
-            str = SWBUtils.TEXT.replaceAll(str, "{templatepath}", template.getActualPath());
-        }
-        return str;
-    }
+    
 }

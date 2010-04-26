@@ -54,15 +54,15 @@ public abstract class CuponBase extends org.semanticwb.model.SWBClass implements
             return (getCupon(id, model)!=null);
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.Cupon> listCuponByCuponServiceProviderInv(org.semanticwb.pymtur.ServiceProvider cuponserviceproviderinv,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.pymtur.Cupon> listCuponByCuponServiceProviderInv(org.semanticwb.pymtur.ServiceProvider value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Cupon> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(pymtur_cuponServiceProviderInv, cuponserviceproviderinv.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Cupon> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(pymtur_cuponServiceProviderInv, value.getSemanticObject(),sclass));
             return it;
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.Cupon> listCuponByCuponServiceProviderInv(org.semanticwb.pymtur.ServiceProvider cuponserviceproviderinv)
+        public static java.util.Iterator<org.semanticwb.pymtur.Cupon> listCuponByCuponServiceProviderInv(org.semanticwb.pymtur.ServiceProvider value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Cupon> it=new org.semanticwb.model.GenericIterator(cuponserviceproviderinv.getSemanticObject().getModel().listSubjectsByClass(pymtur_cuponServiceProviderInv,cuponserviceproviderinv.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Cupon> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(pymtur_cuponServiceProviderInv,value.getSemanticObject(),sclass));
             return it;
         }
     }
