@@ -79,12 +79,12 @@ public abstract class DirectoryResourceBase extends org.semanticwb.portal.commun
         return new org.semanticwb.model.GenericIterator<org.semanticwb.portal.community.DirectoryObject>(getSemanticObject().listObjectProperties(swbcomm_hasDirectoryObjectInv));
     }
 
-    public boolean hasDirectoryObject(org.semanticwb.portal.community.DirectoryObject directoryobject)
+    public boolean hasDirectoryObject(org.semanticwb.portal.community.DirectoryObject value)
     {
         boolean ret=false;
-        if(directoryobject!=null)
+        if(value!=null)
         {
-           ret=getSemanticObject().hasObjectProperty(swbcomm_hasDirectoryObjectInv,directoryobject.getSemanticObject());
+           ret=getSemanticObject().hasObjectProperty(swbcomm_hasDirectoryObjectInv,value.getSemanticObject());
         }
         return ret;
     }
