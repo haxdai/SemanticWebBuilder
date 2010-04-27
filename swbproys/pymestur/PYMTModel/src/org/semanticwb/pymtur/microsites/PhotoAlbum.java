@@ -443,15 +443,20 @@ public class PhotoAlbum extends GenericAdmResource {
 
         final String path = sprovider.getWorkPath()+"/photos/"+base.getAttribute("gpophotos")+"/";
         if(paramRequest.getCallMethod()==paramRequest.Call_STRATEGY) {
-            int i=0;
-            for(String image : photos) {
+            int nde;
+            try {
+                nde = Integer.parseInt(base.getAttribute("maxpreview", "4"));
+            }catch(NumberFormatException nfe) {
+                nde = 4;
+            }
+            for(int i=0; i<nde && i<photos.size(); i++) {
+                String image = photos.get(i);
                 out.println("<span class=\"marco\">");
                 out.println("<a href=\"#\" id=\""+"pa_"+i+"_"+base.getId()+"\">");
                 //out.println("<img height=\"62\" width=\"82\" alt=\""+image+"\" src=\""+SWBPortal.getWebWorkPath()+path+_thumbnail+image+"\" />");
                 out.println("<img alt=\""+image+"\" src=\""+SWBPortal.getWebWorkPath()+path+_thumbnail+image+"\" />");
                 out.println("</a>");
                 out.println("</span>");
-                i++;
             }
 
             String surl = "javascript:showdialog()";
@@ -470,16 +475,15 @@ public class PhotoAlbum extends GenericAdmResource {
             out.println("<script type=\"text/javascript\">");
             out.println("dojo.require(\"dojox.image.Lightbox\");");
             out.println("dojo.addOnLoad(function(){");
-            i=0;
-            for(String image : photos) {
+            for(int i=0; i<nde && i<photos.size(); i++) {
+                String image = photos.get(i);
                 out.println("var lb_"+i+" = new dojox.image.Lightbox({ title:'',  href:'"+SWBPortal.getWebWorkPath()+path+image+"' }, 'pa_"+i+"_"+base.getId()+"');");
                 out.println("lb_"+i+".startup();");
-                i++;
             }
 
             out.println("var dialog = new dojox.image.LightboxDialog({});");
-            for(int j=0; j<photos.size(); j++) {
-                out.println("dialog.addImage( lb_"+j+", 'group2' );");
+            for(int i=0; i<nde && i<photos.size(); i++) {
+                out.println("dialog.addImage( lb_"+i+", 'group2' );");
             }
             out.println("        dialog.startup();");
             out.println("    });");
@@ -551,22 +555,27 @@ public class PhotoAlbum extends GenericAdmResource {
         }else if(base.getAttribute("gpophotos").equalsIgnoreCase("more")) {
             it = sprovider.listMorePymePhotos();
         }
-
-        ArrayList<String> photos = new ArrayList<String>();
-        while(it.hasNext()) {            
+        ArrayList<String> photos = new ArrayList<String>();        
+        while(it.hasNext()) {
             PymePhoto pp = it.next();
             photos.add(pp.getPhotoImage());
         }
         
         final String path = sprovider.getWorkPath()+"/photos/"+base.getAttribute("gpophotos")+"/";
         if(paramRequest.getCallMethod()==paramRequest.Call_STRATEGY) {
+            int nde;
+            try {
+                nde = Integer.parseInt(base.getAttribute("maxpreview", "4"));
+            }catch(NumberFormatException nfe) {
+                nde = 4;
+            }
+
             out.println("<div class=\"photosHolder\">");
-            int i=0;
-            for(String image : photos) {
+            for(int i=0; i<nde && i<photos.size(); i++) {
+                String image = photos.get(i);
                 out.println("<a href=\"#\" id=\""+"pa_"+i+"_"+base.getId()+"\">");
                 out.println("<img height=\"62\" width=\"82\" alt=\""+image+"\" src=\""+SWBPortal.getWebWorkPath()+path+_thumbnail+image+"\" />");
                 out.println("</a>");
-                i++;
             }
             out.println("</div>");
             
@@ -585,16 +594,15 @@ public class PhotoAlbum extends GenericAdmResource {
             out.println("<script type=\"text/javascript\">");
             out.println("dojo.require(\"dojox.image.Lightbox\");");
             out.println("dojo.addOnLoad(function(){");
-            i=0;
-            for(String image : photos) {
+            for(int i=0; i<nde && i<photos.size(); i++) {
+                String image = photos.get(i);
                 out.println("var lb_"+i+" = new dojox.image.Lightbox({ title:'',  href:'"+SWBPortal.getWebWorkPath()+path+image+"' }, 'pa_"+i+"_"+base.getId()+"');");
                 out.println("lb_"+i+".startup();");
-                i++;
             }
 
             out.println("var dialog = new dojox.image.LightboxDialog({});");
-            for(int j=0; j<photos.size(); j++) {
-                out.println("dialog.addImage( lb_"+j+", 'group2' );");
+            for(int i=0; i<nde && i<photos.size(); i++) {
+                out.println("dialog.addImage( lb_"+i+", 'group2' );");
             }
             out.println("        dialog.startup();");
             out.println("    });");

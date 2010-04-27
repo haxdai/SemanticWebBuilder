@@ -11,6 +11,8 @@
             <input type="TEXT" name="thnwidth" label="Ancho de imagen miniatura (pixeles):" size="4" maxlength="4" jsrequired="true" jsvaltype="js_numbers"  />
             <input type="TEXT" name="thnheight" label="Alto de imagen miniatura (pixeles):" size="4" maxlength="4" jsrequired="true" jsvaltype="js_numbers"  />
 
+            <input type="TEXT" name="maxpreview" label="Número de diapositivas expuestas:" size="4" maxlength="4" jsrequired="true" jsvaltype="js_numbers"  />
+
             <statictext name="txtTarget">Grupo:</statictext>
             <input type="RADIO" name="gpophotos" label="Establecimiento" value="establishment" checked="true" />
             <input type="RADIO" name="gpophotos" label="Instalaciones" value="instalation"/>
