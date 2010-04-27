@@ -445,9 +445,9 @@ public class PhotoAlbum extends GenericAdmResource {
         if(paramRequest.getCallMethod()==paramRequest.Call_STRATEGY) {
             int nde;
             try {
-                nde = Integer.parseInt(base.getAttribute("maxpreview", "4"));
+                nde = Integer.parseInt(base.getAttribute("maxpreview", "6"));
             }catch(NumberFormatException nfe) {
-                nde = 4;
+                nde = 6;
             }
             for(int i=0; i<nde && i<photos.size(); i++) {
                 String image = photos.get(i);
@@ -565,9 +565,9 @@ public class PhotoAlbum extends GenericAdmResource {
         if(paramRequest.getCallMethod()==paramRequest.Call_STRATEGY) {
             int nde;
             try {
-                nde = Integer.parseInt(base.getAttribute("maxpreview", "4"));
+                nde = Integer.parseInt(base.getAttribute("maxpreview", "6"));
             }catch(NumberFormatException nfe) {
-                nde = 4;
+                nde = 6;
             }
 
             out.println("<div class=\"photosHolder\">");
