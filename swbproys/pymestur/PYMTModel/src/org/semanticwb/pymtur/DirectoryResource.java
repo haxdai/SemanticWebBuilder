@@ -614,7 +614,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
 
                             try {
                                 item.write(fichero);
-                                ImageResizer.shrinkTo(fichero, 336, 224, fichero, ext);
+                                ImageResizer.shrinkTo(fichero, 281, 187, fichero, ext);
                                 //ImageResizer.resize(fichero, 336, 224, true, fichero, ext);
                             } catch (Exception e) {
                                 e.printStackTrace();
