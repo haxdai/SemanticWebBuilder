@@ -18,6 +18,7 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
     public static final org.semanticwb.platform.SemanticClass pymtur_RejectReason=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#RejectReason");
     public static final org.semanticwb.platform.SemanticClass pymtur_Parameter=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Parameter");
     public static final org.semanticwb.platform.SemanticClass pymtur_Event=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Event");
+    public static final org.semanticwb.platform.SemanticClass pymtur_InterestPortalLink=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#InterestPortalLink");
     public static final org.semanticwb.platform.SemanticClass pymtur_EmailText=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#EmailText");
     public static final org.semanticwb.platform.SemanticClass pymtur_Paquete=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Paquete");
     public static final org.semanticwb.platform.SemanticClass pymtur_UnActivationReason=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#UnActivationReason");
@@ -605,6 +606,36 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
     public boolean hasEvent(String id)
     {
         return org.semanticwb.pymtur.Event.ClassMgr.hasEvent(id, this);
+    }
+
+    public org.semanticwb.pymtur.InterestPortalLink getInterestPortalLink(String id)
+    {
+        return org.semanticwb.pymtur.InterestPortalLink.ClassMgr.getInterestPortalLink(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.pymtur.InterestPortalLink> listInterestPortalLinks()
+    {
+        return org.semanticwb.pymtur.InterestPortalLink.ClassMgr.listInterestPortalLinks(this);
+    }
+
+    public org.semanticwb.pymtur.InterestPortalLink createInterestPortalLink(String id)
+    {
+        return org.semanticwb.pymtur.InterestPortalLink.ClassMgr.createInterestPortalLink(id,this);
+    }
+
+    public org.semanticwb.pymtur.InterestPortalLink createInterestPortalLink()
+    {
+        long id=getSemanticObject().getModel().getCounter(pymtur_InterestPortalLink);
+        return org.semanticwb.pymtur.InterestPortalLink.ClassMgr.createInterestPortalLink(String.valueOf(id),this);
+    } 
+
+    public void removeInterestPortalLink(String id)
+    {
+        org.semanticwb.pymtur.InterestPortalLink.ClassMgr.removeInterestPortalLink(id, this);
+    }
+    public boolean hasInterestPortalLink(String id)
+    {
+        return org.semanticwb.pymtur.InterestPortalLink.ClassMgr.hasInterestPortalLink(id, this);
     }
 
     public org.semanticwb.pymtur.EmailText getEmailText(String id)
