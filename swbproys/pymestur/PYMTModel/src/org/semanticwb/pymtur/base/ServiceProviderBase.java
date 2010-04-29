@@ -17,6 +17,7 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
     public static final org.semanticwb.platform.SemanticProperty pymtur_spPromotionsComment=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#spPromotionsComment");
     public static final org.semanticwb.platform.SemanticClass pymtur_Promotion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Promotion");
     public static final org.semanticwb.platform.SemanticProperty pymtur_hasPromotion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#hasPromotion");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_spReservationPhone=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#spReservationPhone");
     public static final org.semanticwb.platform.SemanticClass pymtur_PymePhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#PymePhoto");
     public static final org.semanticwb.platform.SemanticProperty pymtur_hasMorePymePhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#hasMorePymePhoto");
     public static final org.semanticwb.platform.SemanticProperty pymtur_pymeWebSite=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#pymeWebSite");
@@ -608,6 +609,16 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
              ret=(org.semanticwb.pymtur.Promotion)obj.createGenericInstance();
          }
          return ret;
+    }
+
+    public String getSpReservationPhone()
+    {
+        return getSemanticObject().getProperty(pymtur_spReservationPhone);
+    }
+
+    public void setSpReservationPhone(String value)
+    {
+        getSemanticObject().setProperty(pymtur_spReservationPhone, value);
     }
 
     public org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PymePhoto> listMorePymePhotos()
