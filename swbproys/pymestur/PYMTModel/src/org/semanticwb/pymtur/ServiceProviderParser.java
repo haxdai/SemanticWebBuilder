@@ -40,6 +40,7 @@ import org.semanticwb.portal.indexer.parser.GenericParser;
  */
 public class ServiceProviderParser extends GenericParser {
     public static final String ATT_DESTINATION = "destination";
+    //private static final String IMG_PATH =
 
     @Override
     public String getType(Searchable gen) {
@@ -92,11 +93,12 @@ public class ServiceProviderParser extends GenericParser {
         return ((ServiceProvider)gen).getTags();
     }
 
+
     @Override
     public String getImage(Searchable gen) {
-        return SWBPortal.getWebWorkPath() + "/" +
-                gen.getSemanticObject().getWorkPath() + "/" +
-                gen.getSemanticObject().getProperty(ServiceProvider.pymtur_PhotoLogo);
+        ServiceProvider sp = (ServiceProvider)gen;
+        //TODO:Falta validación para que regrese la imagen por defecto
+        return SWBPortal.getWorkPath() + sp.getWorkPath() + "/" + sp.getPhotoLogo();
     }
 
     private WebPage getWebPage(Searchable gen) {
