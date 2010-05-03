@@ -27,7 +27,6 @@ import org.semanticwb.model.Searchable;
 import org.semanticwb.portal.indexer.parser.GenericParser;
 import org.semanticwb.portal.indexer.parser.WebPageParser;
 
-// TODO: Auto-generated Javadoc
 /**
  * Parser for {@link Searchable} MicroSites.
  * <p>
