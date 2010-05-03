@@ -595,21 +595,21 @@ public class PhotoAlbum extends GenericAdmResource {
             out.println("dojo.addOnLoad(function(){");
             for(int i=0; i<nde && i<photos.size(); i++) {
                 String image = photos.get(i);
-                out.println("var lb_"+i+" = new dojox.image.Lightbox({ title:'',  href:'"+SWBPortal.getWebWorkPath()+path+image+"' }, 'pa_"+i+"_"+base.getId()+"');");
-                out.println("lb_"+i+".startup();");
+                out.println("var lb_"+i+"_"+base.getId()+" = new dojox.image.Lightbox({ title:'',  href:'"+SWBPortal.getWebWorkPath()+path+image+"', group:'group_2_"+base.getId()+"' }, 'pa_"+i+"_"+base.getId()+"');");
+                out.println("lb_"+i+"_"+base.getId()+".startup();");
             }
 
-            out.println("var dialog = new dojox.image.LightboxDialog({});");
-            for(int i=0; i<nde && i<photos.size(); i++) {
-                out.println("dialog.addImage( lb_"+i+", 'group2' );");
-            }
-            out.println("        dialog.startup();");
+//            out.println("var dialog = new dojox.image.LightboxDialog({});");
+//            for(int i=0; i<nde && i<photos.size(); i++) {
+//                out.println("dialog.addImage( lb_"+i+", 'group2' );");
+//            }
+//            out.println("        dialog.startup();");
             out.println("    });");
 
-            out.println("    function showdialog() {");
-            out.println("        var dialog = dijit.byId('dojoxLightboxDialog');");
-            out.println("        dialog.show( { group:'group2'} );");
-            out.println("    }");
+//            out.println("    function showdialog() {");
+//            out.println("        var dialog = dijit.byId('dojoxLightboxDialog');");
+//            out.println("        dialog.show( { group:'group2'} );");
+//            out.println("    }");
             out.println("</script>");
         }else {
             boolean userCanEdit=false;
@@ -658,8 +658,8 @@ public class PhotoAlbum extends GenericAdmResource {
                     out.println("dojo.addOnLoad(function(){");
                     i=0;
                     for(String image : photos) {
-                        out.println("var lb_"+i+" = new dojox.image.Lightbox({ title:'', href:'"+SWBPortal.getWebWorkPath()+path+image+"' }, 'pac_"+i+"_"+base.getId()+"');");
-                        out.println("lb_"+i+".startup();");
+                        out.println("var lb_"+i+"_"+base.getId()+" = new dojox.image.Lightbox({ title:'', href:'"+SWBPortal.getWebWorkPath()+path+image+"', group:'group"+base.getId()+"' }, 'pac_"+i+"_"+base.getId()+"');");
+                        out.println("lb_"+i+"_"+base.getId()+".startup();");
                         i++;
                     }
                     out.println("});");
