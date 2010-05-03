@@ -40,7 +40,23 @@ import org.semanticwb.portal.indexer.parser.GenericParser;
  */
 public class ServiceProviderParser extends GenericParser {
     public static final String ATT_DESTINATION = "destination";
-    //private static final String IMG_PATH =
+
+    @Override
+    public String getTypeDisplayLabel(Searchable gen) {
+        String ret = "#";
+        ServiceProvider sp = (ServiceProvider)gen;
+        WebPage wpFicha = sp.getWebPage().getWebSite().getWebPage("ficha");
+        MicroSitePyme ms = sp.getMicroSitePymeInv();
+
+        if (wpFicha != null && sp.getPymePaqueteType() > 1) {
+            ret = "Ficha";
+        } else if(sp.getPymePaqueteType() >= 3 && ms != null) {
+            ret = "Página Web";
+        } else if (sp.getDestination() != null) {
+            ret = "Destino";
+        }
+        return ret;
+    }
 
     @Override
     public String getType(Searchable gen) {
@@ -60,11 +76,11 @@ public class ServiceProviderParser extends GenericParser {
         MicroSitePyme ms = sp.getMicroSitePymeInv();
 
         if (wpFicha != null && sp.getPymePaqueteType() > 1) {
-            ret = wpFicha.getUrl() + "?uri=" + sp.getEncodedURI() + "&act=detail";
+            ret = wpFicha.getUrl() + "?uri=" + sp.getEncodedURI() + "&act=detail";//Ficha
         } else if(sp.getPymePaqueteType() >= 3 && ms != null) {
-            ret = ms.getUrl();
+            ret = ms.getUrl();//Pagina web
         } else if (sp.getDestination() != null) {
-            ret = sp.getDestination().getUrl();
+            ret = sp.getDestination().getUrl();//Destino
         }
         return ret;
     }
@@ -97,8 +113,8 @@ public class ServiceProviderParser extends GenericParser {
     @Override
     public String getImage(Searchable gen) {
         ServiceProvider sp = (ServiceProvider)gen;
-        //TODO:Falta validación para que regrese la imagen por defecto
-        return SWBPortal.getWorkPath() + sp.getWorkPath() + "/" + sp.getPhotoLogo();
+        return SWBPortal.getWebWorkPath() + sp.getWorkPath() + "/" + sp.getPhotoLogo();
+
     }
 
     private WebPage getWebPage(Searchable gen) {
