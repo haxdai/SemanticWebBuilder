@@ -453,7 +453,6 @@ public class PhotoAlbum extends GenericAdmResource {
                 String image = photos.get(i);
                 out.println("<span class=\"marco\">");
                 out.println("<a href=\"#\" id=\""+"pa_"+i+"_"+base.getId()+"\">");
-                //out.println("<img height=\"62\" width=\"82\" alt=\""+image+"\" src=\""+SWBPortal.getWebWorkPath()+path+_thumbnail+image+"\" />");
                 out.println("<img alt=\""+image+"\" src=\""+SWBPortal.getWebWorkPath()+path+_thumbnail+image+"\" />");
                 out.println("</a>");
                 out.println("</span>");
@@ -477,21 +476,21 @@ public class PhotoAlbum extends GenericAdmResource {
             out.println("dojo.addOnLoad(function(){");
             for(int i=0; i<nde && i<photos.size(); i++) {
                 String image = photos.get(i);
-                out.println("var lb_"+i+" = new dojox.image.Lightbox({ title:'',  href:'"+SWBPortal.getWebWorkPath()+path+image+"' }, 'pa_"+i+"_"+base.getId()+"');");
-                out.println("lb_"+i+".startup();");
+                out.println("var lbs_"+i+"_"+base.getId()+" = new dojox.image.Lightbox({ title:'', href:'"+SWBPortal.getWebWorkPath()+path+image+"', group:'group_2_"+base.getId()+"' }, 'pa_"+i+"_"+base.getId()+"');");
+                out.println("lbs_"+i+"_"+base.getId()+".startup();");
             }
 
-            out.println("var dialog = new dojox.image.LightboxDialog({});");
-            for(int i=0; i<nde && i<photos.size(); i++) {
-                out.println("dialog.addImage( lb_"+i+", 'group2' );");
-            }
-            out.println("        dialog.startup();");
+//            out.println("var dialog = new dojox.image.LightboxDialog({});");
+//            for(int i=0; i<nde && i<photos.size(); i++) {
+//                out.println("dialog.addImage( lbs_"+i+"_"+base.getId()+", 'group"+base.getId()+"' );");
+//            }
+//            out.println("        dialog.startup();");
             out.println("    });");
 
-            out.println("    function showdialog() {");
-            out.println("        var dialog = dijit.byId('dojoxLightboxDialog');");
-            out.println("        dialog.show( { group:'group2'} );");
-            out.println("    }");
+//            out.println("    function showdialog() {");
+//            out.println("        var dialog = dijit.byId('dojoxLightboxDialog');");
+//            out.println("        dialog.show( { group:'group"+base.getId()+"'} );");
+//            out.println("    }");
             out.println("</script>");
         }else {
             boolean userCanEdit=false;
@@ -513,7 +512,7 @@ public class PhotoAlbum extends GenericAdmResource {
                 int i=0;
                 for(String image : photos) {
                     out.println("<span>");
-                    out.println("<a href=\"#\" id=\""+"pac_"+i+"_"+base.getId()+"\">");
+                    out.println("<a href=\"#\" id=\""+"pac_"+i+"_"+base.getId()+"\" >");
                     out.println("<img alt=\""+image+"\" src=\""+SWBPortal.getWebWorkPath()+path+_thumbnail+image+"\" />");
                     out.println("</a>");
                     out.println("</span>");
@@ -529,8 +528,8 @@ public class PhotoAlbum extends GenericAdmResource {
                 out.println("dojo.addOnLoad(function(){");
                 i=0;
                 for(String image : photos) {
-                    out.println("var lb_"+i+" = new dojox.image.Lightbox({ title:'', href:'"+SWBPortal.getWebWorkPath()+path+image+"' }, 'pac_"+i+"_"+base.getId()+"');");
-                    out.println("lb_"+i+".startup();");
+                    out.println("var lb_"+i+"_"+base.getId()+" = new dojox.image.Lightbox({ title:'', href:'"+SWBPortal.getWebWorkPath()+path+image+"', group:'group"+base.getId()+"' }, 'pac_"+i+"_"+base.getId()+"');");
+                    out.println("lb_"+i+"_"+base.getId()+".startup();");
                     i++;
                 }
                 out.println("});");
@@ -573,7 +572,7 @@ public class PhotoAlbum extends GenericAdmResource {
             out.println("<div class=\"photosHolder\">");
             for(int i=0; i<nde && i<photos.size(); i++) {
                 String image = photos.get(i);
-                out.println("<a href=\"#\" id=\""+"pa_"+i+"_"+base.getId()+"\">");
+                out.println("<a href=\"#\" id=\""+"pa_"+i+"_"+base.getId()+"\" group=\"group1\">");
                 out.println("<img height=\"62\" width=\"82\" alt=\""+image+"\" src=\""+SWBPortal.getWebWorkPath()+path+_thumbnail+image+"\" />");
                 out.println("</a>");
             }

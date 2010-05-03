@@ -452,7 +452,6 @@ public class PhotoAlbumSheet extends GenericAdmResource {
                 String image = photos.get(i);
                 out.println("<span class=\"marco\">");
                 out.println("<a href=\"#\" id=\""+"pa_"+i+"_"+base.getId()+"\">");
-                //out.println("<img height=\"62\" width=\"82\" alt=\""+image+"\" src=\""+SWBPortal.getWebWorkPath()+path+_thumbnail+image+"\" />");
                 out.println("<img alt=\""+image+"\" src=\""+SWBPortal.getWebWorkPath()+path+_thumbnail+image+"\" />");
                 out.println("</a>");
                 out.println("</span>");
@@ -473,22 +472,21 @@ public class PhotoAlbumSheet extends GenericAdmResource {
             out.println("dojo.addOnLoad(function(){");
             for(int i=0; i<nde && i<photos.size(); i++) {
                 String image = photos.get(i);
-                out.println("var lb_"+i+" = new dojox.image.Lightbox({ title:'',  href:'"+SWBPortal.getWebWorkPath()+path+image+"' }, 'pa_"+i+"_"+base.getId()+"');");
-                out.println("lb_"+i+".startup();");
+                out.println("var lbs_"+i+"_"+base.getId()+" = new dojox.image.Lightbox({ title:'', href:'"+SWBPortal.getWebWorkPath()+path+image+"', group:'group"+base.getId()+"' }, 'pa_"+i+"_"+base.getId()+"');");
+                out.println("lbs_"+i+"_"+base.getId()+".startup();");
             }
 
-            out.println("var dialog = new dojox.image.LightboxDialog({});");
-            for(int i=0; i<nde && i<photos.size(); i++) {
-                out.println("dialog.addImage( lb_"+i+", 'group2' );");
-            }
-            out.println("        dialog.startup();");
+//            out.println("var dialog = new dojox.image.LightboxDialog({});");
+//            for(int i=0; i<nde && i<photos.size(); i++) {
+//                out.println("dialog.addImage( lb_"+i+", 'group2' );");
+//            }
+//            out.println("        dialog.startup();");
             out.println("    });");
 
-            out.println("    function showdialog() {");
-            out.println("        var dialog = dijit.byId('dojoxLightboxDialog');");
-            out.println("        dialog.show( { group:'group2'} );");
-            out.println("    }");
-
+//            out.println("    function showdialog() {");
+//            out.println("        var dialog = dijit.byId('dojoxLightboxDialog');");
+//            out.println("        dialog.show( { group:'group2'} );");
+//            out.println("    }");
             out.println("</script>");
         }else {
             boolean show = Boolean.parseBoolean(request.getParameter("showAdmPhotos"));
