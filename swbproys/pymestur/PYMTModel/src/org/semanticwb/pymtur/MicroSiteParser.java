@@ -35,17 +35,7 @@ import org.semanticwb.portal.indexer.parser.WebPageParser;
  *
  * @author Hasdai Pacheco {haxdai@gmail.com}
  */
-public class MicroSiteParser extends WebPageParser {
-    /**
-     * Gets the String type of the {@link Searchable} object.
-     * <p>
-     * Obtiene la cadena del tipo de objeto {@link Searchable}.
-     *
-     * @param   gen the {@link Searchable} object. El objeto {@link Searchable}.
-     * @return  String type of the {@link Searchable} object. String con el tipo
-     *          del objeto {@link Searchable}.
-     * @see     org.semanticwb.portal.indexer.parser.GenericParser#getType(org.semanticwb.model.Searchable)
-     */
+public class MicroSiteParser extends WebPageParser {    
     @Override
     public String getType(Searchable gen) {
         return "MicroSite";
