@@ -167,7 +167,7 @@ public class Contact extends GenericAdmResource {
        
         if(email == null) {
             boolean modal = Boolean.parseBoolean(base.getAttribute("modal"));
-            if (modal) {
+            if(modal) {
                 out.println("<script type=\"text/javascript\">");
 
                 out.println("  function sendEmail(url) {");
@@ -214,8 +214,8 @@ public class Contact extends GenericAdmResource {
                     out.println("s = s.concat('<h3>Ponte en contacto con nosotros</h3>');");
                 }
                 if (sprovider.getContactPhoneNumber() != null) {
-                    out.println("s = s.concat('<p id=\"contactus\">Puedes contactarnos por tel&eacute;fono al n&uacute;mero: " + sprovider.getContactPhoneNumber()+".<br />');");
-                        out.println("s = s.concat('Si lo prefieres, env&iacute;anos un correo electr&oacute;nico proporcionando la siguiente informaci&oacute;n:');");
+                    out.println("s = s.concat('<p id=\"contactus\">"+paramRequest.getLocaleString("instruction1")+" "+sprovider.getContactPhoneNumber()+".<br />');");
+                        out.println("s = s.concat('"+paramRequest.getLocaleString("instruction2")+"');");
                     out.println("s = s.concat('</p>');");
                 }
                 out.println("s = s.concat('<hr />');");
@@ -240,11 +240,11 @@ public class Contact extends GenericAdmResource {
                 out.println("s = s.concat('<p  id=\"cmdContact\">');");
                 SWBResourceURL url=paramRequest.getRenderUrl();
                 url.setCallMethod(url.Call_DIRECT).setMode("sendEmail").setParameter("uri", sprovider.getURI());
-                out.println("s = s.concat('<label for=\"contactoEnviar\">Enviar</label>');");
+                out.println("s = s.concat('<label for=\"contactoEnviar\">"+paramRequest.getLocaleString("send")+"</label>');");
                 out.println("s = s.concat('<input name=\"submit\" id=\"contactoEnviar\" type=\"button\" onclick=\"sendEmail(\\'"+url+"\\'+\\'&name=\\'+dojo.byId(\\'name\\').value+\\'&email=\\'+dojo.byId(\\'email\\').value+\\'&subject=\\'+dojo.byId(\\'subject\\').value+\\'&message=\\'+dojo.byId(\\'message\\').value); removeCoverDiv(\\''+divId+'\\')\" value=\""+paramRequest.getLocaleString("send")+"\" />');");
-                out.println("s = s.concat('<label for=\"contactoRestablecer\">Limpiar</label>');");
+                out.println("s = s.concat('<label for=\"contactoRestablecer\">"+paramRequest.getLocaleString("reset")+"</label>');");
                 out.println("s = s.concat('<input name=\"reset\" id=\"contactoRestablecer\" type=\"reset\" value=\""+paramRequest.getLocaleString("reset")+"\" />');");
-                out.println("s = s.concat('<label for=\"contactoCancelar\">Salir</label>');");
+                out.println("s = s.concat('<label for=\"contactoCancelar\">"+paramRequest.getLocaleString("cancel")+"</label>');");
                 out.println("s = s.concat('<input name=\"cancel\" id=\"contactoCancelar\" type=\"button\" onclick=\"removeCoverDiv(\\'');");
                 out.println("s = s.concat(divId);");
                 out.println("s = s.concat('\\')\" value=\""+paramRequest.getLocaleString("cancel")+"\" />');");
@@ -253,8 +253,8 @@ public class Contact extends GenericAdmResource {
                 out.println("s = s.concat('</div>');");
                 out.println("contactContainer.innerHTML = s;");
 
-                out.println("    var cwidth=500;");
-                out.println("    var cheight=500;");
+                out.println("    var cwidth=650;");
+                out.println("    var cheight=350;");
                 out.println("    contactContainer.id='s_'+divId;");
                 out.println("    contactContainer.style.zIndex=1001;");
                 out.println("    contactContainer.style.position='absolute';");
@@ -317,7 +317,7 @@ public class Contact extends GenericAdmResource {
             out.println("<pre>");
             out.println("Lo sentimos, por el momento no fue posible enviar su comentario.<br>");
             out.println("Falta información para el envío de su correo:<br/>");
-            out.println("Debe escribir su correo electrónico y mensaje como minimo<br/><br/>");
+            out.println("Debe escribir su correo electr&oacute;nico y mensaje como minimo<br/><br/>");
             out.println("<pre>");
         }
     }
