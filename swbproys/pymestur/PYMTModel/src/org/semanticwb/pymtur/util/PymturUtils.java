@@ -42,22 +42,22 @@ public class PymturUtils {
     public static final int ESTATUS_BAJA=7;
     
     public static boolean logServiceProvider(ServiceProvider serviceProvider, int status, String comment, User user, SWBModel model){
-        PymesLog pymesLog=PymesLog.ClassMgr.createPymesLog(model);
-        pymesLog.setServiceProviderLog(serviceProvider);
-        pymesLog.setSpLogStatus(status);
-        pymesLog.setSpLogStatusComment(comment);
-        pymesLog.setLogUser(user);
-        pymesLog.setLogDate(new Date());
-
-        Iterator <PymesLog> itPymesLog=PymesLog.ClassMgr.listPymesLogs();
-        while(itPymesLog.hasNext()){
-            PymesLog plog=itPymesLog.next();
-            System.out.println("plog sp:"+plog.getServiceProviderLog());
-            System.out.println("plog stat:"+plog.getSpLogStatus());
-            System.out.println("plog comment:"+plog.getSpLogStatusComment());
-            System.out.println("plog user:"+plog.getLogUser());
-            System.out.println("plog date:"+plog.getLogDate());
-        }
+//        PymesLog pymesLog=PymesLog.ClassMgr.createPymesLog(model);
+//        pymesLog.setServiceProviderLog(serviceProvider);
+//        pymesLog.setSpLogStatus(status);
+//        pymesLog.setSpLogStatusComment(comment);
+//        pymesLog.setLogUser(user);
+//        pymesLog.setLogDate(new Date());
+//
+//        Iterator <PymesLog> itPymesLog=PymesLog.ClassMgr.listPymesLogs();
+//        while(itPymesLog.hasNext()){
+//            PymesLog plog=itPymesLog.next();
+//            System.out.println("plog sp:"+plog.getServiceProviderLog());
+//            System.out.println("plog stat:"+plog.getSpLogStatus());
+//            System.out.println("plog comment:"+plog.getSpLogStatusComment());
+//            System.out.println("plog user:"+plog.getLogUser());
+//            System.out.println("plog date:"+plog.getLogDate());
+//        }
 
 
         return true;
