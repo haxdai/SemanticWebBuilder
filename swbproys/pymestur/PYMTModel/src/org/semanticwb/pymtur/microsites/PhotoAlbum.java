@@ -692,7 +692,6 @@ public class PhotoAlbum extends GenericAdmResource {
         int totPhotos = sprovider.getSpTotPhotos();
         int packageType = sprovider.getPymePaqueteType();
         int numMaxPhotos = Paquete.ClassMgr.getPaquete(Integer.toString(packageType), paramRequest.getWebPage().getWebSite()).getPaq_NumMaxPhotos();
-        System.out.println("sprovider="+sprovider+", totPhotos="+totPhotos+", numMaxPhotos="+numMaxPhotos+", packageType="+packageType);
         if(totPhotos<numMaxPhotos)
             canAdd = true;
         return canAdd;
