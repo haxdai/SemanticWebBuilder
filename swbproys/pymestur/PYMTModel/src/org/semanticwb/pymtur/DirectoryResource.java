@@ -376,8 +376,10 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                             }
                             if(request.getParameter("varianTplURI")!=null){
                                 SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("varianTplURI"));
-                                VariantPaqTemplate varianTpl = (VariantPaqTemplate) semObject.createGenericInstance();
-                                dirObj.setVariantPaqTemplate(varianTpl);
+                                if(semObject!=null){
+                                    VariantPaqTemplate varianTpl = (VariantPaqTemplate) semObject.createGenericInstance();
+                                    dirObj.setVariantPaqTemplate(varianTpl);
+                                }
                             }
                         }
 
