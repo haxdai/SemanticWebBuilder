@@ -1,7 +1,7 @@
 package org.semanticwb.pymtur.base;
 
 
-public abstract class HospedajeBase extends org.semanticwb.pymtur.ServiceProvider implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Rankable,org.semanticwb.model.Searchable,org.semanticwb.portal.community.Interactiveable,org.semanticwb.portal.community.Addressable,org.semanticwb.model.Geolocalizable,org.semanticwb.model.Tagable,org.semanticwb.model.Traceable,org.semanticwb.portal.community.Contactable
+public abstract class HospedajeBase extends org.semanticwb.pymtur.ServiceProvider implements org.semanticwb.model.Tagable,org.semanticwb.portal.community.Interactiveable,org.semanticwb.model.Traceable,org.semanticwb.model.Geolocalizable,org.semanticwb.portal.community.Contactable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Searchable,org.semanticwb.model.Rankable,org.semanticwb.portal.community.Addressable
 {
     public static final org.semanticwb.platform.SemanticClass pymtur_Hospedaje=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Hospedaje");
     public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Hospedaje");

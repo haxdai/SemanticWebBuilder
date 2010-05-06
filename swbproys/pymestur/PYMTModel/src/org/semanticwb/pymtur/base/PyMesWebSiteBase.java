@@ -1,11 +1,12 @@
 package org.semanticwb.pymtur.base;
 
 
-public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.Filterable,org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Localeable,org.semanticwb.model.FilterableNode,org.semanticwb.model.FilterableClass,org.semanticwb.model.Indexable,org.semanticwb.model.Traceable,org.semanticwb.model.Trashable
+public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.Trashable,org.semanticwb.model.Filterable,org.semanticwb.model.Indexable,org.semanticwb.model.Localeable,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Undeleteable
 {
     public static final org.semanticwb.platform.SemanticClass swbcomm_MicroSite=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/community#MicroSite");
     public static final org.semanticwb.platform.SemanticClass pymtur_MiPymeSitePlus=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#MiPymeSitePlus");
     public static final org.semanticwb.platform.SemanticClass pymtur_Nearest=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Nearest");
+    public static final org.semanticwb.platform.SemanticClass pymtur_HospedajeRate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#HospedajeRate");
     public static final org.semanticwb.platform.SemanticClass pymtur_MiPymeSite=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#MiPymeSite");
     public static final org.semanticwb.platform.SemanticClass pymtur_TourismType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#TourismType");
     public static final org.semanticwb.platform.SemanticClass pymtur_Instalation=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Instalation");
@@ -276,6 +277,36 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
     public boolean hasNearest(String id)
     {
         return org.semanticwb.pymtur.Nearest.ClassMgr.hasNearest(id, this);
+    }
+
+    public org.semanticwb.pymtur.HospedajeRate getHospedajeRate(String id)
+    {
+        return org.semanticwb.pymtur.HospedajeRate.ClassMgr.getHospedajeRate(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.pymtur.HospedajeRate> listHospedajeRates()
+    {
+        return org.semanticwb.pymtur.HospedajeRate.ClassMgr.listHospedajeRates(this);
+    }
+
+    public org.semanticwb.pymtur.HospedajeRate createHospedajeRate(String id)
+    {
+        return org.semanticwb.pymtur.HospedajeRate.ClassMgr.createHospedajeRate(id,this);
+    }
+
+    public org.semanticwb.pymtur.HospedajeRate createHospedajeRate()
+    {
+        long id=getSemanticObject().getModel().getCounter(pymtur_HospedajeRate);
+        return org.semanticwb.pymtur.HospedajeRate.ClassMgr.createHospedajeRate(String.valueOf(id),this);
+    } 
+
+    public void removeHospedajeRate(String id)
+    {
+        org.semanticwb.pymtur.HospedajeRate.ClassMgr.removeHospedajeRate(id, this);
+    }
+    public boolean hasHospedajeRate(String id)
+    {
+        return org.semanticwb.pymtur.HospedajeRate.ClassMgr.hasHospedajeRate(id, this);
     }
 
     public org.semanticwb.pymtur.MiPymeSite getMiPymeSite(String id)

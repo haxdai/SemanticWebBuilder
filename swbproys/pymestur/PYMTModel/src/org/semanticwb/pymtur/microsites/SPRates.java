@@ -28,8 +28,10 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
+import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.WebPage;
+import org.semanticwb.platform.SemanticClass;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.SWBFormMgr;
 import org.semanticwb.portal.api.GenericResource;
@@ -39,6 +41,7 @@ import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.community.MicroSiteType;
 import org.semanticwb.pymtur.MicroSitePyme;
 import org.semanticwb.pymtur.Rate;
+import org.semanticwb.pymtur.SPCategory;
 import org.semanticwb.pymtur.ServiceProvider;
 
 /**
@@ -54,68 +57,107 @@ public class SPRates extends GenericResource {
         WebPage wp = paramRequest.getWebPage();
         WebPage community = null;
         String path = "";
-
         if (wp instanceof MicroSitePyme) {
             community = wp;
         } else {
             community = wp.getParent();
         }
 
-        String siteUri = ((MicroSitePyme) community).getType().getURI();
+        if (community != null)
+        {
+            MicroSitePyme ms=(MicroSitePyme)community;
+            ServiceProvider sprovider=ms.getServiceProvider();
+            if(sprovider.getWebPage()!=null){
+                SemanticObject semObject = SemanticObject.createSemanticObject(sprovider.getWebPage().getParent().getURI());
+                SPCategory giro = (SPCategory) semObject.createGenericInstance();
 
-        if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSite", wp.getWebSite()).getURI().equals(siteUri)) {
-            path = "/work/models/etour/jsp/pymestur/microsite/spRates.jsp";
-        } else if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSitePlus", wp.getWebSite()).getURI().equals(siteUri)) {
-            path = "/work/models/etour/jsp/pymestur/premier/spRates.jsp";
-        }
+                //SPCategory giro=SPCategory.ClassMgr.getSPCategory(sprovider.getWebPage().getParent().getURI(), wp.getWebSite());
+                System.out.println("giro:"+giro);
 
-        RequestDispatcher dis = request.getRequestDispatcher(path);
-        try {
-            request.setAttribute("paramRequest", paramRequest);
-            dis.include(request, response);
-        } catch (Exception e) {
-            log.error(e);
+                String siteUri = ((MicroSitePyme) community).getType().getURI();
+                if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSite", wp.getWebSite()).getURI().equals(siteUri)) {
+                    path = "/work/models/etour/jsp/pymestur/microsite/spRates.jsp";
+                } else if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSitePlus", wp.getWebSite()).getURI().equals(siteUri)) {
+                    path = "/work/models/etour/jsp/pymestur/premier/spRates.jsp";
+                }
+
+                RequestDispatcher dis = request.getRequestDispatcher(path);
+                try {
+                    request.setAttribute("paramRequest", paramRequest);
+                    request.setAttribute("rateTypeObj", giro.getSpCategoryRateType());
+                    dis.include(request, response);
+                } catch (Exception e) {
+                    log.error(e);
+                }
+            }
         }
     }
 
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
     {
-        String action=response.getAction();
-        if(action.equals("add_rate")) {
-            SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
-            SWBFormMgr mgr = new SWBFormMgr(Rate.sclass, semObject, null);
-            mgr.setFilterRequired(false);
-            try {
-                if(isValidValue(request.getParameter("planType")) && isValidNumber(request.getParameter("HighSeason")) && isValidNumber(request.getParameter("Capacity")) && isValidNumber(request.getParameter("lowSeason")) && isValidValue(request.getParameter("serviceType")) ) {
-                    SemanticObject sobj = mgr.processForm(request);
-                    Rate rate = (Rate) sobj.createGenericInstance();
-                    ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
-                    serviceProv.addRate(rate);
-                }
-            }catch(Exception e){
-                log.error(e);
-            }
-        }else if(action.equals("edit_rate")) {
-            SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
-            SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
-            mgr.setFilterRequired(false);
-            try
-            {
-                mgr.processForm(request);
-            }catch(Exception e){
-                log.error(e);
-            }
-        }else if(action.equals("remove_rate")) {
-            SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
-            Rate rate = (Rate) semObject.createGenericInstance();
-
-            SemanticObject semObjectProv = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
-            ServiceProvider serviceProv = (ServiceProvider) semObjectProv.createGenericInstance();
-
-            serviceProv.removeRate(rate);
-            semObject.remove();
+        WebPage wp = response.getWebPage();
+        WebPage community = null;
+        String path = "";
+        if (wp instanceof MicroSitePyme) {
+            community = wp;
+        } else {
+            community = wp.getParent();
         }
+
+        if (community != null)
+        {
+            MicroSitePyme ms=(MicroSitePyme)community;
+            ServiceProvider sprovider=ms.getServiceProvider();
+            if(sprovider.getWebPage()!=null){
+                SemanticObject semObjectGiro = SemanticObject.createSemanticObject(sprovider.getWebPage().getParent().getURI());
+                SPCategory giro = (SPCategory) semObjectGiro.createGenericInstance();
+                System.out.println("Giro processA:"+giro);
+                System.out.println("GiroCat processA:"+giro.getSpCategoryRateType());
+
+                String action=response.getAction();
+                if(action.equals("add_rate")) {
+                    SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
+                    System.out.println("giro semclass:"+giro.getSpCategoryRateType().getSemanticClass().getSemanticObject());
+                    System.out.println("Rate semClassEjorge:"+Rate.sclass);
+                    SemanticClass cls = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass(giro.getSpCategoryRateType().getURI());
+                    System.out.println("cls Jorge:"+cls);
+                    SWBFormMgr mgr = new SWBFormMgr(cls, semObject, null);
+                    mgr.setFilterRequired(false);
+                    try {
+                        if(isValidValue(request.getParameter("planType")) && isValidNumber(request.getParameter("HighSeason")) && isValidNumber(request.getParameter("Capacity")) && isValidNumber(request.getParameter("lowSeason")) && isValidValue(request.getParameter("serviceType")) ) {
+                            SemanticObject sobj = mgr.processForm(request);
+                            System.out.println("sobj que guarda-0:"+sobj);
+                            System.out.println("sobj que guarda-1:"+sobj.getSemanticClass());
+                            Rate rate = (Rate) sobj.createGenericInstance();
+                            ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
+                            serviceProv.addRate(rate);
+                        }
+                    }catch(Exception e){
+                        log.error(e);
+                    }
+                }else if(action.equals("edit_rate")) {
+                    SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
+                    SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
+                    mgr.setFilterRequired(false);
+                    try
+                    {
+                        mgr.processForm(request);
+                    }catch(Exception e){
+                        log.error(e);
+                    }
+                }else if(action.equals("remove_rate")) {
+                    SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
+                    Rate rate = (Rate) semObject.createGenericInstance();
+
+                    SemanticObject semObjectProv = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
+                    ServiceProvider serviceProv = (ServiceProvider) semObjectProv.createGenericInstance();
+
+                    serviceProv.removeRate(rate);
+                    semObject.remove();
+                }
+            }
+    }
     }
 
     private boolean isValidValue(String param) {
@@ -136,4 +178,5 @@ public class SPRates extends GenericResource {
             }
         return validValue;
     }
+
 }
