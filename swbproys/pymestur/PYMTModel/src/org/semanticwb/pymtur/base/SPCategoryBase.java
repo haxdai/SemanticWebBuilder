@@ -1,10 +1,12 @@
 package org.semanticwb.pymtur.base;
 
 
-public abstract class SPCategoryBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Rankable,org.semanticwb.model.Searchable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Indexable,org.semanticwb.model.Resourceable,org.semanticwb.model.Viewable,org.semanticwb.model.Traceable,org.semanticwb.model.Trashable,org.semanticwb.model.Referensable,org.semanticwb.model.Filterable,org.semanticwb.model.Activeable,org.semanticwb.model.Hiddenable,org.semanticwb.model.FilterableNode,org.semanticwb.model.TemplateRefable,org.semanticwb.model.RuleRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Tagable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RoleRefable
+public abstract class SPCategoryBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Filterable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Traceable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Expirable,org.semanticwb.model.Resourceable,org.semanticwb.model.RuleRefable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Searchable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Tagable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Trashable,org.semanticwb.model.Indexable,org.semanticwb.model.Activeable,org.semanticwb.model.Viewable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Referensable,org.semanticwb.model.Rankable
 {
     public static final org.semanticwb.platform.SemanticClass pymtur_Instalation=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Instalation");
     public static final org.semanticwb.platform.SemanticProperty pymtur_hasCategoryInstalation=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#hasCategoryInstalation");
+    public static final org.semanticwb.platform.SemanticClass pymtur_RateType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#RateType");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_spCategoryRateType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#spCategoryRateType");
     public static final org.semanticwb.platform.SemanticClass pymtur_Service=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Service");
     public static final org.semanticwb.platform.SemanticProperty pymtur_hasCategoryService=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#hasCategoryService");
     public static final org.semanticwb.platform.SemanticClass pymtur_SPCategory=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#SPCategory");
@@ -305,6 +307,23 @@ public abstract class SPCategoryBase extends org.semanticwb.model.WebPage implem
          {
              ret=(org.semanticwb.pymtur.Instalation)obj.createGenericInstance();
          }
+         return ret;
+    }
+
+    public void setSpCategoryRateType(org.semanticwb.platform.SemanticObject value)
+    {
+        getSemanticObject().setObjectProperty(pymtur_spCategoryRateType, value);
+    }
+
+    public void removeSpCategoryRateType()
+    {
+        getSemanticObject().removeProperty(pymtur_spCategoryRateType);
+    }
+
+    public org.semanticwb.platform.SemanticObject getSpCategoryRateType()
+    {
+         org.semanticwb.platform.SemanticObject ret=null;
+         ret=getSemanticObject().getObjectProperty(pymtur_spCategoryRateType);
          return ret;
     }
 

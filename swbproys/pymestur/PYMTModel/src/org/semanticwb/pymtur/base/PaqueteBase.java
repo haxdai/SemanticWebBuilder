@@ -6,6 +6,7 @@ public abstract class PaqueteBase extends org.semanticwb.model.SWBClass implemen
     public static final org.semanticwb.platform.SemanticProperty pymtur_paq_Price=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#paq_Price");
     public static final org.semanticwb.platform.SemanticProperty pymtur_paq_NumMaxCupones=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#paq_NumMaxCupones");
     public static final org.semanticwb.platform.SemanticProperty pymtur_paq_NumMaxPhotos=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#paq_NumMaxPhotos");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_termsOfUse=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#termsOfUse");
     public static final org.semanticwb.platform.SemanticProperty pymtur_paq_NumMaxPromotions=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#paq_NumMaxPromotions");
     public static final org.semanticwb.platform.SemanticClass pymtur_Paquete=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Paquete");
     public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Paquete");
@@ -169,6 +170,16 @@ public abstract class PaqueteBase extends org.semanticwb.model.SWBClass implemen
     public void setUpdated(java.util.Date value)
     {
         getSemanticObject().setDateProperty(swb_updated, value);
+    }
+
+    public String getTermsOfUse()
+    {
+        return getSemanticObject().getProperty(pymtur_termsOfUse);
+    }
+
+    public void setTermsOfUse(String value)
+    {
+        getSemanticObject().setProperty(pymtur_termsOfUse, value);
     }
 
     public int getPaq_NumMaxPromotions()
