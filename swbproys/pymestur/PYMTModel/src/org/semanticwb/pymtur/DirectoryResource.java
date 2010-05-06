@@ -386,7 +386,15 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         String sdomain = request.getParameter("pymeDomain");
                         if (pymetype == PymturUtils.PAQ_PREMIER && sdomain != null && sdomain.trim().length() > 0) { //Se asigna el DNS al Micrositio siempre y cuando sea de tipo 4 (PREMIER)
                             Dns newDns = Dns.ClassMgr.createDns(wsite);
-                            newDns.setDns(request.getParameter("pymeDomain"));
+                            newDns.setDns(sdomain);
+                            newDns.setWebPage(ms);
+                            newDns.setCreator(user);
+                        }
+
+                        String subdomain = request.getParameter("pymeSubDomain");
+                        if (pymetype == PymturUtils.PAQ_PREMIER && subdomain != null && subdomain.trim().length() > 0) { //Se asigna el SubDNS al Micrositio siempre y cuando sea de tipo 4 (PREMIER)
+                            Dns newDns = Dns.ClassMgr.createDns(wsite);
+                            newDns.setDns(subdomain);
                             newDns.setWebPage(ms);
                             newDns.setCreator(user);
                         }
