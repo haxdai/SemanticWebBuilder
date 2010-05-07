@@ -47,6 +47,7 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
     public static final org.semanticwb.platform.SemanticProperty pymtur_spStatusComment=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#spStatusComment");
     public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
     public static final org.semanticwb.platform.SemanticProperty pymtur_spCreator=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#spCreator");
+    public static final org.semanticwb.platform.SemanticClass swb_Dns=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#Dns");
     public static final org.semanticwb.platform.SemanticProperty pymtur_pymeDomain=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#pymeDomain");
     public static final org.semanticwb.platform.SemanticProperty pymtur_rfc=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#rfc");
     public static final org.semanticwb.platform.SemanticProperty pymtur_spServicesDescr=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#spServicesDescr");
@@ -287,6 +288,18 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
             return it;
         }
 
+        public static java.util.Iterator<org.semanticwb.pymtur.ServiceProvider> listServiceProviderByPymeDomain(org.semanticwb.model.Dns value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.ServiceProvider> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(pymtur_pymeDomain, value.getSemanticObject(),sclass));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.pymtur.ServiceProvider> listServiceProviderByPymeDomain(org.semanticwb.model.Dns value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.ServiceProvider> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(pymtur_pymeDomain,value.getSemanticObject(),sclass));
+            return it;
+        }
+
         public static java.util.Iterator<org.semanticwb.pymtur.ServiceProvider> listServiceProviderByCupon(org.semanticwb.pymtur.Cupon value,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.ServiceProvider> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(pymtur_hasCupon, value.getSemanticObject(),sclass));
@@ -320,6 +333,18 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
         public static java.util.Iterator<org.semanticwb.pymtur.ServiceProvider> listServiceProviderByWebPage(org.semanticwb.model.WebPage value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.ServiceProvider> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swbcomm_dirWebPage,value.getSemanticObject(),sclass));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.pymtur.ServiceProvider> listServiceProviderByPymeSubDomainWildCard(org.semanticwb.model.Dns value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.ServiceProvider> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(pymtur_pymeSubDomainWildCard, value.getSemanticObject(),sclass));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.pymtur.ServiceProvider> listServiceProviderByPymeSubDomainWildCard(org.semanticwb.model.Dns value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.ServiceProvider> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(pymtur_pymeSubDomainWildCard,value.getSemanticObject(),sclass));
             return it;
         }
 
@@ -1091,14 +1116,25 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
          return ret;
     }
 
-    public String getPymeDomain()
+    public void setPymeDomain(org.semanticwb.model.Dns value)
     {
-        return getSemanticObject().getProperty(pymtur_pymeDomain);
+        getSemanticObject().setObjectProperty(pymtur_pymeDomain, value.getSemanticObject());
     }
 
-    public void setPymeDomain(String value)
+    public void removePymeDomain()
     {
-        getSemanticObject().setProperty(pymtur_pymeDomain, value);
+        getSemanticObject().removeProperty(pymtur_pymeDomain);
+    }
+
+    public org.semanticwb.model.Dns getPymeDomain()
+    {
+         org.semanticwb.model.Dns ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(pymtur_pymeDomain);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.Dns)obj.createGenericInstance();
+         }
+         return ret;
     }
 
     public String getIntNumber()
@@ -1252,14 +1288,25 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
         getSemanticObject().setProperty(pymtur_rfcStreet, value);
     }
 
-    public String getPymeSubDomainWildCard()
+    public void setPymeSubDomainWildCard(org.semanticwb.model.Dns value)
     {
-        return getSemanticObject().getProperty(pymtur_pymeSubDomainWildCard);
+        getSemanticObject().setObjectProperty(pymtur_pymeSubDomainWildCard, value.getSemanticObject());
     }
 
-    public void setPymeSubDomainWildCard(String value)
+    public void removePymeSubDomainWildCard()
     {
-        getSemanticObject().setProperty(pymtur_pymeSubDomainWildCard, value);
+        getSemanticObject().removeProperty(pymtur_pymeSubDomainWildCard);
+    }
+
+    public org.semanticwb.model.Dns getPymeSubDomainWildCard()
+    {
+         org.semanticwb.model.Dns ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(pymtur_pymeSubDomainWildCard);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.Dns)obj.createGenericInstance();
+         }
+         return ret;
     }
 
     public int getSpTotCupones()

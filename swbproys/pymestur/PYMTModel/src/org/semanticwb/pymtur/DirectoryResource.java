@@ -267,6 +267,24 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         }
                         processFiles(request, wsite, dirObj.getSemanticObject());
 
+
+                        String sdomain = request.getParameter("pymeDomain");
+                        if (dirObj.getPymePaqueteType() == PymturUtils.PAQ_PREMIER && sdomain != null && sdomain.trim().length() > 0) { //Se modifica el DNS al Micrositio siempre y cuando sea de tipo 4 (PREMIER)
+                            Dns pymeDns = dirObj.getPymeDomain();
+                            pymeDns.setDns(sdomain);
+                            pymeDns.setModifiedBy(user);
+                            dirObj.setPymeDomain(pymeDns);
+                        }
+
+                        String subdomain = request.getParameter("pymeSubDomain");
+                        if (dirObj.getPymePaqueteType() == PymturUtils.PAQ_PREMIER && subdomain != null && subdomain.trim().length() > 0) { //Se modifica el SubDNS al Micrositio siempre y cuando sea de tipo 4 (PREMIER)
+                            Dns pymeDns = dirObj.getPymeSubDomainWildCard();
+                            pymeDns.setDns(sdomain);
+                            pymeDns.setModifiedBy(user);
+                            dirObj.setPymeSubDomainWildCard(pymeDns);
+                        }
+
+
                         //Asignacion de plantilla y estilos a la Pag Web (si aplica)
                         if (dirObj.getPymePaqueteType() == PymturUtils.PAQ_PREMIER) {
                             if (request.getParameter("tplURI") != null &&
@@ -389,6 +407,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                             newDns.setDns(sdomain);
                             newDns.setWebPage(ms);
                             newDns.setCreator(user);
+                            dirObj.setPymeDomain(newDns);
                         }
 
                         String subdomain = request.getParameter("pymeSubDomain");
@@ -397,6 +416,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                             newDns.setDns(subdomain);
                             newDns.setWebPage(ms);
                             newDns.setCreator(user);
+                            dirObj.setPymeSubDomainWildCard(newDns);
                         }
 
                         //Le asigna el tipo de comunidad y el service provider al micrositio
