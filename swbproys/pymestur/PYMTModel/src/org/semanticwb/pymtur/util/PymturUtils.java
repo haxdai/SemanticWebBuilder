@@ -2,22 +2,21 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.semanticwb.pymtur.util;
 
-import java.util.Date;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.Timestamp;
 import java.util.Iterator;
 import javax.servlet.http.HttpServletRequest;
+import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
-import org.semanticwb.model.SWBModel;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebPage;
-import org.semanticwb.model.WebSite;
 import org.semanticwb.portal.TemplateImp;
 import org.semanticwb.portal.api.SWBActionResponse;
-import org.semanticwb.pymtur.PymesLog;
 import org.semanticwb.pymtur.ServiceProvider;
 
 /**
@@ -27,39 +26,66 @@ import org.semanticwb.pymtur.ServiceProvider;
 public class PymturUtils {
 
     //PAQUETES
-    public static final int PAQ_DIRECTORIO=1;
-    public static final int PAQ_FICHA=2;
-    public static final int PAQ_MICROSITIO=3;
-    public static final int PAQ_PREMIER=4;
-
+    public static final int PAQ_DIRECTORIO = 1;
+    public static final int PAQ_FICHA = 2;
+    public static final int PAQ_MICROSITIO = 3;
+    public static final int PAQ_PREMIER = 4;
     //ESTATUS
-    public static final int ESTATUS_REGISTRADO=1;
-    public static final int ESTATUS_PAGADO=2;
-    public static final int ESTATUS_ACLARACION=3;
-    public static final int ESTATUS_ACTIVADO=4;
-    public static final int ESTATUS_DESACTIVADO=5;
-    public static final int ESTATUS_RECHAZADO=6;
-    public static final int ESTATUS_BAJA=7;
-    
-    public static boolean logServiceProvider(ServiceProvider serviceProvider, int status, String comment, User user, SWBModel model){
-//        PymesLog pymesLog=PymesLog.ClassMgr.createPymesLog(model);
-//        pymesLog.setServiceProviderLog(serviceProvider);
-//        pymesLog.setSpLogStatus(status);
-//        pymesLog.setSpLogStatusComment(comment);
-//        pymesLog.setLogUser(user);
-//        pymesLog.setLogDate(new Date());
-//
-//        Iterator <PymesLog> itPymesLog=PymesLog.ClassMgr.listPymesLogs();
-//        while(itPymesLog.hasNext()){
-//            PymesLog plog=itPymesLog.next();
-//            System.out.println("plog sp:"+plog.getServiceProviderLog());
-//            System.out.println("plog stat:"+plog.getSpLogStatus());
-//            System.out.println("plog comment:"+plog.getSpLogStatusComment());
-//            System.out.println("plog user:"+plog.getLogUser());
-//            System.out.println("plog date:"+plog.getLogDate());
-//        }
+    public static final int ESTATUS_REGISTRADO = 1;
+    public static final int ESTATUS_PAGADO = 2;
+    public static final int ESTATUS_ACLARACION = 3;
+    public static final int ESTATUS_ACTIVADO = 4;
+    public static final int ESTATUS_DESACTIVADO = 5;
+    public static final int ESTATUS_RECHAZADO = 6;
+    public static final int ESTATUS_BAJA = 7;
+    private static Logger log = SWBUtils.getLogger(PymturUtils.class);
 
+    public static boolean logServiceProvider(ServiceProvider serviceProvider, User user, String elementUri, String comment) {
+        Connection con = null;
+        try {
+            Timestamp created = new Timestamp(new java.util.Date().getTime());
+            con = SWBUtils.DB.getDefaultConnection("PymturUtils:logServiceProvider");
 
+            String query = "insert into swb_pymesturlog (sprovuri, usruri, elementuri, comment, modified) values (?,?,?,?,?)";
+            PreparedStatement st = con.prepareStatement(query);
+            st.setString(1, serviceProvider.getURI());
+            st.setString(2, user.getURI());
+            if(elementUri==null || elementUri.trim().length()==0) elementUri=" ";
+            st.setString(3, elementUri);
+            if(comment!=null) st.setString(4, comment);
+            st.setTimestamp(5, created);
+            st.executeUpdate();
+            st.close();
+            con.close();
+        } catch (Exception e) {
+            log.error(e);
+        }
+
+        /*
+        try
+        {
+            con = SWBUtils.DB.getDefaultConnection();
+            String query = "select * from swb_pymesturlog";
+            PreparedStatement st = con.prepareStatement(query);
+            ResultSet rs = st.executeQuery();
+            int cont=1;
+            while (rs.next())
+            {
+                System.out.println(cont+".-sprovuri:"+rs.getString("sprovuri"));
+                System.out.println(cont+".-usruri:"+rs.getString("usruri"));
+                System.out.println(cont+".-elementuri:"+rs.getString("elementuri"));
+                System.out.println(cont+".-comment:"+rs.getString("comment"));
+                System.out.println(cont+".-modified:"+rs.getString("modified"));
+                cont++;
+            }
+            rs.close();
+            st.close();
+            con.close();
+        } catch (Exception e)
+        {
+            log.event(e);
+        }*/
+        
         return true;
     }
 
@@ -69,14 +95,14 @@ public class PymturUtils {
             return "";
         }
         str = str.trim();
-        int ipaquete=sprovider.getPymePaqueteType();
-        String staticText="";
-        if(ipaquete==PAQ_FICHA){
-            staticText=staticText+" la ficha, con los datos de tu empresa, en el portal \"Siente México\". <br/><br/>";
-        }else if(ipaquete==PAQ_MICROSITIO){
-            staticText=staticText+" tu Micrositio.<br/><br/>";
-        }else if(ipaquete==PAQ_PREMIER){
-            staticText=staticText+" tu página web.<br/><br/>";
+        int ipaquete = sprovider.getPymePaqueteType();
+        String staticText = "";
+        if (ipaquete == PAQ_FICHA) {
+            staticText = staticText + " la ficha, con los datos de tu empresa, en el portal \"Siente México\". <br/><br/>";
+        } else if (ipaquete == PAQ_MICROSITIO) {
+            staticText = staticText + " tu Micrositio.<br/><br/>";
+        } else if (ipaquete == PAQ_PREMIER) {
+            staticText = staticText + " tu página web.<br/><br/>";
         }
         str = SWBUtils.TEXT.replaceAll(str, "{pyme.type}", staticText);
         return replaceTags(str, request, paramRequest, newUser, siteName, sprovider);
@@ -88,26 +114,26 @@ public class PymturUtils {
             return "";
         }
         str = str.trim();
-        
-        String staticText="";
-        int ipaquete=sprovider.getPymePaqueteType();
-        if(ipaquete==PAQ_FICHA){
-            staticText=staticText+" la ficha";
-        }else if(ipaquete==PAQ_MICROSITIO){
-            staticText=staticText+" tu Micrositio";
-        }else if(ipaquete==PAQ_PREMIER){
-            staticText=staticText+" tu página web";
+
+        String staticText = "";
+        int ipaquete = sprovider.getPymePaqueteType();
+        if (ipaquete == PAQ_FICHA) {
+            staticText = staticText + " la ficha";
+        } else if (ipaquete == PAQ_MICROSITIO) {
+            staticText = staticText + " tu Micrositio";
+        } else if (ipaquete == PAQ_PREMIER) {
+            staticText = staticText + " tu página web";
         }
         str = SWBUtils.TEXT.replaceAll(str, "{pyme.type}", staticText);
 
-        if (sprovider.getPymePaqueteType() >PAQ_DIRECTORIO && pageFicha != null) {
+        if (sprovider.getPymePaqueteType() > PAQ_DIRECTORIO && pageFicha != null) {
             String server = "http://" + request.getServerName() + ":" + request.getServerPort();
             str = SWBUtils.TEXT.replaceAll(str, "{pyme.link}", server + pageFicha.getUrl() + "?uri=" + sprovider.getEncodedURI() + "&act=detail<br/><br/>");
         }
 
         if (sprovider.getPymePaqueteType() > PAQ_MICROSITIO && sprovider.getPymeDomain() != null) {
             str = SWBUtils.TEXT.replaceAll(str, "{pyme.dns}", "-El dominio registrado es:<br/><br/>" + sprovider.getPymeDomain() + "<br/><br/>");
-        }else{
+        } else {
             str = SWBUtils.TEXT.replaceAll(str, "{pyme.dns}", " ");
         }
         return replaceTags(str, request, paramRequest, newUser, siteName, sprovider);
@@ -120,15 +146,14 @@ public class PymturUtils {
         }
         str = str.trim();
 
-        String StatusReject=sprovider.getSpStatusComment();
-        if (StatusReject != null && StatusReject.trim().length()>0) {
-            str = SWBUtils.TEXT.replaceAll(str, "{pyme.msgreject}", "<br/>"+StatusReject);
-        }else{
+        String StatusReject = sprovider.getSpStatusComment();
+        if (StatusReject != null && StatusReject.trim().length() > 0) {
+            str = SWBUtils.TEXT.replaceAll(str, "{pyme.msgreject}", "<br/>" + StatusReject);
+        } else {
             str = SWBUtils.TEXT.replaceAll(str, "{pyme.msgreject}", "<br/>-	Su empresa no es considerada una empresa turística <br/> -Sus datos están incompletos o son erróneos<br/>");
         }
         return replaceTags(str, request, paramRequest, newUser, siteName, sprovider);
     }
-
 
     public static String replaceTags(String str, HttpServletRequest request, SWBActionResponse paramRequest, User newUser, String siteName, ServiceProvider sprovider) {
         if (str == null || str.trim().length() == 0) {
@@ -136,7 +161,7 @@ public class PymturUtils {
         }
 
         str = str.trim();
-        
+
         Iterator it = SWBUtils.TEXT.findInterStr(str, "{request.getParameter(\"", "\")}");
         while (it.hasNext()) {
             String s = (String) it.next();
@@ -174,5 +199,4 @@ public class PymturUtils {
         }
         return str;
     }
-
 }
