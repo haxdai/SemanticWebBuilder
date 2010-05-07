@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -42,6 +43,7 @@ import org.semanticwb.SWBUtils;
 import org.semanticwb.model.FormValidateException;
 import org.semanticwb.model.GenericIterator;
 import org.semanticwb.model.Resource;
+import org.semanticwb.model.ResourceType;
 import org.semanticwb.model.User;
 import org.semanticwb.model.UserGroup;
 import org.semanticwb.platform.SemanticClass;
@@ -67,6 +69,7 @@ import org.semanticwb.portal.indexer.searcher.SearchResults;
 import org.semanticwb.portal.indexer.searcher.SearchTerm;
 import org.semanticwb.pymtur.util.PymturUtils;
 import org.semanticwb.servlet.internal.UploadFormElement;
+import org.semanticwb.util.db.GenericDB;
 
 public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResourceBase {
 
@@ -337,9 +340,8 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     dirObj.setSpCreator(user);
                     dirObj.setCreated(new Date());
                     dirObj.setSpStatus(1);
-
-                    PymturUtils.logServiceProvider(dirObj, 1, "MiPyME Registered", user, wsite);
-
+                    PymturUtils.logServiceProvider(dirObj, user, null, "MiPyME Registered");
+                    
                     String refirect = null;
                     if (request.getParameter("destination") != null) {
                         WebPage wdestination = wsite.getWebPage(request.getParameter("destination"));
@@ -498,7 +500,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     SemanticObject semObject = SemanticObject.createSemanticObject(URLDecoder.decode(request.getParameter("uri")));
                     ServiceProvider servProp = (ServiceProvider) semObject.createGenericInstance();
                     servProp.setSpStatus(2);
-                    PymturUtils.logServiceProvider(servProp, 2, "MiPyME accept Registry", user, wsite);
+                    PymturUtils.logServiceProvider(servProp, user, null, "MiPyME accept Registry(Estatus 2)");
 
 
                     String statComm = request.getParameter("statusComment");
@@ -549,7 +551,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     SemanticObject semObject = SemanticObject.createSemanticObject(URLDecoder.decode(request.getParameter("uri")));
                     ServiceProvider servProp = (ServiceProvider) semObject.createGenericInstance();
                     servProp.setSpStatus(4);
-                    PymturUtils.logServiceProvider(servProp, 4, "MiPyME unRegister", user, wsite);
+                    PymturUtils.logServiceProvider(servProp, user, null,"MiPyME unRegister(Estatus 4)");
 
                     String statComm = request.getParameter("statusComment");
                     if (statComm != null) {
@@ -764,5 +766,20 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
 
         return providers.iterator();
     }
+
+    @Override
+    public void install(ResourceType recobj) throws SWBResourceException {
+        try{
+            GenericDB db = new GenericDB();
+            String xml = SWBUtils.IO.getFileFromPath(SWBUtils.getApplicationPath() + "/WEB-INF/xml/swb_pymesturlog.xml");
+            db.executeSQLScript(xml, SWBUtils.DB.getDatabaseName(), null);
+        }catch (SQLException e)
+        {
+            log.error(e);
+        }
+    }
+
+
+
     
 }
