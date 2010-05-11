@@ -29,6 +29,7 @@ import java.net.URLDecoder;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -500,6 +501,16 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     SemanticObject semObject = SemanticObject.createSemanticObject(URLDecoder.decode(request.getParameter("uri")));
                     ServiceProvider servProp = (ServiceProvider) semObject.createGenericInstance();
                     servProp.setSpStatus(2);
+                    //Fecha de aceptación y de limite de publiccación
+                    Calendar today=Calendar.getInstance();
+                    servProp.setSpAcceptedDate(today.getTime()); //Colocar fecha actual que es cuando se acepta el anuncio
+                    System.out.println("setSpAcceptedDate:"+today.getTime());
+                    //Se coloca fecha limite del anuncio, segun el plazo que se contrate (dias, meses o años)
+                    //today.add(today.YEAR, 1); //Se suma una año (Considerando que el contrato aya sido por un año)
+                    today.add(today.DATE, 1); //Se suma 1 día mas por si se contrato a las 10 pm de este día yo esperaria que me durara todo ese día en el año siguiente
+                    System.out.println("setSpEndAnnuncePeriod:"+today.getTime());
+                    servProp.setSpEndAnnuncePeriod(today.getTime());
+
                     PymturUtils.logServiceProvider(servProp, user, null, "MiPyME accept Registry(Estatus 2)");
 
 
