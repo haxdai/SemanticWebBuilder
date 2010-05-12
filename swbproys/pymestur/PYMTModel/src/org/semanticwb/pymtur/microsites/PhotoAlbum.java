@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -44,6 +45,19 @@ import org.semanticwb.pymtur.Paquete;
 public class PhotoAlbum extends GenericAdmResource {
     private static Logger log = SWBUtils.getLogger(PhotoAlbum.class);
     private static final String _thumbnail = "thumbn_";
+
+    private static long _max_size;
+
+    @Override
+    public void setResourceBase(Resource base) {
+        try {
+            super.setResourceBase(base);
+            _max_size = Long.parseLong(base.getAttribute("size","5242880"));
+        }catch(Exception e) {
+            _max_size = 5242880L;
+            log.error("PyMES. Error while setting resource base: "+base.getId() +"-"+ base.getTitle(), e);
+        }
+    }
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
@@ -270,7 +284,11 @@ public class PhotoAlbum extends GenericAdmResource {
         }
 
         final String fspath = SWBPortal.getWorkPath()+sprovider.getWorkPath()+"/photos/"+base.getAttribute("gpophotos")+"/";
-        
+
+        System.out.println("fileformat="+base.getAttribute("fileformat"));
+        String[] fileFormats = base.getAttribute("fileformat")==null?new String[]{""}:base.getAttribute("fileformat").split(",");
+        Arrays.sort(fileFormats);
+        System.out.println(Arrays.toString(fileFormats));
         try
         {
             boolean isMultipart = ServletFileUpload.isMultipartContent(request);
@@ -362,8 +380,14 @@ public class PhotoAlbum extends GenericAdmResource {
                             }
                         }
                     }else {
-                        if( item.getSize()==0 )
+                        System.out.println(item.getName()+", size="+item.getSize());
+                        if( item.getSize()==0 || item.getSize()>_max_size )
                             continue;
+                        String ext = item.getName().substring(item.getName().lastIndexOf(".")+1);
+                        System.out.println("ext="+ext);
+                        if( Arrays.binarySearch(fileFormats, ext)<0 )
+                            continue;
+
                         long serial = (new Date()).getTime();
                         String filename;
                         try {
