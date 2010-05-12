@@ -32,6 +32,8 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
     public static final org.semanticwb.platform.SemanticClass pymtur_Destination=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Destination");
     public static final org.semanticwb.platform.SemanticProperty pymtur_destination=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#destination");
     public static final org.semanticwb.platform.SemanticProperty pymtur_rfcSuburb=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#rfcSuburb");
+    public static final org.semanticwb.platform.SemanticClass pymtur_RateLowSeason=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#RateLowSeason");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_hasRateLowSeason=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#hasRateLowSeason");
     public static final org.semanticwb.platform.SemanticProperty pymtur_hasEstablishmentPymePhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#hasEstablishmentPymePhoto");
     public static final org.semanticwb.platform.SemanticProperty pymtur_spContractPeiod=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#spContractPeiod");
     public static final org.semanticwb.platform.SemanticClass pymtur_VariantPaqTemplate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#VariantPaqTemplate");
@@ -60,13 +62,14 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
     public static final org.semanticwb.platform.SemanticProperty pymtur_spMorePymePhotosComments=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#spMorePymePhotosComments");
     public static final org.semanticwb.platform.SemanticProperty pymtur_rfcZipCode=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#rfcZipCode");
     public static final org.semanticwb.platform.SemanticProperty pymtur_MinRate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#MinRate");
-    public static final org.semanticwb.platform.SemanticClass pymtur_RateComments=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#RateComments");
     public static final org.semanticwb.platform.SemanticProperty pymtur_spRatesComments=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#spRatesComments");
     public static final org.semanticwb.platform.SemanticProperty pymtur_rfcStreet=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#rfcStreet");
     public static final org.semanticwb.platform.SemanticProperty pymtur_pymeSubDomainWildCard=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#pymeSubDomainWildCard");
     public static final org.semanticwb.platform.SemanticProperty pymtur_spTotCupones=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#spTotCupones");
     public static final org.semanticwb.platform.SemanticProperty pymtur_spInstalationsPymePhotosComments=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#spInstalationsPymePhotosComments");
     public static final org.semanticwb.platform.SemanticProperty pymtur_hasSpCategoryPymePhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#hasSpCategoryPymePhoto");
+    public static final org.semanticwb.platform.SemanticClass pymtur_RateHighSeason=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#RateHighSeason");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_hasRateHighSeason=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#hasRateHighSeason");
     public static final org.semanticwb.platform.SemanticProperty pymtur_pymePaqueteType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#pymePaqueteType");
     public static final org.semanticwb.platform.SemanticClass pymtur_MicroSitePyme=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#MicroSitePyme");
     public static final org.semanticwb.platform.SemanticProperty pymtur_microSitePymeInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#microSitePymeInv");
@@ -219,6 +222,18 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
             return it;
         }
 
+        public static java.util.Iterator<org.semanticwb.pymtur.ServiceProvider> listServiceProviderByRateLowSeason(org.semanticwb.pymtur.RateLowSeason value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.ServiceProvider> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(pymtur_hasRateLowSeason, value.getSemanticObject(),sclass));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.pymtur.ServiceProvider> listServiceProviderByRateLowSeason(org.semanticwb.pymtur.RateLowSeason value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.ServiceProvider> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(pymtur_hasRateLowSeason,value.getSemanticObject(),sclass));
+            return it;
+        }
+
         public static java.util.Iterator<org.semanticwb.pymtur.ServiceProvider> listServiceProviderByEstablishmentPymePhoto(org.semanticwb.pymtur.PymePhoto value,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.ServiceProvider> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(pymtur_hasEstablishmentPymePhoto, value.getSemanticObject(),sclass));
@@ -327,18 +342,6 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
             return it;
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.ServiceProvider> listServiceProviderBySpRatesComments(org.semanticwb.pymtur.RateComments value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.ServiceProvider> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(pymtur_spRatesComments, value.getSemanticObject(),sclass));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.ServiceProvider> listServiceProviderBySpRatesComments(org.semanticwb.pymtur.RateComments value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.ServiceProvider> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(pymtur_spRatesComments,value.getSemanticObject(),sclass));
-            return it;
-        }
-
         public static java.util.Iterator<org.semanticwb.pymtur.ServiceProvider> listServiceProviderByWebPage(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.ServiceProvider> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swbcomm_dirWebPage, value.getSemanticObject(),sclass));
@@ -384,6 +387,18 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
         public static java.util.Iterator<org.semanticwb.pymtur.ServiceProvider> listServiceProviderBySpCategoryPymePhoto(org.semanticwb.pymtur.PymePhoto value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.ServiceProvider> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(pymtur_hasSpCategoryPymePhoto,value.getSemanticObject(),sclass));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.pymtur.ServiceProvider> listServiceProviderByRateHighSeason(org.semanticwb.pymtur.RateHighSeason value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.ServiceProvider> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(pymtur_hasRateHighSeason, value.getSemanticObject(),sclass));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.pymtur.ServiceProvider> listServiceProviderByRateHighSeason(org.semanticwb.pymtur.RateHighSeason value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.ServiceProvider> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(pymtur_hasRateHighSeason,value.getSemanticObject(),sclass));
             return it;
         }
 
@@ -896,6 +911,47 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
         getSemanticObject().setProperty(pymtur_rfcSuburb, value);
     }
 
+    public org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.RateLowSeason> listRateLowSeasons()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.RateLowSeason>(getSemanticObject().listObjectProperties(pymtur_hasRateLowSeason));
+    }
+
+    public boolean hasRateLowSeason(org.semanticwb.pymtur.RateLowSeason value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(pymtur_hasRateLowSeason,value.getSemanticObject());
+        }
+        return ret;
+    }
+
+    public void addRateLowSeason(org.semanticwb.pymtur.RateLowSeason value)
+    {
+        getSemanticObject().addObjectProperty(pymtur_hasRateLowSeason, value.getSemanticObject());
+    }
+
+    public void removeAllRateLowSeason()
+    {
+        getSemanticObject().removeProperty(pymtur_hasRateLowSeason);
+    }
+
+    public void removeRateLowSeason(org.semanticwb.pymtur.RateLowSeason value)
+    {
+        getSemanticObject().removeObjectProperty(pymtur_hasRateLowSeason,value.getSemanticObject());
+    }
+
+    public org.semanticwb.pymtur.RateLowSeason getRateLowSeason()
+    {
+         org.semanticwb.pymtur.RateLowSeason ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(pymtur_hasRateLowSeason);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.pymtur.RateLowSeason)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
     public org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PymePhoto> listEstablishmentPymePhotos()
     {
         return new org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PymePhoto>(getSemanticObject().listObjectProperties(pymtur_hasEstablishmentPymePhoto));
@@ -1293,25 +1349,14 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
         getSemanticObject().setFloatProperty(pymtur_MinRate, value);
     }
 
-    public void setSpRatesComments(org.semanticwb.pymtur.RateComments value)
+    public String getSpRatesComments()
     {
-        getSemanticObject().setObjectProperty(pymtur_spRatesComments, value.getSemanticObject());
+        return getSemanticObject().getProperty(pymtur_spRatesComments);
     }
 
-    public void removeSpRatesComments()
+    public void setSpRatesComments(String value)
     {
-        getSemanticObject().removeProperty(pymtur_spRatesComments);
-    }
-
-    public org.semanticwb.pymtur.RateComments getSpRatesComments()
-    {
-         org.semanticwb.pymtur.RateComments ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(pymtur_spRatesComments);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.pymtur.RateComments)obj.createGenericInstance();
-         }
-         return ret;
+        getSemanticObject().setProperty(pymtur_spRatesComments, value);
     }
 
     public String getRfcStreet()
@@ -1442,6 +1487,47 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
          if(obj!=null)
          {
              ret=(org.semanticwb.pymtur.PymePhoto)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.RateHighSeason> listRateHighSeasons()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.RateHighSeason>(getSemanticObject().listObjectProperties(pymtur_hasRateHighSeason));
+    }
+
+    public boolean hasRateHighSeason(org.semanticwb.pymtur.RateHighSeason value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(pymtur_hasRateHighSeason,value.getSemanticObject());
+        }
+        return ret;
+    }
+
+    public void addRateHighSeason(org.semanticwb.pymtur.RateHighSeason value)
+    {
+        getSemanticObject().addObjectProperty(pymtur_hasRateHighSeason, value.getSemanticObject());
+    }
+
+    public void removeAllRateHighSeason()
+    {
+        getSemanticObject().removeProperty(pymtur_hasRateHighSeason);
+    }
+
+    public void removeRateHighSeason(org.semanticwb.pymtur.RateHighSeason value)
+    {
+        getSemanticObject().removeObjectProperty(pymtur_hasRateHighSeason,value.getSemanticObject());
+    }
+
+    public org.semanticwb.pymtur.RateHighSeason getRateHighSeason()
+    {
+         org.semanticwb.pymtur.RateHighSeason ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(pymtur_hasRateHighSeason);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.pymtur.RateHighSeason)obj.createGenericInstance();
          }
          return ret;
     }
