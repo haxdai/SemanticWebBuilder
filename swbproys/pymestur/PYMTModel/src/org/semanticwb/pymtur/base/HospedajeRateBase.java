@@ -3,7 +3,12 @@ package org.semanticwb.pymtur.base;
 
 public abstract class HospedajeRateBase extends org.semanticwb.pymtur.Rate 
 {
+    public static final org.semanticwb.platform.SemanticProperty pymtur_lowSeason=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#lowSeason");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_serviceType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#serviceType");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_Capacity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#Capacity");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_HighSeason=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#HighSeason");
     public static final org.semanticwb.platform.SemanticProperty pymtur_roomsNumber=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#roomsNumber");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_planType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#planType");
     public static final org.semanticwb.platform.SemanticClass pymtur_HospedajeRate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#HospedajeRate");
     public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#HospedajeRate");
 
@@ -54,6 +59,46 @@ public abstract class HospedajeRateBase extends org.semanticwb.pymtur.Rate
         super(base);
     }
 
+    public float getLowSeason()
+    {
+        return getSemanticObject().getFloatProperty(pymtur_lowSeason);
+    }
+
+    public void setLowSeason(float value)
+    {
+        getSemanticObject().setFloatProperty(pymtur_lowSeason, value);
+    }
+
+    public String getServiceType()
+    {
+        return getSemanticObject().getProperty(pymtur_serviceType);
+    }
+
+    public void setServiceType(String value)
+    {
+        getSemanticObject().setProperty(pymtur_serviceType, value);
+    }
+
+    public int getCapacity()
+    {
+        return getSemanticObject().getIntProperty(pymtur_Capacity);
+    }
+
+    public void setCapacity(int value)
+    {
+        getSemanticObject().setIntProperty(pymtur_Capacity, value);
+    }
+
+    public float getHighSeason()
+    {
+        return getSemanticObject().getFloatProperty(pymtur_HighSeason);
+    }
+
+    public void setHighSeason(float value)
+    {
+        getSemanticObject().setFloatProperty(pymtur_HighSeason, value);
+    }
+
     public int getRoomsNumber()
     {
         return getSemanticObject().getIntProperty(pymtur_roomsNumber);
@@ -62,6 +107,16 @@ public abstract class HospedajeRateBase extends org.semanticwb.pymtur.Rate
     public void setRoomsNumber(int value)
     {
         getSemanticObject().setIntProperty(pymtur_roomsNumber, value);
+    }
+
+    public String getPlanType()
+    {
+        return getSemanticObject().getProperty(pymtur_planType);
+    }
+
+    public void setPlanType(String value)
+    {
+        getSemanticObject().setProperty(pymtur_planType, value);
     }
 
     public org.semanticwb.pymtur.PyMesWebSite getPyMesWebSite()
