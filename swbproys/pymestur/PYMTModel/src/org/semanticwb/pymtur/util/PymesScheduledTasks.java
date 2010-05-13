@@ -50,35 +50,38 @@ public class PymesScheduledTasks {
 
         public void run() { //Lo que ejecutara cada x tiempo
             try {
+                System.out.println("Ejecutando timer");
                 ArrayList aPymesPagan = new ArrayList();
                 ArrayList aPymesGratis = new ArrayList();
                 Calendar calEmails = Calendar.getInstance();
-                Calendar calDisableAnnunce = Calendar.getInstance();
                 calEmails.add(calEmails.DATE, 5 + 1); // 5 Es parametrizable (Número maximo de días apartir del cual se va ha empezar a enviar correos)
-                calDisableAnnunce.add(calDisableAnnunce.DATE, 5);
+                Calendar calDisableAnnunce = Calendar.getInstance();
                 Iterator<ServiceProvider> itProviders = ServiceProvider.ClassMgr.listServiceProviders(model);
                 while (itProviders.hasNext()) {
                     ServiceProvider servProvider = itProviders.next();
                     Date spEndAnnunceDate = servProvider.getSpEndAnnuncePeriod();
-                    if (spEndAnnunceDate != null && spEndAnnunceDate.before(calEmails.getTime())) { //Todos los anuncios que tengan una fecha de expiración
-                        if (servProvider.getPymePaqueteType() > PymturUtils.PAQ_FICHA) { //Se envía un cierto cuerpo de correo (anuncios de pymes gratuitos que pagan)
-                            String spEmail = servProvider.getContactEmail();
-                            if (spEmail != null && spEmail.trim().length() > 0 && spEmail.indexOf("@") > -1 && spEmail.indexOf(".") > -1) {
-                                InternetAddress interAddress = new InternetAddress();
-                                interAddress.setAddress(spEmail);
-                                aPymesPagan.add(interAddress);
-                            }
-                        } else if (servProvider.getPymePaqueteType() <= PymturUtils.PAQ_MICROSITIO) { //Se envía un cierto cuerpo de correo (anuncios de pymes gratuitos)
-                            String spEmail = servProvider.getContactEmail();
-                            if (spEmail != null && spEmail.trim().length() > 0 && spEmail.indexOf("@") > -1 && spEmail.indexOf(".") > -1) {
-                                InternetAddress interAddress = new InternetAddress();
-                                interAddress.setAddress(spEmail);
-                                aPymesGratis.add(interAddress);
+                    if(servProvider.getSpStatus()==PymturUtils.ESTATUS_ACTIVADO && spEndAnnunceDate!=null) //Solo si esta activado el service provider
+                    {
+                        if (spEndAnnunceDate.before(calEmails.getTime())) { //Todos los anuncios que tengan una fecha de expiración
+                            if (servProvider.getPymePaqueteType() > PymturUtils.PAQ_FICHA) { //Se envía un cierto cuerpo de correo (anuncios de pymes gratuitos que pagan)
+                                String spEmail = servProvider.getContactEmail();
+                                if (spEmail != null && spEmail.trim().length() > 0 && spEmail.indexOf("@") > -1 && spEmail.indexOf(".") > -1) {
+                                    InternetAddress interAddress = new InternetAddress();
+                                    interAddress.setAddress(spEmail);
+                                    aPymesPagan.add(interAddress);
+                                }
+                            } else if (servProvider.getPymePaqueteType() <= PymturUtils.PAQ_MICROSITIO) { //Se envía un cierto cuerpo de correo (anuncios de pymes gratuitos)
+                                String spEmail = servProvider.getContactEmail();
+                                if (spEmail != null && spEmail.trim().length() > 0 && spEmail.indexOf("@") > -1 && spEmail.indexOf(".") > -1) {
+                                    InternetAddress interAddress = new InternetAddress();
+                                    interAddress.setAddress(spEmail);
+                                    aPymesGratis.add(interAddress);
+                                }
                             }
                         }
-                    }
-                    if (spEndAnnunceDate != null && spEndAnnunceDate.compareTo(calDisableAnnunce.getTime()) >= 0) { //Todos los anuncios que tengan una fecha de expiración
-                        servProvider.setSpStatus(PymturUtils.ESTATUS_DESACTIVADO); //Considerando que se desactivaría la pyme
+                        if (spEndAnnunceDate.before(calDisableAnnunce.getTime())) { //Todos los anuncios que tengan una fecha de expiración
+                            servProvider.setSpStatus(PymturUtils.ESTATUS_DESACTIVADO); //Considerando que se desactivaría la pyme
+                        }
                     }
                 }
                 if (aPymesPagan != null && aPymesPagan.size() > 0) { //Enviar correos en backgraound a los usuarios que PAGAN y que esta por vencerseles el periodo de publicicación de su anuncio
@@ -95,6 +98,7 @@ public class PymesScheduledTasks {
                         log.error(e);
                     }
                 }
+                System.out.println("Termina de ejecutar timer");
                 //System.exit(0); //Detiene la ejecución de todo
             } catch (Exception e) {
                 log.error(e);
