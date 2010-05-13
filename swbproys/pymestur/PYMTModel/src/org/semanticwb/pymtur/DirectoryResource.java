@@ -500,16 +500,22 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                 try {
                     SemanticObject semObject = SemanticObject.createSemanticObject(URLDecoder.decode(request.getParameter("uri")));
                     ServiceProvider servProp = (ServiceProvider) semObject.createGenericInstance();
-                    servProp.setSpStatus(2);
+                    servProp.setSpStatus(PymturUtils.ESTATUS_ACTIVADO);
                     //Fecha de aceptación y de limite de publiccación
-                    Calendar today=Calendar.getInstance();
-                    servProp.setSpAcceptedDate(today.getTime()); //Colocar fecha actual que es cuando se acepta el anuncio
-                    System.out.println("setSpAcceptedDate:"+today.getTime());
+                    Calendar endAnnunceDate=Calendar.getInstance();
+                    servProp.setSpAcceptedDate(endAnnunceDate.getTime()); //Colocar fecha actual que es cuando se acepta el anuncio
                     //Se coloca fecha limite del anuncio, segun el plazo que se contrate (dias, meses o años)
-                    //today.add(today.YEAR, 1); //Se suma una año (Considerando que el contrato aya sido por un año)
-                    today.add(today.DATE, 1); //Se suma 1 día mas por si se contrato a las 10 pm de este día yo esperaria que me durara todo ese día en el año siguiente
-                    System.out.println("setSpEndAnnuncePeriod:"+today.getTime());
-                    servProp.setSpEndAnnuncePeriod(today.getTime());
+                    int monthsValue=12; //Por defecto un año
+                    Parameter param=Parameter.ClassMgr.getParameter("P_AnnuncePeriod", wsite);
+                    try{
+                        if(param!=null && param.getParamValue()!=null && param.getParamValue().trim().length()>0) monthsValue=Integer.parseInt(param.getParamValue());
+                    }catch(Exception e){log.error("El parametro P_AnnuncePeriod debe ser númerico", e); monthsValue=12;}
+                    int daysLeft=endAnnunceDate.getActualMaximum(endAnnunceDate.DATE)-endAnnunceDate.get(endAnnunceDate.DATE); //Días que falta para terminar el mes actual
+                    endAnnunceDate.add(endAnnunceDate.DATE, daysLeft+1); //Se hace de esta menara porque talvez la fecha actual es en el mes de diciembre y para no sumar año por mi cuenta
+
+                    endAnnunceDate.add(endAnnunceDate.MONTH, monthsValue);// Se suma el número de meses que esta configurado como parametro
+
+                    servProp.setSpEndAnnuncePeriod(endAnnunceDate.getTime());
 
                     PymturUtils.logServiceProvider(servProp, user, null, "MiPyME accept Registry(Estatus 2)");
 
