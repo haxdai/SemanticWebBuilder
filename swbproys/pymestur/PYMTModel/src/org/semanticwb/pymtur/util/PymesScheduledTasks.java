@@ -86,14 +86,14 @@ public class PymesScheduledTasks {
                 }
                 if (aPymesPagan != null && aPymesPagan.size() > 0) { //Enviar correos en backgraound a los usuarios que PAGAN y que esta por vencerseles el periodo de publicicación de su anuncio
                     try {
-                        SWBUtils.EMAIL.sendBGEmail("pymestur@infotec.com.mx", "PymesTur", aPymesPagan, null, null, "Recordatorio de caducidad de anuncio", "html", "Cuerpo de correo aqui", null, null, null);
+                        SWBUtils.EMAIL.sendBGEmail(null, null, aPymesPagan, null, null, "Recordatorio de caducidad de anuncio", "html", "Cuerpo de correo aqui", null, null, null);
                     } catch (SocketException e) {
                         log.error(e);
                     }
                 }
                 if (aPymesGratis != null && aPymesGratis.size() > 0) { //Enviar correos en backgraound a los usuarios que NO PAGAN y que esta por vencerseles el periodo de publicicación de su anuncio
                     try {
-                        SWBUtils.EMAIL.sendBGEmail("pymestur@infotec.com.mx", "PymesTur", aPymesGratis, null, null, "Recordatorio de caducidad de anuncio", "html", "Cuerpo de correo aqui", null, null, null);
+                        SWBUtils.EMAIL.sendBGEmail(null, null, aPymesGratis, null, null, "Recordatorio de caducidad de anuncio", "html", "Cuerpo de correo aqui", null, null, null);
                     } catch (SocketException e) {
                         log.error(e);
                     }
