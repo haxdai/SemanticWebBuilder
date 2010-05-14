@@ -21,6 +21,7 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
     public static final org.semanticwb.platform.SemanticClass pymtur_PymePhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#PymePhoto");
     public static final org.semanticwb.platform.SemanticProperty pymtur_hasMorePymePhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#hasMorePymePhoto");
     public static final org.semanticwb.platform.SemanticProperty pymtur_pymeWebSite=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#pymeWebSite");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_spCelularPhone=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#spCelularPhone");
     public static final org.semanticwb.platform.SemanticProperty pymtur_spEndAnnuncePeriod=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#spEndAnnuncePeriod");
     public static final org.semanticwb.platform.SemanticProperty pymtur_hasInstalationsPymePhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#hasInstalationsPymePhoto");
     public static final org.semanticwb.platform.SemanticClass pymtur_Nearest=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Nearest");
@@ -70,6 +71,7 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
     public static final org.semanticwb.platform.SemanticProperty pymtur_hasSpCategoryPymePhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#hasSpCategoryPymePhoto");
     public static final org.semanticwb.platform.SemanticProperty pymtur_hasRateHighSeason=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#hasRateHighSeason");
     public static final org.semanticwb.platform.SemanticProperty pymtur_pymePaqueteType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#pymePaqueteType");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_spSkypeAccount=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#spSkypeAccount");
     public static final org.semanticwb.platform.SemanticClass pymtur_MicroSitePyme=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#MicroSitePyme");
     public static final org.semanticwb.platform.SemanticProperty pymtur_microSitePymeInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#microSitePymeInv");
     public static final org.semanticwb.platform.SemanticProperty pymtur_PhotoLogo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#PhotoLogo");
@@ -735,6 +737,16 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
     public void setPymeWebSite(String value)
     {
         getSemanticObject().setProperty(pymtur_pymeWebSite, value);
+    }
+
+    public String getSpCelularPhone()
+    {
+        return getSemanticObject().getProperty(pymtur_spCelularPhone);
+    }
+
+    public void setSpCelularPhone(String value)
+    {
+        getSemanticObject().setProperty(pymtur_spCelularPhone, value);
     }
 
     public java.util.Date getSpEndAnnuncePeriod()
@@ -1539,6 +1551,16 @@ public abstract class ServiceProviderBase extends org.semanticwb.portal.communit
     public void setPymePaqueteType(int value)
     {
         getSemanticObject().setIntProperty(pymtur_pymePaqueteType, value);
+    }
+
+    public String getSpSkypeAccount()
+    {
+        return getSemanticObject().getProperty(pymtur_spSkypeAccount);
+    }
+
+    public void setSpSkypeAccount(String value)
+    {
+        getSemanticObject().setProperty(pymtur_spSkypeAccount, value);
     }
 
     public void setMicroSitePymeInv(org.semanticwb.pymtur.MicroSitePyme value)
