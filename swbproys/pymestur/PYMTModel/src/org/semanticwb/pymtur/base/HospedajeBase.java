@@ -149,13 +149,13 @@ public abstract class HospedajeBase extends org.semanticwb.pymtur.ServiceProvide
             return it;
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.Hospedaje> listHospedajeByRateLowSeason(org.semanticwb.pymtur.RateLowSeason value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.pymtur.Hospedaje> listHospedajeByRateLowSeason(org.semanticwb.pymtur.RateSeason value,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Hospedaje> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(pymtur_hasRateLowSeason, value.getSemanticObject(),sclass));
             return it;
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.Hospedaje> listHospedajeByRateLowSeason(org.semanticwb.pymtur.RateLowSeason value)
+        public static java.util.Iterator<org.semanticwb.pymtur.Hospedaje> listHospedajeByRateLowSeason(org.semanticwb.pymtur.RateSeason value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Hospedaje> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(pymtur_hasRateLowSeason,value.getSemanticObject(),sclass));
             return it;
@@ -317,13 +317,13 @@ public abstract class HospedajeBase extends org.semanticwb.pymtur.ServiceProvide
             return it;
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.Hospedaje> listHospedajeByRateHighSeason(org.semanticwb.pymtur.RateHighSeason value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.pymtur.Hospedaje> listHospedajeByRateHighSeason(org.semanticwb.pymtur.RateSeason value,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Hospedaje> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(pymtur_hasRateHighSeason, value.getSemanticObject(),sclass));
             return it;
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.Hospedaje> listHospedajeByRateHighSeason(org.semanticwb.pymtur.RateHighSeason value)
+        public static java.util.Iterator<org.semanticwb.pymtur.Hospedaje> listHospedajeByRateHighSeason(org.semanticwb.pymtur.RateSeason value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Hospedaje> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(pymtur_hasRateHighSeason,value.getSemanticObject(),sclass));
             return it;
