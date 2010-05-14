@@ -5,8 +5,8 @@ public abstract class PaqueteBase extends org.semanticwb.model.SWBClass implemen
 {
     public static final org.semanticwb.platform.SemanticProperty pymtur_paq_Price=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#paq_Price");
     public static final org.semanticwb.platform.SemanticProperty pymtur_paq_NumMaxCupones=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#paq_NumMaxCupones");
-    public static final org.semanticwb.platform.SemanticProperty pymtur_paq_NumMaxPhotos=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#paq_NumMaxPhotos");
     public static final org.semanticwb.platform.SemanticProperty pymtur_termsOfUse=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#termsOfUse");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_paq_NumMaxPhotos=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#paq_NumMaxPhotos");
     public static final org.semanticwb.platform.SemanticProperty pymtur_paq_NumMaxPromotions=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#paq_NumMaxPromotions");
     public static final org.semanticwb.platform.SemanticClass pymtur_Paquete=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Paquete");
     public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Paquete");
@@ -46,18 +46,6 @@ public abstract class PaqueteBase extends org.semanticwb.model.SWBClass implemen
             return (getPaquete(id, model)!=null);
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.Paquete> listPaqueteByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Paquete> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.Paquete> listPaqueteByModifiedBy(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Paquete> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
-            return it;
-        }
-
         public static java.util.Iterator<org.semanticwb.pymtur.Paquete> listPaqueteByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Paquete> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
@@ -67,6 +55,18 @@ public abstract class PaqueteBase extends org.semanticwb.model.SWBClass implemen
         public static java.util.Iterator<org.semanticwb.pymtur.Paquete> listPaqueteByCreator(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Paquete> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.pymtur.Paquete> listPaqueteByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Paquete> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.pymtur.Paquete> listPaqueteByModifiedBy(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Paquete> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
             return it;
         }
     }
@@ -106,6 +106,37 @@ public abstract class PaqueteBase extends org.semanticwb.model.SWBClass implemen
         getSemanticObject().setDateProperty(swb_created, value);
     }
 
+    public String getTermsOfUse()
+    {
+        return getSemanticObject().getProperty(pymtur_termsOfUse);
+    }
+
+    public void setTermsOfUse(String value)
+    {
+        getSemanticObject().setProperty(pymtur_termsOfUse, value);
+    }
+
+    public void setCreator(org.semanticwb.model.User value)
+    {
+        getSemanticObject().setObjectProperty(swb_creator, value.getSemanticObject());
+    }
+
+    public void removeCreator()
+    {
+        getSemanticObject().removeProperty(swb_creator);
+    }
+
+    public org.semanticwb.model.User getCreator()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_creator);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
     public void setModifiedBy(org.semanticwb.model.User value)
     {
         getSemanticObject().setObjectProperty(swb_modifiedBy, value.getSemanticObject());
@@ -125,6 +156,16 @@ public abstract class PaqueteBase extends org.semanticwb.model.SWBClass implemen
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
          }
          return ret;
+    }
+
+    public int getPaq_NumMaxPhotos()
+    {
+        return getSemanticObject().getIntProperty(pymtur_paq_NumMaxPhotos);
+    }
+
+    public void setPaq_NumMaxPhotos(int value)
+    {
+        getSemanticObject().setIntProperty(pymtur_paq_NumMaxPhotos, value);
     }
 
     public String getTitle()
@@ -152,16 +193,6 @@ public abstract class PaqueteBase extends org.semanticwb.model.SWBClass implemen
         getSemanticObject().setProperty(swb_title, title, lang);
     }
 
-    public int getPaq_NumMaxPhotos()
-    {
-        return getSemanticObject().getIntProperty(pymtur_paq_NumMaxPhotos);
-    }
-
-    public void setPaq_NumMaxPhotos(int value)
-    {
-        getSemanticObject().setIntProperty(pymtur_paq_NumMaxPhotos, value);
-    }
-
     public java.util.Date getUpdated()
     {
         return getSemanticObject().getDateProperty(swb_updated);
@@ -172,16 +203,6 @@ public abstract class PaqueteBase extends org.semanticwb.model.SWBClass implemen
         getSemanticObject().setDateProperty(swb_updated, value);
     }
 
-    public String getTermsOfUse()
-    {
-        return getSemanticObject().getProperty(pymtur_termsOfUse);
-    }
-
-    public void setTermsOfUse(String value)
-    {
-        getSemanticObject().setProperty(pymtur_termsOfUse, value);
-    }
-
     public int getPaq_NumMaxPromotions()
     {
         return getSemanticObject().getIntProperty(pymtur_paq_NumMaxPromotions);
@@ -190,27 +211,6 @@ public abstract class PaqueteBase extends org.semanticwb.model.SWBClass implemen
     public void setPaq_NumMaxPromotions(int value)
     {
         getSemanticObject().setIntProperty(pymtur_paq_NumMaxPromotions, value);
-    }
-
-    public void setCreator(org.semanticwb.model.User value)
-    {
-        getSemanticObject().setObjectProperty(swb_creator, value.getSemanticObject());
-    }
-
-    public void removeCreator()
-    {
-        getSemanticObject().removeProperty(swb_creator);
-    }
-
-    public org.semanticwb.model.User getCreator()
-    {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_creator);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
     }
 
     public String getDescription()

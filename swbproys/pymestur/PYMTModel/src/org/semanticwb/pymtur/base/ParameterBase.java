@@ -42,18 +42,6 @@ public abstract class ParameterBase extends org.semanticwb.model.SWBClass implem
             return (getParameter(id, model)!=null);
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.Parameter> listParameterByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Parameter> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.Parameter> listParameterByModifiedBy(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Parameter> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
-            return it;
-        }
-
         public static java.util.Iterator<org.semanticwb.pymtur.Parameter> listParameterByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Parameter> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
@@ -65,6 +53,18 @@ public abstract class ParameterBase extends org.semanticwb.model.SWBClass implem
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Parameter> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
+
+        public static java.util.Iterator<org.semanticwb.pymtur.Parameter> listParameterByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Parameter> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.pymtur.Parameter> listParameterByModifiedBy(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Parameter> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
     public ParameterBase(org.semanticwb.platform.SemanticObject base)
@@ -72,14 +72,14 @@ public abstract class ParameterBase extends org.semanticwb.model.SWBClass implem
         super(base);
     }
 
-    public String getParamValue()
+    public java.util.Date getCreated()
     {
-        return getSemanticObject().getProperty(pymtur_paramValue);
+        return getSemanticObject().getDateProperty(swb_created);
     }
 
-    public void setParamValue(String value)
+    public void setCreated(java.util.Date value)
     {
-        getSemanticObject().setProperty(pymtur_paramValue, value);
+        getSemanticObject().setDateProperty(swb_created, value);
     }
 
     public int getIndex()
@@ -92,14 +92,35 @@ public abstract class ParameterBase extends org.semanticwb.model.SWBClass implem
         getSemanticObject().setIntProperty(swb_index, value);
     }
 
-    public java.util.Date getCreated()
+    public void setCreator(org.semanticwb.model.User value)
     {
-        return getSemanticObject().getDateProperty(swb_created);
+        getSemanticObject().setObjectProperty(swb_creator, value.getSemanticObject());
     }
 
-    public void setCreated(java.util.Date value)
+    public void removeCreator()
     {
-        getSemanticObject().setDateProperty(swb_created, value);
+        getSemanticObject().removeProperty(swb_creator);
+    }
+
+    public org.semanticwb.model.User getCreator()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_creator);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+    public String getParamValue()
+    {
+        return getSemanticObject().getProperty(pymtur_paramValue);
+    }
+
+    public void setParamValue(String value)
+    {
+        getSemanticObject().setProperty(pymtur_paramValue, value);
     }
 
     public void setModifiedBy(org.semanticwb.model.User value)
@@ -156,27 +177,6 @@ public abstract class ParameterBase extends org.semanticwb.model.SWBClass implem
     public void setUpdated(java.util.Date value)
     {
         getSemanticObject().setDateProperty(swb_updated, value);
-    }
-
-    public void setCreator(org.semanticwb.model.User value)
-    {
-        getSemanticObject().setObjectProperty(swb_creator, value.getSemanticObject());
-    }
-
-    public void removeCreator()
-    {
-        getSemanticObject().removeProperty(swb_creator);
-    }
-
-    public org.semanticwb.model.User getCreator()
-    {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_creator);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
     }
 
     public String getDescription()
