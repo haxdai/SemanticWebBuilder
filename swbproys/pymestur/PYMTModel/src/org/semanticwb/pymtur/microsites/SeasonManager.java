@@ -64,10 +64,8 @@ public class SeasonManager extends GenericAdmResource {
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException  {
         Resource base = getResourceBase();
         String action=response.getAction();
-        System.out.println("action="+action);
 
         if(action.equalsIgnoreCase("add_low_season")) {
-            System.out.println("estoy aqui en add low season");
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
             SWBFormMgr mgr = new SWBFormMgr(RateSeason.sclass, semObject, null);
             mgr.setFilterRequired(false);
@@ -85,13 +83,11 @@ public class SeasonManager extends GenericAdmResource {
                     season.setSeasonEndDate(df);
                 }catch(ParseException pe) {
                     log.error("Las fechas no son parseables. Resource "+base.getTitle()+" with id "+base.getId(), pe);
-                    System.out.println("1 error "+pe);
                 }
                 ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
                 serviceProv.addRateLowSeason(season);
             }catch(Exception e){
                 log.error(e);
-                System.out.println("2 error "+e);
             }
         }else if(action.equalsIgnoreCase("add_high_season")) {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
@@ -119,7 +115,6 @@ public class SeasonManager extends GenericAdmResource {
                 }
         }
         else if(action.equalsIgnoreCase("edit_season")) {
-            System.out.println("edit low");
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
             SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
             mgr.setFilterRequired(false);
@@ -137,15 +132,12 @@ public class SeasonManager extends GenericAdmResource {
                     rseason.setSeasonEndDate(df);
                 }catch(ParseException pe) {
                     log.error("Las fechas no son parseables. Resource "+base.getTitle()+" with id "+base.getId(), pe);
-                    System.out.println("1 error "+pe);
                 }
             }catch(Exception e){
                 log.error(e);
-                System.out.println("2 error "+e);
             }
         }
         else if(action.equalsIgnoreCase("remove_low_season")) {
-            System.out.println("eliminar low");
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
             RateSeason rseason = (RateSeason) semObject.createGenericInstance();
 
@@ -156,7 +148,6 @@ public class SeasonManager extends GenericAdmResource {
             semObject.remove();
         }
         else if(action.equalsIgnoreCase("remove_high_season")) {
-            System.out.println("eliminar high");
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
             RateSeason rseason = (RateSeason) semObject.createGenericInstance();
 

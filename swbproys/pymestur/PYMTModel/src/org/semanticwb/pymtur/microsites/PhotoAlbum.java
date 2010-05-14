@@ -285,10 +285,8 @@ public class PhotoAlbum extends GenericAdmResource {
 
         final String fspath = SWBPortal.getWorkPath()+sprovider.getWorkPath()+"/photos/"+base.getAttribute("gpophotos")+"/";
 
-        System.out.println("fileformat="+base.getAttribute("fileformat"));
         String[] fileFormats = base.getAttribute("fileformat")==null?new String[]{""}:base.getAttribute("fileformat").split(",");
         Arrays.sort(fileFormats);
-        System.out.println(Arrays.toString(fileFormats));
         try
         {
             boolean isMultipart = ServletFileUpload.isMultipartContent(request);
@@ -380,11 +378,9 @@ public class PhotoAlbum extends GenericAdmResource {
                             }
                         }
                     }else {
-                        System.out.println(item.getName()+", size="+item.getSize());
                         if( item.getSize()==0 || item.getSize()>_max_size )
                             continue;
                         String ext = item.getName().substring(item.getName().lastIndexOf(".")+1);
-                        System.out.println("ext="+ext);
                         if( Arrays.binarySearch(fileFormats, ext)<0 )
                             continue;
 
