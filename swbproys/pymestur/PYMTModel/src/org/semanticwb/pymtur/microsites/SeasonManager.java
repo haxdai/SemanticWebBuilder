@@ -110,6 +110,7 @@ public class SeasonManager extends GenericAdmResource {
                     }
                     ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
                     serviceProv.addRateHighSeason(season);
+                    serviceProv.setSpRatesComments(request.getParameter("rtcmt")==null?"":request.getParameter("rtcmt"));
                 }catch(Exception e){
                     log.error(e);
                 }
