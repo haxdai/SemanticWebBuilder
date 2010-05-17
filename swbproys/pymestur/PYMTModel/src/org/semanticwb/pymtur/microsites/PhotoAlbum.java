@@ -643,9 +643,13 @@ public class PhotoAlbum extends GenericAdmResource {
                         out.println("<h3 class=\"subtitleLevel2\">FOTOS DE HABITACIONES</h3>");
                     else if(sprovider.getSemanticObject().getSemanticClass().getName().equalsIgnoreCase("restaurante"))
                         out.println("<h3 class=\"subtitleLevel2\">FOTOS DE PLATILLOS</h3>");
-                }else
-                    out.println("<h3 class=\"subtitleLevel2\">"+base.getDisplayTitle(paramRequest.getUser().getLanguage())+"</h3>");
-
+                }else {
+                    String title = base.getDisplayTitle(paramRequest.getUser().getLanguage());
+                    if(title.equalsIgnoreCase("establecimiento")||title.equalsIgnoreCase("establishment"))
+                        out.println("<h2 class=\"subtitleLevel2\">"+title+"</h2>");
+                    else
+                        out.println("<h3 class=\"subtitleLevel2\">"+title+"</h3>");
+                }
                 out.println("<div class=\"holderPhotoPreviews\">");
                 int i=0;
                 for(String image : photos) {
