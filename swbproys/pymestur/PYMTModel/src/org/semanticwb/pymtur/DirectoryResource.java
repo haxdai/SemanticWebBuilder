@@ -292,7 +292,8 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         //Asignacion de plantilla y estilos a la Pag Web (si aplica)
                         if (dirObj.getPymePaqueteType() == PymturUtils.PAQ_PREMIER) {
                             if (request.getParameter("tplURI") != null &&
-                                    !dirObj.getMicroSitePymeInv().getTemplateRef().getTemplate().getURI().equalsIgnoreCase(request.getParameter("tplURI"))) {
+                                    (dirObj.getMicroSitePymeInv().getTemplateRef() == null ||
+                                    !dirObj.getMicroSitePymeInv().getTemplateRef().getTemplate().getURI().equalsIgnoreCase(request.getParameter("tplURI")))) {
                                 SemanticObject semObjectTmplt = SemanticObject.createSemanticObject(request.getParameter("tplURI"));
                                 Template template = (Template) semObjectTmplt.createGenericInstance();
                                 TemplateRef tmpRef = dirObj.getMicroSitePymeInv().getTemplateRef();
@@ -303,7 +304,8 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                                 tmpRef.setPriority(3);
                             }
                             if (request.getParameter("varianTplURI") != null &&
-                                    !dirObj.getVariantPaqTemplate().getURI().equalsIgnoreCase(request.getParameter("varianTplURI"))) {
+                                    (dirObj.getVariantPaqTemplate() == null ||
+                                    !dirObj.getVariantPaqTemplate().getURI().equalsIgnoreCase(request.getParameter("varianTplURI")))) {
                                 SemanticObject semObjectVT = SemanticObject.createSemanticObject(request.getParameter("varianTplURI"));
                                 VariantPaqTemplate varianTpl = (VariantPaqTemplate) semObjectVT.createGenericInstance();
                                 dirObj.setVariantPaqTemplate(varianTpl);
