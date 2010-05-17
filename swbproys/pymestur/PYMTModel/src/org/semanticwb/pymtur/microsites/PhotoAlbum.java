@@ -664,14 +664,14 @@ public class PhotoAlbum extends GenericAdmResource {
                         out.println("</div>");
                 }
 
-                if( base.getAttribute("gpophotos").equalsIgnoreCase("establishment") && sprovider.getSpEstablishmentPymePhotosComments()!=null ) {
-                    out.println("<p class=\"previewsDescription\">"+sprovider.getSpEstablishmentPymePhotosComments()+"</p>");
-                }else if( base.getAttribute("gpophotos").equalsIgnoreCase("instalation") && sprovider.getSpInstalationsPymePhotosComments()!=null ) {
-                    out.println("<p class=\"previewsDescription\">"+sprovider.getSpInstalationsPymePhotosComments()+"</p>");
-                }else if( base.getAttribute("gpophotos").equalsIgnoreCase("category") && sprovider.getSpCategoryPymePhotoCommens()!=null ) {
-                    out.println("<p class=\"previewsDescription\">"+sprovider.getSpCategoryPymePhotoCommens()+"</p>");
-                }else if(base.getAttribute("gpophotos").equalsIgnoreCase("more") && sprovider.getSpMorePymePhotosComments()!=null ) {
-                    out.println("<p class=\"previewsDescription\">"+sprovider.getSpMorePymePhotosComments()+"</p>");
+                if( base.getAttribute("gpophotos").equalsIgnoreCase("establishment") ) {
+                    out.println("<p class=\"previewsDescription\">"+( sprovider.getSpEstablishmentPymePhotosComments()==null?"&nbsp;":sprovider.getSpEstablishmentPymePhotosComments() )+"</p>");
+                }else if( base.getAttribute("gpophotos").equalsIgnoreCase("instalation") ) {
+                    out.println("<p class=\"previewsDescription\">"+( sprovider.getSpInstalationsPymePhotosComments()==null?"&nbsp;":sprovider.getSpInstalationsPymePhotosComments() )+"</p>");
+                }else if( base.getAttribute("gpophotos").equalsIgnoreCase("category") ) {
+                    out.println("<p class=\"previewsDescription\">"+( sprovider.getSpCategoryPymePhotoCommens()==null?"&nbsp;":sprovider.getSpCategoryPymePhotoCommens() )+"</p>");
+                }else if(base.getAttribute("gpophotos").equalsIgnoreCase("more") ) {
+                    out.println("<p class=\"previewsDescription\">"+( sprovider.getSpMorePymePhotosComments()==null?"&nbsp":sprovider.getSpMorePymePhotosComments() )+"</p>");
                 }
 
                 out.println("</div>");
