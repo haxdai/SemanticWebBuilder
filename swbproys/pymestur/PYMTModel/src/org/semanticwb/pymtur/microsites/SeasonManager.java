@@ -161,5 +161,10 @@ public class SeasonManager extends GenericAdmResource {
             serviceProv.removeRateHighSeason(rseason);
             semObject.remove();
         }
+         else if(action.equalsIgnoreCase("edit_cmnt")) {
+             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
+             ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
+             serviceProv.setSpRatesComments(request.getParameter("rtcmt")==null?"":request.getParameter("rtcmt"));
+         }
     }
 }
