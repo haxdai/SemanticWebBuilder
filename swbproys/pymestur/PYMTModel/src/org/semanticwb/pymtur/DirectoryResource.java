@@ -271,47 +271,79 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         }
                         processFiles(request, wsite, dirObj.getSemanticObject());
 
-
-                        String sdomain = request.getParameter("pymeDomain");
-                        if (dirObj.getPymePaqueteType() == PymturUtils.PAQ_PREMIER && sdomain != null && sdomain.trim().length() > 0) { //Se modifica el DNS al Micrositio siempre y cuando sea de tipo 4 (PREMIER)
-                            Dns pymeDns = dirObj.getPymeDomain();
-                            pymeDns.setDns(sdomain);
-                            pymeDns.setModifiedBy(user);
-                            dirObj.setPymeDomain(pymeDns);
-                        }
-
-                        String subdomain = request.getParameter("pymeSubDomain");
-                        if (dirObj.getPymePaqueteType() == PymturUtils.PAQ_PREMIER && subdomain != null && subdomain.trim().length() > 0) { //Se modifica el SubDNS al Micrositio siempre y cuando sea de tipo 4 (PREMIER)
-                            Dns pymeDns = dirObj.getPymeSubDomainWildCard();
-                            pymeDns.setDns(sdomain);
-                            pymeDns.setModifiedBy(user);
-                            dirObj.setPymeSubDomainWildCard(pymeDns);
-                        }
-
-
-                        //Asignacion de plantilla y estilos a la Pag Web (si aplica)
-                        if (dirObj.getPymePaqueteType() == PymturUtils.PAQ_PREMIER) {
-                            if (request.getParameter("tplURI") != null &&
-                                    (dirObj.getMicroSitePymeInv().getTemplateRef() == null ||
-                                    !dirObj.getMicroSitePymeInv().getTemplateRef().getTemplate().getURI().equalsIgnoreCase(request.getParameter("tplURI")))) {
-                                SemanticObject semObjectTmplt = SemanticObject.createSemanticObject(request.getParameter("tplURI"));
-                                Template template = (Template) semObjectTmplt.createGenericInstance();
-                                TemplateRef tmpRef = dirObj.getMicroSitePymeInv().getTemplateRef();
-                                tmpRef.setTemplate(template);
-                                tmpRef.setActive(Boolean.TRUE);
-                                tmpRef.setInherit(TemplateRef.INHERIT_ACTUALANDCHILDS);
-                                tmpRef.setValid(Boolean.TRUE);
-                                tmpRef.setPriority(3);
-                            }
-                            if (request.getParameter("varianTplURI") != null &&
-                                    (dirObj.getVariantPaqTemplate() == null ||
-                                    !dirObj.getVariantPaqTemplate().getURI().equalsIgnoreCase(request.getParameter("varianTplURI")))) {
-                                SemanticObject semObjectVT = SemanticObject.createSemanticObject(request.getParameter("varianTplURI"));
-                                VariantPaqTemplate varianTpl = (VariantPaqTemplate) semObjectVT.createGenericInstance();
-                                dirObj.setVariantPaqTemplate(varianTpl);
+                       int pymePaquete=dirObj.getPymePaqueteType();
+                       if (pymePaquete == PymturUtils.PAQ_MICROSITIO || pymePaquete == PymturUtils.PAQ_PREMIER) { //Solo para micrositios o premier
+                            String sdomain = request.getParameter("pymeDomain");
+                            if (dirObj.getPymePaqueteType() == PymturUtils.PAQ_PREMIER && sdomain != null && sdomain.trim().length() > 0) { //Se modifica el DNS al Micrositio siempre y cuando sea de tipo 4 (PREMIER)
+                                Dns pymeDns = dirObj.getPymeDomain();
+                                if(pymeDns!=null){
+                                    pymeDns.setDns(sdomain);
+                                    pymeDns.setModifiedBy(user);
+                                    dirObj.setPymeDomain(pymeDns);
+                                }else{
+                                    Dns newDns = Dns.ClassMgr.createDns(wsite);
+                                    newDns.setDns(sdomain);
+                                    newDns.setWebPage(dirObj.getMicroSitePymeInv());
+                                    newDns.setCreator(user);
+                                    dirObj.setPymeDomain(newDns);
+                                }
                             }
 
-                        }
+                            String subdomain = request.getParameter("pymeSubDomain");
+                            if (dirObj.getPymePaqueteType() == PymturUtils.PAQ_PREMIER && subdomain != null && subdomain.trim().length() > 0) { //Se modifica el SubDNS al Micrositio siempre y cuando sea de tipo 4 (PREMIER)
+                                Dns pymeDns = dirObj.getPymeSubDomainWildCard();
+                                if(pymeDns!=null){
+                                    pymeDns.setDns(sdomain);
+                                    pymeDns.setModifiedBy(user);
+                                    dirObj.setPymeSubDomainWildCard(pymeDns);
+                                }else{
+                                    Dns newDns = Dns.ClassMgr.createDns(wsite);
+                                    newDns.setDns(subdomain);
+                                    newDns.setWebPage(dirObj.getMicroSitePymeInv());
+                                    newDns.setCreator(user);
+                                    dirObj.setPymeSubDomainWildCard(newDns);
+                                }
+                            }
+
+                            String youtubeCode=request.getParameter("youtubeVideoCode");
+                            if(youtubeCode!=null && youtubeCode.trim().length()>0)
+                            {
+                                VideoYouTube youtube=dirObj.getSpVideoYouTube();
+                                if(youtube!=null)
+                                {
+                                    youtube.setYoutubeVideoCode(youtubeCode);
+                                    dirObj.setSpVideoYouTube(youtube);
+                                }else{
+                                    youtube=VideoYouTube.ClassMgr.createVideoYouTube(wsite);
+                                    youtube.setYoutubeVideoCode(youtubeCode);
+                                    dirObj.setSpVideoYouTube(youtube);
+                                }
+                            }
+                            
+                            //Asignacion de plantilla y estilos a la Pag Web (si aplica)
+                            if (pymePaquete == PymturUtils.PAQ_PREMIER) {
+                                if (request.getParameter("tplURI") != null &&
+                                        (dirObj.getMicroSitePymeInv().getTemplateRef() == null ||
+                                        !dirObj.getMicroSitePymeInv().getTemplateRef().getTemplate().getURI().equalsIgnoreCase(request.getParameter("tplURI")))) {
+                                    SemanticObject semObjectTmplt = SemanticObject.createSemanticObject(request.getParameter("tplURI"));
+                                    Template template = (Template) semObjectTmplt.createGenericInstance();
+                                    TemplateRef tmpRef = dirObj.getMicroSitePymeInv().getTemplateRef();
+                                    tmpRef.setTemplate(template);
+                                    tmpRef.setActive(Boolean.TRUE);
+                                    tmpRef.setInherit(TemplateRef.INHERIT_ACTUALANDCHILDS);
+                                    tmpRef.setValid(Boolean.TRUE);
+                                    tmpRef.setPriority(3);
+                                }
+                                if (request.getParameter("varianTplURI") != null &&
+                                        (dirObj.getVariantPaqTemplate() == null ||
+                                        !dirObj.getVariantPaqTemplate().getURI().equalsIgnoreCase(request.getParameter("varianTplURI")))) {
+                                    SemanticObject semObjectVT = SemanticObject.createSemanticObject(request.getParameter("varianTplURI"));
+                                    VariantPaqTemplate varianTpl = (VariantPaqTemplate) semObjectVT.createGenericInstance();
+                                    dirObj.setVariantPaqTemplate(varianTpl);
+                                }
+
+                            }
+                       }
                     }
                     semObjTmp = dirObj.getSemanticObject();
                 } catch (FormValidateException e) {
@@ -344,7 +376,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     dirObj.setCreated(new Date());
                     dirObj.setSpStatus(PymturUtils.ESTATUS_REGISTRADO);
                     PymturUtils.logServiceProvider(dirObj, user, null, "MiPyME Registered");
-                    
+
                     String refirect = null;
                     if (request.getParameter("destination") != null) {
                         WebPage wdestination = wsite.getWebPage(request.getParameter("destination"));
@@ -384,6 +416,15 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         ms.setDescription(dirObj.getDescription());
                         ms.setTags(dirObj.getTags());
                         ms.setActive(Boolean.TRUE);
+
+                        //Youtube de la mipyeme
+                        String youtubeCode=request.getParameter("youtubeVideoCode");
+                        if(youtubeCode!=null && youtubeCode.trim().length()>0)
+                        {
+                            VideoYouTube youtube=VideoYouTube.ClassMgr.createVideoYouTube(wsite);
+                            youtube.setYoutubeVideoCode(youtubeCode);
+                            dirObj.setSpVideoYouTube(youtube);
+                        }
 
                         //Se asigna plantilla (Por el momento solo si es de paquete tipo 4 - Premier)
                         if (pymetype == PymturUtils.PAQ_PREMIER) {
@@ -802,7 +843,4 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
         }
     }
 
-
-
-    
 }
