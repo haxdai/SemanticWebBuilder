@@ -555,9 +555,10 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                 }
             } else if (action2.equals("acceptRegistry") && (isUserIsAdminProvider || isAdministrator)) {
                 try {
+                    //SemanticObject semObject = SemanticObject.createSemanticObject(URLDecoder.decode(request.getParameter("uri")));
                     SemanticObject semObject = SemanticObject.createSemanticObject(URLDecoder.decode(request.getParameter("uri")));
                     ServiceProvider servProp = (ServiceProvider) semObject.createGenericInstance();
-                    servProp.setSpStatus(PymturUtils.ESTATUS_ACTIVADO);
+                    servProp.setSpStatus(PymturUtils.ESTATUS_ACTIVADO); //
                     //Fecha de aceptación y de limite de publiccación
                     Calendar endAnnunceDate=Calendar.getInstance();
                     servProp.setSpAcceptedDate(endAnnunceDate.getTime()); //Colocar fecha actual que es cuando se acepta el anuncio
