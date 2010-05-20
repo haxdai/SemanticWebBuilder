@@ -48,18 +48,6 @@ public abstract class InteresLinkBase extends org.semanticwb.model.SWBClass impl
             return (getInteresLink(id, model)!=null);
         }
 
-        public static java.util.Iterator<org.semanticwb.pymtur.InteresLink> listInteresLinkByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.InteresLink> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.InteresLink> listInteresLinkByModifiedBy(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.InteresLink> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
-            return it;
-        }
-
         public static java.util.Iterator<org.semanticwb.pymtur.InteresLink> listInteresLinkByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.InteresLink> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
@@ -69,6 +57,18 @@ public abstract class InteresLinkBase extends org.semanticwb.model.SWBClass impl
         public static java.util.Iterator<org.semanticwb.pymtur.InteresLink> listInteresLinkByCreator(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.InteresLink> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.pymtur.InteresLink> listInteresLinkByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.InteresLink> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.pymtur.InteresLink> listInteresLinkByModifiedBy(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.InteresLink> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
             return it;
         }
     }
@@ -86,6 +86,37 @@ public abstract class InteresLinkBase extends org.semanticwb.model.SWBClass impl
     public void setCreated(java.util.Date value)
     {
         getSemanticObject().setDateProperty(swb_created, value);
+    }
+
+    public String getLink()
+    {
+        return getSemanticObject().getProperty(pymtur_link);
+    }
+
+    public void setLink(String value)
+    {
+        getSemanticObject().setProperty(pymtur_link, value);
+    }
+
+    public void setCreator(org.semanticwb.model.User value)
+    {
+        getSemanticObject().setObjectProperty(swb_creator, value.getSemanticObject());
+    }
+
+    public void removeCreator()
+    {
+        getSemanticObject().removeProperty(swb_creator);
+    }
+
+    public org.semanticwb.model.User getCreator()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_creator);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
     }
 
     public void setModifiedBy(org.semanticwb.model.User value)
@@ -142,37 +173,6 @@ public abstract class InteresLinkBase extends org.semanticwb.model.SWBClass impl
     public void setUpdated(java.util.Date value)
     {
         getSemanticObject().setDateProperty(swb_updated, value);
-    }
-
-    public String getLink()
-    {
-        return getSemanticObject().getProperty(pymtur_link);
-    }
-
-    public void setLink(String value)
-    {
-        getSemanticObject().setProperty(pymtur_link, value);
-    }
-
-    public void setCreator(org.semanticwb.model.User value)
-    {
-        getSemanticObject().setObjectProperty(swb_creator, value.getSemanticObject());
-    }
-
-    public void removeCreator()
-    {
-        getSemanticObject().removeProperty(swb_creator);
-    }
-
-    public org.semanticwb.model.User getCreator()
-    {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_creator);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
     }
 
     public String getDescription()

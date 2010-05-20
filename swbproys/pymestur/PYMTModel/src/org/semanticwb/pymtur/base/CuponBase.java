@@ -102,6 +102,16 @@ public abstract class CuponBase extends org.semanticwb.model.SWBClass implements
         getSemanticObject().setProperty(pymtur_cuponConditions, value);
     }
 
+    public String getCuponPeriodFin()
+    {
+        return getSemanticObject().getProperty(pymtur_cuponPeriodFin);
+    }
+
+    public void setCuponPeriodFin(String value)
+    {
+        getSemanticObject().setProperty(pymtur_cuponPeriodFin, value);
+    }
+
     public String getTitle()
     {
         return getSemanticObject().getProperty(swb_title);
@@ -125,16 +135,6 @@ public abstract class CuponBase extends org.semanticwb.model.SWBClass implements
     public void setTitle(String title, String lang)
     {
         getSemanticObject().setProperty(swb_title, title, lang);
-    }
-
-    public String getCuponPeriodFin()
-    {
-        return getSemanticObject().getProperty(pymtur_cuponPeriodFin);
-    }
-
-    public void setCuponPeriodFin(String value)
-    {
-        getSemanticObject().setProperty(pymtur_cuponPeriodFin, value);
     }
 
     public void setCuponServiceProviderInv(org.semanticwb.pymtur.ServiceProvider value)

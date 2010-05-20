@@ -4,7 +4,6 @@ package org.semanticwb.pymtur.base;
 public abstract class VideoYouTubeBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticProperty pymtur_youtubeVideoCode=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#youtubeVideoCode");
-    public static final org.semanticwb.platform.SemanticProperty pymtur_youtubePreview=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#youtubePreview");
     public static final org.semanticwb.platform.SemanticClass pymtur_VideoYouTube=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#VideoYouTube");
     public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#VideoYouTube");
 
@@ -118,16 +117,6 @@ public abstract class VideoYouTubeBase extends org.semanticwb.model.SWBClass imp
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
          }
          return ret;
-    }
-
-    public String getYoutubePreview()
-    {
-        return getSemanticObject().getProperty(pymtur_youtubePreview);
-    }
-
-    public void setYoutubePreview(String value)
-    {
-        getSemanticObject().setProperty(pymtur_youtubePreview, value);
     }
 
     public void setModifiedBy(org.semanticwb.model.User value)
