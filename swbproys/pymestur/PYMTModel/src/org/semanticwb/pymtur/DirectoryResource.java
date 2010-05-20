@@ -342,7 +342,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     dirObj.setWebPage(response.getWebPage());
                     dirObj.setSpCreator(user);
                     dirObj.setCreated(new Date());
-                    dirObj.setSpStatus(1);
+                    dirObj.setSpStatus(PymturUtils.ESTATUS_REGISTRADO);
                     PymturUtils.logServiceProvider(dirObj, user, null, "MiPyME Registered");
                     
                     String refirect = null;
@@ -372,8 +372,9 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     processFiles(request, wsite, dirObj.getSemanticObject());
                     semObjTmp = dirObj.getSemanticObject();
 
-                    if (pymetype == PymturUtils.PAQ_MICROSITIO || pymetype == PymturUtils.PAQ_PREMIER) {
-                        MicroSitePyme ms = MicroSitePyme.ClassMgr.createMicroSitePyme("Microsite_" + dirObj.getId(), wsite); //TODO:Hacer que sea con el nombre de la pyme en formato de ID
+                    if (pymetype == PymturUtils.PAQ_MICROSITIO || pymetype == PymturUtils.PAQ_PREMIER) { //Solo para micrositios o premier
+                        //Se crea el micrositio
+                        MicroSitePyme ms = MicroSitePyme.ClassMgr.createMicroSitePyme("Microsite_" + dirObj.getId(), wsite);
                         if (pymetype == PymturUtils.PAQ_MICROSITIO) {
                             ms.setParent(wsite.getWebPage("Micrositios"));
                         } else if (pymetype == PymturUtils.PAQ_PREMIER) {
@@ -406,6 +407,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                             }
                         }
 
+                        //Se crea el dominio y se le asigna al micrositio
                         String sdomain = request.getParameter("pymeDomain");
                         if (pymetype == PymturUtils.PAQ_PREMIER && sdomain != null && sdomain.trim().length() > 0) { //Se asigna el DNS al Micrositio siempre y cuando sea de tipo 4 (PREMIER)
                             Dns newDns = Dns.ClassMgr.createDns(wsite);
@@ -415,6 +417,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                             dirObj.setPymeDomain(newDns);
                         }
 
+                        //Se crea el subdominio y se le asigna al micrositio
                         String subdomain = request.getParameter("pymeSubDomain");
                         if (pymetype == PymturUtils.PAQ_PREMIER && subdomain != null && subdomain.trim().length() > 0) { //Se asigna el SubDNS al Micrositio siempre y cuando sea de tipo 4 (PREMIER)
                             Dns newDns = Dns.ClassMgr.createDns(wsite);
@@ -437,6 +440,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
 
                         ms.setServiceProvider(dirObj);
 
+                        //Se le asignan los MicrositeUtils al micrositio, se crea un hijo(MicroSiteWebPageUtil) al mismo por cada MicrositeUtil
                         if (mstype != null) {
                             GenericIterator<MicroSiteUtil> gitmu = mstype.listMicroSiteUtils();
                             while (gitmu.hasNext()) {
@@ -569,7 +573,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                 try {
                     SemanticObject semObject = SemanticObject.createSemanticObject(URLDecoder.decode(request.getParameter("uri")));
                     ServiceProvider servProp = (ServiceProvider) semObject.createGenericInstance();
-                    servProp.setSpStatus(4);
+                    servProp.setSpStatus(PymturUtils.ESTATUS_RECHAZADO);
                     PymturUtils.logServiceProvider(servProp, user, null,"MiPyME unRegister(Estatus 4)");
 
                     String statComm = request.getParameter("statusComment");
