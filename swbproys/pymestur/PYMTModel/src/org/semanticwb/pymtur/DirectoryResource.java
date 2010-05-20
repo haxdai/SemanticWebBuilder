@@ -312,10 +312,16 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                                 if(youtube!=null)
                                 {
                                     youtube.setYoutubeVideoCode(youtubeCode);
+                                    if(request.getParameter("videoYTTitle")!=null) youtube.setTitle(request.getParameter("videoYTTitle"));
+                                    if(request.getParameter("videoYTDescr")!=null) youtube.setDescription(request.getParameter("videoYTDescr"));
+                                    youtube.setUpdated(new Date());
                                     dirObj.setSpVideoYouTube(youtube);
                                 }else{
                                     youtube=VideoYouTube.ClassMgr.createVideoYouTube(wsite);
                                     youtube.setYoutubeVideoCode(youtubeCode);
+                                    if(request.getParameter("videoYTTitle")!=null) youtube.setTitle(request.getParameter("videoYTTitle"));
+                                    if(request.getParameter("videoYTDescr")!=null) youtube.setDescription(request.getParameter("videoYTDescr"));
+                                    youtube.setUpdated(new Date());
                                     dirObj.setSpVideoYouTube(youtube);
                                 }
                             }
@@ -423,7 +429,11 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         {
                             VideoYouTube youtube=VideoYouTube.ClassMgr.createVideoYouTube(wsite);
                             youtube.setYoutubeVideoCode(youtubeCode);
+                            if(request.getParameter("videoYTTitle")!=null) youtube.setTitle(request.getParameter("videoYTTitle"));
+                            if(request.getParameter("videoYTDescr")!=null) youtube.setDescription(request.getParameter("videoYTDescr"));
+                            youtube.setCreated(new Date());
                             dirObj.setSpVideoYouTube(youtube);
+
                         }
 
                         //Se asigna plantilla (Por el momento solo si es de paquete tipo 4 - Premier)
