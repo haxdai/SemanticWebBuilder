@@ -64,8 +64,17 @@ namespace WBWord
             //object address = "wbrelpath://" + url;
             //object address = "wbrelpath://" + "../../"+filerep.FolderRepository.SiteID+"/"+ filerep.FolderRepository.TopicResource + "/_rid/1/_mto/3/" + name + "?repfop=view&reptp=" + filerep.FolderRepository.ID + "&repfiddoc=" + filerep.ID + "&repinline=true";
             object address = "docrep://" + "" + filerep.FolderRepository.SiteID + "/" + filerep.FolderRepository.TopicResource+ "/_vtp/" + filerep.Map + "/" + filerep.Topic + "/_rid/" + filerep.ResourceID + "/_mto/3/" + name + "?repfop=view&reptp=" + filerep.FolderRepository.ID + "&repfiddoc=" + filerep.ID + "&repinline=true";
-            object text = ((FileRepository)this.listViewFiles.SelectedItems[0]).Text;            
-            Microsoft.Office.Interop.Word.Hyperlink link=CWebBuilder.doc.Hyperlinks.Add(CWebBuilder.app.Selection.Range, ref address, ref missing, ref missing, ref text, ref missing);
+            object text = ((FileRepository)this.listViewFiles.SelectedItems[0]).Text;
+            if (CWebBuilder.app.Selection.Range.Text==null || CWebBuilder.app.Selection.Range.Text == "")
+            {
+                
+                Microsoft.Office.Interop.Word.Hyperlink link = CWebBuilder.doc.Hyperlinks.Add(CWebBuilder.app.Selection.Range, ref address, ref missing, ref missing, ref text, ref missing);
+            }
+            else
+            {
+                text = CWebBuilder.app.Selection.Range.Text;
+                Microsoft.Office.Interop.Word.Hyperlink link = CWebBuilder.doc.Hyperlinks.Add(CWebBuilder.app.Selection.Range, ref address, ref missing, ref missing, ref text, ref missing);
+            }
             
             this.Close();
         }
