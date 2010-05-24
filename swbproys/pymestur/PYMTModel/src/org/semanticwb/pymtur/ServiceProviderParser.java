@@ -32,6 +32,7 @@ import org.semanticwb.model.User;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.portal.indexer.IndexTerm;
 import org.semanticwb.portal.indexer.parser.GenericParser;
+import org.semanticwb.pymtur.util.PymturUtils;
 
 /**
  * Parser para el indexado de proveedores de servicios en el proyecto de
@@ -141,8 +142,13 @@ public class ServiceProviderParser extends GenericParser {
         return ret;
     }
 
-//    @Override
-//    public boolean canUserView(Searchable gen, User user) {
+    @Override
+    public boolean canUserView(Searchable gen, User user) {
+        boolean ret = false;
+        if (((ServiceProvider)gen).getSpStatus() == PymturUtils.ESTATUS_ACTIVADO) {
+            ret = super.canUserView(gen, user);
+        }
+        return ret;
 //        boolean isAdminProviders = false;
 //        boolean isAccepted = false;
 //
@@ -157,7 +163,7 @@ public class ServiceProviderParser extends GenericParser {
 //            isAccepted = true;
 //        }
 //        return super.canUserView(gen, user) && (isAccepted || isAdminProviders);
-//    }
+    }
 
     @Override
     public Map<String, IndexTerm> getIndexTerms(Searchable gen) {
