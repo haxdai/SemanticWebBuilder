@@ -828,7 +828,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
 
         //Ejecutar la busqueda
         SearchResults sres = SWBPortal.getIndexMgr().getDefaultIndexer().search(query, paramRequest.getUser());
-
+        
         //Obtener la lista de searchables y transformala a una lista de serviceproviders
         Iterator<SearchDocument> docs = sres.listDocuments();
         while (docs.hasNext()) {
