@@ -28,21 +28,21 @@ public class PymesScheduledTasks {
     private static SWBModel model=null;
     
     public PymesScheduledTasks(SWBModel model) {
-        if(this.model!=null) {return;}
-        this.model=model;
-        System.out.println("Modelo que llega a PymesScheduledTasks:"+this.model);
-
-        //Inicio del timer
-        Calendar hour2Start = Calendar.getInstance();
-        hour2Start.set(hour2Start.get(hour2Start.YEAR), hour2Start.get(hour2Start.MONTH), hour2Start.get(hour2Start.DATE), 23, 59, 00); //Hora a las 11:59 pm
-
-        Calendar timeNow = Calendar.getInstance(); //Hora actual
-
-        long time2Start = hour2Start.getTimeInMillis() - timeNow.getTimeInMillis(); //Milisegundos para empezar por primera vez el timer
-
-        int oneDay = 60 * 1000 * 60 * 24;
-        Timer timer = new Timer();
-        timer.schedule(new RemindTask(model), 0, 60 * 1000);
+//        if(this.model!=null) {return;}
+//        this.model=model;
+//        System.out.println("Modelo que llega a PymesScheduledTasks:"+this.model);
+//
+//        //Inicio del timer
+//        Calendar hour2Start = Calendar.getInstance();
+//        hour2Start.set(hour2Start.get(hour2Start.YEAR), hour2Start.get(hour2Start.MONTH), hour2Start.get(hour2Start.DATE), 23, 59, 00); //Hora a las 11:59 pm
+//
+//        Calendar timeNow = Calendar.getInstance(); //Hora actual
+//
+//        long time2Start = hour2Start.getTimeInMillis() - timeNow.getTimeInMillis(); //Milisegundos para empezar por primera vez el timer
+//
+//        int oneDay = 60 * 1000 * 60 * 24;
+//        Timer timer = new Timer();
+//        timer.schedule(new RemindTask(model), 0, 60 * 1000);
 
     }
 
