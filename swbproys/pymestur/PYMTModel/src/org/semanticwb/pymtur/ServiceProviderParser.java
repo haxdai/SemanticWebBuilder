@@ -144,11 +144,19 @@ public class ServiceProviderParser extends GenericParser {
 
     @Override
     public boolean canUserView(Searchable gen, User user) {
-        boolean ret = false;
-        if (((ServiceProvider)gen).getSpStatus() == PymturUtils.ESTATUS_ACTIVADO) {
-            ret = super.canUserView(gen, user);
+        boolean ret = super.canUserView(gen, user);//Verificar reglas y filtros de SWB
+
+        //Si está activado todo mundo lo puede ver
+        if (ret && ((ServiceProvider)gen).getSpStatus() == PymturUtils.ESTATUS_ACTIVADO) {
+            ret = true;
+        } else if (ret) { //Si no, sólo lo pueden ver los administradores
+            Role role = user.getUserRepository().getRole("adminProviders");
+            if (user.isRegistered() && user.isSigned()) {
+                if (role != null && user.hasRole(role)) {
+                    ret = true;
+                }
+            }
         }
-        return ret;
 //        boolean isAdminProviders = false;
 //        boolean isAccepted = false;
 //
@@ -163,6 +171,7 @@ public class ServiceProviderParser extends GenericParser {
 //            isAccepted = true;
 //        }
 //        return super.canUserView(gen, user) && (isAccepted || isAdminProviders);
+        return ret;
     }
 
     @Override
