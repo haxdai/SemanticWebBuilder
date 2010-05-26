@@ -448,6 +448,7 @@ public class PhotoAlbumSheet extends GenericAdmResource {
             }catch(NumberFormatException nfe) {
                 nde = 6;
             }
+            out.println("<div id=\"photosFrame\">");
             for(int i=0; i<nde && i<photos.size(); i++) {
                 String image = photos.get(i);
                 out.println("<span class=\"marco\">");
@@ -456,17 +457,8 @@ public class PhotoAlbumSheet extends GenericAdmResource {
                 out.println("</a>");
                 out.println("</span>");
             }
-            out.println("<br />");
+            out.println("</div>");
             
-            User user=paramRequest.getUser();
-            if(user.getURI()!=null && sprovider.getCreator().getURI().equals(user.getURI())) {
-                SWBResourceURL url = paramRequest.getRenderUrl();
-                url.setCallMethod(paramRequest.Call_DIRECT);
-                url.setParameter("uri", sprovider.getURI());
-                url.setParameter("showAdmPhotos", "true");
-                out.println("<a href=\""+url+"\" class=\"ligaCol2\">Agregar fotos</a>");
-            }
-
             out.println("<script type=\"text/javascript\">");
             out.println("dojo.require(\"dojox.image.Lightbox\");");
             out.println("dojo.addOnLoad(function(){");
@@ -488,6 +480,15 @@ public class PhotoAlbumSheet extends GenericAdmResource {
 //            out.println("        dialog.show( { group:'group2'} );");
 //            out.println("    }");
             out.println("</script>");
+
+            User user=paramRequest.getUser();
+            if(user.getURI()!=null && sprovider.getCreator().getURI().equals(user.getURI())) {
+                SWBResourceURL url = paramRequest.getRenderUrl();
+                url.setCallMethod(paramRequest.Call_DIRECT);
+                url.setParameter("uri", sprovider.getURI());
+                url.setParameter("showAdmPhotos", "true");
+                out.println("<div id=\"photosFrameAdm\"><a href=\""+url+"\" class=\"ligaCol2\">Agregar fotos</a></div>");
+            }
         }else {
             boolean show = Boolean.parseBoolean(request.getParameter("showAdmPhotos"));
             User user=paramRequest.getUser();
