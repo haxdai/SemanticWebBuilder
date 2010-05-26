@@ -4,6 +4,7 @@ package org.semanticwb.pymtur.base;
 public abstract class CuponBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticProperty pymtur_cuponType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#cuponType");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_cuponPartnerImage=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#cuponPartnerImage");
     public static final org.semanticwb.platform.SemanticProperty pymtur_cuponImg=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#cuponImg");
     public static final org.semanticwb.platform.SemanticProperty pymtur_cuponConditions=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#cuponConditions");
     public static final org.semanticwb.platform.SemanticProperty pymtur_cuponPeriodFin=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#cuponPeriodFin");
@@ -80,6 +81,16 @@ public abstract class CuponBase extends org.semanticwb.model.SWBClass implements
     public void setCuponType(String value)
     {
         getSemanticObject().setProperty(pymtur_cuponType, value);
+    }
+
+    public String getCuponPartnerImage()
+    {
+        return getSemanticObject().getProperty(pymtur_cuponPartnerImage);
+    }
+
+    public void setCuponPartnerImage(String value)
+    {
+        getSemanticObject().setProperty(pymtur_cuponPartnerImage, value);
     }
 
     public String getCuponImg()
