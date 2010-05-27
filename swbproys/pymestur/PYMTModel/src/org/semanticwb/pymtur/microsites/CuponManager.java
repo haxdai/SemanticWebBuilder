@@ -22,19 +22,28 @@
 **/
 package org.semanticwb.pymtur.microsites;
 
+import java.io.File;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.ProgressListener;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import org.semanticwb.Logger;
+import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
+import org.semanticwb.base.util.ImageResizer;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.platform.SemanticObject;
@@ -87,54 +96,61 @@ public class CuponManager extends GenericResource {
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException  {
         Resource base = getResourceBase();
-        String action=response.getAction();
-        if(action.equals("add_cupon")) {
-            SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
-            SWBFormMgr mgr = new SWBFormMgr(Cupon.sclass, semObject, null);
-            mgr.setFilterRequired(false);
-            if( isValidValue(request.getParameter("title")) && isValidValue(request.getParameter("description")) ) {
+        String action = response.getAction();
+        final String realpath = SWBPortal.getWorkPath();
+        if( "add_cupon".equalsIgnoreCase(action) ) {
+            HashMap<String, String> params = upload(request);
+            if( isValidValue(params.get("title")) && isValidValue(params.get("description")) ) {
                 try {
-                    SemanticObject sobj = mgr.processForm(request);
-                    Cupon cupon = (Cupon) sobj.createGenericInstance();
-                    cupon.setCuponType(request.getParameter("is"));
-                    cupon.setCuponImg(  (request.getParameter("pimg")!=null&&request.getParameter("pimg").length()>0?request.getParameter("pimg"):null)  );
-                    cupon.setCuponConditions(request.getParameter("constraint")==null?"":request.getParameter("constraint"));
+                    //SemanticObject sobj = mgr.processForm(request);
+                    Cupon cupon = Cupon.ClassMgr.createCupon(response.getWebPage().getWebSite());
+                    cupon.setTitle(params.get("title"));
+                    cupon.setDescription(params.get("description"));
+                    cupon.setCuponType(params.get("is"));
+                    cupon.setCuponImg( (params.get("pimg")!=null&&params.get("pimg").length()>0?params.get("pimg"):null) );
+                    cupon.setCuponConditions( params.get("constraint")==null?"":params.get("constraint") );
+                    if( params.containsKey("partner") )
+                        cupon.setCuponPartnerImage(params.get("partner"));
                     try {
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                        String date = request.getParameter("datei");
+                        String date = params.get("datei");
                         Date di = sdf.parse(date);
-                        date = request.getParameter("datef");
-                        Date df = sdf.parse(date);                        
                         cupon.setCuponPeriodIni(sdf.format(di));
+                        date = params.get("datef");
+                        Date df = sdf.parse(date);                        
                         cupon.setCuponPeriodFin(sdf.format(df));
                     }catch(ParseException pe) {
                         log.error("Las fechas no son parseables. Resource "+base.getTitle()+" with id "+base.getId(), pe);
                     }
+                    SemanticObject semObject = SemanticObject.createSemanticObject(params.get("sprovider"));
                     ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
                     serviceProv.addCupon(cupon);
                     serviceProv.setSpTotCupones(serviceProv.getSpTotCupones()+1);
-                }catch(Exception e){
+                }catch(Exception e) {
                     log.error(e);
                 }
             }
-        }else if(action.equals("edit_cupon")) {
-            SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
-            SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
-            mgr.setFilterRequired(false);
-            if( isValidValue(request.getParameter("title")) && isValidValue(request.getParameter("description")) && isValidValue(request.getParameter("pimg")) ) {
+        }
+        else if( "edit_cupon".equalsIgnoreCase(action) ) {
+            HashMap<String, String> params = upload(request);
+            SemanticObject semObject = SemanticObject.createSemanticObject(params.get("cupon"));
+            Cupon cupon = (Cupon) semObject.createGenericInstance();
+            if( isValidValue(params.get("title")) && isValidValue(params.get("description")) && isValidValue(params.get("pimg")) ) {
                 try {
-                    SemanticObject sobj = mgr.processForm(request);
-                    Cupon cupon = (Cupon) sobj.createGenericInstance();
-                    cupon.setCuponType(request.getParameter("is"));
-                    cupon.setCuponImg(request.getParameter("pimg"));
-                    cupon.setCuponConditions(request.getParameter("constraint")==null?"":request.getParameter("constraint"));
+                    cupon.setTitle(params.get("title"));
+                    cupon.setDescription(params.get("description"));
+                    cupon.setCuponType(params.get("is"));
+                    cupon.setCuponImg(params.get("pimg"));
+                    cupon.setCuponConditions(params.get("constraint")==null?"":params.get("constraint"));
+                    if( params.containsKey("partner") )
+                        cupon.setCuponPartnerImage(params.get("partner"));
                     try {
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                        String date = request.getParameter("datei");
+                        String date = params.get("datei");
                         Date di = sdf.parse(date);
-                        date = request.getParameter("datef");
-                        Date df = sdf.parse(date);
                         cupon.setCuponPeriodIni(sdf.format(di));
+                        date = params.get("datef");
+                        Date df = sdf.parse(date);                        
                         cupon.setCuponPeriodFin(sdf.format(df));
                     }catch(ParseException pe) {
                         log.error("Las fechas no son parseables. Resource "+base.getTitle()+" with id "+base.getId(), pe);
@@ -143,7 +159,8 @@ public class CuponManager extends GenericResource {
                     log.error(e);
                 }
             }
-        }else if(action.equals("remove_cupon")) {
+        }
+        else if( "remove_cupon".equalsIgnoreCase(action) ) {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
             Cupon cupon = (Cupon) semObject.createGenericInstance();
 
@@ -154,6 +171,91 @@ public class CuponManager extends GenericResource {
             serviceProv.setSpTotCupones(serviceProv.getSpTotCupones()-1);
             semObject.remove();
         }
+    }
+
+    private HashMap<String, String> upload(HttpServletRequest request) {
+        final String realpath = SWBPortal.getWorkPath() + getResourceBase().getWorkPath() + "/";
+        final String path = getResourceBase().getWorkPath() + "/";
+
+        HashMap<String, String> params = new HashMap<String, String>();
+        try
+        {
+            boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+            if (isMultipart)
+            {
+                File tmpwrk = new File(SWBPortal.getWorkPath() + "/tmp");
+                if (!tmpwrk.exists())
+                {
+                    tmpwrk.mkdirs();
+                }
+                FileItemFactory factory = new DiskFileItemFactory(1 * 1024 * 1024, tmpwrk);
+                ServletFileUpload upload = new ServletFileUpload(factory);
+                ProgressListener progressListener = new ProgressListener()
+                {
+
+                    private long kBytes = -1;
+
+                    public void update(long pBytesRead, long pContentLength, int pItems)
+                    {
+                        long mBytes = pBytesRead / 10000;
+                        if (kBytes == mBytes)
+                        {
+                            return;
+                        }
+                        kBytes = mBytes;
+                        int percent = (int) (pBytesRead * 100 / pContentLength);
+                    }
+                };
+                upload.setProgressListener(progressListener);
+                List items = upload.parseRequest(request); /* FileItem */
+                //FileItem currentFile = null;
+                Iterator iter = items.iterator();
+                while (iter.hasNext())
+                {
+                    FileItem item = (FileItem) iter.next();
+
+                    if (item.isFormField())
+                    {
+                        String name = item.getFieldName();
+                        String value = item.getString();
+                        params.put(name, value);
+                    }else
+                    {
+                        long serial = (new Date()).getTime();
+                        if(item.getName().trim().length()==0)
+                            continue;
+
+                        String filename = serial + "_" + item.getFieldName() + item.getName().substring(item.getName().lastIndexOf("."));
+                        
+                        File image = new File(realpath);
+                        if( !image.exists() ) {
+                            image.mkdir();
+                        }
+                        image = new File(realpath + filename);
+                        
+                        File shrink = new File(realpath +"_"+ filename);
+                        boolean shrinked = false;
+                        try {
+                            item.write(image);
+                            shrinked = ImageResizer.shrinkTo(image, 101, 101, shrink, "jpeg");
+                        }catch(Exception e) {
+                            log.error("Error while writting file in resource instance CuponManager. ", e);
+                        }
+                        if(shrinked) {
+                            image.delete();
+                            shrink.renameTo(image);
+                            image = shrink;
+                        }
+                        params.put("partner", path + filename);
+                    }
+                }
+            }
+        }catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+//        return null;
+        return params;
     }
 
     private boolean isValidValue(String param) {
