@@ -23,6 +23,8 @@
 package org.semanticwb.pymtur.microsites;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -47,7 +49,6 @@ import org.semanticwb.base.util.ImageResizer;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.platform.SemanticObject;
-import org.semanticwb.portal.SWBFormMgr;
 import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
@@ -98,19 +99,38 @@ public class CuponManager extends GenericResource {
         Resource base = getResourceBase();
         String action = response.getAction();
         final String realpath = SWBPortal.getWorkPath();
+        final String path = base.getWorkPath() + "/";
+
         if( "add_cupon".equalsIgnoreCase(action) ) {
             HashMap<String, String> params = upload(request);
             if( isValidValue(params.get("title")) && isValidValue(params.get("description")) ) {
                 try {
-                    //SemanticObject sobj = mgr.processForm(request);
                     Cupon cupon = Cupon.ClassMgr.createCupon(response.getWebPage().getWebSite());
                     cupon.setTitle(params.get("title"));
                     cupon.setDescription(params.get("description"));
                     cupon.setCuponType(params.get("is"));
                     cupon.setCuponImg( (params.get("pimg")!=null&&params.get("pimg").length()>0?params.get("pimg"):null) );
                     cupon.setCuponConditions( params.get("constraint")==null?"":params.get("constraint") );
-                    if( params.containsKey("partner") )
-                        cupon.setCuponPartnerImage(params.get("partner"));
+
+//                    if( params.containsKey("partner") )
+//                        cupon.setCuponPartnerImage(params.get("partner"));
+                    if( params.containsKey("partner") ) {
+                        File file = new File(realpath+path+params.get("partner"));
+                        if( file.exists() ) {
+                            FileInputStream in = new FileInputStream(file);
+                            String filename = file.getName();
+                            String finalpath = cupon.getWorkPath() + "/";
+                            String target = realpath + finalpath + filename;
+                            File ftarget = new File(target);
+                            ftarget.getParentFile().mkdirs();
+                            FileOutputStream out = new FileOutputStream(ftarget);
+                            SWBUtils.IO.copyStream(in, out);
+                            file.delete();
+                            params.put("partner", finalpath + filename);
+                            cupon.setCuponPartnerImage(params.get("partner"));
+                        }
+                    }
+
                     try {
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                         String date = params.get("datei");
@@ -142,8 +162,27 @@ public class CuponManager extends GenericResource {
                     cupon.setCuponType(params.get("is"));
                     cupon.setCuponImg(params.get("pimg"));
                     cupon.setCuponConditions(params.get("constraint")==null?"":params.get("constraint"));
-                    if( params.containsKey("partner") )
-                        cupon.setCuponPartnerImage(params.get("partner"));
+
+//                    if( params.containsKey("partner") )
+//                        cupon.setCuponPartnerImage(params.get("partner"));
+                    if( params.containsKey("partner") ) {
+                        File file = new File(realpath+path+params.get("partner"));
+                        if( file.exists() ) {
+                            FileInputStream in = new FileInputStream(file);
+                            String filename = file.getName();
+                            String finalpath = cupon.getWorkPath() + "/";
+                            String target = realpath + finalpath + filename;
+                            File ftarget = new File(target);
+                            ftarget.getParentFile().mkdirs();
+                            FileOutputStream out = new FileOutputStream(ftarget);
+                            SWBUtils.IO.copyStream(in, out);
+                            file.delete();
+                            params.put("partner", finalpath + filename);
+                            cupon.setCuponPartnerImage(params.get("partner"));
+                        }
+                    }
+
+
                     try {
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                         String date = params.get("datei");
@@ -175,7 +214,7 @@ public class CuponManager extends GenericResource {
 
     private HashMap<String, String> upload(HttpServletRequest request) {
         final String realpath = SWBPortal.getWorkPath() + getResourceBase().getWorkPath() + "/";
-        final String path = getResourceBase().getWorkPath() + "/";
+        //final String path = getResourceBase().getWorkPath() + "/";
 
         HashMap<String, String> params = new HashMap<String, String>();
         try
@@ -246,7 +285,8 @@ public class CuponManager extends GenericResource {
                             shrink.renameTo(image);
                             image = shrink;
                         }
-                        params.put("partner", path + filename);
+                        //params.put("partner", path + filename);
+                        params.put("partner", filename);
                     }
                 }
             }
