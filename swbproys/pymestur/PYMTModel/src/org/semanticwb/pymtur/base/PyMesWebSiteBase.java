@@ -5,7 +5,9 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
 {
     public static final org.semanticwb.platform.SemanticClass swbcomm_MicroSite=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/community#MicroSite");
     public static final org.semanticwb.platform.SemanticClass pymtur_MiPymeSitePlus=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#MiPymeSitePlus");
+    public static final org.semanticwb.platform.SemanticClass pymtur_CategoryPromotionType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#CategoryPromotionType");
     public static final org.semanticwb.platform.SemanticClass pymtur_Nearest=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Nearest");
+    public static final org.semanticwb.platform.SemanticClass pymtur_CategoryCuponType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#CategoryCuponType");
     public static final org.semanticwb.platform.SemanticClass pymtur_HospedajeRate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#HospedajeRate");
     public static final org.semanticwb.platform.SemanticClass pymtur_MiPymeSite=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#MiPymeSite");
     public static final org.semanticwb.platform.SemanticClass pymtur_TourismType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#TourismType");
@@ -23,13 +25,11 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
     public static final org.semanticwb.platform.SemanticClass pymtur_EmailText=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#EmailText");
     public static final org.semanticwb.platform.SemanticClass pymtur_Paquete=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Paquete");
     public static final org.semanticwb.platform.SemanticClass pymtur_UnActivationReason=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#UnActivationReason");
-    public static final org.semanticwb.platform.SemanticClass pymtur_CuponType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#CuponType");
     public static final org.semanticwb.platform.SemanticClass pymtur_RemoveReason=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#RemoveReason");
     public static final org.semanticwb.platform.SemanticClass swbcomm_MicroSiteWebPageUtil=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/community#MicroSiteWebPageUtil");
     public static final org.semanticwb.platform.SemanticClass pymtur_EventType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#EventType");
     public static final org.semanticwb.platform.SemanticClass pymtur_VariantPaqTemplate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#VariantPaqTemplate");
     public static final org.semanticwb.platform.SemanticClass pymtur_SPType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#SPType");
-    public static final org.semanticwb.platform.SemanticClass pymtur_PromotionType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#PromotionType");
     public static final org.semanticwb.platform.SemanticClass pymtur_Destination=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Destination");
     public static final org.semanticwb.platform.SemanticClass pymtur_InteresLink=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#InteresLink");
     public static final org.semanticwb.platform.SemanticClass pymtur_Service=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Service");
@@ -249,6 +249,30 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
         return org.semanticwb.pymtur.MiPymeSitePlus.ClassMgr.hasMiPymeSitePlus(id, this);
     }
 
+    public org.semanticwb.pymtur.CategoryPromotionType getCategoryPromotionType(String id)
+    {
+        return org.semanticwb.pymtur.CategoryPromotionType.ClassMgr.getCategoryPromotionType(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.pymtur.CategoryPromotionType> listCategoryPromotionTypes()
+    {
+        return org.semanticwb.pymtur.CategoryPromotionType.ClassMgr.listCategoryPromotionTypes(this);
+    }
+
+    public org.semanticwb.pymtur.CategoryPromotionType createCategoryPromotionType(String id)
+    {
+        return org.semanticwb.pymtur.CategoryPromotionType.ClassMgr.createCategoryPromotionType(id,this);
+    }
+
+    public void removeCategoryPromotionType(String id)
+    {
+        org.semanticwb.pymtur.CategoryPromotionType.ClassMgr.removeCategoryPromotionType(id, this);
+    }
+    public boolean hasCategoryPromotionType(String id)
+    {
+        return org.semanticwb.pymtur.CategoryPromotionType.ClassMgr.hasCategoryPromotionType(id, this);
+    }
+
     public org.semanticwb.pymtur.Nearest getNearest(String id)
     {
         return org.semanticwb.pymtur.Nearest.ClassMgr.getNearest(id, this);
@@ -277,6 +301,30 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
     public boolean hasNearest(String id)
     {
         return org.semanticwb.pymtur.Nearest.ClassMgr.hasNearest(id, this);
+    }
+
+    public org.semanticwb.pymtur.CategoryCuponType getCategoryCuponType(String id)
+    {
+        return org.semanticwb.pymtur.CategoryCuponType.ClassMgr.getCategoryCuponType(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.pymtur.CategoryCuponType> listCategoryCuponTypes()
+    {
+        return org.semanticwb.pymtur.CategoryCuponType.ClassMgr.listCategoryCuponTypes(this);
+    }
+
+    public org.semanticwb.pymtur.CategoryCuponType createCategoryCuponType(String id)
+    {
+        return org.semanticwb.pymtur.CategoryCuponType.ClassMgr.createCategoryCuponType(id,this);
+    }
+
+    public void removeCategoryCuponType(String id)
+    {
+        org.semanticwb.pymtur.CategoryCuponType.ClassMgr.removeCategoryCuponType(id, this);
+    }
+    public boolean hasCategoryCuponType(String id)
+    {
+        return org.semanticwb.pymtur.CategoryCuponType.ClassMgr.hasCategoryCuponType(id, this);
     }
 
     public org.semanticwb.pymtur.HospedajeRate getHospedajeRate(String id)
@@ -747,36 +795,6 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
         return org.semanticwb.pymtur.UnActivationReason.ClassMgr.hasUnActivationReason(id, this);
     }
 
-    public org.semanticwb.pymtur.CuponType getCuponType(String id)
-    {
-        return org.semanticwb.pymtur.CuponType.ClassMgr.getCuponType(id, this);
-    }
-
-    public java.util.Iterator<org.semanticwb.pymtur.CuponType> listCuponTypes()
-    {
-        return org.semanticwb.pymtur.CuponType.ClassMgr.listCuponTypes(this);
-    }
-
-    public org.semanticwb.pymtur.CuponType createCuponType(String id)
-    {
-        return org.semanticwb.pymtur.CuponType.ClassMgr.createCuponType(id,this);
-    }
-
-    public org.semanticwb.pymtur.CuponType createCuponType()
-    {
-        long id=getSemanticObject().getModel().getCounter(pymtur_CuponType);
-        return org.semanticwb.pymtur.CuponType.ClassMgr.createCuponType(String.valueOf(id),this);
-    } 
-
-    public void removeCuponType(String id)
-    {
-        org.semanticwb.pymtur.CuponType.ClassMgr.removeCuponType(id, this);
-    }
-    public boolean hasCuponType(String id)
-    {
-        return org.semanticwb.pymtur.CuponType.ClassMgr.hasCuponType(id, this);
-    }
-
     public org.semanticwb.pymtur.RemoveReason getRemoveReason(String id)
     {
         return org.semanticwb.pymtur.RemoveReason.ClassMgr.getRemoveReason(id, this);
@@ -901,36 +919,6 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
     public boolean hasSPType(String id)
     {
         return org.semanticwb.pymtur.SPType.ClassMgr.hasSPType(id, this);
-    }
-
-    public org.semanticwb.pymtur.PromotionType getPromotionType(String id)
-    {
-        return org.semanticwb.pymtur.PromotionType.ClassMgr.getPromotionType(id, this);
-    }
-
-    public java.util.Iterator<org.semanticwb.pymtur.PromotionType> listPromotionTypes()
-    {
-        return org.semanticwb.pymtur.PromotionType.ClassMgr.listPromotionTypes(this);
-    }
-
-    public org.semanticwb.pymtur.PromotionType createPromotionType(String id)
-    {
-        return org.semanticwb.pymtur.PromotionType.ClassMgr.createPromotionType(id,this);
-    }
-
-    public org.semanticwb.pymtur.PromotionType createPromotionType()
-    {
-        long id=getSemanticObject().getModel().getCounter(pymtur_PromotionType);
-        return org.semanticwb.pymtur.PromotionType.ClassMgr.createPromotionType(String.valueOf(id),this);
-    } 
-
-    public void removePromotionType(String id)
-    {
-        org.semanticwb.pymtur.PromotionType.ClassMgr.removePromotionType(id, this);
-    }
-    public boolean hasPromotionType(String id)
-    {
-        return org.semanticwb.pymtur.PromotionType.ClassMgr.hasPromotionType(id, this);
     }
 
     public org.semanticwb.pymtur.Destination getDestination(String id)
