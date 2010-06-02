@@ -6,8 +6,10 @@
 package org.semanticwb.sieps.search;
 
 import com.hp.hpl.jena.query.QueryExecution;
+import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.RDFNode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -125,8 +127,8 @@ public class NLSearcher {
         //Translate query to SPARQL
         sparqlQuery = lex.getLexicon(lng).getPrefixString() + "\n" + tr.translateSentence(sparqlQuery, false);
 
-        //If query translated correctly, execute it
-        if (tr.getErrCode() == 0) {
+        //If query translated correctly, and it is allowed, execute it
+        if (tr.getErrCode() == 0 && allowed) {
             lastQuery = query;
             System.out.println("---SPARQL QUERY:---");
             System.out.println(sparqlQuery);
@@ -140,12 +142,31 @@ public class NLSearcher {
                     //Execute query
                     ResultSet rs = qexec.execSelect();
 
-                    
+                    //Iterate trough results
+                    while (rs.hasNext()) {
+                        //Get next solution
+                        QuerySolution rb = rs.nextSolution();
+
+                        //Assume it only returns a variable because we are looking for objects
+                        RDFNode x = rb.get(rs.getResultVars().get(0));
+
+                        //Validate the resource to check if its literal
+                        if (x != null && !x.isLiteral()) {
+                            //Try to ge a semantic object
+                            SemanticObject so = SemanticObject.createSemanticObject(x.toString());
+
+                            //Semantic object can be created from RDF Resource, add it to results
+                            if (so != null) {
+                                res.add(so);
+                            }
+                        }
+                    }                    
                 } finally {
+                    //Close query executor
                     qexec.close();
                 }
             } catch (Exception e) {
-                
+                log.error("ERROR in class NLSearcher" + e);
             }
         }
         return res.iterator();
