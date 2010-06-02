@@ -505,7 +505,6 @@ public class Recommend extends GenericAdmResource {
             String modalCode = null;
             SWBResourceURLImp url = new SWBResourceURLImp(request, base,
                     paramRequest.getWebPage(), SWBResourceURLImp.UrlType_RENDER);
-            System.out.println("Atributo modal: " + modal);
             if (!modal) {
                 if ("1".equals(base.getAttribute("menubar", "0").trim())) {
                     onclick = "menubar=yes";
