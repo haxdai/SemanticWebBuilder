@@ -16,6 +16,8 @@ import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
+import org.semanticwb.scian.Clase;
+import org.semanticwb.sieps.Empresa;
 
 /**
  *
@@ -28,7 +30,7 @@ public class SearchResource extends GenericResource
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
-    {
+    {        
         String path ="/swbadmin/jsp/sieps/search.jsp";
         if ("search".equals(paramRequest.getArgument("mode")))
         {
