@@ -82,7 +82,7 @@ public class NLSearcher {
             String key = keys.next();
             Rule rule = rules.get(key);
             Pattern pattern = Pattern.compile(rule.getRegexp());
-            Matcher matcher = pattern.matcher(query);
+            Matcher matcher = pattern.matcher(query.toLowerCase());
 
             //Rule matched, get parts
             if (matcher.find()) {
@@ -92,11 +92,11 @@ public class NLSearcher {
                 if (parts.length == 2) {
                     res = rule.getResult().replace("$1", parts[0]);
                     res = res.replace("$2", parts[1]);
+                    lastQuery = query;
                     matched = true;
                 }
             }
-        }
-        
+        }        
         return res;
     }
 
