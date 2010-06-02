@@ -5,16 +5,21 @@
 
 package org.semanticwb.sieps.search;
 
+import com.hp.hpl.jena.query.QueryExecution;
+import com.hp.hpl.jena.query.ResultSet;
+import com.hp.hpl.jena.rdf.model.Model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.semanticwb.Logger;
+import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.nlp.SWBDictionary;
 import org.semanticwb.nlp.SWBLocaleLexicon;
 import org.semanticwb.nlp.translation.SWBSparqlTranslator;
+import org.semanticwb.platform.SemanticModel;
 import org.semanticwb.platform.SemanticObject;
 
 /**
@@ -92,7 +97,6 @@ public class NLSearcher {
                 if (parts.length == 2) {
                     res = rule.getResult().replace("$1", parts[0]);
                     res = res.replace("$2", parts[1]);
-                    lastQuery = query;
                     matched = true;
                 }
             }
@@ -107,12 +111,42 @@ public class NLSearcher {
      */
     public Iterator<SemanticObject> search(String query) {
         ArrayList<SemanticObject> res = new ArrayList<SemanticObject>();
-        String sparqlQuery = lex.getLexicon(lng).getPrefixString() + "\n" + tr.translateSentence(preprocessQuery(query), false);
+        String sparqlQuery = "";
+        boolean allowed = false;
 
+        //Preprocess query
+        sparqlQuery = preprocessQuery(query);
+
+        //Query was processed, thus, it is allowed
+        if (!query.equals(sparqlQuery)) {
+            allowed = true;
+        }
+
+        //Translate query to SPARQL
+        sparqlQuery = lex.getLexicon(lng).getPrefixString() + "\n" + tr.translateSentence(sparqlQuery, false);
+
+        //If query translated correctly, execute it
         if (tr.getErrCode() == 0) {
             lastQuery = query;
             System.out.println("---SPARQL QUERY:---");
             System.out.println(sparqlQuery);
+
+            try {
+                Model model = SWBPlatform.getSemanticMgr().getOntology().getRDFOntModel();
+                SemanticModel mod = new SemanticModel("local", model);
+                QueryExecution qexec = mod.sparQLQuery(sparqlQuery);
+
+                try {
+                    //Execute query
+                    ResultSet rs = qexec.execSelect();
+
+                    
+                } finally {
+                    qexec.close();
+                }
+            } catch (Exception e) {
+                
+            }
         }
         return res.iterator();
     }
