@@ -59,10 +59,10 @@ public class NLSearcher {
         //Create set of preprocessing rules
         rules = new HashMap<String, Rule>();
         rules.put("rule1", new Rule("rule1", "\\s*que\\s*produce[n]?\\s*", "$1 con producto con nombre como \"$2\""));
-        rules.put("rule2", new Rule("rule2", "\\s*cuya\\s*actividad\\s*sea\\s*", "$1 con scian con nombre como \"$2\""));
-        rules.put("rule3", new Rule("rule3", "\\s*cuya\\s*clave\\s*sea\\s*", "$1 con unspsc con código = \"$2\""));
-        rules.put("rule4", new Rule("rule4", "\\s*cuya\\s*clave\\s*scian\\s*sea\\s*", "$1 con scian con código = \"$2\""));
-        rules.put("rule5", new Rule("rule5", "\\s*que\\s*se\\s*encuentra[n]?\\s*en\\s*la\\s*categoría\\s*de\\s*", "$1 con unspsc con nombre como \"$2\""));
+        rules.put("rule2", new Rule("rule2", "\\s*cuya\\s*actividad\\s*sea\\s*", "$1 con clase con nombre como \"$2\""));
+        rules.put("rule3", new Rule("rule3", "\\s*cuya\\s*clave\\s*sea\\s*", "$1 con categoría con código = \"$2\""));
+        rules.put("rule4", new Rule("rule4", "\\s*cuya\\s*clave\\s*scian\\s*sea\\s*", "$1 con clase con código = \"$2\""));
+        rules.put("rule5", new Rule("rule5", "\\s*que\\s*se\\s*encuentra[n]?\\s*en\\s*la\\s*categoría\\s*de\\s*", "$1 con categoría con nombre como \"$2\""));
     }
 
     /**
@@ -101,7 +101,7 @@ public class NLSearcher {
                     matched = true;
                 }
             }
-        }        
+        }
         return res;
     }
 
