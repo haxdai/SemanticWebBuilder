@@ -33,7 +33,6 @@ public class NLSearcher {
     private String lng = "";
     private SWBDictionary lex = null;
     private SWBSparqlTranslator tr;
-    private NLSearcher instance = null;
     private String lastQuery = "";
     private HashMap<String, Rule> rules;
 
