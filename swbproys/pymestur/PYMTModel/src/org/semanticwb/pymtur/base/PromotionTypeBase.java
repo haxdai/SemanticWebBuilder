@@ -3,6 +3,7 @@ package org.semanticwb.pymtur.base;
 
 public abstract class PromotionTypeBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Trashable,org.semanticwb.model.Activeable,org.semanticwb.model.Rankable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Viewable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Tagable,org.semanticwb.model.Traceable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Resourceable,org.semanticwb.model.Indexable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.RuleRefable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Expirable,org.semanticwb.model.Searchable,org.semanticwb.model.Filterable,org.semanticwb.model.Referensable,org.semanticwb.model.UserGroupRefable
 {
+    public static final org.semanticwb.platform.SemanticProperty pymtur_promotionPhotos=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#promotionPhotos");
     public static final org.semanticwb.platform.SemanticClass pymtur_PromotionType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#PromotionType");
     public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#PromotionType");
 
@@ -237,5 +238,15 @@ public abstract class PromotionTypeBase extends org.semanticwb.model.WebPage imp
     public PromotionTypeBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+    public String getPromotionPhotos()
+    {
+        return getSemanticObject().getProperty(pymtur_promotionPhotos);
+    }
+
+    public void setPromotionPhotos(String value)
+    {
+        getSemanticObject().setProperty(pymtur_promotionPhotos, value);
     }
 }
