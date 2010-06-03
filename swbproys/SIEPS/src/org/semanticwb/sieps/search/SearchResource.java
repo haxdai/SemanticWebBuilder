@@ -66,7 +66,6 @@ public class SearchResource extends GenericResource
                                     ? "/swbadmin/jsp/sieps/detailEmpresa.jsp"
                                     : "/swbadmin/jsp/sieps/detailProducto.jsp";
                     }
-
                 } else if ("results".equals(act)) {
                     String query        =   request.getParameter("query");
                     log.info("---> query = " + query );
@@ -105,7 +104,11 @@ public class SearchResource extends GenericResource
         }
 
     }
-
+    /**
+     * Obtiene una colección de instancias de tipo Empresa a partir de un conjunto de objetos semánticos
+     * @param semObjects Iterador sobre una colección de objetos semánticos
+     * @return Colección con la información
+     */
     private List<Empresa> contruyeColeccionEmpresas(Iterator<SemanticObject> semObjects) {
         List<Empresa> results = Collections.emptyList();
         if (semObjects != null) {
@@ -120,7 +123,11 @@ public class SearchResource extends GenericResource
         }
         return results;
     }
-
+    /**
+     * Obtiene una colección de instancias de tipo Productos a partir de un conjunto de objetos semánticos
+     * @param semObjects Iterador sobre una colección de objetos semánticos
+     * @return Colección con la información
+     */
     private List<Producto> contruyeColeccionProductos(Iterator<SemanticObject> semObjects) {
         List<Producto> results = Collections.emptyList();
         if (semObjects != null) {
@@ -135,7 +142,11 @@ public class SearchResource extends GenericResource
         }
         return results;
     }
-
+    /**
+     * Determina el tipo real de los elementos que integran una colección de objetos semánticos
+     * @param results Iterador sobre una colección de objetos semánticos
+     * @return identificador de tipo de resultado
+     */
     private int determinaTipoResultados(Iterator<SemanticObject> results) {
         int tipoRes = -1;
         if (results != null && results.hasNext()) {
@@ -151,6 +162,11 @@ public class SearchResource extends GenericResource
         }
         return tipoRes;
     }
+    /**
+     * Determina el tipo real de un objeto semántico
+     * @param semanticObject Objeto semántico
+     * @return identificador de tipo de resultado
+     */
     private int determinaTipoResultados(SemanticObject semanticObject) {
         int tipoRes = -1;
         if (semanticObject != null) {
