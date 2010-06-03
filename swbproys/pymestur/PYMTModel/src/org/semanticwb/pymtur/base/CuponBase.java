@@ -8,6 +8,7 @@ public abstract class CuponBase extends org.semanticwb.model.SWBClass implements
     public static final org.semanticwb.platform.SemanticProperty pymtur_cuponImg=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#cuponImg");
     public static final org.semanticwb.platform.SemanticProperty pymtur_cuponConditions=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#cuponConditions");
     public static final org.semanticwb.platform.SemanticProperty pymtur_cuponPeriodFin=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#cuponPeriodFin");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_cuponAddress=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#cuponAddress");
     public static final org.semanticwb.platform.SemanticClass pymtur_ServiceProvider=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#ServiceProvider");
     public static final org.semanticwb.platform.SemanticProperty pymtur_cuponServiceProviderInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#cuponServiceProviderInv");
     public static final org.semanticwb.platform.SemanticProperty pymtur_cuponPeriodIni=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#cuponPeriodIni");
@@ -121,6 +122,16 @@ public abstract class CuponBase extends org.semanticwb.model.SWBClass implements
     public void setCuponPeriodFin(String value)
     {
         getSemanticObject().setProperty(pymtur_cuponPeriodFin, value);
+    }
+
+    public String getCuponAddress()
+    {
+        return getSemanticObject().getProperty(pymtur_cuponAddress);
+    }
+
+    public void setCuponAddress(String value)
+    {
+        getSemanticObject().setProperty(pymtur_cuponAddress, value);
     }
 
     public String getTitle()
