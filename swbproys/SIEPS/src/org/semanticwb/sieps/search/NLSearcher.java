@@ -17,12 +17,21 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
+import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
+import org.semanticwb.model.Searchable;
+import org.semanticwb.model.User;
+import org.semanticwb.model.WebSite;
 import org.semanticwb.nlp.SWBDictionary;
 import org.semanticwb.nlp.SWBLocaleLexicon;
 import org.semanticwb.nlp.translation.SWBSparqlTranslator;
 import org.semanticwb.platform.SemanticModel;
 import org.semanticwb.platform.SemanticObject;
+import org.semanticwb.portal.indexer.SWBIndexer;
+import org.semanticwb.portal.indexer.searcher.SearchDocument;
+import org.semanticwb.portal.indexer.searcher.SearchQuery;
+import org.semanticwb.portal.indexer.searcher.SearchResults;
+import org.semanticwb.portal.indexer.searcher.SearchTerm;
 
 /**
  * Class for NL search of products and companies.
@@ -106,11 +115,13 @@ public class NLSearcher {
     }
 
     /**
-     * Executes a NL Search query.
+     * Executes a restricted Natural Language query.
      * @param query Query.
-     * @return Iterator to List of results.
+     * @param site WebSite.
+     * @param user User.
+     * @return Iterator to search results as SemanticObjects.
      */
-    public Iterator<SemanticObject> search(String query) {
+    public Iterator<SemanticObject> search(String query, WebSite site, User user) {
         ArrayList<SemanticObject> res = new ArrayList<SemanticObject>();
         String sparqlQuery = "";
         boolean allowed = false;
@@ -167,7 +178,51 @@ public class NLSearcher {
             } catch (Exception e) {
                 log.error("ERROR in class NLSearcher" + e);
             }
+        } else { //Translation failed, execute normal search
+            res = luceneSearch(query, site, user, null);
         }
         return res.iterator();
+    }
+
+    /**
+     * Executes a search over the lucene indexed objects.
+     * @param query Query.
+     * @param model WebSite to search in.
+     * @param user User.
+     * @param category Category to start searching.
+     * @return List of search result as SemanticObjects
+     */
+    public ArrayList<SemanticObject> luceneSearch(String query, WebSite site, User user, String category) {
+        ArrayList<SemanticObject> res = new ArrayList<SemanticObject>();
+    
+        SearchQuery q = new SearchQuery();
+        SearchQuery tquery=new SearchQuery(SearchQuery.OPER_AND);
+        q.addQuery(tquery);
+        tquery.addTerm(new SearchTerm(SWBIndexer.ATT_TITLE, query, SearchTerm.OPER_OR));
+        tquery.addTerm(new SearchTerm(SWBIndexer.ATT_DESCRIPTION, query, SearchTerm.OPER_OR));
+        tquery.addTerm(new SearchTerm(SWBIndexer.ATT_TAGS, query, SearchTerm.OPER_OR));
+        tquery.addTerm(new SearchTerm(SWBIndexer.ATT_DATA, query, SearchTerm.OPER_OR));
+
+        if(site != null) {
+            q.addTerm(new SearchTerm(SWBIndexer.ATT_MODEL, site.getId(), SearchTerm.OPER_AND));
+        }
+
+        if(category != null && !category.trim().equals("")) {
+            q.addTerm(new SearchTerm(SWBIndexer.ATT_CATEGORY, category, SearchTerm.OPER_AND));
+        }
+
+        SWBIndexer indexer=SWBPortal.getIndexMgr().getModelIndexer(site);
+
+        if(indexer != null) {
+            SearchResults results=indexer.search(q, user);
+
+            Iterator<SearchDocument>it=results.listDocuments();
+            while(it.hasNext()) {
+                SearchDocument obj=it.next();
+                Searchable srch=obj.getSearchable();
+                res.add(srch.getSemanticObject());
+            }
+        }
+        return res;
     }
 }
