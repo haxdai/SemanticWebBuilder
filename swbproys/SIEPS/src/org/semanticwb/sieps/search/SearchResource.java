@@ -165,8 +165,7 @@ public class SearchResource extends GenericResource
             } else if (go instanceof Producto) {
                tipoRes = TIPO_PRODUCTO;
             } else if (go instanceof WebPage) {
-               tipoRes = TIPO_WEBPAGE;
-            }
+               tipoRes = TIPO_WEBPAGE;            
             } else {
                 tipoRes = -1;
             }
