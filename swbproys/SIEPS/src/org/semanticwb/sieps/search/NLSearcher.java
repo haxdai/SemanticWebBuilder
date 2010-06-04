@@ -93,7 +93,7 @@ public class NLSearcher {
 
         //If just one word, no processing needed
         if (query.split(" ").length > 1) {
-            System.out.println("--More than one word, processing");
+            //System.out.println("--More than one word, processing");
             //Check all preprocessing rules
             Iterator<String> keys = rules.keySet().iterator();
             while (keys.hasNext() && !matched) {
@@ -108,10 +108,10 @@ public class NLSearcher {
 
                     //If tokenized correctly, replace query string
                     if (parts.length == 2) {
-                        System.out.println("--Rule " + rule.getName() + " matched");
+                        //System.out.println("--Rule " + rule.getName() + " matched");
                         res = rule.getResult().replace("$1", parts[0]);
                         res = res.replace("$2", parts[1]);
-                        System.out.println("--Rewritten query: " + res);
+                        //System.out.println("--Rewritten query: " + res);
                         matched = true;
                     }
                 }
@@ -134,7 +134,7 @@ public class NLSearcher {
 
         //Preprocess query
         sparqlQuery = preprocessQuery(query);
-        System.out.println("--Externally called result: " + sparqlQuery);
+        //System.out.println("--Externally called result: " + sparqlQuery);
 
         //Query was processed, thus, it is allowed
         if (!query.equals(sparqlQuery) || query.split(" ").length == 1) {
@@ -147,9 +147,9 @@ public class NLSearcher {
         //If query translated correctly, and it is allowed, execute it
         if (tr.getErrCode() == 0 && allowed) {
             lastQuery = query;
-            System.out.println("--Translated query:" + sparqlQuery);
-            System.out.println("---SPARQL QUERY:---");
-            System.out.println(sparqlQuery);
+            //System.out.println("--Translated query:" + sparqlQuery);
+            //System.out.println("---SPARQL QUERY:---");
+            //System.out.println(sparqlQuery);
 
             try {
                 Model model = SWBPlatform.getSemanticMgr().getSchema().getRDFOntModel();
@@ -189,7 +189,7 @@ public class NLSearcher {
         } else { //Translation failed, execute normal search
             res = luceneSearch(query, site, user, null);
         }
-        System.out.println("--" + res.size() + " results found");
+        //System.out.println("--" + res.size() + " results found");
         return res.iterator();
     }
 
