@@ -68,10 +68,17 @@ public class NLSearcher {
         //Create set of preprocessing rules
         rules = new HashMap<String, Rule>();
         rules.put("rule1", new Rule("rule1", "\\s*que\\s*produce[n]?\\s*", "$1 con producto con nombre como \"$2\""));
-        rules.put("rule2", new Rule("rule2", "\\s*cuya\\s*actividad\\s*sea\\s*", "$1 con clase con nombre como \"$2\""));
-        rules.put("rule3", new Rule("rule3", "\\s*cuya\\s*clave\\s*sea\\s*", "$1 con categoría con código = \"$2\""));
-        rules.put("rule4", new Rule("rule4", "\\s*cuya\\s*clave\\s*scian\\s*sea\\s*", "$1 con clase con código = \"$2\""));
-        rules.put("rule5", new Rule("rule5", "\\s*que\\s*se\\s*encuentra[n]?\\s*en\\s*la\\s*categoría\\s*de\\s*", "$1 con categoría con nombre como \"$2\""));
+        rules.put("rule2", new Rule("rule2", "\\s*que\\s*fabrica[n]?\\s*", "$1 con producto con nombre como \"$2\""));
+        rules.put("rule3", new Rule("rule3", "\\s*que\\s*elabora[n]?\\s*", "$1 con producto con nombre como \"$2\""));
+        rules.put("rule4", new Rule("rule4", "\\s*cuya\\s*actividad\\s*sea\\s*", "$1 con clase con nombre como \"$2\""));
+        rules.put("rule5", new Rule("rule5", "\\s*cuya\\s*actividad\\s*es\\s*", "$1 con clase con nombre como \"$2\""));
+        rules.put("rule6", new Rule("rule6", "\\s*cuyo\\s*código\\s*sea\\s*", "$1 con categoría con código = \"$2\""));
+        rules.put("rule7", new Rule("rule7", "\\s*cuyo\\s*código\\s*es\\s*", "$1 con categoría con código = \"$2\""));
+        rules.put("rule8", new Rule("rule8", "\\s*cuya\\s*clave\\s*sea\\s*", "$1 con categoría con código = \"$2\""));
+        rules.put("rule9", new Rule("rule9", "\\s*cuya\\s*clave\\s*es\\s*", "$1 con categoría con código = \"$2\""));
+        rules.put("rule10", new Rule("rule10", "\\s*cuya\\s*clave\\s*scian\\s*sea\\s*", "$1 con clase con código = \"$2\""));
+        rules.put("rule11", new Rule("rule11", "\\s*cuya\\s*clave\\s*scian\\s*es\\s*", "$1 con clase con código = \"$2\""));
+        rules.put("rule12", new Rule("rule12", "\\s*que\\s*se\\s*encuentra[n]?\\s*en\\s*la\\s*categoría\\s*de\\s*", "$1 con categoría con nombre como \"$2\""));
     }
 
     /**
@@ -104,11 +111,11 @@ public class NLSearcher {
 
                 //Rule matched, get parts
                 if (matcher.find()) {
+                    //System.out.println("--Rule " + rule.getName() + " matched");
                     String parts[] = query.split(rule.getRegexp());
 
                     //If tokenized correctly, replace query string
-                    if (parts.length == 2) {
-                        //System.out.println("--Rule " + rule.getName() + " matched");
+                    if (parts.length == 2) {                        
                         res = rule.getResult().replace("$1", parts[0]);
                         res = res.replace("$2", parts[1]);
                         //System.out.println("--Rewritten query: " + res);
@@ -147,7 +154,7 @@ public class NLSearcher {
         //If query translated correctly, and it is allowed, execute it
         if (tr.getErrCode() == 0 && allowed) {
             lastQuery = query;
-            //System.out.println("--Translated query:" + sparqlQuery);
+            //System.out.println("--Translated query:" + query);
             //System.out.println("---SPARQL QUERY:---");
             //System.out.println(sparqlQuery);
 
@@ -186,10 +193,17 @@ public class NLSearcher {
             } catch (Exception e) {
                 log.error("ERROR in class NLSearcher" + e);
             }
-        } else { //Translation failed, execute normal search
+        }
+
+        if (res.isEmpty()) { //Translation failed or no results found, execute normal search
             res = luceneSearch(query, site, user, null);
         }
-        //System.out.println("--" + res.size() + " results found");
+        //System.out.println("--" + res.size() + " results found:");
+        /*Iterator<SemanticObject> itres = res.iterator();
+        while(itres.hasNext()) {
+            SemanticObject so = itres.next();
+            System.out.println(":::" + so.getURI());
+        }*/
         return res.iterator();
     }
 
