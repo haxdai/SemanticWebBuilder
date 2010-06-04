@@ -71,7 +71,7 @@ public class SearchResource extends GenericResource
                     log.info("---> query = " + query );
 
                     NLSearcher searcher  =   new NLSearcher("es");
-                    Iterator<SemanticObject> results = searcher.search(query);
+                    Iterator<SemanticObject> results = searcher.search(query, paramRequest.getWebPage().getWebSite(), paramRequest.getUser());
                     int tipoResultados   = determinaTipoResultados(results);
 
                     if (TIPO_EMPRESA == tipoResultados) {
