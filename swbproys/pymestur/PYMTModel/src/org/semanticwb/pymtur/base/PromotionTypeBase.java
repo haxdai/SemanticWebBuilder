@@ -1,9 +1,9 @@
 package org.semanticwb.pymtur.base;
 
 
-public abstract class PromotionTypeBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Trashable,org.semanticwb.model.Activeable,org.semanticwb.model.Rankable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Viewable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Tagable,org.semanticwb.model.Traceable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Resourceable,org.semanticwb.model.Indexable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.RuleRefable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Expirable,org.semanticwb.model.Searchable,org.semanticwb.model.Filterable,org.semanticwb.model.Referensable,org.semanticwb.model.UserGroupRefable
+public abstract class PromotionTypeBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Undeleteable,org.semanticwb.model.Indexable,org.semanticwb.model.Rankable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Viewable,org.semanticwb.model.Searchable,org.semanticwb.model.Resourceable,org.semanticwb.model.Trashable,org.semanticwb.model.Hiddenable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Filterable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Activeable,org.semanticwb.model.Referensable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableNode
 {
-    public static final org.semanticwb.platform.SemanticProperty pymtur_promotionPhotos=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#promotionPhotos");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_hasPromotionPhotos=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#hasPromotionPhotos");
     public static final org.semanticwb.platform.SemanticClass pymtur_PromotionType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#PromotionType");
     public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#PromotionType");
 
@@ -240,13 +240,30 @@ public abstract class PromotionTypeBase extends org.semanticwb.model.WebPage imp
         super(base);
     }
 
-    public String getPromotionPhotos()
+    public java.util.Iterator<String> listPromotionPhotoses()
     {
-        return getSemanticObject().getProperty(pymtur_promotionPhotos);
+        java.util.ArrayList<String> values=new java.util.ArrayList<String>();
+        java.util.Iterator<org.semanticwb.platform.SemanticLiteral> it=getSemanticObject().listLiteralProperties(pymtur_hasPromotionPhotos);
+        while(it.hasNext())
+        {
+                org.semanticwb.platform.SemanticLiteral literal=it.next();
+                values.add(literal.getString());
+        }
+        return values.iterator();
     }
 
-    public void setPromotionPhotos(String value)
+    public void addPromotionPhotos(String promotionphotos)
     {
-        getSemanticObject().setProperty(pymtur_promotionPhotos, value);
+        getSemanticObject().setProperty(pymtur_hasPromotionPhotos, promotionphotos);
+    }
+
+    public void removeAllPromotionPhotos()
+    {
+        getSemanticObject().removeProperty(pymtur_hasPromotionPhotos);
+    }
+
+    public void removePromotionPhotos(String promotionphotos)
+    {
+        getSemanticObject().removeProperty(pymtur_hasPromotionPhotos,promotionphotos);
     }
 }
