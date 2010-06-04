@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.GenericObject;
+import org.semanticwb.model.WebPage;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBParamRequest;
@@ -37,7 +38,8 @@ public class SearchResource extends GenericResource
      * Variables que determinan el tipo de resultado consultado.
      */
     private static final int TIPO_EMPRESA   = 1,
-                             TIPO_PRODUCTO  = 2;
+                             TIPO_PRODUCTO  = 2,
+                             TIPO_WEBPAGE  = 3;
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
@@ -84,6 +86,12 @@ public class SearchResource extends GenericResource
                         List<Producto> listProductos  = contruyeColeccionProductos(results);
                         request.setAttribute("results", listProductos);
                         path = "/swbadmin/jsp/sieps/resultsProducto.jsp";
+                    }
+                    else if (TIPO_WEBPAGE == tipoResultados) {
+                        log.info("---> TIPO_PRODUCTO");
+                        List<Producto> listProductos  = contruyeColeccionProductos(results);
+                        request.setAttribute("results", listProductos);
+                        path = "/swbadmin/jsp/sieps/resultsWebPage.jsp";
                     }
 
                 } else {
@@ -156,6 +164,9 @@ public class SearchResource extends GenericResource
                tipoRes = TIPO_EMPRESA;
             } else if (go instanceof Producto) {
                tipoRes = TIPO_PRODUCTO;
+            } else if (go instanceof WebPage) {
+               tipoRes = TIPO_WEBPAGE;
+            }
             } else {
                 tipoRes = -1;
             }
