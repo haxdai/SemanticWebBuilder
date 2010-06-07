@@ -273,7 +273,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
 
                        int pymePaquete=dirObj.getPymePaqueteType();
                        if (pymePaquete == PymturUtils.PAQ_MICROSITIO || pymePaquete == PymturUtils.PAQ_PREMIER) { //Solo para micrositios o premier
-                            String sdomain = request.getParameter("pymeDomain");
+                            String sdomain = request.getParameter(dirObj.pymtur_pymeDomain.getName());
                             if (dirObj.getPymePaqueteType() == PymturUtils.PAQ_PREMIER && sdomain != null && sdomain.trim().length() > 0) { //Se modifica el DNS al Micrositio siempre y cuando sea de tipo 4 (PREMIER)
                                 Dns pymeDns = dirObj.getPymeDomain();
                                 if(pymeDns!=null){
@@ -289,7 +289,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                                 }
                             }
 
-                            String subdomain = request.getParameter("pymeSubDomain");
+                            String subdomain = request.getParameter(dirObj.pymtur_pymeSubDomainWildCard.getName());
                             if (dirObj.getPymePaqueteType() == PymturUtils.PAQ_PREMIER && subdomain != null && subdomain.trim().length() > 0) { //Se modifica el SubDNS al Micrositio siempre y cuando sea de tipo 4 (PREMIER)
                                 Dns pymeDns = dirObj.getPymeSubDomainWildCard();
                                 if(pymeDns!=null){
@@ -459,7 +459,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         }
 
                         //Se crea el dominio y se le asigna al micrositio
-                        String sdomain = request.getParameter("pymeDomain");
+                        String sdomain = request.getParameter(dirObj.pymtur_pymeDomain.getName());
                         if (pymetype == PymturUtils.PAQ_PREMIER && sdomain != null && sdomain.trim().length() > 0) { //Se asigna el DNS al Micrositio siempre y cuando sea de tipo 4 (PREMIER)
                             Dns newDns = Dns.ClassMgr.createDns(wsite);
                             newDns.setDns(sdomain);
@@ -469,7 +469,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                         }
 
                         //Se crea el subdominio y se le asigna al micrositio
-                        String subdomain = request.getParameter("pymeSubDomain");
+                        String subdomain = request.getParameter(dirObj.pymtur_pymeSubDomainWildCard.getName());
                         if (pymetype == PymturUtils.PAQ_PREMIER && subdomain != null && subdomain.trim().length() > 0) { //Se asigna el SubDNS al Micrositio siempre y cuando sea de tipo 4 (PREMIER)
                             Dns newDns = Dns.ClassMgr.createDns(wsite);
                             newDns.setDns(subdomain);
