@@ -1,13 +1,11 @@
 package org.semanticwb.sieps.base;
 
 
-public abstract class CertificadoBase extends org.semanticwb.model.base.GenericObjectBase 
+public abstract class CertificadoBase extends org.semanticwb.sieps.Perfil 
 {
-    public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
-    public static final org.semanticwb.platform.SemanticProperty sieps_usuario=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#usuario");
+    public static final org.semanticwb.platform.SemanticProperty sieps_created=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#created");
     public static final org.semanticwb.platform.SemanticClass sieps_Empresa=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/SIEPS#Empresa");
     public static final org.semanticwb.platform.SemanticProperty sieps_empresa=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#empresa");
-    public static final org.semanticwb.platform.SemanticProperty swb_valid=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#valid");
     public static final org.semanticwb.platform.SemanticProperty sieps_certificado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#certificado");
     public static final org.semanticwb.platform.SemanticClass sieps_Certificado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/SIEPS#Certificado");
     public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/SIEPS#Certificado");
@@ -77,25 +75,14 @@ public abstract class CertificadoBase extends org.semanticwb.model.base.GenericO
         super(base);
     }
 
-    public void setUsuario(org.semanticwb.model.User value)
+    public java.util.Date getCreated()
     {
-        getSemanticObject().setObjectProperty(sieps_usuario, value.getSemanticObject());
+        return getSemanticObject().getDateProperty(sieps_created);
     }
 
-    public void removeUsuario()
+    public void setCreated(java.util.Date value)
     {
-        getSemanticObject().removeProperty(sieps_usuario);
-    }
-
-    public org.semanticwb.model.User getUsuario()
-    {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(sieps_usuario);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
+        getSemanticObject().setDateProperty(sieps_created, value);
     }
 
     public void setEmpresa(org.semanticwb.sieps.Empresa value)
@@ -119,18 +106,6 @@ public abstract class CertificadoBase extends org.semanticwb.model.base.GenericO
          return ret;
     }
 
-    public boolean isValid()
-    {
-        //Override this method in Certificado object
-        return getSemanticObject().getBooleanProperty(swb_valid,false);
-    }
-
-    public void setValid(boolean value)
-    {
-        //Override this method in Certificado object
-        getSemanticObject().setBooleanProperty(swb_valid, value,false);
-    }
-
     public String getCertificado()
     {
         return getSemanticObject().getProperty(sieps_certificado);
@@ -139,15 +114,5 @@ public abstract class CertificadoBase extends org.semanticwb.model.base.GenericO
     public void setCertificado(String value)
     {
         getSemanticObject().setProperty(sieps_certificado, value);
-    }
-
-    public void remove()
-    {
-        getSemanticObject().remove();
-    }
-
-    public java.util.Iterator<org.semanticwb.model.GenericObject> listRelatedObjects()
-    {
-        return new org.semanticwb.model.GenericIterator(getSemanticObject().listRelatedObjects(),true);
     }
 }
