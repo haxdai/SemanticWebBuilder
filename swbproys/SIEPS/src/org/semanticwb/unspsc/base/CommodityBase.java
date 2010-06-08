@@ -1,9 +1,10 @@
 package org.semanticwb.unspsc.base;
 
 
-public abstract class CommodityBase extends org.semanticwb.model.SWBClass 
+public abstract class CommodityBase extends org.semanticwb.model.base.GenericObjectBase 
 {
     public static final org.semanticwb.platform.SemanticProperty unspsc_unspsc=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ontoview.org/schema/unspsc/1#unspsc");
+    public static final org.semanticwb.platform.SemanticProperty sieps_catname=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#catname");
     public static final org.semanticwb.platform.SemanticClass unspsc_Commodity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ontoview.org/schema/unspsc/1#Commodity");
     public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ontoview.org/schema/unspsc/1#Commodity");
 
@@ -56,5 +57,25 @@ public abstract class CommodityBase extends org.semanticwb.model.SWBClass
     public void setUnspsc(String value)
     {
         getSemanticObject().setProperty(unspsc_unspsc, value);
+    }
+
+    public String getCatname()
+    {
+        return getSemanticObject().getProperty(sieps_catname);
+    }
+
+    public void setCatname(String value)
+    {
+        getSemanticObject().setProperty(sieps_catname, value);
+    }
+
+    public void remove()
+    {
+        getSemanticObject().remove();
+    }
+
+    public java.util.Iterator<org.semanticwb.model.GenericObject> listRelatedObjects()
+    {
+        return new org.semanticwb.model.GenericIterator(getSemanticObject().listRelatedObjects(),true);
     }
 }
