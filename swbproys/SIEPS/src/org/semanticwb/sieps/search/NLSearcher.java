@@ -44,6 +44,7 @@ public class NLSearcher {
     private SWBSparqlTranslator tr;
     private String lastQuery = "";
     private HashMap<String, Rule> rules;
+    private String []determiners = {"el","la","los","las"};
 
     /**
      * Creates a new Searcher with predefined rules.
@@ -79,6 +80,9 @@ public class NLSearcher {
         rules.put("rule10", new Rule("rule10", "\\s*cuya\\s*clave\\s*scian\\s*sea\\s*", "$1 con clase con código = \"$2\""));
         rules.put("rule11", new Rule("rule11", "\\s*cuya\\s*clave\\s*scian\\s*es\\s*", "$1 con clase con código = \"$2\""));
         rules.put("rule12", new Rule("rule12", "\\s*que\\s*se\\s*encuentra[n]?\\s*en\\s*la\\s*categoría\\s*de\\s*", "$1 con categoría con nombre como \"$2\""));
+        rules.put("rule13", new Rule("rule13", "\\s*en\\s*[el\\s*estado\\s*de\\s*]?", "$1 con estado como \"$2\""));
+        rules.put("rule14", new Rule("rule14", "\\s*en\\s*el\\s*municipio\\s*de\\s*", "$1 con municipio como \"$2\""));
+        rules.put("rule15", new Rule("rule15", "\\s*en\\s*la\\s*colonia\\s*", "$1 con colonia como \"$2\""));
     }
 
     /**
