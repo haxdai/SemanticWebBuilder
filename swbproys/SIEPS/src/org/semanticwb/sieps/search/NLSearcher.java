@@ -68,18 +68,18 @@ public class NLSearcher {
 
         //Create set of preprocessing rules
         rules = new HashMap<String, Rule>();
-        rules.put("rule1", new Rule("rule1", "\\s*que\\s*produce[n]?\\s*", "$1 con producto con nombre como \"$2\""));
-        rules.put("rule2", new Rule("rule2", "\\s*que\\s*fabrica[n]?\\s*", "$1 con producto con nombre como \"$2\""));
-        rules.put("rule3", new Rule("rule3", "\\s*que\\s*elabora[n]?\\s*", "$1 con producto con nombre como \"$2\""));
-        rules.put("rule4", new Rule("rule4", "\\s*cuya\\s*actividad\\s*sea\\s*", "$1 con clase con nombre como \"$2\""));
-        rules.put("rule5", new Rule("rule5", "\\s*cuya\\s*actividad\\s*es\\s*", "$1 con clase con nombre como \"$2\""));
-        rules.put("rule6", new Rule("rule6", "\\s*cuyo\\s*código\\s*sea\\s*", "$1 con categoría con código = \"$2\""));
-        rules.put("rule7", new Rule("rule7", "\\s*cuyo\\s*código\\s*es\\s*", "$1 con categoría con código = \"$2\""));
-        rules.put("rule8", new Rule("rule8", "\\s*cuya\\s*clave\\s*sea\\s*", "$1 con categoría con código = \"$2\""));
-        rules.put("rule9", new Rule("rule9", "\\s*cuya\\s*clave\\s*es\\s*", "$1 con categoría con código = \"$2\""));
-        rules.put("rule10", new Rule("rule10", "\\s*cuya\\s*clave\\s*scian\\s*sea\\s*", "$1 con clase con código = \"$2\""));
-        rules.put("rule11", new Rule("rule11", "\\s*cuya\\s*clave\\s*scian\\s*es\\s*", "$1 con clase con código = \"$2\""));
-        rules.put("rule12", new Rule("rule12", "\\s*que\\s*se\\s*encuentra[n]?\\s*en\\s*la\\s*categoría\\s*de\\s*", "$1 con categoría con nombre como \"$2\""));
+        rules.put("rule1", new Rule("rule1", "\\s*que\\s*produce[n]?\\s*", "$1 con (producto con nombre como \"$2\")"));
+        rules.put("rule2", new Rule("rule2", "\\s*que\\s*fabrica[n]?\\s*", "$1 con (producto con nombre como \"$2\")"));
+        rules.put("rule3", new Rule("rule3", "\\s*que\\s*elabora[n]?\\s*", "$1 con (producto con nombre como \"$2\")"));
+        rules.put("rule4", new Rule("rule4", "\\s*cuya\\s*actividad\\s*sea\\s*", "$1 con (clase con nombre como \"$2\")"));
+        rules.put("rule5", new Rule("rule5", "\\s*cuya\\s*actividad\\s*es\\s*", "$1 con (clase con nombre como \"$2\")"));
+        rules.put("rule6", new Rule("rule6", "\\s*cuyo\\s*código\\s*sea\\s*", "$1 con (categoría con código = \"$2\")"));
+        rules.put("rule7", new Rule("rule7", "\\s*cuyo\\s*código\\s*es\\s*", "$1 con (categoría con código = \"$2\")"));
+        rules.put("rule8", new Rule("rule8", "\\s*cuya\\s*clave\\s*sea\\s*", "$1 con (categoría con código = \"$2\")"));
+        rules.put("rule9", new Rule("rule9", "\\s*cuya\\s*clave\\s*es\\s*", "$1 con (categoría con código = \"$2\")"));
+        rules.put("rule10", new Rule("rule10", "\\s*cuya\\s*clave\\s*scian\\s*sea\\s*", "$1 con (clase con código = \"$2\")"));
+        rules.put("rule11", new Rule("rule11", "\\s*cuya\\s*clave\\s*scian\\s*es\\s*", "$1 con (clase con código = \"$2\")"));
+        rules.put("rule12", new Rule("rule12", "\\s*que\\s*se\\s*encuentra[n]?\\s*en\\s*la\\s*categoría\\s*de\\s*", "$1 con (categoría con nombre como \"$2\")"));
         rules.put("rule13", new Rule("rule13", "\\s*del\\s*estado\\s*de\\s*", "$1 con estado como \"$2\""));
         rules.put("rule14", new Rule("rule14", "\\s*en\\s*el\\s*estado\\s*de\\s*", "$1 con estado como \"$2\""));
         rules.put("rule15", new Rule("rule15", "\\s*de\\s*el\\s*estado\\s*de\\s*", "$1 con estado como \"$2\""));
