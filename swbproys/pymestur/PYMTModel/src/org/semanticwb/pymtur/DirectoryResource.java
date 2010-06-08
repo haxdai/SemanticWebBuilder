@@ -381,7 +381,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     dirObj.setSpCreator(user);
                     dirObj.setCreated(new Date());
                     dirObj.setSpStatus(PymturUtils.ESTATUS_REGISTRADO);
-                    PymturUtils.logServiceProvider(dirObj, user, null, "MiPyME Registered");
+                    PymturUtils.logServiceProvider(dirObj, user, null, PymturUtils.ESTATUS_REGISTRADO, PymturUtils.COMMENT_STATUS, "MiPyME Registered");
 
                     String refirect = null;
                     if (request.getParameter("destination") != null) {
@@ -558,7 +558,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     //SemanticObject semObject = SemanticObject.createSemanticObject(URLDecoder.decode(request.getParameter("uri")));
                     SemanticObject semObject = SemanticObject.createSemanticObject(URLDecoder.decode(request.getParameter("uri")));
                     ServiceProvider servProp = (ServiceProvider) semObject.createGenericInstance();
-                    servProp.setSpStatus(PymturUtils.ESTATUS_ACTIVADO); //
+                    servProp.setSpStatus(PymturUtils.ESTATUS_PUBLICADO); //
                     //Fecha de aceptación y de limite de publiccación
                     Calendar endAnnunceDate=Calendar.getInstance();
                     servProp.setSpAcceptedDate(endAnnunceDate.getTime()); //Colocar fecha actual que es cuando se acepta el anuncio
@@ -575,7 +575,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
 
                     servProp.setSpEndAnnuncePeriod(endAnnunceDate.getTime());
 
-                    PymturUtils.logServiceProvider(servProp, user, null, "MiPyME accept Registry(Estatus 2)");
+                    PymturUtils.logServiceProvider(servProp, user, null, PymturUtils.ESTATUS_ACEPTADO,  PymturUtils.COMMENT_STATUS, "MiPyME accept Registry");
 
 
                     String statComm = request.getParameter("statusComment");
@@ -626,12 +626,12 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     SemanticObject semObject = SemanticObject.createSemanticObject(URLDecoder.decode(request.getParameter("uri")));
                     ServiceProvider servProp = (ServiceProvider) semObject.createGenericInstance();
                     servProp.setSpStatus(PymturUtils.ESTATUS_RECHAZADO);
-                    PymturUtils.logServiceProvider(servProp, user, null,"MiPyME unRegister(Estatus 4)");
-
-                    String statComm = request.getParameter("statusComment");
-                    if (statComm != null) {
+                    String statComm ="";
+                    if (request.getParameter("statusComment") != null) {
+                        statComm=request.getParameter("statusComment");
                         servProp.setSpStatusComment(statComm);
                     }
+                    PymturUtils.logServiceProvider(servProp, user, null, PymturUtils.ESTATUS_RECHAZADO,  PymturUtils.COMMENT_STATUS, "MiPyME Rejected:"+statComm);
 
                     //Envía correo al creador del service provider para notificar su baja
                     String siteName = wsite.getDisplayTitle(response.getUser().getLanguage());
