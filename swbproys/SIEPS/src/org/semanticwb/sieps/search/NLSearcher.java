@@ -81,11 +81,12 @@ public class NLSearcher {
         rules.put("rule11", new Rule("rule11", "\\s*cuya\\s*clave\\s*scian\\s*es\\s*", "$1 con clase con código = \"$2\""));
         rules.put("rule12", new Rule("rule12", "\\s*que\\s*se\\s*encuentra[n]?\\s*en\\s*la\\s*categoría\\s*de\\s*", "$1 con categoría con nombre como \"$2\""));
         rules.put("rule13", new Rule("rule13", "\\s*del\\s*estado\\s*de\\s*", "$1 con estado como \"$2\""));
-        rules.put("rule14", new Rule("rule14", "\\s*de\\s*el\\s*estado\\s*de\\s*", "$1 con estado como \"$2\""));
-        rules.put("rule15", new Rule("rule15", "\\s*en\\s*la\\s*colonia\\s*", "$1 con colonia como \"$2\""));
-        rules.put("rule16", new Rule("rule16", "\\s*de\\s*la\\s*colonia\\s*", "$1 con colonia como \"$2\""));
-        rules.put("rule17", new Rule("rule17", "\\s*en\\s*el\\s*municipio\\s*de\\s*", "$1 con municipio como \"$2\""));
-        rules.put("rule18", new Rule("rule18", "\\s*del\\s*municipio\\s*de\\s*", "$1 con municipio como \"$2\""));
+        rules.put("rule14", new Rule("rule14", "\\s*en\\s*el\\s*estado\\s*de\\s*", "$1 con estado como \"$2\""));
+        rules.put("rule15", new Rule("rule15", "\\s*de\\s*el\\s*estado\\s*de\\s*", "$1 con estado como \"$2\""));
+        rules.put("rule16", new Rule("rule16", "\\s*en\\s*la\\s*colonia\\s*", "$1 con colonia como \"$2\""));
+        rules.put("rule17", new Rule("rule17", "\\s*de\\s*la\\s*colonia\\s*", "$1 con colonia como \"$2\""));
+        rules.put("rule18", new Rule("rule18", "\\s*en\\s*el\\s*municipio\\s*de\\s*", "$1 con municipio como \"$2\""));
+        rules.put("rule19", new Rule("rule19", "\\s*del\\s*municipio\\s*de\\s*", "$1 con municipio como \"$2\""));
     }
 
     /**
@@ -148,7 +149,7 @@ public class NLSearcher {
 
         //Preprocess query
         sparqlQuery = preprocessQuery(query);
-        //System.out.println("--Externally called result: " + sparqlQuery);
+        System.out.println("--Externally called result: " + sparqlQuery);
 
         //Query was processed, thus, it is allowed
         if (!query.equals(sparqlQuery) || query.split(" ").length == 1) {
