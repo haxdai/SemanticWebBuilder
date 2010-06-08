@@ -1,7 +1,7 @@
 package org.semanticwb.unspsc.base;
 
 
-public abstract class ClassBase extends org.semanticwb.model.base.GenericObjectBase 
+public abstract class ClassBase extends org.semanticwb.unspsc.Family 
 {
     public static final org.semanticwb.platform.SemanticClass unspsc_Class=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ontoview.org/schema/unspsc/1#Class");
     public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ontoview.org/schema/unspsc/1#Class");
@@ -45,15 +45,5 @@ public abstract class ClassBase extends org.semanticwb.model.base.GenericObjectB
     public ClassBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
-    }
-
-    public void remove()
-    {
-        getSemanticObject().remove();
-    }
-
-    public java.util.Iterator<org.semanticwb.model.GenericObject> listRelatedObjects()
-    {
-        return new org.semanticwb.model.GenericIterator(getSemanticObject().listRelatedObjects(),true);
     }
 }
