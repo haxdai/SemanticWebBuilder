@@ -3,6 +3,7 @@ package org.semanticwb.unspsc.base;
 
 public abstract class SegmentBase extends org.semanticwb.model.base.GenericObjectBase 
 {
+    public static final org.semanticwb.platform.SemanticProperty unspsc_unspsc=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ontoview.org/schema/unspsc/1#unspsc");
     public static final org.semanticwb.platform.SemanticClass unspsc_Segment=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ontoview.org/schema/unspsc/1#Segment");
     public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ontoview.org/schema/unspsc/1#Segment");
 
@@ -45,6 +46,16 @@ public abstract class SegmentBase extends org.semanticwb.model.base.GenericObjec
     public SegmentBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+    public String getUnspsc()
+    {
+        return getSemanticObject().getProperty(unspsc_unspsc);
+    }
+
+    public void setUnspsc(String value)
+    {
+        getSemanticObject().setProperty(unspsc_unspsc, value);
     }
 
     public void remove()

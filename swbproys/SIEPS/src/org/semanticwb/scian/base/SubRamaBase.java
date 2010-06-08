@@ -1,7 +1,7 @@
 package org.semanticwb.scian.base;
 
 
-public abstract class SubRamaBase extends org.semanticwb.model.SWBClass 
+public abstract class SubRamaBase extends org.semanticwb.scian.Rama 
 {
     public static final org.semanticwb.platform.SemanticClass scian_SubRama=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.inegi.gob.mx/2002/scian#SubRama");
     public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.inegi.gob.mx/2002/scian#SubRama");

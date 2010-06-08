@@ -1,7 +1,7 @@
 package org.semanticwb.scian.base;
 
 
-public abstract class SubSectorBase extends org.semanticwb.model.SWBClass 
+public abstract class SubSectorBase extends org.semanticwb.scian.Sector 
 {
     public static final org.semanticwb.platform.SemanticClass scian_SubSector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.inegi.gob.mx/2002/scian#SubSector");
     public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.inegi.gob.mx/2002/scian#SubSector");

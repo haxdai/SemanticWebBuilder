@@ -3,6 +3,7 @@ package org.semanticwb.scian.base;
 
 public abstract class SectorBase extends org.semanticwb.model.SWBClass 
 {
+    public static final org.semanticwb.platform.SemanticProperty scian_code=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.inegi.gob.mx/2002/scian#code");
     public static final org.semanticwb.platform.SemanticClass scian_Sector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.inegi.gob.mx/2002/scian#Sector");
     public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.inegi.gob.mx/2002/scian#Sector");
 
@@ -45,5 +46,15 @@ public abstract class SectorBase extends org.semanticwb.model.SWBClass
     public SectorBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+    public String getCode()
+    {
+        return getSemanticObject().getProperty(scian_code);
+    }
+
+    public void setCode(String value)
+    {
+        getSemanticObject().setProperty(scian_code, value);
     }
 }
