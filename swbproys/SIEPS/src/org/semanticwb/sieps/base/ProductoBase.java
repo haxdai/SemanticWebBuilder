@@ -6,6 +6,8 @@ public abstract class ProductoBase extends org.semanticwb.model.SWBClass impleme
     public static final org.semanticwb.platform.SemanticClass unspsc_Commodity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ontoview.org/schema/unspsc/1#Commodity");
     public static final org.semanticwb.platform.SemanticProperty sieps_unspsc=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#unspsc");
     public static final org.semanticwb.platform.SemanticProperty sieps_pname=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#pname");
+    public static final org.semanticwb.platform.SemanticProperty sieps_unidad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#unidad");
+    public static final org.semanticwb.platform.SemanticProperty sieps_precioprom=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#precioprom");
     public static final org.semanticwb.platform.SemanticClass sieps_Empresa=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/SIEPS#Empresa");
     public static final org.semanticwb.platform.SemanticProperty sieps_fabricaInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#fabricaInv");
     public static final org.semanticwb.platform.SemanticClass sieps_Producto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/SIEPS#Producto");
@@ -130,6 +132,26 @@ public abstract class ProductoBase extends org.semanticwb.model.SWBClass impleme
     public void setPname(String value)
     {
         getSemanticObject().setProperty(sieps_pname, value);
+    }
+
+    public String getUnidad()
+    {
+        return getSemanticObject().getProperty(sieps_unidad);
+    }
+
+    public void setUnidad(String value)
+    {
+        getSemanticObject().setProperty(sieps_unidad, value);
+    }
+
+    public float getPrecioprom()
+    {
+        return getSemanticObject().getFloatProperty(sieps_precioprom);
+    }
+
+    public void setPrecioprom(float value)
+    {
+        getSemanticObject().setFloatProperty(sieps_precioprom, value);
     }
 
     public void setFabrica(org.semanticwb.sieps.Empresa value)
