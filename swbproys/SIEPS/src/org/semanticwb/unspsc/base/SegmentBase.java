@@ -1,7 +1,7 @@
 package org.semanticwb.unspsc.base;
 
 
-public abstract class SegmentBase extends org.semanticwb.model.SWBClass 
+public abstract class SegmentBase extends org.semanticwb.model.base.GenericObjectBase 
 {
     public static final org.semanticwb.platform.SemanticClass unspsc_Segment=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ontoview.org/schema/unspsc/1#Segment");
     public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ontoview.org/schema/unspsc/1#Segment");
@@ -45,5 +45,15 @@ public abstract class SegmentBase extends org.semanticwb.model.SWBClass
     public SegmentBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+    public void remove()
+    {
+        getSemanticObject().remove();
+    }
+
+    public java.util.Iterator<org.semanticwb.model.GenericObject> listRelatedObjects()
+    {
+        return new org.semanticwb.model.GenericIterator(getSemanticObject().listRelatedObjects(),true);
     }
 }

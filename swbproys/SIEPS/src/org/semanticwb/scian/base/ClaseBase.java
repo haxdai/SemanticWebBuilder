@@ -4,6 +4,7 @@ package org.semanticwb.scian.base;
 public abstract class ClaseBase extends org.semanticwb.model.SWBClass 
 {
     public static final org.semanticwb.platform.SemanticProperty scian_code=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.inegi.gob.mx/2002/scian#code");
+    public static final org.semanticwb.platform.SemanticProperty sieps_cname=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#cname");
     public static final org.semanticwb.platform.SemanticClass scian_Clase=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.inegi.gob.mx/2002/scian#Clase");
     public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.inegi.gob.mx/2002/scian#Clase");
 
@@ -56,5 +57,15 @@ public abstract class ClaseBase extends org.semanticwb.model.SWBClass
     public void setCode(String value)
     {
         getSemanticObject().setProperty(scian_code, value);
+    }
+
+    public String getCname()
+    {
+        return getSemanticObject().getProperty(sieps_cname);
+    }
+
+    public void setCname(String value)
+    {
+        getSemanticObject().setProperty(sieps_cname, value);
     }
 }
