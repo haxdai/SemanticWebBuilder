@@ -80,9 +80,12 @@ public class NLSearcher {
         rules.put("rule10", new Rule("rule10", "\\s*cuya\\s*clave\\s*scian\\s*sea\\s*", "$1 con clase con código = \"$2\""));
         rules.put("rule11", new Rule("rule11", "\\s*cuya\\s*clave\\s*scian\\s*es\\s*", "$1 con clase con código = \"$2\""));
         rules.put("rule12", new Rule("rule12", "\\s*que\\s*se\\s*encuentra[n]?\\s*en\\s*la\\s*categoría\\s*de\\s*", "$1 con categoría con nombre como \"$2\""));
-        rules.put("rule13", new Rule("rule13", "\\s*en\\s*[el\\s*estado\\s*de\\s*]?", "$1 con estado como \"$2\""));
-        rules.put("rule14", new Rule("rule14", "\\s*en\\s*el\\s*municipio\\s*de\\s*", "$1 con municipio como \"$2\""));
+        rules.put("rule13", new Rule("rule13", "\\s*del\\s*estado\\s*de\\s*", "$1 con estado como \"$2\""));
+        rules.put("rule14", new Rule("rule14", "\\s*de\\s*el\\s*estado\\s*de\\s*", "$1 con estado como \"$2\""));
         rules.put("rule15", new Rule("rule15", "\\s*en\\s*la\\s*colonia\\s*", "$1 con colonia como \"$2\""));
+        rules.put("rule16", new Rule("rule16", "\\s*de\\s*la\\s*colonia\\s*", "$1 con colonia como \"$2\""));
+        rules.put("rule17", new Rule("rule17", "\\s*en\\s*el\\s*municipio\\s*de\\s*", "$1 con municipio como \"$2\""));
+        rules.put("rule18", new Rule("rule18", "\\s*del\\s*municipio\\s*de\\s*", "$1 con municipio como \"$2\""));
     }
 
     /**
@@ -158,9 +161,9 @@ public class NLSearcher {
         //If query translated correctly, and it is allowed, execute it
         if (tr.getErrCode() == 0 && allowed) {
             lastQuery = query;
-            //System.out.println("--Translated query:" + query);
-            //System.out.println("---SPARQL QUERY:---");
-            //System.out.println(sparqlQuery);
+            System.out.println("--Translated query:" + query);
+            System.out.println("---SPARQL QUERY:---");
+            System.out.println(sparqlQuery);
 
             try {
                 Model model = SWBPlatform.getSemanticMgr().getSchema().getRDFOntModel();
@@ -202,12 +205,12 @@ public class NLSearcher {
         if (res.isEmpty()) { //Translation failed or no results found, execute normal search
             res = luceneSearch(query, site, user, null);
         }
-        //System.out.println("--" + res.size() + " results found:");
-        /*Iterator<SemanticObject> itres = res.iterator();
+        System.out.println("--" + res.size() + " results found:");
+        Iterator<SemanticObject> itres = res.iterator();
         while(itres.hasNext()) {
             SemanticObject so = itres.next();
             System.out.println(":::" + so.getURI());
-        }*/
+        }
         return res.iterator();
     }
 
