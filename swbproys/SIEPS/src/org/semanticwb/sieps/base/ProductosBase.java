@@ -23,6 +23,12 @@ public abstract class ProductosBase extends org.semanticwb.sieps.Perfil
             return new org.semanticwb.model.GenericIterator<org.semanticwb.sieps.Productos>(it, true);
         }
 
+        public static org.semanticwb.sieps.Productos createProductos(org.semanticwb.model.SWBModel model)
+        {
+            long id=model.getSemanticObject().getModel().getCounter(sclass);
+            return org.semanticwb.sieps.Productos.ClassMgr.createProductos(String.valueOf(id), model);
+        }
+
         public static org.semanticwb.sieps.Productos getProductos(String id, org.semanticwb.model.SWBModel model)
         {
             return (org.semanticwb.sieps.Productos)model.getSemanticObject().getModel().getGenericObject(model.getSemanticObject().getModel().getObjectUri(id,sclass),sclass);
