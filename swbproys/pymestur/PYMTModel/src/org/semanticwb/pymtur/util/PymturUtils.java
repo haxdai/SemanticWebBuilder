@@ -32,28 +32,34 @@ public class PymturUtils {
     public static final int PAQ_PREMIER = 4;
     //ESTATUS
     public static final int ESTATUS_REGISTRADO = 1;
-    public static final int ESTATUS_PAGADO = 2;
-    public static final int ESTATUS_ACLARACION = 3;
-    public static final int ESTATUS_ACTIVADO = 4;
-    public static final int ESTATUS_DESACTIVADO = 5;
-    public static final int ESTATUS_RECHAZADO = 6;
-    public static final int ESTATUS_BAJA = 7;
+    public static final int ESTATUS_ACEPTADO = 2;
+    public static final int ESTATUS_RECHAZADO = 3;
+    public static final int ESTATUS_PAGADO = 4;
+    public static final int ESTATUS_PUBLICADO = 5;
+    public static final int ESTATUS_BORRADO = 6;
+
+    //COMMENT TYPES
+    public static final int COMMENT_STATUS = 1;
+    public static final int COMMENT_USER = 2;
+    public static final int COMMENT_ELEMENT = 3;
+
     private static Logger log = SWBUtils.getLogger(PymturUtils.class);
 
-    public static boolean logServiceProvider(ServiceProvider serviceProvider, User user, String elementUri, String comment) {
+    public static boolean logServiceProvider(ServiceProvider serviceProvider, User user, String elementUri, int status, int commenttype, String comment) {
         Connection con = null;
         try {
             Timestamp created = new Timestamp(new java.util.Date().getTime());
             con = SWBUtils.DB.getDefaultConnection("PymturUtils:logServiceProvider");
 
-            String query = "insert into swb_pymesturlog (sprovuri, usruri, elementuri, comment, modified) values (?,?,?,?,?)";
+            String query = "insert into swb_pymesturlog (sprovuri, usruri, elementuri, status, commenttype, comment, date) values (?,?,?,?,?)";
             PreparedStatement st = con.prepareStatement(query);
             st.setString(1, serviceProvider.getURI());
             st.setString(2, user.getURI());
-            if(elementUri==null || elementUri.trim().length()==0) elementUri=" ";
             st.setString(3, elementUri);
-            if(comment!=null) st.setString(4, comment);
-            st.setTimestamp(5, created);
+            st.setInt(4, status);
+            st.setInt(5, commenttype);
+            st.setString(6, comment);
+            st.setTimestamp(7, created);
             st.executeUpdate();
             st.close();
             con.close();
