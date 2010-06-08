@@ -3,7 +3,6 @@ package org.semanticwb.sieps.base;
 
 public abstract class BusquedaBase extends org.semanticwb.model.SWBClass 
 {
-    public static final org.semanticwb.platform.SemanticProperty sieps_title=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#title");
     public static final org.semanticwb.platform.SemanticProperty sieps_seach=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#seach");
     public static final org.semanticwb.platform.SemanticClass sieps_Busqueda=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/SIEPS#Busqueda");
     public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/SIEPS#Busqueda");
@@ -21,6 +20,12 @@ public abstract class BusquedaBase extends org.semanticwb.model.SWBClass
         {
             java.util.Iterator it=sclass.listInstances();
             return new org.semanticwb.model.GenericIterator<org.semanticwb.sieps.Busqueda>(it, true);
+        }
+
+        public static org.semanticwb.sieps.Busqueda createBusqueda(org.semanticwb.model.SWBModel model)
+        {
+            long id=model.getSemanticObject().getModel().getCounter(sclass);
+            return org.semanticwb.sieps.Busqueda.ClassMgr.createBusqueda(String.valueOf(id), model);
         }
 
         public static org.semanticwb.sieps.Busqueda getBusqueda(String id, org.semanticwb.model.SWBModel model)
@@ -47,16 +52,6 @@ public abstract class BusquedaBase extends org.semanticwb.model.SWBClass
     public BusquedaBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
-    }
-
-    public String getTitle()
-    {
-        return getSemanticObject().getProperty(sieps_title);
-    }
-
-    public void setTitle(String value)
-    {
-        getSemanticObject().setProperty(sieps_title, value);
     }
 
     public String getSeach()

@@ -25,6 +25,12 @@ public abstract class CertificadoBase extends org.semanticwb.sieps.Perfil
             return new org.semanticwb.model.GenericIterator<org.semanticwb.sieps.Certificado>(it, true);
         }
 
+        public static org.semanticwb.sieps.Certificado createCertificado(org.semanticwb.model.SWBModel model)
+        {
+            long id=model.getSemanticObject().getModel().getCounter(sclass);
+            return org.semanticwb.sieps.Certificado.ClassMgr.createCertificado(String.valueOf(id), model);
+        }
+
         public static org.semanticwb.sieps.Certificado getCertificado(String id, org.semanticwb.model.SWBModel model)
         {
             return (org.semanticwb.sieps.Certificado)model.getSemanticObject().getModel().getGenericObject(model.getSemanticObject().getModel().getObjectUri(id,sclass),sclass);

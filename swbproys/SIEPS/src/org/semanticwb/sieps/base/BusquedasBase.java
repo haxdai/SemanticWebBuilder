@@ -23,6 +23,12 @@ public abstract class BusquedasBase extends org.semanticwb.sieps.Perfil
             return new org.semanticwb.model.GenericIterator<org.semanticwb.sieps.Busquedas>(it, true);
         }
 
+        public static org.semanticwb.sieps.Busquedas createBusquedas(org.semanticwb.model.SWBModel model)
+        {
+            long id=model.getSemanticObject().getModel().getCounter(sclass);
+            return org.semanticwb.sieps.Busquedas.ClassMgr.createBusquedas(String.valueOf(id), model);
+        }
+
         public static org.semanticwb.sieps.Busquedas getBusquedas(String id, org.semanticwb.model.SWBModel model)
         {
             return (org.semanticwb.sieps.Busquedas)model.getSemanticObject().getModel().getGenericObject(model.getSemanticObject().getModel().getObjectUri(id,sclass),sclass);

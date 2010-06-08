@@ -23,6 +23,12 @@ public abstract class EmpresaInteresBase extends org.semanticwb.sieps.Perfil
             return new org.semanticwb.model.GenericIterator<org.semanticwb.sieps.EmpresaInteres>(it, true);
         }
 
+        public static org.semanticwb.sieps.EmpresaInteres createEmpresaInteres(org.semanticwb.model.SWBModel model)
+        {
+            long id=model.getSemanticObject().getModel().getCounter(sclass);
+            return org.semanticwb.sieps.EmpresaInteres.ClassMgr.createEmpresaInteres(String.valueOf(id), model);
+        }
+
         public static org.semanticwb.sieps.EmpresaInteres getEmpresaInteres(String id, org.semanticwb.model.SWBModel model)
         {
             return (org.semanticwb.sieps.EmpresaInteres)model.getSemanticObject().getModel().getGenericObject(model.getSemanticObject().getModel().getObjectUri(id,sclass),sclass);
