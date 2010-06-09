@@ -106,6 +106,19 @@ public class SearchResource extends GenericResource
                                     : "/swbadmin/jsp/sieps/catempresa.jsp";
                     }
 
+                } else if ("empresassimilares".equals(act)) {
+                    String uri      =   request.getParameter("uri");
+
+                    if (uri != null && uri.length() > 0) {
+                        SemanticObject semanticObject   =   SemanticObject.createSemanticObject(URLDecoder.decode(uri, "UTF-8"));
+                        GenericObject genericObject     =   semanticObject.createGenericInstance();
+                        int tipoResultadoDetalle        =   determinaTipoResultados(semanticObject);
+                        request.setAttribute("obj", genericObject);
+                        path = (TIPO_EMPRESA == tipoResultadoDetalle)
+                                    ? "/swbadmin/jsp/sieps/empresassimilares.jsp"
+                                    : "/swbadmin/jsp/sieps/productossimilares.jsp";
+                    }
+
                 } else {
                     path = "/swbadmin/jsp/sieps/resultsEmpresa.jsp";
                 }
