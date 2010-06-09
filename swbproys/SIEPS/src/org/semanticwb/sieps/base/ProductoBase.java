@@ -5,6 +5,7 @@ public abstract class ProductoBase extends org.semanticwb.model.SWBClass impleme
 {
     public static final org.semanticwb.platform.SemanticClass unspsc_Commodity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ontoview.org/schema/unspsc/1#Commodity");
     public static final org.semanticwb.platform.SemanticProperty sieps_unspsc=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#unspsc");
+    public static final org.semanticwb.platform.SemanticProperty sieps_foto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#foto");
     public static final org.semanticwb.platform.SemanticProperty sieps_pname=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#pname");
     public static final org.semanticwb.platform.SemanticProperty sieps_unidad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#unidad");
     public static final org.semanticwb.platform.SemanticProperty sieps_precioprom=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#precioprom");
@@ -103,6 +104,16 @@ public abstract class ProductoBase extends org.semanticwb.model.SWBClass impleme
              ret=(org.semanticwb.unspsc.Commodity)obj.createGenericInstance();
          }
          return ret;
+    }
+
+    public String getFoto()
+    {
+        return getSemanticObject().getProperty(sieps_foto);
+    }
+
+    public void setFoto(String value)
+    {
+        getSemanticObject().setProperty(sieps_foto, value);
     }
 
     public String getTitle()
