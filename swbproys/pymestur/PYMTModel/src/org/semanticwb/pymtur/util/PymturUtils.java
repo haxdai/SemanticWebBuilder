@@ -51,7 +51,7 @@ public class PymturUtils {
             Timestamp created = new Timestamp(new java.util.Date().getTime());
             con = SWBUtils.DB.getDefaultConnection("PymturUtils:logServiceProvider");
 
-            String query = "insert into swb_pymesturlog (sprovuri, usruri, elementuri, status, commenttype, comment, date) values (?,?,?,?,?)";
+            String query = "insert into swb_pymesturlog (sprovuri, usruri, elementuri, status, commenttype, comment, date) values (?,?,?,?,?,?,?)";
             PreparedStatement st = con.prepareStatement(query);
             st.setString(1, serviceProvider.getURI());
             st.setString(2, user.getURI());
