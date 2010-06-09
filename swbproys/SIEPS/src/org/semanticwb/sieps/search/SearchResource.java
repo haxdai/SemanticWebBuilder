@@ -21,7 +21,6 @@ import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
-import org.semanticwb.scian.Clase;
 import org.semanticwb.sieps.Empresa;
 import org.semanticwb.sieps.Producto;
 
@@ -70,28 +69,41 @@ public class SearchResource extends GenericResource
                     }
                 } else if ("results".equals(act)) {
                     String query        =   request.getParameter("query");
-                    log.info("---> query = " + query );
+                    log.debug("---> query = " + query );
 
                     NLSearcher searcher  =   new NLSearcher("es");
                     Iterator<SemanticObject> results = searcher.search(query, paramRequest.getWebPage().getWebSite(), paramRequest.getUser());
                     int tipoResultados   = determinaTipoResultados(results);
 
                     if (TIPO_EMPRESA == tipoResultados) {
-                        log.info("---> TIPO_EMPRESA");
+                        log.debug("---> TIPO_EMPRESA");
                         List<Empresa> listEmpresas  = contruyeColeccionEmpresas(results);
                         request.setAttribute("results", listEmpresas);
                         path = "/swbadmin/jsp/sieps/resultsEmpresa.jsp";
                     } else if (TIPO_PRODUCTO == tipoResultados) {
-                        log.info("---> TIPO_PRODUCTO");
+                        log.debug("---> TIPO_PRODUCTO");
                         List<Producto> listProductos  = contruyeColeccionProductos(results);
                         request.setAttribute("results", listProductos);
                         path = "/swbadmin/jsp/sieps/resultsProducto.jsp";
                     }
                     else if (TIPO_WEBPAGE == tipoResultados) {
-                        log.info("---> TIPO_PRODUCTO");
+                        log.debug("---> TIPO_PRODUCTO");
                         List<Producto> listProductos  = contruyeColeccionProductos(results);
                         request.setAttribute("results", listProductos);
                         path = "/swbadmin/jsp/sieps/resultsWebPage.jsp";
+                    }
+
+                } else if ("cat".equals(act)) {
+                    String uri      =   request.getParameter("uri");
+
+                    if (uri != null && uri.length() > 0) {
+                        SemanticObject semanticObject   =   SemanticObject.createSemanticObject(URLDecoder.decode(uri, "UTF-8"));
+                        GenericObject genericObject     =   semanticObject.createGenericInstance();
+                        int tipoResultadoDetalle        =   determinaTipoResultados(semanticObject);
+                        request.setAttribute("obj", genericObject);
+                        path = (TIPO_EMPRESA == tipoResultadoDetalle)
+                                    ? "/swbadmin/jsp/sieps/catprod.jsp"
+                                    : "/swbadmin/jsp/sieps/catempresa.jsp";
                     }
 
                 } else {
