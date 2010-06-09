@@ -11,6 +11,8 @@ import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.regex.Matcher;
@@ -43,8 +45,21 @@ public class NLSearcher {
     private SWBDictionary lex = null;
     private SWBSparqlTranslator tr;
     private String lastQuery = "";
-    private HashMap<String, Rule> rules;
+    private ArrayList<Rule> rules;
     private String []determiners = {"el","la","los","las"};
+    private Comparator pComp = new Comparator() {
+            public int compare(Object o1, Object o2) {
+                int res = 0;
+                Rule r1 = (Rule)o1;
+                Rule r2 = (Rule)o2;
+                if (r1.getPriority() < r2.getPriority()) {
+                    res = -1;
+                } else if (r1.getPriority() > r2.getPriority()) {
+                    res = 1;
+                }
+                return res;
+            }
+        };
 
     /**
      * Creates a new Searcher with predefined rules.
@@ -67,26 +82,29 @@ public class NLSearcher {
         tr = new SWBSparqlTranslator(lex);
 
         //Create set of preprocessing rules
-        rules = new HashMap<String, Rule>();
-        rules.put("rule1", new Rule("rule1", "\\s*que\\s*produce[n]?\\s*", "$1 con (producto con nombre como \"$2\")"));
-        rules.put("rule2", new Rule("rule2", "\\s*que\\s*fabrica[n]?\\s*", "$1 con (producto con nombre como \"$2\")"));
-        rules.put("rule3", new Rule("rule3", "\\s*que\\s*elabora[n]?\\s*", "$1 con (producto con nombre como \"$2\")"));
-        rules.put("rule4", new Rule("rule4", "\\s*cuya\\s*actividad\\s*sea\\s*", "$1 con (clase con nombre como \"$2\")"));
-        rules.put("rule5", new Rule("rule5", "\\s*cuya\\s*actividad\\s*es\\s*", "$1 con (clase con nombre como \"$2\")"));
-        rules.put("rule6", new Rule("rule6", "\\s*cuyo\\s*código\\s*sea\\s*", "$1 con (categoría con código = \"$2\")"));
-        rules.put("rule7", new Rule("rule7", "\\s*cuyo\\s*código\\s*es\\s*", "$1 con (categoría con código = \"$2\")"));
-        rules.put("rule8", new Rule("rule8", "\\s*cuya\\s*clave\\s*sea\\s*", "$1 con (categoría con código = \"$2\")"));
-        rules.put("rule9", new Rule("rule9", "\\s*cuya\\s*clave\\s*es\\s*", "$1 con (categoría con código = \"$2\")"));
-        rules.put("rule10", new Rule("rule10", "\\s*cuya\\s*clave\\s*scian\\s*sea\\s*", "$1 con (clase con código = \"$2\")"));
-        rules.put("rule11", new Rule("rule11", "\\s*cuya\\s*clave\\s*scian\\s*es\\s*", "$1 con (clase con código = \"$2\")"));
-        rules.put("rule12", new Rule("rule12", "\\s*que\\s*se\\s*encuentra[n]?\\s*en\\s*la\\s*categoría\\s*de\\s*", "$1 con (categoría con nombre como \"$2\")"));
-        rules.put("rule13", new Rule("rule13", "\\s*del\\s*estado\\s*de\\s*", "$1 con estado como \"$2\""));
-        rules.put("rule14", new Rule("rule14", "\\s*en\\s*el\\s*estado\\s*de\\s*", "$1 con estado como \"$2\""));
-        rules.put("rule15", new Rule("rule15", "\\s*de\\s*el\\s*estado\\s*de\\s*", "$1 con estado como \"$2\""));
-        rules.put("rule16", new Rule("rule16", "\\s*en\\s*la\\s*colonia\\s*", "$1 con colonia como \"$2\""));
-        rules.put("rule17", new Rule("rule17", "\\s*de\\s*la\\s*colonia\\s*", "$1 con colonia como \"$2\""));
-        rules.put("rule18", new Rule("rule18", "\\s*en\\s*el\\s*municipio\\s*de\\s*", "$1 con municipio como \"$2\""));
-        rules.put("rule19", new Rule("rule19", "\\s*del\\s*municipio\\s*de\\s*", "$1 con municipio como \"$2\""));
+        rules = new ArrayList<Rule>();
+        rules.add(new Rule("rule1", "\\s*que\\s*produce[n]?\\s*", "$1 con (producto con nombre como \"$2\")", 1));
+        rules.add(new Rule("rule2", "\\s*que\\s*fabrica[n]?\\s*", "$1 con (producto con nombre como \"$2\")", 1));
+        rules.add(new Rule("rule3", "\\s*que\\s*elabora[n]?\\s*", "$1 con (producto con nombre como \"$2\")", 1));
+        rules.add(new Rule("rule4", "\\s*cuya\\s*actividad\\s*sea\\s*", "$1 con (clase con nombre como \"$2\")", 1));
+        rules.add(new Rule("rule5", "\\s*cuya\\s*actividad\\s*es\\s*", "$1 con (clase con nombre como \"$2\")", 1));
+        rules.add(new Rule("rule6", "\\s*cuyo\\s*código\\s*sea\\s*", "$1 con (categoría con código = \"$2\")", 1));
+        rules.add(new Rule("rule7", "\\s*cuyo\\s*código\\s*es\\s*", "$1 con (categoría con código = \"$2\")", 1));
+        rules.add(new Rule("rule8", "\\s*cuya\\s*clave\\s*sea\\s*", "$1 con (categoría con código = \"$2\")", 1));
+        rules.add(new Rule("rule9", "\\s*cuya\\s*clave\\s*es\\s*", "$1 con (categoría con código = \"$2\")", 1));
+        rules.add(new Rule("rule10", "\\s*cuya\\s*clave\\s*scian\\s*sea\\s*", "$1 con (clase con código = \"$2\")", 1));
+        rules.add(new Rule("rule11", "\\s*cuya\\s*clave\\s*scian\\s*es\\s*", "$1 con (clase con código = \"$2\")", 1));
+        rules.add(new Rule("rule12", "\\s*que\\s*se\\s*encuentra[n]?\\s*en\\s*la\\s*categoría\\s*de\\s*", "$1 con (categoría con nombre como \"$2\")", 1));
+        rules.add(new Rule("rule13", "\\s*del\\s*estado\\s*de\\s*", "$1 con estado como \"$2\"", 2));
+        rules.add(new Rule("rule14", "\\s*en\\s*el\\s*estado\\s*de\\s*", "$1 con estado como \"$2\"", 2));
+        rules.add(new Rule("rule15", "\\s*de\\s*el\\s*estado\\s*de\\s*", "$1 con estado como \"$2\"", 2));
+        rules.add(new Rule("rule16", "\\s*en\\s*la\\s*colonia\\s*", "$1 con colonia como \"$2\"", 2));
+        rules.add(new Rule("rule17", "\\s*de\\s*la\\s*colonia\\s*", "$1 con colonia como \"$2\"", 2));
+        rules.add(new Rule("rule18", "\\s*en\\s*el\\s*municipio\\s*de\\s*", "$1 con municipio como \"$2\"", 2));
+        rules.add(new Rule("rule19", "\\s*del\\s*municipio\\s*de\\s*", "$1 con municipio como \"$2\"", 2));
+
+        //Sort rules according to priority
+        Collections.sort(rules, pComp);
     }
 
     /**
@@ -94,7 +112,9 @@ public class NLSearcher {
      * @param r Tokenization rule.
      */
     public void addRule(Rule r) {
-        rules.put(r.getName(), r);
+        rules.add(r);
+        //Sort rules according to priority
+        Collections.sort(rules, pComp);
     }
 
     /**
@@ -110,10 +130,9 @@ public class NLSearcher {
         if (query.split(" ").length > 1) {
             //System.out.println("--More than one word, processing");
             //Check all preprocessing rules
-            Iterator<String> keys = rules.keySet().iterator();
-            while (keys.hasNext() && !matched) {
-                String key = keys.next();
-                Rule rule = rules.get(key);
+            Iterator<Rule> rit = rules.iterator();
+            while (rit.hasNext() && !matched) {
+                Rule rule = rit.next();
                 Pattern pattern = Pattern.compile(rule.getRegexp());
                 Matcher matcher = pattern.matcher(query.toLowerCase());
 
