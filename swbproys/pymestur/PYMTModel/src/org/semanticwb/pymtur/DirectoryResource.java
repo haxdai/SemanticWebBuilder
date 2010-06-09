@@ -558,7 +558,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     //SemanticObject semObject = SemanticObject.createSemanticObject(URLDecoder.decode(request.getParameter("uri")));
                     SemanticObject semObject = SemanticObject.createSemanticObject(URLDecoder.decode(request.getParameter("uri")));
                     ServiceProvider servProp = (ServiceProvider) semObject.createGenericInstance();
-                    servProp.setSpStatus(PymturUtils.ESTATUS_PUBLICADO); //
+                    servProp.setSpStatus(PymturUtils.ESTATUS_PUBLICADO); // Se pusó como publicado porque aun no esta la parte de pagos y de admin, pero primero debería se ser puesto es estado de "aceptado"
                     //Fecha de aceptación y de limite de publiccación
                     Calendar endAnnunceDate=Calendar.getInstance();
                     servProp.setSpAcceptedDate(endAnnunceDate.getTime()); //Colocar fecha actual que es cuando se acepta el anuncio
