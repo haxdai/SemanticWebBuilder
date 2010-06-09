@@ -13,6 +13,7 @@ public class Rule {
     private String name;
     private String regexp;
     private String result;
+    private int priority;
 
     /**
      * Creates a new preprocessing rule with the given name, expression and
@@ -20,15 +21,33 @@ public class Rule {
      * @param nam Name of the rule.
      * @param exp Regular expression for tokenization.
      * @param res Replacement for matching rule.
+     * @param pri Priority of application.
      */
-    public Rule(String nam, String exp, String res) {
+    public Rule(String nam, String exp, String res, int pri) {
         name = nam;
         regexp = exp;
         result = res;
+        priority = pri;
     }
 
     /**
-     * Gets the name of a preprocessing rule.
+     * Gets the application priority of the preprocessing rule.
+     * @return priority.
+     */
+    public int getPriority() {
+        return priority;
+    }
+
+    /**
+     * Sets the application priority for the preprocessing rule.
+     * @param priority
+     */
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+
+    /**
+     * Gets the name of the preprocessing rule.
      * @return
      */
     public String getName() {
@@ -36,7 +55,7 @@ public class Rule {
     }
 
     /**
-     * Gets the regular expression of a preprocessing rule.
+     * Gets the regular expression of the preprocessing rule.
      * @return
      */
     public String getRegexp() {
@@ -44,7 +63,7 @@ public class Rule {
     }
 
     /**
-     * Gets the String replacement of a preprocessing rule.
+     * Gets the String replacement of the preprocessing rule.
      * @return
      */
     public String getResult() {
