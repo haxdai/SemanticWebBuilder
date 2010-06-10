@@ -16,12 +16,18 @@ import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.GenericObject;
+import org.semanticwb.model.SWBModel;
+import org.semanticwb.model.User;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.api.GenericResource;
+import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
+import org.semanticwb.sieps.Busqueda;
+import org.semanticwb.sieps.Busquedas;
 import org.semanticwb.sieps.Empresa;
+import org.semanticwb.sieps.EmpresaInteres;
 import org.semanticwb.sieps.Producto;
 
 /**
@@ -38,7 +44,67 @@ public class SearchResource extends GenericResource
      */
     private static final int TIPO_EMPRESA   = 1,
                              TIPO_PRODUCTO  = 2,
-                             TIPO_WEBPAGE  = 3;
+                             TIPO_WEBPAGE   = 3;
+
+    @Override
+    public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
+        String action   =   response.getAction();
+        log.debug("---> processAction = " + action);
+        User user       =   response.getUser();
+        boolean isUser  =   (user != null && user.isSigned());
+        String mensaje  =   "";
+        SWBModel webSite = getResourceBase().getWebSite();
+        response.setMode(SWBParamRequest.Mode_VIEW);
+        
+        String query    =   request.getParameter("currentQuery");
+        try {
+            if (isUser) {
+                if ("guardaConsulta".equals(action)) {
+                    log.debug("---> action query = " + query);
+                    // Crea el objeto búsqueda...
+                    Busqueda busqueda   =   Busqueda.ClassMgr.createBusqueda(webSite);
+                    busqueda.setSeach(query);
+                    // Crea el objeto búsquedas (ligado a un usuario)...
+                    Busquedas busquedasUsr  =    Busquedas.ClassMgr.createBusquedas(webSite);
+                    busquedasUsr.addBusqueda(busqueda);
+                    busquedasUsr.setUsuario(user);
+                    mensaje = "La búsqueda ha sido agregada a su carpeta";
+
+                } else if ("guardaEmpresas".equals(action)) {
+                    String[] empresas   =   request.getParameterValues("chkEmpresas");
+                    
+                    if (empresas != null && empresas.length > 0) {
+                        for (String uriEmpresa : empresas) {
+                           if (uriEmpresa != null) {
+                               String uri   =   request.getParameter("uri");
+                               //Recupera la empresa...
+                               Empresa emp  =   Empresa.ClassMgr.createEmpresa(uri, webSite);
+                               //Crea la empresa de interés..
+                               EmpresaInteres empresaInteres = EmpresaInteres.ClassMgr.createEmpresaInteres(webSite);
+                               //Añade empresa...
+                               empresaInteres.addEmpresa(emp);
+                               //Añade usuario...
+                               empresaInteres.setUsuario(user);
+                           }
+                          mensaje = "Las empresas han sido agregadas a su carpeta";
+                        }
+                    }
+                } else {
+                    super.processAction(request, response);
+                }
+            } else {
+                mensaje = "El usuario debe de estar firmado en el sistema";
+            }
+        } catch (Exception e) {
+            log.error(e);
+            mensaje = "Imposible agregar a carpeta por el momento";
+        }
+        response.setRenderParameter("act", "results");
+        response.setRenderParameter("query", query);
+        response.setRenderParameter("mensaje", mensaje);
+        return;
+    }
+
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
@@ -72,23 +138,26 @@ public class SearchResource extends GenericResource
                     log.debug("---> query = " + query );
 
                     NLSearcher searcher  =   new NLSearcher("es");
-                    Iterator<SemanticObject> results = searcher.search(query, paramRequest.getWebPage().getWebSite(), paramRequest.getUser());
-                    int tipoResultados   = determinaTipoResultados(results);
+                    Iterator<SemanticObject> results    =  searcher.search(query, paramRequest.getWebPage().getWebSite(), paramRequest.getUser());
+
+                    List<SemanticObject> listSemObj     =  construyeColeccionSemObjs(results);
+
+                    int tipoResultados   =  determinaTipoResultados(listSemObj);
 
                     if (TIPO_EMPRESA == tipoResultados) {
                         log.debug("---> TIPO_EMPRESA");
-                        List<Empresa> listEmpresas  = contruyeColeccionEmpresas(results);
+                        List<Empresa> listEmpresas  = contruyeColeccionEmpresas(listSemObj);
                         request.setAttribute("results", listEmpresas);
                         path = "/swbadmin/jsp/sieps/resultsEmpresa.jsp";
                     } else if (TIPO_PRODUCTO == tipoResultados) {
                         log.debug("---> TIPO_PRODUCTO");
-                        List<Producto> listProductos  = contruyeColeccionProductos(results);
+                        List<Producto> listProductos  = contruyeColeccionProductos(listSemObj);
                         request.setAttribute("results", listProductos);
                         path = "/swbadmin/jsp/sieps/resultsProducto.jsp";
                     }
                     else if (TIPO_WEBPAGE == tipoResultados) {
                         log.debug("---> TIPO_PRODUCTO");
-                        List<Producto> listProductos  = contruyeColeccionProductos(results);
+                        List<Producto> listProductos  = contruyeColeccionProductos(listSemObj);
                         request.setAttribute("results", listProductos);
                         path = "/swbadmin/jsp/sieps/resultsWebPage.jsp";
                     }
@@ -142,16 +211,15 @@ public class SearchResource extends GenericResource
      * @param semObjects Iterador sobre una colección de objetos semánticos
      * @return Colección con la información
      */
-    private List<Empresa> contruyeColeccionEmpresas(Iterator<SemanticObject> semObjects) {
+    private List<Empresa> contruyeColeccionEmpresas(List<SemanticObject> semObjects) {
         List<Empresa> results = Collections.emptyList();
-        if (semObjects != null) {
-            results = new ArrayList<Empresa>();
-            while (semObjects.hasNext()) {
-                SemanticObject so = semObjects.next();
-                GenericObject  go = so.createGenericInstance();
-                if (go instanceof Empresa) {
-                    results.add((Empresa)go);
-                }                
+        if (!semObjects.isEmpty()) {
+            results = new ArrayList<Empresa>(semObjects.size());
+            for (SemanticObject so : semObjects) {
+                    GenericObject  go = so.createGenericInstance();
+                    if (go instanceof Empresa) {
+                        results.add((Empresa)go);
+                    }
             }
         }
         return results;
@@ -161,17 +229,17 @@ public class SearchResource extends GenericResource
      * @param semObjects Iterador sobre una colección de objetos semánticos
      * @return Colección con la información
      */
-    private List<Producto> contruyeColeccionProductos(Iterator<SemanticObject> semObjects) {
+    private List<Producto> contruyeColeccionProductos(List<SemanticObject> semObjects) {
         List<Producto> results = Collections.emptyList();
-        if (semObjects != null) {
-            results = new ArrayList<Producto>();
-            while (semObjects.hasNext()) {
-                SemanticObject so = semObjects.next();
+        if (!semObjects.isEmpty()) {
+            results     = new ArrayList<Producto>(semObjects.size());
+            for (SemanticObject so: semObjects) {
                 GenericObject  go = so.createGenericInstance();
                 if (go instanceof Producto) {
                     results.add((Producto)go);
                 }
             }
+
         }
         return results;
     }
@@ -180,10 +248,10 @@ public class SearchResource extends GenericResource
      * @param results Iterador sobre una colección de objetos semánticos
      * @return identificador de tipo de resultado
      */
-    private int determinaTipoResultados(Iterator<SemanticObject> results) {
+    private int determinaTipoResultados(List<SemanticObject> results) {
         int tipoRes = -1;
-        if (results != null && results.hasNext()) {
-            SemanticObject so =  results.next();
+        if (!results.isEmpty()) {
+            SemanticObject so =  results.get(0);
             GenericObject go  =  so.createGenericInstance();
             if (go instanceof Empresa) {
                tipoRes = TIPO_EMPRESA;
@@ -215,6 +283,20 @@ public class SearchResource extends GenericResource
             }
         }
         return tipoRes;
+    }
+
+    private List<SemanticObject> construyeColeccionSemObjs(Iterator<SemanticObject> results) {
+        List<SemanticObject> semObjs = Collections.emptyList();
+        if (results != null) {
+            semObjs =  new ArrayList<SemanticObject>();
+            while (results.hasNext()) {
+                SemanticObject semanticObject = results.next();
+                if (semObjs != null) {
+                    semObjs.add(semanticObject);
+                }
+            }
+        }
+        return semObjs;
     }
     
 }
