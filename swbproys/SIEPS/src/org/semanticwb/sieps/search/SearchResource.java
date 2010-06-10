@@ -194,19 +194,21 @@ public class SearchResource extends GenericResource
 
                         boolean isAllEmpInt = isAllEmpresasInteres(listEmpresas, getResourceBase().getWebSite(), user);
                         request.setAttribute("isAllEmpInt", isAllEmpInt);
-
+                        request.setAttribute("query", query);
                         path = "/swbadmin/jsp/sieps/resultsEmpresa.jsp";
                     }
                     else if (TIPO_PRODUCTO == tipoResultados)
                     {
                         List<Producto> listProductos = contruyeColeccionProductos(listSemObj);
                         request.setAttribute("results", listProductos);
+                        request.setAttribute("query", query);
                         path = "/swbadmin/jsp/sieps/resultsProducto.jsp";
                     }
                     else if (TIPO_WEBPAGE == tipoResultados)
                     {
                         List<Producto> listProductos = contruyeColeccionProductos(listSemObj);
                         request.setAttribute("results", listProductos);
+                        request.setAttribute("query", query);
                         path = "/swbadmin/jsp/sieps/resultsWebPage.jsp";
                     }
 
@@ -258,19 +260,21 @@ public class SearchResource extends GenericResource
 
                         boolean isAllEmpInt = isAllEmpresasInteres(listEmpresas, getResourceBase().getWebSite(), user);
                         request.setAttribute("isAllEmpInt", isAllEmpInt);
-
+                        request.setAttribute("query", query);
                         path = "/swbadmin/jsp/sieps/resultsEmpresa.jsp";
                     }
                     else if (TIPO_PRODUCTO == tipoResultados)
                     {
                         List<Producto> listProductos = contruyeColeccionProductos(listSemObj);
                         request.setAttribute("results", listProductos);
+                        request.setAttribute("query", query);
                         path = "/swbadmin/jsp/sieps/resultsProducto.jsp";
                     }
                     else if (TIPO_WEBPAGE == tipoResultados)
                     {
                         List<Producto> listProductos = contruyeColeccionProductos(listSemObj);
                         request.setAttribute("results", listProductos);
+                        request.setAttribute("query", query);
                         path = "/swbadmin/jsp/sieps/resultsWebPage.jsp";
                     }
                 }
@@ -292,6 +296,7 @@ public class SearchResource extends GenericResource
 
                         boolean isAllEmpInt = isAllEmpresasInteres(listEmpresas, getResourceBase().getWebSite(), user);
                         request.setAttribute("isAllEmpInt", isAllEmpInt);
+                        request.setAttribute("query", query);
 
                         path = "/swbadmin/jsp/sieps/resultsEmpresa.jsp";
                     }
@@ -299,12 +304,14 @@ public class SearchResource extends GenericResource
                     {
                         List<Producto> listProductos = contruyeColeccionProductos(listSemObj);
                         request.setAttribute("results", listProductos);
+                        request.setAttribute("query", query);
                         path = "/swbadmin/jsp/sieps/resultsProducto.jsp";
                     }
                     else if (TIPO_WEBPAGE == tipoResultados)
                     {
                         List<Producto> listProductos = contruyeColeccionProductos(listSemObj);
                         request.setAttribute("results", listProductos);
+                        request.setAttribute("query", query);
                         path = "/swbadmin/jsp/sieps/resultsWebPage.jsp";
                     }
 
