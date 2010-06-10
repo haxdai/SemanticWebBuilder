@@ -7,6 +7,7 @@ package org.semanticwb.sieps.search;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -49,7 +50,6 @@ public class SearchResource extends GenericResource
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         String action   =   response.getAction();
-        log.debug("---> processAction = " + action);
         User user       =   response.getUser();
         boolean isUser  =   (user != null && user.isSigned());
         String mensaje  =   "";
@@ -60,7 +60,6 @@ public class SearchResource extends GenericResource
         try {
             if (isUser) {
                 if ("guardaConsulta".equals(action)) {
-                    log.debug("---> action query = " + query);
                     // Crea el objeto búsqueda...
                     Busqueda busqueda   =   Busqueda.ClassMgr.createBusqueda(webSite);
                     busqueda.setSeach(query);
@@ -72,13 +71,11 @@ public class SearchResource extends GenericResource
 
                 } else if ("guardaEmpresas".equals(action)) {
                     String[] empresas   =   request.getParameterValues("chkEmpresas");
-                    
                     if (empresas != null && empresas.length > 0) {
                         for (String uriEmpresa : empresas) {
-                           if (uriEmpresa != null) {
-                               String uri   =   request.getParameter("uri");
+                           if (uriEmpresa != null) {                               
                                //Recupera la empresa...
-                               Empresa emp  =   Empresa.ClassMgr.createEmpresa(uri, webSite);
+                               Empresa emp  =   Empresa.ClassMgr.createEmpresa(uriEmpresa, webSite);
                                //Crea la empresa de interés..
                                EmpresaInteres empresaInteres = EmpresaInteres.ClassMgr.createEmpresaInteres(webSite);
                                //Añade empresa...
@@ -111,6 +108,7 @@ public class SearchResource extends GenericResource
     {   
         String path ="/swbadmin/jsp/sieps/resultsEmpresa.jsp";
         RequestDispatcher dis =null;
+        User user   = paramRequest.getUser();
         try
         {
             if (paramRequest.getCallMethod() == SWBParamRequest.Call_STRATEGY)
@@ -135,8 +133,6 @@ public class SearchResource extends GenericResource
                     }
                 } else if ("results".equals(act)) {
                     String query        =   request.getParameter("query");
-                    log.debug("---> query = " + query );
-
                     NLSearcher searcher  =   new NLSearcher("es");
                     Iterator<SemanticObject> results    =  searcher.search(query, paramRequest.getWebPage().getWebSite(), paramRequest.getUser());
 
@@ -145,18 +141,20 @@ public class SearchResource extends GenericResource
                     int tipoResultados   =  determinaTipoResultados(listSemObj);
 
                     if (TIPO_EMPRESA == tipoResultados) {
-                        log.debug("---> TIPO_EMPRESA");
                         List<Empresa> listEmpresas  = contruyeColeccionEmpresas(listSemObj);
+                        //El usuario tiene empresas de interés ...                        
                         request.setAttribute("results", listEmpresas);
+
+                        boolean isAllEmpInt = isAllEmpresasInteres(listEmpresas, getResourceBase().getWebSite(), user);
+                        request.setAttribute("isAllEmpInt", isAllEmpInt);
+
                         path = "/swbadmin/jsp/sieps/resultsEmpresa.jsp";
                     } else if (TIPO_PRODUCTO == tipoResultados) {
-                        log.debug("---> TIPO_PRODUCTO");
                         List<Producto> listProductos  = contruyeColeccionProductos(listSemObj);
                         request.setAttribute("results", listProductos);
                         path = "/swbadmin/jsp/sieps/resultsProducto.jsp";
                     }
                     else if (TIPO_WEBPAGE == tipoResultados) {
-                        log.debug("---> TIPO_PRODUCTO");
                         List<Producto> listProductos  = contruyeColeccionProductos(listSemObj);
                         request.setAttribute("results", listProductos);
                         path = "/swbadmin/jsp/sieps/resultsWebPage.jsp";
@@ -298,5 +296,105 @@ public class SearchResource extends GenericResource
         }
         return semObjs;
     }
+
+    public static boolean isEmpresasInteres(User user, SWBModel model, String uriEmpresa) {
+
+        boolean isEmprInteres   = false;
+
+        try {
+            if (user == null) {
+                throw  new IllegalArgumentException("Argumento user nulo");
+            }
+            Empresa empresa = (Empresa)SemanticObject.createSemanticObject(uriEmpresa).createGenericInstance();
+            if (empresa != null) {
+
+                Iterator<EmpresaInteres> interes    = EmpresaInteres.ClassMgr.listEmpresaIntereses(model);
+                
+                if (interes != null ) {
+                    while (interes.hasNext()) {
+                        EmpresaInteres empresaInteres = interes.next();
+                        if (empresaInteres != null) {
+                            User userInteres     =  empresaInteres.getUsuario();
+                            isEmprInteres = (userInteres != null && user.getURI() != null
+                                                && user.getURI().equals(userInteres.getURI()));
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            log.error(e);            
+        }
+        return isEmprInteres;
+    }
+   
+    public static void limpiaEmpresasInteres(User user, SWBModel model, List<Empresa> empresas) {
+      
+        try {
+            if (user == null) {
+                throw  new IllegalArgumentException("Argumento user nulo");
+            }
+
+            for (Empresa empresa : empresas) {
+                if (empresa != null) {
+                    Iterator<EmpresaInteres> interes    = EmpresaInteres.ClassMgr.listEmpresaIntereses(model);
+                    if (interes != null ) {
+                        while (interes.hasNext()) {
+                            EmpresaInteres empresaInteres = interes.next();
+                            if (empresaInteres != null) {
+                                User userInteres     =  empresaInteres.getUsuario();
+                                boolean isEmprInteres = (userInteres != null && user.getURI() != null
+                                                    && user.getURI().equals(userInteres.getURI()));
+                                if (isEmprInteres) {
+                                    EmpresaInteres.ClassMgr.removeEmpresaInteres(empresaInteres.getId(), model);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+        } catch (Exception e) {
+            log.error(e);
+        }
+        return ;
+    }
+
+    private boolean isAllEmpresasInteres (List<Empresa> empresas, SWBModel webSite, User user) {
+
+        boolean isAllEmpresas   =   true;
+        try {
+            int numEmpInt       =   0;
+
+            //Empresas de interes usr...
+            List<String> listIdsEmpresaIntereses    =   new ArrayList<String>();
+
+            Iterator<EmpresaInteres> interes        =   EmpresaInteres.ClassMgr.listEmpresaIntereses();
+            
+            while (interes.hasNext()) {
+                EmpresaInteres empInt   =   interes.next();
+                User userEmptInt        =   empInt.getUsuario();
+                if (userEmptInt.getURI().equals(user.getURI())) {
+                    String id   =   empInt.getEmpresa().getId();
+                    if (!listIdsEmpresaIntereses.contains(id)) {
+                        listIdsEmpresaIntereses.add(id);
+                    }
+                }
+            }
+            //La empresa de interes existe en el conjunto resultado
+            for (String id : listIdsEmpresaIntereses) {                
+                for (Empresa empresa : empresas) {
+                    if (empresa.getURI().equals(id)) {
+                        ++numEmpInt;
+                    }
+                }
+            }
+            
+            isAllEmpresas   =   (numEmpInt == empresas.size());
+        } catch (Exception e) {
+            log.error(e);
+        }
+
+        return isAllEmpresas;
     
+    }
 }
