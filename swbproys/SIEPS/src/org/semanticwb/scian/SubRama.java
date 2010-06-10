@@ -19,7 +19,7 @@ public class SubRama extends org.semanticwb.scian.base.SubRamaBase
         {
             Clase temp=classes.next();
             SemanticObject superobj=getSuper(temp.getSemanticObject(), sclass);
-            if(superobj.getURI().equals(getURI()))
+            if(superobj!=null && superobj.getURI().equals(getURI()))
             {
                 getClasses.add(temp);
             }

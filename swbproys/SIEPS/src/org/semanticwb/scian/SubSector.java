@@ -19,8 +19,8 @@ public class SubSector extends org.semanticwb.scian.base.SubSectorBase
         while(ramas.hasNext())
         {
             Rama rama=ramas.next();
-            SemanticObject subsector=getSuper(rama.getSemanticObject(), SubSector.sclass);
-            if(subsector.getURI().equals(this.getURI()))
+            SemanticObject superobj=getSuper(rama.getSemanticObject(), SubSector.sclass);
+            if(superobj!=null && superobj.getURI().equals(this.getURI()))
             {
                 getRamas.add(rama);
             }
