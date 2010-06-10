@@ -66,7 +66,7 @@ public class PymesScheduledTasks {
                 while (itProviders.hasNext()) {
                     ServiceProvider servProvider = itProviders.next();
                     Date spEndAnnunceDate = servProvider.getSpEndAnnuncePeriod();
-                    if(servProvider.getSpStatus()==PymturUtils.ESTATUS_ACTIVADO && spEndAnnunceDate!=null) //Solo si esta activado el service provider
+                    if(servProvider.getSpStatus()==PymturUtils.ESTATUS_PUBLICADO && spEndAnnunceDate!=null) //Solo si esta publicado el service provider
                     {
                         if (spEndAnnunceDate.before(calEmails.getTime())) { //Todos los anuncios que tengan una fecha de expiración
                             if (servProvider.getPymePaqueteType() > PymturUtils.PAQ_FICHA) { //Se envía un cierto cuerpo de correo (anuncios de pymes gratuitos que pagan)
@@ -86,7 +86,7 @@ public class PymesScheduledTasks {
                             }
                         }
                         if (spEndAnnunceDate.before(calDisableAnnunce.getTime())) { //Todos los anuncios que tengan una fecha de expiración
-                            servProvider.setSpStatus(PymturUtils.ESTATUS_DESACTIVADO); //Considerando que se desactivaría la pyme
+                            servProvider.setSpStatus(PymturUtils.ESTATUS_PAGADO); //Considerando que se desactivaría la pyme, pero ya la pyme ya se acepto y se pagó
                         }
                     }
                 }
