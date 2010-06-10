@@ -11,6 +11,20 @@ public class Family extends org.semanticwb.unspsc.base.FamilyBase
     {
         super(base);
     }
+    public Class getClass1()
+    {
+        Iterator<Class> values=Class.ClassMgr.listClasses();
+        while(values.hasNext())
+        {
+            Class value=values.next();
+            SemanticObject superobj=getSuper(value.getSemanticObject(), sclass);
+            if(superobj!=null && superobj.getURI().equals(this.getURI()))
+            {
+                return value;
+            }
+        }
+        return null;
+    }
     public Iterator<Class> getClasses()
     {
         HashSet<Class> valueToReturn=new HashSet<Class>();
