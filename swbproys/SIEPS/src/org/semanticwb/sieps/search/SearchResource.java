@@ -234,7 +234,7 @@ public class SearchResource extends GenericResource
                                         }
                                         sb.append(" cuya ");
                                         sb.append(name);
-                                        sb.append(" sea ");
+                                        sb.append(" es ");
                                         sb.append(value);
                                         i++;
                                     }
