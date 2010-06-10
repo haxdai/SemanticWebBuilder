@@ -33,8 +33,8 @@ public class Sector extends org.semanticwb.scian.base.SectorBase
         while(subsectores.hasNext())
         {
             SubSector subsector=subsectores.next();
-            SemanticObject sector=getSuper(subsector.getSemanticObject(), Sector.sclass);
-            if(sector.getURI().equals(this.getURI()))
+            SemanticObject superobj=getSuper(subsector.getSemanticObject(), Sector.sclass);
+            if(superobj!=null && superobj.getURI().equals(this.getURI()))
             {
                 getSubSectores.add(subsector);
             }

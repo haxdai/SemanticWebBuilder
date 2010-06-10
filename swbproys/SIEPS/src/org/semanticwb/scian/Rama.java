@@ -19,7 +19,7 @@ public class Rama extends org.semanticwb.scian.base.RamaBase
         {
             SubRama temp=ramas.next();
             SemanticObject superobj=getSuper(temp.getSemanticObject(), sclass);
-            if(superobj.getURI().equals(getURI()))
+            if(superobj!=null && superobj.getURI().equals(getURI()))
             {
                 getSubRamas.add(temp);
             }
