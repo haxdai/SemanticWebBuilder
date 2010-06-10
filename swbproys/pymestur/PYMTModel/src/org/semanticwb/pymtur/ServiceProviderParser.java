@@ -147,7 +147,7 @@ public class ServiceProviderParser extends GenericParser {
         boolean ret = super.canUserView(gen, user);//Verificar reglas y filtros de SWB
 
         //Si está activado todo mundo lo puede ver
-        if (ret && ((ServiceProvider)gen).getSpStatus() == PymturUtils.ESTATUS_ACTIVADO) {
+        if (ret && ((ServiceProvider)gen).getSpStatus() == PymturUtils.ESTATUS_PUBLICADO) {
             ret = true;
         } else if (ret) { //Si no, sólo lo pueden ver los administradores
             Role role = user.getUserRepository().getRole("adminProviders");
