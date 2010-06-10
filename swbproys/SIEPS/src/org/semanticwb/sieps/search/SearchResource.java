@@ -154,7 +154,7 @@ public class SearchResource extends GenericResource
                     while (names.hasMoreElements())
                     {
                         String name = names.nextElement().toString();
-                        if (!"wbseach".equalsIgnoreCase(name) && !"busquedaproductos".equalsIgnoreCase(name))
+                        if (name!=null && !"opc".equalsIgnoreCase(name) && !"wbseach".equalsIgnoreCase(name) && !"busquedaproductos".equalsIgnoreCase(name))
                         {
                             String[] values = request.getParameterValues(name);
                             if (values != null)
@@ -162,7 +162,7 @@ public class SearchResource extends GenericResource
                                 int i = 1;
                                 for (String value : values)
                                 {
-                                    if (!"".equals(value) && !"all".equals(value))
+                                    if (value!=null && !"".equals(value) && !"all".equals(value))
                                     {
                                         if (i > 1)
                                         {
@@ -221,6 +221,7 @@ public class SearchResource extends GenericResource
                         request.setAttribute("query", query);
                         path = "/swbadmin/jsp/sieps/resultsWebPage.jsp";
                     }
+                    
 
                 }
                 else if ("busquedaempresas".equals(act))
@@ -230,7 +231,7 @@ public class SearchResource extends GenericResource
                     while (names.hasMoreElements())
                     {
                         String name = names.nextElement().toString();
-                        if (!"wbseach".equalsIgnoreCase(name) && !"busquedaempresas".equalsIgnoreCase(name))
+                        if (name!=null && !"opc".equalsIgnoreCase(name) && !"wbseach".equalsIgnoreCase(name) && !"busquedaempresas".equalsIgnoreCase(name))
                         {
                             String[] values = request.getParameterValues(name);
                             if (values != null)
@@ -238,7 +239,7 @@ public class SearchResource extends GenericResource
                                 int i = 1;
                                 for (String value : values)
                                 {
-                                    if (!"".equals(value) && !"all".equals(value))
+                                    if (value!=null && !"".equals(value) && !"all".equals(value))
                                     {
                                         if (i > 1)
                                         {
