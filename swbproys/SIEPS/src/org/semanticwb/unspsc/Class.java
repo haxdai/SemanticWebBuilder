@@ -26,4 +26,18 @@ public class Class extends org.semanticwb.unspsc.base.ClassBase
         }
         return valueToReturn.iterator();
     }
+    public Commodity getCommodity()
+    {        
+        Iterator<Commodity> values=Commodity.ClassMgr.listCommodities();
+        while(values.hasNext())
+        {
+            Commodity value=values.next();
+            SemanticObject superobj=getSuper(value.getSemanticObject(), sclass);
+            if(superobj!=null && superobj.getURI().equals(this.getURI()))
+            {
+                return value;
+            }
+        }
+        return null;
+    }
 }

@@ -27,7 +27,20 @@ public class Segment extends org.semanticwb.unspsc.base.SegmentBase
     {
         super(base);
     }
-
+    public Family getFamily()
+    {
+        Iterator<Family> values=Family.ClassMgr.listFamilies();
+        while(values.hasNext())
+        {
+            Family value=values.next();
+            SemanticObject superobj=getSuper(value.getSemanticObject(), sclass);
+            if(superobj!=null && superobj.getURI().equals(this.getURI()))
+            {
+                return value;
+            }
+        }
+        return null;
+    }
     public Iterator<Family> getFamilies()
     {
         HashSet<Family> valueToReturn=new HashSet<Family>();
