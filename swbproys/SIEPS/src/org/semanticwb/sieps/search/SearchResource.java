@@ -168,10 +168,20 @@ public class SearchResource extends GenericResource
                                         {
                                             sb.append(" y que ");
                                         }
-                                        sb.append(" cuya ");
-                                        sb.append(name);
-                                        sb.append(" sea ");
-                                        sb.append(value);
+                                        if("palabraClave".equalsIgnoreCase(name))
+                                        {
+                                            sb.append(" cuya ");
+                                            sb.append("nombre");
+                                            sb.append(" es ");
+                                            sb.append(value);
+                                        }
+                                        else
+                                        {
+                                            sb.append(" cuya ");
+                                            sb.append(name);
+                                            sb.append(" es ");
+                                            sb.append(value);
+                                        }
                                         i++;
                                     }
                                 }
@@ -234,10 +244,22 @@ public class SearchResource extends GenericResource
                                         {
                                             sb.append(" y que ");
                                         }
-                                        sb.append(" cuya ");
-                                        sb.append(name);
-                                        sb.append(" es ");
-                                        sb.append(value);
+                                        if("palabraClave".equalsIgnoreCase(name))
+                                        {
+                                            sb.append(" cuya ");
+                                            sb.append("nombre");
+                                            sb.append(" es ");
+                                            sb.append(value);
+                                        }
+                                        else
+                                        {
+                                            sb.append(" cuya ");
+                                            sb.append(name);
+                                            sb.append(" es ");
+                                            sb.append(value);
+                                        }
+                                       
+                                        
                                         i++;
                                     }
                                 }
