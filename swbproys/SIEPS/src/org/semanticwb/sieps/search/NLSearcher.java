@@ -45,7 +45,6 @@ public class NLSearcher {
     private String lng = "";
     private SWBDictionary lex = null;
     private SWBSparqlTranslator tr;
-    private String lastQuery = "";
     private ArrayList<Rule> rules;
     private String []determiners = {"el","la","los","las"};
     private HashMap<String, String> contractions;
@@ -88,8 +87,8 @@ public class NLSearcher {
         rules.add(new Rule("rule1", "\\s*que\\s*produce[n]?\\s*", "$1 con (producto con nombre como \"$2\")", 1));
         rules.add(new Rule("rule2", "\\s*que\\s*fabrica[n]?\\s*", "$1 con (producto con nombre como \"$2\")", 1));
         rules.add(new Rule("rule3", "\\s*que\\s*elabora[n]?\\s*", "$1 con (producto con nombre como \"$2\")", 1));
-        rules.add(new Rule("rule4", "\\s*cuy[a|o]\\s*actividad\\s*[s]?e[s|ea]\\s*", "$1 con (clase con nombre como \"$2\")", 1));
-        rules.add(new Rule("rule5", "\\s*que\\s*su\\s*actividad\\s*[s]?e[s|ea]\\s*", "$1 con (clase con nombre como \"$2\")", 1));
+        rules.add(new Rule("rule4", "\\s*cuy[a|o]\\s*actividad\\s*[s]?e[s|ea]\\s*", "$1 con (clase con actividad como \"$2\")", 1));
+        rules.add(new Rule("rule5", "\\s*que\\s*su\\s*actividad\\s*[s]?e[s|ea]\\s*", "$1 con (clase con actividad como \"$2\")", 1));
         rules.add(new Rule("rule6", "\\s*cuy[o|a]\\s*código\\s*[s]?e[s|ea]\\s*", "$1 con (categoría con código = \"$2\")", 1));
         rules.add(new Rule("rule7", "\\s*que\\s*su\\s*código\\s*[s]?e[s|ea]\\s*", "$1 con (categoría con código = \"$2\")", 1));
         rules.add(new Rule("rule8", "\\s*cuy[a|o]\\s*clave\\s*[s]?e[s|ea]\\s*", "$1 con (categoría con código = \"$2\")", 1));
@@ -112,11 +111,11 @@ public class NLSearcher {
         contractions.put("del", "de el");
         contractions.put("al", "a el");
 
-        Iterator<Word> words = lex.getDefaultLexicon().listWords();
-        while(words.hasNext()) {
-            Word w = words.next();
-            System.out.println("::" + w.getLexicalForm());
-        }
+//        Iterator<Word> words = lex.getDefaultLexicon().listWords();
+//        while(words.hasNext()) {
+//            Word w = words.next();
+//            System.out.println("::" + w.getLexicalForm());
+//        }
     }
 
     /**
@@ -129,43 +128,80 @@ public class NLSearcher {
         Collections.sort(rules, pComp);
     }
 
-    /*public String correctSpell(String query) {
+    /**
+     * Tries to correct query spelling.
+     * @param query Query.
+     * @return Corrected query.
+     */
+    public String correctSpell(String query) {
         String res = "";
-        String []words = query.split(" ");
-        SWBSpellChecker chk = new SWBSpellChecker(SWBPortal.getIndexMgr().getDefaultIndexer().getIndexPath(), SWBIndexer.ATT_CLASS);
+        String []words = query.split(" ");        
         
         for (int i = 0; i < words.length; i++) {
-            res += chk.suggestSimilar(words[i]) + " ";
+            res += getMostSimilarWord(words[i]) + " ";
         }
-
         return res.trim();
-    }*/
+    }
 
-    /*private int CaulculateDistance(String s1, String s2) {
-        int res = 0;
-        int m = s1.length();
-        int n = s2.length();
-
-        int [][]d = new int[m][n];
-        for (int i = 0; i < m; i++) {
-            d[i][0] = i; //insertion
-        }
-
-        for (int i = 0; i < n; i++) {
-            d[0][i] = i; //deletion
-        }
-
-        for (int j = 1; j < n; j++) {
-            for (int i = 1; i < m; i++) {
-                if (s1.charAt(i) == s2.charAt(i)) {
-                    d[i][j] = d[i-1][j-1];
-                } else {
-                    d[i][j] = minimum(d[i-1][j] + 1, d[i][j-1]+ 1, d[i-1][j-1]+1);
-                }
+    /**
+     * Gets the most similar word to w in the lexicon using Damerau-Levenshtein
+     * distance.
+     * @param w Word.
+     * @return Most similar word to w.
+     */
+    private String getMostSimilarWord(String w) {
+        String res = w;
+        int mindistance = 99999;
+        Iterator<Word> wit = lex.getDefaultLexicon().listWords();
+        while(wit.hasNext()) {
+            Word wd = wit.next();
+            int d = caulculateDistance(wd.getLexicalForm(), w);
+            if (d < mindistance) {
+                mindistance = d;
+                res = wd.getLexicalForm();
             }
         }
         return res;
-    }*/
+    }
+
+    /**
+     * Calculates Damerau-Levenshtein distance between two words.
+     * @param s1 Word 1.
+     * @param s2 Word 2.
+     * @return Damerau-Levenshtein distance between word 1 and word 2.
+     */
+    private int caulculateDistance(String s1, String s2) {
+        int m = s1.length();
+        int n = s2.length();
+
+        int [][]d = new int[m + 1][n + 1];
+        for (int i = 0; i <= m; i++) {
+            d[i][0] = i; //insertion
+        }
+
+        for (int i = 0; i <= n; i++) {
+            d[0][i] = i; //deletion
+        }
+
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                d[i][j] = minimum(d[i-1][j]+1, d[i][j-1]+1, d[i-1][j-1] + ((s1.charAt(i-1) == s2.charAt(j-1))?0:1));
+            }
+        }
+
+        return d[m][n];
+    }
+
+    /**
+     * Finds the minimum of three numbers.
+     * @param a
+     * @param b
+     * @param c
+     * @return Minimum of a,b,c
+     */
+    private int minimum(int a, int b, int c) {
+        return Math.min(Math.min(a, b), c);
+    }
 
     /**
      * Tokenizes query string using given rules.
@@ -175,8 +211,10 @@ public class NLSearcher {
     private String preprocessQuery (String query) {
         String res = query;
         boolean matched = false;
-        String subject = "";
         String finalquery = "";
+        int matches = 0;
+
+        //System.out.println(":::::::" + correctSpell(query));
 
         //If more than a word, processing needed
         if (query.split(" ").length > 1) {
@@ -204,12 +242,6 @@ public class NLSearcher {
 
                     //Rule matched, get parts
                     if (matcher.find()) {
-                        //First rule over first query gives the subject
-                        if (i == 0) {
-                            subject = tquery.substring(0, matcher.start());
-//                            System.out.println("-- subject found: " + subject);
-                        }
-                        //System.out.println("--Rule " + rule.getName() + " matched");
                         String parts[] = tquery.split(rule.getRegexp());
 //                        System.out.println("::Splitting by " + rule.getRegexp());
 //
@@ -221,28 +253,24 @@ public class NLSearcher {
 
                         //If tokenized correctly, replace query string
                         if (parts.length == 2) {
+                            matches++;
+                            matched = true;
                             res = rule.getResult().replace("$1", parts[0]);
                             res = res.replace("$2", parts[1]);
                             //System.out.println("--Rewritten query: " + res);
-                            matched = true;
+                            if (matches > 1) {
+                                res = res.replaceFirst("con", "");
+                            }
                         }
                     }
                 }
                 finalquery += "," + res;
             }
         } else {
-                finalquery = query;
-            }
+            finalquery = query;
+        }
         return finalquery.replaceFirst(",", "");
     }
-
-    /*private int minimum(int a, int b, int c) {
-        int res = a;
-        
-        if (res > b) res = b;
-        if (res > c) res = c;
-        return res;
-    }*/
 
     /**
      * Executes a restricted Natural Language query.
@@ -271,7 +299,6 @@ public class NLSearcher {
 
         //If query translated correctly, and it is allowed, execute it
         if (tr.getErrCode() == 0 && allowed) {
-            lastQuery = query;
             System.out.println("--Translated query:" + query);
             System.out.println("---SPARQL QUERY:---");
             System.out.println(sparqlQuery);
