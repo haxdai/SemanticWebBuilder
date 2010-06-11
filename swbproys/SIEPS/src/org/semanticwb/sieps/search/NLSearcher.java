@@ -88,7 +88,7 @@ public class NLSearcher {
         rules.add(new Rule("rule2", "\\s*que\\s*fabrica[n]?\\s*", "$1 con (producto con nombre como \"$2\")", 1));
         rules.add(new Rule("rule3", "\\s*que\\s*elabora[n]?\\s*", "$1 con (producto con nombre como \"$2\")", 1));
         rules.add(new Rule("rule4", "\\s*que\\s*su\\s*actividad\\s*[s]?e[s|ea]\\s*", "$1 con actividad = \"$2\"", 1));
-        rules.add(new Rule("rule4", "\\s*cuy[a|o]\\s*actividad\\s*[s]?e[s|ea]\\s*", "$1 con (clase con actividad como \"$2\")", 1));
+        rules.add(new Rule("rule5", "\\s*cuy[a|o]\\s*actividad\\s*[s]?e[s|ea]\\s*", "$1 con (clase con actividad como \"$2\")", 1));
         //rules.add(new Rule("rule5", "\\s*que\\s*su\\s*actividad\\s*[s]?e[s|ea]\\s*", "$1 con (clase con actividad como \"$2\")", 1));
         rules.add(new Rule("rule6", "\\s*cuy[o|a]\\s*código\\s*[s]?e[s|ea]\\s*", "$1 con (categoría con código = \"$2\")", 1));
         rules.add(new Rule("rule7", "\\s*que\\s*su\\s*código\\s*[s]?e[s|ea]\\s*", "$1 con (categoría con código = \"$2\")", 1));
@@ -98,19 +98,19 @@ public class NLSearcher {
         rules.add(new Rule("rule11", "\\s*que\\s*su\\s*clave\\s*scian\\s*[s]?e[s|ea]\\s*", "$1 con (clase con código = \"$2\")", 1));
         rules.add(new Rule("rule12", "\\s*que\\s*se\\s*encuentra[n]?\\s*en\\s*la\\s*categoría\\s*de\\s*", "$1 con (categoría con nombre como \"$2\")", 1));
         rules.add(new Rule("rule13", "\\s*que\\s*su\\s*categoría\\s*[s]?e[s|ea]\\s*", "$1 con (categoría con nombre como \"$2\")", 1));
-        rules.add(new Rule("rule14", "\\s*[de|en]\\s*el\\s*estado\\s*de\\s*", "$1 con estado como \"$2\"", 2));
+        rules.add(new Rule("rule14", "\\s*[d]?e[n]?\\s*el\\s*estado\\s*de\\s*", "$1 con estado como \"$2\"", 2));
         rules.add(new Rule("rule15", "\\s*cuy[a|o]\\s*estado\\s*[s]?e[s|ea]\\s*", "$1 con estado como \"$2\"", 2));
         rules.add(new Rule("rule16", "\\s*que\\s*su\\s*estado\\s*[s]?e[s|ea]\\s*", "$1 con estado como \"$2\"", 2));
-        rules.add(new Rule("rule17", "\\s*[de|en]\\s*la\\s*colonia\\s*", "$1 con colonia como \"$2\"", 2));
+        rules.add(new Rule("rule17", "\\s*[d]?e[n]?\\s*la\\s*colonia\\s*", "$1 con colonia como \"$2\"", 2));
         rules.add(new Rule("rule18", "\\s*cuy[a|o]\\s*colonia\\s*[s]?e[s|ea]\\s*", "$1 con colonia como \"$2\"", 2));
         rules.add(new Rule("rule19", "\\s*que\\s*su\\s*colonia\\s*[s]?e[s|ea]\\s*", "$1 con colonia como \"$2\"", 2));
-        rules.add(new Rule("rule20", "\\s*[en|de]\\s*el\\s*municipio\\s*de\\s*", "$1 con municipio como \"$2\"", 2));
+        rules.add(new Rule("rule20", "\\s*[d]?e[n]?\\s*el\\s*municipio\\s*de\\s*", "$1 con municipio como \"$2\"", 2));
         rules.add(new Rule("rule21", "\\s*cuy[a|o]\\s*municipio\\s*[s]?e[s|ea]\\s*", "$1 con municipio como \"$2\"", 2));
         rules.add(new Rule("rule22", "\\s*que\\s*su\\s*municipio\\s*[s]?e[s|ea]\\s*", "$1 con municipio como \"$2\"", 2));
-        rules.add(new Rule("rule22", "\\s*que\\s*su\\s*sector\\s*[s]?e[s|ea]\\s*", "$1 con sector = \"$2\"", 2));
-        rules.add(new Rule("rule22", "\\s*que\\s*su\\s*subsector\\s*[s]?e[s|ea]\\s*", "$1 con subsector = \"$2\"", 2));
-        rules.add(new Rule("rule22", "\\s*que\\s*su\\s*rama\\s*[s]?e[s|ea]\\s*", "$1 con rama = \"$2\"", 2));
-        rules.add(new Rule("rule22", "\\s*que\\s*su\\s*subrama\\s*[s]?e[s|ea]\\s*", "$1 con subrama = \"$2\"", 2));
+        rules.add(new Rule("rule23", "\\s*que\\s*su\\s*sector\\s*[s]?e[s|ea]\\s*", "$1 con sector = \"$2\"", 2));
+        rules.add(new Rule("rule24", "\\s*que\\s*su\\s*subsector\\s*[s]?e[s|ea]\\s*", "$1 con subsector = \"$2\"", 2));
+        rules.add(new Rule("rule25", "\\s*que\\s*su\\s*rama\\s*[s]?e[s|ea]\\s*", "$1 con rama = \"$2\"", 2));
+        rules.add(new Rule("rule26", "\\s*que\\s*su\\s*subrama\\s*[s]?e[s|ea]\\s*", "$1 con subrama = \"$2\"", 2));
 
         contractions = new HashMap<String, String>();
         contractions.put("del", "de el");
