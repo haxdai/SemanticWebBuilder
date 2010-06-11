@@ -87,8 +87,9 @@ public class NLSearcher {
         rules.add(new Rule("rule1", "\\s*que\\s*produce[n]?\\s*", "$1 con (producto con nombre como \"$2\")", 1));
         rules.add(new Rule("rule2", "\\s*que\\s*fabrica[n]?\\s*", "$1 con (producto con nombre como \"$2\")", 1));
         rules.add(new Rule("rule3", "\\s*que\\s*elabora[n]?\\s*", "$1 con (producto con nombre como \"$2\")", 1));
+        rules.add(new Rule("rule4", "\\s*que\\s*su\\s*actividad\\s*[s]?e[s|ea]\\s*", "$1 con actividad = \"$2\"", 1));
         rules.add(new Rule("rule4", "\\s*cuy[a|o]\\s*actividad\\s*[s]?e[s|ea]\\s*", "$1 con (clase con actividad como \"$2\")", 1));
-        rules.add(new Rule("rule5", "\\s*que\\s*su\\s*actividad\\s*[s]?e[s|ea]\\s*", "$1 con (clase con actividad como \"$2\")", 1));
+        //rules.add(new Rule("rule5", "\\s*que\\s*su\\s*actividad\\s*[s]?e[s|ea]\\s*", "$1 con (clase con actividad como \"$2\")", 1));
         rules.add(new Rule("rule6", "\\s*cuy[o|a]\\s*código\\s*[s]?e[s|ea]\\s*", "$1 con (categoría con código = \"$2\")", 1));
         rules.add(new Rule("rule7", "\\s*que\\s*su\\s*código\\s*[s]?e[s|ea]\\s*", "$1 con (categoría con código = \"$2\")", 1));
         rules.add(new Rule("rule8", "\\s*cuy[a|o]\\s*clave\\s*[s]?e[s|ea]\\s*", "$1 con (categoría con código = \"$2\")", 1));
@@ -106,6 +107,10 @@ public class NLSearcher {
         rules.add(new Rule("rule20", "\\s*[en|de]\\s*el\\s*municipio\\s*de\\s*", "$1 con municipio como \"$2\"", 2));
         rules.add(new Rule("rule21", "\\s*cuy[a|o]\\s*municipio\\s*[s]?e[s|ea]\\s*", "$1 con municipio como \"$2\"", 2));
         rules.add(new Rule("rule22", "\\s*que\\s*su\\s*municipio\\s*[s]?e[s|ea]\\s*", "$1 con municipio como \"$2\"", 2));
+        rules.add(new Rule("rule22", "\\s*que\\s*su\\s*sector\\s*[s]?e[s|ea]\\s*", "$1 con sector = \"$2\"", 2));
+        rules.add(new Rule("rule22", "\\s*que\\s*su\\s*subsector\\s*[s]?e[s|ea]\\s*", "$1 con subsector = \"$2\"", 2));
+        rules.add(new Rule("rule22", "\\s*que\\s*su\\s*rama\\s*[s]?e[s|ea]\\s*", "$1 con rama = \"$2\"", 2));
+        rules.add(new Rule("rule22", "\\s*que\\s*su\\s*subrama\\s*[s]?e[s|ea]\\s*", "$1 con subrama = \"$2\"", 2));
 
         contractions = new HashMap<String, String>();
         contractions.put("del", "de el");
