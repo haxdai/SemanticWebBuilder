@@ -166,18 +166,18 @@ public class SearchResource extends GenericResource
                                     {
                                         if (i > 1)
                                         {
-                                            sb.append(" y que ");
+                                            sb.append(" y ");
                                         }
                                         if("palabraClave".equalsIgnoreCase(name))
                                         {
-                                            sb.append(" cuya ");
+                                            sb.append(" que su ");
                                             sb.append("nombre");
                                             sb.append(" es ");
                                             sb.append(value);
                                         }
                                         else
                                         {
-                                            sb.append(" cuya ");
+                                            sb.append(" que su ");
                                             sb.append(name);
                                             sb.append(" es ");
                                             sb.append(value);
@@ -220,27 +220,24 @@ public class SearchResource extends GenericResource
                                 {
                                     if (value!=null && !"".equals(value) && !"all".equals(value))
                                     {
-                                        System.out.println("value: "+value);
                                         if (i > 1)
                                         {
-                                            sb.append(" y que ");
+                                            sb.append(" y ");
                                         }
                                         if("palabraClave".equalsIgnoreCase(name))
                                         {
-                                            sb.append(" cuya ");
+                                            sb.append(" que su ");
                                             sb.append("nombre");
                                             sb.append(" es ");
                                             sb.append(value);
                                         }
                                         else
                                         {
-                                            sb.append(" cuya ");
+                                            sb.append(" que su ");
                                             sb.append(name);
                                             sb.append(" es ");
                                             sb.append(value);
                                         }
-                                       
-                                        
                                         i++;
                                     }
                                 }
