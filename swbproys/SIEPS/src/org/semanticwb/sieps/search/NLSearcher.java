@@ -113,6 +113,7 @@ public class NLSearcher {
         rules.add(new Rule("rule26", "\\s*que\\s*su\\s*subrama\\s*[s]?e[s|ea]\\s*", "$1 con subrama = \"$2\"", 2));
         rules.add(new Rule("rule26", "\\s*que\\s*su\\s*familia\\s*[s]?e[s|ea]\\s*", "$1 con familia = \"$2\"", 2));
         rules.add(new Rule("rule26", "\\s*que\\s*su\\s*segmento\\s*[s]?e[s|ea]\\s*", "$1 con segmento = \"$2\"", 2));
+        rules.add(new Rule("rule26", "\\s*que\\s*su\\s*clase\\s*[s]?e[s|ea]\\s*", "$1 con clase = \"$2\"", 2));
 
         contractions = new HashMap<String, String>();
         contractions.put("del", "de el");
