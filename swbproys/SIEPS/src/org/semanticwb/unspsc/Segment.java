@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import org.semanticwb.platform.SemanticClass;
 import org.semanticwb.platform.SemanticObject;
-import org.semanticwb.scian.Rama;
 
 
 public class Segment extends org.semanticwb.unspsc.base.SegmentBase 
