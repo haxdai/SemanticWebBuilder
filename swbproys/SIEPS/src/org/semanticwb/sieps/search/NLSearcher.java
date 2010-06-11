@@ -26,6 +26,7 @@ import org.semanticwb.model.User;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.nlp.SWBDictionary;
 import org.semanticwb.nlp.SWBLocaleLexicon;
+import org.semanticwb.nlp.Word;
 import org.semanticwb.nlp.translation.SWBSparqlTranslator;
 import org.semanticwb.platform.SemanticModel;
 import org.semanticwb.platform.SemanticObject;
@@ -110,6 +111,12 @@ public class NLSearcher {
         contractions = new HashMap<String, String>();
         contractions.put("del", "de el");
         contractions.put("al", "a el");
+
+        Iterator<Word> words = lex.getDefaultLexicon().listWords();
+        while(words.hasNext()) {
+            Word w = words.next();
+            System.out.println("::" + w.getLexicalForm());
+        }
     }
 
     /**
@@ -221,10 +228,11 @@ public class NLSearcher {
                         }
                     }
                 }
-
                 finalquery += "," + res;
             }
-        }
+        } else {
+                finalquery = query;
+            }
         return finalquery.replaceFirst(",", "");
     }
 
@@ -248,9 +256,10 @@ public class NLSearcher {
         String sparqlQuery = "";
         boolean allowed = false;
 
+        System.out.println("::original query: " + query);
         //Preprocess query
         sparqlQuery = preprocessQuery(query);
-        //System.out.println("--Externally called result: " + sparqlQuery);
+        System.out.println("--Externally called result: " + sparqlQuery);
 
         //Query was processed, thus, it is allowed
         if (!query.equals(sparqlQuery) || query.split(" ").length == 1) {
