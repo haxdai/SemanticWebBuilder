@@ -30,6 +30,7 @@ import org.semanticwb.sieps.Busquedas;
 import org.semanticwb.sieps.Empresa;
 import org.semanticwb.sieps.EmpresaInteres;
 import org.semanticwb.sieps.Producto;
+import org.semanticwb.sieps.Productos;
 
 /**
  *
@@ -71,6 +72,8 @@ public class SearchResource extends GenericResource
                     busquedasUsr.addBusqueda(busqueda);
                     busquedasUsr.setUsuario(user);
                     mensaje = "La búsqueda ha sido agregada a su carpeta";
+                    response.setRenderParameter("act", "results");
+                    response.setRenderParameter("query", query);
 
                 }
                 else if ("guardaEmpresas".equals(action))
@@ -94,6 +97,34 @@ public class SearchResource extends GenericResource
                             mensaje = "Las empresas han sido agregadas a su carpeta";
                         }
                     }
+                    response.setRenderParameter("act", "results");
+                    response.setRenderParameter("query", query);
+
+                }
+                else if ("guardaProductos".equals(action))
+                {                    
+                    String[] productos = request.getParameterValues("uriProductos");
+                    if (productos != null && productos.length > 0)
+                    {
+                        for (String uriProducto : productos)
+                        {
+                            if (uriProducto != null)
+                            {
+                                //Recupera el...
+                                Producto emp = Producto.ClassMgr.createProducto(uriProducto, webSite);
+                                //Crea la empresa de interés..
+                                Productos productosInteres = Productos.ClassMgr.createProductos(webSite);
+                                //Añade empresa...
+                                productosInteres.addProductos(emp);
+                                //Añade usuario...
+                                productosInteres.setUsuario(user);
+                                
+                                response.setRenderParameter("uri", uriProducto);
+                            }
+                        }
+                        mensaje = "El producto(s) ha(n) sido agregad(o)s a su carpeta";
+                    }
+                    response.setRenderParameter("act", "detail");
                 }
                 else
                 {
@@ -110,8 +141,7 @@ public class SearchResource extends GenericResource
             log.error(e);
             mensaje = "Imposible agregar a la carpeta por el momento";
         }
-        response.setRenderParameter("act", "results");
-        response.setRenderParameter("query", query);        
+        
         response.setRenderParameter("mensaje", mensaje);
         return;
     }
