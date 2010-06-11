@@ -13,6 +13,7 @@ import com.hp.hpl.jena.rdf.model.RDFNode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -46,6 +47,7 @@ public class NLSearcher {
     private String lastQuery = "";
     private ArrayList<Rule> rules;
     private String []determiners = {"el","la","los","las"};
+    private HashMap<String, String> contractions;
     private Comparator pComp = new Comparator() {
             public int compare(Object o1, Object o2) {
                 int res = 0;
@@ -85,25 +87,18 @@ public class NLSearcher {
         rules.add(new Rule("rule1", "\\s*que\\s*produce[n]?\\s*", "$1 con (producto con nombre como \"$2\")", 1));
         rules.add(new Rule("rule2", "\\s*que\\s*fabrica[n]?\\s*", "$1 con (producto con nombre como \"$2\")", 1));
         rules.add(new Rule("rule3", "\\s*que\\s*elabora[n]?\\s*", "$1 con (producto con nombre como \"$2\")", 1));
-        rules.add(new Rule("rule4", "\\s*cuya\\s*actividad\\s*sea\\s*", "$1 con (clase con nombre como \"$2\")", 1));
-        rules.add(new Rule("rule5", "\\s*cuya\\s*actividad\\s*es\\s*", "$1 con (clase con nombre como \"$2\")", 1));
-        rules.add(new Rule("rule6", "\\s*cuyo\\s*código\\s*sea\\s*", "$1 con (categoría con código = \"$2\")", 1));
-        rules.add(new Rule("rule7", "\\s*cuyo\\s*código\\s*es\\s*", "$1 con (categoría con código = \"$2\")", 1));
-        rules.add(new Rule("rule8", "\\s*cuya\\s*clave\\s*sea\\s*", "$1 con (categoría con código = \"$2\")", 1));
-        rules.add(new Rule("rule9", "\\s*cuya\\s*clave\\s*es\\s*", "$1 con (categoría con código = \"$2\")", 1));
-        rules.add(new Rule("rule10", "\\s*cuya\\s*clave\\s*scian\\s*sea\\s*", "$1 con (clase con código = \"$2\")", 1));
-        rules.add(new Rule("rule11", "\\s*cuya\\s*clave\\s*scian\\s*es\\s*", "$1 con (clase con código = \"$2\")", 1));
+        rules.add(new Rule("rule4", "\\s*cuy[a|o]\\s*actividad\\s*[s]?e[s|ea]\\s*", "$1 con (clase con nombre como \"$2\")", 1));
+        rules.add(new Rule("rule6", "\\s*cuy([o|a])\\s*código\\s*[s]?e[s|ea]\\s*", "$1 con (categoría con código = \"$2\")", 1));
+        rules.add(new Rule("rule8", "\\s*cuy[a|o]\\s*clave\\s*[s]?e[s|ea]\\s*", "$1 con (categoría con código = \"$2\")", 1));
+        rules.add(new Rule("rule10", "\\s*cuy[a|o]\\s*clave\\s*scian\\s*[s]?e[s|ea]\\s*", "$1 con (clase con código = \"$2\")", 1));
         rules.add(new Rule("rule12", "\\s*que\\s*se\\s*encuentra[n]?\\s*en\\s*la\\s*categoría\\s*de\\s*", "$1 con (categoría con nombre como \"$2\")", 1));
-        rules.add(new Rule("rule13", "\\s*del\\s*estado\\s*de\\s*", "$1 con estado como \"$2\"", 2));
-        rules.add(new Rule("rule14", "\\s*en\\s*el\\s*estado\\s*de\\s*", "$1 con estado como \"$2\"", 2));
-        rules.add(new Rule("rule15", "\\s*de\\s*el\\s*estado\\s*de\\s*", "$1 con estado como \"$2\"", 2));
-        rules.add(new Rule("rule16", "\\s*en\\s*la\\s*colonia\\s*", "$1 con colonia como \"$2\"", 2));
-        rules.add(new Rule("rule17", "\\s*de\\s*la\\s*colonia\\s*", "$1 con colonia como \"$2\"", 2));
-        rules.add(new Rule("rule18", "\\s*en\\s*el\\s*municipio\\s*de\\s*", "$1 con municipio como \"$2\"", 2));
-        rules.add(new Rule("rule19", "\\s*del\\s*municipio\\s*de\\s*", "$1 con municipio como \"$2\"", 2));
+        rules.add(new Rule("rule13", "\\s*[de|en]\\s*el\\s*estado\\s*de\\s*", "$1 con estado como \"$2\"", 2));
+        rules.add(new Rule("rule16", "\\s*[de|en]\\s*la\\s*colonia\\s*", "$1 con colonia como \"$2\"", 2));
+        rules.add(new Rule("rule18", "\\s*[en|de]\\s*el\\s*municipio\\s*de\\s*", "$1 con municipio como \"$2\"", 2));
 
-        //Sort rules according to priority
-        Collections.sort(rules, pComp);
+        contractions = new HashMap<String, String>();
+        contractions.put("del", "de el");
+        contractions.put("al", "a el");
     }
 
     /**
@@ -116,6 +111,44 @@ public class NLSearcher {
         Collections.sort(rules, pComp);
     }
 
+    /*public String correctSpell(String query) {
+        String res = "";
+        String []words = query.split(" ");
+        SWBSpellChecker chk = new SWBSpellChecker(SWBPortal.getIndexMgr().getDefaultIndexer().getIndexPath(), SWBIndexer.ATT_CLASS);
+        
+        for (int i = 0; i < words.length; i++) {
+            res += chk.suggestSimilar(words[i]) + " ";
+        }
+
+        return res.trim();
+    }*/
+
+    /*private int CaulculateDistance(String s1, String s2) {
+        int res = 0;
+        int m = s1.length();
+        int n = s2.length();
+
+        int [][]d = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            d[i][0] = i; //insertion
+        }
+
+        for (int i = 0; i < n; i++) {
+            d[0][i] = i; //deletion
+        }
+
+        for (int j = 1; j < n; j++) {
+            for (int i = 1; i < m; i++) {
+                if (s1.charAt(i) == s2.charAt(i)) {
+                    d[i][j] = d[i-1][j-1];
+                } else {
+                    d[i][j] = minimum(d[i-1][j] + 1, d[i][j-1]+ 1, d[i-1][j-1]+1);
+                }
+            }
+        }
+        return res;
+    }*/
+
     /**
      * Tokenizes query string using given rules.
      * @param query Query.
@@ -125,9 +158,16 @@ public class NLSearcher {
         String res = query;
         boolean matched = false;
 
-        //If just one word, no processing needed
+        //If more than a word, processing needed
         if (query.split(" ").length > 1) {
-            //System.out.println("--More than one word, processing");
+            //Expand contractions
+            Iterator<String> keys = contractions.keySet().iterator();
+            while(keys.hasNext()) {
+                String key = keys.next();
+                String re = "\\s*" + key + "\\s*";
+                res = query.replaceAll(re, contractions.get(key));
+            }
+
             //Check all preprocessing rules
             Iterator<Rule> rit = rules.iterator();
             while (rit.hasNext() && !matched) {
@@ -152,6 +192,14 @@ public class NLSearcher {
         }
         return res;
     }
+
+    /*private int minimum(int a, int b, int c) {
+        int res = a;
+        
+        if (res > b) res = b;
+        if (res > c) res = c;
+        return res;
+    }*/
 
     /**
      * Executes a restricted Natural Language query.
@@ -180,9 +228,9 @@ public class NLSearcher {
         //If query translated correctly, and it is allowed, execute it
         if (tr.getErrCode() == 0 && allowed) {
             lastQuery = query;
-//            System.out.println("--Translated query:" + query);
-//            System.out.println("---SPARQL QUERY:---");
-//            System.out.println(sparqlQuery);
+            System.out.println("--Translated query:" + query);
+            System.out.println("---SPARQL QUERY:---");
+            System.out.println(sparqlQuery);
 
             try {
                 Model model = SWBPlatform.getSemanticMgr().getSchema().getRDFOntModel();
@@ -224,12 +272,12 @@ public class NLSearcher {
         if (res.isEmpty()) { //Translation failed or no results found, execute normal search
             res = luceneSearch(query, site, user, null);
         }
-//        System.out.println("--" + res.size() + " results found:");
-//        Iterator<SemanticObject> itres = res.iterator();
-//        while(itres.hasNext()) {
-//            SemanticObject so = itres.next();
-//            System.out.println(":::" + so.getURI());
-//        }
+        System.out.println("--" + res.size() + " results found:");
+        Iterator<SemanticObject> itres = res.iterator();
+        while(itres.hasNext()) {
+            SemanticObject so = itres.next();
+            System.out.println(":::" + so.getURI());
+        }
         return res.iterator();
     }
 
