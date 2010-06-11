@@ -5,12 +5,16 @@ public abstract class ProductoBase extends org.semanticwb.model.SWBClass impleme
 {
     public static final org.semanticwb.platform.SemanticClass unspsc_Commodity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ontoview.org/schema/unspsc/1#Commodity");
     public static final org.semanticwb.platform.SemanticProperty sieps_unspsc=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#unspsc");
+    public static final org.semanticwb.platform.SemanticProperty sieps_clase=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#clase");
     public static final org.semanticwb.platform.SemanticProperty sieps_foto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#foto");
     public static final org.semanticwb.platform.SemanticProperty sieps_pname=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#pname");
+    public static final org.semanticwb.platform.SemanticProperty sieps_categoria=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#categoria");
     public static final org.semanticwb.platform.SemanticProperty sieps_unidad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#unidad");
     public static final org.semanticwb.platform.SemanticProperty sieps_precioprom=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#precioprom");
     public static final org.semanticwb.platform.SemanticClass sieps_Empresa=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/SIEPS#Empresa");
     public static final org.semanticwb.platform.SemanticProperty sieps_fabricaInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#fabricaInv");
+    public static final org.semanticwb.platform.SemanticProperty sieps_familia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#familia");
+    public static final org.semanticwb.platform.SemanticProperty sieps_segmento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#segmento");
     public static final org.semanticwb.platform.SemanticClass sieps_Producto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/SIEPS#Producto");
     public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/SIEPS#Producto");
 
@@ -106,6 +110,16 @@ public abstract class ProductoBase extends org.semanticwb.model.SWBClass impleme
          return ret;
     }
 
+    public String getClase()
+    {
+        return getSemanticObject().getProperty(sieps_clase);
+    }
+
+    public void setClase(String value)
+    {
+        getSemanticObject().setProperty(sieps_clase, value);
+    }
+
     public String getFoto()
     {
         return getSemanticObject().getProperty(sieps_foto);
@@ -151,6 +165,16 @@ public abstract class ProductoBase extends org.semanticwb.model.SWBClass impleme
         getSemanticObject().setProperty(sieps_pname, value);
     }
 
+    public String getCategoria()
+    {
+        return getSemanticObject().getProperty(sieps_categoria);
+    }
+
+    public void setCategoria(String value)
+    {
+        getSemanticObject().setProperty(sieps_categoria, value);
+    }
+
     public String getUnidad()
     {
         return getSemanticObject().getProperty(sieps_unidad);
@@ -190,6 +214,26 @@ public abstract class ProductoBase extends org.semanticwb.model.SWBClass impleme
              ret=(org.semanticwb.sieps.Empresa)obj.createGenericInstance();
          }
          return ret;
+    }
+
+    public String getFamilia()
+    {
+        return getSemanticObject().getProperty(sieps_familia);
+    }
+
+    public void setFamilia(String value)
+    {
+        getSemanticObject().setProperty(sieps_familia, value);
+    }
+
+    public String getSegmento()
+    {
+        return getSemanticObject().getProperty(sieps_segmento);
+    }
+
+    public void setSegmento(String value)
+    {
+        getSemanticObject().setProperty(sieps_segmento, value);
     }
 
     public String getDescription()

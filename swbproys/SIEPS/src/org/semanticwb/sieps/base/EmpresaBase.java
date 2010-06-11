@@ -3,18 +3,23 @@ package org.semanticwb.sieps.base;
 
 public abstract class EmpresaBase extends org.semanticwb.model.SWBClass 
 {
-    public static final org.semanticwb.platform.SemanticProperty sieps_address=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#address");
+    public static final org.semanticwb.platform.SemanticProperty sieps_subsector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#subsector");
     public static final org.semanticwb.platform.SemanticProperty sieps_logo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#logo");
+    public static final org.semanticwb.platform.SemanticProperty sieps_actividad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#actividad");
     public static final org.semanticwb.platform.SemanticProperty sieps_estado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#estado");
-    public static final org.semanticwb.platform.SemanticProperty sieps_name=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#name");
-    public static final org.semanticwb.platform.SemanticProperty sieps_telefono=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#telefono");
-    public static final org.semanticwb.platform.SemanticProperty sieps_cp=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#cp");
+    public static final org.semanticwb.platform.SemanticProperty sieps_rama=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#rama");
+    public static final org.semanticwb.platform.SemanticProperty sieps_subrama=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#subrama");
     public static final org.semanticwb.platform.SemanticClass scian_Clase=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.inegi.gob.mx/2002/scian#Clase");
     public static final org.semanticwb.platform.SemanticProperty sieps_scian=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#scian");
     public static final org.semanticwb.platform.SemanticProperty sieps_clavesiem=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#clavesiem");
+    public static final org.semanticwb.platform.SemanticProperty sieps_rfc=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#rfc");
+    public static final org.semanticwb.platform.SemanticProperty sieps_sector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#sector");
+    public static final org.semanticwb.platform.SemanticProperty sieps_address=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#address");
+    public static final org.semanticwb.platform.SemanticProperty sieps_name=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#name");
+    public static final org.semanticwb.platform.SemanticProperty sieps_telefono=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#telefono");
+    public static final org.semanticwb.platform.SemanticProperty sieps_cp=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#cp");
     public static final org.semanticwb.platform.SemanticProperty sieps_colonia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#colonia");
     public static final org.semanticwb.platform.SemanticProperty sieps_descripcion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#descripcion");
-    public static final org.semanticwb.platform.SemanticProperty sieps_rfc=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#rfc");
     public static final org.semanticwb.platform.SemanticClass sieps_Producto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/SIEPS#Producto");
     public static final org.semanticwb.platform.SemanticProperty sieps_hasProducto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#hasProducto");
     public static final org.semanticwb.platform.SemanticProperty sieps_email=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#email");
@@ -87,14 +92,14 @@ public abstract class EmpresaBase extends org.semanticwb.model.SWBClass
         super(base);
     }
 
-    public String getAddress()
+    public String getSubsector()
     {
-        return getSemanticObject().getProperty(sieps_address);
+        return getSemanticObject().getProperty(sieps_subsector);
     }
 
-    public void setAddress(String value)
+    public void setSubsector(String value)
     {
-        getSemanticObject().setProperty(sieps_address, value);
+        getSemanticObject().setProperty(sieps_subsector, value);
     }
 
     public String getLogo()
@@ -107,6 +112,16 @@ public abstract class EmpresaBase extends org.semanticwb.model.SWBClass
         getSemanticObject().setProperty(sieps_logo, value);
     }
 
+    public String getActividad()
+    {
+        return getSemanticObject().getProperty(sieps_actividad);
+    }
+
+    public void setActividad(String value)
+    {
+        getSemanticObject().setProperty(sieps_actividad, value);
+    }
+
     public String getEstado()
     {
         return getSemanticObject().getProperty(sieps_estado);
@@ -117,34 +132,24 @@ public abstract class EmpresaBase extends org.semanticwb.model.SWBClass
         getSemanticObject().setProperty(sieps_estado, value);
     }
 
-    public String getName()
+    public String getRama()
     {
-        return getSemanticObject().getProperty(sieps_name);
+        return getSemanticObject().getProperty(sieps_rama);
     }
 
-    public void setName(String value)
+    public void setRama(String value)
     {
-        getSemanticObject().setProperty(sieps_name, value);
+        getSemanticObject().setProperty(sieps_rama, value);
     }
 
-    public String getTelefono()
+    public String getSubrama()
     {
-        return getSemanticObject().getProperty(sieps_telefono);
+        return getSemanticObject().getProperty(sieps_subrama);
     }
 
-    public void setTelefono(String value)
+    public void setSubrama(String value)
     {
-        getSemanticObject().setProperty(sieps_telefono, value);
-    }
-
-    public String getCp()
-    {
-        return getSemanticObject().getProperty(sieps_cp);
-    }
-
-    public void setCp(String value)
-    {
-        getSemanticObject().setProperty(sieps_cp, value);
+        getSemanticObject().setProperty(sieps_subrama, value);
     }
 
     public void setScian(org.semanticwb.scian.Clase value)
@@ -178,6 +183,66 @@ public abstract class EmpresaBase extends org.semanticwb.model.SWBClass
         getSemanticObject().setProperty(sieps_clavesiem, value);
     }
 
+    public String getRfc()
+    {
+        return getSemanticObject().getProperty(sieps_rfc);
+    }
+
+    public void setRfc(String value)
+    {
+        getSemanticObject().setProperty(sieps_rfc, value);
+    }
+
+    public String getSector()
+    {
+        return getSemanticObject().getProperty(sieps_sector);
+    }
+
+    public void setSector(String value)
+    {
+        getSemanticObject().setProperty(sieps_sector, value);
+    }
+
+    public String getAddress()
+    {
+        return getSemanticObject().getProperty(sieps_address);
+    }
+
+    public void setAddress(String value)
+    {
+        getSemanticObject().setProperty(sieps_address, value);
+    }
+
+    public String getName()
+    {
+        return getSemanticObject().getProperty(sieps_name);
+    }
+
+    public void setName(String value)
+    {
+        getSemanticObject().setProperty(sieps_name, value);
+    }
+
+    public String getTelefono()
+    {
+        return getSemanticObject().getProperty(sieps_telefono);
+    }
+
+    public void setTelefono(String value)
+    {
+        getSemanticObject().setProperty(sieps_telefono, value);
+    }
+
+    public String getCp()
+    {
+        return getSemanticObject().getProperty(sieps_cp);
+    }
+
+    public void setCp(String value)
+    {
+        getSemanticObject().setProperty(sieps_cp, value);
+    }
+
     public String getColonia()
     {
         return getSemanticObject().getProperty(sieps_colonia);
@@ -196,16 +261,6 @@ public abstract class EmpresaBase extends org.semanticwb.model.SWBClass
     public void setDescripcion(String value)
     {
         getSemanticObject().setProperty(sieps_descripcion, value);
-    }
-
-    public String getRfc()
-    {
-        return getSemanticObject().getProperty(sieps_rfc);
-    }
-
-    public void setRfc(String value)
-    {
-        getSemanticObject().setProperty(sieps_rfc, value);
     }
 
     public org.semanticwb.model.GenericIterator<org.semanticwb.sieps.Producto> listProductos()
