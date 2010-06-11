@@ -33,19 +33,29 @@ import org.semanticwb.sieps.Empresa;
 import org.semanticwb.sieps.EmpresaInteres;
 import org.semanticwb.sieps.search.SearchResource;
 
-
+/**
+ * El tipo ProfileResource controla el despliegue y administración de la carpeta
+ * del usuario
+ */
 public class ProfileResource extends GenericResource {
-    
-    public static final String RUTA_JSP     =   "/swbadmin/jsp"; //SWBPortal.getWebWorkPath() + "/models";
-    private static Logger logger            = SWBUtils.getLogger(ProfileResource.class);
+
+    /**
+     * Ruta de las vistas
+     */
+    public static final String RUTA_JSP =   "/swbadmin/jsp"; //SWBPortal.getWebWorkPath() + "/models";
+    /**
+     * Referencia hacia el logger de la aplicación.
+     */
+    private static Logger logger        =   SWBUtils.getLogger(ProfileResource.class);
 
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
-        String action   =   response.getAction();
-        User user       =   response.getUser();
-        boolean isUser  =   (user != null && user.isSigned());
-        String mensaje  =   "";
-        SWBModel webSite = getResourceBase().getWebSite();
+        String action       =   response.getAction();
+        User user           =   response.getUser();
+        boolean isUser      =   (user != null && user.isSigned());
+        String mensaje      =   "";
+        SWBModel webSite    =   getResourceBase().getWebSite();
+
         response.setMode(SWBParamRequest.Mode_VIEW);
         
         try {
@@ -122,14 +132,14 @@ public class ProfileResource extends GenericResource {
         }
     }
     /**
-     *
-     * @param request
-     * @param response
-     * @param paramRequest
+     * Controla el despliegue de la carpeta del usuario
+     * @param request Objeto que encapsula a la petición del cliente
+     * @param response Objeto que encapsula a la respuesta para el cliente
+     * @param paramRequest Objeto que encapsula información sobre parámetros adicionales provenientes del cliente y detalles de la implementación
      * @throws SWBResourceException
      * @throws IOException
      */
-    public void doPerfil(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+    private void doPerfil(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         
         String pathJsp                    = RUTA_JSP + "/" + getResourceBase().getWebSiteId() + "/" + "perfilUsuario.jsp";
         
@@ -143,7 +153,6 @@ public class ProfileResource extends GenericResource {
             boolean isUser      =   (user != null && user.isSigned());
 
             if (isUser) {
-
                 //Recupera las búsquedas guardadas...
                 Iterator<Busquedas> busquedas = Busquedas.ClassMgr.listBusquedases(webSite);//Busquedas.ClassMgr.listBusquedasByUsuario(user, webSite);
                 if (busquedas != null) {
@@ -157,8 +166,7 @@ public class ProfileResource extends GenericResource {
                             }
                         }
                     }
-                }
-                
+                }                
                 //Recupera empresas certificadas...
                 Iterator<Certificado> certificados  =   Certificado.ClassMgr.listCertificados();//Certificado.ClassMgr.listCertificadoByUsuario(user);
                 if (certificados != null) {
@@ -170,12 +178,11 @@ public class ProfileResource extends GenericResource {
                             if (userCert != null
                                     && user.getURI().equals(userCert.getURI())
                                     && cert.getEmpresa() != null) {
-                                    listEmpresasCert.add(cert.getEmpresa());
+                                listEmpresasCert.add(cert.getEmpresa());
                             }
                         }
                     }
-                }
-                
+                }                
                 //Recupera empresas de interés...
                 Iterator<EmpresaInteres> interes = EmpresaInteres.ClassMgr.listEmpresaIntereses(webSite);
                 if (interes != null) {
@@ -193,7 +200,7 @@ public class ProfileResource extends GenericResource {
                                             && user.getURI().equals(userInteres.getURI())
                                             && inter.getEmpresa() != null
                                             && !listEmpresasInteres.contains(eInst))
-                                    listEmpresasInteres.add(eInst);
+                                        listEmpresasInteres.add(eInst);
                                 }
                             }
                         }
@@ -253,7 +260,13 @@ public class ProfileResource extends GenericResource {
         }
         return listBusquedas;
     }
-
+    /**
+     * Obtiene la primera sección del sitio cuyo contenido sea de tipo SearchResource
+     * @param webSite Sitio Web
+     * @return Objeto que encapsula a la sección Mi Carpeta, d.o.f. la sección Home
+     * @throws SWBResourceException
+     * @throws IOException
+     */
     public WebPage buscaSeccionResultados(WebSite webSite) throws SWBResourceException, IOException {
         WebPage webPage =   webSite.getHomePage();
         try {
@@ -270,7 +283,6 @@ public class ProfileResource extends GenericResource {
                     }
                 }
             }
-
         } catch (Exception e) {
             logger.error(e);
         }

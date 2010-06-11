@@ -29,10 +29,19 @@ import org.semanticwb.sieps.Certificado;
 import org.semanticwb.sieps.Empresa;
 import org.semanticwb.sieps.profile.ProfileResource;
 
+/**
+ * El tipo CertificateResource controla la asociación de un certificado correspondiente
+ * a una empresa con un usuario
+ */
+public final class CertificateResource extends GenericResource {
 
-public class CertificateResource extends GenericResource {
-    
+    /**
+     * Ruta de las vistas
+     */
     public static final String RUTA_JSP     =   "/swbadmin/jsp"; //SWBPortal.getWebWorkPath() + "/models";
+    /**
+     * Referencia hacia el logger de la aplicación.
+     */
     private static Logger logger            =   SWBUtils.getLogger(CertificateResource.class);
 
     @Override
@@ -92,7 +101,14 @@ public class CertificateResource extends GenericResource {
         return;
     }
 
-    
+    /**
+     * Controla el despliegue del formulario para la asociación de un certificado con el usuario
+     * @param request Objeto que encapsula a la petición del cliente
+     * @param response Objeto que encapsula a la respuesta para el cliente
+     * @param paramRequest Objeto que encapsula información sobre parámetros adicionales provenientes del cliente y detalles de la implementación
+     * @throws SWBResourceException
+     * @throws IOException
+     */
     public void doAlta(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         String pathJsp = RUTA_JSP + "/" + getResourceBase().getWebSiteId() + "/" + "certificadoAgrega.jsp";
         try {
@@ -104,7 +120,14 @@ public class CertificateResource extends GenericResource {
         }
         return;
     }
-    public WebPage buscaSeccionPerfil(WebSite webSite) throws SWBResourceException, IOException {
+    /**
+     * Obtiene la primera sección del sitio cuyo contenido sea de tipo ProfileResource
+     * @param webSite Sitio Web
+     * @return Objeto que encapsula a la sección Mi Carpeta, d.o.f. la sección Home
+     * @throws SWBResourceException
+     * @throws IOException
+     */
+    private WebPage buscaSeccionPerfil(WebSite webSite) throws SWBResourceException, IOException {
         WebPage webPage =   webSite.getHomePage();
         try {            
             Iterator<WebPage> webPages   =  webSite.listWebPages();            
@@ -126,11 +149,19 @@ public class CertificateResource extends GenericResource {
         }
         return webPage;
     }
-    public void doEmpresa(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {        
+    /**
+     * Envia al cliente el contenido HTML para la ficha de una empresa asociada a un certificado.
+     * @param request Objeto que encapsula a la petición del cliente
+     * @param response Objeto que encapsula a la respuesta para el cliente
+     * @param paramRequest Objeto que encapsula información sobre parámetros adicionales provenientes del cliente y detalles de la implementación
+     * @throws SWBResourceException
+     * @throws IOException
+     */
+    private void doEmpresa(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         try {
-            StringBuilder buffHTML = new StringBuilder();
-            String idCert       =   request.getParameter("idCertificado");
-            WebSite webSite     =   getResourceBase().getWebSite();
+            StringBuilder buffHTML  =   new StringBuilder();
+            String idCert           =   request.getParameter("idCertificado");
+            WebSite webSite         =   getResourceBase().getWebSite();
 
             //Obiene el certificado
             Certificado cert    =   buscaCertificado(idCert, webSite);
@@ -138,6 +169,7 @@ public class CertificateResource extends GenericResource {
             if (cert != null) {
                 //Recupera la empresa...
                 Empresa empresa     =   cert.getEmpresa();
+                //Construye HTML...
                 String urlLogo      =   SWBPortal.getWebWorkPath()+empresa.getWorkPath()+"/"+empresa.getLogo();
                 buffHTML.append("<input type='hidden' name='ceritificadoUri' id='ceritificadoUri' value='").append(cert.getURI()).append("'/>")
                         .append("<input type='hidden' name='empresaUri' id='empresaUri' value='").append(empresa.getURI()).append("'/>")
@@ -175,20 +207,28 @@ public class CertificateResource extends GenericResource {
         }
         return;
     }
-    public void doConfirmacion(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-
+    /**
+     * Envia al cliente el contenido HTML para la confirmación de una empresa asociada a un certificado y aun usuario.
+     * @param request Objeto que encapsula a la petición del cliente
+     * @param response Objeto que encapsula a la respuesta para el cliente
+     * @param paramRequest Objeto que encapsula información sobre parámetros adicionales provenientes del cliente y detalles de la implementación
+     * @throws SWBResourceException
+     * @throws IOException
+     */
+    private void doConfirmacion(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         try {
-            WebSite webSite         =   getResourceBase().getWebSite();
-            WebPage webPagePerfil   =   buscaSeccionPerfil(webSite);
             String mensaje          =   request.getParameter("mensaje");
-            
+            WebSite webSite         =   getResourceBase().getWebSite();
+            //Busca la sección de Mi Carpeta...
+            WebPage webPagePerfil   =   buscaSeccionPerfil(webSite);
+            //Construye HTML
             StringBuilder buffHTML = new StringBuilder()                                           
                                            .append("<h2>").append(mensaje).append("</h2>")
                                            .append("<p><input type='button' value='Ir a mi perfil' name='borrar' class='btn-medium' onclick='document.location=\"").append(webPagePerfil.getUrl()).append("\"'/></p>")
                                            ;
+            request.setAttribute("paramRequest", paramRequest);
             PrintWriter pw = response.getWriter();
-            pw.write(buffHTML.toString());
-            
+            pw.write(buffHTML.toString());            
         } catch (Exception e) {
             logger.error(e);
         }
@@ -215,12 +255,14 @@ public class CertificateResource extends GenericResource {
         return;
     }
 
-
+    /**
+     * Recupera un certificado a partir de identificador y el modelo
+     * @param idCertificado Identificado del certificado
+     * @param model Modelo de datos
+     * @return Objeto que encapsula la información
+     */
     private Certificado buscaCertificado(String idCertificado, SWBModel model) {
         Certificado cert = null;
-        if (model ==  null) {
-            throw new IllegalArgumentException("Argumento inválido, modelo nulo");
-        }
         if (idCertificado != null && idCertificado.length() > 0) {
             Iterator<Certificado> certificados = Certificado.ClassMgr.listCertificados();
             if (certificados != null) {

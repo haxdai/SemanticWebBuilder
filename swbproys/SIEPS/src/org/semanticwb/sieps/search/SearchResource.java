@@ -42,9 +42,9 @@ public class SearchResource extends GenericResource
     /**
      * Variables que determinan el tipo de resultado consultado.
      */
-    private static final int TIPO_EMPRESA = 1,
-            TIPO_PRODUCTO = 2,
-            TIPO_WEBPAGE = 3;
+    private static final int TIPO_EMPRESA   = 1,
+                             TIPO_PRODUCTO  = 2,
+                             TIPO_WEBPAGE   = 3;
 
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
@@ -108,10 +108,10 @@ public class SearchResource extends GenericResource
         catch (Exception e)
         {
             log.error(e);
-            mensaje = "Imposible agregar a carpeta por el momento";
+            mensaje = "Imposible agregar a la carpeta por el momento";
         }
         response.setRenderParameter("act", "results");
-        response.setRenderParameter("query", query);
+        response.setRenderParameter("query", query);        
         response.setRenderParameter("mensaje", mensaje);
         return;
     }
@@ -468,7 +468,11 @@ public class SearchResource extends GenericResource
         }
         return tipoRes;
     }
-
+    /**
+     * Crea una colección de objetos semánticos a partir de un conjunto de resultados
+     * @param results Conjunto de resultados con la información
+     * @return Colección con la información
+     */
     private List<SemanticObject> construyeColeccionSemObjs(Iterator<SemanticObject> results)
     {
         List<SemanticObject> semObjs = Collections.emptyList();
@@ -486,89 +490,51 @@ public class SearchResource extends GenericResource
         }
         return semObjs;
     }
+    /**
+     * Determina si una empresa se considera como de interés para el usuario a partir de su URI
+     * @param user Objeto que mapea el usuario de la carpeta
+     * @param model Modelo en el cual se encuentran los datos
+     * @param uriEmpresa URL de la empresa
+     * @return true si es de interés, false d.o.f.
+     */
+    public static boolean isEmpresasInteres(User user, SWBModel model, String uriEmpresa) {
 
-    public static boolean isEmpresasInteres(User user, SWBModel model, String uriEmpresa)
-    {
+        boolean isEmprInteres   =   false;
 
-        boolean isEmprInteres = false;
-
-        try
-        {
-            if (user == null)
-            {
-                throw new IllegalArgumentException("Argumento user nulo");
-            }
-            Empresa empresa = (Empresa) SemanticObject.createSemanticObject(uriEmpresa).createGenericInstance();
-            if (empresa != null)
-            {
-
+        try {
+            Empresa empresa     =   (Empresa) SemanticObject.createSemanticObject(uriEmpresa).createGenericInstance();
+            if (empresa != null) {
                 Iterator<EmpresaInteres> interes = EmpresaInteres.ClassMgr.listEmpresaIntereses(model);
-
-                if (interes != null)
-                {
-                    while (interes.hasNext())
-                    {
+                if (interes != null) {
+                    while (interes.hasNext()) {
                         EmpresaInteres empresaInteres = interes.next();
-                        if (empresaInteres != null)
-                        {
-                            User userInteres = empresaInteres.getUsuario();
-                            isEmprInteres = (userInteres != null && user.getURI() != null
-                                    && user.getURI().equals(userInteres.getURI()));
-                        }
-                    }
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            log.error(e);
-        }
-        return isEmprInteres;
-    }
-
-    public static void limpiaEmpresasInteres(User user, SWBModel model, List<Empresa> empresas)
-    {
-
-        try
-        {
-            if (user == null)
-            {
-                throw new IllegalArgumentException("Argumento user nulo");
-            }
-
-            for (Empresa empresa : empresas)
-            {
-                if (empresa != null)
-                {
-                    Iterator<EmpresaInteres> interes = EmpresaInteres.ClassMgr.listEmpresaIntereses(model);
-                    if (interes != null)
-                    {
-                        while (interes.hasNext())
-                        {
-                            EmpresaInteres empresaInteres = interes.next();
-                            if (empresaInteres != null)
-                            {
-                                User userInteres = empresaInteres.getUsuario();
-                                boolean isEmprInteres = (userInteres != null && user.getURI() != null
-                                        && user.getURI().equals(userInteres.getURI()));
-                                if (isEmprInteres)
-                                {
-                                    EmpresaInteres.ClassMgr.removeEmpresaInteres(empresaInteres.getId(), model);
-                                }
+                        if (empresaInteres != null) {
+                            User userInteres    =   empresaInteres.getUsuario();
+                            Empresa fabricaInt  =   empresaInteres.getEmpresa();
+                            
+                            if (user != null && fabricaInt != null) {
+                                isEmprInteres = (user.equals(userInteres)
+                                                    && empresa.getURI().equals(fabricaInt.getId()));
                             }
                         }
                     }
                 }
             }
-
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             log.error(e);
         }
-        return;
+        return isEmprInteres;
     }
 
+    /**
+     * Determina si todas las empresas de la colección se encuentran en la sección de interés
+     * en la carpeta del usuario
+     * @param empresas Colección de empresas
+     * @param webSite Modelo en el cual se encuentran los datos
+     * @param user Usuario de la carpeta
+     * @return true si todas las empresas son de interés, false d.o.f.
+     */
     private boolean isAllEmpresasInteres(List<Empresa> empresas, SWBModel webSite, User user)
     {
 
