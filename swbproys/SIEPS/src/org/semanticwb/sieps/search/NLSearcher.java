@@ -111,6 +111,7 @@ public class NLSearcher {
         rules.add(new Rule("rule24", "\\s*que\\s*su\\s*subsector\\s*[s]?e[s|ea]\\s*", "$1 con subsector = \"$2\"", 2));
         rules.add(new Rule("rule25", "\\s*que\\s*su\\s*rama\\s*[s]?e[s|ea]\\s*", "$1 con rama = \"$2\"", 2));
         rules.add(new Rule("rule26", "\\s*que\\s*su\\s*subrama\\s*[s]?e[s|ea]\\s*", "$1 con subrama = \"$2\"", 2));
+        rules.add(new Rule("rule26", "\\s*que\\s*su\\s*familia\\s*[s]?e[s|ea]\\s*", "$1 con familia = \"$2\"", 2));
 
         contractions = new HashMap<String, String>();
         contractions.put("del", "de el");
@@ -233,7 +234,7 @@ public class NLSearcher {
 
             //if complex query, separate it
             String []queries = query.split(",");
-            System.out.println("--" + queries.length + " queries found");
+//            System.out.println("--" + queries.length + " queries found");
             for (int i = 0; i < queries.length; i++) {
                 matched = false;
                 String tquery = queries[i].trim();
@@ -304,9 +305,9 @@ public class NLSearcher {
 
         //If query translated correctly, and it is allowed, execute it
         if (tr.getErrCode() == 0 && allowed) {
-            System.out.println("--Translated query:" + query);
-            System.out.println("---SPARQL QUERY:---");
-            System.out.println(sparqlQuery);
+//            System.out.println("--Translated query:" + query);
+//            System.out.println("---SPARQL QUERY:---");
+//            System.out.println(sparqlQuery);
 
             try {
                 Model model = SWBPlatform.getSemanticMgr().getSchema().getRDFOntModel();
