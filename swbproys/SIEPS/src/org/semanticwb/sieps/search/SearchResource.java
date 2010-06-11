@@ -296,8 +296,8 @@ public class SearchResource extends GenericResource
                     }
                     else if (TIPO_WEBPAGE == tipoResultados)
                     {
-                        List<Producto> listProductos = contruyeColeccionProductos(listSemObj);
-                        request.setAttribute("results", listProductos);
+                        List<WebPage> listWebPages = contruyeColeccionWebPages(listSemObj);
+                        request.setAttribute("results", listWebPages);
                         request.setAttribute("query", query);
                         path = "/swbadmin/jsp/sieps/resultsWebPage.jsp";
                     }
@@ -385,7 +385,29 @@ public class SearchResource extends GenericResource
         }
         return results;
     }
+    /**
+     * Obtiene una colección de instancias de tipo WebPages a partir de un conjunto de objetos semánticos
+     * @param semObjects Iterador sobre una colección de objetos semánticos
+     * @return Colección con la información
+     */
+    private List<WebPage> contruyeColeccionWebPages(List<SemanticObject> semObjects)
+    {
+        List<WebPage> results = Collections.emptyList();
+        if (!semObjects.isEmpty())
+        {
+            results = new ArrayList<WebPage>(semObjects.size());
+            for (SemanticObject so : semObjects)
+            {
+                GenericObject go = so.createGenericInstance();
+                if (go instanceof WebPage)
+                {
+                    results.add((WebPage) go);
+                }
+            }
 
+        }
+        return results;
+    }
     /**
      * Obtiene una colección de instancias de tipo Productos a partir de un conjunto de objetos semánticos
      * @param semObjects Iterador sobre una colección de objetos semánticos
