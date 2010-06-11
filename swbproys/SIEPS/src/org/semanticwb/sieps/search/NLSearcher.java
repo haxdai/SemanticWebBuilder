@@ -97,7 +97,7 @@ public class NLSearcher {
         rules.add(new Rule("rule10", "\\s*cuy[a|o]\\s*clave\\s*scian\\s*[s]?e[s|ea]\\s*", "$1 con (clase con código = \"$2\")", 1));
         rules.add(new Rule("rule11", "\\s*que\\s*su\\s*clave\\s*scian\\s*[s]?e[s|ea]\\s*", "$1 con (clase con código = \"$2\")", 1));
         rules.add(new Rule("rule12", "\\s*que\\s*se\\s*encuentra[n]?\\s*en\\s*la\\s*categoría\\s*de\\s*", "$1 con (categoría con nombre como \"$2\")", 1));
-        rules.add(new Rule("rule13", "\\s*que\\s*su\\s*categoría\\s*[s]?e[s|ea]\\s*", "$1 con categoría = \"$2\"", 1));
+        rules.add(new Rule("rule13", "\\s*que\\s*su\\s*categoria\\s*[s]?e[s|ea]\\s*", "$1 con categoria = \"$2\"", 1));
         rules.add(new Rule("rule14", "\\s*[d]?e[n]?\\s*el\\s*estado\\s*de\\s*", "$1 con estado como \"$2\"", 2));
         rules.add(new Rule("rule15", "\\s*cuy[a|o]\\s*estado\\s*[s]?e[s|ea]\\s*", "$1 con estado como \"$2\"", 2));
         rules.add(new Rule("rule16", "\\s*que\\s*su\\s*estado\\s*[s]?e[s|ea]\\s*", "$1 con estado como \"$2\"", 2));
