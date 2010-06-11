@@ -168,6 +168,8 @@ public class NLSearcher {
     private String preprocessQuery (String query) {
         String res = query;
         boolean matched = false;
+        String subject = "";
+        String finalquery = "";
 
         //If more than a word, processing needed
         if (query.split(" ").length > 1) {
@@ -179,29 +181,51 @@ public class NLSearcher {
                 res = query.replaceAll(re, contractions.get(key));
             }
 
-            //Check all preprocessing rules
-            Iterator<Rule> rit = rules.iterator();
-            while (rit.hasNext() && !matched) {
-                Rule rule = rit.next();
-                Pattern pattern = Pattern.compile(rule.getRegexp());
-                Matcher matcher = pattern.matcher(query.toLowerCase());
+            //if complex query, separate it
+            String []queries = query.split(",");
+            System.out.println("--" + queries.length + " queries found");
+            for (int i = 0; i < queries.length; i++) {
+                matched = false;
+                String tquery = queries[i].trim();
+                //Check all preprocessing rules
+//                System.out.println("--Query " + i + ": " + tquery);
+                Iterator<Rule> rit = rules.iterator();
+                while (rit.hasNext() && !matched) {
+                    Rule rule = rit.next();
+                    Pattern pattern = Pattern.compile(rule.getRegexp());
+                    Matcher matcher = pattern.matcher(tquery.toLowerCase());
 
-                //Rule matched, get parts
-                if (matcher.find()) {
-                    //System.out.println("--Rule " + rule.getName() + " matched");
-                    String parts[] = query.split(rule.getRegexp());
+                    //Rule matched, get parts
+                    if (matcher.find()) {
+                        //First rule over first query gives the subject
+                        if (i == 0) {
+                            subject = tquery.substring(0, matcher.start());
+//                            System.out.println("-- subject found: " + subject);
+                        }
+                        //System.out.println("--Rule " + rule.getName() + " matched");
+                        String parts[] = tquery.split(rule.getRegexp());
+//                        System.out.println("::Splitting by " + rule.getRegexp());
+//
+//                        System.out.println("::" + parts.length + " parts found");
 
-                    //If tokenized correctly, replace query string
-                    if (parts.length == 2) {                        
-                        res = rule.getResult().replace("$1", parts[0]);
-                        res = res.replace("$2", parts[1]);
-                        //System.out.println("--Rewritten query: " + res);
-                        matched = true;
+//                        for (int j = 0; j < parts.length; j++) {
+//                            System.out.println("::P" + j + ": \"" + parts[j] + "\"");
+//                        }
+
+                        //If tokenized correctly, replace query string
+                        if (parts.length == 2) {
+                            res = rule.getResult().replace("$1", parts[0]);
+                            res = res.replace("$2", parts[1]);
+                            //System.out.println("--Rewritten query: " + res);
+                            matched = true;
+                        }
                     }
                 }
+
+                finalquery += "," + res;
             }
         }
-        return res;
+        return finalquery.replaceFirst(",", "");
     }
 
     /*private int minimum(int a, int b, int c) {
