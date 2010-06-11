@@ -147,14 +147,14 @@ public class SearchResource extends GenericResource
                                 : "/swbadmin/jsp/sieps/detailProducto.jsp";
                     }
                 }
-                else if ("busquedaproductos".equals(act))
+                else if ("busquedaproductos".equalsIgnoreCase(act))
                 {
                     StringBuilder sb = new StringBuilder("productos ");
                     Enumeration names = request.getParameterNames();
                     while (names.hasMoreElements())
                     {
                         String name = names.nextElement().toString();
-                        if (name!=null && !"opc".equalsIgnoreCase(name) && !"wbseach".equalsIgnoreCase(name) && !"busquedaproductos".equalsIgnoreCase(name))
+                        if (name!=null && !"act".equalsIgnoreCase(name) && !"opc".equalsIgnoreCase(name) && !"wbseach".equalsIgnoreCase(name) && !"busquedaproductos".equalsIgnoreCase(name))
                         {
                             String[] values = request.getParameterValues(name);
                             if (values != null)
@@ -192,46 +192,25 @@ public class SearchResource extends GenericResource
                     NLSearcher searcher = new NLSearcher("es");
                     Iterator<SemanticObject> results = searcher.search(query, paramRequest.getWebPage().getWebSite(), paramRequest.getUser());
 
-                    List<SemanticObject> listSemObj = construyeColeccionSemObjs(results);
+                    List<SemanticObject> listSemObj = construyeColeccionSemObjs(results);                  
 
-                    int tipoResultados = determinaTipoResultados(listSemObj);
-
-                    if (TIPO_EMPRESA == tipoResultados)
-                    {
-                        List<Empresa> listEmpresas = contruyeColeccionEmpresas(listSemObj);
-                        //El usuario tiene empresas de interés ...
-                        request.setAttribute("results", listEmpresas);
-
-                        boolean isAllEmpInt = isAllEmpresasInteres(listEmpresas, getResourceBase().getWebSite(), user);
-                        request.setAttribute("isAllEmpInt", isAllEmpInt);
-                        request.setAttribute("query", query);
-                        path = "/swbadmin/jsp/sieps/resultsEmpresa.jsp";
-                    }
-                    else if (TIPO_PRODUCTO == tipoResultados)
-                    {
-                        List<Producto> listProductos = contruyeColeccionProductos(listSemObj);
-                        request.setAttribute("results", listProductos);
-                        request.setAttribute("query", query);
-                        path = "/swbadmin/jsp/sieps/resultsProducto.jsp";
-                    }
-                    else if (TIPO_WEBPAGE == tipoResultados)
-                    {
-                        List<Producto> listProductos = contruyeColeccionProductos(listSemObj);
-                        request.setAttribute("results", listProductos);
-                        request.setAttribute("query", query);
-                        path = "/swbadmin/jsp/sieps/resultsWebPage.jsp";
-                    }
+                    List<Producto> listProductos = contruyeColeccionProductos(listSemObj);
+                    request.setAttribute("results", listProductos);
+                    request.setAttribute("query", query);
+                    path = "/swbadmin/jsp/sieps/resultsProducto.jsp";
                     
 
                 }
-                else if ("busquedaempresas".equals(act))
+                else if ("busquedaempresas".equalsIgnoreCase(act))
                 {
-                    StringBuilder sb = new StringBuilder("productos ");
+                    StringBuilder sb = new StringBuilder("empresas ");
+                    System.out.println("1: "+sb.toString());
                     Enumeration names = request.getParameterNames();
                     while (names.hasMoreElements())
                     {
                         String name = names.nextElement().toString();
-                        if (name!=null && !"opc".equalsIgnoreCase(name) && !"wbseach".equalsIgnoreCase(name) && !"busquedaempresas".equalsIgnoreCase(name))
+                        System.out.println("name: "+name);
+                        if (name!=null && !"act".equalsIgnoreCase(name) && !"opc".equalsIgnoreCase(name) && !"wbseach".equalsIgnoreCase(name) && !"busquedaempresas".equalsIgnoreCase(name))
                         {
                             String[] values = request.getParameterValues(name);
                             if (values != null)
@@ -241,6 +220,7 @@ public class SearchResource extends GenericResource
                                 {
                                     if (value!=null && !"".equals(value) && !"all".equals(value))
                                     {
+                                        System.out.println("value: "+value);
                                         if (i > 1)
                                         {
                                             sb.append(" y que ");
@@ -264,42 +244,25 @@ public class SearchResource extends GenericResource
                                         i++;
                                     }
                                 }
+                                System.out.println("sb: "+sb.toString());
                             }
                         }
                     }
                     String query = sb.toString();
+                    System.out.println("sb: "+query);
                     NLSearcher searcher = new NLSearcher("es");
                     Iterator<SemanticObject> results = searcher.search(query, paramRequest.getWebPage().getWebSite(), paramRequest.getUser());
 
                     List<SemanticObject> listSemObj = construyeColeccionSemObjs(results);
+                    List<Empresa> listEmpresas = contruyeColeccionEmpresas(listSemObj);
 
-                    int tipoResultados = determinaTipoResultados(listSemObj);
+                    request.setAttribute("results", listEmpresas);
 
-                    if (TIPO_EMPRESA == tipoResultados)
-                    {
-                        List<Empresa> listEmpresas = contruyeColeccionEmpresas(listSemObj);
-                        //El usuario tiene empresas de interés ...
-                        request.setAttribute("results", listEmpresas);
-
-                        boolean isAllEmpInt = isAllEmpresasInteres(listEmpresas, getResourceBase().getWebSite(), user);
-                        request.setAttribute("isAllEmpInt", isAllEmpInt);
-                        request.setAttribute("query", query);
-                        path = "/swbadmin/jsp/sieps/resultsEmpresa.jsp";
-                    }
-                    else if (TIPO_PRODUCTO == tipoResultados)
-                    {
-                        List<Producto> listProductos = contruyeColeccionProductos(listSemObj);
-                        request.setAttribute("results", listProductos);
-                        request.setAttribute("query", query);
-                        path = "/swbadmin/jsp/sieps/resultsProducto.jsp";
-                    }
-                    else if (TIPO_WEBPAGE == tipoResultados)
-                    {
-                        List<Producto> listProductos = contruyeColeccionProductos(listSemObj);
-                        request.setAttribute("results", listProductos);
-                        request.setAttribute("query", query);
-                        path = "/swbadmin/jsp/sieps/resultsWebPage.jsp";
-                    }
+                    boolean isAllEmpInt = isAllEmpresasInteres(listEmpresas, getResourceBase().getWebSite(), user);
+                    request.setAttribute("isAllEmpInt", isAllEmpInt);
+                    request.setAttribute("query", query);
+                    path = "/swbadmin/jsp/sieps/resultsEmpresa.jsp";
+                    
                 }
                 else if ("results".equals(act))
                 {
