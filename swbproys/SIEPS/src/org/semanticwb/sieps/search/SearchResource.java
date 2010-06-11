@@ -151,22 +151,24 @@ public class SearchResource extends GenericResource
                 {
                     StringBuilder sb = new StringBuilder("productos ");
                     Enumeration names = request.getParameterNames();
+                    int i = 1;
                     while (names.hasMoreElements())
                     {
+
                         String name = names.nextElement().toString();
                         if (name!=null && !"act".equalsIgnoreCase(name) && !"opc".equalsIgnoreCase(name) && !"wbseach".equalsIgnoreCase(name) && !"busquedaproductos".equalsIgnoreCase(name))
                         {
                             String[] values = request.getParameterValues(name);
                             if (values != null)
                             {
-                                int i = 1;
+                                
                                 for (String value : values)
                                 {
                                     if (value!=null && !"".equals(value) && !"all".equals(value))
                                     {
                                         if (i > 1)
                                         {
-                                            sb.append(" y ");
+                                            sb.append(" , ");
                                         }
                                         if("palabraClave".equalsIgnoreCase(name))
                                         {
@@ -206,23 +208,25 @@ public class SearchResource extends GenericResource
                     StringBuilder sb = new StringBuilder("empresas ");
                     System.out.println("1: "+sb.toString());
                     Enumeration names = request.getParameterNames();
+                    int i = 1;
                     while (names.hasMoreElements())
                     {
                         String name = names.nextElement().toString();
                         System.out.println("name: "+name);
+
                         if (name!=null && !"act".equalsIgnoreCase(name) && !"opc".equalsIgnoreCase(name) && !"wbseach".equalsIgnoreCase(name) && !"busquedaempresas".equalsIgnoreCase(name))
                         {
                             String[] values = request.getParameterValues(name);
                             if (values != null)
                             {
-                                int i = 1;
+                                
                                 for (String value : values)
                                 {
                                     if (value!=null && !"".equals(value) && !"all".equals(value))
                                     {
                                         if (i > 1)
                                         {
-                                            sb.append(" y ");
+                                            sb.append(" , ");
                                         }
                                         if("palabraClave".equalsIgnoreCase(name))
                                         {
