@@ -231,7 +231,7 @@ public class SearchResource extends GenericResource
                                         if("palabraClave".equalsIgnoreCase(name))
                                         {
                                             sb.append(" que su ");
-                                            sb.append("nombre");
+                                            sb.append("razón social");
                                             sb.append(" es ");
                                             sb.append(value);
                                         }
