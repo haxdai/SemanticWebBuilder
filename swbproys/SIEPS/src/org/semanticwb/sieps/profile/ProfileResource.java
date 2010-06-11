@@ -31,6 +31,8 @@ import org.semanticwb.sieps.Busquedas;
 import org.semanticwb.sieps.Certificado;
 import org.semanticwb.sieps.Empresa;
 import org.semanticwb.sieps.EmpresaInteres;
+import org.semanticwb.sieps.Producto;
+import org.semanticwb.sieps.Productos;
 import org.semanticwb.sieps.search.SearchResource;
 
 /**
@@ -93,7 +95,8 @@ public class ProfileResource extends GenericResource {
                     }
                     mensaje = "La(s) empresa(s) ha(n) sido eliminada(s) de su carpeta";
                 } else if ("eliminaEmpresasCert".equals(action)) {
-                    String[] empresas   =   request.getParameterValues("checkEmpCert");                    
+                    String[] empresas   =   request.getParameterValues("checkEmpCert");
+                    
                     if (empresas != null) {
                         for (String uriEmpresas : empresas) {
                             Iterator<Certificado> itCert     = Certificado.ClassMgr.listCertificados();
@@ -108,6 +111,24 @@ public class ProfileResource extends GenericResource {
                         }
                     }
                     mensaje = "La(s) empresa(s) ha(n) sido eliminada(s) de su carpeta";
+                } else if ("eliminaProductos".equals(action)) {
+                    String[] productos   =   request.getParameterValues("checkProductos");
+                    
+                    if (productos != null) {
+                        for (String uriProductos : productos) {
+                            Iterator<Productos> itProductos     = Productos.ClassMgr.listProductoses();
+
+                            while (itProductos.hasNext()) {
+                                Productos prod    =   itProductos.next();
+                                User userCert     =   prod.getUsuario();
+                                if (user.equals(userCert)
+                                        && prod.getProductos().getId().equals(uriProductos)) {
+                                    Productos.ClassMgr.removeProductos(prod.getId(), webSite);
+                                }
+                            }
+                        }
+                    }
+                    mensaje = "Lo(s) producto(s) ha(n) sido eliminado(s) de su carpeta";
                 } else {
                     super.processAction(request, response);
                 }
@@ -146,6 +167,7 @@ public class ProfileResource extends GenericResource {
         List<Busqueda> listBusquedas      = Collections.emptyList();
         List<Empresa> listEmpresasCert    = Collections.emptyList();
         List<Empresa> listEmpresasInteres = Collections.emptyList();
+        List<Producto> listProductos      = Collections.emptyList();
 
         try {
             SWBModel webSite    =   getResourceBase().getWebSite();
@@ -206,12 +228,36 @@ public class ProfileResource extends GenericResource {
                         }
                     }
                 }
+                //Recupera productos de interés...
+                Iterator<Productos> productos = Productos.ClassMgr.listProductoses(webSite);
+                if (interes != null) {
+                    listProductos =   new ArrayList<Producto>();
+                    while (productos.hasNext()) {
+                        Productos inter =  productos.next();
+                        if (inter != null && inter.getProductos() != null)  {
+                            User userInteres     =  inter.getUsuario();
+                            Producto p            =  inter.getProductos();
+                            SemanticObject so   = SemanticObject.createSemanticObject(p.getId());
+                            if (so != null) {
+                                Producto pInst   = (Producto)so.createGenericInstance();
+                                if (p.getId() != null) {
+                                    if (userInteres != null
+                                            && user.getURI().equals(userInteres.getURI())
+                                            && inter.getProductos() != null
+                                            && !listProductos.contains(pInst))
+                                        listProductos.add(pInst);
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
             request.setAttribute("seccionResultados", buscaSeccionResultados(getResourceBase().getWebSite()));
             request.setAttribute("busquedas", listBusquedas);
             request.setAttribute("empresasCertificadas", listEmpresasCert);
             request.setAttribute("empresasInteres", listEmpresasInteres);
+            request.setAttribute("productos", listProductos);
 
             request.setAttribute("paramRequest", paramRequest);
 
