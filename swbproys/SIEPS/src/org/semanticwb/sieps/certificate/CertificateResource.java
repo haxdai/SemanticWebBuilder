@@ -182,11 +182,10 @@ public class CertificateResource extends GenericResource {
             WebPage webPagePerfil   =   buscaSeccionPerfil(webSite);
             String mensaje          =   request.getParameter("mensaje");
             
-            StringBuilder buffHTML = new StringBuilder()
-                                           .append("<div id='cuponConfirmacion'>")
+            StringBuilder buffHTML = new StringBuilder()                                           
                                            .append("<h2>").append(mensaje).append("</h2>")
                                            .append("<p><input type='button' value='Ir a mi perfil' name='borrar' class='btn-medium' onclick='document.location=\"").append(webPagePerfil.getUrl()).append("\"'/></p>")
-                                           .append("</div>");
+                                           ;
             PrintWriter pw = response.getWriter();
             pw.write(buffHTML.toString());
             
