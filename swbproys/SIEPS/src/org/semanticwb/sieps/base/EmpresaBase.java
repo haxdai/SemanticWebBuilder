@@ -1,7 +1,7 @@
 package org.semanticwb.sieps.base;
 
 
-public abstract class EmpresaBase extends org.semanticwb.model.SWBClass 
+public abstract class EmpresaBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Searchable
 {
     public static final org.semanticwb.platform.SemanticProperty sieps_subsector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#subsector");
     public static final org.semanticwb.platform.SemanticProperty sieps_logo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#logo");
