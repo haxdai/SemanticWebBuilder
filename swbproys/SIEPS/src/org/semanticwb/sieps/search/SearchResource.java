@@ -7,6 +7,7 @@ package org.semanticwb.sieps.search;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -64,69 +65,78 @@ public class SearchResource extends GenericResource
             {
                 if ("guardaConsulta".equals(action))
                 {
-                    // Crea el objeto búsqueda...
-                    Busqueda busqueda = Busqueda.ClassMgr.createBusqueda(webSite);
-                    busqueda.setSeach(query);
-                    // Crea el objeto búsquedas (ligado a un usuario)...
-                    Busquedas busquedasUsr = Busquedas.ClassMgr.createBusquedas(webSite);
-                    busquedasUsr.addBusqueda(busqueda);
-                    busquedasUsr.setUsuario(user);
-                    mensaje = "La búsqueda ha sido agregada a su carpeta";
+                    if (query != null && query.length() > 0) {
+                        if (!isQueryInCarpeta(query, user, webSite)) {
+                            // Crea el objeto búsqueda...
+                            Busqueda busqueda = Busqueda.ClassMgr.createBusqueda(webSite);
+                            busqueda.setSeach(query);
+                            // Crea el objeto búsquedas (ligado a un usuario)...
+                            Busquedas busquedasUsr = Busquedas.ClassMgr.createBusquedas(webSite);
+                            busquedasUsr.addBusqueda(busqueda);
+                            busquedasUsr.setUsuario(user);
+                            mensaje = "La búsqueda ha sido agregada a su carpeta";
+                        } else {
+                            mensaje = "Ya existe un búsqueda similar en su carpeta";
+                        }
+                    }
                     response.setRenderParameter("act", "results");
                     response.setRenderParameter("query", query);
 
                 }
                 else if ("guardaEmpresas".equals(action))
                 {
-                    String[] empresas = request.getParameterValues("chkEmpresas");
-                    if (empresas != null && empresas.length > 0)
-                    {
-                        for (String uriEmpresa : empresas)
-                        {
-                            if (uriEmpresa != null)
-                            {
-                                //Recupera la empresa...
-                                Empresa emp = Empresa.ClassMgr.createEmpresa(uriEmpresa, webSite);
-                                //Crea la empresa de interés..
-                                EmpresaInteres empresaInteres = EmpresaInteres.ClassMgr.createEmpresaInteres(webSite);
-                                //Añade empresa...
-                                empresaInteres.addEmpresa(emp);
-                                //Añade usuario...
-                                empresaInteres.setUsuario(user);
-                            }
-                            mensaje = "Las empresas han sido agregadas a su carpeta";
-                        }
+                    boolean isGuarda    =   guardaEmpresasInteres(request, user, webSite);
+                    if (isGuarda) {
+                        mensaje     =   "Las empresas han sido agregadas a su carpeta";
                     }
                     response.setRenderParameter("act", "results");
                     response.setRenderParameter("query", query);
-
-                }
-                else if ("guardaProductos".equals(action))
-                {                    
-                    String[] productos = request.getParameterValues("uriProductos");
-                    if (productos != null && productos.length > 0)
-                    {
-                        for (String uriProducto : productos)
-                        {
-                            if (uriProducto != null)
-                            {
-                                //Recupera el...
-                                Producto emp = Producto.ClassMgr.createProducto(uriProducto, webSite);
-                                //Crea la empresa de interés..
-                                Productos productosInteres = Productos.ClassMgr.createProductos(webSite);
-                                //Añade empresa...
-                                productosInteres.addProductos(emp);
-                                //Añade usuario...
-                                productosInteres.setUsuario(user);
-                                
-                                response.setRenderParameter("uri", uriProducto);
-                            }
-                        }
-                        mensaje = "El producto(s) ha(n) sido agregad(o)s a su carpeta";
+                } else if ("guardaEmpresasFicha".equals(action))
+                {
+                    boolean isGuarda    =   guardaEmpresasInteres(request, user, webSite);
+                    if (isGuarda) {
+                        String uriEmpresa   =   request.getParameterValues("chkEmpresas")[0];
+                        mensaje             =   "La empresa han sido agregada a su carpeta";
+                        response.setRenderParameter("uri", uriEmpresa);
+                        response.setRenderParameter("act", "detail");
+                        response.setRenderParameter("query", query);
                     }
-                    response.setRenderParameter("act", "detail");
-                }
-                else
+
+                } else if ("guardaProductos".equals(action))
+                {
+                    boolean isGuarda    =   guardaProductosInteres(request, user, webSite);
+                    if (isGuarda) {
+                        mensaje     =   "El producto(s) ha(n) sido agregado(s) a su carpeta";
+                    }
+                    response.setRenderParameter("act", "results");
+                    response.setRenderParameter("query", query);                                        
+                } else if ("guardaProductosFicha".equals(action))
+                {
+                    boolean isGuarda    =   guardaProductosInteres(request, user, webSite);
+                    if (isGuarda) {
+                        String uriProducto  =   request.getParameterValues("uriProductos")[0];
+                        mensaje             =   "El producto ha sido agregado a su carpeta";
+                        response.setRenderParameter("uri", uriProducto);
+                        response.setRenderParameter("act", "detail");
+                        response.setRenderParameter("query", query);
+                    }
+                } else if ("guardaProductosCatalogo".equals(action))
+                {
+                    String uriEmpresa   = request.getParameter("uriEmpresa");
+                    log.debug("---> uriEmpresa = " + uriEmpresa);
+                    if (uriEmpresa != null && uriEmpresa.length() > 0) {
+                        uriEmpresa  = URLDecoder.decode(uriEmpresa, "UTF-8");
+                    }
+                    boolean isGuarda    =   guardaProductosInteres(request, user, webSite);
+                    if (isGuarda) {
+                        String uriProducto  =   request.getParameterValues("uriProductos")[0];
+                        mensaje             =   "El producto ha sido agregado a su carpeta";
+                        response.setRenderParameter("uri", uriProducto);
+                        response.setRenderParameter("act", "cat");
+                        response.setRenderParameter("query", query);
+                        response.setRenderParameter("uri", uriEmpresa);
+                    }
+                }else
                 {
                     super.processAction(request, response);
                 }
@@ -164,10 +174,10 @@ public class SearchResource extends GenericResource
                 String act = request.getParameter("act");
                 if ("detail".equals(act))
                 {
-                    String uri = request.getParameter("uri");
+                    String uri      =   request.getParameter("uri");
+                    String query    =   request.getParameter("query");                   
                     if (uri != null && uri.length() > 0)
                     {
-
                         SemanticObject semanticObject = SemanticObject.createSemanticObject(URLDecoder.decode(uri, "UTF-8"));
                         GenericObject genericObject = semanticObject.createGenericInstance();
                         int tipoResultadoDetalle = determinaTipoResultados(semanticObject);
@@ -321,6 +331,10 @@ public class SearchResource extends GenericResource
                     {
                         List<Producto> listProductos = contruyeColeccionProductos(listSemObj);
                         request.setAttribute("results", listProductos);
+
+                        boolean isAllProdInt = isAllProductosInteres(listProductos, getResourceBase().getWebSite(), user);
+                        request.setAttribute("isAllProdInt", isAllProdInt);
+
                         request.setAttribute("query", query);
                         path = "/swbadmin/jsp/sieps/resultsProducto.jsp";
                     }
@@ -578,7 +592,44 @@ public class SearchResource extends GenericResource
         }
         return isEmprInteres;
     }
+ /**
+     * Determina si un porducto se considera como de interés para el usuario a partir de su URI
+     * @param user Objeto que mapea el usuario de la carpeta
+     * @param model Modelo en el cual se encuentran los datos
+     * @param uri URL del producto
+     * @return true si es de interés, false d.o.f.
+     */
+    public static boolean isProductosInteres(User user, SWBModel model, String uri) {
 
+        boolean isProdInteres   =   false;
+
+        try {
+            if (uri != null && uri.length() > 0) {
+                Iterator<Productos> interes = Productos.ClassMgr.listProductoses(model);
+                if (interes != null) {
+                    while (interes.hasNext()) {
+                        Productos productosInteres = interes.next();
+                        if (productosInteres != null) {
+                            User userInteres    =   productosInteres.getUsuario();
+                            Producto prodInt    =   productosInteres.getProductos();
+
+                            if (user != null && prodInt != null) {
+                                if (user.equals(userInteres)
+                                                    && uri.equals(prodInt.getId())) {
+                                    isProdInteres   = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        catch (Exception e) {
+            log.error(e);
+        }
+        return isProdInteres;
+    }
     /**
      * Determina si todas las empresas de la colección se encuentran en la sección de interés
      * en la carpeta del usuario
@@ -635,4 +686,134 @@ public class SearchResource extends GenericResource
         return isAllEmpresas;
 
     }
+    /**
+     * Determina si todos los porductos de la colección se encuentran en la sección de interés
+     * en la carpeta del usuario
+     * @param empresas Colección de productos
+     * @param webSite Modelo en el cual se encuentran los datos
+     * @param user Usuario de la carpeta
+     * @return true si todas las empresas son de interés, false d.o.f.
+     */
+    private boolean isAllProductosInteres(List<Producto> productos, SWBModel webSite, User user)
+    {
+
+        boolean isAllProductos = true;
+        try
+        {
+            int numProdInt = 0;
+
+            //Empresas de interes usr...
+            List<String> listIdsProductosIntereses = new ArrayList<String>();
+
+            Iterator<Productos> interes = Productos.ClassMgr.listProductoses();
+
+            while (interes.hasNext())
+            {
+                Productos prodInt = interes.next();
+                User userProdInt = prodInt.getUsuario();
+                if (userProdInt.getURI().equals(user.getURI()))
+                {
+                    String id = prodInt.getProductos().getId();
+                    if (!listIdsProductosIntereses.contains(id))
+                    {
+                        listIdsProductosIntereses.add(id);
+                    }
+                }
+            }
+            //La empresa de interes existe en el conjunto resultado
+            for (String id : listIdsProductosIntereses)
+            {
+                for (Producto producto : productos)
+                {
+                    if (producto.getURI().equals(id))
+                    {
+                        ++numProdInt;
+                    }
+                }
+            }
+
+            isAllProductos = (numProdInt == productos.size());
+        }
+        catch (Exception e)
+        {
+            log.error(e);
+        }
+
+        return isAllProductos;
+
+    }
+    private boolean guardaEmpresasInteres(HttpServletRequest request, User user, SWBModel model) {
+        boolean bExito      =   false;
+        String[] empresas   =   request.getParameterValues("chkEmpresas");
+        if (empresas != null && empresas.length > 0) {
+            for (String uriEmpresa : empresas)
+            {
+                if (uriEmpresa != null)
+                {
+                    //Recupera la empresa...
+                    Empresa emp = Empresa.ClassMgr.createEmpresa(uriEmpresa, model);
+                    //Crea la empresa de interés..
+                    EmpresaInteres empresaInteres = EmpresaInteres.ClassMgr.createEmpresaInteres(model);
+                    //Añade empresa...
+                    empresaInteres.addEmpresa(emp);
+                    //Añade usuario...
+                    empresaInteres.setUsuario(user);
+                    
+                    bExito  =   true;
+                }
+            }
+         }
+         return bExito;
+    }
+    
+    private boolean guardaProductosInteres(HttpServletRequest request, User user, SWBModel model) {
+        boolean bExito      =   false;
+        String[] productos  =   request.getParameterValues("uriProductos");
+        log.debug("---> productos = "  + Arrays.toString(productos));
+        if (productos != null && productos.length > 0)
+        {
+            for (String uriProducto : productos)
+            {
+                if (uriProducto != null)
+                {
+                    //Recupera el...
+                    Producto prod = Producto.ClassMgr.createProducto(uriProducto, model);
+                    //Crea la empresa de interés..
+                    Productos productosInteres = Productos.ClassMgr.createProductos(model);
+                    //Añade empresa...
+                    productosInteres.addProductos(prod);
+                    //Añade usuario...
+                    productosInteres.setUsuario(user);
+
+                    bExito  = true;
+                }
+            }
+
+        }
+         return bExito;
+    }
+
+    public static boolean isQueryInCarpeta(String query, User user, SWBModel model) {
+        boolean isInCarpeta = false;
+        if (query != null && query.length() > 0) {
+            //Obtiene las consultas de interés...
+            Iterator<Busquedas> interes   = Busquedas.ClassMgr.listBusquedases(model);
+            if (interes != null) {
+                while (interes.hasNext()) {
+                    Busquedas busqInt   =   interes.next();
+                    User userInt        =   busqInt.getUsuario();
+                    if (userInt != null && userInt.equals(user)) {
+                        Busqueda busq   = busqInt.getBusqueda();
+                        if (query.equalsIgnoreCase(busq.getSeach())) {
+                            isInCarpeta =    true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return isInCarpeta;
+    }
+
+
 }
