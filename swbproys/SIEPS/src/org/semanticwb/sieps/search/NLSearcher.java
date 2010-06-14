@@ -295,7 +295,7 @@ public class NLSearcher {
         //System.out.println("::original query: " + query);
         //Preprocess query
         sparqlQuery = preprocessQuery(query);
-        //System.out.println("--Externally called result: " + sparqlQuery);
+        System.out.println("--Externally called result: " + sparqlQuery);
 
         //Query was processed, thus, it is allowed
         if (!query.equals(sparqlQuery) || query.split(" ").length == 1) {
@@ -307,9 +307,9 @@ public class NLSearcher {
 
         //If query translated correctly, and it is allowed, execute it
         if (tr.getErrCode() == 0 && allowed) {
-//            System.out.println("--Translated query:" + query);
-//            System.out.println("---SPARQL QUERY:---");
-//            System.out.println(sparqlQuery);
+            System.out.println("--Translated query:" + query);
+            System.out.println("---SPARQL QUERY:---");
+            System.out.println(sparqlQuery);
 
             try {
                 Model model = SWBPlatform.getSemanticMgr().getSchema().getRDFOntModel();
@@ -351,11 +351,11 @@ public class NLSearcher {
         if (res.isEmpty()) { //Translation failed or no results found, execute normal search
             res = luceneSearch(query, site, user, null);
         }
-        //System.out.println("--" + res.size() + " results found:");
+        System.out.println("--" + res.size() + " results found:");
         Iterator<SemanticObject> itres = res.iterator();
         while(itres.hasNext()) {
             SemanticObject so = itres.next();
-            //System.out.println(":::" + so.getURI());
+            System.out.println(":::" + so.getURI());
         }
         return res.iterator();
     }
