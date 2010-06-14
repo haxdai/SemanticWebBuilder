@@ -230,6 +230,7 @@ public class ProfileResource extends GenericResource {
                 }
                 //Recupera productos de interés...
                 Iterator<Productos> productos = Productos.ClassMgr.listProductoses(webSite);
+                logger.debug("---> productos = " + productos.hasNext());
                 if (interes != null) {
                     listProductos =   new ArrayList<Producto>();
                     while (productos.hasNext()) {
@@ -252,7 +253,7 @@ public class ProfileResource extends GenericResource {
                     }
                 }
             }
-
+            logger.debug("---> listProductos = " + listProductos);
             request.setAttribute("seccionResultados", buscaSeccionResultados(getResourceBase().getWebSite()));
             request.setAttribute("busquedas", listBusquedas);
             request.setAttribute("empresasCertificadas", listEmpresasCert);
