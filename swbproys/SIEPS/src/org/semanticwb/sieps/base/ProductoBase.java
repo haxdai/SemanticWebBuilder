@@ -1,7 +1,7 @@
 package org.semanticwb.sieps.base;
 
 
-public abstract class ProductoBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable
+public abstract class ProductoBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Searchable
 {
     public static final org.semanticwb.platform.SemanticClass unspsc_Commodity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ontoview.org/schema/unspsc/1#Commodity");
     public static final org.semanticwb.platform.SemanticProperty sieps_unspsc=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/SIEPS#unspsc");
