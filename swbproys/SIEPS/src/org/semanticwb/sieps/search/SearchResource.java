@@ -7,7 +7,6 @@ package org.semanticwb.sieps.search;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -122,8 +121,7 @@ public class SearchResource extends GenericResource
                     }
                 } else if ("guardaProductosCatalogo".equals(action))
                 {
-                    String uriEmpresa   = request.getParameter("uriEmpresa");
-                    log.debug("---> uriEmpresa = " + uriEmpresa);
+                    String uriEmpresa   = request.getParameter("uriEmpresa");                    
                     if (uriEmpresa != null && uriEmpresa.length() > 0) {
                         uriEmpresa  = URLDecoder.decode(uriEmpresa, "UTF-8");
                     }
@@ -569,20 +567,22 @@ public class SearchResource extends GenericResource
 
         boolean isEmprInteres   =   false;
 
-        try {
-            Empresa empresa     =   (Empresa) SemanticObject.createSemanticObject(uriEmpresa).createGenericInstance();
-            if (empresa != null) {
+        try {            
+            if (uriEmpresa != null) {
                 Iterator<EmpresaInteres> interes = EmpresaInteres.ClassMgr.listEmpresaIntereses(model);
                 if (interes != null) {
                     while (interes.hasNext()) {
                         EmpresaInteres empresaInteres = interes.next();
                         if (empresaInteres != null) {
                             User userInteres    =   empresaInteres.getUsuario();
-                            Empresa fabricaInt  =   empresaInteres.getEmpresa();
-                            
+                            Empresa fabricaInt  =   empresaInteres.getEmpresa();                            
                             if (user != null && fabricaInt != null) {
-                                isEmprInteres = (user.equals(userInteres)
-                                                    && empresa.getURI().equals(fabricaInt.getId()));
+                                if (user.equals(userInteres)
+                                        && uriEmpresa.equals(fabricaInt.getId())){
+                                    isEmprInteres = true;
+                                    break;                                                
+                                }
+
                             }
                         }
                     }
@@ -617,7 +617,7 @@ public class SearchResource extends GenericResource
 
                             if (user != null && prodInt != null) {
                                 if (user.equals(userInteres)
-                                                    && uri.equals(prodInt.getId())) {
+                                          && uri.equals(prodInt.getId())) {
                                     isProdInteres   = true;
                                     break;
                                 }
@@ -744,6 +744,13 @@ public class SearchResource extends GenericResource
         return isAllProductos;
 
     }
+    /**
+     * Método de ayuda para crear objetos de tipo empresa de interés a partir de una colección de URI's
+     * @param request Objeto que encapsula a la petición del cliente
+     * @param user Objeto que encapsula la información del usuario
+     * @param model Objeto que encapsula la información del modelo
+     * @return true si la creación fue exitosa, false d.o.f.
+     */
     private boolean guardaEmpresasInteres(HttpServletRequest request, User user, SWBModel model) {
         boolean bExito      =   false;
         String[] empresas   =   request.getParameterValues("chkEmpresas");
@@ -767,34 +774,53 @@ public class SearchResource extends GenericResource
          }
          return bExito;
     }
-    
+    /**
+     * Método de ayuda para crear objetos de tipo producto de interés a partir de una colección de URI´s
+     * @param request Objeto que encapsula a la petición del cliente
+     * @param user Objeto que encapsula la información del usuario
+     * @param model Objeto que encapsula la información del modelo
+     * @return true si la creación fue exitosa, false d.o.f.
+     */
     private boolean guardaProductosInteres(HttpServletRequest request, User user, SWBModel model) {
         boolean bExito      =   false;
-        String[] productos  =   request.getParameterValues("uriProductos");
-        log.debug("---> productos = "  + Arrays.toString(productos));
-        if (productos != null && productos.length > 0)
-        {
-            for (String uriProducto : productos)
+        try {
+            String[] productos  =   request.getParameterValues("uriProductos");
+            
+            if (productos != null && productos.length > 0)
             {
-                if (uriProducto != null)
+                for (String uriProducto : productos)
                 {
-                    //Recupera el...
-                    Producto prod = Producto.ClassMgr.createProducto(uriProducto, model);
-                    //Crea la empresa de interés..
-                    Productos productosInteres = Productos.ClassMgr.createProductos(model);
-                    //Añade empresa...
-                    productosInteres.addProductos(prod);
-                    //Añade usuario...
-                    productosInteres.setUsuario(user);
+                    if (uriProducto != null)
+                    {
+                        String uriDecoded = URLDecoder.decode(uriProducto, "UTF-8");
+            
+                        //Recupera el...
+                        Producto prod = Producto.ClassMgr.createProducto(uriDecoded, model);
+                        //Crea la empresa de interés..
+                        Productos productosInteres = Productos.ClassMgr.createProductos(model);
+                        //Añade empresa...
+                        productosInteres.addProductos(prod);
+                        //Añade usuario...
+                        productosInteres.setUsuario(user);
 
-                    bExito  = true;
+                        bExito  = true;
+                    }
                 }
+
             }
 
+        } catch (Exception e) {
+            log.error(e);
         }
          return bExito;
     }
-
+    /**
+     * Determina si una consulta ya ha sido agregada a la carpeta de un usuario
+     * @param query Consulta
+     * @param user Objeto que encapsula la información del usuario
+     * @param model Objeto que encapsula la información del modelo
+     * @return true si existe, false d.o.f.
+     */
     public static boolean isQueryInCarpeta(String query, User user, SWBModel model) {
         boolean isInCarpeta = false;
         if (query != null && query.length() > 0) {
