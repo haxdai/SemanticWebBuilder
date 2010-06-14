@@ -374,6 +374,7 @@ public class NLSearcher {
         SearchQuery q = new SearchQuery();
         SearchQuery tquery=new SearchQuery(SearchQuery.OPER_AND);
         q.addQuery(tquery);
+        //tquery.addTerm(new SearchTerm(EmpresaParser.ATT_NAME, query, SearchTerm.OPER_OR));
         tquery.addTerm(new SearchTerm(SWBIndexer.ATT_TITLE, query, SearchTerm.OPER_OR));
         tquery.addTerm(new SearchTerm(SWBIndexer.ATT_DESCRIPTION, query, SearchTerm.OPER_OR));
         tquery.addTerm(new SearchTerm(SWBIndexer.ATT_TAGS, query, SearchTerm.OPER_OR));
