@@ -237,6 +237,8 @@ public class SearchResource extends GenericResource
                     List<SemanticObject> listSemObj = construyeColeccionSemObjs(results);                  
 
                     List<Producto> listProductos = contruyeColeccionProductos(listSemObj);
+                    boolean isAllProdInt = isAllProductosInteres(listProductos, getResourceBase().getWebSite(), user);
+                    request.setAttribute("isAllProdInt", isAllProdInt);
                     request.setAttribute("results", listProductos);
                     request.setAttribute("query", query);
                     path = "/swbadmin/jsp/sieps/resultsProducto.jsp";
