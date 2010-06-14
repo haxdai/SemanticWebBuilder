@@ -19,7 +19,6 @@ import org.semanticwb.sieps.Empresa;
  */
 public class EmpresaParser extends GenericParser {
     public static final String ATT_NAME = "name";
-    public static final String ATT_DESC = "description";
 
     @Override
     public String getTypeDisplayLabel(Searchable gen) {
