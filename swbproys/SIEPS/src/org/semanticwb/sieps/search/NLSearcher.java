@@ -111,9 +111,12 @@ public class NLSearcher {
         rules.add(new Rule("rule24", "\\s*que\\s*su\\s*subsector\\s*[s]?e[s|ea]\\s*", "$1 con subsector = \"$2\"", 2));
         rules.add(new Rule("rule25", "\\s*que\\s*su\\s*rama\\s*[s]?e[s|ea]\\s*", "$1 con rama = \"$2\"", 2));
         rules.add(new Rule("rule26", "\\s*que\\s*su\\s*subrama\\s*[s]?e[s|ea]\\s*", "$1 con subrama = \"$2\"", 2));
-        rules.add(new Rule("rule26", "\\s*que\\s*su\\s*familia\\s*[s]?e[s|ea]\\s*", "$1 con familia = \"$2\"", 2));
-        rules.add(new Rule("rule26", "\\s*que\\s*su\\s*segmento\\s*[s]?e[s|ea]\\s*", "$1 con segmento = \"$2\"", 2));
-        rules.add(new Rule("rule26", "\\s*que\\s*su\\s*clase\\s*[s]?e[s|ea]\\s*", "$1 con clase = \"$2\"", 2));
+        rules.add(new Rule("rule27", "\\s*que\\s*su\\s*familia\\s*[s]?e[s|ea]\\s*", "$1 con familia = \"$2\"", 2));
+        rules.add(new Rule("rule28", "\\s*que\\s*su\\s*segmento\\s*[s]?e[s|ea]\\s*", "$1 con segmento = \"$2\"", 2));
+        rules.add(new Rule("rule29", "\\s*que\\s*su\\s*clase\\s*[s]?e[s|ea]\\s*", "$1 con clase = \"$2\"", 2));
+        rules.add(new Rule("rule30", "\\s*que\\s*su\\s*nombre\\s*[s]?e[s|ea]\\s*", "$1 con nombre como \"$2\"", 1));
+        rules.add(new Rule("rule31", "\\s*que\\s*su\\s*razón\\s*social\\s*[s]?e[s|ea]\\s*", "$1 con [razón social] como \"$2\"", 1));
+        //rules.add(new Rule("rule32", "\\s*que\\s*su\\s*clase\\s*[s]?e[s|ea]\\s*", "$1 con clase = \"$2\"", 1));
 
         contractions = new HashMap<String, String>();
         contractions.put("del", "de el");
