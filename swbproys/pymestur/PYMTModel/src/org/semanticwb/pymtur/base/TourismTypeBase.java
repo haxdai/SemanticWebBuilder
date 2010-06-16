@@ -49,6 +49,18 @@ public abstract class TourismTypeBase extends org.semanticwb.model.SWBClass impl
             return (getTourismType(id, model)!=null);
         }
 
+        public static java.util.Iterator<org.semanticwb.pymtur.TourismType> listTourismTypeByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.TourismType> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.pymtur.TourismType> listTourismTypeByCreator(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.TourismType> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+
         public static java.util.Iterator<org.semanticwb.pymtur.TourismType> listTourismTypeByDestinationTourismTypeInv(org.semanticwb.pymtur.Destination value,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.TourismType> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(pymtur_hasDestinationTourismTypeInv, value.getSemanticObject(),sclass));
@@ -72,23 +84,42 @@ public abstract class TourismTypeBase extends org.semanticwb.model.SWBClass impl
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.TourismType> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
             return it;
         }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.TourismType> listTourismTypeByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.TourismType> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
-            return it;
-        }
-
-        public static java.util.Iterator<org.semanticwb.pymtur.TourismType> listTourismTypeByCreator(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.TourismType> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
-            return it;
-        }
     }
 
     public TourismTypeBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+    public java.util.Date getCreated()
+    {
+        return getSemanticObject().getDateProperty(swb_created);
+    }
+
+    public void setCreated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_created, value);
+    }
+
+    public void setCreator(org.semanticwb.model.User value)
+    {
+        getSemanticObject().setObjectProperty(swb_creator, value.getSemanticObject());
+    }
+
+    public void removeCreator()
+    {
+        getSemanticObject().removeProperty(swb_creator);
+    }
+
+    public org.semanticwb.model.User getCreator()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_creator);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
     }
 
     public org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.Destination> listDestinationTourismTypeInvs()
@@ -115,16 +146,6 @@ public abstract class TourismTypeBase extends org.semanticwb.model.SWBClass impl
              ret=(org.semanticwb.pymtur.Destination)obj.createGenericInstance();
          }
          return ret;
-    }
-
-    public java.util.Date getCreated()
-    {
-        return getSemanticObject().getDateProperty(swb_created);
-    }
-
-    public void setCreated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_created, value);
     }
 
     public void setModifiedBy(org.semanticwb.model.User value)
@@ -181,27 +202,6 @@ public abstract class TourismTypeBase extends org.semanticwb.model.SWBClass impl
     public void setUpdated(java.util.Date value)
     {
         getSemanticObject().setDateProperty(swb_updated, value);
-    }
-
-    public void setCreator(org.semanticwb.model.User value)
-    {
-        getSemanticObject().setObjectProperty(swb_creator, value.getSemanticObject());
-    }
-
-    public void removeCreator()
-    {
-        getSemanticObject().removeProperty(swb_creator);
-    }
-
-    public org.semanticwb.model.User getCreator()
-    {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_creator);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
     }
 
     public String getDescription()
