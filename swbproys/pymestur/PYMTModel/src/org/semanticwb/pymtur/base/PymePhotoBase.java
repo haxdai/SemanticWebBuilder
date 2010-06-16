@@ -87,6 +87,16 @@ public abstract class PymePhotoBase extends org.semanticwb.model.SWBClass implem
         getSemanticObject().setProperty(pymtur_photoMimeType, value);
     }
 
+    public String getPhotoImage()
+    {
+        return getSemanticObject().getProperty(pymtur_PhotoImage);
+    }
+
+    public void setPhotoImage(String value)
+    {
+        getSemanticObject().setProperty(pymtur_PhotoImage, value);
+    }
+
     public String getTitle()
     {
         return getSemanticObject().getProperty(swb_title);
@@ -135,15 +145,5 @@ public abstract class PymePhotoBase extends org.semanticwb.model.SWBClass implem
     public void setDescription(String description, String lang)
     {
         getSemanticObject().setProperty(swb_description, description, lang);
-    }
-
-    public String getPhotoImage()
-    {
-        return getSemanticObject().getProperty(pymtur_PhotoImage);
-    }
-
-    public void setPhotoImage(String value)
-    {
-        getSemanticObject().setProperty(pymtur_PhotoImage, value);
     }
 }
