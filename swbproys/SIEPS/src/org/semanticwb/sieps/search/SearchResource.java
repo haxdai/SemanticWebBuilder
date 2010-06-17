@@ -108,7 +108,7 @@ public class SearchResource extends GenericResource
                         mensaje     =   "El producto(s) ha(n) sido agregado(s) a su carpeta";
                     }
                     response.setRenderParameter("act", "results");
-                    response.setRenderParameter("query", query);                                        
+                    response.setRenderParameter("query", query);
                 } else if ("guardaProductosFicha".equals(action))
                 {
                     boolean isGuarda    =   guardaProductosInteres(request, user, webSite);
@@ -121,7 +121,7 @@ public class SearchResource extends GenericResource
                     }
                 } else if ("guardaProductosCatalogo".equals(action))
                 {
-                    String uriEmpresa   = request.getParameter("uriEmpresa");                    
+                    String uriEmpresa   = request.getParameter("uriEmpresa");
                     if (uriEmpresa != null && uriEmpresa.length() > 0) {
                         uriEmpresa  = URLDecoder.decode(uriEmpresa, "UTF-8");
                     }
@@ -149,7 +149,7 @@ public class SearchResource extends GenericResource
             log.error(e);
             mensaje = "Imposible agregar a la carpeta por el momento";
         }
-        
+
         response.setRenderParameter("mensaje", mensaje);
         return;
     }
@@ -173,7 +173,7 @@ public class SearchResource extends GenericResource
                 if ("detail".equals(act))
                 {
                     String uri      =   request.getParameter("uri");
-                    String query    =   request.getParameter("query");                   
+                    String query    =   request.getParameter("query");
                     if (uri != null && uri.length() > 0)
                     {
                         SemanticObject semanticObject = SemanticObject.createSemanticObject(URLDecoder.decode(uri, "UTF-8"));
@@ -199,7 +199,7 @@ public class SearchResource extends GenericResource
                             String[] values = request.getParameterValues(name);
                             if (values != null)
                             {
-                                
+
                                 for (String value : values)
                                 {
                                     if (value!=null && !"".equals(value) && !"all".equals(value))
@@ -232,7 +232,7 @@ public class SearchResource extends GenericResource
                     NLSearcher searcher = new NLSearcher("es");
                     Iterator<SemanticObject> results = searcher.search(query, paramRequest.getWebPage().getWebSite(), paramRequest.getUser());
 
-                    List<SemanticObject> listSemObj = construyeColeccionSemObjs(results);                  
+                    List<SemanticObject> listSemObj = construyeColeccionSemObjs(results);
 
                     List<Producto> listProductos = contruyeColeccionProductos(listSemObj);
                     boolean isAllProdInt = isAllProductosInteres(listProductos, getResourceBase().getWebSite(), user);
@@ -240,7 +240,7 @@ public class SearchResource extends GenericResource
                     request.setAttribute("results", listProductos);
                     request.setAttribute("query", query);
                     path = "/swbadmin/jsp/sieps/resultsProducto.jsp";
-                    
+
 
                 }
                 else if ("busquedaempresas".equalsIgnoreCase(act))
@@ -259,7 +259,7 @@ public class SearchResource extends GenericResource
                             String[] values = request.getParameterValues(name);
                             if (values != null)
                             {
-                                
+
                                 for (String value : values)
                                 {
                                     if (value!=null && !"".equals(value) && !"all".equals(value))
@@ -303,7 +303,7 @@ public class SearchResource extends GenericResource
                     request.setAttribute("isAllEmpInt", isAllEmpInt);
                     request.setAttribute("query", query);
                     path = "/swbadmin/jsp/sieps/resultsEmpresa.jsp";
-                    
+
                 }
                 else if ("results".equals(act))
                 {
@@ -313,39 +313,37 @@ public class SearchResource extends GenericResource
 
                     List<SemanticObject> listSemObj = construyeColeccionSemObjs(results);
 
-                    int tipoResultados = determinaTipoResultados(listSemObj);
+                    if ("SPARQL".equals(searcher.getLastSearchType())) {
+                        int tipoResultados = determinaTipoResultados(listSemObj);
 
-                    if (TIPO_EMPRESA == tipoResultados)
-                    {
-                        List<Empresa> listEmpresas = contruyeColeccionEmpresas(listSemObj);
-                        //El usuario tiene empresas de interés ...                        
-                        request.setAttribute("results", listEmpresas);
+                        if (TIPO_EMPRESA == tipoResultados)
+                        {
+                            List<Empresa> listEmpresas = contruyeColeccionEmpresas(listSemObj);
+                            //El usuario tiene empresas de interés ...
+                            request.setAttribute("results", listEmpresas);
 
-                        boolean isAllEmpInt = isAllEmpresasInteres(listEmpresas, getResourceBase().getWebSite(), user);
-                        request.setAttribute("isAllEmpInt", isAllEmpInt);
-                        request.setAttribute("query", query);
+                            boolean isAllEmpInt = isAllEmpresasInteres(listEmpresas, getResourceBase().getWebSite(), user);
+                            request.setAttribute("isAllEmpInt", isAllEmpInt);
+                            request.setAttribute("query", query);
 
-                        path = "/swbadmin/jsp/sieps/resultsEmpresa.jsp";
-                    }
-                    else if (TIPO_PRODUCTO == tipoResultados)
-                    {
-                        List<Producto> listProductos = contruyeColeccionProductos(listSemObj);
-                        request.setAttribute("results", listProductos);
+                            path = "/swbadmin/jsp/sieps/resultsEmpresa.jsp";
+                        }
+                        else if (TIPO_PRODUCTO == tipoResultados)
+                        {
+                            List<Producto> listProductos = contruyeColeccionProductos(listSemObj);
+                            request.setAttribute("results", listProductos);
 
-                        boolean isAllProdInt = isAllProductosInteres(listProductos, getResourceBase().getWebSite(), user);
-                        request.setAttribute("isAllProdInt", isAllProdInt);
+                            boolean isAllProdInt = isAllProductosInteres(listProductos, getResourceBase().getWebSite(), user);
+                            request.setAttribute("isAllProdInt", isAllProdInt);
 
-                        request.setAttribute("query", query);
-                        path = "/swbadmin/jsp/sieps/resultsProducto.jsp";
-                    }
-                    else if (TIPO_WEBPAGE == tipoResultados)
-                    {
-                        List<WebPage> listWebPages = contruyeColeccionWebPages(listSemObj);
-                        request.setAttribute("results", listWebPages);
+                            request.setAttribute("query", query);
+                            path = "/swbadmin/jsp/sieps/resultsProducto.jsp";
+                        }
+                    } else if ("LUCENE".equals(searcher.getLastSearchType())) {
+                        request.setAttribute("results", listSemObj);
                         request.setAttribute("query", query);
                         path = "/swbadmin/jsp/sieps/resultsWebPage.jsp";
                     }
-
                 }
                 else if ("cat".equals(act))
                 {
@@ -567,7 +565,7 @@ public class SearchResource extends GenericResource
 
         boolean isEmprInteres   =   false;
 
-        try {            
+        try {
             if (uriEmpresa != null) {
                 Iterator<EmpresaInteres> interes = EmpresaInteres.ClassMgr.listEmpresaIntereses(model);
                 if (interes != null) {
@@ -575,12 +573,12 @@ public class SearchResource extends GenericResource
                         EmpresaInteres empresaInteres = interes.next();
                         if (empresaInteres != null) {
                             User userInteres    =   empresaInteres.getUsuario();
-                            Empresa fabricaInt  =   empresaInteres.getEmpresa();                            
+                            Empresa fabricaInt  =   empresaInteres.getEmpresa();
                             if (user != null && fabricaInt != null) {
                                 if (user.equals(userInteres)
                                         && uriEmpresa.equals(fabricaInt.getId())){
                                     isEmprInteres = true;
-                                    break;                                                
+                                    break;
                                 }
 
                             }
@@ -767,7 +765,7 @@ public class SearchResource extends GenericResource
                     empresaInteres.addEmpresa(emp);
                     //Añade usuario...
                     empresaInteres.setUsuario(user);
-                    
+
                     bExito  =   true;
                 }
             }
@@ -785,7 +783,7 @@ public class SearchResource extends GenericResource
         boolean bExito      =   false;
         try {
             String[] productos  =   request.getParameterValues("uriProductos");
-            
+
             if (productos != null && productos.length > 0)
             {
                 for (String uriProducto : productos)
@@ -793,7 +791,7 @@ public class SearchResource extends GenericResource
                     if (uriProducto != null)
                     {
                         String uriDecoded = URLDecoder.decode(uriProducto, "UTF-8");
-            
+
                         //Recupera el...
                         Producto prod = Producto.ClassMgr.createProducto(uriDecoded, model);
                         //Crea la empresa de interés..
