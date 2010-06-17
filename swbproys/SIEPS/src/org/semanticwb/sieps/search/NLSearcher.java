@@ -35,6 +35,8 @@ import org.semanticwb.portal.indexer.searcher.SearchDocument;
 import org.semanticwb.portal.indexer.searcher.SearchQuery;
 import org.semanticwb.portal.indexer.searcher.SearchResults;
 import org.semanticwb.portal.indexer.searcher.SearchTerm;
+import org.semanticwb.sieps.Empresa;
+import org.semanticwb.sieps.Producto;
 
 /**
  * Class for NL search of products and companies.
@@ -48,6 +50,7 @@ public class NLSearcher {
     private ArrayList<Rule> rules;
     private String []determiners = {"el","la","los","las"};
     private HashMap<String, String> contractions;
+    private String lastSearchType = "";
     private Comparator pComp = new Comparator() {
             public int compare(Object o1, Object o2) {
                 int res = 0;
@@ -298,7 +301,7 @@ public class NLSearcher {
         //System.out.println("::original query: " + query);
         //Preprocess query
         sparqlQuery = preprocessQuery(query);
-        System.out.println("--Externally called result: " + sparqlQuery);
+        //System.out.println("--Externally called result: " + sparqlQuery);
 
         //Query was processed, thus, it is allowed
         if (!query.equals(sparqlQuery) || query.split(" ").length == 1) {
@@ -310,9 +313,10 @@ public class NLSearcher {
 
         //If query translated correctly, and it is allowed, execute it
         if (tr.getErrCode() == 0 && allowed) {
-            System.out.println("--Translated query:" + query);
-            System.out.println("---SPARQL QUERY:---");
-            System.out.println(sparqlQuery);
+            lastSearchType = "SPARQL";
+//            System.out.println("--Translated query:" + query);
+//            System.out.println("---SPARQL QUERY:---");
+//            System.out.println(sparqlQuery);
 
             try {
                 Model model = SWBPlatform.getSemanticMgr().getSchema().getRDFOntModel();
@@ -352,15 +356,55 @@ public class NLSearcher {
         }
 
         if (res.isEmpty()) { //Translation failed or no results found, execute normal search
+            ArrayList<SemanticObject> r1 = iterativeSearch(query);
             res = luceneSearch(query, site, user, null);
+            if (r1 != null && !r1.isEmpty()) {
+                res.addAll(r1);
+            }
+            lastSearchType = "LUCENE";
         }
-        System.out.println("--" + res.size() + " results found:");
+
+        /*System.out.println("--" + res.size() + " results found:");
         Iterator<SemanticObject> itres = res.iterator();
         while(itres.hasNext()) {
             SemanticObject so = itres.next();
             System.out.println(":::" + so.getURI());
-        }
+        }*/
         return res.iterator();
+    }
+
+    public ArrayList<SemanticObject> iterativeSearch(String query) {
+        ArrayList<SemanticObject> res = new ArrayList<SemanticObject>();
+        String tokens[] = query.toLowerCase().split(" ");
+
+        Iterator<Empresa> eit = Empresa.ClassMgr.listEmpresas();
+        while (eit.hasNext()) {
+            Empresa e = eit.next();
+            for (int i = 0; i < tokens.length; i++) {
+                String name = e.getName() == null?"":e.getName().toLowerCase();
+                String desc = e.getDescripcion() == null?"":e.getDescripcion().toLowerCase();
+                if(name.contains(tokens[i]) || desc.contains(tokens[i])) {
+                    if(!res.contains(e.getSemanticObject())) {
+                        res.add(e.getSemanticObject());
+                    }
+                }
+            }
+        }
+
+        Iterator<Producto> pit = Producto.ClassMgr.listProductos();
+        while (pit.hasNext()) {
+            Producto p = pit.next();
+            for (int i = 0; i < tokens.length; i++) {
+                String name = p.getPname() == null?"":p.getPname().toLowerCase();
+                String desc = p.getDescription() == null?"":p.getDescription().toLowerCase();
+                if(name.contains(tokens[i]) || desc.contains(tokens[i])) {
+                    if(!res.contains(p.getSemanticObject())) {
+                        res.add(p.getSemanticObject());
+                    }
+                }
+            }
+        }
+        return res;
     }
 
     /**
@@ -382,6 +426,17 @@ public class NLSearcher {
         tquery.addTerm(new SearchTerm(SWBIndexer.ATT_DESCRIPTION, query, SearchTerm.OPER_OR));
         tquery.addTerm(new SearchTerm(SWBIndexer.ATT_TAGS, query, SearchTerm.OPER_OR));
         tquery.addTerm(new SearchTerm(SWBIndexer.ATT_DATA, query, SearchTerm.OPER_OR));
+        tquery.addTerm(new SearchTerm("name", query, SearchTerm.OPER_OR));
+        /*tquery.addTerm(new SearchTerm(EmpresaParser.ATT_CCLASE, query, SearchTerm.OPER_OR));
+        tquery.addTerm(new SearchTerm(EmpresaParser.ATT_CLASE, query, SearchTerm.OPER_OR));
+        tquery.addTerm(new SearchTerm(EmpresaParser.ATT_CRAMA, query, SearchTerm.OPER_OR));
+        tquery.addTerm(new SearchTerm(EmpresaParser.ATT_CSECTOR, query, SearchTerm.OPER_OR));
+        tquery.addTerm(new SearchTerm(EmpresaParser.ATT_CSUBRAMA, query, SearchTerm.OPER_OR));
+        tquery.addTerm(new SearchTerm(EmpresaParser.ATT_CSUBSECTOR, query, SearchTerm.OPER_OR));
+        tquery.addTerm(new SearchTerm(EmpresaParser.ATT_RAMA, query, SearchTerm.OPER_OR));
+        tquery.addTerm(new SearchTerm(EmpresaParser.ATT_SECTOR, query, SearchTerm.OPER_OR));
+        tquery.addTerm(new SearchTerm(EmpresaParser.ATT_SUBRAMA, query, SearchTerm.OPER_OR));
+        tquery.addTerm(new SearchTerm(EmpresaParser.ATT_SUBSECTOR, query, SearchTerm.OPER_OR));*/
 
         if(site != null) {
             q.addTerm(new SearchTerm(SWBIndexer.ATT_MODEL, site.getId(), SearchTerm.OPER_AND));
@@ -391,7 +446,7 @@ public class NLSearcher {
             q.addTerm(new SearchTerm(SWBIndexer.ATT_CATEGORY, category, SearchTerm.OPER_AND));
         }
 
-        SWBIndexer indexer=SWBPortal.getIndexMgr().getModelIndexer(site);
+        SWBIndexer indexer=SWBPortal.getIndexMgr().getDefaultIndexer();
 
         if(indexer != null) {
             SearchResults results=indexer.search(q, user);
@@ -404,5 +459,9 @@ public class NLSearcher {
             }
         }
         return res;
+    }
+
+    public String getLastSearchType() {
+        return lastSearchType;
     }
 }
