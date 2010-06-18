@@ -588,7 +588,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     if (servProp.getCreator().getEmail() != null) {
                             EmailText emailText=EmailText.ClassMgr.getEmailText("EMAIL_ACCEPTREGISTRY", wsite);
                             if(emailText!=null){
-                                String staticText = PymturUtils.replaceTagsAcceptRegistry(emailText.getEmailText(), request, response, user, siteName, servProp, pageFicha);
+                                String staticText = PymturUtils.replaceTagsAcceptRegistry(emailText.getEmailText(), request, response, servProp.getCreator(), siteName, servProp, pageFicha);
                                 /*
                                 staticText = "Estimado (a) {user} ,<br/><br/>" +
                                 "Nos complace informarte que";
@@ -638,7 +638,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     if (servProp.getCreator().getEmail() != null) {
                         EmailText emailText=EmailText.ClassMgr.getEmailText("EMAIL_REJECTREGISTRY", wsite);
                         if(emailText!=null){
-                            String staticText = PymturUtils.replaceTagsRejectRegistry(emailText.getEmailText(), request, response, user, siteName, servProp);
+                            String staticText = PymturUtils.replaceTagsRejectRegistry(emailText.getEmailText(), request, response, servProp.getCreator(), siteName, servProp);
                             /*
                             staticText="Estimado (a) {user},<br/>"+
                             "Lamentamos informarte que la publicación de tu empresa:</br><br/>" +
