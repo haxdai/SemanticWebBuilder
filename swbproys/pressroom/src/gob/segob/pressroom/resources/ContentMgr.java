@@ -73,7 +73,10 @@ public class ContentMgr extends GenericResource{
                 }
                 conte.setNumConsecutivo(numCon);
                 conte.setTitle(request.getParameter(Content.swb_title.getName()));
-                //conte.setDescription(request.getParameter(Content.swb_description.getName()));
+                conte.setDescription(request.getParameter(Content.swb_description.getName()));
+                conte.setContent(request.getParameter(Content.swbpress_content.getName()));
+                System.out.println("Parametro: " + Content.swbpress_content.getName()
+                        + "\nValor: " + request.getParameter(Content.swbpress_content.getName()));
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 String date = request.getParameter(Content.swbpress_startDate.getName());
                 Date di = sdf.parse(date);
@@ -100,7 +103,8 @@ public class ContentMgr extends GenericResource{
                 }
                 conte.setNumConsecutivo(numCon);
                 conte.setTitle(request.getParameter(Content.swb_title.getName()));
-                //conte.setDescription(request.getParameter(Content.swb_description.getName()));
+                conte.setDescription(request.getParameter(Content.swb_description.getName()));
+                conte.setContent(request.getParameter(Content.swbpress_content.getName()));
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 String date = request.getParameter(Content.swbpress_startDate.getName());
                 Date di = sdf.parse(date);
@@ -236,38 +240,30 @@ public class ContentMgr extends GenericResource{
 
                         Content dirObj = (Content) sobj.createGenericInstance();
                         if (item.getFieldName().equals("hasPhoto")) {
-                            dirObj.addFile(fichero.getPath());
-
-                            //dirObj.setPhoto(value);
-                            //File file = new File(basepath + tmpPhoto);
-                            //file.delete();
-
+                            dirObj.addPhoto(value);
+                            System.out.println("Agrega archivo: " + fichero.getPath()
+                                    + "\nEn objeto: " + dirObj.getURI());
                             try {
                                 item.write(fichero);
-                                //ImageResizer.shrinkTo(fichero, 281, 187, fichero, ext);
-                                //ImageResizer.resize(fichero, 336, 224, true, fichero, ext);
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 log.debug(e);
                             }
-                        }/*else if (item.getFieldName().equals("PhotoLogo")) {
-                            String tmpPhoto = dirObj.getPhotoLogo();
-                            dirObj.setPhotoLogo(value);
-                            File file = new File(basepath + tmpPhoto);
-                            file.delete();
-
+                        } else if (item.getFieldName().equals("hasFile")) {
+                            dirObj.addFile(value);
+                            System.out.println("Agrega archivo: " + fichero.getPath()
+                                    + "\nEn objeto: " + dirObj.getURI());
                             try {
                                 item.write(fichero);
-                                ImageResizer.shrinkTo(fichero, 90, 67, fichero, ext);
-                                //ImageResizer.resize(fichero, 90, 67, true, fichero, ext);
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 log.debug(e);
                             }
-                        }*/
+                        }
                     }
                 }
             }
+            //request.getSession().setAttribute(UploadFormElement.FILES_UPLOADED, null);
         }
     }
 
