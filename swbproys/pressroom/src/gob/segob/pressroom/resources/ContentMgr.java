@@ -7,6 +7,7 @@ package gob.segob.pressroom.resources;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URLDecoder;
 
 import java.text.SimpleDateFormat;
@@ -20,7 +21,6 @@ import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
-import org.semanticwb.base.util.ImageResizer;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.api.GenericResource;
@@ -32,6 +32,7 @@ import org.semanticwb.portal.resources.sem.pressroom.Content;
 
 import org.semanticwb.servlet.internal.UploadFormElement;
 import org.apache.commons.fileupload.FileItem;
+import org.semanticwb.portal.api.SWBResourceURL;
 
 
 
@@ -58,8 +59,6 @@ public class ContentMgr extends GenericResource{
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         String action=response.getAction();
-        System.out.println("action"+action);
-        System.out.println("uri"+request.getParameter("uri"));
         if(action.equals("add")){
             try{
                 String categoria =request.getParameter("Category");
@@ -67,7 +66,11 @@ public class ContentMgr extends GenericResource{
                 Category cat = (Category)objCat.createGenericInstance();
                 Content conte = Content.ClassMgr.createContent(response.getWebPage().getWebSite());
                 conte.setCategory(cat);
-                int numCon = Integer.parseInt(request.getParameter(Content.swbpress_numConsecutivo.getName()));
+                int numCon = 0;
+                String a = request.getParameter("numConsecutivo");
+                if(a!=null&&!a.equals("")){
+                     numCon = Integer.parseInt(request.getParameter(Content.swbpress_numConsecutivo.getName()));
+                }
                 conte.setNumConsecutivo(numCon);
                 conte.setTitle(request.getParameter(Content.swb_title.getName()));
                 //conte.setDescription(request.getParameter(Content.swb_description.getName()));
@@ -89,9 +92,12 @@ public class ContentMgr extends GenericResource{
                 String categoria =request.getParameter("Category");
                 SemanticObject objCat = SemanticObject.createSemanticObject(categoria);
                 Category cat = (Category)objCat.createGenericInstance();
-                //Content conte = Content.ClassMgr.createContent(response.getWebPage().getWebSite());
                 conte.setCategory(cat);
-                int numCon = Integer.parseInt(request.getParameter(Content.swbpress_numConsecutivo.getName()));
+                int numCon = 0;
+                String a = request.getParameter("numConsecutivo");
+                if(a!=null&&!a.equals("")){
+                     numCon = Integer.parseInt(request.getParameter(Content.swbpress_numConsecutivo.getName()));
+                }
                 conte.setNumConsecutivo(numCon);
                 conte.setTitle(request.getParameter(Content.swb_title.getName()));
                 //conte.setDescription(request.getParameter(Content.swb_description.getName()));
@@ -107,40 +113,43 @@ public class ContentMgr extends GenericResource{
             }
 
         }else if(action.equals("delete")&&request.getParameter("uri")!=null){
-
             String uri = URLDecoder.decode(request.getParameter("uri"));
-            System.out.println("uri"+uri);
             if(uri!=null){
                 SemanticObject obj= SemanticObject.createSemanticObject(uri);
                 Content conte = (Content)obj.createGenericInstance();
                 conte.removeCategory();
                 conte.remove();
-                //removeEntrada(entrada);//desasocia del recurso
-                //entrada.remove();//elimina
             }
-            /*
-            SemanticObject obj = SemanticObject.createSemanticObject(URLDecoder.decode(request.getParameter("uri")));
-            Content conte = (Content)obj.createGenericInstance();
-            try{
-                String categoria =request.getParameter("Category");
-                SemanticObject objCat = SemanticObject.createSemanticObject(categoria);
-                Category cat = (Category)objCat.createGenericInstance();
-                //Content conte = Content.ClassMgr.createContent(response.getWebPage().getWebSite());
-                conte.setCategory(cat);
-                int numCon = Integer.parseInt(request.getParameter(Content.swbpress_numConsecutivo.getName()));
-                conte.setNumConsecutivo(numCon);
-                conte.setTitle(request.getParameter(Content.swb_title.getName()));
-                //conte.setDescription(request.getParameter(Content.swb_description.getName()));
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                String date = request.getParameter(Content.swbpress_startDate.getName());
-                Date di = sdf.parse(date);
-                conte.setStartDate(di);
-                date = request.getParameter(Content.swbpress_endDate.getName());
-                Date df = sdf.parse(date);
-                conte.setEndDate(df);
-            }catch(Exception e){
-                log.event(e);
-            }*/
+        }else if(action.equals("estatus")&&request.getParameter("uri")!=null){
+            String uri = URLDecoder.decode(request.getParameter("uri"));
+            if(uri!=null){
+                SemanticObject obj = SemanticObject.createSemanticObject(uri);
+                Content conte = (Content)obj.createGenericInstance();
+                boolean estatus = conte.isActive();
+                if(estatus)
+                    conte.setActive(false);
+                else
+                    conte.setActive(true);
+            }
+        }else if(action.equals("prioridad")&&request.getParameter("uri")!=null){
+            String uri = URLDecoder.decode(request.getParameter("uri"));
+            if(uri!=null){
+                SemanticObject obj = SemanticObject.createSemanticObject(uri);
+                Content conte = (Content)obj.createGenericInstance();
+                int priority = conte.getPriority();
+                Iterator<Content> it = Content.ClassMgr.listContents(response.getWebPage().getWebSite());
+                while(it.hasNext()){
+                    Content conte1 =it.next();
+                    if(conte.equals(conte1)){
+                        if(priority==1)
+                            conte.setPriority(0);
+                        else
+                            conte.setPriority(1);
+                    }else{
+                        conte1.setPriority(0);
+                    }
+                }
+            }
         }
         response.setMode(response.Mode_VIEW);
     }
@@ -175,10 +184,27 @@ public class ContentMgr extends GenericResource{
             doAddCont(request, response, paramRequest);
         else if(paramRequest.getMode().equals("editCont"))
             doEditCont(request, response, paramRequest);
+        else if(paramRequest.getMode().equals("change"))
+            doChange(request, response, paramRequest);
         else
             super.processRequest(request, response, paramRequest);
     }
-
+    public void doChange(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        System.out.println("desde el change"+request.getParameter("cat"));
+        PrintWriter out = response.getWriter();
+        String uri = request.getParameter("cat");
+        SWBResourceURL url = paramRequest.getRenderUrl();
+        url.setCallMethod(url.Call_DIRECT);
+        if(uri!=null){
+            SemanticObject obj= SemanticObject.createSemanticObject(uri);
+            Category cat = (Category)obj.createGenericInstance();
+            int num = cat.getCatNumConsecutivo();
+            num=num+1;
+            //out.println("<input id=\""+Content.swbpress_numConsecutivo.getName()+"\" name=\""+Content.swbpress_numConsecutivo.getName()+"\" value=\""+num+"\">");
+            //out.println("<input id=\""+Content.swbpress_numConsecutivo.getName()+"\" name=\""+Content.swbpress_numConsecutivo.getName()+"\" value=\""+num+"\">");
+            out.println(num);
+        }
+    }
     private void processFiles(HttpServletRequest request, WebSite website, SemanticObject sobj) {
         String basepath = SWBPortal.getWorkPath() + sobj.getWorkPath() + "/";
         if (request.getSession().getAttribute(UploadFormElement.FILES_UPLOADED) != null) {
