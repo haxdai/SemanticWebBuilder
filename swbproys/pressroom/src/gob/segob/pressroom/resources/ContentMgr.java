@@ -239,7 +239,7 @@ public class ContentMgr extends GenericResource{
 
 
                         Content dirObj = (Content) sobj.createGenericInstance();
-                        if (item.getFieldName().equals("hasPhoto")) {
+                        if (item.getFieldName().startsWith("hasPhoto")) {
                             dirObj.addPhoto(value);
                             System.out.println("Agrega archivo: " + fichero.getPath()
                                     + "\nEn objeto: " + dirObj.getURI());
@@ -249,7 +249,7 @@ public class ContentMgr extends GenericResource{
                                 e.printStackTrace();
                                 log.debug(e);
                             }
-                        } else if (item.getFieldName().equals("hasFile")) {
+                        } else if (item.getFieldName().startsWith("hasFile")) {
                             dirObj.addFile(value);
                             System.out.println("Agrega archivo: " + fichero.getPath()
                                     + "\nEn objeto: " + dirObj.getURI());
