@@ -34,8 +34,6 @@ import org.semanticwb.servlet.internal.UploadFormElement;
 import org.apache.commons.fileupload.FileItem;
 import org.semanticwb.portal.api.SWBResourceURL;
 
-
-
 /**
  *
  * @author martha.jimenez
@@ -72,6 +70,11 @@ public class ContentMgr extends GenericResource{
                      numCon = Integer.parseInt(request.getParameter(Content.swbpress_numConsecutivo.getName()));
                 }
                 conte.setNumConsecutivo(numCon);
+                if(numCon!=0){
+                    int numcat = cat.getCatNumConsecutivo();
+                    if(numCon>numcat)
+                        cat.setCatNumConsecutivo(numCon);
+                }
                 conte.setTitle(request.getParameter(Content.swb_title.getName()));
                 conte.setDescription(request.getParameter(Content.swb_description.getName()));
                 conte.setContent(request.getParameter(Content.swbpress_content.getName()));
@@ -194,20 +197,17 @@ public class ContentMgr extends GenericResource{
             super.processRequest(request, response, paramRequest);
     }
     public void doChange(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        System.out.println("desde el change"+request.getParameter("cat"));
         PrintWriter out = response.getWriter();
         String uri = request.getParameter("cat");
-        SWBResourceURL url = paramRequest.getRenderUrl();
-        url.setCallMethod(url.Call_DIRECT);
-        if(uri!=null){
+        int num = 0;
+        if(uri!=null&&!uri.equals("")){
             SemanticObject obj= SemanticObject.createSemanticObject(uri);
             Category cat = (Category)obj.createGenericInstance();
-            int num = cat.getCatNumConsecutivo();
+            num = cat.getCatNumConsecutivo();
             num=num+1;
-            //out.println("<input id=\""+Content.swbpress_numConsecutivo.getName()+"\" name=\""+Content.swbpress_numConsecutivo.getName()+"\" value=\""+num+"\">");
-            //out.println("<input id=\""+Content.swbpress_numConsecutivo.getName()+"\" name=\""+Content.swbpress_numConsecutivo.getName()+"\" value=\""+num+"\">");
             out.println(num);
         }
+        out.println("");
     }
     private void processFiles(HttpServletRequest request, WebSite website, SemanticObject sobj) {
         String basepath = SWBPortal.getWorkPath() + sobj.getWorkPath() + "/";
