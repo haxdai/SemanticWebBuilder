@@ -200,14 +200,15 @@ public class ContentMgr extends GenericResource{
         PrintWriter out = response.getWriter();
         String uri = request.getParameter("cat");
         int num = 0;
-        if(uri!=null&&!uri.equals("")){
+        if(uri!=null&&!uri.equals("")&&!uri.equals("_blank")){
             SemanticObject obj= SemanticObject.createSemanticObject(uri);
             Category cat = (Category)obj.createGenericInstance();
             num = cat.getCatNumConsecutivo();
             num=num+1;
             out.println(num);
+        }else{
+            out.println("");
         }
-        out.println("");
     }
     private void processFiles(HttpServletRequest request, WebSite website, SemanticObject sobj) {
         String basepath = SWBPortal.getWorkPath() + sobj.getWorkPath() + "/";
