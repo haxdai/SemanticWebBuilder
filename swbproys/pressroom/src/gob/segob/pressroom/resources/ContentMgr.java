@@ -115,6 +115,7 @@ public class ContentMgr extends GenericResource{
                 date = request.getParameter(Content.swbpress_endDate.getName());
                 Date df = sdf.parse(date);
                 conte.setEndDate(df);
+                processFiles(request, response.getWebPage().getWebSite(), conte.getSemanticObject());
             }catch(Exception e){
                 log.event(e);
             }
@@ -264,7 +265,7 @@ public class ContentMgr extends GenericResource{
                     }
                 }
             }
-            //request.getSession().setAttribute(UploadFormElement.FILES_UPLOADED, null);
+            request.getSession().setAttribute(UploadFormElement.FILES_UPLOADED, null);
         }
     }
 
