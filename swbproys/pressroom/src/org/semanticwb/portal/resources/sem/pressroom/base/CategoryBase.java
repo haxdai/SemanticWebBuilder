@@ -3,6 +3,8 @@ package org.semanticwb.portal.resources.sem.pressroom.base;
 
 public abstract class CategoryBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
+    public static final org.semanticwb.platform.SemanticClass swbpress_Content=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/resources/pressroom#Content");
+    public static final org.semanticwb.platform.SemanticProperty swbpress_hasContent=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/resources/pressroom#hasContent");
     public static final org.semanticwb.platform.SemanticProperty swbpress_catNumConsecutivo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/resources/pressroom#catNumConsecutivo");
     public static final org.semanticwb.platform.SemanticClass swbpress_Category=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/resources/pressroom#Category");
     public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/resources/pressroom#Category");
@@ -57,6 +59,18 @@ public abstract class CategoryBase extends org.semanticwb.model.SWBClass impleme
         public static java.util.Iterator<org.semanticwb.portal.resources.sem.pressroom.Category> listCategoryByModifiedBy(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.portal.resources.sem.pressroom.Category> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.portal.resources.sem.pressroom.Category> listCategoryByContent(org.semanticwb.portal.resources.sem.pressroom.Content value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.portal.resources.sem.pressroom.Category> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swbpress_hasContent, value.getSemanticObject(),sclass));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.portal.resources.sem.pressroom.Category> listCategoryByContent(org.semanticwb.portal.resources.sem.pressroom.Content value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.portal.resources.sem.pressroom.Category> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swbpress_hasContent,value.getSemanticObject(),sclass));
             return it;
         }
 
@@ -138,6 +152,47 @@ public abstract class CategoryBase extends org.semanticwb.model.SWBClass impleme
     public void setTitle(String title, String lang)
     {
         getSemanticObject().setProperty(swb_title, title, lang);
+    }
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.portal.resources.sem.pressroom.Content> listContents()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.portal.resources.sem.pressroom.Content>(getSemanticObject().listObjectProperties(swbpress_hasContent));
+    }
+
+    public boolean hasContent(org.semanticwb.portal.resources.sem.pressroom.Content value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(swbpress_hasContent,value.getSemanticObject());
+        }
+        return ret;
+    }
+
+    public void addContent(org.semanticwb.portal.resources.sem.pressroom.Content value)
+    {
+        getSemanticObject().addObjectProperty(swbpress_hasContent, value.getSemanticObject());
+    }
+
+    public void removeAllContent()
+    {
+        getSemanticObject().removeProperty(swbpress_hasContent);
+    }
+
+    public void removeContent(org.semanticwb.portal.resources.sem.pressroom.Content value)
+    {
+        getSemanticObject().removeObjectProperty(swbpress_hasContent,value.getSemanticObject());
+    }
+
+    public org.semanticwb.portal.resources.sem.pressroom.Content getContent()
+    {
+         org.semanticwb.portal.resources.sem.pressroom.Content ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swbpress_hasContent);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.portal.resources.sem.pressroom.Content)obj.createGenericInstance();
+         }
+         return ret;
     }
 
     public java.util.Date getUpdated()
