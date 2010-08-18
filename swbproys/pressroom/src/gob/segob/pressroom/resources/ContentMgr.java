@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import java.net.URLDecoder;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -32,7 +33,6 @@ import org.semanticwb.portal.resources.sem.pressroom.Content;
 
 import org.semanticwb.servlet.internal.UploadFormElement;
 import org.apache.commons.fileupload.FileItem;
-import org.semanticwb.portal.api.SWBResourceURL;
 
 /**
  *
@@ -47,7 +47,6 @@ public class ContentMgr extends GenericResource{
          RequestDispatcher dis = request.getRequestDispatcher(SWBPlatform.getContextPath()+path);
          try {
             request.setAttribute("paramRequest", paramRequest);
-            //request.setAttribute("sobj", getSemanticObject());
             dis.include(request, response);
          }catch(Exception e){
             log.error(e);
@@ -63,7 +62,7 @@ public class ContentMgr extends GenericResource{
                 SemanticObject objCat = SemanticObject.createSemanticObject(categoria);
                 Category cat = (Category)objCat.createGenericInstance();
                 Content conte = Content.ClassMgr.createContent(response.getWebPage().getWebSite());
-                conte.setCategory(cat);
+                //conte.setCategory(cat);
                 int numCon = 0;
                 String a = request.getParameter("numConsecutivo");
                 if(a!=null&&!a.equals("")){
@@ -87,24 +86,33 @@ public class ContentMgr extends GenericResource{
                 date = request.getParameter(Content.swbpress_endDate.getName());
                 Date df = sdf.parse(date);
                 conte.setEndDate(df);
+                cat.addContent(conte);
                 processFiles(request, response.getWebPage().getWebSite(), conte.getSemanticObject());
             }catch(Exception e){
                 log.event(e);
             }
-        }else if(action.equals("edit")&&request.getParameter("uri")!=null){
-            SemanticObject obj = SemanticObject.createSemanticObject(URLDecoder.decode(request.getParameter("uri")));
+        }else if(action.equals("edit")&&request.getParameter("uriCat")!=null&&request.getParameter("uriCont")!=null){
+            SemanticObject obj = SemanticObject.createSemanticObject(URLDecoder.decode(request.getParameter("uriCont")));
             Content conte = (Content)obj.createGenericInstance();
+            Content conte2= (Content)obj.cloneObject().createGenericInstance();
+            String categoris= request.getParameter("uriCat");//conte.getCategory().getURI();
             try{
                 String categoria =request.getParameter("Category");
                 SemanticObject objCat = SemanticObject.createSemanticObject(categoria);
                 Category cat = (Category)objCat.createGenericInstance();
-                conte.setCategory(cat);
+
+                //conte.setCategory(cat);
                 int numCon = 0;
                 String a = request.getParameter("numConsecutivo");
                 if(a!=null&&!a.equals("")){
                      numCon = Integer.parseInt(request.getParameter(Content.swbpress_numConsecutivo.getName()));
                 }
                 conte.setNumConsecutivo(numCon);
+                if(numCon!=0){
+                    int numcat = cat.getCatNumConsecutivo();
+                    if(numCon>numcat)
+                        cat.setCatNumConsecutivo(numCon);
+                }
                 conte.setTitle(request.getParameter(Content.swb_title.getName()));
                 conte.setDescription(request.getParameter(Content.swb_description.getName()));
                 conte.setContent(request.getParameter(Content.swbpress_content.getName()));
@@ -115,6 +123,24 @@ public class ContentMgr extends GenericResource{
                 date = request.getParameter(Content.swbpress_endDate.getName());
                 Date df = sdf.parse(date);
                 conte.setEndDate(df);
+
+
+                if(!categoris.equals(cat.getURI())){
+                    SemanticObject objcatan = SemanticObject.createSemanticObject(categoris);
+                    Category cat1 = (Category)objcatan.createGenericInstance();
+                    Iterator<Content> itn = Content.ClassMgr.listContentByCategory(cat1);
+                    int conse = 0;
+                    while(itn.hasNext()){
+                        Content cont = (Content)itn.next();
+                        if(!cont.equals(conte)){
+                            if(conse<cont.getNumConsecutivo())
+                                conse = cont.getNumConsecutivo();
+                        }
+                    }
+                    cat1.setCatNumConsecutivo(conse);
+                    cat.addContent(conte2);
+                    cat1.removeContent(conte);
+                }
                 processFiles(request, response.getWebPage().getWebSite(), conte.getSemanticObject());
             }catch(Exception e){
                 log.event(e);

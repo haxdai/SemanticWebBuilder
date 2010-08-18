@@ -69,6 +69,7 @@ public class CategoryMgr extends GenericResource {
             String uri = request.getParameter("uri");
             if (uri != null) {
                 cat = (Category) SemanticObject.createSemanticObject(uri).getGenericInstance();
+                cat.removeAllContent();
                 cat.remove();
             }
             response.setMode(SWBResourceURL.Mode_VIEW);
