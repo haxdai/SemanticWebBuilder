@@ -11,7 +11,6 @@ import java.io.PrintWriter;
 import java.net.URLDecoder;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -33,6 +32,8 @@ import org.semanticwb.portal.resources.sem.pressroom.Content;
 
 import org.semanticwb.servlet.internal.UploadFormElement;
 import org.apache.commons.fileupload.FileItem;
+import org.semanticwb.portal.resources.sem.pressroom.Files;
+import org.semanticwb.portal.resources.sem.pressroom.Photos;
 
 /**
  *
@@ -94,25 +95,15 @@ public class ContentMgr extends GenericResource{
         }else if(action.equals("edit")&&request.getParameter("uriCat")!=null&&request.getParameter("uriCont")!=null){
             SemanticObject obj = SemanticObject.createSemanticObject(URLDecoder.decode(request.getParameter("uriCont")));
             Content conte = (Content)obj.createGenericInstance();
-            Content conte2= (Content)obj.cloneObject().createGenericInstance();
-            String categoris= request.getParameter("uriCat");//conte.getCategory().getURI();
+           
+           
+            String categoris= request.getParameter("uriCat");//uri de la categoria anterior
             try{
                 String categoria =request.getParameter("Category");
                 SemanticObject objCat = SemanticObject.createSemanticObject(categoria);
-                Category cat = (Category)objCat.createGenericInstance();
+                Category cat = (Category)objCat.createGenericInstance();//categoria elegida
 
                 //conte.setCategory(cat);
-                int numCon = 0;
-                String a = request.getParameter("numConsecutivo");
-                if(a!=null&&!a.equals("")){
-                     numCon = Integer.parseInt(request.getParameter(Content.swbpress_numConsecutivo.getName()));
-                }
-                conte.setNumConsecutivo(numCon);
-                if(numCon!=0){
-                    int numcat = cat.getCatNumConsecutivo();
-                    if(numCon>numcat)
-                        cat.setCatNumConsecutivo(numCon);
-                }
                 conte.setTitle(request.getParameter(Content.swb_title.getName()));
                 conte.setDescription(request.getParameter(Content.swb_description.getName()));
                 conte.setContent(request.getParameter(Content.swbpress_content.getName()));
@@ -124,11 +115,22 @@ public class ContentMgr extends GenericResource{
                 Date df = sdf.parse(date);
                 conte.setEndDate(df);
 
-
+                processFiles(request, response.getWebPage().getWebSite(), conte.getSemanticObject());
                 if(!categoris.equals(cat.getURI())){
                     SemanticObject objcatan = SemanticObject.createSemanticObject(categoris);
-                    Category cat1 = (Category)objcatan.createGenericInstance();
-                    Iterator<Content> itn = Content.ClassMgr.listContentByCategory(cat1);
+                    Category cat1 = (Category)objcatan.createGenericInstance();//categoria anterior
+                    Iterator<Content> itn = cat1.listContents();
+                    int numCon = 0;
+                    String a = request.getParameter("numConsecutivo");
+                    if(a!=null&&!a.equals("")){
+                         numCon = Integer.parseInt(request.getParameter(Content.swbpress_numConsecutivo.getName()));
+                    }
+                    conte.setNumConsecutivo(numCon);
+                    if(numCon!=0){
+                        int numcat = cat.getCatNumConsecutivo();
+                        if(numCon>numcat)
+                            cat.setCatNumConsecutivo(numCon);
+                    }
                     int conse = 0;
                     while(itn.hasNext()){
                         Content cont = (Content)itn.next();
@@ -138,10 +140,27 @@ public class ContentMgr extends GenericResource{
                         }
                     }
                     cat1.setCatNumConsecutivo(conse);
+                    Content conte2= (Content)obj.cloneObject().createGenericInstance();
                     cat.addContent(conte2);
+                    System.out.println("Conte: "+SWBPortal.getWorkPath() + conte.getWorkPath());;//getWorkPath()
+                    System.out.println("Conte2: "+SWBPortal.getWorkPath() + conte2.getWorkPath());;//getWorkPath()
+                    SWBUtils.IO.createDirectory(SWBPortal.getWorkPath() + conte2.getWorkPath());
+                    Iterator it=conte.listPhotos();
+                    while(it.hasNext()){
+                        Photos phot = (Photos)it.next();
+                        String photo = phot.getNamePhoto();
+                        SWBUtils.IO.copy(SWBPortal.getWorkPath() + conte.getWorkPath()+"/"+photo, SWBPortal.getWorkPath() + conte2.getWorkPath()+"/"+photo, false, null, null);
+                        System.out.println(""+photo);
+                    }
+                    it=conte.listFiles();
+                    while(it.hasNext()){
+                        Files fil = (Files)it.next();
+                        String file = fil.getNameFile();
+                        SWBUtils.IO.copy(SWBPortal.getWorkPath() + conte.getWorkPath()+"/"+file, SWBPortal.getWorkPath() + conte2.getWorkPath()+"/"+file, false, null, null);
+                        System.out.println(""+file);
+                    }
                     cat1.removeContent(conte);
                 }
-                processFiles(request, response.getWebPage().getWebSite(), conte.getSemanticObject());
             }catch(Exception e){
                 log.event(e);
             }
@@ -214,14 +233,43 @@ public class ContentMgr extends GenericResource{
     }
     @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        if(paramRequest.getMode().equals("addCont"))
+        String mode = paramRequest.getMode();
+        if(mode.equals("addCont"))
             doAddCont(request, response, paramRequest);
-        else if(paramRequest.getMode().equals("editCont"))
+        else if(mode.equals("editCont"))
             doEditCont(request, response, paramRequest);
-        else if(paramRequest.getMode().equals("change"))
+        else if(mode.equals("change"))
             doChange(request, response, paramRequest);
+        else if(mode.equals("file"))
+            doFile(request,response,paramRequest);
         else
             super.processRequest(request, response, paramRequest);
+    }
+    public void doFile(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        PrintWriter out = response.getWriter();
+        try{
+            String uriCont =request.getParameter("uriCont");
+            String phot=request.getParameter("phot");
+            String file =request.getParameter("fil");
+
+            SemanticObject objCont = SemanticObject.createSemanticObject(uriCont);
+            Content cont = (Content)objCont.createGenericInstance();
+            if(phot!=null){
+                SemanticObject objPhoto = SemanticObject.createSemanticObject(phot);
+                Photos photo = (Photos)objPhoto.createGenericInstance();
+                cont.removePhoto(photo);
+            }
+            if(file!=null){
+                SemanticObject objFile = SemanticObject.createSemanticObject(file);
+                Files fil = (Files)objFile.createGenericInstance();
+                cont.removeFile(fil);
+            }
+            out.print("OK");
+        }catch(Exception e){
+            System.out.println("Exception en:" + e);
+            out.print("Not OK");
+        }
+
     }
     public void doChange(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         PrintWriter out = response.getWriter();
@@ -246,6 +294,7 @@ public class ContentMgr extends GenericResource{
                 if (!item.isFormField()) { //Es un campo de tipo file
                     int fileSize = ((Long) item.getSize()).intValue();
                     String value = item.getName();
+                    
                     if (value != null && value.trim().length() > 0) {
                         value = value.replace("\\", "/");
                         int pos = value.lastIndexOf("/");
@@ -267,8 +316,10 @@ public class ContentMgr extends GenericResource{
 
 
                         Content dirObj = (Content) sobj.createGenericInstance();
-                        if (item.getFieldName().startsWith("hasPhoto")) {
-                            dirObj.addPhoto(value);
+                        if (item.getFieldName().startsWith("namePhoto")) {
+                            Photos photo = Photos.ClassMgr.createPhotos(website);
+                            photo.setNamePhoto(value);
+                            dirObj.addPhoto(photo);
                             System.out.println("Agrega archivo: " + fichero.getPath()
                                     + "\nEn objeto: " + dirObj.getURI());
                             try {
@@ -277,8 +328,10 @@ public class ContentMgr extends GenericResource{
                                 e.printStackTrace();
                                 log.debug(e);
                             }
-                        } else if (item.getFieldName().startsWith("hasFile")) {
-                            dirObj.addFile(value);
+                        } else if (item.getFieldName().startsWith("nameFile")) {
+                            Files file = Files.ClassMgr.createFiles(website);
+                            file.setNameFile(value);
+                            dirObj.addFile(file);
                             System.out.println("Agrega archivo: " + fichero.getPath()
                                     + "\nEn objeto: " + dirObj.getURI());
                             try {
