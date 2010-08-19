@@ -4,8 +4,10 @@ package org.semanticwb.portal.resources.sem.pressroom.base;
 public abstract class ContentBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticProperty swbpress_numConsecutivo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/resources/pressroom#numConsecutivo");
+    public static final org.semanticwb.platform.SemanticClass swbpress_Photos=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/resources/pressroom#Photos");
     public static final org.semanticwb.platform.SemanticProperty swbpress_hasPhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/resources/pressroom#hasPhoto");
     public static final org.semanticwb.platform.SemanticProperty swbpress_startDate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/resources/pressroom#startDate");
+    public static final org.semanticwb.platform.SemanticClass swbpress_Files=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/resources/pressroom#Files");
     public static final org.semanticwb.platform.SemanticProperty swbpress_hasFile=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/resources/pressroom#hasFile");
     public static final org.semanticwb.platform.SemanticProperty swbpress_priority=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/resources/pressroom#priority");
     public static final org.semanticwb.platform.SemanticClass swbpress_Category=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/resources/pressroom#Category");
@@ -65,6 +67,30 @@ public abstract class ContentBase extends org.semanticwb.model.SWBClass implemen
         public static java.util.Iterator<org.semanticwb.portal.resources.sem.pressroom.Content> listContentByModifiedBy(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.portal.resources.sem.pressroom.Content> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.portal.resources.sem.pressroom.Content> listContentByPhoto(org.semanticwb.portal.resources.sem.pressroom.Photos value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.portal.resources.sem.pressroom.Content> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swbpress_hasPhoto, value.getSemanticObject(),sclass));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.portal.resources.sem.pressroom.Content> listContentByPhoto(org.semanticwb.portal.resources.sem.pressroom.Photos value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.portal.resources.sem.pressroom.Content> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swbpress_hasPhoto,value.getSemanticObject(),sclass));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.portal.resources.sem.pressroom.Content> listContentByFile(org.semanticwb.portal.resources.sem.pressroom.Files value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.portal.resources.sem.pressroom.Content> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swbpress_hasFile, value.getSemanticObject(),sclass));
+            return it;
+        }
+
+        public static java.util.Iterator<org.semanticwb.portal.resources.sem.pressroom.Content> listContentByFile(org.semanticwb.portal.resources.sem.pressroom.Files value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.portal.resources.sem.pressroom.Content> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swbpress_hasFile,value.getSemanticObject(),sclass));
             return it;
         }
 
@@ -145,21 +171,24 @@ public abstract class ContentBase extends org.semanticwb.model.SWBClass implemen
          return ret;
     }
 
-    public java.util.Iterator<String> listPhotos()
+    public org.semanticwb.model.GenericIterator<org.semanticwb.portal.resources.sem.pressroom.Photos> listPhotos()
     {
-        java.util.ArrayList<String> values=new java.util.ArrayList<String>();
-        java.util.Iterator<org.semanticwb.platform.SemanticLiteral> it=getSemanticObject().listLiteralProperties(swbpress_hasPhoto);
-        while(it.hasNext())
-        {
-                org.semanticwb.platform.SemanticLiteral literal=it.next();
-                values.add(literal.getString());
-        }
-        return values.iterator();
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.portal.resources.sem.pressroom.Photos>(getSemanticObject().listObjectProperties(swbpress_hasPhoto));
     }
 
-    public void addPhoto(String value)
+    public boolean hasPhoto(org.semanticwb.portal.resources.sem.pressroom.Photos value)
     {
-        getSemanticObject().addLiteralProperty(swbpress_hasPhoto, new org.semanticwb.platform.SemanticLiteral(value));
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(swbpress_hasPhoto,value.getSemanticObject());
+        }
+        return ret;
+    }
+
+    public void addPhoto(org.semanticwb.portal.resources.sem.pressroom.Photos value)
+    {
+        getSemanticObject().addObjectProperty(swbpress_hasPhoto, value.getSemanticObject());
     }
 
     public void removeAllPhoto()
@@ -167,9 +196,20 @@ public abstract class ContentBase extends org.semanticwb.model.SWBClass implemen
         getSemanticObject().removeProperty(swbpress_hasPhoto);
     }
 
-    public void removePhoto(String value)
+    public void removePhoto(org.semanticwb.portal.resources.sem.pressroom.Photos value)
     {
-        getSemanticObject().removeProperty(swbpress_hasPhoto,value);
+        getSemanticObject().removeObjectProperty(swbpress_hasPhoto,value.getSemanticObject());
+    }
+
+    public org.semanticwb.portal.resources.sem.pressroom.Photos getPhoto()
+    {
+         org.semanticwb.portal.resources.sem.pressroom.Photos ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swbpress_hasPhoto);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.portal.resources.sem.pressroom.Photos)obj.createGenericInstance();
+         }
+         return ret;
     }
 
     public java.util.Date getStartDate()
@@ -207,21 +247,24 @@ public abstract class ContentBase extends org.semanticwb.model.SWBClass implemen
         getSemanticObject().setProperty(swb_title, title, lang);
     }
 
-    public java.util.Iterator<String> listFiles()
+    public org.semanticwb.model.GenericIterator<org.semanticwb.portal.resources.sem.pressroom.Files> listFiles()
     {
-        java.util.ArrayList<String> values=new java.util.ArrayList<String>();
-        java.util.Iterator<org.semanticwb.platform.SemanticLiteral> it=getSemanticObject().listLiteralProperties(swbpress_hasFile);
-        while(it.hasNext())
-        {
-                org.semanticwb.platform.SemanticLiteral literal=it.next();
-                values.add(literal.getString());
-        }
-        return values.iterator();
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.portal.resources.sem.pressroom.Files>(getSemanticObject().listObjectProperties(swbpress_hasFile));
     }
 
-    public void addFile(String value)
+    public boolean hasFile(org.semanticwb.portal.resources.sem.pressroom.Files value)
     {
-        getSemanticObject().addLiteralProperty(swbpress_hasFile, new org.semanticwb.platform.SemanticLiteral(value));
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(swbpress_hasFile,value.getSemanticObject());
+        }
+        return ret;
+    }
+
+    public void addFile(org.semanticwb.portal.resources.sem.pressroom.Files value)
+    {
+        getSemanticObject().addObjectProperty(swbpress_hasFile, value.getSemanticObject());
     }
 
     public void removeAllFile()
@@ -229,9 +272,20 @@ public abstract class ContentBase extends org.semanticwb.model.SWBClass implemen
         getSemanticObject().removeProperty(swbpress_hasFile);
     }
 
-    public void removeFile(String value)
+    public void removeFile(org.semanticwb.portal.resources.sem.pressroom.Files value)
     {
-        getSemanticObject().removeProperty(swbpress_hasFile,value);
+        getSemanticObject().removeObjectProperty(swbpress_hasFile,value.getSemanticObject());
+    }
+
+    public org.semanticwb.portal.resources.sem.pressroom.Files getFile()
+    {
+         org.semanticwb.portal.resources.sem.pressroom.Files ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swbpress_hasFile);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.portal.resources.sem.pressroom.Files)obj.createGenericInstance();
+         }
+         return ret;
     }
 
     public java.util.Date getUpdated()
