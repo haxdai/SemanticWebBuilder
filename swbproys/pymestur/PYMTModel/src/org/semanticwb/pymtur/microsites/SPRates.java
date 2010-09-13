@@ -29,6 +29,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
+import org.semanticwb.model.Role;
+import org.semanticwb.model.User;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.platform.SemanticClass;
 import org.semanticwb.platform.SemanticObject;
@@ -99,44 +101,49 @@ public class SPRates extends GenericResource {
         }
 
         if (community != null) {
-            MicroSitePyme ms = (MicroSitePyme) community;
-            ServiceProvider sprovider = ms.getServiceProvider();
-            if (sprovider.getWebPage() != null) {
-                SemanticObject semObjectGiro = SemanticObject.createSemanticObject(sprovider.getWebPage().getParent().getURI());
-                SPCategory giro = (SPCategory) semObjectGiro.createGenericInstance();
+            User user=response.getUser();
+            Role superAdm = user.getUserRepository().getRole("superAdmProviders");
+            if(user.hasRole(superAdm))
+            {
+                MicroSitePyme ms = (MicroSitePyme) community;
+                ServiceProvider sprovider = ms.getServiceProvider();
+                if (sprovider.getWebPage() != null) {
+                    SemanticObject semObjectGiro = SemanticObject.createSemanticObject(sprovider.getWebPage().getParent().getURI());
+                    SPCategory giro = (SPCategory) semObjectGiro.createGenericInstance();
 
-                String action = response.getAction();
-                if (action.equals("add_rate")) {
-                    SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
-                    SemanticClass cls = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass(giro.getSpCategoryRateType().getURI());
-                    SWBFormMgr mgr = new SWBFormMgr(cls, semObject, null);
-                    mgr.setFilterRequired(false);
-                    try {
-                        SemanticObject sobj = mgr.processForm(request);
-                        Rate rate = (Rate) sobj.createGenericInstance();
-                        ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
-                        serviceProv.addRate(rate);
-                    } catch (Exception e) {
-                        log.error(e);
+                    String action = response.getAction();
+                    if (action.equals("add_rate")) {
+                        SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
+                        SemanticClass cls = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass(giro.getSpCategoryRateType().getURI());
+                        SWBFormMgr mgr = new SWBFormMgr(cls, semObject, null);
+                        mgr.setFilterRequired(false);
+                        try {
+                            SemanticObject sobj = mgr.processForm(request);
+                            Rate rate = (Rate) sobj.createGenericInstance();
+                            ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
+                            serviceProv.addRate(rate);
+                        } catch (Exception e) {
+                            log.error(e);
+                        }
+                    } else if (action.equals("edit_rate")) {
+                        SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
+                        SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
+                        mgr.setFilterRequired(false);
+                        try {
+                            mgr.processForm(request);
+                        } catch (Exception e) {
+                            log.error(e);
+                        }
+                    } else if (action.equals("remove_rate")) {
+                        SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
+                        Rate rate = (Rate) semObject.createGenericInstance();
+
+                        SemanticObject semObjectProv = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
+                        ServiceProvider serviceProv = (ServiceProvider) semObjectProv.createGenericInstance();
+
+                        serviceProv.removeRate(rate);
+                        semObject.remove();
                     }
-                } else if (action.equals("edit_rate")) {
-                    SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
-                    SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
-                    mgr.setFilterRequired(false);
-                    try {
-                        mgr.processForm(request);
-                    } catch (Exception e) {
-                        log.error(e);
-                    }
-                } else if (action.equals("remove_rate")) {
-                    SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
-                    Rate rate = (Rate) semObject.createGenericInstance();
-
-                    SemanticObject semObjectProv = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
-                    ServiceProvider serviceProv = (ServiceProvider) semObjectProv.createGenericInstance();
-
-                    serviceProv.removeRate(rate);
-                    semObject.remove();
                 }
             }
         }
