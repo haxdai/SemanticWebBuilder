@@ -497,7 +497,7 @@ public class PhotoAlbumSheet extends GenericAdmResource {
         }else {
             boolean show = Boolean.parseBoolean(request.getParameter("showAdmPhotos"));
             User user=paramRequest.getUser();
-            if( show && user.getURI()!=null && sprovider.getCreator().getURI().equals(user.getURI()) )
+            if( show && (user.getURI()!=null && sprovider.getCreator().getURI().equals(user.getURI()) || userCanEdit(user)) )
                 out.print(getFormManager(paramRequest, sprovider));
         }
     }
