@@ -43,12 +43,18 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import org.semanticwb.Logger;
+import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.base.util.ImageResizer;
+import org.semanticwb.model.GenericObject;
 import org.semanticwb.model.Resource;
+import org.semanticwb.model.Role;
+import org.semanticwb.model.User;
+import org.semanticwb.model.UserGroup;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.platform.SemanticObject;
+import org.semanticwb.platform.SemanticOntology;
 import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
@@ -88,6 +94,7 @@ public class CuponManager extends GenericResource {
         RequestDispatcher dis = request.getRequestDispatcher(path);
         try {
             request.setAttribute("paramRequest", paramRequest);
+            request.setAttribute("canEdit", userCanEdit(paramRequest.getUser()));
             dis.include(request, response);
         } catch (Exception e) {
             log.error(e);
@@ -315,5 +322,39 @@ public class CuponManager extends GenericResource {
                 validValue = false;
             }
         return validValue;
+    }
+
+    private boolean userCanEdit(final User user) {
+        boolean access = false;
+        Role superAdm = user.getUserRepository().getRole("superAdmProviders");
+        if( user.hasRole(superAdm) ) {
+            access = true;
+        }
+//        boolean access = false;
+//
+//        String roleName = getResourceBase().getAttribute("editRole");
+//        if( user!=null && roleName!=null ) {
+//            SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
+//            GenericObject gobj = null;
+//            gobj = ont.getGenericObject(roleName);
+//
+//            if( gobj!=null ) {
+//                UserGroup ugrp = null;
+//                Role urole = null;
+//
+//                if(gobj instanceof UserGroup) {
+//                    ugrp = (UserGroup) gobj;
+//                    if(user.hasUserGroup(ugrp)) {
+//                        access = true;
+//                    }
+//                }else if(gobj instanceof Role) {
+//                    urole = (Role) gobj;
+//                    if(user.hasRole(urole)) {
+//                        access = true;
+//                    }
+//                }
+//            }
+//        }
+        return access ;
     }
 }
