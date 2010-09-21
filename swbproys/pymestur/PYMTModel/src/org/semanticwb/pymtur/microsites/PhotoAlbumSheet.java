@@ -29,7 +29,12 @@ import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.ProgressListener;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.semanticwb.SWBPlatform;
+import org.semanticwb.model.GenericObject;
+import org.semanticwb.model.Role;
+import org.semanticwb.model.UserGroup;
 import org.semanticwb.platform.SemanticObject;
+import org.semanticwb.platform.SemanticOntology;
 import org.semanticwb.pymtur.Paquete;
 
 /**
@@ -96,7 +101,7 @@ public class PhotoAlbumSheet extends GenericAdmResource {
         ret.append("<h2>Administraci&oacute;n de im&aacute;genes</h2>");
         ret.append("\n<form id=\"frm_pa_"+base.getId()+"\" name=\"frm_pa_"+base.getId()+"\" method=\"post\" enctype=\"multipart/form-data\" action=\""+url+"\"> ");
 
-        if(canAddPhotos(paramRequest, sprovider)) {
+        if(userCanAdd(paramRequest, sprovider)) {
             ret.append("\n <div class=\"btnAddPhotoAdmin\">");
             ret.append("\n    <input type=\"button\" value=\"Agregar\" onclick=\"addRowToTable_"+base.getId()+"('igtbl_"+base.getId()+"');\" /> ");
             ret.append("\n    <input type=\"button\" value=\"Cancelar\" onclick=\"removeRowFromTable('igtbl_"+base.getId()+"');\" /> ");
@@ -512,7 +517,7 @@ public class PhotoAlbumSheet extends GenericAdmResource {
         }
     }
 
-    private boolean canAddPhotos(SWBParamRequest paramRequest, ServiceProvider sprovider) {
+    private boolean userCanAdd(SWBParamRequest paramRequest, ServiceProvider sprovider) {
         boolean canAdd = false;
         int topPhotos = sprovider.getSpTotPhotos();
         int packageType = sprovider.getPymePaqueteType();
@@ -522,4 +527,37 @@ public class PhotoAlbumSheet extends GenericAdmResource {
         return canAdd;
     }
 
+    private boolean userCanEdit(final User user) {
+        boolean access = false;
+        Role superAdm = user.getUserRepository().getRole("superAdmProviders");
+        if( user.hasRole(superAdm) ) {
+            access = true;
+        }
+//        boolean access = false;
+//
+//        String roleName = getResourceBase().getAttribute("editRole");
+//        if( user!=null && roleName!=null ) {
+//            SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
+//            GenericObject gobj = null;
+//            gobj = ont.getGenericObject(roleName);
+//
+//            if( gobj!=null ) {
+//                UserGroup ugrp = null;
+//                Role urole = null;
+//
+//                if(gobj instanceof UserGroup) {
+//                    ugrp = (UserGroup) gobj;
+//                    if(user.hasUserGroup(ugrp)) {
+//                        access = true;
+//                    }
+//                }else if(gobj instanceof Role) {
+//                    urole = (Role) gobj;
+//                    if(user.hasRole(urole)) {
+//                        access = true;
+//                    }
+//                }
+//            }
+//        }
+        return access ;
+    }
 }
