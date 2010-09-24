@@ -2,7 +2,7 @@
 <admresource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <xslfile>admresource.xslt</xslfile>
 
-    <form name="frmPhotoAlbum" action="true" method="post" enctype="multipart/form-data">
+    <form name="frmPhotoAlbum" action="true" method="post" enctype="multipart/form-data" jsframework="dojo">
     <fieldset legend="Datos">
         <input type="text" name="title" label="Título:" size="50"/>
 
