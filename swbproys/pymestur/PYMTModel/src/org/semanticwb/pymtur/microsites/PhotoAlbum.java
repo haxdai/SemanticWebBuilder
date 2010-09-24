@@ -49,17 +49,19 @@ import org.semanticwb.pymtur.Paquete;
 
 public class PhotoAlbum extends GenericAdmResource {
     private static Logger log = SWBUtils.getLogger(PhotoAlbum.class);
-    private static final String _thumbnail = "thumbn_";
 
-    private static long _max_size;
+    private static final String _thumbnail = "thumbn_";
+    private static final int MAX_PICT_ACCEPTED = 16;
+    private static final int MAX_PICT_VIEWED = 6;
+    private static long maxSizeAcceptedByPict = 4194304L; //bits
 
     @Override
     public void setResourceBase(Resource base) {
         try {
             super.setResourceBase(base);
-            _max_size = Long.parseLong(base.getAttribute("size","5242880"));
+            maxSizeAcceptedByPict = Long.parseLong(base.getAttribute("size","5242880"));
         }catch(Exception e) {
-            _max_size = 5242880L;
+            maxSizeAcceptedByPict = 4194304L;
             log.error("PyMES. Error while setting resource base: "+base.getId() +"-"+ base.getTitle(), e);
         }
     }
@@ -93,7 +95,7 @@ public class PhotoAlbum extends GenericAdmResource {
 
     private String getFormManager(SWBParamRequest paramRequest, ServiceProvider sprovider) {
         Resource base=getResourceBase();
-        StringBuffer ret=new StringBuffer();
+        StringBuilder ret=new StringBuilder();
 
         ret.append("<script type=\"text/javascript\">");
         ret.append("  var opened_"+base.getId()+"=0;");
@@ -105,7 +107,7 @@ public class PhotoAlbum extends GenericAdmResource {
 
         ret.append("\n <div class=\"photoAdminWrapper\">");
 
-        ret.append("\n<a href=\"#\" id=\"showadm_"+base.getId()+"\" onclick=\"if(opened_"+base.getId()+"==1){collapse('admPhotoAlbum_"+base.getId()+"',250,150); this.innerHTML='abrir'; opened_"+base.getId()+"=0;}else{expande('admPhotoAlbum_"+base.getId()+"',250,150); this.innerHTML='cerrar'; opened_"+base.getId()+"=1;}\">abrir</a>");
+        ret.append("\n<a href=\"#\" id=\"showadm_"+base.getId()+"\" onclick=\"if(opened_"+base.getId()+"==1){collapse('admPhotoAlbum_"+base.getId()+"',250,150); this.innerHTML='Administrar imágenes'; opened_"+base.getId()+"=0;}else{expande('admPhotoAlbum_"+base.getId()+"',250,150); this.innerHTML='Ocultar administración'; opened_"+base.getId()+"=1;}\">Administrar imágenes</a>");
         ret.append("\n<div class=\"swbform\" id=\"admPhotoAlbum_"+base.getId()+"\" > ");
         ret.append("<h2>Administraci&oacute;n de im&aacute;genes</h2>");
 
@@ -383,7 +385,7 @@ public class PhotoAlbum extends GenericAdmResource {
                             }
                         }
                     }else {
-                        if( item.getSize()==0 || item.getSize()>_max_size )
+                        if( item.getSize()==0 || item.getSize()>maxSizeAcceptedByPict )
                             continue;
                         String ext = item.getName().substring(item.getName().lastIndexOf(".")+1);
                         if( Arrays.binarySearch(fileFormats, ext)<0 )
@@ -460,19 +462,21 @@ public class PhotoAlbum extends GenericAdmResource {
         }else if(base.getAttribute("gpophotos").equalsIgnoreCase("more")) {
             it = sprovider.listMorePymePhotos();
         }
-        ArrayList<String> photos = new ArrayList<String>();
-        while(it.hasNext()) {
-            PymePhoto pp = it.next();
-            photos.add(pp.getPhotoImage());
-        }
+        ArrayList<String> photos = new ArrayList<String>(MAX_PICT_ACCEPTED);
+        if( it!=null )
+            while(it.hasNext()) {
+                PymePhoto pp = it.next();
+                photos.add(pp.getPhotoImage());
+            }
+        photos.trimToSize();
 
         final String path = sprovider.getWorkPath()+"/photos/"+base.getAttribute("gpophotos")+"/";
         if(paramRequest.getCallMethod()==paramRequest.Call_STRATEGY) {
             int nde;
             try {
-                nde = Integer.parseInt(base.getAttribute("maxpreview", "6"));
+                nde = Integer.parseInt(base.getAttribute("maxpreview", Integer.toString(MAX_PICT_VIEWED)));
             }catch(NumberFormatException nfe) {
-                nde = 6;
+                nde = MAX_PICT_VIEWED;
             }
             for(int i=0; i<nde && i<photos.size(); i++) {
                 String image = photos.get(i);
@@ -578,19 +582,21 @@ public class PhotoAlbum extends GenericAdmResource {
         }else if(base.getAttribute("gpophotos").equalsIgnoreCase("more")) {
             it = sprovider.listMorePymePhotos();
         }
-        ArrayList<String> photos = new ArrayList<String>();        
-        while(it.hasNext()) {
-            PymePhoto pp = it.next();
-            photos.add(pp.getPhotoImage());
-        }
+        ArrayList<String> photos = new ArrayList<String>(MAX_PICT_ACCEPTED);
+        if( it!=null )
+            while(it.hasNext()) {
+                PymePhoto pp = it.next();
+                photos.add(pp.getPhotoImage());
+            }
+        photos.trimToSize();
         
         final String path = sprovider.getWorkPath()+"/photos/"+base.getAttribute("gpophotos")+"/";
         if(paramRequest.getCallMethod()==paramRequest.Call_STRATEGY) {
             int nde;
             try {
-                nde = Integer.parseInt(base.getAttribute("maxpreview", "6"));
+                nde = Integer.parseInt(base.getAttribute("maxpreview", Integer.toString(MAX_PICT_VIEWED)));
             }catch(NumberFormatException nfe) {
-                nde = 6;
+                nde = MAX_PICT_VIEWED;
             }
 
             out.println("<div class=\"photosHolder\">");

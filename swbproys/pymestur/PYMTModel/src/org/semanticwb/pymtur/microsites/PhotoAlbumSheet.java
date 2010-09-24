@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -29,12 +30,8 @@ import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.ProgressListener;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.semanticwb.SWBPlatform;
-import org.semanticwb.model.GenericObject;
 import org.semanticwb.model.Role;
-import org.semanticwb.model.UserGroup;
 import org.semanticwb.platform.SemanticObject;
-import org.semanticwb.platform.SemanticOntology;
 import org.semanticwb.pymtur.Paquete;
 
 /**
@@ -44,7 +41,22 @@ import org.semanticwb.pymtur.Paquete;
 
 public class PhotoAlbumSheet extends GenericAdmResource {
     private static Logger log = SWBUtils.getLogger(PhotoAlbum.class);
+
     private static final String _thumbnail = "thumbn_";
+    private static final int MAX_PICT_ACCEPTED = 6;
+    private static final int MAX_PICT_VIEWED = 6;
+    private static long maxSizeAcceptedByPict = 4194304L; //bits
+
+    @Override
+    public void setResourceBase(Resource base) {
+        try {
+            super.setResourceBase(base);
+            maxSizeAcceptedByPict = Long.parseLong(base.getAttribute("size","5242880"));
+        }catch(Exception e) {
+            maxSizeAcceptedByPict = 4194304L;
+            log.error("PyMES. Error while setting resource base: "+base.getId() +"-"+ base.getTitle(), e);
+        }
+    }
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
@@ -276,6 +288,8 @@ public class PhotoAlbumSheet extends GenericAdmResource {
 
         final String fspath = SWBPortal.getWorkPath()+sprovider.getWorkPath()+"/photos/"+base.getAttribute("gpophotos")+"/";
 
+        String[] fileFormats = base.getAttribute("fileformat")==null?new String[]{""}:base.getAttribute("fileformat").split(",");
+        Arrays.sort(fileFormats);
         try
         {
             boolean isMultipart = ServletFileUpload.isMultipartContent(request);
@@ -290,7 +304,6 @@ public class PhotoAlbumSheet extends GenericAdmResource {
                 ServletFileUpload upload = new ServletFileUpload(factory);
                 ProgressListener progressListener = new ProgressListener()
                 {
-
                     private long kBytes = -1;
 
                     public void update(long pBytesRead, long pContentLength, int pItems)
@@ -369,8 +382,12 @@ public class PhotoAlbumSheet extends GenericAdmResource {
                             }
                         }
                     }else {
-                        if( item.getSize()==0 )
-                            continue;                        
+                        if( item.getSize()==0 || item.getSize()>maxSizeAcceptedByPict )
+                            continue;
+                        String ext = item.getName().substring(item.getName().lastIndexOf(".")+1);
+                        if( Arrays.binarySearch(fileFormats, ext)<0 )
+                            continue;
+
                         long serial = (new Date()).getTime();
                         String filename;// = serial + "_" + item.getFieldName() + item.getName().substring(item.getName().lastIndexOf("."));
                         try {
@@ -440,11 +457,12 @@ public class PhotoAlbumSheet extends GenericAdmResource {
             it = sprovider.listMorePymePhotos();
         }
         ArrayList<String> photos = new ArrayList<String>();
-        while(it.hasNext()) {
-            PymePhoto pp = it.next();
-            photos.add(pp.getPhotoImage());
-        }
-
+        if( it!=null )
+            while(it.hasNext()) {
+                PymePhoto pp = it.next();
+                photos.add(pp.getPhotoImage());
+            }
+        
         final String path = sprovider.getWorkPath()+"/photos/"+base.getAttribute("gpophotos")+"/";
         if(paramRequest.getCallMethod()==paramRequest.Call_STRATEGY) {
             int nde;
