@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <admresource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<xslfile>admresource.xslt</xslfile>
 
 	<form name="frmPhotoAlbum" action="true" method="POST" enctype="multipart/form-data">
         <fieldset legend="Datos">
-            <input type="TEXT" name="title" label="Título:" size="50"/>
+            <input type="TEXT" name="title" label="TÃ­tulo:" size="50"/>
 
-            <input type="text" name="size" label="Tamaño máximo del archivo (bytes):" maxlength="7" jsvaltype="js_numbers" invalidMessage="Tamaño de archivo inválido" promptMessage="Tamaño del archivo en bytes (1024 bytes = 1Kb, 1048576 bytes = 1Mb" />
+            <input type="text" name="size" label="TamaÃ±o mÃ¡ximo del archivo (bytes):" maxlength="7" jsvaltype="js_numbers" invalidMessage="TamaÃ±o de archivo invÃ¡lido" promptMessage="TamaÃ±o del archivo en bytes (1024 bytes = 1Kb, 1048576 bytes = 1Mb" />
             <input type="text" name="fileformat" label="Formatos de archivo permitidos:" jsrequired="true" promptMessage="Indique las extensiones de los formatos separados por coma" />
 
             <input type="TEXT" name="width" label="Ancho de imagen (pixeles):" size="4" maxlength="4" jsrequired="true" jsvaltype="js_numbers"  />
@@ -15,12 +15,12 @@
             <input type="TEXT" name="thnwidth" label="Ancho de imagen miniatura (pixeles):" size="4" maxlength="4" jsrequired="true" jsvaltype="js_numbers"  />
             <input type="TEXT" name="thnheight" label="Alto de imagen miniatura (pixeles):" size="4" maxlength="4" jsrequired="true" jsvaltype="js_numbers"  />
 
-            <input type="TEXT" name="maxpreview" label="Número de diapositivas expuestas:" size="4" maxlength="4" jsrequired="true" jsvaltype="js_numbers"  />
+            <input type="TEXT" name="maxpreview" label="NÃºmero de diapositivas expuestas:" size="4" maxlength="4" jsrequired="true" jsvaltype="js_numbers"  />
 
             <statictext name="txtTarget">Grupo:</statictext>
             <input type="RADIO" name="gpophotos" label="Establecimiento" value="establishment" checked="true" />
             <input type="RADIO" name="gpophotos" label="Instalaciones" value="instalation"/>
-            <input type="RADIO" name="gpophotos" label="Más fotos" value="more"/>
+            <input type="RADIO" name="gpophotos" label="MÃ¡s fotos" value="more"/>
         </fieldset>
 
         <fieldset>
