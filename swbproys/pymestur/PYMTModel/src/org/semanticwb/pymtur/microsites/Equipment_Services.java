@@ -24,16 +24,14 @@ import org.semanticwb.pymtur.MicroSitePyme;
 
 /**
  *
- * @author jorge.jimenez
+ * @author martha.jimenez
  */
-public class ListSPActivities extends GenericResource{
-
-    private static Logger log = SWBUtils.getLogger(ListSPActivities.class);
-
+public class Equipment_Services extends GenericResource{
+    private static Logger log = SWBUtils.getLogger(Equipment_Services.class);
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-
+        //super.doView(request, response, paramRequest);
         RequestDispatcher dis = null;
         WebPage wp = paramRequest.getWebPage();
         WebPage community = null;
@@ -47,14 +45,14 @@ public class ListSPActivities extends GenericResource{
         String siteUri = ((MicroSitePyme) community).getType().getURI();
 
         if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSite", wp.getWebSite()).getURI().equals(siteUri)) {
-            path = "/work/models/etour/jsp/pymestur/microsite/listSPActivities.jsp";
+            path = "/work/models/etour/jsp/pymestur/microsite/equipment_Services.jsp";
         } else if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSitePlus", wp.getWebSite()).getURI().equals(siteUri)) {
-            if (action != null && action.equalsIgnoreCase("editActivities"))
+            if (action != null && action.equalsIgnoreCase("editEquipment_Services"))
             {
-                path = "/work/models/etour/jsp/pymestur/premier/editSPActivities.jsp";
+                path = "/work/models/etour/jsp/pymestur/premier/editEquipment_Services.jsp";
             } else
             {
-                path = "/work/models/etour/jsp/pymestur/premier/listSPActivities.jsp";
+                path = "/work/models/etour/jsp/pymestur/premier/equipment_Services.jsp";
             }
         }
         dis = request.getRequestDispatcher(path);
@@ -66,21 +64,15 @@ public class ListSPActivities extends GenericResource{
         }
     }
 
-
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         String action = response.getAction();
         try {
-            if (request.getParameter("uri") != null && action != null && action.equalsIgnoreCase("saveSPActivities")) {
+            if (request.getParameter("uri") != null && action != null && action.equalsIgnoreCase("saveEquipment_Services")) {
                 SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
                 SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
                 mgr.processForm(request);
-                System.out.println("todo indica que guardo en actividades...");
             }
-            //else
-           // {
-           //     System.out.println("En Surroundings.ProcessAction; No guardo nada");
-           // }
         } catch (FormValidateException e) {
             log.error(e);
         }
