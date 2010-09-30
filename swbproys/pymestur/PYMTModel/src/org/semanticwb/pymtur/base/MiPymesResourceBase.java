@@ -10,6 +10,10 @@ public abstract class MiPymesResourceBase extends org.semanticwb.portal.api.Gene
     {
     }
 
+   /**
+   * Constructs a MiPymesResourceBase with a SemanticObject
+   * @param base The SemanticObject with the properties for the MiPymesResource
+   */
     public MiPymesResourceBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
