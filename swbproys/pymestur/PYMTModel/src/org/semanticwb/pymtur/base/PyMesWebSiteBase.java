@@ -1,61 +1,184 @@
 package org.semanticwb.pymtur.base;
 
 
-public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.Undeleteable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Indexable,org.semanticwb.model.Localeable,org.semanticwb.model.Filterable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.Trashable,org.semanticwb.model.FilterableNode
+   /**
+   * Clase que hereda de swb:WebSite. Es un tipo de website para pymesturisticas. De esta manera se puede contar con todos los elementos en el arbol de navegación en la administración, y otros elementos utiles para pymes turisticas. 
+   */
+public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.OntologyDepable,org.semanticwb.model.Trashable,org.semanticwb.model.Indexable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Undeleteable,org.semanticwb.model.Traceable,org.semanticwb.model.Filterable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Localeable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Activeable
 {
     public static final org.semanticwb.platform.SemanticClass swbcomm_MicroSite=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/community#MicroSite");
+   /**
+   * Tipo de comunidad. Se asignan webpageutils a un micrositio de acuerdo al tipo de comunidad. Este tipo especifico es el de:paquete 4.Premier/Página web
+   */
     public static final org.semanticwb.platform.SemanticClass pymtur_MiPymeSitePlus=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#MiPymeSitePlus");
+   /**
+   * Clase que se encarga de administrar tipos de promociones de acuerdo a cierta categoría
+   */
     public static final org.semanticwb.platform.SemanticClass pymtur_CategoryPromotionType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#CategoryPromotionType");
+   /**
+   * Clase que se encarga de administrar lugares cercanos (cernanias)
+   */
     public static final org.semanticwb.platform.SemanticClass pymtur_Nearest=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Nearest");
+   /**
+   * Clase que se encarga de administrar tipos de cupones (catálogo)  de acuerdo a cierta categoría
+   */
     public static final org.semanticwb.platform.SemanticClass pymtur_CategoryCuponType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#CategoryCuponType");
+   /**
+   * Clase que se encarga de administrar las tarifas para el giro de Hospedaje. En este momento es la única que se utiliza.Esta clase se asigna en algún giro especifico para que de esta manera las mipymes adscritas a dicho giro manejen dicha clase.
+   */
     public static final org.semanticwb.platform.SemanticClass pymtur_HospedajeRate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#HospedajeRate");
+   /**
+   * Tipo de comunidad. Se asignan webpageutils a un micrositio de acuerdo al tipo de comunidad. Este tipo especifico es el de:paquete 3.Microsite
+   */
     public static final org.semanticwb.platform.SemanticClass pymtur_MiPymeSite=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#MiPymeSite");
+   /**
+   * Clase que se encarga de administrar tipos de turismo
+   */
     public static final org.semanticwb.platform.SemanticClass pymtur_TourismType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#TourismType");
+   /**
+   * Clase que que encarga de administrar instalaciones
+   */
     public static final org.semanticwb.platform.SemanticClass pymtur_Instalation=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Instalation");
+   /**
+   * Tipo de serviceprovider. En este momento solo existe hoteleria, cuando existan mas tipos de giros pueden heredar de serviceprovider y tener sus propias propiedades aparte.
+   */
     public static final org.semanticwb.platform.SemanticClass pymtur_Hospedaje=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Hospedaje");
+   /**
+   * Clase que hereda de WebPage.Mediante estas se administra el catálogo detipos de  experiencias.
+   */
     public static final org.semanticwb.platform.SemanticClass pymtur_ExperienceType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#ExperienceType");
+   /**
+   * Clase que hereda de WebPage.Mediante estas se administran los tipos de templates para su selección en algún paquete (En este momento solo para "Premier" - "Página web".
+   */
     public static final org.semanticwb.platform.SemanticClass pymtur_PaqTemplate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#PaqTemplate");
+   /**
+   * Clase que hereda de WebPage.Mediante estas se administra el catálogo de experiencias.
+   */
     public static final org.semanticwb.platform.SemanticClass pymtur_Experience=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Experience");
+   /**
+   * Clase principal del sistema de pymes turisticas. Una instancia de esta clase es en donde se almacena toda la información de una mipyme especifica.
+   */
     public static final org.semanticwb.platform.SemanticClass pymtur_ServiceProvider=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#ServiceProvider");
+    public static final org.semanticwb.platform.SemanticClass pymtur_Certificates=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Certificates");
+   /**
+   * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Regiones.
+   */
     public static final org.semanticwb.platform.SemanticClass pymtur_Region=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Region");
+   /**
+   * Clase que se encarga de administrar razones de rechazo para el administrador de las mipymes
+   */
     public static final org.semanticwb.platform.SemanticClass pymtur_RejectReason=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#RejectReason");
+   /**
+   * Clase que se encarga de administrar parametros en general que puedan ser utilizados en el desarrollo del sistema.
+   */
     public static final org.semanticwb.platform.SemanticClass pymtur_Parameter=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Parameter");
+   /**
+   * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Eventos.
+   */
     public static final org.semanticwb.platform.SemanticClass pymtur_Event=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Event");
+   /**
+   * Clase que se encarga de administrar Ligas de interes para el portal concentrador de pymes turisticas
+   */
     public static final org.semanticwb.platform.SemanticClass pymtur_InterestPortalLink=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#InterestPortalLink");
+   /**
+   * Clase que se encarga de administrar textos para correos electrónicos
+   */
     public static final org.semanticwb.platform.SemanticClass pymtur_EmailText=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#EmailText");
+   /**
+   * Clase que se encarga de administrar parametros para los diferentes tipos de paquetes (En este momento los que existen que son:3.Fichas y 4.Premier/Páginas web)
+   */
     public static final org.semanticwb.platform.SemanticClass pymtur_Paquete=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Paquete");
+   /**
+   * Clase que se encarga de administrar razones por las cuales podría ser desactivada una mipyme, utilizado por los administradores de mipymes
+   */
     public static final org.semanticwb.platform.SemanticClass pymtur_UnActivationReason=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#UnActivationReason");
+   /**
+   * Clase que se encarga de administrar razones para eliminar una mipyme, utilizada por el administrador de mipymes
+   */
     public static final org.semanticwb.platform.SemanticClass pymtur_RemoveReason=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#RemoveReason");
+    public static final org.semanticwb.platform.SemanticClass pymtur_OmnibusLines=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#OmnibusLines");
     public static final org.semanticwb.platform.SemanticClass swbcomm_MicroSiteWebPageUtil=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/community#MicroSiteWebPageUtil");
+   /**
+   * Clase que hereda de WebPage.Mediante estas se administra el catálogo de tipos de eventos.
+   */
     public static final org.semanticwb.platform.SemanticClass pymtur_EventType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#EventType");
+   /**
+   * Clase que hereda de WebPage.Mediante esta se administran las variantes en cuanto a diseño (CSS) que tiene cada tipo de plantilla (PaqTemplate).
+   */
     public static final org.semanticwb.platform.SemanticClass pymtur_VariantPaqTemplate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#VariantPaqTemplate");
+   /**
+   * Clase que hereda de WebPage.Mediante esta se administra el catálogo de "Tipos de Empresas" en cada giro.
+   */
     public static final org.semanticwb.platform.SemanticClass pymtur_SPType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#SPType");
+   /**
+   * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Destinos.
+   */
     public static final org.semanticwb.platform.SemanticClass pymtur_Destination=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Destination");
+   /**
+   * Clase que se encarga de administrar Ligas de interes para los micrositios (premier-páginas web)
+   */
     public static final org.semanticwb.platform.SemanticClass pymtur_InteresLink=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#InteresLink");
+   /**
+   * Clase que se encarga de administrar servicios del catalogo
+   */
     public static final org.semanticwb.platform.SemanticClass pymtur_Service=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Service");
+   /**
+   * Clase que hereda de WebPage.Mediante esta se administra el catálogo de Giros.
+   */
     public static final org.semanticwb.platform.SemanticClass pymtur_SPCategory=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#SPCategory");
+   /**
+   * Clase que hereda de WebPage.Mediante esta se administra el catálogo de Estados de la república.
+   */
     public static final org.semanticwb.platform.SemanticClass pymtur_State=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#State");
+   /**
+   * Clase que se encarga de administrar el catalogo de bancos
+   */
     public static final org.semanticwb.platform.SemanticClass pymtur_Bank=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Bank");
+   /**
+   * Clase que hereda de WebPage.Mediante esta se administra el catálogo de tipos de actividades.
+   */
     public static final org.semanticwb.platform.SemanticClass pymtur_ActivityType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#ActivityType");
+   /**
+   * Clase que hereda de WebPage.Mediante esta se administra el catálogo de Actividades.
+   */
     public static final org.semanticwb.platform.SemanticClass pymtur_Activity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#Activity");
+   /**
+   * Clase que hereda de swb:WebSite. Es un tipo de website para pymesturisticas. De esta manera se puede contar con todos los elementos en el arbol de navegación en la administración, y otros elementos utiles para pymes turisticas.
+   */
     public static final org.semanticwb.platform.SemanticClass pymtur_PyMesWebSite=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#PyMesWebSite");
+   /**
+   * The semantic class that represents the currentObject
+   */
     public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#PyMesWebSite");
 
     public static class ClassMgr
     {
+       /**
+       * Returns a list of PyMesWebSite for a model
+       * @param model Model to find
+       * @return Iterator of org.semanticwb.pymtur.PyMesWebSite
+       */
 
         public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSites(org.semanticwb.model.SWBModel model)
         {
             java.util.Iterator it=model.getSemanticObject().getModel().listInstancesOfClass(sclass);
             return new org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite>(it, true);
         }
+       /**
+       * Returns a list of org.semanticwb.pymtur.PyMesWebSite for all models
+       * @return Iterator of org.semanticwb.pymtur.PyMesWebSite
+       */
 
         public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSites()
         {
             java.util.Iterator it=sclass.listInstances();
             return new org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite>(it, true);
         }
-
+       /**
+       * Gets a org.semanticwb.pymtur.PyMesWebSite
+       * @param id Identifier for org.semanticwb.pymtur.PyMesWebSite
+       * @return A org.semanticwb.pymtur.PyMesWebSite
+       */
         public static org.semanticwb.pymtur.PyMesWebSite getPyMesWebSite(String id)
         {
             org.semanticwb.platform.SemanticMgr mgr=org.semanticwb.SWBPlatform.getSemanticMgr();
@@ -71,14 +194,21 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
             }
             return ret;
         }
-
+       /**
+       * Create a org.semanticwb.pymtur.PyMesWebSite
+       * @param id Identifier for org.semanticwb.pymtur.PyMesWebSite
+       * @return A org.semanticwb.pymtur.PyMesWebSite
+       */
         public static org.semanticwb.pymtur.PyMesWebSite createPyMesWebSite(String id, String namespace)
         {
             org.semanticwb.platform.SemanticMgr mgr=org.semanticwb.SWBPlatform.getSemanticMgr();
             org.semanticwb.platform.SemanticModel model=mgr.createModel(id, namespace);
-            return (org.semanticwb.pymtur.PyMesWebSite)model.createGenericObject(model.getObjectUri(id, sclass), sclass);
+            return (org.semanticwb.pymtur.PyMesWebSite)model.createGenericObject(model.getObjectUri(id,sclass),sclass);
         }
-
+       /**
+       * Remove a org.semanticwb.pymtur.PyMesWebSite
+       * @param id Identifier for org.semanticwb.pymtur.PyMesWebSite
+       */
         public static void removePyMesWebSite(String id)
         {
             org.semanticwb.pymtur.PyMesWebSite obj=getPyMesWebSite(id);
@@ -87,101 +217,217 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
                 obj.remove();
             }
         }
+       /**
+       * Returns true if exists a org.semanticwb.pymtur.PyMesWebSite
+       * @param id Identifier for org.semanticwb.pymtur.PyMesWebSite
+       * @return true if the org.semanticwb.pymtur.PyMesWebSite exists, false otherwise
+       */
 
         public static boolean hasPyMesWebSite(String id)
         {
             return (getPyMesWebSite(id)!=null);
         }
+       /**
+       * Gets all org.semanticwb.pymtur.PyMesWebSite with a determined ParentWebSite
+       * @param value ParentWebSite of the type org.semanticwb.model.WebSite
+       * @param model Model of the org.semanticwb.pymtur.PyMesWebSite
+       * @return Iterator with all the org.semanticwb.pymtur.PyMesWebSite
+       */
 
         public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByParentWebSite(org.semanticwb.model.WebSite value,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_parentWebSite, value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all org.semanticwb.pymtur.PyMesWebSite with a determined ParentWebSite
+       * @param value ParentWebSite of the type org.semanticwb.model.WebSite
+       * @return Iterator with all the org.semanticwb.pymtur.PyMesWebSite
+       */
 
         public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByParentWebSite(org.semanticwb.model.WebSite value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_parentWebSite,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all org.semanticwb.pymtur.PyMesWebSite with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.pymtur.PyMesWebSite
+       * @return Iterator with all the org.semanticwb.pymtur.PyMesWebSite
+       */
 
         public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all org.semanticwb.pymtur.PyMesWebSite with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.pymtur.PyMesWebSite
+       */
 
         public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByCreator(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all org.semanticwb.pymtur.PyMesWebSite with a determined HomePage
+       * @param value HomePage of the type org.semanticwb.model.WebPage
+       * @param model Model of the org.semanticwb.pymtur.PyMesWebSite
+       * @return Iterator with all the org.semanticwb.pymtur.PyMesWebSite
+       */
 
         public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByHomePage(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_homePage, value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all org.semanticwb.pymtur.PyMesWebSite with a determined HomePage
+       * @param value HomePage of the type org.semanticwb.model.WebPage
+       * @return Iterator with all the org.semanticwb.pymtur.PyMesWebSite
+       */
 
         public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByHomePage(org.semanticwb.model.WebPage value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_homePage,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all org.semanticwb.pymtur.PyMesWebSite with a determined DefaultTemplate
+       * @param value DefaultTemplate of the type org.semanticwb.model.Template
+       * @param model Model of the org.semanticwb.pymtur.PyMesWebSite
+       * @return Iterator with all the org.semanticwb.pymtur.PyMesWebSite
+       */
 
         public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByDefaultTemplate(org.semanticwb.model.Template value,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_defaultTemplate, value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all org.semanticwb.pymtur.PyMesWebSite with a determined DefaultTemplate
+       * @param value DefaultTemplate of the type org.semanticwb.model.Template
+       * @return Iterator with all the org.semanticwb.pymtur.PyMesWebSite
+       */
 
         public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByDefaultTemplate(org.semanticwb.model.Template value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_defaultTemplate,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all org.semanticwb.pymtur.PyMesWebSite with a determined Language
+       * @param value Language of the type org.semanticwb.model.Language
+       * @param model Model of the org.semanticwb.pymtur.PyMesWebSite
+       * @return Iterator with all the org.semanticwb.pymtur.PyMesWebSite
+       */
 
         public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByLanguage(org.semanticwb.model.Language value,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_language, value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all org.semanticwb.pymtur.PyMesWebSite with a determined Language
+       * @param value Language of the type org.semanticwb.model.Language
+       * @return Iterator with all the org.semanticwb.pymtur.PyMesWebSite
+       */
 
         public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByLanguage(org.semanticwb.model.Language value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_language,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all org.semanticwb.pymtur.PyMesWebSite with a determined SubModel
+       * @param value SubModel of the type org.semanticwb.model.SWBModel
+       * @param model Model of the org.semanticwb.pymtur.PyMesWebSite
+       * @return Iterator with all the org.semanticwb.pymtur.PyMesWebSite
+       */
 
         public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteBySubModel(org.semanticwb.model.SWBModel value,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasSubModel, value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all org.semanticwb.pymtur.PyMesWebSite with a determined SubModel
+       * @param value SubModel of the type org.semanticwb.model.SWBModel
+       * @return Iterator with all the org.semanticwb.pymtur.PyMesWebSite
+       */
 
         public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteBySubModel(org.semanticwb.model.SWBModel value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasSubModel,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all org.semanticwb.pymtur.PyMesWebSite with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.pymtur.PyMesWebSite
+       * @return Iterator with all the org.semanticwb.pymtur.PyMesWebSite
+       */
 
         public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all org.semanticwb.pymtur.PyMesWebSite with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.pymtur.PyMesWebSite
+       */
 
         public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByModifiedBy(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all org.semanticwb.pymtur.PyMesWebSite with a determined Ontology
+       * @param value Ontology of the type org.semanticwb.model.Ontology
+       * @param model Model of the org.semanticwb.pymtur.PyMesWebSite
+       * @return Iterator with all the org.semanticwb.pymtur.PyMesWebSite
+       */
+
+        public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByOntology(org.semanticwb.model.Ontology value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasOntology, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.pymtur.PyMesWebSite with a determined Ontology
+       * @param value Ontology of the type org.semanticwb.model.Ontology
+       * @return Iterator with all the org.semanticwb.pymtur.PyMesWebSite
+       */
+
+        public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByOntology(org.semanticwb.model.Ontology value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasOntology,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.pymtur.PyMesWebSite with a determined UserRepository
+       * @param value UserRepository of the type org.semanticwb.model.UserRepository
+       * @param model Model of the org.semanticwb.pymtur.PyMesWebSite
+       * @return Iterator with all the org.semanticwb.pymtur.PyMesWebSite
+       */
 
         public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByUserRepository(org.semanticwb.model.UserRepository value,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.pymtur.PyMesWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_userRepository, value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all org.semanticwb.pymtur.PyMesWebSite with a determined UserRepository
+       * @param value UserRepository of the type org.semanticwb.model.UserRepository
+       * @return Iterator with all the org.semanticwb.pymtur.PyMesWebSite
+       */
 
         public static java.util.Iterator<org.semanticwb.pymtur.PyMesWebSite> listPyMesWebSiteByUserRepository(org.semanticwb.model.UserRepository value)
         {
@@ -190,6 +436,10 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
         }
     }
 
+   /**
+   * Constructs a PyMesWebSiteBase with a SemanticObject
+   * @param base The SemanticObject with the properties for the PyMesWebSite
+   */
     public PyMesWebSiteBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
@@ -579,6 +829,36 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
         return org.semanticwb.pymtur.ServiceProvider.ClassMgr.hasServiceProvider(id, this);
     }
 
+    public org.semanticwb.pymtur.Certificates getCertificates(String id)
+    {
+        return org.semanticwb.pymtur.Certificates.ClassMgr.getCertificates(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.pymtur.Certificates> listCertificateses()
+    {
+        return org.semanticwb.pymtur.Certificates.ClassMgr.listCertificateses(this);
+    }
+
+    public org.semanticwb.pymtur.Certificates createCertificates(String id)
+    {
+        return org.semanticwb.pymtur.Certificates.ClassMgr.createCertificates(id,this);
+    }
+
+    public org.semanticwb.pymtur.Certificates createCertificates()
+    {
+        long id=getSemanticObject().getModel().getCounter(pymtur_Certificates);
+        return org.semanticwb.pymtur.Certificates.ClassMgr.createCertificates(String.valueOf(id),this);
+    } 
+
+    public void removeCertificates(String id)
+    {
+        org.semanticwb.pymtur.Certificates.ClassMgr.removeCertificates(id, this);
+    }
+    public boolean hasCertificates(String id)
+    {
+        return org.semanticwb.pymtur.Certificates.ClassMgr.hasCertificates(id, this);
+    }
+
     public org.semanticwb.pymtur.Region getRegion(String id)
     {
         return org.semanticwb.pymtur.Region.ClassMgr.getRegion(id, this);
@@ -823,6 +1103,36 @@ public abstract class PyMesWebSiteBase extends org.semanticwb.model.WebSite impl
     public boolean hasRemoveReason(String id)
     {
         return org.semanticwb.pymtur.RemoveReason.ClassMgr.hasRemoveReason(id, this);
+    }
+
+    public org.semanticwb.pymtur.OmnibusLines getOmnibusLines(String id)
+    {
+        return org.semanticwb.pymtur.OmnibusLines.ClassMgr.getOmnibusLines(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.pymtur.OmnibusLines> listOmnibusLineses()
+    {
+        return org.semanticwb.pymtur.OmnibusLines.ClassMgr.listOmnibusLineses(this);
+    }
+
+    public org.semanticwb.pymtur.OmnibusLines createOmnibusLines(String id)
+    {
+        return org.semanticwb.pymtur.OmnibusLines.ClassMgr.createOmnibusLines(id,this);
+    }
+
+    public org.semanticwb.pymtur.OmnibusLines createOmnibusLines()
+    {
+        long id=getSemanticObject().getModel().getCounter(pymtur_OmnibusLines);
+        return org.semanticwb.pymtur.OmnibusLines.ClassMgr.createOmnibusLines(String.valueOf(id),this);
+    } 
+
+    public void removeOmnibusLines(String id)
+    {
+        org.semanticwb.pymtur.OmnibusLines.ClassMgr.removeOmnibusLines(id, this);
+    }
+    public boolean hasOmnibusLines(String id)
+    {
+        return org.semanticwb.pymtur.OmnibusLines.ClassMgr.hasOmnibusLines(id, this);
     }
 
     public org.semanticwb.portal.community.MicroSiteWebPageUtil getMicroSiteWebPageUtil(String id)
