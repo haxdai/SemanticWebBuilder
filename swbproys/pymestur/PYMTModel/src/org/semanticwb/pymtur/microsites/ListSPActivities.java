@@ -6,12 +6,12 @@
 package org.semanticwb.pymtur.microsites;
 
 import java.io.IOException;
+import java.util.Iterator;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
-import org.semanticwb.model.FormValidateException;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.SWBFormMgr;
@@ -20,7 +20,11 @@ import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.community.MicroSiteType;
+import org.semanticwb.pymtur.Activity;
+import org.semanticwb.pymtur.Hospedaje;
 import org.semanticwb.pymtur.MicroSitePyme;
+import org.semanticwb.pymtur.Nearest;
+import org.semanticwb.pymtur.ServiceProvider;
 
 /**
  *
@@ -66,7 +70,6 @@ public class ListSPActivities extends GenericResource{
         }
     }
 
-
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         String action = response.getAction();
@@ -74,14 +77,11 @@ public class ListSPActivities extends GenericResource{
             if (request.getParameter("uri") != null && action != null && action.equalsIgnoreCase("saveSPActivities")) {
                 SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
                 SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
+                mgr.clearProperties();
+                mgr.addProperty(Hospedaje.pymtur_hasSPActivity);
                 mgr.processForm(request);
-                System.out.println("todo indica que guardo en actividades...");
             }
-            //else
-           // {
-           //     System.out.println("En Surroundings.ProcessAction; No guardo nada");
-           // }
-        } catch (FormValidateException e) {
+        } catch (Exception e) {
             log.error(e);
         }
     }

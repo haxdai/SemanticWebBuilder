@@ -20,6 +20,7 @@ import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.community.MicroSiteType;
+import org.semanticwb.pymtur.Hospedaje;
 import org.semanticwb.pymtur.MicroSitePyme;
 
 /**
@@ -31,7 +32,6 @@ public class Equipment_Services extends GenericResource{
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        //super.doView(request, response, paramRequest);
         RequestDispatcher dis = null;
         WebPage wp = paramRequest.getWebPage();
         WebPage community = null;
@@ -71,6 +71,8 @@ public class Equipment_Services extends GenericResource{
             if (request.getParameter("uri") != null && action != null && action.equalsIgnoreCase("saveEquipment_Services")) {
                 SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
                 SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
+                mgr.clearProperties();
+                mgr.addProperty(Hospedaje.pymtur_hasService);
                 mgr.processForm(request);
             }
         } catch (FormValidateException e) {

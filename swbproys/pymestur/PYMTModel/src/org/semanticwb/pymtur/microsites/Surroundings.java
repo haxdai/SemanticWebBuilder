@@ -20,6 +20,7 @@ import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.community.MicroSiteType;
+import org.semanticwb.pymtur.Hospedaje;
 import org.semanticwb.pymtur.MicroSitePyme;
 
 /**
@@ -58,7 +59,6 @@ public class Surroundings extends GenericResource{
                 path = "/work/models/etour/jsp/pymestur/premier/surroundings.jsp";
             }
         }
-//        System.out.println("action: " + action + "\npath: " + path);
         dis = request.getRequestDispatcher(path);
         try {
             request.setAttribute("paramRequest", paramRequest);
@@ -70,15 +70,14 @@ public class Surroundings extends GenericResource{
 
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
-
         String action = response.getAction();
-  //      System.out.println("En Surroundings.ProcessAction; action: " + action + " uri: " + request.getParameter("uri"));
         try {
             if (request.getParameter("uri") != null && action != null && action.equalsIgnoreCase("saveSurroundings")) {
                 SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
                 SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
-                mgr.processForm(request);
-            }
+                mgr.clearProperties();
+                mgr.addProperty(Hospedaje.pymtur_hasNearest);
+                mgr.processForm(request);            }
         } catch (FormValidateException e) {
             log.error(e);
         }
