@@ -1,27 +1,27 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <admresource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <xslfile>admresource.xslt</xslfile>
 
     <form name="frmPhotoAlbum" action="true" method="post" enctype="multipart/form-data" jsframework="dojo">
     <fieldset legend="Datos">
-        <input type="text" name="title" label="Title:" size="50"/>
+        <input type="text" name="title" label="Título:" size="50"/>
 
-        <input type="text" name="size" label="Maximum file size (bytes):" maxlength="7" jsvaltype="js_numbers" invalidMessage="Invalid file size" promptMessage="File size in bytes (1024 bytes = 1Kb, 1048576 bytes = 1MB)" />
+        <input type="text" name="size" label="Tamaño máximo del archivo (bytes):" maxlength="7" jsvaltype="js_numbers" invalidMessage="Tamaño de archivo inválido" promptMessage="Tamaño del archivo en bytes (1024 bytes = 1Kb, 1048576 bytes = 1Mb" />
         <input type="text" name="fileformat" label="Formatos de archivo permitidos:" jsrequired="true" promptMessage="Indique las extensiones de los formatos separados por coma" />
 
-        <input type="text" name="width" label="Image Widht (pixeles):" maxlength="4" jsrequired="true" jsvaltype="js_numbers" invalidMessage="Invalid image width" promptMessage="Image width in pixels considering" />
-        <input type="text" name="height" label="Image Height (pixeles):" maxlength="4" jsrequired="true" jsvaltype="js_numbers" invalidMessage="Invalid image height" promptMessage="Image height in pixels considering" />
+        <input type="text" name="width" label="Ancho de imagen (pixeles):" maxlength="4" jsrequired="true" jsvaltype="js_numbers" invalidMessage="Ancho de imagen inválido" promptMessage="Ancho de imagen considerándolo en pixeles" />
+        <input type="text" name="height" label="Alto de imagen (pixeles):" maxlength="4" jsrequired="true" jsvaltype="js_numbers" invalidMessage="Alto de imagen inválido" promptMessage="Alto de imagen considerándolo en pixeles" />
 
-        <input type="text" name="thnwidth" label="Thumbnail Image Width (pixeles):" maxlength="4" jsrequired="true" jsvaltype="js_numbers" invalidMessage="Invalid thumbnail width" promptMessage="Considering thumbnail width in pixels" />
-        <input type="text" name="thnheight" label="Thumbnail Image Height (pixeles):" maxlength="4" jsrequired="true" jsvaltype="js_numbers" invalidMessage="Invalid thumbnail height" promptMessage="Considering thumbnail height in pixels" />
+        <input type="text" name="thnwidth" label="Ancho de imagen miniatura (pixeles):" maxlength="4" jsrequired="true" jsvaltype="js_numbers" invalidMessage="Ancho de imagen miniatura inválido" promptMessage="Ancho de imagen miniatura considerándolo en pixeles" />
+        <input type="text" name="thnheight" label="Alto de imagen miniatura (pixeles):" maxlength="4" jsrequired="true" jsvaltype="js_numbers" invalidMessage="Alto de imagen miniatura inválido" promptMessage="Alto de imagen miniatura considerándolo en pixeles" />
 
-        <input type="text" name="maxpreview" label="Number of Thumbnails exposed:" maxlength="2" jsrequired="true" jsvaltype="js_numbers" invalidMessage="NÃºmero invÃ¡lido" promptMessage="Number of thumbnails displayed in the column PHOTOS" />
+        <input type="text" name="maxpreview" label="Número de miniaturas expuestas:" maxlength="2" jsrequired="true" jsvaltype="js_numbers" invalidMessage="Número inválido" promptMessage="Número de miniaturas expuestas en la columna de FOTOS" />
 
-        <statictext name="txtTarget">Photo group:</statictext>
-        <input type="radio" name="gpophotos" label="Establishment" value="establishment" checked="true" />
-        <input type="radio" name="gpophotos" label="Facilities" value="instalation"/>
-        <input type="radio" name="gpophotos" label="Category" value="category"/>
-        <input type="radio" name="gpophotos" label="More Photos" value="more"/>
+        <statictext name="txtTarget">Grupo de fotos:</statictext>
+        <input type="radio" name="gpophotos" label="Establecimiento" value="establishment" checked="true" />
+        <input type="radio" name="gpophotos" label="Instalaciones" value="instalation"/>
+        <input type="radio" name="gpophotos" label="Categoría" value="category"/>
+        <input type="radio" name="gpophotos" label="Más fotos" value="more"/>
     </fieldset>
 
     <fieldset>
@@ -32,107 +32,7 @@
 
     <script type="text/javascript">
         <![CDATA[
-            if(!document.frmContact.modal[0].checked && !document.frmContact.modal[1].checked)
-                document.frmContact.modal[1].checked=true;
-
             function jsValida(frm) {
-                return true;
-            }
-        ]]>
-    </script>
-</admresource>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<?xml version="1.0" encoding="UTF-8"?>
-<admresource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<xslfile>admresource.xslt</xslfile>
-
-	<form name="frmPhotoAlbum" action="true" method="POST" enctype="multipart/form-data">
-        <fieldset legend="Datos">
-            <input type="TEXT" name="title" label="Title:" size="50"/>
-
-            <input type="TEXT" name="size" label="Maximum file size (bytes):" maxlength="7" jsvaltype="js_numbers" invalidMessage="TamaÃ±o de archivo invÃ¡lido" promptMessage="TamaÃ±o del archivo en bytes (1024 bytes = 1Kb, 1048576 bytes = 1Mb" />
-
-            <input type="TEXT" name="width" label="Image Widht (pixeles):" size="4" maxlength="4" jsrequired="true" jsvaltype="js_numbers"  />
-            <input type="TEXT" name="height" label="Image Height (pixeles):" size="4" maxlength="4" jsrequired="true" jsvaltype="js_numbers"  />
-
-            <input type="TEXT" name="thnwidth" label="Thumbnail Image Width (pixeles):" size="4" maxlength="4" jsrequired="true" jsvaltype="js_numbers"  />
-            <input type="TEXT" name="thnheight" label="Thumbnail Image Height (pixeles):" size="4" maxlength="4" jsrequired="true" jsvaltype="js_numbers"  />
-
-            <input type="TEXT" name="maxpreview" label="Number of Thumbnails exposed:" size="4" maxlength="4" jsrequired="true" jsvaltype="js_numbers"  />
-
-            <statictext name="txtTarget">Grupo:</statictext>
-            <input type="RADIO" name="gpophotos" label="Establishment" value="establishment" checked="true" />
-            <input type="RADIO" name="gpophotos" label="Facilities" value="instalation"/>
-            <input type="RADIO" name="gpophotos" label="Category" value="category"/>
-            <input type="RADIO" name="gpophotos" label="More photos" value="more"/>
-        </fieldset>
-
-        <fieldset>
-            <statictext name="b">
-            <![CDATA[
-            <button id="btnSave" dojoType="dijit.form.Button">Save</button>
-            <button id="btnReset" dojoType="dijit.form.Button" type="reset">Reset</button>
-            ]]>
-            </statictext>
-        </fieldset>
-	</form>
-    <script type="text/javascript">
-        <![CDATA[
-        dojo.require("dijit.form.Button");
-
-        dojo.addOnLoad(function(){
-            dojo.connect(dijit.byId("btnSave"), "onClick",
-                function() {
-                    if(jsValida(dojo.byId("frmPhotoAlbum"))) {
-                        dojo.byId("frmPhotoAlbum").submit();
-                    }
-                }
-            );
-        });
-
-        dojo.addOnLoad(function(){
-            dojo.connect(dijit.byId("btnReset"), "onClick",
-                function() {
-                    dojo.byId("frmContact").reset();
-                }
-            );
-        });
-        ]]>
-    </script>
-
-    <script type="text/javascript">
-        <![CDATA[
-            if(!document.frmContact.modal[0].checked && !document.frmContact.modal[1].checked)
-                    document.frmContact.modal[1].checked=true;
-
-
-            function jsValida(frm) {
-                if(frm.width.value==null || frm.width.value=='' || frm.width.value==' ') {
-                    alert('Enter the image width');
-                    frm.width.focus();
-                    return false;
-                }
-                if(frm.height.value==null || frm.height.value=='' || frm.height.value==' ') {
-                    alert('Enter the image height');
-                    frm.height.focus();
-                    return false;
-                }
                 return true;
             }
         ]]>
