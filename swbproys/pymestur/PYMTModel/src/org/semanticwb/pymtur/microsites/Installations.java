@@ -20,6 +20,7 @@ import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.community.MicroSiteType;
+import org.semanticwb.pymtur.Hospedaje;
 import org.semanticwb.pymtur.MicroSitePyme;
 
 /**
@@ -70,6 +71,8 @@ public class Installations extends GenericResource{
             if (request.getParameter("uri") != null && action != null && action.equalsIgnoreCase("saveInstallations")) {
                 SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
                 SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
+                mgr.clearProperties();
+                mgr.addProperty(Hospedaje.pymtur_hasInstalation);
                 mgr.processForm(request);
             }
         } catch (FormValidateException e) {
