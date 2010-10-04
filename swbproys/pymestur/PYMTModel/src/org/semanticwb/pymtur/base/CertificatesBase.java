@@ -4,6 +4,7 @@ package org.semanticwb.pymtur.base;
 public abstract class CertificatesBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
     public static final org.semanticwb.platform.SemanticProperty pymtur_cerImage=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#cerImage");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_cerURL=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#cerURL");
    /**
    * Clase principal del sistema de pymes turisticas. Una instancia de esta clase es en donde se almacena toda la información de una mipyme especifica.
    */
@@ -236,6 +237,24 @@ public abstract class CertificatesBase extends org.semanticwb.model.SWBClass imp
     public void setCerImage(String value)
     {
         getSemanticObject().setProperty(pymtur_cerImage, value);
+    }
+
+/**
+* Gets the CerURL property
+* @return String with the CerURL
+*/
+    public String getCerURL()
+    {
+        return getSemanticObject().getProperty(pymtur_cerURL);
+    }
+
+/**
+* Sets the CerURL property
+* @param value long with the CerURL
+*/
+    public void setCerURL(String value)
+    {
+        getSemanticObject().setProperty(pymtur_cerURL, value);
     }
    /**
    * Gets all the org.semanticwb.pymtur.ServiceProvider
