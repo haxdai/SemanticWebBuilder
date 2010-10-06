@@ -234,38 +234,38 @@ public abstract class PromotionBase extends org.semanticwb.model.SWBClass implem
 
 /**
 * Gets the EndDate property
-* @return String with the EndDate
+* @return java.util.Date with the EndDate
 */
-    public String getEndDate()
+    public java.util.Date getEndDate()
     {
-        return getSemanticObject().getProperty(pymtur_endDate);
+        return getSemanticObject().getDateProperty(pymtur_endDate);
     }
 
 /**
 * Sets the EndDate property
 * @param value long with the EndDate
 */
-    public void setEndDate(String value)
+    public void setEndDate(java.util.Date value)
     {
-        getSemanticObject().setProperty(pymtur_endDate, value);
+        getSemanticObject().setDateProperty(pymtur_endDate, value);
     }
 
 /**
 * Gets the StartDate property
-* @return String with the StartDate
+* @return java.util.Date with the StartDate
 */
-    public String getStartDate()
+    public java.util.Date getStartDate()
     {
-        return getSemanticObject().getProperty(pymtur_startDate);
+        return getSemanticObject().getDateProperty(pymtur_startDate);
     }
 
 /**
 * Sets the StartDate property
 * @param value long with the StartDate
 */
-    public void setStartDate(String value)
+    public void setStartDate(java.util.Date value)
     {
-        getSemanticObject().setProperty(pymtur_startDate, value);
+        getSemanticObject().setDateProperty(pymtur_startDate, value);
     }
 
 /**
