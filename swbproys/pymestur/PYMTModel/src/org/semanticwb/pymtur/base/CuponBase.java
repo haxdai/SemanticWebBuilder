@@ -228,20 +228,20 @@ public abstract class CuponBase extends org.semanticwb.model.SWBClass implements
 
 /**
 * Gets the CuponPeriodFin property
-* @return String with the CuponPeriodFin
+* @return java.util.Date with the CuponPeriodFin
 */
-    public String getCuponPeriodFin()
+    public java.util.Date getCuponPeriodFin()
     {
-        return getSemanticObject().getProperty(pymtur_cuponPeriodFin);
+        return getSemanticObject().getDateProperty(pymtur_cuponPeriodFin);
     }
 
 /**
 * Sets the CuponPeriodFin property
 * @param value long with the CuponPeriodFin
 */
-    public void setCuponPeriodFin(String value)
+    public void setCuponPeriodFin(java.util.Date value)
     {
-        getSemanticObject().setProperty(pymtur_cuponPeriodFin, value);
+        getSemanticObject().setDateProperty(pymtur_cuponPeriodFin, value);
     }
 
 /**
@@ -368,19 +368,19 @@ public abstract class CuponBase extends org.semanticwb.model.SWBClass implements
 
 /**
 * Gets the CuponPeriodIni property
-* @return String with the CuponPeriodIni
+* @return java.util.Date with the CuponPeriodIni
 */
-    public String getCuponPeriodIni()
+    public java.util.Date getCuponPeriodIni()
     {
-        return getSemanticObject().getProperty(pymtur_cuponPeriodIni);
+        return getSemanticObject().getDateProperty(pymtur_cuponPeriodIni);
     }
 
 /**
 * Sets the CuponPeriodIni property
 * @param value long with the CuponPeriodIni
 */
-    public void setCuponPeriodIni(String value)
+    public void setCuponPeriodIni(java.util.Date value)
     {
-        getSemanticObject().setProperty(pymtur_cuponPeriodIni, value);
+        getSemanticObject().setDateProperty(pymtur_cuponPeriodIni, value);
     }
 }
