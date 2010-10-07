@@ -108,102 +108,173 @@ public class CuponManager extends GenericResource {
         final String realpath = SWBPortal.getWorkPath();
         final String path = base.getWorkPath() + "/";
 
+        response.setRenderParameter("uri", request.getParameter("uri"));
+        response.setRenderParameter("sprovider", request.getParameter("sprovider"));
+
         if( "add_cupon".equalsIgnoreCase(action) ) {
+            response.setAction("addNewCupon");
             HashMap<String, String> params = upload(request);
-            if( isValidValue(params.get("title")) && isValidValue(params.get("description")) ) {
-                try {
-                    Cupon cupon = Cupon.ClassMgr.createCupon(response.getWebPage().getWebSite());
-                    cupon.setTitle(params.get("title"));
-                    cupon.setDescription(params.get("description"));
-                    cupon.setCuponType(params.get("is"));
-                    cupon.setCuponImg( (params.get("pimg")!=null&&params.get("pimg").length()>0?params.get("pimg"):null) );
-                    cupon.setCuponConditions( params.get("constraint")==null?"":params.get("constraint") );
-
-//                    if( params.containsKey("partner") )
-//                        cupon.setCuponPartnerImage(params.get("partner"));
-                    if( params.containsKey("partner") ) {
-                        File file = new File(realpath+path+params.get("partner"));
-                        if( file.exists() ) {
-                            FileInputStream in = new FileInputStream(file);
-                            String filename = file.getName();
-                            String finalpath = cupon.getWorkPath() + "/";
-                            String target = realpath + finalpath + filename;
-                            File ftarget = new File(target);
-                            ftarget.getParentFile().mkdirs();
-                            FileOutputStream out = new FileOutputStream(ftarget);
-                            SWBUtils.IO.copyStream(in, out);
-                            file.delete();
-                            params.put("partner", finalpath + filename);
-                            cupon.setCuponPartnerImage(params.get("partner"));
-                        }
-                    }
-
-                    try {
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                        String date = params.get("datei");
-                        Date di = sdf.parse(date);
-                        cupon.setCuponPeriodIni(sdf.format(di));
-                        date = params.get("datef");
-                        Date df = sdf.parse(date);                        
-                        cupon.setCuponPeriodFin(sdf.format(df));
-                    }catch(ParseException pe) {
-                        log.error("Las fechas no son parseables. Resource "+base.getTitle()+" with id "+base.getId(), pe);
-                    }
-                    SemanticObject semObject = SemanticObject.createSemanticObject(params.get("sprovider"));
-                    ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
-                    serviceProv.addCupon(cupon);
-                    serviceProv.setSpTotCupones(serviceProv.getSpTotCupones()+1);
-                }catch(Exception e) {
-                    log.error(e);
+            if( !isValidValue(params.get("title")) ) {
+                response.setRenderParameter("msgErrTitle", "El título es requerido.");
+                return;
+            }
+            if( !isValidValue(params.get("description"))) {
+                response.setRenderParameter("msgErrDesc", "La descripción es requerida.");
+                return;
+            }
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String date;
+            Date di, df;
+            try {
+                date = params.get("datei");
+                di = sdf.parse(date);
+            }catch(ParseException pe) {
+                response.setRenderParameter("msgErrDateS", "El inicio de la vigencia es inválida.");
+                return;
+            }
+            try {
+                date = params.get("datef");
+                df = sdf.parse(date);
+            }catch(ParseException pe) {
+                response.setRenderParameter("msgErrDateE", "El fin de la vigencias es inválida.");
+                return;
+            }
+            if(di.after(df)) {
+                response.setRenderParameter("msgErrDateS", "La fecha inicial de vigencia no puede ser mayor a la final.");
+                return;
+            }
+            try {
+                params.get("is").trim();
+            }catch(Exception e) {
+                response.setRenderParameter("msgErrCuponType", "El tipo de cupón es requerido.");
+                return;
+            }
+            try {
+                params.get("pimg").trim();
+            }catch(Exception e) {
+                response.setRenderParameter("msgErrCuponImg", "La imagen del cupón es requerida.");
+                return;
+            }
+            if( !isValidValue(params.get("deftv")) ) {
+                response.setRenderParameter("msgErrDEftv", "La dirección para hacer válido el cupón es requerida.");
+                return;
+            }
+            response.setAction(null);
+            Cupon cupon = Cupon.ClassMgr.createCupon(response.getWebPage().getWebSite());
+            cupon.setTitle(params.get("title"));
+            cupon.setDescription(params.get("description"));
+            cupon.setCuponPeriodIni(di);
+            cupon.setCuponPeriodFin(df);
+            cupon.setCuponType(params.get("is"));
+            cupon.setCuponImg( (params.get("pimg")!=null&&params.get("pimg").length()>0?params.get("pimg"):null) );
+            cupon.setCuponConditions( params.get("constraint")==null?"":params.get("constraint") );
+            cupon.setCuponAddress(params.get("deftv"));
+            if( params.containsKey("partner") ) {
+                File file = new File(realpath+path+params.get("partner"));
+                if( file.exists() ) {
+                    FileInputStream in = new FileInputStream(file);
+                    String filename = file.getName();
+                    String finalpath = cupon.getWorkPath() + "/";
+                    String target = realpath + finalpath + filename;
+                    File ftarget = new File(target);
+                    ftarget.getParentFile().mkdirs();
+                    FileOutputStream out = new FileOutputStream(ftarget);
+                    SWBUtils.IO.copyStream(in, out);
+                    file.delete();
+                    params.put("partner", finalpath + filename);
+                    cupon.setCuponPartnerImage(params.get("partner"));
                 }
+            }
+            try {
+                SemanticObject semObject = SemanticObject.createSemanticObject(params.get("sprovider"));
+                ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
+                serviceProv.addCupon(cupon);
+                serviceProv.setSpTotCupones(serviceProv.getSpTotCupones()+1);
+                if( params.containsKey("cmts")&&isValidValue(params.get("cmts")) )
+                    serviceProv.setSpCuponsComment((serviceProv.getSpCuponsComment()==null?"":serviceProv.getSpCuponsComment())+params.get("cmts"));
+            }catch(Exception e) {
+                log.error(e);
             }
         }
         else if( "edit_cupon".equalsIgnoreCase(action) ) {
+            response.setAction("editCupon");
             HashMap<String, String> params = upload(request);
+            if( params.containsKey("title")&&!isValidValue(params.get("title")) ) {
+                response.setRenderParameter("msgErrTitle", "El título es requerido.");
+                return;
+            }
+            if( params.containsKey("description")&&!isValidValue(params.get("description"))) {
+                response.setRenderParameter("msgErrDesc", "La descripción es requerida.");
+                return;
+            }
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String date;
+            Date di, df;
+            try {
+                date = params.get("datei");
+                di = sdf.parse(date);
+            }catch(ParseException pe) {
+                response.setRenderParameter("msgErrDateS", "El inicio de la vigencia es inválida.");
+                return;
+            }
+            try {
+                date = params.get("datef");
+                df = sdf.parse(date);
+            }catch(ParseException pe) {
+                response.setRenderParameter("msgErrDateE", "El fin de la vigencias es inválida.");
+                return;
+            }
+            if(di.after(df)) {
+                response.setRenderParameter("msgErrDateS", "La fecha inicial de vigencia no puede ser mayor a la final.");
+                return;
+            }
+            try {
+                params.get("is").trim();
+            }catch(Exception e) {
+                response.setRenderParameter("msgErrCuponType", "El tipo de cupón es requerido.");
+                return;
+            }
+            try {
+                params.get("pimg").trim();
+            }catch(Exception e) {
+                response.setRenderParameter("msgErrCuponImg", "La imagen del cupón es requerida.");
+                return;
+            }
+            if( !isValidValue(params.get("deftv")) ) {
+                response.setRenderParameter("msgErrDEftv", "La dirección para hacer válido el cupón es requerida.");
+                return;
+            }
+            response.setAction(null);
             SemanticObject semObject = SemanticObject.createSemanticObject(params.get("cupon"));
             Cupon cupon = (Cupon) semObject.createGenericInstance();
-            if( isValidValue(params.get("title")) && isValidValue(params.get("description")) && isValidValue(params.get("pimg")) ) {
-                try {
-                    cupon.setTitle(params.get("title"));
-                    cupon.setDescription(params.get("description"));
-                    cupon.setCuponType(params.get("is"));
-                    cupon.setCuponImg(params.get("pimg"));
-                    cupon.setCuponConditions(params.get("constraint")==null?"":params.get("constraint"));
-
-//                    if( params.containsKey("partner") )
-//                        cupon.setCuponPartnerImage(params.get("partner"));
-                    if( params.containsKey("partner") ) {
-                        File file = new File(realpath+path+params.get("partner"));
-                        if( file.exists() ) {
-                            FileInputStream in = new FileInputStream(file);
-                            String filename = file.getName();
-                            String finalpath = cupon.getWorkPath() + "/";
-                            String target = realpath + finalpath + filename;
-                            File ftarget = new File(target);
-                            ftarget.getParentFile().mkdirs();
-                            FileOutputStream out = new FileOutputStream(ftarget);
-                            SWBUtils.IO.copyStream(in, out);
-                            file.delete();
-                            params.put("partner", finalpath + filename);
-                            cupon.setCuponPartnerImage(params.get("partner"));
-                        }
-                    }
-
-
-                    try {
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                        String date = params.get("datei");
-                        Date di = sdf.parse(date);
-                        cupon.setCuponPeriodIni(sdf.format(di));
-                        date = params.get("datef");
-                        Date df = sdf.parse(date);                        
-                        cupon.setCuponPeriodFin(sdf.format(df));
-                    }catch(ParseException pe) {
-                        log.error("Las fechas no son parseables. Resource "+base.getTitle()+" with id "+base.getId(), pe);
-                    }
-                }catch(Exception e){
-                    log.error(e);
+            cupon.setTitle(params.get("title"));
+            cupon.setDescription(params.get("description"));
+            cupon.setCuponPeriodIni(di);
+            cupon.setCuponPeriodFin(df);
+            cupon.setCuponType(params.get("is"));
+            cupon.setCuponImg( (params.get("pimg")!=null&&params.get("pimg").length()>0?params.get("pimg"):null) );
+            cupon.setCuponConditions( params.get("constraint")==null?"":params.get("constraint") );
+            cupon.setCuponAddress(params.get("deftv"));
+            if( params.containsKey("partner") ) {
+                File file = new File(realpath+path+params.get("partner"));
+                if( file.exists() ) {
+                    FileInputStream in = new FileInputStream(file);
+                    String filename = file.getName();
+                    String finalpath = cupon.getWorkPath() + "/";
+                    String target = realpath + finalpath + filename;
+                    File ftarget = new File(target);
+                    ftarget.getParentFile().mkdirs();
+                    FileOutputStream out = new FileOutputStream(ftarget);
+                    SWBUtils.IO.copyStream(in, out);
+                    file.delete();
+                    params.put("partner", finalpath + filename);
+                    cupon.setCuponPartnerImage(params.get("partner"));
                 }
+            }
+            if( params.containsKey("cmts")&&isValidValue(params.get("cmts")) ) {
+                semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
+                ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
+                serviceProv.setSpCuponsComment((serviceProv.getSpCuponsComment()==null?"":serviceProv.getSpCuponsComment())+params.get("cmts"));
             }
         }
         else if( "remove_cupon".equalsIgnoreCase(action) ) {
@@ -306,10 +377,13 @@ public class CuponManager extends GenericResource {
     }
 
     private boolean isValidValue(String param) {
-        boolean validValue = false;
-        if( param!=null && param.trim().length()>0 )
-            validValue = true;
-        return validValue;
+        try {
+            if( (param=param.trim()).length()>0   )
+                return true;
+        }catch(Exception e) {
+            return false;
+        }
+        return false;
     }
 
     private boolean isValidNumber(String param) {

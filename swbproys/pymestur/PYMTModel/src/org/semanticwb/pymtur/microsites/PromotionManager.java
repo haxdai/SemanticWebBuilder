@@ -24,20 +24,20 @@ package org.semanticwb.pymtur.microsites;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
-import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
-import org.semanticwb.model.GenericObject;
+import org.semanticwb.model.FormValidateException;
 import org.semanticwb.model.Role;
 import org.semanticwb.model.User;
-import org.semanticwb.model.UserGroup;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.platform.SemanticObject;
-import org.semanticwb.platform.SemanticOntology;
 import org.semanticwb.portal.SWBFormMgr;
 import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBActionResponse;
@@ -130,37 +130,135 @@ public class PromotionManager extends GenericResource {
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         String action=response.getAction();
 
+        response.setRenderParameter("uri", request.getParameter("uri"));
+        response.setRenderParameter("sprovider", request.getParameter("sprovider"));
+
         if(action.equals("add_promo")) {
+            response.setAction("addNewPromotion");
+            if( !isValidValue(request.getParameter("title")) ) {
+                response.setRenderParameter("msgErrTitle", "El título es requerido.");
+                return;
+            }
+            if (!isValidValue(request.getParameter("description"))) {
+                response.setRenderParameter("msgErrDesc", "La descripción es requerida.");
+                return;
+            }
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String date;
+            Date di, df;
+            try {
+                 date = request.getParameter("datei");
+                di = sdf.parse(date);
+            }catch(ParseException pe) {
+                response.setRenderParameter("msgErrDateS", "El inicio de la vigencia es inválida.");
+                return;
+            }
+            try {
+                 date = request.getParameter("datef");
+                df = sdf.parse(date);
+            }catch(ParseException pe) {
+                response.setRenderParameter("msgErrDateE", "El fin de la vigencias es inválida.");
+                return;
+            }
+            if(di.after(df)) {
+                response.setRenderParameter("msgErrDateS", "La fecha inicial de vigencia no puede ser mayor a la final.");
+                return;
+            }
+            try {
+                request.getParameter("is").trim();
+            }catch(Exception e) {
+                response.setRenderParameter("msgErrPromoType", "El tipo de la promoción es requerido.");
+                return;
+            }
+            try {
+                request.getParameter("pimg").trim();
+            }catch(Exception e) {
+                response.setRenderParameter("msgErrPromoImg", "La imagen de la promoción es requerida.");
+                return;
+            }
+            response.setAction(null);
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
             SWBFormMgr mgr = new SWBFormMgr(Promotion.sclass, semObject, null);
             mgr.setFilterRequired(false);
-            if( isValidValue(request.getParameter("title")) && isValidValue(request.getParameter("description")) ) {
-                try {
-                    SemanticObject sobj = mgr.processForm(request);
-                    Promotion promo = (Promotion) sobj.createGenericInstance();
-                    //PromotionType promoType = PromotionType.ClassMgr.getPromotionType(request.getParameter("is"), response.getWebPage().getWebSite());
-                    promo.setPromoType(request.getParameter("is"));
-                    promo.setPromoImg(  (request.getParameter("pimg")!=null&&request.getParameter("pimg").length()>0?request.getParameter("pimg"):null)  );
-                    ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
-                    serviceProv.addPromotion(promo);
-                    serviceProv.setSpTotPromotions(serviceProv.getSpTotPromotions()+1);
-                }catch(Exception e){
-                    log.error(e);
-                }
+            try {
+                SemanticObject sobj = mgr.processForm(request);
+                Promotion promo = (Promotion) sobj.createGenericInstance();
+                //PromotionType promoType = PromotionType.ClassMgr.getPromotionType(request.getParameter("is"), response.getWebPage().getWebSite());
+                promo.setPromoType(request.getParameter("is"));
+                promo.setPromoImg(  (request.getParameter("pimg")!=null&&request.getParameter("pimg").length()>0?request.getParameter("pimg"):null)  );
+                promo.setStartDate(di);
+                promo.setEndDate(df);
+
+                ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
+                serviceProv.addPromotion(promo);
+                serviceProv.setSpTotPromotions(serviceProv.getSpTotPromotions()+1);
+                if( isValidValue(request.getParameter("cmts")) )
+                    serviceProv.setSpPromotionsComment((serviceProv.getSpPromotionsComment()==null?"":serviceProv.getSpPromotionsComment())+request.getParameter("cmts"));
+            }catch(FormValidateException e){
+                log.error(e);
             }
         }else if(action.equals("edit_promo")) {
+            response.setAction("editPromotion");
+            if( !isValidValue(request.getParameter("title")) ) {
+                response.setRenderParameter("msgErrTitle", "El título es requerido.");
+                return;
+            }
+            if (!isValidValue(request.getParameter("description"))) {
+                response.setRenderParameter("msgErrDesc", "La descripción es requerida.");
+                return;
+            }
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String date;
+            Date di, df;
+            try {
+                 date = request.getParameter("datei");
+                di = sdf.parse(date);
+            }catch(ParseException pe) {
+                response.setRenderParameter("msgErrDateS", "El inicio de la vigencia es inválida.");
+                return;
+            }
+            try {
+                 date = request.getParameter("datef");
+                df = sdf.parse(date);
+            }catch(ParseException pe) {
+                response.setRenderParameter("msgErrDateE", "El fin de la vigencias es inválida.");
+                return;
+            }
+            if(di.after(df)) {
+                response.setRenderParameter("msgErrDateS", "La fecha inicial de vigencia no puede ser mayor a la final.");
+                return;
+            }
+            try {
+                request.getParameter("is").trim();
+            }catch(Exception e) {
+                response.setRenderParameter("msgErrPromoType", "El tipo de la promoción es requerido.");
+                return;
+            }
+            try {
+                request.getParameter("pimg").trim();
+            }catch(Exception e) {
+                response.setRenderParameter("msgErrPromoImg", "La imagen de la promoción es requerida.");
+                return;
+            }
+            response.setAction(null);
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
             SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
             mgr.setFilterRequired(false);
-            if( isValidValue(request.getParameter("title")) && isValidValue(request.getParameter("description")) && isValidValue(request.getParameter("pimg")) ) {
-                try {
-                    SemanticObject sobj = mgr.processForm(request);
-                    Promotion promo = (Promotion) sobj.createGenericInstance();
-                    promo.setPromoType(request.getParameter("is"));
-                    promo.setPromoImg(request.getParameter("pimg"));
-                }catch(Exception e){
-                    log.error(e);
+            try {
+                SemanticObject sobj = mgr.processForm(request);
+                Promotion promo = (Promotion) sobj.createGenericInstance();
+                promo.setPromoType(request.getParameter("is"));
+                promo.setPromoImg(request.getParameter("pimg"));
+                promo.setStartDate(di);
+                promo.setEndDate(df);
+
+                if( isValidValue(request.getParameter("cmts")) ) {
+                    semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
+                    ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
+                    serviceProv.setSpPromotionsComment((serviceProv.getSpPromotionsComment()==null?"":serviceProv.getSpPromotionsComment())+request.getParameter("cmts"));
                 }
+            }catch(Exception e){
+                log.error(e);
             }
         }else if(action.equals("remove_promo")) {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
