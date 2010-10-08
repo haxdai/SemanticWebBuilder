@@ -79,6 +79,16 @@ public class ListSPActivities extends GenericResource{
                 SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
                 mgr.clearProperties();
                 mgr.addProperty(Hospedaje.pymtur_hasSPActivity);
+                mgr.addProperty(Hospedaje.pymtur_spActivitiesDescr);
+                if(request.getParameterValues(Hospedaje.pymtur_hasSPActivity.getName())==null)
+                {
+                    ServiceProvider sprovider = (ServiceProvider)semObject.createGenericInstance();
+                    Iterator it = sprovider.listSPActivities();
+                    while(it.hasNext())
+                    {
+                        sprovider.removeSPActivity((Activity)it.next());
+                    }
+                }
                 mgr.processForm(request);
             }
         } catch (Exception e) {

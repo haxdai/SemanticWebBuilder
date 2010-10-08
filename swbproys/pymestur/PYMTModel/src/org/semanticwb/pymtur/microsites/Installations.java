@@ -6,6 +6,7 @@
 package org.semanticwb.pymtur.microsites;
 
 import java.io.IOException;
+import java.util.Iterator;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +22,9 @@ import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.community.MicroSiteType;
 import org.semanticwb.pymtur.Hospedaje;
+import org.semanticwb.pymtur.Instalation;
 import org.semanticwb.pymtur.MicroSitePyme;
+import org.semanticwb.pymtur.ServiceProvider;
 
 /**
  *
@@ -73,6 +76,16 @@ public class Installations extends GenericResource{
                 SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
                 mgr.clearProperties();
                 mgr.addProperty(Hospedaje.pymtur_hasInstalation);
+                mgr.addProperty(Hospedaje.pymtur_spInstalationsDescr);
+                if(request.getParameterValues(Hospedaje.pymtur_hasInstalation.getName())==null)
+                {
+                    ServiceProvider sprovider = (ServiceProvider)semObject.createGenericInstance();
+                    Iterator it = sprovider.listInstalations();
+                    while(it.hasNext())
+                    {
+                        sprovider.removeInstalation((Instalation)it.next());
+                    }
+                }
                 mgr.processForm(request);
             }
         } catch (FormValidateException e) {
