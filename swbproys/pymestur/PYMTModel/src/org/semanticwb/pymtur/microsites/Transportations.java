@@ -23,6 +23,7 @@ import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.community.MicroSiteType;
 import org.semanticwb.pymtur.Hospedaje;
 import org.semanticwb.pymtur.MicroSitePyme;
+import org.semanticwb.pymtur.OmnibusLines;
 import org.semanticwb.pymtur.ServiceProvider;
 
 /**
@@ -75,7 +76,15 @@ public class Transportations extends GenericResource{
                 SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
                 mgr.clearProperties();
                 mgr.addProperty(Hospedaje.pymtur_hasOmnibusLine);
-
+                if(request.getParameterValues(Hospedaje.pymtur_hasOmnibusLine.getName())==null)
+                {
+                    ServiceProvider sprovider = (ServiceProvider)semObject.createGenericInstance();
+                    Iterator it = sprovider.listOmnibusLines();
+                    while(it.hasNext())
+                    {
+                        sprovider.removeOmnibusLine((OmnibusLines)it.next());
+                    }
+                }
                 mgr.processForm(request);
             }
         } catch (FormValidateException e) {

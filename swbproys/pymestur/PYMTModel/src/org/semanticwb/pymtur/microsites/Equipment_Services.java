@@ -6,6 +6,7 @@
 package org.semanticwb.pymtur.microsites;
 
 import java.io.IOException;
+import java.util.Iterator;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +23,8 @@ import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.community.MicroSiteType;
 import org.semanticwb.pymtur.Hospedaje;
 import org.semanticwb.pymtur.MicroSitePyme;
+import org.semanticwb.pymtur.Service;
+import org.semanticwb.pymtur.ServiceProvider;
 
 /**
  *
@@ -73,6 +76,17 @@ public class Equipment_Services extends GenericResource{
                 SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
                 mgr.clearProperties();
                 mgr.addProperty(Hospedaje.pymtur_hasService);
+                mgr.addProperty(Hospedaje.pymtur_spServicesDescr);
+                if(request.getParameterValues(Hospedaje.pymtur_Service.getName())==null)
+                {
+                    ServiceProvider sprovider = (ServiceProvider)semObject.createGenericInstance();
+                    Iterator it = sprovider.listServices();
+                    while(it.hasNext())
+                    {
+                        sprovider.removeService((Service)it.next());
+                    }
+                }
+
                 mgr.processForm(request);
             }
         } catch (FormValidateException e) {
