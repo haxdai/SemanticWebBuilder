@@ -22,9 +22,7 @@ public class Weather extends GenericAdmResource {
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramsRequest) throws SWBResourceException, IOException {
-        WebPage community = null;
         WebPage currentPage = paramsRequest.getWebPage();
-        ServiceProvider sprovider;
         String q = "Ciudad de México";
 
         if( currentPage instanceof Destination ) {
@@ -33,11 +31,11 @@ public class Weather extends GenericAdmResource {
         }else if( currentPage instanceof MicroSitePyme || currentPage.getParent() instanceof MicroSitePyme ) {
             MicroSitePyme ms;
             try {
-                ms = (MicroSitePyme)community;
+                ms = (MicroSitePyme)currentPage;
             }catch(ClassCastException cce) {
-                ms = (MicroSitePyme)community.getParent();
+                ms = (MicroSitePyme)currentPage.getParent();
             }
-            sprovider = ms.getServiceProvider();
+            ServiceProvider sprovider = ms.getServiceProvider();
             q = sprovider.getDestination().getDisplayTitle(paramsRequest.getUser().getLanguage());
         }
         
