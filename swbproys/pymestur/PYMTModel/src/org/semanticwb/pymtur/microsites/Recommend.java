@@ -487,11 +487,8 @@ public class Recommend extends GenericAdmResource {
      *         <p>if there is no file message of the corresponding language.</p>
      */
     @Override
-    public void doView(HttpServletRequest request, HttpServletResponse response,
-            SWBParamRequest paramRequest) throws SWBResourceException,
-            IOException {
-
-        response.setContentType("text/html");
+    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("text/html; charset=ISO-8859-1");
         StringBuffer ret = new StringBuffer(200);
         Resource base = getResourceBase();
         String action = (null != request.getParameter("rec_act") && !"".equals(request.getParameter("rec_act").trim()))
@@ -629,13 +626,13 @@ public class Recommend extends GenericAdmResource {
                                 && subject != null) && SWBUtils.EMAIL.sendMail(from, from, aAddress,
                                 null, null, subject, "html", ret.toString(),
                                 null, null, null) != null) {
-                            ret.append("\n<script>");
+                            ret.append("\n<script type=\"text/javascript\">");
                             ret.append("\nalert('" + paramRequest.getLocaleString("msgSendEmail") + "');");
                             ret.append("\nwindow.close();");
                             ret.append("\n</script>");
                             mailSent = true;
                         } else {
-                            ret.append("\n<script>");
+                            ret.append("\n<script type=\"text/javascript\">");
                             ret.append("\nalert('" + paramRequest.getLocaleString("msgEmailRequired") + "');");
                             ret.append("\nhistory.go(-1);");
                             ret.append("\n</script>");
@@ -750,7 +747,7 @@ public class Recommend extends GenericAdmResource {
             HttpServletResponse response, SWBParamRequest paramRequest)
             throws java.io.IOException {
         
-        response.setContentType("text/plain; charset=utf-8");
+        response.setContentType("text/html; charset=ISO-8859-1");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
 
@@ -810,10 +807,10 @@ public class Recommend extends GenericAdmResource {
         mailBody.append("</head>");
         mailBody.append("<body>");
         mailBody.append("<div id=\"recommend\">");
-        mailBody.append("    <h3>" + paramRequest.getLocaleString("msgHeaderMessage"));
+        mailBody.append("    <h3>" + paramRequest.getLocaleString("msgHeaderMessage")+"</h3>");
         mailBody.append("    <p>");
-        mailBody.append("      " + paramRequest.getLocaleString("msgToMessage"));
-        mailBody.append((toName != null ? toName : to) + ", ");
+        mailBody.append(paramRequest.getLocaleString("msgToMessage"));
+        mailBody.append("&nbsp;"+(toName != null ? toName : to) + ". ");
         mailBody.append("      " + paramRequest.getLocaleString("msgFromMessage"));
         mailBody.append("      <span id=\"txtMsgFrom\">" + (fromName != null ? fromName : from) + "</span>");
         mailBody.append("    </p>");
@@ -838,7 +835,6 @@ public class Recommend extends GenericAdmResource {
             mailBody.append("      </p>");
         }
         mailBody.append("    </div>");
-        mailBody.append("</div>");
         mailBody.append("</body>");
         mailBody.append("</html>");
 
