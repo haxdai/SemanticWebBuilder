@@ -645,9 +645,10 @@ public class PhotoAlbum extends GenericAdmResource {
                 photos.add(path+it.next().getPhotoThumbnail());
             photos.trimToSize();
 
-            if( userCanEdit&&this.userCanAdd(paramRequest.getWebPage().getWebSite(), sprovider) ) {
+            if( userCanEdit&&this.userCanAdd(paramRequest.getWebPage().getWebSite(), sprovider) )
                 out.println("<h2 class=\"incomplete-charge\">Fotos</h2>");
-            }
+            else
+                out.println("<h2>Fotos</h2>");
 
             out.println("<div class=\"photosHolder\">");
             for(int i=0; i<maxPictPreview && i<photos.size(); i++) {

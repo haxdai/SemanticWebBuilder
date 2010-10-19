@@ -486,11 +486,20 @@ public class PhotoAlbumSheet extends GenericAdmResource {
 //        photos.addAll(SWBUtils.Collections.copyIterator(sprovider.listEstablishmentPymePhotos()));
 //        photos.addAll(SWBUtils.Collections.copyIterator(sprovider.listInstalationsPymePhotos()));
 //        photos.addAll(SWBUtils.Collections.copyIterator(sprovider.listMorePymePhotos()));
+
+        User user = paramRequest.getUser();
+        boolean userCanEdit = userCanEdit(user);
+        userCanEdit = userCanEdit || user.getURI()!=null && sprovider.getCreator().getURI().equals(user.getURI());
+
         
         final String path = sprovider.getWorkPath()+"/photos/"+base.getAttribute("gpophotos")+"/";
 
         if(paramRequest.getCallMethod()==paramRequest.Call_STRATEGY) {
             StringBuilder script = new StringBuilder();
+            if( userCanEdit && this.userCanAdd(paramRequest.getWebPage().getWebSite(), sprovider) )
+                out.println("<h2 class=\"incomplete-charge\">Fotos</h2>");
+            else
+                out.println("<h2>Fotos</h2>");
             out.println("<div id=\"photosFrame\">");
             for(int i=0; i<maxPictPreview && i<photos.size(); i++) {
 //                PymePhoto pp = photos.get(i);
@@ -531,8 +540,7 @@ public class PhotoAlbumSheet extends GenericAdmResource {
             out.println("-->");
             out.println("</script>");
 
-            User user=paramRequest.getUser();
-            if(user.getURI()!=null && sprovider.getCreator().getURI().equals(user.getURI())) {
+            if( userCanEdit ) {
                 SWBResourceURL url = paramRequest.getRenderUrl();
                 url.setCallMethod(paramRequest.Call_DIRECT);
                 url.setParameter("uri", sprovider.getURI());
@@ -541,7 +549,6 @@ public class PhotoAlbumSheet extends GenericAdmResource {
             }
         }else {
             boolean show = Boolean.parseBoolean(request.getParameter("showAdmPhotos"));
-            User user=paramRequest.getUser();
             if( show && (user.getURI()!=null && sprovider.getCreator().getURI().equals(user.getURI()) || userCanEdit(user)) )
                 out.print(getFormManager(paramRequest, sprovider));
         }
