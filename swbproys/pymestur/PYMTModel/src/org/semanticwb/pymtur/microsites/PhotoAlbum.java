@@ -45,12 +45,21 @@ import org.semanticwb.pymtur.Paquete;
  * @author carlos.ramos
  */
 
-public class PhotoAlbum extends GenericAdmResource {
+public final class PhotoAlbum extends GenericAdmResource {
     private static Logger log = SWBUtils.getLogger(PhotoAlbum.class);
 
     private static final String _thumbnail = "thumbn_";
     private static int maxPictPreview = 6;
     private static long maxSizeAcceptedByPict = 4194304L; //bits
+
+    public PhotoAlbum() {
+        super();
+    }
+
+    public PhotoAlbum(Resource base) {
+        super();
+        setResourceBase(base);
+    }
 
     @Override
     public void setResourceBase(Resource base) {
@@ -75,15 +84,14 @@ public class PhotoAlbum extends GenericAdmResource {
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        response.setContentType("text/html; charset=utf-8");
+        response.setContentType("text/html; charset=ISO-8859-1");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
 
         ServiceProvider sprovider = null;
         WebPage wp = paramRequest.getWebPage();
         WebPage community = null;
-
-        //Se ve el recurso desde un micrositio
+        
         if(wp instanceof MicroSitePyme) {
             community = wp;
         }else {
@@ -91,13 +99,12 @@ public class PhotoAlbum extends GenericAdmResource {
         }
         MicroSitePyme ms = (MicroSitePyme)community;
         sprovider = ms.getServiceProvider();
-        String siteUri = ((MicroSitePyme) community).getType().getURI();
+//        String siteUri = ((MicroSitePyme) community).getType().getURI();
 
-        if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSite", wp.getWebSite()).getURI().equals(siteUri)) {
-            renderResourceForMiPyme(request, response, paramRequest, sprovider);
-        } else if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSitePlus", wp.getWebSite()).getURI().equals(siteUri)) {
-            renderResourceForMiPymePlus(request, response, paramRequest, sprovider);
-        }
+//        if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSite", wp.getWebSite()).getURI().equals(siteUri))
+//            renderResourceForMiPyme(request, response, paramRequest, sprovider);
+//        else if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSitePlus", wp.getWebSite()).getURI().equals(siteUri))
+            display(request, response, paramRequest, sprovider);
     }
 
     private String getFormManager(SWBParamRequest paramRequest, ServiceProvider sprovider) {
@@ -465,149 +472,7 @@ public class PhotoAlbum extends GenericAdmResource {
         }
     }
 
-    private void renderResourceForMiPyme(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest, ServiceProvider sprovider) throws SWBResourceException, IOException {
-        Resource base = getResourceBase();
-        PrintWriter out = response.getWriter();
-        
-        Iterator<PymePhoto> it = null;  
-        StringBuilder script = new StringBuilder();
-
-        User user = paramRequest.getUser();
-        boolean userCanEdit = userCanEdit(user);
-        userCanEdit = userCanEdit || user.getURI()!=null && sprovider.getCreator().getURI().equals(user.getURI());
-
-        if(paramRequest.getCallMethod()==paramRequest.Call_STRATEGY) {
-            Random random = new Random();
-            random.setSeed(new Date().getTime());
-            
-            String path = SWBPortal.getWebWorkPath()+sprovider.getWorkPath()+"/photos/establishment/";
-
-            ArrayList<String> photos = new ArrayList<String>(16);
-            it = sprovider.listEstablishmentPymePhotos();
-            while(it.hasNext())
-                photos.add(path+it.next().getPhotoThumbnail());
-
-            path = SWBPortal.getWebWorkPath()+sprovider.getWorkPath()+"/photos/instalation/";
-            it = sprovider.listInstalationsPymePhotos();
-            while(it.hasNext())
-                photos.add(path+it.next().getPhotoThumbnail());
-
-            path = SWBPortal.getWebWorkPath()+sprovider.getWorkPath()+"/photos/category/";
-            it = sprovider.listSpCategoryPymePhotos();
-            while(it.hasNext())
-                photos.add(path+it.next().getPhotoThumbnail());
-
-            path = SWBPortal.getWebWorkPath()+sprovider.getWorkPath()+"/photos/more/";
-            it = sprovider.listMorePymePhotos();
-            while(it.hasNext())
-                photos.add(path+it.next().getPhotoThumbnail());
-            photos.trimToSize();
-
-            if( userCanEdit&&this.userCanAdd(paramRequest.getWebPage().getWebSite(), sprovider) ) {
-                out.println("<h2 class=\"incomplete-charge\">Fotos</h2>");
-            }
-
-            for(int i=0; i<maxPictPreview && i<photos.size(); i++) {
-                int r = random.nextInt(photos.size());
-                String image = photos.get(r);
-                out.println("<span class=\"marco\">");
-                out.println("<a href=\"#\" id=\""+"pa_"+i+"_"+base.getId()+"\">");
-                out.println("<img alt=\""+image+"\" src=\""+image+"\" />");
-                out.println("</a>");
-                out.println("</span>");
-                script.append("var lbs_"+i+"_"+base.getId()+" = new dojox.image.Lightbox({ title:'', href:'"+image.replaceFirst(_thumbnail, "")+"', group:'group_2_"+base.getId()+"' }, 'pa_"+i+"_"+base.getId()+"');\n");
-                script.append("lbs_"+i+"_"+base.getId()+".startup();\n");
-                photos.remove(r);
-            }
-
-            String surl = "javascript:showdialog()";
-            MicroSitePyme ms = sprovider.getMicroSitePymeInv();
-            Iterator<MicroSiteWebPageUtil> msutils = ms.listMicroSiteUtils();
-            while (msutils.hasNext()) {
-                MicroSiteWebPageUtil msu = msutils.next();
-                if (msu.getTitle().toLowerCase().endsWith("fotos")) {
-                    surl = msu.getUrl();
-                    break;
-                }
-            }
-            out.println("<br />");
-            out.println("<a href=\""+surl+"\">Ver todas las fotos</a>");
-
-            out.println("<script type=\"text/javascript\">");
-            out.println("<!--");
-            out.println("dojo.require(\"dojox.image.Lightbox\");");
-            out.println("dojo.addOnLoad(function(){");
-            out.println(script);
-
-//            out.println("var dialog = new dojox.image.LightboxDialog({});");
-//            for(int i=0; i<nde && i<photos.size(); i++) {
-//                out.println("dialog.addImage( lbs_"+i+"_"+base.getId()+", 'group"+base.getId()+"' );");
-//            }
-//            out.println("        dialog.startup();");
-            out.println("    });");
-
-//            out.println("    function showdialog() {");
-//            out.println("        var dialog = dijit.byId('dojoxLightboxDialog');");
-//            out.println("        dialog.show( { group:'group"+base.getId()+"'} );");
-//            out.println("    }");
-            out.println("-->");
-            out.println("</script>");
-        }else {
-            final String path = SWBPortal.getWebWorkPath()+sprovider.getWorkPath()+"/photos/"+base.getAttribute("gpophotos")+"/";
-//            Iterator<PymePhoto> it = null;
-            if(base.getAttribute("gpophotos").equalsIgnoreCase("establishment")) {
-                it = sprovider.listEstablishmentPymePhotos();
-            }else if(base.getAttribute("gpophotos").equalsIgnoreCase("instalation")) {
-                it = sprovider.listInstalationsPymePhotos();
-            }else if(base.getAttribute("gpophotos").equalsIgnoreCase("category")) {
-                it = sprovider.listSpCategoryPymePhotos();
-            }else if(base.getAttribute("gpophotos").equalsIgnoreCase("more")) {
-                it = sprovider.listMorePymePhotos();
-            }
-            
-            if( userCanEdit || it.hasNext() ) {
-                out.println("<div class=\"reticula_1_columnas\">");
-                if(base.getAttribute("gpophotos").equalsIgnoreCase("category")) {
-                    if(sprovider.getSemanticObject().getSemanticClass().getName().equalsIgnoreCase("hospedaje"))
-                        out.println("<h1 class=\"subtitleLevel2\">FOTOS DE HABITACIONES</h1>");
-                    else if(sprovider.getSemanticObject().getSemanticClass().getName().equalsIgnoreCase("restaurante"))
-                        out.println("<h1 class=\"subtitleLevel2\">FOTOS DE PLATILLOS</h1>");
-                }else
-                    out.println("<h1 class=\"subtitleLevel2\">"+base.getDisplayTitle(paramRequest.getUser().getLanguage())+"</h1>");
-                
-                out.println("<div class=\"reticula_fotos\">");             
-                int i=0;
-                while(it.hasNext()) {
-                    PymePhoto pp = it.next();
-                    out.println("<span>");
-                    out.println("<a href=\"#\" id=\""+"pac_"+i+"_"+base.getId()+"\" >");
-                    out.println("<img alt=\""+pp.getPhotoImage()+"\" src=\""+pp.getPhotoThumbnail()+"\" />");
-                    out.println("</a>");
-                    out.println("</span>");
-
-                    script.append("var lb_"+i+"_"+base.getId()+" = new dojox.image.Lightbox({ title:'', href:'"+path+pp.getPhotoImage()+"', group:'group"+base.getId()+"' }, 'pac_"+i+"_"+base.getId()+"');\n");
-                    script.append("lb_"+i+"_"+base.getId()+".startup();\n");
-
-                    i++;
-                }
-                out.println("</div>");
-                out.println("</div>");
-
-                out.println("<script type=\"text/javascript\">");
-                out.println("<!--");
-                out.println("dojo.require(\"dojox.image.Lightbox\");");
-                out.println("dojo.addOnLoad(function(){");
-                out.println(script);
-                out.println("});");
-                out.println("-->");
-                out.println("</script>");
-            }
-            if(userCanEdit)
-                out.print(getFormManager(paramRequest, sprovider));
-        }
-    }
-
-    private void renderResourceForMiPymePlus(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest, ServiceProvider sprovider) throws SWBResourceException, IOException {
+    private void display(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest, ServiceProvider sprovider) throws SWBResourceException, IOException {
         Resource base = getResourceBase();
         PrintWriter out = response.getWriter();
 
@@ -623,7 +488,6 @@ public class PhotoAlbum extends GenericAdmResource {
             random.setSeed(new Date().getTime());
 
             String path = SWBPortal.getWebWorkPath()+sprovider.getWorkPath()+"/photos/establishment/";
-
             ArrayList<String> photos = new ArrayList<String>(16);
             it = sprovider.listEstablishmentPymePhotos();
             while(it.hasNext())
@@ -658,8 +522,8 @@ public class PhotoAlbum extends GenericAdmResource {
                 out.println("<img height=\"62\" width=\"82\" alt=\""+image+"\" src=\""+image+"\" />");
                 out.println("</a>");
 
-                script.append("var lb_"+i+"_"+base.getId()+" = new dojox.image.Lightbox({ title:'',  href:'"+image.replaceFirst(_thumbnail, "")+"', group:'group_2_"+base.getId()+"' }, 'pa_"+i+"_"+base.getId()+"');");
-                script.append("lb_"+i+"_"+base.getId()+".startup();");
+                script.append("var lb_"+i+"_"+base.getId()+" = new dojox.image.Lightbox({ title:'',  href:'"+image.replaceFirst(_thumbnail, "")+"', group:'group_2_"+base.getId()+"' }, 'pa_"+i+"_"+base.getId()+"');\n");
+                script.append("lb_"+i+"_"+base.getId()+".startup();\n");
 
                 photos.remove(r);
             }
