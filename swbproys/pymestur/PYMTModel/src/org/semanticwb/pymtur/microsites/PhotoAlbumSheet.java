@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -33,6 +34,8 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.semanticwb.model.Role;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.platform.SemanticObject;
+import org.semanticwb.portal.community.MicroSiteWebPageUtil;
+import org.semanticwb.pymtur.MicroSitePyme;
 import org.semanticwb.pymtur.Paquete;
 
 /**
@@ -40,12 +43,21 @@ import org.semanticwb.pymtur.Paquete;
  * @author carlos.ramos
  */
 
-public class PhotoAlbumSheet extends GenericAdmResource {
+public final class PhotoAlbumSheet extends GenericAdmResource {
     private static Logger log = SWBUtils.getLogger(PhotoAlbum.class);
 
     private static final String _thumbnail = "thumbn_";
     private static int maxPictPreview = 6;
     private static long maxSizeAcceptedByPict = 4194304L; //bits
+
+    public PhotoAlbumSheet() {
+        super();
+    }
+
+    public PhotoAlbumSheet(Resource base) {
+        super();
+        setResourceBase(base);
+    }
 
     @Override
     public void setResourceBase(Resource base) {
@@ -68,18 +80,18 @@ public class PhotoAlbumSheet extends GenericAdmResource {
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        response.setContentType("text/html; charset=utf-8");
+        response.setContentType("text/html; charset=ISO-8859-1");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
 
         //Se ve el recurso desde un micrositio
         ServiceProvider sprovider = null;
-        if(request.getParameter("uri")!=null){
+//        if( request.getParameter("uri")!=null ) {
             String suri = request.getParameter("uri");
             SemanticObject semObject = SemanticObject.createSemanticObject(suri);
             sprovider = (ServiceProvider) semObject.createGenericInstance();
-            renderResourceForSheet(request, response, paramRequest, sprovider);
-        }
+            display(request, response, paramRequest, sprovider);
+//        }
     }
 
     private String getFormManager(SWBParamRequest paramRequest, ServiceProvider sprovider) {
@@ -464,54 +476,79 @@ public class PhotoAlbumSheet extends GenericAdmResource {
         }
     }
 
-    private void renderResourceForSheet(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest, ServiceProvider sprovider) throws SWBResourceException, IOException {
+    private void display(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest, ServiceProvider sprovider) throws SWBResourceException, IOException {
         Resource base = getResourceBase();
         PrintWriter out = response.getWriter();
 
-        Iterator<PymePhoto> it = null;
-        if(base.getAttribute("gpophotos").equalsIgnoreCase("establishment")) {
-            it = sprovider.listEstablishmentPymePhotos();
-        }else if(base.getAttribute("gpophotos").equalsIgnoreCase("instalation")) {
-            it = sprovider.listInstalationsPymePhotos();
-        }else if(base.getAttribute("gpophotos").equalsIgnoreCase("more")) {
-            it = sprovider.listMorePymePhotos();
-        }
-        ArrayList<String> photos = new ArrayList<String>();
-        if( it!=null )
-            while(it.hasNext()) {
-                PymePhoto pp = it.next();
-                photos.add(pp.getPhotoImage());
-            }
-//        ArrayList<PymePhoto> photos = new ArrayList<PymePhoto>();
-//        photos.addAll(SWBUtils.Collections.copyIterator(sprovider.listEstablishmentPymePhotos()));
-//        photos.addAll(SWBUtils.Collections.copyIterator(sprovider.listInstalationsPymePhotos()));
-//        photos.addAll(SWBUtils.Collections.copyIterator(sprovider.listMorePymePhotos()));
+//        Iterator<PymePhoto> it = null;
+//        if(base.getAttribute("gpophotos").equalsIgnoreCase("establishment")) {
+//            it = sprovider.listEstablishmentPymePhotos();
+//        }else if(base.getAttribute("gpophotos").equalsIgnoreCase("instalation")) {
+//            it = sprovider.listInstalationsPymePhotos();
+//        }else if(base.getAttribute("gpophotos").equalsIgnoreCase("more")) {
+//            it = sprovider.listMorePymePhotos();
+//        }
+//        ArrayList<String> photos = new ArrayList<String>();
+//        if( it!=null )
+//            while(it.hasNext()) {
+//                PymePhoto pp = it.next();
+//                photos.add(pp.getPhotoImage());
+//            }
 
         User user = paramRequest.getUser();
         boolean userCanEdit = userCanEdit(user);
         userCanEdit = userCanEdit || user.getURI()!=null && sprovider.getCreator().getURI().equals(user.getURI());
 
         
-        final String path = sprovider.getWorkPath()+"/photos/"+base.getAttribute("gpophotos")+"/";
+//        final String path = sprovider.getWorkPath()+"/photos/"+base.getAttribute("gpophotos")+"/";
 
         if(paramRequest.getCallMethod()==paramRequest.Call_STRATEGY) {
-            StringBuilder script = new StringBuilder();
+            Random random = new Random();
+            random.setSeed(new Date().getTime());
+
+            ArrayList<String> photos = new ArrayList<String>(16);
+
+            String path = SWBPortal.getWebWorkPath()+sprovider.getWorkPath()+"/photos/establishment/";
+            Iterator<PymePhoto> it = sprovider.listEstablishmentPymePhotos();
+            while(it.hasNext())
+                photos.add(path+it.next().getPhotoThumbnail());
+
+            path = SWBPortal.getWebWorkPath()+sprovider.getWorkPath()+"/photos/instalation/";
+            it = sprovider.listInstalationsPymePhotos();
+            while(it.hasNext())
+                photos.add(path+it.next().getPhotoThumbnail());
+
+            path = SWBPortal.getWebWorkPath()+sprovider.getWorkPath()+"/photos/category/";
+            it = sprovider.listSpCategoryPymePhotos();
+            while(it.hasNext())
+                photos.add(path+it.next().getPhotoThumbnail());
+
+            path = SWBPortal.getWebWorkPath()+sprovider.getWorkPath()+"/photos/more/";
+            it = sprovider.listMorePymePhotos();
+            while(it.hasNext())
+                photos.add(path+it.next().getPhotoThumbnail());
+            photos.trimToSize();
+
             if( userCanEdit && this.userCanAdd(paramRequest.getWebPage().getWebSite(), sprovider) )
                 out.println("<h2 class=\"incomplete-charge\">Fotos</h2>");
             else
                 out.println("<h2>Fotos</h2>");
             out.println("<div id=\"photosFrame\">");
+
+            StringBuilder script = new StringBuilder();
             for(int i=0; i<maxPictPreview && i<photos.size(); i++) {
-//                PymePhoto pp = photos.get(i);
-//                String image = pp.getPhotoImage();
-                String image = photos.get(i);
+                int r = random.nextInt(photos.size());
+                String image = photos.get(r);
                 out.println("<span class=\"marco\">");
                 out.println("<a href=\"#\" id=\""+"pa_"+i+"_"+base.getId()+"\">");
-                out.println("<img alt=\""+image+"\" src=\""+SWBPortal.getWebWorkPath()+path+_thumbnail+image+"\" />");
+                out.println("<img alt=\""+image+"\" src=\""+image+"\" />");
                 out.println("</a>");
                 out.println("</span>");
-                script.append("var lbs_"+i+"_"+base.getId()+" = new dojox.image.Lightbox({ title:'', href:'"+SWBPortal.getWebWorkPath()+path+image+"', group:'group"+base.getId()+"' }, 'pa_"+i+"_"+base.getId()+"');\n");
+
+                script.append("var lbs_"+i+"_"+base.getId()+" = new dojox.image.Lightbox({ title:'', href:'"+image.replaceFirst(_thumbnail, "")+"', group:'group"+base.getId()+"' }, 'pa_"+i+"_"+base.getId()+"');\n");
                 script.append("lbs_"+i+"_"+base.getId()+".startup();\n");
+
+                photos.remove(r);
             }
             out.println("</div>");
             
@@ -539,17 +576,32 @@ public class PhotoAlbumSheet extends GenericAdmResource {
 //            out.println("    }");
             out.println("-->");
             out.println("</script>");
-
+            
             if( userCanEdit ) {
-                SWBResourceURL url = paramRequest.getRenderUrl();
-                url.setCallMethod(paramRequest.Call_DIRECT);
-                url.setParameter("uri", sprovider.getURI());
-                url.setParameter("showAdmPhotos", "true");
-                out.println("<div id=\"photosFrameAdm\"><a href=\""+url+"\" class=\"ligaCol2\">Agregar fotos</a></div>");
+                Paquete paquete = Paquete.ClassMgr.getPaquete(Integer.toString(sprovider.getPymePaqueteType()), paramRequest.getWebPage().getWebSite());
+                if( paquete.getTitle().toUpperCase().indexOf("PREMIUM")>=0 || sprovider.getPymePaqueteType()==4 ) {
+                    String surl = "javascript:alert('url falsa')";
+                    MicroSitePyme ms = sprovider.getMicroSitePymeInv();
+                    Iterator<MicroSiteWebPageUtil> msutils = ms.listMicroSiteUtils();
+                    while (msutils.hasNext()) {
+                        MicroSiteWebPageUtil msu = msutils.next();
+                        if (msu.getTitle().toLowerCase().endsWith("fotos")) {
+                            surl = msu.getUrl();
+                            break;
+                        }
+                    }
+                    out.println("<div id=\"photosFrameAdm\"><a href=\""+surl+"\" class=\"ligaCol2\">Agregar fotos</a></div>");
+                }else {
+                    SWBResourceURL url = paramRequest.getRenderUrl();
+                    url.setCallMethod(paramRequest.Call_DIRECT);
+                    url.setParameter("uri", sprovider.getURI());
+                    url.setParameter("showAdmPhotos", "true");
+                    out.println("<div id=\"photosFrameAdm\"><a href=\""+url+"\" class=\"ligaCol2\">Agregar fotos</a></div>");
+                }
             }
         }else {
             boolean show = Boolean.parseBoolean(request.getParameter("showAdmPhotos"));
-            if( show && (user.getURI()!=null && sprovider.getCreator().getURI().equals(user.getURI()) || userCanEdit(user)) )
+            if( show && userCanEdit )
                 out.print(getFormManager(paramRequest, sprovider));
         }
     }
