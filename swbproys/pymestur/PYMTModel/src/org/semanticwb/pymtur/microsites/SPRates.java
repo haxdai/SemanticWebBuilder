@@ -23,6 +23,7 @@
 package org.semanticwb.pymtur.microsites;
 
 import java.io.IOException;
+import java.util.Iterator;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,6 +35,7 @@ import org.semanticwb.model.User;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.platform.SemanticClass;
 import org.semanticwb.platform.SemanticObject;
+import org.semanticwb.platform.SemanticProperty;
 import org.semanticwb.portal.SWBFormMgr;
 import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBActionResponse;
@@ -99,18 +101,17 @@ public class SPRates extends GenericResource {
         } else {
             community = wp.getParent();
         }
-
         if (community != null) {
             User user=response.getUser();
             Role superAdm = user.getUserRepository().getRole("superAdmProviders");
-            if(user.hasRole(superAdm))
+            if(user.hasRole(superAdm) || community.getCreator().getURI().equals(user.getURI()))
             {
                 MicroSitePyme ms = (MicroSitePyme) community;
                 ServiceProvider sprovider = ms.getServiceProvider();
+
                 if (sprovider.getWebPage() != null) {
                     SemanticObject semObjectGiro = SemanticObject.createSemanticObject(sprovider.getWebPage().getParent().getURI());
                     SPCategory giro = (SPCategory) semObjectGiro.createGenericInstance();
-
                     String action = response.getAction();
                     if (action.equals("add_rate")) {
                         SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
