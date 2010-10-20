@@ -242,8 +242,9 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
         }
 
         Role adminProviderRole = user.getUserRepository().getRole("adminProviders");
+        Role superAdm = user.getUserRepository().getRole("superAdmProviders");
 
-        if (adminProviderRole != null && user.hasRole(adminProviderRole)) {
+        if (adminProviderRole != null && (user.hasRole(adminProviderRole) || user.hasRole(superAdm))) {
             isUserIsAdminProvider = true;
         }
 
@@ -253,6 +254,22 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
             if (action2.equals(response.Action_EDIT)) {
                 SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
                 SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
+                mgr.clearProperties();
+                mgr.addProperty(ServiceProvider.swb_title);
+                mgr.addProperty(ServiceProvider.swbcomm_contactName);
+                mgr.addProperty(ServiceProvider.pymtur_contactFirstName);
+                mgr.addProperty(ServiceProvider.swbcomm_contactEmail);
+                mgr.addProperty(ServiceProvider.pymtur_ladaNacional);
+                mgr.addProperty(ServiceProvider.swbcomm_contactPhoneNumber);
+                mgr.addProperty(ServiceProvider.swbcomm_streetName);
+                mgr.addProperty(ServiceProvider.swbcomm_extNumber);
+                mgr.addProperty(ServiceProvider.pymtur_spSuburb);
+                mgr.addProperty(ServiceProvider.swbcomm_cityCouncil);
+                mgr.addProperty(ServiceProvider.pymtur_sp_zipcode);
+                mgr.addProperty(ServiceProvider.swbcomm_state);
+                mgr.addProperty(ServiceProvider.pymtur_rfcRazonSocial);
+                mgr.addProperty(ServiceProvider.pymtur_rfc);
+                mgr.addProperty(ServiceProvider.pymtur_variantPaqTemplate);
                 try {
                     ServiceProvider dirObj = (ServiceProvider) semObject.createGenericInstance();
                     User userCreator = dirObj.getCreator();
@@ -334,11 +351,22 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                                     SemanticObject semObjectTmplt = SemanticObject.createSemanticObject(request.getParameter("tplURI"));
                                     Template template = (Template) semObjectTmplt.createGenericInstance();
                                     TemplateRef tmpRef = dirObj.getMicroSitePymeInv().getTemplateRef();
-                                    tmpRef.setTemplate(template);
-                                    tmpRef.setActive(Boolean.TRUE);
-                                    tmpRef.setInherit(TemplateRef.INHERIT_ACTUALANDCHILDS);
-                                    tmpRef.setValid(Boolean.TRUE);
-                                    tmpRef.setPriority(3);
+                                    if (tmpRef != null) {
+                                        tmpRef.setTemplate(template);
+                                        tmpRef.setActive(Boolean.TRUE);
+                                        tmpRef.setInherit(TemplateRef.INHERIT_ACTUALANDCHILDS);
+                                        tmpRef.setValid(Boolean.TRUE);
+                                        tmpRef.setPriority(3);
+                                    } else {
+                                        tmpRef = wsite.createTemplateRef();
+                                        tmpRef.setTemplate(template);
+                                        tmpRef.setActive(Boolean.TRUE);
+                                        tmpRef.setInherit(TemplateRef.INHERIT_ACTUALANDCHILDS);
+                                        tmpRef.setValid(Boolean.TRUE);
+                                        tmpRef.setPriority(3);
+                                        dirObj.getMicroSitePymeInv().addTemplateRef(tmpRef);
+
+                                    }
                                 }
                                 if (request.getParameter("varianTplURI") != null &&
                                         (dirObj.getVariantPaqTemplate() == null ||
@@ -372,6 +400,22 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
             } else if (action2.equals(response.Action_ADD)) {
                 SemanticClass cls = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass(request.getParameter("uri"));
                 SWBFormMgr mgr = new SWBFormMgr(cls, wsite.getSemanticObject(), null);
+                mgr.clearProperties();
+                mgr.addProperty(ServiceProvider.swb_title);
+                mgr.addProperty(ServiceProvider.swbcomm_contactName);
+                mgr.addProperty(ServiceProvider.pymtur_contactFirstName);
+                mgr.addProperty(ServiceProvider.swbcomm_contactEmail);
+                mgr.addProperty(ServiceProvider.pymtur_ladaNacional);
+                mgr.addProperty(ServiceProvider.swbcomm_contactPhoneNumber);
+                mgr.addProperty(ServiceProvider.swbcomm_streetName);
+                mgr.addProperty(ServiceProvider.swbcomm_extNumber);
+                mgr.addProperty(ServiceProvider.pymtur_spSuburb);
+                mgr.addProperty(ServiceProvider.swbcomm_cityCouncil);
+                mgr.addProperty(ServiceProvider.pymtur_sp_zipcode);
+                mgr.addProperty(ServiceProvider.swbcomm_state);
+                mgr.addProperty(ServiceProvider.pymtur_rfcRazonSocial);
+                mgr.addProperty(ServiceProvider.pymtur_rfc);
+                mgr.addProperty(ServiceProvider.pymtur_variantPaqTemplate);
                 mgr.setFilterRequired(false);
                 try {
                     SemanticObject sobj = mgr.processForm(request);
