@@ -4,7 +4,7 @@ package org.semanticwb.pymtur.base;
    /**
    * Clase principal del sistema de pymes turisticas. Una instancia de esta clase es en donde se almacena toda la información de una mipyme especifica. 
    */
-public abstract class ServiceProviderBase extends org.semanticwb.portal.community.DirectoryObject implements org.semanticwb.portal.community.Interactiveable,org.semanticwb.model.Descriptiveable,org.semanticwb.portal.community.Contactable,org.semanticwb.model.Traceable,org.semanticwb.model.Rankable,org.semanticwb.model.Tagable,org.semanticwb.portal.community.Addressable,org.semanticwb.model.Geolocalizable,org.semanticwb.model.Searchable
+public abstract class ServiceProviderBase extends org.semanticwb.portal.community.DirectoryObject implements org.semanticwb.model.Tagable,org.semanticwb.model.Descriptiveable,org.semanticwb.portal.community.Contactable,org.semanticwb.model.Rankable,org.semanticwb.model.Searchable,org.semanticwb.model.Geolocalizable,org.semanticwb.portal.community.Addressable,org.semanticwb.model.Traceable,org.semanticwb.portal.community.Interactiveable
 {
    /**
    * (Requerido para funcionamiento adecuado del portal,establecido por el sistema) : Contador, número de fotos que se lleven registrados para una mipyme (Dado que se determino que tendrían hasta cierta cantidad por tipo de paquete y esta cantidad sería parametrizable). El número de fotos en esta propiedad es la suma de todas las fotos que haya subido la mipyme en las secciones de: a)Fotos de instalaciones, b)Fotos del establecimiento, c)Fotos del Giro,  d)Mas fotos

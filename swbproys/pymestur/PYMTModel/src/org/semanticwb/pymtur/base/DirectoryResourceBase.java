@@ -13,6 +13,8 @@ public abstract class DirectoryResourceBase extends org.semanticwb.portal.commun
     public static final org.semanticwb.platform.SemanticProperty pymtur_numMaxItemsbyPage=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#numMaxItemsbyPage");
     public static final org.semanticwb.platform.SemanticProperty swbcomm_dirEditJsp=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/community#dirEditJsp");
     public static final org.semanticwb.platform.SemanticProperty swbcomm_dirAddJsp=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/community#dirAddJsp");
+    public static final org.semanticwb.platform.SemanticClass swb_Resource=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#Resource");
+    public static final org.semanticwb.platform.SemanticProperty swb_semanticResourceInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#semanticResourceInv");
     public static final org.semanticwb.platform.SemanticProperty swbcomm_dirClaimMessage=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/community#dirClaimMessage");
     public static final org.semanticwb.platform.SemanticProperty swbcomm_dirDetailJsp=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/community#dirDetailJsp");
     public static final org.semanticwb.platform.SemanticClass pymtur_DirectoryResource=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/pymestur#DirectoryResource");
@@ -197,6 +199,44 @@ public abstract class DirectoryResourceBase extends org.semanticwb.portal.commun
     public void setAddJsp(String value)
     {
         getSemanticObject().setProperty(swbcomm_dirAddJsp, value);
+    }
+   /**
+   * Sets the value for the property Resource
+   * @param value Resource to set
+   */
+
+    public void setResource(org.semanticwb.model.Resource value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(swb_semanticResourceInv, value.getSemanticObject());
+        }else
+        {
+            removeResource();
+        }
+    }
+   /**
+   * Remove the value for Resource property
+   */
+
+    public void removeResource()
+    {
+        getSemanticObject().removeProperty(swb_semanticResourceInv);
+    }
+
+   /**
+   * Gets the Resource
+   * @return a org.semanticwb.model.Resource
+   */
+    public org.semanticwb.model.Resource getResource()
+    {
+         org.semanticwb.model.Resource ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_semanticResourceInv);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.Resource)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**

@@ -4,7 +4,7 @@ package org.semanticwb.pymtur.base;
    /**
    * Tipo de serviceprovider. En este momento solo existe hoteleria, cuando existan mas tipos de giros pueden heredar de serviceprovider y tener sus propias propiedades aparte. 
    */
-public abstract class HospedajeBase extends org.semanticwb.pymtur.ServiceProvider implements org.semanticwb.portal.community.Contactable,org.semanticwb.model.Rankable,org.semanticwb.model.Traceable,org.semanticwb.portal.community.Addressable,org.semanticwb.model.Geolocalizable,org.semanticwb.portal.community.Interactiveable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Searchable
+public abstract class HospedajeBase extends org.semanticwb.pymtur.ServiceProvider implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.portal.community.Addressable,org.semanticwb.model.Traceable,org.semanticwb.portal.community.Contactable,org.semanticwb.model.Searchable,org.semanticwb.model.Rankable,org.semanticwb.model.Geolocalizable,org.semanticwb.portal.community.Interactiveable
 {
     public static final org.semanticwb.platform.SemanticProperty pymtur_checkOUT=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#checkOUT");
     public static final org.semanticwb.platform.SemanticProperty pymtur_checkIN=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#checkIN");
