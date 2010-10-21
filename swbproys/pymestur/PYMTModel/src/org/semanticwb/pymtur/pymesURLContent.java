@@ -26,6 +26,9 @@ import org.semanticwb.portal.admin.admresources.util.XmlBundle;
 import com.arthurdo.parser.*;
 import javax.servlet.RequestDispatcher;
 import org.semanticwb.SWBPortal;
+import org.semanticwb.portal.api.SWBParamRequestImp;
+import org.semanticwb.portal.api.SWBResource;
+import org.semanticwb.portal.lib.SWBResponse;
 
 /**
  *
@@ -75,8 +78,6 @@ public class pymesURLContent extends GenericAdmResource {
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-
-
         Resource base=getResourceBase();
         if(base.getAttribute("msg1")!=null) msg1=base.getAttribute("msg1");
         if(base.getAttribute("msg2")!=null) msg2=base.getAttribute("msg2");
@@ -94,12 +95,31 @@ public class pymesURLContent extends GenericAdmResource {
             try {
                 if(request.getParameter("urlwb") == null) {
                     NodeList url = dom.getElementsByTagName("url");
-                    if(url.getLength() > 0) {
+                    if(url.getLength() > 0 && url.item(0).getChildNodes()!=null && url.item(0).getChildNodes().item(0)!=null) {
                         String surl = url.item(0).getChildNodes().item(0).getNodeValue();
-                        ret.append(CorrigeRuta(surl, paramRequest.getWebPage(), param, othersparam, request,paramRequest));
+                        if(surl!=null && surl.startsWith("http://")){
+                            ret.append(CorrigeRuta(surl, paramRequest.getWebPage(), param, othersparam, request,paramRequest));
+                        }
+                    }else{
+                            WebPage page=paramRequest.getWebPage();
+                            Iterator <Resource> itResources=page.listResources();
+                            while(itResources.hasNext()){
+                                Resource resource=itResources.next();
+                                String resTypeUri=resource.getResourceType().getURI();
+                                if(!resource.isActive() && resTypeUri.endsWith(":WordContent"))
+                                { //Solo si es un contenido que no esta activo y sea de tipo word
+                                    //if(resource.isValid() && paramRequest.getUser().haveAccess(resource))
+                                    {
+                                        ((SWBParamRequestImp)paramRequest).setResourceBase(resource);
+                                        ((SWBParamRequestImp)paramRequest).setVirtualResource(resource);
+                                        SWBResource res=SWBPortal.getResourceMgr().getResource(page.getWebSite().getId(), resource.getId());
+                                        SWBResponse resp=new SWBResponse(response);
+                                        res.render(request, resp, paramRequest);
+                                        ret.append(resp.toString());
+                                    }
+                                }
+                            }
                     }
-                }else{
-                    
                 }
             }catch (Exception f) {
                 ret.append("page is not in well formed..");
