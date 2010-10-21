@@ -98,6 +98,8 @@ public class pymesURLContent extends GenericAdmResource {
                         String surl = url.item(0).getChildNodes().item(0).getNodeValue();
                         ret.append(CorrigeRuta(surl, paramRequest.getWebPage(), param, othersparam, request,paramRequest));
                     }
+                }else{
+                    
                 }
             }catch (Exception f) {
                 ret.append("page is not in well formed..");

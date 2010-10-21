@@ -4,7 +4,7 @@ package org.semanticwb.pymtur.base;
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Destinos. 
    */
-public abstract class DestinationBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Trashable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Indexable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Viewable,org.semanticwb.model.Filterable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Tagable,org.semanticwb.model.Activeable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Referensable,org.semanticwb.model.Traceable,org.semanticwb.model.Rankable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Localeable,org.semanticwb.model.RoleRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.RuleRefable,org.semanticwb.model.Expirable,org.semanticwb.model.Resourceable,org.semanticwb.model.Searchable
+public abstract class DestinationBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Tagable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Localeable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Filterable,org.semanticwb.model.Viewable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Expirable,org.semanticwb.model.RuleRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.RoleRefable,org.semanticwb.model.Traceable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Referensable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Searchable,org.semanticwb.model.Resourceable,org.semanticwb.model.Rankable,org.semanticwb.model.Trashable,org.semanticwb.model.Activeable,org.semanticwb.model.Indexable,org.semanticwb.model.PFlowRefable
 {
    /**
    * Clase que se encarga de administrar tipos de turismo
@@ -54,6 +54,7 @@ public abstract class DestinationBase extends org.semanticwb.model.WebPage imple
    * Foto principal para el destino
    */
     public static final org.semanticwb.platform.SemanticProperty pymtur_destPrincipalPhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#destPrincipalPhoto");
+    public static final org.semanticwb.platform.SemanticProperty pymtur_destWeather=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/pymestur#destWeather");
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Destinos.
    */
@@ -966,7 +967,7 @@ public abstract class DestinationBase extends org.semanticwb.model.WebPage imple
 
     public void removeDestPhotos(String value)
     {
-        getSemanticObject().removeProperty(pymtur_hasDestPhotos,value);
+        getSemanticObject().removeLiteralProperty(pymtur_hasDestPhotos,new org.semanticwb.platform.SemanticLiteral(value));
     }
 
 /**
@@ -985,6 +986,24 @@ public abstract class DestinationBase extends org.semanticwb.model.WebPage imple
     public void setDestPrincipalPhoto(String value)
     {
         getSemanticObject().setProperty(pymtur_destPrincipalPhoto, value);
+    }
+
+/**
+* Gets the DestWeather property
+* @return String with the DestWeather
+*/
+    public String getDestWeather()
+    {
+        return getSemanticObject().getProperty(pymtur_destWeather);
+    }
+
+/**
+* Sets the DestWeather property
+* @param value long with the DestWeather
+*/
+    public void setDestWeather(String value)
+    {
+        getSemanticObject().setProperty(pymtur_destWeather, value);
     }
 
    /**
