@@ -4,7 +4,7 @@
 	<form name="frmUrlContent" action="true" method="POST">
 		<admdbconnmgr defconn="true"/>
         <fieldset legend="Datos">
-            <input type="TEXT" name="url" label="Url del contenido remoto:" size="50" jsrequired="true"/>
+            <input type="TEXT" name="url" label="Url del contenido remoto:" size="50"/>
             <input type="TEXT" name="tagbcawb" label="Etiqueta a buscar:" value="bca" size="20" maxlength="20"/>
             <input type="TEXT" name="charset" label="codificación" size="20" maxlength="20"/>
         </fieldset>
