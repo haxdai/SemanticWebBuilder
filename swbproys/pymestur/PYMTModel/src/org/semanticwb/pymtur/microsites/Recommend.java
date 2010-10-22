@@ -865,26 +865,28 @@ public class Recommend extends GenericAdmResource {
         out.close();
     }
 
-    private String getModalWindowCode(Resource base, HttpServletRequest request,
-            SWBParamRequest paramRequest) throws SWBResourceException {
-
+    private String getModalWindowCode(Resource base, HttpServletRequest request, SWBParamRequest paramRequest) throws SWBResourceException {
         ServiceProvider sprovider = null;
-        WebPage wp = paramRequest.getWebPage();
-        WebPage community = null;
+        
 
-        if (request.getParameter("uri") == null) { //Se ve el recurso desde un micrositio
-            if (wp instanceof MicroSitePyme) {
-                community = wp;
-            } else {
-                community = wp.getParent();
+        try {
+            WebPage wp = paramRequest.getWebPage();
+            WebPage community = null;
+            if(request.getParameter("uri") == null) { //Se ve el recurso desde un micrositio
+                if( wp instanceof MicroSitePyme ) {
+                    community = wp;
+                }else {
+                    community = wp.getParent();
+                }
+                MicroSitePyme ms = (MicroSitePyme) community;
+                sprovider = ms.getServiceProvider();
+            }else {
+                SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri")); //Se ve el recurso desde una ficha
+                sprovider = (ServiceProvider) semObject.createGenericInstance();
             }
-            MicroSitePyme ms = (MicroSitePyme) community;
-            sprovider = ms.getServiceProvider();
-        } else {
-            SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri")); //Se ve el recurso desde una ficha
-            sprovider = (ServiceProvider) semObject.createGenericInstance();
+        }catch(ClassCastException cce) {
         }
-
+        
         SWBResourceURL url = paramRequest.getRenderUrl();
         url.setCallMethod(url.Call_DIRECT).setMode("sendEmail");
         StringBuilder buffer = new StringBuilder(400);
@@ -981,20 +983,18 @@ public class Recommend extends GenericAdmResource {
         formBuffer.append("      <label for=\"txtFromEmail\">" + paramRequest.getLocaleString("msgSenderEmail") + "</label>");
         formBuffer.append("      <input value=\"" + strFromEmail + "\" size=\"50\" id=\"txtFromEmail\" name=\"txtFromEmail\">");
         formBuffer.append("    </p>");
-        formBuffer.append("    <div id=\"destinatario\">");
-        formBuffer.append("      <p>");
-        formBuffer.append("        <label for=\"txtToName\">" + paramRequest.getLocaleString("msgReceiver") + "</label>");
-        formBuffer.append("        <input value=\"\" size=\"50\" id=\"txtToName\" name=\"txtToName\">");
-        formBuffer.append("      </p>");
-        formBuffer.append("      <p>");
-        formBuffer.append("        <label for=\"txtToEmail\">" + paramRequest.getLocaleString("msgReceiverEmail") + "</label>");
-        formBuffer.append("        <input value=\"\" size=\"50\" id=\"txtToEmail\" name=\"txtToEmail\">");
-        formBuffer.append("      </p>");
-        formBuffer.append("      <p>");
-        formBuffer.append("        <label for=\"tarMsg\">" + paramRequest.getLocaleString("msgMessage") + "</label>");
-        formBuffer.append("        <textarea rows=\"5\" cols=\"40\" id=\"tarMsg\" name=\"tarMsg\"></textarea>");
-        formBuffer.append("      </p>");
-        formBuffer.append("    </div>");
+        formBuffer.append("    <p>");
+        formBuffer.append("      <label for=\"txtToName\">" + paramRequest.getLocaleString("msgReceiver") + "</label>");
+        formBuffer.append("      <input value=\"\" size=\"50\" id=\"txtToName\" name=\"txtToName\">");
+        formBuffer.append("    </p>");
+        formBuffer.append("    <p>");
+        formBuffer.append("      <label for=\"txtToEmail\">" + paramRequest.getLocaleString("msgReceiverEmail") + "</label>");
+        formBuffer.append("      <input value=\"\" size=\"50\" id=\"txtToEmail\" name=\"txtToEmail\">");
+        formBuffer.append("    </p>");
+        formBuffer.append("    <p>");
+        formBuffer.append("      <label for=\"tarMsg\">" + paramRequest.getLocaleString("msgMessage") + "</label>");
+        formBuffer.append("      <textarea rows=\"5\" cols=\"40\" id=\"tarMsg\" name=\"tarMsg\"></textarea>");
+        formBuffer.append("    </p>");
         formBuffer.append("    <p id=\"cmdrecommend\">");
         formBuffer.append("      <label for=\"recommendEnviar\">" + paramRequest.getLocaleString("btnSubmit") + "</label>");
         formBuffer.append("      <input type=\"button\" value=\"" + paramRequest.getLocaleString("btnSubmit") + "\" onclick=\"sendRecomForm(this.form);\" id=\"recommendEnviar\" name=\"submit\">");
