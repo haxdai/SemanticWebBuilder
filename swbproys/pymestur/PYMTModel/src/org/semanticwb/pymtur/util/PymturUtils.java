@@ -37,6 +37,7 @@ public class PymturUtils {
     public static final int ESTATUS_PAGADO = 4;
     public static final int ESTATUS_PUBLICADO = 5;
     public static final int ESTATUS_BORRADO = 6;
+    public static final int ESTATUS_VENCIDA = 7;
 
     //COMMENT TYPES
     public static final int COMMENT_STATUS = 1;
