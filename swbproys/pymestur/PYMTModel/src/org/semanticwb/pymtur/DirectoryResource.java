@@ -418,7 +418,18 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                 mgr.addProperty(ServiceProvider.pymtur_variantPaqTemplate);
                 mgr.setFilterRequired(false);
                 try {
-                    SemanticObject sobj = mgr.processForm(request);
+                    SemanticObject sobj = null;
+
+                    synchronized (this) {
+                        String sValidSPid=getValidServiceProviderID(SWBUtils.TEXT.replaceSpecialCharacters(request.getParameter("title"), true), wsite, 0);
+                        if(sValidSPid!=null){
+                            sobj = mgr.processForm(request);
+                        }else{
+                            //sobj = mgr.processForm(request, SWBUtils.TEXT.replaceSpecialCharacters(request.getParameter("title"), true));
+                        }
+                    }
+                    
+
                     ServiceProvider dirObj = (ServiceProvider) sobj.createGenericInstance();
                     dirObj.setDirectoryResource(this);
                     dirObj.setWebPage(response.getWebPage());
@@ -727,6 +738,25 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
         }
         response.setMode(response.Mode_VIEW);
     }
+
+
+    private String getValidServiceProviderID(String name, WebSite wsite, int cont){
+        ServiceProvider servProv=null;
+        try{
+            servProv=ServiceProvider.ClassMgr.getServiceProvider(name, wsite);
+            if(servProv!=null) {
+                cont=cont++;
+                name=name+cont;
+                return getValidServiceProviderID(name, wsite, cont);
+            }else{
+                return name;
+            }
+        }catch(Exception e){
+            log.error(e);
+        }
+        return name;
+    }
+
 
     private void processFiles(HttpServletRequest request, WebSite website, SemanticObject sobj) {
         String basepath = SWBPortal.getWorkPath() + sobj.getWorkPath() + "/";
