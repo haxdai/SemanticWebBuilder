@@ -3,6 +3,7 @@ package org.semanticwb.pymtur.microsites;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import javax.servlet.RequestDispatcher;
@@ -68,6 +69,7 @@ public class SeasonManager extends GenericAdmResource {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
             SWBFormMgr mgr = new SWBFormMgr(RateSeason.sclass, semObject, null);
             mgr.setFilterRequired(false);
+            String comment = "";
             try {
                 SemanticObject sobj = mgr.processForm(request);
                 RateSeason season = (RateSeason) sobj.createGenericInstance();
@@ -84,15 +86,27 @@ public class SeasonManager extends GenericAdmResource {
                     log.error("Las fechas no son parseables. Resource "+base.getTitle()+" with id "+base.getId(), pe);
                 }
                 ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
-                if(checkDates(serviceProv,request,"low"))
+
+                if(checkDates(serviceProv,request,"low",null))
                 {
                     serviceProv.addRateLowSeason(season);
-                    serviceProv.setSpRatesComments(request.getParameter("rtcmt")==null?"":request.getParameter("rtcmt"));
                     response.setRenderParameter("messDates", "Se han guardado satisfactoriamente los datos");
                 }else
                 {
                       response.setRenderParameter("messDates", "Las fechas se encuentran traslapadas y  no se ha podido guardar los datos");
                 }
+
+                if(request.getParameter("rtcmt")==null)
+                {
+                    if(serviceProv.getSpRatesComments()!=null)
+                    {
+                        comment = serviceProv.getSpRatesComments();
+                    }
+                }else
+                {
+                    comment = request.getParameter("rtcmt");
+                }
+                serviceProv.setSpRatesComments(comment);
             }catch(Exception e){
                 log.error(e);
             }
@@ -100,6 +114,7 @@ public class SeasonManager extends GenericAdmResource {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
             SWBFormMgr mgr = new SWBFormMgr(RateSeason.sclass, semObject, null);
             mgr.setFilterRequired(false);
+            String comment = "";
                 try {
                     SemanticObject sobj = mgr.processForm(request);
                     RateSeason season = (RateSeason) sobj.createGenericInstance();
@@ -116,28 +131,37 @@ public class SeasonManager extends GenericAdmResource {
                         log.error("Las fechas no son parseables. Resource "+base.getTitle()+" with id "+base.getId(), pe);
                     }
                     ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
-                    if(checkDates(serviceProv, request, "high"))
+                    if(checkDates(serviceProv, request, "high",null))
                     {
                         serviceProv.addRateHighSeason(season);
-                        serviceProv.setSpRatesComments(request.getParameter("rtcmt")==null?"":request.getParameter("rtcmt"));
                         response.setRenderParameter("messDates", "Se han guardado satisfactoriamente los datos");
                     }else
                     {
                         response.setRenderParameter("messDates", "Las fechas se encuentran traslapadas y  no se ha podido guardar los datos");
                     }
+
+                    if(request.getParameter("rtcmt")==null)
+                    {
+                        if(serviceProv.getSpRatesComments()!=null)
+                        {
+                            comment = serviceProv.getSpRatesComments();
+                        }
+                    }else
+                    {
+                        comment = request.getParameter("rtcmt");
+                    }
+                    serviceProv.setSpRatesComments(comment);
                 }catch(Exception e){
                     log.error(e);
                 }
         }
         else if(action.equalsIgnoreCase("edit_seasonHigh")) {
-            SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
-            SWBFormMgr mgr = new SWBFormMgr(RateSeason.sclass, semObject, null);
-            mgr.setFilterRequired(false);
-            ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
             try {
-                SemanticObject sobj = mgr.processForm(request);
-                RateSeason rseason = (RateSeason) sobj.createGenericInstance();
-                if(checkDates(serviceProv, request, "high"))
+                SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
+                SemanticObject objReason = SemanticObject.createSemanticObject(request.getParameter("uri"));
+                ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
+                RateSeason rseason = (RateSeason)objReason.createGenericInstance();
+                if(checkDates(serviceProv, request, "high",rseason))
                 {
                     try {
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -155,29 +179,37 @@ public class SeasonManager extends GenericAdmResource {
                 {
                     response.setRenderParameter("messDates", "Las fechas se encuentran traslapadas y  no se ha podido guardar los datos");
                 }
-                serviceProv.setSpRatesComments(request.getParameter("rtcmt")==null?"":request.getParameter("rtcmt"));
+                String comment = "";
+                if(request.getParameter("rtcmt")==null)
+                {
+                    if(serviceProv.getSpRatesComments()!=null)
+                    {
+                        comment = serviceProv.getSpRatesComments();
+                    }
+                }else
+                {
+                    comment = request.getParameter("rtcmt");
+                }
+                serviceProv.setSpRatesComments(comment);
             }catch(Exception e){
                 log.error(e);
             }
         }
         else if(action.equalsIgnoreCase("edit_seasonLow")) {
-            SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
-            SWBFormMgr mgr = new SWBFormMgr(RateSeason.sclass, semObject, null);
-            mgr.setFilterRequired(false);
-            ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
              try {
-                SemanticObject sobj = mgr.processForm(request);
-                RateSeason rseason = (RateSeason) sobj.createGenericInstance();
-                if(checkDates(serviceProv, request, "low"))
+                SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
+                SemanticObject objReason = SemanticObject.createSemanticObject(request.getParameter("uri"));
+                ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
+                RateSeason rseason = (RateSeason)objReason.createGenericInstance(); 
+                if(checkDates(serviceProv, request, "low",rseason))
                 {
                     try {
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                         String date = request.getParameter("datei");
                         Date di = sdf.parse(date);
-                        rseason.setSeasonStartDate(di);
-
                         date = request.getParameter("datef");
                         Date df = sdf.parse(date);
+                        rseason.setSeasonStartDate(di);
                         rseason.setSeasonEndDate(df);
                         response.setRenderParameter("messDates", "Se han guardado satisfactoriamente los datos");
                     }catch(ParseException pe) {
@@ -187,8 +219,19 @@ public class SeasonManager extends GenericAdmResource {
                 {
                     response.setRenderParameter("messDates", "Las fechas se encuentran traslapadas y  no se ha podido guardar los datos");
                 }
-                serviceProv.setSpRatesComments(request.getParameter("rtcmt")==null?"":request.getParameter("rtcmt"));
-            }catch(Exception e){
+                String comment = "";
+                if(request.getParameter("rtcmt")==null)
+                {
+                    if(serviceProv.getSpRatesComments()!=null)
+                    {
+                        comment = serviceProv.getSpRatesComments();
+                    }
+                }else
+                {
+                    comment = request.getParameter("rtcmt");
+                }
+                serviceProv.setSpRatesComments(comment);
+                }catch(Exception e){
                 log.error(e);
             }
         }
@@ -218,15 +261,33 @@ public class SeasonManager extends GenericAdmResource {
              serviceProv.setSpRatesComments(request.getParameter("rtcmt")==null?"":request.getParameter("rtcmt"));
          }
     }
-    private boolean checkDates(ServiceProvider sprovider,HttpServletRequest request,String rate)
+    private boolean checkDates(ServiceProvider sprovider,HttpServletRequest request,String rate,RateSeason current)
     {
-        Iterator sp1;
-        if("low".equals(rate))
+        Iterator sp1 = sprovider.listRateLowSeasons();
+
+        ArrayList temp = new ArrayList();
+        while(sp1.hasNext())
         {
-            sp1 = sprovider.listRateLowSeasons();
-        }else
+            temp.add(sp1.next());
+        }
+        sp1 = sprovider.listRateHighSeasons();
+        while(sp1.hasNext())
         {
-            sp1 = sprovider.listRateHighSeasons();
+            temp.add(sp1.next());
+        }
+        sp1 = temp.iterator();
+        temp = new ArrayList();
+        if(current!=null)
+        {
+            while(sp1.hasNext())
+            {
+                RateSeason rateCurrent =  (RateSeason)sp1.next();
+                if(!rateCurrent.equals(current))
+                {
+                    temp.add(rateCurrent);
+                }
+            }
+            sp1 = temp.iterator();
         }
         boolean valid = true;
         String datei = request.getParameter("datei");
