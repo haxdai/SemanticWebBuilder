@@ -27,36 +27,31 @@ import org.semanticwb.pymtur.ServiceProvider;
  */
 public class PymesScheduledTasks {
 
-    private static Logger log = SWBUtils.getLogger(PymesScheduledTasks.class);
-
-    private static SWBModel model=null;
+    private static Timer timer;
     
-    public PymesScheduledTasks(SWBModel model) {
-        if(this.model!=null) {
-            System.out.println("model en Timer:"+this.model.getURI());
-            return;
+    public static void init(SWBModel model){
+        if(timer==null) {
+            timer=new Timer();
+            //Inicio del timer
+            Calendar hour2Start = Calendar.getInstance();
+            hour2Start.set(hour2Start.get(hour2Start.YEAR), hour2Start.get(hour2Start.MONTH), hour2Start.get(hour2Start.DATE), 23, 59, 00); //Hora a las 11:59 pm
+
+            Calendar timeNow = Calendar.getInstance(); //Hora actual
+
+            long time2Start = hour2Start.getTimeInMillis() - timeNow.getTimeInMillis(); //Milisegundos para empezar por primera vez el timer
+
+            int oneDay = 60 * 1000 * 60 * 24;
+
+            //timer.schedule(new RemindTask(model), 0, 60 * 1000); //Cada minuto
+            timer.schedule(new RemindTask(model), time2Start, oneDay); //Que empiece hoy a las 11:59 pm y vuelve a iterar un dia despues y así se siga
         }
-        this.model=model;
-        
-        //Inicio del timer
-        Calendar hour2Start = Calendar.getInstance();
-        hour2Start.set(hour2Start.get(hour2Start.YEAR), hour2Start.get(hour2Start.MONTH), hour2Start.get(hour2Start.DATE), 23, 59, 00); //Hora a las 11:59 pm
-
-        Calendar timeNow = Calendar.getInstance(); //Hora actual
-
-        long time2Start = hour2Start.getTimeInMillis() - timeNow.getTimeInMillis(); //Milisegundos para empezar por primera vez el timer
-
-        int oneDay = 60 * 1000 * 60 * 24;
-        Timer timer = new Timer();
-
-        timer.schedule(new RemindTask(model), time2Start, oneDay); //Que empiece hoy a las 11:59 pm y vuelve a iterar un dia despues y así se siga
-
-        //timer.schedule(new RemindTask(model), 0, 60 * 1000); //Cada minuto
-
     }
+}
+
 
     class RemindTask extends TimerTask {
 
+        private static Logger log = SWBUtils.getLogger(RemindTask.class);
         SWBModel model = null;
 
         public RemindTask(SWBModel model) {
@@ -150,4 +145,4 @@ public class PymesScheduledTasks {
             }
         }
     }
-}
+
