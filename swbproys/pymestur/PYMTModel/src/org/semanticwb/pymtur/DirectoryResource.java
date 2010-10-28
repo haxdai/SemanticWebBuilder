@@ -512,7 +512,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                                 }
                             }
                         }
-
+                        /*
                         //Se crea el dominio y se le asigna al micrositio
                         String sdomain = request.getParameter(dirObj.pymtur_pymeDomain.getName());
                         if (pymetype == PymturUtils.PAQ_PREMIER && sdomain != null && sdomain.trim().length() > 0) { //Se asigna el DNS al Micrositio siempre y cuando sea de tipo 4 (PREMIER)
@@ -532,7 +532,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                             newDns.setCreator(user);
                             dirObj.setPymeSubDomainWildCard(newDns);
                         }
-
+                        */
                         //Le asigna el tipo de comunidad y el service provider al micrositio
                         MicroSiteType mstype = null;
                         if (pymetype == PymturUtils.PAQ_MICROSITIO) {
