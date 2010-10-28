@@ -423,9 +423,9 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     synchronized (this) {
                         String sValidSPid=getValidServiceProviderID(SWBUtils.TEXT.replaceSpecialCharacters(request.getParameter("title"), true), wsite, 0);
                         if(sValidSPid!=null){
-                            sobj = mgr.processForm(request);
+                            sobj = mgr.processForm(request, sValidSPid);
                         }else{
-                            //sobj = mgr.processForm(request, SWBUtils.TEXT.replaceSpecialCharacters(request.getParameter("title"), true));
+                            sobj = mgr.processForm(request, SWBUtils.TEXT.replaceSpecialCharacters(request.getParameter("title"), true));
                         }
                     }
                     
