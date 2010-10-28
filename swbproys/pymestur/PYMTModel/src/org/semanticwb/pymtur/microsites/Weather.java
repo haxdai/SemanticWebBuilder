@@ -58,7 +58,6 @@ public class Weather extends GenericAdmResource {
         out.println("    <a style='color: #FFFFFF' href='http://www.accuweather.com/world-index-forecast.asp?partner=netweather&locCode="+q+"&metric=1' >Weather Forecast</a>");
         out.println("  </div>");
         out.println("</div>");
-
         out.println("</div>");
 //        out.println("<!-- Yahoo! Weather Badge  -->");
 //        out.println("<iframe allowtransparency=\"true\" marginwidth=\"0\" marginheight=\"0\" hspace=\"0\" vspace=\"0\" frameborder=\"0\" scrolling=\"no\" src=\"http://mx.weather.yahoo.com/badge/?q=escape("+q+")&u=c&t=trans&l=vertical\" height=\"255px\" width=\"186px\">");
