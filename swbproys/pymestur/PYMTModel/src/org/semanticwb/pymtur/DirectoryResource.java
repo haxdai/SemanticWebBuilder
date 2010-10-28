@@ -422,10 +422,13 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
 
                     synchronized (this) {
                         String sValidSPid=getValidServiceProviderID(SWBUtils.TEXT.replaceSpecialCharacters(request.getParameter("title"), true), wsite, 0);
+                        System.out.println("sValidSPid:"+sValidSPid);
                         if(sValidSPid!=null){
                             sobj = mgr.processForm(request, sValidSPid);
+                            System.out.println("Entra a sValidSPid:"+sobj);
                         }else{
                             sobj = mgr.processForm(request, SWBUtils.TEXT.replaceSpecialCharacters(request.getParameter("title"), true));
+                            System.out.println("Entra a Else de sValidSPid:"+sobj);
                         }
                     }
                     
@@ -741,20 +744,23 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
 
 
     private String getValidServiceProviderID(String name, WebSite wsite, int cont){
+        System.out.println("entra a getValidServiceProviderID/name:"+name);
         ServiceProvider servProv=null;
         try{
             servProv=ServiceProvider.ClassMgr.getServiceProvider(name, wsite);
             if(servProv!=null) {
                 cont=cont++;
                 name=name+cont;
+                System.out.println("name nuevo:"+name);
                 return getValidServiceProviderID(name, wsite, cont);
             }else{
+                System.out.println("regresa name:"+name);
                 return name;
             }
         }catch(Exception e){
             log.error(e);
         }
-        return name;
+        return null;
     }
 
 
