@@ -514,34 +514,21 @@ public final class PhotoAlbum extends GenericAdmResource {
             else
                 out.println("<h2>Fotos</h2>");
 
-            out.println("<div class=\"photosHolder\">");
-            for(int i=0; i<maxPictPreview && i<photos.size(); i++) {
-                int r = random.nextInt(photos.size());
-                String image = photos.get(r);
-                out.println("<a href=\"#\" id=\""+"pa_"+i+"_"+base.getId()+"\" group=\"group1\">");
-                out.println("<img height=\"62\" width=\"82\" alt=\""+image+"\" src=\""+image+"\" />");
-                out.println("</a>");
+            if( photos.size()>0 ) {
+                out.println("<div class=\"photosHolder\">");
+                for(int i=0; i<maxPictPreview && i<photos.size(); i++) {
+                    int r = random.nextInt(photos.size());
+                    String image = photos.get(r);
+                    out.println("<a href=\"#\" id=\""+"pa_"+i+"_"+base.getId()+"\" group=\"group1\">");
+                    out.println("<img height=\"62\" width=\"82\" alt=\""+image+"\" src=\""+image+"\" />");
+                    out.println("</a>");
 
-                script.append("var lb_"+i+"_"+base.getId()+" = new dojox.image.Lightbox({ title:'',  href:'"+image.replaceFirst(_thumbnail, "")+"', group:'group_2_"+base.getId()+"' }, 'pa_"+i+"_"+base.getId()+"');\n");
-                script.append("lb_"+i+"_"+base.getId()+".startup();\n");
+                    script.append("var lb_"+i+"_"+base.getId()+" = new dojox.image.Lightbox({ title:'',  href:'"+image.replaceFirst(_thumbnail, "")+"', group:'group_2_"+base.getId()+"' }, 'pa_"+i+"_"+base.getId()+"');\n");
+                    script.append("lb_"+i+"_"+base.getId()+".startup();\n");
 
-                photos.remove(r);
-            }
-            out.println("</div>");
-            
-            String surl = "javascript:showdialog()";
-            MicroSitePyme ms = sprovider.getMicroSitePymeInv();
-            Iterator<MicroSiteWebPageUtil> msutils = ms.listMicroSiteUtils();
-            while (msutils.hasNext()) {
-                MicroSiteWebPageUtil msu = msutils.next();
-                if (msu.getTitle().toLowerCase().endsWith("fotos")) {
-                    surl = msu.getUrl();
-                    break;
+                    photos.remove(r);
                 }
-            }
-            out.println("<a href=\""+surl+"\">Ver todas las fotos</a>");
-
-            if( script.length()>0 ) {
+                out.println("</div>");
                 out.println("<script type=\"text/javascript\">");
                 out.println("<!--");
                 out.println("dojo.require(\"dojox.image.Lightbox\");");
@@ -562,6 +549,17 @@ public final class PhotoAlbum extends GenericAdmResource {
                 out.println("-->");
                 out.println("</script>");
             }
+            String surl = "javascript:showdialog()";
+            MicroSitePyme ms = sprovider.getMicroSitePymeInv();
+            Iterator<MicroSiteWebPageUtil> msutils = ms.listMicroSiteUtils();
+            while (msutils.hasNext()) {
+                MicroSiteWebPageUtil msu = msutils.next();
+                if (msu.getTitle().toLowerCase().endsWith("fotos")) {
+                    surl = msu.getUrl();
+                    break;
+                }
+            }
+            out.println("<a href=\""+surl+"\">Ver todas las fotos</a>");
         }else {
             final String path = SWBPortal.getWebWorkPath()+sprovider.getWorkPath()+"/photos/"+base.getAttribute("gpophotos")+"/";
             if(base.getAttribute("gpophotos").equalsIgnoreCase("establishment")) {
@@ -587,38 +585,36 @@ public final class PhotoAlbum extends GenericAdmResource {
                     else
                         out.println("<h3 class=\"subtitleLevel2\">"+title+"</h3>");
                 }
-                out.println("<div class=\"holderPhotoPreviews\">");
-                int i=0;
-                while( it.hasNext() ) {
-                    PymePhoto pp = it.next();
-                    if(i%3==0)
-                        out.println("<div class=\"photoRow\">");
-                    out.println("<div class=\"photoPreview\">");
-                    out.println("<img alt=\""+pp.getPhotoImage()+"\" src=\""+path+pp.getPhotoThumbnail()+"\" />");
-                    out.println("<input type=\"button\" value=\"ver foto\" id=\""+"pac_"+i+"_"+base.getId()+"\" />");
-                    out.println("</div>");
 
-                    script.append("var lb_"+i+"_"+base.getId()+" = new dojox.image.Lightbox({ title:'', href:'"+path+pp.getPhotoImage()+"', group:'group"+base.getId()+"' }, 'pac_"+i+"_"+base.getId()+"');\n");
-                    script.append("lb_"+i+"_"+base.getId()+".startup();\n");
-
-                    i++;
-                    if(i%3==0 || !it.hasNext())
+                if( it!=null&&it.hasNext() ) {
+                    out.println("<div class=\"holderPhotoPreviews\">");
+                    int i=0;
+                    while( it.hasNext() ) {
+                        PymePhoto pp = it.next();
+                        if(i%3==0)
+                            out.println("<div class=\"photoRow\">");
+                        out.println("<div class=\"photoPreview\">");
+                        out.println("<img alt=\""+pp.getPhotoImage()+"\" src=\""+path+pp.getPhotoThumbnail()+"\" />");
+                        out.println("<input type=\"button\" value=\"ver foto\" id=\""+"pac_"+i+"_"+base.getId()+"\" />");
                         out.println("</div>");
-                }
 
-                if( base.getAttribute("gpophotos").equalsIgnoreCase("establishment") ) {
-                    out.println("<p class=\"previewsDescription\">"+( sprovider.getSpEstablishmentPymePhotosComments()==null?"&nbsp;":sprovider.getSpEstablishmentPymePhotosComments() )+"</p>");
-                }else if( base.getAttribute("gpophotos").equalsIgnoreCase("instalation") ) {
-                    out.println("<p class=\"previewsDescription\">"+( sprovider.getSpInstalationsPymePhotosComments()==null?"&nbsp;":sprovider.getSpInstalationsPymePhotosComments() )+"</p>");
-                }else if( base.getAttribute("gpophotos").equalsIgnoreCase("category") ) {
-                    out.println("<p class=\"previewsDescription\">"+( sprovider.getSpCategoryPymePhotoCommens()==null?"&nbsp;":sprovider.getSpCategoryPymePhotoCommens() )+"</p>");
-                }else if(base.getAttribute("gpophotos").equalsIgnoreCase("more") ) {
-                    out.println("<p class=\"previewsDescription\">"+( sprovider.getSpMorePymePhotosComments()==null?"&nbsp":sprovider.getSpMorePymePhotosComments() )+"</p>");
-                }
+                        script.append("var lb_"+i+"_"+base.getId()+" = new dojox.image.Lightbox({ title:'', href:'"+path+pp.getPhotoImage()+"', group:'group"+base.getId()+"' }, 'pac_"+i+"_"+base.getId()+"');\n");
+                        script.append("lb_"+i+"_"+base.getId()+".startup();\n");
 
-                out.println("</div>");
-
-                if( script.length()>0 ) {
+                        i++;
+                        if(i%3==0 || !it.hasNext())
+                            out.println("</div>");
+                    }
+                    if( base.getAttribute("gpophotos").equalsIgnoreCase("establishment") ) {
+                        out.println("<p class=\"previewsDescription\">"+( sprovider.getSpEstablishmentPymePhotosComments()==null?"&nbsp;":sprovider.getSpEstablishmentPymePhotosComments() )+"</p>");
+                    }else if( base.getAttribute("gpophotos").equalsIgnoreCase("instalation") ) {
+                        out.println("<p class=\"previewsDescription\">"+( sprovider.getSpInstalationsPymePhotosComments()==null?"&nbsp;":sprovider.getSpInstalationsPymePhotosComments() )+"</p>");
+                    }else if( base.getAttribute("gpophotos").equalsIgnoreCase("category") ) {
+                        out.println("<p class=\"previewsDescription\">"+( sprovider.getSpCategoryPymePhotoCommens()==null?"&nbsp;":sprovider.getSpCategoryPymePhotoCommens() )+"</p>");
+                    }else if(base.getAttribute("gpophotos").equalsIgnoreCase("more") ) {
+                        out.println("<p class=\"previewsDescription\">"+( sprovider.getSpMorePymePhotosComments()==null?"&nbsp":sprovider.getSpMorePymePhotosComments() )+"</p>");
+                    }
+                    out.println("</div>");
                     out.println("<script type=\"text/javascript\">");
                     out.println("<!--");
                     out.println("dojo.require(\"dojox.image.Lightbox\");");
