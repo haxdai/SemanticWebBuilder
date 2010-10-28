@@ -23,12 +23,17 @@ public class Weather extends GenericAdmResource {
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramsRequest) throws SWBResourceException, IOException {
         WebPage currentPage = paramsRequest.getWebPage();
-        String q = "Ciudad de Mexico,DF";
+        String q = "NAM|MX|MX009|CIUDAD DE MEXICO|";
         String lang = paramsRequest.getUser().getLanguage();
 
+        /*
+         * actualmente implementado con accuweather. http://www.accuweather.com/
+         */
+
         if( currentPage instanceof Destination ) {
-            currentPage = (Destination)currentPage;
-            q = currentPage.getDisplayTitle(lang)+","+currentPage.getParent().getDisplayTitle(lang);
+            Destination dest = (Destination)currentPage;
+//            q = currentPage.getDisplayTitle(lang)+","+currentPage.getParent().getDisplayTitle(lang);
+            q = dest.getDestWeather();
         }else if( currentPage instanceof MicroSitePyme || currentPage.getParent() instanceof MicroSitePyme ) {
             MicroSitePyme ms;
             try {
@@ -37,15 +42,28 @@ public class Weather extends GenericAdmResource {
                 ms = (MicroSitePyme)currentPage.getParent();
             }
             ServiceProvider sprovider = ms.getServiceProvider();
-            WebPage dest = sprovider.getDestination();
-            q = dest.getDisplayTitle(lang)+","+dest.getParent().getDisplayTitle(lang);
+            Destination dest = sprovider.getDestination();
+//            q = dest.getDisplayTitle(lang)+","+dest.getParent().getDisplayTitle(lang);
+            q = dest.getDestWeather();
         }
-        q = q.replaceAll(" ", "+");
+
+//        q = q.replaceAll(" ", "+");
         PrintWriter out = response.getWriter();
-        out.println("<!-- Yahoo! Weather Badge  -->");
-        out.println("<iframe allowtransparency=\"true\" marginwidth=\"0\" marginheight=\"0\" hspace=\"0\" vspace=\"0\" frameborder=\"0\" scrolling=\"no\" src=\"http://mx.weather.yahoo.com/badge/?q=escape("+q+")&u=c&t=trans&l=vertical\" height=\"255px\" width=\"186px\">");
-        out.println("</iframe>");
-        out.println("<!-- Yahoo! Weather Badge  -->");
+        out.println("<div class=\"pymest-weather\">");
+        out.println("<div style='width: 120px; height: 60px; background-image: url( http://vortex.accuweather.com/adcbin/netweather_v2/backgrounds/silver_120x60_bg.jpg ); background-repeat: no-repeat; background-color: #86888B;' >");
+        out.println("  <div id='NetweatherContainer' style='height: 48px;' >");
+        out.println("    <script src='http://netweather.accuweather.com/adcbin/netweather_v2/netweatherV2ex.asp?partner=netweather&tStyle=whteYell&logo=0&zipcode="+q+"&lang=esp&size=7&theme=silver&metric=1&target=_self'></script>");
+        out.println("  </div>");
+        out.println("  <div style='text-align: center; font-family: arial, helvetica, verdana, sans-serif; font-size: 10px; line-height: 12px; color: #FFFFFF;' >");
+        out.println("    <a style='color: #FFFFFF' href='http://www.accuweather.com/world-index-forecast.asp?partner=netweather&locCode="+q+"&metric=1' >Weather Forecast</a>");
+        out.println("  </div>");
+        out.println("</div>");
+
+        out.println("</div>");
+//        out.println("<!-- Yahoo! Weather Badge  -->");
+//        out.println("<iframe allowtransparency=\"true\" marginwidth=\"0\" marginheight=\"0\" hspace=\"0\" vspace=\"0\" frameborder=\"0\" scrolling=\"no\" src=\"http://mx.weather.yahoo.com/badge/?q=escape("+q+")&u=c&t=trans&l=vertical\" height=\"255px\" width=\"186px\">");
+//        out.println("</iframe>");
+//        out.println("<!-- Yahoo! Weather Badge  -->");
     }
 
 }
