@@ -24,6 +24,7 @@ public class Weather extends GenericAdmResource {
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramsRequest) throws SWBResourceException, IOException {
         WebPage currentPage = paramsRequest.getWebPage();
         String q = "NAM|MX|MX009|CIUDAD DE MEXICO|";
+        String qPrev = null;
         String lang = paramsRequest.getUser().getLanguage();
 
         /*
@@ -33,7 +34,7 @@ public class Weather extends GenericAdmResource {
         if( currentPage instanceof Destination ) {
             Destination dest = (Destination)currentPage;
 //            q = currentPage.getDisplayTitle(lang)+","+currentPage.getParent().getDisplayTitle(lang);
-            q = dest.getDestWeather();
+            qPrev = dest.getDestWeather();
         }else if( currentPage instanceof MicroSitePyme || currentPage.getParent() instanceof MicroSitePyme ) {
             MicroSitePyme ms;
             try {
@@ -44,9 +45,12 @@ public class Weather extends GenericAdmResource {
             ServiceProvider sprovider = ms.getServiceProvider();
             Destination dest = sprovider.getDestination();
 //            q = dest.getDisplayTitle(lang)+","+dest.getParent().getDisplayTitle(lang);
-            q = dest.getDestWeather();
+            qPrev = dest.getDestWeather();
         }
 
+        if (qPrev != null && !qPrev.equals("")) {
+            q = qPrev;
+        }
 //        q = q.replaceAll(" ", "+");
         PrintWriter out = response.getWriter();
         out.println("<div class=\"pymest-weather\">");
