@@ -422,13 +422,8 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
 
                     synchronized (this) {
                         String sValidSPid=getValidServiceProviderID(SWBUtils.TEXT.replaceSpecialCharacters(request.getParameter("title"), true), wsite, 0);
-                        System.out.println("sValidSPid:"+sValidSPid);
                         if(sValidSPid!=null){
                             sobj = mgr.processForm(request, sValidSPid);
-                            System.out.println("Entra a sValidSPid:"+sobj);
-                        }else{
-                            sobj = mgr.processForm(request, SWBUtils.TEXT.replaceSpecialCharacters(request.getParameter("title"), true));
-                            System.out.println("Entra a Else de sValidSPid:"+sobj);
                         }
                     }
                     
@@ -617,7 +612,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     SemanticObject semObject = SemanticObject.createSemanticObject(URLDecoder.decode(request.getParameter("uri")));
                     ServiceProvider servProp = (ServiceProvider) semObject.createGenericInstance();
                     servProp.setSpStatus(PymturUtils.ESTATUS_ACEPTADO); // Se pusó como publicado porque aun no esta la parte de pagos y de admin, pero primero debería se ser puesto es estado de "aceptado"
-                    System.out.println("Se puso empresa en estado de aceptado:"+servProp.getSpStatus());
+                    //System.out.println("Se puso empresa en estado de aceptado:"+servProp.getSpStatus());
                     //Fecha de aceptación y de limite de publiccación
                     Calendar endAnnunceDate=Calendar.getInstance();
                     servProp.setSpAcceptedDate(endAnnunceDate.getTime()); //Colocar fecha actual que es cuando se acepta el anuncio
@@ -744,18 +739,22 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
 
 
     private String getValidServiceProviderID(String name, WebSite wsite, int cont){
-        System.out.println("entra a getValidServiceProviderID/name:"+name);
         ServiceProvider servProv=null;
         try{
-            servProv=ServiceProvider.ClassMgr.getServiceProvider(name, wsite);
+            if(cont==0){
+                servProv=ServiceProvider.ClassMgr.getServiceProvider(name, wsite);
+            }else{
+                servProv=ServiceProvider.ClassMgr.getServiceProvider(name+cont, wsite);
+            }
             if(servProv!=null) {
-                cont=cont++;
-                name=name+cont;
-                System.out.println("name nuevo:"+name);
+                cont=cont+1;
                 return getValidServiceProviderID(name, wsite, cont);
             }else{
-                System.out.println("regresa name:"+name);
-                return name;
+                if(cont==0){
+                    return name;
+                }else{
+                    return name+cont;
+                }
             }
         }catch(Exception e){
             log.error(e);
