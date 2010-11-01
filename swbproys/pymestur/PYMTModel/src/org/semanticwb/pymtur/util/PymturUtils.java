@@ -133,9 +133,12 @@ public class PymturUtils {
         }
         str = SWBUtils.TEXT.replaceAll(str, "{pyme.type}", staticText);
 
-        if (sprovider.getPymePaqueteType() > PAQ_DIRECTORIO && pageFicha != null) {
+        if (sprovider.getPymePaqueteType() == PAQ_FICHA && pageFicha != null) {
             String server = "http://" + request.getServerName() + ":" + request.getServerPort();
             str = SWBUtils.TEXT.replaceAll(str, "{pyme.link}", server + pageFicha.getUrl() + "?uri=" + sprovider.getEncodedURI() + "&act=detail<br/><br/>");
+        } else if (sprovider.getPymePaqueteType() == PAQ_PREMIER) {
+            String server = "http://" + request.getServerName() + ":" + request.getServerPort();
+            str = SWBUtils.TEXT.replaceAll(str, "{pyme.link}", server + sprovider.getMicroSitePymeInv().getUrl() + "<br/><br/>");
         }
 
         if (sprovider.getPymePaqueteType() > PAQ_MICROSITIO && sprovider.getPymeDomain() != null) {
