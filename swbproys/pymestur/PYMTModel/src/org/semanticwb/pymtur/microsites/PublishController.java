@@ -130,8 +130,10 @@ public class PublishController extends GenericResource {
             }
             resp += "OK";
         } else {
-            if (message.length() > 0) {
+            if (message != null && message.length() > 0) {
                 resp = message + "|";
+            } else if (message == null) {
+                resp = "No cuenta con los permisos necesarios para realizar esta operación.|";
             }
             resp += "Not_OK";
         }
