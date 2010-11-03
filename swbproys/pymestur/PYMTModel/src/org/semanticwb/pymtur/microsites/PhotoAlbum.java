@@ -574,16 +574,28 @@ public final class PhotoAlbum extends GenericAdmResource {
             
             if( userCanEdit || it.hasNext() ) {
                 if(base.getAttribute("gpophotos").equalsIgnoreCase("category")) {
-                    if(sprovider.getSemanticObject().getSemanticClass().getName().equalsIgnoreCase("hospedaje"))
+                    if(sprovider.getSemanticObject().getSemanticClass().getName().equalsIgnoreCase("hospedaje")){
                         out.println("<h3 class=\"subtitleLevel2\">FOTOS DE HABITACIONES</h3>");
-                    else if(sprovider.getSemanticObject().getSemanticClass().getName().equalsIgnoreCase("restaurante"))
+                    } else if (sprovider.getSemanticObject().getSemanticClass().getName().equalsIgnoreCase("restaurante")){
                         out.println("<h3 class=\"subtitleLevel2\">FOTOS DE PLATILLOS</h3>");
+                    }
+                    out.println("<span class=\"tooltipWrapper\">?");
+                    out.println("   <span class=\"tooltip\">");
+                    out.println("       Puedes subir un máximo de 16 fotos en tu página web. Selecciona una imagen desde tu computadora (4mb máximo). Los formatos de imágenes aceptados son: gif, jpg, png. Al cargar el archivo de una imagen, confirmas que tienes los derechos de uso y distribución, y que ello no infringe las condiciones del servicio.");
+                    out.println("   </span>");
+                    out.println("</span>");
                 }else {
                     String title = base.getDisplayTitle(paramRequest.getUser().getLanguage());
                     if(title.equalsIgnoreCase("establecimiento")||title.equalsIgnoreCase("establishment"))
                         out.println("<h2 class=\"subtitleLevel2\">"+title+"</h2>");
-                    else
+                    else{
                         out.println("<h3 class=\"subtitleLevel2\">"+title+"</h3>");
+                        out.println("<span class=\"tooltipWrapper\">?");
+                        out.println("   <span class=\"tooltip\">");
+                        out.println("       Puedes subir un máximo de 16 fotos en tu página web. Selecciona una imagen desde tu computadora (4mb máximo). Los formatos de imágenes aceptados son: gif, jpg, png. Al cargar el archivo de una imagen, confirmas que tienes los derechos de uso y distribución, y que ello no infringe las condiciones del servicio.");
+                        out.println("   </span>");
+                        out.println("</span>");
+                    }
                 }
 
                 if( it!=null&&it.hasNext() ) {
