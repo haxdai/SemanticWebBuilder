@@ -111,29 +111,28 @@ public final class PhotoAlbum extends GenericAdmResource {
         Resource base=getResourceBase();
         StringBuilder html=new StringBuilder();
 
-        html.append("<script type=\"text/javascript\">");
-        html.append("  var opened_"+base.getId()+"=0;");
-        html.append("</script>");
+        html.append("<script type=\"text/javascript\">\n");
+        html.append("<!--\n");
+        html.append("  var opened_"+base.getId()+"=0;\n");
+        html.append("-->\n");
+        html.append("</script>\n");
         
         SWBResourceURL url = paramRequest.getActionUrl();
         url.setAction(paramRequest.Action_ADD+"_"+base.getAttribute("gpophotos"));
         url.setParameter("uri", sprovider.getURI());
 
-        html.append("\n <div class=\"photoAdminWrapper\">");
+        html.append("<div class=\"photoAdminWrapper\">\n");
+        html.append("  <a href=\"#\" id=\"showadm_"+base.getId()+"\" onclick=\"if(opened_"+base.getId()+"==1){collapse('admPhotoAlbum_"+base.getId()+"',250,150);this.innerHTML='Editar';z_"+base.getId()+"();opened_"+base.getId()+"=0;}else{a_"+base.getId()+"();expande('admPhotoAlbum_"+base.getId()+"',250,150);this.style.display='none';opened_"+base.getId()+"=1;}\">Editar</a>\n");
+        html.append("  <div class=\"swbform\" id=\"admPhotoAlbum_"+base.getId()+"\" >\n");
+        html.append("  <h2>Administraci&oacute;n de im&aacute;genes</h2>\n");
 
-        html.append("\n<a href=\"#\" id=\"showadm_"+base.getId()+"\" onclick=\"if(opened_"+base.getId()+"==1){collapse('admPhotoAlbum_"+base.getId()+"',250,150); this.innerHTML='Administrar imágenes'; opened_"+base.getId()+"=0;}else{expande('admPhotoAlbum_"+base.getId()+"',250,150); this.innerHTML='Ocultar administración'; opened_"+base.getId()+"=1;}\">Administrar imágenes</a>");
-        html.append("\n<div class=\"swbform\" id=\"admPhotoAlbum_"+base.getId()+"\" > ");
-        html.append("<h2>Administraci&oacute;n de im&aacute;genes</h2>");
-
-        html.append("\n<form id=\"frm_pa_"+base.getId()+"\" name=\"frm_pa_"+base.getId()+"\" method=\"post\" enctype=\"multipart/form-data\" action=\""+ url+"\"> ");
-
-        if(userCanAdd(paramRequest.getWebPage().getWebSite(), sprovider)) {
-            html.append("\n <div class=\"btnAddPhotoAdmin\">");
-            html.append("\n    <input type=\"button\" value=\"Agregar\" onclick=\"addRowToTable_"+base.getId()+"('igtbl_"+base.getId()+"'); this.disabled=true; this.form.cancel.disabled=false;\" name=\"add\" /> ");
-            html.append("\n    <input type=\"button\" value=\"Cancelar\" onclick=\"removeRowFromTable('igtbl_"+base.getId()+"'); this.disabled=true; this.form.add.disabled=false;\" name=\"cancel\" disabled=\"disabled\" /> ");
-            html.append("\n </div>");
-        }
-
+        html.append("  <form id=\"frm_pa_"+base.getId()+"\" name=\"frm_pa_"+base.getId()+"\" method=\"post\" enctype=\"multipart/form-data\" action=\""+ url+"\">\n");
+//        if(userCanAdd(paramRequest.getWebPage().getWebSite(), sprovider)) {
+//            html.append("\n <div class=\"btnAddPhotoAdmin\">");
+//            html.append("\n    <input type=\"button\" value=\"Agregar\" onclick=\"addRowToTable_"+base.getId()+"('igtbl_"+base.getId()+"'); this.disabled=true; this.form.cancel.disabled=false;\" name=\"add\" /> ");
+//            html.append("\n    <input type=\"button\" value=\"Cancelar\" onclick=\"removeRowFromTable('igtbl_"+base.getId()+"'); this.disabled=true; this.form.add.disabled=false;\" name=\"cancel\" disabled=\"disabled\" /> ");
+//            html.append("\n </div>");
+//        }
         html.append("\n  <table id=\"igtbl_"+base.getId()+"\" width=\"99%\" cellspacing=\"1\" align=\"center\"> ");
         html.append("\n  <caption>Lista de im&aacute;genes <span class=\"italic\">"+(base.getAttribute("fileformat")==null?"Sin formato definido":Arrays.toString(base.getAttribute("fileformat").split(",")))+"</span></caption>");
         html.append("\n  <tr> ");
@@ -146,28 +145,32 @@ public final class PhotoAlbum extends GenericAdmResource {
         html.append("\n  </table> ");
 
         html.append("\n <div class=\"btnPhotoAdmin\">");
-        html.append("\n <button dojoType=\"dijit.form.Button\" type=\"submit\" name=\"submitImgGal\" value=\"Submit\" >Guardar</button>&nbsp;");
-        html.append("\n <button dojoType=\"dijit.form.Button\" type=\"reset\">Restablecer</button>");
+        html.append("\n    <input type=\"button\" value=\"Agregar\" onclick=\"addRowToTable_"+base.getId()+"('igtbl_"+base.getId()+"');this.disabled=true;\" name=\"add\" id=\"add_"+base.getId()+"\" /> ");
+//        html.append("\n    <input type=\"button\" value=\"Cancelar\" onclick=\"removeRowFromTable('igtbl_"+base.getId()+"'); this.disabled=true; this.form.add.disabled=false;\" name=\"cancel\" disabled=\"disabled\" /> ");
+        html.append("\n    <input type=\"button\" value=\"Cancelar\" onclick=\"collapse('admPhotoAlbum_"+base.getId()+"',250,150);dojo.byId('showadm_"+base.getId()+"').style.display='block';dojo.byId('add_"+base.getId()+"').disabled=false;z_"+base.getId()+"();opened_"+base.getId()+"=0;z();\" name=\"cancel\" /> ");
+        html.append("\n    <button dojoType=\"dijit.form.Button\" type=\"submit\" name=\"submitImgGal\" value=\"Submit\" >Guardar</button>&nbsp;");
+//        html.append("\n <button dojoType=\"dijit.form.Button\" type=\"reset\">Restablecer</button>");
         html.append("\n </div>");
         html.append("\n</form>  ");
         html.append("\n</div>  ");
-
         html.append("\n </div>");
-        html.append("\n<script type=\"text/javascript\"> ");
+        
+        html.append("\n<script type=\"text/javascript\">\n");
+        html.append("<!--\n");
         html.append("dojo.addOnLoad(function(){collapse('admPhotoAlbum_"+base.getId()+"',0,0)});");
 
         html.append("\nfunction addRowToTable_"+base.getId()+"(tblId, filename, img, cellSufix) { ");
         html.append("\n    var tbl = document.getElementById(tblId); ");
         html.append("\n    var lastRow = tbl.rows.length; ");
-        html.append("\n    var iteration = lastRow-1; // descontar el renglon de titulo ");
+        html.append("\n    var iteration = lastRow; // descontar el renglon de titulo ");
         html.append("\n    var row = tbl.insertRow(lastRow); ");
-        html.append("\n ");
+        
         html.append("\n    // celda folio ");
         html.append("\n    var folioCell = row.insertCell(0); ");
         html.append("\n    folioCell.style.textAlign = 'right'; ");
         html.append("\n    var folioTextNode = document.createTextNode(iteration); ");
         html.append("\n    folioCell.appendChild(folioTextNode); ");
-        html.append("\n ");
+        
         html.append("\n    // cell check edit ");
         html.append("\n    var editCheckCell = row.insertCell(1); ");
         html.append("\n    editCheckCell.style.textAlign = 'center'; ");
@@ -189,7 +192,7 @@ public final class PhotoAlbum extends GenericAdmResource {
         html.append("\n        } ");
         html.append("\n    }; ");
         html.append("\n    editCheckCell.appendChild(editCheckInput); ");
-        html.append("\n ");
+
         html.append("\n    // cell check remove ");
         html.append("\n    var removeCheckCell = row.insertCell(2); ");
         html.append("\n    removeCheckCell.style.textAlign = 'center'; ");
@@ -218,7 +221,7 @@ public final class PhotoAlbum extends GenericAdmResource {
         html.append("\n        filenameCell.appendChild(fnTxt); ");
         html.append("\n    } ");
         html.append("\n    filenameCell.style.textAlign = 'left'; ");
-        html.append("\n ");
+
         html.append("\n    // celda input file ");
         html.append("\n    var imgCell = row.insertCell(4); ");
         html.append("\n    if(img) { ");
@@ -238,12 +241,14 @@ public final class PhotoAlbum extends GenericAdmResource {
         html.append("\n    } ");
         html.append("\n} ");
 
-        html.append("\nfunction removeRowFromTable(tblId) { ");
-        html.append("    var tbl = document.getElementById(tblId); ");
-        html.append("    var lastRow = tbl.rows.length; ");
-        html.append("    if(lastRow >= 2) { ");
-        html.append("        tbl.deleteRow(lastRow - 1); ");
-        html.append("    } ");
+        html.append("\nfunction removeRowFromTable(tblId) {\n");
+        html.append("    var tbl = document.getElementById(tblId);\n");
+//        html.append("    var lastRow = tbl.rows.length;\n");
+//        html.append("    if(lastRow >= 2) {\n");
+//        html.append("        tbl.deleteRow(lastRow - 1);\n");
+//        html.append("    }\n"); 
+        html.append("while(tbl.rows.length>1) \n");
+        html.append("  tbl.deleteRow(tbl.rows.length-1);\n");
         html.append("}\n");
         
         final String path = sprovider.getWorkPath()+"/photos/"+base.getAttribute("gpophotos")+"/";
@@ -257,13 +262,20 @@ public final class PhotoAlbum extends GenericAdmResource {
         }else if(base.getAttribute("gpophotos").equalsIgnoreCase("more")) {
             it = sprovider.listMorePymePhotos();
         }
+        
+        html.append("function a_"+base.getId()+"() {\n");
         while(it.hasNext()) {
             PymePhoto pp = it.next();
             String img = "<img src=\""+SWBPortal.getWebWorkPath()+path+pp.getPhotoThumbnail()+"\" alt=\""+pp.getPhotoImage()+"\" />";
-            html.append("addRowToTable_"+base.getId()+"('igtbl_"+base.getId()+"', '"+pp.getPhotoImage()+"', '"+img+"', '"+pp.getId()+"'); \n");
+            html.append("addRowToTable_"+base.getId()+"('igtbl_"+base.getId()+"', '"+pp.getPhotoImage()+"', '"+img+"', '"+pp.getId()+"');\n");
         }
-
-        html.append("\n</script>");
+        html.append("}\n");
+        
+        html.append("function z_"+base.getId()+"() {\n");
+        html.append("  removeRowFromTable('igtbl_"+base.getId()+"');\n");
+        html.append("}\n");
+        html.append("-->\n");
+        html.append("</script>\n");
 
         return html.toString();
     }
