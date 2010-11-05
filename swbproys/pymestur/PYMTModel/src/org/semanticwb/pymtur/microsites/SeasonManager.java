@@ -65,7 +65,7 @@ public class SeasonManager extends GenericAdmResource {
         Resource base = getResourceBase();
         String action=response.getAction();
 
-        if(action.equalsIgnoreCase("add_low_season")) {
+        if(action!=null&&action.equalsIgnoreCase("add_low_season")) {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
             SWBFormMgr mgr = new SWBFormMgr(RateSeason.sclass, semObject, null);
             mgr.setFilterRequired(false);
@@ -110,7 +110,7 @@ public class SeasonManager extends GenericAdmResource {
             }catch(Exception e){
                 log.error(e);
             }
-        }else if(action.equalsIgnoreCase("add_high_season")) {
+        }else if(action!=null&&action.equalsIgnoreCase("add_high_season")) {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
             SWBFormMgr mgr = new SWBFormMgr(RateSeason.sclass, semObject, null);
             mgr.setFilterRequired(false);
@@ -155,7 +155,7 @@ public class SeasonManager extends GenericAdmResource {
                     log.error(e);
                 }
         }
-        else if(action.equalsIgnoreCase("edit_seasonHigh")) {
+        else if(action!=null&&action.equalsIgnoreCase("edit_seasonHigh")) {
             try {
                 SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
                 SemanticObject objReason = SemanticObject.createSemanticObject(request.getParameter("uri"));
@@ -195,7 +195,7 @@ public class SeasonManager extends GenericAdmResource {
                 log.error(e);
             }
         }
-        else if(action.equalsIgnoreCase("edit_seasonLow")) {
+        else if(action!=null&&action.equalsIgnoreCase("edit_seasonLow")) {
              try {
                 SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
                 SemanticObject objReason = SemanticObject.createSemanticObject(request.getParameter("uri"));
@@ -235,7 +235,7 @@ public class SeasonManager extends GenericAdmResource {
                 log.error(e);
             }
         }
-        else if(action.equalsIgnoreCase("remove_low_season")) {
+        else if(action!=null&&action.equalsIgnoreCase("remove_low_season")) {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
             RateSeason rseason = (RateSeason) semObject.createGenericInstance();
 
@@ -245,7 +245,7 @@ public class SeasonManager extends GenericAdmResource {
             serviceProv.removeRateLowSeason(rseason);
             semObject.remove();
         }
-        else if(action.equalsIgnoreCase("remove_high_season")) {
+        else if(action!=null&&action.equalsIgnoreCase("remove_high_season")) {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
             RateSeason rseason = (RateSeason) semObject.createGenericInstance();
 
@@ -255,7 +255,7 @@ public class SeasonManager extends GenericAdmResource {
             serviceProv.removeRateHighSeason(rseason);
             semObject.remove();
         }
-         else if(action.equalsIgnoreCase("edit_cmnt")) {
+         else if(action!=null&&action.equalsIgnoreCase("edit_cmnt")) {
              SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
              ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
              serviceProv.setSpRatesComments(request.getParameter("rtcmt")==null?"":request.getParameter("rtcmt"));
