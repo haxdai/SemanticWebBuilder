@@ -8,106 +8,124 @@
     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
   xml:base="http://ecosikan.infotec.com.mx">
   <owl:Ontology rdf:about="">
+    <owl:imports rdf:resource="http://www.semanticwebbuilder.org/portal/resources/sems/SWBCommentToElement"/>
+    <owl:imports rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology"/>
     <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Created with TopBraid Composer</owl:versionInfo>
-    <owl:imports rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology"/>
-    <owl:imports rdf:resource="http://www.semanticwebbuilder.org/portal/resources/sems/SWBCommentToElement"/>
   </owl:Ontology>
-  <owl:Class rdf:ID="Category">
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-  </owl:Class>
-  <owl:Class rdf:ID="Challenge">
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBSemanticResource"/>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Expirable"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SemanticResource"/>
-  </owl:Class>
-  <owl:Class rdf:ID="Secretaria">
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-  </owl:Class>
-  <owl:Class rdf:ID="Idea">
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-  </owl:Class>
-  <owl:Class rdf:ID="Theme">
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBSemanticResource"/>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SemanticResource"/>
-  </owl:Class>
-  <owl:Class rdf:ID="GobiernoDelEstado">
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-  </owl:Class>
   <owl:ObjectProperty rdf:ID="secretaria">
-    <rdfs:domain rdf:resource="#Theme"/>
-    <rdfs:range rdf:resource="#Secretaria"/>
+    <rdfs:range>
+      <swb:Class rdf:ID="Secretaria">
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+      </swb:Class>
+    </rdfs:range>
+    <rdfs:domain>
+      <swb:SemanticResource rdf:ID="Theme">
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBSemanticResource"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+      </swb:SemanticResource>
+    </rdfs:domain>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="gobierno">
-    <rdfs:domain rdf:resource="#Challenge"/>
-    <rdfs:range rdf:resource="#GobiernoDelEstado"/>
+    <rdfs:range>
+      <swb:Class rdf:ID="GobiernoDelEstado">
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+      </swb:Class>
+    </rdfs:range>
+    <rdfs:domain>
+      <swb:SemanticResource rdf:ID="Challenge">
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Expirable"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBSemanticResource"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+      </swb:SemanticResource>
+    </rdfs:domain>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="hasIdeas">
-    <rdfs:range rdf:resource="#Idea"/>
     <rdfs:domain rdf:resource="#Theme"/>
+    <rdfs:range>
+      <swb:Class rdf:ID="Idea">
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+      </swb:Class>
+    </rdfs:range>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="hasComments">
-    <rdfs:range rdf:resource="http://www.semanticwebbuilder.org/portal/resources/sems/SWBCommentToElement#SWBCommentToElement"/>
     <rdfs:domain rdf:resource="#Idea"/>
+    <rdfs:range rdf:resource="http://www.semanticwebbuilder.org/portal/resources/sems/SWBCommentToElement#SWBCommentToElement"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="hasIdea">
-    <rdfs:domain rdf:resource="#Challenge"/>
     <rdfs:range rdf:resource="#Idea"/>
+    <rdfs:domain rdf:resource="#Challenge"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="category">
+    <rdfs:range>
+      <swb:Class rdf:ID="Category">
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+      </swb:Class>
+    </rdfs:range>
     <rdfs:domain rdf:resource="#Idea"/>
-    <rdfs:range rdf:resource="#Category"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="hasSecretarias">
-    <rdfs:domain rdf:resource="#GobiernoDelEstado"/>
     <rdfs:range rdf:resource="#Secretaria"/>
+    <rdfs:domain rdf:resource="#GobiernoDelEstado"/>
   </owl:ObjectProperty>
+  <owl:DatatypeProperty rdf:ID="image">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Challenge"/>
+  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="selected">
-    <rdfs:domain rdf:resource="#Idea"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#Idea"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="status">
-    <rdfs:domain rdf:resource="#Idea"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:domain rdf:resource="#Idea"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="hasStakeholders">
-    <rdfs:domain rdf:resource="#Challenge"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="hasDesires">
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdfs:domain rdf:resource="#Challenge"/>
   </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="hasExpectations">
-    <rdfs:domain rdf:resource="#Challenge"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="phase">
-    <rdfs:domain rdf:resource="#Challenge"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="conclusion">
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  <owl:DatatypeProperty rdf:ID="votesP">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
     <rdfs:domain rdf:resource="#Idea"/>
   </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="hasDesires">
+    <rdfs:domain rdf:resource="#Challenge"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="votesN">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+    <rdfs:domain rdf:resource="#Idea"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="hasExpectations">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Challenge"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="phase">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:domain rdf:resource="#Challenge"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="conclusion">
+    <rdfs:domain rdf:resource="#Idea"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
   <swb:CodePackage rdf:ID="pkg">
-    <swb:prefix rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >ecoskn</swb:prefix>
     <swb:package rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >org.semanticwb.ecosikan.innova</swb:package>
+    <swb:prefix rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >ecoskn</swb:prefix>
   </swb:CodePackage>
 </rdf:RDF>
 
