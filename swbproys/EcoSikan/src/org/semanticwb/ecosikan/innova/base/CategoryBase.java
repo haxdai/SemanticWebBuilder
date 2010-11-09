@@ -32,6 +32,12 @@ public abstract class CategoryBase extends org.semanticwb.model.SWBClass impleme
             java.util.Iterator it=sclass.listInstances();
             return new org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Category>(it, true);
         }
+
+        public static org.semanticwb.ecosikan.innova.Category createCategory(org.semanticwb.model.SWBModel model)
+        {
+            long id=model.getSemanticObject().getModel().getCounter(sclass);
+            return org.semanticwb.ecosikan.innova.Category.ClassMgr.createCategory(String.valueOf(id), model);
+        }
        /**
        * Gets a org.semanticwb.ecosikan.innova.Category
        * @param id Identifier for org.semanticwb.ecosikan.innova.Category
