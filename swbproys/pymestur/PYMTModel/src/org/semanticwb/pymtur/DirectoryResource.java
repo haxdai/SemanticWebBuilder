@@ -390,8 +390,9 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     ServiceProvider dirObj = (ServiceProvider) semObject.createGenericInstance();
                     User userCreator = dirObj.getCreator();
                     if ((userCreator != null && userCreator.getURI().equals(user.getURI())) || (isAdministrator || isUserIsAdminProvider)) {
-                        semObject.remove();
-                        semObjTmp = semObject;
+                        dirObj.setSpStatus(PymturUtils.ESTATUS_BORRADO);
+//                        semObject.remove();
+//                        semObjTmp = semObject;
                     }
                 } catch (Exception e) {
                     response.setRenderParameter("errorMsg", "02");
