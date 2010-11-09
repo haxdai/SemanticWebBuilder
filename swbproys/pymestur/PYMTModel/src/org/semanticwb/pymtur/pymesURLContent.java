@@ -130,7 +130,9 @@ public class pymesURLContent extends GenericAdmResource {
             log.error("Error in resource WBUrlContent while bringing HTML ", e);
         }
 
-        RequestDispatcher dis = request.getRequestDispatcher("/work/models/etour/jsp/pymestur/pymesURLContent.jsp");
+        String siteWorkDir = SWBPortal.getWebWorkPath() + "/models/"
+                + paramRequest.getWebPage().getWebSiteId();
+        RequestDispatcher dis = request.getRequestDispatcher(siteWorkDir + "/jsp/pymestur/pymesURLContent.jsp");
         try
         {
             request.setAttribute("paramRequest", paramRequest);

@@ -795,9 +795,11 @@ public class Recommend extends GenericAdmResource {
                 mailBody.append(linkTag);
             }
         } else {
+            String siteWorkDir = SWBPortal.getWebWorkPath() + "/models/"
+                    + paramRequest.getWebPage().getWebSiteId();
             mailBody.append("<link href=\"http://" + request.getServerName() + (request.getServerPort() != 80
                         ? ":" + request.getServerPort()
-                        : "") + SWBPlatform.getContextPath() + "/work/models/etour/css/premier/calidos/images/premium.css\" rel=\"stylesheet\" type=\"text/css\" />");
+                        : "") + siteWorkDir + "/css/premier/calidos/images/premium.css\" rel=\"stylesheet\" type=\"text/css\" />");
         }
         String headermsg = base.getAttribute("headermsg", "");
         if (headermsg.equalsIgnoreCase("")) {

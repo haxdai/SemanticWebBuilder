@@ -11,13 +11,13 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
+import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.Role;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.api.GenericResource;
-import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.community.MicroSiteType;
@@ -48,6 +48,8 @@ public class PublishController extends GenericResource {
         String action = paramRequest.getAction();
         User user = paramRequest.getUser();
         MicroSitePyme ms = null;
+        String siteWorkDir = SWBPortal.getWebWorkPath() + "/models/"
+                + paramRequest.getWebPage().getWebSiteId();
 
         boolean userCanEdit = false;
 
@@ -67,7 +69,7 @@ public class PublishController extends GenericResource {
                 if (userCanEdit) {
                     request.setAttribute("serviceProvider", ms.getServiceProvider());
                     request.setAttribute("paramRequest", paramRequest);
-                    path = "/work/models/etour/jsp/pymestur/premier/ShowPublishOption.jsp";
+                    path = siteWorkDir + "/jsp/pymestur/premier/ShowPublishOption.jsp";
                     dis = request.getRequestDispatcher(path);
                     dis.include(request, response);
                 }

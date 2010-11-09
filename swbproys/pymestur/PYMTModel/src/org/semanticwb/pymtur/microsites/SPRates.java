@@ -23,19 +23,18 @@
 package org.semanticwb.pymtur.microsites;
 
 import java.io.IOException;
-import java.util.Iterator;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
+import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.Role;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.platform.SemanticClass;
 import org.semanticwb.platform.SemanticObject;
-import org.semanticwb.platform.SemanticProperty;
 import org.semanticwb.portal.SWBFormMgr;
 import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBActionResponse;
@@ -56,10 +55,15 @@ public class SPRates extends GenericResource {
     private static Logger log = SWBUtils.getLogger(SPRates.class);
 
     @Override
-    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+    public void doView(HttpServletRequest request, HttpServletResponse response,
+            SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+
         WebPage wp = paramRequest.getWebPage();
         WebPage community = null;
         String path = "";
+        String siteWorkDir = SWBPortal.getWebWorkPath() + "/models/"
+                + paramRequest.getWebPage().getWebSiteId();
+
         if (wp instanceof MicroSitePyme) {
             community = wp;
         } else {
@@ -75,9 +79,9 @@ public class SPRates extends GenericResource {
 
                 String siteUri = ((MicroSitePyme) community).getType().getURI();
                 if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSite", wp.getWebSite()).getURI().equals(siteUri)) {
-                    path = "/work/models/etour/jsp/pymestur/microsite/spRates.jsp";
+                    path = siteWorkDir + "/jsp/pymestur/microsite/spRates.jsp";
                 } else if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSitePlus", wp.getWebSite()).getURI().equals(siteUri)) {
-                    path = "/work/models/etour/jsp/pymestur/premier/spRates.jsp";
+                    path = siteWorkDir + "/jsp/pymestur/premier/spRates.jsp";
                 }
 
                 RequestDispatcher dis = request.getRequestDispatcher(path);

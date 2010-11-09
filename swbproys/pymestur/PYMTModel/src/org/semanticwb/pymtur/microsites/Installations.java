@@ -11,6 +11,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
+import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.FormValidateException;
 import org.semanticwb.model.WebPage;
@@ -34,12 +35,16 @@ public class Installations extends GenericResource{
     private static Logger log = SWBUtils.getLogger(Installations.class);
 
     @Override
-    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+    public void doView(HttpServletRequest request, HttpServletResponse response,
+            SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+
         RequestDispatcher dis = null;
         WebPage wp = paramRequest.getWebPage();
         WebPage community = null;
         String path = null;
+        String siteWorkDir = SWBPortal.getWebWorkPath() + "/models/" + paramRequest.getWebPage().getWebSiteId();
         String action = paramRequest.getAction();
+
         if (wp instanceof MicroSitePyme) {
             community = wp;
         } else {
@@ -48,14 +53,14 @@ public class Installations extends GenericResource{
         String siteUri = ((MicroSitePyme) community).getType().getURI();
 
         if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSite", wp.getWebSite()).getURI().equals(siteUri)) {
-            path = "/work/models/etour/jsp/pymestur/microsite/installations.jsp";
+            path = siteWorkDir + "/jsp/pymestur/microsite/installations.jsp";
         } else if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSitePlus", wp.getWebSite()).getURI().equals(siteUri)) {
             if (action != null && action.equalsIgnoreCase("editInstallations"))
             {
-                path = "/work/models/etour/jsp/pymestur/premier/editInstallations.jsp";
+                path = siteWorkDir + "/jsp/pymestur/premier/editInstallations.jsp";
             } else
             {
-                path = "/work/models/etour/jsp/pymestur/premier/installations.jsp";
+                path = siteWorkDir + "/jsp/pymestur/premier/installations.jsp";
             }
         }
         dis = request.getRequestDispatcher(path);

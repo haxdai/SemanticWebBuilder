@@ -60,6 +60,8 @@ public class SPComplementaryData extends GenericResource {
         String path = null;
         String action = paramRequest.getAction();
         User user = paramRequest.getUser();
+        String siteWorkDir = SWBPortal.getWebWorkPath() + "/models/"
+                + paramRequest.getWebPage().getWebSiteId();
 
         boolean userCanEdit = false;
 
@@ -81,7 +83,7 @@ public class SPComplementaryData extends GenericResource {
             userCanEdit = canUserEdit(user, ms);
             request.setAttribute("serviceProvider", ms.getServiceProvider());
             request.setAttribute("paramRequest", paramRequest);
-            path = "/work/models/etour/jsp/pymestur/premier/ComplementaryData.jsp";
+            path = siteWorkDir + "/jsp/pymestur/premier/ComplementaryData.jsp";
         }
         try {
             if (userCanEdit) {

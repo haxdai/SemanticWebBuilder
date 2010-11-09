@@ -76,6 +76,7 @@ public class CuponManager extends GenericResource {
         WebPage wp = paramRequest.getWebPage();
         WebPage community = null;
         String path = "";
+        String siteWorkDir = SWBPortal.getWebWorkPath() + "/models/" + paramRequest.getWebPage().getWebSiteId();
 
         if (wp instanceof MicroSitePyme) {
             community = wp;
@@ -86,9 +87,9 @@ public class CuponManager extends GenericResource {
         String siteUri = ((MicroSitePyme) community).getType().getURI();
 
         if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSite", wp.getWebSite()).getURI().equals(siteUri)) {
-            path = "/work/models/etour/jsp/pymestur/microsite/spCupons.jsp";
+            path = siteWorkDir + "/jsp/pymestur/microsite/spCupons.jsp";
         } else if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSitePlus", wp.getWebSite()).getURI().equals(siteUri)) {
-            path = "/work/models/etour/jsp/pymestur/premier/spCupons.jsp";
+            path = siteWorkDir + "/jsp/pymestur/premier/spCupons.jsp";
         }
 
         RequestDispatcher dis = request.getRequestDispatcher(path);
