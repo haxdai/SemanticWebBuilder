@@ -11,6 +11,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
+import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.FormValidateException;
 import org.semanticwb.model.WebPage;
@@ -34,11 +35,15 @@ public class CertificateR extends GenericResource{
     private static Logger log = SWBUtils.getLogger(CertificateR.class);
 
     @Override
-    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+    public void doView(HttpServletRequest request, HttpServletResponse response,
+            SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+
         RequestDispatcher dis = null;
         String path = null;
-        if(paramRequest.getCallMethod()!=paramRequest.Call_STRATEGY)
-        {
+        String siteWorkDir = SWBPortal.getWebWorkPath() + "/models/"
+                + paramRequest.getWebPage().getWebSiteId();
+
+        if (paramRequest.getCallMethod() != paramRequest.Call_STRATEGY) {
             WebPage wp = paramRequest.getWebPage();
             WebPage community = null;
             String action = paramRequest.getAction();
@@ -50,11 +55,11 @@ public class CertificateR extends GenericResource{
             String siteUri = ((MicroSitePyme) community).getType().getURI();
 
             if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSite", wp.getWebSite()).getURI().equals(siteUri)) {
-                path = "/work/models/etour/jsp/pymestur/microsite/editRegistered.jsp";
+                path = siteWorkDir + "/jsp/pymestur/microsite/editRegistered.jsp";
             } else if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSitePlus", wp.getWebSite()).getURI().equals(siteUri)) {
                 if (action != null && action.equalsIgnoreCase("editCertif"))
                 {
-                    path = "/work/models/etour/jsp/pymestur/premier/editCertificated.jsp";
+                    path = siteWorkDir + "/jsp/pymestur/premier/editCertificated.jsp";
                 } 
             }
             dis = request.getRequestDispatcher(path);
@@ -66,7 +71,7 @@ public class CertificateR extends GenericResource{
             }
         }else
         {
-            path = "/work/models/etour/jsp/pymestur/premier/certificated.jsp";
+            path = siteWorkDir + "/jsp/pymestur/premier/certificated.jsp";
             dis = request.getRequestDispatcher(path);
             try {
                 request.setAttribute("paramRequest", paramRequest);

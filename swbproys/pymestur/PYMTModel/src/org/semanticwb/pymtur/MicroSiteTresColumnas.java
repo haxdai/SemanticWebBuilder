@@ -9,6 +9,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
+import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBParamRequest;
@@ -23,9 +24,13 @@ public class MicroSiteTresColumnas extends GenericResource {
     private static Logger log = SWBUtils.getLogger(DirectoryResource.class);
 
     @Override
-    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+    public void doView(HttpServletRequest request, HttpServletResponse response,
+            SWBParamRequest paramRequest) throws SWBResourceException, IOException {
 
-        RequestDispatcher dis = request.getRequestDispatcher("/work/models/etour/jsp/pymestur/microsite/tresColumnas.jsp");
+        String siteWorkDir = SWBPortal.getWebWorkPath() + "/models/"
+                + paramRequest.getWebPage().getWebSiteId();
+        RequestDispatcher dis = request.getRequestDispatcher(siteWorkDir
+                + "/jsp/pymestur/microsite/tresColumnas.jsp");
         try {
             request.setAttribute("paramRequest", paramRequest);
             dis.include(request, response);

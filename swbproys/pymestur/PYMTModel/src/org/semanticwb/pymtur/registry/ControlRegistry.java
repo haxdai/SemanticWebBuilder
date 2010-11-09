@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.RequestDispatcher;
+import org.semanticwb.SWBPortal;
 import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.api.SWBParamRequest;
@@ -109,7 +110,8 @@ public class ControlRegistry extends GenericResource {
 
         String action = (String) request.getAttribute("action");
         String error = (String) request.getAttribute("error");
-        String path = "/work/models/etour/jsp/pymestur/registry/";
+        String siteWorkDir = SWBPortal.getWebWorkPath() + "/models/" + reqParams.getWebPage().getWebSiteId();
+        String path = siteWorkDir + "/jsp/pymestur/registry/";
 
 
         if (action.equalsIgnoreCase("formaPago")) {

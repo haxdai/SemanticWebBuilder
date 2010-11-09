@@ -11,6 +11,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
+import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.FormValidateException;
 import org.semanticwb.model.WebPage;
@@ -43,6 +44,8 @@ public class Surroundings extends GenericResource{
         WebPage community = null;
         String path = null;
         String action = paramRequest.getAction();
+        String siteWorkDir = SWBPortal.getWebWorkPath() + "/models/"
+                + paramRequest.getWebPage().getWebSiteId();
 
         if (wp instanceof MicroSitePyme) {
             community = wp;
@@ -53,13 +56,13 @@ public class Surroundings extends GenericResource{
         
         if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSite",
                 wp.getWebSite()).getURI().equals(siteUri)) {
-            path = "/work/models/etour/jsp/pymestur/microsite/surroundings.jsp";
+            path = siteWorkDir + "/jsp/pymestur/microsite/surroundings.jsp";
         } else if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSitePlus",
                 wp.getWebSite()).getURI().equals(siteUri)) {
             if (action != null && action.equalsIgnoreCase("editSurroundings")) {
-                path = "/work/models/etour/jsp/pymestur/premier/surroundingsEdit.jsp";
+                path = siteWorkDir + "/jsp/pymestur/premier/surroundingsEdit.jsp";
             } else {
-                path = "/work/models/etour/jsp/pymestur/premier/surroundings.jsp";
+                path = siteWorkDir + "/jsp/pymestur/premier/surroundings.jsp";
             }
         }
         dis = request.getRequestDispatcher(path);

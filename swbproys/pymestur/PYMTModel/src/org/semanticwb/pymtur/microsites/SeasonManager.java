@@ -10,6 +10,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
+import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.WebPage;
@@ -32,7 +33,11 @@ public class SeasonManager extends GenericAdmResource {
     private static Logger log = SWBUtils.getLogger(PromotionManager.class);
 
     @Override
-    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+    public void doView(HttpServletRequest request, HttpServletResponse response,
+            SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+
+        String siteWorkDir = SWBPortal.getWebWorkPath() + "/models/"
+                + paramRequest.getWebPage().getWebSiteId();
         WebPage wp = paramRequest.getWebPage();
         WebPage community = null;
         String path = "";
@@ -45,10 +50,12 @@ public class SeasonManager extends GenericAdmResource {
 
         String siteUri = ((MicroSitePyme) community).getType().getURI();
 
-        if(MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSite", wp.getWebSite()).getURI().equals(siteUri)) {
-            path = "/work/models/etour/jsp/pymestur/microsite/spSeasons.jsp";
-        }else if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSitePlus", wp.getWebSite()).getURI().equals(siteUri)) {
-            path = "/work/models/etour/jsp/pymestur/premier/spSeasons.jsp";
+        if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSite",
+                wp.getWebSite()).getURI().equals(siteUri)) {
+            path = siteWorkDir + "/jsp/pymestur/microsite/spSeasons.jsp";
+        } else if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSitePlus",
+                wp.getWebSite()).getURI().equals(siteUri)) {
+            path = siteWorkDir + "/jsp/pymestur/premier/spSeasons.jsp";
         }
 
         RequestDispatcher dis = request.getRequestDispatcher(path);

@@ -43,8 +43,12 @@ public class PymeRegisterUser extends GenericAdmResource {
     private static Logger log = SWBUtils.getLogger(PymeRegisterUser.class);
 
     @Override
-    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+    public void doView(HttpServletRequest request, HttpServletResponse response,
+            SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+
         PrintWriter out = response.getWriter();
+        String siteWorkDir = SWBPortal.getWebWorkPath()
+                + "/models/" + paramRequest.getWebPage().getWebSiteId();
         String act = request.getParameter("act");
         User user=paramRequest.getUser();
 
@@ -74,9 +78,9 @@ public class PymeRegisterUser extends GenericAdmResource {
                 out.println(editSucc);                        
             }
             if (act.equals("add")) {
-                path = "/work/models/etour/jsp/pymestur/userRegistry/newUser.jsp";
+                path = siteWorkDir + "/jsp/pymestur/userRegistry/newUser.jsp";
             } else if (act.equals("edit")) {
-                path = "/work/models/etour/jsp/pymestur/userRegistry/userEditForm.jsp";
+                path = siteWorkDir + "/jsp/pymestur/userRegistry/userEditForm.jsp";
             } else if (act.equals("detail")) {
                 path = "/swbadmin/jsp/microsite/RegisterUser/userDetail.groovy";
             }

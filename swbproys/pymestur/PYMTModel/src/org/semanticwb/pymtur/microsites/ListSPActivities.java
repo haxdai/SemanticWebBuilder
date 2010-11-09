@@ -11,6 +11,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
+import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.platform.SemanticObject;
@@ -23,7 +24,6 @@ import org.semanticwb.portal.community.MicroSiteType;
 import org.semanticwb.pymtur.Activity;
 import org.semanticwb.pymtur.Hospedaje;
 import org.semanticwb.pymtur.MicroSitePyme;
-import org.semanticwb.pymtur.Nearest;
 import org.semanticwb.pymtur.ServiceProvider;
 
 /**
@@ -42,6 +42,7 @@ public class ListSPActivities extends GenericResource{
         WebPage wp = paramRequest.getWebPage();
         WebPage community = null;
         String path = null;
+        String siteWorkDir = SWBPortal.getWebWorkPath() + "/models/" + paramRequest.getWebPage().getWebSiteId();
         String action = paramRequest.getAction();
         if (wp instanceof MicroSitePyme) {
             community = wp;
@@ -51,14 +52,14 @@ public class ListSPActivities extends GenericResource{
         String siteUri = ((MicroSitePyme) community).getType().getURI();
 
         if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSite", wp.getWebSite()).getURI().equals(siteUri)) {
-            path = "/work/models/etour/jsp/pymestur/microsite/listSPActivities.jsp";
+            path = siteWorkDir + "/jsp/pymestur/microsite/listSPActivities.jsp";
         } else if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSitePlus", wp.getWebSite()).getURI().equals(siteUri)) {
             if (action != null && action.equalsIgnoreCase("editActivities"))
             {
-                path = "/work/models/etour/jsp/pymestur/premier/editSPActivities.jsp";
+                path = siteWorkDir + "/jsp/pymestur/premier/editSPActivities.jsp";
             } else
             {
-                path = "/work/models/etour/jsp/pymestur/premier/listSPActivities.jsp";
+                path = siteWorkDir + "/jsp/pymestur/premier/listSPActivities.jsp";
             }
         }
         dis = request.getRequestDispatcher(path);

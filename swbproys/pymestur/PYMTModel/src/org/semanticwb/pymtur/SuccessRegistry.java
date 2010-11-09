@@ -10,6 +10,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
+import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBParamRequest;
@@ -24,16 +25,16 @@ public class SuccessRegistry extends GenericResource{
     private static Logger log = SWBUtils.getLogger(SuccessRegistry.class);
 
     @Override
-    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
-    {
-         RequestDispatcher dis = request.getRequestDispatcher("/work/models/etour/jsp/pymestur/userRegistry/successRegistry.jsp");
-        try
-        {
+    public void doView(HttpServletRequest request, HttpServletResponse response,
+            SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+
+        String siteWorkDir = SWBPortal.getWebWorkPath() + "/models/"
+                + paramRequest.getWebPage().getWebSiteId();
+        RequestDispatcher dis = request.getRequestDispatcher(siteWorkDir + "/jsp/pymestur/userRegistry/successRegistry.jsp");
+        try {
             request.setAttribute("paramRequest", paramRequest);
             dis.include(request, response);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             log.error(e);
         }
     }

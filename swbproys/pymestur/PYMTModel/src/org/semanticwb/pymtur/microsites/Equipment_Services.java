@@ -11,6 +11,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
+import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.FormValidateException;
 import org.semanticwb.model.WebPage;
@@ -40,6 +41,8 @@ public class Equipment_Services extends GenericResource{
         WebPage community = null;
         String path = null;
         String action = paramRequest.getAction();
+        String siteWorkDir = SWBPortal.getWebWorkPath() + "/models/" + paramRequest.getWebPage().getWebSiteId();
+
         if (wp instanceof MicroSitePyme) {
             community = wp;
         } else {
@@ -48,14 +51,14 @@ public class Equipment_Services extends GenericResource{
         String siteUri = ((MicroSitePyme) community).getType().getURI();
 
         if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSite", wp.getWebSite()).getURI().equals(siteUri)) {
-            path = "/work/models/etour/jsp/pymestur/microsite/equipment_Services.jsp";
+            path = siteWorkDir + "/jsp/pymestur/microsite/equipment_Services.jsp";
         } else if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSitePlus", wp.getWebSite()).getURI().equals(siteUri)) {
             if (action != null && action.equalsIgnoreCase("editEquipment_Services"))
             {
-                path = "/work/models/etour/jsp/pymestur/premier/editEquipment_Services.jsp";
+                path = siteWorkDir + "/jsp/pymestur/premier/editEquipment_Services.jsp";
             } else
             {
-                path = "/work/models/etour/jsp/pymestur/premier/equipment_Services.jsp";
+                path = siteWorkDir + "/jsp/pymestur/premier/equipment_Services.jsp";
             }
         }
         dis = request.getRequestDispatcher(path);

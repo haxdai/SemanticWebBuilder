@@ -32,6 +32,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
+import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.FormValidateException;
 import org.semanticwb.model.Role;
@@ -57,7 +58,11 @@ public class PromotionManager extends GenericResource {
     private static Logger log = SWBUtils.getLogger(PromotionManager.class);
 
     @Override
-    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+    public void doView(HttpServletRequest request, HttpServletResponse response,
+            SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+
+        String siteWorkDir = SWBPortal.getWebWorkPath() + "/models/"
+                + paramRequest.getWebPage().getWebSiteId();
         response.setContentType("text/html; charset=utf-8");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
@@ -66,15 +71,15 @@ public class PromotionManager extends GenericResource {
             ServiceProvider sprovider = null;
             WebPage community = null;
             WebPage currentpage = (WebPage) request.getAttribute("webpage");
-            if(currentpage == null) {
+            if (currentpage == null) {
                 currentpage = paramRequest.getWebPage();
             }
-            if(currentpage instanceof MicroSitePyme) {
+            if (currentpage instanceof MicroSitePyme) {
                 community = currentpage;
-            }else {
+            } else {
                 community = currentpage.getParent();
             }
-            MicroSitePyme ms = (MicroSitePyme)community;
+            MicroSitePyme ms = (MicroSitePyme) community;
             sprovider = ms.getServiceProvider();
 
             String promoUrl = "#";
@@ -96,7 +101,7 @@ public class PromotionManager extends GenericResource {
                 out.println("</ul>");
             }
             out.flush();
-        }else {
+        } else {
             WebPage wp = paramRequest.getWebPage();
             WebPage community = null;
             String path = "";
@@ -110,9 +115,9 @@ public class PromotionManager extends GenericResource {
             String siteUri = ((MicroSitePyme) community).getType().getURI();
 
             if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSite", wp.getWebSite()).getURI().equals(siteUri)) {
-                path = "/work/models/etour/jsp/pymestur/microsite/spPromotions.jsp";
+                path = siteWorkDir + "/jsp/pymestur/microsite/spPromotions.jsp";
             } else if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSitePlus", wp.getWebSite()).getURI().equals(siteUri)) {
-                path = "/work/models/etour/jsp/pymestur/premier/spPromotions.jsp";
+                path = siteWorkDir + "/jsp/pymestur/premier/spPromotions.jsp";
             }
 
             RequestDispatcher dis = request.getRequestDispatcher(path);
