@@ -1,31 +1,133 @@
 package org.semanticwb.ecosikan.innova.base;
 
 
-public abstract class ChallengeBase extends org.semanticwb.portal.api.GenericSemResource implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Expirable
+public abstract class ChallengeBase extends org.semanticwb.model.SWBClass 
 {
     public static final org.semanticwb.platform.SemanticClass ecoskn_Idea=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ecosikan.infotec.com.mx#Idea");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_hasIdea=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#hasIdea");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_phase=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#phase");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_hasExpectations=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#hasExpectations");
-    public static final org.semanticwb.platform.SemanticProperty swb_created=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#created");
-    public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
-    public static final org.semanticwb.platform.SemanticProperty swb_modifiedBy=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#modifiedBy");
-    public static final org.semanticwb.platform.SemanticProperty swb_expiration=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#expiration");
-    public static final org.semanticwb.platform.SemanticProperty swb_title=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#title");
+    public static final org.semanticwb.platform.SemanticProperty ecoskn_opened=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#opened");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_hasStakeholders=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#hasStakeholders");
-    public static final org.semanticwb.platform.SemanticProperty swb_updated=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#updated");
-    public static final org.semanticwb.platform.SemanticClass swb_Resource=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#Resource");
-    public static final org.semanticwb.platform.SemanticProperty swb_semanticResourceInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#semanticResourceInv");
+    public static final org.semanticwb.platform.SemanticProperty ecoskn_image=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#image");
     public static final org.semanticwb.platform.SemanticClass ecoskn_GobiernoDelEstado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ecosikan.infotec.com.mx#GobiernoDelEstado");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_gobierno=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#gobierno");
-    public static final org.semanticwb.platform.SemanticProperty swb_creator=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#creator");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_hasDesires=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#hasDesires");
-    public static final org.semanticwb.platform.SemanticProperty swb_description=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#description");
     public static final org.semanticwb.platform.SemanticClass ecoskn_Challenge=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ecosikan.infotec.com.mx#Challenge");
+   /**
+   * The semantic class that represents the currentObject
+   */
     public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ecosikan.infotec.com.mx#Challenge");
 
-    public ChallengeBase()
+    public static class ClassMgr
     {
+       /**
+       * Returns a list of Challenge for a model
+       * @param model Model to find
+       * @return Iterator of org.semanticwb.ecosikan.innova.Challenge
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Challenge> listChallenges(org.semanticwb.model.SWBModel model)
+        {
+            java.util.Iterator it=model.getSemanticObject().getModel().listInstancesOfClass(sclass);
+            return new org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Challenge>(it, true);
+        }
+       /**
+       * Returns a list of org.semanticwb.ecosikan.innova.Challenge for all models
+       * @return Iterator of org.semanticwb.ecosikan.innova.Challenge
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Challenge> listChallenges()
+        {
+            java.util.Iterator it=sclass.listInstances();
+            return new org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Challenge>(it, true);
+        }
+       /**
+       * Gets a org.semanticwb.ecosikan.innova.Challenge
+       * @param id Identifier for org.semanticwb.ecosikan.innova.Challenge
+       * @param model Model of the org.semanticwb.ecosikan.innova.Challenge
+       * @return A org.semanticwb.ecosikan.innova.Challenge
+       */
+        public static org.semanticwb.ecosikan.innova.Challenge getChallenge(String id, org.semanticwb.model.SWBModel model)
+        {
+            return (org.semanticwb.ecosikan.innova.Challenge)model.getSemanticObject().getModel().getGenericObject(model.getSemanticObject().getModel().getObjectUri(id,sclass),sclass);
+        }
+       /**
+       * Create a org.semanticwb.ecosikan.innova.Challenge
+       * @param id Identifier for org.semanticwb.ecosikan.innova.Challenge
+       * @param model Model of the org.semanticwb.ecosikan.innova.Challenge
+       * @return A org.semanticwb.ecosikan.innova.Challenge
+       */
+        public static org.semanticwb.ecosikan.innova.Challenge createChallenge(String id, org.semanticwb.model.SWBModel model)
+        {
+            return (org.semanticwb.ecosikan.innova.Challenge)model.getSemanticObject().getModel().createGenericObject(model.getSemanticObject().getModel().getObjectUri(id,sclass),sclass);
+        }
+       /**
+       * Remove a org.semanticwb.ecosikan.innova.Challenge
+       * @param id Identifier for org.semanticwb.ecosikan.innova.Challenge
+       * @param model Model of the org.semanticwb.ecosikan.innova.Challenge
+       */
+        public static void removeChallenge(String id, org.semanticwb.model.SWBModel model)
+        {
+            model.getSemanticObject().getModel().removeSemanticObject(model.getSemanticObject().getModel().getObjectUri(id,sclass));
+        }
+       /**
+       * Returns true if exists a org.semanticwb.ecosikan.innova.Challenge
+       * @param id Identifier for org.semanticwb.ecosikan.innova.Challenge
+       * @param model Model of the org.semanticwb.ecosikan.innova.Challenge
+       * @return true if the org.semanticwb.ecosikan.innova.Challenge exists, false otherwise
+       */
+
+        public static boolean hasChallenge(String id, org.semanticwb.model.SWBModel model)
+        {
+            return (getChallenge(id, model)!=null);
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Challenge with a determined Idea
+       * @param value Idea of the type org.semanticwb.ecosikan.innova.Idea
+       * @param model Model of the org.semanticwb.ecosikan.innova.Challenge
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Challenge
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Challenge> listChallengeByIdea(org.semanticwb.ecosikan.innova.Idea value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Challenge> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(ecoskn_hasIdea, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Challenge with a determined Idea
+       * @param value Idea of the type org.semanticwb.ecosikan.innova.Idea
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Challenge
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Challenge> listChallengeByIdea(org.semanticwb.ecosikan.innova.Idea value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Challenge> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(ecoskn_hasIdea,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Challenge with a determined Gobierno
+       * @param value Gobierno of the type org.semanticwb.ecosikan.innova.GobiernoDelEstado
+       * @param model Model of the org.semanticwb.ecosikan.innova.Challenge
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Challenge
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Challenge> listChallengeByGobierno(org.semanticwb.ecosikan.innova.GobiernoDelEstado value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Challenge> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(ecoskn_gobierno, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Challenge with a determined Gobierno
+       * @param value Gobierno of the type org.semanticwb.ecosikan.innova.GobiernoDelEstado
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Challenge
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Challenge> listChallengeByGobierno(org.semanticwb.ecosikan.innova.GobiernoDelEstado value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Challenge> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(ecoskn_gobierno,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
    /**
@@ -148,110 +250,21 @@ public abstract class ChallengeBase extends org.semanticwb.portal.api.GenericSem
     }
 
 /**
-* Gets the Created property
-* @return java.util.Date with the Created
+* Gets the Opened property
+* @return boolean with the Opened
 */
-    public java.util.Date getCreated()
+    public boolean isOpened()
     {
-        return getSemanticObject().getDateProperty(swb_created);
+        return getSemanticObject().getBooleanProperty(ecoskn_opened);
     }
 
 /**
-* Sets the Created property
-* @param value long with the Created
+* Sets the Opened property
+* @param value long with the Opened
 */
-    public void setCreated(java.util.Date value)
+    public void setOpened(boolean value)
     {
-        getSemanticObject().setDateProperty(swb_created, value);
-    }
-   /**
-   * Sets the value for the property ModifiedBy
-   * @param value ModifiedBy to set
-   */
-
-    public void setModifiedBy(org.semanticwb.model.User value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(swb_modifiedBy, value.getSemanticObject());
-        }else
-        {
-            removeModifiedBy();
-        }
-    }
-   /**
-   * Remove the value for ModifiedBy property
-   */
-
-    public void removeModifiedBy()
-    {
-        getSemanticObject().removeProperty(swb_modifiedBy);
-    }
-
-   /**
-   * Gets the ModifiedBy
-   * @return a org.semanticwb.model.User
-   */
-    public org.semanticwb.model.User getModifiedBy()
-    {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_modifiedBy);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
-    }
-
-/**
-* Gets the Expiration property
-* @return java.util.Date with the Expiration
-*/
-    public java.util.Date getExpiration()
-    {
-        return getSemanticObject().getDateProperty(swb_expiration);
-    }
-
-/**
-* Sets the Expiration property
-* @param value long with the Expiration
-*/
-    public void setExpiration(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_expiration, value);
-    }
-
-/**
-* Gets the Title property
-* @return String with the Title
-*/
-    public String getTitle()
-    {
-        return getSemanticObject().getProperty(swb_title);
-    }
-
-/**
-* Sets the Title property
-* @param value long with the Title
-*/
-    public void setTitle(String value)
-    {
-        getSemanticObject().setProperty(swb_title, value);
-    }
-
-    public String getTitle(String lang)
-    {
-        return getSemanticObject().getProperty(swb_title, null, lang);
-    }
-
-    public String getDisplayTitle(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_title, lang);
-    }
-
-    public void setTitle(String title, String lang)
-    {
-        getSemanticObject().setProperty(swb_title, title, lang);
+        getSemanticObject().setBooleanProperty(ecoskn_opened, value);
     }
 
     public java.util.Iterator<String> listStakeholderses()
@@ -282,59 +295,21 @@ public abstract class ChallengeBase extends org.semanticwb.portal.api.GenericSem
     }
 
 /**
-* Gets the Updated property
-* @return java.util.Date with the Updated
+* Gets the Image property
+* @return String with the Image
 */
-    public java.util.Date getUpdated()
+    public String getImage()
     {
-        return getSemanticObject().getDateProperty(swb_updated);
+        return getSemanticObject().getProperty(ecoskn_image);
     }
 
 /**
-* Sets the Updated property
-* @param value long with the Updated
+* Sets the Image property
+* @param value long with the Image
 */
-    public void setUpdated(java.util.Date value)
+    public void setImage(String value)
     {
-        getSemanticObject().setDateProperty(swb_updated, value);
-    }
-   /**
-   * Sets the value for the property Resource
-   * @param value Resource to set
-   */
-
-    public void setResource(org.semanticwb.model.Resource value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(swb_semanticResourceInv, value.getSemanticObject());
-        }else
-        {
-            removeResource();
-        }
-    }
-   /**
-   * Remove the value for Resource property
-   */
-
-    public void removeResource()
-    {
-        getSemanticObject().removeProperty(swb_semanticResourceInv);
-    }
-
-   /**
-   * Gets the Resource
-   * @return a org.semanticwb.model.Resource
-   */
-    public org.semanticwb.model.Resource getResource()
-    {
-         org.semanticwb.model.Resource ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_semanticResourceInv);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.Resource)obj.createGenericInstance();
-         }
-         return ret;
+        getSemanticObject().setProperty(ecoskn_image, value);
     }
    /**
    * Sets the value for the property Gobierno
@@ -374,44 +349,6 @@ public abstract class ChallengeBase extends org.semanticwb.portal.api.GenericSem
          }
          return ret;
     }
-   /**
-   * Sets the value for the property Creator
-   * @param value Creator to set
-   */
-
-    public void setCreator(org.semanticwb.model.User value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(swb_creator, value.getSemanticObject());
-        }else
-        {
-            removeCreator();
-        }
-    }
-   /**
-   * Remove the value for Creator property
-   */
-
-    public void removeCreator()
-    {
-        getSemanticObject().removeProperty(swb_creator);
-    }
-
-   /**
-   * Gets the Creator
-   * @return a org.semanticwb.model.User
-   */
-    public org.semanticwb.model.User getCreator()
-    {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_creator);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
-    }
 
     public java.util.Iterator<String> listDesireses()
     {
@@ -438,38 +375,5 @@ public abstract class ChallengeBase extends org.semanticwb.portal.api.GenericSem
     public void removeDesires(String value)
     {
         getSemanticObject().removeLiteralProperty(ecoskn_hasDesires,new org.semanticwb.platform.SemanticLiteral(value));
-    }
-
-/**
-* Gets the Description property
-* @return String with the Description
-*/
-    public String getDescription()
-    {
-        return getSemanticObject().getProperty(swb_description);
-    }
-
-/**
-* Sets the Description property
-* @param value long with the Description
-*/
-    public void setDescription(String value)
-    {
-        getSemanticObject().setProperty(swb_description, value);
-    }
-
-    public String getDescription(String lang)
-    {
-        return getSemanticObject().getProperty(swb_description, null, lang);
-    }
-
-    public String getDisplayDescription(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_description, lang);
-    }
-
-    public void setDescription(String description, String lang)
-    {
-        getSemanticObject().setProperty(swb_description, description, lang);
     }
 }
