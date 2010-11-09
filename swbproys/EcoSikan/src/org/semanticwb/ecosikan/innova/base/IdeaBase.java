@@ -1,11 +1,13 @@
 package org.semanticwb.ecosikan.innova.base;
 
 
-public abstract class IdeaBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class IdeaBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
     public static final org.semanticwb.platform.SemanticProperty ecoskn_hasComments=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#hasComments");
+    public static final org.semanticwb.platform.SemanticProperty ecoskn_votesP=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#votesP");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_conclusion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#conclusion");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_selected=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#selected");
+    public static final org.semanticwb.platform.SemanticProperty ecoskn_votesN=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#votesN");
     public static final org.semanticwb.platform.SemanticClass ecoskn_Category=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ecosikan.infotec.com.mx#Category");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_category=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#category");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_status=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#status");
@@ -191,6 +193,24 @@ public abstract class IdeaBase extends org.semanticwb.model.SWBClass implements 
     }
 
 /**
+* Gets the VotesP property
+* @return long with the VotesP
+*/
+    public long getVotesP()
+    {
+        return getSemanticObject().getLongProperty(ecoskn_votesP);
+    }
+
+/**
+* Sets the VotesP property
+* @param value long with the VotesP
+*/
+    public void setVotesP(long value)
+    {
+        getSemanticObject().setLongProperty(ecoskn_votesP, value);
+    }
+
+/**
 * Gets the Conclusion property
 * @return String with the Conclusion
 */
@@ -313,6 +333,24 @@ public abstract class IdeaBase extends org.semanticwb.model.SWBClass implements 
     public void setTitle(String title, String lang)
     {
         getSemanticObject().setProperty(swb_title, title, lang);
+    }
+
+/**
+* Gets the VotesN property
+* @return long with the VotesN
+*/
+    public long getVotesN()
+    {
+        return getSemanticObject().getLongProperty(ecoskn_votesN);
+    }
+
+/**
+* Sets the VotesN property
+* @param value long with the VotesN
+*/
+    public void setVotesN(long value)
+    {
+        getSemanticObject().setLongProperty(ecoskn_votesN, value);
     }
 
 /**
