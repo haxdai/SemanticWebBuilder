@@ -646,7 +646,7 @@ public class RecommendPortal extends GenericAdmResource {
                                 + base.getAttribute("alt").trim().replaceAll("\"",
                                 "&#34;") + "\"");
                     }
-                    ret.append(" border=0></a>");
+                    ret.append(" border=\"0\"/></a>");
                 } else if (!"".equals(base.getAttribute("btntexto", "").trim())) {
                     ret.append("\n<form name=frmRecomendar>");
                     ret.append("\n<input type=button name=btnRecomendar onClick=\""
@@ -657,7 +657,7 @@ public class RecommendPortal extends GenericAdmResource {
                                 + base.getAttribute("blnstyle").trim().replaceAll("\"", "&#34;")
                                 + "\"");
                     }
-                    ret.append("\n></form>");
+                    ret.append("\n/></form>");
                 } else {
                     ret.append("\n<a href=\"" + onclick + "\" onClick=\"" + onclick + "\"");
                     if (!"".equals(base.getAttribute("blnstyle", "").trim())) {
@@ -701,16 +701,16 @@ public class RecommendPortal extends GenericAdmResource {
                                 && subject != null) && SWBUtils.EMAIL.sendMail(from, from, aAddress,
                                 null, null, subject, "html", ret.toString(),
                                 null, null, null) != null) {
-                            ret.append("\n<script>");
+                            ret.append("\n<script>\n<!--");
                             ret.append("\nalert('" + paramRequest.getLocaleString("msgSendEmail") + "');");
                             ret.append("\nwindow.close();");
-                            ret.append("\n</script>");
+                            ret.append("\n-->\n</script>");
                             mailSent = true;
                         } else {
-                            ret.append("\n<script>");
+                            ret.append("\n<script>\n<!--");
                             ret.append("\nalert('" + paramRequest.getLocaleString("msgEmailRequired") + "');");
                             ret.append("\nhistory.go(-1);");
-                            ret.append("\n</script>");
+                            ret.append("\n-->\n</script>");
                         }
                         if (mailSent && generateLog.length() > 0) {
                             try {

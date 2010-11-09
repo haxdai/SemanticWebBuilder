@@ -114,16 +114,20 @@ public final class PhotoAlbumSheet extends GenericAdmResource {
         html.append("<script type=\"text/javascript\" src=\""+SWBPortal.getWebWorkPath()+"/models/"+base.getWebSiteId()+"/css/pymestur.js\"></script>");
         html.append("<link rel='stylesheet' type='text/css' media='all' href='"+SWBPortal.getContextPath()+"/swbadmin/js/dojo/dijit/themes/soria/soria.css'></link>");
         html.append("<script type=\"text/javascript\">");
+        html.append("<!--");
         html.append("        var djConfig = {");
         html.append("            parseOnLoad: true,");
         html.append("            isDebug: false,");
         html.append("            locale: 'en-us',");
         html.append("            extraLocale: ['ja-jp']");
         html.append("        };");
+        html.append("-->");
         html.append("</script>");
         html.append("<script type=\"text/javascript\" >");
+        html.append("<!--");
         html.append("    dojo.require(\"dijit.form.Form\");");
         html.append("    dojo.require(\"dijit.form.Button\");");
+        html.append("-->");
         html.append("</script>");
         html.append("</head>");
         html.append("<body class=\"soria\">");
@@ -161,6 +165,7 @@ public final class PhotoAlbumSheet extends GenericAdmResource {
         html.append("\n</div>  ");
 
         html.append("\n<script type=\"text/javascript\"> ");
+        html.append("<!--");
         html.append("\nfunction addRowToTable_"+base.getId()+"(tblId, filename, img, cellSufix) { ");
         html.append("\n    var tbl = document.getElementById(tblId); ");
         html.append("\n    var lastRow = tbl.rows.length; ");
@@ -265,6 +270,7 @@ public final class PhotoAlbumSheet extends GenericAdmResource {
             String img = "<img src=\""+SWBPortal.getWebWorkPath()+path+pp.getPhotoThumbnail()+"\" alt=\""+pp.getPhotoImage()+"\" />";
             html.append("addRowToTable_"+base.getId()+"('igtbl_"+base.getId()+"', '"+pp.getPhotoImage()+"', '"+img+"', '"+pp.getId()+"'); \n");
         }
+        html.append("-->");
         html.append("\n</script>");
         
         html.append("</body>");
