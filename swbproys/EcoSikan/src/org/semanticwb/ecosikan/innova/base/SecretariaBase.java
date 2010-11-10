@@ -1,7 +1,7 @@
 package org.semanticwb.ecosikan.innova.base;
 
 
-public abstract class SecretariaBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Iconable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.ImageUploadable
+public abstract class SecretariaBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.RuleRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Trashable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Localeable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Indexable,org.semanticwb.model.Tagable,org.semanticwb.model.Searchable,org.semanticwb.model.Viewable,org.semanticwb.model.Rankable,org.semanticwb.model.Referensable,org.semanticwb.model.Expirable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Activeable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Traceable,org.semanticwb.model.Resourceable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.FilterableNode
 {
     public static final org.semanticwb.platform.SemanticClass ecoskn_Secretaria=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ecosikan.infotec.com.mx#Secretaria");
    /**
@@ -79,6 +79,236 @@ public abstract class SecretariaBase extends org.semanticwb.model.SWBClass imple
             return (getSecretaria(id, model)!=null);
         }
        /**
+       * Gets all org.semanticwb.ecosikan.innova.Secretaria with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * @param model Model of the org.semanticwb.ecosikan.innova.Secretaria
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Secretaria
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Secretaria> listSecretariaByUserGroupRef(org.semanticwb.model.UserGroupRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Secretaria> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Secretaria with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Secretaria
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Secretaria> listSecretariaByUserGroupRef(org.semanticwb.model.UserGroupRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Secretaria> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Secretaria with a determined AssMember
+       * @param value AssMember of the type org.semanticwb.model.AssMember
+       * @param model Model of the org.semanticwb.ecosikan.innova.Secretaria
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Secretaria
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Secretaria> listSecretariaByAssMember(org.semanticwb.model.AssMember value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Secretaria> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasAssMemberInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Secretaria with a determined AssMember
+       * @param value AssMember of the type org.semanticwb.model.AssMember
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Secretaria
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Secretaria> listSecretariaByAssMember(org.semanticwb.model.AssMember value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Secretaria> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasAssMemberInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Secretaria with a determined VirtualParent
+       * @param value VirtualParent of the type org.semanticwb.model.WebPage
+       * @param model Model of the org.semanticwb.ecosikan.innova.Secretaria
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Secretaria
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Secretaria> listSecretariaByVirtualParent(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Secretaria> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualParent, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Secretaria with a determined VirtualParent
+       * @param value VirtualParent of the type org.semanticwb.model.WebPage
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Secretaria
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Secretaria> listSecretariaByVirtualParent(org.semanticwb.model.WebPage value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Secretaria> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualParent,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Secretaria with a determined WebPageVirtualChild
+       * @param value WebPageVirtualChild of the type org.semanticwb.model.WebPage
+       * @param model Model of the org.semanticwb.ecosikan.innova.Secretaria
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Secretaria
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Secretaria> listSecretariaByWebPageVirtualChild(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Secretaria> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualChild, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Secretaria with a determined WebPageVirtualChild
+       * @param value WebPageVirtualChild of the type org.semanticwb.model.WebPage
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Secretaria
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Secretaria> listSecretariaByWebPageVirtualChild(org.semanticwb.model.WebPage value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Secretaria> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualChild,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Secretaria with a determined Language
+       * @param value Language of the type org.semanticwb.model.Language
+       * @param model Model of the org.semanticwb.ecosikan.innova.Secretaria
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Secretaria
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Secretaria> listSecretariaByLanguage(org.semanticwb.model.Language value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Secretaria> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_language, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Secretaria with a determined Language
+       * @param value Language of the type org.semanticwb.model.Language
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Secretaria
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Secretaria> listSecretariaByLanguage(org.semanticwb.model.Language value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Secretaria> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_language,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Secretaria with a determined PFlowRef
+       * @param value PFlowRef of the type org.semanticwb.model.PFlowRef
+       * @param model Model of the org.semanticwb.ecosikan.innova.Secretaria
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Secretaria
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Secretaria> listSecretariaByPFlowRef(org.semanticwb.model.PFlowRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Secretaria> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Secretaria with a determined PFlowRef
+       * @param value PFlowRef of the type org.semanticwb.model.PFlowRef
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Secretaria
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Secretaria> listSecretariaByPFlowRef(org.semanticwb.model.PFlowRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Secretaria> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Secretaria with a determined TemplateRef
+       * @param value TemplateRef of the type org.semanticwb.model.TemplateRef
+       * @param model Model of the org.semanticwb.ecosikan.innova.Secretaria
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Secretaria
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Secretaria> listSecretariaByTemplateRef(org.semanticwb.model.TemplateRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Secretaria> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Secretaria with a determined TemplateRef
+       * @param value TemplateRef of the type org.semanticwb.model.TemplateRef
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Secretaria
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Secretaria> listSecretariaByTemplateRef(org.semanticwb.model.TemplateRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Secretaria> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Secretaria with a determined Child
+       * @param value Child of the type org.semanticwb.model.WebPage
+       * @param model Model of the org.semanticwb.ecosikan.innova.Secretaria
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Secretaria
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Secretaria> listSecretariaByChild(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Secretaria> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageChild, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Secretaria with a determined Child
+       * @param value Child of the type org.semanticwb.model.WebPage
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Secretaria
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Secretaria> listSecretariaByChild(org.semanticwb.model.WebPage value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Secretaria> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageChild,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Secretaria with a determined CalendarRef
+       * @param value CalendarRef of the type org.semanticwb.model.CalendarRef
+       * @param model Model of the org.semanticwb.ecosikan.innova.Secretaria
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Secretaria
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Secretaria> listSecretariaByCalendarRef(org.semanticwb.model.CalendarRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Secretaria> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasCalendarRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Secretaria with a determined CalendarRef
+       * @param value CalendarRef of the type org.semanticwb.model.CalendarRef
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Secretaria
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Secretaria> listSecretariaByCalendarRef(org.semanticwb.model.CalendarRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Secretaria> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasCalendarRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Secretaria with a determined Parent
+       * @param value Parent of the type org.semanticwb.model.WebPage
+       * @param model Model of the org.semanticwb.ecosikan.innova.Secretaria
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Secretaria
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Secretaria> listSecretariaByParent(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Secretaria> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_webPageParent, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Secretaria with a determined Parent
+       * @param value Parent of the type org.semanticwb.model.WebPage
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Secretaria
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Secretaria> listSecretariaByParent(org.semanticwb.model.WebPage value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Secretaria> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_webPageParent,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.ecosikan.innova.Secretaria with a determined ModifiedBy
        * @param value ModifiedBy of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.ecosikan.innova.Secretaria
@@ -99,6 +329,75 @@ public abstract class SecretariaBase extends org.semanticwb.model.SWBClass imple
         public static java.util.Iterator<org.semanticwb.ecosikan.innova.Secretaria> listSecretariaByModifiedBy(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Secretaria> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Secretaria with a determined Resource
+       * @param value Resource of the type org.semanticwb.model.Resource
+       * @param model Model of the org.semanticwb.ecosikan.innova.Secretaria
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Secretaria
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Secretaria> listSecretariaByResource(org.semanticwb.model.Resource value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Secretaria> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasResource, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Secretaria with a determined Resource
+       * @param value Resource of the type org.semanticwb.model.Resource
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Secretaria
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Secretaria> listSecretariaByResource(org.semanticwb.model.Resource value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Secretaria> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasResource,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Secretaria with a determined RoleRef
+       * @param value RoleRef of the type org.semanticwb.model.RoleRef
+       * @param model Model of the org.semanticwb.ecosikan.innova.Secretaria
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Secretaria
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Secretaria> listSecretariaByRoleRef(org.semanticwb.model.RoleRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Secretaria> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Secretaria with a determined RoleRef
+       * @param value RoleRef of the type org.semanticwb.model.RoleRef
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Secretaria
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Secretaria> listSecretariaByRoleRef(org.semanticwb.model.RoleRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Secretaria> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Secretaria with a determined ThisRoleAssMember
+       * @param value ThisRoleAssMember of the type org.semanticwb.model.AssMember
+       * @param model Model of the org.semanticwb.ecosikan.innova.Secretaria
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Secretaria
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Secretaria> listSecretariaByThisRoleAssMember(org.semanticwb.model.AssMember value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Secretaria> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisRoleAssMemberInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Secretaria with a determined ThisRoleAssMember
+       * @param value ThisRoleAssMember of the type org.semanticwb.model.AssMember
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Secretaria
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Secretaria> listSecretariaByThisRoleAssMember(org.semanticwb.model.AssMember value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Secretaria> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisRoleAssMemberInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -124,6 +423,52 @@ public abstract class SecretariaBase extends org.semanticwb.model.SWBClass imple
             org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Secretaria> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Secretaria with a determined RuleRef
+       * @param value RuleRef of the type org.semanticwb.model.RuleRef
+       * @param model Model of the org.semanticwb.ecosikan.innova.Secretaria
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Secretaria
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Secretaria> listSecretariaByRuleRef(org.semanticwb.model.RuleRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Secretaria> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Secretaria with a determined RuleRef
+       * @param value RuleRef of the type org.semanticwb.model.RuleRef
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Secretaria
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Secretaria> listSecretariaByRuleRef(org.semanticwb.model.RuleRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Secretaria> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Secretaria with a determined ThisTypeAssociation
+       * @param value ThisTypeAssociation of the type org.semanticwb.model.Association
+       * @param model Model of the org.semanticwb.ecosikan.innova.Secretaria
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Secretaria
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Secretaria> listSecretariaByThisTypeAssociation(org.semanticwb.model.Association value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Secretaria> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisTypeAssociationInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Secretaria with a determined ThisTypeAssociation
+       * @param value ThisTypeAssociation of the type org.semanticwb.model.Association
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Secretaria
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Secretaria> listSecretariaByThisTypeAssociation(org.semanticwb.model.Association value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Secretaria> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisTypeAssociationInv,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
    /**
@@ -133,309 +478,5 @@ public abstract class SecretariaBase extends org.semanticwb.model.SWBClass imple
     public SecretariaBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
-    }
-
-/**
-* Gets the ImgMaxHeight property
-* @return int with the ImgMaxHeight
-*/
-    public int getImgMaxHeight()
-    {
-        return getSemanticObject().getIntProperty(swbxf_imgMaxHeight);
-    }
-
-/**
-* Sets the ImgMaxHeight property
-* @param value long with the ImgMaxHeight
-*/
-    public void setImgMaxHeight(int value)
-    {
-        getSemanticObject().setIntProperty(swbxf_imgMaxHeight, value);
-    }
-
-/**
-* Gets the ImgMaxWidth property
-* @return int with the ImgMaxWidth
-*/
-    public int getImgMaxWidth()
-    {
-        return getSemanticObject().getIntProperty(swbxf_imgMaxWidth);
-    }
-
-/**
-* Sets the ImgMaxWidth property
-* @param value long with the ImgMaxWidth
-*/
-    public void setImgMaxWidth(int value)
-    {
-        getSemanticObject().setIntProperty(swbxf_imgMaxWidth, value);
-    }
-
-/**
-* Gets the ImgThumbnailHeight property
-* @return int with the ImgThumbnailHeight
-*/
-    public int getImgThumbnailHeight()
-    {
-        return getSemanticObject().getIntProperty(swbxf_imgThumbnailHeight);
-    }
-
-/**
-* Sets the ImgThumbnailHeight property
-* @param value long with the ImgThumbnailHeight
-*/
-    public void setImgThumbnailHeight(int value)
-    {
-        getSemanticObject().setIntProperty(swbxf_imgThumbnailHeight, value);
-    }
-
-/**
-* Gets the Created property
-* @return java.util.Date with the Created
-*/
-    public java.util.Date getCreated()
-    {
-        return getSemanticObject().getDateProperty(swb_created);
-    }
-
-/**
-* Sets the Created property
-* @param value long with the Created
-*/
-    public void setCreated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_created, value);
-    }
-   /**
-   * Sets the value for the property ModifiedBy
-   * @param value ModifiedBy to set
-   */
-
-    public void setModifiedBy(org.semanticwb.model.User value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(swb_modifiedBy, value.getSemanticObject());
-        }else
-        {
-            removeModifiedBy();
-        }
-    }
-   /**
-   * Remove the value for ModifiedBy property
-   */
-
-    public void removeModifiedBy()
-    {
-        getSemanticObject().removeProperty(swb_modifiedBy);
-    }
-
-   /**
-   * Gets the ModifiedBy
-   * @return a org.semanticwb.model.User
-   */
-    public org.semanticwb.model.User getModifiedBy()
-    {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_modifiedBy);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
-    }
-
-/**
-* Gets the IconClass property
-* @return String with the IconClass
-*/
-    public String getIconClass()
-    {
-        return getSemanticObject().getProperty(swb_iconClass);
-    }
-
-/**
-* Sets the IconClass property
-* @param value long with the IconClass
-*/
-    public void setIconClass(String value)
-    {
-        getSemanticObject().setProperty(swb_iconClass, value);
-    }
-
-/**
-* Gets the Title property
-* @return String with the Title
-*/
-    public String getTitle()
-    {
-        return getSemanticObject().getProperty(swb_title);
-    }
-
-/**
-* Sets the Title property
-* @param value long with the Title
-*/
-    public void setTitle(String value)
-    {
-        getSemanticObject().setProperty(swb_title, value);
-    }
-
-    public String getTitle(String lang)
-    {
-        return getSemanticObject().getProperty(swb_title, null, lang);
-    }
-
-    public String getDisplayTitle(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_title, lang);
-    }
-
-    public void setTitle(String title, String lang)
-    {
-        getSemanticObject().setProperty(swb_title, title, lang);
-    }
-
-/**
-* Gets the ImgThumbnailWidth property
-* @return int with the ImgThumbnailWidth
-*/
-    public int getImgThumbnailWidth()
-    {
-        return getSemanticObject().getIntProperty(swbxf_imgThumbnailWidth);
-    }
-
-/**
-* Sets the ImgThumbnailWidth property
-* @param value long with the ImgThumbnailWidth
-*/
-    public void setImgThumbnailWidth(int value)
-    {
-        getSemanticObject().setIntProperty(swbxf_imgThumbnailWidth, value);
-    }
-
-/**
-* Gets the Updated property
-* @return java.util.Date with the Updated
-*/
-    public java.util.Date getUpdated()
-    {
-        return getSemanticObject().getDateProperty(swb_updated);
-    }
-
-/**
-* Sets the Updated property
-* @param value long with the Updated
-*/
-    public void setUpdated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_updated, value);
-    }
-
-/**
-* Gets the ImgCrop property
-* @return boolean with the ImgCrop
-*/
-    public boolean isImgCrop()
-    {
-        return getSemanticObject().getBooleanProperty(swbxf_imgCrop);
-    }
-
-/**
-* Sets the ImgCrop property
-* @param value long with the ImgCrop
-*/
-    public void setImgCrop(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(swbxf_imgCrop, value);
-    }
-
-/**
-* Gets the ImgThumbnail property
-* @return boolean with the ImgThumbnail
-*/
-    public boolean isImgThumbnail()
-    {
-        return getSemanticObject().getBooleanProperty(swbxf_imgThumbnail);
-    }
-
-/**
-* Sets the ImgThumbnail property
-* @param value long with the ImgThumbnail
-*/
-    public void setImgThumbnail(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(swbxf_imgThumbnail, value);
-    }
-   /**
-   * Sets the value for the property Creator
-   * @param value Creator to set
-   */
-
-    public void setCreator(org.semanticwb.model.User value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(swb_creator, value.getSemanticObject());
-        }else
-        {
-            removeCreator();
-        }
-    }
-   /**
-   * Remove the value for Creator property
-   */
-
-    public void removeCreator()
-    {
-        getSemanticObject().removeProperty(swb_creator);
-    }
-
-   /**
-   * Gets the Creator
-   * @return a org.semanticwb.model.User
-   */
-    public org.semanticwb.model.User getCreator()
-    {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_creator);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
-    }
-
-/**
-* Gets the Description property
-* @return String with the Description
-*/
-    public String getDescription()
-    {
-        return getSemanticObject().getProperty(swb_description);
-    }
-
-/**
-* Sets the Description property
-* @param value long with the Description
-*/
-    public void setDescription(String value)
-    {
-        getSemanticObject().setProperty(swb_description, value);
-    }
-
-    public String getDescription(String lang)
-    {
-        return getSemanticObject().getProperty(swb_description, null, lang);
-    }
-
-    public String getDisplayDescription(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_description, lang);
-    }
-
-    public void setDescription(String description, String lang)
-    {
-        getSemanticObject().setProperty(swb_description, description, lang);
     }
 }
