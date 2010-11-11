@@ -35,23 +35,7 @@
     >true</swb:autogenId>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
   </owl:Class>
-  <owl:Class rdf:ID="Secretaria">
-    <rdfs:subClassOf>
-      <owl:Restriction>
-        <owl:allValuesFrom>
-          <owl:Class rdf:ID="Theme"/>
-        </owl:allValuesFrom>
-        <owl:onProperty rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#hasWebPageChild"/>
-      </owl:Restriction>
-    </rdfs:subClassOf>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</swb:autogenId>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#WebPage"/>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-  </owl:Class>
-  <owl:Class rdf:about="#Theme">
+  <owl:Class rdf:ID="Theme">
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#WebPage"/>
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
@@ -60,10 +44,6 @@
     <rdfs:subClassOf rdf:resource="#IdeaContainer"/>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
   </owl:Class>
-  <owl:ObjectProperty rdf:ID="secretaria">
-    <rdfs:domain rdf:resource="#Theme"/>
-    <rdfs:range rdf:resource="#Secretaria"/>
-  </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="hasCategory">
     <rdfs:domain>
       <swb:Class rdf:ID="Challenge">
@@ -78,6 +58,25 @@
       </swb:Class>
     </rdfs:domain>
     <rdfs:range rdf:resource="#Category"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="dependencia">
+    <rdfs:domain rdf:resource="#Theme"/>
+    <rdfs:range>
+      <swb:Class rdf:ID="Dependencia">
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#WebPage"/>
+        <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+        >true</swb:autogenId>
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+        <rdfs:subClassOf>
+          <owl:Restriction>
+            <owl:allValuesFrom rdf:resource="#Theme"/>
+            <owl:onProperty rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#hasWebPageChild"/>
+          </owl:Restriction>
+        </rdfs:subClassOf>
+      </swb:Class>
+    </rdfs:range>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="hasThemes">
     <rdfs:range rdf:resource="#Theme"/>
@@ -114,7 +113,7 @@
     <rdfs:range rdf:resource="#Category"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="hasSecretarias">
-    <rdfs:range rdf:resource="#Secretaria"/>
+    <rdfs:range rdf:resource="#Dependencia"/>
   </owl:ObjectProperty>
   <owl:DatatypeProperty rdf:ID="status">
     <rdfs:domain rdf:resource="#Idea"/>
