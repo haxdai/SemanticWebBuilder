@@ -42,16 +42,16 @@ public class ThemeManager extends org.semanticwb.ecosikan.innova.base.ThemeManag
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
-        /*Secretaria secretaria = Secretaria.ClassMgr.createSecretaria(paramRequest.getWebPage().getWebSite());
-        secretaria.setParent(paramRequest.getWebPage().getWebSite().getHomePage());
-        secretaria.setTitle("prueba 2");
-        secretaria.setDescription("desc 2");
+        /*Dependencia dependencia = Dependencia.ClassMgr.createSecretaria(paramRequest.getWebPage().getWebSite());
+        dependencia.setParent(paramRequest.getWebPage().getWebSite().getHomePage());
+        dependencia.setTitle("prueba 2");
+        dependencia.setDescription("desc 2");
 
         PrintWriter out = response.getWriter();
         out.println("<ul>");
-        Iterator<Secretaria> itsecs =Secretaria.ClassMgr.listSecretarias(paramRequest.getWebPage().getWebSite());
+        Iterator<Dependencia> itsecs =Dependencia.ClassMgr.listSecretarias(paramRequest.getWebPage().getWebSite());
         while(itsecs.hasNext()) {
-            Secretaria sec = itsecs.next();
+            Dependencia sec = itsecs.next();
             out.println("<li>");
             out.println(sec.getId()+"-"+sec.getTitle()+"-"+sec.getDescription());
             out.println("</li>");
@@ -153,25 +153,25 @@ public class ThemeManager extends org.semanticwb.ecosikan.innova.base.ThemeManag
             }
         }
         if(theme!=null) {
-            Secretaria secretaria;
+            Dependencia dependencia;
             WebSite site = response.getWebPage().getWebSite();
             
             if( params.containsKey("newsectitle")&&!params.get("newsectitle").isEmpty()&&params.containsKey("newsecdesc")&&!params.get("newsecdesc").isEmpty() ) {
-                secretaria = Secretaria.ClassMgr.createSecretaria(site);
-                secretaria.setParent(site.getHomePage());
-                secretaria.setTitle(params.get("newsectitle"));
-                secretaria.setDescription(params.get("newsecdesc"));
-                //secretaria.setIconClass("secretaria");
-                secretaria.setActive(true);
+                dependencia = Dependencia.ClassMgr.createDependencia(site);
+                dependencia.setParent(site.getHomePage());
+                dependencia.setTitle(params.get("newsectitle"));
+                dependencia.setDescription(params.get("newsecdesc"));
+                //dependencia.setIconClass("dependencia");
+                dependencia.setActive(true);
             }else {
-                //secretaria = (Secretaria)SemanticObject.createSemanticObject(params.get("secretaria")).createGenericInstance();
-                secretaria = Secretaria.ClassMgr.getSecretaria(params.get("secretaria"), site);
+                //dependencia = (Dependencia)SemanticObject.createSemanticObject(params.get("dependencia")).createGenericInstance();
+                dependencia = Dependencia.ClassMgr.getDependencia(params.get("dependencia"), site);
             }
             //theme.setIconClass("theme");
             
 //            try {
 //                String secretariaName = params.get("secret").trim();
-//                if( secretaria.equals("") )
+//                if( dependencia.equals("") )
 //                    throw new Exception("La secretaría es requerida. Resource "+base.getTitle()+" with id "+base.getId());
 //                theme.setSecretaria(null);
 //            }catch(Exception e) {
@@ -208,7 +208,7 @@ public class ThemeManager extends org.semanticwb.ecosikan.innova.base.ThemeManag
 //                log.error("El tema no trae imagen. Resource "+base.getTitle()+" with id "+base.getId());
 //            }
 //            addThemes(theme);
-            theme.setParent(secretaria);
+            theme.setParent(dependencia);
             theme.setActive(true);
         }
     }
