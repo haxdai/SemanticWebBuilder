@@ -3,10 +3,10 @@ package org.semanticwb.ecosikan.innova;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import javax.servlet.RequestDispatcher;
 import org.semanticwb.Logger;
 import javax.servlet.http.*;
 import org.apache.commons.fileupload.FileItem;
@@ -18,6 +18,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.Resource;
+import org.semanticwb.model.WebSite;
 import org.semanticwb.portal.api.*;
 
 public class ThemeManager extends org.semanticwb.ecosikan.innova.base.ThemeManagerBase 
@@ -40,7 +41,7 @@ public class ThemeManager extends org.semanticwb.ecosikan.innova.base.ThemeManag
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
-        Secretaria secretaria = Secretaria.ClassMgr.createSecretaria(paramRequest.getWebPage().getWebSite());
+        /*Secretaria secretaria = Secretaria.ClassMgr.createSecretaria(paramRequest.getWebPage().getWebSite());
         secretaria.setParent(paramRequest.getWebPage().getWebSite().getHomePage());
         secretaria.setTitle("prueba 2");
         secretaria.setDescription("desc 2");
@@ -54,9 +55,9 @@ public class ThemeManager extends org.semanticwb.ecosikan.innova.base.ThemeManag
             out.println(sec.getId()+"-"+sec.getTitle()+"-"+sec.getDescription());
             out.println("</li>");
         }
-        out.println("</ul>");
+        out.println("</ul>");*/
 
-        /*String path = "/work/models/EcoSikan/jsp/themes/init.jsp";
+        String path = "/work/models/EcoSikan/jsp/themes/init.jsp";
         String action = paramRequest.getAction();
         System.out.println("action="+action);
         if( paramRequest.Action_ADD.equals(action) )
@@ -71,7 +72,7 @@ public class ThemeManager extends org.semanticwb.ecosikan.innova.base.ThemeManag
         }catch (Exception e) {
             log.error(e);
             System.out.println(e);
-        }*/
+        }
     }
 
     @Override
@@ -87,7 +88,7 @@ public class ThemeManager extends org.semanticwb.ecosikan.innova.base.ThemeManag
 
     private void add(HttpServletRequest request, SWBActionResponse response) throws Exception {
         Resource base = getResourceBase();
-
+        
         Theme theme = null;
         HashMap<String, String> params = new HashMap<String,String>();
         boolean isMultipart = ServletFileUpload.isMultipartContent(request);
@@ -151,18 +152,29 @@ public class ThemeManager extends org.semanticwb.ecosikan.innova.base.ThemeManag
             }
         }
         if(theme!=null) {
-            theme.setIconClass("theme");
-            try {
-                String secretaria = params.get("secret").trim();
-                if( secretaria.equals("") )
-                    throw new Exception("La secretaría es requerida. Resource "+base.getTitle()+" with id "+base.getId());
-                theme.setSecretaria(null);
-            }catch(Exception e) {
-                response.setRenderParameter("msgWrnSecretaria", "La secretaría es requerida.");
-                log.error("La secretaría es requerida. Resource "+base.getTitle()+" with id "+base.getId());
-                throw new Exception("La secretaría es requerida. Resource "+base.getTitle()+" with id "+base.getId());
+            Secretaria secretaria;
+            WebSite site = response.getWebPage().getWebSite();
+            if( params.containsKey("newsectitle")&&params.containsKey("newsecdesc") ) {
+                secretaria = Secretaria.ClassMgr.createSecretaria(site);
+                secretaria.setParent(site.getHomePage());
+                secretaria.setTitle(params.get("newsectitle"));
+                secretaria.setDescription(params.get("newsecdesc"));
+                secretaria.setIconClass("secretaria");
+                secretaria.setActive(true);
+            }else {
+                secretaria = Secretaria.ClassMgr.getSecretaria(params.get("secretaria"), site);
             }
-
+            theme.setIconClass("theme");
+//            try {
+//                String secretariaName = params.get("secret").trim();
+//                if( secretaria.equals("") )
+//                    throw new Exception("La secretaría es requerida. Resource "+base.getTitle()+" with id "+base.getId());
+//                theme.setSecretaria(null);
+//            }catch(Exception e) {
+//                response.setRenderParameter("msgWrnSecretaria", "La secretaría es requerida.");
+//                log.error("La secretaría es requerida. Resource "+base.getTitle()+" with id "+base.getId());
+//                throw new Exception("La secretaría es requerida. Resource "+base.getTitle()+" with id "+base.getId());
+//            }
             try {
                 String title = params.get("title").trim();
                 if( title.equals("") )
@@ -183,15 +195,17 @@ public class ThemeManager extends org.semanticwb.ecosikan.innova.base.ThemeManag
                 log.error("La descripción es requerida. Resource "+base.getTitle()+" with id "+base.getId());
                 throw new Exception("La descripción es requerida. Resource "+base.getTitle()+" with id "+base.getId());
             }
-            try {
-                String img = params.get("filename").trim();
-                if( img.equals("") )
-                    throw new Exception("La descripción es requerida. Resource "+base.getTitle()+" with id "+base.getId());
-            }catch(Exception e) {
-                theme.setImage("noHay.jpg");
-                log.error("El tema no trae imagen. Resource "+base.getTitle()+" with id "+base.getId());
-            }
-            addThemes(theme);
+//            try {
+//                String img = params.get("filename").trim();
+//                if( img.equals("") )
+//                    throw new Exception("La descripción es requerida. Resource "+base.getTitle()+" with id "+base.getId());
+//            }catch(Exception e) {
+//                theme.setImage("noHay.jpg");
+//                log.error("El tema no trae imagen. Resource "+base.getTitle()+" with id "+base.getId());
+//            }
+//            addThemes(theme);
+            theme.setParent(secretaria);
+            theme.setActive(true);
         }
     }
 }
