@@ -19,6 +19,7 @@ import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.WebSite;
+import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.api.*;
 
 public class ThemeManager extends org.semanticwb.ecosikan.innova.base.ThemeManagerBase 
@@ -125,7 +126,7 @@ public class ThemeManager extends org.semanticwb.ecosikan.innova.base.ThemeManag
 
                 if(item.isFormField()) {
                     String name = item.getFieldName();
-                    String value = item.getString();
+                    String value = item.getString().trim();
                     params.put(name, value);
                 }else {
                     currentFile = item;
@@ -154,17 +155,20 @@ public class ThemeManager extends org.semanticwb.ecosikan.innova.base.ThemeManag
         if(theme!=null) {
             Secretaria secretaria;
             WebSite site = response.getWebPage().getWebSite();
-            if( params.containsKey("newsectitle")&&params.containsKey("newsecdesc") ) {
+            
+            if( params.containsKey("newsectitle")&&!params.get("newsectitle").isEmpty()&&params.containsKey("newsecdesc")&&!params.get("newsecdesc").isEmpty() ) {
                 secretaria = Secretaria.ClassMgr.createSecretaria(site);
                 secretaria.setParent(site.getHomePage());
                 secretaria.setTitle(params.get("newsectitle"));
                 secretaria.setDescription(params.get("newsecdesc"));
-                secretaria.setIconClass("secretaria");
+                //secretaria.setIconClass("secretaria");
                 secretaria.setActive(true);
             }else {
+                //secretaria = (Secretaria)SemanticObject.createSemanticObject(params.get("secretaria")).createGenericInstance();
                 secretaria = Secretaria.ClassMgr.getSecretaria(params.get("secretaria"), site);
             }
-            theme.setIconClass("theme");
+            //theme.setIconClass("theme");
+            
 //            try {
 //                String secretariaName = params.get("secret").trim();
 //                if( secretaria.equals("") )
