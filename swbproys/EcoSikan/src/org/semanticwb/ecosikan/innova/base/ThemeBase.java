@@ -1,14 +1,14 @@
 package org.semanticwb.ecosikan.innova.base;
 
 
-public abstract class ThemeBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Referensable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Resourceable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,org.semanticwb.model.Filterable,org.semanticwb.model.Searchable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Expirable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Viewable,org.semanticwb.model.Trashable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Rankable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Activeable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Indexable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Localeable
+public abstract class ThemeBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.RuleRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Trashable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Localeable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Indexable,org.semanticwb.model.Tagable,org.semanticwb.model.Searchable,org.semanticwb.model.Viewable,org.semanticwb.model.Rankable,org.semanticwb.model.Referensable,org.semanticwb.model.Expirable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Activeable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Traceable,org.semanticwb.model.Resourceable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.FilterableNode
 {
+    public static final org.semanticwb.platform.SemanticClass ecoskn_Idea=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ecosikan.infotec.com.mx#Idea");
+    public static final org.semanticwb.platform.SemanticProperty ecoskn_hasIdea=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#hasIdea");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_active=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#active");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_image=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#image");
     public static final org.semanticwb.platform.SemanticClass ecoskn_Secretaria=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ecosikan.infotec.com.mx#Secretaria");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_secretaria=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#secretaria");
-    public static final org.semanticwb.platform.SemanticClass ecoskn_Idea=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ecosikan.infotec.com.mx#Idea");
-    public static final org.semanticwb.platform.SemanticProperty ecoskn_hasIdeas=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#hasIdeas");
     public static final org.semanticwb.platform.SemanticClass ecoskn_Theme=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ecosikan.infotec.com.mx#Theme");
    /**
    * The semantic class that represents the currentObject
@@ -128,6 +128,29 @@ public abstract class ThemeBase extends org.semanticwb.model.WebPage implements 
         public static java.util.Iterator<org.semanticwb.ecosikan.innova.Theme> listThemeByAssMember(org.semanticwb.model.AssMember value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Theme> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasAssMemberInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Theme with a determined Idea
+       * @param value Idea of the type org.semanticwb.ecosikan.innova.Idea
+       * @param model Model of the org.semanticwb.ecosikan.innova.Theme
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Theme
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Theme> listThemeByIdea(org.semanticwb.ecosikan.innova.Idea value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Theme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(ecoskn_hasIdea, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Theme with a determined Idea
+       * @param value Idea of the type org.semanticwb.ecosikan.innova.Idea
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Theme
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Theme> listThemeByIdea(org.semanticwb.ecosikan.innova.Idea value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Theme> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(ecoskn_hasIdea,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -476,29 +499,6 @@ public abstract class ThemeBase extends org.semanticwb.model.WebPage implements 
             return it;
         }
        /**
-       * Gets all org.semanticwb.ecosikan.innova.Theme with a determined Ideas
-       * @param value Ideas of the type org.semanticwb.ecosikan.innova.Idea
-       * @param model Model of the org.semanticwb.ecosikan.innova.Theme
-       * @return Iterator with all the org.semanticwb.ecosikan.innova.Theme
-       */
-
-        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Theme> listThemeByIdeas(org.semanticwb.ecosikan.innova.Idea value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Theme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(ecoskn_hasIdeas, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.ecosikan.innova.Theme with a determined Ideas
-       * @param value Ideas of the type org.semanticwb.ecosikan.innova.Idea
-       * @return Iterator with all the org.semanticwb.ecosikan.innova.Theme
-       */
-
-        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Theme> listThemeByIdeas(org.semanticwb.ecosikan.innova.Idea value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Theme> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(ecoskn_hasIdeas,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.ecosikan.innova.Theme with a determined ThisTypeAssociation
        * @param value ThisTypeAssociation of the type org.semanticwb.model.Association
        * @param model Model of the org.semanticwb.ecosikan.innova.Theme
@@ -530,6 +530,71 @@ public abstract class ThemeBase extends org.semanticwb.model.WebPage implements 
     public ThemeBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+   /**
+   * Gets all the org.semanticwb.ecosikan.innova.Idea
+   * @return A GenericIterator with all the org.semanticwb.ecosikan.innova.Idea
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Idea> listIdeas()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Idea>(getSemanticObject().listObjectProperties(ecoskn_hasIdea));
+    }
+
+   /**
+   * Gets true if has a Idea
+   * @param value org.semanticwb.ecosikan.innova.Idea to verify
+   * @return true if the org.semanticwb.ecosikan.innova.Idea exists, false otherwise
+   */
+    public boolean hasIdea(org.semanticwb.ecosikan.innova.Idea value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(ecoskn_hasIdea,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a Idea
+   * @param value org.semanticwb.ecosikan.innova.Idea to add
+   */
+
+    public void addIdea(org.semanticwb.ecosikan.innova.Idea value)
+    {
+        getSemanticObject().addObjectProperty(ecoskn_hasIdea, value.getSemanticObject());
+    }
+   /**
+   * Removes all the Idea
+   */
+
+    public void removeAllIdea()
+    {
+        getSemanticObject().removeProperty(ecoskn_hasIdea);
+    }
+   /**
+   * Removes a Idea
+   * @param value org.semanticwb.ecosikan.innova.Idea to remove
+   */
+
+    public void removeIdea(org.semanticwb.ecosikan.innova.Idea value)
+    {
+        getSemanticObject().removeObjectProperty(ecoskn_hasIdea,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the Idea
+   * @return a org.semanticwb.ecosikan.innova.Idea
+   */
+    public org.semanticwb.ecosikan.innova.Idea getIdea()
+    {
+         org.semanticwb.ecosikan.innova.Idea ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(ecoskn_hasIdea);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.ecosikan.innova.Idea)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
@@ -584,71 +649,6 @@ public abstract class ThemeBase extends org.semanticwb.model.WebPage implements 
          if(obj!=null)
          {
              ret=(org.semanticwb.ecosikan.innova.Secretaria)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Gets all the org.semanticwb.ecosikan.innova.Idea
-   * @return A GenericIterator with all the org.semanticwb.ecosikan.innova.Idea
-   */
-
-    public org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Idea> listIdeases()
-    {
-        return new org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Idea>(getSemanticObject().listObjectProperties(ecoskn_hasIdeas));
-    }
-
-   /**
-   * Gets true if has a Ideas
-   * @param value org.semanticwb.ecosikan.innova.Idea to verify
-   * @return true if the org.semanticwb.ecosikan.innova.Idea exists, false otherwise
-   */
-    public boolean hasIdeas(org.semanticwb.ecosikan.innova.Idea value)
-    {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(ecoskn_hasIdeas,value.getSemanticObject());
-        }
-        return ret;
-    }
-   /**
-   * Adds a Ideas
-   * @param value org.semanticwb.ecosikan.innova.Idea to add
-   */
-
-    public void addIdeas(org.semanticwb.ecosikan.innova.Idea value)
-    {
-        getSemanticObject().addObjectProperty(ecoskn_hasIdeas, value.getSemanticObject());
-    }
-   /**
-   * Removes all the Ideas
-   */
-
-    public void removeAllIdeas()
-    {
-        getSemanticObject().removeProperty(ecoskn_hasIdeas);
-    }
-   /**
-   * Removes a Ideas
-   * @param value org.semanticwb.ecosikan.innova.Idea to remove
-   */
-
-    public void removeIdeas(org.semanticwb.ecosikan.innova.Idea value)
-    {
-        getSemanticObject().removeObjectProperty(ecoskn_hasIdeas,value.getSemanticObject());
-    }
-
-   /**
-   * Gets the Ideas
-   * @return a org.semanticwb.ecosikan.innova.Idea
-   */
-    public org.semanticwb.ecosikan.innova.Idea getIdeas()
-    {
-         org.semanticwb.ecosikan.innova.Idea ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(ecoskn_hasIdeas);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.ecosikan.innova.Idea)obj.createGenericInstance();
          }
          return ret;
     }

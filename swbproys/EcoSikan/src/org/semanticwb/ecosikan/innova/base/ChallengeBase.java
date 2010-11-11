@@ -1,14 +1,16 @@
 package org.semanticwb.ecosikan.innova.base;
 
 
-public abstract class ChallengeBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Referensable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Resourceable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,org.semanticwb.model.Filterable,org.semanticwb.model.Searchable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Expirable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Viewable,org.semanticwb.model.Trashable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Rankable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Activeable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Indexable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Localeable
+public abstract class ChallengeBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.RuleRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Trashable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Localeable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Indexable,org.semanticwb.model.Tagable,org.semanticwb.model.Searchable,org.semanticwb.model.Viewable,org.semanticwb.model.Rankable,org.semanticwb.model.Referensable,org.semanticwb.model.Expirable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Activeable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Traceable,org.semanticwb.model.Resourceable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.FilterableNode
 {
     public static final org.semanticwb.platform.SemanticClass ecoskn_Idea=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ecosikan.infotec.com.mx#Idea");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_hasIdea=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#hasIdea");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_phase=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#phase");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_hasExpectations=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#hasExpectations");
-    public static final org.semanticwb.platform.SemanticProperty ecoskn_opened=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#opened");
+    public static final org.semanticwb.platform.SemanticClass ecoskn_Category=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ecosikan.infotec.com.mx#Category");
+    public static final org.semanticwb.platform.SemanticProperty ecoskn_hasCategory=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#hasCategory");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_hasStakeholders=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#hasStakeholders");
+    public static final org.semanticwb.platform.SemanticProperty ecoskn_document=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#document");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_hasDesires=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#hasDesires");
     public static final org.semanticwb.platform.SemanticClass ecoskn_Challenge=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ecosikan.infotec.com.mx#Challenge");
    /**
@@ -175,6 +177,29 @@ public abstract class ChallengeBase extends org.semanticwb.model.WebPage impleme
         public static java.util.Iterator<org.semanticwb.ecosikan.innova.Challenge> listChallengeByVirtualParent(org.semanticwb.model.WebPage value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Challenge> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualParent,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Challenge with a determined Category
+       * @param value Category of the type org.semanticwb.ecosikan.innova.Category
+       * @param model Model of the org.semanticwb.ecosikan.innova.Challenge
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Challenge
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Challenge> listChallengeByCategory(org.semanticwb.ecosikan.innova.Category value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Challenge> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(ecoskn_hasCategory, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Challenge with a determined Category
+       * @param value Category of the type org.semanticwb.ecosikan.innova.Category
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Challenge
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Challenge> listChallengeByCategory(org.semanticwb.ecosikan.innova.Category value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Challenge> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(ecoskn_hasCategory,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -619,23 +644,70 @@ public abstract class ChallengeBase extends org.semanticwb.model.WebPage impleme
     {
         getSemanticObject().removeLiteralProperty(ecoskn_hasExpectations,new org.semanticwb.platform.SemanticLiteral(value));
     }
+   /**
+   * Gets all the org.semanticwb.ecosikan.innova.Category
+   * @return A GenericIterator with all the org.semanticwb.ecosikan.innova.Category
+   */
 
-/**
-* Gets the Opened property
-* @return boolean with the Opened
-*/
-    public boolean isOpened()
+    public org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Category> listCategories()
     {
-        return getSemanticObject().getBooleanProperty(ecoskn_opened);
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Category>(getSemanticObject().listObjectProperties(ecoskn_hasCategory));
     }
 
-/**
-* Sets the Opened property
-* @param value long with the Opened
-*/
-    public void setOpened(boolean value)
+   /**
+   * Gets true if has a Category
+   * @param value org.semanticwb.ecosikan.innova.Category to verify
+   * @return true if the org.semanticwb.ecosikan.innova.Category exists, false otherwise
+   */
+    public boolean hasCategory(org.semanticwb.ecosikan.innova.Category value)
     {
-        getSemanticObject().setBooleanProperty(ecoskn_opened, value);
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(ecoskn_hasCategory,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a Category
+   * @param value org.semanticwb.ecosikan.innova.Category to add
+   */
+
+    public void addCategory(org.semanticwb.ecosikan.innova.Category value)
+    {
+        getSemanticObject().addObjectProperty(ecoskn_hasCategory, value.getSemanticObject());
+    }
+   /**
+   * Removes all the Category
+   */
+
+    public void removeAllCategory()
+    {
+        getSemanticObject().removeProperty(ecoskn_hasCategory);
+    }
+   /**
+   * Removes a Category
+   * @param value org.semanticwb.ecosikan.innova.Category to remove
+   */
+
+    public void removeCategory(org.semanticwb.ecosikan.innova.Category value)
+    {
+        getSemanticObject().removeObjectProperty(ecoskn_hasCategory,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the Category
+   * @return a org.semanticwb.ecosikan.innova.Category
+   */
+    public org.semanticwb.ecosikan.innova.Category getCategory()
+    {
+         org.semanticwb.ecosikan.innova.Category ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(ecoskn_hasCategory);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.ecosikan.innova.Category)obj.createGenericInstance();
+         }
+         return ret;
     }
 
     public java.util.Iterator<String> listStakeholderses()
@@ -663,6 +735,24 @@ public abstract class ChallengeBase extends org.semanticwb.model.WebPage impleme
     public void removeStakeholders(String value)
     {
         getSemanticObject().removeLiteralProperty(ecoskn_hasStakeholders,new org.semanticwb.platform.SemanticLiteral(value));
+    }
+
+/**
+* Gets the Document property
+* @return String with the Document
+*/
+    public String getDocument()
+    {
+        return getSemanticObject().getProperty(ecoskn_document);
+    }
+
+/**
+* Sets the Document property
+* @param value long with the Document
+*/
+    public void setDocument(String value)
+    {
+        getSemanticObject().setProperty(ecoskn_document, value);
     }
 
     public java.util.Iterator<String> listDesireses()
