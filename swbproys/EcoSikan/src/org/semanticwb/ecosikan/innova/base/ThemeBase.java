@@ -1,14 +1,14 @@
 package org.semanticwb.ecosikan.innova.base;
 
 
-public abstract class ThemeBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Referensable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Resourceable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,org.semanticwb.model.Filterable,org.semanticwb.model.Searchable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Expirable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Viewable,org.semanticwb.model.Trashable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Rankable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Activeable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Indexable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Localeable
+public abstract class ThemeBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.TemplateRefable,org.semanticwb.model.Resourceable,org.semanticwb.model.Viewable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Rankable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Searchable,org.semanticwb.model.Indexable,org.semanticwb.model.Localeable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableNode,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Filterable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Trashable,org.semanticwb.model.Activeable,org.semanticwb.model.Hiddenable,org.semanticwb.model.RoleRefable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Tagable,org.semanticwb.model.Referensable
 {
+    public static final org.semanticwb.platform.SemanticClass ecoskn_Dependencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ecosikan.infotec.com.mx#Dependencia");
+    public static final org.semanticwb.platform.SemanticProperty ecoskn_dependencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#dependencia");
     public static final org.semanticwb.platform.SemanticClass ecoskn_Idea=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ecosikan.infotec.com.mx#Idea");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_hasIdea=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#hasIdea");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_active=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#active");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_image=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#image");
-    public static final org.semanticwb.platform.SemanticClass ecoskn_Secretaria=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ecosikan.infotec.com.mx#Secretaria");
-    public static final org.semanticwb.platform.SemanticProperty ecoskn_secretaria=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#secretaria");
     public static final org.semanticwb.platform.SemanticClass ecoskn_Theme=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ecosikan.infotec.com.mx#Theme");
    /**
    * The semantic class that represents the currentObject
@@ -83,6 +83,29 @@ public abstract class ThemeBase extends org.semanticwb.model.WebPage implements 
         public static boolean hasTheme(String id, org.semanticwb.model.SWBModel model)
         {
             return (getTheme(id, model)!=null);
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Theme with a determined Dependencia
+       * @param value Dependencia of the type org.semanticwb.ecosikan.innova.Dependencia
+       * @param model Model of the org.semanticwb.ecosikan.innova.Theme
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Theme
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Theme> listThemeByDependencia(org.semanticwb.ecosikan.innova.Dependencia value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Theme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(ecoskn_dependencia, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Theme with a determined Dependencia
+       * @param value Dependencia of the type org.semanticwb.ecosikan.innova.Dependencia
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Theme
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Theme> listThemeByDependencia(org.semanticwb.ecosikan.innova.Dependencia value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Theme> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(ecoskn_dependencia,value.getSemanticObject(),sclass));
+            return it;
         }
        /**
        * Gets all org.semanticwb.ecosikan.innova.Theme with a determined UserGroupRef
@@ -476,29 +499,6 @@ public abstract class ThemeBase extends org.semanticwb.model.WebPage implements 
             return it;
         }
        /**
-       * Gets all org.semanticwb.ecosikan.innova.Theme with a determined Secretaria
-       * @param value Secretaria of the type org.semanticwb.ecosikan.innova.Secretaria
-       * @param model Model of the org.semanticwb.ecosikan.innova.Theme
-       * @return Iterator with all the org.semanticwb.ecosikan.innova.Theme
-       */
-
-        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Theme> listThemeBySecretaria(org.semanticwb.ecosikan.innova.Secretaria value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Theme> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(ecoskn_secretaria, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.ecosikan.innova.Theme with a determined Secretaria
-       * @param value Secretaria of the type org.semanticwb.ecosikan.innova.Secretaria
-       * @return Iterator with all the org.semanticwb.ecosikan.innova.Theme
-       */
-
-        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Theme> listThemeBySecretaria(org.semanticwb.ecosikan.innova.Secretaria value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Theme> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(ecoskn_secretaria,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.ecosikan.innova.Theme with a determined ThisTypeAssociation
        * @param value ThisTypeAssociation of the type org.semanticwb.model.Association
        * @param model Model of the org.semanticwb.ecosikan.innova.Theme
@@ -530,6 +530,44 @@ public abstract class ThemeBase extends org.semanticwb.model.WebPage implements 
     public ThemeBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+   /**
+   * Sets the value for the property Dependencia
+   * @param value Dependencia to set
+   */
+
+    public void setDependencia(org.semanticwb.ecosikan.innova.Dependencia value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(ecoskn_dependencia, value.getSemanticObject());
+        }else
+        {
+            removeDependencia();
+        }
+    }
+   /**
+   * Remove the value for Dependencia property
+   */
+
+    public void removeDependencia()
+    {
+        getSemanticObject().removeProperty(ecoskn_dependencia);
+    }
+
+   /**
+   * Gets the Dependencia
+   * @return a org.semanticwb.ecosikan.innova.Dependencia
+   */
+    public org.semanticwb.ecosikan.innova.Dependencia getDependencia()
+    {
+         org.semanticwb.ecosikan.innova.Dependencia ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(ecoskn_dependencia);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.ecosikan.innova.Dependencia)obj.createGenericInstance();
+         }
+         return ret;
     }
    /**
    * Gets all the org.semanticwb.ecosikan.innova.Idea
@@ -613,43 +651,5 @@ public abstract class ThemeBase extends org.semanticwb.model.WebPage implements 
     public void setImage(String value)
     {
         getSemanticObject().setProperty(ecoskn_image, value);
-    }
-   /**
-   * Sets the value for the property Secretaria
-   * @param value Secretaria to set
-   */
-
-    public void setSecretaria(org.semanticwb.ecosikan.innova.Secretaria value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(ecoskn_secretaria, value.getSemanticObject());
-        }else
-        {
-            removeSecretaria();
-        }
-    }
-   /**
-   * Remove the value for Secretaria property
-   */
-
-    public void removeSecretaria()
-    {
-        getSemanticObject().removeProperty(ecoskn_secretaria);
-    }
-
-   /**
-   * Gets the Secretaria
-   * @return a org.semanticwb.ecosikan.innova.Secretaria
-   */
-    public org.semanticwb.ecosikan.innova.Secretaria getSecretaria()
-    {
-         org.semanticwb.ecosikan.innova.Secretaria ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(ecoskn_secretaria);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.ecosikan.innova.Secretaria)obj.createGenericInstance();
-         }
-         return ret;
     }
 }
