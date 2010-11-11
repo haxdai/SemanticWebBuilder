@@ -21,7 +21,9 @@ public class Weather extends GenericAdmResource {
     private static Logger log = SWBUtils.getLogger(Weather.class);
 
     @Override
-    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramsRequest) throws SWBResourceException, IOException {
+    public void doView(HttpServletRequest request, HttpServletResponse response,
+            SWBParamRequest paramsRequest) throws SWBResourceException, IOException {
+
         WebPage currentPage = paramsRequest.getWebPage();
         String q = "NAM|MX|MX009|CIUDAD DE MEXICO|";
         String qPrev = null;
@@ -31,16 +33,17 @@ public class Weather extends GenericAdmResource {
          * actualmente implementado con accuweather. http://www.accuweather.com/
          */
 
-        if( currentPage instanceof Destination ) {
+        if ( currentPage instanceof Destination ) {
             Destination dest = (Destination)currentPage;
 //            q = currentPage.getDisplayTitle(lang)+","+currentPage.getParent().getDisplayTitle(lang);
             qPrev = dest.getDestWeather();
-        }else if( currentPage instanceof MicroSitePyme || currentPage.getParent() instanceof MicroSitePyme ) {
+        } else if ( currentPage instanceof MicroSitePyme ||
+                currentPage.getParent() instanceof MicroSitePyme ) {
             MicroSitePyme ms;
             try {
-                ms = (MicroSitePyme)currentPage;
-            }catch(ClassCastException cce) {
-                ms = (MicroSitePyme)currentPage.getParent();
+                ms = (MicroSitePyme) currentPage;
+            } catch (ClassCastException cce) {
+                ms = (MicroSitePyme) currentPage.getParent();
             }
             ServiceProvider sprovider = ms.getServiceProvider();
             Destination dest = sprovider.getDestination();
@@ -59,7 +62,7 @@ public class Weather extends GenericAdmResource {
         out.println("    <script src='http://netweather.accuweather.com/adcbin/netweather_v2/netweatherV2ex.asp?partner=netweather&tStyle=whteYell&logo=0&zipcode="+q+"&lang=esp&size=7&theme=silver&metric=1&target=_self'></script>");
         out.println("  </div>");
         out.println("  <div style='text-align: center; font-family: arial, helvetica, verdana, sans-serif; font-size: 10px; line-height: 12px; color: #FFFFFF;' >");
-        out.println("    <a style='color: #FFFFFF' href='http://www.accuweather.com/world-index-forecast.asp?partner=netweather&locCode="+q+"&metric=1' >Weather Forecast</a>");
+        out.println("    <a style='color: #FFFFFF' href='http://www.accuweather.com/world-index-forecast.asp?partner=netweather&locCode="+q+"&metric=1' target=\"_new\">Weather Forecast</a>");
         out.println("  </div>");
         out.println("</div>");
         out.println("</div>");
