@@ -58,11 +58,11 @@ public class ThemeManager extends org.semanticwb.ecosikan.innova.base.ThemeManag
         }
         out.println("</ul>");*/
 
-        String path = "/work/models/EcoSikan/jsp/themes/init.jsp";
+        String path = "/work/models/EcoSikan2/jsp/themes/init.jsp";
         String action = paramRequest.getAction();
         System.out.println("action="+action);
         if( paramRequest.Action_ADD.equals(action) )
-            path = "/work/models/EcoSikan/jsp/themes/add.jsp";
+            path = "/work/models/EcoSikan2/jsp/themes/add.jsp";
 //        else if( paramRequest.Action_EDIT.equals(action) )
 //            path = "/work/models/EcoSikan/jsp/themes/edit.jsp";
 
