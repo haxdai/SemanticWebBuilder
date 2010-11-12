@@ -42,6 +42,11 @@ public class DestinationParser extends GenericParser {
     public final static String ATT_TOURTYPE = "tourismType";
 
     @Override
+    public String getTypeDisplayLabel(Searchable gen) {
+        return "Destino";
+    }
+
+    @Override
     public String getType(Searchable gen) {
         return "Destination";
     }
