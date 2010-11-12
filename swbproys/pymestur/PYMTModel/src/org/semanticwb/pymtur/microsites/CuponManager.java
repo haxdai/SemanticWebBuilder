@@ -163,7 +163,12 @@ public class CuponManager extends GenericResource {
             response.setAction(null);
             Cupon cupon = Cupon.ClassMgr.createCupon(response.getWebPage().getWebSite());
             cupon.setTitle(params.get("title"));
-            cupon.setDescription(params.get("description"));
+            String description = params.get("description");
+            if(description.length()>30)
+            {
+                description = description.substring(0, 30);
+            }
+            cupon.setDescription(description);
             cupon.setCuponPeriodIni(di);
             cupon.setCuponPeriodFin(df);
             cupon.setCuponType(params.get("is"));
@@ -379,7 +384,7 @@ public class CuponManager extends GenericResource {
 
     private boolean isValidValue(String param) {
         try {
-            if( (param=param.trim()).length()>0   )
+            if( (param=param.trim()).length()>0 )
                 return true;
         }catch(Exception e) {
             return false;
