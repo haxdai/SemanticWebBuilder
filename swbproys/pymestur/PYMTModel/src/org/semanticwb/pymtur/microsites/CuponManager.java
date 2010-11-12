@@ -164,9 +164,9 @@ public class CuponManager extends GenericResource {
             Cupon cupon = Cupon.ClassMgr.createCupon(response.getWebPage().getWebSite());
             cupon.setTitle(params.get("title"));
             String description = params.get("description");
-            if(description.length()>30)
+            if(description.length()>1000)
             {
-                description = description.substring(0, 30);
+                description = description.substring(0, 999);
             }
             cupon.setDescription(description);
             cupon.setCuponPeriodIni(di);
@@ -254,7 +254,13 @@ public class CuponManager extends GenericResource {
             SemanticObject semObject = SemanticObject.createSemanticObject(params.get("cupon"));
             Cupon cupon = (Cupon) semObject.createGenericInstance();
             cupon.setTitle(params.get("title"));
-            cupon.setDescription(params.get("description"));
+            String description = params.get("description");
+            if(description.length()>1000)
+            {
+                description = description.substring(0, 999);
+                
+            }
+            cupon.setDescription(description);
             cupon.setCuponPeriodIni(di);
             cupon.setCuponPeriodFin(df);
             cupon.setCuponType(params.get("is"));
