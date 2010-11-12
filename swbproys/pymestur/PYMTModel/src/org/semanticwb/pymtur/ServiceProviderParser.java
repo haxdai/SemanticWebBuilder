@@ -72,7 +72,11 @@ public class ServiceProviderParser extends GenericParser {
     @Override
     public String getUrl(Searchable gen) {
         String ret = "#";
+
         ServiceProvider sp = (ServiceProvider)gen;
+        System.out.println("\nsp.getWebPage(): " + sp.getWebPage()
+                + "\nsp.getWebPage().getWebSite().getWebPage('ficha'): " + sp.getWebPage().getWebSite().getWebPage("ficha")
+                + "\n");
         WebPage wpFicha = sp.getWebPage().getWebSite().getWebPage("ficha");
         MicroSitePyme ms = sp.getMicroSitePymeInv();
 
