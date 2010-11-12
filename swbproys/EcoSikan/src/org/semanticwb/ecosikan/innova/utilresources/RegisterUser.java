@@ -81,6 +81,7 @@ public class RegisterUser extends GenericAdmResource {
         if (act == null) {
             act = "add";
             if (paramRequest.getUser().isSigned()) {
+                //act = "edit";
                 act = "edit";
             }
         }
@@ -90,20 +91,27 @@ public class RegisterUser extends GenericAdmResource {
         //String path = "/swbadmin/jsp/microsite/RegisterUser/linkNewUser.groovy";
         String path = "/work/models/"+model+"/jsp/util/linkNewUser.groovy";
         String msg = request.getParameter("msg");
+        System.out.println("0 msg="+msg);
         if (msg != null && msg.equals("ok")) {
+            System.out.println("1 msg="+msg);
             //path = "/swbadmin/jsp/microsite/RegisterUser/messages.jsp";
             path = "/work/models/"+model+"/jsp/util/messages.jsp";
         }else {
+            System.out.println("2");
             if (msg != null && msg.equals("regfail")) {
+                System.out.println("3 msg="+msg);
                 out.println("<pre><strong><font color=\"red\">Error al registrar el usuario, favor de volverlo a intentar</strong></font></pre>");
             }
             if (act.equals("add")) {
+                System.out.println("4 add");
                 //path = "/swbadmin/jsp/microsite/RegisterUser/newUser.groovy";
                 path = "/work/models/"+model+"/jsp/util/newUser.groovy";
             } else if (act.equals("edit")) {
+                System.out.println("5 edit");
                 //path = "/swbadmin/jsp/microsite/RegisterUser/userEditForm.groovy";
                 path = "/work/models/"+model+"/jsp/util/userEditForm.groovy";
             } else if (act.equals("detail")) {
+                System.out.println("6 detail");
                 //path = "/swbadmin/jsp/microsite/RegisterUser/userDetail.groovy";
                 path = "/work/models/"+model+"/jsp/util/userDetail.groovy";
             }
@@ -122,7 +130,8 @@ public class RegisterUser extends GenericAdmResource {
         Resource base = response.getResourceBase();
         UserRepository ur = response.getWebPage().getWebSite().getUserRepository();
         User user = response.getUser();
-        String login = SWBUtils.XML.replaceXMLChars(request.getParameter("login"));
+        //String login = SWBUtils.XML.replaceXMLChars(request.getParameter("login"));
+        String login = SWBUtils.XML.replaceXMLChars(request.getParameter("email"));
         String pwd = request.getParameter("passwd");
         boolean isTwoSteps = false;
         if (base.getAttribute("twosteps") != null && base.getAttribute("twosteps").equals("1")) {
@@ -135,6 +144,8 @@ public class RegisterUser extends GenericAdmResource {
                 request.getSession(true).removeAttribute("cdlog");
                 User newUser = ur.createUser();
                 newUser.setLogin(login.trim());
+
+                System.out.println("isTwoSteps="+isTwoSteps);
 
                 if (!isTwoSteps) {
                     Subject subject = SWBPortal.getUserMgr().getSubject(request, response.getWebPage().getWebSiteId());
@@ -157,9 +168,14 @@ public class RegisterUser extends GenericAdmResource {
                     newUser.checkCredential(pwd.toCharArray());
                 } catch (Exception ne) {
                 }
+
+                System.out.println("response.getWebPage().getRealUrl()="+response.getWebPage().getRealUrl());
+
                 if (!isTwoSteps) {
                     user = newUser;
-                    response.sendRedirect(response.getWebPage().getRealUrl());
+                    System.out.println("setting msg....1");
+                    response.setRenderParameter("msg", "ok");
+                    //response.sendRedirect(response.getWebPage().getRealUrl());
                 }
                 //comentar para 2 pasos
                 if (isTwoSteps) {
@@ -170,6 +186,7 @@ public class RegisterUser extends GenericAdmResource {
                     String page2Confirm = server + website.getWebPage("confirmRegistry").getUrl() + "?login=" + newUser.getLogin();
 
                     String staticText = replaceTags(base.getAttribute("emailMsg"), request, response, newUser, siteName, page2Confirm);
+                    System.out.println("setting msg....2");
                     response.setRenderParameter("msg", "ok");
                     response.setMode(response.Mode_VIEW);
                     response.setCallMethod(response.Call_CONTENT);
@@ -248,9 +265,9 @@ public class RegisterUser extends GenericAdmResource {
             }
             
             
-            response.sendRedirect(response.getWebPage().getWebSite().getWebPage("perfil").getRealUrl());
-            //response.sendRedirect(response.getWebPage().getRealUrl()+"?act=detail");
-            return;
+//            response.sendRedirect(response.getWebPage().getWebSite().getWebPage("perfil").getRealUrl());
+//            response.sendRedirect(response.getWebPage().getRealUrl()+"?act=detail");
+//            return;
         }
         if ("upload".equals(response.getAction()) && user.isSigned()) {
             final Percentage per = new Percentage();
