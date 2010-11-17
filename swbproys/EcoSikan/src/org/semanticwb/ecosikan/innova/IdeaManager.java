@@ -108,7 +108,7 @@ public class IdeaManager extends org.semanticwb.ecosikan.innova.base.IdeaManager
             Idea idea = Idea.ClassMgr.createIdea(model);
             idea.setTitle(request.getParameter("title"));
             idea.setDescription(request.getParameter("desc"));
-            idea.setStatus(IdeaStatus.Opened.ordinal());
+            idea.setStatus(IdeaStatus.Opened.name());
             idea.setSelected(false);
             Theme theme = (Theme)wp;
             theme.addIdea(idea);
@@ -116,16 +116,15 @@ public class IdeaManager extends org.semanticwb.ecosikan.innova.base.IdeaManager
         }else if( Action_ADD_TO_CHALLENGE.equals(action) ) {
             
         }else if( response.Action_EDIT.equals(action) ) {
-            IdeaStatus status;
+            IdeaStatus status;            
+            String id = request.getParameter("idea");
+            Idea idea = Idea.ClassMgr.getIdea(id, model);
             try {
-                status = IdeaStatus.valueOf(request.getParameter("st"));
+                status = IdeaStatus.valueOf(idea.getStatus());
             }catch(IllegalArgumentException iae) {
                 status = IdeaStatus.Executed;
             }
-            String id = request.getParameter("idea");
-            Idea idea = Idea.ClassMgr.getIdea(id, model);
-            
-            idea.setStatus(status.ordinal());
+            idea.setStatus(status.next().name());
         }else if( Action_VOTE.equals(action) ){
             String vote = request.getParameter("vote");
             String id = request.getParameter("idea");
