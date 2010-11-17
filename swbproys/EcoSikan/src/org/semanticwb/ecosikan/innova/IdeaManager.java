@@ -119,12 +119,13 @@ public class IdeaManager extends org.semanticwb.ecosikan.innova.base.IdeaManager
             IdeaStatus status;            
             String id = request.getParameter("idea");
             Idea idea = Idea.ClassMgr.getIdea(id, model);
-            try {
-                status = IdeaStatus.valueOf(idea.getStatus());
-            }catch(IllegalArgumentException iae) {
-                status = IdeaStatus.Executed;
-            }
-            idea.setStatus(status.next().name());
+            if( idea!=null )
+                try {
+                    status = IdeaStatus.valueOf(idea.getStatus());
+                    if(status.hasNext())
+                        idea.setStatus(status.next().name());
+                }catch(IllegalArgumentException iae) {
+                }
         }else if( Action_VOTE.equals(action) ){
             String vote = request.getParameter("vote");
             String id = request.getParameter("idea");
