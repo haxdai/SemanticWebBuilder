@@ -36,6 +36,30 @@ public class IdeaManager extends org.semanticwb.ecosikan.innova.base.IdeaManager
         public String getDescription() {
             return this.description;
         }
+        public IdeaStatus next() {
+            switch(this) {
+                case Opened:
+                    return Revise;
+                case Revise:
+                    return Revised;
+                case Revised:
+                    return Running;
+                case Running:
+                    return Executed;
+                case Executed:
+                    return null;
+                default:
+                    return null;
+            }
+        }
+        public boolean hasNext() {
+            switch(this) {
+                case Executed:
+                    return false;
+                default:
+                    return true;
+            }
+        }
     }
 
 
@@ -62,6 +86,7 @@ public class IdeaManager extends org.semanticwb.ecosikan.innova.base.IdeaManager
         }
 
         System.out.println("\n\n............\naction="+action+"\npath="+path);
+
 
         try {
             RequestDispatcher dis = request.getRequestDispatcher(path);
@@ -90,13 +115,24 @@ public class IdeaManager extends org.semanticwb.ecosikan.innova.base.IdeaManager
             response.setAction(null);
         }else if( Action_ADD_TO_CHALLENGE.equals(action) ) {
             
-        }else if( Action_VOTE.equals(action) ){
-            String value = request.getParameter("value");
+        }else if( response.Action_EDIT.equals(action) ) {
+            IdeaStatus status;
+            try {
+                status = IdeaStatus.valueOf(request.getParameter("st"));
+            }catch(IllegalArgumentException iae) {
+                status = IdeaStatus.Executed;
+            }
             String id = request.getParameter("idea");
             Idea idea = Idea.ClassMgr.getIdea(id, model);
-            if("+".equals(value)) {
+            
+            idea.setStatus(status.ordinal());
+        }else if( Action_VOTE.equals(action) ){
+            String vote = request.getParameter("vote");
+            String id = request.getParameter("idea");
+            Idea idea = Idea.ClassMgr.getIdea(id, model);
+            if("u".equals(vote)) { // voto me gusta (up)
                 idea.setVotesP(idea.getVotesP()+1);
-            }else {
+            }else if("d".equals(vote)) { // voto no me gusta (down)
                 idea.setVotesN(idea.getVotesN()+1);
             }
         }else if( response.Action_REMOVE.equals(action) ) {
@@ -105,12 +141,5 @@ public class IdeaManager extends org.semanticwb.ecosikan.innova.base.IdeaManager
             if( idea!=null )
                 idea.remove();
         }
-
-        IdeaStatus[] status = IdeaStatus.values();
-        for(IdeaStatus ideaStatus : status) {
-            ideaStatus.getDescription();
-        }
-
-
     }
 }
