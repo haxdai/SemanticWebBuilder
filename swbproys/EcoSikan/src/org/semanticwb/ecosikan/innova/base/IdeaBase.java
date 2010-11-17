@@ -1,7 +1,7 @@
 package org.semanticwb.ecosikan.innova.base;
 
 
-public abstract class IdeaBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class IdeaBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
     public static final org.semanticwb.platform.SemanticProperty ecoskn_hasComments=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#hasComments");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_votesP=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#votesP");
@@ -354,20 +354,20 @@ public abstract class IdeaBase extends org.semanticwb.model.SWBClass implements 
 
 /**
 * Gets the Status property
-* @return int with the Status
+* @return String with the Status
 */
-    public int getStatus()
+    public String getStatus()
     {
-        return getSemanticObject().getIntProperty(ecoskn_status);
+        return getSemanticObject().getProperty(ecoskn_status);
     }
 
 /**
 * Sets the Status property
 * @param value long with the Status
 */
-    public void setStatus(int value)
+    public void setStatus(String value)
     {
-        getSemanticObject().setIntProperty(ecoskn_status, value);
+        getSemanticObject().setProperty(ecoskn_status, value);
     }
    /**
    * Sets the value for the property Creator
