@@ -108,40 +108,40 @@
   <owl:ObjectProperty rdf:ID="hasSecretarias">
     <rdfs:range rdf:resource="#Dependencia"/>
   </owl:ObjectProperty>
-  <owl:DatatypeProperty rdf:ID="status">
-    <rdfs:domain rdf:resource="#Idea"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  <owl:DatatypeProperty rdf:ID="image">
+    <rdfs:domain rdf:resource="#Theme"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="selected">
     <rdfs:domain rdf:resource="#Idea"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
   </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="document">
-    <rdfs:domain rdf:resource="#Challenge"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="hasStakeholders">
-    <rdfs:domain rdf:resource="#Challenge"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="hasDesires">
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:domain rdf:resource="#Challenge"/>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="conclusion">
+  <owl:DatatypeProperty rdf:ID="status">
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdfs:domain rdf:resource="#Idea"/>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="image">
-    <rdfs:domain rdf:resource="#Theme"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="opened">
     <swb:defaultValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >true</swb:defaultValue>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
   </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="hasStakeholders">
+    <rdfs:domain rdf:resource="#Challenge"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="document">
+    <rdfs:domain rdf:resource="#Challenge"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="votesP">
+    <rdfs:domain rdf:resource="#Idea"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="hasDesires">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Challenge"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="votesN">
     <rdfs:domain rdf:resource="#Idea"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
   </owl:DatatypeProperty>
@@ -149,17 +149,13 @@
     <rdfs:domain rdf:resource="#Challenge"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="votesN">
-    <rdfs:domain rdf:resource="#Idea"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#long"/>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="active">
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
-    <rdfs:domain rdf:resource="#Theme"/>
-  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="phase">
     <rdfs:domain rdf:resource="#Challenge"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="conclusion">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Idea"/>
   </owl:DatatypeProperty>
   <swb:SemanticResource rdf:ID="IdeaManager">
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBSemanticResource"/>
