@@ -74,9 +74,6 @@ public class ServiceProviderParser extends GenericParser {
         String ret = "#";
 
         ServiceProvider sp = (ServiceProvider)gen;
-        System.out.println("\nsp.getWebPage(): " + sp.getWebPage()
-                + "\nsp.getWebPage().getWebSite().getWebPage('ficha'): " + sp.getWebPage().getWebSite().getWebPage("ficha")
-                + "\n");
         WebPage wpFicha = sp.getWebPage().getWebSite().getWebPage("ficha");
         MicroSitePyme ms = sp.getMicroSitePymeInv();
 
@@ -150,14 +147,13 @@ public class ServiceProviderParser extends GenericParser {
     public boolean canUserView(Searchable gen, User user) {
         boolean ret = super.canUserView(gen, user);//Verificar reglas y filtros de SWB
 
-        //Si está activado todo mundo lo puede ver
-        if (ret && ((ServiceProvider)gen).getSpStatus() == PymturUtils.ESTATUS_PUBLICADO) {
-            ret = true;
-        } else if (ret) { //Si no, sólo lo pueden ver los administradores
+        //Si está publicado todo mundo lo puede ver
+        if (ret && ((ServiceProvider)gen).getSpStatus() != PymturUtils.ESTATUS_PUBLICADO) {
+            //Si no, solo los administradores pueden:
             Role role = user.getUserRepository().getRole("adminProviders");
-            if (user.isRegistered() && user.isSigned()) {
-                if (role != null && user.hasRole(role)) {
-                    ret = true;
+            if (!user.isRegistered() || (user.isRegistered() && user.isSigned())) {
+                if (role != null && !user.hasRole(role)) {
+                    ret = false;
                 }
             }
         }
