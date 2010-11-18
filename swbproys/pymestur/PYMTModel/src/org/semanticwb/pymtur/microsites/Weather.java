@@ -61,7 +61,7 @@ public class Weather extends GenericAdmResource {
         out.println("  <div id='NetweatherContainer' style='height: 48px;' >");
         out.println("    <script src='http://netweather.accuweather.com/adcbin/netweather_v2/netweatherV2ex.asp?partner=netweather&tStyle=whteYell&logo=0&zipcode="+q+"&lang=esp&size=7&theme=silver&metric=1&target=_new'></script>");
         out.println("  </div>");
-        out.println("  <div style='text-align: center; font-family: arial, helvetica, verdana, sans-serif; font-size: 10px; line-height: 12px; color: #FFFFFF;' >");
+        out.println("  <div style='text-align: center; font-family: arial, helvetica, verdana, sans-serif; font-size: 10px; line-height: 12px; color: #FFFFFF; background: #86888b' >");
         out.println("    <a style='color: #FFFFFF' href='http://www.accuweather.com/world-index-forecast.asp?partner=netweather&locCode="+q+"&metric=1' target=\"_new\">Weather Forecast</a>");
         out.println("  </div>");
         out.println("</div>");
