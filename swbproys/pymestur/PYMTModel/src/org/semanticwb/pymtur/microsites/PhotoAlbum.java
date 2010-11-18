@@ -136,9 +136,9 @@ public final class PhotoAlbum extends GenericAdmResource {
         html.append("\n  <table id=\"igtbl_"+base.getId()+"\" width=\"99%\" cellspacing=\"1\" align=\"center\"> ");
         html.append("\n  <caption>Lista de im&aacute;genes <span class=\"italic\">"+(base.getAttribute("fileformat")==null?"Sin formato definido":Arrays.toString(base.getAttribute("fileformat").split(",")))+"</span></caption>");
         html.append("\n  <tr> ");
-        html.append("\n    <th align=\"center\" scope=\"col\" width=\"10\" height=\"20\" nowrap=\"nowrap\">&nbsp;</th> ");
-        html.append("\n    <th align=\"center\" scope=\"col\" width=\"20\" height=\"20\" nowrap=\"nowrap\">Editar</th> ");
-        html.append("\n    <th align=\"center\" scope=\"col\" width=\"30\" height=\"20\" nowrap=\"nowrap\">Eliminar</th> ");
+        html.append("\n    <th align=\"center\" scope=\"col\" width=\"20\" height=\"20\" nowrap=\"nowrap\">&nbsp;</th> ");
+        html.append("\n    <th align=\"center\" scope=\"col\" height=\"20\" nowrap=\"nowrap\">Editar</th> ");
+        html.append("\n    <th align=\"center\" scope=\"col\" height=\"20\" nowrap=\"nowrap\">Eliminar</th> ");
         html.append("\n    <th align=\"center\" scope=\"col\" width=\"40%\" height=\"20\" nowrap=\"nowrap\">Archivo</th> ");
         html.append("\n    <th align=\"center\" scope=\"col\" width=\"40%\" height=\"20\" nowrap=\"nowrap\">Imagen</th> ");
         html.append("\n  </tr> ");
@@ -148,7 +148,8 @@ public final class PhotoAlbum extends GenericAdmResource {
         html.append("\n    <input type=\"button\" value=\"Agregar\" onclick=\"addRowToTable_"+base.getId()+"('igtbl_"+base.getId()+"');this.disabled=true;\" name=\"add\" id=\"add_"+base.getId()+"\" /> ");
 //        html.append("\n    <input type=\"button\" value=\"Cancelar\" onclick=\"removeRowFromTable('igtbl_"+base.getId()+"'); this.disabled=true; this.form.add.disabled=false;\" name=\"cancel\" disabled=\"disabled\" /> ");
         html.append("\n    <input type=\"button\" value=\"Cancelar\" onclick=\"collapse('admPhotoAlbum_"+base.getId()+"',250,150);dojo.byId('showadm_"+base.getId()+"').style.display='block';dojo.byId('add_"+base.getId()+"').disabled=false;z_"+base.getId()+"();opened_"+base.getId()+"=0;z();\" name=\"cancel\" /> ");
-        html.append("\n    <button dojoType=\"dijit.form.Button\" type=\"submit\" name=\"submitImgGal\" value=\"Submit\" >Guardar</button>&nbsp;");
+        html.append("\n    <input type=\"submit\" dojo_Type=\"dijit.form.Button\" name=\"submitImgGal\" value=\"Guardar\" />&nbsp;");
+//      html.append("\n    <button dojoType=\"dijit.form.Button\" type=\"submit\" name=\"submitImgGal\" value=\"Submit\" >Guardar</button>&nbsp;");
 //        html.append("\n <button dojoType=\"dijit.form.Button\" type=\"reset\">Restablecer</button>");
         html.append("\n </div>");
         html.append("\n</form>  ");
@@ -587,26 +588,28 @@ public final class PhotoAlbum extends GenericAdmResource {
             if( userCanEdit || it.hasNext() ) {
                 if(base.getAttribute("gpophotos").equalsIgnoreCase("category")) {
                     if(sprovider.getSemanticObject().getSemanticClass().getName().equalsIgnoreCase("hospedaje")){
-                        out.println("<h3 class=\"subtitleLevel2\">FOTOS DE HABITACIONES</h3>");
+                        out.println("<h3 class=\"subtitleLevel2\">FOTOS DE HABITACIONES&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
                     } else if (sprovider.getSemanticObject().getSemanticClass().getName().equalsIgnoreCase("restaurante")){
-                        out.println("<h3 class=\"subtitleLevel2\">FOTOS DE PLATILLOS</h3>");
+                        out.println("<h3 class=\"subtitleLevel2\">FOTOS DE PLATILLOS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
                     }
                     out.println("<span class=\"tooltipWrapper\">?");
                     out.println("   <span class=\"tooltip\">");
                     out.println("       Puedes subir un máximo de 16 fotos en tu página web. Selecciona una imagen desde tu computadora (4mb máximo). Los formatos de imágenes aceptados son: gif, jpg, png. Al cargar el archivo de una imagen, confirmas que tienes los derechos de uso y distribución, y que ello no infringe las condiciones del servicio.");
                     out.println("   </span>");
                     out.println("</span>");
+                    out.println("</h3>");
                 }else {
                     String title = base.getDisplayTitle(paramRequest.getUser().getLanguage());
                     if(title.equalsIgnoreCase("establecimiento")||title.equalsIgnoreCase("establishment"))
                         out.println("<h2 class=\"subtitleLevel2\">"+title+"</h2>");
                     else{
-                        out.println("<h3 class=\"subtitleLevel2\">"+title+"</h3>");
+                        out.println("<h3 class=\"subtitleLevel2\">"+title+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
                         out.println("<span class=\"tooltipWrapper\">?");
                         out.println("   <span class=\"tooltip\">");
                         out.println("       Puedes subir un máximo de 16 fotos en tu página web. Selecciona una imagen desde tu computadora (4mb máximo). Los formatos de imágenes aceptados son: gif, jpg, png. Al cargar el archivo de una imagen, confirmas que tienes los derechos de uso y distribución, y que ello no infringe las condiciones del servicio.");
                         out.println("   </span>");
                         out.println("</span>");
+                        out.println("</h3>");
                     }
                 }
 
