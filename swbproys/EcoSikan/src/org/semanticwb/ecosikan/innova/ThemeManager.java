@@ -41,22 +41,6 @@ public class ThemeManager extends org.semanticwb.ecosikan.innova.base.ThemeManag
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
-        /*Dependencia dependencia = Dependencia.ClassMgr.createSecretaria(paramRequest.getWebPage().getWebSite());
-        dependencia.setParent(paramRequest.getWebPage().getWebSite().getHomePage());
-        dependencia.setTitle("prueba 2");
-        dependencia.setDescription("desc 2");
-
-        PrintWriter out = response.getWriter();
-        out.println("<ul>");
-        Iterator<Dependencia> itsecs =Dependencia.ClassMgr.listSecretarias(paramRequest.getWebPage().getWebSite());
-        while(itsecs.hasNext()) {
-            Dependencia sec = itsecs.next();
-            out.println("<li>");
-            out.println(sec.getId()+"-"+sec.getTitle()+"-"+sec.getDescription());
-            out.println("</li>");
-        }
-        out.println("</ul>");*/
-
         String path = "/work/models/EcoSikan2/jsp/themes/init.jsp";
         String action = paramRequest.getAction();
         System.out.println("ThemeManager. action="+action);

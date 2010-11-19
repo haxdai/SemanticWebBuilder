@@ -1,13 +1,14 @@
 package org.semanticwb.ecosikan.innova.base;
 
 
-public abstract class IdeaBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+public abstract class IdeaBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticProperty ecoskn_votesP=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#votesP");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_conclusion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#conclusion");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_selected=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#selected");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_votesN=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#votesN");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_status=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#status");
+    public static final org.semanticwb.platform.SemanticClass ecoskn_Comment=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ecosikan.infotec.com.mx#Comment");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_hasComment=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#hasComment");
     public static final org.semanticwb.platform.SemanticClass ecoskn_Idea=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ecosikan.infotec.com.mx#Idea");
    /**
@@ -128,6 +129,29 @@ public abstract class IdeaBase extends org.semanticwb.model.SWBClass implements 
         public static java.util.Iterator<org.semanticwb.ecosikan.innova.Idea> listIdeaByCreator(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Idea> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Idea with a determined Comment
+       * @param value Comment of the type org.semanticwb.ecosikan.innova.Comment
+       * @param model Model of the org.semanticwb.ecosikan.innova.Idea
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Idea
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Idea> listIdeaByComment(org.semanticwb.ecosikan.innova.Comment value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Idea> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(ecoskn_hasComment, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Idea with a determined Comment
+       * @param value Comment of the type org.semanticwb.ecosikan.innova.Comment
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Idea
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Idea> listIdeaByComment(org.semanticwb.ecosikan.innova.Comment value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Idea> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(ecoskn_hasComment,value.getSemanticObject(),sclass));
             return it;
         }
     }
@@ -375,36 +399,69 @@ public abstract class IdeaBase extends org.semanticwb.model.SWBClass implements 
          }
          return ret;
     }
+   /**
+   * Gets all the org.semanticwb.ecosikan.innova.Comment
+   * @return A GenericIterator with all the org.semanticwb.ecosikan.innova.Comment
+   */
 
-    public org.semanticwb.platform.SemanticIterator<org.semanticwb.platform.SemanticObject> listComments()
+    public org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Comment> listComments()
     {
-        com.hp.hpl.jena.rdf.model.StmtIterator stit=getSemanticObject().getRDFResource().listProperties(ecoskn_hasComment.getRDFProperty());
-        return new org.semanticwb.platform.SemanticIterator<org.semanticwb.platform.SemanticObject>(stit);
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Comment>(getSemanticObject().listObjectProperties(ecoskn_hasComment));
     }
 
-    public void addComment(org.semanticwb.platform.SemanticObject value)
+   /**
+   * Gets true if has a Comment
+   * @param value org.semanticwb.ecosikan.innova.Comment to verify
+   * @return true if the org.semanticwb.ecosikan.innova.Comment exists, false otherwise
+   */
+    public boolean hasComment(org.semanticwb.ecosikan.innova.Comment value)
     {
-        getSemanticObject().addObjectProperty(ecoskn_hasComment, value);
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(ecoskn_hasComment,value.getSemanticObject());
+        }
+        return ret;
     }
+   /**
+   * Adds a Comment
+   * @param value org.semanticwb.ecosikan.innova.Comment to add
+   */
+
+    public void addComment(org.semanticwb.ecosikan.innova.Comment value)
+    {
+        getSemanticObject().addObjectProperty(ecoskn_hasComment, value.getSemanticObject());
+    }
+   /**
+   * Removes all the Comment
+   */
 
     public void removeAllComment()
     {
         getSemanticObject().removeProperty(ecoskn_hasComment);
     }
+   /**
+   * Removes a Comment
+   * @param value org.semanticwb.ecosikan.innova.Comment to remove
+   */
 
-    public void removeComment(org.semanticwb.platform.SemanticObject value)
+    public void removeComment(org.semanticwb.ecosikan.innova.Comment value)
     {
-        getSemanticObject().removeObjectProperty(ecoskn_hasComment,value);
+        getSemanticObject().removeObjectProperty(ecoskn_hasComment,value.getSemanticObject());
     }
 
-/**
-* Gets the Comment property
-* @return the value for the property as org.semanticwb.platform.SemanticObject
-*/
-    public org.semanticwb.platform.SemanticObject getComment()
+   /**
+   * Gets the Comment
+   * @return a org.semanticwb.ecosikan.innova.Comment
+   */
+    public org.semanticwb.ecosikan.innova.Comment getComment()
     {
-         org.semanticwb.platform.SemanticObject ret=null;
-         ret=getSemanticObject().getObjectProperty(ecoskn_hasComment);
+         org.semanticwb.ecosikan.innova.Comment ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(ecoskn_hasComment);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.ecosikan.innova.Comment)obj.createGenericInstance();
+         }
          return ret;
     }
 
