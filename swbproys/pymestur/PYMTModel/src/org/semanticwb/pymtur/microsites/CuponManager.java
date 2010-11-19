@@ -167,6 +167,7 @@ public class CuponManager extends GenericResource {
             if(description.length()>1000)
             {
                 description = description.substring(0, 999);
+                response.setRenderParameter("msgErrOverflow", "Unicamente se han guardado los primeros 1000 caracteres del campo de descripción del cupón '" + params.get("title") + "'");
             }
             cupon.setDescription(description);
             cupon.setCuponPeriodIni(di);
@@ -174,7 +175,14 @@ public class CuponManager extends GenericResource {
             cupon.setCuponType(params.get("is"));
             cupon.setCuponImg( (params.get("pimg")!=null&&params.get("pimg").length()>0?params.get("pimg"):null) );
             cupon.setCuponConditions( params.get("constraint")==null?"":params.get("constraint") );
-            cupon.setCuponAddress(params.get("deftv"));
+            //cupon.setCuponAddress(params.get("deftv"));
+            String adress = params.get("deftv");
+            if(adress.length()>1000)
+            {
+                adress = adress.substring(0,999);
+                response.setRenderParameter("msgErrOverAdress", "Unicamente se han guardado los primeros 1000 caracteres del campo de dirección del cupón '" + params.get("title") + "'");
+            }
+            cupon.setCuponAddress(adress);
             if( params.containsKey("partner") ) {
                 File file = new File(realpath+path+params.get("partner"));
                 if( file.exists() ) {
@@ -196,8 +204,14 @@ public class CuponManager extends GenericResource {
                 ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
                 serviceProv.addCupon(cupon);
                 serviceProv.setSpTotCupones(serviceProv.getSpTotCupones()+1);
-                if( params.containsKey("cmts")&&isValidValue(params.get("cmts")) )
-                    serviceProv.setSpCuponsComment((serviceProv.getSpCuponsComment()==null?"":serviceProv.getSpCuponsComment())+params.get("cmts"));
+                if( params.containsKey("cmts")&&isValidValue(params.get("cmts")) ){
+                    String cup_comments = "";
+                    if(params.get("cmts")!=null){
+                        cup_comments = params.get("cmts");
+                    }
+                    serviceProv.setSpCuponsComment(cup_comments);
+                    //serviceProv.setSpCuponsComment((?"":serviceProv.getSpCuponsComment())+params.get("cmts"));
+                }
             }catch(Exception e) {
                 log.error(e);
             }
@@ -258,7 +272,7 @@ public class CuponManager extends GenericResource {
             if(description.length()>1000)
             {
                 description = description.substring(0, 999);
-                
+                response.setRenderParameter("msgErrOverflow", "Unicamente se han guardado los primeros 1000 caracteres del campo de descripción del cupón '" + params.get("title") + "'");
             }
             cupon.setDescription(description);
             cupon.setCuponPeriodIni(di);
@@ -266,7 +280,13 @@ public class CuponManager extends GenericResource {
             cupon.setCuponType(params.get("is"));
             cupon.setCuponImg( (params.get("pimg")!=null&&params.get("pimg").length()>0?params.get("pimg"):null) );
             cupon.setCuponConditions( params.get("constraint")==null?"":params.get("constraint") );
-            cupon.setCuponAddress(params.get("deftv"));
+            String adress = params.get("deftv");
+            if(adress.length()>1000)
+            {
+                adress = adress.substring(0,999);
+                response.setRenderParameter("msgErrOverAdress", "Unicamente se han guardado los primeros 1000 caracteres del campo de dirección del cupón '" + params.get("title") + "'");
+            }
+            cupon.setCuponAddress(adress);
             if( params.containsKey("partner") ) {
                 File file = new File(realpath+path+params.get("partner"));
                 if( file.exists() ) {
@@ -284,9 +304,14 @@ public class CuponManager extends GenericResource {
                 }
             }
             if( params.containsKey("cmts")&&isValidValue(params.get("cmts")) ) {
-                semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
+                semObject = SemanticObject.createSemanticObject(params.get("sprovider"));
                 ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
-                serviceProv.setSpCuponsComment((serviceProv.getSpCuponsComment()==null?"":serviceProv.getSpCuponsComment())+params.get("cmts"));
+                String cup_comments = "";
+                if(params.get("cmts")!=null){
+                     cup_comments = params.get("cmts");
+                }
+                serviceProv.setSpCuponsComment(cup_comments);
+                //serviceProv.setSpCuponsComment((serviceProv.getSpCuponsComment()==null?"":serviceProv.getSpCuponsComment())+params.get("cmts"));
             }
         }
         else if( "remove_cupon".equalsIgnoreCase(action) ) {
