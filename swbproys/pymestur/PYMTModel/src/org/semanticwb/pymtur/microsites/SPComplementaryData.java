@@ -255,6 +255,9 @@ public class SPComplementaryData extends GenericResource {
                 } catch (FormValidateException e) {
                     response.setRenderParameter("errorMsg", "01");
                     log.error(e);
+                } catch (NumberFormatException nfe) {
+                    response.setRenderParameter("errorMsg", "05");
+                    log.error(nfe);
                 }
             }
         } catch (Exception e) {
