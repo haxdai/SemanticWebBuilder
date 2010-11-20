@@ -80,6 +80,7 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         WebPage wp = response.getWebPage();
         WebSite model = wp.getWebSite();
+        Challenge challenge = (Challenge)wp;
         
         String action = response.getAction();
         if(Action_ADDCATEGORY.equals(action)) {
@@ -87,7 +88,6 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
                 Category category = Category.ClassMgr.createCategory(model);
                 category.setTitle(request.getParameter("name").replaceAll(" ", ""));
                 category.setDescription(request.getParameter("desc"));
-                Challenge challenge = (Challenge)wp;
                 challenge.addCategory(category);
                 response.setAction(null);
             }
@@ -95,7 +95,6 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
             if(request.getParameter("name")!=null&!request.getParameter("name").isEmpty()&&request.getParameter("desc")!=null&&!request.getParameter("desc").isEmpty()) {
                 String categoryId = request.getParameter("cat");
                 Category category = Category.ClassMgr.getCategory(categoryId, model);
-                Challenge challenge = (Challenge)wp;
                 if(challenge.hasCategory(category)) {
                     category.setTitle(request.getParameter("name").replaceAll(" ", ""));
                     category.setDescription(request.getParameter("desc"));
@@ -108,10 +107,24 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
             category.remove();
             response.setAction(null);
         }
+
         else if(Action_ADDDESIRE.equals(action)) {
+            if(request.getParameter("des")!=null&!request.getParameter("des").isEmpty()) {
+                challenge.addDesire(request.getParameter("des"));
+                response.setAction(null);
+            }
         }else if(Action_EDITDESIRE.equals(action)) {
+            if(request.getParameter("des")!=null&!request.getParameter("des").isEmpty()) {
+                String curDesire = request.getParameter("hdes");
+                challenge.removeDesire(curDesire);
+                challenge.addDesire(request.getParameter("des"));
+                response.setAction(null);
+            }
         }else if(Action_REMOVEDESIRE.equals(action)) {
+            challenge.removeDesire(request.getParameter("des"));
+            response.setAction(null);
         }
+        
         else if(Action_ADDSTKHLDR.equals(action)) {
         }else if(Action_EDITSTKHLDR.equals(action)) {
         }else if(Action_REMOVESTKHLDR.equals(action)) {
