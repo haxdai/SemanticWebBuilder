@@ -1,17 +1,17 @@
 package org.semanticwb.ecosikan.innova.base;
 
 
-public abstract class ChallengeBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.RuleRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Trashable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Localeable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Indexable,org.semanticwb.model.Tagable,org.semanticwb.model.Searchable,org.semanticwb.model.Viewable,org.semanticwb.model.Rankable,org.semanticwb.model.Referensable,org.semanticwb.model.Expirable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Activeable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Traceable,org.semanticwb.model.Resourceable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.FilterableNode
+public abstract class ChallengeBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Referensable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Resourceable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,org.semanticwb.model.Filterable,org.semanticwb.model.Searchable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Expirable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Viewable,org.semanticwb.model.Trashable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Rankable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Activeable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Indexable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Localeable
 {
+    public static final org.semanticwb.platform.SemanticProperty ecoskn_hasDesire=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#hasDesire");
     public static final org.semanticwb.platform.SemanticClass ecoskn_Idea=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ecosikan.infotec.com.mx#Idea");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_hasIdea=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#hasIdea");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_phase=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#phase");
-    public static final org.semanticwb.platform.SemanticProperty ecoskn_hasExpectations=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#hasExpectations");
     public static final org.semanticwb.platform.SemanticClass ecoskn_Category=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ecosikan.infotec.com.mx#Category");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_hasCategory=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#hasCategory");
-    public static final org.semanticwb.platform.SemanticProperty ecoskn_hasStakeholders=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#hasStakeholders");
+    public static final org.semanticwb.platform.SemanticProperty ecoskn_hasExpectation=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#hasExpectation");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_document=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#document");
-    public static final org.semanticwb.platform.SemanticProperty ecoskn_hasDesires=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#hasDesires");
+    public static final org.semanticwb.platform.SemanticProperty ecoskn_hasStakeholder=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#hasStakeholder");
     public static final org.semanticwb.platform.SemanticClass ecoskn_Challenge=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ecosikan.infotec.com.mx#Challenge");
    /**
    * The semantic class that represents the currentObject
@@ -534,6 +534,33 @@ public abstract class ChallengeBase extends org.semanticwb.model.WebPage impleme
     {
         super(base);
     }
+
+    public java.util.Iterator<String> listDesires()
+    {
+        java.util.ArrayList<String> values=new java.util.ArrayList<String>();
+        java.util.Iterator<org.semanticwb.platform.SemanticLiteral> it=getSemanticObject().listLiteralProperties(ecoskn_hasDesire);
+        while(it.hasNext())
+        {
+                org.semanticwb.platform.SemanticLiteral literal=it.next();
+                values.add(literal.getString());
+        }
+        return values.iterator();
+    }
+
+    public void addDesire(String value)
+    {
+        getSemanticObject().addLiteralProperty(ecoskn_hasDesire, new org.semanticwb.platform.SemanticLiteral(value));
+    }
+
+    public void removeAllDesire()
+    {
+        getSemanticObject().removeProperty(ecoskn_hasDesire);
+    }
+
+    public void removeDesire(String value)
+    {
+        getSemanticObject().removeLiteralProperty(ecoskn_hasDesire,new org.semanticwb.platform.SemanticLiteral(value));
+    }
    /**
    * Gets all the org.semanticwb.ecosikan.innova.Idea
    * @return A GenericIterator with all the org.semanticwb.ecosikan.innova.Idea
@@ -617,33 +644,6 @@ public abstract class ChallengeBase extends org.semanticwb.model.WebPage impleme
     {
         getSemanticObject().setIntProperty(ecoskn_phase, value);
     }
-
-    public java.util.Iterator<String> listExpectationses()
-    {
-        java.util.ArrayList<String> values=new java.util.ArrayList<String>();
-        java.util.Iterator<org.semanticwb.platform.SemanticLiteral> it=getSemanticObject().listLiteralProperties(ecoskn_hasExpectations);
-        while(it.hasNext())
-        {
-                org.semanticwb.platform.SemanticLiteral literal=it.next();
-                values.add(literal.getString());
-        }
-        return values.iterator();
-    }
-
-    public void addExpectations(String value)
-    {
-        getSemanticObject().addLiteralProperty(ecoskn_hasExpectations, new org.semanticwb.platform.SemanticLiteral(value));
-    }
-
-    public void removeAllExpectations()
-    {
-        getSemanticObject().removeProperty(ecoskn_hasExpectations);
-    }
-
-    public void removeExpectations(String value)
-    {
-        getSemanticObject().removeLiteralProperty(ecoskn_hasExpectations,new org.semanticwb.platform.SemanticLiteral(value));
-    }
    /**
    * Gets all the org.semanticwb.ecosikan.innova.Category
    * @return A GenericIterator with all the org.semanticwb.ecosikan.innova.Category
@@ -710,10 +710,10 @@ public abstract class ChallengeBase extends org.semanticwb.model.WebPage impleme
          return ret;
     }
 
-    public java.util.Iterator<String> listStakeholderses()
+    public java.util.Iterator<String> listExpectations()
     {
         java.util.ArrayList<String> values=new java.util.ArrayList<String>();
-        java.util.Iterator<org.semanticwb.platform.SemanticLiteral> it=getSemanticObject().listLiteralProperties(ecoskn_hasStakeholders);
+        java.util.Iterator<org.semanticwb.platform.SemanticLiteral> it=getSemanticObject().listLiteralProperties(ecoskn_hasExpectation);
         while(it.hasNext())
         {
                 org.semanticwb.platform.SemanticLiteral literal=it.next();
@@ -722,19 +722,19 @@ public abstract class ChallengeBase extends org.semanticwb.model.WebPage impleme
         return values.iterator();
     }
 
-    public void addStakeholders(String value)
+    public void addExpectation(String value)
     {
-        getSemanticObject().addLiteralProperty(ecoskn_hasStakeholders, new org.semanticwb.platform.SemanticLiteral(value));
+        getSemanticObject().addLiteralProperty(ecoskn_hasExpectation, new org.semanticwb.platform.SemanticLiteral(value));
     }
 
-    public void removeAllStakeholders()
+    public void removeAllExpectation()
     {
-        getSemanticObject().removeProperty(ecoskn_hasStakeholders);
+        getSemanticObject().removeProperty(ecoskn_hasExpectation);
     }
 
-    public void removeStakeholders(String value)
+    public void removeExpectation(String value)
     {
-        getSemanticObject().removeLiteralProperty(ecoskn_hasStakeholders,new org.semanticwb.platform.SemanticLiteral(value));
+        getSemanticObject().removeLiteralProperty(ecoskn_hasExpectation,new org.semanticwb.platform.SemanticLiteral(value));
     }
 
 /**
@@ -755,10 +755,10 @@ public abstract class ChallengeBase extends org.semanticwb.model.WebPage impleme
         getSemanticObject().setProperty(ecoskn_document, value);
     }
 
-    public java.util.Iterator<String> listDesireses()
+    public java.util.Iterator<String> listStakeholders()
     {
         java.util.ArrayList<String> values=new java.util.ArrayList<String>();
-        java.util.Iterator<org.semanticwb.platform.SemanticLiteral> it=getSemanticObject().listLiteralProperties(ecoskn_hasDesires);
+        java.util.Iterator<org.semanticwb.platform.SemanticLiteral> it=getSemanticObject().listLiteralProperties(ecoskn_hasStakeholder);
         while(it.hasNext())
         {
                 org.semanticwb.platform.SemanticLiteral literal=it.next();
@@ -767,18 +767,18 @@ public abstract class ChallengeBase extends org.semanticwb.model.WebPage impleme
         return values.iterator();
     }
 
-    public void addDesires(String value)
+    public void addStakeholder(String value)
     {
-        getSemanticObject().addLiteralProperty(ecoskn_hasDesires, new org.semanticwb.platform.SemanticLiteral(value));
+        getSemanticObject().addLiteralProperty(ecoskn_hasStakeholder, new org.semanticwb.platform.SemanticLiteral(value));
     }
 
-    public void removeAllDesires()
+    public void removeAllStakeholder()
     {
-        getSemanticObject().removeProperty(ecoskn_hasDesires);
+        getSemanticObject().removeProperty(ecoskn_hasStakeholder);
     }
 
-    public void removeDesires(String value)
+    public void removeStakeholder(String value)
     {
-        getSemanticObject().removeLiteralProperty(ecoskn_hasDesires,new org.semanticwb.platform.SemanticLiteral(value));
+        getSemanticObject().removeLiteralProperty(ecoskn_hasStakeholder,new org.semanticwb.platform.SemanticLiteral(value));
     }
 }
