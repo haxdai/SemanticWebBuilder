@@ -6,6 +6,8 @@ import javax.servlet.http.*;
 
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
+import org.semanticwb.ecosikan.innova.ChallengeManager.Phases;
+import org.semanticwb.model.User;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.portal.api.*;
@@ -16,8 +18,6 @@ public class IdeaManager extends org.semanticwb.ecosikan.innova.base.IdeaManager
 
     public static final String Action_VOTE = "vote";
     public static final String Action_COMMENT = "coment";
-    public static final String Action_ADD_TO_THEME = "addToTheme";
-    public static final String Action_ADD_TO_CHALLENGE = "addToChallenge";
 
     public IdeaManager() {
     }
@@ -46,9 +46,8 @@ public class IdeaManager extends org.semanticwb.ecosikan.innova.base.IdeaManager
                 case Running:
                     return Executed;
                 case Executed:
-                    return null;
                 default:
-                    return null;
+                    return Executed;
             }
         }
         public boolean hasNext() {
@@ -73,28 +72,31 @@ public class IdeaManager extends org.semanticwb.ecosikan.innova.base.IdeaManager
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        WebPage wp = paramRequest.getWebPage();
+        final WebPage wp = paramRequest.getWebPage();
+        final WebSite model = wp.getWebSite();
         final String modelId = wp.getWebSiteId();
+        final Boolean userCanEdit = userCanEdit(paramRequest.getUser());
+
         String path = "/work/models/"+modelId+"/jsp/ideas/listIdeas.jsp";
-        
         String action = paramRequest.getAction();
-        if(Action_ADD_TO_CHALLENGE.equals(action)) {
-            path = "/work/models/"+modelId+"/jsp/ideas/addToChallenge.jsp";
-        }else if(Action_ADD_TO_THEME.equals(action)) {
-            path = "/work/models/"+modelId+"/jsp/ideas/addToTheme.jsp";
-        }else if(Action_COMMENT.equals(action)) {
+        if(paramRequest.Action_ADD.equals(action)) {
+            if(wp instanceof Challenge) {
+//                Challenge challenge = (Challenge)wp;
+//                Phases phase = Phases.valueOf(challenge.getPhase());
+//                if(!Phases.Opened.equals(phase))
+            }
+            path = "/work/models/"+modelId+"/jsp/ideas/add.jsp";
+        }
+        else if(Action_COMMENT.equals(action)) {
             String ideaId = request.getParameter("idea");
             System.out.println("comentar la idea "+ideaId+"....");
             path = "/work/models/"+modelId+"/jsp/ideas/comment.jsp";
         }
-
-        System.out.println("\n\n............\naction="+action+"\npath="+path);
-
-
+        
         try {
             RequestDispatcher dis = request.getRequestDispatcher(path);
             request.setAttribute("paramRequest", paramRequest);
-            //request.setAttribute("statusCBOX", status_CBOX);
+            request.setAttribute("userCanEdit", userCanEdit);
             dis.include(request, response);
         }catch(Exception e) {
             log.error(e);
@@ -107,18 +109,20 @@ public class IdeaManager extends org.semanticwb.ecosikan.innova.base.IdeaManager
         String action = response.getAction();
         WebPage wp = response.getWebPage();
         WebSite model = wp.getWebSite();
-        if( Action_ADD_TO_THEME.equals(action) ) {
+        if( response.Action_ADD.equals(action) ) {
             Idea idea = Idea.ClassMgr.createIdea(model);
             idea.setTitle(request.getParameter("title"));
             idea.setDescription(request.getParameter("desc"));
             idea.setStatus(IdeaStatus.Opened.name());
             idea.setSelected(false);
-            Theme theme = (Theme)wp;
-            theme.addIdea(idea);
+            if(wp instanceof Theme) {
+                Theme theme = (Theme)wp;
+                theme.addIdea(idea);
+            }else if(wp instanceof Challenge) {
+                Challenge challenge = (Challenge)wp;
+                challenge.addIdea(idea);
+            }
             response.setAction(null);
-            response.setCallMethod(response.Call_CONTENT);
-        }else if( Action_ADD_TO_CHALLENGE.equals(action) ) {
-
             response.setCallMethod(response.Call_CONTENT);
         }else if( response.Action_EDIT.equals(action) ) {
             IdeaStatus status;            
@@ -170,5 +174,12 @@ public class IdeaManager extends org.semanticwb.ecosikan.innova.base.IdeaManager
             if( idea!=null )
                 idea.remove();
         }
+    }
+
+    private Boolean userCanEdit(User user) {
+//        Role role = Role.ClassMgr.getRole(base.getAttribute("roleId"), wp.getWebSite());
+//        User user = paramRequest.getUser();
+//        final boolean canEdit = true;//user.hasRole(role);
+        return true;
     }
 }
