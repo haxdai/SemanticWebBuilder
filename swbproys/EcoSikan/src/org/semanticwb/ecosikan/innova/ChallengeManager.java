@@ -2,8 +2,10 @@ package org.semanticwb.ecosikan.innova;
 
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Iterator;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
@@ -30,32 +32,81 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
     public static final String Action_EDITSTKHLDR = "editStkHldr";
     public static final String Action_REMOVESTKHLDR = "removeStkHldr";
 
-    public ChallengeManager()
-    {
+    public ChallengeManager() {
     }
 
    /**
    * Constructs a ChallengeManager with a SemanticObject
    * @param base The SemanticObject with the properties for the ChallengeManager
    */
-    public ChallengeManager(org.semanticwb.platform.SemanticObject base)
-    {
+    public ChallengeManager(org.semanticwb.platform.SemanticObject base) {
         super(base);
+    }
+
+    public enum Phases {
+        Opened("Abierto"),
+        Categorizing("Categorización"),
+        Selecting("Selección"),
+        Solution("Generación de solucón"),
+        Closed("Cerrado");
+        private String description;
+        Phases(String description) {
+            this.description = description;
+        }
+        public String getDescription() {
+            return this.description;
+        }
+        public Phases next() {
+            switch(this) {
+                case Opened:
+                    return Categorizing;
+                case Categorizing:
+                    return Selecting;
+                case Selecting:
+                    return Solution;
+                case Solution:
+                    return Closed;
+                case Closed:
+                default:
+                    return Closed;
+            }
+        }
+        public boolean hasNext() {
+            switch(this) {
+                case Closed:
+                    return false;
+                default:
+                    return true;
+            }
+        }
     }
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        WebSite model = paramRequest.getWebPage().getWebSite();
+        final WebPage wp = paramRequest.getWebPage();
+        final WebSite model = wp.getWebSite();
+        final String modelId = wp.getWebSiteId();
+        final Boolean userCanEdit = userCanEdit(paramRequest.getUser());
 //        Challenge challenge = Challenge.ClassMgr.createChallenge(model);
 //        challenge.setParent(model.getHomePage());
 //        challenge.setTitle("Erradicar el crimen organizado");
 //        challenge.setDescription("Erradicar el cancer de la droga y sus cárteles");
 //        challenge.setActive(true);
+//        challenge.setPhase(Phases.Opened.name());
+
         
         RequestDispatcher dis;
+        String path;
+//        Challenge challenge = (Challenge)wp;
+//        if( Phases.Opened==Phases.valueOf(challenge.getPhase()) ) {
+//        }else if( Phases.Categorizing==Phases.valueOf(challenge.getPhase()) ) {
+//        }else if( Phases.Selecting==Phases.valueOf(challenge.getPhase()) ) {
+//        }else if( Phases.Solution==Phases.valueOf(challenge.getPhase()) ) {
+//        }else if( Phases.Closed==Phases.valueOf(challenge.getPhase()) ) {
+//        }else {
+//        }
 
-        Boolean userCanEdit = userCanEdit(paramRequest.getUser());
-        String path = "/work/models/"+model.getId()+"/jsp/challenges/categories.jsp";
+        path = "/work/models/"+modelId+"/jsp/challenges/categories.jsp";
         dis = request.getRequestDispatcher(path);
         try {
             request.setAttribute("paramRequest", paramRequest);
@@ -64,7 +115,7 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
         }catch (Exception e) {
             log.error(e);
         }
-        path = "/work/models/"+model.getId()+"/jsp/challenges/desires.jsp";
+        path = "/work/models/"+modelId+"/jsp/challenges/desires.jsp";
         dis = request.getRequestDispatcher(path);
         try {
             request.setAttribute("paramRequest", paramRequest);
@@ -73,7 +124,7 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
         } catch (Exception e) {
             log.error(e);
         }
-        path = "/work/models/"+model.getId()+"/jsp/challenges/stakeholders.jsp";
+        path = "/work/models/"+modelId+"/jsp/challenges/stakeholders.jsp";
         dis = request.getRequestDispatcher(path);
         try {
             request.setAttribute("paramRequest", paramRequest);
@@ -82,6 +133,16 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
         } catch (Exception e) {
             log.error(e);
         }
+    }
+
+    private void include(HttpServletRequest request, HttpServletResponse response,  String path, HashMap<String, Object> beans) throws ServletException, IOException {
+        RequestDispatcher dis = request.getRequestDispatcher(path);
+        Iterator<String> keys = beans.keySet().iterator();
+        while(keys.hasNext()) {
+            String key = keys.next();
+            request.setAttribute(key, beans.get(key));
+        }
+        dis.include(request, response);
     }
 
     @Override
@@ -152,6 +213,9 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
     }
 
     private Boolean userCanEdit(User user) {
+//        Role role = Role.ClassMgr.getRole(base.getAttribute("roleId"), wp.getWebSite());
+//        User user = paramRequest.getUser();
+//        final boolean canEdit = true;//user.hasRole(role);
         return true;
     }
 
