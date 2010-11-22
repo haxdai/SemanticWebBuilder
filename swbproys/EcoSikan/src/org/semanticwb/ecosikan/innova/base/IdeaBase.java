@@ -1,7 +1,7 @@
 package org.semanticwb.ecosikan.innova.base;
 
 
-public abstract class IdeaBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+public abstract class IdeaBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticProperty ecoskn_votesP=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#votesP");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_conclusion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#conclusion");
