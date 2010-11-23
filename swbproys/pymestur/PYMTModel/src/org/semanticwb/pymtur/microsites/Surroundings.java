@@ -84,16 +84,26 @@ public class Surroundings extends GenericResource{
                 mgr.clearProperties();
                 mgr.addProperty(Hospedaje.pymtur_hasNearest);
                 mgr.addProperty(Hospedaje.pymtur_NearestDescr);
+                ServiceProvider sprovider = (ServiceProvider)semObject.createGenericInstance();
                 if(request.getParameterValues(Hospedaje.pymtur_hasNearest.getName())==null)
                 {
-                    ServiceProvider sprovider = (ServiceProvider)semObject.createGenericInstance();
                     Iterator it = sprovider.listNearests();
                     while(it.hasNext())
                     {
                         sprovider.removeNearest((Nearest)it.next());
                     }
                 }
-                mgr.processForm(request);            }
+                mgr.processForm(request);          
+                String description = request.getParameter(Hospedaje.pymtur_NearestDescr.getName());
+                if(description!=null&&description.length()>600)
+                {
+                    description = description.substring(0, 599);
+                    response.setRenderParameter("errNearDesc", "Unicamente se han guardado los primeros 600 caracteres del campo de descripción de Cercanías");
+                    sprovider.setNearestDescr(description);
+                }
+                
+
+            }
         } catch (FormValidateException e) {
             log.error(e);
         }
