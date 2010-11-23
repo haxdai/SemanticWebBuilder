@@ -210,7 +210,13 @@ public class CuponManager extends GenericResource {
                     if(params.get("cmts")!=null){
                         cup_comments = params.get("cmts");
                     }
+                    if(cup_comments.length()>600)
+                    {
+                        cup_comments = cup_comments.substring(0,599);
+                        response.setRenderParameter("msgErrOverComments", "Unicamente se han guardado los primeros 600 caracteres del campo de comentarios del cupón '" + params.get("title") + "'");
+                    }
                     serviceProv.setSpCuponsComment(cup_comments);
+
                     //serviceProv.setSpCuponsComment((?"":serviceProv.getSpCuponsComment())+params.get("cmts"));
                 }
             }catch(Exception e) {
@@ -310,6 +316,11 @@ public class CuponManager extends GenericResource {
                 String cup_comments = "";
                 if(params.get("cmts")!=null){
                      cup_comments = params.get("cmts");
+                }
+                if(cup_comments.length()>600)
+                {
+                    cup_comments = cup_comments.substring(0,599);
+                    response.setRenderParameter("msgErrOverComments", "Unicamente se han guardado los primeros 600 caracteres del campo de comentarios del cupón '" + params.get("title") + "'");
                 }
                 serviceProv.setSpCuponsComment(cup_comments);
                 //serviceProv.setSpCuponsComment((serviceProv.getSpCuponsComment()==null?"":serviceProv.getSpCuponsComment())+params.get("cmts"));
