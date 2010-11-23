@@ -82,9 +82,9 @@ public class Installations extends GenericResource{
                 mgr.clearProperties();
                 mgr.addProperty(Hospedaje.pymtur_hasInstalation);
                 mgr.addProperty(Hospedaje.pymtur_spInstalationsDescr);
+                ServiceProvider sprovider = (ServiceProvider)semObject.createGenericInstance();
                 if(request.getParameterValues(Hospedaje.pymtur_hasInstalation.getName())==null)
                 {
-                    ServiceProvider sprovider = (ServiceProvider)semObject.createGenericInstance();
                     Iterator it = sprovider.listInstalations();
                     while(it.hasNext())
                     {
@@ -92,6 +92,14 @@ public class Installations extends GenericResource{
                     }
                 }
                 mgr.processForm(request);
+                String description = request.getParameter(Hospedaje.pymtur_spInstalationsDescr.getName());
+                if(description!=null&&description.length()>600)
+                {
+                    description = description.substring(0, 599);
+                    response.setRenderParameter("errInstDesc", "Unicamente se han guardado los primeros 600 caracteres del campo de descripción de Instalaciones");
+                    sprovider.setSpInstalationsDescr(description);
+                }
+
             }
         } catch (FormValidateException e) {
             log.error(e);

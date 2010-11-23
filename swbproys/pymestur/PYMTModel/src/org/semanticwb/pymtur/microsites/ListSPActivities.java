@@ -81,9 +81,9 @@ public class ListSPActivities extends GenericResource{
                 mgr.clearProperties();
                 mgr.addProperty(Hospedaje.pymtur_hasSPActivity);
                 mgr.addProperty(Hospedaje.pymtur_spActivitiesDescr);
+                ServiceProvider sprovider = (ServiceProvider)semObject.createGenericInstance();
                 if(request.getParameterValues(Hospedaje.pymtur_hasSPActivity.getName())==null)
                 {
-                    ServiceProvider sprovider = (ServiceProvider)semObject.createGenericInstance();
                     Iterator it = sprovider.listSPActivities();
                     while(it.hasNext())
                     {
@@ -91,6 +91,14 @@ public class ListSPActivities extends GenericResource{
                     }
                 }
                 mgr.processForm(request);
+                String description = request.getParameter(Hospedaje.pymtur_spActivitiesDescr.getName());
+                if(description!=null&&description.length()>600)
+                {
+                    description = description.substring(0, 599);
+                    response.setRenderParameter("errActsDesc", "Unicamente se han guardado los primeros 600 caracteres del campo de descripción de Actividades");
+                    sprovider.setSpActivitiesDescr(description);
+                }
+                
             }
         } catch (Exception e) {
             log.error(e);
