@@ -17,7 +17,9 @@ public class IdeaManager extends org.semanticwb.ecosikan.innova.base.IdeaManager
     private static Logger log = SWBUtils.getLogger(IdeaManager.class);
 
     public static final String Action_VOTE = "vote";
-    public static final String Action_COMMENT = "coment";
+    public static final String Action_COMMENT = "comment";
+    public static final String Action_CATEGORIZE = "categorize";
+    public static final String Action_SELECT = "select";
 
     public IdeaManager() {
     }
@@ -77,26 +79,37 @@ public class IdeaManager extends org.semanticwb.ecosikan.innova.base.IdeaManager
         final String modelId = wp.getWebSiteId();
         final Boolean userCanEdit = userCanEdit(paramRequest.getUser());
 
+        request.setAttribute("paramRequest", paramRequest);
+        request.setAttribute("userCanEdit", userCanEdit);
+        
         String path = "/work/models/"+modelId+"/jsp/ideas/listIdeas.jsp";
         String action = paramRequest.getAction();
         if(paramRequest.Action_ADD.equals(action)) {
             if(wp instanceof Challenge) {
-//                Challenge challenge = (Challenge)wp;
-//                Phases phase = Phases.valueOf(challenge.getPhase());
-//                if(!Phases.Opened.equals(phase))
+                Challenge challenge = (Challenge)wp;
+                Phases phase = Phases.valueOf(challenge.getPhase());
+                if(Phases.Opened.equals(phase))
+                    path = "/work/models/"+modelId+"/jsp/ideas/add.jsp";
+            }else if(wp instanceof Theme) {
+                path = "/work/models/"+modelId+"/jsp/ideas/add.jsp";
             }
-            path = "/work/models/"+modelId+"/jsp/ideas/add.jsp";
-        }
-        else if(Action_COMMENT.equals(action)) {
+        }else if(Action_COMMENT.equals(action)) {
             String ideaId = request.getParameter("idea");
             System.out.println("comentar la idea "+ideaId+"....");
-            path = "/work/models/"+modelId+"/jsp/ideas/comment.jsp";
+            Idea idea = Idea.ClassMgr.getIdea(ideaId, model);
+            if( IdeaStatus.Opened==IdeaStatus.valueOf(idea.getStatus()) )
+                if(wp instanceof Challenge) {
+                    Challenge challenge = (Challenge)wp;
+                    Phases phase = Phases.valueOf(challenge.getPhase());
+                    if(Phases.Opened.equals(phase))
+                        path = "/work/models/"+modelId+"/jsp/ideas/comment.jsp";
+                }else if(wp instanceof Theme) {
+                    path = "/work/models/"+modelId+"/jsp/ideas/comment.jsp";
+                }
         }
         
         try {
             RequestDispatcher dis = request.getRequestDispatcher(path);
-            request.setAttribute("paramRequest", paramRequest);
-            request.setAttribute("userCanEdit", userCanEdit);
             dis.include(request, response);
         }catch(Exception e) {
             log.error(e);
@@ -109,6 +122,8 @@ public class IdeaManager extends org.semanticwb.ecosikan.innova.base.IdeaManager
         String action = response.getAction();
         WebPage wp = response.getWebPage();
         WebSite model = wp.getWebSite();
+        User user = response.getUser();
+
         if( response.Action_ADD.equals(action) ) {
             Idea idea = Idea.ClassMgr.createIdea(model);
             idea.setTitle(request.getParameter("title"));
@@ -120,41 +135,43 @@ public class IdeaManager extends org.semanticwb.ecosikan.innova.base.IdeaManager
                 theme.addIdea(idea);
             }else if(wp instanceof Challenge) {
                 Challenge challenge = (Challenge)wp;
-                challenge.addIdea(idea);
+                Phases phase = Phases.valueOf(challenge.getPhase());
+                if(Phases.Opened==phase)
+                    challenge.addIdea(idea);
             }
             response.setAction(null);
-            response.setCallMethod(response.Call_CONTENT);
         }else if( response.Action_EDIT.equals(action) ) {
-            IdeaStatus status;            
             String ideaId = request.getParameter("idea");
             Idea idea = Idea.ClassMgr.getIdea(ideaId, model);
-            if( idea!=null )
+            if( idea!=null &&  this.userCanEdit(user) ) {
                 try {
-                    status = IdeaStatus.valueOf(idea.getStatus());
+                    IdeaStatus status = IdeaStatus.valueOf(idea.getStatus());
                     if(status.hasNext())
                         idea.setStatus(status.next().name());
                 }catch(IllegalArgumentException iae) {
                 }
-            response.setCallMethod(response.Call_CONTENT);
-        }else if( Action_VOTE.equals(action) ){
-            String vote = request.getParameter("vote");
-            String ideaId = request.getParameter("idea");
-            Idea idea = Idea.ClassMgr.getIdea(ideaId, model);
-            if("u".equals(vote)) { // votar me gusta (up)
-                idea.setVotesP(idea.getVotesP()+1);
-            }else if("d".equals(vote)) { // votar no me gusta (down)
-                idea.setVotesN(idea.getVotesN()+1);
             }
-            response.setCallMethod(response.Call_CONTENT);
-        }else if( Action_COMMENT.equals(action) ) {
-            System.out.println("guardar comentario");
+        }else if( response.Action_REMOVE.equals(action) ) {
             String ideaId = request.getParameter("idea");
-            System.out.println("ideaId="+ideaId);
             Idea idea = Idea.ClassMgr.getIdea(ideaId, model);
-            System.out.println("idea="+idea);            
+            if( idea!=null &&  this.userCanEdit(user) )
+                idea.remove();
+        }
+        else if( Action_VOTE.equals(action) ) {
+            String votefor = request.getParameter("vote");
+            String ideaId = request.getParameter("idea");
+            Idea idea = Idea.ClassMgr.getIdea(ideaId, model);
+            if( idea!=null && IdeaStatus.Opened==IdeaStatus.valueOf(idea.getStatus()) && votefor!=null && !votefor.isEmpty() )
+                if("u".equals(votefor)) { // votar por me gusta (u p)
+                    idea.setVotesP(idea.getVotesP()+1);
+                }else if("d".equals(votefor)) { // votar por no me gusta (d own)
+                    idea.setVotesN(idea.getVotesN()+1);
+                }
+        }else if( Action_COMMENT.equals(action) ) {
             String text = request.getParameter("comment");
-            System.out.println("text="+text);
-            if( text!=null && !text.isEmpty() ) {
+            String ideaId = request.getParameter("idea");
+            Idea idea = Idea.ClassMgr.getIdea(ideaId, model);
+            if( idea!=null && IdeaStatus.Opened==IdeaStatus.valueOf(idea.getStatus()) && text!=null && !text.isEmpty() ) {
                 if(Comment.sclass==null)
                     System.out.println("sclass es nulo");
                 else
@@ -166,13 +183,35 @@ public class IdeaManager extends org.semanticwb.ecosikan.innova.base.IdeaManager
                 idea.addComment(comment);
                 System.out.println("comentario agregado");
             }
-        }
-
-        else if( response.Action_REMOVE.equals(action) ) {
+        }else if( Action_CATEGORIZE.equals(action) ) {
+            String categoryId = request.getParameter("cat");
             String ideaId = request.getParameter("idea");
-            Idea idea = Idea.ClassMgr.getIdea(ideaId, model);
-            if( idea!=null )
-                idea.remove();
+            if( wp instanceof Challenge && ideaId!=null && categoryId!=null ) {
+                Challenge challenge = (Challenge)wp;
+                Phases phase = Phases.valueOf(challenge.getPhase());
+                //if( Phases.Categorizing==phase ) {
+                    Idea idea = Idea.ClassMgr.getIdea(ideaId, model);
+                    Category category = Category.ClassMgr.getCategory(categoryId, model);
+                    if( idea!=null && category!=null )
+                        idea.setCategory(category);
+                //}
+            }
+        }else if( Action_SELECT.equals(action) ) {
+            String selected = request.getParameter("cat");
+            String ideaId = request.getParameter("idea");
+            System.out.println("processAction..\nselected="+selected+", ideaId="+ideaId);
+            if( wp instanceof Challenge && ideaId!=null && selected!=null ) {
+                Challenge challenge = (Challenge)wp;
+                Phases phase = Phases.valueOf(challenge.getPhase());
+                //if( Phases.Selecting==phase ) {
+                    Idea idea = Idea.ClassMgr.getIdea(ideaId, model);
+                    boolean select = Boolean.parseBoolean(selected);
+                    System.out.println("select="+select);
+                    System.out.println("idea="+idea);
+                    if( idea!=null )
+                        idea.setSelected(select);
+                //}
+            }
         }
     }
 

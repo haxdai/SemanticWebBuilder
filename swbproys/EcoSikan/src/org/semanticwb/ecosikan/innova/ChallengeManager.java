@@ -2,6 +2,7 @@ package org.semanticwb.ecosikan.innova;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import javax.servlet.RequestDispatcher;
@@ -31,6 +32,8 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
     public static final String Action_ADDSTKHLDR = "addStkHldr";
     public static final String Action_EDITSTKHLDR = "editStkHldr";
     public static final String Action_REMOVESTKHLDR = "removeStkHldr";
+
+    public static final String Action_UPDATEPHASE = "updatePhase";
 
     public ChallengeManager() {
     }
@@ -87,6 +90,10 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
         final WebSite model = wp.getWebSite();
         final String modelId = wp.getWebSiteId();
         final Boolean userCanEdit = userCanEdit(paramRequest.getUser());
+
+        request.setAttribute("paramRequest", paramRequest);
+        request.setAttribute("userCanEdit", userCanEdit);
+        
 //        Challenge challenge = Challenge.ClassMgr.createChallenge(model);
 //        challenge.setParent(model.getHomePage());
 //        challenge.setTitle("Erradicar el crimen organizado");
@@ -94,10 +101,19 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
 //        challenge.setActive(true);
 //        challenge.setPhase(Phases.Opened.name());
 
-        
         RequestDispatcher dis;
         String path;
-//        Challenge challenge = (Challenge)wp;
+        Challenge challenge = (Challenge)wp;
+
+        if(userCanEdit) {
+            dis = request.getRequestDispatcher("/work/models/"+modelId+"/jsp/challenges/phases.jsp");
+            try {
+                dis.include(request, response);
+            }catch (Exception e) {
+                log.error(e);
+            }
+        }
+
 //        if( Phases.Opened==Phases.valueOf(challenge.getPhase()) ) {
 //        }else if( Phases.Categorizing==Phases.valueOf(challenge.getPhase()) ) {
 //        }else if( Phases.Selecting==Phases.valueOf(challenge.getPhase()) ) {
@@ -106,43 +122,27 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
 //        }else {
 //        }
 
-        path = "/work/models/"+modelId+"/jsp/challenges/categories.jsp";
-        dis = request.getRequestDispatcher(path);
+        
+        dis = request.getRequestDispatcher("/work/models/"+modelId+"/jsp/challenges/categories.jsp");
         try {
-            request.setAttribute("paramRequest", paramRequest);
-            request.setAttribute("userCanEdit", userCanEdit);
             dis.include(request, response);
         }catch (Exception e) {
             log.error(e);
         }
-        path = "/work/models/"+modelId+"/jsp/challenges/desires.jsp";
-        dis = request.getRequestDispatcher(path);
+        
+        dis = request.getRequestDispatcher("/work/models/"+modelId+"/jsp/challenges/desires.jsp");
         try {
-            request.setAttribute("paramRequest", paramRequest);
-            request.setAttribute("userCanEdit", userCanEdit);
             dis.include(request, response);
         } catch (Exception e) {
             log.error(e);
         }
-        path = "/work/models/"+modelId+"/jsp/challenges/stakeholders.jsp";
-        dis = request.getRequestDispatcher(path);
+        
+        dis = request.getRequestDispatcher("/work/models/"+modelId+"/jsp/challenges/stakeholders.jsp");
         try {
-            request.setAttribute("paramRequest", paramRequest);
-            request.setAttribute("userCanEdit", userCanEdit);
             dis.include(request, response);
         } catch (Exception e) {
             log.error(e);
         }
-    }
-
-    private void include(HttpServletRequest request, HttpServletResponse response,  String path, HashMap<String, Object> beans) throws ServletException, IOException {
-        RequestDispatcher dis = request.getRequestDispatcher(path);
-        Iterator<String> keys = beans.keySet().iterator();
-        while(keys.hasNext()) {
-            String key = keys.next();
-            request.setAttribute(key, beans.get(key));
-        }
-        dis.include(request, response);
     }
 
     @Override
@@ -209,6 +209,12 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
         }else if(Action_REMOVESTKHLDR.equals(action)) {
             challenge.removeStakeholder(request.getParameter("stkhldr"));
             response.setAction(null);
+        }
+
+        else if(Action_UPDATEPHASE.equals(action)) {
+            Phases phase = Phases.valueOf(challenge.getPhase());
+            if(phase.hasNext())
+                challenge.setPhase(phase.next().name());
         }
     }
 
