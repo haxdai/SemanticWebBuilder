@@ -189,6 +189,16 @@ public class PromotionManager extends GenericResource {
                 SemanticObject sobj = mgr.processForm(request);
                 Promotion promo = (Promotion) sobj.createGenericInstance();
                 //PromotionType promoType = PromotionType.ClassMgr.getPromotionType(request.getParameter("is"), response.getWebPage().getWebSite());
+                String description = "";
+                if(request.getParameter("description")!=null){
+                    description = request.getParameter("description");
+                }
+                if(description.length()>1000)
+                {
+                    description = description.substring(0,999);
+                    response.setRenderParameter("msgErrDescPromo", "Unicamente se han guardado los primeros 1000 caracteres del campo de descripción");
+                }
+                promo.setDescription(description);
                 promo.setPromoType(request.getParameter("is"));
                 promo.setPromoImg(  (request.getParameter("pimg")!=null&&request.getParameter("pimg").length()>0?request.getParameter("pimg"):null)  );
                 promo.setStartDate(di);
@@ -197,8 +207,18 @@ public class PromotionManager extends GenericResource {
                 ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
                 serviceProv.addPromotion(promo);
                 serviceProv.setSpTotPromotions(serviceProv.getSpTotPromotions()+1);
-                if( isValidValue(request.getParameter("cmts")) )
-                    serviceProv.setSpPromotionsComment((serviceProv.getSpPromotionsComment()==null?"":serviceProv.getSpPromotionsComment())+request.getParameter("cmts"));
+                if( isValidValue(request.getParameter("cmts")) ){
+                    String prom_comments = "";
+                    if(request.getParameter("cmts")!=null){
+                        prom_comments = request.getParameter("cmts");
+                    }
+                    if(prom_comments.length()>600)
+                    {
+                        prom_comments = prom_comments.substring(0,599);
+                        response.setRenderParameter("msgErrCommenPromo", "Unicamente se han guardado los primeros 600 caracteres del campo de comentarios de la promoción");
+                    }
+                    serviceProv.setSpPromotionsComment(prom_comments);
+                }
             }catch(FormValidateException e){
                 log.error(e);
             }
@@ -252,6 +272,16 @@ public class PromotionManager extends GenericResource {
             try {
                 SemanticObject sobj = mgr.processForm(request);
                 Promotion promo = (Promotion) sobj.createGenericInstance();
+                String description = "";
+                if(request.getParameter("description")!=null){
+                    description = request.getParameter("description");
+                }
+                if(description.length()>1000)
+                {
+                    description = description.substring(0,999);
+                    response.setRenderParameter("msgErrDescPromo", "Unicamente se han guardado los primeros 1000 caracteres del campo de descripción");
+                }
+                promo.setDescription(description);
                 promo.setPromoType(request.getParameter("is"));
                 promo.setPromoImg(request.getParameter("pimg"));
                 promo.setStartDate(di);
@@ -260,7 +290,16 @@ public class PromotionManager extends GenericResource {
                 if( isValidValue(request.getParameter("cmts")) ) {
                     semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
                     ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
-                    serviceProv.setSpPromotionsComment((serviceProv.getSpPromotionsComment()==null?"":serviceProv.getSpPromotionsComment())+request.getParameter("cmts"));
+                    String prom_comments = "";
+                    if(request.getParameter("cmts")!=null){
+                        prom_comments = request.getParameter("cmts");
+                    }
+                    if(prom_comments.length()>600)
+                    {
+                        prom_comments = prom_comments.substring(0,599);
+                        response.setRenderParameter("msgErrCommenPromo", "Unicamente se han guardado los primeros 600 caracteres del campo de comentarios");
+                    }
+                    serviceProv.setSpPromotionsComment(prom_comments);
                 }
             }catch(Exception e){
                 log.error(e);
