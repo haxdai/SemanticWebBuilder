@@ -122,12 +122,13 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
 //        }else {
 //        }
 
-        
-        dis = request.getRequestDispatcher("/work/models/"+modelId+"/jsp/challenges/categories.jsp");
-        try {
-            dis.include(request, response);
-        }catch (Exception e) {
-            log.error(e);
+        if( Phases.valueOf(challenge.getPhase()).ordinal()<Phases.Selecting.ordinal() ) {
+            dis = request.getRequestDispatcher("/work/models/"+modelId+"/jsp/challenges/categories.jsp");
+            try {
+                dis.include(request, response);
+            }catch (Exception e) {
+                log.error(e);
+            }
         }
         
         dis = request.getRequestDispatcher("/work/models/"+modelId+"/jsp/challenges/desires.jsp");
