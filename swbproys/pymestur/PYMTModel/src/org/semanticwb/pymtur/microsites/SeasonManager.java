@@ -102,18 +102,6 @@ public class SeasonManager extends GenericAdmResource {
                 {
                       response.setRenderParameter("messDates", "Las fechas se encuentran traslapadas y  no se ha podido guardar los datos");
                 }
-
-                if(request.getParameter("rtcmt")==null)
-                {
-                    if(serviceProv.getSpRatesComments()!=null)
-                    {
-                        comment = serviceProv.getSpRatesComments();
-                    }
-                }else
-                {
-                    comment = request.getParameter("rtcmt");
-                }
-                serviceProv.setSpRatesComments(comment);
             }catch(Exception e){
                 log.error(e);
             }
@@ -146,18 +134,6 @@ public class SeasonManager extends GenericAdmResource {
                     {
                         response.setRenderParameter("messDates", "Las fechas se encuentran traslapadas y  no se ha podido guardar los datos");
                     }
-
-                    if(request.getParameter("rtcmt")==null)
-                    {
-                        if(serviceProv.getSpRatesComments()!=null)
-                        {
-                            comment = serviceProv.getSpRatesComments();
-                        }
-                    }else
-                    {
-                        comment = request.getParameter("rtcmt");
-                    }
-                    serviceProv.setSpRatesComments(comment);
                 }catch(Exception e){
                     log.error(e);
                 }
@@ -186,18 +162,6 @@ public class SeasonManager extends GenericAdmResource {
                 {
                     response.setRenderParameter("messDates", "Las fechas se encuentran traslapadas y  no se ha podido guardar los datos");
                 }
-                String comment = "";
-                if(request.getParameter("rtcmt")==null)
-                {
-                    if(serviceProv.getSpRatesComments()!=null)
-                    {
-                        comment = serviceProv.getSpRatesComments();
-                    }
-                }else
-                {
-                    comment = request.getParameter("rtcmt");
-                }
-                serviceProv.setSpRatesComments(comment);
             }catch(Exception e){
                 log.error(e);
             }
@@ -226,18 +190,7 @@ public class SeasonManager extends GenericAdmResource {
                 {
                     response.setRenderParameter("messDates", "Las fechas se encuentran traslapadas y  no se ha podido guardar los datos");
                 }
-                String comment = "";
-                if(request.getParameter("rtcmt")==null)
-                {
-                    if(serviceProv.getSpRatesComments()!=null)
-                    {
-                        comment = serviceProv.getSpRatesComments();
-                    }
-                }else
-                {
-                    comment = request.getParameter("rtcmt");
-                }
-                serviceProv.setSpRatesComments(comment);
+
                 }catch(Exception e){
                 log.error(e);
             }
@@ -263,9 +216,20 @@ public class SeasonManager extends GenericAdmResource {
             semObject.remove();
         }
          else if(action!=null&&action.equalsIgnoreCase("edit_cmnt")) {
-             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
-             ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
-             serviceProv.setSpRatesComments(request.getParameter("rtcmt")==null?"":request.getParameter("rtcmt"));
+            SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
+            ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
+            String comment = "";
+            if(request.getParameter("rtcmt")!=null)
+            {
+                comment = request.getParameter("rtcmt");
+                if(comment.length()>1200)
+                {
+                    comment = comment.substring(0,1199);
+                    response.setRenderParameter("msgErrCommenSeason", "Unicamente se han guardado los primeros 1200 caracteres del campo de comentarios");
+                }
+                serviceProv.setSpRatesComments(comment);
+            }
+             //serviceProv.setSpRatesComments(request.getParameter("rtcmt")==null?"":request.getParameter("rtcmt"));
          }
     }
     private boolean checkDates(ServiceProvider sprovider,HttpServletRequest request,String rate,RateSeason current)
