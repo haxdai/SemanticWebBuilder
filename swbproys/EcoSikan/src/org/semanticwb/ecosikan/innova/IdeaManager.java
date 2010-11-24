@@ -143,7 +143,7 @@ public class IdeaManager extends org.semanticwb.ecosikan.innova.base.IdeaManager
         }else if( response.Action_EDIT.equals(action) ) {
             String ideaId = request.getParameter("idea");
             Idea idea = Idea.ClassMgr.getIdea(ideaId, model);
-            if( idea!=null &&  this.userCanEdit(user) ) {
+            if( wp instanceof Theme && idea!=null &&  userCanEdit(user) ) {
                 try {
                     IdeaStatus status = IdeaStatus.valueOf(idea.getStatus());
                     if(status.hasNext())
@@ -154,7 +154,7 @@ public class IdeaManager extends org.semanticwb.ecosikan.innova.base.IdeaManager
         }else if( response.Action_REMOVE.equals(action) ) {
             String ideaId = request.getParameter("idea");
             Idea idea = Idea.ClassMgr.getIdea(ideaId, model);
-            if( idea!=null &&  this.userCanEdit(user) )
+            if( idea!=null &&  userCanEdit(user) )
                 idea.remove();
         }
         else if( Action_VOTE.equals(action) ) {
