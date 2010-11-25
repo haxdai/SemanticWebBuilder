@@ -108,12 +108,18 @@ public final class PhotoAlbum extends GenericAdmResource {
     }
 
     private String getFormManager(SWBParamRequest paramRequest, ServiceProvider sprovider) {
-        Resource base=getResourceBase();
-        StringBuilder html=new StringBuilder();
+
+        Resource base = getResourceBase();
+        StringBuilder html = new StringBuilder();
+        final int numMaxPhotos = Paquete.ClassMgr.getPaquete(Integer.toString(sprovider.getPymePaqueteType()),
+                paramRequest.getWebPage().getWebSite()).getPaq_NumMaxPhotos();
 
         html.append("<script type=\"text/javascript\">\n");
         html.append("<!--\n");
         html.append("  var opened_"+base.getId()+"=0;\n");
+        html.append("  loaded = " + sprovider.getSpTotPhotos() + ";\n");
+        html.append("  limit = " + numMaxPhotos + ";\n");
+        html.append("  var loadedIn" + base.getId() + " = 0;\n");
         html.append("-->\n");
         html.append("</script>\n");
         
@@ -147,7 +153,7 @@ public final class PhotoAlbum extends GenericAdmResource {
         html.append("\n <div class=\"btnPhotoAdmin\">");
         html.append("\n    <input type=\"button\" value=\"Agregar\" onclick=\"addRowToTable_"+base.getId()+"('igtbl_"+base.getId()+"');this.disabled=true;\" name=\"add\" id=\"add_"+base.getId()+"\" /> ");
 //        html.append("\n    <input type=\"button\" value=\"Cancelar\" onclick=\"removeRowFromTable('igtbl_"+base.getId()+"'); this.disabled=true; this.form.add.disabled=false;\" name=\"cancel\" disabled=\"disabled\" /> ");
-        html.append("\n    <input type=\"button\" value=\"Cancelar\" onclick=\"collapse('admPhotoAlbum_"+base.getId()+"',250,150);dojo.byId('showadm_"+base.getId()+"').style.display='block';dojo.byId('add_"+base.getId()+"').disabled=false;z_"+base.getId()+"();opened_"+base.getId()+"=0;z();\" name=\"cancel\" /> ");
+        html.append("\n    <input type=\"button\" value=\"Cancelar\" onclick=\"collapse('admPhotoAlbum_"+base.getId()+"',250,150);loaded-=loadedIn" + base.getId() + ";dojo.byId('showadm_"+base.getId()+"').style.display='block';dojo.byId('add_"+base.getId()+"').disabled=false;z_"+base.getId()+"();opened_"+base.getId()+"=0;\" name=\"cancel\" /> ");  //z();
         html.append("\n    <input type=\"submit\" dojo_Type=\"dijit.form.Button\" name=\"submitImgGal\" value=\"Guardar\" />&nbsp;");
 //      html.append("\n    <button dojoType=\"dijit.form.Button\" type=\"submit\" name=\"submitImgGal\" value=\"Submit\" >Guardar</button>&nbsp;");
 //        html.append("\n <button dojoType=\"dijit.form.Button\" type=\"reset\">Restablecer</button>");
@@ -161,84 +167,107 @@ public final class PhotoAlbum extends GenericAdmResource {
         html.append("dojo.addOnLoad(function(){collapse('admPhotoAlbum_"+base.getId()+"',0,0)});");
 
         html.append("\nfunction addRowToTable_"+base.getId()+"(tblId, filename, img, cellSufix) { ");
-        html.append("\n    var tbl = document.getElementById(tblId); ");
-        html.append("\n    var lastRow = tbl.rows.length; ");
-        html.append("\n    var iteration = lastRow; // descontar el renglon de titulo ");
-        html.append("\n    var row = tbl.insertRow(lastRow); ");
+        html.append("\n    if (img || (!img && loaded < limit)) {");
+        html.append("\n        var tbl = document.getElementById(tblId); ");
+        html.append("\n        var lastRow = tbl.rows.length; ");
+        html.append("\n        var iteration = lastRow; // descontar el renglon de titulo ");
+        html.append("\n        var row = tbl.insertRow(lastRow); ");
         
-        html.append("\n    // celda folio ");
-        html.append("\n    var folioCell = row.insertCell(0); ");
-        html.append("\n    folioCell.style.textAlign = 'right'; ");
-        html.append("\n    var folioTextNode = document.createTextNode(iteration); ");
-        html.append("\n    folioCell.appendChild(folioTextNode); ");
+        html.append("\n        // celda folio ");
+        html.append("\n        var folioCell = row.insertCell(0); ");
+        html.append("\n        folioCell.style.textAlign = 'right'; ");
+        html.append("\n        var folioTextNode = document.createTextNode(iteration); ");
+        html.append("\n        folioCell.appendChild(folioTextNode); ");
         
-        html.append("\n    // cell check edit ");
-        html.append("\n    var editCheckCell = row.insertCell(1); ");
-        html.append("\n    editCheckCell.style.textAlign = 'center'; ");
-        html.append("\n    var editCheckInput = document.createElement('input'); ");
-        html.append("\n    editCheckInput.type = 'checkbox'; ");
-        html.append("\n    if(cellSufix) { ");
-        html.append("\n        editCheckInput.name = 'edit'; ");
-        html.append("\n        editCheckInput.id = 'edit_'+cellSufix; ");
-        html.append("\n        editCheckInput.value = cellSufix; ");
-        html.append("\n    }else { ");
-        html.append("\n        editCheckInput.name = 'edit_"+base.getId()+"_'+iteration; ");
-        html.append("\n        editCheckInput.id = 'edit_"+base.getId()+"_'+iteration; ");
-        html.append("\n    }");
-        html.append("\n    editCheckInput.alt = 'Marcar para editar esta imagen'; ");
-        html.append("\n    editCheckInput.disabled = true; ");
-        html.append("\n    editCheckInput.onclick = function(){ ");
-        html.append("\n        if(editCheckInput.checked) { ");
-        html.append("\n            row.cells[row.cells.length-1].innerHTML = '<input type=\"file\" id=\"imggallery_"+base.getId()+"_'+iteration+'\" name=\"imggallery_"+base.getId()+"_'+iteration+'\" size=\"40\" />'; ");
+        html.append("\n        // cell check edit ");
+        html.append("\n        var editCheckCell = row.insertCell(1); ");
+        html.append("\n        editCheckCell.style.textAlign = 'center'; ");
+        html.append("\n        var editCheckInput = document.createElement('input'); ");
+        html.append("\n        editCheckInput.type = 'checkbox'; ");
+        html.append("\n        if (cellSufix) { ");
+        html.append("\n            editCheckInput.name = 'edit'; ");
+        html.append("\n            editCheckInput.id = 'edit_'+cellSufix; ");
+        html.append("\n            editCheckInput.value = cellSufix; ");
+        html.append("\n        } else { ");
+        html.append("\n            editCheckInput.name = 'edit_"+base.getId()+"_'+iteration; ");
+        html.append("\n            editCheckInput.id = 'edit_"+base.getId()+"_'+iteration; ");
+        html.append("\n        }");
+        html.append("\n        editCheckInput.alt = 'Marcar para editar esta imagen'; ");
+        html.append("\n        editCheckInput.disabled = true; ");
+        html.append("\n        editCheckInput.onclick = function() { ");
+        html.append("\n            if (editCheckInput.checked) { ");
+        html.append("\n                row.cells[row.cells.length-1].innerHTML = '<input type=\"file\" id=\"imggallery_"+base.getId()+"_'+iteration+'\" name=\"imggallery_"+base.getId()+"_'+iteration+'\" size=\"40\" />'; ");
+        html.append("\n            } ");
+        html.append("\n        }; ");
+        html.append("\n        editCheckCell.appendChild(editCheckInput); ");
+
+        html.append("\n        // cell check remove ");
+        html.append("\n        var removeCheckCell = row.insertCell(2); ");
+        html.append("\n        removeCheckCell.style.textAlign = 'center'; ");
+        html.append("\n        var removeCheckInput = document.createElement('input'); ");
+        html.append("\n        removeCheckInput.type = 'checkbox'; ");
+        html.append("\n        if (cellSufix) { ");
+        html.append("\n            removeCheckInput.name = 'remove'; ");
+        html.append("\n            removeCheckInput.id = 'remove_'+cellSufix; ");
+        html.append("\n            removeCheckInput.value = cellSufix; ");
+        html.append("\n        } else { ");
+        html.append("\n            removeCheckInput.name = 'remove_"+base.getId()+"_'+iteration; ");
+        html.append("\n            removeCheckInput.id = 'remove_"+base.getId()+"_'+iteration; ");
+        html.append("\n        }");
+        html.append("\n        removeCheckInput.alt = 'Marcar para eliminar esta imagen'; ");
+        html.append("\n        if (filename && img) { ");
+        html.append("\n            removeCheckInput.disabled = false; ");
+        html.append("\n        } else { ");
+        html.append("\n            removeCheckInput.disabled = true; ");
         html.append("\n        } ");
-        html.append("\n    }; ");
-        html.append("\n    editCheckCell.appendChild(editCheckInput); ");
+        html.append("\n        removeCheckCell.appendChild(removeCheckInput); ");
+        html.append("\n     ");
+        html.append("\n        // celda nombre de archivo ");
+        html.append("\n        var filenameCell = row.insertCell(3); ");
+        html.append("\n        if (filename) { ");
+        html.append("\n            var fnTxt = document.createTextNode(filename); ");
+        html.append("\n            filenameCell.appendChild(fnTxt); ");
+        html.append("\n        } ");
+        html.append("\n        filenameCell.style.textAlign = 'left'; ");
 
-        html.append("\n    // cell check remove ");
-        html.append("\n    var removeCheckCell = row.insertCell(2); ");
-        html.append("\n    removeCheckCell.style.textAlign = 'center'; ");
-        html.append("\n    var removeCheckInput = document.createElement('input'); ");
-        html.append("\n    removeCheckInput.type = 'checkbox'; ");
-        html.append("\n    if(cellSufix) { ");
-        html.append("\n        removeCheckInput.name = 'remove'; ");
-        html.append("\n        removeCheckInput.id = 'remove_'+cellSufix; ");
-        html.append("\n        removeCheckInput.value = cellSufix; ");
-        html.append("\n    }else { ");
-        html.append("\n        removeCheckInput.name = 'remove_"+base.getId()+"_'+iteration; ");
-        html.append("\n        removeCheckInput.id = 'remove_"+base.getId()+"_'+iteration; ");
-        html.append("\n    }");
-        html.append("\n    removeCheckInput.alt = 'Marcar para eliminar esta imagen'; ");
-        html.append("\n    if(filename && img) { ");
-        html.append("\n        removeCheckInput.disabled = false; ");
-        html.append("\n    }else { ");
-        html.append("\n        removeCheckInput.disabled = true; ");
-        html.append("\n    } ");
-        html.append("\n    removeCheckCell.appendChild(removeCheckInput); ");
-        html.append("\n ");
-        html.append("\n    // celda nombre de archivo ");
-        html.append("\n    var filenameCell = row.insertCell(3); ");
-        html.append("\n    if(filename) { ");
-        html.append("\n        var fnTxt = document.createTextNode(filename); ");
-        html.append("\n        filenameCell.appendChild(fnTxt); ");
-        html.append("\n    } ");
-        html.append("\n    filenameCell.style.textAlign = 'left'; ");
-
-        html.append("\n    // celda input file ");
-        html.append("\n    var imgCell = row.insertCell(4); ");
-        html.append("\n    if(img) { ");
-        html.append("\n        imgCell.style.textAlign = 'center'; ");
-        html.append("\n        imgCell.innerHTML = img; ");
+        html.append("\n        // celda input file ");
+        html.append("\n        var imgCell = row.insertCell(4); ");
+        html.append("\n        if (img) { ");
+        html.append("\n            imgCell.style.textAlign = 'center'; ");
+        html.append("\n            imgCell.innerHTML = img; ");
         html.append("\n            editCheckInput.disabled = false; ");
-        html.append("\n    }else { ");
-        html.append("\n        // file uploader ");
-        html.append("\n        imgCell.style.textAlign = 'left'; ");
-        html.append("\n        var fileInput = document.createElement('input'); ");
-        html.append("\n        fileInput.type = 'file'; ");
-        html.append("\n        fileInput.name = 'imggallery_"+base.getId()+"_'+iteration; ");
-        html.append("\n        fileInput.id = 'imggallery_"+base.getId()+"_'+iteration; ");
+        html.append("\n        } else { ");
+        html.append("\n            // file uploader ");
+        html.append("\n            imgCell.style.textAlign = 'left'; ");
+        html.append("\n            var fileInput = document.createElement('input'); ");
+        html.append("\n            fileInput.type = 'file'; ");
+        html.append("\n            fileInput.name = 'imggallery_"+base.getId()+"_'+iteration; ");
+        html.append("\n            fileInput.id = 'imggallery_"+base.getId()+"_'+iteration; ");
         //html.append("\n        fileInput.size = 40; ");
-        html.append("\n        fileInput.onchange = function(){this.form.add.disabled=false;} ");
-        html.append("\n        imgCell.appendChild(fileInput); ");
+        html.append("\n            fileInput.onchange = function() {");
+        html.append("\n                if (this.value != undefined && this.value != \"\") {");
+        html.append("\n                    var fileName = \"\";");
+        html.append("\n                    if (this.value.lastIndexOf(\"\\\\\") > -1) {");
+        html.append("\n                        fileName = this.value.substring(this.value.lastIndexOf(\"\\\\\") + 1);");
+        html.append("\n                    } else {");
+        html.append("\n                        fileName = this.value");
+        html.append("\n                    } ");
+        html.append("\n                ");
+        html.append("\n                    if (fileName.indexOf(\" \") > -1) {");
+        html.append("\n                        alert(\"El nombre del archivo a cargar no debe contener espacios en blanco.\")");
+        html.append("\n                        this.form.add.disabled = true;");
+        html.append("\n                        this.value = \"\";");
+        html.append("\n                    } else {");
+        html.append("\n                        this.form.add.disabled = false;");
+        html.append("\n                    }");
+        html.append("\n                }");
+        html.append("\n            }");
+        html.append("\n            imgCell.appendChild(fileInput); ");
+        html.append("\n            loaded++;");
+        html.append("\n            loadedIn" + base.getId() + "++;");
+        html.append("\n        } ");
+        html.append("\n    } else if (!img && loaded >= limit) { //cierre de validacion para agregar archivos");
+        html.append("\n        alert(\"Se ha llegado al límite de fotografías que se pueden cargar.\");");
         html.append("\n    } ");
         html.append("\n} ");
 
@@ -251,6 +280,24 @@ public final class PhotoAlbum extends GenericAdmResource {
         html.append("while(tbl.rows.length>1) \n");
         html.append("  tbl.deleteRow(tbl.rows.length-1);\n");
         html.append("}\n");
+//        html.append("\nfunction checkForBlanks(inputElement) {");
+//        html.append("\n    if (inputElement.value != undefined && inputElement.value != \"\") {");
+//        html.append("\n        var fileName = \"\";");
+//        html.append("\n        if (inputElement.value.lastIndexOf(\"\\\\\") > -1) {");
+//        html.append("\n            fileName = inputElement.value.substring(inputElement.value.lastIndexOf(\"\\\\\") + 1);");
+//        html.append("\n        } else {");
+//        html.append("\n            fileName = inputElement.value");
+//        html.append("\n        } ");
+//        html.append("\n        ");
+//        html.append("\n        if (fileName.indexOf(\" \") > -1) {");
+//        html.append("\n            alert(\"El nombre del archivo a cargar no debe contener espacios en blanco.\")");
+//        html.append("\n            inputElement.form.add.disabled = true;");
+//        html.append("\n            inputElement.value = \"\";");
+//        html.append("\n        } else {");
+//        html.append("\n            inputElement.form.add.disabled = false;");
+//        html.append("\n        }");
+//        html.append("\n    }");
+//        html.append("}\n");
         
         final String path = sprovider.getWorkPath()+"/photos/"+base.getAttribute("gpophotos")+"/";
         Iterator<PymePhoto> it = null;
@@ -281,9 +328,13 @@ public final class PhotoAlbum extends GenericAdmResource {
         return html.toString();
     }
 
-    private void add(HttpServletRequest request, ServiceProvider sprovider, WebSite model) throws SWBResourceException, IOException {
+    private void add(HttpServletRequest request, ServiceProvider sprovider,
+            WebSite model) throws SWBResourceException, IOException {
+
         Resource base = getResourceBase();
         File sprovDir = new File(SWBPortal.getWorkPath()+sprovider.getWorkPath());
+        StringBuilder msg = new StringBuilder(16);
+
         if( !sprovDir.exists() )
             sprovDir.mkdir();
         sprovDir = new File(SWBPortal.getWorkPath()+sprovider.getWorkPath()+"/photos/");
@@ -320,28 +371,22 @@ public final class PhotoAlbum extends GenericAdmResource {
 
         final String fspath = SWBPortal.getWorkPath()+sprovider.getWorkPath()+"/photos/"+base.getAttribute("gpophotos")+"/";
 
-        String[] fileFormats = base.getAttribute("fileformat")==null?new String[]{""}:base.getAttribute("fileformat").split(",");
+        String[] fileFormats = base.getAttribute("fileformat") == null ? new String[] {""} : base.getAttribute("fileformat").toLowerCase().split(",");
         Arrays.sort(fileFormats);
-        try
-        {
+        try {
             boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-            if (isMultipart)
-            {
+            if (isMultipart) {
                 File tmpwrk = new File(SWBPortal.getWorkPath() + "/tmp");
-                if (!tmpwrk.exists())
-                {
+                if (!tmpwrk.exists()) {
                     tmpwrk.mkdirs();
                 }
                 FileItemFactory factory = new DiskFileItemFactory(1 * 1024 * 1024, tmpwrk);
                 ServletFileUpload upload = new ServletFileUpload(factory);
-                ProgressListener progressListener = new ProgressListener()
-                {
+                ProgressListener progressListener = new ProgressListener() {
                     private long kBytes = -1;
-                    public void update(long pBytesRead, long pContentLength, int pItems)
-                    {
+                    public void update(long pBytesRead, long pContentLength, int pItems) {
                         long mBytes = pBytesRead / 10000;
-                        if (kBytes == mBytes)
-                        {
+                        if (kBytes == mBytes) {
                             return;
                         }
                         kBytes = mBytes;
@@ -351,17 +396,16 @@ public final class PhotoAlbum extends GenericAdmResource {
                 upload.setProgressListener(progressListener);
                 List items = upload.parseRequest(request);
                 Iterator iter = items.iterator();
-                while (iter.hasNext())
-                {
+                while (iter.hasNext()) {
                     FileItem item = (FileItem) iter.next();
 
-                    if( item.isFormField() ) {
+                    if (item.isFormField()) {
                         String action = item.getFieldName();
                         String value = item.getString();
                         PymePhoto pp = PymePhoto.ClassMgr.getPymePhoto(value, sprovider.getWebPage().getWebSite());
-                        if(pp!=null) {
-                            if("remove".equalsIgnoreCase(action) || "edit".equalsIgnoreCase(action)) {
-                                if(base.getAttribute("gpophotos").equalsIgnoreCase("establishment")) {
+                        if (pp != null) {
+                            if ("remove".equalsIgnoreCase(action) || "edit".equalsIgnoreCase(action)) {
+                                if (base.getAttribute("gpophotos").equalsIgnoreCase("establishment")) {
                                     try {
                                         File f = new File(fspath+pp.getPhotoImage());
                                         f.delete();
@@ -370,10 +414,10 @@ public final class PhotoAlbum extends GenericAdmResource {
                                         sprovider.removeEstablishmentPymePhoto(pp);
                                         sprovider.setSpTotPhotos(sprovider.getSpTotPhotos()-1);
                                         pp.remove();
-                                    }catch(Exception e) {
+                                    } catch (Exception e) {
                                         log.error("Error while deletting file in resource instance PhotoAlbum with id: "+base.getId() +"-"+ base.getTitle(), e);
                                     }
-                                }else if(base.getAttribute("gpophotos").equalsIgnoreCase("instalation")) {
+                                } else if(base.getAttribute("gpophotos").equalsIgnoreCase("instalation")) {
                                     try {
                                         File f = new File(fspath+pp.getPhotoImage());
                                         f.delete();
@@ -385,7 +429,7 @@ public final class PhotoAlbum extends GenericAdmResource {
                                     }catch(Exception e) {
                                         log.error("Error while deletting file in resource instance PhotoAlbum with id: "+base.getId() +"-"+ base.getTitle(), e);
                                     }
-                                }else if(base.getAttribute("gpophotos").equalsIgnoreCase("category")) {
+                                } else if(base.getAttribute("gpophotos").equalsIgnoreCase("category")) {
                                     try {
                                         File f = new File(fspath+pp.getPhotoImage());
                                         f.delete();
@@ -394,10 +438,10 @@ public final class PhotoAlbum extends GenericAdmResource {
                                         sprovider.removeSpCategoryPymePhoto(pp);
                                         sprovider.setSpTotPhotos(sprovider.getSpTotPhotos()-1);
                                         pp.remove();
-                                    }catch(Exception e) {
+                                    } catch (Exception e) {
                                         log.error("Error while deletting file in resource instance PhotoAlbum with id: "+base.getId() +"-"+ base.getTitle(), e);
                                     }
-                                }else if(base.getAttribute("gpophotos").equalsIgnoreCase("more")) {
+                                } else if (base.getAttribute("gpophotos").equalsIgnoreCase("more")) {
                                     try {
                                         File f = new File(fspath+pp.getPhotoImage());
                                         f.delete();
@@ -406,33 +450,51 @@ public final class PhotoAlbum extends GenericAdmResource {
                                         sprovider.removeMorePymePhoto(pp);
                                         sprovider.setSpTotPhotos(sprovider.getSpTotPhotos()-1);
                                         pp.remove();
-                                    }catch(Exception e) {
+                                    } catch (Exception e) {
                                         log.error("Error while deletting file in resource instance PhotoAlbum with id: "+base.getId() +"-"+ base.getTitle(), e);
                                     }
                                 }
                             }
                         }
-                    }else {
-                        if( item.getSize()==0 || item.getSize()>maxSizeAcceptedByPict )
+                    } else {
+                        if (item.getSize() == 0 || item.getSize() > maxSizeAcceptedByPict) {
+                            msg.append("1,");
+                            item.delete();
                             continue;
-                        if( !userCanAdd(model, sprovider) )
+                        }
+                        if (!userCanAdd(model, sprovider)) {
+                            msg.append("3,");
+                            item.delete();
                             break;
+                        }
 //                        if( sprovider.getSpTotPhotos()>MAX_PICT_ACCEPTED )
 //                            continue;
                         String ext;
                         try {
-                            ext = item.getName().substring(item.getName().lastIndexOf(".")+1);
-                        }catch(StringIndexOutOfBoundsException iobe) {
+                            ext = item.getName().substring(item.getName().lastIndexOf(".") + 1).toLowerCase();
+                        } catch (StringIndexOutOfBoundsException iobe) {
+                            msg.append("5,");
+                            item.delete();
                             continue;
                         }
-                        if( Arrays.binarySearch(fileFormats, ext)<0 )
+                        if (item.getName().indexOf(" ") != -1) {
+                            msg.append("11,");
+                            item.delete();
                             continue;
+                        }
+                        if (Arrays.binarySearch(fileFormats, ext) < 0) {
+                            msg.append("7,");
+                            item.delete();
+                            continue;
+                        }
 
                         long serial = (new Date()).getTime();
                         String filename;
                         try {
                             filename = serial + "_" + item.getFieldName() + item.getName().substring(item.getName().lastIndexOf("."));
-                        }catch (StringIndexOutOfBoundsException iobe) {
+                        } catch (StringIndexOutOfBoundsException iobe) {
+                            msg.append("9,");
+                            item.delete();
                             continue;
                         }
 
@@ -442,17 +504,17 @@ public final class PhotoAlbum extends GenericAdmResource {
                         try {
                             item.write(image);
                             shrinked = ImageResizer.shrinkTo(image, width, height, shrink, "jpeg");                            
-                        }catch(Exception e) {
+                        } catch (Exception e) {
                             log.error("Error while writting file in resource instance PhotoAlbumSheet with id: "+base.getId() +"-"+ base.getTitle(), e);
                         }
                         File thumbnail = new File(fspath + _thumbnail + filename);
                         try {
                             //ImageResizer.resizeCrop(image, width, thumbnail, "jpeg");
                             ImageResizer.shrinkTo(image, thnWidth, thnHeight, thumbnail, "jpeg");
-                        }catch(IOException e) {
+                        } catch (IOException e) {
                             log.error("Error while writting thumbnail in resource instance PhotoAlbumSheet with id: "+base.getId() +"-"+ base.getTitle(), e);
                         }
-                        if(shrinked) {
+                        if (shrinked) {
                             image.delete();
                             shrink.renameTo(image);
                             image = shrink;
@@ -462,74 +524,86 @@ public final class PhotoAlbum extends GenericAdmResource {
                         pp.setPhotoImage(filename);
                         pp.setPhotoThumbnail(_thumbnail+filename);
                         pp.setPhotoSize(SWBUtils.IO.getFileSize(image));
-                        if(base.getAttribute("gpophotos").equalsIgnoreCase("establishment")) {
+                        if (base.getAttribute("gpophotos").equalsIgnoreCase("establishment")) {
                             sprovider.addEstablishmentPymePhoto(pp);
                             sprovider.setSpTotPhotos(sprovider.getSpTotPhotos()+1);
-                        }else if(base.getAttribute("gpophotos").equalsIgnoreCase("instalation")) {
+                        } else if (base.getAttribute("gpophotos").equalsIgnoreCase("instalation")) {
                             sprovider.addInstalationsPymePhoto(pp);
                             sprovider.setSpTotPhotos(sprovider.getSpTotPhotos()+1);
-                        }else if(base.getAttribute("gpophotos").equalsIgnoreCase("category")) {
+                        } else if (base.getAttribute("gpophotos").equalsIgnoreCase("category")) {
                             sprovider.addSpCategoryPymePhoto(pp);
                             sprovider.setSpTotPhotos(sprovider.getSpTotPhotos()+1);
-                        }else if(base.getAttribute("gpophotos").equalsIgnoreCase("more")) {
+                        } else if (base.getAttribute("gpophotos").equalsIgnoreCase("more")) {
                             sprovider.addMorePymePhoto(pp);
                             sprovider.setSpTotPhotos(sprovider.getSpTotPhotos()+1);
                         }
                     }
                 }
             }
-        }catch (Exception ex)
-        {
-            log.error("Error while adding attributos to resource instance PhotoAlbum with id: "+base.getId() +"-"+ base.getTitle(), ex);
+        } catch (Exception ex) {
+            log.error("Error while adding attributos to resource instance PhotoAlbum with id: "
+                    + base.getId() + "-" + base.getTitle(), ex);
             ex.printStackTrace();
+        }
+        if (msg.length() > 0) {
+            request.setAttribute("msg", msg.toString());
         }
     }
 
-    private void display(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest, ServiceProvider sprovider) throws SWBResourceException, IOException {
+    private void display(HttpServletRequest request, HttpServletResponse response,
+            SWBParamRequest paramRequest, ServiceProvider sprovider)
+            throws SWBResourceException, IOException {
+
         Resource base = getResourceBase();
         PrintWriter out = response.getWriter();
-
         Iterator<PymePhoto> it = null;
         StringBuilder script = new StringBuilder();
-
         User user = paramRequest.getUser();
         boolean userCanEdit = userCanEdit(user);
-        userCanEdit = userCanEdit || user.getURI()!=null && sprovider.getCreator().getURI().equals(user.getURI());
 
-        if(paramRequest.getCallMethod()==paramRequest.Call_STRATEGY) {
+        userCanEdit = userCanEdit || (user.getURI() != null && sprovider.getCreator().getURI().equals(user.getURI()));
+        final int numMaxPhotos = Paquete.ClassMgr.getPaquete(Integer.toString(sprovider.getPymePaqueteType()),
+                paramRequest.getWebPage().getWebSite()).getPaq_NumMaxPhotos();
+
+        if (paramRequest.getCallMethod() == paramRequest.Call_STRATEGY) {
             Random random = new Random();
             random.setSeed(new Date().getTime());
 
-            String path = SWBPortal.getWebWorkPath()+sprovider.getWorkPath()+"/photos/establishment/";
+            String path = SWBPortal.getWebWorkPath() + sprovider.getWorkPath() + "/photos/establishment/";
             ArrayList<String> photos = new ArrayList<String>(16);
             it = sprovider.listEstablishmentPymePhotos();
-            while(it.hasNext())
-                photos.add(path+it.next().getPhotoThumbnail());
+            while (it.hasNext()) {
+                photos.add(path + it.next().getPhotoThumbnail());
+            }
 
-            path = SWBPortal.getWebWorkPath()+sprovider.getWorkPath()+"/photos/instalation/";
+            path = SWBPortal.getWebWorkPath() + sprovider.getWorkPath() + "/photos/instalation/";
             it = sprovider.listInstalationsPymePhotos();
-            while(it.hasNext())
-                photos.add(path+it.next().getPhotoThumbnail());
+            while (it.hasNext()) {
+                photos.add(path + it.next().getPhotoThumbnail());
+            }
 
-            path = SWBPortal.getWebWorkPath()+sprovider.getWorkPath()+"/photos/category/";
+            path = SWBPortal.getWebWorkPath() + sprovider.getWorkPath() + "/photos/category/";
             it = sprovider.listSpCategoryPymePhotos();
-            while(it.hasNext())
-                photos.add(path+it.next().getPhotoThumbnail());
+            while (it.hasNext()) {
+                photos.add(path + it.next().getPhotoThumbnail());
+            }
 
-            path = SWBPortal.getWebWorkPath()+sprovider.getWorkPath()+"/photos/more/";
+            path = SWBPortal.getWebWorkPath() + sprovider.getWorkPath() + "/photos/more/";
             it = sprovider.listMorePymePhotos();
-            while(it.hasNext())
-                photos.add(path+it.next().getPhotoThumbnail());
+            while (it.hasNext()) {
+                photos.add(path + it.next().getPhotoThumbnail());
+            }
             photos.trimToSize();
 
-            if( userCanEdit&&this.userCanAdd(paramRequest.getWebPage().getWebSite(), sprovider) )
+            if (userCanEdit && this.userCanAdd(paramRequest.getWebPage().getWebSite(), sprovider)) {
                 out.println("<h2 class=\"incomplete-charge\">Fotos</h2>");
-            else
+            }  else {
                 out.println("<h2>Fotos</h2>");
+            }
 
-            if( photos.size()>0 ) {
+            if (photos.size() > 0) {
                 out.println("<div class=\"photosHolder\">");
-                for(int i=0; i<maxPictPreview && i<photos.size(); i++) {
+                for (int i = 0; i < maxPictPreview && photos.size() > 0; i++) {
                     int r = random.nextInt(photos.size());
                     String image = photos.get(r);
                     out.println("<a href=\"#\" id=\""+"pa_"+i+"_"+base.getId()+"\" group=\"group1\">");
@@ -545,7 +619,7 @@ public final class PhotoAlbum extends GenericAdmResource {
                 out.println("<script type=\"text/javascript\">");
                 out.println("<!--");
                 out.println("dojo.require(\"dojox.image.Lightbox\");");
-                out.println("dojo.addOnLoad(function(){");
+                out.println("dojo.addOnLoad(function() {");
                 out.println(script);
 
 //                out.println("var dialog = new dojox.image.LightboxDialog({});");
@@ -573,7 +647,7 @@ public final class PhotoAlbum extends GenericAdmResource {
                 }
             }
             out.println("<a href=\""+surl+"\">Ver todas las fotos</a>");
-        }else {
+        } else {
             final String path = SWBPortal.getWebWorkPath()+sprovider.getWorkPath()+"/photos/"+base.getAttribute("gpophotos")+"/";
             if(base.getAttribute("gpophotos").equalsIgnoreCase("establishment")) {
                 it = sprovider.listEstablishmentPymePhotos();
@@ -586,40 +660,84 @@ public final class PhotoAlbum extends GenericAdmResource {
             }
             
             if( userCanEdit || it.hasNext() ) {
-                if(base.getAttribute("gpophotos").equalsIgnoreCase("category")) {
-                    if(sprovider.getSemanticObject().getSemanticClass().getName().equalsIgnoreCase("hospedaje")){
+                String action = paramRequest.getAction();
+                if (action != null &&
+                        action.equalsIgnoreCase(paramRequest.Action_ADD + "_"
+                                + base.getAttribute("gpophotos"))) {
+                    if (request.getParameter("msg") != null) {
+                        String[] messages = request.getParameter("msg").split(",");
+                        int j = 0;
+                        out.print("<div id=\"message\"><p>\nOcurri&oacute; alg&uacute;n problema ");
+                        out.print("con la carga de los archivos enviados, en seguida se muestra el detalle,");
+                        out.println("por favor rev&iacute;salo para que puedas concluir la operaci&oacute;n deseada:<br/>");
+                        while (j < messages.length) {
+                            String msg = null;
+                            int msgNum = 0;
+                            try {
+                                msgNum = Integer.parseInt(messages[j]);
+                            } catch (NumberFormatException nfe) {
+                                msgNum = 0;
+                            }
+                            switch (msgNum) {
+                                case 1: msg = "Al menos una fotograf&iacute;a excede el l&iacute;mite del tamaño permitido.<br/>";
+                                        break;
+                                case 3: msg = "Se ha alcanzado el l&iacute;mite de fotograf&iacute;as a cargar.<br/>";
+                                        break;
+                                case 5: msg = "No se detect&oacute; la extensi&oacute;n de alguna de las fotograf&iacute;as enviadas.<br/>";
+                                        break;
+                                case 7: msg = "Se detect&oacute; que al menos una fotograf&iacute;a no tiene por extensi&oacute;n alguna de las permitidas.<br>";
+                                        break;
+                                case 9: msg = "No se detect&oacute; la extensi&oacute;n de alguna de las fotograf&iacute;as enviadas.<br/>";
+                                        break;
+                                case 11: msg = "Al menos un nombre de archivo conten&iacute;a espacios en blanco.<br/>";
+                                        break;
+                                default: msg = "";
+                            }
+                            out.println(msg);
+                            out.println("</p></div>");
+                            j++;
+                        }
+                    }
+                }
+                if (base.getAttribute("gpophotos").equalsIgnoreCase("category")) {
+                    if (sprovider.getSemanticObject().getSemanticClass().getName().equalsIgnoreCase("hospedaje")){
                         out.println("<h3 class=\"subtitleLevel2\">FOTOS DE HABITACIONES&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
                     } else if (sprovider.getSemanticObject().getSemanticClass().getName().equalsIgnoreCase("restaurante")){
                         out.println("<h3 class=\"subtitleLevel2\">FOTOS DE PLATILLOS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
                     }
-                    out.println("<span class=\"tooltipWrapper\">?");
-                    out.println("   <span class=\"tooltip\">");
-                    out.println("       Puedes subir un máximo de 16 fotos en tu página web. Selecciona una imagen desde tu computadora (4mb máximo). Los formatos de imágenes aceptados son: gif, jpg, png. Al cargar el archivo de una imagen, confirmas que tienes los derechos de uso y distribución, y que ello no infringe las condiciones del servicio.");
-                    out.println("   </span>");
-                    out.println("</span>");
-                    out.println("</h3>");
-                }else {
-                    String title = base.getDisplayTitle(paramRequest.getUser().getLanguage());
-                    if(title.equalsIgnoreCase("establecimiento")||title.equalsIgnoreCase("establishment"))
-                        out.println("<h2 class=\"subtitleLevel2\">"+title+"</h2>");
-                    else{
-                        out.println("<h3 class=\"subtitleLevel2\">"+title+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+                    if (userCanEdit) {
                         out.println("<span class=\"tooltipWrapper\">?");
                         out.println("   <span class=\"tooltip\">");
-                        out.println("       Puedes subir un máximo de 16 fotos en tu página web. Selecciona una imagen desde tu computadora (4mb máximo). Los formatos de imágenes aceptados son: gif, jpg, png. Al cargar el archivo de una imagen, confirmas que tienes los derechos de uso y distribución, y que ello no infringe las condiciones del servicio.");
+                        out.println("       Puedes subir un máximo de " + numMaxPhotos + " fotos en tu página web. Selecciona una imagen desde tu computadora (4mb máximo). Los formatos de imágenes aceptados son: gif, jpg, png. Al cargar el archivo de una imagen, confirmas que tienes los derechos de uso y distribución, y que ello no infringe las condiciones del servicio.");
                         out.println("   </span>");
                         out.println("</span>");
+                    }
+                    out.println("</h3>");
+                } else {
+                    String title = base.getDisplayTitle(paramRequest.getUser().getLanguage());
+                    if (title.equalsIgnoreCase("establecimiento") || title.equalsIgnoreCase("establishment")) {
+                        out.println("<h2 class=\"subtitleLevel2\">"+title+"</h2>");
+                    } else {
+                        out.println("<h3 class=\"subtitleLevel2\">"+title+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+                        if (userCanEdit) {
+                            out.println("<span class=\"tooltipWrapper\">?");
+                            out.println("   <span class=\"tooltip\">");
+                            out.println("       Puedes subir un máximo de " + numMaxPhotos + " fotos en tu página web. Selecciona una imagen desde tu computadora (4mb máximo). Los formatos de imágenes aceptados son: gif, jpg, png. Al cargar el archivo de una imagen, confirmas que tienes los derechos de uso y distribución, y que ello no infringe las condiciones del servicio.");
+                            out.println("   </span>");
+                            out.println("</span>");
+                        }
                         out.println("</h3>");
                     }
                 }
 
-                if( it!=null&&it.hasNext() ) {
+                if (it != null && it.hasNext()) {
                     out.println("<div class=\"holderPhotoPreviews\">");
-                    int i=0;
-                    while( it.hasNext() ) {
+                    int i = 0;
+                    while (it.hasNext()) {
                         PymePhoto pp = it.next();
-                        if(i%3==0)
+                        if (i % 3 == 0) {
                             out.println("<div class=\"photoRow\">");
+                        }
                         out.println("<div class=\"photoPreview\">");
                         out.println("<img alt=\""+pp.getPhotoImage()+"\" src=\""+path+pp.getPhotoThumbnail()+"\" />");
                         out.println("<input type=\"button\" value=\"ver foto\" id=\""+"pac_"+i+"_"+base.getId()+"\" />");
@@ -632,13 +750,13 @@ public final class PhotoAlbum extends GenericAdmResource {
                         if(i%3==0 || !it.hasNext())
                             out.println("</div>");
                     }
-                    if( base.getAttribute("gpophotos").equalsIgnoreCase("establishment") ) {
+                    if ( base.getAttribute("gpophotos").equalsIgnoreCase("establishment") ) {
                         out.println("<p class=\"previewsDescription\">"+( sprovider.getSpEstablishmentPymePhotosComments()==null?"&nbsp;":sprovider.getSpEstablishmentPymePhotosComments() )+"</p>");
-                    }else if( base.getAttribute("gpophotos").equalsIgnoreCase("instalation") ) {
+                    } else if ( base.getAttribute("gpophotos").equalsIgnoreCase("instalation") ) {
                         out.println("<p class=\"previewsDescription\">"+( sprovider.getSpInstalationsPymePhotosComments()==null?"&nbsp;":sprovider.getSpInstalationsPymePhotosComments() )+"</p>");
-                    }else if( base.getAttribute("gpophotos").equalsIgnoreCase("category") ) {
+                    } else if ( base.getAttribute("gpophotos").equalsIgnoreCase("category") ) {
                         out.println("<p class=\"previewsDescription\">"+( sprovider.getSpCategoryPymePhotoCommens()==null?"&nbsp;":sprovider.getSpCategoryPymePhotoCommens() )+"</p>");
-                    }else if(base.getAttribute("gpophotos").equalsIgnoreCase("more") ) {
+                    } else if (base.getAttribute("gpophotos").equalsIgnoreCase("more") ) {
                         out.println("<p class=\"previewsDescription\">"+( sprovider.getSpMorePymePhotosComments()==null?"&nbsp":sprovider.getSpMorePymePhotosComments() )+"</p>");
                     }
                     out.println("</div>");
@@ -653,33 +771,45 @@ public final class PhotoAlbum extends GenericAdmResource {
                 }
             }
 
-            if(userCanEdit)
+            if (userCanEdit) {
                 out.print(getFormManager(paramRequest, sprovider));
+            }
         }
     }
 
     @Override
-    public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
+    public void processAction(HttpServletRequest request, SWBActionResponse response)
+            throws SWBResourceException, IOException {
+
         Resource base = getResourceBase();
         String action = response.getAction();
-        if( action!=null && action.equalsIgnoreCase(response.Action_ADD+"_"+base.getAttribute("gpophotos")) ) {
-            if(request.getParameter("uri")!=null) {
+
+        if (action != null &&
+                        action.equalsIgnoreCase(response.Action_ADD + "_"
+                                + base.getAttribute("gpophotos"))) {
+            if (request.getParameter("uri") != null) {
                 SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
                 ServiceProvider sprovider = (ServiceProvider) semObject.createGenericInstance();
-                if( sprovider!=null && sprovider.getPymePaqueteType()!=2 ) {
+                if (sprovider != null && sprovider.getPymePaqueteType() > 2) {
                     add(request, sprovider, response.getWebPage().getWebSite());
+                    if (request.getAttribute("msg") != null) {
+                        response.setRenderParameter("msg", (String) request.getAttribute("msg"));
+                    }
                 }
             }
         }
     }
 
     private boolean userCanAdd(WebSite model, ServiceProvider sprovider) {
+
         boolean canAdd = false;
         final int totPhotos = sprovider.getSpTotPhotos();
         final int packageType = sprovider.getPymePaqueteType();
         final int numMaxPhotos = Paquete.ClassMgr.getPaquete(Integer.toString(packageType), model).getPaq_NumMaxPhotos();
-        if( totPhotos<=numMaxPhotos )
+
+        if (totPhotos < numMaxPhotos) {
             canAdd = true;
+        }
         return canAdd;
     }
 
