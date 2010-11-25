@@ -23,9 +23,12 @@
 
 package org.semanticwb.pymtur;
 
+import org.semanticwb.model.Role;
 import org.semanticwb.model.Searchable;
+import org.semanticwb.model.User;
 import org.semanticwb.portal.indexer.parser.GenericParser;
 import org.semanticwb.portal.indexer.parser.WebPageParser;
+import org.semanticwb.pymtur.util.PymturUtils;
 
 /**
  * Parser for {@link Searchable} MicroSites.
@@ -38,6 +41,25 @@ import org.semanticwb.portal.indexer.parser.WebPageParser;
 public class MicroSiteParser extends WebPageParser {    
     @Override
     public String getType(Searchable gen) {
-        return "MicroSite";
+        return "WebPage";  // antes:MicroSite
     }
+
+    @Override
+    public boolean canUserView(Searchable gen, User user) {
+        boolean ret = super.canUserView(gen, user);
+
+        //Si está publicado se puede presentar en el buscador
+        if (ret && ((MicroSitePyme) gen).getServiceProvider().getSpStatus() != PymturUtils.ESTATUS_PUBLICADO) {
+            //Si no, solo los administradores pueden verlo
+            Role role = user.getUserRepository().getRole("adminProviders");
+            if (!user.isRegistered() || (user.isRegistered() && user.isSigned())) {
+                if (role != null && !user.hasRole(role)) {
+                    ret = false;
+                }
+            }
+        }
+        return ret;
+    }
+
+
 }
