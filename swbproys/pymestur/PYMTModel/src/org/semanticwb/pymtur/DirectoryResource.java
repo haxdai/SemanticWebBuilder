@@ -119,8 +119,8 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
             PrintWriter out=response.getWriter();
             out.println("<font color=\"RED\"><b>");
             if(request.getParameter("sucMsg").equals("01")){
-                out.println("Estimado (a) "+user.getFullName()+","+
-                            "La edición de tu información ha sido realizada de manera exitosa.");
+                out.println("Estimado (a) " + user.getFullName() + ", " +
+                            "la edición de tu información ha sido realizada de manera exitosa.");
             }
             out.println("</b></font>");
         }
@@ -273,6 +273,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                 try {
                     ServiceProvider dirObj = (ServiceProvider) semObject.createGenericInstance();
                     User userCreator = dirObj.getCreator();
+                    String formerTitle = dirObj.getTitle();
                     if ((userCreator != null && userCreator.getURI().equals(user.getURI())) || (isAdministrator || isUserIsAdminProvider)) {
                         mgr.processForm(request);
 
@@ -293,11 +294,11 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                             String sdomain = request.getParameter(dirObj.pymtur_pymeDomain.getName());
                             if (dirObj.getPymePaqueteType() == PymturUtils.PAQ_PREMIER && sdomain != null && sdomain.trim().length() > 0) { //Se modifica el DNS al Micrositio siempre y cuando sea de tipo 4 (PREMIER)
                                 Dns pymeDns = dirObj.getPymeDomain();
-                                if(pymeDns!=null){
+                                if (pymeDns != null) {
                                     pymeDns.setDns(sdomain);
                                     pymeDns.setModifiedBy(user);
                                     dirObj.setPymeDomain(pymeDns);
-                                }else{
+                                } else {
                                     Dns newDns = Dns.ClassMgr.createDns(wsite);
                                     newDns.setDns(sdomain);
                                     newDns.setWebPage(dirObj.getMicroSitePymeInv());
@@ -313,7 +314,7 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                                     pymeDns.setDns(sdomain);
                                     pymeDns.setModifiedBy(user);
                                     dirObj.setPymeSubDomainWildCard(pymeDns);
-                                }else{
+                                } else {
                                     Dns newDns = Dns.ClassMgr.createDns(wsite);
                                     newDns.setDns(subdomain);
                                     newDns.setWebPage(dirObj.getMicroSitePymeInv());
@@ -375,7 +376,10 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                                     VariantPaqTemplate varianTpl = (VariantPaqTemplate) semObjectVT.createGenericInstance();
                                     dirObj.setVariantPaqTemplate(varianTpl);
                                 }
-
+                            }
+                            if (!formerTitle.equalsIgnoreCase(dirObj.getTitle())) {
+                                dirObj.getMicroSitePymeInv().setTitle(dirObj.getTitle());
+                                dirObj.getMicroSitePymeInv().setDescription(dirObj.getDescription());
                             }
                        }
                     }
