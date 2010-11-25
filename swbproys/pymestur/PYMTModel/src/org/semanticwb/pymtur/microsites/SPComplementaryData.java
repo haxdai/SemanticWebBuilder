@@ -177,8 +177,20 @@ public class SPComplementaryData extends GenericResource {
                 try {
                     ServiceProvider dirObj = (ServiceProvider) semObject.createGenericInstance();
                     User userCreator = dirObj.getCreator();
+                    String subdomain = request.getParameter(ServiceProvider.pymtur_pymeSubDomainWildCard.getName());
+                    String maindomain = request.getParameter(ServiceProvider.pymtur_pymeDomain.getName());
+
                     if ((userCreator != null && userCreator.getURI().equals(user.getURI())) ||
                             (isAdministrator || isUserIsAdminProvider)) {
+                        if ((subdomain == null || (subdomain != null && subdomain.trim().length() == 0)) &&
+                                dirObj.getPymeSubDomainWildCard() != null) {
+                            Dns.ClassMgr.removeDns(dirObj.getPymeSubDomainWildCard().getId(), wsite);
+                        }
+                        if ((maindomain == null || (maindomain != null && maindomain.trim().length() == 0)) &&
+                                dirObj.getPymeDomain() != null) {
+                            Dns.ClassMgr.removeDns(dirObj.getPymeDomain().getId(), wsite);
+                        }
+                        
                         mgr.processForm(request);
 
                         String dirPhoto = request.getParameter("dirPhotoHidden");
@@ -195,6 +207,7 @@ public class SPComplementaryData extends GenericResource {
 
                        int pymePaquete=dirObj.getPymePaqueteType();
                        if (pymePaquete == PymturUtils.PAQ_MICROSITIO || pymePaquete == PymturUtils.PAQ_PREMIER) { //Solo para micrositios o premier
+                           dirObj.getMicroSitePymeInv().setDescription(dirObj.getDescription());
                             String sdomain = request.getParameter(dirObj.pymtur_pymeDomain.getName());
                             if (dirObj.getPymePaqueteType() == PymturUtils.PAQ_PREMIER && sdomain != null && sdomain.trim().length() > 0) { //Se modifica el DNS al Micrositio siempre y cuando sea de tipo 4 (PREMIER)
                                 Dns pymeDns = dirObj.getPymeDomain();
@@ -211,14 +224,14 @@ public class SPComplementaryData extends GenericResource {
                                 }
                             }
 
-                            String subdomain = request.getParameter(dirObj.pymtur_pymeSubDomainWildCard.getName());
                             if (dirObj.getPymePaqueteType() == PymturUtils.PAQ_PREMIER && subdomain != null && subdomain.trim().length() > 0) { //Se modifica el SubDNS al Micrositio siempre y cuando sea de tipo 4 (PREMIER)
+                                subdomain = subdomain + (request.getServerName().startsWith("www.") ? request.getServerName().substring(4) : ("." + request.getServerName()));
                                 Dns pymeDns = dirObj.getPymeSubDomainWildCard();
-                                if(pymeDns!=null){
-                                    pymeDns.setDns(sdomain);
+                                if (pymeDns != null) {
+                                    pymeDns.setDns(subdomain);
                                     pymeDns.setModifiedBy(user);
                                     dirObj.setPymeSubDomainWildCard(pymeDns);
-                                }else{
+                                } else {
                                     Dns newDns = Dns.ClassMgr.createDns(wsite);
                                     newDns.setDns(subdomain);
                                     newDns.setWebPage(dirObj.getMicroSitePymeInv());
