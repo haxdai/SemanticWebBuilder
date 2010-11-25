@@ -26,6 +26,7 @@ package org.semanticwb.pymtur;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import org.semanticwb.SWBPortal;
 import org.semanticwb.model.Searchable;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.portal.indexer.IndexTerm;
@@ -53,12 +54,12 @@ public class DestinationParser extends GenericParser {
 
     @Override
     public String getSummary(Searchable gen, String lang) {
-        return ((Destination)gen).getDescription();
+        return ((Destination) gen).getDescription();
     }
 
     @Override
     public String getUrl(Searchable gen) {
-        return ((Destination)gen).getUrl();
+        return ((Destination) gen).getUrl();
     }
 
     @Override
@@ -69,7 +70,7 @@ public class DestinationParser extends GenericParser {
         arg.put("separator", " | ");
         arg.put("links", "false");
         arg.put("language", lang);
-        WebPage page = (Destination)gen;
+        WebPage page = (Destination) gen;
         ret = page.getPath(arg);
 
         return ret;
@@ -77,13 +78,23 @@ public class DestinationParser extends GenericParser {
 
     @Override
     public String getIndexDescription(Searchable gen) {
-        return ((Destination)gen).getDescription();
+        return ((Destination) gen).getDescription();
     }
 
     @Override
     public String getIndexTags(Searchable gen) {
-        return ((Destination)gen).getTags();
+        return ((Destination) gen).getTags();
     }    
+
+    @Override
+    public String getImage(Searchable gen) {
+        String ret = super.getImage(gen);
+        Destination dest = (Destination) gen;
+        if (dest.getDestPrincipalPhoto() != null) {
+            ret = SWBPortal.getWebWorkPath() + dest.getWorkPath() + "/" + dest.pymtur_destPrincipalPhoto.getName() + "_" + dest.getDestPrincipalPhoto();
+        }
+        return ret;
+    }
 
     private WebPage getWebPage(Searchable gen) {
         return (WebPage)gen;
