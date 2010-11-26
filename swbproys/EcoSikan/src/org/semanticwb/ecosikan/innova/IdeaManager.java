@@ -171,19 +171,21 @@ public class IdeaManager extends org.semanticwb.ecosikan.innova.base.IdeaManager
             String text = request.getParameter("comment");
             String ideaId = request.getParameter("idea");
             Idea idea = Idea.ClassMgr.getIdea(ideaId, model);
-            if( idea!=null && IdeaStatus.Opened==IdeaStatus.valueOf(idea.getStatus()) && text!=null && !text.isEmpty() ) {
-                if(Comment.sclass==null)
-                    System.out.println("sclass es nulo");
-                else
-                    System.out.println("sclass NO es nulo");
-
-                System.out.println("agregando comentario...");
+            if( wp instanceof Theme && idea!=null && IdeaStatus.Opened==IdeaStatus.valueOf(idea.getStatus()) && text!=null && !text.isEmpty() ) {
                 Comment comment = Comment.ClassMgr.createComment(model);
                 comment.setText(text);
                 idea.addComment(comment);
-                System.out.println("comentario agregado");
+            }else if( wp instanceof Challenge && idea!=null && text!=null && !text.isEmpty() ) {
+                Challenge challenge = (Challenge)wp;
+                Phases phase = Phases.valueOf(challenge.getPhase());
+                if(Phases.Opened==phase) {
+                    Comment comment = Comment.ClassMgr.createComment(model);
+                    comment.setText(text);
+                    idea.addComment(comment);
+                }
             }
-        }else if( Action_CATEGORIZE.equals(action) ) {
+            response.setAction(null);
+        }else if (Action_CATEGORIZE.equals(action)) {
             String categoryId = request.getParameter("cat");
             String ideaId = request.getParameter("idea");
             if( wp instanceof Challenge && ideaId!=null && categoryId!=null ) {
