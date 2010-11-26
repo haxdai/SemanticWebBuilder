@@ -175,7 +175,17 @@ public class CuponManager extends GenericResource {
             cupon.setCuponPeriodFin(df);
             cupon.setCuponType(params.get("is"));
             cupon.setCuponImg( (params.get("pimg")!=null&&params.get("pimg").length()>0?params.get("pimg"):null) );
-            cupon.setCuponConditions( params.get("constraint")==null?"":params.get("constraint") );
+            //cupon.setCuponConditions( params.get("constraint")==null?"":params.get("constraint") );
+            String constraint = "";
+            if(params.get("constraint")!=null){
+                constraint = params.get("constraint");
+                if(constraint.length()>600)
+                {
+                    constraint = constraint.substring(0,599);
+                    response.setRenderParameter("msgErrOverConstra", "Unicamente se han guardado los primeros 600 caracteres del campo de términos y condiciones del cupón '" + params.get("title") + "'");
+                }
+                cupon.setCuponConditions(constraint);
+            }
             //cupon.setCuponAddress(params.get("deftv"));
             String adress = params.get("deftv");
             if(adress.length()>1000)
@@ -286,7 +296,16 @@ public class CuponManager extends GenericResource {
             cupon.setCuponPeriodFin(df);
             cupon.setCuponType(params.get("is"));
             cupon.setCuponImg( (params.get("pimg")!=null&&params.get("pimg").length()>0?params.get("pimg"):null) );
-            cupon.setCuponConditions( params.get("constraint")==null?"":params.get("constraint") );
+            String constraint = "";
+            if(params.get("constraint")!=null){
+                constraint = params.get("constraint");
+                if(constraint.length()>600)
+                {
+                    constraint = constraint.substring(0,599);
+                    response.setRenderParameter("msgErrOverConstra", "Unicamente se han guardado los primeros 600 caracteres del campo de términos y condiciones del cupón '" + params.get("title") + "'");
+                }
+                cupon.setCuponConditions(constraint);
+            }
             String adress = params.get("deftv");
             if(adress.length()>1000)
             {
