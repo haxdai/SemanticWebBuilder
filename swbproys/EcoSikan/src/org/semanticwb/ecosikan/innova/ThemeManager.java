@@ -17,8 +17,9 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.Resource;
+import org.semanticwb.model.User;
+import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
-import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.api.*;
 
 public class ThemeManager extends org.semanticwb.ecosikan.innova.base.ThemeManagerBase
@@ -39,19 +40,23 @@ public class ThemeManager extends org.semanticwb.ecosikan.innova.base.ThemeManag
     }
 
     @Override
-    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
-    {
-        String path = "/work/models/EcoSikan2/jsp/themes/init.jsp";
+    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        final WebPage wp = paramRequest.getWebPage();
+        final WebSite model = wp.getWebSite();
+        final String modelId = wp.getWebSiteId();
+        final Boolean userCanEdit = userCanEdit(paramRequest.getUser());
+
+        request.setAttribute("paramRequest", paramRequest);
+        request.setAttribute("userCanEdit", userCanEdit);
+        
+        String path = "/work/models/"+modelId+"/jsp/themes/init.jsp";
         String action = paramRequest.getAction();
-        System.out.println("ThemeManager. action="+action);
+
         if( paramRequest.Action_ADD.equals(action) )
-            path = "/work/models/EcoSikan2/jsp/themes/add.jsp";
-//        else if( paramRequest.Action_EDIT.equals(action) )
-//            path = "/work/models/EcoSikan/jsp/themes/edit.jsp";
+            path = "/work/models/"+modelId+"/jsp/themes/add.jsp";
 
         RequestDispatcher dis = request.getRequestDispatcher(path);
         try {
-            request.setAttribute("paramRequest", paramRequest);
             dis.include(request, response);
         }catch (Exception e) {
             log.error(e);
@@ -194,5 +199,12 @@ public class ThemeManager extends org.semanticwb.ecosikan.innova.base.ThemeManag
             theme.setParent(dependencia);
             theme.setActive(true);
         }
+    }
+
+    private Boolean userCanEdit(User user) {
+//        Role role = Role.ClassMgr.getRole(base.getAttribute("roleId"), wp.getWebSite());
+//        User user = paramRequest.getUser();
+//        final boolean canEdit = true;//user.hasRole(role);
+        return true;
     }
 }
