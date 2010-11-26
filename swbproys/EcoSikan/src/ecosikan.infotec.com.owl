@@ -8,9 +8,9 @@
     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
   xml:base="http://ecosikan.infotec.com.mx">
   <owl:Ontology rdf:about="">
-    <owl:imports rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology"/>
     <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Created with TopBraid Composer</owl:versionInfo>
+    <owl:imports rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology"/>
   </owl:Ontology>
   <owl:Class rdf:ID="IdeaManager">
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBSemanticResource"/>
@@ -101,22 +101,17 @@
     <rdfs:domain rdf:resource="#ChallengeManager"/>
     <rdfs:range rdf:resource="#Challenge"/>
   </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasXXX"/>
   <owl:ObjectProperty rdf:ID="hasIdea">
     <rdfs:range rdf:resource="#Idea"/>
     <rdfs:domain rdf:resource="#IdeaContainer"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="idea">
     <rdfs:range rdf:resource="#Idea"/>
-    <rdfs:domain>
-      <swb:Class rdf:ID="IdeaCategory">
-        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-      </swb:Class>
-    </rdfs:domain>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="category">
+    <rdfs:domain rdf:resource="#Idea"/>
     <rdfs:range rdf:resource="#Category"/>
-    <rdfs:domain rdf:resource="#IdeaCategory"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="hasSecretarias">
     <rdfs:range rdf:resource="#Dependencia"/>
