@@ -1,23 +1,23 @@
 /**  
-* SemanticWebBuilder es una plataforma para el desarrollo de portales y aplicaciones de integraci�n, 
-* colaboraci�n y conocimiento, que gracias al uso de tecnolog�a sem�ntica puede generar contextos de 
-* informaci�n alrededor de alg�n tema de inter�s o bien integrar informaci�n y aplicaciones de diferentes 
-* fuentes, donde a la informaci�n se le asigna un significado, de forma que pueda ser interpretada y 
-* procesada por personas y/o sistemas, es una creaci�n original del Fondo de Informaci�n y Documentaci�n 
-* para la Industria INFOTEC, cuyo registro se encuentra actualmente en tr�mite. 
-* 
-* INFOTEC pone a su disposici�n la herramienta SemanticWebBuilder a trav�s de su licenciamiento abierto al p�blico (�open source�), 
-* en virtud del cual, usted podr� usarlo en las mismas condiciones con que INFOTEC lo ha dise�ado y puesto a su disposici�n; 
-* aprender de �l; distribuirlo a terceros; acceder a su c�digo fuente y modificarlo, y combinarlo o enlazarlo con otro software, 
-* todo ello de conformidad con los t�rminos y condiciones de la LICENCIA ABIERTA AL P�BLICO que otorga INFOTEC para la utilizaci�n 
-* del SemanticWebBuilder 4.0. 
-* 
-* INFOTEC no otorga garant�a sobre SemanticWebBuilder, de ninguna especie y naturaleza, ni impl�cita ni expl�cita, 
-* siendo usted completamente responsable de la utilizaci�n que le d� y asumiendo la totalidad de los riesgos que puedan derivar 
-* de la misma. 
-* 
-* Si usted tiene cualquier duda o comentario sobre SemanticWebBuilder, INFOTEC pone a su disposici�n la siguiente 
-* direcci�n electr�nica: 
+* SemanticWebBuilder es una plataforma para el desarrollo de portales y aplicaciones de integración,
+* colaboración y conocimiento, que gracias al uso de tecnología semántica puede generar contextos de
+* información alrededor de algún tema de interés o bien integrar información y aplicaciones de diferentes
+* fuentes, donde a la información se le asigna un significado, de forma que pueda ser interpretada y
+* procesada por personas y/o sistemas, es una creación original del Fondo de Información y Documentación
+* para la Industria INFOTEC, cuyo registro se encuentra actualmente en trámite.
+*
+* INFOTEC pone a su disposición la herramienta SemanticWebBuilder a través de su licenciamiento abierto al público (‘open source’),
+* en virtud del cual, usted podrá usarlo en las mismas condiciones con que INFOTEC lo ha diseñado y puesto a su disposición;
+* aprender de él; distribuirlo a terceros; acceder a su código fuente y modificarlo, y combinarlo o enlazarlo con otro software,
+* todo ello de conformidad con los términos y condiciones de la LICENCIA ABIERTA AL PÚBLICO que otorga INFOTEC para la utilización
+* del SemanticWebBuilder 4.0.
+*
+* INFOTEC no otorga garantía sobre SemanticWebBuilder, de ninguna especie y naturaleza, ni implícita ni explícita,
+* siendo usted completamente responsable de la utilización que le dé y asumiendo la totalidad de los riesgos que puedan derivar
+* de la misma.
+*
+* Si usted tiene cualquier duda o comentario sobre SemanticWebBuilder, INFOTEC pone a su disposición la siguiente
+* dirección electrónica:
 *  http://www.semanticwebbuilder.org
 **/ 
  
@@ -484,11 +484,11 @@ public class RecommendPortal extends GenericAdmResource {
                 addElem(dom, emn, "msgFooterMessage",
                         paramRequest.getLocaleString("msgFooterMessage"));
 
-                addElem(dom, emn, "site", topic.getWebSiteId());
+                addElem(dom, emn, "site", "Siente México");
                 addElem(dom, emn, "siteurl", strUrl);
                 addElem(dom, emn, "topic",
                         topic.getTitle(lang) != null
-                        ? topic.getTitle(lang) : "Sin t�tulo");
+                        ? topic.getTitle(lang) : "Sección de Siente México");
                 addElem(dom, emn, "topicurl", strUrl + topic.getUrl());
 
                 if (strFromName != null) {
@@ -521,7 +521,7 @@ public class RecommendPortal extends GenericAdmResource {
                 strHeadermsg += " " + paramRequest.getLocaleString("msgBodyMessage") + "<br> \n";
                 strHeadermsg += " <a href=\"" + strUrl + topic.getUrl() + "\">";
                 strHeadermsg += topic.getTitle(lang) != null
-                        ? topic.getTitle(lang) : "Sin t�tulo";
+                        ? topic.getTitle(lang) : "Sección de Siente México";
                 strHeadermsg += "</a> \n";
                 if (strTarMsg != null) {
                     strHeadermsg += "<br><br> \n";
@@ -535,7 +535,7 @@ public class RecommendPortal extends GenericAdmResource {
                 strFootermsg += "<br><br> \n";
                 strFootermsg += "----------------------------------------------------------------------<br> \n";
                 strFootermsg += " " + paramRequest.getLocaleString("msgFooterMessage") + "<br> \n";
-                strFootermsg += " <a href=\"" + strUrl + "\">" + topic.getWebSiteId() + "</a> \n";
+                strFootermsg += " <a href=\"" + strUrl + "\">Siente México</a> \n";
                 strFootermsg += "<br><br> \n";
                 addElem(dom, emn, "emailbody",
                         strHeadermsg + strTarMsg + strFootermsg);
@@ -576,7 +576,7 @@ public class RecommendPortal extends GenericAdmResource {
             SWBParamRequest paramRequest) throws SWBResourceException,
             IOException {
 
-        response.setContentType("text/html");
+        response.setContentType("text/html; charset=ISO-8859-1");
         StringBuffer ret = new StringBuffer(200);
         Resource base = getResourceBase();
         String action = (null != request.getParameter("rec_act") && !"".equals(request.getParameter("rec_act").trim()))
