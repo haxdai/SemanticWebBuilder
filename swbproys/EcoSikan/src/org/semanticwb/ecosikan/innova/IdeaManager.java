@@ -168,23 +168,30 @@ public class IdeaManager extends org.semanticwb.ecosikan.innova.base.IdeaManager
                     idea.setVotesN(idea.getVotesN()+1);
                 }
         }else if( Action_COMMENT.equals(action) ) {
+            String securCodeSent = request.getParameter("scode");
+            String securCodeCreated = (String)request.getSession(true).getAttribute("cdlog");
             String text = request.getParameter("comment");
             String ideaId = request.getParameter("idea");
-            Idea idea = Idea.ClassMgr.getIdea(ideaId, model);
-            if( wp instanceof Theme && idea!=null && IdeaStatus.Opened==IdeaStatus.valueOf(idea.getStatus()) && text!=null && !text.isEmpty() ) {
-                Comment comment = Comment.ClassMgr.createComment(model);
-                comment.setText(text);
-                idea.addComment(comment);
-            }else if( wp instanceof Challenge && idea!=null && text!=null && !text.isEmpty() ) {
-                Challenge challenge = (Challenge)wp;
-                Phases phase = Phases.valueOf(challenge.getPhase());
-                if(Phases.Opened==phase) {
+            response.setRenderParameter("idea", ideaId);
+            if( securCodeCreated!=null && securCodeCreated.equalsIgnoreCase(securCodeSent)) {
+                Idea idea = Idea.ClassMgr.getIdea(ideaId, model);
+                if( wp instanceof Theme && idea!=null && IdeaStatus.Opened==IdeaStatus.valueOf(idea.getStatus()) && text!=null && !text.isEmpty() ) {
                     Comment comment = Comment.ClassMgr.createComment(model);
                     comment.setText(text);
                     idea.addComment(comment);
+                }else if( wp instanceof Challenge && idea!=null && text!=null && !text.isEmpty() ) {
+                    Challenge challenge = (Challenge)wp;
+                    Phases phase = Phases.valueOf(challenge.getPhase());
+                    if(Phases.Opened==phase) {
+                        Comment comment = Comment.ClassMgr.createComment(model);
+                        comment.setText(text);
+                        idea.addComment(comment);
+                    }
                 }
+            }else {
+                response.setRenderParameter("comment", text);
             }
-            response.setAction(null);
+            //response.setAction(null);
         }else if (Action_CATEGORIZE.equals(action)) {
             String categoryId = request.getParameter("cat");
             String ideaId = request.getParameter("idea");
