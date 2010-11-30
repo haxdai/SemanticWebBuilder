@@ -2,17 +2,19 @@ package org.semanticwb.ecosikan.innova;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import org.semanticwb.Logger;
+import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
+import org.semanticwb.ecosikan.innova.base.ChallengeBase;
+import org.semanticwb.model.GenericObject;
+import org.semanticwb.model.Role;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
+import org.semanticwb.platform.SemanticOntology;
 import org.semanticwb.portal.api.*;
 
 public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.ChallengeManagerBase {
@@ -92,57 +94,58 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
         final Boolean userCanEdit = userCanEdit(paramRequest.getUser());
 
         request.setAttribute("paramRequest", paramRequest);
-        request.setAttribute("userCanEdit", userCanEdit);
-        
-//        Challenge challenge = Challenge.ClassMgr.createChallenge(model);
-//        challenge.setParent(model.getHomePage());
-//        challenge.setTitle("Erradicar el crimen organizado");
-//        challenge.setDescription("Erradicar el cancer de la droga y sus cárteles");
-//        challenge.setActive(true);
-//        challenge.setPhase(Phases.Opened.name());
-
         RequestDispatcher dis;
-        String path;
-        Challenge challenge = (Challenge)wp;
-
-        if(userCanEdit) {
-            dis = request.getRequestDispatcher("/work/models/"+modelId+"/jsp/challenges/phases.jsp");
+        if(wp==model.getHomePage() && userCanEdit) {
+            System.out.println("en home");
+            Boolean userCanAdd = true;
+            Iterator<Challenge> challenges = ChallengeBase.ClassMgr.listChallenges(model);
+            while( challenges.hasNext()&&userCanAdd ) {
+                Challenge challenge = challenges.next();
+                Phases phase = Phases.valueOf(challenge.getPhase());
+                System.out.println("phase="+phase);
+                userCanAdd = userCanAdd && phase==Phases.Closed;
+                System.out.println("userCanAdd="+userCanAdd);
+            }
+            if(userCanAdd) {
+                request.setAttribute("userCanEdit", userCanAdd);
+                dis = request.getRequestDispatcher("/work/models/"+modelId+"/jsp/challenges/add.jsp");
+                try {
+                    dis.include(request, response);
+                }catch (Exception e) {
+                    log.error(e);
+                }
+            }
+        }else if(wp instanceof Challenge) {
+            request.setAttribute("userCanEdit", userCanEdit);
+            Challenge challenge = (Challenge)wp;
+            if(userCanEdit) {
+                dis = request.getRequestDispatcher("/work/models/"+modelId+"/jsp/challenges/phases.jsp");
+                try {
+                    dis.include(request, response);
+                }catch (Exception e) {
+                    log.error(e);
+                }
+            }
+            if( Phases.valueOf(challenge.getPhase()).ordinal()<Phases.Selecting.ordinal() ) {
+                dis = request.getRequestDispatcher("/work/models/"+modelId+"/jsp/challenges/categories.jsp");
+                try {
+                    dis.include(request, response);
+                }catch (Exception e) {
+                    log.error(e);
+                }
+            }
+            dis = request.getRequestDispatcher("/work/models/"+modelId+"/jsp/challenges/desires.jsp");
             try {
                 dis.include(request, response);
-            }catch (Exception e) {
+            } catch (Exception e) {
                 log.error(e);
             }
-        }
-
-//        if( Phases.Opened==Phases.valueOf(challenge.getPhase()) ) {
-//        }else if( Phases.Categorizing==Phases.valueOf(challenge.getPhase()) ) {
-//        }else if( Phases.Selecting==Phases.valueOf(challenge.getPhase()) ) {
-//        }else if( Phases.Solution==Phases.valueOf(challenge.getPhase()) ) {
-//        }else if( Phases.Closed==Phases.valueOf(challenge.getPhase()) ) {
-//        }else {
-//        }
-
-        if( Phases.valueOf(challenge.getPhase()).ordinal()<Phases.Selecting.ordinal() ) {
-            dis = request.getRequestDispatcher("/work/models/"+modelId+"/jsp/challenges/categories.jsp");
+            dis = request.getRequestDispatcher("/work/models/"+modelId+"/jsp/challenges/stakeholders.jsp");
             try {
                 dis.include(request, response);
-            }catch (Exception e) {
+            } catch (Exception e) {
                 log.error(e);
             }
-        }
-        
-        dis = request.getRequestDispatcher("/work/models/"+modelId+"/jsp/challenges/desires.jsp");
-        try {
-            dis.include(request, response);
-        } catch (Exception e) {
-            log.error(e);
-        }
-        
-        dis = request.getRequestDispatcher("/work/models/"+modelId+"/jsp/challenges/stakeholders.jsp");
-        try {
-            dis.include(request, response);
-        } catch (Exception e) {
-            log.error(e);
         }
     }
 
@@ -150,79 +153,129 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         WebPage wp = response.getWebPage();
         WebSite model = wp.getWebSite();
-        Challenge challenge = (Challenge)wp;
+        final boolean userCanEdit = userCanEdit(response.getUser());
         
         String action = response.getAction();
-        if(Action_ADDCATEGORY.equals(action)) {
-            if(request.getParameter("catname")!=null&!request.getParameter("catname").isEmpty()&&request.getParameter("catdesc")!=null&&!request.getParameter("catdesc").isEmpty()) {
+        if(response.Action_ADD.equals(action)&&userCanEdit) {
+            System.out.println("agregar un reto");
+            boolean userCanAdd = true;
+            Iterator<Challenge> challenges = ChallengeBase.ClassMgr.listChallenges(model);
+            while(challenges.hasNext()&&userCanAdd) {
+                Challenge challenge = challenges.next();
+                Phases phase = Phases.valueOf(challenge.getPhase());
+                userCanAdd = userCanAdd && phase==Phases.Closed;
+            }
+            System.out.println("userCanAdd="+userCanAdd);
+            System.out.println("request.getParameter(title)="+request.getParameter("title"));
+            System.out.println("request.getParameter(desc)="+request.getParameter("desc"));
+            if( userCanAdd && request.getParameter("title")!=null&&!request.getParameter("title").isEmpty() && request.getParameter("desc")!=null&&!request.getParameter("desc").isEmpty()) {
+                System.out.println("agregando reto");
+                Challenge challenge = Challenge.ClassMgr.createChallenge(model);
+                challenge.setParent(model.getHomePage());
+                challenge.setTitle(request.getParameter("title").trim());
+                challenge.setDescription(request.getParameter("desc").trim());
+                challenge.setActive(true);
+                challenge.setPhase(Phases.Opened.name());
+                System.out.println("reto agregado");
+                response.sendRedirect(challenge.getRealUrl());
+            }
+        }else if(response.Action_EDIT.equals(action)&&userCanEdit) {
+            
+        }else if(response.Action_REMOVE.equals(action)&&userCanEdit) {
+            
+        }
+        
+        else if(Action_ADDCATEGORY.equals(action)&&userCanEdit) {
+            if(request.getParameter("catname")!=null&&!request.getParameter("catname").isEmpty()&&request.getParameter("catdesc")!=null&&!request.getParameter("catdesc").isEmpty()) {
                 Category category = Category.ClassMgr.createCategory(model);
                 category.setTitle(request.getParameter("catname").replaceAll(" ", ""));
                 category.setDescription(request.getParameter("catdesc"));
+                Challenge challenge = (Challenge)wp;
                 challenge.addCategory(category);
                 response.setAction(null);
             }
-        }else if(Action_EDITCATEGORY.equals(action)) {
+        }else if(Action_EDITCATEGORY.equals(action)&&userCanEdit) {
             if(request.getParameter("catname")!=null&!request.getParameter("catname").isEmpty()&&request.getParameter("catdesc")!=null&&!request.getParameter("catdesc").isEmpty()) {
                 String categoryId = request.getParameter("cat");
                 Category category = Category.ClassMgr.getCategory(categoryId, model);
+                Challenge challenge = (Challenge)wp;
                 if(challenge.hasCategory(category)) {
                     category.setTitle(request.getParameter("catname").replaceAll(" ", ""));
                     category.setDescription(request.getParameter("catdesc"));
                 }
                 response.setAction(null);
             }
-        }else if(Action_REMOVECATEGORY.equals(action)) {
+        }else if(Action_REMOVECATEGORY.equals(action)&&userCanEdit) {
             String categoryId = request.getParameter("cat");
             Category category = Category.ClassMgr.getCategory(categoryId, model);
             category.remove();
             response.setAction(null);
         }
 
-        else if(Action_ADDDESIRE.equals(action)) {
+        else if(Action_ADDDESIRE.equals(action)&&userCanEdit) {
             if(request.getParameter("des")!=null&!request.getParameter("des").isEmpty()) {
+                Challenge challenge = (Challenge)wp;
                 challenge.addDesire(request.getParameter("des"));
                 response.setAction(null);
             }
-        }else if(Action_EDITDESIRE.equals(action)) {
+        }else if(Action_EDITDESIRE.equals(action)&&userCanEdit) {
             if(request.getParameter("des")!=null&!request.getParameter("des").isEmpty()) {
                 String curDesire = request.getParameter("hdes");
+                Challenge challenge = (Challenge)wp;
                 challenge.removeDesire(curDesire);
                 challenge.addDesire(request.getParameter("des"));
                 response.setAction(null);
             }
-        }else if(Action_REMOVEDESIRE.equals(action)) {
+        }else if(Action_REMOVEDESIRE.equals(action)&&userCanEdit) {
+            Challenge challenge = (Challenge)wp;
             challenge.removeDesire(request.getParameter("des"));
             response.setAction(null);
         }
         
-        else if(Action_ADDSTKHLDR.equals(action)) {
+        else if(Action_ADDSTKHLDR.equals(action)&&userCanEdit) {
             if(request.getParameter("stkhldr")!=null&!request.getParameter("stkhldr").isEmpty()) {
+                Challenge challenge = (Challenge)wp;
                 challenge.addStakeholder(request.getParameter("stkhldr"));
                 response.setAction(null);
             }
-        }else if(Action_EDITSTKHLDR.equals(action)) {
+        }else if(Action_EDITSTKHLDR.equals(action)&&userCanEdit) {
             if(request.getParameter("stkhldr")!=null&!request.getParameter("stkhldr").isEmpty()) {
                 String curDesire = request.getParameter("hstkhldr");
+                Challenge challenge = (Challenge)wp;
                 challenge.removeStakeholder(curDesire);
                 challenge.addStakeholder(request.getParameter("stkhldr"));
                 response.setAction(null);
             }
-        }else if(Action_REMOVESTKHLDR.equals(action)) {
+        }else if(Action_REMOVESTKHLDR.equals(action)&&userCanEdit) {
+            Challenge challenge = (Challenge)wp;
             challenge.removeStakeholder(request.getParameter("stkhldr"));
             response.setAction(null);
         }
 
-        else if(Action_UPDATEPHASE.equals(action)) {
+        else if(Action_UPDATEPHASE.equals(action)&&userCanEdit) {
+            Challenge challenge = (Challenge)wp;
             Phases phase = Phases.valueOf(challenge.getPhase());
-            if(phase.hasNext())
+            if(phase.hasNext()) {
                 challenge.setPhase(phase.next().name());
+            }
         }
     }
 
     private Boolean userCanEdit(User user) {
-//        Role role = Role.ClassMgr.getRole(base.getAttribute("roleId"), wp.getWebSite());
-//        User user = paramRequest.getUser();
-//        final boolean canEdit = true;//user.hasRole(role);
+//        boolean userCanEdit = false;
+//        String roleId = getResourceBase().getAttribute("editChallengeRole");
+//        Role role = null;
+//
+//        SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
+//        try {
+//            GenericObject gobj = ont.getGenericObject(roleId);
+//            if( gobj!=null && gobj instanceof Role && user.hasRole(role) ) {
+//                userCanEdit = true;
+//            }
+//        }catch (Exception e) {
+//            log.error(e);
+//        }
+//        return userCanEdit;
         return true;
     }
 
