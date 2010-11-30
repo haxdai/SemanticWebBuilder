@@ -96,15 +96,12 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
         request.setAttribute("paramRequest", paramRequest);
         RequestDispatcher dis;
         if(wp==model.getHomePage() && userCanEdit) {
-            System.out.println("en home");
             Boolean userCanAdd = true;
             Iterator<Challenge> challenges = ChallengeBase.ClassMgr.listChallenges(model);
             while( challenges.hasNext()&&userCanAdd ) {
                 Challenge challenge = challenges.next();
                 Phases phase = Phases.valueOf(challenge.getPhase());
-                System.out.println("phase="+phase);
                 userCanAdd = userCanAdd && phase==Phases.Closed;
-                System.out.println("userCanAdd="+userCanAdd);
             }
             if(userCanAdd) {
                 request.setAttribute("userCanEdit", userCanAdd);
@@ -157,7 +154,6 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
         
         String action = response.getAction();
         if(response.Action_ADD.equals(action)&&userCanEdit) {
-            System.out.println("agregar un reto");
             boolean userCanAdd = true;
             Iterator<Challenge> challenges = ChallengeBase.ClassMgr.listChallenges(model);
             while(challenges.hasNext()&&userCanAdd) {
@@ -165,18 +161,13 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
                 Phases phase = Phases.valueOf(challenge.getPhase());
                 userCanAdd = userCanAdd && phase==Phases.Closed;
             }
-            System.out.println("userCanAdd="+userCanAdd);
-            System.out.println("request.getParameter(title)="+request.getParameter("title"));
-            System.out.println("request.getParameter(desc)="+request.getParameter("desc"));
             if( userCanAdd && request.getParameter("title")!=null&&!request.getParameter("title").isEmpty() && request.getParameter("desc")!=null&&!request.getParameter("desc").isEmpty()) {
-                System.out.println("agregando reto");
                 Challenge challenge = Challenge.ClassMgr.createChallenge(model);
                 challenge.setParent(model.getHomePage());
                 challenge.setTitle(request.getParameter("title").trim());
                 challenge.setDescription(request.getParameter("desc").trim());
                 challenge.setActive(true);
                 challenge.setPhase(Phases.Opened.name());
-                System.out.println("reto agregado");
                 response.sendRedirect(challenge.getRealUrl());
             }
         }else if(response.Action_EDIT.equals(action)&&userCanEdit) {
