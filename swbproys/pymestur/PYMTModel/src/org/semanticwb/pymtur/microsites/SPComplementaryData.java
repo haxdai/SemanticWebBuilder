@@ -225,7 +225,7 @@ public class SPComplementaryData extends GenericResource {
                             }
 
                             if (dirObj.getPymePaqueteType() == PymturUtils.PAQ_PREMIER && subdomain != null && subdomain.trim().length() > 0) { //Se modifica el SubDNS al Micrositio siempre y cuando sea de tipo 4 (PREMIER)
-                                subdomain = subdomain + (request.getServerName().startsWith("www.") ? request.getServerName().substring(4) : ("." + request.getServerName()));
+                                subdomain = subdomain + (request.getServerName().startsWith("www.") ? request.getServerName().substring(3) : ("." + request.getServerName()));
                                 Dns pymeDns = dirObj.getPymeSubDomainWildCard();
                                 if (pymeDns != null) {
                                     pymeDns.setDns(subdomain);
