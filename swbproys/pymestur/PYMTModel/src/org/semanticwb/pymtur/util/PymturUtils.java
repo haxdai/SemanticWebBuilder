@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Timestamp;
 import java.util.Iterator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
@@ -208,5 +210,35 @@ public class PymturUtils {
             str = SWBUtils.TEXT.replaceAll(str, "{templatepath}", template.getActualPath());
         }
         return str;
+    }
+    public static int calcLength(String data, int max)
+    {
+        int cont = 0;
+        if (data != null) {
+            int indexA = 0;
+            while (indexA != -1 ) {
+                indexA = data.indexOf("\n", indexA);
+                if(indexA<=max)
+                {
+                    if (indexA != -1 ) {
+                        indexA++;
+                        cont++;
+                        max++;
+                    }
+                }else{
+                    indexA=-1;
+                }
+            }
+        }
+        return cont;
+    }
+    public static boolean validateRegExp(String textSource, String regExp) {
+        Pattern p = Pattern.compile(regExp);//regular expression
+        Matcher m = p.matcher(textSource); // the text source
+        if(m.find())
+        {
+            return false;
+        }
+        return true;
     }
 }
