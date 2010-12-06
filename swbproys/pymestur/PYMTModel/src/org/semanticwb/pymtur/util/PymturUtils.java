@@ -57,7 +57,7 @@ public class PymturUtils {
             String query = "insert into swb_pymesturlog (sprovuri, usruri, elementuri, status, commenttype, comment, date) values (?,?,?,?,?,?,?)";
             PreparedStatement st = con.prepareStatement(query);
             st.setString(1, serviceProvider.getURI());
-            st.setString(2, user.getURI());
+            st.setString(2, user != null ? user.getURI() : "");
             st.setString(3, elementUri);
             st.setInt(4, status);
             st.setInt(5, commenttype);
