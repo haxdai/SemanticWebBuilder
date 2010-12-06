@@ -103,6 +103,7 @@ public class PymesScheduledTasks {
                         }
                         if (spEndAnnunceDate.before(calDisableAnnunce.getTime())) { //Todos los anuncios que tengan una fecha de expiración antes de la fecha actual
                             servProvider.setSpStatus(PymturUtils.ESTATUS_VENCIDA); //Considerando que se desactivaría la pyme, pero ya la pyme ya se acepto y se pagó
+                            PymturUtils.logServiceProvider(servProvider, null, null, PymturUtils.ESTATUS_VENCIDA, PymturUtils.COMMENT_STATUS, "MIPyME Auto Expired");
                         }
                     }
                 }
