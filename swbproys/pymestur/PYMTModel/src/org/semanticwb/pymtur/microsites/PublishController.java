@@ -107,11 +107,13 @@ public class PublishController extends GenericResource {
                 if (message.length() == 0) {
                     dirObj.setSpStatus(PymturUtils.ESTATUS_PUBLICADO);
                     statusChanged = true;
+                    PymturUtils.logServiceProvider(dirObj, paramRequest.getUser(), null, PymturUtils.ESTATUS_PUBLICADO, PymturUtils.COMMENT_STATUS, "MiPyME Published");
                 }
             } else if (action.equalsIgnoreCase("UnPublish") && dirObj != null) {
                 if (message.length() == 0) {
                     dirObj.setSpStatus(PymturUtils.ESTATUS_ACEPTADO);
                     statusChanged = true;
+                    PymturUtils.logServiceProvider(dirObj, paramRequest.getUser(), null, PymturUtils.ESTATUS_ACEPTADO, PymturUtils.COMMENT_STATUS, "MiPyME Non Published");
                 }
             }
         }
