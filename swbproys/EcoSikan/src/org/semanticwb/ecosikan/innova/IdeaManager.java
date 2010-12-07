@@ -201,8 +201,8 @@ public class IdeaManager extends org.semanticwb.ecosikan.innova.base.IdeaManager
                 //if( Phases.Categorizing==phase ) {
                     Idea idea = Idea.ClassMgr.getIdea(ideaId, model);
                     Category category = Category.ClassMgr.getCategory(categoryId, model);
-                    if( idea!=null && category!=null )
-                        idea.setCategory(category);
+                    //if( idea!=null && category!=null )
+                      //  idea.setCategory(category);
                 //}
             }
         }else if( Action_SELECT.equals(action) ) {
