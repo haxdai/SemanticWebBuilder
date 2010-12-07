@@ -235,10 +235,6 @@ public class PymturUtils {
     public static boolean validateRegExp(String textSource, String regExp) {
         Pattern p = Pattern.compile(regExp);//regular expression
         Matcher m = p.matcher(textSource); // the text source
-        if(m.find())
-        {
-            return false;
-        }
-        return true;
+        return m.find();
     }
 }
