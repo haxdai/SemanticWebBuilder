@@ -133,8 +133,9 @@ class RemindTask extends TimerTask {
                                 InternetAddress interAddress = new InternetAddress();
                                 interAddress.setAddress(spEmail);
                                 aPymesGratis.add(interAddress);
-                                adminEmailTxt.append("<br/>");
+                                adminEmailTxt.append("<li>");
                                 adminEmailTxt.append(servProvider.getTitle());
+                                adminEmailTxt.append("</li>");
                             }
                         }
                     }
@@ -194,10 +195,11 @@ class RemindTask extends TimerTask {
                     StringBuilder mailTxt = new StringBuilder(128);
                     mailTxt.append("Usuario administrador.<br/><br/>");
                     mailTxt.append("Se ha notificado a las siguientes");
-                    mailTxt.append(" empresas sobre el pr&oacute;ximo");
-                    mailTxt.append("vencimiento de la publicaci&oacute;n de su");
-                    mailTxt.append("informaci&oacute;n en el sitio Siente M&eacute;xico<br/><br/>");
+                    mailTxt.append(" empresas sobre el pr&oacute;ximo ");
+                    mailTxt.append("vencimiento de la publicaci&oacute;n de su ");
+                    mailTxt.append("informaci&oacute;n en el sitio Siente M&eacute;xico<br/><br/><ul>");
                     mailTxt.append(adminEmailTxt);
+                    mailTxt.append("</ul>");
                     //Envío de correo a los AdminProviders, para que también esten enterados
                     SWBUtils.EMAIL.sendBGEmail(fromEmail, fromEmail, aAdminProviders,
                             null, null, emailSubject, "html", mailTxt.toString(),
