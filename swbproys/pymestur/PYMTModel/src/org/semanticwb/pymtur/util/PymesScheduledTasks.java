@@ -12,7 +12,6 @@ import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.mail.internet.InternetAddress;
-import javax.servlet.http.HttpServletRequest;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.Role;
