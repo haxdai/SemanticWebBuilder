@@ -158,7 +158,7 @@ class RemindTask extends TimerTask {
             while (itUsers.hasNext()) {
                 User user = itUsers.next();
                 String admProvEmail = user.getEmail();
-                if (admProvEmail != null && admProvEmail.trim().length() > 0 &&
+                if (user.isActive() && admProvEmail != null && admProvEmail.trim().length() > 0 &&
                         admProvEmail.indexOf("@") > -1 && admProvEmail.indexOf(".") > -1) {
                     InternetAddress interAddress = new InternetAddress();
                     interAddress.setAddress(admProvEmail);
@@ -190,7 +190,8 @@ class RemindTask extends TimerTask {
                 }
             }
             //Enviar correo a administradores
-            if (aAdminProviders != null && aAdminProviders.size() > 0) {
+            if (aAdminProviders != null && aAdminProviders.size() > 0 &&
+                    adminEmailTxt.length() > 0) {
                 try {
                     StringBuilder mailTxt = new StringBuilder(128);
                     mailTxt.append("Usuario administrador.<br/><br/>");
