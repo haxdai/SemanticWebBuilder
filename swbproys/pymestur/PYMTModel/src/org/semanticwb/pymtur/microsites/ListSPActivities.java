@@ -25,6 +25,7 @@ import org.semanticwb.pymtur.Activity;
 import org.semanticwb.pymtur.Hospedaje;
 import org.semanticwb.pymtur.MicroSitePyme;
 import org.semanticwb.pymtur.ServiceProvider;
+import org.semanticwb.pymtur.util.PymturUtils;
 
 /**
  *
@@ -74,8 +75,17 @@ public class ListSPActivities extends GenericResource{
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         String action = response.getAction();
-        try {
-            if (request.getParameter("uri") != null && action != null && action.equalsIgnoreCase("saveSPActivities")) {
+        if (request.getParameter("uri") != null && action != null && action.equalsIgnoreCase("saveSPActivities")) {
+            try {
+                response.setAction("editActivities");
+                String description = request.getParameter(Hospedaje.pymtur_spActivitiesDescr.getName());
+                int descLength=600+PymturUtils.calcLength(description,600);
+                if( !PymturUtils.validateRegExp(description, "^([^(<>&%#)]{0,"+descLength+"})$"))
+                {
+                    response.setRenderParameter("msgErrDescActs", "Verifica que el tamaño del texto no exceda los 600 caracteres. Los caracteres: '<','>','&','%','#' no son permitidos");
+                    return;
+                }
+                response.setAction(null);
                 SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
                 SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
                 mgr.clearProperties();
@@ -91,17 +101,16 @@ public class ListSPActivities extends GenericResource{
                     }
                 }
                 mgr.processForm(request);
-                String description = request.getParameter(Hospedaje.pymtur_spActivitiesDescr.getName());
-                if(description!=null&&description.length()>600)
+                //String description = request.getParameter(Hospedaje.pymtur_spActivitiesDescr.getName());
+                /*if(description!=null&&description.length()>descLength)
                 {
-                    description = description.substring(0, 599);
+                    description = description.substring(0, descLength);
                     response.setRenderParameter("errActsDesc", "Unicamente se han guardado los primeros 600 caracteres del campo de descripción de Actividades");
                     sprovider.setSpActivitiesDescr(description);
-                }
-                
+                }*/
+            } catch (Exception e) {
+                log.error(e);
             }
-        } catch (Exception e) {
-            log.error(e);
         }
     }
 }

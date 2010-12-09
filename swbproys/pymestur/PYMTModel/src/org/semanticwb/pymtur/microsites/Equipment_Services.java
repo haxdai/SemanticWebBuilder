@@ -26,6 +26,7 @@ import org.semanticwb.pymtur.Hospedaje;
 import org.semanticwb.pymtur.MicroSitePyme;
 import org.semanticwb.pymtur.Service;
 import org.semanticwb.pymtur.ServiceProvider;
+import org.semanticwb.pymtur.util.PymturUtils;
 
 /**
  *
@@ -73,8 +74,18 @@ public class Equipment_Services extends GenericResource{
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         String action = response.getAction();
-        try {
-            if (request.getParameter("uri") != null && action != null && action.equalsIgnoreCase("saveEquipment_Services")) {
+        if (request.getParameter("uri") != null && action != null && action.equalsIgnoreCase("saveEquipment_Services"))
+        {
+            try {
+                response.setAction("editEquipment_Services");
+                String description = request.getParameter(Hospedaje.pymtur_spServicesDescr.getName());
+                int descLength=600+PymturUtils.calcLength(description,600);
+                if( !PymturUtils.validateRegExp(description, "^([^(<>&%#)]{0,"+descLength+"})$"))
+                {
+                    response.setRenderParameter("msgErrDescEquip", "Verifica que el tamaño del texto no exceda los 600 caracteres. Los caracteres: '<','>','&','%','#' no son permitidos");
+                    return;
+                }
+                response.setAction(null);
                 SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
                 SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
                 mgr.clearProperties();
@@ -90,16 +101,16 @@ public class Equipment_Services extends GenericResource{
                     }
                 }
                 mgr.processForm(request);
-                String description = request.getParameter(Hospedaje.pymtur_spServicesDescr.getName());
-                if(description!=null&&description.length()>600)
+                
+                /*if(description!=null&&description.length()>descLength)
                 {
-                    description = description.substring(0, 599);
+                    description = description.substring(0, descLength);
                     response.setRenderParameter("errEquipDesc", "Unicamente se han guardado los primeros 600 caracteres del campo de descripción de Servicios y Equipamiento");
                     sprovider.setSpServicesDescr(description);
-                }
+                }*/
+            } catch (FormValidateException e) {
+                log.error(e);
             }
-        } catch (FormValidateException e) {
-            log.error(e);
         }
     }
 }
