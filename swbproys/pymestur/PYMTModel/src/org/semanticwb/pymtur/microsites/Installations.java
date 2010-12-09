@@ -26,6 +26,7 @@ import org.semanticwb.pymtur.Hospedaje;
 import org.semanticwb.pymtur.Instalation;
 import org.semanticwb.pymtur.MicroSitePyme;
 import org.semanticwb.pymtur.ServiceProvider;
+import org.semanticwb.pymtur.util.PymturUtils;
 
 /**
  *
@@ -75,8 +76,17 @@ public class Installations extends GenericResource{
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         String action = response.getAction();
-        try {
-            if (request.getParameter("uri") != null && action != null && action.equalsIgnoreCase("saveInstallations")) {
+        if (request.getParameter("uri") != null && action != null && action.equalsIgnoreCase("saveInstallations")) {
+            try {
+                response.setAction("editInstallations");
+                String description = request.getParameter(Hospedaje.pymtur_spInstalationsDescr.getName());
+                int descLength=600+PymturUtils.calcLength(description,600);
+                if( !PymturUtils.validateRegExp(description, "^([^(<>&%#)]{0,"+descLength+"})$"))
+                {
+                    response.setRenderParameter("msgErrDescInst", "Verifica que el tamaño del texto no exceda los 600 caracteres. Los caracteres: '<','>','&','%','#' no son permitidos");
+                    return;
+                }
+                response.setAction(null);
                 SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
                 SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
                 mgr.clearProperties();
@@ -92,17 +102,16 @@ public class Installations extends GenericResource{
                     }
                 }
                 mgr.processForm(request);
-                String description = request.getParameter(Hospedaje.pymtur_spInstalationsDescr.getName());
-                if(description!=null&&description.length()>600)
+                
+                /*if(description!=null&&description.length()>descLength)
                 {
-                    description = description.substring(0, 599);
+                    description = description.substring(0, descLength);
                     response.setRenderParameter("errInstDesc", "Unicamente se han guardado los primeros 600 caracteres del campo de descripción de Instalaciones");
                     sprovider.setSpInstalationsDescr(description);
-                }
-
+                }*/
+            } catch (FormValidateException e) {
+                log.error(e);
             }
-        } catch (FormValidateException e) {
-            log.error(e);
         }
     }
 
