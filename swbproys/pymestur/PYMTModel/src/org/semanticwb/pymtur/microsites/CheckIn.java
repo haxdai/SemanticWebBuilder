@@ -71,17 +71,17 @@ public class CheckIn extends GenericResource{
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         String action = response.getAction();
-        try {
-            if (request.getParameter("uri") != null && action != null && action.equalsIgnoreCase("saveCheckIn")) {
+        if (request.getParameter("uri") != null && action != null && action.equalsIgnoreCase("saveCheckIn")) {
+            try {
                 SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
                 SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
                 mgr.clearProperties();
                 mgr.addProperty(Hospedaje.pymtur_checkIN);
                 mgr.addProperty(Hospedaje.pymtur_checkOUT);
                 mgr.processForm(request);
+            } catch (FormValidateException e) {
+                log.error(e);
             }
-        } catch (FormValidateException e) {
-            log.error(e);
         }
     }
 
