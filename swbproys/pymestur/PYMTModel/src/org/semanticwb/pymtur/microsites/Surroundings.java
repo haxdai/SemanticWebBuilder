@@ -26,6 +26,7 @@ import org.semanticwb.pymtur.Hospedaje;
 import org.semanticwb.pymtur.MicroSitePyme;
 import org.semanticwb.pymtur.Nearest;
 import org.semanticwb.pymtur.ServiceProvider;
+import org.semanticwb.pymtur.util.PymturUtils;
 
 /**
  *
@@ -77,8 +78,18 @@ public class Surroundings extends GenericResource{
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         String action = response.getAction();
-        try {
-            if (request.getParameter("uri") != null && action != null && action.equalsIgnoreCase("saveSurroundings")) {
+        if (request.getParameter("uri") != null && action != null && action.equalsIgnoreCase("saveSurroundings"))
+        {
+            try {
+                response.setAction("editSurroundings");
+                String description = request.getParameter(Hospedaje.pymtur_NearestDescr.getName());
+                int descLength=600+PymturUtils.calcLength(description,600);
+                if( !PymturUtils.validateRegExp(description, "^([^(<>&%#)]{0,"+descLength+"})$"))
+                {
+                    response.setRenderParameter("msgErrDescSour", "Verifica que el tamaño del texto no exceda los 600 caracteres. Los caracteres: '<','>','&','%','#' no son permitidos");
+                    return;
+                }
+                response.setAction(null);
                 SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
                 SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
                 mgr.clearProperties();
@@ -93,19 +104,17 @@ public class Surroundings extends GenericResource{
                         sprovider.removeNearest((Nearest)it.next());
                     }
                 }
-                mgr.processForm(request);          
-                String description = request.getParameter(Hospedaje.pymtur_NearestDescr.getName());
-                if(description!=null&&description.length()>600)
+                mgr.processForm(request);
+                
+                /*if(description!=null&&description.length()>descLength)
                 {
-                    description = description.substring(0, 599);
+                    description = description.substring(0, descLength);
                     response.setRenderParameter("errNearDesc", "Unicamente se han guardado los primeros 600 caracteres del campo de descripción de Cercanías");
                     sprovider.setNearestDescr(description);
-                }
-                
-
+                }*/
+            } catch (FormValidateException e) {
+                log.error(e);
             }
-        } catch (FormValidateException e) {
-            log.error(e);
         }
     }
 

@@ -23,6 +23,8 @@
 package org.semanticwb.pymtur.microsites;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,11 +42,13 @@ import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
+import org.semanticwb.portal.api.SWBResourceURL;
 import org.semanticwb.portal.community.MicroSiteType;
 import org.semanticwb.pymtur.MicroSitePyme;
 import org.semanticwb.pymtur.Rate;
 import org.semanticwb.pymtur.SPCategory;
 import org.semanticwb.pymtur.ServiceProvider;
+import org.semanticwb.pymtur.util.PymturUtils;
 
 /**
  *
@@ -117,7 +121,71 @@ public class SPRates extends GenericResource {
                     SemanticObject semObjectGiro = SemanticObject.createSemanticObject(sprovider.getWebPage().getParent().getURI());
                     SPCategory giro = (SPCategory) semObjectGiro.createGenericInstance();
                     String action = response.getAction();
+
                     if (action.equals("add_rate")) {
+                        response.setAction("addNewRate");
+                        String servsType = request.getParameter("serviceType");
+                        if(servsType!=null){
+                            if(!PymturUtils.validateRegExp(servsType, "^[\\wñÑáéíóúüÁÉÍÓÚÜ]([\\w\\sñÑáéíóúüÁÉÍÓÚÜ]{1,49})$"))
+                            {
+                                response.setRenderParameter("msgErrTypeService", "Este campo es Obligatorio. Los caracteres permitidos son: alfabeto, guiones bajos, acentos, dieresis y espacios en blanco. Favor de verificarlo");
+                                return;
+                            }
+                        }
+                        String planType=request.getParameter("planType");
+                        if(planType!=null)
+                        {
+                            if(!PymturUtils.validateRegExp(planType, "^[\\wñÑáéíóúüÁÉÍÓÚÜ]([\\w\\sñÑáéíóúüÁÉÍÓÚÜ]{1,49})$"))
+                            {
+                                response.setRenderParameter("msgErrPlanType", "Este campo es Obligatorio. Los caracteres permitidos son: alfabeto, guiones bajos, acentos, dieresis y espacios en blanco. Favor de verificarlo");
+                                return;
+                            }
+                        }
+                        String lowSeason = request.getParameter("lowSeason");
+                        if(lowSeason!=null)
+                        {
+                            if(!PymturUtils.validateRegExp(lowSeason, "^[\\d]{2,6}$"))
+                            {
+                                response.setRenderParameter("msgErrLowSeason", "Este campo es Obligatorio. Están permitidos valores númericos, mínimo 2 y máximo 6. Favor de verificarlo");
+                                return;
+                            }
+                        }
+                        String highSeason = request.getParameter("HighSeason");
+                        if(highSeason!=null)
+                        {
+                            if(!PymturUtils.validateRegExp(highSeason, "^[\\d]{2,6}$"))
+                            {
+                                response.setRenderParameter("msgErrHighSeason", "Este campo es Obligatorio. Están permitidos valores númericos, mínimo 2 y máximo 6. Favor de verificarlo");
+                                return;
+                            }
+                        }
+                        String weekedRate = request.getParameter("weekedRate");
+                        if(weekedRate!=null)
+                        {
+                            if(!PymturUtils.validateRegExp(weekedRate, "^[\\d]{2,6}$"))
+                            {
+                                response.setRenderParameter("msgErrWeekedRate", "Este campo es Obligatorio. Están permitidos valores númericos, mínimo 2 y máximo 6. Favor de verificarlo");
+                                return;
+                            }
+                        }
+                        String capacity = request.getParameter("Capacity");
+                        if(capacity!=null)
+                        {
+                            if(!PymturUtils.validateRegExp(capacity, "^[\\d]{1,3}$"))
+                            {
+                                response.setRenderParameter("msgErrCapacity", "Este campo es Obligatorio. Están permitidos valores númericos, mínimo 1 y máximo 3. Favor de verificarlo");
+                                return;
+                            }
+                        }
+                        String roomsNumber = request.getParameter("roomsNumber");
+                        if(roomsNumber!=null)
+                        {
+                            if(!PymturUtils.validateRegExp(roomsNumber, "^[\\d]{1,3}$"))
+                            {
+                                response.setRenderParameter("msgErrRoomsNumber", "Este campo es Obligatorio. Están permitidos valores númericos, mínimo 1 y máximo 3. Favor de verificarlo");
+                                return;
+                            }
+                        }
                         SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
                         SemanticClass cls = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass(giro.getSpCategoryRateType().getURI());
                         SWBFormMgr mgr = new SWBFormMgr(cls, semObject, null);
@@ -130,7 +198,71 @@ public class SPRates extends GenericResource {
                         } catch (Exception e) {
                             log.error(e);
                         }
+                        response.setAction(SWBResourceURL.Mode_VIEW);
                     } else if (action.equals("edit_rate")) {
+                        response.setAction("editRate");
+                        String servsType = request.getParameter("serviceType");
+                        if(servsType!=null){
+                            if(!PymturUtils.validateRegExp(servsType, "^[\\wñÑáéíóúüÁÉÍÓÚÜ]([\\w\\sñÑáéíóúüÁÉÍÓÚÜ]{1,49})$"))
+                            {
+                                response.setRenderParameter("msgErrTypeService", "Este campo es Obligatorio. Los caracteres permitidos son: alfabeto, guiones bajos, acentos, dieresis y espacios en blanco. Favor de verificarlo");
+                                return;
+                            }
+                        }
+                        String planType=request.getParameter("planType");
+                        if(planType!=null)
+                        {
+                            if(!PymturUtils.validateRegExp(planType, "^[\\wñÑáéíóúüÁÉÍÓÚÜ]([\\w\\sñÑáéíóúüÁÉÍÓÚÜ]{1,49})$"))
+                            {
+                                response.setRenderParameter("msgErrPlanType", "Este campo es Obligatorio. Los caracteres permitidos son: alfabeto, guiones bajos, acentos, dieresis y espacios en blanco. Favor de verificarlo");
+                                return;
+                            }
+                        }
+                        String lowSeason = request.getParameter("lowSeason");
+                        if(lowSeason!=null)
+                        {
+                            if(!PymturUtils.validateRegExp(lowSeason, "^[\\d]{2,6}$"))
+                            {
+                                response.setRenderParameter("msgErrLowSeason", "Este campo es Obligatorio. Están permitidos valores númericos, mínimo 2 y máximo 6. Favor de verificarlo");
+                                return;
+                            }
+                        }
+                        String highSeason = request.getParameter("HighSeason");
+                        if(highSeason!=null)
+                        {
+                            if(!PymturUtils.validateRegExp(highSeason, "^[\\d]{2,6}$"))
+                            {
+                                response.setRenderParameter("msgErrHighSeason", "Este campo es Obligatorio. Están permitidos valores númericos, mínimo 2 y máximo 6. Favor de verificarlo");
+                                return;
+                            }
+                        }
+                        String weekedRate = request.getParameter("weekedRate");
+                        if(weekedRate!=null)
+                        {
+                            if(!PymturUtils.validateRegExp(weekedRate, "^[\\d]{2,6}$"))
+                            {
+                                response.setRenderParameter("msgErrWeekedRate", "Este campo es Obligatorio. Están permitidos valores númericos, mínimo 2 y máximo 6. Favor de verificarlo");
+                                return;
+                            }
+                        }
+                        String capacity = request.getParameter("Capacity");
+                        if(capacity!=null)
+                        {
+                            if(!PymturUtils.validateRegExp(capacity, "^[\\d]{1,3}$"))
+                            {
+                                response.setRenderParameter("msgErrCapacity", "Este campo es Obligatorio. Están permitidos valores númericos, mínimo 1 y máximo 3. Favor de verificarlo");
+                                return;
+                            }
+                        }
+                        String roomsNumber = request.getParameter("roomsNumber");
+                        if(roomsNumber!=null)
+                        {
+                            if(!PymturUtils.validateRegExp(roomsNumber, "^[\\d]{1,3}$"))
+                            {
+                                response.setRenderParameter("msgErrRoomsNumber", "Este campo es Obligatorio. Están permitidos valores númericos, mínimo 1 y máximo 3. Favor de verificarlo");
+                                return;
+                            }
+                        }
                         SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
                         SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
                         mgr.setFilterRequired(false);
@@ -139,6 +271,7 @@ public class SPRates extends GenericResource {
                         } catch (Exception e) {
                             log.error(e);
                         }
+                        response.setAction(SWBResourceURL.Mode_VIEW);
                     } else if (action.equals("remove_rate")) {
                         SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
                         Rate rate = (Rate) semObject.createGenericInstance();
@@ -151,6 +284,7 @@ public class SPRates extends GenericResource {
                     }
                 }
             }
+            
         }
     }
 }
