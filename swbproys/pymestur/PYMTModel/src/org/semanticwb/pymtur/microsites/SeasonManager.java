@@ -20,10 +20,12 @@ import org.semanticwb.portal.api.GenericAdmResource;
 import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
+import org.semanticwb.portal.api.SWBResourceURL;
 import org.semanticwb.portal.community.MicroSiteType;
 import org.semanticwb.pymtur.MicroSitePyme;
 import org.semanticwb.pymtur.RateSeason;
 import org.semanticwb.pymtur.ServiceProvider;
+import org.semanticwb.pymtur.util.PymturUtils;
 
 /**
  *
@@ -33,31 +35,22 @@ public class SeasonManager extends GenericAdmResource {
     private static Logger log = SWBUtils.getLogger(PromotionManager.class);
 
     @Override
-    public void doView(HttpServletRequest request, HttpServletResponse response,
-            SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-
-        String siteWorkDir = SWBPortal.getWebWorkPath() + "/models/"
-                + paramRequest.getWebPage().getWebSiteId();
+    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        String siteWorkDir = SWBPortal.getWebWorkPath() + "/models/" + paramRequest.getWebPage().getWebSiteId();
         WebPage wp = paramRequest.getWebPage();
         WebPage community = null;
         String path = "";
-
         if (wp instanceof MicroSitePyme) {
             community = wp;
         } else {
             community = wp.getParent();
         }
-
         String siteUri = ((MicroSitePyme) community).getType().getURI();
-
-        if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSite",
-                wp.getWebSite()).getURI().equals(siteUri)) {
+        if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSite", wp.getWebSite()).getURI().equals(siteUri)) {
             path = siteWorkDir + "/jsp/pymestur/microsite/spSeasons.jsp";
-        } else if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSitePlus",
-                wp.getWebSite()).getURI().equals(siteUri)) {
+        } else if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSitePlus", wp.getWebSite()).getURI().equals(siteUri)) {
             path = siteWorkDir + "/jsp/pymestur/premier/spSeasons.jsp";
         }
-
         RequestDispatcher dis = request.getRequestDispatcher(path);
         try {
             request.setAttribute("paramRequest", paramRequest);
@@ -71,235 +64,250 @@ public class SeasonManager extends GenericAdmResource {
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException  {
         Resource base = getResourceBase();
         String action=response.getAction();
-
         if(action!=null&&action.equalsIgnoreCase("add_low_season")) {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
             SWBFormMgr mgr = new SWBFormMgr(RateSeason.sclass, semObject, null);
             mgr.setFilterRequired(false);
-            String comment = "";
             try {
                 SemanticObject sobj = mgr.processForm(request);
-                RateSeason season = (RateSeason) sobj.createGenericInstance();
-                try {
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                    String date = request.getParameter("datei");
-                    Date di = sdf.parse(date);
-                    season.setSeasonStartDate(di);
-
-                    date = request.getParameter("datef");
-                    Date df = sdf.parse(date);
-                    season.setSeasonEndDate(df);
-                }catch(ParseException pe) {
-                    log.error("Las fechas no son parseables. Resource "+base.getTitle()+" with id "+base.getId(), pe);
+                response.setAction("addNewLowSeason");
+                String date1 = request.getParameter("datei");
+                if(date1!=null){
+                    if(!PymturUtils.validateRegExp(date1, "^2[0-9][0-9][0-9]-[\\d]{1,2}-[\\d]{1,2}$")){
+                        response.setRenderParameter("msgErrDatei", "Este campo es Obligatorio y debe llevar el siguiente formato 'año-mes-día'");
+                        return;
+                    }
+                }
+                String date2 = request.getParameter("datef");
+                if(date2!=null){
+                    if(!PymturUtils.validateRegExp(date2, "^2[0-9][0-9][0-9]-[\\d]{1,2}-[\\d]{1,2}$")){
+                        response.setRenderParameter("msgErrDatef", "Este campo es Obligatorio y debe llevar el siguiente formato 'año-mes-día'");
+                        return;
+                    }
                 }
                 ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
-
-                if(checkDates(serviceProv,request,"low",null))
-                {
-                    serviceProv.addRateLowSeason(season);
-                    response.setRenderParameter("messDates", "Se han guardado satisfactoriamente los datos");
-                }else
-                {
-                      response.setRenderParameter("messDates", "Las fechas se encuentran traslapadas y  no se ha podido guardar los datos");
+                try {
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    Date di = sdf.parse(date1);
+                    Date df = sdf.parse(date2);
+                    if(checkDates(serviceProv,null,di,df)){
+                        RateSeason season = (RateSeason) sobj.createGenericInstance();
+                        season.setSeasonStartDate(di);
+                        season.setSeasonEndDate(df);
+                        serviceProv.addRateLowSeason(season);
+                        response.setRenderParameter("messDates", "Se han guardado satisfactoriamente los datos");
+                    } else {
+                        response.setRenderParameter("messDates", "Verifica que la fecha inicial sea menor a la fecha final y que las fechas no se encuentren traslapadas");
+                        return;
+                    }
+                }catch(ParseException pe) {
+                    log.error("Las fechas no son parseables. Resource "+base.getTitle()+" with id "+base.getId(), pe);
                 }
             }catch(Exception e){
                 log.error(e);
             }
+            response.setAction(SWBResourceURL.Mode_VIEW);
         }else if(action!=null&&action.equalsIgnoreCase("add_high_season")) {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
             SWBFormMgr mgr = new SWBFormMgr(RateSeason.sclass, semObject, null);
             mgr.setFilterRequired(false);
-            String comment = "";
-                try {
-                    SemanticObject sobj = mgr.processForm(request);
-                    RateSeason season = (RateSeason) sobj.createGenericInstance();
-                    try {
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                        String date = request.getParameter("datei");
-                        Date di = sdf.parse(date);
-                        season.setSeasonStartDate(di);
-
-                        date = request.getParameter("datef");
-                        Date df = sdf.parse(date);
-                        season.setSeasonEndDate(df);
-                    }catch(ParseException pe) {
-                        log.error("Las fechas no son parseables. Resource "+base.getTitle()+" with id "+base.getId(), pe);
+            try {
+                SemanticObject sobj = mgr.processForm(request);
+                response.setAction("addNewHighSeason");
+                String date1 = request.getParameter("datei");
+                if(date1!=null){
+                    if(!PymturUtils.validateRegExp(date1, "^2[0-9][0-9][0-9]-[\\d]{1,2}-[\\d]{1,2}$")){
+                        response.setRenderParameter("msgErrDatei", "Este campo es Obligatorio y debe llevar el siguiente formato 'año-mes-día'");
+                        return;
                     }
-                    ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
-                    if(checkDates(serviceProv, request, "high",null))
-                    {
+                }
+                String date2 = request.getParameter("datef");
+                if(date2!=null){
+                    if(!PymturUtils.validateRegExp(date2, "^2[0-9][0-9][0-9]-[\\d]{1,2}-[\\d]{1,2}$")){
+                        response.setRenderParameter("msgErrDatef", "Este campo es Obligatorio y debe llevar el siguiente formato 'año-mes-día'");
+                        return;
+                    }
+                }
+                ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
+                try {
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    Date di = sdf.parse(date1);
+                    Date df = sdf.parse(date2);
+                    if(checkDates(serviceProv, null,di,df)){
+                        RateSeason season = (RateSeason) sobj.createGenericInstance();
+                        season.setSeasonStartDate(di);
+                        season.setSeasonEndDate(df);
                         serviceProv.addRateHighSeason(season);
                         response.setRenderParameter("messDates", "Se han guardado satisfactoriamente los datos");
-                    }else
-                    {
-                        response.setRenderParameter("messDates", "Las fechas se encuentran traslapadas y  no se ha podido guardar los datos");
+                    } else {
+                        response.setRenderParameter("messDates", "Verifica que la fecha inicial sea menor a la fecha final y que las fechas no se encuentren traslapadas");
+                        return;
                     }
-                }catch(Exception e){
-                    log.error(e);
-                }
-        }
-        else if(action!=null&&action.equalsIgnoreCase("edit_seasonHigh")) {
-            try {
-                SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
-                SemanticObject objReason = SemanticObject.createSemanticObject(request.getParameter("uri"));
-                ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
-                RateSeason rseason = (RateSeason)objReason.createGenericInstance();
-                if(checkDates(serviceProv, request, "high",rseason))
-                {
-                    try {
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                        String date = request.getParameter("datei");
-                        Date di = sdf.parse(date);
-                        rseason.setSeasonStartDate(di);
-                        date = request.getParameter("datef");
-                        Date df = sdf.parse(date);
-                        rseason.setSeasonEndDate(df);
-                        response.setRenderParameter("messDates", "Se han guardado satisfactoriamente los datos");
-                    }catch(ParseException pe) {
-                        log.error("Las fechas no son parseables. Resource "+base.getTitle()+" with id "+base.getId(), pe);
-                    }
-                }else
-                {
-                    response.setRenderParameter("messDates", "Las fechas se encuentran traslapadas y  no se ha podido guardar los datos");
+                }catch(ParseException pe) {
+                    log.error("Las fechas no son parseables. Resource "+base.getTitle()+" with id "+base.getId(), pe);
                 }
             }catch(Exception e){
                 log.error(e);
             }
-        }
-        else if(action!=null&&action.equalsIgnoreCase("edit_seasonLow")) {
-             try {
+            response.setAction(SWBResourceURL.Mode_VIEW);
+        }else if(action!=null&&action.equalsIgnoreCase("edit_seasonHigh")) {
+            try {
+                response.setAction("editSeasonHigh");
+                String date1 = request.getParameter("datei");
+                if(date1!=null){
+                    if(!PymturUtils.validateRegExp(date1, "^2[0-9][0-9][0-9]-[\\d]{1,2}-[\\d]{1,2}$")){
+                        response.setRenderParameter("msgErrDatei", "Este campo es Obligatorio y debe llevar el siguiente formato 'año-mes-día'");
+                        return;
+                    }
+                }
+                String date2 = request.getParameter("datef");
+                if(date2!=null){
+                    if(!PymturUtils.validateRegExp(date2, "^2[0-9][0-9][0-9]-[\\d]{1,2}-[\\d]{1,2}$")){
+                        response.setRenderParameter("msgErrDatef", "Este campo es Obligatorio y debe llevar el siguiente formato 'año-mes-día'");
+                        return;
+                    }
+                }
                 SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
                 SemanticObject objReason = SemanticObject.createSemanticObject(request.getParameter("uri"));
                 ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
-                RateSeason rseason = (RateSeason)objReason.createGenericInstance(); 
-                if(checkDates(serviceProv, request, "low",rseason))
-                {
-                    try {
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                        String date = request.getParameter("datei");
-                        Date di = sdf.parse(date);
-                        date = request.getParameter("datef");
-                        Date df = sdf.parse(date);
+                RateSeason rseason = (RateSeason)objReason.createGenericInstance();
+                try {
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    Date di = sdf.parse(date1);
+                    Date df = sdf.parse(date2);
+                    if(checkDates(serviceProv, rseason,di,df)){
                         rseason.setSeasonStartDate(di);
                         rseason.setSeasonEndDate(df);
                         response.setRenderParameter("messDates", "Se han guardado satisfactoriamente los datos");
-                    }catch(ParseException pe) {
-                        log.error("Las fechas no son parseables. Resource "+base.getTitle()+" with id "+base.getId(), pe);
+                    } else {
+                        response.setRenderParameter("messDates", "Verifica que la fecha inicial sea menor a la fecha final y que las fechas no se encuentren traslapadas");
                     }
-                }else
-                {
-                    response.setRenderParameter("messDates", "Las fechas se encuentran traslapadas y  no se ha podido guardar los datos");
+                }catch(ParseException pe) {
+                    log.error("Las fechas no son parseables. Resource "+base.getTitle()+" with id "+base.getId(), pe);
                 }
-
-                }catch(Exception e){
+            }catch(Exception e){
                 log.error(e);
             }
+            response.setAction(SWBResourceURL.Mode_VIEW);
+        }
+        else if(action!=null&&action.equalsIgnoreCase("edit_seasonLow")) {
+             try {
+                response.setAction("editSeasonLow");
+                String date1 = request.getParameter("datei");
+                if(date1!=null){
+                    if(!PymturUtils.validateRegExp(date1, "^2[0-9][0-9][0-9]-[\\d]{1,2}-[\\d]{1,2}$")){
+                        response.setRenderParameter("msgErrDatei", "Este campo es Obligatorio y debe llevar el siguiente formato 'año-mes-día'");
+                        return;
+                    }
+                }
+                String date2 = request.getParameter("datef");
+                if(date2!=null){
+                    if(!PymturUtils.validateRegExp(date2, "^2[0-9][0-9][0-9]-[\\d]{1,2}-[\\d]{1,2}$")){
+                        response.setRenderParameter("msgErrDatef", "Este campo es Obligatorio y debe llevar el siguiente formato 'año-mes-día'");
+                        return;
+                    }
+                }
+                SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
+                SemanticObject objReason = SemanticObject.createSemanticObject(request.getParameter("uri"));
+                ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
+                RateSeason rseason = (RateSeason)objReason.createGenericInstance();
+                try {
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    Date di = sdf.parse(date1);
+                    Date df = sdf.parse(date2);
+                    if(checkDates(serviceProv, rseason,di,df)){
+                        rseason.setSeasonStartDate(di);
+                        rseason.setSeasonEndDate(df);
+                        response.setRenderParameter("messDates", "Se han guardado satisfactoriamente los datos");
+                    } else {
+                        response.setRenderParameter("messDates", "Verifica que la fecha inicial sea menor a la fecha final y que las fechas no se encuentren traslapadas");
+                        return;
+                    }
+                }catch(ParseException pe) {
+                    log.error("Las fechas no son parseables. Resource "+base.getTitle()+" with id "+base.getId(), pe);
+                }
+            }catch(Exception e){
+                log.error(e);
+            }
+             response.setAction(SWBResourceURL.Mode_VIEW);
         }
         else if(action!=null&&action.equalsIgnoreCase("remove_low_season")) {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
             RateSeason rseason = (RateSeason) semObject.createGenericInstance();
-
             SemanticObject semObjectProv = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
             ServiceProvider serviceProv = (ServiceProvider) semObjectProv.createGenericInstance();
-
             serviceProv.removeRateLowSeason(rseason);
             semObject.remove();
         }
         else if(action!=null&&action.equalsIgnoreCase("remove_high_season")) {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
             RateSeason rseason = (RateSeason) semObject.createGenericInstance();
-
             SemanticObject semObjectProv = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
             ServiceProvider serviceProv = (ServiceProvider) semObjectProv.createGenericInstance();
-
             serviceProv.removeRateHighSeason(rseason);
             semObject.remove();
         }
          else if(action!=null&&action.equalsIgnoreCase("edit_cmnt")) {
-            SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
-            ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
-            String comment = "";
-            if(request.getParameter("rtcmt")!=null)
-            {
-                comment = request.getParameter("rtcmt");
-                if(comment.length()>1200)
-                {
-                    comment = comment.substring(0,1199);
-                    response.setRenderParameter("msgErrCommenSeason", "Unicamente se han guardado los primeros 1200 caracteres del campo de comentarios");
+            response.setAction("editCmnt");
+            String comment = request.getParameter("rtcmt");
+            if(comment!=null) {
+                int descLength=1200+PymturUtils.countEnterChars(comment,1200);
+                if( !PymturUtils.validateRegExp(comment, "^([^(<>&%#)]{0,"+descLength+"})$")) {
+                    response.setRenderParameter("msgErrCommenSeason", "Verifica que el tamaño del texto no exceda los 1200 caracteres. Los caracteres: '<','>','&','%','#' no son permitidos");
+                    return;
                 }
+                SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
+                ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
                 serviceProv.setSpRatesComments(comment);
             }
-             //serviceProv.setSpRatesComments(request.getParameter("rtcmt")==null?"":request.getParameter("rtcmt"));
+            response.setAction(SWBResourceURL.Mode_VIEW);
          }
     }
-    private boolean checkDates(ServiceProvider sprovider,HttpServletRequest request,String rate,RateSeason current)
+    private boolean checkDates(ServiceProvider sprovider,RateSeason current, Date datei, Date datef)
     {
         Iterator sp1 = sprovider.listRateLowSeasons();
-
         ArrayList temp = new ArrayList();
-        while(sp1.hasNext())
-        {
+        while(sp1.hasNext()) {
             temp.add(sp1.next());
         }
         sp1 = sprovider.listRateHighSeasons();
-        while(sp1.hasNext())
-        {
+        while(sp1.hasNext()) {
             temp.add(sp1.next());
         }
         sp1 = temp.iterator();
         temp = new ArrayList();
-        if(current!=null)
-        {
-            while(sp1.hasNext())
-            {
+        if(current!=null) {
+            while(sp1.hasNext()) {
                 RateSeason rateCurrent =  (RateSeason)sp1.next();
-                if(!rateCurrent.equals(current))
-                {
+                if(!rateCurrent.equals(current)) {
                     temp.add(rateCurrent);
                 }
             }
             sp1 = temp.iterator();
         }
         boolean valid = true;
-        String datei = request.getParameter("datei");
-
-        String datef = request.getParameter("datef");
-        if(datei==null||datef==null)
-        {
-            valid = false;
-        }else{
-            int year1 = Integer.parseInt(datei.substring(0,4));
-            int year2 = Integer.parseInt(datef.substring(0,4));
-            Date date1 = new Date(year1,Integer.parseInt(datei.substring(5,7))-1,Integer.parseInt(datei.substring(8,10)));
-            date1.setYear(year1-1900);
-            Date date2 = new Date(year2,Integer.parseInt(datef.substring(5,7))-1,Integer.parseInt(datef.substring(8,10)));
-            date2.setYear(year2-1900);
-            if(date1.getTime()>date2.getTime())
-            {
+        try {
+            if(datei.getTime()>datef.getTime()) {
                 valid = false;
-            }else{
-                while(sp1.hasNext())
-                {
+            }else {
+                while(sp1.hasNext()) {
                     RateSeason season = (RateSeason) sp1.next();
-                    if(date1.getTime()>season.getSeasonStartDate().getTime())
-                    {
-                        if(date1.getTime()<=season.getSeasonEndDate().getTime())
-                        {
+                    if(datei.getTime()>season.getSeasonStartDate().getTime()) {
+                        if(datei.getTime()<=season.getSeasonEndDate().getTime()) {
                             valid = false;
                         }
                     }
-                    else if(date1.getTime()==season.getSeasonStartDate().getTime())
-                    {
+                    else if(datei.getTime()==season.getSeasonStartDate().getTime()) {
                             valid = false;
-                    }else
-                    {
-                        if(date2.getTime()>=season.getSeasonStartDate().getTime())
-                        {
+                    } else {
+                        if(datef.getTime()>=season.getSeasonStartDate().getTime()) {
                             valid = false;
                         }
                     }
                 }
             }
+        }catch(Exception e) {
+            log.error(e);
         }
         return valid;
     }

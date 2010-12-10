@@ -44,11 +44,13 @@ import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
+import org.semanticwb.portal.api.SWBResourceURL;
 import org.semanticwb.portal.community.MicroSiteType;
 import org.semanticwb.portal.community.MicroSiteWebPageUtil;
 import org.semanticwb.pymtur.MicroSitePyme;
 import org.semanticwb.pymtur.Promotion;
 import org.semanticwb.pymtur.ServiceProvider;
+import org.semanticwb.pymtur.util.PymturUtils;
 
 /**
  *
@@ -58,11 +60,8 @@ public class PromotionManager extends GenericResource {
     private static Logger log = SWBUtils.getLogger(PromotionManager.class);
 
     @Override
-    public void doView(HttpServletRequest request, HttpServletResponse response,
-            SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-
-        String siteWorkDir = SWBPortal.getWebWorkPath() + "/models/"
-                + paramRequest.getWebPage().getWebSiteId();
+    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        String siteWorkDir = SWBPortal.getWebWorkPath() + "/models/" + paramRequest.getWebPage().getWebSiteId();
         response.setContentType("text/html; charset=utf-8");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
@@ -113,7 +112,6 @@ public class PromotionManager extends GenericResource {
             }
 
             String siteUri = ((MicroSitePyme) community).getType().getURI();
-
             if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSite", wp.getWebSite()).getURI().equals(siteUri)) {
                 path = siteWorkDir + "/jsp/pymestur/microsite/spPromotions.jsp";
             } else if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSitePlus", wp.getWebSite()).getURI().equals(siteUri)) {
@@ -134,175 +132,171 @@ public class PromotionManager extends GenericResource {
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         String action=response.getAction();
-
         response.setRenderParameter("uri", request.getParameter("uri"));
         response.setRenderParameter("sprovider", request.getParameter("sprovider"));
 
         if(action.equals("add_promo")) {
             response.setAction("addNewPromotion");
-            if( !isValidValue(request.getParameter("title")) ) {
-                response.setRenderParameter("msgErrTitle", "El título es requerido.");
-                return;
+            int descLength = 0;
+            String title = request.getParameter("title");
+            if(title!=null) {
+                if(!PymturUtils.validateRegExp(title, "^[\\wñÑáéíóúüÁÉÍÓÚÜ]([\\w\\sñÑáéíóúüÁÉÍÓÚÜ]{1,99})$")) {
+                    response.setRenderParameter("msgErrTitle", "Este campo es Obligatorio. Los caracteres permitidos son: alfabeto, guiones bajos, acentos, dieresis y espacios en blanco. Favor de verificarlo");
+                    return;
+                }
             }
-            if (!isValidValue(request.getParameter("description"))) {
-                response.setRenderParameter("msgErrDesc", "La descripción es requerida.");
-                return;
+            String description = request.getParameter("description");
+            if(description!=null) {
+                descLength=1000+PymturUtils.countEnterChars(description,1000);
+                if( !PymturUtils.validateRegExp(description, "^([^(<>&%#)]{1,"+descLength+"})$")) {
+                    response.setRenderParameter("msgErrDesc", "Este campo es obligatorio. Verifica que el tamaño del texto no exceda los 1000 caracteres. Los caracteres: '<','>','&','%','#' no son permitidos");
+                    return;
+                }
             }
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            String date;
-            Date di, df;
+            String date1 = request.getParameter("datei");
+            if(date1!=null) {
+                if(!PymturUtils.validateRegExp(date1, "^2[0-9][0-9][0-9]-[\\d]{1,2}-[\\d]{1,2}$")) {
+                    response.setRenderParameter("msgErrDateS", "Este campo es Obligatorio y debe llevar el siguiente formato 'año-mes-día'");
+                    return;
+                }
+            }
+            String date2 = request.getParameter("datef");
+            if(date2!=null) {
+                if(!PymturUtils.validateRegExp(date2, "^2[0-9][0-9][0-9]-[\\d]{1,2}-[\\d]{1,2}$")) {
+                    response.setRenderParameter("msgErrDateE", "Este campo es Obligatorio y debe llevar el siguiente formato 'año-mes-día'");
+                    return;
+                }
+            }
             try {
-                 date = request.getParameter("datei");
-                di = sdf.parse(date);
-            }catch(ParseException pe) {
-                response.setRenderParameter("msgErrDateS", "El inicio de la vigencia es inválida.");
-                return;
-            }
-            try {
-                 date = request.getParameter("datef");
-                df = sdf.parse(date);
-            }catch(ParseException pe) {
-                response.setRenderParameter("msgErrDateE", "El fin de la vigencias es inválida.");
-                return;
-            }
-            if(di.after(df)) {
-                response.setRenderParameter("msgErrDateS", "La fecha inicial de vigencia no puede ser mayor a la final.");
-                return;
-            }
-            try {
-                request.getParameter("is").trim();
+                String is = request.getParameter("is").trim();
+                if(is.length()<=0) {
+                    response.setRenderParameter("msgErrPromoType", "El tipo de la promoción es requerido.");
+                    return;
+                }
             }catch(Exception e) {
                 response.setRenderParameter("msgErrPromoType", "El tipo de la promoción es requerido.");
                 return;
             }
-            try {
-                request.getParameter("pimg").trim();
-            }catch(Exception e) {
-                response.setRenderParameter("msgErrPromoImg", "La imagen de la promoción es requerida.");
-                return;
+            String cmts = request.getParameter("cmts");
+            if(cmts!=null) {
+                descLength=600+PymturUtils.countEnterChars(cmts,600);
+                if( !PymturUtils.validateRegExp(cmts, "^([^(<>&%#)]{0,"+descLength+"})$")) {
+                    response.setRenderParameter("msgErrCommenPromo", "Verifica que el tamaño del texto no exceda los 600 caracteres. Los caracteres: '<','>','&','%','#' no son permitidos");
+                    return;
+                }
             }
-            response.setAction(null);
-            SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
-            SWBFormMgr mgr = new SWBFormMgr(Promotion.sclass, semObject, null);
-            mgr.setFilterRequired(false);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date di, df;
             try {
-                SemanticObject sobj = mgr.processForm(request);
-                Promotion promo = (Promotion) sobj.createGenericInstance();
-                //PromotionType promoType = PromotionType.ClassMgr.getPromotionType(request.getParameter("is"), response.getWebPage().getWebSite());
-                String description = "";
-                if(request.getParameter("description")!=null){
-                    description = request.getParameter("description");
+                di = sdf.parse(date1);
+                df = sdf.parse(date2);
+                if(di.after(df)) {
+                    response.setRenderParameter("msgErrDateS", "La fecha inicial de vigencia no puede ser mayor a la final.");
+                    return;
                 }
-                if(description.length()>1000)
-                {
-                    description = description.substring(0,999);
-                    response.setRenderParameter("msgErrDescPromo", "Unicamente se han guardado los primeros 1000 caracteres del campo de descripción");
+                response.setAction(SWBResourceURL.Mode_VIEW);
+                SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
+                SWBFormMgr mgr = new SWBFormMgr(Promotion.sclass, semObject, null);
+                mgr.setFilterRequired(false);
+                try {
+                    SemanticObject sobj = mgr.processForm(request);
+                    Promotion promo = (Promotion) sobj.createGenericInstance();
+                    promo.setTitle(title);
+                    promo.setDescription(description);
+                    promo.setPromoType(request.getParameter("is"));
+                    promo.setPromoImg(  (request.getParameter("pimg")!=null&&request.getParameter("pimg").length()>0?request.getParameter("pimg"):null)  );
+                    promo.setStartDate(di);
+                    promo.setEndDate(df);
+                    ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
+                    serviceProv.addPromotion(promo);
+                    serviceProv.setSpTotPromotions(serviceProv.getSpTotPromotions()+1);
+                    serviceProv.setSpPromotionsComment(cmts);
+                }catch(FormValidateException e) {
+                    log.error(e);
                 }
-                promo.setDescription(description);
-                promo.setPromoType(request.getParameter("is"));
-                promo.setPromoImg(  (request.getParameter("pimg")!=null&&request.getParameter("pimg").length()>0?request.getParameter("pimg"):null)  );
-                promo.setStartDate(di);
-                promo.setEndDate(df);
-
-                ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
-                serviceProv.addPromotion(promo);
-                serviceProv.setSpTotPromotions(serviceProv.getSpTotPromotions()+1);
-                if( isValidValue(request.getParameter("cmts")) ){
-                    String prom_comments = "";
-                    if(request.getParameter("cmts")!=null){
-                        prom_comments = request.getParameter("cmts");
-                    }
-                    if(prom_comments.length()>600)
-                    {
-                        prom_comments = prom_comments.substring(0,599);
-                        response.setRenderParameter("msgErrCommenPromo", "Unicamente se han guardado los primeros 600 caracteres del campo de comentarios de la promoción");
-                    }
-                    serviceProv.setSpPromotionsComment(prom_comments);
-                }
-            }catch(FormValidateException e){
-                log.error(e);
+            }catch(ParseException pe) {
+                log.error("Las fechas no son parseables. ", pe);
             }
         }else if(action.equals("edit_promo")) {
             response.setAction("editPromotion");
-            if( !isValidValue(request.getParameter("title")) ) {
-                response.setRenderParameter("msgErrTitle", "El título es requerido.");
-                return;
+            int descLength=0;
+            String title = request.getParameter("title");
+            if(title!=null) {
+                if(!PymturUtils.validateRegExp(title, "^[\\wñÑáéíóúüÁÉÍÓÚÜ]([\\w\\sñÑáéíóúüÁÉÍÓÚÜ]{1,99})$")) {
+                    response.setRenderParameter("msgErrTitle", "Este campo es Obligatorio. Los caracteres permitidos son: alfabeto, guiones bajos, acentos, dieresis y espacios en blanco. Favor de verificarlo");
+                    return;
+                }
             }
-            if (!isValidValue(request.getParameter("description"))) {
-                response.setRenderParameter("msgErrDesc", "La descripción es requerida.");
-                return;
+            String description = request.getParameter("description");
+            if(description!=null) {
+                descLength=1000+PymturUtils.countEnterChars(description,1000);
+                if( !PymturUtils.validateRegExp(description, "^([^(<>&%#)]{1,"+descLength+"})$")) {
+                    response.setRenderParameter("msgErrDesc", "Este campo es obligatorio. Verifica que el tamaño del texto no exceda los 1000 caracteres. Los caracteres: '<','>','&','%','#' no son permitidos");
+                    return;
+                }
             }
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            String date;
-            Date di, df;
+            String date1 = request.getParameter("datei");
+            if(date1!=null) {
+                if(!PymturUtils.validateRegExp(date1, "^2[0-9][0-9][0-9]-[\\d]{1,2}-[\\d]{1,2}$")) {
+                    response.setRenderParameter("msgErrDateS", "Este campo es Obligatorio y debe llevar el siguiente formato 'año-mes-día'");
+                    return;
+                }
+            }
+            String date2 = request.getParameter("datef");
+            if(date2!=null) {
+                if(!PymturUtils.validateRegExp(date2, "^2[0-9][0-9][0-9]-[\\d]{1,2}-[\\d]{1,2}$")) {
+                    response.setRenderParameter("msgErrDateE", "Este campo es Obligatorio y debe llevar el siguiente formato 'año-mes-día'");
+                    return;
+                }
+            }
             try {
-                 date = request.getParameter("datei");
-                di = sdf.parse(date);
-            }catch(ParseException pe) {
-                response.setRenderParameter("msgErrDateS", "El inicio de la vigencia es inválida.");
-                return;
-            }
-            try {
-                 date = request.getParameter("datef");
-                df = sdf.parse(date);
-            }catch(ParseException pe) {
-                response.setRenderParameter("msgErrDateE", "El fin de la vigencias es inválida.");
-                return;
-            }
-            if(di.after(df)) {
-                response.setRenderParameter("msgErrDateS", "La fecha inicial de vigencia no puede ser mayor a la final.");
-                return;
-            }
-            try {
-                request.getParameter("is").trim();
+                String is = request.getParameter("is").trim();
+                if(is.length()<=0) {
+                    response.setRenderParameter("msgErrPromoType", "El tipo de la promoción es requerido.");
+                    return;
+                }
             }catch(Exception e) {
                 response.setRenderParameter("msgErrPromoType", "El tipo de la promoción es requerido.");
                 return;
             }
-            try {
-                request.getParameter("pimg").trim();
-            }catch(Exception e) {
-                response.setRenderParameter("msgErrPromoImg", "La imagen de la promoción es requerida.");
-                return;
+            String cmts = request.getParameter("cmts");
+            if(cmts!=null) {
+                descLength=600+PymturUtils.countEnterChars(cmts,600);
+                if( !PymturUtils.validateRegExp(cmts, "^([^(<>&%#)]{0,"+descLength+"})$")) {
+                    response.setRenderParameter("msgErrCommenPromo", "Verifica que el tamaño del texto no exceda los 600 caracteres. Los caracteres: '<','>','&','%','#' no son permitidos");
+                    return;
+                }
             }
-            response.setAction(null);
-            SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
-            SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
-            mgr.setFilterRequired(false);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date di, df;
             try {
-                SemanticObject sobj = mgr.processForm(request);
-                Promotion promo = (Promotion) sobj.createGenericInstance();
-                String description = "";
-                if(request.getParameter("description")!=null){
-                    description = request.getParameter("description");
+                di = sdf.parse(date1);
+                df = sdf.parse(date2);
+                if(di.after(df)) {
+                    response.setRenderParameter("msgErrDateS", "La fecha inicial de vigencia no puede ser mayor a la final.");
+                    return;
                 }
-                if(description.length()>1000)
-                {
-                    description = description.substring(0,999);
-                    response.setRenderParameter("msgErrDescPromo", "Unicamente se han guardado los primeros 1000 caracteres del campo de descripción");
-                }
-                promo.setDescription(description);
-                promo.setPromoType(request.getParameter("is"));
-                promo.setPromoImg(request.getParameter("pimg"));
-                promo.setStartDate(di);
-                promo.setEndDate(df);
-
-                if( isValidValue(request.getParameter("cmts")) ) {
+                response.setAction(SWBResourceURL.Mode_VIEW);
+                SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
+                SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
+                mgr.setFilterRequired(false);
+                try {
+                    SemanticObject sobj = mgr.processForm(request);
+                    Promotion promo = (Promotion) sobj.createGenericInstance();
+                    promo.setTitle(title);
+                    promo.setDescription(description);
+                    promo.setPromoType(request.getParameter("is"));
+                    promo.setPromoImg(request.getParameter("pimg"));
+                    promo.setStartDate(di);
+                    promo.setEndDate(df);
                     semObject = SemanticObject.createSemanticObject(request.getParameter("sprovider"));
                     ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
-                    String prom_comments = "";
-                    if(request.getParameter("cmts")!=null){
-                        prom_comments = request.getParameter("cmts");
-                    }
-                    if(prom_comments.length()>600)
-                    {
-                        prom_comments = prom_comments.substring(0,599);
-                        response.setRenderParameter("msgErrCommenPromo", "Unicamente se han guardado los primeros 600 caracteres del campo de comentarios");
-                    }
-                    serviceProv.setSpPromotionsComment(prom_comments);
+                    serviceProv.setSpPromotionsComment(cmts);
+                }catch(Exception e){
+                    log.error(e);
                 }
-            }catch(Exception e){
-                log.error(e);
+            }catch(ParseException pe) {
+                log.error("Las fechas no son parseables. ", pe);
             }
         }else if(action.equals("remove_promo")) {
             SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
@@ -315,25 +309,6 @@ public class PromotionManager extends GenericResource {
             serviceProv.setSpTotPromotions(serviceProv.getSpTotPromotions()-1);
             semObject.remove();
         }
-    }
-
-    private boolean isValidValue(String param) {
-        boolean validValue = false;
-        if( param!=null && param.trim().length()>0 )
-            validValue = true;
-        return validValue;
-    }
-
-    private boolean isValidNumber(String param) {
-        boolean validValue = false;
-        if( param!=null && param.trim().length()>0 )
-            try {
-                Double.parseDouble(param);
-                validValue = true;
-            }catch(NumberFormatException  nfe) {
-                validValue = false;
-            }
-        return validValue;
     }
 
     private boolean userCanEdit(final User user) {
