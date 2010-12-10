@@ -48,13 +48,19 @@ public class PymturUtils {
 
     private static Logger log = SWBUtils.getLogger(PymturUtils.class);
 
-    public static boolean logServiceProvider(ServiceProvider serviceProvider, User user, String elementUri, int status, int commenttype, String comment) {
+
+    public static boolean logServiceProvider(ServiceProvider serviceProvider,
+            User user, String elementUri, int status, int commenttype,
+            String comment) {
+
         Connection con = null;
         try {
             Timestamp created = new Timestamp(new java.util.Date().getTime());
             con = SWBUtils.DB.getDefaultConnection("PymturUtils:logServiceProvider");
 
-            String query = "insert into swb_pymesturlog (sprovuri, usruri, elementuri, status, commenttype, comment, date) values (?,?,?,?,?,?,?)";
+            String query = "insert into swb_pymesturlog (sprovuri, usruri, "
+                    + "elementuri, status, commenttype, comment, date) values "
+                    + "(?,?,?,?,?,?,?)";
             PreparedStatement st = con.prepareStatement(query);
             st.setString(1, serviceProvider.getURI());
             st.setString(2, user != null ? user.getURI() : "");
@@ -98,7 +104,9 @@ public class PymturUtils {
         return true;
     }
 
-    public static String replaceTagsRegistry(String str, HttpServletRequest request, SWBActionResponse paramRequest, User newUser, String siteName, ServiceProvider sprovider) {
+    public static String replaceTagsRegistry(String str,
+            HttpServletRequest request, SWBActionResponse paramRequest,
+            User newUser, String siteName, ServiceProvider sprovider) {
 
         if (str == null || str.trim().length() == 0) {
             return "";
@@ -117,7 +125,10 @@ public class PymturUtils {
         return replaceTags(str, request, paramRequest, newUser, siteName, sprovider);
     }
 
-    public static String replaceTagsAcceptRegistry(String str, HttpServletRequest request, SWBActionResponse paramRequest, User newUser, String siteName, ServiceProvider sprovider, WebPage pageFicha) {
+    public static String replaceTagsAcceptRegistry(String str,
+            HttpServletRequest request, SWBActionResponse paramRequest,
+            User newUser, String siteName, ServiceProvider sprovider,
+            WebPage pageFicha) {
 
         if (str == null || str.trim().length() == 0) {
             return "";
@@ -137,21 +148,27 @@ public class PymturUtils {
 
         if (sprovider.getPymePaqueteType() == PAQ_FICHA && pageFicha != null) {
             String server = "http://" + request.getServerName() + ":" + request.getServerPort();
-            str = SWBUtils.TEXT.replaceAll(str, "{pyme.link}", server + pageFicha.getUrl() + "?uri=" + sprovider.getEncodedURI() + "&act=detail<br/><br/>");
+            str = SWBUtils.TEXT.replaceAll(str, "{pyme.link}",
+                    server + pageFicha.getUrl() + "?uri="
+                    + sprovider.getEncodedURI() + "&act=detail<br/><br/>");
         } else if (sprovider.getPymePaqueteType() == PAQ_PREMIER) {
             String server = "http://" + request.getServerName() + ":" + request.getServerPort();
-            str = SWBUtils.TEXT.replaceAll(str, "{pyme.link}", server + sprovider.getMicroSitePymeInv().getUrl() + "<br/><br/>");
+            str = SWBUtils.TEXT.replaceAll(str, "{pyme.link}",
+                    server + sprovider.getMicroSitePymeInv().getUrl() + "<br/><br/>");
         }
 
         if (sprovider.getPymePaqueteType() > PAQ_MICROSITIO && sprovider.getPymeDomain() != null) {
-            str = SWBUtils.TEXT.replaceAll(str, "{pyme.dns}", "-El dominio registrado es:<br/><br/>" + sprovider.getPymeDomain() + "<br/><br/>");
+            str = SWBUtils.TEXT.replaceAll(str, "{pyme.dns}",
+                    "-El dominio registrado es:<br/><br/>" + sprovider.getPymeDomain() + "<br/><br/>");
         } else {
             str = SWBUtils.TEXT.replaceAll(str, "{pyme.dns}", " ");
         }
         return replaceTags(str, request, paramRequest, newUser, siteName, sprovider);
     }
 
-    public static String replaceTagsRejectRegistry(String str, HttpServletRequest request, SWBActionResponse paramRequest, User newUser, String siteName, ServiceProvider sprovider) {
+    public static String replaceTagsRejectRegistry(String str, 
+            HttpServletRequest request, SWBActionResponse paramRequest,
+            User newUser, String siteName, ServiceProvider sprovider) {
 
         if (str == null || str.trim().length() == 0) {
             return "";
@@ -162,12 +179,16 @@ public class PymturUtils {
         if (StatusReject != null && StatusReject.trim().length() > 0) {
             str = SWBUtils.TEXT.replaceAll(str, "{pyme.msgreject}", "<br/>" + StatusReject);
         } else {
-            str = SWBUtils.TEXT.replaceAll(str, "{pyme.msgreject}", "<br/>-	Su empresa no es considerada una empresa turística <br/> -Sus datos están incompletos o son erróneos<br/>");
+            str = SWBUtils.TEXT.replaceAll(str, "{pyme.msgreject}",
+                    "<br/>-	Su empresa no es considerada una empresa turística <br/> -Sus datos están incompletos o son erróneos<br/>");
         }
         return replaceTags(str, request, paramRequest, newUser, siteName, sprovider);
     }
 
-    public static String replaceTags(String str, HttpServletRequest request, SWBActionResponse paramRequest, User newUser, String siteName, ServiceProvider sprovider) {
+    public static String replaceTags(String str, HttpServletRequest request,
+            SWBActionResponse paramRequest, User newUser, String siteName,
+            ServiceProvider sprovider) {
+
         if (str == null || str.trim().length() == 0) {
             return "";
         }
@@ -177,19 +198,25 @@ public class PymturUtils {
         Iterator it = SWBUtils.TEXT.findInterStr(str, "{request.getParameter(\"", "\")}");
         while (it.hasNext()) {
             String s = (String) it.next();
-            str = SWBUtils.TEXT.replaceAll(str, "{request.getParameter(\"" + s + "\")}", request.getParameter(replaceTags(s, request, paramRequest, newUser, siteName, sprovider)));
+            str = SWBUtils.TEXT.replaceAll(str, "{request.getParameter(\"" + s + "\")}",
+                    request.getParameter(replaceTags(s, request, paramRequest,
+                                         newUser, siteName, sprovider)));
         }
 
         it = SWBUtils.TEXT.findInterStr(str, "{session.getAttribute(\"", "\")}");
         while (it.hasNext()) {
             String s = (String) it.next();
-            str = SWBUtils.TEXT.replaceAll(str, "{session.getAttribute(\"" + s + "\")}", (String) request.getSession().getAttribute(replaceTags(s, request, paramRequest, newUser, siteName, sprovider)));
+            str = SWBUtils.TEXT.replaceAll(str, "{session.getAttribute(\"" + s + "\")}",
+                    (String) request.getSession().getAttribute(replaceTags(s,
+                            request, paramRequest, newUser, siteName, sprovider)));
         }
 
         it = SWBUtils.TEXT.findInterStr(str, "{getEnv(\"", "\")}");
         while (it.hasNext()) {
             String s = (String) it.next();
-            str = SWBUtils.TEXT.replaceAll(str, "{getEnv(\"" + s + "\")}", SWBPlatform.getEnv(replaceTags(s, request, paramRequest, newUser, siteName, sprovider)));
+            str = SWBUtils.TEXT.replaceAll(str, "{getEnv(\"" + s + "\")}",
+                    SWBPlatform.getEnv(replaceTags(s, request, paramRequest,
+                                       newUser, siteName, sprovider)));
         }
 
         str = SWBUtils.TEXT.replaceAll(str, "{user.login}", paramRequest.getUser().getLogin());
@@ -206,33 +233,36 @@ public class PymturUtils {
 
         if (str.indexOf("{templatepath}") > -1) {
             //TODO:pasar template por paramrequest
-            TemplateImp template = (TemplateImp) SWBPortal.getTemplateMgr().getTemplate(paramRequest.getUser(), paramRequest.getWebPage());
+            TemplateImp template = (TemplateImp) SWBPortal.getTemplateMgr().getTemplate(
+                        paramRequest.getUser(), paramRequest.getWebPage());
             str = SWBUtils.TEXT.replaceAll(str, "{templatepath}", template.getActualPath());
         }
         return str;
     }
-    public static int calcLength(String data, int max)
-    {
+
+    public static int calcLength(String data, int max) {
+
         int cont = 0;
         if (data != null) {
             int indexA = 0;
             while (indexA != -1 ) {
                 indexA = data.indexOf("\n", indexA);
-                if(indexA<=max)
-                {
+                if (indexA <= max) {
                     if (indexA != -1 ) {
                         indexA++;
                         cont++;
                         max++;
                     }
-                }else{
-                    indexA=-1;
+                } else {
+                    indexA = -1;
                 }
             }
         }
         return cont;
     }
+
     public static boolean validateRegExp(String textSource, String regExp) {
+
         Pattern p = Pattern.compile(regExp);//regular expression
         Matcher m = p.matcher(textSource); // the text source
         return m.find();
