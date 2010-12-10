@@ -275,7 +275,11 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
                     User userCreator = dirObj.getCreator();
                     String formerTitle = dirObj.getTitle();
                     if ((userCreator != null && userCreator.getURI().equals(user.getURI())) || (isAdministrator || isUserIsAdminProvider)) {
-                        mgr.processForm(request);
+                        if (isFormDataValid(request)) {
+                            mgr.processForm(request);
+                        } else {
+                            throw new FormValidateException("Data received to add ServiceProvider is not valid");
+                        }
 
                         String dirPhoto = request.getParameter("dirPhotoHidden");
                         if (dirPhoto != null) {
@@ -427,8 +431,12 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
 
                     synchronized (this) {
                         String sValidSPid=getValidServiceProviderID(SWBUtils.TEXT.replaceSpecialCharacters(request.getParameter("title"), true), wsite, 0);
-                        if(sValidSPid!=null){
-                            sobj = mgr.processForm(request, sValidSPid);
+                        if (sValidSPid != null) {
+                            if (isFormDataValid(request)) {
+                                sobj = mgr.processForm(request, sValidSPid);
+                            } else {
+                                throw new FormValidateException("Data received to edit ServiceProvider is not valid");
+                            }
                         }
                     }
                     
@@ -939,4 +947,119 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
         }
     }
 
+    /**
+     * Valida la informacion recibida en el request
+     * @param request la peticion HTTP con los datos a validar
+     * @return verdadero si la informacion es valida, falso de lo contrario
+     */
+    private boolean isFormDataValid(HttpServletRequest request) {
+
+        boolean dataValid = false;
+        String parameter = null;
+
+        parameter = request.getParameter(ServiceProvider.swbcomm_contactName.getName());
+        if (parameter != null && parameter.trim().length() > 0 &&
+                PymturUtils.validateRegExp(parameter, "^[\\w\\s\\.áéíóúÁÉÍÓÚñÑ]{1,30}$")) {
+            dataValid = true;
+        }
+        parameter = request.getParameter(ServiceProvider.pymtur_contactFirstName.getName());
+        if (dataValid && parameter != null && parameter.trim().length() > 0 &&
+                PymturUtils.validateRegExp(parameter, "^[\\w\\s\\.áéíóúÁÉÍÓÚñÑ]{1,30}$")) {
+            dataValid = true;
+        } else {
+            dataValid = false;
+        }
+        parameter = request.getParameter(ServiceProvider.swbcomm_contactEmail.getName());
+        if (dataValid && parameter != null && parameter.trim().length() > 0 &&
+                PymturUtils.validateRegExp(parameter, "^[a-zA-Z0-9\\._%\\+-]+@[a-zA-Z0-9\\.-]+\\.[a-zA-Z]{2,4}$")) {
+            dataValid = true;
+        } else {
+            dataValid = false;
+        }
+        parameter = request.getParameter(ServiceProvider.pymtur_ladaNacional.getName());
+        if (dataValid && parameter != null && parameter.trim().length() > 0 &&
+                PymturUtils.validateRegExp(parameter, "(^[0-9]{2}$|^[0-9]{3}$)")) {
+            dataValid = true;
+        } else {
+            dataValid = false;
+        }
+        parameter = request.getParameter(ServiceProvider.swbcomm_contactPhoneNumber.getName());
+        if (dataValid && parameter != null && parameter.trim().length() > 0 &&
+                PymturUtils.validateRegExp(parameter, "(^[0-9]{7}$|^[0-9]{8}$)")) {
+            dataValid = true;
+        } else {
+            dataValid = false;
+        }
+        parameter = request.getParameter(ServiceProvider.swb_title.getName());
+        if (dataValid && parameter != null && parameter.trim().length() > 0 &&
+                PymturUtils.validateRegExp(parameter, "^\\w[\\w\\s-\\.\\+\\?¿\\(\\)'ñÑáéíóúüÁÉÍÓÚÜ@#\\$&\\*]{4,49}$")) {
+            dataValid = true;
+        } else {
+            dataValid = false;
+        }
+        parameter = request.getParameter(ServiceProvider.swbcomm_streetName.getName());
+        if (dataValid && parameter != null && parameter.trim().length() > 0 &&
+                PymturUtils.validateRegExp(parameter, "^[\\w\\s\\.áéíóúÁÉÍÓÚñÑ]{1,70}$")) {
+            dataValid = true;
+        } else {
+            dataValid = false;
+        }
+        parameter = request.getParameter(ServiceProvider.swbcomm_extNumber.getName());
+        if (dataValid && parameter != null && parameter.trim().length() > 0 &&
+                PymturUtils.validateRegExp(parameter, "^[\\w\\s\\.]{1,10}$")) {
+            dataValid = true;
+        } else {
+            dataValid = false;
+        }
+        parameter = request.getParameter(ServiceProvider.pymtur_spSuburb.getName());
+        if (dataValid && parameter != null && parameter.trim().length() > 0 &&
+                PymturUtils.validateRegExp(parameter, "^[\\w\\s\\.áéíóúÁÉÍÓÚñÑ]{1,50}$")) {
+            dataValid = true;
+        } else {
+            dataValid = false;
+        }
+        parameter = request.getParameter(ServiceProvider.swbcomm_cityCouncil.getName());
+        if (dataValid && parameter != null && parameter.trim().length() > 0 &&
+                PymturUtils.validateRegExp(parameter, "^[\\w\\s\\.áéíóúÁÉÍÓÚñÑ]{1,50}$")) {
+            dataValid = true;
+        } else {
+            dataValid = false;
+        }
+        parameter = request.getParameter(ServiceProvider.pymtur_sp_zipcode.getName());
+        if (dataValid && parameter != null && parameter.trim().length() > 0 &&
+                PymturUtils.validateRegExp(parameter, "^[0-9]{5}$")) {
+            dataValid = true;
+        } else {
+            dataValid = false;
+        }
+        parameter = request.getParameter(ServiceProvider.swbcomm_state.getName());
+        if (dataValid && parameter != null && parameter.trim().length() > 0 &&
+                PymturUtils.validateRegExp(parameter, "^[\\w\\s\\.áéíóúÁÉÍÓÚ]{1,25}$")) {
+            dataValid = true;
+        } else {
+            dataValid = false;
+        }
+        parameter = request.getParameter(ServiceProvider.pymtur_rfcRazonSocial.getName());
+        if (dataValid && parameter != null && parameter.trim().length() > 0 &&
+                PymturUtils.validateRegExp(parameter, "^\\w[\\w\\s-\\.\\+\\?¿\\(\\)'ñÑáéíóúüÁÉÍÓÚÜ@#\\$&\\*]{4,79}$")) {
+            dataValid = true;
+        } else {
+            dataValid = false;
+        }
+        parameter = request.getParameter(ServiceProvider.pymtur_rfc.getName());
+        if (dataValid && parameter != null && parameter.trim().length() > 0 &&
+                PymturUtils.validateRegExp(parameter, "^\\w{12,13}$")) {
+            dataValid = true;
+        } else {
+            dataValid = false;
+        }
+        parameter = request.getParameter("varianTplURI");
+        if (dataValid && parameter != null && parameter.trim().length() > 0 &&
+                PymturUtils.validateRegExp(parameter, "^(http://www\\.etour\\.swb#WebPage:)([\\w_]{10,35})$")) {
+            dataValid = true;
+        } else {
+            dataValid = false;
+        }
+        return dataValid;
+    }
 }
