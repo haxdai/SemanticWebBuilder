@@ -21,6 +21,7 @@ import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
+import org.semanticwb.portal.api.SWBResourceURL;
 import org.semanticwb.portal.community.MicroSiteType;
 import org.semanticwb.pymtur.Hospedaje;
 import org.semanticwb.pymtur.MicroSitePyme;
@@ -37,32 +38,27 @@ public class Equipment_Services extends GenericResource{
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        RequestDispatcher dis = null;
         WebPage wp = paramRequest.getWebPage();
         WebPage community = null;
         String path = null;
         String action = paramRequest.getAction();
         String siteWorkDir = SWBPortal.getWebWorkPath() + "/models/" + paramRequest.getWebPage().getWebSiteId();
-
         if (wp instanceof MicroSitePyme) {
             community = wp;
         } else {
             community = wp.getParent();
         }
         String siteUri = ((MicroSitePyme) community).getType().getURI();
-
         if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSite", wp.getWebSite()).getURI().equals(siteUri)) {
             path = siteWorkDir + "/jsp/pymestur/microsite/equipment_Services.jsp";
         } else if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSitePlus", wp.getWebSite()).getURI().equals(siteUri)) {
-            if (action != null && action.equalsIgnoreCase("editEquipment_Services"))
-            {
+            if (action != null && action.equalsIgnoreCase("editEquipment_Services")){
                 path = siteWorkDir + "/jsp/pymestur/premier/editEquipment_Services.jsp";
-            } else
-            {
+            } else {
                 path = siteWorkDir + "/jsp/pymestur/premier/equipment_Services.jsp";
             }
         }
-        dis = request.getRequestDispatcher(path);
+        RequestDispatcher dis = request.getRequestDispatcher(path);
         try {
             request.setAttribute("paramRequest", paramRequest);
             dis.include(request, response);
@@ -74,41 +70,30 @@ public class Equipment_Services extends GenericResource{
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         String action = response.getAction();
-        if (request.getParameter("uri") != null && action != null && action.equalsIgnoreCase("saveEquipment_Services"))
-        {
+        if (request.getParameter("uri") != null && action != null && action.equalsIgnoreCase("saveEquipment_Services")){
             try {
                 response.setAction("editEquipment_Services");
                 String description = request.getParameter(Hospedaje.pymtur_spServicesDescr.getName());
-                int descLength=600+PymturUtils.calcLength(description,600);
-                if( !PymturUtils.validateRegExp(description, "^([^(<>&%#)]{0,"+descLength+"})$"))
-                {
+                int descLength=600+PymturUtils.countEnterChars(description,600);
+                if( !PymturUtils.validateRegExp(description, "^([^(<>&%#)]{0,"+descLength+"})$")){
                     response.setRenderParameter("msgErrDescEquip", "Verifica que el tamaño del texto no exceda los 600 caracteres. Los caracteres: '<','>','&','%','#' no son permitidos");
                     return;
                 }
-                response.setAction(null);
+                response.setAction(SWBResourceURL.Mode_VIEW);
                 SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("uri"));
                 SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
                 mgr.clearProperties();
                 mgr.addProperty(Hospedaje.pymtur_hasService);
                 mgr.addProperty(Hospedaje.pymtur_spServicesDescr);
                 ServiceProvider sprovider = (ServiceProvider)semObject.createGenericInstance();
-                if(request.getParameterValues(Hospedaje.pymtur_Service.getName())==null)
-                {
+                if(request.getParameterValues(Hospedaje.pymtur_Service.getName())==null){
                     Iterator it = sprovider.listServices();
-                    while(it.hasNext())
-                    {
+                    while(it.hasNext()){
                         sprovider.removeService((Service)it.next());
                     }
                 }
                 mgr.processForm(request);
-                
-                /*if(description!=null&&description.length()>descLength)
-                {
-                    description = description.substring(0, descLength);
-                    response.setRenderParameter("errEquipDesc", "Unicamente se han guardado los primeros 600 caracteres del campo de descripción de Servicios y Equipamiento");
-                    sprovider.setSpServicesDescr(description);
-                }*/
-            } catch (FormValidateException e) {
+             } catch (FormValidateException e) {
                 log.error(e);
             }
         }

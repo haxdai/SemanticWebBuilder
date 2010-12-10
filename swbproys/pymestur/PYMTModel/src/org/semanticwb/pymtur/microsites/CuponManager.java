@@ -43,26 +43,24 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import org.semanticwb.Logger;
-import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.base.util.ImageResizer;
-import org.semanticwb.model.GenericObject;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.Role;
 import org.semanticwb.model.User;
-import org.semanticwb.model.UserGroup;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.platform.SemanticObject;
-import org.semanticwb.platform.SemanticOntology;
 import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
+import org.semanticwb.portal.api.SWBResourceURL;
 import org.semanticwb.portal.community.MicroSiteType;
 import org.semanticwb.pymtur.Cupon;
 import org.semanticwb.pymtur.MicroSitePyme;
 import org.semanticwb.pymtur.ServiceProvider;
+import org.semanticwb.pymtur.util.PymturUtils;
 
 /**
  *
@@ -85,13 +83,10 @@ public class CuponManager extends GenericResource {
         }
 
         String siteUri = ((MicroSitePyme) community).getType().getURI();
-
         if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSite", wp.getWebSite()).getURI().equals(siteUri)) {
             path = siteWorkDir + "/jsp/pymestur/microsite/spCupons.jsp";
-
         } else if (MicroSiteType.ClassMgr.getMicroSiteType("MiPymeSitePlus", wp.getWebSite()).getURI().equals(siteUri)) {
             path = siteWorkDir + "/jsp/pymestur/premier/spCupons.jsp";
-           
         }
         RequestDispatcher dis = request.getRequestDispatcher(path);
         try {
@@ -116,233 +111,226 @@ public class CuponManager extends GenericResource {
         if( "add_cupon".equalsIgnoreCase(action) ) {
             response.setAction("addNewCupon");
             HashMap<String, String> params = upload(request);
-            if( !isValidValue(params.get("title")) ) {
-                response.setRenderParameter("msgErrTitle", "El título es requerido.");
-                return;
+            int descLength=0;
+            String title = params.get("title");
+            if(title!=null) {
+                if(!PymturUtils.validateRegExp(title, "^[\\wñÑáéíóúüÁÉÍÓÚÜ]([\\w\\sñÑáéíóúüÁÉÍÓÚÜ]{1,99})$")) {
+                    response.setRenderParameter("msgErrTitle", "Este campo es Obligatorio. Los caracteres permitidos son: alfabeto, guiones bajos, acentos, dieresis y espacios en blanco. Favor de verificarlo");
+                    return;
+                }
             }
-            if( !isValidValue(params.get("description"))) {
-                response.setRenderParameter("msgErrDesc", "La descripción es requerida.");
-                return;
+            String description = params.get("description");
+            if(description!=null) {
+                descLength=1000+PymturUtils.countEnterChars(description,1000);
+                if( !PymturUtils.validateRegExp(description, "^([^(<>&%#)]{1,"+descLength+"})$")) {
+                    response.setRenderParameter("msgErrDesc", "Este campo es obligatorio. Verifica que el tamaño del texto no exceda los 1000 caracteres. Los caracteres: '<','>','&','%','#' no son permitidos");
+                    return;
+                }
             }
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            String date;
-            Date di, df;
+            String date1 = params.get("datei");
+            if(date1!=null) {
+                if(!PymturUtils.validateRegExp(date1, "^2[0-9][0-9][0-9]-[\\d]{1,2}-[\\d]{1,2}$")) {
+                    response.setRenderParameter("msgErrDateS", "Este campo es Obligatorio y debe llevar el siguiente formato 'año-mes-día'");
+                    return;
+                }
+            }
+            String date2 = params.get("datef");
+            if(date2!=null) {
+                if(!PymturUtils.validateRegExp(date2, "^2[0-9][0-9][0-9]-[\\d]{1,2}-[\\d]{1,2}$")) {
+                    response.setRenderParameter("msgErrDateE", "Este campo es Obligatorio y debe llevar el siguiente formato 'año-mes-día'");
+                    return;
+                }
+            }
             try {
-                date = params.get("datei");
-                di = sdf.parse(date);
-            }catch(ParseException pe) {
-                response.setRenderParameter("msgErrDateS", "El inicio de la vigencia es inválida.");
-                return;
-            }
-            try {
-                date = params.get("datef");
-                df = sdf.parse(date);
-            }catch(ParseException pe) {
-                response.setRenderParameter("msgErrDateE", "El fin de la vigencias es inválida.");
-                return;
-            }
-            if(di.after(df)) {
-                response.setRenderParameter("msgErrDateS", "La fecha inicial de vigencia no puede ser mayor a la final.");
-                return;
-            }
-            try {
-                params.get("is").trim();
+                String is = params.get("is").trim();
+                if(is.length()<=0) {
+                    response.setRenderParameter("msgErrCuponType", "El tipo de cupón es requerido.");
+                    return;
+                }
             }catch(Exception e) {
                 response.setRenderParameter("msgErrCuponType", "El tipo de cupón es requerido.");
                 return;
             }
-            try {
-                params.get("pimg").trim();
-            }catch(Exception e) {
-                response.setRenderParameter("msgErrCuponImg", "La imagen del cupón es requerida.");
-                return;
-            }
-            if( !isValidValue(params.get("deftv")) ) {
-                response.setRenderParameter("msgErrDEftv", "La dirección para hacer válido el cupón es requerida.");
-                return;
-            }
-            response.setAction(null);
-            Cupon cupon = Cupon.ClassMgr.createCupon(response.getWebPage().getWebSite());
-            cupon.setTitle(params.get("title"));
-            String description = params.get("description");
-            if(description.length()>1000)
-            {
-                description = description.substring(0, 999);
-                response.setRenderParameter("msgErrOverflow", "Unicamente se han guardado los primeros 1000 caracteres del campo de descripción del cupón '" + params.get("title") + "'");
-            }
-            cupon.setDescription(description);
-            cupon.setCuponPeriodIni(di);
-            cupon.setCuponPeriodFin(df);
-            cupon.setCuponType(params.get("is"));
-            cupon.setCuponImg( (params.get("pimg")!=null&&params.get("pimg").length()>0?params.get("pimg"):null) );
-            //cupon.setCuponConditions( params.get("constraint")==null?"":params.get("constraint") );
-            String constraint = "";
-            if(params.get("constraint")!=null){
-                constraint = params.get("constraint");
-                if(constraint.length()>600)
-                {
-                    constraint = constraint.substring(0,599);
-                    response.setRenderParameter("msgErrOverConstra", "Unicamente se han guardado los primeros 600 caracteres del campo de términos y condiciones del cupón '" + params.get("title") + "'");
+            String constraint = params.get("constraint");
+            if(constraint!=null) {
+                descLength=600+PymturUtils.countEnterChars(constraint,600);
+                if( !PymturUtils.validateRegExp(constraint, "^([^(<>&%#)]{0,"+descLength+"})$")) {
+                    response.setRenderParameter("msgErrOverConstra", "Verifica que el tamaño del texto no exceda los 600 caracteres. Los caracteres: '<','>','&','%','#' no son permitidos");
+                    return;
                 }
+            }
+            String deftv = params.get("deftv");
+            if(deftv!=null) {
+                descLength=1000+PymturUtils.countEnterChars(deftv,1000);
+                if( !PymturUtils.validateRegExp(deftv, "^([^(<>&%#)]{1,"+descLength+"})$")) {
+                    response.setRenderParameter("msgErrOverAdress", "Este campo es Obligatorio. Verifica que el tamaño del texto no exceda los 1000 caracteres. Los caracteres: '<','>','&','%','#' no son permitidos");
+                    return;
+                }
+            }
+            String cmts = params.get("cmts");
+            if(cmts!=null) {
+                descLength=600+PymturUtils.countEnterChars(cmts,600);
+                if( !PymturUtils.validateRegExp(cmts, "^([^(<>&%#)]{0,"+descLength+"})$")) {
+                    response.setRenderParameter("msgErrOverComments", "Verifica que el tamaño del texto no exceda los 600 caracteres. Los caracteres: '<','>','&','%','#' no son permitidos");
+                    return;
+                }
+            }
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date di, df;
+            try {
+                di = sdf.parse(date1);
+                df = sdf.parse(date2);
+                if(di.after(df)) {
+                    response.setRenderParameter("msgErrDateS", "La fecha inicial de vigencia no puede ser mayor a la final.");
+                    return;
+                }
+                response.setAction(SWBResourceURL.Mode_VIEW);
+                Cupon cupon = Cupon.ClassMgr.createCupon(response.getWebPage().getWebSite());
+                cupon.setTitle(title);
+                cupon.setDescription(description);
+                cupon.setCuponPeriodIni(di);
+                cupon.setCuponPeriodFin(df);
+                cupon.setCuponType(params.get("is"));
+                cupon.setCuponImg( (params.get("pimg")!=null&&params.get("pimg").length()>0?params.get("pimg"):null) );
                 cupon.setCuponConditions(constraint);
-            }
-            //cupon.setCuponAddress(params.get("deftv"));
-            String adress = params.get("deftv");
-            if(adress.length()>1000)
-            {
-                adress = adress.substring(0,999);
-                response.setRenderParameter("msgErrOverAdress", "Unicamente se han guardado los primeros 1000 caracteres del campo de dirección del cupón '" + params.get("title") + "'");
-            }
-            cupon.setCuponAddress(adress);
-            if( params.containsKey("partner") ) {
-                File file = new File(realpath+path+params.get("partner"));
-                if( file.exists() ) {
-                    FileInputStream in = new FileInputStream(file);
-                    String filename = file.getName();
-                    String finalpath = cupon.getWorkPath() + "/";
-                    String target = realpath + finalpath + filename;
-                    File ftarget = new File(target);
-                    ftarget.getParentFile().mkdirs();
-                    FileOutputStream out = new FileOutputStream(ftarget);
-                    SWBUtils.IO.copyStream(in, out);
-                    file.delete();
-                    params.put("partner", finalpath + filename);
-                    cupon.setCuponPartnerImage(params.get("partner"));
-                }
-            }
-            try {
-                SemanticObject semObject = SemanticObject.createSemanticObject(params.get("sprovider"));
-                ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
-                serviceProv.addCupon(cupon);
-                serviceProv.setSpTotCupones(serviceProv.getSpTotCupones()+1);
-                if( params.containsKey("cmts")&&isValidValue(params.get("cmts")) ){
-                    String cup_comments = "";
-                    if(params.get("cmts")!=null){
-                        cup_comments = params.get("cmts");
+                cupon.setCuponAddress(deftv);
+                if( params.containsKey("partner") ) {
+                    File file = new File(realpath+path+params.get("partner"));
+                    if( file.exists() ) {
+                        FileInputStream in = new FileInputStream(file);
+                        String filename = file.getName();
+                        String finalpath = cupon.getWorkPath() + "/";
+                        String target = realpath + finalpath + filename;
+                        File ftarget = new File(target);
+                        ftarget.getParentFile().mkdirs();
+                        FileOutputStream out = new FileOutputStream(ftarget);
+                        SWBUtils.IO.copyStream(in, out);
+                        file.delete();
+                        params.put("partner", finalpath + filename);
+                        cupon.setCuponPartnerImage(params.get("partner"));
                     }
-                    if(cup_comments.length()>600)
-                    {
-                        cup_comments = cup_comments.substring(0,599);
-                        response.setRenderParameter("msgErrOverComments", "Unicamente se han guardado los primeros 600 caracteres del campo de comentarios del cupón '" + params.get("title") + "'");
-                    }
-                    serviceProv.setSpCuponsComment(cup_comments);
-
-                    //serviceProv.setSpCuponsComment((?"":serviceProv.getSpCuponsComment())+params.get("cmts"));
                 }
-            }catch(Exception e) {
-                log.error(e);
+                try {
+                    SemanticObject semObject = SemanticObject.createSemanticObject(params.get("sprovider"));
+                    ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
+                    serviceProv.addCupon(cupon);
+                    serviceProv.setSpTotCupones(serviceProv.getSpTotCupones()+1);
+                    serviceProv.setSpCuponsComment(cmts);
+                }catch(Exception e) {
+                    log.error(e);
+                }
+            }catch(ParseException pe) { 
+                log.error(pe);
             }
         }
         else if( "edit_cupon".equalsIgnoreCase(action) ) {
             response.setAction("editCupon");
             HashMap<String, String> params = upload(request);
-            if( params.containsKey("title")&&!isValidValue(params.get("title")) ) {
-                response.setRenderParameter("msgErrTitle", "El título es requerido.");
-                return;
+            String title = params.get("title");
+            int descLength=0;
+            if(title!=null) {
+                if(!PymturUtils.validateRegExp(title, "^[\\wñÑáéíóúüÁÉÍÓÚÜ]([\\w\\sñÑáéíóúüÁÉÍÓÚÜ]{1,99})$")) {
+                    response.setRenderParameter("msgErrTitle", "Este campo es Obligatorio. Los caracteres permitidos son: alfabeto, guiones bajos, acentos, dieresis y espacios en blanco. Favor de verificarlo");
+                    return;
+                }
             }
-            if( params.containsKey("description")&&!isValidValue(params.get("description"))) {
-                response.setRenderParameter("msgErrDesc", "La descripción es requerida.");
-                return;
+            String description = params.get("description");
+            if(description!=null) {
+                descLength=1000+PymturUtils.countEnterChars(description,1000);
+                if( !PymturUtils.validateRegExp(description, "^([^(<>&%#)]{1,"+descLength+"})$")) {
+                    response.setRenderParameter("msgErrDesc", "Este campo es obligatorio. Verifica que el tamaño del texto no exceda los 1000 caracteres. Los caracteres: '<','>','&','%','#' no son permitidos");
+                    return;
+                }
             }
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            String date;
-            Date di, df;
+            String date1 = params.get("datei");
+            if(date1!=null) {
+                if(!PymturUtils.validateRegExp(date1, "^2[0-9][0-9][0-9]-[\\d]{1,2}-[\\d]{1,2}$")) {
+                    response.setRenderParameter("msgErrDateS", "Este campo es Obligatorio y debe llevar el siguiente formato 'año-mes-día'");
+                    return;
+                }
+            }
+            String date2 = params.get("datef");
+            if(date2!=null) {
+                if(!PymturUtils.validateRegExp(date2, "^2[0-9][0-9][0-9]-[\\d]{1,2}-[\\d]{1,2}$")) {
+                    response.setRenderParameter("msgErrDateE", "Este campo es Obligatorio y debe llevar el siguiente formato 'año-mes-día'");
+                    return;
+                }
+            }
             try {
-                date = params.get("datei");
-                di = sdf.parse(date);
-            }catch(ParseException pe) {
-                response.setRenderParameter("msgErrDateS", "El inicio de la vigencia es inválida.");
-                return;
-            }
-            try {
-                date = params.get("datef");
-                df = sdf.parse(date);
-            }catch(ParseException pe) {
-                response.setRenderParameter("msgErrDateE", "El fin de la vigencias es inválida.");
-                return;
-            }
-            if(di.after(df)) {
-                response.setRenderParameter("msgErrDateS", "La fecha inicial de vigencia no puede ser mayor a la final.");
-                return;
-            }
-            try {
-                params.get("is").trim();
+                String is = params.get("is").trim();
+                if(is.length()<=0) {
+                    response.setRenderParameter("msgErrCuponType", "El tipo de cupón es requerido.");
+                    return;
+                }
             }catch(Exception e) {
                 response.setRenderParameter("msgErrCuponType", "El tipo de cupón es requerido.");
                 return;
             }
+            String constraint = params.get("constraint");
+            if(constraint!=null) {
+                descLength=600+PymturUtils.countEnterChars(constraint,600);
+                if( !PymturUtils.validateRegExp(constraint, "^([^(<>&%#)]{0,"+descLength+"})$")) {
+                    response.setRenderParameter("msgErrOverConstra", "Verifica que el tamaño del texto no exceda los 600 caracteres. Los caracteres: '<','>','&','%','#' no son permitidos");
+                    return;
+                }
+            }
+            String deftv = params.get("deftv");
+            if(deftv!=null) {
+                descLength=1000+PymturUtils.countEnterChars(deftv,1000);
+                if( !PymturUtils.validateRegExp(deftv, "^([^(<>&%#)]{1,"+descLength+"})$")) {
+                    response.setRenderParameter("msgErrOverAdress", "Este campo es Obligatorio. Verifica que el tamaño del texto no exceda los 1000 caracteres. Los caracteres: '<','>','&','%','#' no son permitidos");
+                    return;
+                }
+            }
+            String cmts = params.get("cmts");
+            if(cmts!=null) {
+                descLength=600+PymturUtils.countEnterChars(cmts,600);
+                if( !PymturUtils.validateRegExp(cmts, "^([^(<>&%#)]{0,"+descLength+"})$")) {
+                    response.setRenderParameter("msgErrOverComments", "Verifica que el tamaño del texto no exceda los 600 caracteres. Los caracteres: '<','>','&','%','#' no son permitidos");
+                    return;
+                }
+            }
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date di, df;
             try {
-                params.get("pimg").trim();
-            }catch(Exception e) {
-                response.setRenderParameter("msgErrCuponImg", "La imagen del cupón es requerida.");
-                return;
-            }
-            if( !isValidValue(params.get("deftv")) ) {
-                response.setRenderParameter("msgErrDEftv", "La dirección para hacer válido el cupón es requerida.");
-                return;
-            }
-            response.setAction(null);
-            SemanticObject semObject = SemanticObject.createSemanticObject(params.get("cupon"));
-            Cupon cupon = (Cupon) semObject.createGenericInstance();
-            cupon.setTitle(params.get("title"));
-            String description = params.get("description");
-            if(description.length()>1000)
-            {
-                description = description.substring(0, 999);
-                response.setRenderParameter("msgErrOverflow", "Unicamente se han guardado los primeros 1000 caracteres del campo de descripción del cupón '" + params.get("title") + "'");
-            }
-            cupon.setDescription(description);
-            cupon.setCuponPeriodIni(di);
-            cupon.setCuponPeriodFin(df);
-            cupon.setCuponType(params.get("is"));
-            cupon.setCuponImg( (params.get("pimg")!=null&&params.get("pimg").length()>0?params.get("pimg"):null) );
-            String constraint = "";
-            if(params.get("constraint")!=null){
-                constraint = params.get("constraint");
-                if(constraint.length()>600)
-                {
-                    constraint = constraint.substring(0,599);
-                    response.setRenderParameter("msgErrOverConstra", "Unicamente se han guardado los primeros 600 caracteres del campo de términos y condiciones del cupón '" + params.get("title") + "'");
+                di = sdf.parse(date1);
+                df = sdf.parse(date2);
+                if(di.after(df)) {
+                    response.setRenderParameter("msgErrDateS", "La fecha inicial de vigencia no puede ser mayor a la final.");
+                    return;
                 }
+                response.setAction(SWBResourceURL.Mode_VIEW);
+                SemanticObject semObject = SemanticObject.createSemanticObject(params.get("cupon"));
+                Cupon cupon = (Cupon) semObject.createGenericInstance();
+                cupon.setTitle(title);
+                cupon.setDescription(description);
+                cupon.setCuponPeriodIni(di);
+                cupon.setCuponPeriodFin(df);
+                cupon.setCuponType(params.get("is"));
+                cupon.setCuponImg( (params.get("pimg")!=null&&params.get("pimg").length()>0?params.get("pimg"):null) );
                 cupon.setCuponConditions(constraint);
-            }
-            String adress = params.get("deftv");
-            if(adress.length()>1000)
-            {
-                adress = adress.substring(0,999);
-                response.setRenderParameter("msgErrOverAdress", "Unicamente se han guardado los primeros 1000 caracteres del campo de dirección del cupón '" + params.get("title") + "'");
-            }
-            cupon.setCuponAddress(adress);
-            if( params.containsKey("partner") ) {
-                File file = new File(realpath+path+params.get("partner"));
-                if( file.exists() ) {
-                    FileInputStream in = new FileInputStream(file);
-                    String filename = file.getName();
-                    String finalpath = cupon.getWorkPath() + "/";
-                    String target = realpath + finalpath + filename;
-                    File ftarget = new File(target);
-                    ftarget.getParentFile().mkdirs();
-                    FileOutputStream out = new FileOutputStream(ftarget);
-                    SWBUtils.IO.copyStream(in, out);
-                    file.delete();
-                    params.put("partner", finalpath + filename);
-                    cupon.setCuponPartnerImage(params.get("partner"));
+                cupon.setCuponAddress(deftv);
+                if( params.containsKey("partner") ) {
+                    File file = new File(realpath+path+params.get("partner"));
+                    if( file.exists() ) {
+                        FileInputStream in = new FileInputStream(file);
+                        String filename = file.getName();
+                        String finalpath = cupon.getWorkPath() + "/";
+                        String target = realpath + finalpath + filename;
+                        File ftarget = new File(target);
+                        ftarget.getParentFile().mkdirs();
+                        FileOutputStream out = new FileOutputStream(ftarget);
+                        SWBUtils.IO.copyStream(in, out);
+                        file.delete();
+                        params.put("partner", finalpath + filename);
+                        cupon.setCuponPartnerImage(params.get("partner"));
+                    }
                 }
-            }
-            if( params.containsKey("cmts")&&isValidValue(params.get("cmts")) ) {
                 semObject = SemanticObject.createSemanticObject(params.get("sprovider"));
                 ServiceProvider serviceProv = (ServiceProvider) semObject.createGenericInstance();
-                String cup_comments = "";
-                if(params.get("cmts")!=null){
-                     cup_comments = params.get("cmts");
-                }
-                if(cup_comments.length()>600)
-                {
-                    cup_comments = cup_comments.substring(0,599);
-                    response.setRenderParameter("msgErrOverComments", "Unicamente se han guardado los primeros 600 caracteres del campo de comentarios del cupón '" + params.get("title") + "'");
-                }
-                serviceProv.setSpCuponsComment(cup_comments);
-                //serviceProv.setSpCuponsComment((serviceProv.getSpCuponsComment()==null?"":serviceProv.getSpCuponsComment())+params.get("cmts"));
+                serviceProv.setSpCuponsComment(cmts);
+            }catch(ParseException pe) {
+                log.error(pe);
             }
         }
         else if( "remove_cupon".equalsIgnoreCase(action) ) {
@@ -363,14 +351,11 @@ public class CuponManager extends GenericResource {
         //final String path = getResourceBase().getWorkPath() + "/";
 
         HashMap<String, String> params = new HashMap<String, String>();
-        try
-        {
+        try {
             boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-            if (isMultipart)
-            {
+            if (isMultipart) {
                 File tmpwrk = new File(SWBPortal.getWorkPath() + "/tmp");
-                if (!tmpwrk.exists())
-                {
+                if (!tmpwrk.exists()) {
                     tmpwrk.mkdirs();
                 }
                 FileItemFactory factory = new DiskFileItemFactory(1 * 1024 * 1024, tmpwrk);
@@ -395,17 +380,14 @@ public class CuponManager extends GenericResource {
                 List items = upload.parseRequest(request); /* FileItem */
                 //FileItem currentFile = null;
                 Iterator iter = items.iterator();
-                while (iter.hasNext())
-                {
+                while (iter.hasNext()) {
                     FileItem item = (FileItem) iter.next();
 
-                    if (item.isFormField())
-                    {
+                    if (item.isFormField()) {
                         String name = item.getFieldName();
                         String value = item.getString();
                         params.put(name, value);
-                    }else
-                    {
+                    } else {
                         long serial = (new Date()).getTime();
                         if(item.getName().trim().length()==0)
                             continue;
@@ -442,28 +424,6 @@ public class CuponManager extends GenericResource {
         }
 //        return null;
         return params;
-    }
-
-    private boolean isValidValue(String param) {
-        try {
-            if( (param=param.trim()).length()>0 )
-                return true;
-        }catch(Exception e) {
-            return false;
-        }
-        return false;
-    }
-
-    private boolean isValidNumber(String param) {
-        boolean validValue = false;
-        if( param!=null && param.trim().length()>0 )
-            try {
-                Double.parseDouble(param);
-                validValue = true;
-            }catch(NumberFormatException  nfe) {
-                validValue = false;
-            }
-        return validValue;
     }
 
     private boolean userCanEdit(final User user) {
