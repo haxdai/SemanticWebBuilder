@@ -240,7 +240,7 @@ public class PymturUtils {
         return str;
     }
 
-    public static int calcLength(String data, int max) {
+    public static int countEnterChars(String data, int max) {
 
         int cont = 0;
         if (data != null) {
