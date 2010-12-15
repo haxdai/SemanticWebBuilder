@@ -154,7 +154,8 @@ class RemindTask extends TimerTask {
 
             Role adminProviderRole = SWBContext.getWebSite(this.model.getId()
                     ).getUserRepository().getRole("adminProviders");
-            Iterator <User> itUsers = User.ClassMgr.listUserByRole(adminProviderRole);
+            Iterator <User> itUsers = User.ClassMgr.listUserByRole(adminProviderRole,
+                    SWBContext.getWebSite(this.model.getId()).getUserRepository());
             while (itUsers.hasNext()) {
                 User user = itUsers.next();
                 String admProvEmail = user.getEmail();
