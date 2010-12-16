@@ -148,7 +148,7 @@ public class PromotionManager extends GenericResource {
             String description = request.getParameter("description");
             if(description!=null) {
                 descLength=1000+PymturUtils.countEnterChars(description,1000);
-                if( !PymturUtils.validateRegExp(description, "^([^(<>&%#)]{1,"+descLength+"})$")) {
+                if( !PymturUtils.validateRegExp(description, "^([^(<>&#)]{1,"+descLength+"})$")) {
                     response.setRenderParameter("msgErrDesc", "Este campo es obligatorio. Verifica que el tamaño del texto no exceda los 1000 caracteres. Los caracteres: '<','>','&','%','#' no son permitidos");
                     return;
                 }
@@ -180,7 +180,7 @@ public class PromotionManager extends GenericResource {
             String cmts = request.getParameter("cmts");
             if(cmts!=null) {
                 descLength=600+PymturUtils.countEnterChars(cmts,600);
-                if( !PymturUtils.validateRegExp(cmts, "^([^(<>&%#)]{0,"+descLength+"})$")) {
+                if( !PymturUtils.validateRegExp(cmts, "^([^(<>&#)]{0,"+descLength+"})$")) {
                     response.setRenderParameter("msgErrCommenPromo", "Verifica que el tamaño del texto no exceda los 600 caracteres. Los caracteres: '<','>','&','%','#' no son permitidos");
                     return;
                 }
@@ -230,7 +230,7 @@ public class PromotionManager extends GenericResource {
             String description = request.getParameter("description");
             if(description!=null) {
                 descLength=1000+PymturUtils.countEnterChars(description,1000);
-                if( !PymturUtils.validateRegExp(description, "^([^(<>&%#)]{1,"+descLength+"})$")) {
+                if( !PymturUtils.validateRegExp(description, "^([^(<>&#)]{1,"+descLength+"})$")) {
                     response.setRenderParameter("msgErrDesc", "Este campo es obligatorio. Verifica que el tamaño del texto no exceda los 1000 caracteres. Los caracteres: '<','>','&','%','#' no son permitidos");
                     return;
                 }
@@ -262,7 +262,7 @@ public class PromotionManager extends GenericResource {
             String cmts = request.getParameter("cmts");
             if(cmts!=null) {
                 descLength=600+PymturUtils.countEnterChars(cmts,600);
-                if( !PymturUtils.validateRegExp(cmts, "^([^(<>&%#)]{0,"+descLength+"})$")) {
+                if( !PymturUtils.validateRegExp(cmts, "^([^(<>&#)]{0,"+descLength+"})$")) {
                     response.setRenderParameter("msgErrCommenPromo", "Verifica que el tamaño del texto no exceda los 600 caracteres. Los caracteres: '<','>','&','%','#' no son permitidos");
                     return;
                 }
