@@ -122,7 +122,7 @@ public class CuponManager extends GenericResource {
             String description = params.get("description");
             if(description!=null) {
                 descLength=1000+PymturUtils.countEnterChars(description,1000);
-                if( !PymturUtils.validateRegExp(description, "^([^(<>&%#)]{1,"+descLength+"})$")) {
+                if( !PymturUtils.validateRegExp(description, "^([^(<>&#)]{1,"+descLength+"})$")) {
                     response.setRenderParameter("msgErrDesc", "Este campo es obligatorio. Verifica que el tamaño del texto no exceda los 1000 caracteres. Los caracteres: '<','>','&','%','#' no son permitidos");
                     return;
                 }
@@ -154,7 +154,7 @@ public class CuponManager extends GenericResource {
             String constraint = params.get("constraint");
             if(constraint!=null) {
                 descLength=600+PymturUtils.countEnterChars(constraint,600);
-                if( !PymturUtils.validateRegExp(constraint, "^([^(<>&%#)]{0,"+descLength+"})$")) {
+                if( !PymturUtils.validateRegExp(constraint, "^([^(<>&#)]{0,"+descLength+"})$")) {
                     response.setRenderParameter("msgErrOverConstra", "Verifica que el tamaño del texto no exceda los 600 caracteres. Los caracteres: '<','>','&','%','#' no son permitidos");
                     return;
                 }
@@ -170,7 +170,7 @@ public class CuponManager extends GenericResource {
             String cmts = params.get("cmts");
             if(cmts!=null) {
                 descLength=600+PymturUtils.countEnterChars(cmts,600);
-                if( !PymturUtils.validateRegExp(cmts, "^([^(<>&%#)]{0,"+descLength+"})$")) {
+                if( !PymturUtils.validateRegExp(cmts, "^([^(<>&#)]{0,"+descLength+"})$")) {
                     response.setRenderParameter("msgErrOverComments", "Verifica que el tamaño del texto no exceda los 600 caracteres. Los caracteres: '<','>','&','%','#' no son permitidos");
                     return;
                 }
@@ -237,7 +237,7 @@ public class CuponManager extends GenericResource {
             String description = params.get("description");
             if(description!=null) {
                 descLength=1000+PymturUtils.countEnterChars(description,1000);
-                if( !PymturUtils.validateRegExp(description, "^([^(<>&%#)]{1,"+descLength+"})$")) {
+                if( !PymturUtils.validateRegExp(description, "^([^(<>&#)]{1,"+descLength+"})$")) {
                     response.setRenderParameter("msgErrDesc", "Este campo es obligatorio. Verifica que el tamaño del texto no exceda los 1000 caracteres. Los caracteres: '<','>','&','%','#' no son permitidos");
                     return;
                 }
@@ -269,7 +269,7 @@ public class CuponManager extends GenericResource {
             String constraint = params.get("constraint");
             if(constraint!=null) {
                 descLength=600+PymturUtils.countEnterChars(constraint,600);
-                if( !PymturUtils.validateRegExp(constraint, "^([^(<>&%#)]{0,"+descLength+"})$")) {
+                if( !PymturUtils.validateRegExp(constraint, "^([^(<>&#)]{0,"+descLength+"})$")) {
                     response.setRenderParameter("msgErrOverConstra", "Verifica que el tamaño del texto no exceda los 600 caracteres. Los caracteres: '<','>','&','%','#' no son permitidos");
                     return;
                 }
@@ -285,7 +285,7 @@ public class CuponManager extends GenericResource {
             String cmts = params.get("cmts");
             if(cmts!=null) {
                 descLength=600+PymturUtils.countEnterChars(cmts,600);
-                if( !PymturUtils.validateRegExp(cmts, "^([^(<>&%#)]{0,"+descLength+"})$")) {
+                if( !PymturUtils.validateRegExp(cmts, "^([^(<>&#)]{0,"+descLength+"})$")) {
                     response.setRenderParameter("msgErrOverComments", "Verifica que el tamaño del texto no exceda los 600 caracteres. Los caracteres: '<','>','&','%','#' no son permitidos");
                     return;
                 }
