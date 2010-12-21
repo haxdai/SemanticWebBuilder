@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.WebPage;
+import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.api.GenericAdmResource;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
@@ -28,6 +29,7 @@ public class Weather extends GenericAdmResource {
         String q = "NAM|MX|MX009|CIUDAD DE MEXICO|";
         String qPrev = null;
         String lang = paramsRequest.getUser().getLanguage();
+        String uri = request.getParameter("uri");
 
         /*
          * actualmente implementado con accuweather. http://www.accuweather.com/
@@ -49,9 +51,16 @@ public class Weather extends GenericAdmResource {
             Destination dest = sprovider.getDestination();
 //            q = dest.getDisplayTitle(lang)+","+dest.getParent().getDisplayTitle(lang);
             qPrev = dest.getDestWeather();
+        } else if (uri != null && !uri.trim().equalsIgnoreCase("") &&
+                !uri.trim().equalsIgnoreCase("null")) {
+            SemanticObject so = SemanticObject.createSemanticObject(uri);
+            ServiceProvider sp = so != null ? ((ServiceProvider) so.createGenericInstance()) : null;
+            if (sp != null && sp.getDestination() != null) {
+                qPrev = sp.getDestination().getDestWeather();
+            }
         }
 
-        if (qPrev != null && !qPrev.equals("")) {
+        if (qPrev != null && !qPrev.trim().equals("")) {
             q = qPrev;
         }
 //        q = q.replaceAll(" ", "+");
