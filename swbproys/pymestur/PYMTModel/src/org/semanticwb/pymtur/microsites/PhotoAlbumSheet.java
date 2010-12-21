@@ -508,51 +508,56 @@ public final class PhotoAlbumSheet extends GenericAdmResource {
         
 //        final String path = sprovider.getWorkPath()+"/photos/"+base.getAttribute("gpophotos")+"/";
 
-        if(paramRequest.getCallMethod()==paramRequest.Call_STRATEGY) {
+        if (paramRequest.getCallMethod() == SWBParamRequest.Call_STRATEGY) {
             Random random = new Random();
             random.setSeed(new Date().getTime());
 
             ArrayList<String> photos = new ArrayList<String>(16);
 
-            String path = SWBPortal.getWebWorkPath()+sprovider.getWorkPath()+"/photos/establishment/";
+            String path = SWBPortal.getWebWorkPath() + sprovider.getWorkPath() + "/photos/establishment/";
             Iterator<PymePhoto> it = sprovider.listEstablishmentPymePhotos();
-            while(it.hasNext())
-                photos.add(path+it.next().getPhotoThumbnail());
+            while (it.hasNext()) {
+                photos.add(path + it.next().getPhotoThumbnail());
+            }
 
-            path = SWBPortal.getWebWorkPath()+sprovider.getWorkPath()+"/photos/instalation/";
+            path = SWBPortal.getWebWorkPath() + sprovider.getWorkPath() + "/photos/instalation/";
             it = sprovider.listInstalationsPymePhotos();
-            while(it.hasNext())
-                photos.add(path+it.next().getPhotoThumbnail());
+            while (it.hasNext()) {
+                photos.add(path + it.next().getPhotoThumbnail());
+            }
 
-            path = SWBPortal.getWebWorkPath()+sprovider.getWorkPath()+"/photos/category/";
+            path = SWBPortal.getWebWorkPath() + sprovider.getWorkPath() + "/photos/category/";
             it = sprovider.listSpCategoryPymePhotos();
-            while(it.hasNext())
-                photos.add(path+it.next().getPhotoThumbnail());
+            while (it.hasNext()) {
+                photos.add(path + it.next().getPhotoThumbnail());
+            }
 
-            path = SWBPortal.getWebWorkPath()+sprovider.getWorkPath()+"/photos/more/";
+            path = SWBPortal.getWebWorkPath() + sprovider.getWorkPath() + "/photos/more/";
             it = sprovider.listMorePymePhotos();
-            while(it.hasNext())
-                photos.add(path+it.next().getPhotoThumbnail());
+            while (it.hasNext()) {
+                photos.add(path + it.next().getPhotoThumbnail());
+            }
             photos.trimToSize();
 
-            if( userCanEdit && this.userCanAdd(paramRequest.getWebPage().getWebSite(), sprovider) )
+            if (userCanEdit && this.userCanAdd(paramRequest.getWebPage().getWebSite(), sprovider)) {
                 out.println("<h2 class=\"incomplete-charge\">Fotos</h2>");
-            else
+            } else {
                 out.println("<h2>Fotos</h2>");
+            }
             out.println("<div id=\"photosFrame\">");
 
             StringBuilder script = new StringBuilder();
-            for(int i=0; i<maxPictPreview && i<photos.size(); i++) {
+            for (int i = 0; i < maxPictPreview && photos.size() > 0; i++) {
                 int r = random.nextInt(photos.size());
                 String image = photos.get(r);
                 out.println("<span class=\"marco\">");
-                out.println("<a href=\"#\" id=\""+"pa_"+i+"_"+base.getId()+"\">");
-                out.println("<img alt=\""+image+"\" src=\""+image+"\" />");
+                out.println("<a href=\"#\" id=\"" + "pa_" + i + "_" + base.getId() + "\">");
+                out.println("<img alt=\"" + image + "\" src=\"" + image + "\" />");
                 out.println("</a>");
                 out.println("</span>");
 
-                script.append("var lbs_"+i+"_"+base.getId()+" = new dojox.image.Lightbox({ title:'', href:'"+image.replaceFirst(_thumbnail, "")+"', group:'group"+base.getId()+"' }, 'pa_"+i+"_"+base.getId()+"');\n");
-                script.append("lbs_"+i+"_"+base.getId()+".startup();\n");
+                script.append("var lbs_" + i + "_" + base.getId() + " = new dojox.image.Lightbox({ title:'', href:'"+image.replaceFirst(_thumbnail, "")+"', group:'group"+base.getId()+"' }, 'pa_"+i+"_"+base.getId()+"');\n");
+                script.append("lbs_" + i + "_" + base.getId() + ".startup();\n");
 
                 photos.remove(r);
             }
