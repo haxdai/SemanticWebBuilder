@@ -492,11 +492,11 @@ public class SPComplementaryData extends GenericResource {
         }
         parameter = request.getParameter(ServiceProvider.pymtur_rfcExternalNumber.getName());
         if (dataValid && parameter != null && parameter.trim().length() > 0) {
-            dataValid = PymturUtils.validateRegExp(parameter, "^[\\w\\s\\.-]{1,30}$");
+            dataValid = PymturUtils.validateRegExp(parameter, "^[\\w\\s\\.-]{1,10}$");
         }
         parameter = request.getParameter(ServiceProvider.pymtur_rfcInternalNumber.getName());
         if (dataValid && parameter != null && parameter.trim().length() > 0) {
-            dataValid = PymturUtils.validateRegExp(parameter, "^[\\w\\s\\.áéíóúÁÉÍÓÚñÑ-]{1,20}$");
+            dataValid = PymturUtils.validateRegExp(parameter, "^[\\w\\s\\.áéíóúÁÉÍÓÚñÑ-]{1,10}$");
         }
         parameter = request.getParameter(ServiceProvider.pymtur_rfcSuburb.getName());
         if (dataValid && parameter != null && parameter.trim().length() > 0) {
