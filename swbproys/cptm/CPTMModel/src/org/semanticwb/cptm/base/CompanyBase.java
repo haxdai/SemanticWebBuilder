@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Clase principal del sistema de visit-méxico. Una instancia de esta clase es en donde se almacena toda la información de un proveedor de servicios especifico. 
    */
-public abstract class CompanyBase extends org.semanticwb.portal.community.DirectoryObject implements org.semanticwb.model.Searchable,org.semanticwb.model.Descriptiveable,org.semanticwb.portal.community.Addressable,org.semanticwb.model.Tagable,org.semanticwb.portal.community.Contactable,org.semanticwb.model.Traceable,org.semanticwb.model.Geolocalizable,org.semanticwb.portal.community.Interactiveable,org.semanticwb.model.Rankable
+public abstract class CompanyBase extends org.semanticwb.portal.community.DirectoryObject implements org.semanticwb.model.Rankable,org.semanticwb.portal.community.Addressable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,org.semanticwb.portal.community.Contactable,org.semanticwb.model.Tagable,org.semanticwb.model.Searchable,org.semanticwb.model.Geolocalizable,org.semanticwb.portal.community.Interactiveable
 {
    /**
    * Clase principal del sistema de visit-méxico. Una instancia de esta clase es en donde se almacena toda la información de un proveedor de servicios especifico.

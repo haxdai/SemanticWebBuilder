@@ -1,8 +1,19 @@
 package org.semanticwb.cptm.base;
 
 
-public abstract class PromotionBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.TemplateRefable,org.semanticwb.model.Trashable,org.semanticwb.model.Undeleteable,org.semanticwb.model.FilterableNode,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Traceable,org.semanticwb.model.Searchable,org.semanticwb.model.Filterable,org.semanticwb.model.Indexable,org.semanticwb.model.RoleRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Viewable,org.semanticwb.model.Expirable,org.semanticwb.model.Localeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Activeable,org.semanticwb.model.Tagable,org.semanticwb.model.Referensable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Resourceable,org.semanticwb.model.RuleRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Rankable
+   /**
+   * Catálogo de promociones, las cuales pueden relacionarse con uno o varios Destinos, Estados y Empresas (Ver viabilidad) 
+   */
+public abstract class PromotionBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Resourceable
 {
+   /**
+   * Interfaz que define propiedades en comun para un Punto Geografico y una Marca Regional
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_LocalityInt=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#LocalityInt");
+    public static final org.semanticwb.platform.SemanticProperty cptm_hasLocalidad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasLocalidad");
+   /**
+   * Catálogo de promociones, las cuales pueden relacionarse con uno o varios Destinos, Estados y Empresas (Ver viabilidad)
+   */
     public static final org.semanticwb.platform.SemanticClass cptm_Promotion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Promotion");
    /**
    * The semantic class that represents the currentObject
@@ -73,279 +84,26 @@ public abstract class PromotionBase extends org.semanticwb.model.WebPage impleme
             return (getPromotion(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.cptm.Promotion with a determined AssMember
-       * @param value AssMember of the type org.semanticwb.model.AssMember
+       * Gets all org.semanticwb.cptm.Promotion with a determined Localidad
+       * @param value Localidad of the type org.semanticwb.cptm.LocalityInt
        * @param model Model of the org.semanticwb.cptm.Promotion
        * @return Iterator with all the org.semanticwb.cptm.Promotion
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.Promotion> listPromotionByAssMember(org.semanticwb.model.AssMember value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.cptm.Promotion> listPromotionByLocalidad(org.semanticwb.cptm.LocalityInt value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasAssMemberInv, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasLocalidad, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.Promotion with a determined AssMember
-       * @param value AssMember of the type org.semanticwb.model.AssMember
+       * Gets all org.semanticwb.cptm.Promotion with a determined Localidad
+       * @param value Localidad of the type org.semanticwb.cptm.LocalityInt
        * @return Iterator with all the org.semanticwb.cptm.Promotion
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.Promotion> listPromotionByAssMember(org.semanticwb.model.AssMember value)
+        public static java.util.Iterator<org.semanticwb.cptm.Promotion> listPromotionByLocalidad(org.semanticwb.cptm.LocalityInt value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasAssMemberInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.Promotion with a determined VirtualParent
-       * @param value VirtualParent of the type org.semanticwb.model.WebPage
-       * @param model Model of the org.semanticwb.cptm.Promotion
-       * @return Iterator with all the org.semanticwb.cptm.Promotion
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Promotion> listPromotionByVirtualParent(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualParent, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.Promotion with a determined VirtualParent
-       * @param value VirtualParent of the type org.semanticwb.model.WebPage
-       * @return Iterator with all the org.semanticwb.cptm.Promotion
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Promotion> listPromotionByVirtualParent(org.semanticwb.model.WebPage value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualParent,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.Promotion with a determined CalendarRef
-       * @param value CalendarRef of the type org.semanticwb.model.CalendarRef
-       * @param model Model of the org.semanticwb.cptm.Promotion
-       * @return Iterator with all the org.semanticwb.cptm.Promotion
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Promotion> listPromotionByCalendarRef(org.semanticwb.model.CalendarRef value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasCalendarRef, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.Promotion with a determined CalendarRef
-       * @param value CalendarRef of the type org.semanticwb.model.CalendarRef
-       * @return Iterator with all the org.semanticwb.cptm.Promotion
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Promotion> listPromotionByCalendarRef(org.semanticwb.model.CalendarRef value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasCalendarRef,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.Promotion with a determined Parent
-       * @param value Parent of the type org.semanticwb.model.WebPage
-       * @param model Model of the org.semanticwb.cptm.Promotion
-       * @return Iterator with all the org.semanticwb.cptm.Promotion
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Promotion> listPromotionByParent(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_webPageParent, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.Promotion with a determined Parent
-       * @param value Parent of the type org.semanticwb.model.WebPage
-       * @return Iterator with all the org.semanticwb.cptm.Promotion
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Promotion> listPromotionByParent(org.semanticwb.model.WebPage value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_webPageParent,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.Promotion with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @param model Model of the org.semanticwb.cptm.Promotion
-       * @return Iterator with all the org.semanticwb.cptm.Promotion
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Promotion> listPromotionByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.Promotion with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @return Iterator with all the org.semanticwb.cptm.Promotion
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Promotion> listPromotionByCreator(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.Promotion with a determined UserGroupRef
-       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
-       * @param model Model of the org.semanticwb.cptm.Promotion
-       * @return Iterator with all the org.semanticwb.cptm.Promotion
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Promotion> listPromotionByUserGroupRef(org.semanticwb.model.UserGroupRef value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.Promotion with a determined UserGroupRef
-       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
-       * @return Iterator with all the org.semanticwb.cptm.Promotion
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Promotion> listPromotionByUserGroupRef(org.semanticwb.model.UserGroupRef value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.Promotion with a determined WebPageVirtualChild
-       * @param value WebPageVirtualChild of the type org.semanticwb.model.WebPage
-       * @param model Model of the org.semanticwb.cptm.Promotion
-       * @return Iterator with all the org.semanticwb.cptm.Promotion
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Promotion> listPromotionByWebPageVirtualChild(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualChild, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.Promotion with a determined WebPageVirtualChild
-       * @param value WebPageVirtualChild of the type org.semanticwb.model.WebPage
-       * @return Iterator with all the org.semanticwb.cptm.Promotion
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Promotion> listPromotionByWebPageVirtualChild(org.semanticwb.model.WebPage value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualChild,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.Promotion with a determined Language
-       * @param value Language of the type org.semanticwb.model.Language
-       * @param model Model of the org.semanticwb.cptm.Promotion
-       * @return Iterator with all the org.semanticwb.cptm.Promotion
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Promotion> listPromotionByLanguage(org.semanticwb.model.Language value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_language, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.Promotion with a determined Language
-       * @param value Language of the type org.semanticwb.model.Language
-       * @return Iterator with all the org.semanticwb.cptm.Promotion
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Promotion> listPromotionByLanguage(org.semanticwb.model.Language value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_language,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.Promotion with a determined TemplateRef
-       * @param value TemplateRef of the type org.semanticwb.model.TemplateRef
-       * @param model Model of the org.semanticwb.cptm.Promotion
-       * @return Iterator with all the org.semanticwb.cptm.Promotion
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Promotion> listPromotionByTemplateRef(org.semanticwb.model.TemplateRef value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.Promotion with a determined TemplateRef
-       * @param value TemplateRef of the type org.semanticwb.model.TemplateRef
-       * @return Iterator with all the org.semanticwb.cptm.Promotion
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Promotion> listPromotionByTemplateRef(org.semanticwb.model.TemplateRef value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.Promotion with a determined PFlowRef
-       * @param value PFlowRef of the type org.semanticwb.model.PFlowRef
-       * @param model Model of the org.semanticwb.cptm.Promotion
-       * @return Iterator with all the org.semanticwb.cptm.Promotion
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Promotion> listPromotionByPFlowRef(org.semanticwb.model.PFlowRef value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.Promotion with a determined PFlowRef
-       * @param value PFlowRef of the type org.semanticwb.model.PFlowRef
-       * @return Iterator with all the org.semanticwb.cptm.Promotion
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Promotion> listPromotionByPFlowRef(org.semanticwb.model.PFlowRef value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.Promotion with a determined Child
-       * @param value Child of the type org.semanticwb.model.WebPage
-       * @param model Model of the org.semanticwb.cptm.Promotion
-       * @return Iterator with all the org.semanticwb.cptm.Promotion
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Promotion> listPromotionByChild(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageChild, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.Promotion with a determined Child
-       * @param value Child of the type org.semanticwb.model.WebPage
-       * @return Iterator with all the org.semanticwb.cptm.Promotion
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Promotion> listPromotionByChild(org.semanticwb.model.WebPage value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageChild,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.Promotion with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
-       * @param model Model of the org.semanticwb.cptm.Promotion
-       * @return Iterator with all the org.semanticwb.cptm.Promotion
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Promotion> listPromotionByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.Promotion with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
-       * @return Iterator with all the org.semanticwb.cptm.Promotion
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Promotion> listPromotionByModifiedBy(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasLocalidad,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -371,98 +129,6 @@ public abstract class PromotionBase extends org.semanticwb.model.WebPage impleme
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasResource,value.getSemanticObject(),sclass));
             return it;
         }
-       /**
-       * Gets all org.semanticwb.cptm.Promotion with a determined RoleRef
-       * @param value RoleRef of the type org.semanticwb.model.RoleRef
-       * @param model Model of the org.semanticwb.cptm.Promotion
-       * @return Iterator with all the org.semanticwb.cptm.Promotion
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Promotion> listPromotionByRoleRef(org.semanticwb.model.RoleRef value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.Promotion with a determined RoleRef
-       * @param value RoleRef of the type org.semanticwb.model.RoleRef
-       * @return Iterator with all the org.semanticwb.cptm.Promotion
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Promotion> listPromotionByRoleRef(org.semanticwb.model.RoleRef value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.Promotion with a determined ThisRoleAssMember
-       * @param value ThisRoleAssMember of the type org.semanticwb.model.AssMember
-       * @param model Model of the org.semanticwb.cptm.Promotion
-       * @return Iterator with all the org.semanticwb.cptm.Promotion
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Promotion> listPromotionByThisRoleAssMember(org.semanticwb.model.AssMember value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisRoleAssMemberInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.Promotion with a determined ThisRoleAssMember
-       * @param value ThisRoleAssMember of the type org.semanticwb.model.AssMember
-       * @return Iterator with all the org.semanticwb.cptm.Promotion
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Promotion> listPromotionByThisRoleAssMember(org.semanticwb.model.AssMember value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisRoleAssMemberInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.Promotion with a determined RuleRef
-       * @param value RuleRef of the type org.semanticwb.model.RuleRef
-       * @param model Model of the org.semanticwb.cptm.Promotion
-       * @return Iterator with all the org.semanticwb.cptm.Promotion
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Promotion> listPromotionByRuleRef(org.semanticwb.model.RuleRef value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.Promotion with a determined RuleRef
-       * @param value RuleRef of the type org.semanticwb.model.RuleRef
-       * @return Iterator with all the org.semanticwb.cptm.Promotion
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Promotion> listPromotionByRuleRef(org.semanticwb.model.RuleRef value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.Promotion with a determined ThisTypeAssociation
-       * @param value ThisTypeAssociation of the type org.semanticwb.model.Association
-       * @param model Model of the org.semanticwb.cptm.Promotion
-       * @return Iterator with all the org.semanticwb.cptm.Promotion
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Promotion> listPromotionByThisTypeAssociation(org.semanticwb.model.Association value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisTypeAssociationInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.Promotion with a determined ThisTypeAssociation
-       * @param value ThisTypeAssociation of the type org.semanticwb.model.Association
-       * @return Iterator with all the org.semanticwb.cptm.Promotion
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Promotion> listPromotionByThisTypeAssociation(org.semanticwb.model.Association value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisTypeAssociationInv,value.getSemanticObject(),sclass));
-            return it;
-        }
     }
 
    /**
@@ -472,5 +138,135 @@ public abstract class PromotionBase extends org.semanticwb.model.WebPage impleme
     public PromotionBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+   /**
+   * Gets all the org.semanticwb.cptm.LocalityInt
+   * @return A GenericIterator with all the org.semanticwb.cptm.LocalityInt
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.LocalityInt> listLocalidads()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.LocalityInt>(getSemanticObject().listObjectProperties(cptm_hasLocalidad));
+    }
+
+   /**
+   * Gets true if has a Localidad
+   * @param value org.semanticwb.cptm.LocalityInt to verify
+   * @return true if the org.semanticwb.cptm.LocalityInt exists, false otherwise
+   */
+    public boolean hasLocalidad(org.semanticwb.cptm.LocalityInt value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(cptm_hasLocalidad,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a Localidad
+   * @param value org.semanticwb.cptm.LocalityInt to add
+   */
+
+    public void addLocalidad(org.semanticwb.cptm.LocalityInt value)
+    {
+        getSemanticObject().addObjectProperty(cptm_hasLocalidad, value.getSemanticObject());
+    }
+   /**
+   * Removes all the Localidad
+   */
+
+    public void removeAllLocalidad()
+    {
+        getSemanticObject().removeProperty(cptm_hasLocalidad);
+    }
+   /**
+   * Removes a Localidad
+   * @param value org.semanticwb.cptm.LocalityInt to remove
+   */
+
+    public void removeLocalidad(org.semanticwb.cptm.LocalityInt value)
+    {
+        getSemanticObject().removeObjectProperty(cptm_hasLocalidad,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the Localidad
+   * @return a org.semanticwb.cptm.LocalityInt
+   */
+    public org.semanticwb.cptm.LocalityInt getLocalidad()
+    {
+         org.semanticwb.cptm.LocalityInt ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasLocalidad);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.cptm.LocalityInt)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Gets all the org.semanticwb.model.Resource
+   * @return A GenericIterator with all the org.semanticwb.model.Resource
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.model.Resource> listResources()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.model.Resource>(getSemanticObject().listObjectProperties(swb_hasResource));
+    }
+
+   /**
+   * Gets true if has a Resource
+   * @param value org.semanticwb.model.Resource to verify
+   * @return true if the org.semanticwb.model.Resource exists, false otherwise
+   */
+    public boolean hasResource(org.semanticwb.model.Resource value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(swb_hasResource,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a Resource
+   * @param value org.semanticwb.model.Resource to add
+   */
+
+    public void addResource(org.semanticwb.model.Resource value)
+    {
+        getSemanticObject().addObjectProperty(swb_hasResource, value.getSemanticObject());
+    }
+   /**
+   * Removes all the Resource
+   */
+
+    public void removeAllResource()
+    {
+        getSemanticObject().removeProperty(swb_hasResource);
+    }
+   /**
+   * Removes a Resource
+   * @param value org.semanticwb.model.Resource to remove
+   */
+
+    public void removeResource(org.semanticwb.model.Resource value)
+    {
+        getSemanticObject().removeObjectProperty(swb_hasResource,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the Resource
+   * @return a org.semanticwb.model.Resource
+   */
+    public org.semanticwb.model.Resource getResource()
+    {
+         org.semanticwb.model.Resource ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_hasResource);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.Resource)obj.createGenericInstance();
+         }
+         return ret;
     }
 }

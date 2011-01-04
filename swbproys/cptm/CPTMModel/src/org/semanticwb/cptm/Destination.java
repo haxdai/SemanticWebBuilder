@@ -2,7 +2,7 @@ package org.semanticwb.cptm;
 
 
    /**
-   * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Destinos. 
+   * Destino turistico en el cual existe infraestructura para hospedarse (Ej. Cancún) 
    */
 public class Destination extends org.semanticwb.cptm.base.DestinationBase 
 {

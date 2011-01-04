@@ -2,7 +2,7 @@ package org.semanticwb.cptm;
 
 
    /**
-   * Clase que se encarga del catalogo de Aventura de viaje 
+   * Clase que se encarga del catalogo de "Estilos de Viaje" 
    */
 public class TravelStyle extends org.semanticwb.cptm.base.TravelStyleBase 
 {

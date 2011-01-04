@@ -4,16 +4,8 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de experiencias. 
    */
-public abstract class ExperienceBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.TemplateRefable,org.semanticwb.model.Trashable,org.semanticwb.model.Undeleteable,org.semanticwb.model.FilterableNode,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Traceable,org.semanticwb.model.Searchable,org.semanticwb.model.Filterable,org.semanticwb.model.Indexable,org.semanticwb.model.RoleRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Viewable,org.semanticwb.model.Expirable,org.semanticwb.model.Localeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Activeable,org.semanticwb.model.Tagable,org.semanticwb.model.Referensable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Resourceable,org.semanticwb.model.RuleRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Rankable
+public abstract class ExperienceBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Localeable,org.semanticwb.model.Rankable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,org.semanticwb.model.Trashable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Expirable,org.semanticwb.model.Activeable,org.semanticwb.model.Referensable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.RuleRefable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Resourceable,org.semanticwb.model.Filterable,org.semanticwb.model.Indexable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Viewable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Tagable,org.semanticwb.model.Searchable,org.semanticwb.model.FilterableClass
 {
-   /**
-   * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Destinos.
-   */
-    public static final org.semanticwb.platform.SemanticClass cptm_Destination=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Destination");
-   /**
-   * Inversa.Mediante esta se puede saber en que destinos se encuentra asignado una cierta experiencia.
-   */
-    public static final org.semanticwb.platform.SemanticProperty cptm_hasDestinationExperienceInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasDestinationExperienceInv");
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de experiencias.
    */
@@ -182,29 +174,6 @@ public abstract class ExperienceBase extends org.semanticwb.model.WebPage implem
         public static java.util.Iterator<org.semanticwb.cptm.Experience> listExperienceByParent(org.semanticwb.model.WebPage value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Experience> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_webPageParent,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.Experience with a determined DestinationExperienceInv
-       * @param value DestinationExperienceInv of the type org.semanticwb.cptm.Destination
-       * @param model Model of the org.semanticwb.cptm.Experience
-       * @return Iterator with all the org.semanticwb.cptm.Experience
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Experience> listExperienceByDestinationExperienceInv(org.semanticwb.cptm.Destination value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Experience> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasDestinationExperienceInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.Experience with a determined DestinationExperienceInv
-       * @param value DestinationExperienceInv of the type org.semanticwb.cptm.Destination
-       * @return Iterator with all the org.semanticwb.cptm.Experience
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Experience> listExperienceByDestinationExperienceInv(org.semanticwb.cptm.Destination value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Experience> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasDestinationExperienceInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -515,45 +484,6 @@ public abstract class ExperienceBase extends org.semanticwb.model.WebPage implem
     public ExperienceBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
-    }
-   /**
-   * Gets all the org.semanticwb.cptm.Destination
-   * @return A GenericIterator with all the org.semanticwb.cptm.Destination
-   */
-
-    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Destination> listDestinationExperienceInvs()
-    {
-        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Destination>(getSemanticObject().listObjectProperties(cptm_hasDestinationExperienceInv));
-    }
-
-   /**
-   * Gets true if has a DestinationExperienceInv
-   * @param value org.semanticwb.cptm.Destination to verify
-   * @return true if the org.semanticwb.cptm.Destination exists, false otherwise
-   */
-    public boolean hasDestinationExperienceInv(org.semanticwb.cptm.Destination value)
-    {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(cptm_hasDestinationExperienceInv,value.getSemanticObject());
-        }
-        return ret;
-    }
-
-   /**
-   * Gets the DestinationExperienceInv
-   * @return a org.semanticwb.cptm.Destination
-   */
-    public org.semanticwb.cptm.Destination getDestinationExperienceInv()
-    {
-         org.semanticwb.cptm.Destination ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasDestinationExperienceInv);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.cptm.Destination)obj.createGenericInstance();
-         }
-         return ret;
     }
 
    /**
