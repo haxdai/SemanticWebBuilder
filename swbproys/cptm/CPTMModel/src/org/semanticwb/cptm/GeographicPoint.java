@@ -2,7 +2,7 @@ package org.semanticwb.cptm;
 
 
    /**
-   * Punto Geografico en el país (Ej. Chichen itza) , sin llegar a ser un destino turistico (Ej. Cancún) 
+   * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Destinos. 
    */
 public class GeographicPoint extends org.semanticwb.cptm.base.GeographicPointBase 
 {

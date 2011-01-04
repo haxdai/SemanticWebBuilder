@@ -4,13 +4,8 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que se encarga del catalogo de "Estilos de Viaje" 
    */
-public abstract class TravelStyleBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.TemplateRefable,org.semanticwb.model.Trashable,org.semanticwb.model.Undeleteable,org.semanticwb.model.FilterableNode,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Traceable,org.semanticwb.model.Searchable,org.semanticwb.model.Filterable,org.semanticwb.model.Indexable,org.semanticwb.model.RoleRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Viewable,org.semanticwb.model.Expirable,org.semanticwb.model.Localeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Activeable,org.semanticwb.model.Tagable,org.semanticwb.model.Referensable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Resourceable,org.semanticwb.model.RuleRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Rankable
+public abstract class TravelStyleBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Localeable,org.semanticwb.model.Rankable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,org.semanticwb.model.Trashable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Expirable,org.semanticwb.model.Activeable,org.semanticwb.model.Referensable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.RuleRefable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Resourceable,org.semanticwb.model.Filterable,org.semanticwb.model.Indexable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Viewable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Tagable,org.semanticwb.model.Searchable,org.semanticwb.model.FilterableClass
 {
-   /**
-   * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Destinos.
-   */
-    public static final org.semanticwb.platform.SemanticClass cptm_Destination=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Destination");
-    public static final org.semanticwb.platform.SemanticProperty cptm_hasTravelStyleInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasTravelStyleInv");
    /**
    * Clase que se encarga del catalogo de "Estilos de Viaje"
    */
@@ -104,29 +99,6 @@ public abstract class TravelStyleBase extends org.semanticwb.model.WebPage imple
         public static java.util.Iterator<org.semanticwb.cptm.TravelStyle> listTravelStyleByAssMember(org.semanticwb.model.AssMember value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelStyle> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasAssMemberInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.TravelStyle with a determined TravelStyleInv
-       * @param value TravelStyleInv of the type org.semanticwb.cptm.Destination
-       * @param model Model of the org.semanticwb.cptm.TravelStyle
-       * @return Iterator with all the org.semanticwb.cptm.TravelStyle
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.TravelStyle> listTravelStyleByTravelStyleInv(org.semanticwb.cptm.Destination value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelStyle> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasTravelStyleInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.TravelStyle with a determined TravelStyleInv
-       * @param value TravelStyleInv of the type org.semanticwb.cptm.Destination
-       * @return Iterator with all the org.semanticwb.cptm.TravelStyle
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.TravelStyle> listTravelStyleByTravelStyleInv(org.semanticwb.cptm.Destination value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelStyle> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasTravelStyleInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -506,45 +478,6 @@ public abstract class TravelStyleBase extends org.semanticwb.model.WebPage imple
     public TravelStyleBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
-    }
-   /**
-   * Gets all the org.semanticwb.cptm.Destination
-   * @return A GenericIterator with all the org.semanticwb.cptm.Destination
-   */
-
-    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Destination> listTravelStyleInvs()
-    {
-        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Destination>(getSemanticObject().listObjectProperties(cptm_hasTravelStyleInv));
-    }
-
-   /**
-   * Gets true if has a TravelStyleInv
-   * @param value org.semanticwb.cptm.Destination to verify
-   * @return true if the org.semanticwb.cptm.Destination exists, false otherwise
-   */
-    public boolean hasTravelStyleInv(org.semanticwb.cptm.Destination value)
-    {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(cptm_hasTravelStyleInv,value.getSemanticObject());
-        }
-        return ret;
-    }
-
-   /**
-   * Gets the TravelStyleInv
-   * @return a org.semanticwb.cptm.Destination
-   */
-    public org.semanticwb.cptm.Destination getTravelStyleInv()
-    {
-         org.semanticwb.cptm.Destination ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasTravelStyleInv);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.cptm.Destination)obj.createGenericInstance();
-         }
-         return ret;
     }
 
    /**
