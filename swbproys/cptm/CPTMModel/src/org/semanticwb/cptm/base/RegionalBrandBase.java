@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Marca Regional. La cual puede tener relaciodos Destinos Turisticos y Puntos geográficos (Ej. La Riviera Maya) 
    */
-public abstract class RegionalBrandBase extends org.semanticwb.model.SWBClass implements org.semanticwb.cptm.LocalityInt,org.semanticwb.model.Descriptiveable
+public abstract class RegionalBrandBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.cptm.LocalityInt
 {
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Destinos.
