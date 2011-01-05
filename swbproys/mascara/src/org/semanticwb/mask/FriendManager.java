@@ -1,11 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package org.semanticwb.mask;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,29 +24,54 @@ import org.semanticwb.portal.community.FriendshipProspect;
  */
 public class FriendManager extends GenericAdmResource {
     private static Logger log = SWBUtils.getLogger(FriendManager.class);
-    public static final String Action_ADDPROSPECT = "addProspect";
+    public static final String Action_ACCEPTINVITATION = "agree";
+    public static final String Action_REJECTINVITATION = "reject";
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         final WebPage wp = paramRequest.getWebPage();
         final WebSite model = wp.getWebSite();
         final String modelId = wp.getWebSiteId();
+        final String path = "/work/models/"+modelId+"/jsp/";
+
+        PrintWriter out =  response.getWriter();
         
         request.setAttribute("paramRequest", paramRequest);
         RequestDispatcher dis;
-        dis = request.getRequestDispatcher("/work/models/"+modelId+"/jsp/perfil/myInvitations.jsp");
+
+        out.println("<div class=\"area_registro\">");
+        dis = request.getRequestDispatcher(path+"perfil/myFriendRequests.jsp");
         try {
             dis.include(request, response);
         } catch (Exception e) {
+            System.out.println("myFriendRequests\n"+e);
             log.error(e);
         }
 
-        dis = request.getRequestDispatcher("/work/models/"+modelId+"/jsp/perfil/findFriends.jsp");
-        try {
-            dis.include(request, response);
-        } catch (Exception e) {
-            log.error(e);
-        }
+//        dis = request.getRequestDispatcher(path+"perfil/myFriends.jsp");
+//        try {
+//            dis.include(request, response);
+//        } catch (Exception e) {
+//            System.out.println("myFriends\n"+e);
+//            log.error(e);
+//        }
+//
+//        dis = request.getRequestDispatcher(path+"perfil/myInvitations.jsp");
+//        try {
+//            dis.include(request, response);
+//        } catch (Exception e) {
+//            System.out.println("myInvitations\n"+e);
+//            log.error(e);
+//        }
+//
+//        dis = request.getRequestDispatcher(path+"perfil/findFriends.jsp");
+//        try {
+//            dis.include(request, response);
+//        } catch (Exception e) {
+//            System.out.println("findFriends\n"+e);
+//            log.error(e);
+//        }
+        out.println("</div>");
     }
 
     @Override
@@ -60,34 +81,50 @@ public class FriendManager extends GenericAdmResource {
         User owner = response.getUser();
 
         String action = response.getAction();
+        // agregar prospecto o solicitud
         if(response.Action_ADD.equals(action)) {
-            User requester = null;
-            if( request.getParameter("user")!=null && !request.getParameter("user").equals(owner.getURI()) ) {
-                SemanticObject semObj = SemanticObject.createSemanticObject(request.getParameter("user"));
-                requester = (User)semObj.createGenericInstance();
-                if (requester!=null && requester.getURI()!=null && owner!=null && owner.getURI()!=null && !owner.getURI().equals(requester.getURI()) && !Friendship.areFriends(owner, requester, model) && FriendshipProspect.findFriendProspectedByRequester(requester, owner, model)) {
-                    Friendship friendship = Friendship.ClassMgr.createFriendship(model);
-                    friendship.addFriend(requester);
-                    friendship.addFriend(owner);
-                    FriendshipProspect.removeFriendshipProspectByRequester(requester, owner, model);
-                }
-            }
-        }else if(response.Action_REMOVE.equals(action)) {
-            User requester = null;
-            if( request.getParameter("user")!=null && !request.getParameter("user").equals(owner.getURI()) ) {
-                SemanticObject semObj = SemanticObject.createSemanticObject(request.getParameter("user"));
-                requester = (User)semObj.createGenericInstance();
-                if (requester!=null && requester.getURI()!=null && owner!=null && owner.getURI()!=null && !owner.getURI().equals(requester.getURI()) && !Friendship.areFriends(owner, requester, model) && FriendshipProspect.findFriendProspectedByRequester(requester, owner, model)) {
-                    FriendshipProspect.removeFriendshipProspectByRequester(requester, owner, model);
-                }
-            }
-        }else if(Action_ADDPROSPECT.equals(action)) {
             User requested = null;
             if( request.getParameter("user")!=null && !request.getParameter("user").equals(owner.getURI()) ) {
                 SemanticObject semObj = SemanticObject.createSemanticObject(request.getParameter("user"));
                 requested = (User)semObj.createGenericInstance();
                 if (requested!=null && requested.getURI()!=null && owner!=null && owner.getURI()!=null && !owner.getURI().equals(requested.getURI()) && !Friendship.areFriends(owner, requested, model) && !FriendshipProspect.findFriendProspectedByRequester(owner, requested, model)) {
                     FriendshipProspect.createFriendshipProspect(owner, requested, model);
+                }
+            }
+        }
+        // eliminar prospecto o solicitud
+        else if(response.Action_REMOVE.equals(action)) {
+            User requester = null;
+            if( request.getParameter("user")!=null && !request.getParameter("user").equals(owner.getURI()) ) {
+                SemanticObject semObj = SemanticObject.createSemanticObject(request.getParameter("user"));
+                requester = (User)semObj.createGenericInstance();
+                if (requester!=null && requester.getURI()!=null && owner!=null && owner.getURI()!=null && !owner.getURI().equals(requester.getURI()) && !Friendship.areFriends(owner, requester, model) && FriendshipProspect.findFriendProspectedByRequester(requester, owner, model)) {
+                    FriendshipProspect.removeFriendshipProspectByRequester(requester, owner, model);
+                }
+            }
+        }else if(Action_ACCEPTINVITATION.equals(action)) {
+            System.out.println("aceptar invitacion");
+            System.out.println("amistoso="+request.getParameter("user"));
+            User requester = null;
+            if( request.getParameter("user")!=null && !request.getParameter("user").equals(owner.getURI()) ) {
+                SemanticObject semObj = SemanticObject.createSemanticObject(request.getParameter("user"));
+                requester = (User)semObj.createGenericInstance();
+                if (requester!=null && owner!=null && owner.getURI()!=null && !owner.getURI().equals(requester.getURI()) && !Friendship.areFriends(owner, requester, model) && FriendshipProspect.findFriendProspectedByRequester(requester, owner, model)) {
+                    Friendship friendship = Friendship.ClassMgr.createFriendship(model);
+                    friendship.addFriend(requester);
+                    friendship.addFriend(owner);
+                    FriendshipProspect.removeFriendshipProspectByRequester(requester, owner, model);
+                }
+            }
+        }else if(Action_REJECTINVITATION.equals(action)) {
+            System.out.println("rechazar invitacion");
+            System.out.println("amistoso="+request.getParameter("user"));
+            User requester = null;
+            if( request.getParameter("user")!=null && !request.getParameter("user").equals(owner.getURI()) ) {
+                SemanticObject semObj = SemanticObject.createSemanticObject(request.getParameter("user"));
+                requester = (User)semObj.createGenericInstance();
+                if (requester!=null && owner!=null && !owner.getURI().equals(requester.getURI()) && !Friendship.areFriends(owner, requester, model) && FriendshipProspect.findFriendProspectedByRequester(requester, owner, model)) {
+                    FriendshipProspect.removeFriendshipProspectByRequester(requester, owner, model);
                 }
             }
         }
