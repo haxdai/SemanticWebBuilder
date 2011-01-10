@@ -86,17 +86,17 @@ public class RegisterUser extends GenericAdmResource {
 
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
-        UserRepository ur = response.getWebPage().getWebSite().getUserRepository();
+        String action = response.getAction();
         User user = response.getUser();
-        String login = SWBUtils.XML.replaceXMLChars(request.getParameter("login"));
-        String pwd = request.getParameter("passwd");
         
-        if( response.Action_ADD.equals(response.getAction()) && login!=null && !login.isEmpty() && !user.isSigned() && ur.getUserByLogin(login)==null ) {
+        if(response.Action_ADD.equals(action)) {
+            UserRepository ur = response.getWebPage().getWebSite().getUserRepository();
+            String login = SWBUtils.XML.replaceXMLChars(request.getParameter("login"));
+            String pwd = request.getParameter("passwd");
             String securCodeSent = request.getParameter("cmnt_seccode");
             String securCodeCreated = (String) request.getSession(true).getAttribute("cdlog");
-            if (securCodeCreated != null && securCodeCreated.equalsIgnoreCase(securCodeSent)) {
+            if( securCodeCreated!=null && securCodeCreated.equalsIgnoreCase(securCodeSent) && login!=null && !login.isEmpty() && !user.isSigned() && ur.getUserByLogin(login)==null) {
                 request.getSession(true).removeAttribute("cdlog");
-
                 response.setRenderParameter("msg", "regfail");
                 
                 User newUser = ur.createUser();
@@ -116,8 +116,8 @@ public class RegisterUser extends GenericAdmResource {
                 try {
                     newUser.checkCredential(pwd.toCharArray());
                 }catch(Exception ne) {
+                    ne.printStackTrace();
                 }
-
                 try {
                     Iterator<SemanticProperty> list = org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/mascara#_ExtendedAttributes").listProperties();
                     while (list.hasNext()) {
@@ -162,12 +162,21 @@ public class RegisterUser extends GenericAdmResource {
                     nex.printStackTrace();
                 }
             }else {
-                response.setRenderParameter("login", login);
-                response.setRenderParameter("pwd", pwd);
+                if(login==null)
+                    response.setRenderParameter("msgWrnLogin", "El nombre de usuario es requerido");
+                else
+                    response.setRenderParameter("login", login);
+                if(login==null)
+                    response.setRenderParameter("msgWrnPsw", "La contrase&ntilde;a es requerida");
+                else
+                    response.setRenderParameter("pwd", pwd);
+                if(ur.getUserByLogin(login)!=null)
+                    response.setRenderParameter("msgWrn", "El usuario ya existe");
                 response.setRenderParameter("firstName", SWBUtils.XML.replaceXMLChars(request.getParameter("firstName")));
                 response.setRenderParameter("lastName", SWBUtils.XML.replaceXMLChars(request.getParameter("lastName")));
                 response.setRenderParameter("secondLastName", SWBUtils.XML.replaceXMLChars(request.getParameter("secondLastName")));
                 response.setRenderParameter("email", SWBUtils.XML.replaceXMLChars(request.getParameter("email")));
+                
                 response.setRenderParameter("msg", "regfail");
                 response.setMode(response.Mode_VIEW);
                 response.setCallMethod(response.Call_CONTENT);
@@ -187,7 +196,6 @@ public class RegisterUser extends GenericAdmResource {
                 Iterator<SemanticProperty> list = org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/community#_ExtendedAttributes").listProperties();
                 while (list.hasNext()) {
                     SemanticProperty sp = list.next();
-                    //System.out.println(sp.getName() + ":" + request.getParameter(sp.getName())+": isDate:"+sp.isDate());
                     if (null == request.getParameter(sp.getName())) {
                         user.removeExtendedAttribute(sp);
                     } else {
@@ -212,7 +220,6 @@ public class RegisterUser extends GenericAdmResource {
                             try {
                                 SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
                                 Date val = sf.parse(request.getParameter(sp.getName()));
-                                //System.out.println("Date:"+val);
                                 user.setExtendedAttribute(sp, val);
                             } catch (Exception ne) {
                                 ne.printStackTrace();
