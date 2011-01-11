@@ -122,7 +122,7 @@ public class RegisterUser extends GenericAdmResource {
                 try {
                     newUser.checkCredential(pwd.toCharArray());
                 }catch(Exception ne) {
-                    ne.printStackTrace();
+                    ne.printStackTrace(System.out);
                 }
                 try {
                     Iterator<SemanticProperty> list = org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/mascara#_ExtendedAttributes").listProperties();
@@ -139,7 +139,7 @@ public class RegisterUser extends GenericAdmResource {
                                     Integer val = Integer.valueOf(request.getParameter(sp.getName()));
                                     user.setExtendedAttribute(sp, val);
                                 }catch(Exception ne) {
-                                    ne.printStackTrace();
+                                    ne.printStackTrace(System.out);
                                 }
                             }
                             if(sp.isDouble()) {
