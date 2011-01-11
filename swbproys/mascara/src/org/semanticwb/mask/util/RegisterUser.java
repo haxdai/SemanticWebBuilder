@@ -95,7 +95,13 @@ public class RegisterUser extends GenericAdmResource {
             String pwd = request.getParameter("passwd");
             String securCodeSent = request.getParameter("cmnt_seccode");
             String securCodeCreated = (String) request.getSession(true).getAttribute("cdlog");
-            if( securCodeCreated!=null && securCodeCreated.equalsIgnoreCase(securCodeSent) && login!=null && !login.isEmpty() && !user.isSigned() && ur.getUserByLogin(login)==null) {
+            System.out.println("securCodeCreated="+securCodeCreated);
+            System.out.println("securCodeSent="+securCodeSent);
+            System.out.println("securCodeCreated.equalsIgnoreCase(securCodeSent)="+securCodeCreated.equalsIgnoreCase(securCodeSent));
+            System.out.println("login="+login);
+            System.out.println("user.isSigned()="+user.isSigned());
+            System.out.println("ur.getUserByLogin(login)="+ur.getUserByLogin(login));
+            if( securCodeCreated!=null && securCodeCreated.equalsIgnoreCase(securCodeSent) && login!=null && !login.equals("") && !user.isSigned() && ur.getUserByLogin(login)==null) {
                 request.getSession(true).removeAttribute("cdlog");
                 response.setRenderParameter("msg", "regfail");
                 
