@@ -1,32 +1,19 @@
 package org.semanticwb.mask.util;
 
-import java.awt.AlphaComposite;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import javax.security.auth.Subject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileItemFactory;
-import org.apache.commons.fileupload.ProgressListener;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBException;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
-import org.semanticwb.base.util.ImageResizer;
 import org.semanticwb.model.Role;
 import org.semanticwb.model.User;
 import org.semanticwb.model.UserRepository;
@@ -87,34 +74,35 @@ public class RegisterUser extends GenericAdmResource {
             String cpwd = request.getParameter("cpasswd");
             String securCodeSent = request.getParameter("cmnt_seccode");
             String securCodeCreated = (String) request.getSession(true).getAttribute("cdlog");
-            
-            if(securCodeCreated!=null && !securCodeCreated.equalsIgnoreCase(securCodeSent)) {
-                response.setRenderParameter("msg", response.getLocaleString(""));
-                return;
+
+            StringBuilder msg = new StringBuilder();
+            if(securCodeCreated!=null && !securCodeCreated.equalsIgnoreCase(securCodeSent))
+                msg.append(response.getLocaleString("msgErrSecureCodeRequired"));
+            if( request.getParameter("firstName")==null || "".equals(request.getParameter("firstName")) ) {
+                msg.append(response.getLocaleString("msgErrFirstNameRequired"));
+            }
+            if( request.getParameter("lastName")==null || "".equals(request.getParameter("lastName")) ) {
+                msg.append(response.getLocaleString("msgErrLastNameRequired"));
+            }
+            if( !SWBUtils.EMAIL.isValidEmailAddress(request.getParameter("email")) ) {
+                msg.append(response.getLocaleString("msgErrInvalidEmail"));
             }
             if( login==null || "".equals(login) ) {
-                response.setRenderParameter("msg", response.getLocaleString(""));
-                return;
+                msg.append(response.getLocaleString("msgErrLoginRequired"));
             }
             if( pwd==null || cpwd==null || "".equals(pwd) || "".equals(cpwd) || (pwd!=null && !pwd.equals(cpwd)) ) {
-                response.setRenderParameter("msg", response.getLocaleString(""));
-                return;
+                msg.append(response.getLocaleString("msgErrPasswordRequired"));
             }
             if(user.isSigned()) {
-                response.setRenderParameter("msg", response.getLocaleString(""));
-                return;
+                msg.append(response.getLocaleString("msgErrUserAlreadySigned"));
             }
             if(ur.getUserByLogin(login)!=null) {
-                response.setRenderParameter("msg", response.getLocaleString(""));
-                return;
+                msg.append(response.getLocaleString("msgErrUserAlreadyExists"));
             }
-
-
-            if( securCodeCreated!=null && securCodeCreated.equalsIgnoreCase(securCodeSent) && login!=null && !login.equals("") && !user.isSigned() && ur.getUserByLogin(login)==null) {
+            
+            if( securCodeCreated!=null && securCodeCreated.equalsIgnoreCase(securCodeSent) && !user.isSigned() && ur.getUserByLogin(login)==null && msg.length()==0) {
                 request.getSession(true).removeAttribute("cdlog");
-
-                response.setRenderParameter("msg", "ok");
-                
+//                response.setRenderParameter("msg", "ok");
                 User newUser = ur.createUser();
                 newUser.setLogin(login.trim());
                 Subject subject = SWBPortal.getUserMgr().getSubject(request, response.getWebPage().getWebSiteId());
@@ -166,7 +154,7 @@ public class RegisterUser extends GenericAdmResource {
                 }catch(SWBException nex) {
                     log.error(nex);
                     nex.printStackTrace(System.out);
-                    response.setRenderParameter("msg", "regfail");
+                    response.setRenderParameter("msg", nex.getMessage());
                 }
                 try {
                     Role role = null;
@@ -183,31 +171,25 @@ public class RegisterUser extends GenericAdmResource {
                 }catch(Exception e) {
                     log.error(e);
                     e.printStackTrace(System.out);
-                    response.setRenderParameter("msg", "regfail");
+                    response.setRenderParameter("msg", e.getMessage());
                 }
             }else {
-                if(login==null)
-                    response.setRenderParameter("msgWrnLogin", "El nombre de usuario es requerido");
-                else
-                    response.setRenderParameter("login", login);
-                if(login==null)
-                    response.setRenderParameter("msgWrnPsw", "La contrase&ntilde;a es requerida");
-                else
-                    response.setRenderParameter("pwd", pwd);
-                if(ur.getUserByLogin(login)!=null)
-                    response.setRenderParameter("msgWrn", "El usuario ya existe");
+                response.setRenderParameter("login", login);
+                response.setRenderParameter("passwd", pwd);
+                response.setRenderParameter("cpasswd", cpwd);
                 response.setRenderParameter("firstName", SWBUtils.XML.replaceXMLChars(request.getParameter("firstName")));
                 response.setRenderParameter("lastName", SWBUtils.XML.replaceXMLChars(request.getParameter("lastName")));
                 response.setRenderParameter("secondLastName", SWBUtils.XML.replaceXMLChars(request.getParameter("secondLastName")));
                 response.setRenderParameter("email", SWBUtils.XML.replaceXMLChars(request.getParameter("email")));
+                response.setRenderParameter("userSchoolName", SWBUtils.XML.replaceXMLChars(request.getParameter("userSchoolName")));
+                response.setRenderParameter("userSchoolDegree", SWBUtils.XML.replaceXMLChars(request.getParameter("userSchoolDegree")));
+                response.setRenderParameter("userSchoolGroup", SWBUtils.XML.replaceXMLChars(request.getParameter("userSchoolGroup")));
                 
-                response.setRenderParameter("msg", "regfail");
+                response.setRenderParameter("msg", msg.toString());
                 response.setMode(response.Mode_VIEW);
-                response.setCallMethod(response.Call_CONTENT);
             }
         }
         else if("edit".equals(response.getAction()) && user.isSigned()) {
-
             if (request.getParameter("usrPassword")!=null && !"{MD5}tq5RXfs6DGIXD6dlHUgeQA==".equalsIgnoreCase(request.getParameter("usrPassword")))
             {
                 user.setPassword(request.getParameter("usrPassword"));
@@ -277,7 +259,7 @@ public class RegisterUser extends GenericAdmResource {
 
     @Override
     public void doHelp(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        
+        response.getWriter().println("<p class=\"\"><p class=\"\">"+paramRequest.getLocaleString("msgOkRegister")+"</p></div>");
     }
 
     public String replaceTags(String str, HttpServletRequest request, SWBActionResponse paramRequest, User newUser, String siteName, String page2Confirm) {
