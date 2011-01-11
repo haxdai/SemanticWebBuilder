@@ -27,11 +27,10 @@ import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.base.util.ImageResizer;
-import org.semanticwb.model.Resource;
+import org.semanticwb.model.Role;
 import org.semanticwb.model.User;
 import org.semanticwb.model.UserRepository;
 import org.semanticwb.platform.SemanticProperty;
-import org.semanticwb.portal.SWBFormMgr;
 import org.semanticwb.portal.TemplateImp;
 import org.semanticwb.portal.api.GenericAdmResource;
 import org.semanticwb.portal.api.SWBActionResponse;
@@ -52,35 +51,24 @@ public class RegisterUser extends GenericAdmResource {
         PrintWriter out = response.getWriter();
         
         String groovyFile = "newChild.groovy";
-        if(paramRequest.getWebPage().getId().equals("Registro_profesor")) {
+        if(paramRequest.getWebPage().getId().equalsIgnoreCase("Registro_profesor")) {
             groovyFile = "newUser.groovy";
         }
 
-        String act = request.getParameter("act");
-        if(act == null) {
-            act = "add";
-        }
-
-        String model = paramRequest.getWebPage().getWebSiteId();
-        String path = "/work/models/"+model+"/jsp/util/linkNewUser.groovy";
-
         String msg = request.getParameter("msg");
-        if("ok".equals(msg)) {
-            path = "/work/models/"+model+"/jsp/util/messages.jsp";
-        }else {
-            if("regfail".equals(msg)) {
-                out.println("<pre><strong><font color=\"red\">Error al registrar el usuario, favor de volverlo a intentar</strong></font></pre>");
-            }
-            if("add".equals(act)) {
-                path = "/work/models/"+model+"/jsp/util/"+groovyFile;
-            }
+        String model = paramRequest.getWebPage().getWebSiteId();
+        
+        if(msg!=null) {
+            out.println("<div class=\"\"><p class=\"\">"+msg+"</p></div>");
         }
-        RequestDispatcher dis = request.getRequestDispatcher(path);
+
+        RequestDispatcher dis = request.getRequestDispatcher("/work/models/"+model+"/jsp/util/"+groovyFile);
         try {
             request.setAttribute("paramRequest", paramRequest);
             dis.include(request, response);
-        } catch (Exception e) {
+        }catch (Exception e) {
             log.error(e);
+            e.printStackTrace(System.out);
         }
     }
 
@@ -90,20 +78,42 @@ public class RegisterUser extends GenericAdmResource {
         User user = response.getUser();
         
         if(response.Action_ADD.equals(action)) {
+            response.setCallMethod(response.Call_CONTENT);
+            response.setMode(response.Mode_HELP);
+
             UserRepository ur = response.getWebPage().getWebSite().getUserRepository();
             String login = SWBUtils.XML.replaceXMLChars(request.getParameter("login"));
             String pwd = request.getParameter("passwd");
+            String cpwd = request.getParameter("cpasswd");
             String securCodeSent = request.getParameter("cmnt_seccode");
             String securCodeCreated = (String) request.getSession(true).getAttribute("cdlog");
-            System.out.println("securCodeCreated="+securCodeCreated);
-            System.out.println("securCodeSent="+securCodeSent);
-            System.out.println("securCodeCreated.equalsIgnoreCase(securCodeSent)="+securCodeCreated.equalsIgnoreCase(securCodeSent));
-            System.out.println("login="+login);
-            System.out.println("user.isSigned()="+user.isSigned());
-            System.out.println("ur.getUserByLogin(login)="+ur.getUserByLogin(login));
+            
+            if(securCodeCreated!=null && !securCodeCreated.equalsIgnoreCase(securCodeSent)) {
+                response.setRenderParameter("msg", response.getLocaleString(""));
+                return;
+            }
+            if( login==null || "".equals(login) ) {
+                response.setRenderParameter("msg", response.getLocaleString(""));
+                return;
+            }
+            if( pwd==null || cpwd==null || "".equals(pwd) || "".equals(cpwd) || (pwd!=null && !pwd.equals(cpwd)) ) {
+                response.setRenderParameter("msg", response.getLocaleString(""));
+                return;
+            }
+            if(user.isSigned()) {
+                response.setRenderParameter("msg", response.getLocaleString(""));
+                return;
+            }
+            if(ur.getUserByLogin(login)!=null) {
+                response.setRenderParameter("msg", response.getLocaleString(""));
+                return;
+            }
+
+
             if( securCodeCreated!=null && securCodeCreated.equalsIgnoreCase(securCodeSent) && login!=null && !login.equals("") && !user.isSigned() && ur.getUserByLogin(login)==null) {
                 request.getSession(true).removeAttribute("cdlog");
-                response.setRenderParameter("msg", "regfail");
+
+                response.setRenderParameter("msg", "ok");
                 
                 User newUser = ur.createUser();
                 newUser.setLogin(login.trim());
@@ -124,33 +134,23 @@ public class RegisterUser extends GenericAdmResource {
                 }catch(Exception ne) {
                     ne.printStackTrace(System.out);
                 }
+                boolean isTeacher = false;
                 try {
                     Iterator<SemanticProperty> list = org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/mascara#_ExtendedAttributes").listProperties();
-                    while (list.hasNext()) {
+                    while(list.hasNext()) {
                         SemanticProperty sp = list.next();
-                        if(null == request.getParameter(sp.getName())) {
+
+                        if(sp.getName().equalsIgnoreCase("teacherKey")) {
+                            isTeacher = true;
+                        }
+
+                        if(request.getParameter(sp.getName())==null) {
                             user.removeExtendedAttribute(sp);
                         }else {
                             if(sp.isString()) {
                                 user.setExtendedAttribute(sp, SWBUtils.XML.replaceXMLChars(request.getParameter(sp.getName())));
                             }
-                            if(sp.isInt()) {
-                                try {
-                                    Integer val = Integer.valueOf(request.getParameter(sp.getName()));
-                                    user.setExtendedAttribute(sp, val);
-                                }catch(Exception ne) {
-                                    ne.printStackTrace(System.out);
-                                }
-                            }
-                            if(sp.isDouble()) {
-                                try {
-                                    Double val = Double.valueOf(request.getParameter(sp.getName()));
-                                    user.setExtendedAttribute(sp, val);
-                                }catch(Exception ne) {
-                                    ne.printStackTrace();
-                                }
-                            }
-                            if(sp.isDate()) {
+                            else if(sp.isDate()) {
                                 try {
                                     SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
                                     Date val = sf.parse(request.getParameter(sp.getName()));
@@ -165,7 +165,25 @@ public class RegisterUser extends GenericAdmResource {
                     response.setRenderParameter("msg", "ok");
                 }catch(SWBException nex) {
                     log.error(nex);
-                    nex.printStackTrace();
+                    nex.printStackTrace(System.out);
+                    response.setRenderParameter("msg", "regfail");
+                }
+                try {
+                    Role role = null;
+                    if(isTeacher) {
+                        if(ur.hasRole("Profesor")) {
+                            role = ur.getRole("Profesor");
+                        }
+                    }else {
+                        if(ur.hasRole("Alumno")) {
+                            role = ur.getRole("Alumno");
+                        }
+                    }
+                    user.addRole(role);
+                }catch(Exception e) {
+                    log.error(e);
+                    e.printStackTrace(System.out);
+                    response.setRenderParameter("msg", "regfail");
                 }
             }else {
                 if(login==null)
@@ -244,114 +262,9 @@ public class RegisterUser extends GenericAdmResource {
 //            return;
         }
         else if("upload".equals(response.getAction()) && user.isSigned()) {
-            final Percentage per = new Percentage();
-            try {
-                boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-                HashMap<String, String> params = new HashMap<String, String>();
-                // Create a factory for disk-based file items
-                File tmpwrk = new File(SWBPortal.getWorkPath() + "/tmp");
-                if (!tmpwrk.exists()) {
-                    tmpwrk.mkdirs();
-                }
-                FileItemFactory factory = new DiskFileItemFactory(1 * 1024 * 1024, tmpwrk);
-                // Create a new file upload handler
-                ServletFileUpload upload = new ServletFileUpload(factory);
-                //Create a progress listener
-                ProgressListener progressListener = new ProgressListener() {
-
-                    private long kBytes = -1;
-
-                    public void update(long pBytesRead, long pContentLength, int pItems) {
-                        long mBytes = pBytesRead / 10000;
-                        if (kBytes == mBytes) {
-                            return;
-                        }
-                        kBytes = mBytes;
-                        int percent = (int) (pBytesRead * 100 / pContentLength);
-                        per.setPercentage(percent);
-                    }
-                };
-                upload.setProgressListener(progressListener);
-                // Parse the request
-                List items = upload.parseRequest(request); /* FileItem */
-                FileItem currentFile = null;
-                // Process the uploaded items
-                Iterator iter = items.iterator();
-                while (iter.hasNext()) {
-                    FileItem item = (FileItem) iter.next();
-
-                    if (item.isFormField()) {
-                        String name = item.getFieldName();
-                        String value = item.getString();
-                        params.put(name, value);
-                    } else {
-                        currentFile = item;
-//                        String fieldName = item.getFieldName();
-//                        String fileName = item.getName();
-//                        String contentType = item.getContentType();
-//                        boolean isInMemory = item.isInMemory();
-//                        long sizeInBytes = item.getSize();
-//                        File uploadedFile = new File();
-//                        item.write(uploadedFile);
-                    }
-                }
-                request.getSession(true).setAttribute(currentFile.getFieldName(), per);
-
-                String path = SWBPortal.getWorkPath() + user.getWorkPath();
-                File file = new File(path);
-                if (!file.exists()) {
-                    file.mkdirs();
-                }
-                String name = user.getLogin() + currentFile.getName().substring(currentFile.getName().lastIndexOf("."));
-                String photoName = path + "/" + name;
-                currentFile.write(new File(photoName));
-                path = user.getWorkPath();
-                //SWBPlatform.getWebWorkPath() +
-                user.setPhoto(path + "/" + name);
-                per.setPercentage(100);
-                File f = new File(photoName);
-
-                /*                BufferedImage bi = ImageIO.read(f);
-                int calcHeight = (150 * bi.getHeight() / bi.getWidth());
-                ImageIO.write(createResizedCopy(bi, 150, calcHeight), name.substring(name.lastIndexOf(".")+1), f);*/
-
-                ImageResizer.resizeCrop(f, 150, f, name.substring(name.lastIndexOf(".") + 1).toLowerCase());
-
-
-            } catch (Exception ex) {
-                log.error(ex);
-            }
         }
-//        if ("actFB".equals(response.getAction()) && user.isSigned()) {
-//            String extId = request.getParameter("fb_sess");
-//
-//            if (null != extId && !"".equals(extId) && (null == user.getUserRepository().getUserByExternalID(extId))) {
-//                SWB4FacebookBridge bridge = (SWB4FacebookBridge) user.getUserRepository().getBridge();
-//                IFacebookRestClient<Object> userClient = new FacebookJsonRestClient(bridge.getAppKey(), bridge.getAppSecret(), request.getParameter("fb_key"));
-//                FacebookWebappHelper<Object> facebook = new FacebookWebappHelper(request, null, bridge.getAppKey(), bridge.getAppSecret(), userClient);
-//                //System.out.println("secrets: app:" + bridge.getAppSecret() + " ses:" + request.getParameter("fb_secret"));
-//                if (facebook.get_loggedin_user().equals(Long.valueOf(extId))) {
-//                    user.setExternalID(extId);
-//                }
-//            }
-//            HttpSession sess = request.getSession(true);
-//            sess.setAttribute("fb_uid", request.getParameter("fb_sess"));
-//            sess.setAttribute("fb_key", request.getParameter("fb_key"));
-//            sess.setAttribute("fb_secret", request.getParameter("fb_secret"));
-//            sess.setAttribute("fb_sig", request.getParameter("fb_sig"));
-//
-//        }
     }
-
-    private BufferedImage createResizedCopy(Image originalImage, int scaledWidth, int scaledHeight) {
-        BufferedImage scaledBI = new BufferedImage(scaledWidth, scaledHeight, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g = scaledBI.createGraphics();
-        g.setComposite(AlphaComposite.Src);
-        g.drawImage(originalImage, 0, 0, scaledWidth, scaledHeight, null);
-        g.dispose();
-        return scaledBI;
-    }
-
+    
     @Override
     public void doEdit(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         SWBResourceURL url = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_CONTENT).setMode(SWBResourceURL.Mode_VIEW).setParameter("act", "edit");
@@ -364,26 +277,7 @@ public class RegisterUser extends GenericAdmResource {
 
     @Override
     public void doHelp(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        Percentage pers = (Percentage) request.getSession(true).getAttribute(request.getParameter("sid"));
-        PrintWriter out = response.getWriter();
-        if (null != pers) {
-            out.println(pers.getPercentage());
-        } else {
-            out.println(0);
-        }
-    }
-
-    private class Percentage {
-
-        int per = 0;
-
-        public void setPercentage(int per) {
-            this.per = per;
-        }
-
-        public int getPercentage() {
-            return per;
-        }
+        
     }
 
     public String replaceTags(String str, HttpServletRequest request, SWBActionResponse paramRequest, User newUser, String siteName, String page2Confirm) {
