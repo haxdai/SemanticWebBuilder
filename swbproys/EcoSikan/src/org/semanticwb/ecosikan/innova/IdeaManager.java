@@ -12,7 +12,7 @@ import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.portal.api.*;
 
-public class IdeaManager extends org.semanticwb.ecosikan.innova.base.IdeaManagerBase 
+public class IdeaManager extends org.semanticwb.ecosikan.innova.base.IdeaManagerBase
 {
     private static Logger log = SWBUtils.getLogger(IdeaManager.class);
 
@@ -81,7 +81,7 @@ public class IdeaManager extends org.semanticwb.ecosikan.innova.base.IdeaManager
 
         request.setAttribute("paramRequest", paramRequest);
         request.setAttribute("userCanEdit", userCanEdit);
-        
+
         String path = "/work/models/"+modelId+"/jsp/ideas/listIdeas.jsp";
         String action = paramRequest.getAction();
         if(paramRequest.Action_ADD.equals(action)) {
@@ -107,7 +107,7 @@ public class IdeaManager extends org.semanticwb.ecosikan.innova.base.IdeaManager
                     path = "/work/models/"+modelId+"/jsp/ideas/comment.jsp";
                 }
         }
-        
+
         try {
             RequestDispatcher dis = request.getRequestDispatcher(path);
             dis.include(request, response);
@@ -201,8 +201,8 @@ public class IdeaManager extends org.semanticwb.ecosikan.innova.base.IdeaManager
                 //if( Phases.Categorizing==phase ) {
                     Idea idea = Idea.ClassMgr.getIdea(ideaId, model);
                     Category category = Category.ClassMgr.getCategory(categoryId, model);
-                    //if( idea!=null && category!=null )
-                      //  idea.setCategory(category);
+                    if( idea!=null && category!=null )
+                        idea.setCategory(category);
                 //}
             }
         }else if( Action_SELECT.equals(action) ) {
