@@ -85,7 +85,7 @@ public class RegisterUser extends GenericAdmResource {
                 act = "edit";
             }
         }
-
+SWBUtils.getApplicationPath();
         String model = paramRequest.getWebPage().getWebSiteId();
 
         //String path = "/swbadmin/jsp/microsite/RegisterUser/linkNewUser.groovy";
