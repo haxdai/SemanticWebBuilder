@@ -30,7 +30,6 @@ import org.semanticwb.portal.api.SWBResourceURL;
  * @author serch
  */
 public class RegisterUser extends GenericAdmResource {
-
     private static Logger log = SWBUtils.getLogger(RegisterUser.class);
 
     @Override
@@ -122,22 +121,21 @@ public class RegisterUser extends GenericAdmResource {
                 }catch(Exception ne) {
                     ne.printStackTrace(System.out);
                 }
+                user = newUser;
+                
                 boolean isTeacher = false;
                 try {
                     Iterator<SemanticProperty> list = org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/mascara#_ExtendedAttributes").listProperties();
                     while(list.hasNext()) {
                         SemanticProperty sp = list.next();
-
-                        if(sp.getName().equalsIgnoreCase("teacherKey")) {
-                            isTeacher = true;
-                        }
-
                         if(request.getParameter(sp.getName())==null) {
-                            user.removeExtendedAttribute(sp);
+                            newUser.removeExtendedAttribute(sp);
                         }else {
-                            if(sp.isString()) {
+                            if(sp.getName().equalsIgnoreCase("teacherKey"))
+                                isTeacher = true;
+                            
+                            if(sp.isString())
                                 user.setExtendedAttribute(sp, SWBUtils.XML.replaceXMLChars(request.getParameter(sp.getName())));
-                            }
                             else if(sp.isDate()) {
                                 try {
                                     SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
@@ -247,16 +245,6 @@ public class RegisterUser extends GenericAdmResource {
         }
     }
     
-    @Override
-    public void doEdit(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        SWBResourceURL url = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_CONTENT).setMode(SWBResourceURL.Mode_VIEW).setParameter("act", "edit");
-        StringBuffer ret = new StringBuffer();
-        ret.append("<script type=\"text/javascript\">\ndijit.byId('swbDialog').hide();\n");
-        ret.append("location.href='" + url + "';\n");
-        ret.append("</script>");
-        response.getWriter().write(ret.toString());
-    }
-
     @Override
     public void doHelp(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.getWriter().println("<p class=\"\"><p class=\"\">"+paramRequest.getLocaleString("msgOkRegister")+"</p></div>");
