@@ -4,8 +4,10 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Destinos. 
    */
-public abstract class GeographicPointBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.RuleRefable,org.semanticwb.model.PFlowRefable,org.semanticwb.cptm.LocalityInt,org.semanticwb.model.Filterable,org.semanticwb.model.Trashable,org.semanticwb.model.Rankable,org.semanticwb.model.Indexable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Localeable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Traceable,org.semanticwb.model.FilterableClass,org.semanticwb.model.FilterableNode,org.semanticwb.model.Resourceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Viewable,org.semanticwb.model.Tagable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Searchable,org.semanticwb.model.Activeable,org.semanticwb.model.Expirable
+public abstract class GeographicPointBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.TemplateRefable,org.semanticwb.model.Indexable,org.semanticwb.model.Resourceable,org.semanticwb.model.Undeleteable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Rankable,org.semanticwb.model.Filterable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Trashable,org.semanticwb.model.RoleRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Searchable,org.semanticwb.model.Viewable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Localeable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Tagable,org.semanticwb.model.Referensable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RuleRefable,org.semanticwb.cptm.LocalityInt
 {
+    public static final org.semanticwb.platform.SemanticProperty cptm_isAttractive=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#isAttractive");
+    public static final org.semanticwb.platform.SemanticProperty cptm_isDestination=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#isDestination");
    /**
    * Marca Regional. La cual puede tener relaciodos Destinos Turisticos y Puntos geográficos (Ej. La Riviera Maya)
    */
@@ -22,6 +24,7 @@ public abstract class GeographicPointBase extends org.semanticwb.model.WebPage i
    * Foto principal para el destino
    */
     public static final org.semanticwb.platform.SemanticProperty cptm_destPrincipalPhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#destPrincipalPhoto");
+    public static final org.semanticwb.platform.SemanticProperty cptm_isMagicCounty=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#isMagicCounty");
     public static final org.semanticwb.platform.SemanticProperty cptm_destWeather=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#destWeather");
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Destinos.
@@ -634,6 +637,24 @@ public abstract class GeographicPointBase extends org.semanticwb.model.WebPage i
     {
         super(base);
     }
+
+/**
+* Gets the IsAttractive property
+* @return boolean with the IsAttractive
+*/
+    public boolean isIsAttractive()
+    {
+        return getSemanticObject().getBooleanProperty(cptm_isAttractive);
+    }
+
+/**
+* Sets the IsAttractive property
+* @param value long with the IsAttractive
+*/
+    public void setIsAttractive(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(cptm_isAttractive, value);
+    }
    /**
    * Gets all the org.semanticwb.cptm.Promotion
    * @return A GenericIterator with all the org.semanticwb.cptm.Promotion
@@ -672,6 +693,24 @@ public abstract class GeographicPointBase extends org.semanticwb.model.WebPage i
              ret=(org.semanticwb.cptm.Promotion)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the IsDestination property
+* @return boolean with the IsDestination
+*/
+    public boolean isIsDestination()
+    {
+        return getSemanticObject().getBooleanProperty(cptm_isDestination);
+    }
+
+/**
+* Sets the IsDestination property
+* @param value long with the IsDestination
+*/
+    public void setIsDestination(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(cptm_isDestination, value);
     }
    /**
    * Gets all the org.semanticwb.cptm.TravelRoute
@@ -911,6 +950,24 @@ public abstract class GeographicPointBase extends org.semanticwb.model.WebPage i
     public void setDestPrincipalPhoto(String value)
     {
         getSemanticObject().setProperty(cptm_destPrincipalPhoto, value);
+    }
+
+/**
+* Gets the IsMagicCounty property
+* @return boolean with the IsMagicCounty
+*/
+    public boolean isIsMagicCounty()
+    {
+        return getSemanticObject().getBooleanProperty(cptm_isMagicCounty);
+    }
+
+/**
+* Sets the IsMagicCounty property
+* @param value long with the IsMagicCounty
+*/
+    public void setIsMagicCounty(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(cptm_isMagicCounty, value);
     }
 
 /**
