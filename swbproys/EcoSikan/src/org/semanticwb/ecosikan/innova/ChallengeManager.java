@@ -2,29 +2,30 @@ package org.semanticwb.ecosikan.innova;
 
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.*;
 import org.semanticwb.Logger;
-import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.ecosikan.innova.base.ChallengeBase;
-import org.semanticwb.model.GenericObject;
-import org.semanticwb.model.Role;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
-import org.semanticwb.platform.SemanticOntology;
 import org.semanticwb.portal.api.*;
 
 public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.ChallengeManagerBase {
     private static Logger log = SWBUtils.getLogger(ChallengeManager.class);
-    
+
     public static final String Action_EDITALLCATEGORIES = "editAllCategories";
     public static final String Action_ADDCATEGORY = "addCategory";
     public static final String Action_EDITCATEGORY = "editCategory";
     public static final String Action_REMOVECATEGORY = "removeCategory";
-    
+
     public static final String Action_EDITALLDESIRES = "editAllDesires";
     public static final String Action_ADDDESIRE = "addDesire";
     public static final String Action_EDITDESIRE = "editDesire";
@@ -91,7 +92,7 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
         final WebPage wp = paramRequest.getWebPage();
         final WebSite model = wp.getWebSite();
         final String modelId = wp.getWebSiteId();
-        final Boolean userCanEdit = userCanEdit(paramRequest.getUser());
+        Boolean userCanEdit = userCanEdit(paramRequest.getUser());
 
         request.setAttribute("paramRequest", paramRequest);
         RequestDispatcher dis;
@@ -100,7 +101,14 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
             Iterator<Challenge> challenges = ChallengeBase.ClassMgr.listChallenges(model);
             while( challenges.hasNext()&&userCanAdd ) {
                 Challenge challenge = challenges.next();
-                Phases phase = Phases.valueOf(challenge.getPhase());
+                Phases phase = Phases.Closed;
+                try {
+                    phase = Phases.valueOf(challenge.getPhase());
+                }catch(IllegalArgumentException iae) {
+                    challenge.setPhase(Phases.Closed.name());
+                }catch(NullPointerException npe) {
+                    challenge.setPhase(Phases.Closed.name());
+                }
                 userCanAdd = userCanAdd && phase==Phases.Closed;
             }
             if(userCanAdd) {
@@ -115,6 +123,25 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
         }else if(wp instanceof Challenge) {
             request.setAttribute("userCanEdit", userCanEdit);
             Challenge challenge = (Challenge)wp;
+            Phases phase;
+            try {
+                phase = Phases.valueOf(challenge.getPhase());
+            }catch(IllegalArgumentException iae) {
+                phase = Phases.Closed;
+                challenge.setPhase(phase.name());
+                userCanEdit = false;
+            }
+
+            if( phase==Phases.Opened && challenge.getExpiration().before(new Date()) ) {
+                challenge.setPhase(phase.next().name());
+            }
+
+            PrintWriter out = response.getWriter();
+            out.println("<p>"+challenge.getTitle()+"</p>");
+            out.println("<p>"+challenge.getDescription()+"</p>");
+            if(userCanEdit)
+                out.println("<p><a href=\"\">Editar</a></p>");
+
             if(userCanEdit) {
                 dis = request.getRequestDispatcher("/work/models/"+modelId+"/jsp/challenges/phases.jsp");
                 try {
@@ -123,13 +150,16 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
                     log.error(e);
                 }
             }
-            if( Phases.valueOf(challenge.getPhase()).ordinal()<Phases.Selecting.ordinal() ) {
-                dis = request.getRequestDispatcher("/work/models/"+modelId+"/jsp/challenges/categories.jsp");
-                try {
-                    dis.include(request, response);
-                }catch (Exception e) {
-                    log.error(e);
+            try {
+                if( phase.ordinal()<Phases.Selecting.ordinal() ) {
+                    dis = request.getRequestDispatcher("/work/models/"+modelId+"/jsp/challenges/categories.jsp");
+                    try {
+                        dis.include(request, response);
+                    }catch (Exception e) {
+                        log.error(e);
+                    }
                 }
+            }catch(IllegalArgumentException iae) {
             }
             dis = request.getRequestDispatcher("/work/models/"+modelId+"/jsp/challenges/desires.jsp");
             try {
@@ -147,35 +177,68 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
     }
 
     @Override
+    public void doEdit(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        final WebPage wp = paramRequest.getWebPage();
+        final WebSite model = wp.getWebSite();
+        final String modelId = wp.getWebSiteId();
+        Boolean userCanEdit = userCanEdit(paramRequest.getUser());
+
+        if(userCanEdit && wp instanceof Challenge ) {
+            Challenge challenge = (Challenge)wp;
+            RequestDispatcher dis;
+            dis = request.getRequestDispatcher("/work/models/"+modelId+"/jsp/challenges/edit.jsp");
+            try {
+                dis.include(request, response);
+            } catch (Exception e) {
+                log.error(e);
+            }
+        }
+    }
+
+
+    @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         WebPage wp = response.getWebPage();
         WebSite model = wp.getWebSite();
         final boolean userCanEdit = userCanEdit(response.getUser());
-        
+
         String action = response.getAction();
         if(response.Action_ADD.equals(action)&&userCanEdit) {
             boolean userCanAdd = true;
             Iterator<Challenge> challenges = ChallengeBase.ClassMgr.listChallenges(model);
             while(challenges.hasNext()&&userCanAdd) {
                 Challenge challenge = challenges.next();
-                Phases phase = Phases.valueOf(challenge.getPhase());
+                Phases phase = Phases.Closed;
+                try {
+                    phase = Phases.valueOf(challenge.getPhase());
+                }catch(IllegalArgumentException iae) {
+                }
                 userCanAdd = userCanAdd && phase==Phases.Closed;
             }
-            if( userCanAdd && request.getParameter("title")!=null&&!request.getParameter("title").isEmpty() && request.getParameter("desc")!=null&&!request.getParameter("desc").isEmpty()) {
+            if( userCanAdd && request.getParameter("title")!=null&&!request.getParameter("title").isEmpty() && request.getParameter("desc")!=null&&!request.getParameter("desc").isEmpty() && request.getParameter("expire")!=null&&!request.getParameter("expire").isEmpty()) {
                 Challenge challenge = Challenge.ClassMgr.createChallenge(model);
                 challenge.setParent(model.getHomePage());
                 challenge.setTitle(request.getParameter("title").trim());
                 challenge.setDescription(request.getParameter("desc").trim());
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd HH:mm");
+                try {
+                    System.out.println("adding reto... expire="+request.getParameter("expire")+" 12:00");
+                    challenge.setExpiration(sdf.parse(request.getParameter("expire")+" 12:00"));
+                }catch(ParseException pe) {
+                    GregorianCalendar expire = new GregorianCalendar();
+                    expire.add(GregorianCalendar.MONTH, 1);
+                    challenge.setExpiration(expire.getTime());
+                }
                 challenge.setActive(true);
                 challenge.setPhase(Phases.Opened.name());
                 response.sendRedirect(challenge.getRealUrl());
             }
         }else if(response.Action_EDIT.equals(action)&&userCanEdit) {
-            
+
         }else if(response.Action_REMOVE.equals(action)&&userCanEdit) {
-            
+
         }
-        
+
         else if(Action_ADDCATEGORY.equals(action)&&userCanEdit) {
             if(request.getParameter("catname")!=null&&!request.getParameter("catname").isEmpty()&&request.getParameter("catdesc")!=null&&!request.getParameter("catdesc").isEmpty()) {
                 Category category = Category.ClassMgr.createCategory(model);
@@ -222,7 +285,7 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
             challenge.removeDesire(request.getParameter("des"));
             response.setAction(null);
         }
-        
+
         else if(Action_ADDSTKHLDR.equals(action)&&userCanEdit) {
             if(request.getParameter("stkhldr")!=null&!request.getParameter("stkhldr").isEmpty()) {
                 Challenge challenge = (Challenge)wp;
@@ -245,7 +308,11 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
 
         else if(Action_UPDATEPHASE.equals(action)&&userCanEdit) {
             Challenge challenge = (Challenge)wp;
-            Phases phase = Phases.valueOf(challenge.getPhase());
+            Phases phase = Phases.Closed;
+            try {
+                phase = Phases.valueOf(challenge.getPhase());
+            }catch(IllegalArgumentException iae) {
+            }
             if(phase.hasNext()) {
                 challenge.setPhase(phase.next().name());
             }
