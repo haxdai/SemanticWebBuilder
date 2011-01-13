@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Marca Regional. La cual puede tener relaciodos Destinos Turisticos y Puntos geográficos (Ej. La Riviera Maya) 
    */
-public abstract class RegionalBrandBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.cptm.LocalityInt
+public abstract class RegionalBrandBase extends org.semanticwb.model.SWBClass implements org.semanticwb.cptm.LocalityInt,org.semanticwb.model.Descriptiveable
 {
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Destinos.
@@ -199,6 +199,29 @@ public abstract class RegionalBrandBase extends org.semanticwb.model.SWBClass im
         public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByPromotionInv(org.semanticwb.cptm.Promotion value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasPromotionInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined Proximity
+       * @param value Proximity of the type org.semanticwb.cptm.LocalityInt
+       * @param model Model of the org.semanticwb.cptm.RegionalBrand
+       * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByProximity(org.semanticwb.cptm.LocalityInt value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasProximity, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined Proximity
+       * @param value Proximity of the type org.semanticwb.cptm.LocalityInt
+       * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByProximity(org.semanticwb.cptm.LocalityInt value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasProximity,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -451,6 +474,71 @@ public abstract class RegionalBrandBase extends org.semanticwb.model.SWBClass im
          if(obj!=null)
          {
              ret=(org.semanticwb.cptm.Promotion)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Gets all the org.semanticwb.cptm.LocalityInt
+   * @return A GenericIterator with all the org.semanticwb.cptm.LocalityInt
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.LocalityInt> listProximities()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.LocalityInt>(getSemanticObject().listObjectProperties(cptm_hasProximity));
+    }
+
+   /**
+   * Gets true if has a Proximity
+   * @param value org.semanticwb.cptm.LocalityInt to verify
+   * @return true if the org.semanticwb.cptm.LocalityInt exists, false otherwise
+   */
+    public boolean hasProximity(org.semanticwb.cptm.LocalityInt value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(cptm_hasProximity,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a Proximity
+   * @param value org.semanticwb.cptm.LocalityInt to add
+   */
+
+    public void addProximity(org.semanticwb.cptm.LocalityInt value)
+    {
+        getSemanticObject().addObjectProperty(cptm_hasProximity, value.getSemanticObject());
+    }
+   /**
+   * Removes all the Proximity
+   */
+
+    public void removeAllProximity()
+    {
+        getSemanticObject().removeProperty(cptm_hasProximity);
+    }
+   /**
+   * Removes a Proximity
+   * @param value org.semanticwb.cptm.LocalityInt to remove
+   */
+
+    public void removeProximity(org.semanticwb.cptm.LocalityInt value)
+    {
+        getSemanticObject().removeObjectProperty(cptm_hasProximity,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the Proximity
+   * @return a org.semanticwb.cptm.LocalityInt
+   */
+    public org.semanticwb.cptm.LocalityInt getProximity()
+    {
+         org.semanticwb.cptm.LocalityInt ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasProximity);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.cptm.LocalityInt)obj.createGenericInstance();
          }
          return ret;
     }

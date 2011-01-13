@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Destinos. 
    */
-public abstract class GeographicPointBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.TemplateRefable,org.semanticwb.model.Indexable,org.semanticwb.model.Resourceable,org.semanticwb.model.Undeleteable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Rankable,org.semanticwb.model.Filterable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Trashable,org.semanticwb.model.RoleRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Searchable,org.semanticwb.model.Viewable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Localeable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Tagable,org.semanticwb.model.Referensable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RuleRefable,org.semanticwb.cptm.LocalityInt
+public abstract class GeographicPointBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.TemplateRefable,org.semanticwb.model.Indexable,org.semanticwb.model.Resourceable,org.semanticwb.model.Undeleteable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Rankable,org.semanticwb.cptm.LocalityInt,org.semanticwb.model.Filterable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Trashable,org.semanticwb.model.RoleRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Searchable,org.semanticwb.model.Viewable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Localeable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Tagable,org.semanticwb.model.Referensable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RuleRefable
 {
     public static final org.semanticwb.platform.SemanticProperty cptm_isAttractive=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#isAttractive");
     public static final org.semanticwb.platform.SemanticProperty cptm_isDestination=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#isDestination");
@@ -24,6 +24,11 @@ public abstract class GeographicPointBase extends org.semanticwb.model.WebPage i
    * Foto principal para el destino
    */
     public static final org.semanticwb.platform.SemanticProperty cptm_destPrincipalPhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#destPrincipalPhoto");
+   /**
+   * Clase para administrar tipos de Destinos, pudiendo ser: Destinos, Pueblos Mágicos ó Atractivos
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_DestinationType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#DestinationType");
+    public static final org.semanticwb.platform.SemanticProperty cptm_hasDestinationType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasDestinationType");
     public static final org.semanticwb.platform.SemanticProperty cptm_isMagicCounty=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#isMagicCounty");
     public static final org.semanticwb.platform.SemanticProperty cptm_destWeather=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#destWeather");
    /**
@@ -490,6 +495,29 @@ public abstract class GeographicPointBase extends org.semanticwb.model.WebPage i
             return it;
         }
        /**
+       * Gets all org.semanticwb.cptm.GeographicPoint with a determined Proximity
+       * @param value Proximity of the type org.semanticwb.cptm.LocalityInt
+       * @param model Model of the org.semanticwb.cptm.GeographicPoint
+       * @return Iterator with all the org.semanticwb.cptm.GeographicPoint
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.GeographicPoint> listGeographicPointByProximity(org.semanticwb.cptm.LocalityInt value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.GeographicPoint> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasProximity, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.GeographicPoint with a determined Proximity
+       * @param value Proximity of the type org.semanticwb.cptm.LocalityInt
+       * @return Iterator with all the org.semanticwb.cptm.GeographicPoint
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.GeographicPoint> listGeographicPointByProximity(org.semanticwb.cptm.LocalityInt value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.GeographicPoint> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasProximity,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.cptm.GeographicPoint with a determined ModifiedBy
        * @param value ModifiedBy of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.cptm.GeographicPoint
@@ -556,6 +584,29 @@ public abstract class GeographicPointBase extends org.semanticwb.model.WebPage i
         public static java.util.Iterator<org.semanticwb.cptm.GeographicPoint> listGeographicPointByRoleRef(org.semanticwb.model.RoleRef value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.GeographicPoint> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.GeographicPoint with a determined DestinationType
+       * @param value DestinationType of the type org.semanticwb.cptm.DestinationType
+       * @param model Model of the org.semanticwb.cptm.GeographicPoint
+       * @return Iterator with all the org.semanticwb.cptm.GeographicPoint
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.GeographicPoint> listGeographicPointByDestinationType(org.semanticwb.cptm.DestinationType value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.GeographicPoint> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasDestinationType, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.GeographicPoint with a determined DestinationType
+       * @param value DestinationType of the type org.semanticwb.cptm.DestinationType
+       * @return Iterator with all the org.semanticwb.cptm.GeographicPoint
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.GeographicPoint> listGeographicPointByDestinationType(org.semanticwb.cptm.DestinationType value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.GeographicPoint> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasDestinationType,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -906,6 +957,71 @@ public abstract class GeographicPointBase extends org.semanticwb.model.WebPage i
          }
          return ret;
     }
+   /**
+   * Gets all the org.semanticwb.cptm.LocalityInt
+   * @return A GenericIterator with all the org.semanticwb.cptm.LocalityInt
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.LocalityInt> listProximities()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.LocalityInt>(getSemanticObject().listObjectProperties(cptm_hasProximity));
+    }
+
+   /**
+   * Gets true if has a Proximity
+   * @param value org.semanticwb.cptm.LocalityInt to verify
+   * @return true if the org.semanticwb.cptm.LocalityInt exists, false otherwise
+   */
+    public boolean hasProximity(org.semanticwb.cptm.LocalityInt value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(cptm_hasProximity,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a Proximity
+   * @param value org.semanticwb.cptm.LocalityInt to add
+   */
+
+    public void addProximity(org.semanticwb.cptm.LocalityInt value)
+    {
+        getSemanticObject().addObjectProperty(cptm_hasProximity, value.getSemanticObject());
+    }
+   /**
+   * Removes all the Proximity
+   */
+
+    public void removeAllProximity()
+    {
+        getSemanticObject().removeProperty(cptm_hasProximity);
+    }
+   /**
+   * Removes a Proximity
+   * @param value org.semanticwb.cptm.LocalityInt to remove
+   */
+
+    public void removeProximity(org.semanticwb.cptm.LocalityInt value)
+    {
+        getSemanticObject().removeObjectProperty(cptm_hasProximity,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the Proximity
+   * @return a org.semanticwb.cptm.LocalityInt
+   */
+    public org.semanticwb.cptm.LocalityInt getProximity()
+    {
+         org.semanticwb.cptm.LocalityInt ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasProximity);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.cptm.LocalityInt)obj.createGenericInstance();
+         }
+         return ret;
+    }
 
     public java.util.Iterator<String> listDestPhotoses()
     {
@@ -950,6 +1066,71 @@ public abstract class GeographicPointBase extends org.semanticwb.model.WebPage i
     public void setDestPrincipalPhoto(String value)
     {
         getSemanticObject().setProperty(cptm_destPrincipalPhoto, value);
+    }
+   /**
+   * Gets all the org.semanticwb.cptm.DestinationType
+   * @return A GenericIterator with all the org.semanticwb.cptm.DestinationType
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.DestinationType> listDestinationTypes()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.DestinationType>(getSemanticObject().listObjectProperties(cptm_hasDestinationType));
+    }
+
+   /**
+   * Gets true if has a DestinationType
+   * @param value org.semanticwb.cptm.DestinationType to verify
+   * @return true if the org.semanticwb.cptm.DestinationType exists, false otherwise
+   */
+    public boolean hasDestinationType(org.semanticwb.cptm.DestinationType value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(cptm_hasDestinationType,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a DestinationType
+   * @param value org.semanticwb.cptm.DestinationType to add
+   */
+
+    public void addDestinationType(org.semanticwb.cptm.DestinationType value)
+    {
+        getSemanticObject().addObjectProperty(cptm_hasDestinationType, value.getSemanticObject());
+    }
+   /**
+   * Removes all the DestinationType
+   */
+
+    public void removeAllDestinationType()
+    {
+        getSemanticObject().removeProperty(cptm_hasDestinationType);
+    }
+   /**
+   * Removes a DestinationType
+   * @param value org.semanticwb.cptm.DestinationType to remove
+   */
+
+    public void removeDestinationType(org.semanticwb.cptm.DestinationType value)
+    {
+        getSemanticObject().removeObjectProperty(cptm_hasDestinationType,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the DestinationType
+   * @return a org.semanticwb.cptm.DestinationType
+   */
+    public org.semanticwb.cptm.DestinationType getDestinationType()
+    {
+         org.semanticwb.cptm.DestinationType ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasDestinationType);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.cptm.DestinationType)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
