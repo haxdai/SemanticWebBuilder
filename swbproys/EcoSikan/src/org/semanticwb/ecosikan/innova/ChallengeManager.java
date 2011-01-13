@@ -89,6 +89,8 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        PrintWriter out = response.getWriter();
+
         final WebPage wp = paramRequest.getWebPage();
         final WebSite model = wp.getWebSite();
         final String modelId = wp.getWebSiteId();
@@ -96,11 +98,12 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
 
         request.setAttribute("paramRequest", paramRequest);
         RequestDispatcher dis;
-        if(wp==model.getHomePage() && userCanEdit) {
+        if(wp==model.getHomePage()) {
             Boolean userCanAdd = true;
+            Challenge challenge = null;
             Iterator<Challenge> challenges = ChallengeBase.ClassMgr.listChallenges(model);
             while( challenges.hasNext()&&userCanAdd ) {
-                Challenge challenge = challenges.next();
+                challenge = challenges.next();
                 Phases phase = Phases.Closed;
                 try {
                     phase = Phases.valueOf(challenge.getPhase());
@@ -111,7 +114,7 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
                 }
                 userCanAdd = userCanAdd && phase==Phases.Closed;
             }
-            if(userCanAdd) {
+            if(userCanAdd && userCanEdit) {
                 request.setAttribute("userCanEdit", userCanAdd);
                 dis = request.getRequestDispatcher("/work/models/"+modelId+"/jsp/challenges/add.jsp");
                 try {
@@ -119,6 +122,10 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
                 }catch (Exception e) {
                     log.error(e);
                 }
+            }else if(challenge!=null) {
+                out.println(challenge.getTitle());
+                out.println(challenge.getDescription());                
+                out.println("<a href=\"#\" onclick=\"window.location.href='"+challenge.getUrl()+"'\">Participa</a>");
             }
         }else if(wp instanceof Challenge) {
             request.setAttribute("userCanEdit", userCanEdit);
@@ -135,8 +142,7 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
             if( phase==Phases.Opened && challenge.getExpiration().before(new Date()) ) {
                 challenge.setPhase(phase.next().name());
             }
-
-            PrintWriter out = response.getWriter();
+            
             out.println("<p>"+challenge.getTitle()+"</p>");
             out.println("<p>"+challenge.getDescription()+"</p>");
             if(userCanEdit)
