@@ -10,11 +10,13 @@ public abstract class EditNoteBase extends org.semanticwb.portal.resources.sem.H
     public static final org.semanticwb.platform.SemanticProperty swb_lastVersion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#lastVersion");
     public static final org.semanticwb.platform.SemanticProperty cptm_isathome=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#isathome");
     public static final org.semanticwb.platform.SemanticProperty cptm_noteType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#noteType");
+    public static final org.semanticwb.platform.SemanticProperty cptm_noteHomeIndex=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#noteHomeIndex");
     public static final org.semanticwb.platform.SemanticProperty cptm_notePhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#notePhoto");
     public static final org.semanticwb.platform.SemanticProperty swb_created=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#created");
     public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
     public static final org.semanticwb.platform.SemanticProperty swb_modifiedBy=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#modifiedBy");
     public static final org.semanticwb.platform.SemanticProperty swb_actualVersion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#actualVersion");
+    public static final org.semanticwb.platform.SemanticProperty cptm_noteIndex=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#noteIndex");
     public static final org.semanticwb.platform.SemanticProperty swb_updated=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#updated");
     public static final org.semanticwb.platform.SemanticClass swb_Resource=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#Resource");
     public static final org.semanticwb.platform.SemanticProperty swb_semanticResourceInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#semanticResourceInv");
@@ -166,6 +168,24 @@ public abstract class EditNoteBase extends org.semanticwb.portal.resources.sem.H
     }
 
 /**
+* Gets the NoteHomeIndex property
+* @return int with the NoteHomeIndex
+*/
+    public int getNoteHomeIndex()
+    {
+        return getSemanticObject().getIntProperty(cptm_noteHomeIndex);
+    }
+
+/**
+* Sets the NoteHomeIndex property
+* @param value long with the NoteHomeIndex
+*/
+    public void setNoteHomeIndex(int value)
+    {
+        getSemanticObject().setIntProperty(cptm_noteHomeIndex, value);
+    }
+
+/**
 * Gets the NotePhoto property
 * @return String with the NotePhoto
 */
@@ -275,6 +295,24 @@ public abstract class EditNoteBase extends org.semanticwb.portal.resources.sem.H
              ret=(org.semanticwb.model.VersionInfo)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the NoteIndex property
+* @return int with the NoteIndex
+*/
+    public int getNoteIndex()
+    {
+        return getSemanticObject().getIntProperty(cptm_noteIndex);
+    }
+
+/**
+* Sets the NoteIndex property
+* @param value long with the NoteIndex
+*/
+    public void setNoteIndex(int value)
+    {
+        getSemanticObject().setIntProperty(cptm_noteIndex, value);
     }
 
 /**
