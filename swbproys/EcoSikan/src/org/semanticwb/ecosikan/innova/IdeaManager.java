@@ -1,6 +1,10 @@
 package org.semanticwb.ecosikan.innova;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.*;
 
@@ -12,9 +16,10 @@ import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.portal.api.*;
 
-public class IdeaManager extends org.semanticwb.ecosikan.innova.base.IdeaManagerBase
-{
+public class IdeaManager extends org.semanticwb.ecosikan.innova.base.IdeaManagerBase {
     private static Logger log = SWBUtils.getLogger(IdeaManager.class);
+
+    private HashMap<String,HashMap> hashPrim = new HashMap();
 
     public static final String Action_VOTE = "vote";
     public static final String Action_COMMENT = "comment";
@@ -162,10 +167,12 @@ public class IdeaManager extends org.semanticwb.ecosikan.innova.base.IdeaManager
             String ideaId = request.getParameter("idea");
             Idea idea = Idea.ClassMgr.getIdea(ideaId, model);
             if( idea!=null && IdeaStatus.Opened==IdeaStatus.valueOf(idea.getStatus()) && votefor!=null && !votefor.isEmpty() )
-                if("u".equals(votefor)) { // votar por me gusta (u p)
-                    idea.setVotesP(idea.getVotesP()+1);
-                }else if("d".equals(votefor)) { // votar por no me gusta (d own)
-                    idea.setVotesN(idea.getVotesN()+1);
+                if(canIPAddressVote(request.getRemoteAddr(), ideaId)) {
+                    if("u".equals(votefor)) { // votar por me gusta (u p)
+                        idea.setVotesP(idea.getVotesP()+1);
+                    }else if("d".equals(votefor)) { // votar por no me gusta (d own)
+                        idea.setVotesN(idea.getVotesN()+1);
+                    }
                 }
         }else if( Action_COMMENT.equals(action) ) {
             String securCodeSent = request.getParameter("scode");
@@ -229,5 +236,46 @@ public class IdeaManager extends org.semanticwb.ecosikan.innova.base.IdeaManager
 //        User user = paramRequest.getUser();
 //        final boolean canEdit = true;//user.hasRole(role);
         return true;
+    }
+
+    private boolean canIPAddressVote(String ipAddress, String ideaId) {
+        boolean canIPVote = Boolean.TRUE;        
+        int hrs;
+        try {
+            hrs = Integer.parseInt(getResourceBase().getAttribute("time", "24"));
+        }catch(Exception e) {
+            hrs=24;
+        }
+
+        System.out.println("ip="+ipAddress+", ideaId="+ideaId);
+
+
+        GregorianCalendar t1= new GregorianCalendar();
+        GregorianCalendar t2= new GregorianCalendar();
+        //t2.add(GregorianCalendar.HOUR, hrs);
+        t2.add(GregorianCalendar.MINUTE, 5);
+
+        if(hashPrim.containsKey(ipAddress)) {
+            System.out.println("ya existe ip");
+            HashMap<String,Long> i = hashPrim.get(ipAddress);
+            if(i.containsKey(ideaId)) {
+                System.out.println("idea ya registrada");
+                long ipdate = i.get(ideaId);
+                if(ipdate>t1.getTimeInMillis()) {
+                    canIPVote = Boolean.FALSE;
+                    System.out.println("no se puede votar aun");
+                }
+            }else {
+                i.put(ideaId, t2.getTimeInMillis());
+                System.out.println("idea no registrada... votemos");
+            }
+        }else {
+            System.out.println("ip no registrada");
+            HashMap<String,Long> i = new HashMap();
+            i.put(ideaId, t2.getTimeInMillis());
+            hashPrim.put(ipAddress, i);
+            System.out.println("votar en posible");
+        }
+        return canIPVote;
     }
 }
