@@ -23,15 +23,12 @@ public class MostVotedIdeasByChallengeResource extends GenericResource{
         PrintWriter out = response.getWriter();
         out.println("Recurso MostVotedIdeasByChallengeResource  ");
         String path = "/work/models/"+modelId+"/jsp/widgets/las5IdeasMasVotadasPorReto.jsp";
-        //out.println("path "+ path);
-        //RequestDispatcher rd = request.getRequestDispatcher("/work/said/las5IdeasMasVotadasPorReto.jsp");
         RequestDispatcher rd = request.getRequestDispatcher(path);
         try {
-            request.setAttribute("resource", this.getResourceBase());
             request.setAttribute("paramRequest", paramRequest);
             rd.include(request, response);
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.out);
         }
     }
 }
