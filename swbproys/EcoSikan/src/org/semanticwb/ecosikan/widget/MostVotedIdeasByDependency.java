@@ -14,21 +14,21 @@ import org.semanticwb.portal.api.SWBResourceException;
  *
  * @author José Said Olano García
  */
-public class MostVotedIdeasByThemeResource extends GenericResource{
+public class MostVotedIdeasByDependency extends GenericResource{
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        PrintWriter out = response.getWriter();
-        out.println("Recurso MostVotedIdeasByThemeResource  ");
         final WebPage wp = paramRequest.getWebPage();
         final String modelId = wp.getWebSiteId();
-        String path = "/work/models/"+modelId+"/jsp/widgets/las5IdeasMasVotadasPorTema.jsp";
+        PrintWriter out = response.getWriter();
+        out.println("Recurso MostVotedIdeasByDependency  ");
+        String path = "/work/models/"+modelId+"/jsp/widgets/las5IdeasMasVotadasPorSecretaria.jsp";
         RequestDispatcher rd = request.getRequestDispatcher(path);
         try {
             request.setAttribute("paramRequest", paramRequest);
             rd.include(request, response);
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.out);
         }
     }
 }
