@@ -1,6 +1,5 @@
 package org.semanticwb.ecosikan.innova;
 
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
@@ -123,9 +122,24 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
                     log.error(e);
                 }
             }else if(challenge!=null) {
-                out.println(challenge.getTitle());
-                out.println(challenge.getDescription());                
-                out.println("<a href=\"#\" onclick=\"window.location.href='"+challenge.getUrl()+"'\">Participa</a>");
+                //out.println(challenge.getTitle());
+                
+                //out.println("<a href=\"#\" onclick=\"window.location.href='"+challenge.getUrl()+"'\">Participa</a>");
+                out.println("<div class=\"col_left\">");
+                out.println("   <h2>"+challenge.getTitle()+"</h2>");
+                out.println(challenge.getDescription());
+                out.println("   <p align=\"center\">");
+                out.println("       <a href=\"#\" onclick=\"window.location.href='"+challenge.getUrl()+"'\">");
+                out.println("           <img src=\"/work/models/EcoSikan/Template/1/1/images/botonParticipa.jpg\" alt=\"Participa\" width=\"245\" height=\"60\" />");
+                out.println("       </a>");
+                out.println("   </p>");
+                out.println("   <p class=\"vigencia\">Vigencia al 30 de Abril del 2011</p>");
+                out.println("</div>");
+                out.println("<div class=\"grey\">");
+                out.println("   <h2>Las ideas m&aacute;s votadas del Reto</h2>");
+                out.println("   <p align=\"right\"><a href=\"#\">Ver todas&raquo;</a><br/>");
+                out.println("   </p>");
+                out.println("</div>");
             }
         }else if(wp instanceof Challenge) {
             request.setAttribute("userCanEdit", userCanEdit);
@@ -142,9 +156,11 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
             if( phase==Phases.Opened && challenge.getExpiration().before(new Date()) ) {
                 challenge.setPhase(phase.next().name());
             }
-            
-            out.println("<p>"+challenge.getTitle()+"</p>");
+            out.println("<div class=\"breadcums\">");
+            out.println("   <h2>"+challenge.getTitle()+"</h2>");
+            out.println("</div>");            
             out.println("<p>"+challenge.getDescription()+"</p>");
+            
             if(userCanEdit)
                 out.println("<p><a href=\"\">Editar</a></p>");
 
