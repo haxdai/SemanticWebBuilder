@@ -9,10 +9,4 @@ public class Comment extends org.semanticwb.ecosikan.innova.base.CommentBase
     {
         super(base);
     }
-
-    public static class CommentsSortByCreatedDate implements Comparator<Comment>{
-        public int compare(Comment c1, Comment c2) {
-            return c1.getCreated().compareTo( c2.getCreated() );
-        }
-    }
 }
