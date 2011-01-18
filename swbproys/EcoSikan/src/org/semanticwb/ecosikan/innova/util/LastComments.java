@@ -6,7 +6,8 @@ import org.semanticwb.ecosikan.innova.Comment;
 
 public class LastComments {
     private final int length;
-    private final ConcurrentLinkedQueue q;
+    private final ConcurrentLinkedQueue<Comment> q;
+
     public LastComments(int length) throws IllegalArgumentException {
         if(length<0)
             throw new IllegalArgumentException("Longitud inválida");
