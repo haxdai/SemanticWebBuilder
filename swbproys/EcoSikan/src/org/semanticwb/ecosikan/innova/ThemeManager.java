@@ -85,21 +85,6 @@ public class ThemeManager extends org.semanticwb.ecosikan.innova.base.ThemeManag
         }
     }
 
-    private Iterator<Comment> listLastComments(final Theme theme, final int size) {
-        Idea idea;
-        Iterator<Idea> ideas = theme.listIdeas();
-        ArrayList cmnts = new ArrayList();
-        while(ideas.hasNext()) {
-            idea = ideas.next();
-            cmnts.addAll(SWBUtils.Collections.copyIterator(idea.listComments()));
-        }
-        Collections.sort(cmnts, new Comment.CommentsSortByCreatedDate());
-        if(cmnts.size()>List_Last)
-            return cmnts.subList(0, List_Last).iterator();
-        else
-            return cmnts.iterator();
-    }
-
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         String action = response.getAction();
