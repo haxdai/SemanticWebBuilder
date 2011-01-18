@@ -7,11 +7,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
+import java.util.Locale;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.*;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.ecosikan.innova.base.ChallengeBase;
+import org.semanticwb.model.Rule;
+import org.semanticwb.model.RuleRef;
+import org.semanticwb.model.Template;
+import org.semanticwb.model.TemplateRef;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
@@ -19,6 +24,7 @@ import org.semanticwb.portal.api.*;
 
 public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.ChallengeManagerBase {
     private static Logger log = SWBUtils.getLogger(ChallengeManager.class);
+    private static final String Template_ID = "7";
 
     public static final String Action_EDITALLCATEGORIES = "editAllCategories";
     public static final String Action_ADDCATEGORY = "addCategory";
@@ -122,24 +128,16 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
                     log.error(e);
                 }
             }else if(challenge!=null) {
-                //out.println(challenge.getTitle());
-                
+                SimpleDateFormat sdf = new SimpleDateFormat("dd 'de' MMMM 'del' yyyy", new Locale("es"));
                 //out.println("<a href=\"#\" onclick=\"window.location.href='"+challenge.getUrl()+"'\">Participa</a>");
-                out.println("<div class=\"col_left\">");
-                out.println("   <h2>"+challenge.getTitle()+"</h2>");
-                out.println(challenge.getDescription());
-                out.println("   <p align=\"center\">");
-                out.println("       <a href=\"#\" onclick=\"window.location.href='"+challenge.getUrl()+"'\">");
-                out.println("           <img src=\"/work/models/EcoSikan/Template/1/1/images/botonParticipa.jpg\" alt=\"Participa\" width=\"245\" height=\"60\" />");
-                out.println("       </a>");
-                out.println("   </p>");
-                out.println("   <p class=\"vigencia\">Vigencia al 30 de Abril del 2011</p>");
-                out.println("</div>");
-                out.println("<div class=\"grey\">");
-                out.println("   <h2>Las ideas m&aacute;s votadas del Reto</h2>");
-                out.println("   <p align=\"right\"><a href=\"#\">Ver todas&raquo;</a><br/>");
-                out.println("   </p>");
-                out.println("</div>");
+                out.println("<h1>"+challenge.getTitle()+"</h1>");
+                out.println("<p align=\"justify\">"+challenge.getDescription()+"</p>");
+                out.println("<p align=\"right\">");
+                out.println("  <a href=\""+challenge.getUrl()+"\">");
+                out.println("    <img src=\"/work/models/EcoSikan/Template/6/1/images/botonParticipa.jpg\" alt=\"Participa\" width=\"245\" height=\"60\" border=\"0\" />");
+                out.println("  </a>");
+                out.println("</p>");
+                out.println("<p class=\"vigencia\">Vigencia al "+sdf.format(challenge.getExpiration())+"</p>");
             }
         }else if(wp instanceof Challenge) {
             request.setAttribute("userCanEdit", userCanEdit);
@@ -253,6 +251,20 @@ public class ChallengeManager extends org.semanticwb.ecosikan.innova.base.Challe
                 }
                 challenge.setActive(true);
                 challenge.setPhase(Phases.Opened.name());
+
+                Template tpl = model.getTemplate(Template_ID);
+                TemplateRef tref = model.createTemplateRef();
+                tref.setTemplate(tpl);
+                tref.setActive(Boolean.TRUE);
+                tref.setInherit(TemplateRef.INHERIT_ACTUALANDCHILDS);
+                challenge.addTemplateRef(tref);
+
+                Rule r = model.getRule("1");
+                RuleRef rref = model.createRuleRef();
+                rref.setRule(r);
+                rref.setActive(Boolean.TRUE);
+                challenge.addRuleRef(rref);
+                
                 response.sendRedirect(challenge.getRealUrl());
             }
         }else if(response.Action_EDIT.equals(action)&&userCanEdit) {
