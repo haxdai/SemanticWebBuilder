@@ -3,11 +3,11 @@ package org.semanticwb.ecosikan.innova;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import javax.servlet.RequestDispatcher;
 import org.semanticwb.Logger;
 import javax.servlet.http.*;
@@ -20,8 +20,6 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.Resource;
-import org.semanticwb.model.Template;
-import org.semanticwb.model.TemplateRef;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
@@ -65,7 +63,25 @@ public class ThemeManager extends org.semanticwb.ecosikan.innova.base.ThemeManag
             out.println(theme.getDescription());
             out.println("</p>");
             out.println("<p>&nbsp;</p>");
+
             //LIST COMMENTS
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy", new Locale(paramRequest.getUser().getLanguage()));
+            Iterator<Comment> lastComments = theme.listLastComments();
+            boolean hasComments = lastComments.hasNext();
+            if(hasComments) {
+                out.println("<div class=\"grey\">");
+                out.println("<h3>&Uacute;ltimos comentarios</h3>");
+            }
+            while(lastComments.hasNext()) {
+                Comment c = lastComments.next();
+                out.println("<div class=\"comment\">");
+                out.println("<div class=\"fecha\">"+sdf.format(c.getCreated())+"</div>");
+                out.println("<b>"+c.getCreator().getName()+"</b> &raquo; ");
+                out.println("</div>");
+            }
+            if(hasComments) {
+                out.println("</div>");
+            }
         }else if(wp instanceof Dependencia) {
             String path = "/work/models/"+modelId+"/jsp/themes/init.jsp";
 
