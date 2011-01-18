@@ -9,6 +9,7 @@ public abstract class EditNoteBase extends org.semanticwb.portal.resources.sem.H
     public static final org.semanticwb.platform.SemanticClass swb_VersionInfo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#VersionInfo");
     public static final org.semanticwb.platform.SemanticProperty swb_lastVersion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#lastVersion");
     public static final org.semanticwb.platform.SemanticProperty cptm_isathome=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#isathome");
+    public static final org.semanticwb.platform.SemanticClass cptm_EditNoteType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#EditNoteType");
     public static final org.semanticwb.platform.SemanticProperty cptm_noteType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#noteType");
     public static final org.semanticwb.platform.SemanticProperty cptm_noteHomeIndex=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#noteHomeIndex");
     public static final org.semanticwb.platform.SemanticProperty cptm_notePhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#notePhoto");
@@ -148,23 +149,43 @@ public abstract class EditNoteBase extends org.semanticwb.portal.resources.sem.H
     {
         getSemanticObject().setBooleanProperty(cptm_isathome, value);
     }
+   /**
+   * Sets the value for the property NoteType
+   * @param value NoteType to set
+   */
 
-/**
-* Gets the NoteType property
-* @return int with the NoteType
-*/
-    public int getNoteType()
+    public void setNoteType(org.semanticwb.cptm.EditNoteType value)
     {
-        return getSemanticObject().getIntProperty(cptm_noteType);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(cptm_noteType, value.getSemanticObject());
+        }else
+        {
+            removeNoteType();
+        }
+    }
+   /**
+   * Remove the value for NoteType property
+   */
+
+    public void removeNoteType()
+    {
+        getSemanticObject().removeProperty(cptm_noteType);
     }
 
-/**
-* Sets the NoteType property
-* @param value long with the NoteType
-*/
-    public void setNoteType(int value)
+   /**
+   * Gets the NoteType
+   * @return a org.semanticwb.cptm.EditNoteType
+   */
+    public org.semanticwb.cptm.EditNoteType getNoteType()
     {
-        getSemanticObject().setIntProperty(cptm_noteType, value);
+         org.semanticwb.cptm.EditNoteType ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_noteType);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.cptm.EditNoteType)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
