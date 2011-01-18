@@ -1,17 +1,14 @@
 package org.semanticwb.ecosikan.innova;
 
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import javax.servlet.http.*;
-import org.semanticwb.portal.api.*;
+import org.semanticwb.ecosikan.innova.util.LastComments;
 
-public class Challenge extends org.semanticwb.ecosikan.innova.base.ChallengeBase 
-{
-
+public class Challenge extends org.semanticwb.ecosikan.innova.base.ChallengeBase {
+    LastComments lastComments;
 
     public Challenge(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+        lastComments = new LastComments(3);
     }
 }

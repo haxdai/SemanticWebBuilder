@@ -215,15 +215,12 @@ public class IdeaManager extends org.semanticwb.ecosikan.innova.base.IdeaManager
         }else if( Action_SELECT.equals(action) ) {
             String selected = request.getParameter("cat");
             String ideaId = request.getParameter("idea");
-            System.out.println("processAction..\nselected="+selected+", ideaId="+ideaId);
             if( wp instanceof Challenge && ideaId!=null && selected!=null ) {
                 Challenge challenge = (Challenge)wp;
                 Phases phase = Phases.valueOf(challenge.getPhase());
                 //if( Phases.Selecting==phase ) {
                     Idea idea = Idea.ClassMgr.getIdea(ideaId, model);
                     boolean select = Boolean.parseBoolean(selected);
-                    System.out.println("select="+select);
-                    System.out.println("idea="+idea);
                     if( idea!=null )
                         idea.setSelected(select);
                 //}
@@ -247,7 +244,7 @@ public class IdeaManager extends org.semanticwb.ecosikan.innova.base.IdeaManager
             hrs=24;
         }
 
-        System.out.println("ip="+ipAddress+", ideaId="+ideaId);
+        System.out.println("\n\nip="+ipAddress+", ideaId="+ideaId);
 
 
         GregorianCalendar t1= new GregorianCalendar();
@@ -264,6 +261,11 @@ public class IdeaManager extends org.semanticwb.ecosikan.innova.base.IdeaManager
                 if(ipdate>t1.getTimeInMillis()) {
                     canIPVote = Boolean.FALSE;
                     System.out.println("no se puede votar aun");
+                }else {
+                    i.remove(ideaId);
+                    if(i.isEmpty())
+                        hashPrim.remove(ipAddress);
+                    System.out.println("votar en posible y quitamos la ip");
                 }
             }else {
                 i.put(ideaId, t2.getTimeInMillis());
