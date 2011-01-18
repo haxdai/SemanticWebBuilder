@@ -168,28 +168,8 @@ public class ThemeManager extends org.semanticwb.ecosikan.innova.base.ThemeManag
             }
         }
         if(theme!=null) {
-            if(!params.containsKey("title")||(params.containsKey("title")&&params.get("title").isEmpty())) {
-                response.setRenderParameter("", "");
-                throw new Exception("Valor requerido. Resource "+base.getTitle()+" with id "+base.getId());
-            }
-            if(!params.containsKey("desc")||(params.containsKey("desc")&&params.get("desc").isEmpty())) {
-                response.setRenderParameter("", "");
-                throw new Exception("Valor requerido. Resource "+base.getTitle()+" with id "+base.getId());
-            }
-
-            theme.setParent(response.getWebPage());
-            theme.setTitle(params.get("title"));
-            theme.setDescription(params.get("desc"));
-            theme.setImage(params.get("filename"));
-            theme.setActive(Boolean.TRUE);
+            theme.addData(response, params);
             addThemes(theme);
-
-            Template tpl = site.getTemplate(Template_ID);
-            TemplateRef tref = site.createTemplateRef();
-            tref.setTemplate(tpl);
-            tref.setActive(Boolean.TRUE);
-            tref.setInherit(TemplateRef.INHERIT_ACTUAL);
-            theme.addTemplateRef(tref);
         }
         return theme;
     }
