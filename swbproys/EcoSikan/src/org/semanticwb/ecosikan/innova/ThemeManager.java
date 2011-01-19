@@ -64,6 +64,20 @@ public class ThemeManager extends org.semanticwb.ecosikan.innova.base.ThemeManag
             out.println("</p>");
             out.println("<p>&nbsp;</p>");
 
+            //Participa
+            System.out.println("getUrl()="+model.getWebPage("Aporta_tus_ideas").getUrl());
+            System.out.println("getUrl(lang)="+model.getWebPage("Aporta_tus_ideas").getUrl(paramRequest.getUser().getLanguage()));
+            System.out.println("getRealUrl()="+model.getWebPage("Aporta_tus_ideas").getRealUrl());
+            System.out.println("getRealUrl(lang)="+model.getWebPage("Aporta_tus_ideas").getRealUrl(paramRequest.getUser().getLanguage()));
+            System.out.println("getWebPageURL()="+model.getWebPage("Aporta_tus_ideas").getWebPageURL());
+
+            String participa = model.getWebPage("Aporta_tus_ideas").getUrl()+"?Theme="+theme.getId();
+            out.println("<p align=\"right\">");
+            out.println("  <a href=\""+participa+"\">");
+            out.println("    <img src=\"/work/models/EcoSikan/Template/6/1/images/botonParticipa.jpg\" alt=\"Participa\" width=\"245\" height=\"60\" border=\"0\" />");
+            out.println("  </a>");
+            out.println("</p>");
+
             //LIST COMMENTS
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy", new Locale(paramRequest.getUser().getLanguage()));
             Iterator<Comment> lastComments = theme.listLastComments();

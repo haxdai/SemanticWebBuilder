@@ -1,7 +1,7 @@
 package org.semanticwb.ecosikan.innova.base;
 
 
-public abstract class IdeaBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class IdeaBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
     public static final org.semanticwb.platform.SemanticProperty ecoskn_votesP=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#votesP");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_conclusion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#conclusion");
@@ -9,6 +9,11 @@ public abstract class IdeaBase extends org.semanticwb.model.SWBClass implements 
     public static final org.semanticwb.platform.SemanticProperty ecoskn_votesN=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#votesN");
     public static final org.semanticwb.platform.SemanticClass ecoskn_Category=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ecosikan.infotec.com.mx#Category");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_category=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#category");
+   /**
+   * Una Página Web es el elemento de SemanticWebBuilder a través del cual se estructura la información del portal.
+   */
+    public static final org.semanticwb.platform.SemanticClass swb_WebPage=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#WebPage");
+    public static final org.semanticwb.platform.SemanticProperty ecoskn_wp=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#wp");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_status=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#status");
     public static final org.semanticwb.platform.SemanticClass ecoskn_Comment=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://ecosikan.infotec.com.mx#Comment");
     public static final org.semanticwb.platform.SemanticProperty ecoskn_hasComment=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://ecosikan.infotec.com.mx#hasComment");
@@ -131,6 +136,29 @@ public abstract class IdeaBase extends org.semanticwb.model.SWBClass implements 
         public static java.util.Iterator<org.semanticwb.ecosikan.innova.Idea> listIdeaByCategory(org.semanticwb.ecosikan.innova.Category value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Idea> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(ecoskn_category,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Idea with a determined Wp
+       * @param value Wp of the type org.semanticwb.model.WebPage
+       * @param model Model of the org.semanticwb.ecosikan.innova.Idea
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Idea
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Idea> listIdeaByWp(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Idea> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(ecoskn_wp, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.ecosikan.innova.Idea with a determined Wp
+       * @param value Wp of the type org.semanticwb.model.WebPage
+       * @return Iterator with all the org.semanticwb.ecosikan.innova.Idea
+       */
+
+        public static java.util.Iterator<org.semanticwb.ecosikan.innova.Idea> listIdeaByWp(org.semanticwb.model.WebPage value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.ecosikan.innova.Idea> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(ecoskn_wp,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -403,6 +431,44 @@ public abstract class IdeaBase extends org.semanticwb.model.SWBClass implements 
          if(obj!=null)
          {
              ret=(org.semanticwb.ecosikan.innova.Category)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Sets the value for the property Wp
+   * @param value Wp to set
+   */
+
+    public void setWp(org.semanticwb.model.WebPage value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(ecoskn_wp, value.getSemanticObject());
+        }else
+        {
+            removeWp();
+        }
+    }
+   /**
+   * Remove the value for Wp property
+   */
+
+    public void removeWp()
+    {
+        getSemanticObject().removeProperty(ecoskn_wp);
+    }
+
+   /**
+   * Gets the Wp
+   * @return a org.semanticwb.model.WebPage
+   */
+    public org.semanticwb.model.WebPage getWp()
+    {
+         org.semanticwb.model.WebPage ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(ecoskn_wp);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.WebPage)obj.createGenericInstance();
          }
          return ret;
     }
