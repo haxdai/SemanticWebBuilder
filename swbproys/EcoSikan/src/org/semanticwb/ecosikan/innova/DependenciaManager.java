@@ -2,6 +2,7 @@ package org.semanticwb.ecosikan.innova;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -17,8 +18,6 @@ import org.semanticwb.Logger;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.Resource;
-import org.semanticwb.model.Template;
-import org.semanticwb.model.TemplateRef;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
@@ -26,31 +25,27 @@ import org.semanticwb.portal.api.*;
 
 public class DependenciaManager extends GenericAdmResource {
     private static Logger log = SWBUtils.getLogger(DependenciaManager.class);
-    private static final String Template_ID = "9";
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        PrintWriter out = response.getWriter();
+        final WebPage wp = paramRequest.getWebPage();
+        final WebSite model = wp.getWebSite();
         final String modelId = paramRequest.getWebPage().getWebSiteId();
         final Boolean userCanEdit = userCanEdit(paramRequest.getUser());
 
-//        if(wp instanceof Theme) {
-//            String path = "/work/models/"+modelId+"/jsp/themes/listThemes.jsp";
-//            request.setAttribute("paramRequest", paramRequest);
-//            RequestDispatcher dis = request.getRequestDispatcher(path);
-//            try {
-//                dis.include(request, response);
-//            }catch (Exception e) {
-//                log.error(e);
-//                System.out.println(e);
-//            }
-//        }
-//        else {
+        if(wp instanceof Dependencia) {
+            Dependencia dependencia = (Dependencia)wp;
+            final String path = SWBPortal.getWebWorkPath()+dependencia.getWorkPath()+"/";
+            out.println("<div class=\"logosec\">");
+            out.println("    <a href=\"#\"><img alt=\"\" src=\""+path+dependencia.getImage()+"\" width=\"216\" height=\"62\" /></a>");
+            out.println("</div>");
+            out.println("<h2><br />"+dependencia.getTitle()+"<br /></h2>");
+        }else {
             String path = "/work/models/"+modelId+"/jsp/dependencia/init.jsp";
-
             String action = paramRequest.getAction();
-            if( paramRequest.Action_ADD.equals(action) )
+            if( paramRequest.Action_ADD.equals(action)&&userCanEdit )
                 path = "/work/models/"+modelId+"/jsp/dependencia/add.jsp";
-
             request.setAttribute("paramRequest", paramRequest);
             request.setAttribute("userCanEdit", userCanEdit);
             RequestDispatcher dis = request.getRequestDispatcher(path);
@@ -60,7 +55,7 @@ public class DependenciaManager extends GenericAdmResource {
                 log.error(e);
                 e.printStackTrace(System.out);
             }
-//        }
+        }
     }
 
     @Override
@@ -171,42 +166,7 @@ public class DependenciaManager extends GenericAdmResource {
             }
         }
         if(dependencia!=null) {
-            if(!params.containsKey("name")||(params.containsKey("name")&&params.get("name").isEmpty())) {
-                response.setRenderParameter("", "");
-                throw new Exception("Valor requerido. Resource "+base.getTitle()+" with id "+base.getId());
-            }
-            
-            dependencia.setParent(site.getHomePage());
-            dependencia.setTitle(params.get("name"));
-            dependencia.setDescription((params.get("desc")==null?"":params.get("desc")));
-            dependencia.setActive(Boolean.TRUE);
-
-            Template tpl = site.getTemplate(Template_ID);
-            TemplateRef tref = site.createTemplateRef();
-            tref.setTemplate(tpl);
-            tref.setActive(Boolean.TRUE);
-            tref.setInherit(TemplateRef.INHERIT_ACTUAL);
-            dependencia.addTemplateRef(tref);
-
-//            Theme theme = Theme.ClassMgr.createTheme(site);
-//            theme.setParent(dependencia);
-//            theme.setTitle(params.get("title"));
-//            theme.setDescription(params.get("desctitle"));
-//            theme.setActive(Boolean.TRUE);
-
-            /*
-            try {
-                String img = params.get("filename").trim();
-                if( img.equals("") )
-                    throw new Exception("La descripción es requerida. Resource "+base.getTitle()+" with id "+base.getId());
-            }catch(Exception e) {
-                theme.setImage("noHay.jpg");
-                log.error("El tema no trae imagen. Resource "+base.getTitle()+" with id "+base.getId());
-            }
-            addThemes(theme);
-            theme.setParent(dependencia);
-            theme.setActive(true);
-             */
+            dependencia.addData(response, params);
         }
         return dependencia;
     }
