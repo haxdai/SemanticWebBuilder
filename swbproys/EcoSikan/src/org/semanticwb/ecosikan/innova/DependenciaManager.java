@@ -185,6 +185,7 @@ public class DependenciaManager extends org.semanticwb.ecosikan.innova.base.Depe
         }
         if(dependencia!=null) {
             dependencia.addData(response, params);
+            addDependencia(dependencia);
         }
         return dependencia;
     }
