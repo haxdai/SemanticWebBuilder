@@ -13,12 +13,13 @@ import org.semanticwb.portal.api.SWBActionResponse;
 public class Theme extends org.semanticwb.ecosikan.innova.base.ThemeBase {
     private static Logger log = SWBUtils.getLogger(Theme.class);
     private static final String Template_ID = "10";
-
+    private static final int List_Last = 3;
     private LastComments lastComments;
+    
     public Theme(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
-        lastComments = new LastComments(3);
+        lastComments = new LastComments(List_Last);
     }
 
     public boolean offer(Comment c) {
