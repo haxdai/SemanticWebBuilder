@@ -1,5 +1,6 @@
 package org.semanticwb.mask.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
@@ -23,7 +24,6 @@ import org.semanticwb.portal.api.GenericAdmResource;
 import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
-import org.semanticwb.portal.api.SWBResourceURL;
 
 /**
  *
@@ -36,11 +36,10 @@ public class RegisterUser extends GenericAdmResource {
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         PrintWriter out = response.getWriter();
         
-        String groovyFile = "newChild.groovy";
+        String groovyFile = "newChild.jsp";
         if(paramRequest.getWebPage().getId().equalsIgnoreCase("Registro_profesor")) {
             groovyFile = "newUser.groovy";
         }
-
         String msg = request.getParameter("msg");
         String model = paramRequest.getWebPage().getWebSiteId();
         
@@ -115,6 +114,7 @@ public class RegisterUser extends GenericAdmResource {
                 newUser.setLastName(SWBUtils.XML.replaceXMLChars(request.getParameter("lastName")));
                 newUser.setSecondLastName(SWBUtils.XML.replaceXMLChars(request.getParameter("secondLastName")));
                 newUser.setEmail(SWBUtils.XML.replaceXMLChars(request.getParameter("email")));
+                newUser.setPhoto(SWBUtils.XML.replaceXMLChars(request.getParameter("photo")));
                 newUser.setPassword(pwd);
                 try {
                     newUser.checkCredential(pwd.toCharArray());
@@ -179,6 +179,8 @@ public class RegisterUser extends GenericAdmResource {
                 response.setRenderParameter("lastName", SWBUtils.XML.replaceXMLChars(request.getParameter("lastName")));
                 response.setRenderParameter("secondLastName", SWBUtils.XML.replaceXMLChars(request.getParameter("secondLastName")));
                 response.setRenderParameter("email", SWBUtils.XML.replaceXMLChars(request.getParameter("email")));
+
+                response.setRenderParameter("photo", SWBUtils.XML.replaceXMLChars(request.getParameter("photo")));
                 response.setRenderParameter("userSchoolName", SWBUtils.XML.replaceXMLChars(request.getParameter("userSchoolName")));
                 response.setRenderParameter("userSchoolDegree", SWBUtils.XML.replaceXMLChars(request.getParameter("userSchoolDegree")));
                 response.setRenderParameter("userSchoolGroup", SWBUtils.XML.replaceXMLChars(request.getParameter("userSchoolGroup")));
