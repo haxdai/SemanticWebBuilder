@@ -147,6 +147,22 @@ public class DenunciaResource extends GenericResource {
 
                 out.println(msg.toString());
 
+
+                SWBFormMgr mgr = new SWBFormMgr(denuncia.getSemanticObject(), SWBFormMgr.MODE_VIEW , SWBFormMgr.MODE_VIEW);
+//
+//                    SWBResourceURL urlbck = paramRequest.getRenderUrl();
+//                    urlbck.setParameter("act",request.getParameter("ract"));
+//                    urlbck.setParameter("email", request.getParameter("email"));
+//                    urlbck.setParameter("suri", denuncia.getId());
+//
+//
+//
+//                    String bckBtn = "<button type=\"button\" onclick=\"window.location='"+urlbck+"';\" class=\"srch_btt\">Regresar</button>";
+//
+//                    mgr.addButton(bckBtn);
+
+                    out.println(mgr.renderForm(request));
+
             } else if ("seguimiento".equals(act)) {
 
                 out.println("Seguimiento a tu Denuncia.");
