@@ -1,7 +1,9 @@
 package org.semanticwb.ecosikan.innova;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.ecosikan.innova.util.LastComments;
@@ -14,6 +16,14 @@ public class Theme extends org.semanticwb.ecosikan.innova.base.ThemeBase {
     private static Logger log = SWBUtils.getLogger(Theme.class);
     private static final String Template_ID = "10";
     private static final int List_Last = 3;
+    public static class SortedThemeByIdeasCount implements Comparator<Theme>{
+        public int compare(Theme theme1, Theme theme2) {
+            List<Idea> ideasTheme1 = SWBUtils.Collections.copyIterator(theme1.listIdeas());
+            List<Idea> ideasTheme2 = SWBUtils.Collections.copyIterator(theme2.listIdeas());
+            return new Long(ideasTheme1.size()).compareTo(new Long(ideasTheme2.size()));
+        }
+    }
+
     private LastComments lastComments;
     
     public Theme(org.semanticwb.platform.SemanticObject base)
