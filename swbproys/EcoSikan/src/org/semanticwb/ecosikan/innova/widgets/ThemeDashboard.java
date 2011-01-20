@@ -1,6 +1,5 @@
 package org.semanticwb.ecosikan.innova.widgets;
 
-import org.semanticwb.ecosikan.widget.*;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
