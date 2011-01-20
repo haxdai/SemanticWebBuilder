@@ -16,16 +16,8 @@ public class Theme extends org.semanticwb.ecosikan.innova.base.ThemeBase {
     private static Logger log = SWBUtils.getLogger(Theme.class);
     private static final String Template_ID = "10";
     private static final int List_Last = 3;
-    public static class SortedThemeByIdeasCount implements Comparator<Theme>{
-        public int compare(Theme theme1, Theme theme2) {
-            List<Idea> ideasTheme1 = SWBUtils.Collections.copyIterator(theme1.listIdeas());
-            List<Idea> ideasTheme2 = SWBUtils.Collections.copyIterator(theme2.listIdeas());
-            return new Long(ideasTheme1.size()).compareTo(new Long(ideasTheme2.size()));
-        }
-    }
-
     private LastComments lastComments;
-    
+
     public Theme(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
@@ -51,18 +43,26 @@ public class Theme extends org.semanticwb.ecosikan.innova.base.ThemeBase {
         }
 
         WebSite site = response.getWebPage().getWebSite();
-        
+
         setParent(response.getWebPage());
         this.setTitle(params.get("title"));
         setDescription(params.get("desc"));
         setImage(params.get("filename"));
         setActive(Boolean.TRUE);
-        
+
         Template tpl = site.getTemplate(Template_ID);
         TemplateRef tref = site.createTemplateRef();
         tref.setTemplate(tpl);
         tref.setActive(Boolean.TRUE);
         tref.setInherit(TemplateRef.INHERIT_ACTUAL);
         addTemplateRef(tref);
+    }
+
+    public static class SortedThemeByIdeasCount implements Comparator<Theme>{
+        public int compare(Theme theme1, Theme theme2) {
+            List<Idea> ideasTheme1 = SWBUtils.Collections.copyIterator(theme1.listIdeas());
+            List<Idea> ideasTheme2 = SWBUtils.Collections.copyIterator(theme2.listIdeas());
+            return new Long(ideasTheme1.size()).compareTo(new Long(ideasTheme2.size()));
+        }
     }
 }
