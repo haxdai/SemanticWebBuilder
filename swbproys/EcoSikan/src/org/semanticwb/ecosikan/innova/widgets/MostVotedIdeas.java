@@ -1,26 +1,17 @@
 package org.semanticwb.ecosikan.innova.widgets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.semanticwb.SWBUtils;
-import org.semanticwb.ecosikan.innova.Challenge;
-import org.semanticwb.ecosikan.innova.ChallengeManager.Phases;
 import org.semanticwb.ecosikan.innova.Idea;
-import org.semanticwb.ecosikan.innova.base.ChallengeBase;
-import org.semanticwb.model.User;
 import org.semanticwb.model.WebPage;
-import org.semanticwb.model.WebSite;
 import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
-import org.semanticwb.portal.api.SWBResourceURL;
-import static org.semanticwb.ecosikan.innova.IdeaManager.*;
 
 public class MostVotedIdeas extends GenericResource {
     public static final int List_Last = 3;
