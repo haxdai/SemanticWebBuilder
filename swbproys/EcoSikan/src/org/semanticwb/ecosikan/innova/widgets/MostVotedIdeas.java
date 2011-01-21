@@ -27,12 +27,24 @@ public class MostVotedIdeas extends GenericResource {
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        PrintWriter out = response.getWriter();
+        final WebPage wp = paramRequest.getWebPage();
+        final String modelId = wp.getWebSiteId();
+        String path = "/work/models/"+modelId+"/jsp/widgets/las5IdeasMasVotadas.jsp";
+        RequestDispatcher rd = request.getRequestDispatcher(path);
+        try {
+            request.setAttribute("paramRequest", paramRequest);
+            rd.include(request, response);
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+
+
+        /*PrintWriter out = response.getWriter();
 
         final WebPage wp = paramRequest.getWebPage();
         final WebSite model = wp.getWebSite();
         final String modelId = wp.getWebSiteId();
-
+        
         request.setAttribute("paramRequest", paramRequest);
         RequestDispatcher dis;
         if(wp==model.getHomePage()) {
@@ -91,7 +103,7 @@ public class MostVotedIdeas extends GenericResource {
             } catch (Exception e) {
                 e.printStackTrace(System.out);
             }
-        }
+        }*/
     }
 
     public Iterator<Idea> getRecent(int length, List<Idea> ideas) throws IllegalArgumentException {
