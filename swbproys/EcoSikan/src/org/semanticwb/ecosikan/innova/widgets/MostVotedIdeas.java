@@ -22,7 +22,8 @@ import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.api.SWBResourceURL;
 import static org.semanticwb.ecosikan.innova.IdeaManager.*;
 
-public class MostVotedIdeas extends GenericResource{
+public class MostVotedIdeas extends GenericResource {
+    public static final int List_Last = 3;
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {

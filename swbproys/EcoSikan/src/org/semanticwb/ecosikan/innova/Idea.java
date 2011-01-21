@@ -14,22 +14,11 @@ import org.semanticwb.model.WebPage;
 public class Idea extends org.semanticwb.ecosikan.innova.base.IdeaBase {
     private static Logger log = SWBUtils.getLogger(Idea.class);
     static private HashMap<String,HashMap> hashPrim = new HashMap();
+    public static final int List_Last = 3;
 
     public Idea(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
-    }
-
-    public static class IdeasSortByPositiveVotes implements Comparator<Idea>{
-        public int compare(Idea idea1, Idea idea2) {
-            return new Long(idea1.getVotesP()).compareTo(new Long(idea2.getVotesP()));
-        }
-    }
-
-    public static class IdeasSortByCreatedDate implements Comparator<Idea>{
-        public int compare(Idea idea1, Idea idea2) {
-            return idea1.getCreated().compareTo( idea2.getCreated() );
-        }
     }
 
     public void addData(String title, String description, WebPage parent) throws IllegalArgumentException {
@@ -199,5 +188,17 @@ public class Idea extends org.semanticwb.ecosikan.innova.base.IdeaBase {
 //        User user = paramRequest.getUser();
 //        final boolean canEdit = true;//user.hasRole(role);
         return true;
+    }
+    
+    public static class IdeasSortByPositiveVotes implements Comparator<Idea>{
+        public int compare(Idea idea1, Idea idea2) {
+            return new Long(idea1.getVotesP()).compareTo(new Long(idea2.getVotesP()));
+        }
+    }
+
+    public static class IdeasSortByCreatedDate implements Comparator<Idea>{
+        public int compare(Idea idea1, Idea idea2) {
+            return idea1.getCreated().compareTo( idea2.getCreated() );
+        }
     }
 }
