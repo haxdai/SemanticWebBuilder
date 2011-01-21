@@ -13,7 +13,8 @@ import org.semanticwb.portal.api.SWBResourceException;
  *
  * @author José Said Olano García
  */
-public class ThemeDashboard extends GenericResource{
+public class ThemeDashboard extends GenericResource {
+    public static final int List_Last = 3;
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
