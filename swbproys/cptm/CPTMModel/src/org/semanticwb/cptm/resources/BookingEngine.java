@@ -101,7 +101,7 @@ public class BookingEngine extends GenericResource {
         userLanguage = user.getLanguage() != null ? user.getLanguage() : "es";
         try {
             if (user != null && user.getCountry() != null) {
-                userPais = Integer.parseInt(user.getCountry().getId());
+                //userPais = Integer.parseInt(user.getCountry().getId());
             } else {
                 userPais = 0;
             }
@@ -169,7 +169,7 @@ public class BookingEngine extends GenericResource {
         userLanguage = user.getLanguage() != null ? user.getLanguage() : "es";
         try {
             if (user != null && user.getCountry() != null) {
-                userPais = Integer.parseInt(user.getCountry().getId());
+                //userPais = Integer.parseInt(user.getCountry().getId());
             } else {
                 userPais = 44;
             }
