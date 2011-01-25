@@ -50,7 +50,7 @@ public class FriendManager extends GenericAdmResource {
         try {
             dis.include(request, response);
         } catch (Exception e) {
-            System.out.println("myFriends\n"+e);
+            e.printStackTrace(System.out);
             log.error(e);
         }
 

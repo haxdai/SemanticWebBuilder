@@ -37,7 +37,6 @@ public class ProspectManager  extends GenericAdmResource {
         request.setAttribute("paramRequest", paramRequest);
         RequestDispatcher dis;
 
-        out.println("<div class=\"area_registro\">");
         dis = request.getRequestDispatcher(path+"perfil/myFriendRequests.jsp");
         try {
             dis.include(request, response);
@@ -62,6 +61,7 @@ public class ProspectManager  extends GenericAdmResource {
 //            log.error(e);
 //        }
 
+        out.println("<br /><br /><br /><br /><br /><br />");
         dis = request.getRequestDispatcher(path+"perfil/findFriends.jsp");
         try {
             dis.include(request, response);

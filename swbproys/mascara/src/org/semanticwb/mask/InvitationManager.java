@@ -57,9 +57,9 @@ public class InvitationManager  extends GenericAdmResource {
         dis = request.getRequestDispatcher(path+"perfil/myInvitations.jsp");
         try {
             dis.include(request, response);
-        } catch (Exception e) {
-            System.out.println("myInvitations\n"+e);
+        } catch (Exception e) {            
             log.error(e);
+            e.printStackTrace(System.out);
         }
 
 //        dis = request.getRequestDispatcher(path+"perfil/findFriends.jsp");
