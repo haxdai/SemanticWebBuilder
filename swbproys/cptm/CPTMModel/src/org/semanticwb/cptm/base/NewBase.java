@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Catálogo de Noticias 
    */
-public abstract class NewBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class NewBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Resourceable,org.semanticwb.model.Descriptiveable
 {
    /**
    * Interfaz que define propiedades en comun para un Punto Geografico y una Marca Regional
@@ -343,39 +343,6 @@ public abstract class NewBase extends org.semanticwb.model.SWBClass implements o
          }
          return ret;
     }
-
-/**
-* Gets the Title property
-* @return String with the Title
-*/
-    public String getTitle()
-    {
-        return getSemanticObject().getProperty(swb_title);
-    }
-
-/**
-* Sets the Title property
-* @param value long with the Title
-*/
-    public void setTitle(String value)
-    {
-        getSemanticObject().setProperty(swb_title, value);
-    }
-
-    public String getTitle(String lang)
-    {
-        return getSemanticObject().getProperty(swb_title, null, lang);
-    }
-
-    public String getDisplayTitle(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_title, lang);
-    }
-
-    public void setTitle(String title, String lang)
-    {
-        getSemanticObject().setProperty(swb_title, title, lang);
-    }
    /**
    * Gets all the org.semanticwb.model.Resource
    * @return A GenericIterator with all the org.semanticwb.model.Resource
@@ -440,6 +407,39 @@ public abstract class NewBase extends org.semanticwb.model.SWBClass implements o
              ret=(org.semanticwb.model.Resource)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the Title property
+* @return String with the Title
+*/
+    public String getTitle()
+    {
+        return getSemanticObject().getProperty(swb_title);
+    }
+
+/**
+* Sets the Title property
+* @param value long with the Title
+*/
+    public void setTitle(String value)
+    {
+        getSemanticObject().setProperty(swb_title, value);
+    }
+
+    public String getTitle(String lang)
+    {
+        return getSemanticObject().getProperty(swb_title, null, lang);
+    }
+
+    public String getDisplayTitle(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_title, lang);
+    }
+
+    public void setTitle(String title, String lang)
+    {
+        getSemanticObject().setProperty(swb_title, title, lang);
     }
 
 /**

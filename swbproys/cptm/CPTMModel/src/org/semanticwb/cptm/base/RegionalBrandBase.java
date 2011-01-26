@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Marca Regional. La cual puede tener relaciodos Destinos Turisticos y Puntos geográficos (Ej. La Riviera Maya) 
    */
-public abstract class RegionalBrandBase extends org.semanticwb.model.SWBClass implements org.semanticwb.cptm.LocalityInt,org.semanticwb.model.Descriptiveable
+public abstract class RegionalBrandBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Referensable,org.semanticwb.model.RuleRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Viewable,org.semanticwb.model.Rankable,org.semanticwb.model.Indexable,org.semanticwb.model.Searchable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Trashable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Tagable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Localeable,org.semanticwb.model.Resourceable,org.semanticwb.model.CalendarRefable
 {
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Destinos.
@@ -87,26 +87,141 @@ public abstract class RegionalBrandBase extends org.semanticwb.model.SWBClass im
             return (getRegionalBrand(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.cptm.RegionalBrand with a determined NewGeographicPointInv
-       * @param value NewGeographicPointInv of the type org.semanticwb.cptm.New
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined AssMember
+       * @param value AssMember of the type org.semanticwb.model.AssMember
        * @param model Model of the org.semanticwb.cptm.RegionalBrand
        * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByNewGeographicPointInv(org.semanticwb.cptm.New value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByAssMember(org.semanticwb.model.AssMember value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasNewGeographicPointInv, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasAssMemberInv, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.RegionalBrand with a determined NewGeographicPointInv
-       * @param value NewGeographicPointInv of the type org.semanticwb.cptm.New
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined AssMember
+       * @param value AssMember of the type org.semanticwb.model.AssMember
        * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByNewGeographicPointInv(org.semanticwb.cptm.New value)
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByAssMember(org.semanticwb.model.AssMember value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasNewGeographicPointInv,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasAssMemberInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined VirtualParent
+       * @param value VirtualParent of the type org.semanticwb.model.WebPage
+       * @param model Model of the org.semanticwb.cptm.RegionalBrand
+       * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByVirtualParent(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualParent, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined VirtualParent
+       * @param value VirtualParent of the type org.semanticwb.model.WebPage
+       * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByVirtualParent(org.semanticwb.model.WebPage value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualParent,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined CalendarRef
+       * @param value CalendarRef of the type org.semanticwb.model.CalendarRef
+       * @param model Model of the org.semanticwb.cptm.RegionalBrand
+       * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByCalendarRef(org.semanticwb.model.CalendarRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasCalendarRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined CalendarRef
+       * @param value CalendarRef of the type org.semanticwb.model.CalendarRef
+       * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByCalendarRef(org.semanticwb.model.CalendarRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasCalendarRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined Parent
+       * @param value Parent of the type org.semanticwb.model.WebPage
+       * @param model Model of the org.semanticwb.cptm.RegionalBrand
+       * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByParent(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_webPageParent, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined Parent
+       * @param value Parent of the type org.semanticwb.model.WebPage
+       * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByParent(org.semanticwb.model.WebPage value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_webPageParent,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.cptm.RegionalBrand
+       * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByCreator(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * @param model Model of the org.semanticwb.cptm.RegionalBrand
+       * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByUserGroupRef(org.semanticwb.model.UserGroupRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByUserGroupRef(org.semanticwb.model.UserGroupRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -133,118 +248,256 @@ public abstract class RegionalBrandBase extends org.semanticwb.model.SWBClass im
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.RegionalBrand with a determined GeographicPointProxInv
-       * @param value GeographicPointProxInv of the type org.semanticwb.cptm.Proximity
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined WebPageVirtualChild
+       * @param value WebPageVirtualChild of the type org.semanticwb.model.WebPage
        * @param model Model of the org.semanticwb.cptm.RegionalBrand
        * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByGeographicPointProxInv(org.semanticwb.cptm.Proximity value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByWebPageVirtualChild(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasGeographicPointProxInv, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualChild, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.RegionalBrand with a determined GeographicPointProxInv
-       * @param value GeographicPointProxInv of the type org.semanticwb.cptm.Proximity
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined WebPageVirtualChild
+       * @param value WebPageVirtualChild of the type org.semanticwb.model.WebPage
        * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByGeographicPointProxInv(org.semanticwb.cptm.Proximity value)
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByWebPageVirtualChild(org.semanticwb.model.WebPage value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasGeographicPointProxInv,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualChild,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.RegionalBrand with a determined EventGeographicPointInv
-       * @param value EventGeographicPointInv of the type org.semanticwb.cptm.Event
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined Language
+       * @param value Language of the type org.semanticwb.model.Language
        * @param model Model of the org.semanticwb.cptm.RegionalBrand
        * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByEventGeographicPointInv(org.semanticwb.cptm.Event value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByLanguage(org.semanticwb.model.Language value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_eventGeographicPointInv, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_language, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.RegionalBrand with a determined EventGeographicPointInv
-       * @param value EventGeographicPointInv of the type org.semanticwb.cptm.Event
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined Language
+       * @param value Language of the type org.semanticwb.model.Language
        * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByEventGeographicPointInv(org.semanticwb.cptm.Event value)
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByLanguage(org.semanticwb.model.Language value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_eventGeographicPointInv,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_language,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.RegionalBrand with a determined PromotionInv
-       * @param value PromotionInv of the type org.semanticwb.cptm.Promotion
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined TemplateRef
+       * @param value TemplateRef of the type org.semanticwb.model.TemplateRef
        * @param model Model of the org.semanticwb.cptm.RegionalBrand
        * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByPromotionInv(org.semanticwb.cptm.Promotion value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByTemplateRef(org.semanticwb.model.TemplateRef value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasPromotionInv, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.RegionalBrand with a determined PromotionInv
-       * @param value PromotionInv of the type org.semanticwb.cptm.Promotion
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined TemplateRef
+       * @param value TemplateRef of the type org.semanticwb.model.TemplateRef
        * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByPromotionInv(org.semanticwb.cptm.Promotion value)
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByTemplateRef(org.semanticwb.model.TemplateRef value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasPromotionInv,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.RegionalBrand with a determined Proximity
-       * @param value Proximity of the type org.semanticwb.cptm.LocalityInt
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined PFlowRef
+       * @param value PFlowRef of the type org.semanticwb.model.PFlowRef
        * @param model Model of the org.semanticwb.cptm.RegionalBrand
        * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByProximity(org.semanticwb.cptm.LocalityInt value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByPFlowRef(org.semanticwb.model.PFlowRef value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasProximity, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.RegionalBrand with a determined Proximity
-       * @param value Proximity of the type org.semanticwb.cptm.LocalityInt
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined PFlowRef
+       * @param value PFlowRef of the type org.semanticwb.model.PFlowRef
        * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByProximity(org.semanticwb.cptm.LocalityInt value)
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByPFlowRef(org.semanticwb.model.PFlowRef value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasProximity,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.RegionalBrand with a determined TravelRouteInv
-       * @param value TravelRouteInv of the type org.semanticwb.cptm.TravelRoute
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined Child
+       * @param value Child of the type org.semanticwb.model.WebPage
        * @param model Model of the org.semanticwb.cptm.RegionalBrand
        * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByTravelRouteInv(org.semanticwb.cptm.TravelRoute value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByChild(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasTravelRouteInv, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageChild, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.RegionalBrand with a determined TravelRouteInv
-       * @param value TravelRouteInv of the type org.semanticwb.cptm.TravelRoute
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined Child
+       * @param value Child of the type org.semanticwb.model.WebPage
        * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByTravelRouteInv(org.semanticwb.cptm.TravelRoute value)
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByChild(org.semanticwb.model.WebPage value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasTravelRouteInv,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageChild,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.cptm.RegionalBrand
+       * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByModifiedBy(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined Resource
+       * @param value Resource of the type org.semanticwb.model.Resource
+       * @param model Model of the org.semanticwb.cptm.RegionalBrand
+       * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByResource(org.semanticwb.model.Resource value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasResource, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined Resource
+       * @param value Resource of the type org.semanticwb.model.Resource
+       * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByResource(org.semanticwb.model.Resource value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasResource,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined RoleRef
+       * @param value RoleRef of the type org.semanticwb.model.RoleRef
+       * @param model Model of the org.semanticwb.cptm.RegionalBrand
+       * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByRoleRef(org.semanticwb.model.RoleRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined RoleRef
+       * @param value RoleRef of the type org.semanticwb.model.RoleRef
+       * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByRoleRef(org.semanticwb.model.RoleRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined ThisRoleAssMember
+       * @param value ThisRoleAssMember of the type org.semanticwb.model.AssMember
+       * @param model Model of the org.semanticwb.cptm.RegionalBrand
+       * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByThisRoleAssMember(org.semanticwb.model.AssMember value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisRoleAssMemberInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined ThisRoleAssMember
+       * @param value ThisRoleAssMember of the type org.semanticwb.model.AssMember
+       * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByThisRoleAssMember(org.semanticwb.model.AssMember value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisRoleAssMemberInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined RuleRef
+       * @param value RuleRef of the type org.semanticwb.model.RuleRef
+       * @param model Model of the org.semanticwb.cptm.RegionalBrand
+       * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByRuleRef(org.semanticwb.model.RuleRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined RuleRef
+       * @param value RuleRef of the type org.semanticwb.model.RuleRef
+       * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByRuleRef(org.semanticwb.model.RuleRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined ThisTypeAssociation
+       * @param value ThisTypeAssociation of the type org.semanticwb.model.Association
+       * @param model Model of the org.semanticwb.cptm.RegionalBrand
+       * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByThisTypeAssociation(org.semanticwb.model.Association value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisTypeAssociationInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined ThisTypeAssociation
+       * @param value ThisTypeAssociation of the type org.semanticwb.model.Association
+       * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByThisTypeAssociation(org.semanticwb.model.Association value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisTypeAssociationInv,value.getSemanticObject(),sclass));
             return it;
         }
     }
@@ -256,45 +509,6 @@ public abstract class RegionalBrandBase extends org.semanticwb.model.SWBClass im
     public RegionalBrandBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
-    }
-   /**
-   * Gets all the org.semanticwb.cptm.New
-   * @return A GenericIterator with all the org.semanticwb.cptm.New
-   */
-
-    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.New> listNewGeographicPointInvs()
-    {
-        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.New>(getSemanticObject().listObjectProperties(cptm_hasNewGeographicPointInv));
-    }
-
-   /**
-   * Gets true if has a NewGeographicPointInv
-   * @param value org.semanticwb.cptm.New to verify
-   * @return true if the org.semanticwb.cptm.New exists, false otherwise
-   */
-    public boolean hasNewGeographicPointInv(org.semanticwb.cptm.New value)
-    {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(cptm_hasNewGeographicPointInv,value.getSemanticObject());
-        }
-        return ret;
-    }
-
-   /**
-   * Gets the NewGeographicPointInv
-   * @return a org.semanticwb.cptm.New
-   */
-    public org.semanticwb.cptm.New getNewGeographicPointInv()
-    {
-         org.semanticwb.cptm.New ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasNewGeographicPointInv);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.cptm.New)obj.createGenericInstance();
-         }
-         return ret;
     }
    /**
    * Gets all the org.semanticwb.cptm.GeographicPoint
@@ -361,290 +575,13 @@ public abstract class RegionalBrandBase extends org.semanticwb.model.SWBClass im
          }
          return ret;
     }
-   /**
-   * Gets all the org.semanticwb.cptm.Proximity
-   * @return A GenericIterator with all the org.semanticwb.cptm.Proximity
-   */
-
-    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Proximity> listGeographicPointProxInvs()
-    {
-        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Proximity>(getSemanticObject().listObjectProperties(cptm_hasGeographicPointProxInv));
-    }
 
    /**
-   * Gets true if has a GeographicPointProxInv
-   * @param value org.semanticwb.cptm.Proximity to verify
-   * @return true if the org.semanticwb.cptm.Proximity exists, false otherwise
+   * Gets the CPTMWebSite
+   * @return a instance of org.semanticwb.cptm.CPTMWebSite
    */
-    public boolean hasGeographicPointProxInv(org.semanticwb.cptm.Proximity value)
+    public org.semanticwb.cptm.CPTMWebSite getCPTMWebSite()
     {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(cptm_hasGeographicPointProxInv,value.getSemanticObject());
-        }
-        return ret;
-    }
-
-   /**
-   * Gets the GeographicPointProxInv
-   * @return a org.semanticwb.cptm.Proximity
-   */
-    public org.semanticwb.cptm.Proximity getGeographicPointProxInv()
-    {
-         org.semanticwb.cptm.Proximity ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasGeographicPointProxInv);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.cptm.Proximity)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Sets the value for the property EventGeographicPointInv
-   * @param value EventGeographicPointInv to set
-   */
-
-    public void setEventGeographicPointInv(org.semanticwb.cptm.Event value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(cptm_eventGeographicPointInv, value.getSemanticObject());
-        }else
-        {
-            removeEventGeographicPointInv();
-        }
-    }
-   /**
-   * Remove the value for EventGeographicPointInv property
-   */
-
-    public void removeEventGeographicPointInv()
-    {
-        getSemanticObject().removeProperty(cptm_eventGeographicPointInv);
-    }
-
-   /**
-   * Gets the EventGeographicPointInv
-   * @return a org.semanticwb.cptm.Event
-   */
-    public org.semanticwb.cptm.Event getEventGeographicPointInv()
-    {
-         org.semanticwb.cptm.Event ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_eventGeographicPointInv);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.cptm.Event)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Gets all the org.semanticwb.cptm.Promotion
-   * @return A GenericIterator with all the org.semanticwb.cptm.Promotion
-   */
-
-    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> listPromotionInvs()
-    {
-        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion>(getSemanticObject().listObjectProperties(cptm_hasPromotionInv));
-    }
-
-   /**
-   * Gets true if has a PromotionInv
-   * @param value org.semanticwb.cptm.Promotion to verify
-   * @return true if the org.semanticwb.cptm.Promotion exists, false otherwise
-   */
-    public boolean hasPromotionInv(org.semanticwb.cptm.Promotion value)
-    {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(cptm_hasPromotionInv,value.getSemanticObject());
-        }
-        return ret;
-    }
-
-   /**
-   * Gets the PromotionInv
-   * @return a org.semanticwb.cptm.Promotion
-   */
-    public org.semanticwb.cptm.Promotion getPromotionInv()
-    {
-         org.semanticwb.cptm.Promotion ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasPromotionInv);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.cptm.Promotion)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Gets all the org.semanticwb.cptm.LocalityInt
-   * @return A GenericIterator with all the org.semanticwb.cptm.LocalityInt
-   */
-
-    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.LocalityInt> listProximities()
-    {
-        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.LocalityInt>(getSemanticObject().listObjectProperties(cptm_hasProximity));
-    }
-
-   /**
-   * Gets true if has a Proximity
-   * @param value org.semanticwb.cptm.LocalityInt to verify
-   * @return true if the org.semanticwb.cptm.LocalityInt exists, false otherwise
-   */
-    public boolean hasProximity(org.semanticwb.cptm.LocalityInt value)
-    {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(cptm_hasProximity,value.getSemanticObject());
-        }
-        return ret;
-    }
-   /**
-   * Adds a Proximity
-   * @param value org.semanticwb.cptm.LocalityInt to add
-   */
-
-    public void addProximity(org.semanticwb.cptm.LocalityInt value)
-    {
-        getSemanticObject().addObjectProperty(cptm_hasProximity, value.getSemanticObject());
-    }
-   /**
-   * Removes all the Proximity
-   */
-
-    public void removeAllProximity()
-    {
-        getSemanticObject().removeProperty(cptm_hasProximity);
-    }
-   /**
-   * Removes a Proximity
-   * @param value org.semanticwb.cptm.LocalityInt to remove
-   */
-
-    public void removeProximity(org.semanticwb.cptm.LocalityInt value)
-    {
-        getSemanticObject().removeObjectProperty(cptm_hasProximity,value.getSemanticObject());
-    }
-
-   /**
-   * Gets the Proximity
-   * @return a org.semanticwb.cptm.LocalityInt
-   */
-    public org.semanticwb.cptm.LocalityInt getProximity()
-    {
-         org.semanticwb.cptm.LocalityInt ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasProximity);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.cptm.LocalityInt)obj.createGenericInstance();
-         }
-         return ret;
-    }
-
-/**
-* Gets the Title property
-* @return String with the Title
-*/
-    public String getTitle()
-    {
-        return getSemanticObject().getProperty(swb_title);
-    }
-
-/**
-* Sets the Title property
-* @param value long with the Title
-*/
-    public void setTitle(String value)
-    {
-        getSemanticObject().setProperty(swb_title, value);
-    }
-
-    public String getTitle(String lang)
-    {
-        return getSemanticObject().getProperty(swb_title, null, lang);
-    }
-
-    public String getDisplayTitle(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_title, lang);
-    }
-
-    public void setTitle(String title, String lang)
-    {
-        getSemanticObject().setProperty(swb_title, title, lang);
-    }
-   /**
-   * Gets all the org.semanticwb.cptm.TravelRoute
-   * @return A GenericIterator with all the org.semanticwb.cptm.TravelRoute
-   */
-
-    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> listTravelRouteInvs()
-    {
-        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute>(getSemanticObject().listObjectProperties(cptm_hasTravelRouteInv));
-    }
-
-   /**
-   * Gets true if has a TravelRouteInv
-   * @param value org.semanticwb.cptm.TravelRoute to verify
-   * @return true if the org.semanticwb.cptm.TravelRoute exists, false otherwise
-   */
-    public boolean hasTravelRouteInv(org.semanticwb.cptm.TravelRoute value)
-    {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(cptm_hasTravelRouteInv,value.getSemanticObject());
-        }
-        return ret;
-    }
-
-   /**
-   * Gets the TravelRouteInv
-   * @return a org.semanticwb.cptm.TravelRoute
-   */
-    public org.semanticwb.cptm.TravelRoute getTravelRouteInv()
-    {
-         org.semanticwb.cptm.TravelRoute ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasTravelRouteInv);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.cptm.TravelRoute)obj.createGenericInstance();
-         }
-         return ret;
-    }
-
-/**
-* Gets the Description property
-* @return String with the Description
-*/
-    public String getDescription()
-    {
-        return getSemanticObject().getProperty(swb_description);
-    }
-
-/**
-* Sets the Description property
-* @param value long with the Description
-*/
-    public void setDescription(String value)
-    {
-        getSemanticObject().setProperty(swb_description, value);
-    }
-
-    public String getDescription(String lang)
-    {
-        return getSemanticObject().getProperty(swb_description, null, lang);
-    }
-
-    public String getDisplayDescription(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_description, lang);
-    }
-
-    public void setDescription(String description, String lang)
-    {
-        getSemanticObject().setProperty(swb_description, description, lang);
+        return (org.semanticwb.cptm.CPTMWebSite)getSemanticObject().getModel().getModelObject().createGenericInstance();
     }
 }

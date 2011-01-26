@@ -4,20 +4,16 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que hereda de swb:WebSite. Es un tipo de website para CPTM. De esta manera se puede contar con todos los elementos en el arbol de navegación en la administración, y otros elementos utiles para CPTM. 
    */
-public abstract class CPTMWebSiteBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.OntologyDepable,org.semanticwb.model.Indexable,org.semanticwb.model.Undeleteable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Traceable,org.semanticwb.model.Activeable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Localeable,org.semanticwb.model.Filterable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Trashable
+public abstract class CPTMWebSiteBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.Countryable,org.semanticwb.model.OntologyDepable,org.semanticwb.model.Filterable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Traceable,org.semanticwb.model.Activeable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Indexable,org.semanticwb.model.Localeable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Trashable
 {
    /**
-   * Clase que se encarga del catalogo de "Estilos de Viaje"
+   * Clase que se encarga de manejar las rutas de viaje
    */
-    public static final org.semanticwb.platform.SemanticClass cptm_TravelStyle=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#TravelStyle");
+    public static final org.semanticwb.platform.SemanticClass cptm_TravelRoute=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#TravelRoute");
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Regiones.
    */
     public static final org.semanticwb.platform.SemanticClass cptm_Region=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Region");
-   /**
-   * Clase que se encarga de administrar Festividades. Ej. "Día de Muertos"
-   */
-    public static final org.semanticwb.platform.SemanticClass cptm_Festivity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Festivity");
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo detipos de  experiencias.
    */
@@ -46,6 +42,10 @@ public abstract class CPTMWebSiteBase extends org.semanticwb.model.WebSite imple
    */
     public static final org.semanticwb.platform.SemanticClass cptm_Event=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Event");
    /**
+   * Marca Regional. La cual puede tener relaciodos Destinos Turisticos y Puntos geográficos (Ej. La Riviera Maya)
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_RegionalBrand=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#RegionalBrand");
+   /**
    * Canales para los cuales se podran dirigir las notas editoriales
    */
     public static final org.semanticwb.platform.SemanticClass cptm_Canal=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Canal");
@@ -54,10 +54,6 @@ public abstract class CPTMWebSiteBase extends org.semanticwb.model.WebSite imple
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Destinos.
    */
     public static final org.semanticwb.platform.SemanticClass cptm_GeographicPoint=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#GeographicPoint");
-   /**
-   * Clase que se encarga de manejar las rutas de viaje
-   */
-    public static final org.semanticwb.platform.SemanticClass cptm_TravelRoute=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#TravelRoute");
    /**
    * Clase que hereda de swb:WebSite. Es un tipo de website para CPTM. De esta manera se puede contar con todos los elementos en el arbol de navegación en la administración, y otros elementos utiles para CPTM.
    */
@@ -351,6 +347,29 @@ public abstract class CPTMWebSiteBase extends org.semanticwb.model.WebSite imple
             return it;
         }
        /**
+       * Gets all org.semanticwb.cptm.CPTMWebSite with a determined Country
+       * @param value Country of the type org.semanticwb.model.Country
+       * @param model Model of the org.semanticwb.cptm.CPTMWebSite
+       * @return Iterator with all the org.semanticwb.cptm.CPTMWebSite
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMWebSite> listCPTMWebSiteByCountry(org.semanticwb.model.Country value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_country, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.CPTMWebSite with a determined Country
+       * @param value Country of the type org.semanticwb.model.Country
+       * @return Iterator with all the org.semanticwb.cptm.CPTMWebSite
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMWebSite> listCPTMWebSiteByCountry(org.semanticwb.model.Country value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMWebSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_country,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.cptm.CPTMWebSite with a determined DefaultTemplate
        * @param value DefaultTemplate of the type org.semanticwb.model.Template
        * @param model Model of the org.semanticwb.cptm.CPTMWebSite
@@ -384,28 +403,28 @@ public abstract class CPTMWebSiteBase extends org.semanticwb.model.WebSite imple
         super(base);
     }
 
-    public org.semanticwb.cptm.TravelStyle getTravelStyle(String id)
+    public org.semanticwb.cptm.TravelRoute getTravelRoute(String id)
     {
-        return org.semanticwb.cptm.TravelStyle.ClassMgr.getTravelStyle(id, this);
+        return org.semanticwb.cptm.TravelRoute.ClassMgr.getTravelRoute(id, this);
     }
 
-    public java.util.Iterator<org.semanticwb.cptm.TravelStyle> listTravelStyles()
+    public java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRoutes()
     {
-        return org.semanticwb.cptm.TravelStyle.ClassMgr.listTravelStyles(this);
+        return org.semanticwb.cptm.TravelRoute.ClassMgr.listTravelRoutes(this);
     }
 
-    public org.semanticwb.cptm.TravelStyle createTravelStyle(String id)
+    public org.semanticwb.cptm.TravelRoute createTravelRoute(String id)
     {
-        return org.semanticwb.cptm.TravelStyle.ClassMgr.createTravelStyle(id,this);
+        return org.semanticwb.cptm.TravelRoute.ClassMgr.createTravelRoute(id,this);
     }
 
-    public void removeTravelStyle(String id)
+    public void removeTravelRoute(String id)
     {
-        org.semanticwb.cptm.TravelStyle.ClassMgr.removeTravelStyle(id, this);
+        org.semanticwb.cptm.TravelRoute.ClassMgr.removeTravelRoute(id, this);
     }
-    public boolean hasTravelStyle(String id)
+    public boolean hasTravelRoute(String id)
     {
-        return org.semanticwb.cptm.TravelStyle.ClassMgr.hasTravelStyle(id, this);
+        return org.semanticwb.cptm.TravelRoute.ClassMgr.hasTravelRoute(id, this);
     }
 
     public org.semanticwb.cptm.Region getRegion(String id)
@@ -430,30 +449,6 @@ public abstract class CPTMWebSiteBase extends org.semanticwb.model.WebSite imple
     public boolean hasRegion(String id)
     {
         return org.semanticwb.cptm.Region.ClassMgr.hasRegion(id, this);
-    }
-
-    public org.semanticwb.cptm.Festivity getFestivity(String id)
-    {
-        return org.semanticwb.cptm.Festivity.ClassMgr.getFestivity(id, this);
-    }
-
-    public java.util.Iterator<org.semanticwb.cptm.Festivity> listFestivities()
-    {
-        return org.semanticwb.cptm.Festivity.ClassMgr.listFestivities(this);
-    }
-
-    public org.semanticwb.cptm.Festivity createFestivity(String id)
-    {
-        return org.semanticwb.cptm.Festivity.ClassMgr.createFestivity(id,this);
-    }
-
-    public void removeFestivity(String id)
-    {
-        org.semanticwb.cptm.Festivity.ClassMgr.removeFestivity(id, this);
-    }
-    public boolean hasFestivity(String id)
-    {
-        return org.semanticwb.cptm.Festivity.ClassMgr.hasFestivity(id, this);
     }
 
     public org.semanticwb.cptm.ExperienceType getExperienceType(String id)
@@ -690,6 +685,30 @@ public abstract class CPTMWebSiteBase extends org.semanticwb.model.WebSite imple
         return org.semanticwb.cptm.Event.ClassMgr.hasEvent(id, this);
     }
 
+    public org.semanticwb.cptm.RegionalBrand getRegionalBrand(String id)
+    {
+        return org.semanticwb.cptm.RegionalBrand.ClassMgr.getRegionalBrand(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrands()
+    {
+        return org.semanticwb.cptm.RegionalBrand.ClassMgr.listRegionalBrands(this);
+    }
+
+    public org.semanticwb.cptm.RegionalBrand createRegionalBrand(String id)
+    {
+        return org.semanticwb.cptm.RegionalBrand.ClassMgr.createRegionalBrand(id,this);
+    }
+
+    public void removeRegionalBrand(String id)
+    {
+        org.semanticwb.cptm.RegionalBrand.ClassMgr.removeRegionalBrand(id, this);
+    }
+    public boolean hasRegionalBrand(String id)
+    {
+        return org.semanticwb.cptm.RegionalBrand.ClassMgr.hasRegionalBrand(id, this);
+    }
+
     public org.semanticwb.cptm.Canal getCanal(String id)
     {
         return org.semanticwb.cptm.Canal.ClassMgr.getCanal(id, this);
@@ -760,29 +779,5 @@ public abstract class CPTMWebSiteBase extends org.semanticwb.model.WebSite imple
     public boolean hasGeographicPoint(String id)
     {
         return org.semanticwb.cptm.GeographicPoint.ClassMgr.hasGeographicPoint(id, this);
-    }
-
-    public org.semanticwb.cptm.TravelRoute getTravelRoute(String id)
-    {
-        return org.semanticwb.cptm.TravelRoute.ClassMgr.getTravelRoute(id, this);
-    }
-
-    public java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRoutes()
-    {
-        return org.semanticwb.cptm.TravelRoute.ClassMgr.listTravelRoutes(this);
-    }
-
-    public org.semanticwb.cptm.TravelRoute createTravelRoute(String id)
-    {
-        return org.semanticwb.cptm.TravelRoute.ClassMgr.createTravelRoute(id,this);
-    }
-
-    public void removeTravelRoute(String id)
-    {
-        org.semanticwb.cptm.TravelRoute.ClassMgr.removeTravelRoute(id, this);
-    }
-    public boolean hasTravelRoute(String id)
-    {
-        return org.semanticwb.cptm.TravelRoute.ClassMgr.hasTravelRoute(id, this);
     }
 }

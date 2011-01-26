@@ -1,10 +1,15 @@
 package org.semanticwb.cptm.base;
 
 
-public abstract class ActivityBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.TemplateRefable,org.semanticwb.model.Indexable,org.semanticwb.model.Resourceable,org.semanticwb.model.Undeleteable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Rankable,org.semanticwb.model.Filterable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Trashable,org.semanticwb.model.RoleRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Searchable,org.semanticwb.model.Viewable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Localeable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Tagable,org.semanticwb.model.Referensable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RuleRefable
+public abstract class ActivityBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Referensable,org.semanticwb.model.RuleRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Viewable,org.semanticwb.model.Rankable,org.semanticwb.model.Indexable,org.semanticwb.model.Searchable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Trashable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Tagable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Localeable,org.semanticwb.model.Resourceable,org.semanticwb.model.CalendarRefable
 {
     public static final org.semanticwb.platform.SemanticClass cptm_Photo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Photo");
     public static final org.semanticwb.platform.SemanticProperty cptm_hasPhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasPhoto");
+   /**
+   * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Eventos.
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_Event=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Event");
+    public static final org.semanticwb.platform.SemanticProperty cptm_hasEventActivityRefInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasEventActivityRefInv");
     public static final org.semanticwb.platform.SemanticClass cptm_Activity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Activity");
    /**
    * The semantic class that represents the currentObject
@@ -187,6 +192,29 @@ public abstract class ActivityBase extends org.semanticwb.model.WebPage implemen
         public static java.util.Iterator<org.semanticwb.cptm.Activity> listActivityByParent(org.semanticwb.model.WebPage value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Activity> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_webPageParent,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.Activity with a determined EventActivityRefInv
+       * @param value EventActivityRefInv of the type org.semanticwb.cptm.Event
+       * @param model Model of the org.semanticwb.cptm.Activity
+       * @return Iterator with all the org.semanticwb.cptm.Activity
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Activity> listActivityByEventActivityRefInv(org.semanticwb.cptm.Event value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Activity> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasEventActivityRefInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.Activity with a determined EventActivityRefInv
+       * @param value EventActivityRefInv of the type org.semanticwb.cptm.Event
+       * @return Iterator with all the org.semanticwb.cptm.Activity
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Activity> listActivityByEventActivityRefInv(org.semanticwb.cptm.Event value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Activity> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasEventActivityRefInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -560,6 +588,45 @@ public abstract class ActivityBase extends org.semanticwb.model.WebPage implemen
          if(obj!=null)
          {
              ret=(org.semanticwb.cptm.Photo)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Gets all the org.semanticwb.cptm.Event
+   * @return A GenericIterator with all the org.semanticwb.cptm.Event
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Event> listEventActivityRefInvs()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Event>(getSemanticObject().listObjectProperties(cptm_hasEventActivityRefInv));
+    }
+
+   /**
+   * Gets true if has a EventActivityRefInv
+   * @param value org.semanticwb.cptm.Event to verify
+   * @return true if the org.semanticwb.cptm.Event exists, false otherwise
+   */
+    public boolean hasEventActivityRefInv(org.semanticwb.cptm.Event value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(cptm_hasEventActivityRefInv,value.getSemanticObject());
+        }
+        return ret;
+    }
+
+   /**
+   * Gets the EventActivityRefInv
+   * @return a org.semanticwb.cptm.Event
+   */
+    public org.semanticwb.cptm.Event getEventActivityRefInv()
+    {
+         org.semanticwb.cptm.Event ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasEventActivityRefInv);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.cptm.Event)obj.createGenericInstance();
          }
          return ret;
     }

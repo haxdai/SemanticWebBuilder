@@ -4,13 +4,17 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Eventos. 
    */
-public abstract class EventBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class EventBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Resourceable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticClass cptm_Activity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Activity");
    /**
    * Referencia de un evento a una determinada actividad ej. Festival de Buceo, no necesariamente puede ocurrir siempre.
    */
-    public static final org.semanticwb.platform.SemanticProperty cptm_eventActivityRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#eventActivityRef");
+    public static final org.semanticwb.platform.SemanticProperty cptm_hasEventActivityRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasEventActivityRef");
+   /**
+   * Fecha de Inicio del Evento
+   */
+    public static final org.semanticwb.platform.SemanticProperty cptm_eventInitDate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#eventInitDate");
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de tipos de eventos.pueden ser Ej. "Carnavales", "Congresos", etc
    */
@@ -20,10 +24,14 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
    */
     public static final org.semanticwb.platform.SemanticProperty cptm_eventEventType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#eventEventType");
    /**
+   * Fecha final del Evento
+   */
+    public static final org.semanticwb.platform.SemanticProperty cptm_eventEndDate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#eventEndDate");
+   /**
    * Interfaz que define propiedades en comun para un Punto Geografico y una Marca Regional
    */
     public static final org.semanticwb.platform.SemanticClass cptm_LocalityInt=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#LocalityInt");
-    public static final org.semanticwb.platform.SemanticProperty cptm_eventLocality=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#eventLocality");
+    public static final org.semanticwb.platform.SemanticProperty cptm_hasEventLocality=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasEventLocality");
    /**
    * Definie si es un evento destacado o no lo es
    */
@@ -115,7 +123,7 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
 
         public static java.util.Iterator<org.semanticwb.cptm.Event> listEventByEventActivityRef(org.semanticwb.cptm.Activity value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Event> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_eventActivityRef, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Event> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasEventActivityRef, value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -126,7 +134,7 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
 
         public static java.util.Iterator<org.semanticwb.cptm.Event> listEventByEventActivityRef(org.semanticwb.cptm.Activity value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Event> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_eventActivityRef,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Event> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasEventActivityRef,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -207,7 +215,7 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
 
         public static java.util.Iterator<org.semanticwb.cptm.Event> listEventByEventLocality(org.semanticwb.cptm.LocalityInt value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Event> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_eventLocality, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Event> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasEventLocality, value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -218,7 +226,7 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
 
         public static java.util.Iterator<org.semanticwb.cptm.Event> listEventByEventLocality(org.semanticwb.cptm.LocalityInt value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Event> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_eventLocality,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Event> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasEventLocality,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -255,27 +263,54 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
         super(base);
     }
    /**
-   * Sets the value for the property EventActivityRef
-   * @param value EventActivityRef to set
+   * Gets all the org.semanticwb.cptm.Activity
+   * @return A GenericIterator with all the org.semanticwb.cptm.Activity
    */
 
-    public void setEventActivityRef(org.semanticwb.cptm.Activity value)
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Activity> listEventActivityRefs()
     {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Activity>(getSemanticObject().listObjectProperties(cptm_hasEventActivityRef));
+    }
+
+   /**
+   * Gets true if has a EventActivityRef
+   * @param value org.semanticwb.cptm.Activity to verify
+   * @return true if the org.semanticwb.cptm.Activity exists, false otherwise
+   */
+    public boolean hasEventActivityRef(org.semanticwb.cptm.Activity value)
+    {
+        boolean ret=false;
         if(value!=null)
         {
-            getSemanticObject().setObjectProperty(cptm_eventActivityRef, value.getSemanticObject());
-        }else
-        {
-            removeEventActivityRef();
+           ret=getSemanticObject().hasObjectProperty(cptm_hasEventActivityRef,value.getSemanticObject());
         }
+        return ret;
     }
    /**
-   * Remove the value for EventActivityRef property
+   * Adds a EventActivityRef
+   * @param value org.semanticwb.cptm.Activity to add
    */
 
-    public void removeEventActivityRef()
+    public void addEventActivityRef(org.semanticwb.cptm.Activity value)
     {
-        getSemanticObject().removeProperty(cptm_eventActivityRef);
+        getSemanticObject().addObjectProperty(cptm_hasEventActivityRef, value.getSemanticObject());
+    }
+   /**
+   * Removes all the EventActivityRef
+   */
+
+    public void removeAllEventActivityRef()
+    {
+        getSemanticObject().removeProperty(cptm_hasEventActivityRef);
+    }
+   /**
+   * Removes a EventActivityRef
+   * @param value org.semanticwb.cptm.Activity to remove
+   */
+
+    public void removeEventActivityRef(org.semanticwb.cptm.Activity value)
+    {
+        getSemanticObject().removeObjectProperty(cptm_hasEventActivityRef,value.getSemanticObject());
     }
 
    /**
@@ -285,12 +320,30 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
     public org.semanticwb.cptm.Activity getEventActivityRef()
     {
          org.semanticwb.cptm.Activity ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_eventActivityRef);
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasEventActivityRef);
          if(obj!=null)
          {
              ret=(org.semanticwb.cptm.Activity)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the EventInitDate property
+* @return String with the EventInitDate
+*/
+    public String getEventInitDate()
+    {
+        return getSemanticObject().getProperty(cptm_eventInitDate);
+    }
+
+/**
+* Sets the EventInitDate property
+* @param value long with the EventInitDate
+*/
+    public void setEventInitDate(String value)
+    {
+        getSemanticObject().setProperty(cptm_eventInitDate, value);
     }
    /**
    * Sets the value for the property EventEventType
@@ -329,6 +382,24 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
              ret=(org.semanticwb.cptm.EventType)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the EventEndDate property
+* @return String with the EventEndDate
+*/
+    public String getEventEndDate()
+    {
+        return getSemanticObject().getProperty(cptm_eventEndDate);
+    }
+
+/**
+* Sets the EventEndDate property
+* @param value long with the EventEndDate
+*/
+    public void setEventEndDate(String value)
+    {
+        getSemanticObject().setProperty(cptm_eventEndDate, value);
     }
 
 /**
@@ -503,27 +574,54 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
         getSemanticObject().setDateProperty(swb_updated, value);
     }
    /**
-   * Sets the value for the property EventLocality
-   * @param value EventLocality to set
+   * Gets all the org.semanticwb.cptm.LocalityInt
+   * @return A GenericIterator with all the org.semanticwb.cptm.LocalityInt
    */
 
-    public void setEventLocality(org.semanticwb.cptm.LocalityInt value)
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.LocalityInt> listEventLocalities()
     {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.LocalityInt>(getSemanticObject().listObjectProperties(cptm_hasEventLocality));
+    }
+
+   /**
+   * Gets true if has a EventLocality
+   * @param value org.semanticwb.cptm.LocalityInt to verify
+   * @return true if the org.semanticwb.cptm.LocalityInt exists, false otherwise
+   */
+    public boolean hasEventLocality(org.semanticwb.cptm.LocalityInt value)
+    {
+        boolean ret=false;
         if(value!=null)
         {
-            getSemanticObject().setObjectProperty(cptm_eventLocality, value.getSemanticObject());
-        }else
-        {
-            removeEventLocality();
+           ret=getSemanticObject().hasObjectProperty(cptm_hasEventLocality,value.getSemanticObject());
         }
+        return ret;
     }
    /**
-   * Remove the value for EventLocality property
+   * Adds a EventLocality
+   * @param value org.semanticwb.cptm.LocalityInt to add
    */
 
-    public void removeEventLocality()
+    public void addEventLocality(org.semanticwb.cptm.LocalityInt value)
     {
-        getSemanticObject().removeProperty(cptm_eventLocality);
+        getSemanticObject().addObjectProperty(cptm_hasEventLocality, value.getSemanticObject());
+    }
+   /**
+   * Removes all the EventLocality
+   */
+
+    public void removeAllEventLocality()
+    {
+        getSemanticObject().removeProperty(cptm_hasEventLocality);
+    }
+   /**
+   * Removes a EventLocality
+   * @param value org.semanticwb.cptm.LocalityInt to remove
+   */
+
+    public void removeEventLocality(org.semanticwb.cptm.LocalityInt value)
+    {
+        getSemanticObject().removeObjectProperty(cptm_hasEventLocality,value.getSemanticObject());
     }
 
    /**
@@ -533,7 +631,7 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
     public org.semanticwb.cptm.LocalityInt getEventLocality()
     {
          org.semanticwb.cptm.LocalityInt ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_eventLocality);
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasEventLocality);
          if(obj!=null)
          {
              ret=(org.semanticwb.cptm.LocalityInt)obj.createGenericInstance();
