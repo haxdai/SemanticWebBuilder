@@ -1,7 +1,7 @@
 package org.semanticwb.cptm.base;
 
 
-public abstract class EditNoteBase extends org.semanticwb.portal.resources.sem.HTMLContent implements org.semanticwb.model.ResourceVersionable,org.semanticwb.model.Traceable,org.semanticwb.model.Versionable
+public abstract class EditNoteBase extends org.semanticwb.portal.resources.sem.Content implements org.semanticwb.model.ResourceVersionable,org.semanticwb.model.Traceable,org.semanticwb.model.Versionable
 {
     public static final org.semanticwb.platform.SemanticClass cptm_Canal=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Canal");
     public static final org.semanticwb.platform.SemanticProperty cptm_noteCanal=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#noteCanal");

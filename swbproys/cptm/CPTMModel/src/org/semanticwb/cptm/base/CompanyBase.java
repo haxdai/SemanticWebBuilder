@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Clase principal del sistema de visit-méxico. Una instancia de esta clase es en donde se almacena toda la información de un proveedor de servicios especifico. 
    */
-public abstract class CompanyBase extends org.semanticwb.portal.community.DirectoryObject implements org.semanticwb.model.Rankable,org.semanticwb.portal.community.Interactiveable,org.semanticwb.portal.community.Addressable,org.semanticwb.model.Tagable,org.semanticwb.model.Searchable,org.semanticwb.model.Traceable,org.semanticwb.portal.community.Contactable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Geolocalizable
+public abstract class CompanyBase extends org.semanticwb.portal.community.DirectoryObject implements org.semanticwb.model.Rankable,org.semanticwb.model.Searchable,org.semanticwb.model.Tagable,org.semanticwb.portal.community.Interactiveable,org.semanticwb.portal.community.Contactable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable,org.semanticwb.portal.community.Addressable,org.semanticwb.model.Geolocalizable
 {
    /**
    * Clase principal del sistema de visit-méxico. Una instancia de esta clase es en donde se almacena toda la información de un proveedor de servicios especifico.
@@ -131,6 +131,29 @@ public abstract class CompanyBase extends org.semanticwb.portal.community.Direct
             return it;
         }
        /**
+       * Gets all org.semanticwb.cptm.Company with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.cptm.Company
+       * @return Iterator with all the org.semanticwb.cptm.Company
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.Company with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.cptm.Company
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByCreator(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.cptm.Company with a determined ModifiedBy
        * @param value ModifiedBy of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.cptm.Company
@@ -200,29 +223,6 @@ public abstract class CompanyBase extends org.semanticwb.portal.community.Direct
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.Company with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @param model Model of the org.semanticwb.cptm.Company
-       * @return Iterator with all the org.semanticwb.cptm.Company
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.Company with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @return Iterator with all the org.semanticwb.cptm.Company
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByCreator(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.cptm.Company with a determined Comment
        * @param value Comment of the type org.semanticwb.portal.community.Comment
        * @param model Model of the org.semanticwb.cptm.Company
@@ -275,24 +275,6 @@ public abstract class CompanyBase extends org.semanticwb.portal.community.Direct
     }
 
 /**
-* Gets the ContactPhoneNumber property
-* @return String with the ContactPhoneNumber
-*/
-    public String getContactPhoneNumber()
-    {
-        return getSemanticObject().getProperty(swbcomm_contactPhoneNumber);
-    }
-
-/**
-* Sets the ContactPhoneNumber property
-* @param value long with the ContactPhoneNumber
-*/
-    public void setContactPhoneNumber(String value)
-    {
-        getSemanticObject().setProperty(swbcomm_contactPhoneNumber, value);
-    }
-
-/**
 * Gets the ContactName property
 * @return String with the ContactName
 */
@@ -308,6 +290,60 @@ public abstract class CompanyBase extends org.semanticwb.portal.community.Direct
     public void setContactName(String value)
     {
         getSemanticObject().setProperty(swbcomm_contactName, value);
+    }
+
+/**
+* Gets the State property
+* @return String with the State
+*/
+    public String getState()
+    {
+        return getSemanticObject().getProperty(swbcomm_state);
+    }
+
+/**
+* Sets the State property
+* @param value long with the State
+*/
+    public void setState(String value)
+    {
+        getSemanticObject().setProperty(swbcomm_state, value);
+    }
+
+/**
+* Gets the City property
+* @return String with the City
+*/
+    public String getCity()
+    {
+        return getSemanticObject().getProperty(swbcomm_city);
+    }
+
+/**
+* Sets the City property
+* @param value long with the City
+*/
+    public void setCity(String value)
+    {
+        getSemanticObject().setProperty(swbcomm_city, value);
+    }
+
+/**
+* Gets the ContactPhoneNumber property
+* @return String with the ContactPhoneNumber
+*/
+    public String getContactPhoneNumber()
+    {
+        return getSemanticObject().getProperty(swbcomm_contactPhoneNumber);
+    }
+
+/**
+* Sets the ContactPhoneNumber property
+* @param value long with the ContactPhoneNumber
+*/
+    public void setContactPhoneNumber(String value)
+    {
+        getSemanticObject().setProperty(swbcomm_contactPhoneNumber, value);
     }
 
 /**
@@ -344,24 +380,6 @@ public abstract class CompanyBase extends org.semanticwb.portal.community.Direct
     public void setIntNumber(String value)
     {
         getSemanticObject().setProperty(swbcomm_intNumber, value);
-    }
-
-/**
-* Gets the State property
-* @return String with the State
-*/
-    public String getState()
-    {
-        return getSemanticObject().getProperty(swbcomm_state);
-    }
-
-/**
-* Sets the State property
-* @param value long with the State
-*/
-    public void setState(String value)
-    {
-        getSemanticObject().setProperty(swbcomm_state, value);
     }
 
 /**
@@ -434,24 +452,6 @@ public abstract class CompanyBase extends org.semanticwb.portal.community.Direct
     public void setCityCouncil(String value)
     {
         getSemanticObject().setProperty(swbcomm_cityCouncil, value);
-    }
-
-/**
-* Gets the City property
-* @return String with the City
-*/
-    public String getCity()
-    {
-        return getSemanticObject().getProperty(swbcomm_city);
-    }
-
-/**
-* Sets the City property
-* @param value long with the City
-*/
-    public void setCity(String value)
-    {
-        getSemanticObject().setProperty(swbcomm_city, value);
     }
 
 /**
