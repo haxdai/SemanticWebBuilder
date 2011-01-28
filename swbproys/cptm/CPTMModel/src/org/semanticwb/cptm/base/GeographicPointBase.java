@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Destinos. 
    */
-public abstract class GeographicPointBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Referensable,org.semanticwb.model.RuleRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Viewable,org.semanticwb.model.Indexable,org.semanticwb.model.Rankable,org.semanticwb.model.Searchable,org.semanticwb.cptm.LocalityInt,org.semanticwb.model.Undeleteable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Trashable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Tagable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Localeable,org.semanticwb.model.Resourceable,org.semanticwb.model.CalendarRefable
+public abstract class GeographicPointBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Referensable,org.semanticwb.model.RuleRefable,org.semanticwb.cptm.LocalityInt,org.semanticwb.model.RoleRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Viewable,org.semanticwb.model.Indexable,org.semanticwb.model.Rankable,org.semanticwb.model.Searchable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Descriptiveable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Trashable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Tagable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Localeable,org.semanticwb.model.Resourceable,org.semanticwb.model.CalendarRefable
 {
    /**
    * Marca Regional. La cual puede tener relaciodos Destinos Turisticos y Puntos geográficos (Ej. La Riviera Maya)
@@ -14,14 +14,6 @@ public abstract class GeographicPointBase extends org.semanticwb.model.WebPage i
    * En que Regiones se encuentra un Destino
    */
     public static final org.semanticwb.platform.SemanticProperty cptm_hasRegGeographicPointInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasRegGeographicPointInv");
-   /**
-   * Fotos para mostrar del destino
-   */
-    public static final org.semanticwb.platform.SemanticProperty cptm_hasDestPhotos=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasDestPhotos");
-   /**
-   * Foto principal para el destino
-   */
-    public static final org.semanticwb.platform.SemanticProperty cptm_destPrincipalPhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#destPrincipalPhoto");
    /**
    * Clase para administrar tipos de Destinos, pudiendo ser: Destinos, Pueblos Mágicos ó Atractivos
    */
@@ -144,6 +136,29 @@ public abstract class GeographicPointBase extends org.semanticwb.model.WebPage i
         public static java.util.Iterator<org.semanticwb.cptm.GeographicPoint> listGeographicPointByVirtualParent(org.semanticwb.model.WebPage value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.GeographicPoint> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualParent,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.GeographicPoint with a determined ArefLocalityInv
+       * @param value ArefLocalityInv of the type org.semanticwb.cptm.ActivityRef
+       * @param model Model of the org.semanticwb.cptm.GeographicPoint
+       * @return Iterator with all the org.semanticwb.cptm.GeographicPoint
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.GeographicPoint> listGeographicPointByArefLocalityInv(org.semanticwb.cptm.ActivityRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.GeographicPoint> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_arefLocalityInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.GeographicPoint with a determined ArefLocalityInv
+       * @param value ArefLocalityInv of the type org.semanticwb.cptm.ActivityRef
+       * @return Iterator with all the org.semanticwb.cptm.GeographicPoint
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.GeographicPoint> listGeographicPointByArefLocalityInv(org.semanticwb.cptm.ActivityRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.GeographicPoint> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_arefLocalityInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -331,29 +346,6 @@ public abstract class GeographicPointBase extends org.semanticwb.model.WebPage i
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.GeographicPoint with a determined GeographicPointProxInv
-       * @param value GeographicPointProxInv of the type org.semanticwb.cptm.Proximity
-       * @param model Model of the org.semanticwb.cptm.GeographicPoint
-       * @return Iterator with all the org.semanticwb.cptm.GeographicPoint
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.GeographicPoint> listGeographicPointByGeographicPointProxInv(org.semanticwb.cptm.Proximity value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.GeographicPoint> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasGeographicPointProxInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.GeographicPoint with a determined GeographicPointProxInv
-       * @param value GeographicPointProxInv of the type org.semanticwb.cptm.Proximity
-       * @return Iterator with all the org.semanticwb.cptm.GeographicPoint
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.GeographicPoint> listGeographicPointByGeographicPointProxInv(org.semanticwb.cptm.Proximity value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.GeographicPoint> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasGeographicPointProxInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.cptm.GeographicPoint with a determined WebPageVirtualChild
        * @param value WebPageVirtualChild of the type org.semanticwb.model.WebPage
        * @param model Model of the org.semanticwb.cptm.GeographicPoint
@@ -489,29 +481,6 @@ public abstract class GeographicPointBase extends org.semanticwb.model.WebPage i
         public static java.util.Iterator<org.semanticwb.cptm.GeographicPoint> listGeographicPointByChild(org.semanticwb.model.WebPage value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.GeographicPoint> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageChild,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.GeographicPoint with a determined ProxGeographicPointInv
-       * @param value ProxGeographicPointInv of the type org.semanticwb.cptm.Proximity
-       * @param model Model of the org.semanticwb.cptm.GeographicPoint
-       * @return Iterator with all the org.semanticwb.cptm.GeographicPoint
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.GeographicPoint> listGeographicPointByProxGeographicPointInv(org.semanticwb.cptm.Proximity value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.GeographicPoint> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_proxGeographicPointInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.GeographicPoint with a determined ProxGeographicPointInv
-       * @param value ProxGeographicPointInv of the type org.semanticwb.cptm.Proximity
-       * @return Iterator with all the org.semanticwb.cptm.GeographicPoint
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.GeographicPoint> listGeographicPointByProxGeographicPointInv(org.semanticwb.cptm.Proximity value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.GeographicPoint> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_proxGeographicPointInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -676,6 +645,29 @@ public abstract class GeographicPointBase extends org.semanticwb.model.WebPage i
             return it;
         }
        /**
+       * Gets all org.semanticwb.cptm.GeographicPoint with a determined ExpLocalityInv
+       * @param value ExpLocalityInv of the type org.semanticwb.cptm.ExperienceRef
+       * @param model Model of the org.semanticwb.cptm.GeographicPoint
+       * @return Iterator with all the org.semanticwb.cptm.GeographicPoint
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.GeographicPoint> listGeographicPointByExpLocalityInv(org.semanticwb.cptm.ExperienceRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.GeographicPoint> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_ExpLocalityInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.GeographicPoint with a determined ExpLocalityInv
+       * @param value ExpLocalityInv of the type org.semanticwb.cptm.ExperienceRef
+       * @return Iterator with all the org.semanticwb.cptm.GeographicPoint
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.GeographicPoint> listGeographicPointByExpLocalityInv(org.semanticwb.cptm.ExperienceRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.GeographicPoint> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_ExpLocalityInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.cptm.GeographicPoint with a determined ThisTypeAssociation
        * @param value ThisTypeAssociation of the type org.semanticwb.model.Association
        * @param model Model of the org.semanticwb.cptm.GeographicPoint
@@ -707,6 +699,44 @@ public abstract class GeographicPointBase extends org.semanticwb.model.WebPage i
     public GeographicPointBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+   /**
+   * Sets the value for the property ArefLocalityInv
+   * @param value ArefLocalityInv to set
+   */
+
+    public void setArefLocalityInv(org.semanticwb.cptm.ActivityRef value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(cptm_arefLocalityInv, value.getSemanticObject());
+        }else
+        {
+            removeArefLocalityInv();
+        }
+    }
+   /**
+   * Remove the value for ArefLocalityInv property
+   */
+
+    public void removeArefLocalityInv()
+    {
+        getSemanticObject().removeProperty(cptm_arefLocalityInv);
+    }
+
+   /**
+   * Gets the ArefLocalityInv
+   * @return a org.semanticwb.cptm.ActivityRef
+   */
+    public org.semanticwb.cptm.ActivityRef getArefLocalityInv()
+    {
+         org.semanticwb.cptm.ActivityRef ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_arefLocalityInv);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.cptm.ActivityRef)obj.createGenericInstance();
+         }
+         return ret;
     }
    /**
    * Gets all the org.semanticwb.cptm.Promotion
@@ -864,44 +894,23 @@ public abstract class GeographicPointBase extends org.semanticwb.model.WebPage i
          }
          return ret;
     }
-   /**
-   * Gets all the org.semanticwb.cptm.Proximity
-   * @return A GenericIterator with all the org.semanticwb.cptm.Proximity
-   */
 
-    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Proximity> listGeographicPointProxInvs()
+/**
+* Gets the Photo property
+* @return String with the Photo
+*/
+    public String getPhoto()
     {
-        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Proximity>(getSemanticObject().listObjectProperties(cptm_hasGeographicPointProxInv));
+        return getSemanticObject().getProperty(cptm_photo);
     }
 
-   /**
-   * Gets true if has a GeographicPointProxInv
-   * @param value org.semanticwb.cptm.Proximity to verify
-   * @return true if the org.semanticwb.cptm.Proximity exists, false otherwise
-   */
-    public boolean hasGeographicPointProxInv(org.semanticwb.cptm.Proximity value)
+/**
+* Sets the Photo property
+* @param value long with the Photo
+*/
+    public void setPhoto(String value)
     {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(cptm_hasGeographicPointProxInv,value.getSemanticObject());
-        }
-        return ret;
-    }
-
-   /**
-   * Gets the GeographicPointProxInv
-   * @return a org.semanticwb.cptm.Proximity
-   */
-    public org.semanticwb.cptm.Proximity getGeographicPointProxInv()
-    {
-         org.semanticwb.cptm.Proximity ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasGeographicPointProxInv);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.cptm.Proximity)obj.createGenericInstance();
-         }
-         return ret;
+        getSemanticObject().setProperty(cptm_photo, value);
     }
    /**
    * Gets all the org.semanticwb.cptm.RegionalBrand
@@ -939,44 +948,6 @@ public abstract class GeographicPointBase extends org.semanticwb.model.WebPage i
          if(obj!=null)
          {
              ret=(org.semanticwb.cptm.RegionalBrand)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Sets the value for the property ProxGeographicPointInv
-   * @param value ProxGeographicPointInv to set
-   */
-
-    public void setProxGeographicPointInv(org.semanticwb.cptm.Proximity value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(cptm_proxGeographicPointInv, value.getSemanticObject());
-        }else
-        {
-            removeProxGeographicPointInv();
-        }
-    }
-   /**
-   * Remove the value for ProxGeographicPointInv property
-   */
-
-    public void removeProxGeographicPointInv()
-    {
-        getSemanticObject().removeProperty(cptm_proxGeographicPointInv);
-    }
-
-   /**
-   * Gets the ProxGeographicPointInv
-   * @return a org.semanticwb.cptm.Proximity
-   */
-    public org.semanticwb.cptm.Proximity getProxGeographicPointInv()
-    {
-         org.semanticwb.cptm.Proximity ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_proxGeographicPointInv);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.cptm.Proximity)obj.createGenericInstance();
          }
          return ret;
     }
@@ -1064,33 +1035,6 @@ public abstract class GeographicPointBase extends org.semanticwb.model.WebPage i
          return ret;
     }
 
-    public java.util.Iterator<String> listDestPhotoses()
-    {
-        java.util.ArrayList<String> values=new java.util.ArrayList<String>();
-        java.util.Iterator<org.semanticwb.platform.SemanticLiteral> it=getSemanticObject().listLiteralProperties(cptm_hasDestPhotos);
-        while(it.hasNext())
-        {
-                org.semanticwb.platform.SemanticLiteral literal=it.next();
-                values.add(literal.getString());
-        }
-        return values.iterator();
-    }
-
-    public void addDestPhotos(String value)
-    {
-        getSemanticObject().addLiteralProperty(cptm_hasDestPhotos, new org.semanticwb.platform.SemanticLiteral(value));
-    }
-
-    public void removeAllDestPhotos()
-    {
-        getSemanticObject().removeProperty(cptm_hasDestPhotos);
-    }
-
-    public void removeDestPhotos(String value)
-    {
-        getSemanticObject().removeLiteralProperty(cptm_hasDestPhotos,new org.semanticwb.platform.SemanticLiteral(value));
-    }
-
 /**
 * Gets the Longitude property
 * @return double with the Longitude
@@ -1107,24 +1051,6 @@ public abstract class GeographicPointBase extends org.semanticwb.model.WebPage i
     public void setLongitude(double value)
     {
         getSemanticObject().setDoubleProperty(cptm_longitude, value);
-    }
-
-/**
-* Gets the DestPrincipalPhoto property
-* @return String with the DestPrincipalPhoto
-*/
-    public String getDestPrincipalPhoto()
-    {
-        return getSemanticObject().getProperty(cptm_destPrincipalPhoto);
-    }
-
-/**
-* Sets the DestPrincipalPhoto property
-* @param value long with the DestPrincipalPhoto
-*/
-    public void setDestPrincipalPhoto(String value)
-    {
-        getSemanticObject().setProperty(cptm_destPrincipalPhoto, value);
     }
    /**
    * Gets all the org.semanticwb.cptm.DestinationType
@@ -1208,6 +1134,71 @@ public abstract class GeographicPointBase extends org.semanticwb.model.WebPage i
     public void setDestWeather(String value)
     {
         getSemanticObject().setProperty(cptm_destWeather, value);
+    }
+
+    public java.util.Iterator<String> listMorePhotos()
+    {
+        java.util.ArrayList<String> values=new java.util.ArrayList<String>();
+        java.util.Iterator<org.semanticwb.platform.SemanticLiteral> it=getSemanticObject().listLiteralProperties(cptm_hasMorePhoto);
+        while(it.hasNext())
+        {
+                org.semanticwb.platform.SemanticLiteral literal=it.next();
+                values.add(literal.getString());
+        }
+        return values.iterator();
+    }
+
+    public void addMorePhoto(String value)
+    {
+        getSemanticObject().addLiteralProperty(cptm_hasMorePhoto, new org.semanticwb.platform.SemanticLiteral(value));
+    }
+
+    public void removeAllMorePhoto()
+    {
+        getSemanticObject().removeProperty(cptm_hasMorePhoto);
+    }
+
+    public void removeMorePhoto(String value)
+    {
+        getSemanticObject().removeLiteralProperty(cptm_hasMorePhoto,new org.semanticwb.platform.SemanticLiteral(value));
+    }
+   /**
+   * Sets the value for the property ExpLocalityInv
+   * @param value ExpLocalityInv to set
+   */
+
+    public void setExpLocalityInv(org.semanticwb.cptm.ExperienceRef value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(cptm_ExpLocalityInv, value.getSemanticObject());
+        }else
+        {
+            removeExpLocalityInv();
+        }
+    }
+   /**
+   * Remove the value for ExpLocalityInv property
+   */
+
+    public void removeExpLocalityInv()
+    {
+        getSemanticObject().removeProperty(cptm_ExpLocalityInv);
+    }
+
+   /**
+   * Gets the ExpLocalityInv
+   * @return a org.semanticwb.cptm.ExperienceRef
+   */
+    public org.semanticwb.cptm.ExperienceRef getExpLocalityInv()
+    {
+         org.semanticwb.cptm.ExperienceRef ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_ExpLocalityInv);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.cptm.ExperienceRef)obj.createGenericInstance();
+         }
+         return ret;
     }
 
    /**

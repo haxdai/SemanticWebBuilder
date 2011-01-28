@@ -11,11 +11,10 @@ public interface LocalityIntBase extends org.semanticwb.model.GenericObject
     public static final org.semanticwb.platform.SemanticClass cptm_New=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#New");
     public static final org.semanticwb.platform.SemanticProperty cptm_hasNewGeographicPointInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasNewGeographicPointInv");
    /**
-   * Relación de cercanias entre dos puntos geográficos 
+   * Actividad en un específico "Destino", si le quisiera agregar un Directorio de empresas aqui, tendría que tener una relación además de con el Destino, con el objeto  SPType 
    */
-    public static final org.semanticwb.platform.SemanticClass cptm_Proximity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Proximity");
-    public static final org.semanticwb.platform.SemanticProperty cptm_hasGeographicPointProxInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasGeographicPointProxInv");
-    public static final org.semanticwb.platform.SemanticProperty cptm_proxGeographicPointInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#proxGeographicPointInv");
+    public static final org.semanticwb.platform.SemanticClass cptm_ActivityRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#ActivityRef");
+    public static final org.semanticwb.platform.SemanticProperty cptm_arefLocalityInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#arefLocalityInv");
    /**
    * Catálogo de promociones, las cuales pueden relacionarse con uno o varios Destinos, Estados y Empresas (Ver viabilidad) 
    */
@@ -26,6 +25,9 @@ public interface LocalityIntBase extends org.semanticwb.model.GenericObject
    * Interfaz que define propiedades en comun para un Punto Geografico y una Marca Regional 
    */
     public static final org.semanticwb.platform.SemanticClass cptm_LocalityInt=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#LocalityInt");
+   /**
+   * Cercanias 
+   */
     public static final org.semanticwb.platform.SemanticProperty cptm_hasProximity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasProximity");
     public static final org.semanticwb.platform.SemanticProperty cptm_longitude=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#longitude");
    /**
@@ -38,25 +40,27 @@ public interface LocalityIntBase extends org.semanticwb.model.GenericObject
    */
     public static final org.semanticwb.platform.SemanticClass cptm_Event=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Event");
     public static final org.semanticwb.platform.SemanticProperty cptm_hasEventGeographicPointInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasEventGeographicPointInv");
+   /**
+   * Experiencia en un específico "Destino", si le quisiera agregar un Directorio de empresas aqui, tendría que tener una relación además de con el Destino, con el objeto  SPType 
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_ExperienceRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#ExperienceRef");
+    public static final org.semanticwb.platform.SemanticProperty cptm_ExpLocalityInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#ExpLocalityInv");
 
     public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.New> listNewGeographicPointInvs();
     public boolean hasNewGeographicPointInv(org.semanticwb.cptm.New value);
 
-    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Proximity> listGeographicPointProxInvs();
-    public boolean hasGeographicPointProxInv(org.semanticwb.cptm.Proximity value);
+   /**
+   * Sets a value from the property ArefLocalityInv
+   * @param value An instance of org.semanticwb.cptm.ActivityRef
+   */
+    public void setArefLocalityInv(org.semanticwb.cptm.ActivityRef value);
 
    /**
-   * Sets a value from the property ProxGeographicPointInv
-   * @param value An instance of org.semanticwb.cptm.Proximity
+   * Remove the value from the property ArefLocalityInv
    */
-    public void setProxGeographicPointInv(org.semanticwb.cptm.Proximity value);
+    public void removeArefLocalityInv();
 
-   /**
-   * Remove the value from the property ProxGeographicPointInv
-   */
-    public void removeProxGeographicPointInv();
-
-    public org.semanticwb.cptm.Proximity getProxGeographicPointInv();
+    public org.semanticwb.cptm.ActivityRef getArefLocalityInv();
 
     public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> listPromotionInvs();
     public boolean hasPromotionInv(org.semanticwb.cptm.Promotion value);
@@ -100,4 +104,17 @@ public interface LocalityIntBase extends org.semanticwb.model.GenericObject
 
     public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Event> listEventGeographicPointInvs();
     public boolean hasEventGeographicPointInv(org.semanticwb.cptm.Event value);
+
+   /**
+   * Sets a value from the property ExpLocalityInv
+   * @param value An instance of org.semanticwb.cptm.ExperienceRef
+   */
+    public void setExpLocalityInv(org.semanticwb.cptm.ExperienceRef value);
+
+   /**
+   * Remove the value from the property ExpLocalityInv
+   */
+    public void removeExpLocalityInv();
+
+    public org.semanticwb.cptm.ExperienceRef getExpLocalityInv();
 }

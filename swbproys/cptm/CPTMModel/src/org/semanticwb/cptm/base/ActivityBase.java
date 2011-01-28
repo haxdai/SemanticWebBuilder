@@ -6,6 +6,11 @@ public abstract class ActivityBase extends org.semanticwb.model.WebPage implemen
     public static final org.semanticwb.platform.SemanticClass cptm_Photo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Photo");
     public static final org.semanticwb.platform.SemanticProperty cptm_hasPhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasPhoto");
    /**
+   * Actividad en un específico "Destino", si le quisiera agregar un Directorio de empresas aqui, tendría que tener una relación además de con el Destino, con el objeto  SPType
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_ActivityRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#ActivityRef");
+    public static final org.semanticwb.platform.SemanticProperty cptm_arefActivityInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#arefActivityInv");
+   /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Eventos.
    */
     public static final org.semanticwb.platform.SemanticClass cptm_Event=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Event");
@@ -123,6 +128,29 @@ public abstract class ActivityBase extends org.semanticwb.model.WebPage implemen
         public static java.util.Iterator<org.semanticwb.cptm.Activity> listActivityByAssMember(org.semanticwb.model.AssMember value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Activity> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasAssMemberInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.Activity with a determined ArefActivityInv
+       * @param value ArefActivityInv of the type org.semanticwb.cptm.ActivityRef
+       * @param model Model of the org.semanticwb.cptm.Activity
+       * @return Iterator with all the org.semanticwb.cptm.Activity
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Activity> listActivityByArefActivityInv(org.semanticwb.cptm.ActivityRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Activity> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_arefActivityInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.Activity with a determined ArefActivityInv
+       * @param value ArefActivityInv of the type org.semanticwb.cptm.ActivityRef
+       * @return Iterator with all the org.semanticwb.cptm.Activity
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Activity> listActivityByArefActivityInv(org.semanticwb.cptm.ActivityRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Activity> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_arefActivityInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -588,6 +616,44 @@ public abstract class ActivityBase extends org.semanticwb.model.WebPage implemen
          if(obj!=null)
          {
              ret=(org.semanticwb.cptm.Photo)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Sets the value for the property ArefActivityInv
+   * @param value ArefActivityInv to set
+   */
+
+    public void setArefActivityInv(org.semanticwb.cptm.ActivityRef value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(cptm_arefActivityInv, value.getSemanticObject());
+        }else
+        {
+            removeArefActivityInv();
+        }
+    }
+   /**
+   * Remove the value for ArefActivityInv property
+   */
+
+    public void removeArefActivityInv()
+    {
+        getSemanticObject().removeProperty(cptm_arefActivityInv);
+    }
+
+   /**
+   * Gets the ArefActivityInv
+   * @return a org.semanticwb.cptm.ActivityRef
+   */
+    public org.semanticwb.cptm.ActivityRef getArefActivityInv()
+    {
+         org.semanticwb.cptm.ActivityRef ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_arefActivityInv);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.cptm.ActivityRef)obj.createGenericInstance();
          }
          return ret;
     }
