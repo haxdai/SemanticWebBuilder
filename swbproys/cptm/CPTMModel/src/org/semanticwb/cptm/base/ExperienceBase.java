@@ -4,8 +4,13 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de experiencias. 
    */
-public abstract class ExperienceBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Referensable,org.semanticwb.model.RuleRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Viewable,org.semanticwb.model.Rankable,org.semanticwb.model.Indexable,org.semanticwb.model.Searchable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Trashable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Tagable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Localeable,org.semanticwb.model.Resourceable,org.semanticwb.model.CalendarRefable
+public abstract class ExperienceBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Referensable,org.semanticwb.model.RuleRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Viewable,org.semanticwb.model.Indexable,org.semanticwb.model.Rankable,org.semanticwb.model.Searchable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Trashable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Tagable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Localeable,org.semanticwb.model.Resourceable,org.semanticwb.model.CalendarRefable
 {
+   /**
+   * Experiencia en un específico "Destino", si le quisiera agregar un Directorio de empresas aqui, tendría que tener una relación además de con el Destino, con el objeto  SPType
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_ExperienceRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#ExperienceRef");
+    public static final org.semanticwb.platform.SemanticProperty cptm_expExperienceInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#expExperienceInv");
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de experiencias.
    */
@@ -269,6 +274,29 @@ public abstract class ExperienceBase extends org.semanticwb.model.WebPage implem
             return it;
         }
        /**
+       * Gets all org.semanticwb.cptm.Experience with a determined ExpExperienceInv
+       * @param value ExpExperienceInv of the type org.semanticwb.cptm.ExperienceRef
+       * @param model Model of the org.semanticwb.cptm.Experience
+       * @return Iterator with all the org.semanticwb.cptm.Experience
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Experience> listExperienceByExpExperienceInv(org.semanticwb.cptm.ExperienceRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Experience> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_expExperienceInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.Experience with a determined ExpExperienceInv
+       * @param value ExpExperienceInv of the type org.semanticwb.cptm.ExperienceRef
+       * @return Iterator with all the org.semanticwb.cptm.Experience
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Experience> listExperienceByExpExperienceInv(org.semanticwb.cptm.ExperienceRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Experience> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_expExperienceInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.cptm.Experience with a determined TemplateRef
        * @param value TemplateRef of the type org.semanticwb.model.TemplateRef
        * @param model Model of the org.semanticwb.cptm.Experience
@@ -484,6 +512,44 @@ public abstract class ExperienceBase extends org.semanticwb.model.WebPage implem
     public ExperienceBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+   /**
+   * Sets the value for the property ExpExperienceInv
+   * @param value ExpExperienceInv to set
+   */
+
+    public void setExpExperienceInv(org.semanticwb.cptm.ExperienceRef value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(cptm_expExperienceInv, value.getSemanticObject());
+        }else
+        {
+            removeExpExperienceInv();
+        }
+    }
+   /**
+   * Remove the value for ExpExperienceInv property
+   */
+
+    public void removeExpExperienceInv()
+    {
+        getSemanticObject().removeProperty(cptm_expExperienceInv);
+    }
+
+   /**
+   * Gets the ExpExperienceInv
+   * @return a org.semanticwb.cptm.ExperienceRef
+   */
+    public org.semanticwb.cptm.ExperienceRef getExpExperienceInv()
+    {
+         org.semanticwb.cptm.ExperienceRef ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_expExperienceInv);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.cptm.ExperienceRef)obj.createGenericInstance();
+         }
+         return ret;
     }
 
    /**
