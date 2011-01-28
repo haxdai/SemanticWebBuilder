@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Eventos. 
    */
-public abstract class EventBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Resourceable,org.semanticwb.model.Descriptiveable
+public abstract class EventBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Resourceable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticClass cptm_Activity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Activity");
    /**
@@ -344,6 +344,24 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
     public void setEventInitDate(String value)
     {
         getSemanticObject().setProperty(cptm_eventInitDate, value);
+    }
+
+/**
+* Gets the Photo property
+* @return String with the Photo
+*/
+    public String getPhoto()
+    {
+        return getSemanticObject().getProperty(cptm_photo);
+    }
+
+/**
+* Sets the Photo property
+* @param value long with the Photo
+*/
+    public void setPhoto(String value)
+    {
+        getSemanticObject().setProperty(cptm_photo, value);
     }
    /**
    * Sets the value for the property EventEventType
@@ -695,6 +713,33 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
          return ret;
     }
 
+    public java.util.Iterator<String> listMorePhotos()
+    {
+        java.util.ArrayList<String> values=new java.util.ArrayList<String>();
+        java.util.Iterator<org.semanticwb.platform.SemanticLiteral> it=getSemanticObject().listLiteralProperties(cptm_hasMorePhoto);
+        while(it.hasNext())
+        {
+                org.semanticwb.platform.SemanticLiteral literal=it.next();
+                values.add(literal.getString());
+        }
+        return values.iterator();
+    }
+
+    public void addMorePhoto(String value)
+    {
+        getSemanticObject().addLiteralProperty(cptm_hasMorePhoto, new org.semanticwb.platform.SemanticLiteral(value));
+    }
+
+    public void removeAllMorePhoto()
+    {
+        getSemanticObject().removeProperty(cptm_hasMorePhoto);
+    }
+
+    public void removeMorePhoto(String value)
+    {
+        getSemanticObject().removeLiteralProperty(cptm_hasMorePhoto,new org.semanticwb.platform.SemanticLiteral(value));
+    }
+
 /**
 * Gets the Description property
 * @return String with the Description
@@ -726,6 +771,24 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
     public void setDescription(String description, String lang)
     {
         getSemanticObject().setProperty(swb_description, description, lang);
+    }
+
+/**
+* Gets the PhotoEscudo property
+* @return String with the PhotoEscudo
+*/
+    public String getPhotoEscudo()
+    {
+        return getSemanticObject().getProperty(cptm_photoEscudo);
+    }
+
+/**
+* Sets the PhotoEscudo property
+* @param value long with the PhotoEscudo
+*/
+    public void setPhotoEscudo(String value)
+    {
+        getSemanticObject().setProperty(cptm_photoEscudo, value);
     }
 
    /**

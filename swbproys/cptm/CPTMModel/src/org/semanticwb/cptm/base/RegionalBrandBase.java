@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Marca Regional. La cual puede tener relaciodos Destinos Turisticos y Puntos geográficos (Ej. La Riviera Maya) 
    */
-public abstract class RegionalBrandBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Referensable,org.semanticwb.model.RuleRefable,org.semanticwb.cptm.LocalityInt,org.semanticwb.model.RoleRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Viewable,org.semanticwb.model.Indexable,org.semanticwb.model.Rankable,org.semanticwb.model.Searchable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Descriptiveable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Trashable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Tagable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Localeable,org.semanticwb.model.Resourceable,org.semanticwb.model.CalendarRefable
+public abstract class RegionalBrandBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Referensable,org.semanticwb.model.RuleRefable,org.semanticwb.cptm.LocalityInt,org.semanticwb.model.RoleRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Viewable,org.semanticwb.model.Indexable,org.semanticwb.model.Rankable,org.semanticwb.model.Searchable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Trashable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Tagable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Localeable,org.semanticwb.model.Resourceable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.CalendarRefable
 {
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Destinos.
@@ -825,6 +825,24 @@ public abstract class RegionalBrandBase extends org.semanticwb.model.WebPage imp
              ret=(org.semanticwb.cptm.Event)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the PhotoEscudo property
+* @return String with the PhotoEscudo
+*/
+    public String getPhotoEscudo()
+    {
+        return getSemanticObject().getProperty(cptm_photoEscudo);
+    }
+
+/**
+* Sets the PhotoEscudo property
+* @param value long with the PhotoEscudo
+*/
+    public void setPhotoEscudo(String value)
+    {
+        getSemanticObject().setProperty(cptm_photoEscudo, value);
     }
    /**
    * Gets all the org.semanticwb.cptm.New
