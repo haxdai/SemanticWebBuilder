@@ -10,6 +10,7 @@ public interface CptmgeneralDataBase extends org.semanticwb.model.GenericObject
    * Fotos para mostrar del destino 
    */
     public static final org.semanticwb.platform.SemanticProperty cptm_hasMorePhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasMorePhoto");
+    public static final org.semanticwb.platform.SemanticProperty cptm_photoEscudo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#photoEscudo");
    /**
    * Interface cptm 
    */
@@ -24,4 +25,8 @@ public interface CptmgeneralDataBase extends org.semanticwb.model.GenericObject
     public void addMorePhoto(String value);
     public void removeAllMorePhoto();
     public void removeMorePhoto(String value);
+
+    public String getPhotoEscudo();
+
+    public void setPhotoEscudo(String value);
 }
