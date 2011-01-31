@@ -1,5 +1,9 @@
 package org.semanticwb.mask.base;
 
+import java.util.Collections;
+import java.util.List;
+import org.semanticwb.SWBUtils;
+
 
 public abstract class MessageBase extends org.semanticwb.model.SWBClass 
 {
@@ -77,6 +81,7 @@ public abstract class MessageBase extends org.semanticwb.model.SWBClass
         {
             model.getSemanticObject().getModel().removeSemanticObject(model.getSemanticObject().getModel().getObjectUri(id,sclass));
         }
+
        /**
        * Returns true if exists a org.semanticwb.mask.Message
        * @param id Identifier for org.semanticwb.mask.Message
@@ -133,6 +138,30 @@ public abstract class MessageBase extends org.semanticwb.model.SWBClass
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.mask.Message> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(mascara_to,value.getSemanticObject(),sclass));
             return it;
+        }
+
+        public static void removeRangeByTo(org.semanticwb.model.User to, org.semanticwb.model.SWBModel model, int fromIndex, int toIndex) throws IndexOutOfBoundsException {
+            List<org.semanticwb.mask.Message> l = SWBUtils.Collections.copyIterator(listMessageByTo(to, model));
+            Collections.sort(l, new org.semanticwb.mask.Message.MessageSortByCreatedDate());
+            System.out.println("removeRangeByTo....to="+to.getName()+" list.size="+l.size());
+            for(int i=fromIndex; i<toIndex; i++) {
+                org.semanticwb.mask.Message m = l.get(i);
+                if(m!=null)
+                    m.remove();
+                l.remove(i);
+            }
+        }
+
+        public static void removeRangeByFrom(org.semanticwb.model.User from, org.semanticwb.model.SWBModel model, int fromIndex, int toIndex) throws IndexOutOfBoundsException {
+            List<org.semanticwb.mask.Message> l = SWBUtils.Collections.copyIterator(listMessageByFrom(from, model));
+            Collections.sort(l, new org.semanticwb.mask.Message.MessageSortByCreatedDate());
+            System.out.println("removeRangeByFrom....from="+from.getName()+" list.size="+l.size());
+            for(int i=fromIndex; i<toIndex; i++) {
+                org.semanticwb.mask.Message m = l.get(i);
+                if(m!=null)
+                    m.remove();
+                l.remove(i);
+            }
         }
     }
 
