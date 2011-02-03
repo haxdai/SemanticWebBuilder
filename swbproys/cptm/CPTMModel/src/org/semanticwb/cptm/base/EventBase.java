@@ -68,12 +68,6 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
             java.util.Iterator it=sclass.listInstances();
             return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Event>(it, true);
         }
-
-        public static org.semanticwb.cptm.Event createEvent(org.semanticwb.model.SWBModel model)
-        {
-            long id=model.getSemanticObject().getModel().getCounter(sclass);
-            return org.semanticwb.cptm.Event.ClassMgr.createEvent(String.valueOf(id), model);
-        }
        /**
        * Gets a org.semanticwb.cptm.Event
        * @param id Identifier for org.semanticwb.cptm.Event

@@ -670,12 +670,6 @@ public abstract class CPTMWebSiteBase extends org.semanticwb.model.WebSite imple
         return org.semanticwb.cptm.Event.ClassMgr.createEvent(id,this);
     }
 
-    public org.semanticwb.cptm.Event createEvent()
-    {
-        long id=getSemanticObject().getModel().getCounter(cptm_Event);
-        return org.semanticwb.cptm.Event.ClassMgr.createEvent(String.valueOf(id),this);
-    } 
-
     public void removeEvent(String id)
     {
         org.semanticwb.cptm.Event.ClassMgr.removeEvent(id, this);

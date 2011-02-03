@@ -6,6 +6,7 @@
 package org.semanticwb.cptm.resources;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
+import org.semanticwb.model.User;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.SWBFormMgr;
@@ -33,6 +35,7 @@ public class PruebaResource extends GenericResource{
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         String path = SWBPortal.getWebWorkPath() +"/models/"+paramRequest.getWebPage().getWebSiteId()+"/jsp/prueba.jsp";
         System.out.println("path:"+path);
+
         RequestDispatcher dis = request.getRequestDispatcher(path);
         try {
             request.setAttribute("paramRequest", paramRequest);
@@ -40,6 +43,16 @@ public class PruebaResource extends GenericResource{
         } catch (Exception e) {
             log.error(e);
         }
+
+        
+       ArrayList aUsers=new ArrayList();
+       Iterator <User> itUsers=SWBPortal.getUserMgr().getSessionUsers(paramRequest.getWebPage().getWebSiteId()).iterator();
+       while(itUsers.hasNext()){
+           User user=itUsers.next();
+           if(user.isSigned()){
+               aUsers.add(user);
+           }
+       }
     }
 
 

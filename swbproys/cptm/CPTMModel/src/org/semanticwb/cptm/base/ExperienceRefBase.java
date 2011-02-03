@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Experiencia en un específico "Destino", si le quisiera agregar un Directorio de empresas aqui, tendría que tener una relación además de con el Destino, con el objeto  SPType 
    */
-public abstract class ExperienceRefBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class ExperienceRefBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Resourceable,org.semanticwb.model.Descriptiveable
 {
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de experiencias.
@@ -48,12 +48,6 @@ public abstract class ExperienceRefBase extends org.semanticwb.model.SWBClass im
             java.util.Iterator it=sclass.listInstances();
             return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.ExperienceRef>(it, true);
         }
-
-        public static org.semanticwb.cptm.ExperienceRef createExperienceRef(org.semanticwb.model.SWBModel model)
-        {
-            long id=model.getSemanticObject().getModel().getCounter(sclass);
-            return org.semanticwb.cptm.ExperienceRef.ClassMgr.createExperienceRef(String.valueOf(id), model);
-        }
        /**
        * Gets a org.semanticwb.cptm.ExperienceRef
        * @param id Identifier for org.semanticwb.cptm.ExperienceRef
@@ -95,24 +89,24 @@ public abstract class ExperienceRefBase extends org.semanticwb.model.SWBClass im
             return (getExperienceRef(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.cptm.ExperienceRef with a determined ExpExperience
-       * @param value ExpExperience of the type org.semanticwb.cptm.Experience
+       * Gets all org.semanticwb.cptm.ExperienceRef with a determined Experience
+       * @param value Experience of the type org.semanticwb.cptm.Experience
        * @param model Model of the org.semanticwb.cptm.ExperienceRef
        * @return Iterator with all the org.semanticwb.cptm.ExperienceRef
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.ExperienceRef> listExperienceRefByExpExperience(org.semanticwb.cptm.Experience value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.cptm.ExperienceRef> listExperienceRefByExperience(org.semanticwb.cptm.Experience value,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.ExperienceRef> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_expExperience, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.ExperienceRef with a determined ExpExperience
-       * @param value ExpExperience of the type org.semanticwb.cptm.Experience
+       * Gets all org.semanticwb.cptm.ExperienceRef with a determined Experience
+       * @param value Experience of the type org.semanticwb.cptm.Experience
        * @return Iterator with all the org.semanticwb.cptm.ExperienceRef
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.ExperienceRef> listExperienceRefByExpExperience(org.semanticwb.cptm.Experience value)
+        public static java.util.Iterator<org.semanticwb.cptm.ExperienceRef> listExperienceRefByExperience(org.semanticwb.cptm.Experience value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.ExperienceRef> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_expExperience,value.getSemanticObject(),sclass));
             return it;
@@ -141,24 +135,47 @@ public abstract class ExperienceRefBase extends org.semanticwb.model.SWBClass im
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.ExperienceRef with a determined ExpLocality
-       * @param value ExpLocality of the type org.semanticwb.cptm.LocalityInt
+       * Gets all org.semanticwb.cptm.ExperienceRef with a determined Resource
+       * @param value Resource of the type org.semanticwb.model.Resource
        * @param model Model of the org.semanticwb.cptm.ExperienceRef
        * @return Iterator with all the org.semanticwb.cptm.ExperienceRef
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.ExperienceRef> listExperienceRefByExpLocality(org.semanticwb.cptm.LocalityInt value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.cptm.ExperienceRef> listExperienceRefByResource(org.semanticwb.model.Resource value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.ExperienceRef> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasResource, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.ExperienceRef with a determined Resource
+       * @param value Resource of the type org.semanticwb.model.Resource
+       * @return Iterator with all the org.semanticwb.cptm.ExperienceRef
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.ExperienceRef> listExperienceRefByResource(org.semanticwb.model.Resource value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.ExperienceRef> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasResource,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.ExperienceRef with a determined Locality
+       * @param value Locality of the type org.semanticwb.cptm.LocalityInt
+       * @param model Model of the org.semanticwb.cptm.ExperienceRef
+       * @return Iterator with all the org.semanticwb.cptm.ExperienceRef
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.ExperienceRef> listExperienceRefByLocality(org.semanticwb.cptm.LocalityInt value,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.ExperienceRef> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_ExpLocality, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.ExperienceRef with a determined ExpLocality
-       * @param value ExpLocality of the type org.semanticwb.cptm.LocalityInt
+       * Gets all org.semanticwb.cptm.ExperienceRef with a determined Locality
+       * @param value Locality of the type org.semanticwb.cptm.LocalityInt
        * @return Iterator with all the org.semanticwb.cptm.ExperienceRef
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.ExperienceRef> listExperienceRefByExpLocality(org.semanticwb.cptm.LocalityInt value)
+        public static java.util.Iterator<org.semanticwb.cptm.ExperienceRef> listExperienceRefByLocality(org.semanticwb.cptm.LocalityInt value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.ExperienceRef> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_ExpLocality,value.getSemanticObject(),sclass));
             return it;
@@ -197,34 +214,34 @@ public abstract class ExperienceRefBase extends org.semanticwb.model.SWBClass im
         super(base);
     }
    /**
-   * Sets the value for the property ExpExperience
-   * @param value ExpExperience to set
+   * Sets the value for the property Experience
+   * @param value Experience to set
    */
 
-    public void setExpExperience(org.semanticwb.cptm.Experience value)
+    public void setExperience(org.semanticwb.cptm.Experience value)
     {
         if(value!=null)
         {
             getSemanticObject().setObjectProperty(cptm_expExperience, value.getSemanticObject());
         }else
         {
-            removeExpExperience();
+            removeExperience();
         }
     }
    /**
-   * Remove the value for ExpExperience property
+   * Remove the value for Experience property
    */
 
-    public void removeExpExperience()
+    public void removeExperience()
     {
         getSemanticObject().removeProperty(cptm_expExperience);
     }
 
    /**
-   * Gets the ExpExperience
+   * Gets the Experience
    * @return a org.semanticwb.cptm.Experience
    */
-    public org.semanticwb.cptm.Experience getExpExperience()
+    public org.semanticwb.cptm.Experience getExperience()
     {
          org.semanticwb.cptm.Experience ret=null;
          org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_expExperience);
@@ -323,6 +340,71 @@ public abstract class ExperienceRefBase extends org.semanticwb.model.SWBClass im
     {
         getSemanticObject().setProperty(swb_title, title, lang);
     }
+   /**
+   * Gets all the org.semanticwb.model.Resource
+   * @return A GenericIterator with all the org.semanticwb.model.Resource
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.model.Resource> listResources()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.model.Resource>(getSemanticObject().listObjectProperties(swb_hasResource));
+    }
+
+   /**
+   * Gets true if has a Resource
+   * @param value org.semanticwb.model.Resource to verify
+   * @return true if the org.semanticwb.model.Resource exists, false otherwise
+   */
+    public boolean hasResource(org.semanticwb.model.Resource value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(swb_hasResource,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a Resource
+   * @param value org.semanticwb.model.Resource to add
+   */
+
+    public void addResource(org.semanticwb.model.Resource value)
+    {
+        getSemanticObject().addObjectProperty(swb_hasResource, value.getSemanticObject());
+    }
+   /**
+   * Removes all the Resource
+   */
+
+    public void removeAllResource()
+    {
+        getSemanticObject().removeProperty(swb_hasResource);
+    }
+   /**
+   * Removes a Resource
+   * @param value org.semanticwb.model.Resource to remove
+   */
+
+    public void removeResource(org.semanticwb.model.Resource value)
+    {
+        getSemanticObject().removeObjectProperty(swb_hasResource,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the Resource
+   * @return a org.semanticwb.model.Resource
+   */
+    public org.semanticwb.model.Resource getResource()
+    {
+         org.semanticwb.model.Resource ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_hasResource);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.Resource)obj.createGenericInstance();
+         }
+         return ret;
+    }
 
 /**
 * Gets the Updated property
@@ -342,34 +424,34 @@ public abstract class ExperienceRefBase extends org.semanticwb.model.SWBClass im
         getSemanticObject().setDateProperty(swb_updated, value);
     }
    /**
-   * Sets the value for the property ExpLocality
-   * @param value ExpLocality to set
+   * Sets the value for the property Locality
+   * @param value Locality to set
    */
 
-    public void setExpLocality(org.semanticwb.cptm.LocalityInt value)
+    public void setLocality(org.semanticwb.cptm.LocalityInt value)
     {
         if(value!=null)
         {
             getSemanticObject().setObjectProperty(cptm_ExpLocality, value.getSemanticObject());
         }else
         {
-            removeExpLocality();
+            removeLocality();
         }
     }
    /**
-   * Remove the value for ExpLocality property
+   * Remove the value for Locality property
    */
 
-    public void removeExpLocality()
+    public void removeLocality()
     {
         getSemanticObject().removeProperty(cptm_ExpLocality);
     }
 
    /**
-   * Gets the ExpLocality
+   * Gets the Locality
    * @return a org.semanticwb.cptm.LocalityInt
    */
-    public org.semanticwb.cptm.LocalityInt getExpLocality()
+    public org.semanticwb.cptm.LocalityInt getLocality()
     {
          org.semanticwb.cptm.LocalityInt ret=null;
          org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_ExpLocality);
