@@ -45,12 +45,6 @@ public abstract class ActivityRefBase extends org.semanticwb.model.SWBClass impl
             java.util.Iterator it=sclass.listInstances();
             return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.ActivityRef>(it, true);
         }
-
-        public static org.semanticwb.cptm.ActivityRef createActivityRef(org.semanticwb.model.SWBModel model)
-        {
-            long id=model.getSemanticObject().getModel().getCounter(sclass);
-            return org.semanticwb.cptm.ActivityRef.ClassMgr.createActivityRef(String.valueOf(id), model);
-        }
        /**
        * Gets a org.semanticwb.cptm.ActivityRef
        * @param id Identifier for org.semanticwb.cptm.ActivityRef
@@ -92,24 +86,24 @@ public abstract class ActivityRefBase extends org.semanticwb.model.SWBClass impl
             return (getActivityRef(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.cptm.ActivityRef with a determined ArefActivity
-       * @param value ArefActivity of the type org.semanticwb.cptm.Activity
+       * Gets all org.semanticwb.cptm.ActivityRef with a determined Activity
+       * @param value Activity of the type org.semanticwb.cptm.Activity
        * @param model Model of the org.semanticwb.cptm.ActivityRef
        * @return Iterator with all the org.semanticwb.cptm.ActivityRef
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.ActivityRef> listActivityRefByArefActivity(org.semanticwb.cptm.Activity value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.cptm.ActivityRef> listActivityRefByActivity(org.semanticwb.cptm.Activity value,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.ActivityRef> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_arefActivity, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.ActivityRef with a determined ArefActivity
-       * @param value ArefActivity of the type org.semanticwb.cptm.Activity
+       * Gets all org.semanticwb.cptm.ActivityRef with a determined Activity
+       * @param value Activity of the type org.semanticwb.cptm.Activity
        * @return Iterator with all the org.semanticwb.cptm.ActivityRef
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.ActivityRef> listActivityRefByArefActivity(org.semanticwb.cptm.Activity value)
+        public static java.util.Iterator<org.semanticwb.cptm.ActivityRef> listActivityRefByActivity(org.semanticwb.cptm.Activity value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.ActivityRef> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_arefActivity,value.getSemanticObject(),sclass));
             return it;
@@ -184,24 +178,24 @@ public abstract class ActivityRefBase extends org.semanticwb.model.SWBClass impl
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.ActivityRef with a determined ArefLocality
-       * @param value ArefLocality of the type org.semanticwb.cptm.LocalityInt
+       * Gets all org.semanticwb.cptm.ActivityRef with a determined Locality
+       * @param value Locality of the type org.semanticwb.cptm.LocalityInt
        * @param model Model of the org.semanticwb.cptm.ActivityRef
        * @return Iterator with all the org.semanticwb.cptm.ActivityRef
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.ActivityRef> listActivityRefByArefLocality(org.semanticwb.cptm.LocalityInt value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.cptm.ActivityRef> listActivityRefByLocality(org.semanticwb.cptm.LocalityInt value,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.ActivityRef> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_arefLocality, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.ActivityRef with a determined ArefLocality
-       * @param value ArefLocality of the type org.semanticwb.cptm.LocalityInt
+       * Gets all org.semanticwb.cptm.ActivityRef with a determined Locality
+       * @param value Locality of the type org.semanticwb.cptm.LocalityInt
        * @return Iterator with all the org.semanticwb.cptm.ActivityRef
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.ActivityRef> listActivityRefByArefLocality(org.semanticwb.cptm.LocalityInt value)
+        public static java.util.Iterator<org.semanticwb.cptm.ActivityRef> listActivityRefByLocality(org.semanticwb.cptm.LocalityInt value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.ActivityRef> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_arefLocality,value.getSemanticObject(),sclass));
             return it;
@@ -217,34 +211,34 @@ public abstract class ActivityRefBase extends org.semanticwb.model.SWBClass impl
         super(base);
     }
    /**
-   * Sets the value for the property ArefActivity
-   * @param value ArefActivity to set
+   * Sets the value for the property Activity
+   * @param value Activity to set
    */
 
-    public void setArefActivity(org.semanticwb.cptm.Activity value)
+    public void setActivity(org.semanticwb.cptm.Activity value)
     {
         if(value!=null)
         {
             getSemanticObject().setObjectProperty(cptm_arefActivity, value.getSemanticObject());
         }else
         {
-            removeArefActivity();
+            removeActivity();
         }
     }
    /**
-   * Remove the value for ArefActivity property
+   * Remove the value for Activity property
    */
 
-    public void removeArefActivity()
+    public void removeActivity()
     {
         getSemanticObject().removeProperty(cptm_arefActivity);
     }
 
    /**
-   * Gets the ArefActivity
+   * Gets the Activity
    * @return a org.semanticwb.cptm.Activity
    */
-    public org.semanticwb.cptm.Activity getArefActivity()
+    public org.semanticwb.cptm.Activity getActivity()
     {
          org.semanticwb.cptm.Activity ret=null;
          org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_arefActivity);
@@ -498,34 +492,34 @@ public abstract class ActivityRefBase extends org.semanticwb.model.SWBClass impl
         getSemanticObject().setProperty(swb_description, description, lang);
     }
    /**
-   * Sets the value for the property ArefLocality
-   * @param value ArefLocality to set
+   * Sets the value for the property Locality
+   * @param value Locality to set
    */
 
-    public void setArefLocality(org.semanticwb.cptm.LocalityInt value)
+    public void setLocality(org.semanticwb.cptm.LocalityInt value)
     {
         if(value!=null)
         {
             getSemanticObject().setObjectProperty(cptm_arefLocality, value.getSemanticObject());
         }else
         {
-            removeArefLocality();
+            removeLocality();
         }
     }
    /**
-   * Remove the value for ArefLocality property
+   * Remove the value for Locality property
    */
 
-    public void removeArefLocality()
+    public void removeLocality()
     {
         getSemanticObject().removeProperty(cptm_arefLocality);
     }
 
    /**
-   * Gets the ArefLocality
+   * Gets the Locality
    * @return a org.semanticwb.cptm.LocalityInt
    */
-    public org.semanticwb.cptm.LocalityInt getArefLocality()
+    public org.semanticwb.cptm.LocalityInt getLocality()
     {
          org.semanticwb.cptm.LocalityInt ret=null;
          org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_arefLocality);
