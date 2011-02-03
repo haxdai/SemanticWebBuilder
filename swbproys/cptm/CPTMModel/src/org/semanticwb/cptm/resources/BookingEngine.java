@@ -34,7 +34,7 @@ import org.w3c.dom.Text;
 public class BookingEngine extends GenericResource {
 
 
-    Templates xsltBestday = null;
+    private static Templates xsltBestday = null;
     Templates xsltExpedia = null;
     private static String htmlBestday_es = null;
     private static String htmlBestday_pt = null;
@@ -55,14 +55,16 @@ public class BookingEngine extends GenericResource {
 
         super.setResourceBase(base);
         try {
-//            xsltBestday = SWBUtils.XML.loadTemplateXSLT(SWBUtils.IO.getStreamFromString(
-//                    SWBUtils.IO.getFileFromPath(SWBPortal.getWorkPath()
-//                    + "/models/" + base.getWebSiteId()
-//                    + "/css/images/bookengine/BestDay_es.xsl")));
-            if (BookingEngine.htmlBestday_es == null) {
-                BookingEngine.htmlBestday_es = SWBUtils.IO.getFileFromPath(SWBPortal.getWorkPath()
-                        + "/models/" + base.getWebSiteId() + "/css/images/bookengine/BestDay_es.html");
+            if (BookingEngine.xsltBestday == null) {
+                BookingEngine.xsltBestday = SWBUtils.XML.loadTemplateXSLT(SWBUtils.IO.getStreamFromString(
+                        SWBUtils.IO.getFileFromPath(SWBPortal.getWorkPath()
+                        + "/models/" + base.getWebSiteId()
+                        + "/css/images/bookengine/BestDay_es.xsl")));
             }
+//            if (BookingEngine.htmlBestday_es == null) {
+//                BookingEngine.htmlBestday_es = SWBUtils.IO.getFileFromPath(SWBPortal.getWorkPath()
+//                        + "/models/" + base.getWebSiteId() + "/css/images/bookengine/BestDay_es.html");
+//            }
             if (BookingEngine.htmlBestday_pt == null) {
                 BookingEngine.htmlBestday_pt = SWBUtils.IO.getFileFromPath(SWBPortal.getWorkPath()
                         + "/models/" + base.getWebSiteId() + "/css/images/bookengine/BestDay_pt.html");
@@ -194,19 +196,19 @@ public class BookingEngine extends GenericResource {
         }
 
         try {
-//            Document doc = SWBUtils.XML.getNewDocument();
-//            elem_parameters = doc.createElement("parameters");
-//            doc.appendChild(elem_parameters);
-//            elem_parameter = getElement(doc, "idm", userLanguage);
-//            elem_parameters.appendChild(elem_parameter);
-//            elem_parameter = getElement(doc, "Pais", "" + userPais);
-//            elem_parameters.appendChild(elem_parameter);
-//
-////            out.println(new GenerateHtml().getHtml(doc, xsl));   //todo descomentar este si es generico y comentar el siguiente
-//            out.println(SWBUtils.XML.transformDom(xsltBestday, doc));
             if (userLanguage.equals("es")) {
-                out.println(BookingEngine.htmlBestday_es);//Ingles, paises que lo manejen
-            } else if (userLanguage.equals("pt")) {//Frances
+                Document doc = SWBUtils.XML.getNewDocument();
+                elem_parameters = doc.createElement("parameters");
+                doc.appendChild(elem_parameters);
+                elem_parameter = getElement(doc, "idm", userLanguage);
+                elem_parameters.appendChild(elem_parameter);
+                elem_parameter = getElement(doc, "Pais", "" + userPais);
+                elem_parameters.appendChild(elem_parameter);
+
+    //            out.println(new GenerateHtml().getHtml(doc, xsl));   //todo descomentar este si es generico y comentar el siguiente
+                out.println(SWBUtils.XML.transformDom(BookingEngine.xsltBestday, doc));
+//                out.println(BookingEngine.htmlBestday_es);//Ingles, paises que lo manejen
+            } else if (userLanguage.equals("pt")) {//Portugés
                 out.println(BookingEngine.htmlBestday_pt);
             }
         } catch (Exception e) {
