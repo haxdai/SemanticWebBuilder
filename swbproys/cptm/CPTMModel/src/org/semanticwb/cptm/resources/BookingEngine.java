@@ -36,11 +36,13 @@ public class BookingEngine extends GenericResource {
 
     Templates xsltBestday = null;
     Templates xsltExpedia = null;
-    String htmlTravelocity_en = null;
-    String htmlTravelocity_es = null;
-    String htmlTravelocity_fr = null;
-    String htmlTravelocity_de = null;
-    String htmlTravelocity_it = null;
+    private static String htmlBestday_es = null;
+    private static String htmlBestday_pt = null;
+    private static String htmlTravelocity_en = null;
+    private static String htmlTravelocity_es = null;
+    private static String htmlTravelocity_fr = null;
+    private static String htmlTravelocity_de = null;
+    private static String htmlTravelocity_it = null;
     private static Logger log = SWBUtils.getLogger(BookingEngine.class);
 
 
@@ -53,20 +55,34 @@ public class BookingEngine extends GenericResource {
 
         super.setResourceBase(base);
         try {
-            xsltBestday = SWBUtils.XML.loadTemplateXSLT(SWBUtils.IO.getStreamFromString(
-                    SWBUtils.IO.getFileFromPath(SWBPortal.getWorkPath()
-                    + "/models/" + base.getWebSiteId()
-                    + "/css/images/bookengine/BestDay_es.xsl")));
+//            xsltBestday = SWBUtils.XML.loadTemplateXSLT(SWBUtils.IO.getStreamFromString(
+//                    SWBUtils.IO.getFileFromPath(SWBPortal.getWorkPath()
+//                    + "/models/" + base.getWebSiteId()
+//                    + "/css/images/bookengine/BestDay_es.xsl")));
+            if (BookingEngine.htmlBestday_es == null) {
+                BookingEngine.htmlBestday_es = SWBUtils.IO.getFileFromPath(SWBPortal.getWorkPath()
+                        + "/models/" + base.getWebSiteId() + "/css/images/bookengine/BestDay_es.html");
+            }
+            if (BookingEngine.htmlBestday_pt == null) {
+                BookingEngine.htmlBestday_pt = SWBUtils.IO.getFileFromPath(SWBPortal.getWorkPath()
+                        + "/models/" + base.getWebSiteId() + "/css/images/bookengine/BestDay_pt.html");
+            }
         } catch (Exception e) {
             BookingEngine.log.error("Error while getting BestDay's template.", e);
         }
         try {
-            this.htmlTravelocity_en = SWBUtils.IO.getFileFromPath(SWBPortal.getWorkPath()
-                    + "/models/" + base.getWebSiteId() + "/css/images/bookengine/Travelocity_en.html");
-            this.htmlTravelocity_es = SWBUtils.IO.getFileFromPath(SWBPortal.getWorkPath()
-                    + "/models/" + base.getWebSiteId() + "/css/images/bookengine/Travelocity_es.html");
-            this.htmlTravelocity_fr = SWBUtils.IO.getFileFromPath(SWBPortal.getWorkPath()
-                    + "/models/" + base.getWebSiteId() + "/css/images/bookengine/Travelocity_fr.html");
+            if (BookingEngine.htmlTravelocity_en == null) {
+                BookingEngine.htmlTravelocity_en = SWBUtils.IO.getFileFromPath(SWBPortal.getWorkPath()
+                        + "/models/" + base.getWebSiteId() + "/css/images/bookengine/Travelocity_en.html");
+            }
+            if (BookingEngine.htmlTravelocity_es == null) {
+                BookingEngine.htmlTravelocity_es = SWBUtils.IO.getFileFromPath(SWBPortal.getWorkPath()
+                        + "/models/" + base.getWebSiteId() + "/css/images/bookengine/Travelocity_es.html");
+            }
+            if (BookingEngine.htmlTravelocity_fr == null) {
+                BookingEngine.htmlTravelocity_fr = SWBUtils.IO.getFileFromPath(SWBPortal.getWorkPath()
+                        + "/models/" + base.getWebSiteId() + "/css/images/bookengine/Travelocity_fr.html");
+            }
         } catch (Exception e) {
             BookingEngine.log.error("Error while getting Travelocity's template.", e);
         }
@@ -178,16 +194,21 @@ public class BookingEngine extends GenericResource {
         }
 
         try {
-            Document doc = SWBUtils.XML.getNewDocument();
-            elem_parameters = doc.createElement("parameters");
-            doc.appendChild(elem_parameters);
-            elem_parameter = getElement(doc, "idm", userLanguage);
-            elem_parameters.appendChild(elem_parameter);
-            elem_parameter = getElement(doc, "Pais", "" + userPais);
-            elem_parameters.appendChild(elem_parameter);
-
-//            out.println(new GenerateHtml().getHtml(doc, xsl));   //todo descomentar este si es generico y comentar el siguiente
-            out.println(SWBUtils.XML.transformDom(xsltBestday, doc));
+//            Document doc = SWBUtils.XML.getNewDocument();
+//            elem_parameters = doc.createElement("parameters");
+//            doc.appendChild(elem_parameters);
+//            elem_parameter = getElement(doc, "idm", userLanguage);
+//            elem_parameters.appendChild(elem_parameter);
+//            elem_parameter = getElement(doc, "Pais", "" + userPais);
+//            elem_parameters.appendChild(elem_parameter);
+//
+////            out.println(new GenerateHtml().getHtml(doc, xsl));   //todo descomentar este si es generico y comentar el siguiente
+//            out.println(SWBUtils.XML.transformDom(xsltBestday, doc));
+            if (userLanguage.equals("es")) {
+                out.println(BookingEngine.htmlBestday_es);//Ingles, paises que lo manejen
+            } else if (userLanguage.equals("pt")) {//Frances
+                out.println(BookingEngine.htmlBestday_pt);
+            }
         } catch (Exception e) {
             BookingEngine.log.error("Error while generating Best Day's view", e);
         }
@@ -226,11 +247,11 @@ public class BookingEngine extends GenericResource {
    *
  */
             if (userLanguage.equals("en")) {
-                out.println(htmlTravelocity_en);//Ingles, paises que lo manejen
+                out.println(BookingEngine.htmlTravelocity_en);//Ingles, paises que lo manejen
             } else if (userLanguage.equals("fr")) {//Frances
-                out.println(htmlTravelocity_fr);
+                out.println(BookingEngine.htmlTravelocity_fr);
             } else if (userLanguage.equals("es")) {//Español, paises que lo manejen
-                out.println(htmlTravelocity_es);
+                out.println(BookingEngine.htmlTravelocity_es);
             }/*else if(userLanguage.equals("it")){//Italiano
                 out.println(htmlTravelocity_it);
             }else if(userLanguage.equals("de")){
