@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Experiencia en un específico "Destino", si le quisiera agregar un Directorio de empresas aqui, tendría que tener una relación además de con el Destino, con el objeto  SPType 
    */
-public abstract class ExperienceRefBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Resourceable,org.semanticwb.model.Descriptiveable
+public abstract class ExperienceRefBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable
 {
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de experiencias.

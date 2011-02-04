@@ -4,13 +4,14 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Eventos. 
    */
-public abstract class EventBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Resourceable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Descriptiveable
+public abstract class EventBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable,org.semanticwb.cptm.CptmgeneralData
 {
     public static final org.semanticwb.platform.SemanticClass cptm_Activity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Activity");
    /**
    * Referencia de un evento a una determinada actividad ej. Festival de Buceo, no necesariamente puede ocurrir siempre.
    */
     public static final org.semanticwb.platform.SemanticProperty cptm_hasEventActivityRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasEventActivityRef");
+    public static final org.semanticwb.platform.SemanticProperty cptm_eventLeadingPhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#eventLeadingPhoto");
    /**
    * Fecha de Inicio del Evento
    */
@@ -320,6 +321,24 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
              ret=(org.semanticwb.cptm.Activity)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the LeadingPhoto property
+* @return String with the LeadingPhoto
+*/
+    public String getLeadingPhoto()
+    {
+        return getSemanticObject().getProperty(cptm_eventLeadingPhoto);
+    }
+
+/**
+* Sets the LeadingPhoto property
+* @param value long with the LeadingPhoto
+*/
+    public void setLeadingPhoto(String value)
+    {
+        getSemanticObject().setProperty(cptm_eventLeadingPhoto, value);
     }
 
 /**
