@@ -959,12 +959,12 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
 
         parameter = request.getParameter(ServiceProvider.swbcomm_contactName.getName());
         if (parameter != null && parameter.trim().length() > 0 &&
-                PymturUtils.validateRegExp(parameter, "^[\\w\\s\\.áéíóúÁÉÍÓÚñÑ]{1,30}$")) {
+                PymturUtils.validateRegExp(parameter, "^[\\w\\s\\._áéíóúÁÉÍÓÚñÑ]{1,30}$")) {
             dataValid = true;
         }
         parameter = request.getParameter(ServiceProvider.pymtur_contactFirstName.getName());
         if (dataValid && parameter != null && parameter.trim().length() > 0 &&
-                PymturUtils.validateRegExp(parameter, "^[\\w\\s\\.áéíóúÁÉÍÓÚñÑ]{1,30}$")) {
+                PymturUtils.validateRegExp(parameter, "^[\\w\\s\\._áéíóúÁÉÍÓÚñÑ]{1,30}$")) {
             dataValid = true;
         } else {
             dataValid = false;
@@ -992,35 +992,35 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
         }
         parameter = request.getParameter(ServiceProvider.swb_title.getName());
         if (dataValid && parameter != null && parameter.trim().length() > 0 &&
-                PymturUtils.validateRegExp(parameter, "^\\w[\\w\\s-\\.\\+\\?¿\\(\\)'ñÑáéíóúüÁÉÍÓÚÜ@#\\$&\\*]{4,49}$")) {
+                PymturUtils.validateRegExp(parameter, "^\\w[\\w\\s-\\.\\+\\?¿\\(\\)'_ñÑáéíóúüÁÉÍÓÚÜ@#\\$&\\*]{4,49}$")) {
             dataValid = true;
         } else {
             dataValid = false;
         }
         parameter = request.getParameter(ServiceProvider.swbcomm_streetName.getName());
         if (dataValid && parameter != null && parameter.trim().length() > 0 &&
-                PymturUtils.validateRegExp(parameter, "^[\\w\\s\\.áéíóúÁÉÍÓÚñÑ]{1,70}$")) {
+                PymturUtils.validateRegExp(parameter, "^[\\w\\s\\._áéíóúÁÉÍÓÚñÑ]{1,70}$")) {
             dataValid = true;
         } else {
             dataValid = false;
         }
         parameter = request.getParameter(ServiceProvider.swbcomm_extNumber.getName());
         if (dataValid && parameter != null && parameter.trim().length() > 0 &&
-                PymturUtils.validateRegExp(parameter, "^[\\w\\s\\.]{1,10}$")) {
+                PymturUtils.validateRegExp(parameter, "^[\\w\\s-_/\\.]{1,10}$")) {
             dataValid = true;
         } else {
             dataValid = false;
         }
         parameter = request.getParameter(ServiceProvider.pymtur_spSuburb.getName());
         if (dataValid && parameter != null && parameter.trim().length() > 0 &&
-                PymturUtils.validateRegExp(parameter, "^[\\w\\s\\.áéíóúÁÉÍÓÚñÑ]{1,50}$")) {
+                PymturUtils.validateRegExp(parameter, "^[\\w\\s\\._áéíóúÁÉÍÓÚñÑ]{1,50}$")) {
             dataValid = true;
         } else {
             dataValid = false;
         }
         parameter = request.getParameter(ServiceProvider.swbcomm_cityCouncil.getName());
         if (dataValid && parameter != null && parameter.trim().length() > 0 &&
-                PymturUtils.validateRegExp(parameter, "^[\\w\\s\\.áéíóúÁÉÍÓÚñÑ]{1,50}$")) {
+                PymturUtils.validateRegExp(parameter, "^[\\w\\s\\._áéíóúÁÉÍÓÚñÑ]{1,50}$")) {
             dataValid = true;
         } else {
             dataValid = false;
@@ -1034,14 +1034,14 @@ public class DirectoryResource extends org.semanticwb.pymtur.base.DirectoryResou
         }
         parameter = request.getParameter(ServiceProvider.swbcomm_state.getName());
         if (dataValid && parameter != null && parameter.trim().length() > 0 &&
-                PymturUtils.validateRegExp(parameter, "^[\\w\\s\\.áéíóúÁÉÍÓÚ]{1,25}$")) {
+                PymturUtils.validateRegExp(parameter, "^[\\w\\s\\._áéíóúÁÉÍÓÚ]{1,25}$")) {
             dataValid = true;
         } else {
             dataValid = false;
         }
         parameter = request.getParameter(ServiceProvider.pymtur_rfcRazonSocial.getName());
         if (dataValid && parameter != null && parameter.trim().length() > 0 &&
-                PymturUtils.validateRegExp(parameter, "^\\w[\\w\\s-\\.\\+\\?¿\\(\\)'ñÑáéíóúüÁÉÍÓÚÜ@#\\$&\\*]{4,79}$")) {
+                PymturUtils.validateRegExp(parameter, "^\\w[\\w\\s-\\.\\+_\\?¿\\(\\)'ñÑáéíóúüÁÉÍÓÚÜ@#\\$&\\*]{4,79}$")) {
             dataValid = true;
         } else {
             dataValid = false;
