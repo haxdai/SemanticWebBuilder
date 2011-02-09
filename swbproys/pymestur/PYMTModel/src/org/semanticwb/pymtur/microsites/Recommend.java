@@ -777,7 +777,9 @@ public class Recommend extends GenericAdmResource {
         mailBody.append("<head>");
 
         //Se agrega el archivo de estilos de acuerdo al usado por la página de la empresa
-        if (sprovider.getVariantPaqTemplate() != null && !sprovider.getVariantPaqTemplate().getVarianStyle().equalsIgnoreCase("")) {
+        if (sprovider.getVariantPaqTemplate() != null &&
+                !sprovider.getVariantPaqTemplate().getVarianStyle().equalsIgnoreCase("")) {
+
             String linkTag = sprovider.getVariantPaqTemplate().getVarianStyle();
             if (linkTag.indexOf("http:") == -1) {
                 if (linkTag.indexOf("href=\"") != -1) {
@@ -840,7 +842,7 @@ public class Recommend extends GenericAdmResource {
         mailBody.append("</body>");
         mailBody.append("</html>");
 
-        if ((from != null && to != null
+        if ((sprovider != null && from != null && to != null
                 && mailSubject != null) && SWBUtils.EMAIL.sendMail(from, fromName, aAddress,
                 null, null, mailSubject, "html", mailBody.toString(),
                 null, null, null) != null) {
@@ -851,6 +853,24 @@ public class Recommend extends GenericAdmResource {
         } else {
             responseMsg = paramRequest.getLocaleString("msgNoSendEmail");
         }
+        } catch (NullPointerException npe) {
+            if (sprovider == null) {
+                try {
+                    responseMsg = paramRequest.getLocaleString("msgNoSendEmail");
+                    log.error("Recommend: ServiceProvider is null!!! for WebPage:" + paramRequest.getWebPage(), npe);
+                } catch (SWBResourceException swbre) {
+                    responseMsg = "";
+                    log.error("Recommend: Al extraer una propiedad, luego de un error.", swbre);
+                }
+            } else {
+                try {
+                    responseMsg = paramRequest.getLocaleString("msgNoSendEmail");
+                    log.error("Recommend: An object is null!!!", npe);
+                } catch (SWBResourceException swbre) {
+                    responseMsg = "";
+                    log.error("Recommend: Al extraer una propiedad, luego de un error.", swbre);
+                }
+            }
         } catch (Exception e) {
             try {
                 responseMsg = paramRequest.getLocaleString("msgNoSendEmail");
