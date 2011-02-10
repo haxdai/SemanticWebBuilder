@@ -766,9 +766,9 @@ public class Recommend extends GenericAdmResource {
         boolean mailSent = false;
 
         SemanticObject semObject = SemanticObject.createSemanticObject(uri);
-        sprovider = (ServiceProvider) semObject.createGenericInstance();
 
         try {
+        sprovider = (ServiceProvider) semObject.createGenericInstance();
         address1.setAddress(to);
         ArrayList<InternetAddress> aAddress = new ArrayList<InternetAddress>();
         aAddress.add(address1);
