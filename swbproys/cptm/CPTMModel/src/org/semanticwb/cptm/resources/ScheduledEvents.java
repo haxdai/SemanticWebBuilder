@@ -45,6 +45,7 @@ public class ScheduledEvents extends GenericResource{
         {
             log.error(e);
         }
+
     }
 
     @Override
@@ -86,30 +87,31 @@ public class ScheduledEvents extends GenericResource{
                  Event ev = (Event)ist.next();
                  try
                  {
-                     int valueMonth=sdf.parse(ev.getEventInitDate()).getMonth()+1;
-                     int valueYear = sdf.parse(ev.getEventInitDate()).getYear();
-                     int year1 = (valueYear< 1000) ? valueYear + 1900 : valueYear;
-                     int valueDay = sdf.parse(ev.getEventInitDate()).getDate();
-                     if((mont==valueMonth)&&(year==year1))
-                     {
-                         ArrayList listEvents = new ArrayList();
-                         if(eventMonth.containsKey(valueDay))
+                     if(ev.getEventInitDate()!=null){
+                         int valueMonth=sdf.parse(ev.getEventInitDate()).getMonth()+1;
+                         int valueYear = sdf.parse(ev.getEventInitDate()).getYear();
+                         int year1 = (valueYear< 1000) ? valueYear + 1900 : valueYear;
+                         int valueDay = sdf.parse(ev.getEventInitDate()).getDate();
+                         if((mont==valueMonth)&&(year==year1))
                          {
-                             listEvents = (ArrayList)eventMonth.get(valueDay);
-                             listEvents.add(ev);
-                             eventMonth.remove(valueDay);
-                         } else {
-                             listEvents.add(ev);
+                             ArrayList listEvents = new ArrayList();
+                             if(eventMonth.containsKey(valueDay))
+                             {
+                                 listEvents = (ArrayList)eventMonth.get(valueDay);
+                                 listEvents.add(ev);
+                                 eventMonth.remove(valueDay);
+                             } else {
+                                 listEvents.add(ev);
+                             }
+                              eventMonth.put(valueDay, listEvents);
                          }
-                          eventMonth.put(valueDay, listEvents);
                      }
                  }catch(Exception e)
                  {
-                     log.error("Error while process events in ScheduledEvents");
+                     log.error("Error while process events in ScheduledEvents" + e);
                  }
              }
         }
-
         JSONObject objEventMonth = new JSONObject();
         Iterator it = eventMonth.entrySet().iterator();
 
@@ -139,7 +141,7 @@ public class ScheduledEvents extends GenericResource{
             Event event = (Event)it.next();
             try
             {
-                objJSONEvents.put(event.getTitle(), getData(event, paramRequest));
+                objJSONEvents.put(SWBUtils.TEXT.encode(event.getTitle(),SWBUtils.TEXT.CHARSET_UTF8), getData(event, paramRequest));
             }catch(Exception e)
             {
                 log.error("Error while build properties in Events: "+e);
@@ -152,28 +154,21 @@ public class ScheduledEvents extends GenericResource{
     {
         JSONObject objJSONData = new JSONObject();
         String url = "#";
-        try
-        {
-            WebPage wp = paramRequest.getWebPage().getWebSite().getWebPage("Mostrar_Evento");
-             url = wp.getUrl()+"?id=" + event.getId()+"&show=event";
-        }catch(Exception e)
-        {
+        WebPage wp = paramRequest.getWebPage().getWebSite().getWebPage("Mostrar_Evento");
+        if(wp!=null){
+           url = wp.getUrl()+"?id=" + event.getId()+"&show=event";
         }
-        String photo="";
-        try
+        String photo = "";
+        if(event.getPhotoEscudo()!=null)
         {
-            if(photo!=null)
-            {
-                photo = SWBPortal.getWebWorkPath()+event.getWorkPath()+"/"+event.cptm_photo.getName()+"_"+event.getId()+"_"+event.getPhoto();
-            }
-        }catch(Exception e)
-        {
+             photo=SWBPortal.getWebWorkPath()+event.getWorkPath()+"/"+event.cptm_photoEscudo.getName()+"_"+event.getId()+"_"+event.getPhotoEscudo();
         }
         try{
             objJSONData.put("url", url);
-            objJSONData.put("title", event.getTitle(paramRequest.getUser().getLanguage())==null?event.getTitle():event.getTitle(paramRequest.getUser().getLanguage()));
+            objJSONData.put("title", SWBUtils.TEXT.encode(event.getTitle(paramRequest.getUser().getLanguage())==null?event.getTitle():event.getTitle(paramRequest.getUser().getLanguage()), SWBUtils.TEXT.CHARSET_UTF8));
             objJSONData.put("image", photo);
-            objJSONData.put("description", event.getDescription()==null?"":event.getDescription());
+            objJSONData.put("description", SWBUtils.TEXT.encode(event.getDescription()==null?"":event.getDescription(), SWBUtils.TEXT.CHARSET_UTF8));
+
         }catch(Exception e)
         {
             log.error("Error while add the properties to Events: " + e);
