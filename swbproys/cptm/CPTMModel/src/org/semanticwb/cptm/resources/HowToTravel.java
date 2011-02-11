@@ -67,7 +67,7 @@ public class HowToTravel extends GenericResource{
             int mapsiz= Integer.parseInt(request.getParameter("iden"));//request.getParameterMap().size();
             int i =0;
             HashMap how = new HashMap();
-            while(i<=mapsiz)//(mapsiz/2)
+            while(i<=mapsiz)// (mapsiz/2)
             {
                 String valIn = request.getParameter("input"+i);
                 String valColum = request.getParameter("column"+ i);
