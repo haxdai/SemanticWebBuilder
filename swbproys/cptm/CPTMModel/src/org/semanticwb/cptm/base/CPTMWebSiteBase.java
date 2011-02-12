@@ -4,12 +4,16 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que hereda de swb:WebSite. Es un tipo de website para CPTM. De esta manera se puede contar con todos los elementos en el arbol de navegación en la administración, y otros elementos utiles para CPTM. 
    */
-public abstract class CPTMWebSiteBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.Countryable,org.semanticwb.model.Indexable,org.semanticwb.model.Traceable,org.semanticwb.model.Undeleteable,org.semanticwb.model.FilterableNode,org.semanticwb.model.FilterableClass,org.semanticwb.model.Localeable,org.semanticwb.model.Trashable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Filterable,org.semanticwb.model.Activeable,org.semanticwb.model.OntologyDepable
+public abstract class CPTMWebSiteBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.Countryable,org.semanticwb.model.OntologyDepable,org.semanticwb.model.Filterable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Traceable,org.semanticwb.model.Activeable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Indexable,org.semanticwb.model.Localeable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Trashable
 {
    /**
-   * Clase que se encarga de manejar las rutas de viaje
+   * Clase que hereda de WebPage.Mediante esta se administra el catálogo de Estados de la república.
    */
-    public static final org.semanticwb.platform.SemanticClass cptm_TravelRoute=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#TravelRoute");
+    public static final org.semanticwb.platform.SemanticClass cptm_State=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#State");
+   /**
+   * Clase que hereda de WebPage.Mediante esta se administra el catálogo de tipos de actividades.
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_ActivityType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#ActivityType");
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Regiones.
    */
@@ -19,41 +23,45 @@ public abstract class CPTMWebSiteBase extends org.semanticwb.model.WebSite imple
    */
     public static final org.semanticwb.platform.SemanticClass cptm_ExperienceType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#ExperienceType");
    /**
-   * Clase que hereda de WebPage.Mediante esta se administra el catálogo de tipos de actividades.
+   * Marca Regional. La cual puede tener relaciodos Destinos Turisticos y Puntos geográficos (Ej. La Riviera Maya)
    */
-    public static final org.semanticwb.platform.SemanticClass cptm_ActivityType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#ActivityType");
-    public static final org.semanticwb.platform.SemanticClass cptm_Activity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Activity");
-    public static final org.semanticwb.platform.SemanticClass cptm_TravelRouteType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#TravelRouteType");
+    public static final org.semanticwb.platform.SemanticClass cptm_RegionalBrand=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#RegionalBrand");
    /**
-   * Clase que hereda de WebPage.Mediante esta se administra el catálogo de Estados de la república.
+   * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Destinos.
    */
-    public static final org.semanticwb.platform.SemanticClass cptm_State=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#State");
-   /**
-   * Clase que hereda de WebPage.Mediante estas se administra el catálogo de experiencias.
-   */
-    public static final org.semanticwb.platform.SemanticClass cptm_Experience=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Experience");
+    public static final org.semanticwb.platform.SemanticClass cptm_GeographicPoint=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#GeographicPoint");
     public static final org.semanticwb.platform.SemanticClass swbcomm_MicroSite=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/community#MicroSite");
    /**
-   * Clase que hereda de WebPage.Mediante estas se administra el catálogo de tipos de eventos.pueden ser Ej. "Carnavales", "Congresos", etc
+   * Canales para los cuales se podran dirigir las notas editoriales
    */
-    public static final org.semanticwb.platform.SemanticClass cptm_EventType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#EventType");
+    public static final org.semanticwb.platform.SemanticClass cptm_Canal=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Canal");
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Eventos.
    */
     public static final org.semanticwb.platform.SemanticClass cptm_Event=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Event");
    /**
-   * Marca Regional. La cual puede tener relaciodos Destinos Turisticos y Puntos geográficos (Ej. La Riviera Maya)
+   * Clase que hereda de WebPage.Mediante estas se administra el catálogo de tipos de eventos.pueden ser Ej. "Carnavales", "Congresos", etc
    */
-    public static final org.semanticwb.platform.SemanticClass cptm_RegionalBrand=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#RegionalBrand");
-   /**
-   * Canales para los cuales se podran dirigir las notas editoriales
-   */
-    public static final org.semanticwb.platform.SemanticClass cptm_Canal=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Canal");
+    public static final org.semanticwb.platform.SemanticClass cptm_EventType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#EventType");
     public static final org.semanticwb.platform.SemanticClass swbcomm_MicroSiteWebPageUtil=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/community#MicroSiteWebPageUtil");
+    public static final org.semanticwb.platform.SemanticClass cptm_TravelRouteType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#TravelRouteType");
    /**
-   * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Destinos.
+   * Clase que se encarga de manejar las rutas de viaje
    */
-    public static final org.semanticwb.platform.SemanticClass cptm_GeographicPoint=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#GeographicPoint");
+    public static final org.semanticwb.platform.SemanticClass cptm_TravelRoute=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#TravelRoute");
+    public static final org.semanticwb.platform.SemanticClass cptm_Activity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Activity");
+   /**
+   * Clase que hereda de WebPage.Mediante estas se administra el catálogo de experiencias.
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_Experience=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Experience");
+   /**
+   * Actividad en un específico "Destino", si le quisiera agregar un Directorio de empresas aqui, tendría que tener una relación además de con el Destino, con el objeto  SPType
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_ActivityRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#ActivityRef");
+   /**
+   * Experiencia en un específico "Destino", si le quisiera agregar un Directorio de empresas aqui, tendría que tener una relación además de con el Destino, con el objeto  SPType
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_ExperienceRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#ExperienceRef");
    /**
    * Clase que hereda de swb:WebSite. Es un tipo de website para CPTM. De esta manera se puede contar con todos los elementos en el arbol de navegación en la administración, y otros elementos utiles para CPTM.
    */
@@ -403,28 +411,52 @@ public abstract class CPTMWebSiteBase extends org.semanticwb.model.WebSite imple
         super(base);
     }
 
-    public org.semanticwb.cptm.TravelRoute getTravelRoute(String id)
+    public org.semanticwb.cptm.State getState(String id)
     {
-        return org.semanticwb.cptm.TravelRoute.ClassMgr.getTravelRoute(id, this);
+        return org.semanticwb.cptm.State.ClassMgr.getState(id, this);
     }
 
-    public java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRoutes()
+    public java.util.Iterator<org.semanticwb.cptm.State> listStates()
     {
-        return org.semanticwb.cptm.TravelRoute.ClassMgr.listTravelRoutes(this);
+        return org.semanticwb.cptm.State.ClassMgr.listStates(this);
     }
 
-    public org.semanticwb.cptm.TravelRoute createTravelRoute(String id)
+    public org.semanticwb.cptm.State createState(String id)
     {
-        return org.semanticwb.cptm.TravelRoute.ClassMgr.createTravelRoute(id,this);
+        return org.semanticwb.cptm.State.ClassMgr.createState(id,this);
     }
 
-    public void removeTravelRoute(String id)
+    public void removeState(String id)
     {
-        org.semanticwb.cptm.TravelRoute.ClassMgr.removeTravelRoute(id, this);
+        org.semanticwb.cptm.State.ClassMgr.removeState(id, this);
     }
-    public boolean hasTravelRoute(String id)
+    public boolean hasState(String id)
     {
-        return org.semanticwb.cptm.TravelRoute.ClassMgr.hasTravelRoute(id, this);
+        return org.semanticwb.cptm.State.ClassMgr.hasState(id, this);
+    }
+
+    public org.semanticwb.cptm.ActivityType getActivityType(String id)
+    {
+        return org.semanticwb.cptm.ActivityType.ClassMgr.getActivityType(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.cptm.ActivityType> listActivityTypes()
+    {
+        return org.semanticwb.cptm.ActivityType.ClassMgr.listActivityTypes(this);
+    }
+
+    public org.semanticwb.cptm.ActivityType createActivityType(String id)
+    {
+        return org.semanticwb.cptm.ActivityType.ClassMgr.createActivityType(id,this);
+    }
+
+    public void removeActivityType(String id)
+    {
+        org.semanticwb.cptm.ActivityType.ClassMgr.removeActivityType(id, this);
+    }
+    public boolean hasActivityType(String id)
+    {
+        return org.semanticwb.cptm.ActivityType.ClassMgr.hasActivityType(id, this);
     }
 
     public org.semanticwb.cptm.Region getRegion(String id)
@@ -466,12 +498,6 @@ public abstract class CPTMWebSiteBase extends org.semanticwb.model.WebSite imple
         return org.semanticwb.cptm.ExperienceType.ClassMgr.createExperienceType(id,this);
     }
 
-    public org.semanticwb.cptm.ExperienceType createExperienceType()
-    {
-        long id=getSemanticObject().getModel().getCounter(cptm_ExperienceType);
-        return org.semanticwb.cptm.ExperienceType.ClassMgr.createExperienceType(String.valueOf(id),this);
-    } 
-
     public void removeExperienceType(String id)
     {
         org.semanticwb.cptm.ExperienceType.ClassMgr.removeExperienceType(id, this);
@@ -479,204 +505,6 @@ public abstract class CPTMWebSiteBase extends org.semanticwb.model.WebSite imple
     public boolean hasExperienceType(String id)
     {
         return org.semanticwb.cptm.ExperienceType.ClassMgr.hasExperienceType(id, this);
-    }
-
-    public org.semanticwb.cptm.ActivityType getActivityType(String id)
-    {
-        return org.semanticwb.cptm.ActivityType.ClassMgr.getActivityType(id, this);
-    }
-
-    public java.util.Iterator<org.semanticwb.cptm.ActivityType> listActivityTypes()
-    {
-        return org.semanticwb.cptm.ActivityType.ClassMgr.listActivityTypes(this);
-    }
-
-    public org.semanticwb.cptm.ActivityType createActivityType(String id)
-    {
-        return org.semanticwb.cptm.ActivityType.ClassMgr.createActivityType(id,this);
-    }
-
-    public void removeActivityType(String id)
-    {
-        org.semanticwb.cptm.ActivityType.ClassMgr.removeActivityType(id, this);
-    }
-    public boolean hasActivityType(String id)
-    {
-        return org.semanticwb.cptm.ActivityType.ClassMgr.hasActivityType(id, this);
-    }
-
-    public org.semanticwb.cptm.Activity getActivity(String id)
-    {
-        return org.semanticwb.cptm.Activity.ClassMgr.getActivity(id, this);
-    }
-
-    public java.util.Iterator<org.semanticwb.cptm.Activity> listActivities()
-    {
-        return org.semanticwb.cptm.Activity.ClassMgr.listActivities(this);
-    }
-
-    public org.semanticwb.cptm.Activity createActivity(String id)
-    {
-        return org.semanticwb.cptm.Activity.ClassMgr.createActivity(id,this);
-    }
-
-    public void removeActivity(String id)
-    {
-        org.semanticwb.cptm.Activity.ClassMgr.removeActivity(id, this);
-    }
-    public boolean hasActivity(String id)
-    {
-        return org.semanticwb.cptm.Activity.ClassMgr.hasActivity(id, this);
-    }
-
-    public org.semanticwb.cptm.TravelRouteType getTravelRouteType(String id)
-    {
-        return org.semanticwb.cptm.TravelRouteType.ClassMgr.getTravelRouteType(id, this);
-    }
-
-    public java.util.Iterator<org.semanticwb.cptm.TravelRouteType> listTravelRouteTypes()
-    {
-        return org.semanticwb.cptm.TravelRouteType.ClassMgr.listTravelRouteTypes(this);
-    }
-
-    public org.semanticwb.cptm.TravelRouteType createTravelRouteType(String id)
-    {
-        return org.semanticwb.cptm.TravelRouteType.ClassMgr.createTravelRouteType(id,this);
-    }
-
-    public void removeTravelRouteType(String id)
-    {
-        org.semanticwb.cptm.TravelRouteType.ClassMgr.removeTravelRouteType(id, this);
-    }
-    public boolean hasTravelRouteType(String id)
-    {
-        return org.semanticwb.cptm.TravelRouteType.ClassMgr.hasTravelRouteType(id, this);
-    }
-
-    public org.semanticwb.cptm.State getState(String id)
-    {
-        return org.semanticwb.cptm.State.ClassMgr.getState(id, this);
-    }
-
-    public java.util.Iterator<org.semanticwb.cptm.State> listStates()
-    {
-        return org.semanticwb.cptm.State.ClassMgr.listStates(this);
-    }
-
-    public org.semanticwb.cptm.State createState(String id)
-    {
-        return org.semanticwb.cptm.State.ClassMgr.createState(id,this);
-    }
-
-    public void removeState(String id)
-    {
-        org.semanticwb.cptm.State.ClassMgr.removeState(id, this);
-    }
-    public boolean hasState(String id)
-    {
-        return org.semanticwb.cptm.State.ClassMgr.hasState(id, this);
-    }
-
-    public org.semanticwb.cptm.Experience getExperience(String id)
-    {
-        return org.semanticwb.cptm.Experience.ClassMgr.getExperience(id, this);
-    }
-
-    public java.util.Iterator<org.semanticwb.cptm.Experience> listExperiences()
-    {
-        return org.semanticwb.cptm.Experience.ClassMgr.listExperiences(this);
-    }
-
-    public org.semanticwb.cptm.Experience createExperience(String id)
-    {
-        return org.semanticwb.cptm.Experience.ClassMgr.createExperience(id,this);
-    }
-
-    public org.semanticwb.cptm.Experience createExperience()
-    {
-        long id=getSemanticObject().getModel().getCounter(cptm_Experience);
-        return org.semanticwb.cptm.Experience.ClassMgr.createExperience(String.valueOf(id),this);
-    } 
-
-    public void removeExperience(String id)
-    {
-        org.semanticwb.cptm.Experience.ClassMgr.removeExperience(id, this);
-    }
-    public boolean hasExperience(String id)
-    {
-        return org.semanticwb.cptm.Experience.ClassMgr.hasExperience(id, this);
-    }
-
-    public org.semanticwb.portal.community.MicroSite getMicroSite(String id)
-    {
-        return org.semanticwb.portal.community.MicroSite.ClassMgr.getMicroSite(id, this);
-    }
-
-    public java.util.Iterator<org.semanticwb.portal.community.MicroSite> listMicroSites()
-    {
-        return org.semanticwb.portal.community.MicroSite.ClassMgr.listMicroSites(this);
-    }
-
-    public org.semanticwb.portal.community.MicroSite createMicroSite(String id)
-    {
-        return org.semanticwb.portal.community.MicroSite.ClassMgr.createMicroSite(id,this);
-    }
-
-    public void removeMicroSite(String id)
-    {
-        org.semanticwb.portal.community.MicroSite.ClassMgr.removeMicroSite(id, this);
-    }
-    public boolean hasMicroSite(String id)
-    {
-        return org.semanticwb.portal.community.MicroSite.ClassMgr.hasMicroSite(id, this);
-    }
-
-    public org.semanticwb.cptm.EventType getEventType(String id)
-    {
-        return org.semanticwb.cptm.EventType.ClassMgr.getEventType(id, this);
-    }
-
-    public java.util.Iterator<org.semanticwb.cptm.EventType> listEventTypes()
-    {
-        return org.semanticwb.cptm.EventType.ClassMgr.listEventTypes(this);
-    }
-
-    public org.semanticwb.cptm.EventType createEventType(String id)
-    {
-        return org.semanticwb.cptm.EventType.ClassMgr.createEventType(id,this);
-    }
-
-    public void removeEventType(String id)
-    {
-        org.semanticwb.cptm.EventType.ClassMgr.removeEventType(id, this);
-    }
-    public boolean hasEventType(String id)
-    {
-        return org.semanticwb.cptm.EventType.ClassMgr.hasEventType(id, this);
-    }
-
-    public org.semanticwb.cptm.Event getEvent(String id)
-    {
-        return org.semanticwb.cptm.Event.ClassMgr.getEvent(id, this);
-    }
-
-    public java.util.Iterator<org.semanticwb.cptm.Event> listEvents()
-    {
-        return org.semanticwb.cptm.Event.ClassMgr.listEvents(this);
-    }
-
-    public org.semanticwb.cptm.Event createEvent(String id)
-    {
-        return org.semanticwb.cptm.Event.ClassMgr.createEvent(id,this);
-    }
-
-    public void removeEvent(String id)
-    {
-        org.semanticwb.cptm.Event.ClassMgr.removeEvent(id, this);
-    }
-    public boolean hasEvent(String id)
-    {
-        return org.semanticwb.cptm.Event.ClassMgr.hasEvent(id, this);
     }
 
     public org.semanticwb.cptm.RegionalBrand getRegionalBrand(String id)
@@ -703,6 +531,54 @@ public abstract class CPTMWebSiteBase extends org.semanticwb.model.WebSite imple
         return org.semanticwb.cptm.RegionalBrand.ClassMgr.hasRegionalBrand(id, this);
     }
 
+    public org.semanticwb.cptm.GeographicPoint getGeographicPoint(String id)
+    {
+        return org.semanticwb.cptm.GeographicPoint.ClassMgr.getGeographicPoint(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.cptm.GeographicPoint> listGeographicPoints()
+    {
+        return org.semanticwb.cptm.GeographicPoint.ClassMgr.listGeographicPoints(this);
+    }
+
+    public org.semanticwb.cptm.GeographicPoint createGeographicPoint(String id)
+    {
+        return org.semanticwb.cptm.GeographicPoint.ClassMgr.createGeographicPoint(id,this);
+    }
+
+    public void removeGeographicPoint(String id)
+    {
+        org.semanticwb.cptm.GeographicPoint.ClassMgr.removeGeographicPoint(id, this);
+    }
+    public boolean hasGeographicPoint(String id)
+    {
+        return org.semanticwb.cptm.GeographicPoint.ClassMgr.hasGeographicPoint(id, this);
+    }
+
+    public org.semanticwb.portal.community.MicroSite getMicroSite(String id)
+    {
+        return org.semanticwb.portal.community.MicroSite.ClassMgr.getMicroSite(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.portal.community.MicroSite> listMicroSites()
+    {
+        return org.semanticwb.portal.community.MicroSite.ClassMgr.listMicroSites(this);
+    }
+
+    public org.semanticwb.portal.community.MicroSite createMicroSite(String id)
+    {
+        return org.semanticwb.portal.community.MicroSite.ClassMgr.createMicroSite(id,this);
+    }
+
+    public void removeMicroSite(String id)
+    {
+        org.semanticwb.portal.community.MicroSite.ClassMgr.removeMicroSite(id, this);
+    }
+    public boolean hasMicroSite(String id)
+    {
+        return org.semanticwb.portal.community.MicroSite.ClassMgr.hasMicroSite(id, this);
+    }
+
     public org.semanticwb.cptm.Canal getCanal(String id)
     {
         return org.semanticwb.cptm.Canal.ClassMgr.getCanal(id, this);
@@ -725,6 +601,54 @@ public abstract class CPTMWebSiteBase extends org.semanticwb.model.WebSite imple
     public boolean hasCanal(String id)
     {
         return org.semanticwb.cptm.Canal.ClassMgr.hasCanal(id, this);
+    }
+
+    public org.semanticwb.cptm.Event getEvent(String id)
+    {
+        return org.semanticwb.cptm.Event.ClassMgr.getEvent(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.cptm.Event> listEvents()
+    {
+        return org.semanticwb.cptm.Event.ClassMgr.listEvents(this);
+    }
+
+    public org.semanticwb.cptm.Event createEvent(String id)
+    {
+        return org.semanticwb.cptm.Event.ClassMgr.createEvent(id,this);
+    }
+
+    public void removeEvent(String id)
+    {
+        org.semanticwb.cptm.Event.ClassMgr.removeEvent(id, this);
+    }
+    public boolean hasEvent(String id)
+    {
+        return org.semanticwb.cptm.Event.ClassMgr.hasEvent(id, this);
+    }
+
+    public org.semanticwb.cptm.EventType getEventType(String id)
+    {
+        return org.semanticwb.cptm.EventType.ClassMgr.getEventType(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.cptm.EventType> listEventTypes()
+    {
+        return org.semanticwb.cptm.EventType.ClassMgr.listEventTypes(this);
+    }
+
+    public org.semanticwb.cptm.EventType createEventType(String id)
+    {
+        return org.semanticwb.cptm.EventType.ClassMgr.createEventType(id,this);
+    }
+
+    public void removeEventType(String id)
+    {
+        org.semanticwb.cptm.EventType.ClassMgr.removeEventType(id, this);
+    }
+    public boolean hasEventType(String id)
+    {
+        return org.semanticwb.cptm.EventType.ClassMgr.hasEventType(id, this);
     }
 
     public org.semanticwb.portal.community.MicroSiteWebPageUtil getMicroSiteWebPageUtil(String id)
@@ -751,27 +675,147 @@ public abstract class CPTMWebSiteBase extends org.semanticwb.model.WebSite imple
         return org.semanticwb.portal.community.MicroSiteWebPageUtil.ClassMgr.hasMicroSiteWebPageUtil(id, this);
     }
 
-    public org.semanticwb.cptm.GeographicPoint getGeographicPoint(String id)
+    public org.semanticwb.cptm.TravelRouteType getTravelRouteType(String id)
     {
-        return org.semanticwb.cptm.GeographicPoint.ClassMgr.getGeographicPoint(id, this);
+        return org.semanticwb.cptm.TravelRouteType.ClassMgr.getTravelRouteType(id, this);
     }
 
-    public java.util.Iterator<org.semanticwb.cptm.GeographicPoint> listGeographicPoints()
+    public java.util.Iterator<org.semanticwb.cptm.TravelRouteType> listTravelRouteTypes()
     {
-        return org.semanticwb.cptm.GeographicPoint.ClassMgr.listGeographicPoints(this);
+        return org.semanticwb.cptm.TravelRouteType.ClassMgr.listTravelRouteTypes(this);
     }
 
-    public org.semanticwb.cptm.GeographicPoint createGeographicPoint(String id)
+    public org.semanticwb.cptm.TravelRouteType createTravelRouteType(String id)
     {
-        return org.semanticwb.cptm.GeographicPoint.ClassMgr.createGeographicPoint(id,this);
+        return org.semanticwb.cptm.TravelRouteType.ClassMgr.createTravelRouteType(id,this);
     }
 
-    public void removeGeographicPoint(String id)
+    public void removeTravelRouteType(String id)
     {
-        org.semanticwb.cptm.GeographicPoint.ClassMgr.removeGeographicPoint(id, this);
+        org.semanticwb.cptm.TravelRouteType.ClassMgr.removeTravelRouteType(id, this);
     }
-    public boolean hasGeographicPoint(String id)
+    public boolean hasTravelRouteType(String id)
     {
-        return org.semanticwb.cptm.GeographicPoint.ClassMgr.hasGeographicPoint(id, this);
+        return org.semanticwb.cptm.TravelRouteType.ClassMgr.hasTravelRouteType(id, this);
+    }
+
+    public org.semanticwb.cptm.TravelRoute getTravelRoute(String id)
+    {
+        return org.semanticwb.cptm.TravelRoute.ClassMgr.getTravelRoute(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRoutes()
+    {
+        return org.semanticwb.cptm.TravelRoute.ClassMgr.listTravelRoutes(this);
+    }
+
+    public org.semanticwb.cptm.TravelRoute createTravelRoute(String id)
+    {
+        return org.semanticwb.cptm.TravelRoute.ClassMgr.createTravelRoute(id,this);
+    }
+
+    public void removeTravelRoute(String id)
+    {
+        org.semanticwb.cptm.TravelRoute.ClassMgr.removeTravelRoute(id, this);
+    }
+    public boolean hasTravelRoute(String id)
+    {
+        return org.semanticwb.cptm.TravelRoute.ClassMgr.hasTravelRoute(id, this);
+    }
+
+    public org.semanticwb.cptm.Activity getActivity(String id)
+    {
+        return org.semanticwb.cptm.Activity.ClassMgr.getActivity(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.cptm.Activity> listActivities()
+    {
+        return org.semanticwb.cptm.Activity.ClassMgr.listActivities(this);
+    }
+
+    public org.semanticwb.cptm.Activity createActivity(String id)
+    {
+        return org.semanticwb.cptm.Activity.ClassMgr.createActivity(id,this);
+    }
+
+    public void removeActivity(String id)
+    {
+        org.semanticwb.cptm.Activity.ClassMgr.removeActivity(id, this);
+    }
+    public boolean hasActivity(String id)
+    {
+        return org.semanticwb.cptm.Activity.ClassMgr.hasActivity(id, this);
+    }
+
+    public org.semanticwb.cptm.Experience getExperience(String id)
+    {
+        return org.semanticwb.cptm.Experience.ClassMgr.getExperience(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.cptm.Experience> listExperiences()
+    {
+        return org.semanticwb.cptm.Experience.ClassMgr.listExperiences(this);
+    }
+
+    public org.semanticwb.cptm.Experience createExperience(String id)
+    {
+        return org.semanticwb.cptm.Experience.ClassMgr.createExperience(id,this);
+    }
+
+    public void removeExperience(String id)
+    {
+        org.semanticwb.cptm.Experience.ClassMgr.removeExperience(id, this);
+    }
+    public boolean hasExperience(String id)
+    {
+        return org.semanticwb.cptm.Experience.ClassMgr.hasExperience(id, this);
+    }
+
+    public org.semanticwb.cptm.ActivityRef getActivityRef(String id)
+    {
+        return org.semanticwb.cptm.ActivityRef.ClassMgr.getActivityRef(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.cptm.ActivityRef> listActivityRefs()
+    {
+        return org.semanticwb.cptm.ActivityRef.ClassMgr.listActivityRefs(this);
+    }
+
+    public org.semanticwb.cptm.ActivityRef createActivityRef(String id)
+    {
+        return org.semanticwb.cptm.ActivityRef.ClassMgr.createActivityRef(id,this);
+    }
+
+    public void removeActivityRef(String id)
+    {
+        org.semanticwb.cptm.ActivityRef.ClassMgr.removeActivityRef(id, this);
+    }
+    public boolean hasActivityRef(String id)
+    {
+        return org.semanticwb.cptm.ActivityRef.ClassMgr.hasActivityRef(id, this);
+    }
+
+    public org.semanticwb.cptm.ExperienceRef getExperienceRef(String id)
+    {
+        return org.semanticwb.cptm.ExperienceRef.ClassMgr.getExperienceRef(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.cptm.ExperienceRef> listExperienceRefs()
+    {
+        return org.semanticwb.cptm.ExperienceRef.ClassMgr.listExperienceRefs(this);
+    }
+
+    public org.semanticwb.cptm.ExperienceRef createExperienceRef(String id)
+    {
+        return org.semanticwb.cptm.ExperienceRef.ClassMgr.createExperienceRef(id,this);
+    }
+
+    public void removeExperienceRef(String id)
+    {
+        org.semanticwb.cptm.ExperienceRef.ClassMgr.removeExperienceRef(id, this);
+    }
+    public boolean hasExperienceRef(String id)
+    {
+        return org.semanticwb.cptm.ExperienceRef.ClassMgr.hasExperienceRef(id, this);
     }
 }
