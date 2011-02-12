@@ -7,7 +7,11 @@ public interface CptmgeneralDataBase extends org.semanticwb.model.GenericObject
 {
     public static final org.semanticwb.platform.SemanticProperty cptm_photo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#photo");
    /**
-   * Fotos para mostrar del destino 
+   * Nombre del autor de la foto principal 
+   */
+    public static final org.semanticwb.platform.SemanticProperty cptm_photoAuthor=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#photoAuthor");
+   /**
+   * Fotos 
    */
     public static final org.semanticwb.platform.SemanticProperty cptm_hasMorePhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasMorePhoto");
     public static final org.semanticwb.platform.SemanticProperty cptm_photoEscudo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#photoEscudo");
@@ -19,6 +23,10 @@ public interface CptmgeneralDataBase extends org.semanticwb.model.GenericObject
     public String getPhoto();
 
     public void setPhoto(String value);
+
+    public String getPhotoAuthor();
+
+    public void setPhotoAuthor(String value);
 
     public java.util.Iterator<String> listMorePhotos();
 

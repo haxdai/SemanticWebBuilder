@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Eventos. 
    */
-public abstract class EventBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable,org.semanticwb.cptm.CptmgeneralData
+public abstract class EventBase extends org.semanticwb.model.SWBClass implements org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Traceable,org.semanticwb.model.Resourceable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticClass cptm_Activity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Activity");
    /**
@@ -17,6 +17,10 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
    */
     public static final org.semanticwb.platform.SemanticProperty cptm_eventInitDate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#eventInitDate");
    /**
+   * Propiedad con la cual se puede especificar si un evento no tiene liga
+   */
+    public static final org.semanticwb.platform.SemanticProperty cptm_eventIsWithoutLink=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#eventIsWithoutLink");
+   /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de tipos de eventos.pueden ser Ej. "Carnavales", "Congresos", etc
    */
     public static final org.semanticwb.platform.SemanticClass cptm_EventType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#EventType");
@@ -28,6 +32,10 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
    * Fecha final del Evento
    */
     public static final org.semanticwb.platform.SemanticProperty cptm_eventEndDate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#eventEndDate");
+   /**
+   * URL externo, el cual debe ser colocado solo cuando se desee ver el evento en un sitio externo
+   */
+    public static final org.semanticwb.platform.SemanticProperty cptm_eventURL=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#eventURL");
    /**
    * Interfaz que define propiedades en comun para un Punto Geografico y una Marca Regional
    */
@@ -376,6 +384,24 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
     {
         getSemanticObject().setProperty(cptm_photo, value);
     }
+
+/**
+* Gets the EventIsWithoutLink property
+* @return boolean with the EventIsWithoutLink
+*/
+    public boolean isEventIsWithoutLink()
+    {
+        return getSemanticObject().getBooleanProperty(cptm_eventIsWithoutLink);
+    }
+
+/**
+* Sets the EventIsWithoutLink property
+* @param value long with the EventIsWithoutLink
+*/
+    public void setEventIsWithoutLink(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(cptm_eventIsWithoutLink, value);
+    }
    /**
    * Sets the value for the property EventEventType
    * @param value EventEventType to set
@@ -449,6 +475,24 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
     public void setCreated(java.util.Date value)
     {
         getSemanticObject().setDateProperty(swb_created, value);
+    }
+
+/**
+* Gets the PhotoAuthor property
+* @return String with the PhotoAuthor
+*/
+    public String getPhotoAuthor()
+    {
+        return getSemanticObject().getProperty(cptm_photoAuthor);
+    }
+
+/**
+* Sets the PhotoAuthor property
+* @param value long with the PhotoAuthor
+*/
+    public void setPhotoAuthor(String value)
+    {
+        getSemanticObject().setProperty(cptm_photoAuthor, value);
     }
    /**
    * Sets the value for the property ModifiedBy
@@ -603,6 +647,24 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
     public void setUpdated(java.util.Date value)
     {
         getSemanticObject().setDateProperty(swb_updated, value);
+    }
+
+/**
+* Gets the EventURL property
+* @return String with the EventURL
+*/
+    public String getEventURL()
+    {
+        return getSemanticObject().getProperty(cptm_eventURL);
+    }
+
+/**
+* Sets the EventURL property
+* @param value long with the EventURL
+*/
+    public void setEventURL(String value)
+    {
+        getSemanticObject().setProperty(cptm_eventURL, value);
     }
    /**
    * Gets all the org.semanticwb.cptm.LocalityInt

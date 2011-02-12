@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo detipos de  experiencias. 
    */
-public abstract class ExperienceTypeBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.TemplateRefable,org.semanticwb.model.Indexable,org.semanticwb.model.Resourceable,org.semanticwb.model.Undeleteable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Trashable,org.semanticwb.model.Filterable,org.semanticwb.model.Rankable,org.semanticwb.model.RoleRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Traceable,org.semanticwb.model.Searchable,org.semanticwb.model.Viewable,org.semanticwb.model.FilterableClass,org.semanticwb.model.FilterableNode,org.semanticwb.model.Hiddenable,org.semanticwb.model.Localeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Tagable,org.semanticwb.model.Referensable,org.semanticwb.model.Activeable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Expirable
+public abstract class ExperienceTypeBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Referensable,org.semanticwb.model.RuleRefable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.RoleRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Viewable,org.semanticwb.model.Indexable,org.semanticwb.model.Rankable,org.semanticwb.model.Searchable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Trashable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Tagable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Localeable,org.semanticwb.model.Resourceable,org.semanticwb.model.CalendarRefable
 {
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo detipos de  experiencias.
@@ -37,12 +37,6 @@ public abstract class ExperienceTypeBase extends org.semanticwb.model.WebPage im
         {
             java.util.Iterator it=sclass.listInstances();
             return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.ExperienceType>(it, true);
-        }
-
-        public static org.semanticwb.cptm.ExperienceType createExperienceType(org.semanticwb.model.SWBModel model)
-        {
-            long id=model.getSemanticObject().getModel().getCounter(sclass);
-            return org.semanticwb.cptm.ExperienceType.ClassMgr.createExperienceType(String.valueOf(id), model);
         }
        /**
        * Gets a org.semanticwb.cptm.ExperienceType
@@ -484,6 +478,24 @@ public abstract class ExperienceTypeBase extends org.semanticwb.model.WebPage im
     public ExperienceTypeBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+/**
+* Gets the PhotoAuthor property
+* @return String with the PhotoAuthor
+*/
+    public String getPhotoAuthor()
+    {
+        return getSemanticObject().getProperty(cptm_photoAuthor);
+    }
+
+/**
+* Sets the PhotoAuthor property
+* @param value long with the PhotoAuthor
+*/
+    public void setPhotoAuthor(String value)
+    {
+        getSemanticObject().setProperty(cptm_photoAuthor, value);
     }
 
 /**
