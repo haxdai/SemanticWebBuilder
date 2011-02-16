@@ -4,22 +4,18 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Eventos. 
    */
-public abstract class EventBase extends org.semanticwb.model.SWBClass implements org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Traceable,org.semanticwb.model.Resourceable,org.semanticwb.model.Descriptiveable
+public abstract class EventBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Resourceable,org.semanticwb.model.Descriptiveable,org.semanticwb.cptm.CptmgeneralData
 {
+    public static final org.semanticwb.platform.SemanticProperty cptm_eventLeadingPhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#eventLeadingPhoto");
     public static final org.semanticwb.platform.SemanticClass cptm_Activity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Activity");
    /**
    * Referencia de un evento a una determinada actividad ej. Festival de Buceo, no necesariamente puede ocurrir siempre.
    */
     public static final org.semanticwb.platform.SemanticProperty cptm_hasEventActivityRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasEventActivityRef");
-    public static final org.semanticwb.platform.SemanticProperty cptm_eventLeadingPhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#eventLeadingPhoto");
    /**
    * Fecha de Inicio del Evento
    */
     public static final org.semanticwb.platform.SemanticProperty cptm_eventInitDate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#eventInitDate");
-   /**
-   * Propiedad con la cual se puede especificar si un evento no tiene liga
-   */
-    public static final org.semanticwb.platform.SemanticProperty cptm_eventIsWithoutLink=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#eventIsWithoutLink");
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de tipos de eventos.pueden ser Ej. "Carnavales", "Congresos", etc
    */
@@ -29,22 +25,26 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
    */
     public static final org.semanticwb.platform.SemanticProperty cptm_eventEventType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#eventEventType");
    /**
-   * Fecha final del Evento
-   */
-    public static final org.semanticwb.platform.SemanticProperty cptm_eventEndDate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#eventEndDate");
-   /**
    * URL externo, el cual debe ser colocado solo cuando se desee ver el evento en un sitio externo
    */
     public static final org.semanticwb.platform.SemanticProperty cptm_eventURL=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#eventURL");
+   /**
+   * Definie si es un evento destacado o no lo es
+   */
+    public static final org.semanticwb.platform.SemanticProperty cptm_isLeadingEvent=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#isLeadingEvent");
+   /**
+   * Propiedad con la cual se puede especificar si un evento no tiene liga
+   */
+    public static final org.semanticwb.platform.SemanticProperty cptm_eventIsWithoutLink=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#eventIsWithoutLink");
+   /**
+   * Fecha final del Evento
+   */
+    public static final org.semanticwb.platform.SemanticProperty cptm_eventEndDate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#eventEndDate");
    /**
    * Interfaz que define propiedades en comun para un Punto Geografico y una Marca Regional
    */
     public static final org.semanticwb.platform.SemanticClass cptm_LocalityInt=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#LocalityInt");
     public static final org.semanticwb.platform.SemanticProperty cptm_hasEventLocality=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasEventLocality");
-   /**
-   * Definie si es un evento destacado o no lo es
-   */
-    public static final org.semanticwb.platform.SemanticProperty cptm_isLeadingEvent=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#isLeadingEvent");
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Eventos.
    */
@@ -164,6 +164,29 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
             return it;
         }
        /**
+       * Gets all org.semanticwb.cptm.Event with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.cptm.Event
+       * @return Iterator with all the org.semanticwb.cptm.Event
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Event> listEventByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Event> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.Event with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.cptm.Event
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Event> listEventByCreator(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Event> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.cptm.Event with a determined ModifiedBy
        * @param value ModifiedBy of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.cptm.Event
@@ -232,29 +255,6 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Event> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasEventLocality,value.getSemanticObject(),sclass));
             return it;
         }
-       /**
-       * Gets all org.semanticwb.cptm.Event with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @param model Model of the org.semanticwb.cptm.Event
-       * @return Iterator with all the org.semanticwb.cptm.Event
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Event> listEventByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Event> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.Event with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @return Iterator with all the org.semanticwb.cptm.Event
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.Event> listEventByCreator(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Event> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
-            return it;
-        }
     }
 
    /**
@@ -264,6 +264,24 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
     public EventBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+/**
+* Gets the LeadingPhoto property
+* @return String with the LeadingPhoto
+*/
+    public String getLeadingPhoto()
+    {
+        return getSemanticObject().getProperty(cptm_eventLeadingPhoto);
+    }
+
+/**
+* Sets the LeadingPhoto property
+* @param value long with the LeadingPhoto
+*/
+    public void setLeadingPhoto(String value)
+    {
+        getSemanticObject().setProperty(cptm_eventLeadingPhoto, value);
     }
    /**
    * Gets all the org.semanticwb.cptm.Activity
@@ -332,24 +350,6 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
     }
 
 /**
-* Gets the LeadingPhoto property
-* @return String with the LeadingPhoto
-*/
-    public String getLeadingPhoto()
-    {
-        return getSemanticObject().getProperty(cptm_eventLeadingPhoto);
-    }
-
-/**
-* Sets the LeadingPhoto property
-* @param value long with the LeadingPhoto
-*/
-    public void setLeadingPhoto(String value)
-    {
-        getSemanticObject().setProperty(cptm_eventLeadingPhoto, value);
-    }
-
-/**
 * Gets the EventInitDate property
 * @return String with the EventInitDate
 */
@@ -365,42 +365,6 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
     public void setEventInitDate(String value)
     {
         getSemanticObject().setProperty(cptm_eventInitDate, value);
-    }
-
-/**
-* Gets the Photo property
-* @return String with the Photo
-*/
-    public String getPhoto()
-    {
-        return getSemanticObject().getProperty(cptm_photo);
-    }
-
-/**
-* Sets the Photo property
-* @param value long with the Photo
-*/
-    public void setPhoto(String value)
-    {
-        getSemanticObject().setProperty(cptm_photo, value);
-    }
-
-/**
-* Gets the EventIsWithoutLink property
-* @return boolean with the EventIsWithoutLink
-*/
-    public boolean isEventIsWithoutLink()
-    {
-        return getSemanticObject().getBooleanProperty(cptm_eventIsWithoutLink);
-    }
-
-/**
-* Sets the EventIsWithoutLink property
-* @param value long with the EventIsWithoutLink
-*/
-    public void setEventIsWithoutLink(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(cptm_eventIsWithoutLink, value);
     }
    /**
    * Sets the value for the property EventEventType
@@ -442,24 +406,6 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
     }
 
 /**
-* Gets the EventEndDate property
-* @return String with the EventEndDate
-*/
-    public String getEventEndDate()
-    {
-        return getSemanticObject().getProperty(cptm_eventEndDate);
-    }
-
-/**
-* Sets the EventEndDate property
-* @param value long with the EventEndDate
-*/
-    public void setEventEndDate(String value)
-    {
-        getSemanticObject().setProperty(cptm_eventEndDate, value);
-    }
-
-/**
 * Gets the Created property
 * @return java.util.Date with the Created
 */
@@ -493,6 +439,152 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
     public void setPhotoAuthor(String value)
     {
         getSemanticObject().setProperty(cptm_photoAuthor, value);
+    }
+
+/**
+* Gets the EventURL property
+* @return String with the EventURL
+*/
+    public String getEventURL()
+    {
+        return getSemanticObject().getProperty(cptm_eventURL);
+    }
+
+/**
+* Sets the EventURL property
+* @param value long with the EventURL
+*/
+    public void setEventURL(String value)
+    {
+        getSemanticObject().setProperty(cptm_eventURL, value);
+    }
+
+/**
+* Gets the IsLeadingEvent property
+* @return boolean with the IsLeadingEvent
+*/
+    public boolean isIsLeadingEvent()
+    {
+        return getSemanticObject().getBooleanProperty(cptm_isLeadingEvent);
+    }
+
+/**
+* Sets the IsLeadingEvent property
+* @param value long with the IsLeadingEvent
+*/
+    public void setIsLeadingEvent(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(cptm_isLeadingEvent, value);
+    }
+   /**
+   * Sets the value for the property Creator
+   * @param value Creator to set
+   */
+
+    public void setCreator(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(swb_creator, value.getSemanticObject());
+        }else
+        {
+            removeCreator();
+        }
+    }
+   /**
+   * Remove the value for Creator property
+   */
+
+    public void removeCreator()
+    {
+        getSemanticObject().removeProperty(swb_creator);
+    }
+
+   /**
+   * Gets the Creator
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getCreator()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_creator);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+/**
+* Gets the PhotoEscudo property
+* @return String with the PhotoEscudo
+*/
+    public String getPhotoEscudo()
+    {
+        return getSemanticObject().getProperty(cptm_photoEscudo);
+    }
+
+/**
+* Sets the PhotoEscudo property
+* @param value long with the PhotoEscudo
+*/
+    public void setPhotoEscudo(String value)
+    {
+        getSemanticObject().setProperty(cptm_photoEscudo, value);
+    }
+
+/**
+* Gets the Photo property
+* @return String with the Photo
+*/
+    public String getPhoto()
+    {
+        return getSemanticObject().getProperty(cptm_photo);
+    }
+
+/**
+* Sets the Photo property
+* @param value long with the Photo
+*/
+    public void setPhoto(String value)
+    {
+        getSemanticObject().setProperty(cptm_photo, value);
+    }
+
+/**
+* Gets the EventIsWithoutLink property
+* @return boolean with the EventIsWithoutLink
+*/
+    public boolean isEventIsWithoutLink()
+    {
+        return getSemanticObject().getBooleanProperty(cptm_eventIsWithoutLink);
+    }
+
+/**
+* Sets the EventIsWithoutLink property
+* @param value long with the EventIsWithoutLink
+*/
+    public void setEventIsWithoutLink(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(cptm_eventIsWithoutLink, value);
+    }
+
+/**
+* Gets the EventEndDate property
+* @return String with the EventEndDate
+*/
+    public String getEventEndDate()
+    {
+        return getSemanticObject().getProperty(cptm_eventEndDate);
+    }
+
+/**
+* Sets the EventEndDate property
+* @param value long with the EventEndDate
+*/
+    public void setEventEndDate(String value)
+    {
+        getSemanticObject().setProperty(cptm_eventEndDate, value);
     }
    /**
    * Sets the value for the property ModifiedBy
@@ -531,39 +623,6 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
          }
          return ret;
-    }
-
-/**
-* Gets the Title property
-* @return String with the Title
-*/
-    public String getTitle()
-    {
-        return getSemanticObject().getProperty(swb_title);
-    }
-
-/**
-* Sets the Title property
-* @param value long with the Title
-*/
-    public void setTitle(String value)
-    {
-        getSemanticObject().setProperty(swb_title, value);
-    }
-
-    public String getTitle(String lang)
-    {
-        return getSemanticObject().getProperty(swb_title, null, lang);
-    }
-
-    public String getDisplayTitle(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_title, lang);
-    }
-
-    public void setTitle(String title, String lang)
-    {
-        getSemanticObject().setProperty(swb_title, title, lang);
     }
    /**
    * Gets all the org.semanticwb.model.Resource
@@ -632,6 +691,39 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
     }
 
 /**
+* Gets the Title property
+* @return String with the Title
+*/
+    public String getTitle()
+    {
+        return getSemanticObject().getProperty(swb_title);
+    }
+
+/**
+* Sets the Title property
+* @param value long with the Title
+*/
+    public void setTitle(String value)
+    {
+        getSemanticObject().setProperty(swb_title, value);
+    }
+
+    public String getTitle(String lang)
+    {
+        return getSemanticObject().getProperty(swb_title, null, lang);
+    }
+
+    public String getDisplayTitle(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_title, lang);
+    }
+
+    public void setTitle(String title, String lang)
+    {
+        getSemanticObject().setProperty(swb_title, title, lang);
+    }
+
+/**
 * Gets the Updated property
 * @return java.util.Date with the Updated
 */
@@ -647,24 +739,6 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
     public void setUpdated(java.util.Date value)
     {
         getSemanticObject().setDateProperty(swb_updated, value);
-    }
-
-/**
-* Gets the EventURL property
-* @return String with the EventURL
-*/
-    public String getEventURL()
-    {
-        return getSemanticObject().getProperty(cptm_eventURL);
-    }
-
-/**
-* Sets the EventURL property
-* @param value long with the EventURL
-*/
-    public void setEventURL(String value)
-    {
-        getSemanticObject().setProperty(cptm_eventURL, value);
     }
    /**
    * Gets all the org.semanticwb.cptm.LocalityInt
@@ -732,62 +806,6 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
          return ret;
     }
 
-/**
-* Gets the IsLeadingEvent property
-* @return boolean with the IsLeadingEvent
-*/
-    public boolean isIsLeadingEvent()
-    {
-        return getSemanticObject().getBooleanProperty(cptm_isLeadingEvent);
-    }
-
-/**
-* Sets the IsLeadingEvent property
-* @param value long with the IsLeadingEvent
-*/
-    public void setIsLeadingEvent(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(cptm_isLeadingEvent, value);
-    }
-   /**
-   * Sets the value for the property Creator
-   * @param value Creator to set
-   */
-
-    public void setCreator(org.semanticwb.model.User value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(swb_creator, value.getSemanticObject());
-        }else
-        {
-            removeCreator();
-        }
-    }
-   /**
-   * Remove the value for Creator property
-   */
-
-    public void removeCreator()
-    {
-        getSemanticObject().removeProperty(swb_creator);
-    }
-
-   /**
-   * Gets the Creator
-   * @return a org.semanticwb.model.User
-   */
-    public org.semanticwb.model.User getCreator()
-    {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_creator);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
-    }
-
     public java.util.Iterator<String> listMorePhotos()
     {
         java.util.ArrayList<String> values=new java.util.ArrayList<String>();
@@ -846,24 +864,6 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
     public void setDescription(String description, String lang)
     {
         getSemanticObject().setProperty(swb_description, description, lang);
-    }
-
-/**
-* Gets the PhotoEscudo property
-* @return String with the PhotoEscudo
-*/
-    public String getPhotoEscudo()
-    {
-        return getSemanticObject().getProperty(cptm_photoEscudo);
-    }
-
-/**
-* Sets the PhotoEscudo property
-* @param value long with the PhotoEscudo
-*/
-    public void setPhotoEscudo(String value)
-    {
-        getSemanticObject().setProperty(cptm_photoEscudo, value);
     }
 
    /**

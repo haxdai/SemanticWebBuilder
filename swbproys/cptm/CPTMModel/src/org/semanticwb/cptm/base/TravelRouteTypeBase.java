@@ -257,29 +257,6 @@ public abstract class TravelRouteTypeBase extends org.semanticwb.model.WebPage i
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.TravelRouteType with a determined TemplateRef
-       * @param value TemplateRef of the type org.semanticwb.model.TemplateRef
-       * @param model Model of the org.semanticwb.cptm.TravelRouteType
-       * @return Iterator with all the org.semanticwb.cptm.TravelRouteType
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.TravelRouteType> listTravelRouteTypeByTemplateRef(org.semanticwb.model.TemplateRef value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRouteType> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.TravelRouteType with a determined TemplateRef
-       * @param value TemplateRef of the type org.semanticwb.model.TemplateRef
-       * @return Iterator with all the org.semanticwb.cptm.TravelRouteType
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.TravelRouteType> listTravelRouteTypeByTemplateRef(org.semanticwb.model.TemplateRef value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRouteType> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.cptm.TravelRouteType with a determined PFlowRef
        * @param value PFlowRef of the type org.semanticwb.model.PFlowRef
        * @param model Model of the org.semanticwb.cptm.TravelRouteType
@@ -300,6 +277,29 @@ public abstract class TravelRouteTypeBase extends org.semanticwb.model.WebPage i
         public static java.util.Iterator<org.semanticwb.cptm.TravelRouteType> listTravelRouteTypeByPFlowRef(org.semanticwb.model.PFlowRef value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRouteType> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.TravelRouteType with a determined TemplateRef
+       * @param value TemplateRef of the type org.semanticwb.model.TemplateRef
+       * @param model Model of the org.semanticwb.cptm.TravelRouteType
+       * @return Iterator with all the org.semanticwb.cptm.TravelRouteType
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.TravelRouteType> listTravelRouteTypeByTemplateRef(org.semanticwb.model.TemplateRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRouteType> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.TravelRouteType with a determined TemplateRef
+       * @param value TemplateRef of the type org.semanticwb.model.TemplateRef
+       * @return Iterator with all the org.semanticwb.cptm.TravelRouteType
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.TravelRouteType> listTravelRouteTypeByTemplateRef(org.semanticwb.model.TemplateRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRouteType> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef,value.getSemanticObject(),sclass));
             return it;
         }
        /**
