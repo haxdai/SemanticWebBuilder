@@ -31,6 +31,19 @@ public interface LocalityIntBase extends org.semanticwb.model.GenericObject
     public static final org.semanticwb.platform.SemanticProperty cptm_hasProximity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasProximity");
     public static final org.semanticwb.platform.SemanticProperty cptm_longitude=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#longitude");
    /**
+   * Catalogo de Atractivos Generales (Playa, Ruinas Arqueologicas, etc). Administrado desde una colección. Los Destinos tendran este tipo de atributos 
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_GeneralAttractive=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#GeneralAttractive");
+   /**
+   * Atributos Generales que tiene un Destino (Playa, Ruinas Arqueologicas, etc). Del Catalogo del objeto GeneralAttractive 
+   */
+    public static final org.semanticwb.platform.SemanticProperty cptm_hasGeneralAttribute=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasGeneralAttribute");
+   /**
+   * Notas Editoriales 
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_EditNote=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#EditNote");
+    public static final org.semanticwb.platform.SemanticProperty cptm_hasLocalityEditNoteInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasLocalityEditNoteInv");
+   /**
    * Clase que se encarga de manejar las rutas de viaje 
    */
     public static final org.semanticwb.platform.SemanticClass cptm_TravelRoute=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#TravelRoute");
@@ -98,6 +111,35 @@ public interface LocalityIntBase extends org.semanticwb.model.GenericObject
     public double getLongitude();
 
     public void setLongitude(double value);
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.GeneralAttractive> listGeneralAttributes();
+    public boolean hasGeneralAttribute(org.semanticwb.cptm.GeneralAttractive value);
+
+   /**
+   * Adds the GeneralAttribute
+   * @param value An instance of org.semanticwb.cptm.GeneralAttractive
+   */
+    public void addGeneralAttribute(org.semanticwb.cptm.GeneralAttractive value);
+
+   /**
+   * Remove all the values for the property GeneralAttribute
+   */
+    public void removeAllGeneralAttribute();
+
+   /**
+   * Remove a value from the property GeneralAttribute
+   * @param value An instance of org.semanticwb.cptm.GeneralAttractive
+   */
+    public void removeGeneralAttribute(org.semanticwb.cptm.GeneralAttractive value);
+
+/**
+* Gets the GeneralAttribute
+* @return a instance of org.semanticwb.cptm.GeneralAttractive
+*/
+    public org.semanticwb.cptm.GeneralAttractive getGeneralAttribute();
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> listLocalityEditNoteInvs();
+    public boolean hasLocalityEditNoteInv(org.semanticwb.cptm.EditNote value);
 
     public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> listTravelRouteInvs();
     public boolean hasTravelRouteInv(org.semanticwb.cptm.TravelRoute value);

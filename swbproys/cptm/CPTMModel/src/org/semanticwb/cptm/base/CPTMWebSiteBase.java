@@ -43,6 +43,10 @@ public abstract class CPTMWebSiteBase extends org.semanticwb.model.WebSite imple
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de tipos de eventos.pueden ser Ej. "Carnavales", "Congresos", etc
    */
     public static final org.semanticwb.platform.SemanticClass cptm_EventType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#EventType");
+   /**
+   * Notas Editoriales
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_EditNote=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#EditNote");
     public static final org.semanticwb.platform.SemanticClass swbcomm_MicroSiteWebPageUtil=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/community#MicroSiteWebPageUtil");
     public static final org.semanticwb.platform.SemanticClass cptm_TravelRouteType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#TravelRouteType");
    /**
@@ -649,6 +653,30 @@ public abstract class CPTMWebSiteBase extends org.semanticwb.model.WebSite imple
     public boolean hasEventType(String id)
     {
         return org.semanticwb.cptm.EventType.ClassMgr.hasEventType(id, this);
+    }
+
+    public org.semanticwb.cptm.EditNote getEditNote(String id)
+    {
+        return org.semanticwb.cptm.EditNote.ClassMgr.getEditNote(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNotes()
+    {
+        return org.semanticwb.cptm.EditNote.ClassMgr.listEditNotes(this);
+    }
+
+    public org.semanticwb.cptm.EditNote createEditNote(String id)
+    {
+        return org.semanticwb.cptm.EditNote.ClassMgr.createEditNote(id,this);
+    }
+
+    public void removeEditNote(String id)
+    {
+        org.semanticwb.cptm.EditNote.ClassMgr.removeEditNote(id, this);
+    }
+    public boolean hasEditNote(String id)
+    {
+        return org.semanticwb.cptm.EditNote.ClassMgr.hasEditNote(id, this);
     }
 
     public org.semanticwb.portal.community.MicroSiteWebPageUtil getMicroSiteWebPageUtil(String id)

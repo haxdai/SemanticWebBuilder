@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Marca Regional. La cual puede tener relaciodos Destinos Turisticos y Puntos geográficos (Ej. La Riviera Maya) 
    */
-public abstract class RegionalBrandBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Referensable,org.semanticwb.model.RuleRefable,org.semanticwb.cptm.LocalityInt,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.RoleRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Viewable,org.semanticwb.model.Indexable,org.semanticwb.model.Rankable,org.semanticwb.model.Searchable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Trashable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Tagable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Localeable,org.semanticwb.model.Resourceable,org.semanticwb.model.CalendarRefable
+public abstract class RegionalBrandBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Referensable,org.semanticwb.model.RuleRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Viewable,org.semanticwb.model.Indexable,org.semanticwb.model.Rankable,org.semanticwb.model.Searchable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Trashable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Filterable,org.semanticwb.cptm.LocalityInt,org.semanticwb.model.Hiddenable,org.semanticwb.model.Tagable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Localeable,org.semanticwb.model.Resourceable,org.semanticwb.model.CalendarRefable,org.semanticwb.cptm.CptmgeneralData
 {
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Destinos.
@@ -222,6 +222,29 @@ public abstract class RegionalBrandBase extends org.semanticwb.model.WebPage imp
         public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByPromotionInv(org.semanticwb.cptm.Promotion value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasPromotionInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined LocalityEditNoteInv
+       * @param value LocalityEditNoteInv of the type org.semanticwb.cptm.EditNote
+       * @param model Model of the org.semanticwb.cptm.RegionalBrand
+       * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByLocalityEditNoteInv(org.semanticwb.cptm.EditNote value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasLocalityEditNoteInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined LocalityEditNoteInv
+       * @param value LocalityEditNoteInv of the type org.semanticwb.cptm.EditNote
+       * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByLocalityEditNoteInv(org.semanticwb.cptm.EditNote value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasLocalityEditNoteInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -547,6 +570,29 @@ public abstract class RegionalBrandBase extends org.semanticwb.model.WebPage imp
             return it;
         }
        /**
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined GeneralAttribute
+       * @param value GeneralAttribute of the type org.semanticwb.cptm.GeneralAttractive
+       * @param model Model of the org.semanticwb.cptm.RegionalBrand
+       * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByGeneralAttribute(org.semanticwb.cptm.GeneralAttractive value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasGeneralAttribute, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined GeneralAttribute
+       * @param value GeneralAttribute of the type org.semanticwb.cptm.GeneralAttractive
+       * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByGeneralAttribute(org.semanticwb.cptm.GeneralAttractive value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasGeneralAttribute,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.cptm.RegionalBrand with a determined RoleRef
        * @param value RoleRef of the type org.semanticwb.model.RoleRef
        * @param model Model of the org.semanticwb.cptm.RegionalBrand
@@ -765,6 +811,45 @@ public abstract class RegionalBrandBase extends org.semanticwb.model.WebPage imp
     public void setPhotoAuthor(String value)
     {
         getSemanticObject().setProperty(cptm_photoAuthor, value);
+    }
+   /**
+   * Gets all the org.semanticwb.cptm.EditNote
+   * @return A GenericIterator with all the org.semanticwb.cptm.EditNote
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> listLocalityEditNoteInvs()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote>(getSemanticObject().listObjectProperties(cptm_hasLocalityEditNoteInv));
+    }
+
+   /**
+   * Gets true if has a LocalityEditNoteInv
+   * @param value org.semanticwb.cptm.EditNote to verify
+   * @return true if the org.semanticwb.cptm.EditNote exists, false otherwise
+   */
+    public boolean hasLocalityEditNoteInv(org.semanticwb.cptm.EditNote value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(cptm_hasLocalityEditNoteInv,value.getSemanticObject());
+        }
+        return ret;
+    }
+
+   /**
+   * Gets the LocalityEditNoteInv
+   * @return a org.semanticwb.cptm.EditNote
+   */
+    public org.semanticwb.cptm.EditNote getLocalityEditNoteInv()
+    {
+         org.semanticwb.cptm.EditNote ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasLocalityEditNoteInv);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.cptm.EditNote)obj.createGenericInstance();
+         }
+         return ret;
     }
    /**
    * Gets all the org.semanticwb.cptm.TravelRoute
@@ -1084,6 +1169,71 @@ public abstract class RegionalBrandBase extends org.semanticwb.model.WebPage imp
     public void setLongitude(double value)
     {
         getSemanticObject().setDoubleProperty(cptm_longitude, value);
+    }
+   /**
+   * Gets all the org.semanticwb.cptm.GeneralAttractive
+   * @return A GenericIterator with all the org.semanticwb.cptm.GeneralAttractive
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.GeneralAttractive> listGeneralAttributes()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.GeneralAttractive>(getSemanticObject().listObjectProperties(cptm_hasGeneralAttribute));
+    }
+
+   /**
+   * Gets true if has a GeneralAttribute
+   * @param value org.semanticwb.cptm.GeneralAttractive to verify
+   * @return true if the org.semanticwb.cptm.GeneralAttractive exists, false otherwise
+   */
+    public boolean hasGeneralAttribute(org.semanticwb.cptm.GeneralAttractive value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(cptm_hasGeneralAttribute,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a GeneralAttribute
+   * @param value org.semanticwb.cptm.GeneralAttractive to add
+   */
+
+    public void addGeneralAttribute(org.semanticwb.cptm.GeneralAttractive value)
+    {
+        getSemanticObject().addObjectProperty(cptm_hasGeneralAttribute, value.getSemanticObject());
+    }
+   /**
+   * Removes all the GeneralAttribute
+   */
+
+    public void removeAllGeneralAttribute()
+    {
+        getSemanticObject().removeProperty(cptm_hasGeneralAttribute);
+    }
+   /**
+   * Removes a GeneralAttribute
+   * @param value org.semanticwb.cptm.GeneralAttractive to remove
+   */
+
+    public void removeGeneralAttribute(org.semanticwb.cptm.GeneralAttractive value)
+    {
+        getSemanticObject().removeObjectProperty(cptm_hasGeneralAttribute,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the GeneralAttribute
+   * @return a org.semanticwb.cptm.GeneralAttractive
+   */
+    public org.semanticwb.cptm.GeneralAttractive getGeneralAttribute()
+    {
+         org.semanticwb.cptm.GeneralAttractive ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasGeneralAttribute);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.cptm.GeneralAttractive)obj.createGenericInstance();
+         }
+         return ret;
     }
 
     public java.util.Iterator<String> listMorePhotos()

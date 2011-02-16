@@ -263,29 +263,6 @@ public abstract class SPCategoryBase extends org.semanticwb.model.WebPage implem
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.SPCategory with a determined TemplateRef
-       * @param value TemplateRef of the type org.semanticwb.model.TemplateRef
-       * @param model Model of the org.semanticwb.cptm.SPCategory
-       * @return Iterator with all the org.semanticwb.cptm.SPCategory
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.SPCategory> listSPCategoryByTemplateRef(org.semanticwb.model.TemplateRef value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.SPCategory> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.SPCategory with a determined TemplateRef
-       * @param value TemplateRef of the type org.semanticwb.model.TemplateRef
-       * @return Iterator with all the org.semanticwb.cptm.SPCategory
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.SPCategory> listSPCategoryByTemplateRef(org.semanticwb.model.TemplateRef value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.SPCategory> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.cptm.SPCategory with a determined PFlowRef
        * @param value PFlowRef of the type org.semanticwb.model.PFlowRef
        * @param model Model of the org.semanticwb.cptm.SPCategory
@@ -306,6 +283,29 @@ public abstract class SPCategoryBase extends org.semanticwb.model.WebPage implem
         public static java.util.Iterator<org.semanticwb.cptm.SPCategory> listSPCategoryByPFlowRef(org.semanticwb.model.PFlowRef value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.SPCategory> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.SPCategory with a determined TemplateRef
+       * @param value TemplateRef of the type org.semanticwb.model.TemplateRef
+       * @param model Model of the org.semanticwb.cptm.SPCategory
+       * @return Iterator with all the org.semanticwb.cptm.SPCategory
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.SPCategory> listSPCategoryByTemplateRef(org.semanticwb.model.TemplateRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.SPCategory> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.SPCategory with a determined TemplateRef
+       * @param value TemplateRef of the type org.semanticwb.model.TemplateRef
+       * @return Iterator with all the org.semanticwb.cptm.SPCategory
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.SPCategory> listSPCategoryByTemplateRef(org.semanticwb.model.TemplateRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.SPCategory> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef,value.getSemanticObject(),sclass));
             return it;
         }
        /**
