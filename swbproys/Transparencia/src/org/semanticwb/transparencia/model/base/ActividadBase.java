@@ -3,6 +3,7 @@ package org.semanticwb.transparencia.model.base;
 
 public abstract class ActividadBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
+    public static final org.semanticwb.platform.SemanticProperty trans_duracion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.transparencia.org/ontology#duracion");
     public static final org.semanticwb.platform.SemanticClass trans_Actividad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.transparencia.org/ontology#Actividad");
    /**
    * The semantic class that represents the currentObject
@@ -31,6 +32,12 @@ public abstract class ActividadBase extends org.semanticwb.model.SWBClass implem
         {
             java.util.Iterator it=sclass.listInstances();
             return new org.semanticwb.model.GenericIterator<org.semanticwb.transparencia.model.Actividad>(it, true);
+        }
+
+        public static org.semanticwb.transparencia.model.Actividad createActividad(org.semanticwb.model.SWBModel model)
+        {
+            long id=model.getSemanticObject().getModel().getCounter(sclass);
+            return org.semanticwb.transparencia.model.Actividad.ClassMgr.createActividad(String.valueOf(id), model);
         }
        /**
        * Gets a org.semanticwb.transparencia.model.Actividad
@@ -234,6 +241,24 @@ public abstract class ActividadBase extends org.semanticwb.model.SWBClass implem
     public void setUpdated(java.util.Date value)
     {
         getSemanticObject().setDateProperty(swb_updated, value);
+    }
+
+/**
+* Gets the Duracion property
+* @return float with the Duracion
+*/
+    public float getDuracion()
+    {
+        return getSemanticObject().getFloatProperty(trans_duracion);
+    }
+
+/**
+* Sets the Duracion property
+* @param value long with the Duracion
+*/
+    public void setDuracion(float value)
+    {
+        getSemanticObject().setFloatProperty(trans_duracion, value);
     }
    /**
    * Sets the value for the property Creator

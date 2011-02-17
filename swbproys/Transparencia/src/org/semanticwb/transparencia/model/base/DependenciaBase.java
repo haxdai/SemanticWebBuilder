@@ -3,6 +3,15 @@ package org.semanticwb.transparencia.model.base;
 
 public abstract class DependenciaBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable
 {
+    public static final org.semanticwb.platform.SemanticProperty trans_tipo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.transparencia.org/ontology#tipo");
+    public static final org.semanticwb.platform.SemanticProperty trans_meta=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.transparencia.org/ontology#meta");
+    public static final org.semanticwb.platform.SemanticProperty trans_objetivo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.transparencia.org/ontology#objetivo");
+   /**
+   * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
+   */
+    public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
+    public static final org.semanticwb.platform.SemanticProperty trans_responsable=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.transparencia.org/ontology#responsable");
+    public static final org.semanticwb.platform.SemanticProperty trans_vigencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.transparencia.org/ontology#vigencia");
     public static final org.semanticwb.platform.SemanticClass trans_Dependencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.transparencia.org/ontology#Dependencia");
    /**
    * The semantic class that represents the currentObject
@@ -78,6 +87,29 @@ public abstract class DependenciaBase extends org.semanticwb.model.SWBClass impl
         {
             return (getDependencia(id, model)!=null);
         }
+       /**
+       * Gets all org.semanticwb.transparencia.model.Dependencia with a determined Responsable
+       * @param value Responsable of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.transparencia.model.Dependencia
+       * @return Iterator with all the org.semanticwb.transparencia.model.Dependencia
+       */
+
+        public static java.util.Iterator<org.semanticwb.transparencia.model.Dependencia> listDependenciaByResponsable(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.transparencia.model.Dependencia> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(trans_responsable, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.transparencia.model.Dependencia with a determined Responsable
+       * @param value Responsable of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.transparencia.model.Dependencia
+       */
+
+        public static java.util.Iterator<org.semanticwb.transparencia.model.Dependencia> listDependenciaByResponsable(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.transparencia.model.Dependencia> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(trans_responsable,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
    /**
@@ -120,6 +152,116 @@ public abstract class DependenciaBase extends org.semanticwb.model.SWBClass impl
     public void setTitle(String title, String lang)
     {
         getSemanticObject().setProperty(swb_title, title, lang);
+    }
+
+/**
+* Gets the Tipo property
+* @return String with the Tipo
+*/
+    public String getTipo()
+    {
+        return getSemanticObject().getProperty(trans_tipo);
+    }
+
+/**
+* Sets the Tipo property
+* @param value long with the Tipo
+*/
+    public void setTipo(String value)
+    {
+        getSemanticObject().setProperty(trans_tipo, value);
+    }
+
+/**
+* Gets the Meta property
+* @return String with the Meta
+*/
+    public String getMeta()
+    {
+        return getSemanticObject().getProperty(trans_meta);
+    }
+
+/**
+* Sets the Meta property
+* @param value long with the Meta
+*/
+    public void setMeta(String value)
+    {
+        getSemanticObject().setProperty(trans_meta, value);
+    }
+
+/**
+* Gets the Objetivo property
+* @return String with the Objetivo
+*/
+    public String getObjetivo()
+    {
+        return getSemanticObject().getProperty(trans_objetivo);
+    }
+
+/**
+* Sets the Objetivo property
+* @param value long with the Objetivo
+*/
+    public void setObjetivo(String value)
+    {
+        getSemanticObject().setProperty(trans_objetivo, value);
+    }
+   /**
+   * Sets the value for the property Responsable
+   * @param value Responsable to set
+   */
+
+    public void setResponsable(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(trans_responsable, value.getSemanticObject());
+        }else
+        {
+            removeResponsable();
+        }
+    }
+   /**
+   * Remove the value for Responsable property
+   */
+
+    public void removeResponsable()
+    {
+        getSemanticObject().removeProperty(trans_responsable);
+    }
+
+   /**
+   * Gets the Responsable
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getResponsable()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(trans_responsable);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+/**
+* Gets the Vigencia property
+* @return java.util.Date with the Vigencia
+*/
+    public java.util.Date getVigencia()
+    {
+        return getSemanticObject().getDateProperty(trans_vigencia);
+    }
+
+/**
+* Sets the Vigencia property
+* @param value long with the Vigencia
+*/
+    public void setVigencia(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(trans_vigencia, value);
     }
 
 /**
