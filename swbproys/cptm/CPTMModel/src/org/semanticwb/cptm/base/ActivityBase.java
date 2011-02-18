@@ -1,7 +1,7 @@
 package org.semanticwb.cptm.base;
 
 
-public abstract class ActivityBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Referensable,org.semanticwb.model.RuleRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Viewable,org.semanticwb.model.Indexable,org.semanticwb.model.Rankable,org.semanticwb.model.Searchable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Trashable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Tagable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Localeable,org.semanticwb.model.Resourceable,org.semanticwb.model.CalendarRefable,org.semanticwb.cptm.CptmgeneralData
+public abstract class ActivityBase extends org.semanticwb.cptm.CPTMWebPage implements org.semanticwb.model.Trashable,org.semanticwb.model.Indexable,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Resourceable,org.semanticwb.model.Localeable,org.semanticwb.model.Traceable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Viewable,org.semanticwb.model.FilterableClass,org.semanticwb.model.RuleRefable,org.semanticwb.model.Expirable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Searchable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Activeable,org.semanticwb.model.Hiddenable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Rankable
 {
    /**
    * Actividad en un específico "Destino", si le quisiera agregar un Directorio de empresas aqui, tendría que tener una relación además de con el Destino, con el objeto  SPType
@@ -18,6 +18,14 @@ public abstract class ActivityBase extends org.semanticwb.model.WebPage implemen
    */
     public static final org.semanticwb.platform.SemanticClass cptm_EditNote=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#EditNote");
     public static final org.semanticwb.platform.SemanticProperty cptm_hasEditNoteActivityInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasEditNoteActivityInv");
+   /**
+   * Interfaz que define propiedades en comun para un Punto Geografico y una Marca Regional
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_LocalityInt=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#LocalityInt");
+   /**
+   * Destinos referenciados a una Actividad
+   */
+    public static final org.semanticwb.platform.SemanticProperty cptm_hasActLocality=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasActLocality");
     public static final org.semanticwb.platform.SemanticClass cptm_Activity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Activity");
    /**
    * The semantic class that represents the currentObject
@@ -547,6 +555,29 @@ public abstract class ActivityBase extends org.semanticwb.model.WebPage implemen
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Activity> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasEditNoteActivityInv,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all org.semanticwb.cptm.Activity with a determined ActLocality
+       * @param value ActLocality of the type org.semanticwb.cptm.LocalityInt
+       * @param model Model of the org.semanticwb.cptm.Activity
+       * @return Iterator with all the org.semanticwb.cptm.Activity
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Activity> listActivityByActLocality(org.semanticwb.cptm.LocalityInt value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Activity> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasActLocality, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.Activity with a determined ActLocality
+       * @param value ActLocality of the type org.semanticwb.cptm.LocalityInt
+       * @return Iterator with all the org.semanticwb.cptm.Activity
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Activity> listActivityByActLocality(org.semanticwb.cptm.LocalityInt value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Activity> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasActLocality,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
    /**
@@ -595,24 +626,6 @@ public abstract class ActivityBase extends org.semanticwb.model.WebPage implemen
          }
          return ret;
     }
-
-/**
-* Gets the PhotoAuthor property
-* @return String with the PhotoAuthor
-*/
-    public String getPhotoAuthor()
-    {
-        return getSemanticObject().getProperty(cptm_photoAuthor);
-    }
-
-/**
-* Sets the PhotoAuthor property
-* @param value long with the PhotoAuthor
-*/
-    public void setPhotoAuthor(String value)
-    {
-        getSemanticObject().setProperty(cptm_photoAuthor, value);
-    }
    /**
    * Gets all the org.semanticwb.cptm.Event
    * @return A GenericIterator with all the org.semanticwb.cptm.Event
@@ -652,69 +665,6 @@ public abstract class ActivityBase extends org.semanticwb.model.WebPage implemen
          }
          return ret;
     }
-
-/**
-* Gets the PhotoEscudo property
-* @return String with the PhotoEscudo
-*/
-    public String getPhotoEscudo()
-    {
-        return getSemanticObject().getProperty(cptm_photoEscudo);
-    }
-
-/**
-* Sets the PhotoEscudo property
-* @param value long with the PhotoEscudo
-*/
-    public void setPhotoEscudo(String value)
-    {
-        getSemanticObject().setProperty(cptm_photoEscudo, value);
-    }
-
-/**
-* Gets the Photo property
-* @return String with the Photo
-*/
-    public String getPhoto()
-    {
-        return getSemanticObject().getProperty(cptm_photo);
-    }
-
-/**
-* Sets the Photo property
-* @param value long with the Photo
-*/
-    public void setPhoto(String value)
-    {
-        getSemanticObject().setProperty(cptm_photo, value);
-    }
-
-    public java.util.Iterator<String> listMorePhotos()
-    {
-        java.util.ArrayList<String> values=new java.util.ArrayList<String>();
-        java.util.Iterator<org.semanticwb.platform.SemanticLiteral> it=getSemanticObject().listLiteralProperties(cptm_hasMorePhoto);
-        while(it.hasNext())
-        {
-                org.semanticwb.platform.SemanticLiteral literal=it.next();
-                values.add(literal.getString());
-        }
-        return values.iterator();
-    }
-
-    public void addMorePhoto(String value)
-    {
-        getSemanticObject().addLiteralProperty(cptm_hasMorePhoto, new org.semanticwb.platform.SemanticLiteral(value));
-    }
-
-    public void removeAllMorePhoto()
-    {
-        getSemanticObject().removeProperty(cptm_hasMorePhoto);
-    }
-
-    public void removeMorePhoto(String value)
-    {
-        getSemanticObject().removeLiteralProperty(cptm_hasMorePhoto,new org.semanticwb.platform.SemanticLiteral(value));
-    }
    /**
    * Gets all the org.semanticwb.cptm.EditNote
    * @return A GenericIterator with all the org.semanticwb.cptm.EditNote
@@ -751,6 +701,71 @@ public abstract class ActivityBase extends org.semanticwb.model.WebPage implemen
          if(obj!=null)
          {
              ret=(org.semanticwb.cptm.EditNote)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Gets all the org.semanticwb.cptm.LocalityInt
+   * @return A GenericIterator with all the org.semanticwb.cptm.LocalityInt
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.LocalityInt> listActLocalities()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.LocalityInt>(getSemanticObject().listObjectProperties(cptm_hasActLocality));
+    }
+
+   /**
+   * Gets true if has a ActLocality
+   * @param value org.semanticwb.cptm.LocalityInt to verify
+   * @return true if the org.semanticwb.cptm.LocalityInt exists, false otherwise
+   */
+    public boolean hasActLocality(org.semanticwb.cptm.LocalityInt value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(cptm_hasActLocality,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a ActLocality
+   * @param value org.semanticwb.cptm.LocalityInt to add
+   */
+
+    public void addActLocality(org.semanticwb.cptm.LocalityInt value)
+    {
+        getSemanticObject().addObjectProperty(cptm_hasActLocality, value.getSemanticObject());
+    }
+   /**
+   * Removes all the ActLocality
+   */
+
+    public void removeAllActLocality()
+    {
+        getSemanticObject().removeProperty(cptm_hasActLocality);
+    }
+   /**
+   * Removes a ActLocality
+   * @param value org.semanticwb.cptm.LocalityInt to remove
+   */
+
+    public void removeActLocality(org.semanticwb.cptm.LocalityInt value)
+    {
+        getSemanticObject().removeObjectProperty(cptm_hasActLocality,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the ActLocality
+   * @return a org.semanticwb.cptm.LocalityInt
+   */
+    public org.semanticwb.cptm.LocalityInt getActLocality()
+    {
+         org.semanticwb.cptm.LocalityInt ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasActLocality);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.cptm.LocalityInt)obj.createGenericInstance();
          }
          return ret;
     }
