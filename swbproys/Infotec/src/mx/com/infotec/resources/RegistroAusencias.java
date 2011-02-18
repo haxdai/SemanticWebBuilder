@@ -49,10 +49,10 @@ public class RegistroAusencias extends GenericAdmResource {
 
         if(user.isSigned())
         {
-            out.println("<fieldset>");
-            out.println("<legend>Registra tu Ausencia");
-            out.println("</legend>");
-            out.println("</fieldset>");
+            out.println("<p >");
+            out.println("<h2>Registra tu Ausencia");
+            out.println("</h2>");
+            out.println("</p>");
             if(!"show".equals(act))
             {
             out.println("<div>");
@@ -103,7 +103,7 @@ public class RegistroAusencias extends GenericAdmResource {
             out.println("</th>");
             out.println("</tr>");
 
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MMM/yyyy hh:mm");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MMM/yyyy");
 
             Iterator<Ausencia> ite = Ausencia.ClassMgr.listAusenciaByCreator(user, ws);
             while (ite.hasNext()) {
