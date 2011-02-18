@@ -49,6 +49,10 @@ public class RegistroAusencias extends GenericAdmResource {
 
         if(user.isSigned())
         {
+            out.println("<fieldset>");
+            out.println("<legend>Registra tu Ausencia");
+            out.println("</legend>");
+            out.println("</fieldset>");
             if(!"show".equals(act))
             {
             out.println("<div>");
@@ -74,6 +78,8 @@ public class RegistroAusencias extends GenericAdmResource {
             } else {
 
             out.println("<div>");
+
+            out.println("<fieldset>");
             out.println("<table width=\"100%\">");
 
             out.println("<tr>");
@@ -139,10 +145,18 @@ public class RegistroAusencias extends GenericAdmResource {
             urlb.setAction("");
             out.println("<a href=\""+urlb+"\">regresar</a>");
             out.println("</p>");
+            out.println("</fieldset>");
             out.println("</div>");
             }
 
-        }
+
+        } else
+            {
+                out.println("<fieldset>");
+                out.println("<legend>Para Registrar tu Ausencia, debes de estar registrado en el sitio.");
+                out.println("</legend>");
+                out.println("</fieldset>");
+            }
     }
 
     @Override
