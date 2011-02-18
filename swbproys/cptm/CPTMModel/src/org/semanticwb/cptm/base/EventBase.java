@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Eventos. 
    */
-public abstract class EventBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Resourceable,org.semanticwb.model.Descriptiveable,org.semanticwb.cptm.CptmgeneralData
+public abstract class EventBase extends org.semanticwb.model.SWBClass implements org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable
 {
     public static final org.semanticwb.platform.SemanticProperty cptm_eventLeadingPhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#eventLeadingPhoto");
     public static final org.semanticwb.platform.SemanticClass cptm_Activity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Activity");
@@ -37,6 +37,14 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
    */
     public static final org.semanticwb.platform.SemanticProperty cptm_eventIsWithoutLink=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#eventIsWithoutLink");
    /**
+   * Clase que hereda de WebPage.Mediante esta se administra el catálogo de Estados de la república.
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_State=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#State");
+   /**
+   * El evento se asiga a uno o varios estados en esta propiedad
+   */
+    public static final org.semanticwb.platform.SemanticProperty cptm_hasEventState=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasEventState");
+   /**
    * Fecha final del Evento
    */
     public static final org.semanticwb.platform.SemanticProperty cptm_eventEndDate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#eventEndDate");
@@ -45,6 +53,14 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
    */
     public static final org.semanticwb.platform.SemanticClass cptm_LocalityInt=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#LocalityInt");
     public static final org.semanticwb.platform.SemanticProperty cptm_hasEventLocality=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasEventLocality");
+   /**
+   * Clase que hereda de WebPage.Mediante estas se administra el catálogo de experiencias.
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_Experience=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Experience");
+   /**
+   * Experiencias referenciadas a un Evento
+   */
+    public static final org.semanticwb.platform.SemanticProperty cptm_hasEventExperience=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasEventExperience");
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Eventos.
    */
@@ -187,6 +203,29 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
             return it;
         }
        /**
+       * Gets all org.semanticwb.cptm.Event with a determined EventState
+       * @param value EventState of the type org.semanticwb.cptm.State
+       * @param model Model of the org.semanticwb.cptm.Event
+       * @return Iterator with all the org.semanticwb.cptm.Event
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Event> listEventByEventState(org.semanticwb.cptm.State value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Event> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasEventState, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.Event with a determined EventState
+       * @param value EventState of the type org.semanticwb.cptm.State
+       * @return Iterator with all the org.semanticwb.cptm.Event
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Event> listEventByEventState(org.semanticwb.cptm.State value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Event> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasEventState,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.cptm.Event with a determined ModifiedBy
        * @param value ModifiedBy of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.cptm.Event
@@ -253,6 +292,29 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
         public static java.util.Iterator<org.semanticwb.cptm.Event> listEventByEventLocality(org.semanticwb.cptm.LocalityInt value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Event> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasEventLocality,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.Event with a determined EventExperience
+       * @param value EventExperience of the type org.semanticwb.cptm.Experience
+       * @param model Model of the org.semanticwb.cptm.Event
+       * @return Iterator with all the org.semanticwb.cptm.Event
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Event> listEventByEventExperience(org.semanticwb.cptm.Experience value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Event> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasEventExperience, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.Event with a determined EventExperience
+       * @param value EventExperience of the type org.semanticwb.cptm.Experience
+       * @return Iterator with all the org.semanticwb.cptm.Event
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Event> listEventByEventExperience(org.semanticwb.cptm.Experience value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Event> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasEventExperience,value.getSemanticObject(),sclass));
             return it;
         }
     }
@@ -568,6 +630,71 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
     {
         getSemanticObject().setBooleanProperty(cptm_eventIsWithoutLink, value);
     }
+   /**
+   * Gets all the org.semanticwb.cptm.State
+   * @return A GenericIterator with all the org.semanticwb.cptm.State
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.State> listEventStates()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.State>(getSemanticObject().listObjectProperties(cptm_hasEventState));
+    }
+
+   /**
+   * Gets true if has a EventState
+   * @param value org.semanticwb.cptm.State to verify
+   * @return true if the org.semanticwb.cptm.State exists, false otherwise
+   */
+    public boolean hasEventState(org.semanticwb.cptm.State value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(cptm_hasEventState,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a EventState
+   * @param value org.semanticwb.cptm.State to add
+   */
+
+    public void addEventState(org.semanticwb.cptm.State value)
+    {
+        getSemanticObject().addObjectProperty(cptm_hasEventState, value.getSemanticObject());
+    }
+   /**
+   * Removes all the EventState
+   */
+
+    public void removeAllEventState()
+    {
+        getSemanticObject().removeProperty(cptm_hasEventState);
+    }
+   /**
+   * Removes a EventState
+   * @param value org.semanticwb.cptm.State to remove
+   */
+
+    public void removeEventState(org.semanticwb.cptm.State value)
+    {
+        getSemanticObject().removeObjectProperty(cptm_hasEventState,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the EventState
+   * @return a org.semanticwb.cptm.State
+   */
+    public org.semanticwb.cptm.State getEventState()
+    {
+         org.semanticwb.cptm.State ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasEventState);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.cptm.State)obj.createGenericInstance();
+         }
+         return ret;
+    }
 
 /**
 * Gets the EventEndDate property
@@ -864,6 +991,71 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
     public void setDescription(String description, String lang)
     {
         getSemanticObject().setProperty(swb_description, description, lang);
+    }
+   /**
+   * Gets all the org.semanticwb.cptm.Experience
+   * @return A GenericIterator with all the org.semanticwb.cptm.Experience
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Experience> listEventExperiences()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Experience>(getSemanticObject().listObjectProperties(cptm_hasEventExperience));
+    }
+
+   /**
+   * Gets true if has a EventExperience
+   * @param value org.semanticwb.cptm.Experience to verify
+   * @return true if the org.semanticwb.cptm.Experience exists, false otherwise
+   */
+    public boolean hasEventExperience(org.semanticwb.cptm.Experience value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(cptm_hasEventExperience,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a EventExperience
+   * @param value org.semanticwb.cptm.Experience to add
+   */
+
+    public void addEventExperience(org.semanticwb.cptm.Experience value)
+    {
+        getSemanticObject().addObjectProperty(cptm_hasEventExperience, value.getSemanticObject());
+    }
+   /**
+   * Removes all the EventExperience
+   */
+
+    public void removeAllEventExperience()
+    {
+        getSemanticObject().removeProperty(cptm_hasEventExperience);
+    }
+   /**
+   * Removes a EventExperience
+   * @param value org.semanticwb.cptm.Experience to remove
+   */
+
+    public void removeEventExperience(org.semanticwb.cptm.Experience value)
+    {
+        getSemanticObject().removeObjectProperty(cptm_hasEventExperience,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the EventExperience
+   * @return a org.semanticwb.cptm.Experience
+   */
+    public org.semanticwb.cptm.Experience getEventExperience()
+    {
+         org.semanticwb.cptm.Experience ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasEventExperience);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.cptm.Experience)obj.createGenericInstance();
+         }
+         return ret;
     }
 
    /**

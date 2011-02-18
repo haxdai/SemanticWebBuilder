@@ -4,8 +4,18 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que hereda de WebPage.Mediante esta se administra el catálogo de Estados de la república. 
    */
-public abstract class StateBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Referensable,org.semanticwb.model.RuleRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Viewable,org.semanticwb.model.Indexable,org.semanticwb.model.Rankable,org.semanticwb.model.Searchable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Trashable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Tagable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Localeable,org.semanticwb.model.Resourceable,org.semanticwb.model.CalendarRefable,org.semanticwb.cptm.CptmgeneralData
+public abstract class StateBase extends org.semanticwb.cptm.CPTMWebPage implements org.semanticwb.model.Trashable,org.semanticwb.model.Indexable,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Resourceable,org.semanticwb.model.Localeable,org.semanticwb.model.Traceable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Viewable,org.semanticwb.model.FilterableClass,org.semanticwb.model.RuleRefable,org.semanticwb.model.Expirable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Searchable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Activeable,org.semanticwb.model.Hiddenable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Rankable
 {
+   /**
+   * Notas Editoriales
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_EditNote=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#EditNote");
+    public static final org.semanticwb.platform.SemanticProperty cptm_hasNoteStateInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasNoteStateInv");
+   /**
+   * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Eventos.
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_Event=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Event");
+    public static final org.semanticwb.platform.SemanticProperty cptm_hasEventStateInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasEventStateInv");
    /**
    * Clase que hereda de WebPage.Mediante esta se administra el catálogo de Estados de la república.
    */
@@ -122,6 +132,29 @@ public abstract class StateBase extends org.semanticwb.model.WebPage implements 
         public static java.util.Iterator<org.semanticwb.cptm.State> listStateByVirtualParent(org.semanticwb.model.WebPage value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.State> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualParent,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.State with a determined NoteStateInv
+       * @param value NoteStateInv of the type org.semanticwb.cptm.EditNote
+       * @param model Model of the org.semanticwb.cptm.State
+       * @return Iterator with all the org.semanticwb.cptm.State
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.State> listStateByNoteStateInv(org.semanticwb.cptm.EditNote value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.State> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasNoteStateInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.State with a determined NoteStateInv
+       * @param value NoteStateInv of the type org.semanticwb.cptm.EditNote
+       * @return Iterator with all the org.semanticwb.cptm.State
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.State> listStateByNoteStateInv(org.semanticwb.cptm.EditNote value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.State> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasNoteStateInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -378,6 +411,29 @@ public abstract class StateBase extends org.semanticwb.model.WebPage implements 
             return it;
         }
        /**
+       * Gets all org.semanticwb.cptm.State with a determined EventStateInv
+       * @param value EventStateInv of the type org.semanticwb.cptm.Event
+       * @param model Model of the org.semanticwb.cptm.State
+       * @return Iterator with all the org.semanticwb.cptm.State
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.State> listStateByEventStateInv(org.semanticwb.cptm.Event value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.State> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasEventStateInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.State with a determined EventStateInv
+       * @param value EventStateInv of the type org.semanticwb.cptm.Event
+       * @return Iterator with all the org.semanticwb.cptm.State
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.State> listStateByEventStateInv(org.semanticwb.cptm.Event value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.State> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasEventStateInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.cptm.State with a determined RoleRef
        * @param value RoleRef of the type org.semanticwb.model.RoleRef
        * @param model Model of the org.semanticwb.cptm.State
@@ -479,86 +535,83 @@ public abstract class StateBase extends org.semanticwb.model.WebPage implements 
     {
         super(base);
     }
+   /**
+   * Gets all the org.semanticwb.cptm.EditNote
+   * @return A GenericIterator with all the org.semanticwb.cptm.EditNote
+   */
 
-/**
-* Gets the PhotoAuthor property
-* @return String with the PhotoAuthor
-*/
-    public String getPhotoAuthor()
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> listNoteStateInvs()
     {
-        return getSemanticObject().getProperty(cptm_photoAuthor);
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote>(getSemanticObject().listObjectProperties(cptm_hasNoteStateInv));
     }
 
-/**
-* Sets the PhotoAuthor property
-* @param value long with the PhotoAuthor
-*/
-    public void setPhotoAuthor(String value)
+   /**
+   * Gets true if has a NoteStateInv
+   * @param value org.semanticwb.cptm.EditNote to verify
+   * @return true if the org.semanticwb.cptm.EditNote exists, false otherwise
+   */
+    public boolean hasNoteStateInv(org.semanticwb.cptm.EditNote value)
     {
-        getSemanticObject().setProperty(cptm_photoAuthor, value);
-    }
-
-/**
-* Gets the PhotoEscudo property
-* @return String with the PhotoEscudo
-*/
-    public String getPhotoEscudo()
-    {
-        return getSemanticObject().getProperty(cptm_photoEscudo);
-    }
-
-/**
-* Sets the PhotoEscudo property
-* @param value long with the PhotoEscudo
-*/
-    public void setPhotoEscudo(String value)
-    {
-        getSemanticObject().setProperty(cptm_photoEscudo, value);
-    }
-
-/**
-* Gets the Photo property
-* @return String with the Photo
-*/
-    public String getPhoto()
-    {
-        return getSemanticObject().getProperty(cptm_photo);
-    }
-
-/**
-* Sets the Photo property
-* @param value long with the Photo
-*/
-    public void setPhoto(String value)
-    {
-        getSemanticObject().setProperty(cptm_photo, value);
-    }
-
-    public java.util.Iterator<String> listMorePhotos()
-    {
-        java.util.ArrayList<String> values=new java.util.ArrayList<String>();
-        java.util.Iterator<org.semanticwb.platform.SemanticLiteral> it=getSemanticObject().listLiteralProperties(cptm_hasMorePhoto);
-        while(it.hasNext())
+        boolean ret=false;
+        if(value!=null)
         {
-                org.semanticwb.platform.SemanticLiteral literal=it.next();
-                values.add(literal.getString());
+           ret=getSemanticObject().hasObjectProperty(cptm_hasNoteStateInv,value.getSemanticObject());
         }
-        return values.iterator();
+        return ret;
     }
 
-    public void addMorePhoto(String value)
+   /**
+   * Gets the NoteStateInv
+   * @return a org.semanticwb.cptm.EditNote
+   */
+    public org.semanticwb.cptm.EditNote getNoteStateInv()
     {
-        getSemanticObject().addLiteralProperty(cptm_hasMorePhoto, new org.semanticwb.platform.SemanticLiteral(value));
+         org.semanticwb.cptm.EditNote ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasNoteStateInv);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.cptm.EditNote)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Gets all the org.semanticwb.cptm.Event
+   * @return A GenericIterator with all the org.semanticwb.cptm.Event
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Event> listEventStateInvs()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Event>(getSemanticObject().listObjectProperties(cptm_hasEventStateInv));
     }
 
-    public void removeAllMorePhoto()
+   /**
+   * Gets true if has a EventStateInv
+   * @param value org.semanticwb.cptm.Event to verify
+   * @return true if the org.semanticwb.cptm.Event exists, false otherwise
+   */
+    public boolean hasEventStateInv(org.semanticwb.cptm.Event value)
     {
-        getSemanticObject().removeProperty(cptm_hasMorePhoto);
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(cptm_hasEventStateInv,value.getSemanticObject());
+        }
+        return ret;
     }
 
-    public void removeMorePhoto(String value)
+   /**
+   * Gets the EventStateInv
+   * @return a org.semanticwb.cptm.Event
+   */
+    public org.semanticwb.cptm.Event getEventStateInv()
     {
-        getSemanticObject().removeLiteralProperty(cptm_hasMorePhoto,new org.semanticwb.platform.SemanticLiteral(value));
+         org.semanticwb.cptm.Event ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasEventStateInv);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.cptm.Event)obj.createGenericInstance();
+         }
+         return ret;
     }
 
    /**

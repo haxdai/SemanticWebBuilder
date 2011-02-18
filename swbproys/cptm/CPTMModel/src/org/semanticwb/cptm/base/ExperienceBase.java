@@ -4,8 +4,21 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de experiencias. 
    */
-public abstract class ExperienceBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Referensable,org.semanticwb.model.RuleRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Viewable,org.semanticwb.model.Rankable,org.semanticwb.model.Indexable,org.semanticwb.model.Searchable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Trashable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Tagable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Localeable,org.semanticwb.model.Resourceable,org.semanticwb.model.CalendarRefable,org.semanticwb.cptm.CptmgeneralData
+public abstract class ExperienceBase extends org.semanticwb.cptm.CPTMWebPage implements org.semanticwb.model.Trashable,org.semanticwb.model.Indexable,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Resourceable,org.semanticwb.model.Localeable,org.semanticwb.model.Traceable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Viewable,org.semanticwb.model.FilterableClass,org.semanticwb.model.RuleRefable,org.semanticwb.model.Expirable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Searchable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Activeable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Filterable,org.semanticwb.model.Rankable
 {
+    public static final org.semanticwb.platform.SemanticClass cptm_Activity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Activity");
+   /**
+   * Actividades referenciadas a una Experiencia
+   */
+    public static final org.semanticwb.platform.SemanticProperty cptm_hasExpActivity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasExpActivity");
+   /**
+   * Interfaz que define propiedades en comun para un Punto Geografico y una Marca Regional
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_LocalityInt=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#LocalityInt");
+   /**
+   * Destinos referenciados a una Experiencia
+   */
+    public static final org.semanticwb.platform.SemanticProperty cptm_hasExpLocality=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasExpLocality");
    /**
    * Notas Editoriales
    */
@@ -112,6 +125,29 @@ public abstract class ExperienceBase extends org.semanticwb.model.WebPage implem
             return it;
         }
        /**
+       * Gets all org.semanticwb.cptm.Experience with a determined ExpActivity
+       * @param value ExpActivity of the type org.semanticwb.cptm.Activity
+       * @param model Model of the org.semanticwb.cptm.Experience
+       * @return Iterator with all the org.semanticwb.cptm.Experience
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Experience> listExperienceByExpActivity(org.semanticwb.cptm.Activity value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Experience> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasExpActivity, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.Experience with a determined ExpActivity
+       * @param value ExpActivity of the type org.semanticwb.cptm.Activity
+       * @return Iterator with all the org.semanticwb.cptm.Experience
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Experience> listExperienceByExpActivity(org.semanticwb.cptm.Activity value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Experience> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasExpActivity,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.cptm.Experience with a determined VirtualParent
        * @param value VirtualParent of the type org.semanticwb.model.WebPage
        * @param model Model of the org.semanticwb.cptm.Experience
@@ -178,6 +214,29 @@ public abstract class ExperienceBase extends org.semanticwb.model.WebPage implem
         public static java.util.Iterator<org.semanticwb.cptm.Experience> listExperienceByParent(org.semanticwb.model.WebPage value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Experience> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_webPageParent,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.Experience with a determined ExpLocality
+       * @param value ExpLocality of the type org.semanticwb.cptm.LocalityInt
+       * @param model Model of the org.semanticwb.cptm.Experience
+       * @return Iterator with all the org.semanticwb.cptm.Experience
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Experience> listExperienceByExpLocality(org.semanticwb.cptm.LocalityInt value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Experience> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasExpLocality, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.Experience with a determined ExpLocality
+       * @param value ExpLocality of the type org.semanticwb.cptm.LocalityInt
+       * @return Iterator with all the org.semanticwb.cptm.Experience
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Experience> listExperienceByExpLocality(org.semanticwb.cptm.LocalityInt value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Experience> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasExpLocality,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -535,23 +594,135 @@ public abstract class ExperienceBase extends org.semanticwb.model.WebPage implem
     {
         super(base);
     }
+   /**
+   * Gets all the org.semanticwb.cptm.Activity
+   * @return A GenericIterator with all the org.semanticwb.cptm.Activity
+   */
 
-/**
-* Gets the PhotoAuthor property
-* @return String with the PhotoAuthor
-*/
-    public String getPhotoAuthor()
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Activity> listExpActivities()
     {
-        return getSemanticObject().getProperty(cptm_photoAuthor);
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Activity>(getSemanticObject().listObjectProperties(cptm_hasExpActivity));
     }
 
-/**
-* Sets the PhotoAuthor property
-* @param value long with the PhotoAuthor
-*/
-    public void setPhotoAuthor(String value)
+   /**
+   * Gets true if has a ExpActivity
+   * @param value org.semanticwb.cptm.Activity to verify
+   * @return true if the org.semanticwb.cptm.Activity exists, false otherwise
+   */
+    public boolean hasExpActivity(org.semanticwb.cptm.Activity value)
     {
-        getSemanticObject().setProperty(cptm_photoAuthor, value);
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(cptm_hasExpActivity,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a ExpActivity
+   * @param value org.semanticwb.cptm.Activity to add
+   */
+
+    public void addExpActivity(org.semanticwb.cptm.Activity value)
+    {
+        getSemanticObject().addObjectProperty(cptm_hasExpActivity, value.getSemanticObject());
+    }
+   /**
+   * Removes all the ExpActivity
+   */
+
+    public void removeAllExpActivity()
+    {
+        getSemanticObject().removeProperty(cptm_hasExpActivity);
+    }
+   /**
+   * Removes a ExpActivity
+   * @param value org.semanticwb.cptm.Activity to remove
+   */
+
+    public void removeExpActivity(org.semanticwb.cptm.Activity value)
+    {
+        getSemanticObject().removeObjectProperty(cptm_hasExpActivity,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the ExpActivity
+   * @return a org.semanticwb.cptm.Activity
+   */
+    public org.semanticwb.cptm.Activity getExpActivity()
+    {
+         org.semanticwb.cptm.Activity ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasExpActivity);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.cptm.Activity)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Gets all the org.semanticwb.cptm.LocalityInt
+   * @return A GenericIterator with all the org.semanticwb.cptm.LocalityInt
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.LocalityInt> listExpLocalities()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.LocalityInt>(getSemanticObject().listObjectProperties(cptm_hasExpLocality));
+    }
+
+   /**
+   * Gets true if has a ExpLocality
+   * @param value org.semanticwb.cptm.LocalityInt to verify
+   * @return true if the org.semanticwb.cptm.LocalityInt exists, false otherwise
+   */
+    public boolean hasExpLocality(org.semanticwb.cptm.LocalityInt value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(cptm_hasExpLocality,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a ExpLocality
+   * @param value org.semanticwb.cptm.LocalityInt to add
+   */
+
+    public void addExpLocality(org.semanticwb.cptm.LocalityInt value)
+    {
+        getSemanticObject().addObjectProperty(cptm_hasExpLocality, value.getSemanticObject());
+    }
+   /**
+   * Removes all the ExpLocality
+   */
+
+    public void removeAllExpLocality()
+    {
+        getSemanticObject().removeProperty(cptm_hasExpLocality);
+    }
+   /**
+   * Removes a ExpLocality
+   * @param value org.semanticwb.cptm.LocalityInt to remove
+   */
+
+    public void removeExpLocality(org.semanticwb.cptm.LocalityInt value)
+    {
+        getSemanticObject().removeObjectProperty(cptm_hasExpLocality,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the ExpLocality
+   * @return a org.semanticwb.cptm.LocalityInt
+   */
+    public org.semanticwb.cptm.LocalityInt getExpLocality()
+    {
+         org.semanticwb.cptm.LocalityInt ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasExpLocality);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.cptm.LocalityInt)obj.createGenericInstance();
+         }
+         return ret;
     }
    /**
    * Gets all the org.semanticwb.cptm.EditNote
@@ -592,42 +763,6 @@ public abstract class ExperienceBase extends org.semanticwb.model.WebPage implem
          }
          return ret;
     }
-
-/**
-* Gets the PhotoEscudo property
-* @return String with the PhotoEscudo
-*/
-    public String getPhotoEscudo()
-    {
-        return getSemanticObject().getProperty(cptm_photoEscudo);
-    }
-
-/**
-* Sets the PhotoEscudo property
-* @param value long with the PhotoEscudo
-*/
-    public void setPhotoEscudo(String value)
-    {
-        getSemanticObject().setProperty(cptm_photoEscudo, value);
-    }
-
-/**
-* Gets the Photo property
-* @return String with the Photo
-*/
-    public String getPhoto()
-    {
-        return getSemanticObject().getProperty(cptm_photo);
-    }
-
-/**
-* Sets the Photo property
-* @param value long with the Photo
-*/
-    public void setPhoto(String value)
-    {
-        getSemanticObject().setProperty(cptm_photo, value);
-    }
    /**
    * Sets the value for the property ExpExperienceInv
    * @param value ExpExperienceInv to set
@@ -665,33 +800,6 @@ public abstract class ExperienceBase extends org.semanticwb.model.WebPage implem
              ret=(org.semanticwb.cptm.ExperienceRef)obj.createGenericInstance();
          }
          return ret;
-    }
-
-    public java.util.Iterator<String> listMorePhotos()
-    {
-        java.util.ArrayList<String> values=new java.util.ArrayList<String>();
-        java.util.Iterator<org.semanticwb.platform.SemanticLiteral> it=getSemanticObject().listLiteralProperties(cptm_hasMorePhoto);
-        while(it.hasNext())
-        {
-                org.semanticwb.platform.SemanticLiteral literal=it.next();
-                values.add(literal.getString());
-        }
-        return values.iterator();
-    }
-
-    public void addMorePhoto(String value)
-    {
-        getSemanticObject().addLiteralProperty(cptm_hasMorePhoto, new org.semanticwb.platform.SemanticLiteral(value));
-    }
-
-    public void removeAllMorePhoto()
-    {
-        getSemanticObject().removeProperty(cptm_hasMorePhoto);
-    }
-
-    public void removeMorePhoto(String value)
-    {
-        getSemanticObject().removeLiteralProperty(cptm_hasMorePhoto,new org.semanticwb.platform.SemanticLiteral(value));
     }
 
    /**

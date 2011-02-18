@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que se encarga de administrar textos para correos electrónicos 
    */
-public abstract class EmailTextBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Sortable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class EmailTextBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Sortable,org.semanticwb.model.Traceable
 {
    /**
    * Clase que se encarga de administrar textos para correos electrónicos
@@ -136,24 +136,6 @@ public abstract class EmailTextBase extends org.semanticwb.model.SWBClass implem
     }
 
 /**
-* Gets the Created property
-* @return java.util.Date with the Created
-*/
-    public java.util.Date getCreated()
-    {
-        return getSemanticObject().getDateProperty(swb_created);
-    }
-
-/**
-* Sets the Created property
-* @param value long with the Created
-*/
-    public void setCreated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_created, value);
-    }
-
-/**
 * Gets the Index property
 * @return int with the Index
 */
@@ -169,6 +151,24 @@ public abstract class EmailTextBase extends org.semanticwb.model.SWBClass implem
     public void setIndex(int value)
     {
         getSemanticObject().setIntProperty(swb_index, value);
+    }
+
+/**
+* Gets the Created property
+* @return java.util.Date with the Created
+*/
+    public java.util.Date getCreated()
+    {
+        return getSemanticObject().getDateProperty(swb_created);
+    }
+
+/**
+* Sets the Created property
+* @param value long with the Created
+*/
+    public void setCreated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_created, value);
     }
    /**
    * Sets the value for the property ModifiedBy
