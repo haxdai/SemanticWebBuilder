@@ -5,6 +5,7 @@ public abstract class AusenciaBase extends org.semanticwb.model.SWBClass impleme
 {
     public static final org.semanticwb.platform.SemanticProperty info_fechaInicial=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/ontology#fechaInicial");
     public static final org.semanticwb.platform.SemanticProperty info_tipo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/ontology#tipo");
+    public static final org.semanticwb.platform.SemanticProperty info_autorizado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/ontology#autorizado");
     public static final org.semanticwb.platform.SemanticProperty info_fechaFin=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/ontology#fechaFin");
     public static final org.semanticwb.platform.SemanticProperty info_descripcion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/ontology#descripcion");
     public static final org.semanticwb.platform.SemanticClass info_Ausencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/ontology#Ausencia");
@@ -247,6 +248,24 @@ public abstract class AusenciaBase extends org.semanticwb.model.SWBClass impleme
     public void setTipoAusencia(String value)
     {
         getSemanticObject().setProperty(info_tipo, value);
+    }
+
+/**
+* Gets the Autorizado property
+* @return boolean with the Autorizado
+*/
+    public boolean isAutorizado()
+    {
+        return getSemanticObject().getBooleanProperty(info_autorizado);
+    }
+
+/**
+* Sets the Autorizado property
+* @param value long with the Autorizado
+*/
+    public void setAutorizado(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(info_autorizado, value);
     }
 
 /**
