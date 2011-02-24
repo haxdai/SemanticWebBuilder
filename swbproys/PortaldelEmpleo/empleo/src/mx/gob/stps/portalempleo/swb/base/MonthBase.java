@@ -563,4 +563,13 @@ public abstract class MonthBase extends org.semanticwb.model.WebPage implements 
          }
          return ret;
     }
+
+   /**
+   * Gets the EmpleoWebSite
+   * @return a instance of mx.gob.stps.portalempleo.swb.EmpleoWebSite
+   */
+    public mx.gob.stps.portalempleo.swb.EmpleoWebSite getEmpleoWebSite()
+    {
+        return (mx.gob.stps.portalempleo.swb.EmpleoWebSite)getSemanticObject().getModel().getModelObject().createGenericInstance();
+    }
 }
