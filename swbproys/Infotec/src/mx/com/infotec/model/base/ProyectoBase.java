@@ -235,19 +235,19 @@ public abstract class ProyectoBase extends org.semanticwb.model.SWBClass impleme
     }
 
 /**
-* Gets the Comentarios property
-* @return String with the Comentarios
+* Gets the Comentario property
+* @return String with the Comentario
 */
-    public String getComentarios()
+    public String getComentario()
     {
         return getSemanticObject().getProperty(info_comentarios);
     }
 
 /**
-* Sets the Comentarios property
-* @param value long with the Comentarios
+* Sets the Comentario property
+* @param value long with the Comentario
 */
-    public void setComentarios(String value)
+    public void setComentario(String value)
     {
         getSemanticObject().setProperty(info_comentarios, value);
     }

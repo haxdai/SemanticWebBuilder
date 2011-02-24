@@ -365,17 +365,17 @@ public class RegistroAusencias extends GenericResource {
 
             Resource base = getResourceBase();
 
-            if (viewrole != null && viewrole.equals("0")) {
+            if (viewrole != null && !viewrole.equals("0")) {
                 base.setAttribute("see", viewrole);
             } else {
                 base.removeAttribute("see");
             }
-            if (modifyrole != null && modifyrole.equals("0")) {
+            if (modifyrole != null && !modifyrole.equals("0")) {
                 base.setAttribute("supervisor", modifyrole);
             } else {
                 base.removeAttribute("supervisor");
             }
-            if (adminrole != null && adminrole.equals("0")) {
+            if (adminrole != null && !adminrole.equals("0")) {
                 base.setAttribute("admin", adminrole);
             } else {
                 base.removeAttribute("admin");
