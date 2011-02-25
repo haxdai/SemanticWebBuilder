@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Destinos. 
    */
-public abstract class GeographicPointBase extends org.semanticwb.cptm.CPTMWebPage implements org.semanticwb.model.Trashable,org.semanticwb.model.Indexable,org.semanticwb.cptm.LocalityInt,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Resourceable,org.semanticwb.model.Localeable,org.semanticwb.model.Traceable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Viewable,org.semanticwb.model.FilterableClass,org.semanticwb.model.RuleRefable,org.semanticwb.model.Expirable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Searchable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Activeable,org.semanticwb.model.Hiddenable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Rankable
+public abstract class GeographicPointBase extends org.semanticwb.cptm.CPTMWebPage implements org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Trashable,org.semanticwb.model.Indexable,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Resourceable,org.semanticwb.model.Localeable,org.semanticwb.model.Traceable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.cptm.LocalityInt,org.semanticwb.model.Referensable,org.semanticwb.model.Viewable,org.semanticwb.model.FilterableClass,org.semanticwb.model.RuleRefable,org.semanticwb.model.Expirable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Searchable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Activeable,org.semanticwb.model.Hiddenable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Rankable
 {
    /**
    * Marca Regional. La cual puede tener relaciodos Destinos Turisticos y Puntos geográficos (Ej. La Riviera Maya)
@@ -205,29 +205,6 @@ public abstract class GeographicPointBase extends org.semanticwb.cptm.CPTMWebPag
         public static java.util.Iterator<org.semanticwb.cptm.GeographicPoint> listGeographicPointByParent(org.semanticwb.model.WebPage value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.GeographicPoint> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_webPageParent,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.GeographicPoint with a determined PromotionInv
-       * @param value PromotionInv of the type org.semanticwb.cptm.Promotion
-       * @param model Model of the org.semanticwb.cptm.GeographicPoint
-       * @return Iterator with all the org.semanticwb.cptm.GeographicPoint
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.GeographicPoint> listGeographicPointByPromotionInv(org.semanticwb.cptm.Promotion value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.GeographicPoint> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasPromotionInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.GeographicPoint with a determined PromotionInv
-       * @param value PromotionInv of the type org.semanticwb.cptm.Promotion
-       * @return Iterator with all the org.semanticwb.cptm.GeographicPoint
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.GeographicPoint> listGeographicPointByPromotionInv(org.semanticwb.cptm.Promotion value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.GeographicPoint> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasPromotionInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -781,45 +758,6 @@ public abstract class GeographicPointBase extends org.semanticwb.cptm.CPTMWebPag
          if(obj!=null)
          {
              ret=(org.semanticwb.cptm.ActivityRef)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Gets all the org.semanticwb.cptm.Promotion
-   * @return A GenericIterator with all the org.semanticwb.cptm.Promotion
-   */
-
-    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> listPromotionInvs()
-    {
-        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion>(getSemanticObject().listObjectProperties(cptm_hasPromotionInv));
-    }
-
-   /**
-   * Gets true if has a PromotionInv
-   * @param value org.semanticwb.cptm.Promotion to verify
-   * @return true if the org.semanticwb.cptm.Promotion exists, false otherwise
-   */
-    public boolean hasPromotionInv(org.semanticwb.cptm.Promotion value)
-    {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(cptm_hasPromotionInv,value.getSemanticObject());
-        }
-        return ret;
-    }
-
-   /**
-   * Gets the PromotionInv
-   * @return a org.semanticwb.cptm.Promotion
-   */
-    public org.semanticwb.cptm.Promotion getPromotionInv()
-    {
-         org.semanticwb.cptm.Promotion ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasPromotionInv);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.cptm.Promotion)obj.createGenericInstance();
          }
          return ret;
     }

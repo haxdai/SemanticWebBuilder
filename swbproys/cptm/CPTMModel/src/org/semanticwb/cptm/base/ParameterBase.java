@@ -136,24 +136,6 @@ public abstract class ParameterBase extends org.semanticwb.model.SWBClass implem
     }
 
 /**
-* Gets the Index property
-* @return int with the Index
-*/
-    public int getIndex()
-    {
-        return getSemanticObject().getIntProperty(swb_index);
-    }
-
-/**
-* Sets the Index property
-* @param value long with the Index
-*/
-    public void setIndex(int value)
-    {
-        getSemanticObject().setIntProperty(swb_index, value);
-    }
-
-/**
 * Gets the Created property
 * @return java.util.Date with the Created
 */
@@ -169,6 +151,24 @@ public abstract class ParameterBase extends org.semanticwb.model.SWBClass implem
     public void setCreated(java.util.Date value)
     {
         getSemanticObject().setDateProperty(swb_created, value);
+    }
+
+/**
+* Gets the Index property
+* @return int with the Index
+*/
+    public int getIndex()
+    {
+        return getSemanticObject().getIntProperty(swb_index);
+    }
+
+/**
+* Sets the Index property
+* @param value long with the Index
+*/
+    public void setIndex(int value)
+    {
+        getSemanticObject().setIntProperty(swb_index, value);
     }
    /**
    * Sets the value for the property ModifiedBy

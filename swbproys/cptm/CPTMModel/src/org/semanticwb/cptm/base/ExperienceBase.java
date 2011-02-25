@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de experiencias. 
    */
-public abstract class ExperienceBase extends org.semanticwb.cptm.CPTMWebPage implements org.semanticwb.model.Trashable,org.semanticwb.model.Indexable,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Resourceable,org.semanticwb.model.Localeable,org.semanticwb.model.Traceable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Viewable,org.semanticwb.model.FilterableClass,org.semanticwb.model.RuleRefable,org.semanticwb.model.Expirable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Searchable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Activeable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Filterable,org.semanticwb.model.Rankable
+public abstract class ExperienceBase extends org.semanticwb.cptm.CPTMWebPage implements org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Trashable,org.semanticwb.model.Indexable,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Resourceable,org.semanticwb.model.Localeable,org.semanticwb.model.Traceable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Viewable,org.semanticwb.model.FilterableClass,org.semanticwb.model.RuleRefable,org.semanticwb.model.Expirable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Searchable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Activeable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Filterable,org.semanticwb.model.Rankable
 {
     public static final org.semanticwb.platform.SemanticClass cptm_Activity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Activity");
    /**
@@ -24,6 +24,11 @@ public abstract class ExperienceBase extends org.semanticwb.cptm.CPTMWebPage imp
    */
     public static final org.semanticwb.platform.SemanticClass cptm_EditNote=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#EditNote");
     public static final org.semanticwb.platform.SemanticProperty cptm_hasEditNoteExperienceInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasEditNoteExperienceInv");
+   /**
+   * Actividad en un específico "Destino", si le quisiera agregar un Directorio de empresas aqui, tendría que tener una relación además de con el Destino, con el objeto  SPType
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_ActivityRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#ActivityRef");
+    public static final org.semanticwb.platform.SemanticProperty cptm_hasExpReferencedActivities=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasExpReferencedActivities");
    /**
    * Experiencia en un específico "Destino", si le quisiera agregar un Directorio de empresas aqui, tendría que tener una relación además de con el Destino, con el objeto  SPType
    */
@@ -306,6 +311,29 @@ public abstract class ExperienceBase extends org.semanticwb.cptm.CPTMWebPage imp
         public static java.util.Iterator<org.semanticwb.cptm.Experience> listExperienceByUserGroupRef(org.semanticwb.model.UserGroupRef value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Experience> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.Experience with a determined ExpReferencedActivities
+       * @param value ExpReferencedActivities of the type org.semanticwb.cptm.ActivityRef
+       * @param model Model of the org.semanticwb.cptm.Experience
+       * @return Iterator with all the org.semanticwb.cptm.Experience
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Experience> listExperienceByExpReferencedActivities(org.semanticwb.cptm.ActivityRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Experience> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasExpReferencedActivities, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.Experience with a determined ExpReferencedActivities
+       * @param value ExpReferencedActivities of the type org.semanticwb.cptm.ActivityRef
+       * @return Iterator with all the org.semanticwb.cptm.Experience
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Experience> listExperienceByExpReferencedActivities(org.semanticwb.cptm.ActivityRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Experience> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasExpReferencedActivities,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -760,6 +788,71 @@ public abstract class ExperienceBase extends org.semanticwb.cptm.CPTMWebPage imp
          if(obj!=null)
          {
              ret=(org.semanticwb.cptm.EditNote)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Gets all the org.semanticwb.cptm.ActivityRef
+   * @return A GenericIterator with all the org.semanticwb.cptm.ActivityRef
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.ActivityRef> listExpReferencedActivitieses()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.ActivityRef>(getSemanticObject().listObjectProperties(cptm_hasExpReferencedActivities));
+    }
+
+   /**
+   * Gets true if has a ExpReferencedActivities
+   * @param value org.semanticwb.cptm.ActivityRef to verify
+   * @return true if the org.semanticwb.cptm.ActivityRef exists, false otherwise
+   */
+    public boolean hasExpReferencedActivities(org.semanticwb.cptm.ActivityRef value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(cptm_hasExpReferencedActivities,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a ExpReferencedActivities
+   * @param value org.semanticwb.cptm.ActivityRef to add
+   */
+
+    public void addExpReferencedActivities(org.semanticwb.cptm.ActivityRef value)
+    {
+        getSemanticObject().addObjectProperty(cptm_hasExpReferencedActivities, value.getSemanticObject());
+    }
+   /**
+   * Removes all the ExpReferencedActivities
+   */
+
+    public void removeAllExpReferencedActivities()
+    {
+        getSemanticObject().removeProperty(cptm_hasExpReferencedActivities);
+    }
+   /**
+   * Removes a ExpReferencedActivities
+   * @param value org.semanticwb.cptm.ActivityRef to remove
+   */
+
+    public void removeExpReferencedActivities(org.semanticwb.cptm.ActivityRef value)
+    {
+        getSemanticObject().removeObjectProperty(cptm_hasExpReferencedActivities,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the ExpReferencedActivities
+   * @return a org.semanticwb.cptm.ActivityRef
+   */
+    public org.semanticwb.cptm.ActivityRef getExpReferencedActivities()
+    {
+         org.semanticwb.cptm.ActivityRef ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasExpReferencedActivities);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.cptm.ActivityRef)obj.createGenericInstance();
          }
          return ret;
     }

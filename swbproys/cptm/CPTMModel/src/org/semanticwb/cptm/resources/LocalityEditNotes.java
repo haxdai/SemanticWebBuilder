@@ -29,7 +29,7 @@ public class LocalityEditNotes  extends GenericResource{
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         WebSite wsite=paramRequest.getWebPage().getWebSite();
-        RequestDispatcher dis = request.getRequestDispatcher("/work/models/"+wsite.getId()+"/jsp/localityEditNotes.jsp");
+        RequestDispatcher dis = request.getRequestDispatcher("/work/models/"+wsite.getId()+"/jsp/listWebPageEditNotes.jsp");
         try {
             request.setAttribute("paramRequest", paramRequest);
             dis.include(request, response);

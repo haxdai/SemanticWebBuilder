@@ -15,11 +15,6 @@ public interface LocalityIntBase extends org.semanticwb.model.GenericObject
    */
     public static final org.semanticwb.platform.SemanticClass cptm_ActivityRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#ActivityRef");
     public static final org.semanticwb.platform.SemanticProperty cptm_arefLocalityInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#arefLocalityInv");
-   /**
-   * Catálogo de promociones, las cuales pueden relacionarse con uno o varios Destinos, Estados y Empresas (Ver viabilidad) 
-   */
-    public static final org.semanticwb.platform.SemanticClass cptm_Promotion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Promotion");
-    public static final org.semanticwb.platform.SemanticProperty cptm_hasPromotionInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasPromotionInv");
     public static final org.semanticwb.platform.SemanticProperty cptm_latitude=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#latitude");
    /**
    * Interfaz que define propiedades en comun para un Punto Geografico y una Marca Regional 
@@ -74,9 +69,6 @@ public interface LocalityIntBase extends org.semanticwb.model.GenericObject
     public void removeArefLocalityInv();
 
     public org.semanticwb.cptm.ActivityRef getArefLocalityInv();
-
-    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Promotion> listPromotionInvs();
-    public boolean hasPromotionInv(org.semanticwb.cptm.Promotion value);
 
     public double getLatitude();
 
