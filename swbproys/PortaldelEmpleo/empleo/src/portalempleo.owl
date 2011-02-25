@@ -2,16 +2,72 @@
 <rdf:RDF
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
     xmlns:swb="http://www.semanticwebbuilder.org/swb4/ontology#"
+    xmlns:swbxf="http://www.semanticwebbuilder.org/swb4/xforms/ontology#"
     xmlns:portalempleo="http://www.stps.gob.mx/swb4/portalempleo#"
     xmlns:owl="http://www.w3.org/2002/07/owl#"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
   xml:base="http://www.stps.gob.mx/swb4/portalempleo">
   <owl:Ontology rdf:about="">
-    <owl:imports rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology"/>
     <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Created with TopBraid Composer</owl:versionInfo>
+    <owl:imports rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology"/>
   </owl:Ontology>
+  <owl:Class rdf:ID="Month">
+    <swb:displayObject>
+      <swbxf:DisplayObject rdf:ID="do_Month">
+        <rdfs:label xml:lang="en">Month</rdfs:label>
+        <rdfs:label xml:lang="es">Mes</rdfs:label>
+        <swb:iconClass rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >swbIconWebPage</swb:iconClass>
+      </swbxf:DisplayObject>
+    </swb:displayObject>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#WebPage"/>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:Class rdf:ID="EmpleoWebSite">
+    <swb:hasHerarquicalNode rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#hn_Rules"/>
+    <swb:hasHerarquicalNode rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#hn_PTStrategies"/>
+    <swb:hasHerarquicalNode rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#hn_PFlows"/>
+    <swb:displayObject>
+      <swbxf:DisplayObject rdf:ID="do_EmpleoWebSite">
+        <swb:iconClass rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >swbIconWebSite</swb:iconClass>
+      </swbxf:DisplayObject>
+    </swb:displayObject>
+    <swb:hasClass>
+      <swb:Class rdf:ID="Year">
+        <swb:displayObject>
+          <swbxf:DisplayObject rdf:ID="do_Year">
+            <rdfs:label xml:lang="es">Año</rdfs:label>
+            <rdfs:label xml:lang="en">Year</rdfs:label>
+            <swb:iconClass rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >swbIconWebPage</swb:iconClass>
+          </swbxf:DisplayObject>
+        </swb:displayObject>
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#WebPage"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+      </swb:Class>
+    </swb:hasClass>
+    <swb:hasHerarquicalNode rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#hn_Collections"/>
+    <swb:hasHerarquicalNode rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#hn_Templates"/>
+    <rdfs:label xml:lang="en">Portal de Empleo WebSite</rdfs:label>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Portal del Empleo de la STPS</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#WebSite"/>
+    <swb:hasHerarquicalNode rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#hn_PTSystems"/>
+    <swb:hasHerarquicalNode rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#hn_Languages"/>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Model"/>
+    <swb:hasHerarquicalNode rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#hn_PTContents"/>
+    <rdfs:label xml:lang="es">Sitio Portal del Empleo</rdfs:label>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayObject"/>
+    <swb:hasHerarquicalNode rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#hn_Devices"/>
+    <swb:hasHerarquicalNode rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#hn_Dnss"/>
+    <swb:hasClass rdf:resource="#Month"/>
+    <swb:hasHerarquicalNode rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#hn_Calendars"/>
+    <swb:hasHerarquicalNode rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#hn_ResourceCollections"/>
+    <swb:hasHerarquicalNode rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#hn_Countries"/>
+  </owl:Class>
   <owl:Class rdf:ID="Event">
     <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</swb:autogenId>
@@ -26,19 +82,22 @@
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
   </owl:Class>
   <owl:ObjectProperty rdf:ID="hasEvent">
+    <rdfs:domain rdf:resource="#Month"/>
     <rdfs:range rdf:resource="#Event"/>
-    <rdfs:domain>
-      <swb:Class rdf:ID="Month">
-        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#WebPage"/>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-      </swb:Class>
-    </rdfs:domain>
   </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasMonth">
+    <rdfs:range rdf:resource="#Month"/>
+    <rdfs:domain rdf:resource="#Year"/>
+  </owl:ObjectProperty>
+  <swb:SemanticResource rdf:ID="EventManager">
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBSemanticResource"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </swb:SemanticResource>
   <swb:CodePackage rdf:ID="pkg">
-    <swb:prefix rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >portalempleo</swb:prefix>
     <swb:package rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >mx.gob.stps.portalempleo.swb</swb:package>
+    <swb:prefix rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >portalempleo</swb:prefix>
   </swb:CodePackage>
 </rdf:RDF>
 
