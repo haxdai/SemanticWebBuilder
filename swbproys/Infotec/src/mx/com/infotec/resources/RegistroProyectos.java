@@ -60,22 +60,18 @@ public class RegistroProyectos extends GenericResource {
         }
 
 
+
         int usrlev = getLevelUser(user);
 
-        System.out.println("nivel usr: "+usrlev);
+        //System.out.println("nivel usr: "+usrlev);
 
         if (user.isSigned()) {
-            out.println("<p >");
-            out.println("<h2>Proyectos");
-            out.println("</h2>");
-            out.println("</p>");
-            if ("new".equals(act)) {
-                out.println("<div>");
 
-                out.println("<p >");
+            if ("new".equals(act)) {
+
                 out.println("<h2>Nuevo Proyecto");
                 out.println("</h2>");
-                out.println("</p>");
+
 
                 SWBFormMgr mgr = new SWBFormMgr(Proyecto.info_Proyecto, ws.getSemanticObject(), SWBFormMgr.MODE_CREATE);
                 mgr.setType(SWBFormMgr.TYPE_DOJO);
@@ -93,12 +89,6 @@ public class RegistroProyectos extends GenericResource {
 
                 out.println(mgr.renderForm(request));
 
-//                out.println("<p>");
-//                SWBResourceURL urlb = paramsRequest.getRenderUrl();
-//                urlb.setAction("");
-//                out.println("<a href=\"" + urlb + "\">regresar</a>");
-//                out.println("</p>");
-                out.println("</div>");
             } if ("detail".equals(act)) {
 
                 String sval = request.getParameter("suri");
@@ -108,12 +98,7 @@ public class RegistroProyectos extends GenericResource {
 
                 Proyecto proy = (Proyecto) so.getGenericInstance();
 
-                out.println("<div>");
-
-                out.println("<p >");
-                out.println("<h2>Detalle Proyecto");
-                out.println("</h2>");
-                out.println("</p>");
+                out.println("<h2>Detalle Proyecto</h2>");
 
                 String frmMode = SWBFormMgr.MODE_VIEW;
 
@@ -143,19 +128,14 @@ public class RegistroProyectos extends GenericResource {
                 urlb.setAction("");
                 mgr.addButton("<button dojoType=\"dijit.form.Button\" onclick=\"window.location='"+urlb+"'; return false;\">Cancelar</button>");
                 out.println(mgr.renderForm(request));
-                out.println("</div>");
+
             } else {
 
-                out.println("<div>");
-
-                out.println("<p >");
-                out.println("<h2>Lista de Proyectos");
-                out.println("</h2>");
-                out.println("</p>");
-
-                out.println("<fieldset>");
+                out.println("<h2>Lista de Proyectos</h2>");
+               
                 out.println("<table width=\"100%\">");
 
+                out.println("<thead>");
                 out.println("<tr>");
                 out.println("<th>");
                 out.println("&nbsp;");
@@ -194,9 +174,10 @@ public class RegistroProyectos extends GenericResource {
                 out.println(Traceable.swb_updated.getLabel());
                 out.println("</th>");
                 out.println("</tr>");
-
+                out.println("</thead>");
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MMM/yyyy");
 
+                out.println("<tbody>");
                 Iterator<Proyecto> ite = Proyecto.ClassMgr.listProyectos(ws);
                 while (ite.hasNext()) {
 
@@ -269,24 +250,26 @@ public class RegistroProyectos extends GenericResource {
                     out.println("</tr>");
 
                 }
+                out.println("</tbody>");
                 out.println("</table>");
 
-                out.println("</fieldset>");
                 if(usrlev>0)
                 {
                     SWBResourceURL urls = paramsRequest.getRenderUrl();
                     urls.setAction("new");
-                    out.println("<p align=\"center\"><a href=\"" + urls + "\">Agregar proyecto</a></p>");
+
+                    out.println("<hr>");
+                    out.println("<h2 class=\"ico-lapiz\"><a href=\"" + urls + "\">Agregar proyecto</a></h2>");
+
                 }
-                out.println("</div>");
             }
 
 
         } else {
-            out.println("<fieldset>");
+
             out.println("<h3>Para consultar los Proyectos, debes de estar registrado en el sitio.");
             out.println("</h3>");
-            out.println("</fieldset>");
+
         }
     }
 
