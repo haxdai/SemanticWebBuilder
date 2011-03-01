@@ -8,8 +8,6 @@ package org.semanticwb.cptm.resources;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Enumeration;
-import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.SWBUtils;
@@ -28,21 +26,61 @@ import org.w3c.dom.Text;
 
 
 /**
- *
+ * Muestra, dependiendo de los valores del pais e idioma del usuario, las 
+ * interfaces de las cajas de reservaciones para BestDay y Travelocity.
  * @author jose.jimenez
  */
 public class BookingEngine extends GenericResource {
 
 
+    /**
+     * Contiene la plantilla de transformaci&oacute;n de BestDay
+     */
     private static Templates xsltBestday = null;
+
+    /**
+     * Contiene la plantilla de transformaci&oacute;n de Travelocity
+     */
     Templates xsltExpedia = null;
+
+    /**
+     * Contiene el c&oacute;digo HTML de la caja de reservaciones de BestDay en Espa&ntilde;ol
+     */
     private static String htmlBestday_es = null;
+
+    /**
+     * Contiene el c&oacute;digo HTML de la caja de reservaciones de BestDay en Portugu&eacute;s
+     */
     private static String htmlBestday_pt = null;
+
+    /**
+     * Contiene el c&oacute;digo HTML de la caja de reservaciones de Travelocity en Ingl&eacute;s
+     */
     private static String htmlTravelocity_en = null;
+
+    /**
+     * Contiene el c&oacute;digo HTML de la caja de reservaciones de Travelocity en Espa&ntilde;ol
+     */
     private static String htmlTravelocity_es = null;
+
+    /**
+     * Contiene el c&oacute;digo HTML de la caja de reservaciones de Travelocity en Franc&eacute;s
+     */
     private static String htmlTravelocity_fr = null;
-    private static String htmlTravelocity_de = null;
-    private static String htmlTravelocity_it = null;
+
+    /**
+     * Contiene el identificador del pa&iacute;s utilizado por defecto
+     */
+    private static String defaultContry = "mx";
+
+    /**
+     * Contiene el identificador del idioma utilizado por defecto
+     */
+    private static String defaultLanguage = "es";
+
+    /**
+     * Referencia al objeto que realiza operaciones de escritura en la bit&aacute;cora configurada
+     */
     private static Logger log = SWBUtils.getLogger(BookingEngine.class);
 
 
@@ -50,6 +88,12 @@ public class BookingEngine extends GenericResource {
 
     }
 
+    /**
+     * Fija los valores de configuraci&oacute;n de la instancia de este recurso
+     * @param base instancia base del recurso
+     * @throws SWBResourceException Generada si ocurre alg&uacute;n problema con la
+     *         asignación del recurso base
+     */
     @Override
     public void setResourceBase(Resource base) throws SWBResourceException {
 
@@ -99,74 +143,65 @@ public class BookingEngine extends GenericResource {
         }
     }
 
+    /**
+     * En base a los valores del idioma y pa&iacute;s asignados al usuario, determina
+     * si muestra la interfaz de BestDay (Argentina, Brasil, Chile, M&eacute;xico,
+     * Centro Am&eacute;rica y Sudam&eacute;rica) o de Travelocity (Estados Unidos
+     * o Canad&aacute;).
+     * @param request la petici&oacute;n HTTP a atender
+     * @param response la respuesta HTTP a devolver
+     * @param paramRequest valores y objetos asociados a la petici&oacute;n HTTP
+     * @throws SWBResourceException generada si hay alg&uacute;n problema durante
+     *         la atenci&oacute;n a la petici&oacute;n
+     * @throws IOException generada si hay alg&uacute;n problema de I/O durante
+     *         la atenci&oacute;n a la petici&oacute;n
+     */
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response,
             SWBParamRequest paramRequest) throws SWBResourceException, IOException {
 
-        String language = null;
-        String userLanguage = null;
-        String browserLanguage = null;
-        int userPais = 0;
-        Enumeration<Locale> locales = request.getLocales();
+        String userCountry = null;
         User user = paramRequest.getUser();
 
-        if (locales.hasMoreElements()) {
-            Locale loc = locales.nextElement();
-            browserLanguage = loc.getLanguage();
-        }
-
-        //Se obtienen los valores del Lenguaje y del País
-        userLanguage = user.getLanguage() != null ? user.getLanguage() : "es";
+        //Se obtiene el valor del País
         try {
             if (user != null && user.getCountry() != null) {
-                //userPais = Integer.parseInt(user.getCountry().getId());
+                userCountry = user.getCountry();
             } else {
-                userPais = 0;
+                userCountry = BookingEngine.defaultContry;
             }
-        } catch (NumberFormatException nfe) {
-            userPais = 0;
+        } catch (Exception e) {
+            userCountry = BookingEngine.defaultContry;
         }
+
         /*
-         * 6-Argentina, 10-Brasil, 13-Chile, 44-Mexico, 65-Centro America, 66-Sudamerica ---> BestDay
-         * 12-Canada-en --> Travelocity en,
-         * 12-Canada-fr --> Travelocity fr,
-         * 25-Estados Unidos-en Travelocity en,
-         * 25-Estados Unidos-es Travelocity es
+         * ar-Argentina, br-Brasil, cl-Chile, mx-Mexico, a2-Centro America, a3-Sudamerica ---> BestDay
+         * ca-Canada-en --> Travelocity en,
+         * ca-Canada-fr --> Travelocity fr,
+         * us-Estados Unidos-en Travelocity en,
+         * us-Estados Unidos-es Travelocity es
          */
 
-        //Se determina la interfaz a mostrar en base a los valores conocidos de lenguaje y país
-        switch (userPais) {
-            case 0:
-                 if (browserLanguage.equalsIgnoreCase("es")) {
-                     doViewBestDay(request, response, paramRequest);
-                 } else {
-                     doViewTravelocity(request, response, paramRequest);
-                 }
-                 break;
-            case 6:
-            case 10:
-            case 13:
-            case 44:
-            case 65:
-            case 66:
-                doViewBestDay(request, response, paramRequest);
-                break;
-            case 12://canada
-            case 25://estados unidos
-           // case 24://España
-           // case 3: // alemania
-           // case 29:// francia
-           //  case 38:// Italia
-           // case 51:// Reino Unido
-                 doViewTravelocity(request, response, paramRequest);
-                break;
-            default:
-                doViewExpidia(request, response, paramRequest);
-                break;
-
+        //Se determina la interfaz a mostrar en base al país
+        if (userCountry.equalsIgnoreCase("ca") || userCountry.equalsIgnoreCase("us")) {
+            doViewTravelocity(request, response, paramRequest);
+        } else if (userCountry.equalsIgnoreCase("ar") || userCountry.equalsIgnoreCase("br") ||
+                userCountry.equalsIgnoreCase("cl") || userCountry.equalsIgnoreCase("mx") ||
+                userCountry.equalsIgnoreCase("a2") || userCountry.equalsIgnoreCase("a3")) {
+            doViewBestDay(request, response, paramRequest);
         }
     }
 
+    /**
+     * Muestra la caja de reservaciones de BestDay de acuerdo al idioma del usuario.
+     * @param request la petici&oacute;n HTTP a atender
+     * @param response la respuesta HTTP a devolver
+     * @param paramRequest valores y objetos asociados a la petici&oacute;n HTTP
+     * @throws SWBResourceException generada si hay alg&uacute;n problema durante
+     *         la atenci&oacute;n a la petici&oacute;n
+     * @throws IOException generada si hay alg&uacute;n problema de I/O durante
+     *         la atenci&oacute;n a la petici&oacute;n
+     */
     public void doViewBestDay(HttpServletRequest request, HttpServletResponse response,
             SWBParamRequest paramRequest) throws SWBResourceException, IOException {
 
@@ -180,32 +215,52 @@ public class BookingEngine extends GenericResource {
         PrintWriter out = response.getWriter();
         User user = paramRequest.getUser();
         String userLanguage = null;
-        int userPais = 0;
-        //String xsl = "/BookEngineXslt/BestDay_es.xsl";
+        String userCountry = null;
+        int countryCode = 0;
 
         //Obtenemos los valores del languaje y del país
-        userLanguage = user.getLanguage() != null ? user.getLanguage() : "es";
+        userLanguage = user.getLanguage() != null
+                     ? user.getLanguage()
+                     : BookingEngine.defaultLanguage;
         try {
             if (user != null && user.getCountry() != null) {
-                //userPais = Integer.parseInt(user.getCountry().getId());
+                userCountry = user.getCountry();
             } else {
-                userPais = 44;
+                userCountry = BookingEngine.defaultContry;
             }
-        } catch (NumberFormatException nfe) {
-            userPais = 44;
+        } catch (Exception e) {
+            userCountry = BookingEngine.defaultContry;
+        }
+
+        /*
+         * ar-Argentina, br-Brasil, cl-Chile, mx-Mexico, a2-Centro America, a3-Sudamerica ---> BestDay
+         */
+        //Se obtiene la equivalencia con las claves de paises usadas anteriormente
+        if (userCountry.equalsIgnoreCase("ar")) {
+            countryCode = 6;
+        } else if (userCountry.equalsIgnoreCase("br")) {
+            countryCode = 10;
+        } else if (userCountry.equalsIgnoreCase("cl")) {
+            countryCode = 13;
+        } else if (userCountry.equalsIgnoreCase("mx")) {
+            countryCode = 44;
+        } else if (userCountry.equalsIgnoreCase("a2")) {
+            countryCode = 65;
+        } else if (userCountry.equalsIgnoreCase("a3")) {
+            countryCode = 66;
         }
 
         try {
-            if (userLanguage.equals("es")) {
+            if (userLanguage.equalsIgnoreCase(BookingEngine.defaultLanguage)) {
                 Document doc = SWBUtils.XML.getNewDocument();
                 elem_parameters = doc.createElement("parameters");
                 doc.appendChild(elem_parameters);
                 elem_parameter = getElement(doc, "idm", userLanguage);
                 elem_parameters.appendChild(elem_parameter);
-                elem_parameter = getElement(doc, "Pais", "" + userPais);
+                elem_parameter = getElement(doc, "Pais", "" + countryCode);
                 elem_parameters.appendChild(elem_parameter);
 
-    //            out.println(new GenerateHtml().getHtml(doc, xsl));   //todo descomentar este si es generico y comentar el siguiente
+//            out.println(new GenerateHtml().getHtml(doc, xsl));   //todo descomentar este si es generico y comentar el siguiente
                 out.println(SWBUtils.XML.transformDom(BookingEngine.xsltBestday, doc));
 //                out.println(BookingEngine.htmlBestday_es);//Ingles, paises que lo manejen
             } else if (userLanguage.equals("pt")) {//Portugés
@@ -216,6 +271,18 @@ public class BookingEngine extends GenericResource {
         }
     }
 
+    /**
+     * Muestra la caja de reservaciones de Travelocity, de acuerdo al pa&iacute;s
+     * y al idioma del usuario. Estados Unidos (Ingl&eacute;s o Espa&ntilde;ol) o
+     * Canad&aacute; (Ingl&eacute;s o Franc&eacute;s).
+     * @param request la petici&oacute;n HTTP a atender
+     * @param response la respuesta HTTP a devolver
+     * @param paramRequest valores y objetos asociados a la petici&oacute;n HTTP
+     * @throws SWBResourceException generada si hay alg&uacute;n problema durante
+     *         la atenci&oacute;n a la petici&oacute;n
+     * @throws IOException generada si hay alg&uacute;n problema de I/O durante
+     *         la atenci&oacute;n a la petici&oacute;n
+     */
     public void doViewTravelocity(HttpServletRequest request, HttpServletResponse response,
             SWBParamRequest paramRequest) throws SWBResourceException, IOException {
 
@@ -226,45 +293,48 @@ public class BookingEngine extends GenericResource {
         PrintWriter out = response.getWriter();
         User user = paramRequest.getUser();
         String userLanguage = null;
+        String userCountry = null;
 
-        //String fileJsp = null;
-        //boolean useXslt = false;
-
-
-        userLanguage = user.getLanguage() != null ? user.getLanguage() : "es";
+        //Obtenemos los valores del languaje y del país
+        userLanguage = user.getLanguage() != null
+                     ? user.getLanguage()
+                     : BookingEngine.defaultLanguage;
+        try {
+            if (user != null && user.getCountry() != null) {
+                userCountry = user.getCountry();
+            } else {
+                userCountry = BookingEngine.defaultContry;
+            }
+        } catch (Exception e) {
+            userCountry = BookingEngine.defaultContry;
+        }
 
         try {
-  /*        // todo descomentar esto y comentar el resto para hacerlo generico
-            if (useXslt) {
-                String xsl = "/BookEngineXslt/Travelocity_" + userLanguage + ".xsl";
-                Document doc = AFUtils.getInstance().getNewDocument();
-                out.println(new GenerateHtml().getHtml(doc, xsl));  //todo
-            } else {
-                fileJsp = "/work/BookEngineXslt/Travelocity_" + userLanguage + ".html";
-
-                RequestDispatcher rd = request.getRequestDispatcher(fileJsp);
-                rd.include(request, response);
+            //Esta interfaz solo se muestra para Canada y EU
+            if (userCountry.equalsIgnoreCase("ca") || userCountry.equalsIgnoreCase("us")) {
+                if (userLanguage.equals("en")) {
+                    out.println(BookingEngine.htmlTravelocity_en);//Ingles, paises que lo manejen
+                } else if (userLanguage.equals("fr")) {//Frances
+                    out.println(BookingEngine.htmlTravelocity_fr);
+                } else if (userLanguage.equals("es")) {//Español, paises que lo manejen
+                    out.println(BookingEngine.htmlTravelocity_es);
+                }
             }
-*//**Modifico  Javier Tinoco Diaz para presentar italiano y aleman
-   *
- */
-            if (userLanguage.equals("en")) {
-                out.println(BookingEngine.htmlTravelocity_en);//Ingles, paises que lo manejen
-            } else if (userLanguage.equals("fr")) {//Frances
-                out.println(BookingEngine.htmlTravelocity_fr);
-            } else if (userLanguage.equals("es")) {//Español, paises que lo manejen
-                out.println(BookingEngine.htmlTravelocity_es);
-            }/*else if(userLanguage.equals("it")){//Italiano
-                out.println(htmlTravelocity_it);
-            }else if(userLanguage.equals("de")){
-                out.println(htmlTravelocity_de); //aleman
-            }*/
-
         } catch (Exception e) {
             BookingEngine.log.error("Error while generating Travelocity's form.", e);
         }
     }
 
+    /**
+     * Muestra la caja de texto de Expidia, actualmente, este m&eacute;todo no se usa.
+     * @param request la petici&oacute;n HTTP a atender
+     * @param response la respuesta HTTP a devolver
+     * @param paramRequest valores y objetos asociados a la petici&oacute;n HTTP
+     * @throws SWBResourceException generada si hay alg&uacute;n problema durante
+     *         la atenci&oacute;n a la petici&oacute;n
+     * @throws IOException generada si hay alg&uacute;n problema de I/O durante
+     *         la atenci&oacute;n a la petici&oacute;n
+     */
     public void doViewExpidia(HttpServletRequest request, HttpServletResponse response,
             SWBParamRequest paramRequest) throws SWBResourceException, IOException {
 
@@ -283,6 +353,13 @@ public class BookingEngine extends GenericResource {
         }
     }
 
+    /**
+     * Crea elementos de un documento DOM.
+     * @param doc el documento en que se agregar&aacute;n los elementos
+     * @param name cadena que representa el nombre del elemento a crear
+     * @param value cadena que representa el valor del elemento a crear
+     * @return un objeto de tipo {@code Element} listo para agregarse a un documento DOM
+     */
     public Element getElement(Document doc, String name, String value) {
         Element element = null;
         Text text = null;
