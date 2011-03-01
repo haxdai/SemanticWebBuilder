@@ -69,9 +69,7 @@ public class RegistroProyectos extends GenericResource {
 
             if ("new".equals(act)) {
 
-                out.println("<h2>Nuevo Proyecto");
-                out.println("</h2>");
-
+                out.println("<h2>Nuevo Proyecto</h2>");
 
                 SWBFormMgr mgr = new SWBFormMgr(Proyecto.info_Proyecto, ws.getSemanticObject(), SWBFormMgr.MODE_CREATE);
                 mgr.setType(SWBFormMgr.TYPE_DOJO);
@@ -85,7 +83,6 @@ public class RegistroProyectos extends GenericResource {
                 SWBResourceURL urlb = paramsRequest.getRenderUrl();
                 urlb.setAction("");
                 mgr.addButton("<button dojoType=\"dijit.form.Button\" onclick=\"window.location='"+urlb+"'; return false;\">Cancelar</button>");
-                //mgr.addButton(SWBFormButton.newCancelButton());
 
                 out.println(mgr.renderForm(request));
 
@@ -204,16 +201,16 @@ public class RegistroProyectos extends GenericResource {
                         SWBResourceURL urladel = paramsRequest.getActionUrl();
                         urladel.setAction("delete");
                         urladel.setParameter("uri", proy.getURI());
-                        out.println("<a href=\"#\" onclick=\"if(confirm('¿Estás seguro de querer eliminar este Proyecto?')){window.location='" + urladel + "';return false;} else return false;\">eliminar</a>");
+                        out.println("<a href=\"#\" onclick=\"if(confirm('¿Estás seguro de querer eliminar este Proyecto?')){window.location='" + urladel + "';return false;} else return false;\" class=\"borrar\">borrar</a>");
                     } else {
-                        out.println("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+                        out.println("&nbsp;&nbsp;");
                     }
                     out.println("</td>");
                     out.println("<td>");
                     out.println(proy.getId());
                     out.println("</td>");
                     out.println("<td>");
-                    out.println(proy.getNumProyecto());
+                    out.println(proy.getNumProyecto()!=null?proy.getNumProyecto():"--");
                     out.println("</td>");
                     out.println("<td>");
 
@@ -267,8 +264,7 @@ public class RegistroProyectos extends GenericResource {
 
         } else {
 
-            out.println("<h3>Para consultar los Proyectos, debes de estar registrado en el sitio.");
-            out.println("</h3>");
+            out.println("<h3>Para consultar los Proyectos, debes de estar registrado en el sitio.</h3>");
 
         }
     }

@@ -78,7 +78,7 @@ public class RegistroAusencias extends GenericResource {
                 SWBResourceURL urlb = paramsRequest.getRenderUrl();
                 urlb.setAction("show");
                 mgr.addButton("<button dojoType=\"dijit.form.Button\" type=\"submit\" class=\"boton\">Guardar</button>");
-                mgr.addButton("<button dojoType=\"dijit.form.Button\" onclick=\"window.location='"+urlb+"'; return false;\" class=\"boton\">Cancelar</button>");
+                mgr.addButton("<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + urlb + "'; return false;\" class=\"boton\">Cancelar</button>");
                 out.println(mgr.renderForm(request));
 
             } else {
@@ -96,21 +96,22 @@ public class RegistroAusencias extends GenericResource {
                 out.println("Estado");
                 out.println("</th>");
                 out.println("<th>");
-                out.println(Ausencia.info_tipo.getDisplayName(user.getLanguage()));
+                out.println("Tipo"); //Ausencia.info_tipo.getDisplayName(user.getLanguage()));
                 out.println("</th>");
                 out.println("<th>");
-                out.println(Ausencia.info_descripcion.getDisplayName(user.getLanguage()));
+                out.println("Descripción"); //Ausencia.info_descripcion.getDisplayName(user.getLanguage()));
                 out.println("</th>");
                 out.println("<th>");
-                out.println(Ausencia.info_fechaInicial.getDisplayName(user.getLanguage()));
+                out.println("Inicio"); //Ausencia.info_fechaInicial.getDisplayName(user.getLanguage()));
                 out.println("</th>");
                 out.println("<th>");
-                out.println(Ausencia.info_fechaFin.getDisplayName(user.getLanguage()));
+                out.println("Fin"); //Ausencia.info_fechaFin.getDisplayName(user.getLanguage()));
                 out.println("</th>");
+
                 out.println("<th>");
-                out.println(Traceable.swb_created.getDisplayName(user.getLanguage()));
+                out.println("Creado"); //Traceable.swb_created.getDisplayName(user.getLanguage()));
                 out.println("</th>");
-                
+
                 out.println("</tr>");
                 out.println("</thead>");
 
@@ -160,7 +161,7 @@ public class RegistroAusencias extends GenericResource {
                     date = ausencia.getCreated();
                     out.println(null != date ? sdf.format(date) : "sin fecha");
                     out.println("</td>");
-                    
+
 
                     out.println("</tr>");
                 }
@@ -186,28 +187,32 @@ public class RegistroAusencias extends GenericResource {
                     out.println("&nbsp;");
                     out.println("</th>");
                     out.println("<th>");
+                    out.println("<input type=\"checkbox\" onclick=\"if(this.checked){selectAll('vals',true);}else{selectAll('vals',false);};\" >");
+                    out.println("</th>");
+                    out.println("<th>");
                     out.println("Estado");
                     out.println("</th>");
-                    out.println("<th>");
-                    out.println(Ausencia.info_tipo.getDisplayName(user.getLanguage()));
+                    out.println("<th >");
+                    out.println("Usuario");//Traceable.swb_creator.getDisplayName(user.getLanguage()));
                     out.println("</th>");
                     out.println("<th>");
-                    out.println(Ausencia.info_descripcion.getDisplayName(user.getLanguage()));
+                    out.println("Tipo"); //Ausencia.info_tipo.getDisplayName(user.getLanguage()));
                     out.println("</th>");
                     out.println("<th>");
-                    out.println(Ausencia.info_fechaInicial.getDisplayName(user.getLanguage()));
+                    out.println("Descripción"); //Ausencia.info_descripcion.getDisplayName(user.getLanguage()));
                     out.println("</th>");
                     out.println("<th>");
-                    out.println(Ausencia.info_fechaFin.getDisplayName(user.getLanguage()));
+                    out.println("Inicio"); //Ausencia.info_fechaInicial.getDisplayName(user.getLanguage()));
+                    out.println("</th>");
+                    out.println("<th>");
+                    out.println("Fin"); //Ausencia.info_fechaFin.getDisplayName(user.getLanguage()));
                     out.println("</th>");
 
                     out.println("<th>");
-                    out.println(Traceable.swb_created.getDisplayName(user.getLanguage()));
+                    out.println("Creado"); //Traceable.swb_created.getDisplayName(user.getLanguage()));
                     out.println("</th>");
-                    
-                    out.println("<th colspan=\"2\">");
-                    out.println(Traceable.swb_creator.getDisplayName(user.getLanguage()));
-                    out.println("</th>");
+
+
                     out.println("</tr>");
 
                     out.println("</thead>");
@@ -238,10 +243,21 @@ public class RegistroAusencias extends GenericResource {
                         }
                         out.println("</td>");
 
+                        out.println("<td>");
+                        if (!ausencia.isAutorizado()) {
+                            showBtn = true;
+                            out.println("<input type=\"checkbox\" name=\"vals\" value=\"" + ausencia.getURI() + "\"> ");
+                        } else {
+                            out.println("<input type=\"hidden\" name=\"vals\" > ");
+                        }
+                        out.println("</td>");
 
                         out.println("<td>");
                         boolean autorized = ausencia.isAutorizado();
                         out.println(autorized ? "<span class=\"autz-si\">Autorizada</span>" : "<span class=\"autz-pend\">Pendiente</span>");
+                        out.println("</td>");
+                        out.println("<td>");
+                        out.println(ausencia.getCreator().getFullName());
                         out.println("</td>");
                         out.println("<td>");
                         out.println(ausencia.getTipoAusencia());
@@ -262,18 +278,9 @@ public class RegistroAusencias extends GenericResource {
                         date = ausencia.getCreated();
                         out.println(null != date ? sdf.format(date) : "sin fecha");
                         out.println("</td>");
-                        
-                        out.println("<td>");
-                        out.println(ausencia.getCreator().getFullName());
-                        out.println("</td>");
-                        out.println("<td>");
-                        if (!ausencia.isAutorizado()) {
-                            showBtn = true;
-                            out.println("<input type=\"checkbox\" name=\"vals\" value=\"" + ausencia.getURI() + "\"> ");
-                        } else {
-                            out.println("<input type=\"hidden\" name=\"vals\" > ");
-                        }
-                        out.println("</td>");
+
+
+
 
                         out.println("</tr>");
                     }
@@ -283,11 +290,11 @@ public class RegistroAusencias extends GenericResource {
 
                     if (showBtn) {
 
-                        out.println("<p align=\"center\">");
-                        out.println("<button dojoType=\"dijit.form.Button\" type=\"button\"  onclick=\"selectAll('vals',true);\" class=\"boton\">Seleccionar todos</button>"); //submitUrl('" + url + "',this);
-                        out.println("<button dojoType=\"dijit.form.Button\" type=\"button\"  onclick=\"selectAll('vals',false);\" class=\"boton\">Deseleccionar todos</button>"); //submitUrl('" + url + "',this);
+                        out.println("<div>");
+                        //out.println("<button dojoType=\"dijit.form.Button\" type=\"button\"  onclick=\"selectAll('vals',true);\" class=\"boton\">Seleccionar todos</button>"); //submitUrl('" + url + "',this);
+                        //out.println("<button dojoType=\"dijit.form.Button\" type=\"button\"  onclick=\"selectAll('vals',false);\" class=\"boton\">Deseleccionar todos</button>"); //submitUrl('" + url + "',this);
                         out.println("<button dojoType=\"dijit.form.Button\" type=\"submit\" name=\"btnSend\" class=\"boton\">Autorizar</button>");
-                        out.println("</p>");
+                        out.println("</div>");
                     }
                 }
                 out.println("</form>");
