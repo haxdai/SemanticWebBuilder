@@ -145,7 +145,15 @@ public class ScheduledEvents extends GenericResource{
             }else {
                 SemanticObject obj = SemanticObject.createSemanticObject(value);
                 State state = (State) obj.createGenericInstance();
-                Iterator itState = state.listVisibleChilds(user.getLanguage());
+                Iterator itState =state.listEventStateInvs();
+                while(itState.hasNext()) {
+                    WebPage chSta = (WebPage)itState.next();
+                    if(chSta.getSemanticObject().getSemanticClass().getName().equals("GeographicPoint")) {
+                        GeographicPoint point = (GeographicPoint) chSta;
+                        ist = point.listEventGeographicPointInvs();
+                    }
+                }
+                itState = state.listVisibleChilds(user.getLanguage());
                 while(itState.hasNext()) {
                     WebPage chSta = (WebPage)itState.next();
                     if(chSta.getSemanticObject().getSemanticClass().getName().equals("GeographicPoint")) {
