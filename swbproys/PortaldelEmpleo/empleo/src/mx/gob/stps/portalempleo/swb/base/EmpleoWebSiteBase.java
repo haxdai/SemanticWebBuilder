@@ -6,8 +6,7 @@ package mx.gob.stps.portalempleo.swb.base;
    */
 public abstract class EmpleoWebSiteBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.Indexable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Localeable,org.semanticwb.model.Traceable,org.semanticwb.model.Activeable,org.semanticwb.model.FilterableNode,org.semanticwb.model.OntologyDepable,org.semanticwb.model.Trashable,org.semanticwb.model.Filterable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Countryable
 {
-    public static final org.semanticwb.platform.SemanticClass portalempleo_Year=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.stps.gob.mx/swb4/portalempleo#Year");
-    public static final org.semanticwb.platform.SemanticClass portalempleo_Month=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.stps.gob.mx/swb4/portalempleo#Month");
+    public static final org.semanticwb.platform.SemanticClass portalempleo_Event=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.stps.gob.mx/swb4/portalempleo#Event");
    /**
    * Portal del Empleo de la STPS
    */
@@ -357,51 +356,33 @@ public abstract class EmpleoWebSiteBase extends org.semanticwb.model.WebSite imp
         super(base);
     }
 
-    public mx.gob.stps.portalempleo.swb.Year getYear(String id)
+    public mx.gob.stps.portalempleo.swb.Event getEvent(String id)
     {
-        return mx.gob.stps.portalempleo.swb.Year.ClassMgr.getYear(id, this);
+        return mx.gob.stps.portalempleo.swb.Event.ClassMgr.getEvent(id, this);
     }
 
-    public java.util.Iterator<mx.gob.stps.portalempleo.swb.Year> listYears()
+    public java.util.Iterator<mx.gob.stps.portalempleo.swb.Event> listEvents()
     {
-        return mx.gob.stps.portalempleo.swb.Year.ClassMgr.listYears(this);
+        return mx.gob.stps.portalempleo.swb.Event.ClassMgr.listEvents(this);
     }
 
-    public mx.gob.stps.portalempleo.swb.Year createYear(String id)
+    public mx.gob.stps.portalempleo.swb.Event createEvent(String id)
     {
-        return mx.gob.stps.portalempleo.swb.Year.ClassMgr.createYear(id,this);
+        return mx.gob.stps.portalempleo.swb.Event.ClassMgr.createEvent(id,this);
     }
 
-    public void removeYear(String id)
+    public mx.gob.stps.portalempleo.swb.Event createEvent()
     {
-        mx.gob.stps.portalempleo.swb.Year.ClassMgr.removeYear(id, this);
-    }
-    public boolean hasYear(String id)
-    {
-        return mx.gob.stps.portalempleo.swb.Year.ClassMgr.hasYear(id, this);
-    }
+        long id=getSemanticObject().getModel().getCounter(portalempleo_Event);
+        return mx.gob.stps.portalempleo.swb.Event.ClassMgr.createEvent(String.valueOf(id),this);
+    } 
 
-    public mx.gob.stps.portalempleo.swb.Month getMonth(String id)
+    public void removeEvent(String id)
     {
-        return mx.gob.stps.portalempleo.swb.Month.ClassMgr.getMonth(id, this);
+        mx.gob.stps.portalempleo.swb.Event.ClassMgr.removeEvent(id, this);
     }
-
-    public java.util.Iterator<mx.gob.stps.portalempleo.swb.Month> listMonths()
+    public boolean hasEvent(String id)
     {
-        return mx.gob.stps.portalempleo.swb.Month.ClassMgr.listMonths(this);
-    }
-
-    public mx.gob.stps.portalempleo.swb.Month createMonth(String id)
-    {
-        return mx.gob.stps.portalempleo.swb.Month.ClassMgr.createMonth(id,this);
-    }
-
-    public void removeMonth(String id)
-    {
-        mx.gob.stps.portalempleo.swb.Month.ClassMgr.removeMonth(id, this);
-    }
-    public boolean hasMonth(String id)
-    {
-        return mx.gob.stps.portalempleo.swb.Month.ClassMgr.hasMonth(id, this);
+        return mx.gob.stps.portalempleo.swb.Event.ClassMgr.hasEvent(id, this);
     }
 }
