@@ -13,17 +13,11 @@
     >Created with TopBraid Composer</owl:versionInfo>
     <owl:imports rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology"/>
   </owl:Ontology>
-  <owl:Class rdf:ID="Month">
-    <swb:displayObject>
-      <swbxf:DisplayObject rdf:ID="do_Month">
-        <rdfs:label xml:lang="en">Month</rdfs:label>
-        <rdfs:label xml:lang="es">Mes</rdfs:label>
-        <swb:iconClass rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >swbIconWebPage</swb:iconClass>
-      </swbxf:DisplayObject>
-    </swb:displayObject>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#WebPage"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  <owl:Class rdf:ID="EventCalendar">
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBSemanticResource"/>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SemanticResource"/>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >mx.gob.stps.portalempleo.swb.resources</swb:classCodePackage>
   </owl:Class>
   <owl:Class rdf:ID="EmpleoWebSite">
     <swb:hasHerarquicalNode rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#hn_Rules"/>
@@ -35,21 +29,23 @@
         >swbIconWebSite</swb:iconClass>
       </swbxf:DisplayObject>
     </swb:displayObject>
+    <swb:hasHerarquicalNode rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#hn_Collections"/>
     <swb:hasClass>
-      <swb:Class rdf:ID="Year">
+      <swb:Class rdf:ID="Event">
         <swb:displayObject>
-          <swbxf:DisplayObject rdf:ID="do_Year">
-            <rdfs:label xml:lang="es">Año</rdfs:label>
-            <rdfs:label xml:lang="en">Year</rdfs:label>
+          <swbxf:DisplayObject rdf:ID="do_Event">
             <swb:iconClass rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
             >swbIconWebPage</swb:iconClass>
+            <rdfs:label xml:lang="en">Event</rdfs:label>
+            <rdfs:label xml:lang="es">Evento</rdfs:label>
           </swbxf:DisplayObject>
         </swb:displayObject>
+        <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+        >true</swb:autogenId>
         <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#WebPage"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
       </swb:Class>
     </swb:hasClass>
-    <swb:hasHerarquicalNode rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#hn_Collections"/>
     <swb:hasHerarquicalNode rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#hn_Templates"/>
     <rdfs:label xml:lang="en">Portal de Empleo WebSite</rdfs:label>
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -63,42 +59,38 @@
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayObject"/>
     <swb:hasHerarquicalNode rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#hn_Devices"/>
     <swb:hasHerarquicalNode rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#hn_Dnss"/>
-    <swb:hasClass rdf:resource="#Month"/>
     <swb:hasHerarquicalNode rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#hn_Calendars"/>
     <swb:hasHerarquicalNode rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#hn_ResourceCollections"/>
     <swb:hasHerarquicalNode rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#hn_Countries"/>
   </owl:Class>
-  <owl:Class rdf:ID="Event">
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</swb:autogenId>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Iconable"/>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >mx.gob.stps.portalempleo.swb.resources</swb:classCodePackage>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Sortable"/>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Expirable"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
-  </owl:Class>
-  <owl:ObjectProperty rdf:ID="hasEvent">
-    <rdfs:domain rdf:resource="#Month"/>
-    <rdfs:range rdf:resource="#Event"/>
-  </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:ID="hasMonth">
-    <rdfs:range rdf:resource="#Month"/>
-    <rdfs:domain rdf:resource="#Year"/>
-  </owl:ObjectProperty>
-  <swb:SemanticResource rdf:ID="EventManager">
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBSemanticResource"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-  </swb:SemanticResource>
+  <swbxf:DisplayObject rdf:ID="do_Year">
+    <rdfs:label xml:lang="es">Año</rdfs:label>
+    <rdfs:label xml:lang="en">Year</rdfs:label>
+    <swb:iconClass rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >swbIconWebPage</swb:iconClass>
+  </swbxf:DisplayObject>
+  <swbxf:DisplayObject rdf:ID="do_Month">
+    <rdfs:label xml:lang="en">Month</rdfs:label>
+    <rdfs:label xml:lang="es">Mes</rdfs:label>
+    <swb:iconClass rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >swbIconWebPage</swb:iconClass>
+  </swbxf:DisplayObject>
+  <swbxf:DisplayProperty rdf:ID="dp_InitialDate">
+    <rdfs:label xml:lang="es">Fecha de inicio</rdfs:label>
+    <rdfs:label xml:lang="en">Initial date</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DateElement_1"/>
+  </swbxf:DisplayProperty>
   <swb:CodePackage rdf:ID="pkg">
     <swb:package rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >mx.gob.stps.portalempleo.swb</swb:package>
     <swb:prefix rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >portalempleo</swb:prefix>
   </swb:CodePackage>
+  <swbxf:DisplayProperty rdf:ID="dp_MonthEvent">
+    <rdfs:label xml:lang="es">Mes del evento</rdfs:label>
+    <rdfs:label xml:lang="en">Month of the event</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
+  </swbxf:DisplayProperty>
 </rdf:RDF>
 
 <!-- Created with TopBraid Composer -->
