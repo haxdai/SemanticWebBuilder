@@ -47,7 +47,6 @@ public class MostVisited extends GenericResource {
         WebPage node = base.getWebSite().getWebPage(topicid);
         if(node!=null) {
             Iterator<WebPage> childs = SortWebPage.sortByViews(node.listChilds(), false);
-            //Iterator<WebPage> childs = node.listChilds();
             for(int i=0; i<3 && childs.hasNext(); i++) {
                 WebPage child = childs.next();
                 if(child.isActive() && user.haveAccess(child)) {
