@@ -26,10 +26,11 @@ public class MostVisited extends GenericResource {
         Resource base = getResourceBase();
         User user = paramRequest.getUser();
 
-        String topicid = paramRequest.getArgument("topicid");
-        WebPage node = base.getWebSite().getWebPage(topicid);
+//        String topicid = paramRequest.getArgument("topicid");
+//        WebPage node = base.getWebSite().getWebPage(topicid);
+        WebPage node = paramRequest.getWebPage();
         if(node!=null) {
-            Iterator<WebPage> childs = SortWebPage.sortByViews(node.listChilds(), false);
+            Iterator<WebPage> childs = SortWebPage.sortByViews(node.listChilds(user.getLanguage(), true, false, false, true), false);
             for(int i=0; i<3 && childs.hasNext(); i++) {
                 WebPage child = childs.next();
                 if(child.isActive() && user.haveAccess(child)) {
