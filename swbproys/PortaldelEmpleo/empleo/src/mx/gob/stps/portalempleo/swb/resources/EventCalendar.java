@@ -177,12 +177,13 @@ public class EventCalendar extends mx.gob.stps.portalempleo.swb.resources.base.E
         Iterator<Event> itevents = Event.ClassMgr.listEvents(paramRequest.getWebPage().getWebSite());
         events = SWBUtils.Collections.copyIterator(itevents);
         Collections.sort(events, new Event.EventSortByExpiration());
-        
+
         Locale locale = new Locale("es","MX");
         SimpleDateFormat sdf = new SimpleDateFormat("MMMM",locale);
         GregorianCalendar gc = new GregorianCalendar(locale);
         boolean hasAhead=false, hasBehind=false;
 
+System.out.println("m="+request.getParameter("m"));
         MonthOfYear moy;
         if(request.getParameter("m")==null) {
             try {
@@ -194,36 +195,48 @@ public class EventCalendar extends mx.gob.stps.portalempleo.swb.resources.base.E
         }else {
             try {
                 moy = MonthOfYear.valueOf(Integer.parseInt(request.getParameter("m")));
-                hasBehind = true;
+                if(moy.ordinal()<gc.get(Calendar.MONTH))
+                    hasBehind = false;
+                else
+                    hasBehind = true;
             }catch(NumberFormatException e) {
                 e.printStackTrace(System.out);
                 moy = MonthOfYear.enero;
             }
         }
         int m = moy.ordinal();
+System.out.println("moy="+moy.getDescription()+"-"+moy.ordinal());
 
         gc = new GregorianCalendar(gc.get(Calendar.YEAR),m,1,0,0,0);
         Date di = gc.getTime();
+System.out.println("di="+di);
         gc = new GregorianCalendar(gc.get(Calendar.YEAR),m,gc.getActualMaximum(Calendar.DAY_OF_MONTH),23,59,59);
         Date df = gc.getTime();
-
-        int i=0;
+System.out.println("df="+df);
+        //int i=0;
         ArrayList<Event> eventsOnMonth  = new ArrayList();
-        for(i=0; i<3 && i<events.size(); i++) {
-            Event event = events.get(i);
+        for(int i=0,j=0; i<3 && j<events.size(); j++) {
+            Event event = events.get(j);
             Date expiration = event.getExpiration();
             if(expiration.before(di)) {
+System.out.println("evento "+event.getDisplayTitle("es")+" expiro el "+expiration);
                 continue;
             }else {
                 try {
                     while(i<3 && i<events.size() && event.getExpiration().after(di) && event.getExpiration().before(df)) {
+System.out.println("w. evento "+event.getDisplayTitle("es")+" expirara el "+expiration);
+System.out.println("w. i="+i);
                         eventsOnMonth.add(event);
                         i++;
                         event = events.get(i);
                     }
-                    hasAhead = true;
+                    if(event.getExpiration().after(df))
+                        hasAhead = true;
+                    else
+                        hasAhead = false;
                     break;
                 }catch(IndexOutOfBoundsException iobe) {
+                    hasAhead = false;
                 }
             }
         }
@@ -269,16 +282,16 @@ public class EventCalendar extends mx.gob.stps.portalempleo.swb.resources.base.E
 
         PrintWriter out=response.getWriter();
 
-//        Iterator<Event> itevents = Event.ClassMgr.listEvents(paramRequest.getWebPage().getWebSite());
-//        events = SWBUtils.Collections.copyIterator(itevents);
-//        Collections.sort(events, new Event.EventSortByExpiration());
-//        System.out.println("total de eventos ya ordenados="+events.size());
+        Iterator<Event> itevents = Event.ClassMgr.listEvents(paramRequest.getWebPage().getWebSite());
+        events = SWBUtils.Collections.copyIterator(itevents);
+        Collections.sort(events, new Event.EventSortByExpiration());
 
         Locale locale = new Locale("es","MX");
         SimpleDateFormat sdf = new SimpleDateFormat("MMMM",locale);
         GregorianCalendar gc = new GregorianCalendar(locale);
         boolean hasAhead=false, hasBehind=false;
 
+System.out.println("m="+request.getParameter("m"));
         MonthOfYear moy;
         if(request.getParameter("m")==null) {
             try {
@@ -290,41 +303,59 @@ public class EventCalendar extends mx.gob.stps.portalempleo.swb.resources.base.E
         }else {
             try {
                 moy = MonthOfYear.valueOf(Integer.parseInt(request.getParameter("m")));
-                hasBehind = true;
+                if(moy.ordinal()<gc.get(Calendar.MONTH))
+                    hasBehind = false;
+                else
+                    hasBehind = true;
             }catch(NumberFormatException e) {
                 e.printStackTrace(System.out);
                 moy = MonthOfYear.enero;
             }
         }
         int m = moy.ordinal();
+System.out.println("moy="+moy.getDescription()+"-"+moy.ordinal());
 
         gc = new GregorianCalendar(gc.get(Calendar.YEAR),m,1,0,0,0);
         Date di = gc.getTime();
+System.out.println("di="+di);
         gc = new GregorianCalendar(gc.get(Calendar.YEAR),m,gc.getActualMaximum(Calendar.DAY_OF_MONTH),23,59,59);
         Date df = gc.getTime();
-
-        int i=0;
+System.out.println("df="+df);
+        //int i=0;
         ArrayList<Event> eventsOnMonth  = new ArrayList();
-        for(i=0; i<3 && i<events.size(); i++) {
-            Event event = events.get(i);
+        for(int i=0,j=0; i<3 && j<events.size(); j++) {
+            Event event = events.get(j);
             Date expiration = event.getExpiration();
             if(expiration.before(di)) {
+System.out.println("evento "+event.getDisplayTitle("es")+" expiro el "+expiration);
                 continue;
             }else {
                 try {
                     while(i<3 && i<events.size() && event.getExpiration().after(di) && event.getExpiration().before(df)) {
+System.out.println("w. evento "+event.getDisplayTitle("es")+" expirara el "+expiration);
+System.out.println("w. i="+i);
                         eventsOnMonth.add(event);
-                        event = events.get(++i);
+                        i++;
+                        event = events.get(i);
                     }
-                    hasAhead = true;
+                    if(event.getExpiration().after(df))
+                        hasAhead = true;
+                    else
+                        hasAhead = false;
                     break;
                 }catch(IndexOutOfBoundsException iobe) {
+                    hasAhead = false;
                 }
             }
         }
 
+        out.println("<script type=\"text/javascript\">");
+        out.println("<!--");
+        out.println(" dojo.require('dijit.dijit');");
+        out.println("-->");
+        out.println("</script>");
         SWBResourceURL url = paramRequest.getRenderUrl().setMode("roll").setCallMethod(paramRequest.Call_DIRECT);
-        //out.println("<div id=\"calendario_eventos\">");
+//        out.println("<div id=\"calendario_eventos\">");
         out.println(" <div id=\"mes\">");
         out.println("  <h3>"+moy.getDescription()+"</h3>");
         if(hasBehind) {
@@ -338,14 +369,18 @@ public class EventCalendar extends mx.gob.stps.portalempleo.swb.resources.base.E
         out.println(" </div>");
 
         sdf = new SimpleDateFormat("dd",locale);
-        Iterator<Event> itevents=eventsOnMonth.iterator();
+        itevents=eventsOnMonth.iterator();
         while(itevents.hasNext()) {
             Event event = itevents.next();
             out.println(" <div>");
             out.println("  <span class=\"dia_calendario\">"+sdf.format(event.getExpiration())+"</span><p><a href=\""+event.getRealUrl()+"\">"+event.getTitle()+"</a></p>");
             out.println(" </div>");
         }
-        //out.println("</div>");
+//        out.println("</div>");
+//        url.setMode("vall").setCallMethod(paramRequest.Call_CONTENT);
+//        out.println("<div class=\"bottom_calendario\">");
+//        out.println(" <a style=\"float: right; margin: 10px 20px 0pt 0pt;\" href=\""+url+"\" class=\"links\">ver todos los eventos</a>");
+//        out.println("</div>");
     }
 
     public void doViewAll(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException  {
