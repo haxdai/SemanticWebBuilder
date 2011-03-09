@@ -2,37 +2,20 @@ package mx.gob.stps.portalempleo.swb.resources;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import javax.security.auth.Subject;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
-import org.semanticwb.SWBException;
-import org.semanticwb.SWBPlatform;
-import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.Resource;
-import org.semanticwb.model.Role;
-import org.semanticwb.model.SWBComparator;
-import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.User;
-import org.semanticwb.model.UserRepository;
 import org.semanticwb.model.WebPage;
-import org.semanticwb.model.WebSite;
-import org.semanticwb.platform.SemanticProperty;
-import org.semanticwb.portal.TemplateImp;
 import org.semanticwb.portal.api.GenericResource;
-import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
-import org.semanticwb.portal.api.SWBResourceURL;
 
 public class MostVisited extends GenericResource {
     private static Logger log = SWBUtils.getLogger(MostVisited.class);
