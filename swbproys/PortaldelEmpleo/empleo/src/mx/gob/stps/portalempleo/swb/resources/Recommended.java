@@ -39,14 +39,19 @@ public class Recommended extends GenericResource {
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         PrintWriter out = response.getWriter();
 
+        String lang = paramRequest.getUser().getLanguage();
+
         Resource base = getResourceBase();
         WebSite model = base.getWebSite();
 
         Iterator<String> attrnames = base.getAttributeNames();
         out.println("<ul>");
         while(attrnames.hasNext()) {
-            WebPage wp = model.getWebPage(base.getAttribute(attrnames.next()));
-            out.println("<li><a href=\""+wp.getRealUrl()+"\" title=\"ir a "+wp.getTitle()+"\">"+wp.getTitle()+"</a></li>");
+            String wpid = attrnames.next();
+            if(wpid.startsWith("swp"))
+                continue;
+            WebPage wp = model.getWebPage(base.getAttribute(wpid));
+            out.println("<li><a href=\""+wp.getRealUrl()+"\" title=\"ir a "+wp.getDisplayTitle(lang)+"\">"+wp.getDisplayTitle(lang)+"</a></li>");
         }
         out.println("</ul>");
     }
@@ -91,7 +96,8 @@ public class Recommended extends GenericResource {
     private String getForm(javax.servlet.http.HttpServletRequest request, SWBParamRequest paramRequest) {
         Resource base=getResourceBase();
         StringBuilder htm = new StringBuilder();
-        final String path = SWBPortal.getWebWorkPath()+base.getWorkPath()+"/";
+//        final String path = SWBPortal.getWebWorkPath()+base.getWorkPath()+"/";
+        String lang = paramRequest.getUser().getLanguage();
 
         SWBResourceURL url = paramRequest.getActionUrl().setAction(paramRequest.Action_EDIT);
         htm.append("<script type=\"text/javascript\">\n");
@@ -134,9 +140,9 @@ public class Recommended extends GenericResource {
         while(wps.hasNext()) {
             WebPage wp = wps.next();
             if(swp.equals(wp.getId()))
-                htm.append("<option value=\""+wp.getId()+"\" selected=\"selected\">"+wp.getTitle()+"</option>\n");
+                htm.append("<option value=\""+wp.getId()+"\" selected=\"selected\">"+wp.getDisplayTitle(lang)+"</option>\n");
             else
-                htm.append("<option value=\""+wp.getId()+"\">"+wp.getTitle()+"</option>\n");
+                htm.append("<option value=\""+wp.getId()+"\">"+wp.getDisplayTitle(lang)+"</option>\n");
         }
         htm.append("   </select>\n");
         htm.append("  </li>\n");
@@ -150,9 +156,9 @@ public class Recommended extends GenericResource {
             while(childs.hasNext()) {
                 WebPage child = childs.next();
                 if(base.getAttribute(child.getId())!=null)
-                    htm.append("<ol><label for=\""+child.getId()+"\"><input type=\"checkbox\" id=\""+child.getId()+"\" name=\"cs\" value=\""+child.getId()+"\" checked=\"checked\"/>&nbsp;"+child.getTitle()+"</label></ol>");
+                    htm.append("<ol><label for=\""+child.getId()+"\"><input type=\"checkbox\" id=\""+child.getId()+"\" name=\"cs\" value=\""+child.getId()+"\" checked=\"checked\"/>&nbsp;"+child.getDisplayTitle(lang)+"</label></ol>");
                 else
-                    htm.append("<ol><label for=\""+child.getId()+"\"><input type=\"checkbox\" id=\""+child.getId()+"\" name=\"cs\" value=\""+child.getId()+"\"/>&nbsp;"+child.getTitle()+"</label></ol>");
+                    htm.append("<ol><label for=\""+child.getId()+"\"><input type=\"checkbox\" id=\""+child.getId()+"\" name=\"cs\" value=\""+child.getId()+"\"/>&nbsp;"+child.getDisplayTitle(lang)+"</label></ol>");
             }
             htm.append("   </ul>");
         }
