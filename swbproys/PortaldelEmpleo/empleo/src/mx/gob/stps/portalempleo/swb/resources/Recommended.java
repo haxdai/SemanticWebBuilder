@@ -25,6 +25,17 @@ import org.semanticwb.portal.api.SWBResourceURL;
 public class Recommended extends GenericResource {
     private static Logger log = SWBUtils.getLogger(Recommended.class);
     private static final String Action_UPDATE = "updt";
+    private String strRscType;
+
+    @Override
+    public void init(){
+        Resource base = getResourceBase();
+        try {
+            strRscType = base.getResourceType().getResourceClassName();
+        }catch (Exception e) {
+            strRscType = "Recommended";
+        }
+    }
 
     @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
@@ -51,13 +62,18 @@ public class Recommended extends GenericResource {
             if(wpid.startsWith("swp"))
                 continue;
             WebPage wp = model.getWebPage(base.getAttribute(wpid));
+            if(wp==null) {
+                log.warn(strRscType+" con id="+base.getId()+". El identificador "+wpid+" no corresponde a ninguna página web");
+                continue;
+            }
             out.println("<li><a href=\""+wp.getRealUrl()+"\" title=\"ir a "+wp.getDisplayTitle(lang)+"\">"+wp.getDisplayTitle(lang)+"</a></li>");
+
         }
         out.println("</ul>");
     }
 
     public void doBind(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        response.setContentType("text/html; charset=utf-8");
+        response.setContentType("text/html; charset=iso-8859-1");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
 
