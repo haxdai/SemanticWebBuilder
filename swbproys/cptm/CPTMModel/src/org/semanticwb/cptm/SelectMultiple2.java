@@ -166,77 +166,15 @@ public class SelectMultiple2 extends org.semanticwb.cptm.base.SelectMultiple2Bas
                 SemanticObject semanticObject = it2.next();
 
                 // System.out.println("semanticObject:"+semanticObject+" vals:"+vals);
-                mapVals.put(semanticObject.getURI(), semanticObject);
+                mapVals.put(semanticObject.getURI(), semanticObject);                
             }
 
             String value = obj.getDisplayName(lang);
 
             if (mode.equals("edit") || mode.equals("create")) {
 
-             ret.append("<script type=\"text/javascript\">"+
-                "alert('holas');"+
-                "function MoveItems(lstbxFrom,lstbxTo) "+
-                   "{ "+
-                   " alert('Entra a MoveItems');" +
-                   "} MoveItems('','');"+
-                   " function pruebaJ(texto){"
-                   + "alert('entra a pruebaJ');"+
-                   "}"+
-                "</script>"+
-                "");
-
-                /*
-                ret.append("<script type=\"text/javascript\">"+
-                   "function MoveItems(lstbxFrom,lstbxTo) "+
-                   "{ "+
-                   " alert('Entra a MoveItems')" +
-                   " var varFromBox = document.getElementById(lstbxFrom); " +
-                   " var varToBox = document.getElementById(lstbxTo); " +
-                   " if ((varFromBox != null) && (varToBox != null))  " +
-                   " {  " +
-                   "   if(varFromBox.length < 1)  " +
-                   "    { " +
-                   "        alert('No hay propiedades en la lista.'); " +
-                   "        return false; " +
-                   "    } " +
-                   "    if(varFromBox.options.selectedIndex == -1) // no hay elementos seleccionados" +
-                   "    { " +
-                   "        alert('Selecciona una propiedad de la lista.'); " +
-                   "        return false; " +
-                   "    } " +
-                   "    while ( varFromBox.options.selectedIndex >= 0 )  " +
-                   "    {  " +
-                   "        var newOption = new Option(); // crea una opcion en el select  " +
-                   "        newOption.text = varFromBox.options[varFromBox.options.selectedIndex].text;  " +
-                   "        newOption.value = varFromBox.options[varFromBox.options.selectedIndex].value;  " +
-                   "        varToBox.options[varToBox.length] = newOption; //agrega la opción al final del select destino" +
-                   "        varFromBox.remove(varFromBox.options.selectedIndex); //quita la opción del select origen " +
-                   "    }  " +
-                   " } " +
-                   "             return false;  " +
-                   "} " +
-
-                    "function enviatodos(lstbox)" +
-                    "{" +
-                    "   var list = document.getElementById(lstbox);" +
-                    "   for (var i=0; i<list.options.length; i++){" +
-                    "             list.options[i].selected=true;" +
-                    "   }" +
-                    "             return true;" +
-                    "}"+
-                    "function updItem(uri,param,sel) {" +
-                    "       var valor = sel.options[sel.options.selectedIndex].value;" +
-                    "       var url = uri+'&'+param+'='+escape(valor);" +
-                    "       window.location=url;" +
-                    "}"+
-                "</script>"+
-            "");
-            */
-
-
-
                 ret.append("<select name=\"" + name + "_propiedades\" id=\""+name+"_propiedades\" multiple=\"true\"");
-                ret.append(" style=\"width:300px;\"");
+                ret.append(" style=\"width:300px;height:300px;\"");
 
                 if (DOJO) {
                     //ret.append(" dojoType=\"dijit.form.MultiSelect\" invalidMessage=\"" + imsg + "\"");
@@ -277,12 +215,96 @@ public class SelectMultiple2 extends org.semanticwb.cptm.base.SelectMultiple2Bas
                 }
                 ret.append("</select>");
 
-                //ret.append("<button dojoType=\"dijit.form.Button\" type = \"button\" style=\"width: 25px;\" id = \"" + name + "btnMoveLeft\" onclick = \"javascript:MoveItems('" + name + "_existentes','" + name + "_propiedades');\"><-</button><br>");
-                //ret.append("<button dojoType=\"dijit.form.Button\" type = \"button\" style=\"width: 25px;\" id = \"" + name + "btnMoveRight\" onclick = \"javascript:MoveItems('" + name + "_propiedades','" + name + "_existentes');\">-></button>");
-                ret.append("<button dojoType=\"dijit.form.Button\" type = \"button\" style=\"width: 25px;\" id = \"" + name + "btnMoveRight\" onclick = \"pruebaJ('hola');\">-></button>");
+                String propBox=name+"_propiedades";
 
+                ret.append("<button dojoType=\"dijit.form.Button\" type = \"button\" style=\"width: 25px;\" id = \"" + name + "btnMoveLeft\"  >"
+                + "<script type=\"dojo/connect\" event=\"onClick\">"
+                + "var self=this; "
+                +   " var varFromBox = document.getElementById(\""+name+"\"); "
+                +   " var varToBox = document.getElementById(\""+propBox+"\"); "
+                +   " if ((varFromBox != null) && (varToBox != null))  "
+                +   " {  "
+                +   "   if(varFromBox.length < 1)  "
+                +   "    { "
+                +   "        return false; "
+                +   "    } "
+                +   "    if(varFromBox.options.selectedIndex == -1) "
+                +   "    { "
+                +   "        return false; "
+                +   "    } "
+                +   "   while ( varFromBox.options.selectedIndex >= 0 )  "
+                +   "    {  "
+                +   "        var newOption = new Option(); " // crea una opcion en el select
+                +   "        newOption.text = varFromBox.options[varFromBox.options.selectedIndex].text;  "
+                +   "        newOption.value = varFromBox.options[varFromBox.options.selectedIndex].value;  "
+                +   "        varToBox.options[varToBox.length] = newOption; " //agrega la opción al final del select destino
+                +   "        varFromBox.remove(varFromBox.options.selectedIndex); " //quita la opción del select origen                
+                +   "    }  "
+                +   "    for (var i=0; i<varFromBox.options.length; i++){"
+                +   "             varFromBox.options[i].selected=true;"
+                +   "    }"
+                +   " } "
+                +   "function enviatodos(lstbox)"
+                +   "{"
+                +   "   var list = document.getElementById(lstbox);"
+                +   "   for (var i=0; i<list.options.length; i++){"
+                +   "             list.options[i].selected=true;"
+                +   "   }"
+                +   "             return true;"
+                +   "}"
+                +   "function updItem(uri,param,sel) {"
+                +   "       var valor = sel.options[sel.options.selectedIndex].value;"
+                +   "       var url = uri+'&'+param+'='+escape(valor);"
+                +   "       window.location=url;"
+                +   "}"
+                + "</script>"
+                + " << </button>");
+                ret.append("&nbsp;&nbsp;&nbsp;");
+                ret.append("<button dojoType=\"dijit.form.Button\" type = \"button\" style=\"width: 25px;\" id = \"" + name + "btnMoveRight\" >"
+                + "<script type=\"dojo/connect\" event=\"onClick\">"
+                +   "var self=this; "
+                +   " var varFromBox = document.getElementById(\""+propBox+"\"); "
+                +   " var varToBox = document.getElementById(\""+name+"\"); "
+                +   " if ((varFromBox != null) && (varToBox != null))  "
+                +   " {  "
+                +   "   if(varFromBox.length < 1)  "
+                +   "    { "
+                +   "        return false; "
+                +   "    } "
+                +   "    if(varFromBox.options.selectedIndex == -1) "
+                +   "    { "
+                +   "        return false; "
+                +   "    } "
+                +   "   while ( varFromBox.options.selectedIndex >= 0 )  "
+                +   "    {  "
+                +   "        var newOption = new Option(); " // crea una opcion en el select
+                +   "        newOption.text = varFromBox.options[varFromBox.options.selectedIndex].text;  "
+                +   "        newOption.value = varFromBox.options[varFromBox.options.selectedIndex].value;  "
+                +   "        varToBox.options[varToBox.length] = newOption; " //agrega la opción al final del select destino
+                +   "        for (var i=0; i<varToBox.options.length; i++){"
+                +   "             varToBox.options[i].selected=true;"
+                +   "        }"
+                +   "        varFromBox.remove(varFromBox.options.selectedIndex); " //quita la opción del select origen
+                +   "    }  "
+                +   " } "
+                +   "function enviatodos(lstbox)"
+                +   "{"
+                +   "   var list = document.getElementById(lstbox);"
+                +   "   for (var i=0; i<list.options.length; i++){"
+                +   "             list.options[i].selected=true;"
+                +   "   }"
+                +   "             return true;"
+                +   "}"
+                +   "function updItem(uri,param,sel) {"
+                +   "       var valor = sel.options[sel.options.selectedIndex].value;"
+                +   "       var url = uri+'&'+param+'='+escape(valor);"
+                +   "       window.location=url;"
+                +   "}"
+                + "</script>"
+                + " >> </button>");
+                ret.append("&nbsp;&nbsp;&nbsp;");
 
-                ret.append("<select size=\"10\" name=\""+name+"_existentes\" id=\""+name+"_existentes\" multiple=\"true\" style=\"width:300px;\">");
+                ret.append("<select size=\"10\" name=\"" + name + "\" id=\"" + name + "\" multiple=\"true\" style=\"width:300px;height:300px;\">");
                 Iterator <String> itVals=mapVals.keySet().iterator();
                 while(itVals.hasNext()){
                     String sValUri=itVals.next();

@@ -4,9 +4,8 @@ package org.semanticwb.cptm.base;
    /**
    * Notas Editoriales 
    */
-public abstract class EditNoteBase extends org.semanticwb.cptm.CPTMWebPage implements org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Trashable,org.semanticwb.model.Indexable,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Resourceable,org.semanticwb.model.Localeable,org.semanticwb.model.Traceable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Viewable,org.semanticwb.model.FilterableClass,org.semanticwb.model.RuleRefable,org.semanticwb.model.Expirable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Searchable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Activeable,org.semanticwb.model.Hiddenable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Rankable
+public abstract class EditNoteBase extends org.semanticwb.cptm.CPTMWebPage implements org.semanticwb.model.Referensable,org.semanticwb.model.RuleRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Viewable,org.semanticwb.model.Indexable,org.semanticwb.model.Rankable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Searchable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Trashable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Tagable,org.semanticwb.model.Hiddenable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Localeable,org.semanticwb.model.Resourceable,org.semanticwb.model.CalendarRefable
 {
-    public static final org.semanticwb.platform.SemanticProperty cptm_noteUrl=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#noteUrl");
    /**
    * Clase que hereda de WebPage.Mediante esta se administra el catálogo de Estados de la república.
    */
@@ -631,24 +630,6 @@ public abstract class EditNoteBase extends org.semanticwb.cptm.CPTMWebPage imple
     public EditNoteBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
-    }
-
-/**
-* Gets the NoteUrl property
-* @return String with the NoteUrl
-*/
-    public String getNoteUrl()
-    {
-        return getSemanticObject().getProperty(cptm_noteUrl);
-    }
-
-/**
-* Sets the NoteUrl property
-* @param value long with the NoteUrl
-*/
-    public void setNoteUrl(String value)
-    {
-        getSemanticObject().setProperty(cptm_noteUrl, value);
     }
    /**
    * Gets all the org.semanticwb.cptm.State

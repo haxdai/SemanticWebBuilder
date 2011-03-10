@@ -1,6 +1,7 @@
 package org.semanticwb.cptm;
 
 import java.util.Iterator;
+import org.semanticwb.SWBPortal;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticObserver;
 import org.semanticwb.platform.SemanticProperty;
@@ -11,6 +12,10 @@ import org.semanticwb.platform.SemanticProperty;
 public class GeographicPoint extends org.semanticwb.cptm.base.GeographicPointBase {
 
     static {
+
+        SWBPortal.getIndexMgr().getDefaultIndexer().registerParser(GeographicPoint.class, new LocalityParser()); //Registra Parser
+
+        //Observador de la propiedad "cptm_hasProximity", cada que haya un cambio en ella se ejecuta el siguiente código
         LocalityInt.cptm_hasProximity.registerObserver(new SemanticObserver() {
             public void notify(SemanticObject obj, Object prop, String lang, String action) {
                 if(action!=null && obj.instanceOf(LocalityInt.cptm_LocalityInt))

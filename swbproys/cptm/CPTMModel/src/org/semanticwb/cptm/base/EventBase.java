@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Eventos. 
    */
-public abstract class EventBase extends org.semanticwb.model.SWBClass implements org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable
+public abstract class EventBase extends org.semanticwb.model.SWBClass implements org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Searchable,org.semanticwb.model.Tagable,org.semanticwb.model.Traceable,org.semanticwb.model.Resourceable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticProperty cptm_eventLeadingPhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#eventLeadingPhoto");
     public static final org.semanticwb.platform.SemanticClass cptm_Activity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Activity");
@@ -522,6 +522,39 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
     }
 
 /**
+* Gets the PhotoAlt property
+* @return String with the PhotoAlt
+*/
+    public String getPhotoAlt()
+    {
+        return getSemanticObject().getProperty(cptm_photoAlt);
+    }
+
+/**
+* Sets the PhotoAlt property
+* @param value long with the PhotoAlt
+*/
+    public void setPhotoAlt(String value)
+    {
+        getSemanticObject().setProperty(cptm_photoAlt, value);
+    }
+
+    public String getPhotoAlt(String lang)
+    {
+        return getSemanticObject().getProperty(cptm_photoAlt, null, lang);
+    }
+
+    public String getDisplayPhotoAlt(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(cptm_photoAlt, lang);
+    }
+
+    public void setPhotoAlt(String photoAlt, String lang)
+    {
+        getSemanticObject().setProperty(cptm_photoAlt, photoAlt, lang);
+    }
+
+/**
 * Gets the IsLeadingEvent property
 * @return boolean with the IsLeadingEvent
 */
@@ -596,6 +629,24 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
     }
 
 /**
+* Gets the Tags property
+* @return String with the Tags
+*/
+    public String getTags()
+    {
+        return getSemanticObject().getProperty(swb_tags);
+    }
+
+/**
+* Sets the Tags property
+* @param value long with the Tags
+*/
+    public void setTags(String value)
+    {
+        getSemanticObject().setProperty(swb_tags, value);
+    }
+
+/**
 * Gets the Photo property
 * @return String with the Photo
 */
@@ -611,6 +662,39 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
     public void setPhoto(String value)
     {
         getSemanticObject().setProperty(cptm_photo, value);
+    }
+
+/**
+* Gets the PhotoEscudoAlt property
+* @return String with the PhotoEscudoAlt
+*/
+    public String getPhotoEscudoAlt()
+    {
+        return getSemanticObject().getProperty(cptm_photoEscudoAlt);
+    }
+
+/**
+* Sets the PhotoEscudoAlt property
+* @param value long with the PhotoEscudoAlt
+*/
+    public void setPhotoEscudoAlt(String value)
+    {
+        getSemanticObject().setProperty(cptm_photoEscudoAlt, value);
+    }
+
+    public String getPhotoEscudoAlt(String lang)
+    {
+        return getSemanticObject().getProperty(cptm_photoEscudoAlt, null, lang);
+    }
+
+    public String getDisplayPhotoEscudoAlt(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(cptm_photoEscudoAlt, lang);
+    }
+
+    public void setPhotoEscudoAlt(String photoEscudoAlt, String lang)
+    {
+        getSemanticObject().setProperty(cptm_photoEscudoAlt, photoEscudoAlt, lang);
     }
 
 /**
