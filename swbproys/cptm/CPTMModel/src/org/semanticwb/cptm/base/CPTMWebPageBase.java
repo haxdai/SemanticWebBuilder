@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Páginas web que contienen Otros datos (Fotos) 
    */
-public abstract class CPTMWebPageBase extends org.semanticwb.model.WebPage implements org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Trashable,org.semanticwb.model.Indexable,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Resourceable,org.semanticwb.model.Localeable,org.semanticwb.model.Traceable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Viewable,org.semanticwb.model.FilterableClass,org.semanticwb.model.RuleRefable,org.semanticwb.model.Expirable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Searchable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Activeable,org.semanticwb.model.Hiddenable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Rankable
+public abstract class CPTMWebPageBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Referensable,org.semanticwb.model.RuleRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Viewable,org.semanticwb.model.Rankable,org.semanticwb.model.Indexable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Searchable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Trashable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Tagable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Localeable,org.semanticwb.model.Resourceable,org.semanticwb.model.CalendarRefable
 {
    /**
    * Páginas web que contienen Otros datos (Fotos)
@@ -499,6 +499,39 @@ public abstract class CPTMWebPageBase extends org.semanticwb.model.WebPage imple
     }
 
 /**
+* Gets the PhotoAlt property
+* @return String with the PhotoAlt
+*/
+    public String getPhotoAlt()
+    {
+        return getSemanticObject().getProperty(cptm_photoAlt);
+    }
+
+/**
+* Sets the PhotoAlt property
+* @param value long with the PhotoAlt
+*/
+    public void setPhotoAlt(String value)
+    {
+        getSemanticObject().setProperty(cptm_photoAlt, value);
+    }
+
+    public String getPhotoAlt(String lang)
+    {
+        return getSemanticObject().getProperty(cptm_photoAlt, null, lang);
+    }
+
+    public String getDisplayPhotoAlt(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(cptm_photoAlt, lang);
+    }
+
+    public void setPhotoAlt(String photoAlt, String lang)
+    {
+        getSemanticObject().setProperty(cptm_photoAlt, photoAlt, lang);
+    }
+
+/**
 * Gets the PhotoEscudo property
 * @return String with the PhotoEscudo
 */
@@ -532,6 +565,39 @@ public abstract class CPTMWebPageBase extends org.semanticwb.model.WebPage imple
     public void setPhoto(String value)
     {
         getSemanticObject().setProperty(cptm_photo, value);
+    }
+
+/**
+* Gets the PhotoEscudoAlt property
+* @return String with the PhotoEscudoAlt
+*/
+    public String getPhotoEscudoAlt()
+    {
+        return getSemanticObject().getProperty(cptm_photoEscudoAlt);
+    }
+
+/**
+* Sets the PhotoEscudoAlt property
+* @param value long with the PhotoEscudoAlt
+*/
+    public void setPhotoEscudoAlt(String value)
+    {
+        getSemanticObject().setProperty(cptm_photoEscudoAlt, value);
+    }
+
+    public String getPhotoEscudoAlt(String lang)
+    {
+        return getSemanticObject().getProperty(cptm_photoEscudoAlt, null, lang);
+    }
+
+    public String getDisplayPhotoEscudoAlt(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(cptm_photoEscudoAlt, lang);
+    }
+
+    public void setPhotoEscudoAlt(String photoEscudoAlt, String lang)
+    {
+        getSemanticObject().setProperty(cptm_photoEscudoAlt, photoEscudoAlt, lang);
     }
 
     public java.util.Iterator<String> listMorePhotos()

@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que hereda de swb:WebSite. Es un tipo de website para CPTM. De esta manera se puede contar con todos los elementos en el arbol de navegación en la administración, y otros elementos utiles para CPTM. 
    */
-public abstract class CPTMWebSiteBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.Trashable,org.semanticwb.model.Indexable,org.semanticwb.model.FilterableClass,org.semanticwb.model.FilterableNode,org.semanticwb.model.OntologyDepable,org.semanticwb.model.Traceable,org.semanticwb.model.Localeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Activeable,org.semanticwb.model.Countryable,org.semanticwb.model.Filterable
+public abstract class CPTMWebSiteBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.Countryable,org.semanticwb.model.OntologyDepable,org.semanticwb.model.Filterable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Traceable,org.semanticwb.model.Activeable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Indexable,org.semanticwb.model.Localeable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Trashable
 {
    /**
    * Clase que hereda de WebPage.Mediante esta se administra el catálogo de Estados de la república.
@@ -31,6 +31,7 @@ public abstract class CPTMWebSiteBase extends org.semanticwb.model.WebSite imple
    */
     public static final org.semanticwb.platform.SemanticClass cptm_GeographicPoint=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#GeographicPoint");
     public static final org.semanticwb.platform.SemanticClass swbcomm_MicroSite=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/community#MicroSite");
+    public static final org.semanticwb.platform.SemanticClass cptm_How2Travel=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#How2Travel");
    /**
    * Canales para los cuales se podran dirigir las notas editoriales
    */
@@ -585,6 +586,36 @@ public abstract class CPTMWebSiteBase extends org.semanticwb.model.WebSite imple
     public boolean hasMicroSite(String id)
     {
         return org.semanticwb.portal.community.MicroSite.ClassMgr.hasMicroSite(id, this);
+    }
+
+    public org.semanticwb.cptm.How2Travel getHow2Travel(String id)
+    {
+        return org.semanticwb.cptm.How2Travel.ClassMgr.getHow2Travel(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.cptm.How2Travel> listHow2Travels()
+    {
+        return org.semanticwb.cptm.How2Travel.ClassMgr.listHow2Travels(this);
+    }
+
+    public org.semanticwb.cptm.How2Travel createHow2Travel(String id)
+    {
+        return org.semanticwb.cptm.How2Travel.ClassMgr.createHow2Travel(id,this);
+    }
+
+    public org.semanticwb.cptm.How2Travel createHow2Travel()
+    {
+        long id=getSemanticObject().getModel().getCounter(cptm_How2Travel);
+        return org.semanticwb.cptm.How2Travel.ClassMgr.createHow2Travel(String.valueOf(id),this);
+    } 
+
+    public void removeHow2Travel(String id)
+    {
+        org.semanticwb.cptm.How2Travel.ClassMgr.removeHow2Travel(id, this);
+    }
+    public boolean hasHow2Travel(String id)
+    {
+        return org.semanticwb.cptm.How2Travel.ClassMgr.hasHow2Travel(id, this);
     }
 
     public org.semanticwb.cptm.Canal getCanal(String id)
