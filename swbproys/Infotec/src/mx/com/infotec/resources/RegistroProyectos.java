@@ -82,9 +82,10 @@ public class RegistroProyectos extends GenericResource {
 
                 SWBResourceURL urlb = paramsRequest.getRenderUrl();
                 urlb.setAction("");
-                mgr.addButton("<button dojoType=\"dijit.form.Button\" onclick=\"window.location='"+urlb+"'; return false;\">Cancelar</button>");
-
+                mgr.addButton("<button dojoType=\"dijit.form.Button\" onclick=\"window.location='"+urlb+"'; return false;\" class=\"boton\">Cancelar</button>");
+                out.println("<div class=\"formulario\">");
                 out.println(mgr.renderForm(request));
+                out.println("</div>");
 
             } if ("detail".equals(act)) {
 
@@ -123,8 +124,10 @@ public class RegistroProyectos extends GenericResource {
                 }
                 SWBResourceURL urlb = paramsRequest.getRenderUrl();
                 urlb.setAction("");
-                mgr.addButton("<button dojoType=\"dijit.form.Button\" onclick=\"window.location='"+urlb+"'; return false;\">Cancelar</button>");
+                mgr.addButton("<button dojoType=\"dijit.form.Button\" onclick=\"window.location='"+urlb+"'; return false;\" class=\"boton\">Cancelar</button>");
+                out.println("<div class=\"formulario\">");
                 out.println(mgr.renderForm(request));
+                out.println("</div>");
 
             } else {
 
@@ -184,24 +187,24 @@ public class RegistroProyectos extends GenericResource {
 
                     out.println("<td>");
 
-                    String srtMsg = "detalle";
-
-                    if(proy.getCreator()!=null&&proy.getCreator().equals(user)||usrlev>=2)
-                    {
-                        srtMsg = "editar";
-                    }
-
                     SWBResourceURL urledit = paramsRequest.getRenderUrl();
                     urledit.setAction("detail");
                     urledit.setParameter("suri", proy.getURI());
-                    out.println("<a href=\"#\" onclick=\"window.location='" + urledit + "';return false;\">"+srtMsg+"</a>");
+                    String srtMsg = "<a href=\"#\" onclick=\"window.location='" + urledit + "';return false;\" class=\"detalle\" title=\"detalle\">detalle</a>";
+
+                    if(proy.getCreator()!=null&&proy.getCreator().equals(user)||usrlev>=2)
+                    {
+                        srtMsg = "<a href=\"#\" onclick=\"window.location='" + urledit + "';return false;\" class=\"editar\" title=\"editar\">editar</a>";
+                    }
+                    
+                    out.println(srtMsg);
 
                     if(proy.getCreator()!=null&&proy.getCreator().equals(user)||usrlev==3)
                     {
                         SWBResourceURL urladel = paramsRequest.getActionUrl();
                         urladel.setAction("delete");
                         urladel.setParameter("uri", proy.getURI());
-                        out.println("<a href=\"#\" onclick=\"if(confirm('¿Estás seguro de querer eliminar este Proyecto?')){window.location='" + urladel + "';return false;} else return false;\" class=\"borrar\">borrar</a>");
+                        out.println("<a href=\"#\" onclick=\"if(confirm('¿Estás seguro de querer eliminar este Proyecto?')){window.location='" + urladel + "';return false;} else return false;\" class=\"borrar\" title=\"eliminar\">borrar</a>");
                     } else {
                         out.println("&nbsp;&nbsp;");
                     }
@@ -256,7 +259,7 @@ public class RegistroProyectos extends GenericResource {
                     urls.setAction("new");
 
                     out.println("<hr>");
-                    out.println("<h2 class=\"ico-lapiz\"><a href=\"" + urls + "\">Agregar proyecto</a></h2>");
+                    out.println("<h2 ><a href=\"" + urls + "\" class=\"ico-proy\">Agregar proyecto</a></h2>");
 
                 }
             }

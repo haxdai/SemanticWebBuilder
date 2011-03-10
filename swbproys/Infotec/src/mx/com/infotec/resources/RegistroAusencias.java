@@ -79,8 +79,9 @@ public class RegistroAusencias extends GenericResource {
                 urlb.setAction("show");
                 mgr.addButton("<button dojoType=\"dijit.form.Button\" type=\"submit\" class=\"boton\">Guardar</button>");
                 mgr.addButton("<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + urlb + "'; return false;\" class=\"boton\">Cancelar</button>");
+                out.println("<div class=\"formulario\">");
                 out.println(mgr.renderForm(request));
-
+                out.println("</div>");
             } else {
 
                 out.println("<h2>Mis Ausencias</h2>");
@@ -134,7 +135,7 @@ public class RegistroAusencias extends GenericResource {
 
                     if ((usrlevel >= 1 && !ausencia.isAutorizado())) //&&!user.equals(ausencia.getCreator())
                     {
-                        out.println("<a href=\"#\" onclick=\"if(confirm('Estás seguro de eliminar esta Ausencia?')){window.location='" + urladel + "';return false;} else return false;\" class=\"borrar\">borrar</a>");
+                        out.println("<a href=\"#\" onclick=\"if(confirm('Estás seguro de eliminar esta Ausencia?')){window.location='" + urladel + "';return false;} else return false;\" class=\"borrar\" title=\"eliminar\">borrar</a>");
                     }
 
                     out.println("</td>");
@@ -170,7 +171,7 @@ public class RegistroAusencias extends GenericResource {
                 SWBResourceURL urlb = paramsRequest.getRenderUrl();
                 urlb.setAction("addNew");
                 out.println("<hr>");
-                out.println("<h2 class=\"ico-lapiz\"><a href=\"" + urlb + "\">Registrar una ausencia</a></h2>");
+                out.println("<h2 ><a href=\"" + urlb + "\" class=\"ico-lapiz\">Registrar una ausencia</a></h2>");
 
                 if (usrlevel >= 2) {
                     out.println("<h2>Listado de ausencias: Autorizadas / Por Autorizar</h2>");
@@ -237,7 +238,7 @@ public class RegistroAusencias extends GenericResource {
                             SWBResourceURL urladel = paramsRequest.getActionUrl();
                             urladel.setAction("delete");
                             urladel.setParameter("uri", ausencia.getURI());
-                            out.println("<a href=\"#\" onclick=\"if(confirm('Estás seguro de eliminar esta Ausencia?')){window.location='" + urladel + "';return false;} else return false;\" class=\"borrar\">borrar</a>");
+                            out.println("<a href=\"#\" onclick=\"if(confirm('Estás seguro de eliminar esta Ausencia?')){window.location='" + urladel + "';return false;} else return false;\" class=\"borrar\" title=\"eliminar\">borrar</a>");
                         } else {
                             out.println("&nbsp;");
                         }
