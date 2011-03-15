@@ -36,43 +36,26 @@ public class SelectMultiple2 extends org.semanticwb.cptm.base.SelectMultiple2Bas
      */
     @Override
     public void process(HttpServletRequest request, SemanticObject obj, SemanticProperty prop, String propName) {
+    
+            //String vals[] = request.getParameterValues(propName);
 
-        // super.process(request, obj, prop);
-        // System.out.println("Process...");
-        // System.out.println("Prop:"+prop);
-        // System.out.println("obj:"+obj);
+            String val=request.getParameter(propName);
 
-        
-        //String vals[] = request.getParameterValues(propName);
-
-        String val=request.getParameter(propName);
-
-            System.out.println("vals:"+val);
-//            for(int i=0;i<vals.length;i++){
-//                System.out.println("Valor K LLega J:"+vals[i]);
-//            }
-//
-//            if (vals == null) {
-//                vals = new String[0];
-//                System.out.println("Entra aqui J1:"+vals);
-//            }
+           //System.out.println("vals:"+val);
 
             obj.removeProperty(prop);
 
             if(val!=null && val.trim().length()>0)
             {
-                System.out.println("val NO ES NULO:"+val);
                 if (prop.isObjectProperty()) {
                     StringTokenizer strTokens=new StringTokenizer(val, ",");
                     while(strTokens.hasMoreElements()){
                         String token=(String)strTokens.nextElement();
                         if(token==null || token.trim().length()>0)
                         {
-                            System.out.println("Entra aqui J2.1/token:"+token);
                             SemanticObject semObj=SemanticObject.createSemanticObject(token.trim());
                             if(semObj!=null){
                                 obj.addObjectProperty(prop, semObj);
-                                System.out.println("Entra aqui J2.2/Graba token:"+token);
                             }
                         }
                     }
@@ -82,7 +65,6 @@ public class SelectMultiple2 extends org.semanticwb.cptm.base.SelectMultiple2Bas
                         String token=(String)strTokens.nextElement();
                         if(token==null || token.trim().length()>0)
                         {
-                           System.out.println("Entra aqui J3.1/token:"+token);
                            SemanticLiteral semLiteral=new SemanticLiteral(token.trim());
                            if(semLiteral!=null){
                                 obj.addLiteralProperty(prop, semLiteral);
@@ -127,6 +109,7 @@ public class SelectMultiple2 extends org.semanticwb.cptm.base.SelectMultiple2Bas
             DOJO = true;
         }
 
+
         StringBuffer   ret          = new StringBuffer();
         String         name         = propName;
         String         label        = prop.getDisplayName(lang);
@@ -137,6 +120,7 @@ public class SelectMultiple2 extends org.semanticwb.cptm.base.SelectMultiple2Bas
         String         selectValues = null;
         boolean        disabled     = false;
         HashMap        <String, SemanticObject> mapVals=new HashMap();
+        String sobjShortUri=obj.getShortURI();
 
         if (sobj != null) {
             DisplayProperty dobj = new DisplayProperty(sobj);
@@ -195,16 +179,13 @@ public class SelectMultiple2 extends org.semanticwb.cptm.base.SelectMultiple2Bas
 
             while (it2.hasNext()) {
                 SemanticObject semanticObject = it2.next();
-
-                // System.out.println("semanticObject:"+semanticObject+" vals:"+vals);
                 mapVals.put(semanticObject.getURI(), semanticObject);                
             }
-
             String value = obj.getDisplayName(lang);
 
             if (mode.equals("edit") || mode.equals("create")) {
 
-                ret.append("<select name=\"" + name + "_propiedades\" id=\""+name+"_propiedades\" multiple=\"true\"");
+                ret.append("<select name=\"" + name +"_"+ sobjShortUri + "_propiedades\" id=\""+name+"_"+sobjShortUri+"_propiedades\" multiple=\"true\"");
                 ret.append(" style=\"width:300px;height:300px;\"");
 
                 if (DOJO) {
@@ -246,17 +227,16 @@ public class SelectMultiple2 extends org.semanticwb.cptm.base.SelectMultiple2Bas
                 }
                 ret.append("</select>");
 
-                String propBox=name+"_propiedades";
-                String propBoxTmp=name+"_tmp";
+                String propBox=name+"_"+sobjShortUri+"_propiedades";
+                String propBoxTmp=name+"_"+sobjShortUri+"_tmp";
                 //String propBoxTmp=name;
 
-                ret.append("<button dojoType=\"dijit.form.Button\" type = \"button\" style=\"width: 25px;\" id = \"" + name + "btnMoveLeft\"  >"
+                ret.append("<button dojoType=\"dijit.form.Button\" type = \"button\" style=\"width: 25px;\" id = \"" + name + "_"+sobjShortUri+"_btnMoveLeft\"  >"
                 + "<script type=\"dojo/connect\" event=\"onClick\">"
-                + "var self=this; "
+                +   "var self=this; "
                 +   " var varFromBox = document.getElementById(\""+propBoxTmp+"\"); "
                 +   " var varToBox = document.getElementById(\""+propBox+"\"); "
-                +   " var varHidden = document.getElementById(\""+name+"\"); "
-                +   " alert('entrando0:'+varHidden.value);"
+                +   " var varHidden = document.getElementById(\""+name+"_"+sobjShortUri+"\"); "
                 +   " if ((varFromBox != null) && (varToBox != null))  "
                 +   " {  "
                 +   "   if(varFromBox.length < 1)  "
@@ -281,35 +261,18 @@ public class SelectMultiple2 extends org.semanticwb.cptm.base.SelectMultiple2Bas
                 +   "             varFromBox.options[i].selected=true;"
                 +   "             if(i==0) {"
                 +   "               varHidden.value=varFromBox.options[i].value;"
-                +   "               alert('En cero0:'+varHidden.value);"
-                +   "             }else {varHidden.value=varHidden.value+','+varFromBox.options[i].value;"
-                +   "               alert('No en Cero0:'+varHidden.value);"
-                +   "             }"
+                +   "             }else {varHidden.value=varHidden.value+','+varFromBox.options[i].value;}"
                 +   "     } "
                 +   "  } "
-                +   "function enviatodos(lstbox)"
-                +   "{"
-                +   "   var list = document.getElementById(lstbox);"
-                +   "   for (var i=0; i<list.options.length; i++){"
-                +   "             list.options[i].selected=true;"
-                +   "   }"
-                +   "             return true;"
-                +   "}"
-                +   "function updItem(uri,param,sel) {"
-                +   "       var valor = sel.options[sel.options.selectedIndex].value;"
-                +   "       var url = uri+'&'+param+'='+escape(valor);"
-                +   "       window.location=url;"
-                +   "}"
                 + "</script>"
                 + " << </button>");
                 ret.append("&nbsp;&nbsp;&nbsp;");
-                ret.append("<button dojoType=\"dijit.form.Button\" type = \"button\" style=\"width: 25px;\" id = \"" + name + "btnMoveRight\" >"
+                ret.append("<button dojoType=\"dijit.form.Button\" type = \"button\" style=\"width: 25px;\" id = \"" + name + "_"+sobjShortUri+"_btnMoveRight\" >"
                 + "<script type=\"dojo/connect\" event=\"onClick\">"
                 +   "var self=this; "
                 +   " var varFromBox = document.getElementById(\""+propBox+"\"); "
                 +   " var varToBox = document.getElementById(\""+propBoxTmp+"\"); "
-                +   " var varHidden = document.getElementById(\""+name+"\"); "
-                +   " alert('entrando1:'+varHidden.value);"
+                +   " var varHidden = document.getElementById(\""+name+"_"+sobjShortUri+"\"); "
                 +   " if ((varFromBox != null) && (varToBox != null))  "
                 +   " {  "
                 +   "   if(varFromBox.length < 1)  "
@@ -332,25 +295,9 @@ public class SelectMultiple2 extends org.semanticwb.cptm.base.SelectMultiple2Bas
                 +   "             varToBox.options[i].selected=true;"
                 +   "             if(i==0) {"
                 +   "               varHidden.value=varToBox.options[i].value;"
-                +   "               alert('En Cero1:'+varHidden.value);"
-                +   "             }else {varHidden.value=varHidden.value+','+varToBox.options[i].value;"
-                +   "               alert('No en Cero1:'+varHidden.value);"
-                +   "             }"
+                +   "             }else {varHidden.value=varHidden.value+','+varToBox.options[i].value;}"
                 +   "     } "
                 +   " } "
-                +   "function enviatodos(lstbox)"
-                +   "{"
-                +   "   var list = document.getElementById(lstbox);"
-                +   "   for (var i=0; i<list.options.length; i++){"
-                +   "             list.options[i].selected=true;"
-                +   "   }"
-                +   "             return true;"
-                +   "}"
-                +   "function updItem(uri,param,sel) {"
-                +   "       var valor = sel.options[sel.options.selectedIndex].value;"
-                +   "       var url = uri+'&'+param+'='+escape(valor);"
-                +   "       window.location=url;"
-                +   "}"
                 + "</script>"
                 + " >> </button>");
                 ret.append("&nbsp;&nbsp;&nbsp;");
@@ -373,9 +320,7 @@ public class SelectMultiple2 extends org.semanticwb.cptm.base.SelectMultiple2Bas
                 }
                 ret.append("</select>");
                 
-                ret.append("<input type=\"hidden\" name=\""+name+"\" id=\""+name+"\" value=\""+valHidden+"\" />");
-
-
+                ret.append("<input type=\"hidden\" name=\""+name+"\" id=\""+name+"_"+sobjShortUri+"\" value=\""+valHidden+"\" />");
 
 
             } else if (mode.equals("view")) {

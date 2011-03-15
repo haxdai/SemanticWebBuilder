@@ -17,7 +17,7 @@ public class EditNoteParser extends WebPageParser {
 
     @Override
     public String getTypeDisplayLabel(Searchable gen) {
-        return "Nota Editorial";
+        return "NotaEditorial";
     }
 
     @Override

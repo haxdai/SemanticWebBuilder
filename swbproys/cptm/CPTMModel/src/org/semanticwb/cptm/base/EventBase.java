@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Eventos. 
    */
-public abstract class EventBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable,org.semanticwb.model.Searchable
+public abstract class EventBase extends org.semanticwb.model.SWBClass implements org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable,org.semanticwb.model.Searchable
 {
     public static final org.semanticwb.platform.SemanticProperty cptm_eventLeadingPhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#eventLeadingPhoto");
     public static final org.semanticwb.platform.SemanticClass cptm_Activity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Activity");
