@@ -95,8 +95,7 @@ public class FirstLevelEditorials extends GenericAdmResource {
                             if (map.size() < 5 && noteId != null &&
                                     noteId.equalsIgnoreCase(FirstLevelEditorials.noteTypeId)) {
                                 //Se seleccionan las notas de acuerdo a la página a mostrar (Home o algún canal)
-                                if ((showHomeDisplay && editorial.isIsathome()) ||
-                                        (showCanalDisplay && editorial.getNoteCanal() == webPage)) {
+                                if ((showHomeDisplay && editorial.isIsathome())) { //|| (showCanalDisplay && editorial.getNoteCanal() == webPage)
                                     map.put(editorial.getNoteHomeIndex(), editorial);
                                 }
                             } else if (map.size() >= 5) {
