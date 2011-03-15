@@ -3,6 +3,10 @@ package org.semanticwb.cptm.base;
 
 public abstract class How2TravelBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Trashable,org.semanticwb.model.Indexable,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Resourceable,org.semanticwb.model.Localeable,org.semanticwb.model.Traceable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Viewable,org.semanticwb.model.FilterableClass,org.semanticwb.model.RuleRefable,org.semanticwb.model.Expirable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Searchable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Activeable,org.semanticwb.model.Hiddenable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Rankable
 {
+   /**
+   * URL interna de redirección de la página
+   */
+    public static final org.semanticwb.platform.SemanticProperty cptm_internalURL=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#internalURL");
     public static final org.semanticwb.platform.SemanticClass cptm_How2Travel=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#How2Travel");
    /**
    * The semantic class that represents the currentObject
@@ -478,6 +482,24 @@ public abstract class How2TravelBase extends org.semanticwb.model.WebPage implem
     public How2TravelBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+/**
+* Gets the InternalURL property
+* @return String with the InternalURL
+*/
+    public String getInternalURL()
+    {
+        return getSemanticObject().getProperty(cptm_internalURL);
+    }
+
+/**
+* Sets the InternalURL property
+* @param value long with the InternalURL
+*/
+    public void setInternalURL(String value)
+    {
+        getSemanticObject().setProperty(cptm_internalURL, value);
     }
 
    /**
