@@ -42,7 +42,7 @@ public class TreeSelect extends org.semanticwb.cptm.base.TreeSelectBase
                 log.error("Can't save the value's property in TreeSelect, " + e);
             }
         }
-        if(delPages!=null) {
+        if(delPages != null) {
             obj.removeProperty(prop);
         }
     }
@@ -62,7 +62,7 @@ public class TreeSelect extends org.semanticwb.cptm.base.TreeSelectBase
         String url = url1.toString().replaceAll("&", "&amp;");
 
         //Si la propiedad tiene un valor almacenado, obtener los padres para abrir las carpetas
-        if(li !=null && li.length()>0 && tpid==null) {
+        if(li != null && li.length() > 0 && tpid == null) {
             tpid = site.getWebPage(li);
             WebPage lip = site.getWebPage(li);
             WebPage parent = lip;
@@ -108,20 +108,20 @@ public class TreeSelect extends org.semanticwb.cptm.base.TreeSelectBase
         try {
             ret.append("<span style=\"padding-left:5px\">"+SWBUtils.TEXT.encode(site.getDisplayTitle(lang), SWBUtils.TEXT.CHARSET_UTF8)+"</span>");
         } catch(Exception e) {
-            log.error("Can´t convert text to code UTF8");
+            log.error("Can´t convert text to code UTF8" + e);
         }
         ret.append("<ul class=\"treeres\">");
         ret.append("<li>");
 
         //Si es la página actual, obteniendo las imagenes
-        if(tpid!=null && tpid.getId().equalsIgnoreCase(home.getId())) {
+        if(tpid != null && tpid.getId().equalsIgnoreCase(home.getId())) {
             style=" style=\"color:#FF6600; font-weight:bold; background-color:#000\"";
             if(toggleopen) {
                 //Si esta abierta
                 params.append("&"+home.getId()+"=0");
                 ret.append("<img src=\""+pathImages+"/plus.gif\" alt=\"abrir nodo\" onclick=\"getHtml('"+url+"&reptp=" + home.getId()+params+"','tree_'+'"+site.getId()+"_" + obj.getShortURI() + "_" + propName+"')\" />");
                 toggleopen = false;
-            }else {
+            } else {
                 //Si la página esta cerrada
                 params.append("&"+home.getId()+"=1");
                 ret.append("<img src=\""+pathImages+"/minus.gif\" alt=\"cerrar nodo\" onclick=\"getHtml('"+url+"&reptp=" + home.getId()+params+"','tree_'+'"+site.getId()+"_" + obj.getShortURI() + "_" + propName+"')\" />");
@@ -145,23 +145,24 @@ public class TreeSelect extends org.semanticwb.cptm.base.TreeSelectBase
                     ret.append("<img src=\""+pathImages+"/minus.gif\" alt=\"cerrar nodo\"  onclick=\"getHtml('"+url+"&reptp=" + home.getId()+params+"','tree_'+'"+site.getId()+"_" + obj.getShortURI() + "_" + propName+"')\" />");
             }
         }
-        if((li!=null&&li.length()>0)&& li.equalsIgnoreCase(home.getId()))
+        if((li != null && li.length() > 0) && li.equalsIgnoreCase(home.getId()))
         {
             style = " style=\"font-weight:bold; background-color:#6699FF\"";
         }
         //Obteniendo las ligas
         ret.append("<a class=\"treeres\" onclick=\"getHtml('"+url+"&reptp=" + home.getId()+params+"','tree_'+'"+site.getId()+"_" + obj.getShortURI() + "_" + propName+"')\" "+style+">");
         //mostrar icono del home(Activo/Desactivo)
-        if(home.isActive()){
+        if(home.isActive()) {
             ret.append("<img src=\""+pathImages+"/icon_homeac.png\" alt=\"seleccionar inicio\" />");
         } else {
             ret.append("<img src=\""+pathImages+"/icon_homein.png\" alt=\"seleccionar inicio\" />");
         }
 
         //Agregar el título del nodo actual
-        try{
+        try {
             ret.append("<span style=\"padding-left:5px\">"+SWBUtils.TEXT.encode(home.getDisplayTitle(lang), SWBUtils.TEXT.CHARSET_UTF8)+"</span>");
-        }catch(Exception e){
+        } catch(Exception e) {
+            log.error("Can't save the value's property in TreeSelect, " + e);
         }
         ret.append("</a>");
 
@@ -190,35 +191,35 @@ public class TreeSelect extends org.semanticwb.cptm.base.TreeSelectBase
         Iterator<WebPage> childs=pageroot.listChilds();
         while(childs.hasNext()) {
             WebPage webpage = childs.next();
-            if(webpage.getId()!=null) {
+            if(webpage.getId() != null) {
                 if(!list.isEmpty()) {
-                    if(list.contains(webpage)){
+                    if(list.contains(webpage)) {
                         toggleopen = true;
-                    }else{
+                    } else {
                         toggleopen = false;
                     }
-                }else{
-                    toggleopen = Boolean.parseBoolean(request.getParameter(webpage.getId())==null?"false":((String)request.getParameter(webpage.getId())).equals("1")?"true":"false");
+                }else {
+                    toggleopen = Boolean.parseBoolean(request.getParameter(webpage.getId()) == null ? "false" : ((String)request.getParameter(webpage.getId())).equals("1") ? "true" : "false");
                 }
                 if(webpage.listChilds().hasNext()) {
                     html.append("<li>");
-                    if(tpid!=null && tpid.getId().equalsIgnoreCase(webpage.getId())) {
+                    if(tpid != null && tpid.getId().equalsIgnoreCase(webpage.getId())) {
                         style=" style=\"color:#FF6600; font-weight:bold; background-color:#000\"";
                         if(toggleopen) {
                             params.append("&"+webpage.getId()+"=0");
                             html.append("<img src=\""+pathImages+"/plus.gif\" alt=\"abrir nodo\" onclick=\"getHtml('"+url+"&reptp="+webpage.getId()+params+"','tree_'+'"+tmit.getId()+"_" + obj.getShortURI() + "_" + propName+"')\" />");
                             toggleopen = false;
-                        }else {
+                        } else {
                             params.append("&"+webpage.getId()+"=1");
                             html.append("<img src=\""+pathImages+"/minus.gif\" alt=\"cerrar nodo\" onclick=\"getHtml('"+url+"&reptp="+webpage.getId()+params+"','tree_'+'"+tmit.getId()+"_" + obj.getShortURI() + "_" + propName+"')\" />");
                             toggleopen = true;
                         }
-                    }else {
+                    } else {
                         style="";
                         if(toggleopen) {
                             params.append("&"+webpage.getId()+"=1");
                             html.append("<img src=\""+pathImages+"/minus.gif\" alt=\"cerrar nodo\" onclick=\"getHtml('"+url+"&reptp="+webpage.getId()+params+"','tree_'+'"+tmit.getId()+"_" + obj.getShortURI() + "_" + propName+"')\" />");
-                        }else {
+                        } else {
                             params.append("&"+webpage.getId()+"=0");
                             html.append("<img src=\""+pathImages+"/plus.gif\" alt=\"abrir nodo\" onclick=\"getHtml('"+url+"&reptp="+webpage.getId()+params+"','tree_'+'"+tmit.getId()+"_" + obj.getShortURI() + "_" + propName+"')\" />");
                         }
@@ -233,12 +234,13 @@ public class TreeSelect extends org.semanticwb.cptm.base.TreeSelectBase
                     } else {
                         html.append("<img src=\""+pathImages+"/icon_secin.png\" alt=\"seleccionar sección\" />");
                     }
-                    if(!isAjax){
+                    if(!isAjax) {
                         html.append("<span style=\"padding-left:5px\">"+webpage.getDisplayTitle(lang)+"</span>");
-                    }else{
-                        try{
+                    } else {
+                        try {
                             html.append("<span style=\"padding-left:5px\">"+SWBUtils.TEXT.encode(webpage.getDisplayTitle(lang), SWBUtils.TEXT.CHARSET_UTF8)+"</span>");
-                        }catch(Exception e){
+                        } catch(Exception e) {
+                            log.error("Can't save the value's property in TreeSelect, " + e);
                         }
                     }
                     html.append("</a>");
@@ -247,19 +249,19 @@ public class TreeSelect extends org.semanticwb.cptm.base.TreeSelectBase
                     }
                     html.append("</li>");
                 }else {
-                    if(tpid!=null && tpid.getId().equalsIgnoreCase(webpage.getId())){
+                    if(tpid != null && tpid.getId().equalsIgnoreCase(webpage.getId())) {
                         style=" style=\"color:#FF6600; font-weight:bold; background-color:#000\"";
-                    }else {
+                    } else {
                         style="";
                     }
-                    if((dataCurrent != null && dataCurrent.length() > 0)&& dataCurrent.equalsIgnoreCase(webpage.getId()))
+                    if((dataCurrent != null && dataCurrent.length() > 0) && dataCurrent.equalsIgnoreCase(webpage.getId()))
                     {
                         style=" style=\"font-weight:bold; background-color:#6699FF\"";
                     }
                     html.append("<li>");
                     html.append("<img src=\""+pathImages+"/trans.gif\" />");
                     html.append("<a class=\"treeres\" onclick=\"getHtml('"+url+"&reptp="+webpage.getId()+params+"','tree_'+'"+tmit.getId()+"_" + obj.getShortURI() + "_" + propName+"')\" "+style+">");
-                    if(webpage.isActive()){
+                    if(webpage.isActive()) {
                         html.append("<img src=\""+pathImages+"/icon_secac.png\" alt=\"seleccionar sección\" />");
                     } else {
                         html.append("<img src=\""+pathImages+"/icon_secin.png\" alt=\"seleccionar sección\" />");
@@ -267,9 +269,10 @@ public class TreeSelect extends org.semanticwb.cptm.base.TreeSelectBase
                     if(!isAjax) {
                         html.append("<span style=\"padding-left:5px\">"+webpage.getDisplayTitle(lang)+"</span>");
                     } else {
-                        try{
+                        try {
                             html.append("<span style=\"padding-left:5px\">"+SWBUtils.TEXT.encode(webpage.getDisplayTitle(lang), SWBUtils.TEXT.CHARSET_UTF8)+"</span>");
-                        }catch(Exception e){
+                        } catch(Exception e) {
+                            log.error("Can't save the value's property in TreeSelect, " + e);
                         }
                     }
                     html.append("</a>");
