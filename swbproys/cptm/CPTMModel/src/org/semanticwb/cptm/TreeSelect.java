@@ -33,8 +33,9 @@ public class TreeSelect extends org.semanticwb.cptm.base.TreeSelectBase
         if (prop.getDisplayProperty() == null) {
             return;
         }
-        String value = request.getParameter("section");
-        String delPages = request.getParameter("deletePages");
+        String value = request.getParameter("section"+"_" + obj.getShortURI() + "_" + propName);
+        System.out.println("En guardado, el valor de Section: " + value);
+        String delPages = request.getParameter("deletePages"+"_" + obj.getShortURI() + "_" + propName);
         if ((value != null) && (value.length() > 0)) {
             try {
                 obj.setProperty(prop, value);
@@ -83,18 +84,18 @@ public class TreeSelect extends org.semanticwb.cptm.base.TreeSelectBase
         //Obteniendo la página web seleccionada
         if(request.getParameter("reptp") != null) {
             tpid=site.getWebPage((String)request.getParameter("reptp"));
-            ret.append("<input type=\"hidden\" name=\"section\" id=\"section\" value=\""+tpid.getId()+"\" />");
+            ret.append("<input type=\"hidden\" name=\"section"+"_" + obj.getShortURI() + "_" + propName+"\" id=\"section"+"_" + obj.getShortURI() + "_" + propName+"\" value=\""+tpid.getId()+"\" />");
         }
 
         //Carpeta Abierta o Cerrada
         boolean toggleopen = Boolean.parseBoolean(request.getParameter(home.getId()) == null ? "false" : ((String)request.getParameter(home.getId())).equals("1") ? "true" : "false");
         if(tpid == null) {
-            ret.append("<input type=\"checkbox\" name=\"deletePages\" value=\"deletePages\">Deseleccionar páginas web");
+            ret.append("<input type=\"checkbox\" name=\"deletePages"+"_" + obj.getShortURI() + "_" + propName+"\" value=\"deletePages\">Deseleccionar páginas web");
         } else {
             listData = new ArrayList();
         }
         ret.append("<div id=\"slave\">");
-        ret.append("<div class=\"sitesectiontree\" id=\"tree_"+site.getId()+"\">");
+        ret.append("<div class=\"sitesectiontree\" id=\"tree_"+site.getId()+"_" + obj.getShortURI() + "_" + propName+"\">");
         ret.append("<ul class=\"treeres\">");
         ret.append("<li>");
 
@@ -119,12 +120,12 @@ public class TreeSelect extends org.semanticwb.cptm.base.TreeSelectBase
             if(toggleopen) {
                 //Si esta abierta
                 params.append("&"+home.getId()+"=0");
-                ret.append("<img src=\""+pathImages+"/plus.gif\" alt=\"abrir nodo\" onclick=\"getHtml('"+url+"&reptp=" + home.getId()+params+"','tree_'+'"+site.getId()+"')\" />");
+                ret.append("<img src=\""+pathImages+"/plus.gif\" alt=\"abrir nodo\" onclick=\"getHtml('"+url+"&reptp=" + home.getId()+params+"','tree_'+'"+site.getId()+"_" + obj.getShortURI() + "_" + propName+"')\" />");
                 toggleopen = false;
             }else {
                 //Si la página esta cerrada
                 params.append("&"+home.getId()+"=1");
-                ret.append("<img src=\""+pathImages+"/minus.gif\" alt=\"cerrar nodo\" onclick=\"getHtml('"+url+"&reptp=" + home.getId()+params+"','tree_'+'"+site.getId()+"')\" />");
+                ret.append("<img src=\""+pathImages+"/minus.gif\" alt=\"cerrar nodo\" onclick=\"getHtml('"+url+"&reptp=" + home.getId()+params+"','tree_'+'"+site.getId()+"_" + obj.getShortURI() + "_" + propName+"')\" />");
                 toggleopen = true;
             }
         }else {
@@ -134,23 +135,23 @@ public class TreeSelect extends org.semanticwb.cptm.base.TreeSelectBase
                 if(toggleopen) {
                     //Si la página esta abierta
                     params.append("&"+home.getId()+"=1");
-                    ret.append("<img src=\""+pathImages+"/minus.gif\" alt=\"cerrar nodo\"  onclick=\"getHtml('"+url+"&reptp=" + home.getId()+params+"','tree_'+'"+site.getId()+"')\" />");
+                    ret.append("<img src=\""+pathImages+"/minus.gif\" alt=\"cerrar nodo\"  onclick=\"getHtml('"+url+"&reptp=" + home.getId()+params+"','tree_'+'"+site.getId()+"_" + obj.getShortURI() + "_" + propName+"')\" />");
                 }else {
                     //Si la página no esta abierta
                     params.append("&"+home.getId()+"=0");
-                    ret.append("<img src=\""+pathImages+"/plus.gif\" alt=\"abrir nodo\"  onclick=\"getHtml('"+url+"&reptp=" + home.getId()+params+"','tree_'+'"+site.getId()+"')\" />");
+                    ret.append("<img src=\""+pathImages+"/plus.gif\" alt=\"abrir nodo\"  onclick=\"getHtml('"+url+"&reptp=" + home.getId()+params+"','tree_'+'"+site.getId()+"_" + obj.getShortURI() + "_" + propName+"')\" />");
                 }
             } else {
                     params.append("&"+home.getId()+"=1");
-                    ret.append("<img src=\""+pathImages+"/minus.gif\" alt=\"cerrar nodo\"  onclick=\"getHtml('"+url+"&reptp=" + home.getId()+params+"','tree_'+'"+site.getId()+"')\" />");
+                    ret.append("<img src=\""+pathImages+"/minus.gif\" alt=\"cerrar nodo\"  onclick=\"getHtml('"+url+"&reptp=" + home.getId()+params+"','tree_'+'"+site.getId()+"_" + obj.getShortURI() + "_" + propName+"')\" />");
             }
         }
         if((li!=null&&li.length()>0)&& li.equalsIgnoreCase(home.getId()))
         {
-            style = " style=\"font-weight:bold; background-color:#CC66CC\"";
+            style = " style=\"font-weight:bold; background-color:#6699FF\"";
         }
         //Obteniendo las ligas
-        ret.append("<a class=\"treeres\" onclick=\"getHtml('"+url+"&reptp=" + home.getId()+params+"','tree_'+'"+site.getId()+"')\" "+style+">");
+        ret.append("<a class=\"treeres\" onclick=\"getHtml('"+url+"&reptp=" + home.getId()+params+"','tree_'+'"+site.getId()+"_" + obj.getShortURI() + "_" + propName+"')\" "+style+">");
         //mostrar icono del home(Activo/Desactivo)
         if(home.isActive()){
             ret.append("<img src=\""+pathImages+"/icon_homeac.png\" alt=\"seleccionar inicio\" />");
@@ -167,11 +168,11 @@ public class TreeSelect extends org.semanticwb.cptm.base.TreeSelectBase
 
         //Pintando los hijos si esta abierta la carpeta
         if(home != null && toggleopen) {
-            ret.append(addChild(true,listData,request, site, home, tpid, url1, params,lang,li));
+            ret.append(addChild(true,listData,request, site, home, tpid, url1, params,lang,li,obj,propName));
         }
 
         if(!listData.isEmpty() && tpid == null) {
-            ret.append(addChild(false,listData,request, site, home, tpid, url1, params, lang, li));
+            ret.append(addChild(false,listData,request, site, home, tpid, url1, params, lang, li,obj,propName));
         }
         ret.append("</li>");
         ret.append("</ul>");
@@ -182,7 +183,7 @@ public class TreeSelect extends org.semanticwb.cptm.base.TreeSelectBase
         return ret.toString();
     }
 
-    protected String addChild(boolean isAjax, ArrayList list, HttpServletRequest request, WebSite tmit, WebPage pageroot, WebPage tpid, FormElementURL url1, StringBuilder params, String lang, String dataCurrent) {
+    protected String addChild(boolean isAjax, ArrayList list, HttpServletRequest request, WebSite tmit, WebPage pageroot, WebPage tpid, FormElementURL url1, StringBuilder params, String lang, String dataCurrent, SemanticObject obj, String propName) {
         String style;
         String url = url1.toString().replaceAll("&", "&amp;");
         boolean toggleopen;
@@ -206,28 +207,28 @@ public class TreeSelect extends org.semanticwb.cptm.base.TreeSelectBase
                         style=" style=\"color:#FF6600; font-weight:bold; background-color:#000\"";
                         if(toggleopen) {
                             params.append("&"+webpage.getId()+"=0");
-                            html.append("<img src=\""+pathImages+"/plus.gif\" alt=\"abrir nodo\" onclick=\"getHtml('"+url+"&reptp="+webpage.getId()+params+"','tree_'+'"+tmit.getId()+"')\" />");
+                            html.append("<img src=\""+pathImages+"/plus.gif\" alt=\"abrir nodo\" onclick=\"getHtml('"+url+"&reptp="+webpage.getId()+params+"','tree_'+'"+tmit.getId()+"_" + obj.getShortURI() + "_" + propName+"')\" />");
                             toggleopen = false;
                         }else {
                             params.append("&"+webpage.getId()+"=1");
-                            html.append("<img src=\""+pathImages+"/minus.gif\" alt=\"cerrar nodo\" onclick=\"getHtml('"+url+"&reptp="+webpage.getId()+params+"','tree_'+'"+tmit.getId()+"')\" />");
+                            html.append("<img src=\""+pathImages+"/minus.gif\" alt=\"cerrar nodo\" onclick=\"getHtml('"+url+"&reptp="+webpage.getId()+params+"','tree_'+'"+tmit.getId()+"_" + obj.getShortURI() + "_" + propName+"')\" />");
                             toggleopen = true;
                         }
                     }else {
                         style="";
                         if(toggleopen) {
                             params.append("&"+webpage.getId()+"=1");
-                            html.append("<img src=\""+pathImages+"/minus.gif\" alt=\"cerrar nodo\" onclick=\"getHtml('"+url+"&reptp="+webpage.getId()+params+"','tree_'+'"+tmit.getId()+"')\" />");
+                            html.append("<img src=\""+pathImages+"/minus.gif\" alt=\"cerrar nodo\" onclick=\"getHtml('"+url+"&reptp="+webpage.getId()+params+"','tree_'+'"+tmit.getId()+"_" + obj.getShortURI() + "_" + propName+"')\" />");
                         }else {
                             params.append("&"+webpage.getId()+"=0");
-                            html.append("<img src=\""+pathImages+"/plus.gif\" alt=\"abrir nodo\" onclick=\"getHtml('"+url+"&reptp="+webpage.getId()+params+"','tree_'+'"+tmit.getId()+"')\" />");
+                            html.append("<img src=\""+pathImages+"/plus.gif\" alt=\"abrir nodo\" onclick=\"getHtml('"+url+"&reptp="+webpage.getId()+params+"','tree_'+'"+tmit.getId()+"_" + obj.getShortURI() + "_" + propName+"')\" />");
                         }
                     }
                     if((dataCurrent !=null && dataCurrent.length() > 0)&& dataCurrent.equalsIgnoreCase(webpage.getId()))//tpid==null&&
                     {
-                        style=" style=\"font-weight:bold; background-color:#CC66CC\"";
+                        style=" style=\"font-weight:bold; background-color:#6699FF\"";
                     }
-                    html.append("<a class=\"treeres\" onclick=\"getHtml('"+url+"&reptp="+webpage.getId()+params+"','tree_'+'"+tmit.getId()+"')\" "+style+">");
+                    html.append("<a class=\"treeres\" onclick=\"getHtml('"+url+"&reptp="+webpage.getId()+params+"','tree_'+'"+tmit.getId()+"_" + obj.getShortURI() + "_" + propName+"')\" "+style+">");
                     if(webpage.isActive()) {
                         html.append("<img src=\""+pathImages+"/icon_secac.png\" alt=\"seleccionar sección\" />");
                     } else {
@@ -243,7 +244,7 @@ public class TreeSelect extends org.semanticwb.cptm.base.TreeSelectBase
                     }
                     html.append("</a>");
                     if(toggleopen) {
-                        html.append(addChild(isAjax,list,request, tmit, webpage, tpid, url1, params,lang,dataCurrent));
+                        html.append(addChild(isAjax,list,request, tmit, webpage, tpid, url1, params,lang,dataCurrent,obj,propName));
                     }
                     html.append("</li>");
                 }else {
@@ -254,11 +255,11 @@ public class TreeSelect extends org.semanticwb.cptm.base.TreeSelectBase
                     }
                     if((dataCurrent != null && dataCurrent.length() > 0)&& dataCurrent.equalsIgnoreCase(webpage.getId()))
                     {
-                        style=" style=\"font-weight:bold; background-color:#CC66CC\"";
+                        style=" style=\"font-weight:bold; background-color:#6699FF\"";
                     }
                     html.append("<li>");
                     html.append("<img src=\""+pathImages+"/trans.gif\" />");
-                    html.append("<a class=\"treeres\" onclick=\"getHtml('"+url+"&reptp="+webpage.getId()+params+"','tree_'+'"+tmit.getId()+"')\" "+style+">");
+                    html.append("<a class=\"treeres\" onclick=\"getHtml('"+url+"&reptp="+webpage.getId()+params+"','tree_'+'"+tmit.getId()+"_" + obj.getShortURI() + "_" + propName+"')\" "+style+">");
                     if(webpage.isActive()){
                         html.append("<img src=\""+pathImages+"/icon_secac.png\" alt=\"seleccionar sección\" />");
                     } else {
