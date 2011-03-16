@@ -1,6 +1,5 @@
 package mx.gob.stps.portalempleo.swb.resources;
 
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -61,7 +60,7 @@ public class HTMLReferencedContent extends mx.gob.stps.portalempleo.swb.resource
             aol.append("function s(evt) {\n");
             aol.append("  dojo.byId('d1').style.display='none';\n");
             aol.append("  dojo.byId('d1').style.visibility='hidden';\n");
-            aol.append("  postHtml('"+url+"','d1');\n");
+            aol.append("  postHtml('"+url+"'+'?tkn='+evt.target.innerHTML,'d1');\n");
             aol.append("  dojo.byId('d1').style.display='block';\n");
             aol.append("  dojo.byId('d1').style.visibility='visible';\n");
             aol.append("  dojo.byId('d1').style.top=evt.pageY+'px';\n");
@@ -122,9 +121,9 @@ public class HTMLReferencedContent extends mx.gob.stps.portalempleo.swb.resource
 
     @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        if (paramRequest.getMode().equals("ref")) {
+        if(paramRequest.getMode().equals("ref")) {
             doRef(request, response, paramRequest);
-        } else {
+        }else {
             super.processRequest(request, response, paramRequest);
         }
     }
@@ -203,7 +202,7 @@ public class HTMLReferencedContent extends mx.gob.stps.portalempleo.swb.resource
                     fileContent = contentUtils.paginationMsWord(fileContent, page, request.getParameter("page"), resource, snpages, stxtant, stxtsig, stfont, position);
                 }//Paginación
                 fileContent = cleanHTML(fileContent, deleteStyles);
-            } else {
+            }else {
                 fileContent = SWBUtils.TEXT.replaceAll(fileContent, "<workpath/>",
                     SWBPortal.getWebWorkPath() + resource.getWorkPath() + "/" + versionNumber + "/");
                 //Paginación (Jorge Jiménez-10/Julio/2009)
@@ -243,7 +242,8 @@ public class HTMLReferencedContent extends mx.gob.stps.portalempleo.swb.resource
         WebSite wsite = wp.getWebSite();
         User user = paramRequest.getUser();
 
-        String tkn = "caballero";//request.getParameter("tkn");
+        String tkn = request.getParameter("tkn");
+System.out.println("tkn="+tkn);
 
         SWBIndexer indexer = SWBPortal.getIndexMgr().getModelIndexer(wsite);
         Searchable[] refs;
@@ -254,7 +254,7 @@ public class HTMLReferencedContent extends mx.gob.stps.portalempleo.swb.resource
         refs = search.x(wsite, tkn, user);
         if(refs!=null && refs.length>0) {
             StringBuilder htm = new StringBuilder();
-            htm.append(tkn);
+htm.append("<p>tkn="+tkn+"</p>");
             for(Searchable srch:refs) {
                 if(srch.equals(wp))
                     continue;
