@@ -34,7 +34,6 @@ public class TreeSelect extends org.semanticwb.cptm.base.TreeSelectBase
             return;
         }
         String value = request.getParameter("section"+"_" + obj.getShortURI() + "_" + propName);
-        System.out.println("En guardado, el valor de Section: " + value);
         String delPages = request.getParameter("deletePages"+"_" + obj.getShortURI() + "_" + propName);
         if ((value != null) && (value.length() > 0)) {
             try {
