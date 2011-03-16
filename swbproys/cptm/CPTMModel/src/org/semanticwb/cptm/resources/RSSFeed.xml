@@ -1,21 +1,13 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
-
-<!--
-    Document   : RSSFeed.xml
-    Created on : 10 de marzo de 2011, 12:54
-    Author     : miguel.ortiz
-    Description:
-        Purpose of the document follows.
--->
-
+<?xml version="1.0" encoding="UTF-8"?>
 <admresource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<form name="frmAdmin">
-		<fieldset>
-                        <input type="TEXT" name="nDias" label="Lapso de dias de anterioridad de las noticias:" jsvaltype="js_numbers"/>
-		</fieldset>
-		<fieldset>
-			<input type="SUBMIT" name="btnSave" value="GUARDAR" />
-			<input type="RESET" name="btnReset" value="CANCELAR" />
-		</fieldset>
-	</form>
+    <xslfile>admresource.xslt</xslfile>
+    <form name="frmAdmRes" action="true" method="post" >
+        <fieldset>
+            <input type="TEXT" name="nDias" label="Lapso de dias de anterioridad de las noticias:" jsvaltype="js_numbers"/>
+        </fieldset>
+        <fieldset>
+            <input type="submit" name="btnSave" value="GUARDAR" />
+            <input type="reset" name="btnReset" value="CANCELAR" />
+        </fieldset>
+    </form>
 </admresource>
