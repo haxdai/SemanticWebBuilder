@@ -243,7 +243,6 @@ public class HTMLReferencedContent extends mx.gob.stps.portalempleo.swb.resource
         User user = paramRequest.getUser();
 
         String tkn = request.getParameter("tkn");
-System.out.println("tkn="+tkn);
 
         SWBIndexer indexer = SWBPortal.getIndexMgr().getModelIndexer(wsite);
         Searchable[] refs;
