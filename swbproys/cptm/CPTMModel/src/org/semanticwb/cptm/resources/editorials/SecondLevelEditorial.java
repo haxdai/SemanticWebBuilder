@@ -73,15 +73,8 @@ public class SecondLevelEditorial extends GenericResource {
         EditNoteType noteType3 = null;
         int cont = 0;
 
-        Iterator<EditNoteType> editTypes = EditNoteType.ClassMgr.listEditNoteTypes(site);
-        while (editTypes.hasNext()) {
-            EditNoteType type = editTypes.next();
-            if (type.getId().equalsIgnoreCase("T2")) {
-                noteType2 = type;
-            } else if (type.getId().equalsIgnoreCase("T3")) {
-                noteType3 = type;
-            }
-        }
+        noteType2 = EditNoteType.ClassMgr.getEditNoteType("T2", site);
+        noteType3 = EditNoteType.ClassMgr.getEditNoteType("T3", site);
 
         try {
             if (noteType2 != null) {
