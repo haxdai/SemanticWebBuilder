@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
 import javax.servlet.http.*;
+import mx.gob.stps.portalempleo.swb.search.Search;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBPortal;
@@ -23,7 +24,6 @@ import org.semanticwb.portal.api.*;
 import org.semanticwb.portal.indexer.SWBIndexer;
 import org.semanticwb.portal.indexer.parser.GenericParser;
 import org.semanticwb.portal.util.ContentUtils;
-import org.semanticwb.portal.resources.sem.Search;
 
 public class HTMLReferencedContent extends mx.gob.stps.portalempleo.swb.resources.base.HTMLReferencedContentBase 
 {
