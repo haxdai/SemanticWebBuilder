@@ -42,16 +42,8 @@ public class HTMLReferencedContent extends mx.gob.stps.portalempleo.swb.resource
         super(base);
     }
 
-    private String kw(String datos, WebPage wp, SWBResourceURL url)
-    {
-//        SWBIndexer indexer = SWBPortal.getIndexMgr().getModelIndexer(wsite);
-//        Searchable[] refs;
-//        GenericParser parser;
-//        org.semanticwb.portal.resources.sem.Search search = new org.semanticwb.portal.resources.sem.Search();
-//        String lang = user.getLanguage();
-
+    private String kw(String datos, WebPage wp, SWBResourceURL url) {
         url.setCallMethod(SWBParamRequest.Call_DIRECT).setMode("ref");
-
         try {
             String[]tkns = wp.getTags().split(",");
             StringBuilder aol = new StringBuilder();
@@ -72,22 +64,6 @@ public class HTMLReferencedContent extends mx.gob.stps.portalempleo.swb.resource
                 tkn = tkns[i];
                 datos = datos.replaceAll(tkn, "<a id=\"rf_"+i+"\" href=\"#\" class=\"kw\">"+tkn+"</a>");
                 aol.append("dojo.connect(dojo.byId('rf_"+i+"'),'onclick','s');\n");
-
-    //            refs = search.x(wsite, base, tkn, user);
-    //            if(refs!=null && refs.length>0) {
-    //                StringBuilder htm = new StringBuilder();
-    //                htm.append("<span class=\"refkw\">");
-    //                htm.append(tkn);
-    //                htm.append("<span class=\"gr\">");
-    //                for(Searchable srch:refs) {
-    //                    if(srch.equals(wp))
-    //                        continue;
-    //                    parser = indexer.getParser(srch);
-    //                    htm.append("<a href=\""+parser.getUrl(srch)+"\">"+parser.getTitle(srch, lang)+"</a>");
-    //                }
-    //                htm.append("</span></span>");
-    //                datos=datos.replaceAll(tkn, htm.toString());
-    //            }
             }
             aol.append("});\n");
             aol.append("</script>\n");
@@ -95,27 +71,6 @@ public class HTMLReferencedContent extends mx.gob.stps.portalempleo.swb.resource
             datos=datos+aol;
         }catch(Exception e) {
         }
-
-        /*HtmlStreamTokenizer tok = new HtmlStreamTokenizer(new ByteArrayInputStream(datos.getBytes()));
-        StringBuilder ret = new StringBuilder();
-        HtmlTag tag = new HtmlTag();
-        boolean omit = false;
-        try
-        {
-            while (tok.nextToken() != HtmlStreamTokenizer.TT_EOF)
-            {
-                int ttype = tok.getTokenType();
-                if (ttype == HtmlStreamTokenizer.TT_TEXT)
-                {
-                    ret.append(tok.getRawString());
-                    System.out.println("token ="+tok.getRawString());
-                }
-
-            }
-        }catch (Exception e)
-        {
-            log.error(e);
-        }*/
         return datos;
     }
 
