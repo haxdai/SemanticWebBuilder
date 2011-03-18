@@ -77,10 +77,11 @@ public class DisplayStaticPhotos extends GenericResource{
                 }
             }
         }
-
         try {
             request.setAttribute("paramRequest", paramRequest);
             request.setAttribute("listImage", listImage);
+            request.setAttribute("start", null);
+            request.setAttribute("typeGalery", null);
             rd.include(request, response);
         } catch(Exception e) {
             log.error(e);
