@@ -2,10 +2,13 @@ package org.semanticwb.cptm.base;
 
 
    /**
-   * Clase que hereda de WebPage.Mediante estas se administra el catálogo de experiencias. 
+   * Clase que hereda de WebPage.Mediante estas se administra el catálogo de experiencias (Ej. Bodas, Parejas) 
    */
-public abstract class ExperienceBase extends org.semanticwb.cptm.CPTMWebPage implements org.semanticwb.model.Trashable,org.semanticwb.model.Indexable,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Resourceable,org.semanticwb.model.Localeable,org.semanticwb.model.Traceable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Viewable,org.semanticwb.model.FilterableClass,org.semanticwb.model.RuleRefable,org.semanticwb.model.Expirable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Searchable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Activeable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Hiddenable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Filterable,org.semanticwb.model.Rankable
+public abstract class ExperienceBase extends org.semanticwb.cptm.CPTMPhotoWebPage implements org.semanticwb.model.Trashable,org.semanticwb.model.Indexable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Resourceable,org.semanticwb.model.Localeable,org.semanticwb.model.Traceable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Viewable,org.semanticwb.model.FilterableClass,org.semanticwb.model.RuleRefable,org.semanticwb.model.Expirable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Searchable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Activeable,org.semanticwb.model.Hiddenable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Rankable
 {
+   /**
+   * Clase que se encarga de administrar el catálogo de Actividades (Buceo, Pesca, etc)
+   */
     public static final org.semanticwb.platform.SemanticClass cptm_Activity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Activity");
    /**
    * Actividades referenciadas a una Experiencia
@@ -35,7 +38,7 @@ public abstract class ExperienceBase extends org.semanticwb.cptm.CPTMWebPage imp
     public static final org.semanticwb.platform.SemanticClass cptm_ExperienceRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#ExperienceRef");
     public static final org.semanticwb.platform.SemanticProperty cptm_expExperienceInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#expExperienceInv");
    /**
-   * Clase que hereda de WebPage.Mediante estas se administra el catálogo de experiencias.
+   * Clase que hereda de WebPage.Mediante estas se administra el catálogo de experiencias (Ej. Bodas, Parejas)
    */
     public static final org.semanticwb.platform.SemanticClass cptm_Experience=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Experience");
    /**
@@ -587,6 +590,29 @@ public abstract class ExperienceBase extends org.semanticwb.cptm.CPTMWebPage imp
         public static java.util.Iterator<org.semanticwb.cptm.Experience> listExperienceByRuleRef(org.semanticwb.model.RuleRef value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Experience> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.Experience with a determined MorePhoto
+       * @param value MorePhoto of the type org.semanticwb.cptm.Photo
+       * @param model Model of the org.semanticwb.cptm.Experience
+       * @return Iterator with all the org.semanticwb.cptm.Experience
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Experience> listExperienceByMorePhoto(org.semanticwb.cptm.Photo value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Experience> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasMorePhoto, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.Experience with a determined MorePhoto
+       * @param value MorePhoto of the type org.semanticwb.cptm.Photo
+       * @return Iterator with all the org.semanticwb.cptm.Experience
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Experience> listExperienceByMorePhoto(org.semanticwb.cptm.Photo value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Experience> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasMorePhoto,value.getSemanticObject(),sclass));
             return it;
         }
        /**

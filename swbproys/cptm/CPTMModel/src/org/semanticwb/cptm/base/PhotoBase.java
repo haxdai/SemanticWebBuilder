@@ -1,15 +1,19 @@
 package org.semanticwb.cptm.base;
 
 
+   /**
+   * Clase generica para fotos 
+   */
 public abstract class PhotoBase extends org.semanticwb.model.SWBClass 
 {
-    public static final org.semanticwb.platform.SemanticProperty cptm_PhotoThumbnail=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#PhotoThumbnail");
-    public static final org.semanticwb.platform.SemanticProperty cptm_PhotoMimeType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#PhotoMimeType");
-    public static final org.semanticwb.platform.SemanticProperty cptm_PhotoSize=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#PhotoSize");
+    public static final org.semanticwb.platform.SemanticProperty cptm_PhotoAlt=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#PhotoAlt");
    /**
    * Imagen de la foto
    */
     public static final org.semanticwb.platform.SemanticProperty cptm_PhotoImage=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#PhotoImage");
+   /**
+   * Clase generica para fotos
+   */
     public static final org.semanticwb.platform.SemanticClass cptm_Photo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Photo");
    /**
    * The semantic class that represents the currentObject
@@ -91,57 +95,21 @@ public abstract class PhotoBase extends org.semanticwb.model.SWBClass
     }
 
 /**
-* Gets the PhotoThumbnail property
-* @return String with the PhotoThumbnail
+* Gets the PhotoAlt property
+* @return String with the PhotoAlt
 */
-    public String getPhotoThumbnail()
+    public String getPhotoAlt()
     {
-        return getSemanticObject().getProperty(cptm_PhotoThumbnail);
+        return getSemanticObject().getProperty(cptm_PhotoAlt);
     }
 
 /**
-* Sets the PhotoThumbnail property
-* @param value long with the PhotoThumbnail
+* Sets the PhotoAlt property
+* @param value long with the PhotoAlt
 */
-    public void setPhotoThumbnail(String value)
+    public void setPhotoAlt(String value)
     {
-        getSemanticObject().setProperty(cptm_PhotoThumbnail, value);
-    }
-
-/**
-* Gets the PhotoMimeType property
-* @return String with the PhotoMimeType
-*/
-    public String getPhotoMimeType()
-    {
-        return getSemanticObject().getProperty(cptm_PhotoMimeType);
-    }
-
-/**
-* Sets the PhotoMimeType property
-* @param value long with the PhotoMimeType
-*/
-    public void setPhotoMimeType(String value)
-    {
-        getSemanticObject().setProperty(cptm_PhotoMimeType, value);
-    }
-
-/**
-* Gets the PhotoSize property
-* @return float with the PhotoSize
-*/
-    public float getPhotoSize()
-    {
-        return getSemanticObject().getFloatProperty(cptm_PhotoSize);
-    }
-
-/**
-* Sets the PhotoSize property
-* @param value long with the PhotoSize
-*/
-    public void setPhotoSize(float value)
-    {
-        getSemanticObject().setFloatProperty(cptm_PhotoSize, value);
+        getSemanticObject().setProperty(cptm_PhotoAlt, value);
     }
 
 /**

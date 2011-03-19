@@ -2,12 +2,12 @@ package org.semanticwb.cptm.base;
 
 
    /**
-   * Catalogo de Tipos de Notas 
+   * Catalogo de Tipos de Notas (Tipo 1/Primarias|Tipo 2/Secundarias|Tipo 3/Terciarias) 
    */
 public abstract class EditNoteTypeBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
    /**
-   * Catalogo de Tipos de Notas
+   * Catalogo de Tipos de Notas (Tipo 1/Primarias|Tipo 2/Secundarias|Tipo 3/Terciarias)
    */
     public static final org.semanticwb.platform.SemanticClass cptm_EditNoteType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#EditNoteType");
    /**

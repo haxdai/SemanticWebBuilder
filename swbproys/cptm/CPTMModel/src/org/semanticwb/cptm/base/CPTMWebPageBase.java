@@ -2,12 +2,12 @@ package org.semanticwb.cptm.base;
 
 
    /**
-   * Páginas web que contienen Otros datos (Fotos) 
+   * Páginas web para CPTM, que contienen Otros datos (Fotos) 
    */
-public abstract class CPTMWebPageBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Trashable,org.semanticwb.model.Indexable,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Resourceable,org.semanticwb.model.Localeable,org.semanticwb.model.Traceable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Viewable,org.semanticwb.model.FilterableClass,org.semanticwb.model.RuleRefable,org.semanticwb.model.Expirable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Searchable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Activeable,org.semanticwb.model.Hiddenable,org.semanticwb.model.CalendarRefable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Filterable,org.semanticwb.model.Rankable
+public abstract class CPTMWebPageBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Trashable,org.semanticwb.model.Indexable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Resourceable,org.semanticwb.model.Localeable,org.semanticwb.model.Traceable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Viewable,org.semanticwb.model.FilterableClass,org.semanticwb.model.RuleRefable,org.semanticwb.model.Expirable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Searchable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Activeable,org.semanticwb.model.Hiddenable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Rankable
 {
    /**
-   * Páginas web que contienen Otros datos (Fotos)
+   * Páginas web para CPTM, que contienen Otros datos (Fotos)
    */
     public static final org.semanticwb.platform.SemanticClass cptm_CPTMWebPage=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#CPTMWebPage");
    /**
@@ -447,6 +447,29 @@ public abstract class CPTMWebPageBase extends org.semanticwb.model.WebPage imple
             return it;
         }
        /**
+       * Gets all org.semanticwb.cptm.CPTMWebPage with a determined MorePhoto
+       * @param value MorePhoto of the type org.semanticwb.cptm.Photo
+       * @param model Model of the org.semanticwb.cptm.CPTMWebPage
+       * @return Iterator with all the org.semanticwb.cptm.CPTMWebPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMWebPage> listCPTMWebPageByMorePhoto(org.semanticwb.cptm.Photo value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasMorePhoto, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.CPTMWebPage with a determined MorePhoto
+       * @param value MorePhoto of the type org.semanticwb.cptm.Photo
+       * @return Iterator with all the org.semanticwb.cptm.CPTMWebPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMWebPage> listCPTMWebPageByMorePhoto(org.semanticwb.cptm.Photo value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasMorePhoto,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.cptm.CPTMWebPage with a determined ThisTypeAssociation
        * @param value ThisTypeAssociation of the type org.semanticwb.model.Association
        * @param model Model of the org.semanticwb.cptm.CPTMWebPage
@@ -599,32 +622,70 @@ public abstract class CPTMWebPageBase extends org.semanticwb.model.WebPage imple
     {
         getSemanticObject().setProperty(cptm_photoEscudoAlt, photoEscudoAlt, lang);
     }
+   /**
+   * Gets all the org.semanticwb.cptm.Photo
+   * @return A GenericIterator with all the org.semanticwb.cptm.Photo
+   */
 
-    public java.util.Iterator<String> listMorePhotos()
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Photo> listMorePhotos()
     {
-        java.util.ArrayList<String> values=new java.util.ArrayList<String>();
-        java.util.Iterator<org.semanticwb.platform.SemanticLiteral> it=getSemanticObject().listLiteralProperties(cptm_hasMorePhoto);
-        while(it.hasNext())
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Photo>(getSemanticObject().listObjectProperties(cptm_hasMorePhoto));
+    }
+
+   /**
+   * Gets true if has a MorePhoto
+   * @param value org.semanticwb.cptm.Photo to verify
+   * @return true if the org.semanticwb.cptm.Photo exists, false otherwise
+   */
+    public boolean hasMorePhoto(org.semanticwb.cptm.Photo value)
+    {
+        boolean ret=false;
+        if(value!=null)
         {
-                org.semanticwb.platform.SemanticLiteral literal=it.next();
-                values.add(literal.getString());
+           ret=getSemanticObject().hasObjectProperty(cptm_hasMorePhoto,value.getSemanticObject());
         }
-        return values.iterator();
+        return ret;
     }
+   /**
+   * Adds a MorePhoto
+   * @param value org.semanticwb.cptm.Photo to add
+   */
 
-    public void addMorePhoto(String value)
+    public void addMorePhoto(org.semanticwb.cptm.Photo value)
     {
-        getSemanticObject().addLiteralProperty(cptm_hasMorePhoto, new org.semanticwb.platform.SemanticLiteral(value));
+        getSemanticObject().addObjectProperty(cptm_hasMorePhoto, value.getSemanticObject());
     }
+   /**
+   * Removes all the MorePhoto
+   */
 
     public void removeAllMorePhoto()
     {
         getSemanticObject().removeProperty(cptm_hasMorePhoto);
     }
+   /**
+   * Removes a MorePhoto
+   * @param value org.semanticwb.cptm.Photo to remove
+   */
 
-    public void removeMorePhoto(String value)
+    public void removeMorePhoto(org.semanticwb.cptm.Photo value)
     {
-        getSemanticObject().removeLiteralProperty(cptm_hasMorePhoto,new org.semanticwb.platform.SemanticLiteral(value));
+        getSemanticObject().removeObjectProperty(cptm_hasMorePhoto,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the MorePhoto
+   * @return a org.semanticwb.cptm.Photo
+   */
+    public org.semanticwb.cptm.Photo getMorePhoto()
+    {
+         org.semanticwb.cptm.Photo ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasMorePhoto);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.cptm.Photo)obj.createGenericInstance();
+         }
+         return ret;
     }
 
    /**

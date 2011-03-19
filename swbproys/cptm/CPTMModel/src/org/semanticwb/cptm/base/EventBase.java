@@ -4,9 +4,12 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Eventos. 
    */
-public abstract class EventBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable,org.semanticwb.model.Searchable,org.semanticwb.cptm.CptmgeneralData
+public abstract class EventBase extends org.semanticwb.model.SWBClass implements org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable,org.semanticwb.model.Searchable
 {
     public static final org.semanticwb.platform.SemanticProperty cptm_eventLeadingPhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#eventLeadingPhoto");
+   /**
+   * Clase que se encarga de administrar el catálogo de Actividades (Buceo, Pesca, etc)
+   */
     public static final org.semanticwb.platform.SemanticClass cptm_Activity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Activity");
    /**
    * Referencia de un evento a una determinada actividad ej. Festival de Buceo, no necesariamente puede ocurrir siempre.
@@ -37,7 +40,7 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
    */
     public static final org.semanticwb.platform.SemanticProperty cptm_eventIsWithoutLink=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#eventIsWithoutLink");
    /**
-   * Clase que hereda de WebPage.Mediante esta se administra el catálogo de Estados de la república.
+   * Clase que hereda de WebPage.Mediante esta se administra el catálogo de Estados de la República (Ej. Tamaulipas, Morelos)
    */
     public static final org.semanticwb.platform.SemanticClass cptm_State=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#State");
    /**
@@ -54,7 +57,7 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
     public static final org.semanticwb.platform.SemanticClass cptm_LocalityInt=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#LocalityInt");
     public static final org.semanticwb.platform.SemanticProperty cptm_hasEventLocality=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasEventLocality");
    /**
-   * Clase que hereda de WebPage.Mediante estas se administra el catálogo de experiencias.
+   * Clase que hereda de WebPage.Mediante estas se administra el catálogo de experiencias (Ej. Bodas, Parejas)
    */
     public static final org.semanticwb.platform.SemanticClass cptm_Experience=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Experience");
    /**
@@ -292,6 +295,29 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
         public static java.util.Iterator<org.semanticwb.cptm.Event> listEventByEventLocality(org.semanticwb.cptm.LocalityInt value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Event> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasEventLocality,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.Event with a determined MorePhoto
+       * @param value MorePhoto of the type org.semanticwb.cptm.Photo
+       * @param model Model of the org.semanticwb.cptm.Event
+       * @return Iterator with all the org.semanticwb.cptm.Event
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Event> listEventByMorePhoto(org.semanticwb.cptm.Photo value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Event> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasMorePhoto, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.Event with a determined MorePhoto
+       * @param value MorePhoto of the type org.semanticwb.cptm.Photo
+       * @return Iterator with all the org.semanticwb.cptm.Event
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Event> listEventByMorePhoto(org.semanticwb.cptm.Photo value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Event> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasMorePhoto,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -1016,32 +1042,70 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
          }
          return ret;
     }
+   /**
+   * Gets all the org.semanticwb.cptm.Photo
+   * @return A GenericIterator with all the org.semanticwb.cptm.Photo
+   */
 
-    public java.util.Iterator<String> listMorePhotos()
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Photo> listMorePhotos()
     {
-        java.util.ArrayList<String> values=new java.util.ArrayList<String>();
-        java.util.Iterator<org.semanticwb.platform.SemanticLiteral> it=getSemanticObject().listLiteralProperties(cptm_hasMorePhoto);
-        while(it.hasNext())
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Photo>(getSemanticObject().listObjectProperties(cptm_hasMorePhoto));
+    }
+
+   /**
+   * Gets true if has a MorePhoto
+   * @param value org.semanticwb.cptm.Photo to verify
+   * @return true if the org.semanticwb.cptm.Photo exists, false otherwise
+   */
+    public boolean hasMorePhoto(org.semanticwb.cptm.Photo value)
+    {
+        boolean ret=false;
+        if(value!=null)
         {
-                org.semanticwb.platform.SemanticLiteral literal=it.next();
-                values.add(literal.getString());
+           ret=getSemanticObject().hasObjectProperty(cptm_hasMorePhoto,value.getSemanticObject());
         }
-        return values.iterator();
+        return ret;
     }
+   /**
+   * Adds a MorePhoto
+   * @param value org.semanticwb.cptm.Photo to add
+   */
 
-    public void addMorePhoto(String value)
+    public void addMorePhoto(org.semanticwb.cptm.Photo value)
     {
-        getSemanticObject().addLiteralProperty(cptm_hasMorePhoto, new org.semanticwb.platform.SemanticLiteral(value));
+        getSemanticObject().addObjectProperty(cptm_hasMorePhoto, value.getSemanticObject());
     }
+   /**
+   * Removes all the MorePhoto
+   */
 
     public void removeAllMorePhoto()
     {
         getSemanticObject().removeProperty(cptm_hasMorePhoto);
     }
+   /**
+   * Removes a MorePhoto
+   * @param value org.semanticwb.cptm.Photo to remove
+   */
 
-    public void removeMorePhoto(String value)
+    public void removeMorePhoto(org.semanticwb.cptm.Photo value)
     {
-        getSemanticObject().removeLiteralProperty(cptm_hasMorePhoto,new org.semanticwb.platform.SemanticLiteral(value));
+        getSemanticObject().removeObjectProperty(cptm_hasMorePhoto,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the MorePhoto
+   * @return a org.semanticwb.cptm.Photo
+   */
+    public org.semanticwb.cptm.Photo getMorePhoto()
+    {
+         org.semanticwb.cptm.Photo ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasMorePhoto);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.cptm.Photo)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**

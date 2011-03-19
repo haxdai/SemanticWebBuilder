@@ -2,9 +2,9 @@ package org.semanticwb.cptm.base;
 
 
    /**
-   * Clase que hereda de WebPage.Mediante esta se administra el catálogo de Estados de la república. 
+   * Clase que hereda de WebPage.Mediante esta se administra el catálogo de Estados de la República (Ej. Tamaulipas, Morelos) 
    */
-public abstract class StateBase extends org.semanticwb.cptm.CPTMWebPage implements org.semanticwb.model.Trashable,org.semanticwb.model.Indexable,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Resourceable,org.semanticwb.model.Localeable,org.semanticwb.model.Traceable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Viewable,org.semanticwb.model.FilterableClass,org.semanticwb.model.RuleRefable,org.semanticwb.model.Expirable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Searchable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Activeable,org.semanticwb.model.Hiddenable,org.semanticwb.model.CalendarRefable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Filterable,org.semanticwb.model.Rankable
+public abstract class StateBase extends org.semanticwb.cptm.CPTMPhotoWebPage implements org.semanticwb.model.Trashable,org.semanticwb.model.Indexable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Resourceable,org.semanticwb.model.Localeable,org.semanticwb.model.Traceable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Viewable,org.semanticwb.model.FilterableClass,org.semanticwb.model.RuleRefable,org.semanticwb.model.Expirable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Searchable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Activeable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Filterable,org.semanticwb.model.Rankable
 {
    /**
    * Notas Editoriales
@@ -17,7 +17,7 @@ public abstract class StateBase extends org.semanticwb.cptm.CPTMWebPage implemen
     public static final org.semanticwb.platform.SemanticClass cptm_Event=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Event");
     public static final org.semanticwb.platform.SemanticProperty cptm_hasEventStateInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasEventStateInv");
    /**
-   * Clase que hereda de WebPage.Mediante esta se administra el catálogo de Estados de la república.
+   * Clase que hereda de WebPage.Mediante esta se administra el catálogo de Estados de la República (Ej. Tamaulipas, Morelos)
    */
     public static final org.semanticwb.platform.SemanticClass cptm_State=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#State");
    /**
@@ -500,6 +500,29 @@ public abstract class StateBase extends org.semanticwb.cptm.CPTMWebPage implemen
         public static java.util.Iterator<org.semanticwb.cptm.State> listStateByRuleRef(org.semanticwb.model.RuleRef value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.State> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.State with a determined MorePhoto
+       * @param value MorePhoto of the type org.semanticwb.cptm.Photo
+       * @param model Model of the org.semanticwb.cptm.State
+       * @return Iterator with all the org.semanticwb.cptm.State
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.State> listStateByMorePhoto(org.semanticwb.cptm.Photo value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.State> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasMorePhoto, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.State with a determined MorePhoto
+       * @param value MorePhoto of the type org.semanticwb.cptm.Photo
+       * @return Iterator with all the org.semanticwb.cptm.State
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.State> listStateByMorePhoto(org.semanticwb.cptm.Photo value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.State> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasMorePhoto,value.getSemanticObject(),sclass));
             return it;
         }
        /**
