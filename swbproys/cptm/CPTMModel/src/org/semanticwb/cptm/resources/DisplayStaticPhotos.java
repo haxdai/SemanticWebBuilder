@@ -33,7 +33,7 @@ public class DisplayStaticPhotos extends GenericResource{
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response,
             SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-
+        long start = System.currentTimeMillis();
         String path = SWBPortal.getWebWorkPath() + "/models/"
                 + paramRequest.getWebPage().getWebSiteId() + "/jsp/displayPhotos.jsp";
         RequestDispatcher rd = request.getRequestDispatcher(path);
@@ -80,8 +80,8 @@ public class DisplayStaticPhotos extends GenericResource{
         try {
             request.setAttribute("paramRequest", paramRequest);
             request.setAttribute("listImage", listImage);
-            request.setAttribute("start", null);
-            request.setAttribute("typeGalery", null);
+            request.setAttribute("start", start);
+            request.setAttribute("typeGalery", "");
             rd.include(request, response);
         } catch(Exception e) {
             log.error(e);
