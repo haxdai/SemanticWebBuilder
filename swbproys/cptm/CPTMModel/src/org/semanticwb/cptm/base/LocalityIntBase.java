@@ -39,7 +39,12 @@ public interface LocalityIntBase extends org.semanticwb.model.GenericObject
     public static final org.semanticwb.platform.SemanticClass cptm_EditNote=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#EditNote");
     public static final org.semanticwb.platform.SemanticProperty cptm_hasLocalityEditNoteInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasLocalityEditNoteInv");
    /**
-   * Clase que se encarga de manejar las rutas de viaje 
+   * Clase que se encarga de administrar el catálogo de Actividades (Buceo, Pesca, etc) 
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_Activity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Activity");
+    public static final org.semanticwb.platform.SemanticProperty cptm_hasActLocalityInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasActLocalityInv");
+   /**
+   * Clase que se encarga de manejar el catálogo de "Rutas de Viaje" (Ej. Ruta del Vino, Ruta Morelos, etc) 
    */
     public static final org.semanticwb.platform.SemanticClass cptm_TravelRoute=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#TravelRoute");
     public static final org.semanticwb.platform.SemanticProperty cptm_hasTravelRouteInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasTravelRouteInv");
@@ -53,6 +58,11 @@ public interface LocalityIntBase extends org.semanticwb.model.GenericObject
    */
     public static final org.semanticwb.platform.SemanticClass cptm_ExperienceRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#ExperienceRef");
     public static final org.semanticwb.platform.SemanticProperty cptm_ExpLocalityInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#ExpLocalityInv");
+   /**
+   * Clase que hereda de WebPage.Mediante estas se administra el catálogo de experiencias (Ej. Bodas, Parejas) 
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_Experience=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Experience");
+    public static final org.semanticwb.platform.SemanticProperty cptm_hasExperienceLocalityInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasExperienceLocalityInv");
 
     public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.New> listNewGeographicPointInvs();
     public boolean hasNewGeographicPointInv(org.semanticwb.cptm.New value);
@@ -133,6 +143,9 @@ public interface LocalityIntBase extends org.semanticwb.model.GenericObject
     public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> listLocalityEditNoteInvs();
     public boolean hasLocalityEditNoteInv(org.semanticwb.cptm.EditNote value);
 
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Activity> listActLocalityInvs();
+    public boolean hasActLocalityInv(org.semanticwb.cptm.Activity value);
+
     public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> listTravelRouteInvs();
     public boolean hasTravelRouteInv(org.semanticwb.cptm.TravelRoute value);
 
@@ -151,4 +164,7 @@ public interface LocalityIntBase extends org.semanticwb.model.GenericObject
     public void removeExpLocalityInv();
 
     public org.semanticwb.cptm.ExperienceRef getExpLocalityInv();
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Experience> listExperienceLocalityInvs();
+    public boolean hasExperienceLocalityInv(org.semanticwb.cptm.Experience value);
 }

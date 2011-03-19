@@ -19,7 +19,11 @@ public interface CptmgeneralDataBase extends org.semanticwb.model.GenericObject
    */
     public static final org.semanticwb.platform.SemanticProperty cptm_photoAlt=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#photoAlt");
    /**
-   * Fotos 
+   * Clase generica para fotos 
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_Photo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Photo");
+   /**
+   * Mas Fotos 
    */
     public static final org.semanticwb.platform.SemanticProperty cptm_hasMorePhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasMorePhoto");
     public static final org.semanticwb.platform.SemanticProperty cptm_photoEscudo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#photoEscudo");
@@ -56,11 +60,31 @@ public interface CptmgeneralDataBase extends org.semanticwb.model.GenericObject
 
     public void setPhotoAlt(String photoAlt, String lang);
 
-    public java.util.Iterator<String> listMorePhotos();
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Photo> listMorePhotos();
+    public boolean hasMorePhoto(org.semanticwb.cptm.Photo value);
 
-    public void addMorePhoto(String value);
+   /**
+   * Adds the MorePhoto
+   * @param value An instance of org.semanticwb.cptm.Photo
+   */
+    public void addMorePhoto(org.semanticwb.cptm.Photo value);
+
+   /**
+   * Remove all the values for the property MorePhoto
+   */
     public void removeAllMorePhoto();
-    public void removeMorePhoto(String value);
+
+   /**
+   * Remove a value from the property MorePhoto
+   * @param value An instance of org.semanticwb.cptm.Photo
+   */
+    public void removeMorePhoto(org.semanticwb.cptm.Photo value);
+
+/**
+* Gets the MorePhoto
+* @return a instance of org.semanticwb.cptm.Photo
+*/
+    public org.semanticwb.cptm.Photo getMorePhoto();
 
     public String getPhotoEscudo();
 

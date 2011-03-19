@@ -1,8 +1,14 @@
 package org.semanticwb.cptm.base;
 
 
+   /**
+   * Clase que se encarga de administrar el cátalogo de "Tipos de Rutas de Viaje" (Ej. Rutas Turisticas, Rutas Bicentenario, etc) 
+   */
 public abstract class TravelRouteTypeBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Trashable,org.semanticwb.model.Indexable,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Resourceable,org.semanticwb.model.Localeable,org.semanticwb.model.Traceable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Viewable,org.semanticwb.model.FilterableClass,org.semanticwb.model.RuleRefable,org.semanticwb.model.Expirable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Searchable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Activeable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Filterable,org.semanticwb.model.Rankable
 {
+   /**
+   * Clase que se encarga de administrar el cátalogo de "Tipos de Rutas de Viaje" (Ej. Rutas Turisticas, Rutas Bicentenario, etc)
+   */
     public static final org.semanticwb.platform.SemanticClass cptm_TravelRouteType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#TravelRouteType");
    /**
    * The semantic class that represents the currentObject
