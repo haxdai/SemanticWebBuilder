@@ -27,29 +27,46 @@ import org.semanticwb.portal.api.SWBResourceException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class RSSFeed extends GenericAdmResource{
+public class RSSFeed extends GenericAdmResource {
+
     @Override
-    public void doXML(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramsRequest) throws SWBResourceException, IOException{
+    public void doXML(HttpServletRequest request, HttpServletResponse response,
+            SWBParamRequest paramsRequest) throws SWBResourceException, IOException {
+
         PrintWriter out = response.getWriter();
         response.setContentType("text/xml");
         Document doc = SWBUtils.XML.getNewDocument();
+        String lang = paramsRequest.getUser().getLanguage();
 
-        try{
+        try {
             WebPage wp = paramsRequest.getWebPage();
-            int i, nDias = Integer.parseInt(paramsRequest.getResourceBase().getAttribute("nDias" ,paramsRequest.getArgument("Dias", "1"))); //toma 1 dia como el default
+            int i = 0;
+            //toma 1 dia como el default
+            int nDias = Integer.parseInt(paramsRequest.getResourceBase(
+                    ).getAttribute("nDias", paramsRequest.getArgument("Dias", "1")));
             Element rss = doc.createElement("rss");
 
             rss.setAttribute("version", "2.0");
             doc.appendChild(rss);
 
             Element channel = doc.createElement("channel");
-            String servidor = request.getScheme() + "://" + request.getServerName() + ((request.getServerPort() != 80)? (":" + request.getServerPort()) : "");
+            String servidor = request.getScheme() + "://" + request.getServerName()
+                    + ((request.getServerPort() != 80)? (":" + request.getServerPort()) : "");
 
-            addAttribute(channel, "title", "Noticias de los ultimos " + nDias + " Dias");
-            //addAttribute(channel, "link", servidor + wp.getRealUrl());
-            addAttribute(channel, "description", "Estas son las ultimas noticias..");
+            addAttribute(channel, "title", this.getResourceBase().getDisplayTitle(lang));
+            addAttribute(channel, "link", "http://www.visitmexico.com");
+            addAttribute(channel, "description", this.getResourceBase().getDisplayDescription(lang));
 
-            ArrayList listaNoticias = new ArrayList();
+            Element image = doc.createElement("image");
+            addAttribute(image, "url", servidor + SWBPortal.getWebWorkPath()
+                    + "/models/" + wp.getWebSite().getId() + "/css/images/mexico.jpg");
+            addAttribute(image, "width", "140");
+            addAttribute(image, "height", "60");
+            addAttribute(image, "link", "http://www.visitmexico.com");
+            addAttribute(image, "title", this.getResourceBase().getDisplayTitle(lang));
+            channel.appendChild(image);
+
+            ArrayList<Object> listaNoticias = new ArrayList<Object>();
             Iterator actividades = Activity.ClassMgr.listActivities(wp.getWebSite());
             Iterator actividadesRef = ActivityRef.ClassMgr.listActivityRefs(wp.getWebSite());
             Iterator eventos = Event.ClassMgr.listEvents(wp.getWebSite());
@@ -58,73 +75,107 @@ public class RSSFeed extends GenericAdmResource{
             Iterator notas = EditNote.ClassMgr.listEditNotes(wp.getWebSite());
             Iterator destinos = GeographicPoint.ClassMgr.listGeographicPoints(wp.getWebSite());
 
-            Iterator[] iteradores = {actividades, actividadesRef, eventos, experiencias, experienciasRef, notas, destinos};
+            Iterator[] iteradores = {actividades, actividadesRef, eventos,
+                                     experiencias, experienciasRef, notas, destinos};
+            String[][] titulos = {{"Actividades", null},
+                                  {"Actividades por Destinos", null},
+                                  {"Eventos", null},
+                                  {"Experiencias", null},
+                                  {"Experiencias por Destinos", null},
+                                  {"Notas", null},
+                                  {"Destinos", null},
+                                 };
 
             Date hoy = new Date();
-            for(i = 0; i < iteradores.length; i++){
-                while(iteradores[i].hasNext()){
+            for (i = 0; i < iteradores.length; i++) {
+                while (iteradores[i].hasNext()) {
                     long diasTrans; //diferencia de dias entre hoy y cuando fue actualizada la noticia
                     Object noticia = iteradores[i].next();
 
-                    if(noticia instanceof Event){
+                    if (noticia instanceof Event) {
                         diasTrans =  (hoy.getTime() - ((Event)noticia).getUpdated().getTime()) / 1000 / 60 / 60 / 24; // se obtienen milisegundos y se dividen hasta quedar dias
-                    }else{
+                    } else {
                         diasTrans =  (hoy.getTime() - ((WebPage)noticia).getUpdated().getTime()) / 1000 / 60 / 60 / 24;
                     }
                     
-                    if(diasTrans <= nDias){ //si esta dentro del rango se ingresa al feed
+                    if (diasTrans <= nDias) { //si esta dentro del rango se ingresa al feed
+                        //Se agrega el elemento para el titulo de separacion en el feed
+                        if (titulos[i][1] == null) {
+                            titulos[i][1] = "agregado";
+                            listaNoticias.add(titulos[i][0]);
+                        }
                         listaNoticias.add(noticia);
                     }
                 }
             }
 
-            for(i = 0; i < listaNoticias.size(); i++){ //añadimos los feeds para desplegar en el rss
+            WebPage mostrarEvento = WebPage.ClassMgr.getWebPage("Mostrar_Evento", wp.getWebSite());
+            int elementosPorCanal = 0;
+            for (i = 0; i < listaNoticias.size(); i++) { //añadimos los feeds para desplegar en el rss
                 Object noticia = listaNoticias.get(i);
                 Element item = doc.createElement("item");
-                Element image = doc.createElement("image");
+                StringBuilder content = new StringBuilder(128);
 
-                if(noticia instanceof Event){
-                    WebPage mostrarEvento = WebPage.ClassMgr.getWebPage("Mostrar_Evento", wp.getWebSite());
+                if (noticia instanceof String) {
+                    addAttribute(item, "description", (String) noticia);
+                    elementosPorCanal = 0;
+                } else if (noticia instanceof Event) {
+                    addAttribute(item, "title", ((Event) noticia).getDisplayTitle(lang));
+                    addAttribute(item, "link", servidor + mostrarEvento.getRealUrl(paramsRequest.getUser().getLanguage()) + "?id=" + ((Event) noticia).getId() + "&show=event");
+                    content.append("\n         <table width=\"100%\">");
+                    content.append("\n           <tr>");
+                    content.append("\n             <td align=\"left\">");
+                    content.append("\n               <img width=\"150\" height=\"100\" src=\"" + servidor + SWBPortal.getWebWorkPath() + ((Event) noticia).getWorkPath() + "/" + CptmgeneralData.cptm_photo.getName() + "_" + ((Event) noticia).getId() + "_" + ((Event) noticia).getPhoto() + "\">");
+                    content.append("\n             </td>");
+                    content.append("\n             <td align=\"left\">");
+                    content.append("\n             <td valign=\"bottom\" align=\"justify\">");
+                    content.append("\n             " + ((Event) noticia).getDisplayDescription(lang));
+                    content.append("\n             </td>");
+                    content.append("\n           </tr>");
+                    content.append("\n         </table> ");
+                    addAttribute(item, "description", content.toString());
 
-                    addAttribute(item, "title", ((Event)noticia).getTitle());
-                    addAttribute(item, "link", servidor + mostrarEvento.getRealUrl(paramsRequest.getUser().getLanguage()) + "?id=" + ((Event)noticia).getId() + "&show=event");
-                    addAttribute(item, "description",  ((Event)noticia).getDescription());
+                } else {
+                    addAttribute(item, "title", ((WebPage) noticia).getDisplayName());
+                    addAttribute(item, "link", servidor + ((WebPage) noticia).getRealUrl());
+                    content.append("\n         <table width=\"100%\">");
+                    content.append("\n           <tr>");
+                    content.append("\n             <td align=\"left\">");
+                    content.append("\n               <img width=\"150\" height=\"100\" src=\"" + servidor + SWBPortal.getWebWorkPath() + ((WebPage) noticia).getWorkPath() + "/" + CptmgeneralData.cptm_photo.getName() + "_" + ((WebPage) noticia).getId() + "_" + ((WebPage) noticia).getSemanticObject().getProperty(CptmgeneralData.cptm_photo) + "\">");
+                    content.append("\n             </td>");
+                    content.append("\n             <td align=\"left\">");
+                    content.append("\n             <td valign=\"bottom\" align=\"justify\">");
+                    content.append("\n             " + ((WebPage) noticia).getDisplayDescription(lang));
+                    content.append("\n             </td>");
+                    content.append("\n           </tr>");
+                    content.append("\n         </table> ");
+                    addAttribute(item, "description", content.toString());
 
-                    addAttribute(image, "title", "");
-                    addAttribute(image, "url", servidor + SWBPortal.getWebWorkPath() + ((Event)noticia).getWorkPath() + "/" + CptmgeneralData.cptm_photo.getName() + "_" + ((Event)noticia).getTitle() + "_" + ((Event)noticia).getPhoto());
-                    addAttribute(item, "link", servidor + "/" + paramsRequest.getUser().getLanguage() + "/" + paramsRequest.getWebPage().getWebSiteId() + "/Mostrar_Evento?id=" + ((Event)noticia).getId() + "&show=event");
-                }else{
-                    addAttribute(item, "title", ((WebPage)noticia).getDisplayName());
-                    addAttribute(item, "link", servidor + ((WebPage)noticia).getRealUrl());
-                    addAttribute(item, "description", ((WebPage)noticia).getDescription());
-
-                    addAttribute(image, "title", "");
-                    addAttribute(image, "url", servidor + SWBPortal.getWebWorkPath() + ((WebPage)noticia).getWorkPath() + "/" + CptmgeneralData.cptm_photo.getName() + "_" + ((WebPage)noticia).getId() + "_" + ((WebPage)noticia).getSemanticObject().getProperty(CptmgeneralData.cptm_photo));
-                    addAttribute(image, "link", servidor + ((WebPage)noticia).getRealUrl());
                 }
 
+                elementosPorCanal++;
                 channel.appendChild(item);
-                channel.appendChild(image);
             }
 
             rss.appendChild(channel);
 
-        }catch(Exception e){
+        } catch (Exception e) {
             throw new SWBResourceException("Error al generar rss", e);
         }
 
-        String xml = SWBUtils.XML.domToXml(doc);
+        String xml = SWBUtils.XML.domToXml(doc, true);
         out.print(xml);
     }
 
     @Override
-    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramsRequest) throws SWBResourceException, IOException
-    {
+    public void doView(HttpServletRequest request, HttpServletResponse response,
+            SWBParamRequest paramsRequest) throws SWBResourceException, IOException {
+
         doXML(request, response, paramsRequest);
     }
 
-    private Element addAttribute(Element ele, String name, String value)
-    {
+    private Element addAttribute(Element ele, String name, String value) {
+
         Document doc = ele.getOwnerDocument();
         Element n = doc.createElement(name);
 
