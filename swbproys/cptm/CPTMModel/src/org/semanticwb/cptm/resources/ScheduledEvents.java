@@ -145,13 +145,11 @@ public class ScheduledEvents extends GenericResource{
             }else {
                 SemanticObject obj = SemanticObject.createSemanticObject(value);
                 State state = (State) obj.createGenericInstance();
+                ArrayList allDest = new ArrayList();
+
                 Iterator itState =state.listEventStateInvs();
                 while(itState.hasNext()) {
-                    WebPage chSta = (WebPage)itState.next();
-                    if(chSta.getSemanticObject().getSemanticClass().getName().equals("GeographicPoint")) {
-                        GeographicPoint point = (GeographicPoint) chSta;
-                        ist = point.listEventGeographicPointInvs();
-                    }
+                    allDest.add(itState.next());
                 }
                 itState = state.listVisibleChilds(user.getLanguage());
                 while(itState.hasNext()) {
@@ -159,8 +157,12 @@ public class ScheduledEvents extends GenericResource{
                     if(chSta.getSemanticObject().getSemanticClass().getName().equals("GeographicPoint")) {
                         GeographicPoint point = (GeographicPoint) chSta;
                         ist = point.listEventGeographicPointInvs();
+                        while(ist.hasNext()) {
+                            allDest.add(ist.next());
+                        }
                     }
                 }
+                ist=allDest.iterator();
             }
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             while(ist.hasNext()) {
@@ -181,13 +183,14 @@ public class ScheduledEvents extends GenericResource{
                                 listEvents.add(ev);
                             }
                             eventMonth.put(valueDay, listEvents);
-                        }
+                        } 
                     }
                 }catch(Exception e) {
                     log.error("Error while process events in ScheduledEvents" + e);
                 }
             }
         }
+
         JSONObject objEventMonth = new JSONObject();
         Iterator it = eventMonth.entrySet().iterator();
 
