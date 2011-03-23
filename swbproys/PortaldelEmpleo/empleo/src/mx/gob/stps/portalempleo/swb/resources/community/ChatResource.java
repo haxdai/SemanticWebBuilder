@@ -38,13 +38,31 @@ public class ChatResource extends ChatResourceBase
         SWBResourceURL url = paramRequest.getRenderUrl();
         url.setCallMethod(url.Call_DIRECT).setMode("dpy");
         PrintWriter out = response.getWriter();
-        out.println("<script type=\"text/javascript\">");
-        out.println("  dojo.addOnLoad(");
-        out.println("    function() {");
-        out.println("      window.open('"+url+"','MS','status=0,toolbar=0,location=0,menubar=0,directories=0,resizable=0,scrollbars=0,width=550,height=340');");
-        out.println("    }");
-        out.println("  );");
-        out.println("</script>");
+
+        User user  = paramRequest.getUser();
+        String userName = isValidValue(user.getFirstName())&&isValidValue(user.getLastName())?user.getFirstName()+" "+user.getLastName():(user.getLogin()==null?"Invitado":user.getLogin());
+        userName = encode(userName);
+        String commId = getCommId(paramRequest.getWebPage());
+        if (null==commId)
+            commId = paramRequest.getWebPage().getId();
+        out.println("<div class=\"ms-chat\">");
+        out.println("  <applet code=\"class_AppletChat.class\"  codebase=\"/swbadmin\" archive=\"appletChat.jar\" width=\"520\" height=\"320\" id=\"chat1\">");
+        out.println("    <param name=\"anchoApp\" value=\"508\"/>");
+        out.println("    <param name=\"altoApp\" value=\"270\"/>");
+        out.println("    <param name=\"puerto\" value=\"9494\"/>");
+        out.println("    <param name=\"moderador\" value=\"1\"/>");
+        out.println("    <param name=\"locale\" value=\"es\"/>");
+        out.println("    <param name=\"idUsuario\" value=\"" + userName + "\"/>");
+        out.println("    <param name=\"idComunidad\" value=\"" + commId + "\"/>");
+        out.println("  </applet>");
+        out.println("</div>");
+//        out.println("<script type=\"text/javascript\">");
+//        out.println("  dojo.addOnLoad(");
+//        out.println("    function() {");
+//        out.println("      window.open('"+url+"','MS','status=0,toolbar=0,location=0,menubar=0,directories=0,resizable=0,scrollbars=0,width=550,height=340');");
+//        out.println("    }");
+//        out.println("  );");
+//        out.println("</script>");
     }
 
     public void doDisplay(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
