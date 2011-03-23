@@ -56,6 +56,8 @@ public class Recommended extends GenericResource {
         WebSite model = base.getWebSite();
 
         Iterator<String> attrnames = base.getAttributeNames();
+        out.println("<div class=\"relacionados\">");
+        out.println("<h4>Recomendaciones</h4>");
         out.println("<ul>");
         while(attrnames.hasNext()) {
             String wpid = attrnames.next();
@@ -70,6 +72,7 @@ public class Recommended extends GenericResource {
 
         }
         out.println("</ul>");
+        out.println("</div>");
     }
 
     public void doBind(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
