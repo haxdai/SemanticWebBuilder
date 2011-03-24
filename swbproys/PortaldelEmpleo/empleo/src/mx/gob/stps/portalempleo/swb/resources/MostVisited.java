@@ -23,11 +23,9 @@ public class MostVisited extends GenericResource {
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         PrintWriter out = response.getWriter();
-        Resource base = getResourceBase();
         User user = paramRequest.getUser();
+        String lang = user.getLanguage();
 
-//        String topicid = paramRequest.getArgument("topicid");
-//        WebPage node = base.getWebSite().getWebPage(topicid);
         WebPage node = paramRequest.getWebPage();
         if(node!=null) {
             Iterator<WebPage> childs = SortWebPage.sortByViews(node.listChilds(user.getLanguage(), true, false, false, true), false);
@@ -35,7 +33,7 @@ public class MostVisited extends GenericResource {
                 WebPage child = childs.next();
                 if(child.isActive() && user.haveAccess(child)) {
                     out.println("<div class=\"esbozo\">");
-                    out.println(" <h3>"+child.getTitle()+"</h3>");
+                    out.println(" <h3>"+child.getDisplayTitle(lang)+"</h3>");
                     out.println(" <p>"+child.getDescription()+"</p>");
                     out.println(" <a class=\"ver_mas\" href=\""+child.getRealUrl()+"\">Leer más</a>");
                     out.println("</div>");

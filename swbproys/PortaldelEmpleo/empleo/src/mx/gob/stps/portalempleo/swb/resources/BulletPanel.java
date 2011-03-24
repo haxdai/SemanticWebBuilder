@@ -24,6 +24,14 @@ import org.semanticwb.portal.api.SWBResourceURL;
 
 public class BulletPanel  extends GenericResource {
     private static Logger log = SWBUtils.getLogger(MostVisited.class);
+    private List<WebPage>channels;
+
+    @Override
+    public void setResourceBase(Resource base) throws SWBResourceException {
+        super.setResourceBase(base);
+        channels = SWBUtils.Collections.copyIterator(base.getWebSite().getHomePage().listChilds(null, true, false, false, true));
+    }
+
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
@@ -33,7 +41,7 @@ public class BulletPanel  extends GenericResource {
         String lang=user.getLanguage();
         WebSite wsite = paramRequest.getWebPage().getWebSite();
 
-        List<WebPage>channels = SWBUtils.Collections.copyIterator(wsite.getHomePage().listChilds(lang, true, false, false, true));
+        //List<WebPage>channels = SWBUtils.Collections.copyIterator(wsite.getHomePage().listChilds(lang, true, false, false, true));
         String tpcId = request.getParameter("tpc");
         WebPage channel = wsite.getWebPage(tpcId);
         if(channel==null) {
@@ -44,7 +52,7 @@ public class BulletPanel  extends GenericResource {
                 return;
             }
         }
-        channels.remove(channel);
+        //channels.remove(channel);
 
         out.println("<script type=\"text/javascript\">");
         out.println("<!--");
@@ -72,10 +80,10 @@ public class BulletPanel  extends GenericResource {
         out.println("<ul class=\"nav_caja\">");
         for(WebPage wp:channels) {
             url.setParameter("tpc", wp.getId());
-            out.println("<li><a href=\"#\" onclick=\"postHtml('"+url+"','caja')\">"+wp.getId()+"</a></li>");
+            out.println("<li><a href=\"#\" onclick=\"postHtml('"+url+"','caja')\" title=\"ir a "+wp.getDisplayTitle(lang)+"\">"+wp.getId()+"</a></li>");
         }
         out.println("</ul>");
-        out.println("<a href=\""+channel.getRealUrl(lang)+"\" class=\"ver_mas_1\" >Ver más</a>");
+        out.println("<a href=\""+channel.getRealUrl(lang)+"\" class=\"ver_mas_1\" >Ver m&aacute;s</a>");
         out.println("</div>");
     }
 
@@ -87,7 +95,7 @@ public class BulletPanel  extends GenericResource {
         String lang=user.getLanguage();
         WebSite wsite = paramRequest.getWebPage().getWebSite();
 
-        List<WebPage>channels = SWBUtils.Collections.copyIterator(wsite.getHomePage().listChilds(lang, true, false, false, true));
+        //List<WebPage>channels = SWBUtils.Collections.copyIterator(wsite.getHomePage().listChilds(lang, true, false, false, true));
         String tpcId = request.getParameter("tpc");
         WebPage channel = wsite.getWebPage(tpcId);
         if(channel==null) {
@@ -98,7 +106,7 @@ public class BulletPanel  extends GenericResource {
                 return;
             }
         }
-        channels.remove(channel);
+        //channels.remove(channel);
 
         WebPage wpage;
         Iterator<WebPage>childs = MostVisited.SortWebPage.sortByViews(channel.listChilds(user.getLanguage(), true, false, false, true), false);
@@ -120,9 +128,9 @@ public class BulletPanel  extends GenericResource {
         out.println("<ul class=\"nav_caja\">");
         for(WebPage wp:channels) {
             url.setParameter("tpc", wp.getId());
-            out.println("<li><a href=\"#\" onclick=\"postHtml('"+url+"','caja')\">"+wp.getId()+"</a></li>");
+            out.println("<li><a href=\"#\" onclick=\"postHtml('"+url+"','caja')\" title=\"ir a "+wp.getDisplayTitle(lang)+"\">"+wp.getId()+"</a></li>");
         }
         out.println("</ul>");
-        out.println("<a href=\""+channel.getRealUrl(lang)+"\" class=\"ver_mas_1\" >Ver más</a>");
+        out.println("<a href=\""+channel.getRealUrl(lang)+"\" class=\"ver_mas_1\" >Ver m&aacute;s</a>");
     }
 }
