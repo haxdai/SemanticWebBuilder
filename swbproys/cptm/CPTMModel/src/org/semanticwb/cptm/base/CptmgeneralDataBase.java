@@ -22,9 +22,6 @@ public interface CptmgeneralDataBase extends org.semanticwb.model.GenericObject
    * Clase generica para fotos 
    */
     public static final org.semanticwb.platform.SemanticClass cptm_Photo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Photo");
-   /**
-   * Mas Fotos 
-   */
     public static final org.semanticwb.platform.SemanticProperty cptm_hasMorePhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasMorePhoto");
     public static final org.semanticwb.platform.SemanticProperty cptm_photoEscudo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#photoEscudo");
    /**

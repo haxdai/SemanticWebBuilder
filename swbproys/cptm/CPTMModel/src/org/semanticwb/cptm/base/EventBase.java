@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Eventos. 
    */
-public abstract class EventBase extends org.semanticwb.model.SWBClass implements org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable,org.semanticwb.model.Searchable
+public abstract class EventBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Resourceable,org.semanticwb.model.Tagable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Searchable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Traceable
 {
     public static final org.semanticwb.platform.SemanticProperty cptm_eventLeadingPhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#eventLeadingPhoto");
    /**
@@ -20,6 +20,10 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
    */
     public static final org.semanticwb.platform.SemanticProperty cptm_eventInitDate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#eventInitDate");
    /**
+   * Determina si el evento se repite en la misma fecha indicada de inicio y de fin
+   */
+    public static final org.semanticwb.platform.SemanticProperty cptm_isRepeatable=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#isRepeatable");
+   /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de tipos de eventos.pueden ser Ej. "Carnavales", "Congresos", etc
    */
     public static final org.semanticwb.platform.SemanticClass cptm_EventType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#EventType");
@@ -27,6 +31,10 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
    * Tipo de Evento al que pertenece un evento
    */
     public static final org.semanticwb.platform.SemanticProperty cptm_eventEventType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#eventEventType");
+   /**
+   * Redireccionamiento a sección interna de la instancia de SWB
+   */
+    public static final org.semanticwb.platform.SemanticProperty cptm_eventInternalURL=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#eventInternalURL");
    /**
    * URL externo, el cual debe ser colocado solo cuando se desee ver el evento en un sitio externo
    */
@@ -454,6 +462,24 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
     {
         getSemanticObject().setProperty(cptm_eventInitDate, value);
     }
+
+/**
+* Gets the IsRepeatable property
+* @return boolean with the IsRepeatable
+*/
+    public boolean isIsRepeatable()
+    {
+        return getSemanticObject().getBooleanProperty(cptm_isRepeatable);
+    }
+
+/**
+* Sets the IsRepeatable property
+* @param value long with the IsRepeatable
+*/
+    public void setIsRepeatable(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(cptm_isRepeatable, value);
+    }
    /**
    * Sets the value for the property EventEventType
    * @param value EventEventType to set
@@ -527,6 +553,24 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
     public void setPhotoAuthor(String value)
     {
         getSemanticObject().setProperty(cptm_photoAuthor, value);
+    }
+
+/**
+* Gets the EventInternalURL property
+* @return String with the EventInternalURL
+*/
+    public String getEventInternalURL()
+    {
+        return getSemanticObject().getProperty(cptm_eventInternalURL);
+    }
+
+/**
+* Sets the EventInternalURL property
+* @param value long with the EventInternalURL
+*/
+    public void setEventInternalURL(String value)
+    {
+        getSemanticObject().setProperty(cptm_eventInternalURL, value);
     }
 
 /**
