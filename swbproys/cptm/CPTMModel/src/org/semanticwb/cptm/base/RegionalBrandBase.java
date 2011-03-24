@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Catálogo de Marcas Regionales (Ej. Riviera Maya, Riviera Nayarit, etc). Estos contienen Puntos Geográficos. 
    */
-public abstract class RegionalBrandBase extends org.semanticwb.cptm.CPTMPhotoWebPage implements org.semanticwb.model.Trashable,org.semanticwb.model.Indexable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Resourceable,org.semanticwb.model.Localeable,org.semanticwb.model.Traceable,org.semanticwb.cptm.LocalityInt,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Viewable,org.semanticwb.model.FilterableClass,org.semanticwb.model.RuleRefable,org.semanticwb.model.Expirable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Searchable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Activeable,org.semanticwb.model.Hiddenable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Rankable
+public abstract class RegionalBrandBase extends org.semanticwb.cptm.CPTMPhotoWebPage implements org.semanticwb.model.Trashable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Searchable,org.semanticwb.model.Expirable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Indexable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Traceable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Resourceable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Localeable,org.semanticwb.model.FilterableClass,org.semanticwb.cptm.LocalityInt,org.semanticwb.model.Countryable,org.semanticwb.model.Rankable,org.semanticwb.model.Referensable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Viewable,org.semanticwb.model.Activeable,org.semanticwb.model.RuleRefable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Filterable
 {
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Puntos Geográficos (Cancun, Tampico, etc)
@@ -225,6 +225,29 @@ public abstract class RegionalBrandBase extends org.semanticwb.cptm.CPTMPhotoWeb
             return it;
         }
        /**
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined FriendlyURL
+       * @param value FriendlyURL of the type org.semanticwb.model.FriendlyURL
+       * @param model Model of the org.semanticwb.cptm.RegionalBrand
+       * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByFriendlyURL(org.semanticwb.model.FriendlyURL value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasFriendlyURL, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined FriendlyURL
+       * @param value FriendlyURL of the type org.semanticwb.model.FriendlyURL
+       * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByFriendlyURL(org.semanticwb.model.FriendlyURL value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasFriendlyURL,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.cptm.RegionalBrand with a determined TravelRouteInv
        * @param value TravelRouteInv of the type org.semanticwb.cptm.TravelRoute
        * @param model Model of the org.semanticwb.cptm.RegionalBrand
@@ -268,6 +291,29 @@ public abstract class RegionalBrandBase extends org.semanticwb.cptm.CPTMPhotoWeb
         public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByCreator(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined Country
+       * @param value Country of the type org.semanticwb.model.Country
+       * @param model Model of the org.semanticwb.cptm.RegionalBrand
+       * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByCountry(org.semanticwb.model.Country value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_country, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.RegionalBrand with a determined Country
+       * @param value Country of the type org.semanticwb.model.Country
+       * @return Iterator with all the org.semanticwb.cptm.RegionalBrand
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.RegionalBrand> listRegionalBrandByCountry(org.semanticwb.model.Country value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.RegionalBrand> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_country,value.getSemanticObject(),sclass));
             return it;
         }
        /**

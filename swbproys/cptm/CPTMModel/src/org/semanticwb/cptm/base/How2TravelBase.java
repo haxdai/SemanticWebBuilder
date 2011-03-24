@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que se encarga de administrar el Catálogo de secciones que se despliegan en el menú "Como Viajar". 
    */
-public abstract class How2TravelBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Trashable,org.semanticwb.model.Indexable,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Resourceable,org.semanticwb.model.Localeable,org.semanticwb.model.Traceable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Viewable,org.semanticwb.model.FilterableClass,org.semanticwb.model.RuleRefable,org.semanticwb.model.Expirable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Searchable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Activeable,org.semanticwb.model.Hiddenable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Rankable
+public abstract class How2TravelBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Trashable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Searchable,org.semanticwb.model.Expirable,org.semanticwb.model.Indexable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Traceable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Undeleteable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Resourceable,org.semanticwb.model.Localeable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Countryable,org.semanticwb.model.Rankable,org.semanticwb.model.Referensable,org.semanticwb.model.Tagable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Viewable,org.semanticwb.model.Activeable,org.semanticwb.model.RuleRefable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Filterable
 {
    /**
    * URL interna de redirección de la página
@@ -175,6 +175,29 @@ public abstract class How2TravelBase extends org.semanticwb.model.WebPage implem
             return it;
         }
        /**
+       * Gets all org.semanticwb.cptm.How2Travel with a determined FriendlyURL
+       * @param value FriendlyURL of the type org.semanticwb.model.FriendlyURL
+       * @param model Model of the org.semanticwb.cptm.How2Travel
+       * @return Iterator with all the org.semanticwb.cptm.How2Travel
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.How2Travel> listHow2TravelByFriendlyURL(org.semanticwb.model.FriendlyURL value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.How2Travel> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasFriendlyURL, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.How2Travel with a determined FriendlyURL
+       * @param value FriendlyURL of the type org.semanticwb.model.FriendlyURL
+       * @return Iterator with all the org.semanticwb.cptm.How2Travel
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.How2Travel> listHow2TravelByFriendlyURL(org.semanticwb.model.FriendlyURL value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.How2Travel> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasFriendlyURL,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.cptm.How2Travel with a determined Creator
        * @param value Creator of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.cptm.How2Travel
@@ -195,6 +218,29 @@ public abstract class How2TravelBase extends org.semanticwb.model.WebPage implem
         public static java.util.Iterator<org.semanticwb.cptm.How2Travel> listHow2TravelByCreator(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.How2Travel> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.How2Travel with a determined Country
+       * @param value Country of the type org.semanticwb.model.Country
+       * @param model Model of the org.semanticwb.cptm.How2Travel
+       * @return Iterator with all the org.semanticwb.cptm.How2Travel
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.How2Travel> listHow2TravelByCountry(org.semanticwb.model.Country value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.How2Travel> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_country, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.How2Travel with a determined Country
+       * @param value Country of the type org.semanticwb.model.Country
+       * @return Iterator with all the org.semanticwb.cptm.How2Travel
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.How2Travel> listHow2TravelByCountry(org.semanticwb.model.Country value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.How2Travel> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_country,value.getSemanticObject(),sclass));
             return it;
         }
        /**
