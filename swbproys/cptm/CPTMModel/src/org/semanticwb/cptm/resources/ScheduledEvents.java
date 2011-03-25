@@ -9,10 +9,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,9 +26,13 @@ import org.semanticwb.SWBUtils;
 import org.semanticwb.cptm.Event;
 import org.semanticwb.cptm.GeographicPoint;
 import org.semanticwb.cptm.State;
+import org.semanticwb.model.GenericObject;
 import org.semanticwb.model.Resource;
+import org.semanticwb.model.SWBComparator;
+import org.semanticwb.model.Sortable;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebPage;
+import org.semanticwb.platform.SemanticClass;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBActionResponse;
@@ -46,12 +53,10 @@ public class ScheduledEvents extends GenericResource{
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         String path = SWBPortal.getWebWorkPath() + "/models/" + paramRequest.getWebPage().getWebSiteId() + "/jsp/scheduledEvents.jsp";
         RequestDispatcher rd = request.getRequestDispatcher(path);
-        try
-        {
+        try {
             request.setAttribute("paramRequest", paramRequest);
             rd.include(request, response);
-        }catch(Exception e)
-        {
+        } catch(Exception e) {
             log.error(e);
         }
 
@@ -61,21 +66,18 @@ public class ScheduledEvents extends GenericResource{
     public void doAdmin(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         String path = SWBPortal.getWebWorkPath() + "/models/" + paramRequest.getWebPage().getWebSiteId() + "/jsp/adminScheduledEvents.jsp";
         RequestDispatcher rd = request.getRequestDispatcher(path);
-        try
-        {
+        try {
             request.setAttribute("paramRequest", paramRequest);
             rd.include(request, response);
-        }catch(Exception e)
-        {
+        } catch(Exception e) {
             log.error(e);
         }
-
     }
 
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         String action = response.getAction();
-        if(action.equals("adm")){
+        if(action.equals("adm")) {
             Resource base = response.getResourceBase();
             String ly = request.getParameter("lastYear");
             String ny = request.getParameter("nextYear");
@@ -88,12 +90,12 @@ public class ScheduledEvents extends GenericResource{
                 int yc = (date.getYear()< 1000) ? date.getYear() + 1900 : date.getYear();
                 Element lyear = doc.createElement("LastYear");
                 root.appendChild(lyear);
-                if(ly!=null){
+                if(ly!=null) {
                     lyear.setTextContent("" + (yc-1));
                 }
                 Element nyear = doc.createElement("NextYear");
                 root.appendChild(nyear);
-                if(ny!=null){
+                if(ny!=null) {
                     nyear.setTextContent("" + (yc+1));
                 }
                 base.setData(SWBUtils.XML.domToXml(doc));
@@ -107,8 +109,7 @@ public class ScheduledEvents extends GenericResource{
 
     @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        if(paramRequest.getMode().equals("change"))
-        {
+        if(paramRequest.getMode().equals("change")) {
             doChangeCalendar(request, response, paramRequest);
         } else {
             super.processRequest(request, response, paramRequest);
@@ -122,31 +123,26 @@ public class ScheduledEvents extends GenericResource{
         String value = request.getParameter("month");
         int mont = 0, year=0;
         HashMap eventMonth = new HashMap();
-        try{
+        try {
             mont = Integer.parseInt(value);
-        }catch(NumberFormatException e)
-        {
+        } catch(NumberFormatException e) {
             log.error("Error while convert month in ScheduledEvents: " + e);
         }
         value = request.getParameter("year");
-        try
-        {
+        try {
             year = Integer.parseInt(value);
-        }catch(NumberFormatException e)
-        {
+        } catch(NumberFormatException e) {
             log.error("Error while convert year in ScheduledEvents: " + e);
         }
         value = request.getParameter("uri");
-        if(mont>0&&year>0)
-        {
+        if(mont > 0 && year > 0) {
             Iterator ist=null;
             if(value.equals("")) {
                  ist = Event.ClassMgr.listEvents(wp.getWebSite());
-            }else {
+            } else {
                 SemanticObject obj = SemanticObject.createSemanticObject(value);
                 State state = (State) obj.createGenericInstance();
                 ArrayList allDest = new ArrayList();
-
                 Iterator itState =state.listEventStateInvs();
                 while(itState.hasNext()) {
                     allDest.add(itState.next());
@@ -168,7 +164,7 @@ public class ScheduledEvents extends GenericResource{
             while(ist.hasNext()) {
                 Event ev = (Event)ist.next();
                 try {
-                    if(ev.getEventInitDate()!=null){
+                    if(ev.getEventInitDate()!=null) {
                         int valueMonth=sdf.parse(ev.getEventInitDate()).getMonth()+1;
                         int valueYear = sdf.parse(ev.getEventInitDate()).getYear();
                         int year1 = (valueYear< 1000) ? valueYear + 1900 : valueYear;
@@ -201,8 +197,7 @@ public class ScheduledEvents extends GenericResource{
             try {
                 JSONObject getEv = getEvents(eventos,paramRequest);
                 objEventMonth.put(day, getEv); 
-            }catch(Exception e1)
-            {
+            } catch(Exception e1) {
                 log.error("Error while build the events for day: " + e1);
             }
         }
@@ -216,7 +211,7 @@ public class ScheduledEvents extends GenericResource{
         while(it.hasNext()) {
             Event event = (Event)it.next();
             try {
-                objJSONEvents.put(SWBUtils.TEXT.encode(event.getTitle(),SWBUtils.TEXT.CHARSET_UTF8), getData(event, paramRequest));
+                objJSONEvents.put(SWBUtils.TEXT.encode(event.getTitle(paramRequest.getUser().getLanguage())==null?event.getTitle():event.getTitle(paramRequest.getUser().getLanguage()), SWBUtils.TEXT.CHARSET_UTF8), getData(event, paramRequest)); //SWBUtils.TEXT.encode(event.getTitle(),SWBUtils.TEXT.CHARSET_UTF8)
             }catch(Exception e) {
                 log.error("Error while build properties in Events: "+e);
             }
