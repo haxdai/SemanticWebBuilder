@@ -7,15 +7,13 @@ package org.semanticwb.cptm.resources;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,13 +24,9 @@ import org.semanticwb.SWBUtils;
 import org.semanticwb.cptm.Event;
 import org.semanticwb.cptm.GeographicPoint;
 import org.semanticwb.cptm.State;
-import org.semanticwb.model.GenericObject;
 import org.semanticwb.model.Resource;
-import org.semanticwb.model.SWBComparator;
-import org.semanticwb.model.Sortable;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebPage;
-import org.semanticwb.platform.SemanticClass;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBActionResponse;
@@ -117,6 +111,9 @@ public class ScheduledEvents extends GenericResource{
     }
 
     public void doChangeCalendar(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("text/html; charset=UTF-8");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
         PrintWriter out = response.getWriter();
         WebPage wp = paramRequest.getWebPage();
         User user = paramRequest.getUser();
@@ -164,12 +161,13 @@ public class ScheduledEvents extends GenericResource{
             while(ist.hasNext()) {
                 Event ev = (Event)ist.next();
                 try {
-                    if(ev.getEventInitDate()!=null) {
+                    if(ev.getEventInitDate() != null) {
                         int valueMonth=sdf.parse(ev.getEventInitDate()).getMonth()+1;
                         int valueYear = sdf.parse(ev.getEventInitDate()).getYear();
                         int year1 = (valueYear< 1000) ? valueYear + 1900 : valueYear;
                         int valueDay = sdf.parse(ev.getEventInitDate()).getDate();
-                        if((mont==valueMonth)&&(year==year1)) {
+                        boolean isPeriodic = ev.isIsRepeatable();
+                        if(((mont == valueMonth) && (year == year1))||((mont == valueMonth) && (isPeriodic))) {
                             ArrayList listEvents = new ArrayList();
                             if(eventMonth.containsKey(valueDay)) {
                                 listEvents = (ArrayList)eventMonth.get(valueDay);
@@ -181,7 +179,7 @@ public class ScheduledEvents extends GenericResource{
                             eventMonth.put(valueDay, listEvents);
                         } 
                     }
-                }catch(Exception e) {
+                } catch(Exception e) {
                     log.error("Error while process events in ScheduledEvents" + e);
                 }
             }
@@ -237,12 +235,37 @@ public class ScheduledEvents extends GenericResource{
         if(event.getPhotoEscudo()!=null) {
              photo=SWBPortal.getWebWorkPath()+event.getWorkPath()+"/"+event.cptm_photoEscudo.getName()+"_"+event.getId()+"_"+event.getPhotoEscudo();
         }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sd = new SimpleDateFormat("dd/MMMM/yyyy");
+        if(event.isIsRepeatable()) {
+            sd = new SimpleDateFormat("dd/MMMM");
+        }
+        String dates = "";
+        if(event.getEventInitDate() != null && event.getEventInitDate().length() > 1) {
+            try{
+                Date ds = sdf.parse(event.getEventInitDate());
+                dates = dates + sd.format(ds);
+            }catch(Exception e)
+            {
+            }
+        }
+        if(event.getEventEndDate() != null && event.getEventEndDate().length() > 1) {
+            try {
+                Date de = sdf.parse(event.getEventEndDate());
+                if(dates.length()>1) {
+                    dates = dates + " - ";
+                }
+                dates = dates +sd.format(de);
+            } catch(Exception e) {
+            }
+        }
         try {
             objJSONData.put("url", url);
             objJSONData.put("title", SWBUtils.TEXT.encode(event.getTitle(paramRequest.getUser().getLanguage())==null?event.getTitle():event.getTitle(paramRequest.getUser().getLanguage()), SWBUtils.TEXT.CHARSET_UTF8));
             objJSONData.put("image", photo);
             objJSONData.put("description", SWBUtils.TEXT.encode(event.getDescription()==null?"":event.getDescription(), SWBUtils.TEXT.CHARSET_UTF8));
-        }catch(Exception e) {
+            objJSONData.put("rdates", dates);
+        } catch(Exception e) {
             log.error("Error while add the properties to Events: " + e);
         }
         return objJSONData;
