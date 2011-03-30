@@ -135,6 +135,7 @@ public class Recommended extends GenericResource {
         htm.append(" <legend>Datos</legend>\n");
         htm.append(" <ul class=\"swbform-ul\">\n");
 
+
         String swp = base.getAttribute("swp", "");
         TreeSet<WebPage> set = new TreeSet(new Comparator() {
                     public int compare(Object o1, Object o2) {

@@ -39,7 +39,7 @@ public class BulletPanel  extends GenericResource {
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
         PrintWriter out = response.getWriter();
-
+        
         User user = paramRequest.getUser();
         String lang=user.getLanguage();
         WebSite wsite = paramRequest.getWebPage().getWebSite();
@@ -83,7 +83,8 @@ public class BulletPanel  extends GenericResource {
         out.println("<ul class=\"nav_caja\">");
         for(WebPage wp:channels) {
             url.setParameter("tpc", wp.getId());
-            out.println("<li><a href=\"#\" onclick=\"postHtml('"+url+"','caja')\" title=\"ir a "+wp.getDisplayTitle(lang)+"\">"+wp.getId()+"</a></li>");
+            //out.println("<li><a href=\"#\" onclick=\"postHtml('"+url+"','caja')\" title=\"ir a "+wp.getDisplayTitle(lang)+"\">"+wp.getId()+"</a></li>");
+            out.println("<li><a href=\"javascript:postHtml('"+url+"','caja')\" title=\"ir a "+wp.getDisplayTitle(lang)+"\">"+wp.getId()+"</a></li>");
         }
         out.println("</ul>");
         out.println("<a href=\""+channel.getRealUrl(lang)+"\" class=\"ver_mas_1\" >Ver m&aacute;s</a>");
@@ -113,7 +114,7 @@ public class BulletPanel  extends GenericResource {
             }
         }
         //channels.remove(channel);
-
+        
         WebPage wpage;
         Iterator<WebPage>childs = MostVisited.SortWebPage.sortByViews(channel.listChilds(user.getLanguage(), true, false, false, true), false);
         if(childs.hasNext()) {
@@ -134,7 +135,8 @@ public class BulletPanel  extends GenericResource {
         out.println("<ul class=\"nav_caja\">");
         for(WebPage wp:channels) {
             url.setParameter("tpc", wp.getId());
-            out.println("<li><a href=\"#\" onclick=\"postHtml('"+url+"','caja')\" title=\"ir a "+wp.getDisplayTitle(lang)+"\">"+wp.getId()+"</a></li>");
+            //out.println("<li><a href=\"#\" onclick=\"postHtml('"+url+"','caja')\" title=\"ir a "+wp.getDisplayTitle(lang)+"\">"+wp.getId()+"</a></li>");
+            out.println("<li><a href=\"javascript:postHtml('"+url+"','caja')\" title=\"ir a "+wp.getDisplayTitle(lang)+"\">"+wp.getId()+"</a></li>");
         }
         out.println("</ul>");
         out.println("<a href=\""+channel.getRealUrl(lang)+"\" class=\"ver_mas_1\" >Ver m&aacute;s</a>");
