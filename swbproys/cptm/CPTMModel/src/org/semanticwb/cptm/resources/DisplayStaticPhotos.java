@@ -16,6 +16,8 @@ import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.cptm.CptmgeneralData;
 import org.semanticwb.cptm.Event;
+import org.semanticwb.cptm.Photo;
+import org.semanticwb.model.User;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.platform.*;
 import org.semanticwb.portal.api.GenericResource;
@@ -42,41 +44,43 @@ public class DisplayStaticPhotos extends GenericResource{
         SemanticProperty prop = so.getSemanticClass().getProperty(
                 CptmgeneralData.cptm_hasMorePhoto.getName());
         Iterator fotos = null;
-        ArrayList<String> listImage = new ArrayList<String>();
-
+        ArrayList listImage = new ArrayList();
         if (wp.getId().matches("Mostrar_Evento")) {
             if (request.getParameter("show") != null &&
                     request.getParameter("show").equalsIgnoreCase("event")) {
 
                 String id = request.getParameter("id");
-
                 if (id != null) {
                     Event evento = Event.ClassMgr.getEvent(id, wp.getWebSite());
-
                     fotos = evento.listMorePhotos();
-                    while (fotos.hasNext() && (listImage.size() < 8)) {
-                        String imagen = (String)fotos.next();
-                        String ruta = SWBPortal.getWebWorkPath()
-                                + evento.getWorkPath() + "/" + imagen;
-                        listImage.add(ruta);
+                    while (fotos.hasNext() && (listImage.size() < 9)) {
+                        Photo objPhoto=(Photo)fotos.next();
+                        String image = objPhoto.getSemanticObject().getProperty(Photo.cptm_PhotoImage);//getDisplayTitle(user.getLanguage());
+                        if(image != null) {
+                            image = SWBPortal.getWebWorkPath() + "/" +objPhoto.getWorkPath() + "/" + Photo.cptm_PhotoImage.getName()+"_" +objPhoto.getId()+"_"+objPhoto.getSemanticObject().getProperty(Photo.cptm_PhotoImage);
+                            String txtAlt =  objPhoto.getSemanticObject().getProperty(Photo.cptm_PhotoAlt) == null ? "" : objPhoto.getSemanticObject().getProperty(Photo.cptm_PhotoAlt);
+                            String [] data = { image , txtAlt };
+                            listImage.add(data);
+                        }
                     }
                 }
             }
-        } else if (prop != null && !prop.isObjectProperty() &&
-                prop.getCardinality() != 1) {
-
-            Iterator<SemanticLiteral> lista = so.listLiteralProperties(prop);
-
+        } else if (prop != null) { //&& !prop.isObjectProperty() && prop.getCardinality() != 1
+            Iterator<SemanticObject> lista = so.listObjectProperties(prop);//listLiteralProperties(prop);
             if (lista != null) {
-                while (lista.hasNext() && (listImage.size() < 8)) {
-                    SemanticLiteral lit = lista.next();
-                    String fname = lit.getString();
-                    String ruta = SWBPortal.getWebWorkPath() + so.getWorkPath()
-                            + "/" + fname;
-                    listImage.add(ruta);
+                while (lista.hasNext() && (listImage.size() < 9)) {
+                    SemanticObject lit = lista.next();
+                    String image = lit.getProperty(Photo.cptm_PhotoImage);
+                    if(image != null) {
+                        image = SWBPortal.getWebWorkPath() + "/" +lit.getWorkPath() + "/" + Photo.cptm_PhotoImage.getName()+"_" +lit.getId()+"_"+lit.getProperty(Photo.cptm_PhotoImage);
+                        String txtAlt =  lit.getProperty(Photo.cptm_PhotoAlt) == null ? "" : lit.getProperty(Photo.cptm_PhotoAlt);
+                        String [] data = { image , txtAlt };
+                        listImage.add(data);
+                    }
                 }
             }
-        }
+        } 
+
         try {
             request.setAttribute("paramRequest", paramRequest);
             request.setAttribute("listImage", listImage);
