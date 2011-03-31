@@ -11,8 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.cptm.ActivityRef;
+import org.semanticwb.cptm.Company;
 import org.semanticwb.cptm.Event;
 import org.semanticwb.cptm.ExperienceRef;
+import org.semanticwb.cptm.GeneralCompany;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.Resourceable;
 import org.semanticwb.model.SWBComparator;
@@ -43,7 +45,8 @@ public class VirtualResources extends GenericResource{
             if(show.equalsIgnoreCase("activity")) resourceAble=ActivityRef.ClassMgr.getActivityRef(id, page.getWebSite());
             else if(show.equalsIgnoreCase("experience")) resourceAble=ExperienceRef.ClassMgr.getExperienceRef(id, page.getWebSite());
             else if(show.equalsIgnoreCase("event")) resourceAble=Event.ClassMgr.getEvent(id, page.getWebSite());
-
+            else if(show.equalsIgnoreCase("company")) resourceAble=Company.ClassMgr.getCompany(id, page.getWebSite());
+            
             if(resourceAble!=null)
             {
                 Iterator<Resource> it=SWBComparator.sortSortableObject(resourceAble.listResources());
@@ -76,6 +79,7 @@ public class VirtualResources extends GenericResource{
             if(show.equalsIgnoreCase("activity")) resourceAble=ActivityRef.ClassMgr.getActivityRef(id, page.getWebSite());
             else if(show.equalsIgnoreCase("experience")) resourceAble=ExperienceRef.ClassMgr.getExperienceRef(id, page.getWebSite());
             else if(show.equalsIgnoreCase("event")) resourceAble=Event.ClassMgr.getEvent(id, page.getWebSite());
+            else if(show.equalsIgnoreCase("company")) resourceAble=GeneralCompany.ClassMgr.getGeneralCompany(id, page.getWebSite());
 
             if(resourceAble!=null)
             {

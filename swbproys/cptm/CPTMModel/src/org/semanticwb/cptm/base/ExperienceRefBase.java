@@ -4,13 +4,18 @@ package org.semanticwb.cptm.base;
    /**
    * Experiencia en un específico "Destino", si le quisiera agregar un Directorio de empresas aqui, tendría que tener una relación además de con el Destino, con el objeto  SPType 
    */
-public abstract class ExperienceRefBase extends org.semanticwb.cptm.CPTMPhotoWebPage implements org.semanticwb.model.Trashable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Searchable,org.semanticwb.model.Expirable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Indexable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Traceable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Resourceable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Localeable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Countryable,org.semanticwb.model.Rankable,org.semanticwb.model.Referensable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Viewable,org.semanticwb.model.Activeable,org.semanticwb.model.RuleRefable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Filterable
+public abstract class ExperienceRefBase extends org.semanticwb.cptm.CPTMPhotoWebPage implements org.semanticwb.model.Resourceable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableClass,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Indexable,org.semanticwb.model.Searchable,org.semanticwb.model.Tagable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Activeable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Rankable,org.semanticwb.model.Trashable,org.semanticwb.model.Filterable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Traceable,org.semanticwb.model.Viewable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Localeable,org.semanticwb.model.Countryable,org.semanticwb.model.RuleRefable,org.semanticwb.model.RoleRefable
 {
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de experiencias (Ej. Bodas, Parejas)
    */
     public static final org.semanticwb.platform.SemanticClass cptm_Experience=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Experience");
     public static final org.semanticwb.platform.SemanticProperty cptm_expExperience=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#expExperience");
+   /**
+   * Clase principal del sistema de visit-méxico. Una instancia de esta clase es en donde se almacena toda la información de un proveedor de servicios especifico.
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_Company=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Company");
+    public static final org.semanticwb.platform.SemanticProperty cptm_hasCompanyExperienceRefInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasCompanyExperienceRefInv");
    /**
    * Interfaz que define propiedades en comun para un Punto Geografico y una Marca Regional
    */
@@ -457,6 +462,29 @@ public abstract class ExperienceRefBase extends org.semanticwb.cptm.CPTMPhotoWeb
             return it;
         }
        /**
+       * Gets all org.semanticwb.cptm.ExperienceRef with a determined CompanyExperienceRefInv
+       * @param value CompanyExperienceRefInv of the type org.semanticwb.cptm.Company
+       * @param model Model of the org.semanticwb.cptm.ExperienceRef
+       * @return Iterator with all the org.semanticwb.cptm.ExperienceRef
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.ExperienceRef> listExperienceRefByCompanyExperienceRefInv(org.semanticwb.cptm.Company value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.ExperienceRef> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasCompanyExperienceRefInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.ExperienceRef with a determined CompanyExperienceRefInv
+       * @param value CompanyExperienceRefInv of the type org.semanticwb.cptm.Company
+       * @return Iterator with all the org.semanticwb.cptm.ExperienceRef
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.ExperienceRef> listExperienceRefByCompanyExperienceRefInv(org.semanticwb.cptm.Company value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.ExperienceRef> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasCompanyExperienceRefInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.cptm.ExperienceRef with a determined Locality
        * @param value Locality of the type org.semanticwb.cptm.LocalityInt
        * @param model Model of the org.semanticwb.cptm.ExperienceRef
@@ -639,6 +667,45 @@ public abstract class ExperienceRefBase extends org.semanticwb.cptm.CPTMPhotoWeb
          if(obj!=null)
          {
              ret=(org.semanticwb.cptm.Experience)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Gets all the org.semanticwb.cptm.Company
+   * @return A GenericIterator with all the org.semanticwb.cptm.Company
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> listCompanyExperienceRefInvs()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company>(getSemanticObject().listObjectProperties(cptm_hasCompanyExperienceRefInv));
+    }
+
+   /**
+   * Gets true if has a CompanyExperienceRefInv
+   * @param value org.semanticwb.cptm.Company to verify
+   * @return true if the org.semanticwb.cptm.Company exists, false otherwise
+   */
+    public boolean hasCompanyExperienceRefInv(org.semanticwb.cptm.Company value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(cptm_hasCompanyExperienceRefInv,value.getSemanticObject());
+        }
+        return ret;
+    }
+
+   /**
+   * Gets the CompanyExperienceRefInv
+   * @return a org.semanticwb.cptm.Company
+   */
+    public org.semanticwb.cptm.Company getCompanyExperienceRefInv()
+    {
+         org.semanticwb.cptm.Company ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasCompanyExperienceRefInv);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.cptm.Company)obj.createGenericInstance();
          }
          return ret;
     }

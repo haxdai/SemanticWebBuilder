@@ -4,8 +4,23 @@ package org.semanticwb.cptm.base;
    /**
    * Clase principal del sistema de visit-méxico. Una instancia de esta clase es en donde se almacena toda la información de un proveedor de servicios especifico. 
    */
-public abstract class CompanyBase extends org.semanticwb.portal.community.DirectoryObject implements org.semanticwb.model.Tagable,org.semanticwb.model.Descriptiveable,org.semanticwb.portal.community.Contactable,org.semanticwb.model.Searchable,org.semanticwb.portal.community.Addressable,org.semanticwb.model.Rankable,org.semanticwb.portal.community.Interactiveable,org.semanticwb.model.Geolocalizable,org.semanticwb.model.Traceable
+public abstract class CompanyBase extends org.semanticwb.cptm.GeneralCompany implements org.semanticwb.model.Resourceable,org.semanticwb.model.Expirable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Geolocalizable,org.semanticwb.model.Indexable,org.semanticwb.model.Searchable,org.semanticwb.model.Tagable,org.semanticwb.model.Traceable,org.semanticwb.portal.community.Addressable,org.semanticwb.model.Localeable,org.semanticwb.model.Descriptiveable
 {
+   /**
+   * Experiencia en un específico "Destino", si le quisiera agregar un Directorio de empresas aqui, tendría que tener una relación además de con el Destino, con el objeto  SPType
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_ExperienceRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#ExperienceRef");
+    public static final org.semanticwb.platform.SemanticProperty cptm_hasCompExperienceRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasCompExperienceRef");
+   /**
+   * Actividad en un específico "Destino", si le quisiera agregar un Directorio de empresas aqui, tendría que tener una relación además de con el Destino, con el objeto  SPType
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_ActivityRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#ActivityRef");
+    public static final org.semanticwb.platform.SemanticProperty cptm_hasCompActivityRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasCompActivityRef");
+   /**
+   * Clase se administra el catálogo de Marcas de Empresas
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_CompanyBrand=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#CompanyBrand");
+    public static final org.semanticwb.platform.SemanticProperty cptm_compCompanyBrand=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#compCompanyBrand");
    /**
    * Clase principal del sistema de visit-méxico. Una instancia de esta clase es en donde se almacena toda la información de un proveedor de servicios especifico.
    */
@@ -37,12 +52,6 @@ public abstract class CompanyBase extends org.semanticwb.portal.community.Direct
         {
             java.util.Iterator it=sclass.listInstances();
             return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company>(it, true);
-        }
-
-        public static org.semanticwb.cptm.Company createCompany(org.semanticwb.model.SWBModel model)
-        {
-            long id=model.getSemanticObject().getModel().getCounter(sclass);
-            return org.semanticwb.cptm.Company.ClassMgr.createCompany(String.valueOf(id), model);
         }
        /**
        * Gets a org.semanticwb.cptm.Company
@@ -85,49 +94,72 @@ public abstract class CompanyBase extends org.semanticwb.portal.community.Direct
             return (getCompany(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.cptm.Company with a determined DirectoryResource
-       * @param value DirectoryResource of the type org.semanticwb.portal.community.DirectoryResource
+       * Gets all org.semanticwb.cptm.Company with a determined CompanyLine
+       * @param value CompanyLine of the type org.semanticwb.cptm.CompanyLine
        * @param model Model of the org.semanticwb.cptm.Company
        * @return Iterator with all the org.semanticwb.cptm.Company
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByDirectoryResource(org.semanticwb.portal.community.DirectoryResource value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByCompanyLine(org.semanticwb.cptm.CompanyLine value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swbcomm_directoryResource, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasCompanyLine, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.Company with a determined DirectoryResource
-       * @param value DirectoryResource of the type org.semanticwb.portal.community.DirectoryResource
+       * Gets all org.semanticwb.cptm.Company with a determined CompanyLine
+       * @param value CompanyLine of the type org.semanticwb.cptm.CompanyLine
        * @return Iterator with all the org.semanticwb.cptm.Company
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByDirectoryResource(org.semanticwb.portal.community.DirectoryResource value)
+        public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByCompanyLine(org.semanticwb.cptm.CompanyLine value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swbcomm_directoryResource,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasCompanyLine,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.Company with a determined Profile
-       * @param value Profile of the type org.semanticwb.model.WebPage
+       * Gets all org.semanticwb.cptm.Company with a determined CompExperienceRef
+       * @param value CompExperienceRef of the type org.semanticwb.cptm.ExperienceRef
        * @param model Model of the org.semanticwb.cptm.Company
        * @return Iterator with all the org.semanticwb.cptm.Company
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByProfile(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByCompExperienceRef(org.semanticwb.cptm.ExperienceRef value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swbcomm_hasDirProfileWebPage, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasCompExperienceRef, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.Company with a determined Profile
-       * @param value Profile of the type org.semanticwb.model.WebPage
+       * Gets all org.semanticwb.cptm.Company with a determined CompExperienceRef
+       * @param value CompExperienceRef of the type org.semanticwb.cptm.ExperienceRef
        * @return Iterator with all the org.semanticwb.cptm.Company
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByProfile(org.semanticwb.model.WebPage value)
+        public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByCompExperienceRef(org.semanticwb.cptm.ExperienceRef value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swbcomm_hasDirProfileWebPage,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasCompExperienceRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.Company with a determined Promotion
+       * @param value Promotion of the type org.semanticwb.cptm.Promotion
+       * @param model Model of the org.semanticwb.cptm.Company
+       * @return Iterator with all the org.semanticwb.cptm.Company
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByPromotion(org.semanticwb.cptm.Promotion value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasPromotion, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.Company with a determined Promotion
+       * @param value Promotion of the type org.semanticwb.cptm.Promotion
+       * @return Iterator with all the org.semanticwb.cptm.Company
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByPromotion(org.semanticwb.cptm.Promotion value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasPromotion,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -154,6 +186,75 @@ public abstract class CompanyBase extends org.semanticwb.portal.community.Direct
             return it;
         }
        /**
+       * Gets all org.semanticwb.cptm.Company with a determined CompActivityRef
+       * @param value CompActivityRef of the type org.semanticwb.cptm.ActivityRef
+       * @param model Model of the org.semanticwb.cptm.Company
+       * @return Iterator with all the org.semanticwb.cptm.Company
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByCompActivityRef(org.semanticwb.cptm.ActivityRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasCompActivityRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.Company with a determined CompActivityRef
+       * @param value CompActivityRef of the type org.semanticwb.cptm.ActivityRef
+       * @return Iterator with all the org.semanticwb.cptm.Company
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByCompActivityRef(org.semanticwb.cptm.ActivityRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasCompActivityRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.Company with a determined Language
+       * @param value Language of the type org.semanticwb.model.Language
+       * @param model Model of the org.semanticwb.cptm.Company
+       * @return Iterator with all the org.semanticwb.cptm.Company
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByLanguage(org.semanticwb.model.Language value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_language, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.Company with a determined Language
+       * @param value Language of the type org.semanticwb.model.Language
+       * @return Iterator with all the org.semanticwb.cptm.Company
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByLanguage(org.semanticwb.model.Language value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_language,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.Company with a determined CompCompanyBrand
+       * @param value CompCompanyBrand of the type org.semanticwb.cptm.CompanyBrand
+       * @param model Model of the org.semanticwb.cptm.Company
+       * @return Iterator with all the org.semanticwb.cptm.Company
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByCompCompanyBrand(org.semanticwb.cptm.CompanyBrand value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_compCompanyBrand, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.Company with a determined CompCompanyBrand
+       * @param value CompCompanyBrand of the type org.semanticwb.cptm.CompanyBrand
+       * @return Iterator with all the org.semanticwb.cptm.Company
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByCompCompanyBrand(org.semanticwb.cptm.CompanyBrand value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_compCompanyBrand,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.cptm.Company with a determined ModifiedBy
        * @param value ModifiedBy of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.cptm.Company
@@ -177,72 +278,72 @@ public abstract class CompanyBase extends org.semanticwb.portal.community.Direct
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.Company with a determined WebPage
-       * @param value WebPage of the type org.semanticwb.model.WebPage
+       * Gets all org.semanticwb.cptm.Company with a determined Resource
+       * @param value Resource of the type org.semanticwb.model.Resource
        * @param model Model of the org.semanticwb.cptm.Company
        * @return Iterator with all the org.semanticwb.cptm.Company
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByWebPage(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByResource(org.semanticwb.model.Resource value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swbcomm_dirWebPage, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasResource, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.Company with a determined WebPage
-       * @param value WebPage of the type org.semanticwb.model.WebPage
+       * Gets all org.semanticwb.cptm.Company with a determined Resource
+       * @param value Resource of the type org.semanticwb.model.Resource
        * @return Iterator with all the org.semanticwb.cptm.Company
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByWebPage(org.semanticwb.model.WebPage value)
+        public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByResource(org.semanticwb.model.Resource value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swbcomm_dirWebPage,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasResource,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.Company with a determined TopicWebPage
-       * @param value TopicWebPage of the type org.semanticwb.model.WebPage
+       * Gets all org.semanticwb.cptm.Company with a determined CompLocality
+       * @param value CompLocality of the type org.semanticwb.cptm.LocalityInt
        * @param model Model of the org.semanticwb.cptm.Company
        * @return Iterator with all the org.semanticwb.cptm.Company
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByTopicWebPage(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByCompLocality(org.semanticwb.cptm.LocalityInt value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swbcomm_hasDirTopicWebPage, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasCompLocality, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.Company with a determined TopicWebPage
-       * @param value TopicWebPage of the type org.semanticwb.model.WebPage
+       * Gets all org.semanticwb.cptm.Company with a determined CompLocality
+       * @param value CompLocality of the type org.semanticwb.cptm.LocalityInt
        * @return Iterator with all the org.semanticwb.cptm.Company
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByTopicWebPage(org.semanticwb.model.WebPage value)
+        public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByCompLocality(org.semanticwb.cptm.LocalityInt value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swbcomm_hasDirTopicWebPage,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasCompLocality,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.Company with a determined Comment
-       * @param value Comment of the type org.semanticwb.portal.community.Comment
+       * Gets all org.semanticwb.cptm.Company with a determined MorePhoto
+       * @param value MorePhoto of the type org.semanticwb.cptm.Photo
        * @param model Model of the org.semanticwb.cptm.Company
        * @return Iterator with all the org.semanticwb.cptm.Company
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByComment(org.semanticwb.portal.community.Comment value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByMorePhoto(org.semanticwb.cptm.Photo value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swbcomm_hasComment, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasMorePhoto, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.Company with a determined Comment
-       * @param value Comment of the type org.semanticwb.portal.community.Comment
+       * Gets all org.semanticwb.cptm.Company with a determined MorePhoto
+       * @param value MorePhoto of the type org.semanticwb.cptm.Photo
        * @return Iterator with all the org.semanticwb.cptm.Company
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByComment(org.semanticwb.portal.community.Comment value)
+        public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByMorePhoto(org.semanticwb.cptm.Photo value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swbcomm_hasComment,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasMorePhoto,value.getSemanticObject(),sclass));
             return it;
         }
     }
@@ -255,220 +356,228 @@ public abstract class CompanyBase extends org.semanticwb.portal.community.Direct
     {
         super(base);
     }
+   /**
+   * Gets all the org.semanticwb.cptm.ExperienceRef
+   * @return A GenericIterator with all the org.semanticwb.cptm.ExperienceRef
+   */
 
-/**
-* Gets the ExtNumber property
-* @return String with the ExtNumber
-*/
-    public String getExtNumber()
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.ExperienceRef> listCompExperienceRefs()
     {
-        return getSemanticObject().getProperty(swbcomm_extNumber);
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.ExperienceRef>(getSemanticObject().listObjectProperties(cptm_hasCompExperienceRef));
+    }
+
+   /**
+   * Gets true if has a CompExperienceRef
+   * @param value org.semanticwb.cptm.ExperienceRef to verify
+   * @return true if the org.semanticwb.cptm.ExperienceRef exists, false otherwise
+   */
+    public boolean hasCompExperienceRef(org.semanticwb.cptm.ExperienceRef value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(cptm_hasCompExperienceRef,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a CompExperienceRef
+   * @param value org.semanticwb.cptm.ExperienceRef to add
+   */
+
+    public void addCompExperienceRef(org.semanticwb.cptm.ExperienceRef value)
+    {
+        getSemanticObject().addObjectProperty(cptm_hasCompExperienceRef, value.getSemanticObject());
+    }
+   /**
+   * Removes all the CompExperienceRef
+   */
+
+    public void removeAllCompExperienceRef()
+    {
+        getSemanticObject().removeProperty(cptm_hasCompExperienceRef);
+    }
+   /**
+   * Removes a CompExperienceRef
+   * @param value org.semanticwb.cptm.ExperienceRef to remove
+   */
+
+    public void removeCompExperienceRef(org.semanticwb.cptm.ExperienceRef value)
+    {
+        getSemanticObject().removeObjectProperty(cptm_hasCompExperienceRef,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the CompExperienceRef
+   * @return a org.semanticwb.cptm.ExperienceRef
+   */
+    public org.semanticwb.cptm.ExperienceRef getCompExperienceRef()
+    {
+         org.semanticwb.cptm.ExperienceRef ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasCompExperienceRef);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.cptm.ExperienceRef)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
-* Sets the ExtNumber property
-* @param value long with the ExtNumber
+* Gets the Expiration property
+* @return java.util.Date with the Expiration
 */
-    public void setExtNumber(String value)
+    public java.util.Date getExpiration()
     {
-        getSemanticObject().setProperty(swbcomm_extNumber, value);
+        return getSemanticObject().getDateProperty(swb_expiration);
     }
 
 /**
-* Gets the ContactName property
-* @return String with the ContactName
+* Sets the Expiration property
+* @param value long with the Expiration
 */
-    public String getContactName()
+    public void setExpiration(java.util.Date value)
     {
-        return getSemanticObject().getProperty(swbcomm_contactName);
+        getSemanticObject().setDateProperty(swb_expiration, value);
+    }
+   /**
+   * Gets all the org.semanticwb.cptm.ActivityRef
+   * @return A GenericIterator with all the org.semanticwb.cptm.ActivityRef
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.ActivityRef> listCompActivityRefs()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.ActivityRef>(getSemanticObject().listObjectProperties(cptm_hasCompActivityRef));
     }
 
-/**
-* Sets the ContactName property
-* @param value long with the ContactName
-*/
-    public void setContactName(String value)
+   /**
+   * Gets true if has a CompActivityRef
+   * @param value org.semanticwb.cptm.ActivityRef to verify
+   * @return true if the org.semanticwb.cptm.ActivityRef exists, false otherwise
+   */
+    public boolean hasCompActivityRef(org.semanticwb.cptm.ActivityRef value)
     {
-        getSemanticObject().setProperty(swbcomm_contactName, value);
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(cptm_hasCompActivityRef,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a CompActivityRef
+   * @param value org.semanticwb.cptm.ActivityRef to add
+   */
+
+    public void addCompActivityRef(org.semanticwb.cptm.ActivityRef value)
+    {
+        getSemanticObject().addObjectProperty(cptm_hasCompActivityRef, value.getSemanticObject());
+    }
+   /**
+   * Removes all the CompActivityRef
+   */
+
+    public void removeAllCompActivityRef()
+    {
+        getSemanticObject().removeProperty(cptm_hasCompActivityRef);
+    }
+   /**
+   * Removes a CompActivityRef
+   * @param value org.semanticwb.cptm.ActivityRef to remove
+   */
+
+    public void removeCompActivityRef(org.semanticwb.cptm.ActivityRef value)
+    {
+        getSemanticObject().removeObjectProperty(cptm_hasCompActivityRef,value.getSemanticObject());
     }
 
-/**
-* Gets the State property
-* @return String with the State
-*/
-    public String getState()
+   /**
+   * Gets the CompActivityRef
+   * @return a org.semanticwb.cptm.ActivityRef
+   */
+    public org.semanticwb.cptm.ActivityRef getCompActivityRef()
     {
-        return getSemanticObject().getProperty(swbcomm_state);
+         org.semanticwb.cptm.ActivityRef ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasCompActivityRef);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.cptm.ActivityRef)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Sets the value for the property Language
+   * @param value Language to set
+   */
+
+    public void setLanguage(org.semanticwb.model.Language value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(swb_language, value.getSemanticObject());
+        }else
+        {
+            removeLanguage();
+        }
+    }
+   /**
+   * Remove the value for Language property
+   */
+
+    public void removeLanguage()
+    {
+        getSemanticObject().removeProperty(swb_language);
     }
 
-/**
-* Sets the State property
-* @param value long with the State
-*/
-    public void setState(String value)
+   /**
+   * Gets the Language
+   * @return a org.semanticwb.model.Language
+   */
+    public org.semanticwb.model.Language getLanguage()
     {
-        getSemanticObject().setProperty(swbcomm_state, value);
+         org.semanticwb.model.Language ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_language);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.Language)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Sets the value for the property CompCompanyBrand
+   * @param value CompCompanyBrand to set
+   */
+
+    public void setCompCompanyBrand(org.semanticwb.cptm.CompanyBrand value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(cptm_compCompanyBrand, value.getSemanticObject());
+        }else
+        {
+            removeCompCompanyBrand();
+        }
+    }
+   /**
+   * Remove the value for CompCompanyBrand property
+   */
+
+    public void removeCompCompanyBrand()
+    {
+        getSemanticObject().removeProperty(cptm_compCompanyBrand);
     }
 
-/**
-* Gets the City property
-* @return String with the City
-*/
-    public String getCity()
+   /**
+   * Gets the CompCompanyBrand
+   * @return a org.semanticwb.cptm.CompanyBrand
+   */
+    public org.semanticwb.cptm.CompanyBrand getCompCompanyBrand()
     {
-        return getSemanticObject().getProperty(swbcomm_city);
-    }
-
-/**
-* Sets the City property
-* @param value long with the City
-*/
-    public void setCity(String value)
-    {
-        getSemanticObject().setProperty(swbcomm_city, value);
-    }
-
-/**
-* Gets the ContactPhoneNumber property
-* @return String with the ContactPhoneNumber
-*/
-    public String getContactPhoneNumber()
-    {
-        return getSemanticObject().getProperty(swbcomm_contactPhoneNumber);
-    }
-
-/**
-* Sets the ContactPhoneNumber property
-* @param value long with the ContactPhoneNumber
-*/
-    public void setContactPhoneNumber(String value)
-    {
-        getSemanticObject().setProperty(swbcomm_contactPhoneNumber, value);
-    }
-
-/**
-* Gets the Step property
-* @return int with the Step
-*/
-    public int getStep()
-    {
-        return getSemanticObject().getIntProperty(swb_geoStep);
-    }
-
-/**
-* Sets the Step property
-* @param value long with the Step
-*/
-    public void setStep(int value)
-    {
-        getSemanticObject().setIntProperty(swb_geoStep, value);
-    }
-
-/**
-* Gets the IntNumber property
-* @return String with the IntNumber
-*/
-    public String getIntNumber()
-    {
-        return getSemanticObject().getProperty(swbcomm_intNumber);
-    }
-
-/**
-* Sets the IntNumber property
-* @param value long with the IntNumber
-*/
-    public void setIntNumber(String value)
-    {
-        getSemanticObject().setProperty(swbcomm_intNumber, value);
-    }
-
-/**
-* Gets the Latitude property
-* @return double with the Latitude
-*/
-    public double getLatitude()
-    {
-        return getSemanticObject().getDoubleProperty(swb_latitude);
-    }
-
-/**
-* Sets the Latitude property
-* @param value long with the Latitude
-*/
-    public void setLatitude(double value)
-    {
-        getSemanticObject().setDoubleProperty(swb_latitude, value);
-    }
-
-/**
-* Gets the Longitude property
-* @return double with the Longitude
-*/
-    public double getLongitude()
-    {
-        return getSemanticObject().getDoubleProperty(swb_longitude);
-    }
-
-/**
-* Sets the Longitude property
-* @param value long with the Longitude
-*/
-    public void setLongitude(double value)
-    {
-        getSemanticObject().setDoubleProperty(swb_longitude, value);
-    }
-
-/**
-* Gets the StreetName property
-* @return String with the StreetName
-*/
-    public String getStreetName()
-    {
-        return getSemanticObject().getProperty(swbcomm_streetName);
-    }
-
-/**
-* Sets the StreetName property
-* @param value long with the StreetName
-*/
-    public void setStreetName(String value)
-    {
-        getSemanticObject().setProperty(swbcomm_streetName, value);
-    }
-
-/**
-* Gets the CityCouncil property
-* @return String with the CityCouncil
-*/
-    public String getCityCouncil()
-    {
-        return getSemanticObject().getProperty(swbcomm_cityCouncil);
-    }
-
-/**
-* Sets the CityCouncil property
-* @param value long with the CityCouncil
-*/
-    public void setCityCouncil(String value)
-    {
-        getSemanticObject().setProperty(swbcomm_cityCouncil, value);
-    }
-
-/**
-* Gets the ContactEmail property
-* @return String with the ContactEmail
-*/
-    public String getContactEmail()
-    {
-        return getSemanticObject().getProperty(swbcomm_contactEmail);
-    }
-
-/**
-* Sets the ContactEmail property
-* @param value long with the ContactEmail
-*/
-    public void setContactEmail(String value)
-    {
-        getSemanticObject().setProperty(swbcomm_contactEmail, value);
+         org.semanticwb.cptm.CompanyBrand ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_compCompanyBrand);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.cptm.CompanyBrand)obj.createGenericInstance();
+         }
+         return ret;
     }
 }

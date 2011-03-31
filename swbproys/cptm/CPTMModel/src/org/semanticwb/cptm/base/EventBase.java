@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Eventos. 
    */
-public abstract class EventBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Resourceable,org.semanticwb.model.Tagable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Searchable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Traceable
+public abstract class EventBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Resourceable,org.semanticwb.model.Searchable,org.semanticwb.model.Tagable,org.semanticwb.model.Traceable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticProperty cptm_eventLeadingPhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#eventLeadingPhoto");
    /**
@@ -714,6 +714,21 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
     public void setTags(String value)
     {
         getSemanticObject().setProperty(swb_tags, value);
+    }
+
+    public String getTags(String lang)
+    {
+        return getSemanticObject().getProperty(swb_tags, null, lang);
+    }
+
+    public String getDisplayTags(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_tags, lang);
+    }
+
+    public void setTags(String tags, String lang)
+    {
+        getSemanticObject().setProperty(swb_tags, tags, lang);
     }
 
 /**
