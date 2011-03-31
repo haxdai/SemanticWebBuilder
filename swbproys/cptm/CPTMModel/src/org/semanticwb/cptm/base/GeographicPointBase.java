@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Puntos Geográficos (Cancun, Tampico, etc) 
    */
-public abstract class GeographicPointBase extends org.semanticwb.cptm.CPTMWebPage implements org.semanticwb.model.Trashable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Searchable,org.semanticwb.model.Expirable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Indexable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Traceable,org.semanticwb.cptm.LocalityInt,org.semanticwb.model.CalendarRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Resourceable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Localeable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Countryable,org.semanticwb.model.Rankable,org.semanticwb.model.Referensable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Viewable,org.semanticwb.model.Activeable,org.semanticwb.model.RuleRefable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Filterable
+public abstract class GeographicPointBase extends org.semanticwb.cptm.CPTMWebPage implements org.semanticwb.model.Resourceable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableClass,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Indexable,org.semanticwb.model.Searchable,org.semanticwb.model.Tagable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Activeable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Rankable,org.semanticwb.model.Trashable,org.semanticwb.model.Filterable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.TemplateRefable,org.semanticwb.cptm.LocalityInt,org.semanticwb.model.Referensable,org.semanticwb.model.Traceable,org.semanticwb.model.Viewable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Localeable,org.semanticwb.model.Countryable,org.semanticwb.model.RuleRefable,org.semanticwb.model.RoleRefable
 {
    /**
    * Catálogo de Marcas Regionales (Ej. Riviera Maya, Riviera Nayarit, etc). Estos contienen Puntos Geográficos.
@@ -412,6 +412,29 @@ public abstract class GeographicPointBase extends org.semanticwb.cptm.CPTMWebPag
         public static java.util.Iterator<org.semanticwb.cptm.GeographicPoint> listGeographicPointByNewGeographicPointInv(org.semanticwb.cptm.New value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.GeographicPoint> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasNewGeographicPointInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.GeographicPoint with a determined CompanyLocalityInv
+       * @param value CompanyLocalityInv of the type org.semanticwb.cptm.GeneralCompany
+       * @param model Model of the org.semanticwb.cptm.GeographicPoint
+       * @return Iterator with all the org.semanticwb.cptm.GeographicPoint
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.GeographicPoint> listGeographicPointByCompanyLocalityInv(org.semanticwb.cptm.GeneralCompany value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.GeographicPoint> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasCompanyLocalityInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.GeographicPoint with a determined CompanyLocalityInv
+       * @param value CompanyLocalityInv of the type org.semanticwb.cptm.GeneralCompany
+       * @return Iterator with all the org.semanticwb.cptm.GeographicPoint
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.GeographicPoint> listGeographicPointByCompanyLocalityInv(org.semanticwb.cptm.GeneralCompany value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.GeographicPoint> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasCompanyLocalityInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -1068,6 +1091,45 @@ public abstract class GeographicPointBase extends org.semanticwb.cptm.CPTMWebPag
          if(obj!=null)
          {
              ret=(org.semanticwb.cptm.New)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Gets all the org.semanticwb.cptm.GeneralCompany
+   * @return A GenericIterator with all the org.semanticwb.cptm.GeneralCompany
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.GeneralCompany> listCompanyLocalityInvs()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.GeneralCompany>(getSemanticObject().listObjectProperties(cptm_hasCompanyLocalityInv));
+    }
+
+   /**
+   * Gets true if has a CompanyLocalityInv
+   * @param value org.semanticwb.cptm.GeneralCompany to verify
+   * @return true if the org.semanticwb.cptm.GeneralCompany exists, false otherwise
+   */
+    public boolean hasCompanyLocalityInv(org.semanticwb.cptm.GeneralCompany value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(cptm_hasCompanyLocalityInv,value.getSemanticObject());
+        }
+        return ret;
+    }
+
+   /**
+   * Gets the CompanyLocalityInv
+   * @return a org.semanticwb.cptm.GeneralCompany
+   */
+    public org.semanticwb.cptm.GeneralCompany getCompanyLocalityInv()
+    {
+         org.semanticwb.cptm.GeneralCompany ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasCompanyLocalityInv);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.cptm.GeneralCompany)obj.createGenericInstance();
          }
          return ret;
     }

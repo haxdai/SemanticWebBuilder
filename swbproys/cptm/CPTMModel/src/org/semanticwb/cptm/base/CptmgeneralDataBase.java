@@ -5,11 +5,6 @@ package org.semanticwb.cptm.base;
    */
 public interface CptmgeneralDataBase extends org.semanticwb.model.GenericObject
 {
-    public static final org.semanticwb.platform.SemanticProperty cptm_photo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#photo");
-   /**
-   * Texto alterno para imagen de Escudo, localizable 
-   */
-    public static final org.semanticwb.platform.SemanticProperty cptm_photoEscudoAlt=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#photoEscudoAlt");
    /**
    * Nombre del autor de la foto principal 
    */
@@ -18,30 +13,21 @@ public interface CptmgeneralDataBase extends org.semanticwb.model.GenericObject
    * Campo para capturar algún texto alterno para la foto, este es localizado 
    */
     public static final org.semanticwb.platform.SemanticProperty cptm_photoAlt=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#photoAlt");
+    public static final org.semanticwb.platform.SemanticProperty cptm_photoEscudo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#photoEscudo");
+    public static final org.semanticwb.platform.SemanticProperty cptm_photo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#photo");
+   /**
+   * Texto alterno para imagen de Escudo, localizable 
+   */
+    public static final org.semanticwb.platform.SemanticProperty cptm_photoEscudoAlt=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#photoEscudoAlt");
    /**
    * Clase generica para fotos 
    */
     public static final org.semanticwb.platform.SemanticClass cptm_Photo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Photo");
     public static final org.semanticwb.platform.SemanticProperty cptm_hasMorePhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasMorePhoto");
-    public static final org.semanticwb.platform.SemanticProperty cptm_photoEscudo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#photoEscudo");
    /**
    * Interface cptm 
    */
     public static final org.semanticwb.platform.SemanticClass cptm_CptmgeneralData=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#cptmgeneralData");
-
-    public String getPhoto();
-
-    public void setPhoto(String value);
-
-    public String getPhotoEscudoAlt();
-
-    public void setPhotoEscudoAlt(String value);
-
-    public String getPhotoEscudoAlt(String lang);
-
-    public String getDisplayPhotoEscudoAlt(String lang);
-
-    public void setPhotoEscudoAlt(String photoEscudoAlt, String lang);
 
     public String getPhotoAuthor();
 
@@ -56,6 +42,24 @@ public interface CptmgeneralDataBase extends org.semanticwb.model.GenericObject
     public String getDisplayPhotoAlt(String lang);
 
     public void setPhotoAlt(String photoAlt, String lang);
+
+    public String getPhotoEscudo();
+
+    public void setPhotoEscudo(String value);
+
+    public String getPhoto();
+
+    public void setPhoto(String value);
+
+    public String getPhotoEscudoAlt();
+
+    public void setPhotoEscudoAlt(String value);
+
+    public String getPhotoEscudoAlt(String lang);
+
+    public String getDisplayPhotoEscudoAlt(String lang);
+
+    public void setPhotoEscudoAlt(String photoEscudoAlt, String lang);
 
     public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Photo> listMorePhotos();
     public boolean hasMorePhoto(org.semanticwb.cptm.Photo value);
@@ -82,8 +86,4 @@ public interface CptmgeneralDataBase extends org.semanticwb.model.GenericObject
 * @return a instance of org.semanticwb.cptm.Photo
 */
     public org.semanticwb.cptm.Photo getMorePhoto();
-
-    public String getPhotoEscudo();
-
-    public void setPhotoEscudo(String value);
 }
