@@ -236,9 +236,9 @@ public class ScheduledEvents extends GenericResource{
              photo=SWBPortal.getWebWorkPath()+event.getWorkPath()+"/"+event.cptm_photoEscudo.getName()+"_"+event.getId()+"_"+event.getPhotoEscudo();
         }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat sd = new SimpleDateFormat("dd/MMMM/yyyy");
+        SimpleDateFormat sd = new SimpleDateFormat("dd/MM/yyyy");
         if(event.isIsRepeatable()) {
-            sd = new SimpleDateFormat("dd/MMMM");
+            sd = new SimpleDateFormat("dd/MM");
         }
         String dates = "";
         if(event.getEventInitDate() != null && event.getEventInitDate().length() > 1) {
@@ -263,7 +263,13 @@ public class ScheduledEvents extends GenericResource{
             objJSONData.put("url", url);
             objJSONData.put("title", SWBUtils.TEXT.encode(event.getTitle(paramRequest.getUser().getLanguage())==null?event.getTitle():event.getTitle(paramRequest.getUser().getLanguage()), SWBUtils.TEXT.CHARSET_UTF8));
             objJSONData.put("image", photo);
-            objJSONData.put("description", SWBUtils.TEXT.encode(event.getDescription()==null?"":event.getDescription(), SWBUtils.TEXT.CHARSET_UTF8));
+            String descr = "";
+            if(event.getDescription(paramRequest.getUser().getLanguage()) != null) {
+                descr = SWBUtils.TEXT.encode(event.getDescription(paramRequest.getUser().getLanguage()),SWBUtils.TEXT.CHARSET_UTF8);
+            } else if(event.getDescription() != null) {
+                descr = SWBUtils.TEXT.encode(event.getDescription(),SWBUtils.TEXT.CHARSET_UTF8);
+            }
+            objJSONData.put("description", descr);
             objJSONData.put("rdates", dates);
         } catch(Exception e) {
             log.error("Error while add the properties to Events: " + e);

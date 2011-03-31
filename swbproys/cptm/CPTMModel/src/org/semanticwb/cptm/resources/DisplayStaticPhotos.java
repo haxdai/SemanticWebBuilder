@@ -53,33 +53,61 @@ public class DisplayStaticPhotos extends GenericResource{
                 if (id != null) {
                     Event evento = Event.ClassMgr.getEvent(id, wp.getWebSite());
                     fotos = evento.listMorePhotos();
-                    while (fotos.hasNext() && (listImage.size() < 9)) {
+                    while (fotos.hasNext() && (listImage.size() < 8)) {
                         Photo objPhoto=(Photo)fotos.next();
-                        String image = objPhoto.getSemanticObject().getProperty(Photo.cptm_PhotoImage);//getDisplayTitle(user.getLanguage());
+                        String image = objPhoto.getPhotoImage();//getDisplayTitle(user.getLanguage());
                         if(image != null) {
                             image = SWBPortal.getWebWorkPath() + "/" +objPhoto.getWorkPath() + "/" + Photo.cptm_PhotoImage.getName()+"_" +objPhoto.getId()+"_"+objPhoto.getSemanticObject().getProperty(Photo.cptm_PhotoImage);
-                            String txtAlt =  objPhoto.getSemanticObject().getProperty(Photo.cptm_PhotoAlt) == null ? "" : objPhoto.getSemanticObject().getProperty(Photo.cptm_PhotoAlt);
+                            String txtAlt =  "";
+                            if(objPhoto.getPhotoAlt(paramRequest.getUser().getLanguage()) != null) {
+                                txtAlt = objPhoto.getPhotoAlt(paramRequest.getUser().getLanguage());
+                            } else if(objPhoto.getPhotoAlt() != null) {
+                                txtAlt = objPhoto.getPhotoAlt();
+                            }
                             String [] data = { image , txtAlt };
                             listImage.add(data);
                         }
                     }
                 }
             }
-        } else if (prop != null) { //&& !prop.isObjectProperty() && prop.getCardinality() != 1
+        } else if(wp instanceof CptmgeneralData) {
+            Iterator<Photo> it = ((CptmgeneralData) wp).listMorePhotos();
+            while(it.hasNext()&& (listImage.size() < 8)) {
+                Photo phot = it.next();
+                String image = phot.getPhotoImage();
+                if(image != null) {
+                    image = SWBPortal.getWebWorkPath() + "/" +phot.getWorkPath() + "/" + Photo.cptm_PhotoImage.getName()+"_" +phot.getId()+"_"+phot.getPhotoImage();
+                    String txtAlt =  "";
+                    if(phot.getPhotoAlt(paramRequest.getUser().getLanguage()) != null) {
+                        txtAlt = phot.getPhotoAlt(paramRequest.getUser().getLanguage());
+                    } else if(phot.getPhotoAlt() != null) {
+                        txtAlt = phot.getPhotoAlt();
+                    }
+                    String [] data = { image , txtAlt };
+                    listImage.add(data);
+                }
+            }
+        }
+        /*else if (prop != null) { //&& !prop.isObjectProperty() && prop.getCardinality() != 1
             Iterator<SemanticObject> lista = so.listObjectProperties(prop);//listLiteralProperties(prop);
+
             if (lista != null) {
-                while (lista.hasNext() && (listImage.size() < 9)) {
+                while (lista.hasNext() && (listImage.size() < 8)) {
                     SemanticObject lit = lista.next();
-                    String image = lit.getProperty(Photo.cptm_PhotoImage);
-                    if(image != null) {
-                        image = SWBPortal.getWebWorkPath() + "/" +lit.getWorkPath() + "/" + Photo.cptm_PhotoImage.getName()+"_" +lit.getId()+"_"+lit.getProperty(Photo.cptm_PhotoImage);
-                        String txtAlt =  lit.getProperty(Photo.cptm_PhotoAlt) == null ? "" : lit.getProperty(Photo.cptm_PhotoAlt);
-                        String [] data = { image , txtAlt };
-                        listImage.add(data);
+
+                    if(lit instanceof Photo) {
+                        Photo phot = (Photo)lit;
+                        String image = lit.getProperty(Photo.cptm_PhotoImage);
+                        if(image != null) {
+                            image = SWBPortal.getWebWorkPath() + "/" +lit.getWorkPath() + "/" + Photo.cptm_PhotoImage.getName()+"_" +lit.getId()+"_"+lit.getProperty(Photo.cptm_PhotoImage);
+                            String txtAlt =  lit.getProperty(Photo.cptm_PhotoAlt) == null ? "" : lit.getProperty(Photo.cptm_PhotoAlt);
+                            String [] data = { image , txtAlt };
+                            listImage.add(data);
+                        }
                     }
                 }
             }
-        } 
+        } */
 
         try {
             request.setAttribute("paramRequest", paramRequest);
