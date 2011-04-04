@@ -173,6 +173,7 @@ public class EventCalendar extends mx.gob.stps.portalempleo.swb.resources.base.E
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException  {
         PrintWriter out=response.getWriter();
+        Resource base = getResourceBase();
 
         Iterator<Event> itevents = Event.ClassMgr.listEvents(paramRequest.getWebPage().getWebSite());
         events = SWBUtils.Collections.copyIterator(itevents);
@@ -266,7 +267,7 @@ public class EventCalendar extends mx.gob.stps.portalempleo.swb.resources.base.E
 
         url.setCallMethod(paramRequest.Call_CONTENT).setMode("vall");
         out.println("<div class=\"bottom_calendario\">");
-        out.println(" <a style=\"float: right; margin: 10px 20px 0pt 0pt;\" href=\""+url+"\" class=\"links\">ver todos los eventos</a>");
+        out.println(" <a style=\"float: right; margin: 10px 20px 0pt 0pt;\" name=\"a_"+base.getId()+"\" href=\""+url+"#a_"+base.getId()+"\" class=\"links\">ver todos los eventos</a>");
         out.println("</div>");
     }
 
@@ -375,7 +376,9 @@ public class EventCalendar extends mx.gob.stps.portalempleo.swb.resources.base.E
         response.setContentType("text/html; charset=iso-8859-1");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
+
         PrintWriter out = response.getWriter();
+        Resource base = getResourceBase();
 
         Locale locale = new Locale("es","MX");
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MMMM/yyyy",locale);
@@ -397,6 +400,6 @@ public class EventCalendar extends mx.gob.stps.portalempleo.swb.resources.base.E
             out.println("</ul>");
         }
         SWBResourceURL url = paramRequest.getRenderUrl().setMode(paramRequest.Mode_VIEW);
-        out.println("<a href=\""+url+"\" title=\"Regresar\">Regresar</a>");
+        out.println("<a name=\"a_"+base.getId()+"\" href=\""+url+"#a_"+base.getId()+"\" title=\"Regresar\">Regresar</a>");
     }
 }
