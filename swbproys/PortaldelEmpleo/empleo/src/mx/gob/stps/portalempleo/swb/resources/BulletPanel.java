@@ -3,9 +3,11 @@ package mx.gob.stps.portalempleo.swb.resources;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
@@ -44,18 +46,17 @@ public class BulletPanel  extends GenericResource {
         String lang=user.getLanguage();
         WebSite wsite = paramRequest.getWebPage().getWebSite();
 
-        //List<WebPage>channels = SWBUtils.Collections.copyIterator(wsite.getHomePage().listChilds(lang, true, false, false, true));
         String tpcId = request.getParameter("tpc");
         WebPage channel = wsite.getWebPage(tpcId);
         if(channel==null) {
             try {
-                channel = channels.get(0);
+                Random r = new Random((new Date()).getTime());
+                channel = channels.get(r.nextInt(channels.size()));
             }catch(IndexOutOfBoundsException iobe) {
                 out.println("No existen canales disponibles");
                 return;
             }
         }
-        //channels.remove(channel);
 
         out.println("<script type=\"text/javascript\">");
         out.println("<!--");
@@ -72,7 +73,7 @@ public class BulletPanel  extends GenericResource {
             for(int i=0; i<5 && childs.hasNext(); i++) {
                 wpage = childs.next();
                 if(user.haveAccess(wpage)) {
-                    out.println("<li><a href=\""+wpage.getRealUrl(lang)+"\">"+wpage.getDisplayTitle(lang)+"</a></li>");
+                    out.println("<li><a href=\""+wpage.getUrl()+"\">"+wpage.getDisplayTitle(lang)+"</a></li>");
                 }
             }
             out.println(" </ul>");
@@ -83,11 +84,13 @@ public class BulletPanel  extends GenericResource {
         out.println("<ul class=\"nav_caja\">");
         for(WebPage wp:channels) {
             url.setParameter("tpc", wp.getId());
-            //out.println("<li><a href=\"#\" onclick=\"postHtml('"+url+"','caja')\" title=\"ir a "+wp.getDisplayTitle(lang)+"\">"+wp.getId()+"</a></li>");
-            out.println("<li><a href=\"javascript:postHtml('"+url+"','caja')\" title=\"ir a "+wp.getDisplayTitle(lang)+"\">"+wp.getId()+"</a></li>");
+            if(wp==channel)
+                out.println("<li class=\"seleccionado\">"+wp.getId()+"</li>");
+            else
+                out.println("<li><a href=\"javascript:postHtml('"+url+"','caja')\" title=\"ir a "+wp.getDisplayTitle(lang)+"\">"+wp.getId()+"</a></li>");
         }
         out.println("</ul>");
-        out.println("<a href=\""+channel.getRealUrl(lang)+"\" class=\"ver_mas_1\" >Ver m&aacute;s</a>");
+        out.println("<a href=\""+channel.getUrl()+"\" class=\"ver_mas_1\" >Ver m&aacute;s</a>");
         out.println("</div>");
     }
 
@@ -107,7 +110,8 @@ public class BulletPanel  extends GenericResource {
         WebPage channel = wsite.getWebPage(tpcId);
         if(channel==null) {
             try {
-                channel = channels.get(0);
+                Random r = new Random((new Date()).getTime());
+                channel = channels.get(r.nextInt(channels.size()));
             }catch(IndexOutOfBoundsException iobe) {
                 out.println("No existen canales disponibles");
                 return;
@@ -124,7 +128,7 @@ public class BulletPanel  extends GenericResource {
             for(int i=0; i<5 && childs.hasNext(); i++) {
                 wpage = childs.next();
                 if(user.haveAccess(wpage)) {
-                    out.println("<li><a href=\""+wpage.getRealUrl(lang)+"\">"+wpage.getDisplayTitle(lang)+"</a></li>");
+                    out.println("<li><a href=\""+wpage.getUrl()+"\">"+wpage.getDisplayTitle(lang)+"</a></li>");
                 }
             }
             out.println(" </ul>");
@@ -135,10 +139,12 @@ public class BulletPanel  extends GenericResource {
         out.println("<ul class=\"nav_caja\">");
         for(WebPage wp:channels) {
             url.setParameter("tpc", wp.getId());
-            //out.println("<li><a href=\"#\" onclick=\"postHtml('"+url+"','caja')\" title=\"ir a "+wp.getDisplayTitle(lang)+"\">"+wp.getId()+"</a></li>");
-            out.println("<li><a href=\"javascript:postHtml('"+url+"','caja')\" title=\"ir a "+wp.getDisplayTitle(lang)+"\">"+wp.getId()+"</a></li>");
+            if(wp==channel)
+                out.println("<li class=\"seleccionado\">"+wp.getId()+"</li>");
+            else
+                out.println("<li><a href=\"javascript:postHtml('"+url+"','caja')\" title=\"ir a "+wp.getDisplayTitle(lang)+"\">"+wp.getId()+"</a></li>");
         }
         out.println("</ul>");
-        out.println("<a href=\""+channel.getRealUrl(lang)+"\" class=\"ver_mas_1\" >Ver m&aacute;s</a>");
+        out.println("<a href=\""+channel.getUrl()+"\" class=\"ver_mas_1\" >Ver m&aacute;s</a>");
     }
 }

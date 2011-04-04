@@ -183,7 +183,6 @@ public class EventCalendar extends mx.gob.stps.portalempleo.swb.resources.base.E
         GregorianCalendar gc = new GregorianCalendar(locale);
         boolean hasAhead=false, hasBehind=false;
 
-System.out.println("m="+request.getParameter("m"));
         MonthOfYear moy;
         if(request.getParameter("m")==null) {
             try {
@@ -205,27 +204,21 @@ System.out.println("m="+request.getParameter("m"));
             }
         }
         int m = moy.ordinal();
-System.out.println("moy="+moy.getDescription()+"-"+moy.ordinal());
 
         gc = new GregorianCalendar(gc.get(Calendar.YEAR),m,1,0,0,0);
         Date di = gc.getTime();
-System.out.println("di="+di);
         gc = new GregorianCalendar(gc.get(Calendar.YEAR),m,gc.getActualMaximum(Calendar.DAY_OF_MONTH),23,59,59);
         Date df = gc.getTime();
-System.out.println("df="+df);
         //int i=0;
         ArrayList<Event> eventsOnMonth  = new ArrayList();
         for(int i=0,j=0; i<3 && j<events.size(); j++) {
             Event event = events.get(j);
             Date expiration = event.getExpiration();
             if(expiration.before(di)) {
-System.out.println("evento "+event.getDisplayTitle("es")+" expiro el "+expiration);
                 continue;
             }else {
                 try {
                     while(i<3 && i<events.size() && event.getExpiration().after(di) && event.getExpiration().before(df)) {
-System.out.println("w. evento "+event.getDisplayTitle("es")+" expirara el "+expiration);
-System.out.println("w. i="+i);
                         eventsOnMonth.add(event);
                         i++;
                         event = events.get(i);
@@ -246,7 +239,7 @@ System.out.println("w. i="+i);
         out.println(" dojo.require('dijit.dijit');");
         out.println("-->");
         out.println("</script>");
-        SWBResourceURL url = paramRequest.getRenderUrl().setMode("roll").setCallMethod(paramRequest.Call_DIRECT);
+        SWBResourceURL url = paramRequest.getRenderUrl().setCallMethod(paramRequest.Call_DIRECT).setMode("roll");
         out.println("<div id=\"calendario_eventos\">");
         out.println(" <div id=\"mes\">");
         out.println("  <h3>"+moy.getDescription()+"</h3>");
@@ -268,8 +261,10 @@ System.out.println("w. i="+i);
             out.println("  <span class=\"dia_calendario\">"+sdf.format(event.getExpiration())+"</span><p><a href=\""+event.getRealUrl()+"\">"+event.getTitle()+"</a></p>");
             out.println(" </div>");
         }
-        url.setMode("vall").setCallMethod(paramRequest.Call_CONTENT);
+        //url.setMode("vall").setCallMethod(paramRequest.Call_CONTENT);
         out.println("</div>");
+
+        url.setCallMethod(paramRequest.Call_CONTENT).setMode("vall");
         out.println("<div class=\"bottom_calendario\">");
         out.println(" <a style=\"float: right; margin: 10px 20px 0pt 0pt;\" href=\""+url+"\" class=\"links\">ver todos los eventos</a>");
         out.println("</div>");
@@ -291,7 +286,6 @@ System.out.println("w. i="+i);
         GregorianCalendar gc = new GregorianCalendar(locale);
         boolean hasAhead=false, hasBehind=false;
 
-System.out.println("m="+request.getParameter("m"));
         MonthOfYear moy;
         if(request.getParameter("m")==null) {
             try {
@@ -313,27 +307,21 @@ System.out.println("m="+request.getParameter("m"));
             }
         }
         int m = moy.ordinal();
-System.out.println("moy="+moy.getDescription()+"-"+moy.ordinal());
 
         gc = new GregorianCalendar(gc.get(Calendar.YEAR),m,1,0,0,0);
         Date di = gc.getTime();
-System.out.println("di="+di);
         gc = new GregorianCalendar(gc.get(Calendar.YEAR),m,gc.getActualMaximum(Calendar.DAY_OF_MONTH),23,59,59);
         Date df = gc.getTime();
-System.out.println("df="+df);
         //int i=0;
         ArrayList<Event> eventsOnMonth  = new ArrayList();
         for(int i=0,j=0; i<3 && j<events.size(); j++) {
             Event event = events.get(j);
             Date expiration = event.getExpiration();
             if(expiration.before(di)) {
-System.out.println("evento "+event.getDisplayTitle("es")+" expiro el "+expiration);
                 continue;
             }else {
                 try {
                     while(i<3 && i<events.size() && event.getExpiration().after(di) && event.getExpiration().before(df)) {
-System.out.println("w. evento "+event.getDisplayTitle("es")+" expirara el "+expiration);
-System.out.println("w. i="+i);
                         eventsOnMonth.add(event);
                         i++;
                         event = events.get(i);
@@ -354,7 +342,7 @@ System.out.println("w. i="+i);
         out.println(" dojo.require('dijit.dijit');");
         out.println("-->");
         out.println("</script>");
-        SWBResourceURL url = paramRequest.getRenderUrl().setMode("roll").setCallMethod(paramRequest.Call_DIRECT);
+        SWBResourceURL url = paramRequest.getRenderUrl().setCallMethod(paramRequest.Call_DIRECT).setMode("roll");
 //        out.println("<div id=\"calendario_eventos\">");
         out.println(" <div id=\"mes\">");
         out.println("  <h3>"+moy.getDescription()+"</h3>");
@@ -384,7 +372,10 @@ System.out.println("w. i="+i);
     }
 
     public void doViewAll(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException  {
-        PrintWriter out=response.getWriter();
+        response.setContentType("text/html; charset=iso-8859-1");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
+        PrintWriter out = response.getWriter();
 
         Locale locale = new Locale("es","MX");
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MMMM/yyyy",locale);
@@ -393,15 +384,19 @@ System.out.println("w. i="+i);
         events = SWBUtils.Collections.copyIterator(itevents);
         Collections.sort(events, new Event.EventSortByExpiration());
         itevents = events.iterator();
-        out.println("<ul>");
-        while(itevents.hasNext()) {
-            Event event = itevents.next();
-            out.println("<li>");
-            out.println("<p><a href=\""+event.getRealUrl()+"\">"+event.getTitle()+"</a></p>");
-            out.println("<p>"+event.getDescription()+"</p>");
-            out.println("<p>"+sdf.format(event.getExpiration())+"</p>");
-            out.println("</li>");
+        if(itevents.hasNext()) {
+            out.println("<ul>");
+            while(itevents.hasNext()) {
+                Event event = itevents.next();
+                out.println("<li>");
+                out.println("<p><a href=\""+event.getRealUrl()+"\">"+event.getTitle()+"</a></p>");
+                out.println("<p>"+event.getDescription()+"</p>");
+                out.println("<p>"+sdf.format(event.getExpiration())+"</p>");
+                out.println("</li>");
+            }
+            out.println("</ul>");
         }
-        out.println("</ul>");
+        SWBResourceURL url = paramRequest.getRenderUrl().setMode(paramRequest.Mode_VIEW);
+        out.println("<a href=\""+url+"\" title=\"Regresar\">Regresar</a>");
     }
 }
