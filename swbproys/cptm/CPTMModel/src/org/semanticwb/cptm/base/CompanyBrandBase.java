@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Clase se administra el catálogo de Marcas de Empresas 
    */
-public abstract class CompanyBrandBase extends org.semanticwb.cptm.GeneralCompany implements org.semanticwb.model.Resourceable,org.semanticwb.model.Searchable,org.semanticwb.model.Tagable,org.semanticwb.model.Traceable,org.semanticwb.portal.community.Addressable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Geolocalizable,org.semanticwb.model.Indexable
+public abstract class CompanyBrandBase extends org.semanticwb.cptm.GeneralCompany implements org.semanticwb.model.Searchable,org.semanticwb.model.Indexable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Geolocalizable,org.semanticwb.model.Tagable,org.semanticwb.model.Resourceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,org.semanticwb.portal.community.Addressable
 {
    /**
    * Clase que administra el catálogo de Cadenas de Empresas
@@ -155,6 +155,29 @@ public abstract class CompanyBrandBase extends org.semanticwb.cptm.GeneralCompan
         public static java.util.Iterator<org.semanticwb.cptm.CompanyBrand> listCompanyBrandByBrandCompanyChain(org.semanticwb.cptm.CompanyChain value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CompanyBrand> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_brandCompanyChain,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.CompanyBrand with a determined CompanyType
+       * @param value CompanyType of the type org.semanticwb.cptm.CompanyType
+       * @param model Model of the org.semanticwb.cptm.CompanyBrand
+       * @return Iterator with all the org.semanticwb.cptm.CompanyBrand
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CompanyBrand> listCompanyBrandByCompanyType(org.semanticwb.cptm.CompanyType value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CompanyBrand> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasCompanyType, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.CompanyBrand with a determined CompanyType
+       * @param value CompanyType of the type org.semanticwb.cptm.CompanyType
+       * @return Iterator with all the org.semanticwb.cptm.CompanyBrand
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CompanyBrand> listCompanyBrandByCompanyType(org.semanticwb.cptm.CompanyType value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CompanyBrand> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasCompanyType,value.getSemanticObject(),sclass));
             return it;
         }
        /**

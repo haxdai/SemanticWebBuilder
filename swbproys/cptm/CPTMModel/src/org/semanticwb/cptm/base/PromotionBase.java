@@ -1,13 +1,15 @@
 package org.semanticwb.cptm.base;
 
 
-public abstract class PromotionBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Calendarable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Descriptiveable
+public abstract class PromotionBase extends org.semanticwb.model.SWBClass implements org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Calendarable,org.semanticwb.model.Descriptiveable
 {
+    public static final org.semanticwb.platform.SemanticProperty cptm_URLTargetPromotion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#URLTargetPromotion");
    /**
    * Clase principal del sistema de visit-méxico. Una instancia de esta clase es en donde se almacena toda la información de un proveedor de servicios especifico.
    */
     public static final org.semanticwb.platform.SemanticClass cptm_Company=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Company");
     public static final org.semanticwb.platform.SemanticProperty cptm_hasPromoCompany=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasPromoCompany");
+    public static final org.semanticwb.platform.SemanticProperty cptm_URLpromotion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#URLpromotion");
    /**
    * Interface para datos generales de Cadenas, Marcas y Empresas
    */
@@ -186,6 +188,39 @@ public abstract class PromotionBase extends org.semanticwb.model.SWBClass implem
     }
 
 /**
+* Gets the CptmAbstractDescription property
+* @return String with the CptmAbstractDescription
+*/
+    public String getCptmAbstractDescription()
+    {
+        return getSemanticObject().getProperty(cptm_cptmAbstractDescription);
+    }
+
+/**
+* Sets the CptmAbstractDescription property
+* @param value long with the CptmAbstractDescription
+*/
+    public void setCptmAbstractDescription(String value)
+    {
+        getSemanticObject().setProperty(cptm_cptmAbstractDescription, value);
+    }
+
+    public String getCptmAbstractDescription(String lang)
+    {
+        return getSemanticObject().getProperty(cptm_cptmAbstractDescription, null, lang);
+    }
+
+    public String getDisplayCptmAbstractDescription(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(cptm_cptmAbstractDescription, lang);
+    }
+
+    public void setCptmAbstractDescription(String cptmAbstractDescription, String lang)
+    {
+        getSemanticObject().setProperty(cptm_cptmAbstractDescription, cptmAbstractDescription, lang);
+    }
+
+/**
 * Gets the PhotoAuthor property
 * @return String with the PhotoAuthor
 */
@@ -201,6 +236,24 @@ public abstract class PromotionBase extends org.semanticwb.model.SWBClass implem
     public void setPhotoAuthor(String value)
     {
         getSemanticObject().setProperty(cptm_photoAuthor, value);
+    }
+
+/**
+* Gets the URLTargetPromotion property
+* @return String with the URLTargetPromotion
+*/
+    public String getURLTargetPromotion()
+    {
+        return getSemanticObject().getProperty(cptm_URLTargetPromotion);
+    }
+
+/**
+* Sets the URLTargetPromotion property
+* @param value long with the URLTargetPromotion
+*/
+    public void setURLTargetPromotion(String value)
+    {
+        getSemanticObject().setProperty(cptm_URLTargetPromotion, value);
     }
 
 /**
@@ -317,6 +370,24 @@ public abstract class PromotionBase extends org.semanticwb.model.SWBClass implem
              ret=(org.semanticwb.cptm.Company)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the URLpromotion property
+* @return String with the URLpromotion
+*/
+    public String getURLpromotion()
+    {
+        return getSemanticObject().getProperty(cptm_URLpromotion);
+    }
+
+/**
+* Sets the URLpromotion property
+* @param value long with the URLpromotion
+*/
+    public void setURLpromotion(String value)
+    {
+        getSemanticObject().setProperty(cptm_URLpromotion, value);
     }
 
 /**

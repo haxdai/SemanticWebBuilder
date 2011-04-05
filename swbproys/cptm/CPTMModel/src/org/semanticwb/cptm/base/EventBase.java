@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Eventos. 
    */
-public abstract class EventBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Resourceable,org.semanticwb.model.Searchable,org.semanticwb.model.Tagable,org.semanticwb.model.Traceable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Descriptiveable
+public abstract class EventBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Searchable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Tagable,org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticProperty cptm_eventLeadingPhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#eventLeadingPhoto");
    /**
@@ -461,6 +461,39 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
     public void setEventInitDate(String value)
     {
         getSemanticObject().setProperty(cptm_eventInitDate, value);
+    }
+
+/**
+* Gets the CptmAbstractDescription property
+* @return String with the CptmAbstractDescription
+*/
+    public String getCptmAbstractDescription()
+    {
+        return getSemanticObject().getProperty(cptm_cptmAbstractDescription);
+    }
+
+/**
+* Sets the CptmAbstractDescription property
+* @param value long with the CptmAbstractDescription
+*/
+    public void setCptmAbstractDescription(String value)
+    {
+        getSemanticObject().setProperty(cptm_cptmAbstractDescription, value);
+    }
+
+    public String getCptmAbstractDescription(String lang)
+    {
+        return getSemanticObject().getProperty(cptm_cptmAbstractDescription, null, lang);
+    }
+
+    public String getDisplayCptmAbstractDescription(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(cptm_cptmAbstractDescription, lang);
+    }
+
+    public void setCptmAbstractDescription(String cptmAbstractDescription, String lang)
+    {
+        getSemanticObject().setProperty(cptm_cptmAbstractDescription, cptmAbstractDescription, lang);
     }
 
 /**

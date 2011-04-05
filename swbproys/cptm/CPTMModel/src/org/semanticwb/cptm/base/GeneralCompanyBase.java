@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Interface para datos generales de Cadenas, Marcas y Empresas 
    */
-public abstract class GeneralCompanyBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Resourceable,org.semanticwb.model.Searchable,org.semanticwb.model.Tagable,org.semanticwb.model.Traceable,org.semanticwb.portal.community.Addressable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Geolocalizable,org.semanticwb.model.Indexable
+public abstract class GeneralCompanyBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Searchable,org.semanticwb.model.Indexable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Geolocalizable,org.semanticwb.model.Tagable,org.semanticwb.model.Resourceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,org.semanticwb.portal.community.Addressable
 {
     public static final org.semanticwb.platform.SemanticClass cptm_CompanyLine=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#CompanyLine");
     public static final org.semanticwb.platform.SemanticProperty cptm_hasCompanyLine=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasCompanyLine");
@@ -13,6 +13,8 @@ public abstract class GeneralCompanyBase extends org.semanticwb.model.SWBClass i
    * Promociones de la Compañia
    */
     public static final org.semanticwb.platform.SemanticProperty cptm_hasPromotion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasPromotion");
+    public static final org.semanticwb.platform.SemanticClass cptm_CompanyType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#CompanyType");
+    public static final org.semanticwb.platform.SemanticProperty cptm_hasCompanyType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasCompanyType");
    /**
    * Interfaz que define propiedades en comun para un Punto Geografico y una Marca Regional
    */
@@ -134,6 +136,29 @@ public abstract class GeneralCompanyBase extends org.semanticwb.model.SWBClass i
         public static java.util.Iterator<org.semanticwb.cptm.GeneralCompany> listGeneralCompanyByPromotion(org.semanticwb.cptm.Promotion value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.GeneralCompany> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasPromotion,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.GeneralCompany with a determined CompanyType
+       * @param value CompanyType of the type org.semanticwb.cptm.CompanyType
+       * @param model Model of the org.semanticwb.cptm.GeneralCompany
+       * @return Iterator with all the org.semanticwb.cptm.GeneralCompany
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.GeneralCompany> listGeneralCompanyByCompanyType(org.semanticwb.cptm.CompanyType value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.GeneralCompany> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasCompanyType, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.GeneralCompany with a determined CompanyType
+       * @param value CompanyType of the type org.semanticwb.cptm.CompanyType
+       * @return Iterator with all the org.semanticwb.cptm.GeneralCompany
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.GeneralCompany> listGeneralCompanyByCompanyType(org.semanticwb.cptm.CompanyType value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.GeneralCompany> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasCompanyType,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -344,6 +369,39 @@ public abstract class GeneralCompanyBase extends org.semanticwb.model.SWBClass i
          }
          return ret;
     }
+
+/**
+* Gets the CptmAbstractDescription property
+* @return String with the CptmAbstractDescription
+*/
+    public String getCptmAbstractDescription()
+    {
+        return getSemanticObject().getProperty(cptm_cptmAbstractDescription);
+    }
+
+/**
+* Sets the CptmAbstractDescription property
+* @param value long with the CptmAbstractDescription
+*/
+    public void setCptmAbstractDescription(String value)
+    {
+        getSemanticObject().setProperty(cptm_cptmAbstractDescription, value);
+    }
+
+    public String getCptmAbstractDescription(String lang)
+    {
+        return getSemanticObject().getProperty(cptm_cptmAbstractDescription, null, lang);
+    }
+
+    public String getDisplayCptmAbstractDescription(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(cptm_cptmAbstractDescription, lang);
+    }
+
+    public void setCptmAbstractDescription(String cptmAbstractDescription, String lang)
+    {
+        getSemanticObject().setProperty(cptm_cptmAbstractDescription, cptmAbstractDescription, lang);
+    }
    /**
    * Gets all the org.semanticwb.cptm.Promotion
    * @return A GenericIterator with all the org.semanticwb.cptm.Promotion
@@ -495,6 +553,71 @@ public abstract class GeneralCompanyBase extends org.semanticwb.model.SWBClass i
     public void setPhotoAlt(String photoAlt, String lang)
     {
         getSemanticObject().setProperty(cptm_photoAlt, photoAlt, lang);
+    }
+   /**
+   * Gets all the org.semanticwb.cptm.CompanyType
+   * @return A GenericIterator with all the org.semanticwb.cptm.CompanyType
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CompanyType> listCompanyTypes()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CompanyType>(getSemanticObject().listObjectProperties(cptm_hasCompanyType));
+    }
+
+   /**
+   * Gets true if has a CompanyType
+   * @param value org.semanticwb.cptm.CompanyType to verify
+   * @return true if the org.semanticwb.cptm.CompanyType exists, false otherwise
+   */
+    public boolean hasCompanyType(org.semanticwb.cptm.CompanyType value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(cptm_hasCompanyType,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a CompanyType
+   * @param value org.semanticwb.cptm.CompanyType to add
+   */
+
+    public void addCompanyType(org.semanticwb.cptm.CompanyType value)
+    {
+        getSemanticObject().addObjectProperty(cptm_hasCompanyType, value.getSemanticObject());
+    }
+   /**
+   * Removes all the CompanyType
+   */
+
+    public void removeAllCompanyType()
+    {
+        getSemanticObject().removeProperty(cptm_hasCompanyType);
+    }
+   /**
+   * Removes a CompanyType
+   * @param value org.semanticwb.cptm.CompanyType to remove
+   */
+
+    public void removeCompanyType(org.semanticwb.cptm.CompanyType value)
+    {
+        getSemanticObject().removeObjectProperty(cptm_hasCompanyType,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the CompanyType
+   * @return a org.semanticwb.cptm.CompanyType
+   */
+    public org.semanticwb.cptm.CompanyType getCompanyType()
+    {
+         org.semanticwb.cptm.CompanyType ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasCompanyType);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.cptm.CompanyType)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
