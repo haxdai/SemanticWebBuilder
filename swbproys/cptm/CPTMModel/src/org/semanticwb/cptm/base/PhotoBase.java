@@ -7,13 +7,13 @@ package org.semanticwb.cptm.base;
 public abstract class PhotoBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable
 {
    /**
-   * Texto Alterno de la Foto
-   */
-    public static final org.semanticwb.platform.SemanticProperty cptm_PhotoAlt=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#PhotoAlt");
-   /**
    * Imagen de la foto
    */
     public static final org.semanticwb.platform.SemanticProperty cptm_PhotoImage=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#PhotoImage");
+   /**
+   * Texto Alterno de la Foto
+   */
+    public static final org.semanticwb.platform.SemanticProperty cptm_PhotoAlt=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#PhotoAlt");
    /**
    * Clase generica para fotos
    */
@@ -95,6 +95,24 @@ public abstract class PhotoBase extends org.semanticwb.model.SWBClass implements
     public PhotoBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+/**
+* Gets the PhotoImage property
+* @return String with the PhotoImage
+*/
+    public String getPhotoImage()
+    {
+        return getSemanticObject().getProperty(cptm_PhotoImage);
+    }
+
+/**
+* Sets the PhotoImage property
+* @param value long with the PhotoImage
+*/
+    public void setPhotoImage(String value)
+    {
+        getSemanticObject().setProperty(cptm_PhotoImage, value);
     }
 
 /**
@@ -194,23 +212,5 @@ public abstract class PhotoBase extends org.semanticwb.model.SWBClass implements
     public void setDescription(String description, String lang)
     {
         getSemanticObject().setProperty(swb_description, description, lang);
-    }
-
-/**
-* Gets the PhotoImage property
-* @return String with the PhotoImage
-*/
-    public String getPhotoImage()
-    {
-        return getSemanticObject().getProperty(cptm_PhotoImage);
-    }
-
-/**
-* Sets the PhotoImage property
-* @param value long with the PhotoImage
-*/
-    public void setPhotoImage(String value)
-    {
-        getSemanticObject().setProperty(cptm_PhotoImage, value);
     }
 }

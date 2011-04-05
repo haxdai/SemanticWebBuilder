@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que hereda de swb:WebSite. Es un tipo de website para CPTM. De esta manera se puede contar con todos los elementos en el arbol de navegación en la administración, y otros elementos utiles para CPTM. 
    */
-public abstract class CPTMWebSiteBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.Trashable,org.semanticwb.model.Filterable,org.semanticwb.model.OntologyDepable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Indexable,org.semanticwb.model.Traceable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Activeable,org.semanticwb.model.Countryable,org.semanticwb.model.Localeable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Descriptiveable
+public abstract class CPTMWebSiteBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.Indexable,org.semanticwb.model.Filterable,org.semanticwb.model.Trashable,org.semanticwb.model.Undeleteable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.model.OntologyDepable,org.semanticwb.model.Localeable,org.semanticwb.model.Countryable,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable
 {
    /**
    * Clase que hereda de WebPage.Mediante esta se administra el catálogo de Estados de la República (Ej. Tamaulipas, Morelos)
@@ -35,6 +35,7 @@ public abstract class CPTMWebSiteBase extends org.semanticwb.model.WebSite imple
    * Clase que se encarga de administrar el Catálogo de secciones que se despliegan en el menú "Como Viajar".
    */
     public static final org.semanticwb.platform.SemanticClass cptm_How2Travel=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#How2Travel");
+    public static final org.semanticwb.platform.SemanticClass cptm_EditNoteBase=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#EditNoteBase");
    /**
    * Objeto que se encarga de administrar el catálogo de Canales del sitio (Ej. Destinos, Actividades).
    */
@@ -73,7 +74,7 @@ public abstract class CPTMWebSiteBase extends org.semanticwb.model.WebSite imple
    */
     public static final org.semanticwb.platform.SemanticClass cptm_ActivityRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#ActivityRef");
    /**
-   * Páginas web para CPTM, que contienen Otros datos (Fotos)
+   * Páginas web para Puntos Geográficos, se agrego esta clase para que solo se pudieran agregar Puntos geográficos en un elemento de tipo "Estado/State"
    */
     public static final org.semanticwb.platform.SemanticClass cptm_CPTMWebPage=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#CPTMWebPage");
    /**
@@ -619,6 +620,30 @@ public abstract class CPTMWebSiteBase extends org.semanticwb.model.WebSite imple
     public boolean hasHow2Travel(String id)
     {
         return org.semanticwb.cptm.How2Travel.ClassMgr.hasHow2Travel(id, this);
+    }
+
+    public org.semanticwb.cptm.EditNoteBase getEditNoteBase(String id)
+    {
+        return org.semanticwb.cptm.EditNoteBase.ClassMgr.getEditNoteBase(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.cptm.EditNoteBase> listEditNoteBases()
+    {
+        return org.semanticwb.cptm.EditNoteBase.ClassMgr.listEditNoteBases(this);
+    }
+
+    public org.semanticwb.cptm.EditNoteBase createEditNoteBase(String id)
+    {
+        return org.semanticwb.cptm.EditNoteBase.ClassMgr.createEditNoteBase(id,this);
+    }
+
+    public void removeEditNoteBase(String id)
+    {
+        org.semanticwb.cptm.EditNoteBase.ClassMgr.removeEditNoteBase(id, this);
+    }
+    public boolean hasEditNoteBase(String id)
+    {
+        return org.semanticwb.cptm.EditNoteBase.ClassMgr.hasEditNoteBase(id, this);
     }
 
     public org.semanticwb.cptm.Canal getCanal(String id)

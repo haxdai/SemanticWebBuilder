@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Clase principal del sistema de visit-méxico. Una instancia de esta clase es en donde se almacena toda la información de un proveedor de servicios especifico. 
    */
-public abstract class CompanyBase extends org.semanticwb.cptm.GeneralCompany implements org.semanticwb.model.Resourceable,org.semanticwb.model.Expirable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Geolocalizable,org.semanticwb.model.Indexable,org.semanticwb.model.Searchable,org.semanticwb.model.Tagable,org.semanticwb.model.Traceable,org.semanticwb.portal.community.Addressable,org.semanticwb.model.Localeable,org.semanticwb.model.Descriptiveable
+public abstract class CompanyBase extends org.semanticwb.cptm.GeneralCompany implements org.semanticwb.model.Indexable,org.semanticwb.model.Searchable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Tagable,org.semanticwb.model.Resourceable,org.semanticwb.portal.community.Addressable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Geolocalizable,org.semanticwb.model.Localeable,org.semanticwb.model.Expirable,org.semanticwb.model.Traceable
 {
    /**
    * Experiencia en un específico "Destino", si le quisiera agregar un Directorio de empresas aqui, tendría que tener una relación además de con el Destino, con el objeto  SPType
@@ -160,6 +160,29 @@ public abstract class CompanyBase extends org.semanticwb.cptm.GeneralCompany imp
         public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByPromotion(org.semanticwb.cptm.Promotion value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasPromotion,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.Company with a determined CompanyType
+       * @param value CompanyType of the type org.semanticwb.cptm.CompanyType
+       * @param model Model of the org.semanticwb.cptm.Company
+       * @return Iterator with all the org.semanticwb.cptm.Company
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByCompanyType(org.semanticwb.cptm.CompanyType value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasCompanyType, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.Company with a determined CompanyType
+       * @param value CompanyType of the type org.semanticwb.cptm.CompanyType
+       * @return Iterator with all the org.semanticwb.cptm.Company
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.Company> listCompanyByCompanyType(org.semanticwb.cptm.CompanyType value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Company> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasCompanyType,value.getSemanticObject(),sclass));
             return it;
         }
        /**
