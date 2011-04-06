@@ -7,4 +7,5 @@ public class Event extends mx.gob.stps.portalempleo.swb.resources.base.EventBase
     {
         super(base);
     }
+
 }
