@@ -2,21 +2,16 @@ package mx.gob.stps.portalempleo.swb.resources;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Random;
-import java.util.Set;
-import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.User;
-import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.portal.api.GenericResource;
@@ -26,17 +21,19 @@ import org.semanticwb.portal.api.SWBResourceURL;
 
 public class BulletPanel  extends GenericResource {
     private static Logger log = SWBUtils.getLogger(MostVisited.class);
-    private List<WebPage>channels;
+    //private List<WebPage>channels;
 
     @Override
     public void setResourceBase(Resource base) throws SWBResourceException {
         super.setResourceBase(base);
-        channels = SWBUtils.Collections.copyIterator(base.getWebSite().getHomePage().listChilds(null, true, false, false, true));
+        //channels = SWBUtils.Collections.copyIterator(base.getWebSite().getHomePage().listChilds(null, true, false, false, true));
     }
 
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+
+        List<WebPage> channels = SWBUtils.Collections.copyIterator(paramRequest.getWebPage().getWebSite().getHomePage().listChilds(null, true, false, false, true));
         response.setContentType("text/html; charset=iso-8859-1");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
@@ -96,6 +93,7 @@ public class BulletPanel  extends GenericResource {
 
     @Override
     public void doIndex(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        List<WebPage> channels = SWBUtils.Collections.copyIterator(paramRequest.getWebPage().getWebSite().getHomePage().listChilds(null, true, false, false, true));
         response.setContentType("text/html; charset=iso-8859-1");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
