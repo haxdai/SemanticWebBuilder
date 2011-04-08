@@ -2,18 +2,16 @@ package mx.gob.stps.portalempleo.swb.resources;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.Iterator;
-import java.util.Set;
 import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
-import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.Resource;
-import org.semanticwb.model.User;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.portal.api.GenericResource;
@@ -26,7 +24,7 @@ public class Recommended extends GenericResource {
     private static Logger log = SWBUtils.getLogger(Recommended.class);
     private static final String Action_UPDATE = "updt";
     private String strRscType;
-
+    
     @Override
     public void init(){
         Resource base = getResourceBase();
@@ -56,10 +54,37 @@ public class Recommended extends GenericResource {
         WebSite model = base.getWebSite();
 
         Iterator<String> attrnames = base.getAttributeNames();
-        out.println("<div class=\"relacionados\">");
-        out.println("<h4>Recomendaciones</h4>");
-        out.println("<ul>");
+        
+
+        ArrayList<WebPage> pages=new ArrayList<WebPage>();
+
         while(attrnames.hasNext()) {
+            String wpid = attrnames.next();
+            if(wpid.startsWith("swp"))
+                continue;
+            WebPage wp = model.getWebPage(base.getAttribute(wpid));
+            if(wp==null) {
+                log.warn(strRscType+" con id="+base.getId()+". El identificador "+wpid+" no corresponde a ninguna página web");
+                continue;
+            }
+            if(wp.isValid())
+                pages.add(wp);
+        }
+        if(pages.size()>0)
+        {            
+            out.println("<div class=\"relacionados\">");
+            out.println("<h4>Recomendaciones</h4>");
+            out.println("<ul>");
+            for(WebPage wp : pages)
+            {
+                out.println("<li><a href=\""+wp.getRealUrl()+"\" title=\"ir a "+wp.getDisplayTitle(lang)+"\">"+wp.getDisplayTitle(lang)+"</a></li>");
+            }
+            out.println("</ul>");
+            out.println("</div>");
+        }
+
+
+        /*while(attrnames.hasNext()) {
             String wpid = attrnames.next();
             if(wpid.startsWith("swp"))
                 continue;
@@ -70,9 +95,8 @@ public class Recommended extends GenericResource {
             }
             out.println("<li><a href=\""+wp.getRealUrl()+"\" title=\"ir a "+wp.getDisplayTitle(lang)+"\">"+wp.getDisplayTitle(lang)+"</a></li>");
 
-        }
-        out.println("</ul>");
-        out.println("</div>");
+        }*/
+        
     }
 
     public void doBind(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
