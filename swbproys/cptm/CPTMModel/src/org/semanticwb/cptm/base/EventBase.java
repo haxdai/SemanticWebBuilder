@@ -464,39 +464,6 @@ public abstract class EventBase extends org.semanticwb.model.SWBClass implements
     }
 
 /**
-* Gets the CptmAbstractDescription property
-* @return String with the CptmAbstractDescription
-*/
-    public String getCptmAbstractDescription()
-    {
-        return getSemanticObject().getProperty(cptm_cptmAbstractDescription);
-    }
-
-/**
-* Sets the CptmAbstractDescription property
-* @param value long with the CptmAbstractDescription
-*/
-    public void setCptmAbstractDescription(String value)
-    {
-        getSemanticObject().setProperty(cptm_cptmAbstractDescription, value);
-    }
-
-    public String getCptmAbstractDescription(String lang)
-    {
-        return getSemanticObject().getProperty(cptm_cptmAbstractDescription, null, lang);
-    }
-
-    public String getDisplayCptmAbstractDescription(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(cptm_cptmAbstractDescription, lang);
-    }
-
-    public void setCptmAbstractDescription(String cptmAbstractDescription, String lang)
-    {
-        getSemanticObject().setProperty(cptm_cptmAbstractDescription, cptmAbstractDescription, lang);
-    }
-
-/**
 * Gets the IsRepeatable property
 * @return boolean with the IsRepeatable
 */
