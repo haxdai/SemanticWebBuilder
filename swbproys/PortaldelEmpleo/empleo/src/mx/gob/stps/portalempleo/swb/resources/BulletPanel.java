@@ -20,7 +20,7 @@ import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.api.SWBResourceURL;
 
 public class BulletPanel  extends GenericResource {
-    private static Logger log = SWBUtils.getLogger(MostVisited.class);
+    private static Logger log = SWBUtils.getLogger(BulletPanel.class);
     //private List<WebPage>channels;
 
     @Override
