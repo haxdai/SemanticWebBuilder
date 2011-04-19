@@ -62,7 +62,8 @@ public class HTMLReferencedContent extends mx.gob.stps.portalempleo.swb.resource
             String tkn;
             for(int i=0; i<tkns.length; i++) {
                 tkn = tkns[i];
-                datos = datos.replaceAll(tkn, "<a id=\"rf_"+i+"\" href=\"#\" class=\"kw\">"+tkn+"</a>");
+                //datos = datos.replaceAll(tkn, "<a id=\"rf_"+i+"\" href=\"#\" class=\"kw\">"+tkn+"</a>");
+                datos = datos.replaceFirst(tkn, "<a id=\"rf_"+i+"\" href=\"#\" class=\"kw\">"+tkn+"</a>");
                 aol.append("dojo.connect(dojo.byId('rf_"+i+"'),'onclick','s');\n");
             }
             aol.append("});\n");
