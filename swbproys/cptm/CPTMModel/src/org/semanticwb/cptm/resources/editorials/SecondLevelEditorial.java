@@ -18,6 +18,7 @@ import org.semanticwb.SWBUtils;
 import org.semanticwb.cptm.EditNote;
 import org.semanticwb.cptm.EditNoteType;
 import org.semanticwb.model.Resource;
+import org.semanticwb.model.User;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBParamRequest;
@@ -68,6 +69,7 @@ public class SecondLevelEditorial extends GenericResource {
                 + base.getWebSiteId() + "/jsp/SecondLevelEditorials.jsp";
 //        boolean showHomeDisplay = webPage.getId().equalsIgnoreCase("home") ? true : false;
 //        boolean showCanalDisplay = false;
+        User user = paramsRequest.getUser();
         EditNote editorialTipo3 = null;
         EditNoteType noteType2 = null;
         EditNoteType noteType3 = null;
@@ -90,7 +92,7 @@ public class SecondLevelEditorial extends GenericResource {
             while (it.hasNext()) {
                 EditNote editorial = it.next();
 
-                if (editorial != null && map.size() < 3) {
+                if (editorial != null && user.haveAccess(editorial) && map.size() < 3) {
                     cont++;
                     map.put(Integer.valueOf(cont), editorial);
                 } else if (map.size() >= 3) {
@@ -112,7 +114,7 @@ public class SecondLevelEditorial extends GenericResource {
             while (it.hasNext()) {
                 EditNote editorial = it.next();
 
-                if (editorial != null) {
+                if (editorial != null && user.haveAccess(editorial)) {
                     editorialTipo3 = editorial;
                     break;
                 }
