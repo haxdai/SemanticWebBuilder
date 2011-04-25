@@ -92,7 +92,7 @@ public class SecondLevelEditorial extends GenericResource {
             while (it.hasNext()) {
                 EditNote editorial = it.next();
 
-                if (editorial != null && user.haveAccess(editorial) && map.size() < 3) {
+                if (editorial != null && editorial.isActive() && user.haveAccess(editorial) && map.size() < 3) {
                     cont++;
                     map.put(Integer.valueOf(cont), editorial);
                 } else if (map.size() >= 3) {
@@ -114,7 +114,7 @@ public class SecondLevelEditorial extends GenericResource {
             while (it.hasNext()) {
                 EditNote editorial = it.next();
 
-                if (editorial != null && user.haveAccess(editorial)) {
+                if (editorial != null && editorial.isActive() && user.haveAccess(editorial)) {
                     editorialTipo3 = editorial;
                     break;
                 }
