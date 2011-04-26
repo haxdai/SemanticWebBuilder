@@ -91,11 +91,18 @@ public class RSSFeed extends GenericAdmResource {
                 while (iteradores[i].hasNext()) {
                     long diasTrans; //diferencia de dias entre hoy y cuando fue actualizada la noticia
                     Object noticia = iteradores[i].next();
+                    Date updatedAt = null;
 
                     if (noticia instanceof Event) {
-                        diasTrans =  (hoy.getTime() - ((Event)noticia).getUpdated().getTime()) / 1000 / 60 / 60 / 24; // se obtienen milisegundos y se dividen hasta quedar dias
+                        updatedAt = ((Event) noticia).getUpdated() != null
+                                   ? ((Event) noticia).getUpdated()
+                                   : ((Event) noticia).getCreated();
+                        diasTrans =  (hoy.getTime() - updatedAt.getTime()) / 1000 / 60 / 60 / 24; // se obtienen milisegundos y se dividen hasta quedar dias
                     } else {
-                        diasTrans =  (hoy.getTime() - ((WebPage)noticia).getUpdated().getTime()) / 1000 / 60 / 60 / 24;
+                        updatedAt = ((WebPage)noticia).getUpdated() != null
+                                   ? ((WebPage)noticia).getUpdated()
+                                   : ((WebPage)noticia).getCreated();
+                        diasTrans =  (hoy.getTime() - updatedAt.getTime()) / 1000 / 60 / 60 / 24;
                     }
                     
                     if (diasTrans <= nDias) { //si esta dentro del rango se ingresa al feed
@@ -136,7 +143,7 @@ public class RSSFeed extends GenericAdmResource {
                     addAttribute(item, "description", content.toString());
 
                 } else {
-                    addAttribute(item, "title", ((WebPage) noticia).getDisplayName());
+                    addAttribute(item, "title", ((WebPage) noticia).getDisplayName(lang));
                     addAttribute(item, "link", servidor + ((WebPage) noticia).getRealUrl());
                     content.append("\n         <table width=\"100%\">");
                     content.append("\n           <tr>");
