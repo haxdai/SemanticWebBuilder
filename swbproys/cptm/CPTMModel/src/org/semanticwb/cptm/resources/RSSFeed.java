@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.semanticwb.Logger;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.cptm.*;
@@ -28,6 +29,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 public class RSSFeed extends GenericAdmResource {
+
+    private static Logger logger = SWBUtils.getLogger(RSSFeed.class);
 
     @Override
     public void doXML(HttpServletRequest request, HttpServletResponse response,
@@ -97,12 +100,22 @@ public class RSSFeed extends GenericAdmResource {
                         updatedAt = ((Event) noticia).getUpdated() != null
                                    ? ((Event) noticia).getUpdated()
                                    : ((Event) noticia).getCreated();
-                        diasTrans =  (hoy.getTime() - updatedAt.getTime()) / 1000 / 60 / 60 / 24; // se obtienen milisegundos y se dividen hasta quedar dias
+                        if (updatedAt != null) {
+                            diasTrans =  (hoy.getTime() - updatedAt.getTime()) / 1000 / 60 / 60 / 24; // se obtienen milisegundos y se dividen hasta quedar dias
+                        } else {
+                            logger.error("Evento sin fechas de modificacion o creacion: " + ((Event)noticia).getURI());
+                            continue;
+                        }
                     } else {
                         updatedAt = ((WebPage)noticia).getUpdated() != null
                                    ? ((WebPage)noticia).getUpdated()
                                    : ((WebPage)noticia).getCreated();
-                        diasTrans =  (hoy.getTime() - updatedAt.getTime()) / 1000 / 60 / 60 / 24;
+                        if (updatedAt != null) {
+                            diasTrans =  (hoy.getTime() - updatedAt.getTime()) / 1000 / 60 / 60 / 24;
+                        } else {
+                            logger.error("Objeto sin fechas de modificacion o creacion: " + ((WebPage)noticia).getURI());
+                            continue;
+                        }
                     }
                     
                     if (diasTrans <= nDias) { //si esta dentro del rango se ingresa al feed
@@ -167,7 +180,7 @@ public class RSSFeed extends GenericAdmResource {
             rss.appendChild(channel);
 
         } catch (Exception e) {
-            throw new SWBResourceException("Error al generar rss", e);
+            logger.error("Error al generar rss", e);
         }
 
         String xml = SWBUtils.XML.domToXml(doc, true);
