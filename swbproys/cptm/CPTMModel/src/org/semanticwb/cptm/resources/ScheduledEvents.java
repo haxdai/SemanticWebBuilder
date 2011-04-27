@@ -208,10 +208,13 @@ public class ScheduledEvents extends GenericResource{
         Iterator it = Events.iterator();
         while(it.hasNext()) {
             Event event = (Event)it.next();
-            try {
-                objJSONEvents.put(SWBUtils.TEXT.encode(event.getTitle(paramRequest.getUser().getLanguage())==null?event.getTitle():event.getTitle(paramRequest.getUser().getLanguage()), SWBUtils.TEXT.CHARSET_UTF8), getData(event, paramRequest)); //SWBUtils.TEXT.encode(event.getTitle(),SWBUtils.TEXT.CHARSET_UTF8)
-            }catch(Exception e) {
-                log.error("Error while build properties in Events: "+e);
+            if(paramRequest.getUser().haveAccess(event))
+            {
+                try {
+                    objJSONEvents.put(SWBUtils.TEXT.encode(event.getTitle(paramRequest.getUser().getLanguage())==null?event.getTitle():event.getTitle(paramRequest.getUser().getLanguage()), SWBUtils.TEXT.CHARSET_UTF8), getData(event, paramRequest)); //SWBUtils.TEXT.encode(event.getTitle(),SWBUtils.TEXT.CHARSET_UTF8)
+                }catch(Exception e) {
+                    log.error("Error while build properties in Events: "+e);
+                }
             }
         }
         return objJSONEvents;
@@ -220,10 +223,11 @@ public class ScheduledEvents extends GenericResource{
     private JSONObject getData(Event event,SWBParamRequest paramRequest)
     {
         JSONObject objJSONData = new JSONObject();
-        String url = "";
+        String url = "", target = "";
         if(!event.isEventIsWithoutLink()) {
             if(event.getEventURL()!=null&&!event.getEventURL().equals("")) {
                 url=event.getEventURL();
+                target = "_blank";
             } else {
                 WebPage wp = paramRequest.getWebPage().getWebSite().getWebPage("Mostrar_Evento");
                 if(wp!=null) {
@@ -260,6 +264,7 @@ public class ScheduledEvents extends GenericResource{
             }
         }
         try {
+            objJSONData.put("target", target);
             objJSONData.put("url", url);
             objJSONData.put("title", SWBUtils.TEXT.encode(event.getTitle(paramRequest.getUser().getLanguage())==null?event.getTitle():event.getTitle(paramRequest.getUser().getLanguage()), SWBUtils.TEXT.CHARSET_UTF8));
             objJSONData.put("image", photo);
