@@ -99,36 +99,36 @@ public class BookingEngine extends GenericResource {
 
         super.setResourceBase(base);
         try {
-            if (BookingEngine.xsltBestday == null) {
+//            if (BookingEngine.xsltBestday == null) {
                 BookingEngine.xsltBestday = SWBUtils.XML.loadTemplateXSLT(SWBUtils.IO.getStreamFromString(
                         SWBUtils.IO.getFileFromPath(SWBPortal.getWorkPath()
                         + "/models/" + base.getWebSiteId()
                         + "/css/images/bookengine/BestDay_es.xsl")));
-            }
+//            }
 //            if (BookingEngine.htmlBestday_es == null) {
 //                BookingEngine.htmlBestday_es = SWBUtils.IO.getFileFromPath(SWBPortal.getWorkPath()
 //                        + "/models/" + base.getWebSiteId() + "/css/images/bookengine/BestDay_es.html");
 //            }
-            if (BookingEngine.htmlBestday_pt == null) {
+//            if (BookingEngine.htmlBestday_pt == null) {
                 BookingEngine.htmlBestday_pt = SWBUtils.IO.getFileFromPath(SWBPortal.getWorkPath()
                         + "/models/" + base.getWebSiteId() + "/css/images/bookengine/BestDay_pt.html");
-            }
+//            }
         } catch (Exception e) {
             BookingEngine.log.error("Error while getting BestDay's template.", e);
         }
         try {
-            if (BookingEngine.htmlTravelocity_en == null) {
+//            if (BookingEngine.htmlTravelocity_en == null) {
                 BookingEngine.htmlTravelocity_en = SWBUtils.IO.getFileFromPath(SWBPortal.getWorkPath()
                         + "/models/" + base.getWebSiteId() + "/css/images/bookengine/Travelocity_en.html");
-            }
-            if (BookingEngine.htmlTravelocity_es == null) {
+//            }
+//            if (BookingEngine.htmlTravelocity_es == null) {
                 BookingEngine.htmlTravelocity_es = SWBUtils.IO.getFileFromPath(SWBPortal.getWorkPath()
                         + "/models/" + base.getWebSiteId() + "/css/images/bookengine/Travelocity_es.html");
-            }
-            if (BookingEngine.htmlTravelocity_fr == null) {
+//            }
+//            if (BookingEngine.htmlTravelocity_fr == null) {
                 BookingEngine.htmlTravelocity_fr = SWBUtils.IO.getFileFromPath(SWBPortal.getWorkPath()
                         + "/models/" + base.getWebSiteId() + "/css/images/bookengine/Travelocity_fr.html");
-            }
+//            }
         } catch (Exception e) {
             BookingEngine.log.error("Error while getting Travelocity's template.", e);
         }
