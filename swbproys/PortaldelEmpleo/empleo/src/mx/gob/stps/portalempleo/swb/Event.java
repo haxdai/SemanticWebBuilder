@@ -10,16 +10,16 @@ public class Event extends mx.gob.stps.portalempleo.swb.base.EventBase
         super(base);
     }
 
-    public static class EventSortByExpiration implements Comparator<Event>{
+    public static class EventSortByStartDate implements Comparator<Event>{
         public int compare(Event event1, Event event2) {
-            return event1.getExpiration().compareTo( event2.getExpiration() );
+            return event1.getStart().compareTo( event2.getStart() );
         }
     }
 
     @Override
     public String toString() {
         StringBuilder res = new StringBuilder();
-        res.append(getTitle()+","+getDescription()+","+getExpiration());
+        res.append(getTitle()+","+getDescription()+","+getStart());
         return res.toString();
     }
 }
