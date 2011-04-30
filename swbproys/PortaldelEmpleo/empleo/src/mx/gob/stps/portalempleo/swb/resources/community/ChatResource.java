@@ -5,12 +5,19 @@ import mx.gob.stps.portalempleo.swb.resources.community.base.ChatResourceBase;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.http.*;
+import org.semanticwb.SWBUtils;
 
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.portal.api.*;
 import org.semanticwb.portal.community.MicroSite;
 import org.semanticwb.portal.community.MicroSiteWebPageUtil;
+
+    /**
+    * Implementación de referencia para una aplicación de chat.
+    * @author  Carlos Ramos
+    * @version 1.0
+    */
 
 public class ChatResource extends ChatResourceBase
 {
@@ -24,15 +31,14 @@ public class ChatResource extends ChatResourceBase
         super(base);
     }
 
-    @Override
-    public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramsRequest) throws SWBResourceException, IOException{
-        if(paramsRequest.getMode().equalsIgnoreCase("dpy")) {
-            doDisplay(request,response,paramsRequest);
-        }else {
-            super.processRequest(request, response, paramsRequest);
-        }
-    }
-
+    /**
+     * Despliega la aplicación de chat.
+     * @param request El HttpServletRequest que recibe del contenedor de servlets
+     * @param response El HttpServletResponse que recibe del contenedor de servlets
+     * @param paramRequest El SWBParamRequest que recibe del ambiente SemanticWebBuilder
+     * @throws SWBResourceException Si paramRequest arroja una excepción de este tipo
+     * @throws IOException Si request o response arroja una excepción de este tipo
+     */
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         SWBResourceURL url = paramRequest.getRenderUrl();
@@ -40,102 +46,59 @@ public class ChatResource extends ChatResourceBase
         PrintWriter out = response.getWriter();
 
         User user  = paramRequest.getUser();
-        String userName = isValidValue(user.getFirstName())&&isValidValue(user.getLastName())?user.getFirstName()+" "+user.getLastName():(user.getLogin()==null?"Invitado":user.getLogin());
-        userName = encode(userName);
-        String commId = getCommId(paramRequest.getWebPage());
-        if (null==commId)
-            commId = paramRequest.getWebPage().getId();
-        out.println("<div class=\"ms-chat\">");
-        out.println("  <applet code=\"class_AppletChat.class\"  codebase=\"/swbadmin\" archive=\"appletChat.jar\" width=\"520\" height=\"320\" id=\"chat1\">");
-        out.println("    <param name=\"anchoApp\" value=\"508\"/>");
-        out.println("    <param name=\"altoApp\" value=\"270\"/>");
-        out.println("    <param name=\"puerto\" value=\"9494\"/>");
-        out.println("    <param name=\"moderador\" value=\"1\"/>");
-        out.println("    <param name=\"locale\" value=\"es\"/>");
-        out.println("    <param name=\"idUsuario\" value=\"" + userName + "\"/>");
-        out.println("    <param name=\"idComunidad\" value=\"" + commId + "\"/>");
-        out.println("  </applet>");
-        out.println("</div>");
-//        out.println("<script type=\"text/javascript\">");
-//        out.println("  dojo.addOnLoad(");
-//        out.println("    function() {");
-//        out.println("      window.open('"+url+"','MS','status=0,toolbar=0,location=0,menubar=0,directories=0,resizable=0,scrollbars=0,width=550,height=340');");
-//        out.println("    }");
-//        out.println("  );");
-//        out.println("</script>");
-    }
-
-    public void doDisplay(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        PrintWriter out = response.getWriter();
-        User user  = paramRequest.getUser();
-
-        String userName = isValidValue(user.getFirstName())&&isValidValue(user.getLastName())?user.getFirstName()+" "+user.getLastName():(user.getLogin()==null?"Invitado":user.getLogin());
-        userName = encode(userName);
+        String userName = isValidValue(user.getFullName())?user.getFullName():(user.getLogin()==null?"Invitado":user.getLogin());
+        if(userName.length()>16)
+            userName = userName.substring(0, 17)+"...";
+        userName = SWBUtils.TEXT.replaceSpecialCharacters(userName, false);
 
         String commId = getCommId(paramRequest.getWebPage());
         if (null==commId)
             commId = paramRequest.getWebPage().getId();
-        out.println("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">");
-        out.println("<html xmlns=\"http://www.w3.org/1999/xhtml\">");
-        out.println("<head>");
-        out.println("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=ISO-8859-1\"/>");
-        out.println("<title>MS</title>");
-        out.println("<style type=\"text/css\">");
-        out.println("<!--");
-        out.println("body {background-color:#1F3D5A;}");
-        out.println(".ms-chat {");
-        out.println("  background-color: #1F3D5A;");
-        out.println("}");
-        out.println("-->");
-        out.println("</style>");
-        out.println("</head>");
-        out.println(" <body>");
+
         out.println("<div class=\"ms-chat\">");
-        out.println("  <applet code=\"class_AppletChat.class\"  codebase=\"/swbadmin\" archive=\"appletChat.jar\" width=\"520\" height=\"320\" id=\"chat1\">");
-        out.println("    <param name=\"anchoApp\" value=\"508\"/>");
-        out.println("    <param name=\"altoApp\" value=\"270\"/>");
+        out.println("  <applet code=\"class_AppletChat.class\"  codebase=\"/swbadmin\" archive=\"appletChat.jar\" width=\"699\" height=\"391\" id=\"chat1\">");
+        out.println("    <param name=\"anchoApp\" value=\"614\"/>");
+        out.println("    <param name=\"altoApp\" value=\"350\"/>");
         out.println("    <param name=\"puerto\" value=\"9494\"/>");
-        out.println("    <param name=\"moderador\" value=\"1\"/>");
-        out.println("    <param name=\"locale\" value=\"es\"/>");
         out.println("    <param name=\"idUsuario\" value=\"" + userName + "\"/>");
         out.println("    <param name=\"idComunidad\" value=\"" + commId + "\"/>");
+        out.println("    <param name=\"header\" value=\"Tienes una entrevista con Margarita Suárez Arriga, Grupo Bimbo\"/>");
+        out.println("    <param name=\"formato\" value=\"0-Dialog-ORANGE-12\"/>");
+//        out.println("    <param name=\"bg\" value=\"http://192.168.4.228:9020/work/models/empleo/images/chat_fondo_interfaz_small.jpg\"/>");
+//        out.println("    <param name=\"photo\" value=\"http://192.168.4.228:9020/work/models/empleo/images/foto.jpg\"/>");
+        out.println("    <param name=\"bg\" value=\"http://localhost:8088/work/models/A/images/chat_fondo_interfaz_small.jpg\"/>");
+        out.println("    <param name=\"photo\" value=\"http://localhost:8088/work/models/A/images/foto.jpg\"/>");
         out.println("  </applet>");
         out.println("</div>");
-        out.println(" </body>");
-        out.println("</html>");
     }
 
-    private String getCommId(WebPage current)
-    {
+    /**
+     * Devuelve el canal de comunicación de las sesiones de chat.
+     * @param current - La WebPage que contiene al recurso del chat
+     * @return El canal de comunicación para las sesiones de chat.
+     */
+    private String getCommId(WebPage current) {
         String ret = null;
-        if (current instanceof MicroSite)
-        {
+        if (current instanceof MicroSite) {
             ret = current.getId();
-        } else if (current instanceof MicroSiteWebPageUtil)
-        {
+        }else if (current instanceof MicroSiteWebPageUtil) {
             ret = getCommId(((MicroSiteWebPageUtil) current).getMicroSite());
+        }else {
+            ret = current.getWebSiteId();
         }
         return ret;
-
     }
 
+    /**
+     * Utilería para determinar si un valor es nulo o cadena vacia.
+     * @param param - El valor a determinar por nulo o blanco
+     * @return true si y sólo si param no es nulo y no es cadena vacia. De lo contrario, false.
+     */
     private boolean isValidValue(String param) {
         boolean validValue = false;
         if( param!=null && param.trim().length()>0 )
             validValue = true;
         return validValue;
-    }
-
-    private String encode(String value) {
-        if(value==null)
-            return null;
-        value = value.replace ('á','a');
-        value = value.replace ('é','e');
-        value = value.replace ('í','i');
-        value = value.replace ('ó','o');
-        value = value.replace ('ú','u');
-        value = value.replace ('ñ','n');
-        return value;
     }
 }
 

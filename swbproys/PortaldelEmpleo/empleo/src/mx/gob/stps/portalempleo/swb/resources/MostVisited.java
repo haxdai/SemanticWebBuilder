@@ -34,6 +34,16 @@ import org.semanticwb.portal.api.SWBResourceException;
 public class MostVisited extends GenericResource {
     private static Logger log = SWBUtils.getLogger(MostVisited.class);
 
+    /**
+     * Despliega la estructura html que representa el recurso MostVisited,
+     * mostrando la lista de subsecciones más visitadas, ordenadas descendentemente. Este recurso se limita a mostrar las 3 subsecciones más
+     * visitadas de la sección que contiene a la instancia de este recurso.
+     * @param request - el HttpServletRequest que recibe del contenedor de servlets
+     * @param response - el HttpServletResponse que recibe del contenedor de servlets
+     * @param paramRequest - el SWBParamRequest que recibe del ambiente SemanticWebBuilder
+     * @throws SWBResourceException - if paramRequest arroja una excepción de este tipo
+     * @throws IOException - if request o response arroja una excepción de este tipo
+     */
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         PrintWriter out = response.getWriter();

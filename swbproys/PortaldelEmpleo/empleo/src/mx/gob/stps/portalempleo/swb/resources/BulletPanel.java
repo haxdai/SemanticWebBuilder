@@ -47,11 +47,11 @@ public class BulletPanel  extends GenericResource {
      * Mostrando, aleatoriamente, uno de los canales del portal.
      * El manejador del evento click del BulletPanel, está implementado con ajax para atenuar los
      * saltos al interactual con el recurso.
-     * @param request - el HttpServletRequest que recibe del contenedor de servlets
-     * @param response - el HttpServletResponse que recibe del contenedor de servlets
-     * @param paramRequest - el SWBParamRequest que recibe del ambiente SemanticWebBuilder
-     * @throws SWBResourceException - if paramRequest arroja una excepción de este tipo
-     * @throws IOException - if request o response arroja una excepción de este tipo
+     * @param request El HttpServletRequest que recibe del contenedor de servlets
+     * @param response El HttpServletResponse que recibe del contenedor de servlets
+     * @param paramRequest El SWBParamRequest que recibe del ambiente SemanticWebBuilder
+     * @throws SWBResourceException Si paramRequest arroja una excepción de este tipo
+     * @throws IOException Si request o response arroja una excepción de este tipo
      */
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
@@ -117,11 +117,11 @@ public class BulletPanel  extends GenericResource {
     /**
      * Despliega la estructura html que representa el BulletPanel. Response a una solicitud ajax
      * proviniente del manejador del evento click del BulletPanel.
-     * @param request - el HttpServletRequest que recibe del contenedor de servlets
-     * @param response - el HttpServletResponse que recibe del contenedor de servlets
-     * @param paramRequest - el SWBParamRequest que recibe del ambiente SemanticWebBuilder
-     * @throws SWBResourceException - if paramRequest arroja una excepción de este tipo
-     * @throws IOException - if request o response arroja una excepción de este tipo
+     * @param request El HttpServletRequest que recibe del contenedor de servlets
+     * @param response El HttpServletResponse que recibe del contenedor de servlets
+     * @param paramRequest El SWBParamRequest que recibe del ambiente SemanticWebBuilder
+     * @throws SWBResourceException Si paramRequest arroja una excepción de este tipo
+     * @throws IOException Si request o response arroja una excepción de este tipo
      */
     @Override
     public void doIndex(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
@@ -134,8 +134,7 @@ public class BulletPanel  extends GenericResource {
         User user = paramRequest.getUser();
         String lang=user.getLanguage();
         WebSite wsite = paramRequest.getWebPage().getWebSite();
-
-        //List<WebPage>channels = SWBUtils.Collections.copyIterator(wsite.getHomePage().listChilds(lang, true, false, false, true));
+        
         String tpcId = request.getParameter("tpc");
         WebPage channel = wsite.getWebPage(tpcId);
         if(channel==null) {
@@ -147,7 +146,6 @@ public class BulletPanel  extends GenericResource {
                 return;
             }
         }
-        //channels.remove(channel);
         
         WebPage wpage;
         Iterator<WebPage>childs = MostVisited.SortWebPage.sortByViews(channel.listChilds(user.getLanguage(), true, false, false, true), false);

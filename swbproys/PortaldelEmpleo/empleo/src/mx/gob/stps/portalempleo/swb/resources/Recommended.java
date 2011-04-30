@@ -68,7 +68,7 @@ public class Recommended extends GenericResource
     }
 
     /**
-     * Despliega la estructura html que representa el Recommended,
+     * Despliega la estructura html que representa el recurso Recommended,
      * mostrando la lista de subsecciones marcadas para recomendarlas.
      * @param request - el HttpServletRequest que recibe del contenedor de servlets
      * @param response - el HttpServletResponse que recibe del contenedor de servlets
