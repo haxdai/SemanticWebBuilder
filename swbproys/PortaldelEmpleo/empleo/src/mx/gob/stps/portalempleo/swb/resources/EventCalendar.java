@@ -12,11 +12,10 @@ public class EventCalendar extends mx.gob.stps.portalempleo.swb.resources.base.E
 
     private static Logger log = SWBUtils.getLogger(EventCalendar.class);
 
-    
-
-    
-
-    //private List<Event> events;
+    /**
+     * Constructs a default EventCalendar
+     * @param base The SemanticObject with the properties for the EventCalendar
+     */
     public EventCalendar()
     {
         
@@ -55,6 +54,15 @@ public class EventCalendar extends mx.gob.stps.portalempleo.swb.resources.base.E
             super.processRequest(request, response, paramRequest);
     }
 
+    /**
+     * Despliega la estructura html que representa el EventCalendar. Mostrando los eventos correspondientes
+     * al mes actual. En caso de existir eventos en meses anteriores o posteriores, se muestran flechas de navegación.
+     * @param request El HttpServletRequest que recibe del contenedor de servlets
+     * @param response El HttpServletResponse que recibe del contenedor de servlets
+     * @param paramRequest El SWBParamRequest que recibe del ambiente SemanticWebBuilder
+     * @throws SWBResourceException Si paramRequest arroja una excepción de este tipo
+     * @throws IOException Si request o response arroja una excepción de este tipo
+     */
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setContentType("text/html; charset=ISO-8859-1");
@@ -76,6 +84,15 @@ public class EventCalendar extends mx.gob.stps.portalempleo.swb.resources.base.E
         }
     }
 
+    /**
+     * Despliega la estructura html que representa el EventCalendar. Mostrando los eventos correspondientes
+     * al mes anterior o posterior de acuerdo al retroceso o adenlanto por interacción del usuario con los controles de navegación del recurso.
+     * @param request El HttpServletRequest que recibe del contenedor de servlets
+     * @param response El HttpServletResponse que recibe del contenedor de servlets
+     * @param paramRequest El SWBParamRequest que recibe del ambiente SemanticWebBuilder
+     * @throws SWBResourceException Si paramRequest arroja una excepción de este tipo
+     * @throws IOException Si request o response arroja una excepción de este tipo
+     */
     public void doRoll(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setContentType("text/html; charset=ISO-8859-1");
         response.setHeader("Cache-Control", "no-cache");
@@ -94,6 +111,14 @@ public class EventCalendar extends mx.gob.stps.portalempleo.swb.resources.base.E
         }
     }
 
+    /**
+     * Despliega la estructura html que representa el listado de todos los eventos actuales, anteriores y posteriores.
+     * @param request El HttpServletRequest que recibe del contenedor de servlets
+     * @param response El HttpServletResponse que recibe del contenedor de servlets
+     * @param paramRequest El SWBParamRequest que recibe del ambiente SemanticWebBuilder
+     * @throws SWBResourceException Si paramRequest arroja una excepción de este tipo
+     * @throws IOException Si request o response arroja una excepción de este tipo
+     */
     public void doViewAll(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setContentType("text/html; charset=ISO-8859-1");
         response.setHeader("Cache-Control", "no-cache");
