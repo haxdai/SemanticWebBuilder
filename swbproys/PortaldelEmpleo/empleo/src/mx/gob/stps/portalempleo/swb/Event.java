@@ -3,6 +3,7 @@ package mx.gob.stps.portalempleo.swb;
 import java.util.Comparator;
 
 
+
 public class Event extends mx.gob.stps.portalempleo.swb.base.EventBase 
 {
     public Event(org.semanticwb.platform.SemanticObject base)
