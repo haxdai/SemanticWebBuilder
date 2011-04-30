@@ -19,6 +19,21 @@ import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.api.SWBResourceURL;
 
+    /**
+    * Representa una estructura para organizar la información del portal que consiste en representar
+     *  una lista de secciones recomendadas. Este recurso funciona para cualquier sección que tenga subsecciones.
+     * <ul>
+     * <li>Título del canal
+     * <li>Título de cada subsección del canal
+     * <li>Una imagen asociada a la propiedad iconClass del canal
+     * </ul>
+     * Recommended es un recurso de estrategia dentro del ambiente de SemanticWebBuilder 4.0.
+     * Recommended cuenta con una interfaz de administración.
+    * @see Manual de implementación
+    * @author  Carlos Ramos
+    * @version 1.0
+    */
+
 public class Recommended extends GenericResource
 {
 
@@ -53,6 +68,15 @@ public class Recommended extends GenericResource
         }
     }
 
+    /**
+     * Despliega la estructura html que representa el Recommended,
+     * mostrando la lista de subsecciones marcadas para recomendarlas.
+     * @param request - el HttpServletRequest que recibe del contenedor de servlets
+     * @param response - el HttpServletResponse que recibe del contenedor de servlets
+     * @param paramRequest - el SWBParamRequest que recibe del ambiente SemanticWebBuilder
+     * @throws SWBResourceException - if paramRequest arroja una excepción de este tipo
+     * @throws IOException - if request o response arroja una excepción de este tipo
+     */
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
@@ -114,6 +138,15 @@ public class Recommended extends GenericResource
 
     }
 
+    /**
+     * Maneja la lógica para desplegar la estructura html que muestra las subsecciones de una sección
+     * recibida como parámetro de la solicitud http.
+     * @param request - el HttpServletRequest que recibe del contenedor de servlets
+     * @param response - el HttpServletResponse que recibe del contenedor de servlets
+     * @param paramRequest - el SWBParamRequest que recibe del ambiente SemanticWebBuilder
+     * @throws SWBResourceException - if paramRequest arroja una excepción de este tipo
+     * @throws IOException - if request o response arroja una excepción de este tipo
+     */
     public void doBind(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
         response.setContentType("text/html; charset=iso-8859-1");
@@ -138,6 +171,14 @@ public class Recommended extends GenericResource
         }
     }
 
+    /**
+     * Maneja la lógica de la administración del recurso Recommended.
+     * @param request - el HttpServletRequest que recibe del contenedor de servlets
+     * @param response - el HttpServletResponse que recibe del contenedor de servlets
+     * @param paramRequest - el SWBParamRequest que recibe del ambiente SemanticWebBuilder
+     * @throws SWBResourceException - if paramRequest arroja una excepción de este tipo
+     * @throws IOException - if request o response arroja una excepción de este tipo
+     */
     @Override
     public void doAdmin(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
@@ -158,11 +199,16 @@ public class Recommended extends GenericResource
         }
     }
 
+    /**
+     * Despliega la estructura html que representa la interfaz de usuario de la administración
+     * del recurso Recommended.
+     * @param request - el HttpServletRequest que recibe del contenedor de servlets
+     * @param paramRequest - el SWBParamRequest que recibe del ambiente SemanticWebBuilder
+     */
     private String getForm(javax.servlet.http.HttpServletRequest request, SWBParamRequest paramRequest)
     {
         Resource base = getResourceBase();
         StringBuilder htm = new StringBuilder();
-//        final String path = SWBPortal.getWebWorkPath()+base.getWorkPath()+"/";
         String lang = paramRequest.getUser().getLanguage();
 
         SWBResourceURL url = paramRequest.getActionUrl().setAction(paramRequest.Action_EDIT);
@@ -257,6 +303,14 @@ public class Recommended extends GenericResource
         return htm.toString();
     }
 
+    /**
+     * Devuelve un iterador de todas las subsecciones de node, ordenados alfabéticamente de
+     * acuerdo al título de la sección
+     * @param node - La sección de la que nos interesa obtener su jerarquía de subsecciones
+     * @param lang - Idioma que se toma para desplegar el título de las secciones
+     * @param res - Iterador que contiene la jerarquía de subsecciones de node, excluido.
+     * @return Un iterador conteniendo las subsecciones de node ordenadas alfabéticamente.
+     */
     private Iterator<WebPage> listChilds(WebPage node, String lang, TreeSet res)
     {
         WebPage child;
@@ -270,6 +324,13 @@ public class Recommended extends GenericResource
         return res.iterator();
     }
 
+    /**
+     * Guarda los cambios hechos en la administración del recurso
+     * @param request
+     * @param response
+     * @throws SWBResourceException
+     * @throws IOException
+     */
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
     {

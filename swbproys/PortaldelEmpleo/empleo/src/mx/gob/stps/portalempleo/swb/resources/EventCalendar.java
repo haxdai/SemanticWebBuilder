@@ -56,30 +56,31 @@ public class EventCalendar extends mx.gob.stps.portalempleo.swb.resources.base.E
     }
 
     @Override
-    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
-    {
-        if (paramRequest.getCallMethod() == paramRequest.Call_CONTENT)
-        {
+    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("text/html; charset=ISO-8859-1");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
+        
+        if (paramRequest.getCallMethod() == paramRequest.Call_CONTENT) {
             doViewAll(request, response, paramRequest);
-        }
-        else if (paramRequest.getCallMethod() == paramRequest.Call_STRATEGY)
-        {
-            try
-        {
-            String jsp = "/swbadmin/jsp/empleo/eventos/view.jsp";
-            request.setAttribute("paramRequest", paramRequest);
-            RequestDispatcher rd = request.getRequestDispatcher(jsp);
-            rd.include(request, response);
-        }
-        catch (Exception e)
-        {
-            log.error(e);
-        }
+        }else if (paramRequest.getCallMethod() == paramRequest.Call_STRATEGY) {
+            try {
+                String jsp = "/swbadmin/jsp/empleo/eventos/view.jsp";
+                request.setAttribute("paramRequest", paramRequest);
+                RequestDispatcher rd = request.getRequestDispatcher(jsp);
+                rd.include(request, response);
+                }
+            catch (Exception e) {
+                log.error(e);
+            }
         }
     }
 
-    public void doRoll(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
-    {
+    public void doRoll(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("text/html; charset=ISO-8859-1");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
+        
         try
         {
             String jsp = "/swbadmin/jsp/empleo/eventos/roll.jsp";
@@ -93,8 +94,10 @@ public class EventCalendar extends mx.gob.stps.portalempleo.swb.resources.base.E
         }
     }
 
-    public void doViewAll(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
-    {
+    public void doViewAll(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("text/html; charset=ISO-8859-1");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
 
         try
         {

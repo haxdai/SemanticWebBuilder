@@ -4,7 +4,7 @@ package mx.gob.stps.portalempleo.swb.base;
    /**
    * Portal del Empleo de la STPS 
    */
-public abstract class EmpleoWebSiteBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.Activeable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Trashable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Countryable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Indexable,org.semanticwb.model.OntologyDepable,org.semanticwb.model.Localeable,org.semanticwb.model.Filterable,org.semanticwb.model.Traceable
+public abstract class EmpleoWebSiteBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.FilterableNode,org.semanticwb.model.Trashable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Localeable,org.semanticwb.model.Activeable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Undeleteable,org.semanticwb.model.Countryable,org.semanticwb.model.OntologyDepable,org.semanticwb.model.Traceable,org.semanticwb.model.Filterable,org.semanticwb.model.Indexable
 {
     public static final org.semanticwb.platform.SemanticClass portalempleo_Event=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.stps.gob.mx/swb4/portalempleo#Event");
    /**
@@ -93,49 +93,26 @@ public abstract class EmpleoWebSiteBase extends org.semanticwb.model.WebSite imp
             return (getEmpleoWebSite(id)!=null);
         }
        /**
-       * Gets all mx.gob.stps.portalempleo.swb.EmpleoWebSite with a determined ModelProperty
-       * @param value ModelProperty of the type org.semanticwb.model.ModelProperty
+       * Gets all mx.gob.stps.portalempleo.swb.EmpleoWebSite with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
        * @param model Model of the mx.gob.stps.portalempleo.swb.EmpleoWebSite
        * @return Iterator with all the mx.gob.stps.portalempleo.swb.EmpleoWebSite
        */
 
-        public static java.util.Iterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> listEmpleoWebSiteByModelProperty(org.semanticwb.model.ModelProperty value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> listEmpleoWebSiteByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasModelProperty, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.stps.portalempleo.swb.EmpleoWebSite with a determined ModelProperty
-       * @param value ModelProperty of the type org.semanticwb.model.ModelProperty
+       * Gets all mx.gob.stps.portalempleo.swb.EmpleoWebSite with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
        * @return Iterator with all the mx.gob.stps.portalempleo.swb.EmpleoWebSite
        */
 
-        public static java.util.Iterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> listEmpleoWebSiteByModelProperty(org.semanticwb.model.ModelProperty value)
+        public static java.util.Iterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> listEmpleoWebSiteByModifiedBy(org.semanticwb.model.User value)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasModelProperty,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all mx.gob.stps.portalempleo.swb.EmpleoWebSite with a determined Language
-       * @param value Language of the type org.semanticwb.model.Language
-       * @param model Model of the mx.gob.stps.portalempleo.swb.EmpleoWebSite
-       * @return Iterator with all the mx.gob.stps.portalempleo.swb.EmpleoWebSite
-       */
-
-        public static java.util.Iterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> listEmpleoWebSiteByLanguage(org.semanticwb.model.Language value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_language, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all mx.gob.stps.portalempleo.swb.EmpleoWebSite with a determined Language
-       * @param value Language of the type org.semanticwb.model.Language
-       * @return Iterator with all the mx.gob.stps.portalempleo.swb.EmpleoWebSite
-       */
-
-        public static java.util.Iterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> listEmpleoWebSiteByLanguage(org.semanticwb.model.Language value)
-        {
-            org.semanticwb.model.GenericIterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_language,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -162,118 +139,26 @@ public abstract class EmpleoWebSiteBase extends org.semanticwb.model.WebSite imp
             return it;
         }
        /**
-       * Gets all mx.gob.stps.portalempleo.swb.EmpleoWebSite with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * Gets all mx.gob.stps.portalempleo.swb.EmpleoWebSite with a determined DefaultTemplate
+       * @param value DefaultTemplate of the type org.semanticwb.model.Template
        * @param model Model of the mx.gob.stps.portalempleo.swb.EmpleoWebSite
        * @return Iterator with all the mx.gob.stps.portalempleo.swb.EmpleoWebSite
        */
 
-        public static java.util.Iterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> listEmpleoWebSiteByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> listEmpleoWebSiteByDefaultTemplate(org.semanticwb.model.Template value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_defaultTemplate, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.stps.portalempleo.swb.EmpleoWebSite with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * Gets all mx.gob.stps.portalempleo.swb.EmpleoWebSite with a determined DefaultTemplate
+       * @param value DefaultTemplate of the type org.semanticwb.model.Template
        * @return Iterator with all the mx.gob.stps.portalempleo.swb.EmpleoWebSite
        */
 
-        public static java.util.Iterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> listEmpleoWebSiteByModifiedBy(org.semanticwb.model.User value)
+        public static java.util.Iterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> listEmpleoWebSiteByDefaultTemplate(org.semanticwb.model.Template value)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all mx.gob.stps.portalempleo.swb.EmpleoWebSite with a determined ParentWebSite
-       * @param value ParentWebSite of the type org.semanticwb.model.WebSite
-       * @param model Model of the mx.gob.stps.portalempleo.swb.EmpleoWebSite
-       * @return Iterator with all the mx.gob.stps.portalempleo.swb.EmpleoWebSite
-       */
-
-        public static java.util.Iterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> listEmpleoWebSiteByParentWebSite(org.semanticwb.model.WebSite value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_parentWebSite, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all mx.gob.stps.portalempleo.swb.EmpleoWebSite with a determined ParentWebSite
-       * @param value ParentWebSite of the type org.semanticwb.model.WebSite
-       * @return Iterator with all the mx.gob.stps.portalempleo.swb.EmpleoWebSite
-       */
-
-        public static java.util.Iterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> listEmpleoWebSiteByParentWebSite(org.semanticwb.model.WebSite value)
-        {
-            org.semanticwb.model.GenericIterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_parentWebSite,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all mx.gob.stps.portalempleo.swb.EmpleoWebSite with a determined Ontology
-       * @param value Ontology of the type org.semanticwb.model.Ontology
-       * @param model Model of the mx.gob.stps.portalempleo.swb.EmpleoWebSite
-       * @return Iterator with all the mx.gob.stps.portalempleo.swb.EmpleoWebSite
-       */
-
-        public static java.util.Iterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> listEmpleoWebSiteByOntology(org.semanticwb.model.Ontology value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasOntology, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all mx.gob.stps.portalempleo.swb.EmpleoWebSite with a determined Ontology
-       * @param value Ontology of the type org.semanticwb.model.Ontology
-       * @return Iterator with all the mx.gob.stps.portalempleo.swb.EmpleoWebSite
-       */
-
-        public static java.util.Iterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> listEmpleoWebSiteByOntology(org.semanticwb.model.Ontology value)
-        {
-            org.semanticwb.model.GenericIterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasOntology,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all mx.gob.stps.portalempleo.swb.EmpleoWebSite with a determined UserRepository
-       * @param value UserRepository of the type org.semanticwb.model.UserRepository
-       * @param model Model of the mx.gob.stps.portalempleo.swb.EmpleoWebSite
-       * @return Iterator with all the mx.gob.stps.portalempleo.swb.EmpleoWebSite
-       */
-
-        public static java.util.Iterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> listEmpleoWebSiteByUserRepository(org.semanticwb.model.UserRepository value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_userRepository, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all mx.gob.stps.portalempleo.swb.EmpleoWebSite with a determined UserRepository
-       * @param value UserRepository of the type org.semanticwb.model.UserRepository
-       * @return Iterator with all the mx.gob.stps.portalempleo.swb.EmpleoWebSite
-       */
-
-        public static java.util.Iterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> listEmpleoWebSiteByUserRepository(org.semanticwb.model.UserRepository value)
-        {
-            org.semanticwb.model.GenericIterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_userRepository,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all mx.gob.stps.portalempleo.swb.EmpleoWebSite with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @param model Model of the mx.gob.stps.portalempleo.swb.EmpleoWebSite
-       * @return Iterator with all the mx.gob.stps.portalempleo.swb.EmpleoWebSite
-       */
-
-        public static java.util.Iterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> listEmpleoWebSiteByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all mx.gob.stps.portalempleo.swb.EmpleoWebSite with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @return Iterator with all the mx.gob.stps.portalempleo.swb.EmpleoWebSite
-       */
-
-        public static java.util.Iterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> listEmpleoWebSiteByCreator(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_defaultTemplate,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -300,6 +185,75 @@ public abstract class EmpleoWebSiteBase extends org.semanticwb.model.WebSite imp
             return it;
         }
        /**
+       * Gets all mx.gob.stps.portalempleo.swb.EmpleoWebSite with a determined Language
+       * @param value Language of the type org.semanticwb.model.Language
+       * @param model Model of the mx.gob.stps.portalempleo.swb.EmpleoWebSite
+       * @return Iterator with all the mx.gob.stps.portalempleo.swb.EmpleoWebSite
+       */
+
+        public static java.util.Iterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> listEmpleoWebSiteByLanguage(org.semanticwb.model.Language value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_language, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all mx.gob.stps.portalempleo.swb.EmpleoWebSite with a determined Language
+       * @param value Language of the type org.semanticwb.model.Language
+       * @return Iterator with all the mx.gob.stps.portalempleo.swb.EmpleoWebSite
+       */
+
+        public static java.util.Iterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> listEmpleoWebSiteByLanguage(org.semanticwb.model.Language value)
+        {
+            org.semanticwb.model.GenericIterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_language,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all mx.gob.stps.portalempleo.swb.EmpleoWebSite with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @param model Model of the mx.gob.stps.portalempleo.swb.EmpleoWebSite
+       * @return Iterator with all the mx.gob.stps.portalempleo.swb.EmpleoWebSite
+       */
+
+        public static java.util.Iterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> listEmpleoWebSiteByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all mx.gob.stps.portalempleo.swb.EmpleoWebSite with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @return Iterator with all the mx.gob.stps.portalempleo.swb.EmpleoWebSite
+       */
+
+        public static java.util.Iterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> listEmpleoWebSiteByCreator(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all mx.gob.stps.portalempleo.swb.EmpleoWebSite with a determined Ontology
+       * @param value Ontology of the type org.semanticwb.model.Ontology
+       * @param model Model of the mx.gob.stps.portalempleo.swb.EmpleoWebSite
+       * @return Iterator with all the mx.gob.stps.portalempleo.swb.EmpleoWebSite
+       */
+
+        public static java.util.Iterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> listEmpleoWebSiteByOntology(org.semanticwb.model.Ontology value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasOntology, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all mx.gob.stps.portalempleo.swb.EmpleoWebSite with a determined Ontology
+       * @param value Ontology of the type org.semanticwb.model.Ontology
+       * @return Iterator with all the mx.gob.stps.portalempleo.swb.EmpleoWebSite
+       */
+
+        public static java.util.Iterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> listEmpleoWebSiteByOntology(org.semanticwb.model.Ontology value)
+        {
+            org.semanticwb.model.GenericIterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasOntology,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all mx.gob.stps.portalempleo.swb.EmpleoWebSite with a determined HomePage
        * @param value HomePage of the type org.semanticwb.model.WebPage
        * @param model Model of the mx.gob.stps.portalempleo.swb.EmpleoWebSite
@@ -323,26 +277,72 @@ public abstract class EmpleoWebSiteBase extends org.semanticwb.model.WebSite imp
             return it;
         }
        /**
-       * Gets all mx.gob.stps.portalempleo.swb.EmpleoWebSite with a determined DefaultTemplate
-       * @param value DefaultTemplate of the type org.semanticwb.model.Template
+       * Gets all mx.gob.stps.portalempleo.swb.EmpleoWebSite with a determined UserRepository
+       * @param value UserRepository of the type org.semanticwb.model.UserRepository
        * @param model Model of the mx.gob.stps.portalempleo.swb.EmpleoWebSite
        * @return Iterator with all the mx.gob.stps.portalempleo.swb.EmpleoWebSite
        */
 
-        public static java.util.Iterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> listEmpleoWebSiteByDefaultTemplate(org.semanticwb.model.Template value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> listEmpleoWebSiteByUserRepository(org.semanticwb.model.UserRepository value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_defaultTemplate, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_userRepository, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.stps.portalempleo.swb.EmpleoWebSite with a determined DefaultTemplate
-       * @param value DefaultTemplate of the type org.semanticwb.model.Template
+       * Gets all mx.gob.stps.portalempleo.swb.EmpleoWebSite with a determined UserRepository
+       * @param value UserRepository of the type org.semanticwb.model.UserRepository
        * @return Iterator with all the mx.gob.stps.portalempleo.swb.EmpleoWebSite
        */
 
-        public static java.util.Iterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> listEmpleoWebSiteByDefaultTemplate(org.semanticwb.model.Template value)
+        public static java.util.Iterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> listEmpleoWebSiteByUserRepository(org.semanticwb.model.UserRepository value)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_defaultTemplate,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_userRepository,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all mx.gob.stps.portalempleo.swb.EmpleoWebSite with a determined ParentWebSite
+       * @param value ParentWebSite of the type org.semanticwb.model.WebSite
+       * @param model Model of the mx.gob.stps.portalempleo.swb.EmpleoWebSite
+       * @return Iterator with all the mx.gob.stps.portalempleo.swb.EmpleoWebSite
+       */
+
+        public static java.util.Iterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> listEmpleoWebSiteByParentWebSite(org.semanticwb.model.WebSite value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_parentWebSite, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all mx.gob.stps.portalempleo.swb.EmpleoWebSite with a determined ParentWebSite
+       * @param value ParentWebSite of the type org.semanticwb.model.WebSite
+       * @return Iterator with all the mx.gob.stps.portalempleo.swb.EmpleoWebSite
+       */
+
+        public static java.util.Iterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> listEmpleoWebSiteByParentWebSite(org.semanticwb.model.WebSite value)
+        {
+            org.semanticwb.model.GenericIterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_parentWebSite,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all mx.gob.stps.portalempleo.swb.EmpleoWebSite with a determined ModelProperty
+       * @param value ModelProperty of the type org.semanticwb.model.ModelProperty
+       * @param model Model of the mx.gob.stps.portalempleo.swb.EmpleoWebSite
+       * @return Iterator with all the mx.gob.stps.portalempleo.swb.EmpleoWebSite
+       */
+
+        public static java.util.Iterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> listEmpleoWebSiteByModelProperty(org.semanticwb.model.ModelProperty value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasModelProperty, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all mx.gob.stps.portalempleo.swb.EmpleoWebSite with a determined ModelProperty
+       * @param value ModelProperty of the type org.semanticwb.model.ModelProperty
+       * @return Iterator with all the mx.gob.stps.portalempleo.swb.EmpleoWebSite
+       */
+
+        public static java.util.Iterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> listEmpleoWebSiteByModelProperty(org.semanticwb.model.ModelProperty value)
+        {
+            org.semanticwb.model.GenericIterator<mx.gob.stps.portalempleo.swb.EmpleoWebSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasModelProperty,value.getSemanticObject(),sclass));
             return it;
         }
     }
