@@ -135,11 +135,14 @@ public class RSSFeed extends GenericAdmResource {
                 Object noticia = listaNoticias.get(i);
                 Element item = doc.createElement("item");
                 StringBuilder content = new StringBuilder(128);
+                String description = null;
 
                 if (noticia instanceof String) {
-                    addAttribute(item, "description", (String) noticia);
+                    description = (String) noticia;
+                    addAttribute(item, "description", description != null ? description : "");
                     elementosPorCanal = 0;
                 } else if (noticia instanceof Event) {
+                    description = ((Event) noticia).getDisplayDescription(lang);
                     addAttribute(item, "title", ((Event) noticia).getDisplayTitle(lang));
                     addAttribute(item, "link", servidor + mostrarEvento.getRealUrl(paramsRequest.getUser().getLanguage()) + "?id=" + ((Event) noticia).getId() + "&show=event");
                     content.append("\n         <table width=\"100%\">");
@@ -149,13 +152,14 @@ public class RSSFeed extends GenericAdmResource {
                     content.append("\n             </td>");
                     content.append("\n             <td align=\"left\">");
                     content.append("\n             <td valign=\"bottom\" align=\"justify\">");
-                    content.append("\n             " + ((Event) noticia).getDisplayDescription(lang));
+                    content.append("\n             " + description != null ? description : "");
                     content.append("\n             </td>");
                     content.append("\n           </tr>");
                     content.append("\n         </table> ");
                     addAttribute(item, "description", content.toString());
 
                 } else {
+                    description = ((WebPage) noticia).getDisplayDescription(lang);
                     addAttribute(item, "title", ((WebPage) noticia).getDisplayName(lang));
                     addAttribute(item, "link", servidor + ((WebPage) noticia).getRealUrl());
                     content.append("\n         <table width=\"100%\">");
@@ -165,7 +169,7 @@ public class RSSFeed extends GenericAdmResource {
                     content.append("\n             </td>");
                     content.append("\n             <td align=\"left\">");
                     content.append("\n             <td valign=\"bottom\" align=\"justify\">");
-                    content.append("\n             " + ((WebPage) noticia).getDisplayDescription(lang));
+                    content.append("\n             " + description != null ? description : "");
                     content.append("\n             </td>");
                     content.append("\n           </tr>");
                     content.append("\n         </table> ");
