@@ -42,6 +42,15 @@ public class HTMLReferencedContent extends mx.gob.stps.portalempleo.swb.resource
         super(base);
     }
 
+    /**
+     * Busca por palabras clave de la WebPage a la que pertenece este recurso y le agrega hipervínculos a otras WebPages, dentro del mismo portal,
+     * que tienen referencias de las misma palabras clave.
+     * @param datos - Contenido que integra las instancias de este recurso
+     * @param wp - WebPage a la que pertenece la instancia de este recurso
+     * @param url - URL de la instancia de este recurso
+     * @return El contenido que se recibió en el parámetro datos pero con las modificaciones para visitar los vínculos
+     *         especificados en url.
+     */
     private String kw(String datos, WebPage wp, SWBResourceURL url) {
         url.setCallMethod(SWBParamRequest.Call_DIRECT).setMode("ref");
         try {

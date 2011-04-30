@@ -17,6 +17,21 @@ import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 
+    /**
+    * Representa una estructura para organizar la información del portal que consiste en representar
+     *  una lista de secciones más visitas. Este recurso funciona para cualquier sección que tenga subsecciones.
+     * <ul>
+     * <li>Título del canal
+     * <li>Título de cada subsección del canal
+     * <li>Una imagen asociada a la propiedad iconClass del canal
+     * </ul>
+     * Recommended es un recurso de estrategia dentro del ambiente de SemanticWebBuilder 4.0.
+     * Recommended cuenta con una interfaz de administración.
+    * @see Manual de implementación
+    * @author  Carlos Ramos
+    * @version 1.0
+    */
+
 public class MostVisited extends GenericResource {
     private static Logger log = SWBUtils.getLogger(MostVisited.class);
 
@@ -42,12 +57,23 @@ public class MostVisited extends GenericResource {
         }
     }
 
-
+    /**
+    * Permite ordenar WebPages, de acuerdo a diferentes criterios.
+    * @see Manual de implementación
+    * @author  Carlos Ramos
+    * @version 1.0
+    */
     public static class SortWebPage  {
         public static Iterator sortByViews(Iterator it, boolean ascendente) {
             return sortByViewsSet(it, ascendente).iterator();
         }
 
+        /**
+         * Ordena un iterador de WebPage de acuerdo al número de visitas
+         * @param it - El iterador de WebPage
+         * @param ascendente - Si es true, el ordenamiento se hace ascendente. De lo contrario se hace descendiente.
+         * @return Un conjunto de WebPage ordenadas ascendente o descendentemente de acuerdo al su número de visitas.
+         */
         public static Set sortByViewsSet(Iterator it, boolean ascendente) {
             TreeSet set = null;
             if(ascendente) {

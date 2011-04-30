@@ -14,9 +14,22 @@ import org.semanticwb.portal.indexer.searcher.SearchQuery;
 import org.semanticwb.portal.indexer.searcher.SearchResults;
 import org.semanticwb.portal.indexer.searcher.SearchTerm;
 
+    /**
+    * Define los mecanismos para buscar determinados tokens dentro de la base de
+    * datos una instancia de SemanticWebBuilder 4
+    * @author  Carlos Ramos
+    * @version 1.0
+    */
+
 public class Search {
 
-
+    /**
+     * Busca el token especificado dentro de la base de datos indexada de SemanticWebBuilder 4.0.
+     * @param wsite - El modelo semántico o sitio web definido dentro de un ambiente de SemanticWebBuilder 4.0
+     * @param q - El token a buscar
+     * @param user - El usuario con el que se busca el token dentro del índice de la base de datos de SemanticWebBuilder.
+     * @return - Un arreglo Searchable
+     */
     public Searchable[] x(WebSite wsite, String q, User user) {
         Set<Searchable> uris = new HashSet<Searchable>();
 
@@ -43,7 +56,6 @@ public class Search {
 
                 GenericParser parser=indexer.getParser(srch);
                 uris.add(srch);
-                //uris.add("<a href=\""+parser.getUrl(srch)+"\">"+parser.getTitle(srch, lang)+"</a>");
             }
         }
         Searchable[]res=new Searchable[uris.size()];

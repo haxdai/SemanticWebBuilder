@@ -19,17 +19,40 @@ import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.api.SWBResourceURL;
 
+    /**
+    * Representa una estructura para organizar la información del portal que consiste en representar
+     * cada canal, dentro del portal, con un punto. Cada punto despliega la siguiente información:
+     * <ul>
+     * <li>Título del canal
+     * <li>Título de cada subsección del canal
+     * <li>Una imagen asociada a la propiedad iconClass del canal
+     * </ul>
+     * BulletPanel es un recurso de estrategia dentro del ambiente de SemanticWebBuilder 4.0. 
+     * BulletPanel no cuenta con una interfaz de administración. Se configura automáticamente de acuerdo a la
+     * estructura del portal.
+    * @author  Carlos Ramos
+    * @version 1.0
+    */
+
 public class BulletPanel  extends GenericResource {
     private static Logger log = SWBUtils.getLogger(BulletPanel.class);
-    //private List<WebPage>channels;
 
     @Override
     public void setResourceBase(Resource base) throws SWBResourceException {
         super.setResourceBase(base);
-        //channels = SWBUtils.Collections.copyIterator(base.getWebSite().getHomePage().listChilds(null, true, false, false, true));
     }
 
-
+    /**
+     * Despliega la estructura html que representa el BulletPanel.
+     * Mostrando, aleatoriamente, uno de los canales del portal.
+     * El manejador del evento click del BulletPanel, está implementado con ajax para atenuar los
+     * saltos al interactual con el recurso.
+     * @param request - el HttpServletRequest que recibe del contenedor de servlets
+     * @param response - el HttpServletResponse que recibe del contenedor de servlets
+     * @param paramRequest - el SWBParamRequest que recibe del ambiente SemanticWebBuilder
+     * @throws SWBResourceException - if paramRequest arroja una excepción de este tipo
+     * @throws IOException - if request o response arroja una excepción de este tipo
+     */
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
 
@@ -91,6 +114,15 @@ public class BulletPanel  extends GenericResource {
         out.println("</div>");
     }
 
+    /**
+     * Despliega la estructura html que representa el BulletPanel. Response a una solicitud ajax
+     * proviniente del manejador del evento click del BulletPanel.
+     * @param request - el HttpServletRequest que recibe del contenedor de servlets
+     * @param response - el HttpServletResponse que recibe del contenedor de servlets
+     * @param paramRequest - el SWBParamRequest que recibe del ambiente SemanticWebBuilder
+     * @throws SWBResourceException - if paramRequest arroja una excepción de este tipo
+     * @throws IOException - if request o response arroja una excepción de este tipo
+     */
     @Override
     public void doIndex(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         List<WebPage> channels = SWBUtils.Collections.copyIterator(paramRequest.getWebPage().getWebSite().getHomePage().listChilds(null, true, false, false, true));
