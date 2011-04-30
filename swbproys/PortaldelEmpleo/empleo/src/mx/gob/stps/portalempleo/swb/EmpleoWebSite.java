@@ -4,7 +4,6 @@ package mx.gob.stps.portalempleo.swb;
  * La clase EmpleoWebSite representa un modelo semántico dentro del ambiente de SemanticWebBuilder 4.0.0.
  * EmpleoWebSite define un portal web administrado por SemanticWebBuilder 4.0.0.
  *
- * @see Documentación de la ontología portalempleo.owl
  * @version 1.0.0
  * @author Carlos Ramos
  */
