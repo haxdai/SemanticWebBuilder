@@ -27,7 +27,6 @@ import org.semanticwb.portal.api.SWBResourceException;
      * </ul>
      * Recommended es un recurso de estrategia dentro del ambiente de SemanticWebBuilder 4.0.
      * Recommended cuenta con una interfaz de administración.
-    * @see Manual de implementación
     * @author  Carlos Ramos
     * @version 1.0
     */
@@ -59,7 +58,6 @@ public class MostVisited extends GenericResource {
 
     /**
     * Permite ordenar WebPages, de acuerdo a diferentes criterios.
-    * @see Manual de implementación
     * @author  Carlos Ramos
     * @version 1.0
     */
