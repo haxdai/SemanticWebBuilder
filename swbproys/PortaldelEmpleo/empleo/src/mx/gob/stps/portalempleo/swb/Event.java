@@ -6,7 +6,6 @@ import java.util.Comparator;
  * Event es una WebPage especializada para representar la información de cualquier evento.
  * Permite administrar los datos relevantes como fechas y horarios del evento.
  *
- * @see Manual de documentación
  * @version 1.0.0
  * @author Carlos Ramos
  */
@@ -22,7 +21,6 @@ public class Event extends mx.gob.stps.portalempleo.swb.base.EventBase
     /**
      * EventSortByStartDate tiene como único propósito comparar las fechas de inicio de dos eventos cualesquiera.
      *
-     * @see Manual de documentación
      * @version 1.0.0
      * @author Carlos Ramos
      */
