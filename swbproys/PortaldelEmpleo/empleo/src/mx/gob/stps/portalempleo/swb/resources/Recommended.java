@@ -29,7 +29,6 @@ import org.semanticwb.portal.api.SWBResourceURL;
      * </ul>
      * Recommended es un recurso de estrategia dentro del ambiente de SemanticWebBuilder 4.0.
      * Recommended cuenta con una interfaz de administración.
-    * @see Manual de implementación
     * @author  Carlos Ramos
     * @version 1.0
     */
