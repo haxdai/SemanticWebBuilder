@@ -92,7 +92,7 @@ public class RSSFeed extends GenericAdmResource {
             Date hoy = new Date();
             for (i = 0; i < iteradores.length; i++) {
                 while (iteradores[i].hasNext()) {
-                    long diasTrans; //diferencia de dias entre hoy y cuando fue actualizada la noticia
+                    long diasTrans = 0; //diferencia de dias entre hoy y cuando fue actualizada la noticia
                     Object noticia = iteradores[i].next();
                     Date updatedAt = null;
 
@@ -102,9 +102,9 @@ public class RSSFeed extends GenericAdmResource {
                                    : ((Event) noticia).getCreated();
                         if (updatedAt != null) {
                             diasTrans =  (hoy.getTime() - updatedAt.getTime()) / 1000 / 60 / 60 / 24; // se obtienen milisegundos y se dividen hasta quedar dias
-                        } else {
+/*                        } else {
                             logger.error("Evento sin fechas de modificacion o creacion: " + ((Event)noticia).getURI());
-                            continue;
+                            continue; */
                         }
                     } else {
                         updatedAt = ((WebPage)noticia).getUpdated() != null
@@ -112,13 +112,13 @@ public class RSSFeed extends GenericAdmResource {
                                    : ((WebPage)noticia).getCreated();
                         if (updatedAt != null) {
                             diasTrans =  (hoy.getTime() - updatedAt.getTime()) / 1000 / 60 / 60 / 24;
-                        } else {
+/*                        } else {
                             logger.error("Objeto sin fechas de modificacion o creacion: " + ((WebPage)noticia).getURI());
-                            continue;
+                            continue; */
                         }
                     }
                     
-                    if (diasTrans <= nDias) { //si esta dentro del rango se ingresa al feed
+                    if (updatedAt != null && diasTrans <= nDias) { //si esta dentro del rango se ingresa al feed
                         //Se agrega el elemento para el titulo de separacion en el feed
                         if (titulos[i][1] == null) {
                             titulos[i][1] = "agregado";
