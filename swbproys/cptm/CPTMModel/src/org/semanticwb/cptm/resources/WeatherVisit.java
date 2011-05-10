@@ -143,6 +143,9 @@ public class WeatherVisit extends GenericAdmResource {
         if (calculatedId != null) {
             try {
                 destinationId = Short.parseShort(calculatedId);
+                if (destinationId < 1 || destinationId > 74) {
+                    destinationId = 53;
+                }
             } catch (NumberFormatException nfe) {
                 destinationId = 53;
             }
