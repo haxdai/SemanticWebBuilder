@@ -100,10 +100,12 @@ public class BookingEngine extends GenericResource {
         super.setResourceBase(base);
         try {
 //            if (BookingEngine.xsltBestday == null) {
-                BookingEngine.xsltBestday = SWBUtils.XML.loadTemplateXSLT(SWBUtils.IO.getStreamFromString(
-                        SWBUtils.IO.getFileFromPath(SWBPortal.getWorkPath()
-                        + "/models/" + base.getWebSiteId()
-                        + "/css/images/bookengine/BestDay_es.xsl")));
+//                BookingEngine.xsltBestday = SWBUtils.XML.loadTemplateXSLT(SWBUtils.IO.getStreamFromString(
+//                        SWBUtils.IO.getFileFromPath(SWBPortal.getWorkPath()
+//                        + "/models/" + base.getWebSiteId()
+//                        + "/css/images/bookengine/BestDay_es.xsl")));
+                BookingEngine.htmlBestday_es = SWBUtils.IO.getFileFromPath(SWBPortal.getWorkPath()
+                        + "/models/" + base.getWebSiteId() + "/css/images/bookengine/BestDay_es.html");
 //            }
 //            if (BookingEngine.htmlBestday_es == null) {
 //                BookingEngine.htmlBestday_es = SWBUtils.IO.getFileFromPath(SWBPortal.getWorkPath()
@@ -252,17 +254,16 @@ public class BookingEngine extends GenericResource {
 
         try {
             if (userLanguage.equalsIgnoreCase(BookingEngine.defaultLanguage)) {
-                Document doc = SWBUtils.XML.getNewDocument();
-                elem_parameters = doc.createElement("parameters");
-                doc.appendChild(elem_parameters);
-                elem_parameter = getElement(doc, "idm", userLanguage);
-                elem_parameters.appendChild(elem_parameter);
-                elem_parameter = getElement(doc, "Pais", "" + countryCode);
-                elem_parameters.appendChild(elem_parameter);
-
+//                Document doc = SWBUtils.XML.getNewDocument();
+//                elem_parameters = doc.createElement("parameters");
+//                doc.appendChild(elem_parameters);
+//                elem_parameter = getElement(doc, "idm", userLanguage);
+//                elem_parameters.appendChild(elem_parameter);
+//                elem_parameter = getElement(doc, "Pais", "" + countryCode);
+//                elem_parameters.appendChild(elem_parameter);
 //            out.println(new GenerateHtml().getHtml(doc, xsl));   //todo descomentar este si es generico y comentar el siguiente
-                out.println(SWBUtils.XML.transformDom(BookingEngine.xsltBestday, doc));
-//                out.println(BookingEngine.htmlBestday_es);//Ingles, paises que lo manejen
+//                out.println(SWBUtils.XML.transformDom(BookingEngine.xsltBestday, doc));
+                out.println(BookingEngine.htmlBestday_es);//Ingles, paises que lo manejen
             } else if (userLanguage.equals("pt")) {//Portugés
                 out.println(BookingEngine.htmlBestday_pt);
             }
