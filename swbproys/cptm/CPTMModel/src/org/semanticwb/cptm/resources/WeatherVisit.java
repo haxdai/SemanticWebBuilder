@@ -8,7 +8,6 @@ package org.semanticwb.cptm.resources;
 
 import com.arthurdo.parser.HtmlStreamTokenizer;
 import com.arthurdo.parser.HtmlTag;
-import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -28,6 +27,7 @@ import org.semanticwb.model.WebPage;
 import org.semanticwb.portal.api.GenericAdmResource;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -54,14 +54,24 @@ public class WeatherVisit extends GenericAdmResource {
     private String URL_REQUESTED = "http://datos.gob.mx/clima/clima_h.php?clima=";
 
     /**
-     * Contiene la plantilla a utilizar para presentar los datos del clima
+     * Contiene la plantilla a utilizar para presentar los datos del clima como contenido
      */
-    private javax.xml.transform.Templates tpl;
+    private javax.xml.transform.Templates contentTmplt;
 
     /**
-     * Almacena el código HTML generado para cada destino posible
+     * Contiene la plantilla a utilizar para presentar los datos del clima como estrategia
      */
-    private String[] generatedCode = new String[74];
+    private javax.xml.transform.Templates strategyTpl;
+
+    /**
+     * Almacena el código HTML generado para cada destino posible, como contenido
+     */
+    private String[] contentCode = new String[74];
+
+    /**
+     * Almacena el código HTML generado para cada destino posible, como estrategia
+     */
+    private String[] strategyCode = new String[74];
 
     /**
      * Almacena la hora en que se gener&oacute; por &uacute;ltima vez el reporte
@@ -72,51 +82,149 @@ public class WeatherVisit extends GenericAdmResource {
 
     @Override
     public void setResourceBase(Resource base) {
+
+        String tmpltFile = null;
+
         try {
             super.setResourceBase(base);
         } catch (Exception e) {
             log.error("Error while setting resource base: " + base.getId()
                     + "-" + base.getTitle(), e);
         }
-        if (!"".equals(base.getAttribute("template", "").trim())) {
+
+        tmpltFile = base.getAttribute("contTemplate", "").trim();
+        if (tmpltFile != null && !"".equals(tmpltFile)) {
             try {
-                tpl = SWBUtils.XML.loadTemplateXSLT(
+                contentTmplt = SWBUtils.XML.loadTemplateXSLT(
                         SWBPortal.getFileFromWorkPath(base.getWorkPath() + "/"
-                                + base.getAttribute("template").trim()));
+                                                      + tmpltFile));
 //                path = SWBPortal.getWebWorkPath() +  base.getWorkPath() + "/";
             } catch (Exception e) {
-                tpl = null;
-                log.error("Error while loading resource template: "
+                contentTmplt = null;
+                log.error("Error while loading resource's content template: "
                         + base.getId(), e);
             }
         }
-        if (tpl == null) {
+
+        if (contentTmplt == null) {
             try {
-                tpl = SWBUtils.XML.loadTemplateXSLT(
+                contentTmplt = SWBUtils.XML.loadTemplateXSLT(
                         SWBPortal.getFileFromWorkPath("/models/"
                                 + base.getWebSite().getId()
-                                + "/xsl/WeatherVisit.xslt"));
+                                + "/xsl/WeatherVisitCntnt.xslt"));
             } catch (Exception e) {
-                log.error("Error while loading default resource template: "
+                log.error("Error while loading default resource's content template: "
+                        + base.getId(), e);
+            }
+        }
+
+        tmpltFile = base.getAttribute("stratTemplate", "").trim();
+        if (tmpltFile != null && !"".equals(tmpltFile)) {
+            try {
+                strategyTpl = SWBUtils.XML.loadTemplateXSLT(
+                        SWBPortal.getFileFromWorkPath(base.getWorkPath() + "/"
+                                                      + tmpltFile));
+//                path = SWBPortal.getWebWorkPath() +  base.getWorkPath() + "/";
+            } catch (Exception e) {
+                strategyTpl = null;
+                log.error("Error while loading resource's strategy template: "
+                        + base.getId(), e);
+            }
+        }
+
+        if (strategyTpl == null) {
+            try {
+                strategyTpl = SWBUtils.XML.loadTemplateXSLT(
+                        SWBPortal.getFileFromWorkPath("/models/"
+                                + base.getWebSite().getId()
+                                + "/xsl/WeatherVisitStrat.xslt"));
+            } catch (Exception e) {
+                log.error("Error while loading default resource's strategy template: "
                         + base.getId(), e);
             }
         }
     }
 
     @Override
+    public void processRequest(HttpServletRequest request,
+            HttpServletResponse response, SWBParamRequest paramRequest)
+            throws SWBResourceException, IOException {
+
+        if (paramRequest.getCallMethod() == SWBParamRequest.Call_STRATEGY) {
+            doStrategyCall(request, response, paramRequest);
+        } else {
+            super.processRequest(request, response, paramRequest);
+        }
+    }
+
+    @Override
     public void doView(HttpServletRequest request, HttpServletResponse response,
-            SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+            SWBParamRequest paramRequest) throws SWBResourceException {
 
         //Por defecto muestra la información de Ciudad de México id = 53
         short destinationId = 53;
-        String calculatedId = null;
-        WebPage wp = paramRequest.getWebPage();
         Resource base = getResourceBase();
         int cacheInMiliSecs = 0;
         short minutes = 0;
         String HTMLString = null;
         long requestTime = System.currentTimeMillis();
 
+        try {
+            if (request.getParameter(("idDest")) != null) {
+                destinationId = Short.parseShort(request.getParameter(("idDest")));
+            }
+        } catch (Exception e) {
+            destinationId = 53;
+        }
+
+        if (base.getAttribute("cacheInMins") != null) {
+            try {
+                if (base.getAttribute("cacheInMins") != null &&
+                        !"".equalsIgnoreCase(base.getAttribute("cacheInMins"))) {
+                    minutes = Short.parseShort(base.getAttribute("cacheInMins"));
+                } else {
+                    minutes = 10;
+                }
+            } catch (NumberFormatException nfe) {
+                
+            }
+        }
+        
+        //tiempo en cache (milisegundos)
+        cacheInMiliSecs = minutes * 60000;
+
+        if (this.contentCode[destinationId - 1] != null &&
+                cacheInMiliSecs >= (requestTime - this.generatedAt[destinationId - 1])) {
+            HTMLString = this.contentCode[destinationId - 1];
+        } else {
+            processHTMLCode(destinationId, request, paramRequest);
+            this.generatedAt[destinationId - 1] = requestTime;
+            HTMLString = this.contentCode[destinationId - 1];
+        }
+        
+        try {
+            PrintWriter out = response.getWriter();
+            out.println(HTMLString.replaceFirst("TituloParaI18N",
+                    paramRequest.getLocaleString("msgClima")));
+        } catch (IOException ioe) {
+            log.error("Al generar la vista de contenido del Clima", ioe);
+        }
+
+    }
+
+    private void doStrategyCall(HttpServletRequest request,
+            HttpServletResponse response, SWBParamRequest paramRequest)
+            throws SWBResourceException {
+
+        short destinationId = 53;
+        String calculatedId = null;
+        WebPage wp = paramRequest.getWebPage();
+        String HTMLString = null;
+        long requestTime = System.currentTimeMillis();
+        Resource base = getResourceBase();
+        int cacheInMiliSecs = 0;
+        short minutes = 0;
+        
         //Se obtiene el identificador del destino del que se desea reportar el clima
         if (wp instanceof GeographicPoint) {
             calculatedId = ((GeographicPoint) wp).getDestWeather();
@@ -160,26 +268,28 @@ public class WeatherVisit extends GenericAdmResource {
                     minutes = 10;
                 }
             } catch (NumberFormatException nfe) {
-                
+
             }
         }
-        
+
         //tiempo en cache (milisegundos)
         cacheInMiliSecs = minutes * 60000;
 
-        if (generatedCode[destinationId - 1] != null &&
-                cacheInMiliSecs >= (requestTime - generatedAt[destinationId - 1])) {
-            HTMLString = generatedCode[destinationId - 1];
+        if (this.strategyCode[destinationId - 1] != null &&
+                cacheInMiliSecs >= (requestTime - this.generatedAt[destinationId - 1])) {
+            HTMLString = this.strategyCode[destinationId - 1];
         } else {
-            generatedCode[destinationId - 1] = processHTMLCode(destinationId,
-                    request, paramRequest);
-            generatedAt[destinationId - 1] = requestTime;
-            HTMLString = generatedCode[destinationId - 1];
+            processHTMLCode(destinationId, request, paramRequest);
+            HTMLString = this.strategyCode[destinationId - 1];
         }
-        
-        PrintWriter out = response.getWriter();
-        out.println(HTMLString);
 
+        try {
+            PrintWriter out = response.getWriter();
+            out.println(HTMLString.replaceFirst("TituloParaI18N",
+                    paramRequest.getLocaleString("msgClima")));
+        } catch (IOException ioe) {
+            this.log.error("Al generar la vista por estrategia del Clima", ioe);
+        }
     }
 
     /**
@@ -205,6 +315,9 @@ public class WeatherVisit extends GenericAdmResource {
             String hostCookie = pagina.getHost();
             String cookie = (String)request.getSession().getAttribute("Cookie:" + hostCookie);
             String sheader = request.getHeader("user-agent");
+            WebPage climaWP = WebPage.ClassMgr.getWebPage(
+                              getResourceBase().getAttribute("pageId", "Clima"),
+                              paramRequest.getWebPage().getWebSite());
             URLConnection conex = null;
 
             try {
@@ -220,7 +333,9 @@ public class WeatherVisit extends GenericAdmResource {
                 cal.setTimeInMillis(System.currentTimeMillis());
                 int diaMes = cal.get(cal.DATE);
                 int mes = cal.get(cal.MONTH);
-                String url = paramRequest.getRenderUrl().toString();
+                String url = climaWP.getRealUrl(
+                        paramRequest.getUser().getLanguage()) + "?idDest="
+                        + destinationId;
 
                 if (cookie != null) {
                     conex.setRequestProperty("Cookie", cookie);
@@ -240,18 +355,19 @@ public class WeatherVisit extends GenericAdmResource {
                 String[] temps = new String[5];
                 String[] imgSrc = new String[5];
                 String[] imgAlt = new String[5];
+                StringBuilder selectOptions = new StringBuilder(128);
                 int cont = 0;
                 HtmlTag tag = new HtmlTag();
                 boolean entrar = false;
                 boolean entrar_img = false;
+                boolean optionTag = false;
 
                 dom = SWBUtils.XML.getNewDocument();
                 Element ele = dom.createElement("clima");
                 dom.appendChild(ele);
 
                 Element clima = dom.createElement("titulo");
-                clima.appendChild((Node) dom.createTextNode(
-                                  paramRequest.getLocaleString("msgClima")));
+                clima.appendChild((Node) dom.createTextNode("TituloParaI18N"));
                 ele.appendChild(clima);
 
                 Element tp_url = dom.createElement("url");
@@ -279,6 +395,8 @@ public class WeatherVisit extends GenericAdmResource {
                     //Si es un tag
                     if (ttype == HtmlStreamTokenizer.TT_TAG) {
                         tok.parseTag(tok.getStringValue(), tag);
+                        //De los span se obtienen los datos de nombre del destino,
+                        //fecha del pronóstico y temperaturas del pronóstico
                         if (tag.getTagString().equalsIgnoreCase("span")) {
                             Enumeration en = tag.getParamNames();
                             int i = 0;
@@ -307,6 +425,7 @@ public class WeatherVisit extends GenericAdmResource {
                                    !entrar_img) {
                             Enumeration en = tag.getParamNames();
                             int i = 0;
+                            //De las imágenes se obtienen la ruta y el texto alterno
                             while (en.hasMoreElements()) {
                                 String p_name = (String) en.nextElement();
                                 if (p_name.equalsIgnoreCase("src")) {
@@ -321,6 +440,24 @@ public class WeatherVisit extends GenericAdmResource {
                             }
                             imagen = tag.toString();
                             entrar_img = true;
+                        } else if (tag.getTagString().equalsIgnoreCase("option") &&
+                                !tag.isEndTag()) {
+                            Enumeration en = tag.getParamNames();
+                            int i = 0;
+                            String prueba = null;
+                            //Se obtiene el identificador del destino en turno
+                            while (en.hasMoreElements()) {
+                                String p_name = (String) en.nextElement();
+                                if (p_name.equalsIgnoreCase("value")) {
+                                    selectOptions.append(tag.getParamValue(i));
+                                    selectOptions.append("-");
+                                    prueba = tag.getParamValue(i);
+                                }
+                                i++;
+                            }
+                            optionTag = true;
+                            entrar = true;
+                            //System.out.println("Encuentra option: " + prueba);
                         }
                     //Si no es un tag, sino texto
                     } else if (ttype == HtmlStreamTokenizer.TT_TEXT && entrar) {
@@ -342,7 +479,18 @@ public class WeatherVisit extends GenericAdmResource {
                             clima_temps = tok.getStringValue().toString();
                             temps[cont] = clima_temps;
                         }
+                        if (optionTag) {
+                            //arma el conjunto de valores para las opciones de destinos a consultar (select)
+                            optionTag = false;
+                            if (tok.getStringValue() != null &&
+                                    !"".equals(tok.getStringValue())) {
+                                selectOptions.append(tok.getStringValue());
+                                selectOptions.append("@");
+                                //System.out.println("Valor agregado a cadena:\n" + tok.getStringValue());
+                            }
+                        }
                         entrar = false;
+                        propiedad = "";
                     }
                     if (cont < dia.length && dia[cont] != null && temps[cont] != null &&
                             imgSrc[cont] != null && imgAlt[cont] != null) {
@@ -350,6 +498,7 @@ public class WeatherVisit extends GenericAdmResource {
                     }
                 }
 
+                //Agrega al DOM las fechas y temperaturas del pronóstico
                 try {
                     for (int i = 0; i < dia.length; i++) {
                         Element row = dom.createElement("row");
@@ -373,9 +522,45 @@ public class WeatherVisit extends GenericAdmResource {
                         ele.appendChild(row);
                     }
 
+                    Element fechaEstrategia = dom.createElement("fechaEstrategia");
+                    fechaEstrategia.appendChild((Node) dom.createTextNode(diaMes
+                            + " " + getMonthName(mes + 1, paramRequest)));
+                    ele.appendChild(fechaEstrategia);
+
                 } catch (Exception edom) {
                     log.error("Error al generar el DOM de WeatherVisit.processHTMLCode()", edom);
                 }
+
+                //Agrega en el DOM, los destinos (extraídos de la petición remota) posibles de consultar
+                if (selectOptions.length() > 0) {
+                    try {
+                    String[] options = selectOptions.toString().split("@");
+                    Element destination = dom.createElement("destOptions");
+                    for (int j = 0; j < options.length; j++) {
+                        //System.out.println("Elemento a generar: " + options[j]);
+                        String[] values = options[j].split("-");
+                        if (values != null && values.length == 2) {
+                            Element option = dom.createElement("option");
+                            
+                            Element optnValue = dom.createElement("value");
+                            optnValue.appendChild((Node) dom.createTextNode(values[0]));
+                            option.appendChild(optnValue);
+                            
+                            Element optnText = dom.createElement("text");
+                            optnText.appendChild((Node) dom.createTextNode(values[1]));
+                            option.appendChild(optnText);
+                            
+                            destination.appendChild(option);
+                            ele.appendChild(destination);
+                        }
+                    }
+                    //System.out.println("longitud de arreglo -options: " + options.length);
+                    } catch (DOMException dome) {
+                        this.log.error("Al agregar destinos del combo.", dome);
+                    }
+                }
+                //System.out.println("cadena generada:\n" + selectOptions +
+                //        "\nCon longitud de: " + selectOptions.length());
             }
 
         } catch (Exception e) {
@@ -384,7 +569,12 @@ public class WeatherVisit extends GenericAdmResource {
 
         if (null != dom) {
             try {
-                HTMLGenerated = SWBUtils.XML.transformDom(tpl, dom);
+//                System.out.println("\nDOM generado:\n" + SWBUtils.XML.domToXml(dom, true));
+                this.contentCode[destinationId - 1] = SWBUtils.XML.transformDom(
+                        this.contentTmplt, dom);
+                this.strategyCode[destinationId - 1] = SWBUtils.XML.transformDom(
+                        this.strategyTpl, dom);
+                this.generatedAt[destinationId - 1] = System.currentTimeMillis();
             } catch (Exception transexc) {
                 log.error("Error durante la transformación del XSL para WeatherVisit.processHTMLCode()", transexc);
             }
