@@ -555,7 +555,7 @@ public abstract class CPTMPhotoWebPageBase extends org.semanticwb.model.WebPage 
 */
     public String getCptmAbstractDescription()
     {
-        return getSemanticObject().getProperty(cptm_cptmAbstractDescription);
+        return null;//getSemanticObject().getProperty(cptm_cptmAbstractDescription);
     }
 
 /**
@@ -564,7 +564,7 @@ public abstract class CPTMPhotoWebPageBase extends org.semanticwb.model.WebPage 
 */
     public void setCptmAbstractDescription(String value)
     {
-        getSemanticObject().setProperty(cptm_cptmAbstractDescription, value);
+        //getSemanticObject().setProperty(cptm_cptmAbstractDescription, value);
     }
 
 /**
