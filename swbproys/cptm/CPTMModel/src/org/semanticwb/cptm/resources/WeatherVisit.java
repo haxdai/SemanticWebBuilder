@@ -282,11 +282,14 @@ public class WeatherVisit extends GenericAdmResource {
             processHTMLCode(destinationId, request, paramRequest);
             HTMLString = this.strategyCode[destinationId - 1];
         }
-
+        
         try {
             PrintWriter out = response.getWriter();
             out.println(HTMLString.replaceFirst("TituloParaI18N",
-                    paramRequest.getLocaleString("msgClima")));
+                    paramRequest.getLocaleString("msgClima")).replaceFirst(
+                    "HoyParaI18N", paramRequest.getLocaleString("msgHoy")
+                    ).replaceFirst("ManianaParaI18N",
+                    paramRequest.getLocaleString("msgManiana")));
         } catch (IOException ioe) {
             this.log.error("Al generar la vista por estrategia del Clima", ioe);
         }
@@ -471,7 +474,13 @@ public class WeatherVisit extends GenericAdmResource {
                         }
                         if (null == clima_dia &&
                                 propiedad.equalsIgnoreCase("clima_dias")) {
-                            clima_dia = tok.getStringValue().toString();
+                            switch (cont) {
+                                case 0: clima_dia = "HoyParaI18N";
+                                        break;
+                                case 1: clima_dia = "ManianaParaI18N";
+                                        break;
+                                default: clima_dia = tok.getStringValue().toString();
+                            }
                             dia[cont] = clima_dia;
                         }
                         if (null == clima_temps &&
