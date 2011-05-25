@@ -1,22 +1,22 @@
-package org.semanticwb.tankwar.base;
+package org.semanticwb.tankwar.resources.base;
 
 
-public abstract class TankWarResourceBase extends org.semanticwb.portal.api.GenericSemResource 
+public abstract class ListTanksBase extends org.semanticwb.portal.api.GenericSemResource 
 {
     public static final org.semanticwb.platform.SemanticClass swb_Resource=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#Resource");
     public static final org.semanticwb.platform.SemanticProperty swb_semanticResourceInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#semanticResourceInv");
-    public static final org.semanticwb.platform.SemanticClass tank_TankWarResource=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/tankwar#TankWarResource");
-    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/tankwar#TankWarResource");
+    public static final org.semanticwb.platform.SemanticClass tank_ListTanks=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/tankwar#ListTanks");
+    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/tankwar#ListTanks");
 
-    public TankWarResourceBase()
+    public ListTanksBase()
     {
     }
 
    /**
-   * Constructs a TankWarResourceBase with a SemanticObject
-   * @param base The SemanticObject with the properties for the TankWarResource
+   * Constructs a ListTanksBase with a SemanticObject
+   * @param base The SemanticObject with the properties for the ListTanks
    */
-    public TankWarResourceBase(org.semanticwb.platform.SemanticObject base)
+    public ListTanksBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
     }
