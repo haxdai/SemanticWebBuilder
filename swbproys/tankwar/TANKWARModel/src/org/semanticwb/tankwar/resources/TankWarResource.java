@@ -2,7 +2,6 @@ package org.semanticwb.tankwar.resources;
 
 
 import java.io.IOException;
-import java.util.Calendar;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.*;
 import org.semanticwb.Logger;
@@ -51,14 +50,11 @@ public class TankWarResource extends org.semanticwb.tankwar.resources.base.TankW
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
     {
-        System.out.println("Entra a Process");
         String action=response.getAction();
         WebSite wsite=response.getWebPage().getWebSite();
-        User user=response.getUser();
         if(action!=null)
         {
             if(action.equals(response.Action_ADD)){
-                System.out.println("Process-Add");
                 SWBFormMgr mgr = new SWBFormMgr(Tank.tank_Tank, wsite.getSemanticObject(), null);
                 try
                 {
@@ -74,7 +70,6 @@ public class TankWarResource extends org.semanticwb.tankwar.resources.base.TankW
                     log.error(e);
                 }
             }else if(action.equals(response.Action_EDIT)){
-                System.out.println("Process-Edit");
                 SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("tankUri"));
                 SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
                 try
@@ -98,7 +93,6 @@ public class TankWarResource extends org.semanticwb.tankwar.resources.base.TankW
                 //tank.remove();
             }else if(action.equals("addComent") && request.getParameter("tankUri")!=null && request.getParameter("description")!=null)
             {
-                System.out.println("Entra a Process-addComent-2");
                 SWBFormMgr mgr = new SWBFormMgr(TankComment.tank_TankComment, wsite.getSemanticObject(), null);
                 try
                 {
