@@ -11,7 +11,6 @@ public abstract class TankBase extends org.semanticwb.model.SWBClass implements 
    * Puntuación
    */
     public static final org.semanticwb.platform.SemanticProperty tank_score=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/tankwar#score");
-    public static final org.semanticwb.platform.SemanticProperty tank_price=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/tankwar#price");
    /**
    * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
    */
@@ -30,6 +29,11 @@ public abstract class TankBase extends org.semanticwb.model.SWBClass implements 
    * Cantidad de Juegos Perdidos
    */
     public static final org.semanticwb.platform.SemanticProperty tank_lostGames=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/tankwar#lostGames");
+   /**
+   * Comentarios de un Tanque
+   */
+    public static final org.semanticwb.platform.SemanticClass tank_TankComment=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/tankwar#TankComment");
+    public static final org.semanticwb.platform.SemanticProperty tank_hasCommTankInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/tankwar#hasCommTankInv");
    /**
    * Tipo de Tanque
    */
@@ -203,6 +207,29 @@ public abstract class TankBase extends org.semanticwb.model.SWBClass implements 
             return it;
         }
        /**
+       * Gets all org.semanticwb.tankwar.Tank with a determined CommTankInv
+       * @param value CommTankInv of the type org.semanticwb.tankwar.TankComment
+       * @param model Model of the org.semanticwb.tankwar.Tank
+       * @return Iterator with all the org.semanticwb.tankwar.Tank
+       */
+
+        public static java.util.Iterator<org.semanticwb.tankwar.Tank> listTankByCommTankInv(org.semanticwb.tankwar.TankComment value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.tankwar.Tank> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(tank_hasCommTankInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.tankwar.Tank with a determined CommTankInv
+       * @param value CommTankInv of the type org.semanticwb.tankwar.TankComment
+       * @return Iterator with all the org.semanticwb.tankwar.Tank
+       */
+
+        public static java.util.Iterator<org.semanticwb.tankwar.Tank> listTankByCommTankInv(org.semanticwb.tankwar.TankComment value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.tankwar.Tank> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(tank_hasCommTankInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.tankwar.Tank with a determined TankType
        * @param value TankType of the type org.semanticwb.tankwar.TankType
        * @param model Model of the org.semanticwb.tankwar.Tank
@@ -270,24 +297,6 @@ public abstract class TankBase extends org.semanticwb.model.SWBClass implements 
     public void setScore(int value)
     {
         getSemanticObject().setIntProperty(tank_score, value);
-    }
-
-/**
-* Gets the Price property
-* @return float with the Price
-*/
-    public float getPrice()
-    {
-        return getSemanticObject().getFloatProperty(tank_price);
-    }
-
-/**
-* Sets the Price property
-* @param value long with the Price
-*/
-    public void setPrice(float value)
-    {
-        getSemanticObject().setFloatProperty(tank_price, value);
     }
 
 /**
@@ -623,6 +632,45 @@ public abstract class TankBase extends org.semanticwb.model.SWBClass implements 
     public void setLostGames(int value)
     {
         getSemanticObject().setIntProperty(tank_lostGames, value);
+    }
+   /**
+   * Gets all the org.semanticwb.tankwar.TankComment
+   * @return A GenericIterator with all the org.semanticwb.tankwar.TankComment
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.tankwar.TankComment> listCommTankInvs()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.tankwar.TankComment>(getSemanticObject().listObjectProperties(tank_hasCommTankInv));
+    }
+
+   /**
+   * Gets true if has a CommTankInv
+   * @param value org.semanticwb.tankwar.TankComment to verify
+   * @return true if the org.semanticwb.tankwar.TankComment exists, false otherwise
+   */
+    public boolean hasCommTankInv(org.semanticwb.tankwar.TankComment value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(tank_hasCommTankInv,value.getSemanticObject());
+        }
+        return ret;
+    }
+
+   /**
+   * Gets the CommTankInv
+   * @return a org.semanticwb.tankwar.TankComment
+   */
+    public org.semanticwb.tankwar.TankComment getCommTankInv()
+    {
+         org.semanticwb.tankwar.TankComment ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(tank_hasCommTankInv);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.tankwar.TankComment)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
