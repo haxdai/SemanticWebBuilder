@@ -50,19 +50,15 @@ public class ListTanks extends org.semanticwb.tankwar.resources.base.ListTanksBa
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
     {
         String action=response.getAction();
-        WebSite wsite=response.getWebPage().getWebSite();
         User user=response.getUser();
         if(action!=null)
         {
-            System.out.println("processAction");
             if(action.equals("addFavorite"))
             {
-                System.out.println("processAction-1");
                 SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("tankUri"));
                 Tank tank = (Tank) semObject.createGenericInstance();
                 if(!tank.hasUserFavorite(user))
                 {
-                    System.out.println("processAction-2");
                     tank.addUserFavorite(user);
                 }
             }
