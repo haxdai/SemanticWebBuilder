@@ -142,7 +142,7 @@ public class RSSFeed extends GenericAdmResource {
 
                 if (noticia instanceof String) {
                     description = (String) noticia;
-                    addAttribute(item, "description", description != null ? description : "");
+                    addAttribute(item, "description", description != null && !"null".equalsIgnoreCase(description) ? description : "");
                     elementosPorCanal = 0;
                 } else if (noticia instanceof Event) {
                     if (mostrarEvento != null) {
@@ -152,11 +152,13 @@ public class RSSFeed extends GenericAdmResource {
                         content.append("\n         <table width=\"100%\">");
                         content.append("\n           <tr>");
                         content.append("\n             <td align=\"left\">");
-                        content.append("\n               <img width=\"150\" height=\"100\" src=\"" + servidor + SWBPortal.getWebWorkPath() + ((Event) noticia).getWorkPath() + "/" + CptmgeneralData.cptm_photo.getName() + "_" + ((Event) noticia).getId() + "_" + ((Event) noticia).getPhoto() + "\">");
+                        if (((Event) noticia).getPhoto() != null) {
+                            content.append("\n               <img width=\"150\" height=\"100\" src=\"" + servidor + SWBPortal.getWebWorkPath() + ((Event) noticia).getWorkPath() + "/" + CptmgeneralData.cptm_photo.getName() + "_" + ((Event) noticia).getId() + "_" + ((Event) noticia).getPhoto() + "\">");
+                        }
                         content.append("\n             </td>");
                         //content.append("\n             <td align=\"left\">");
                         content.append("\n             <td valign=\"bottom\" align=\"justify\">");
-                        content.append("\n             " + description != null ? description : "");
+                        content.append("\n             " + description != null && !"null".equalsIgnoreCase(description) ? description : "");
                         content.append("\n             </td>");
                         content.append("\n           </tr>");
                         content.append("\n         </table> ");
@@ -169,11 +171,13 @@ public class RSSFeed extends GenericAdmResource {
                     content.append("\n         <table width=\"100%\">");
                     content.append("\n           <tr>");
                     content.append("\n             <td align=\"left\">");
-                    content.append("\n               <img width=\"150\" height=\"100\" src=\"" + servidor + SWBPortal.getWebWorkPath() + ((WebPage) noticia).getWorkPath() + "/" + CptmgeneralData.cptm_photo.getName() + "_" + ((WebPage) noticia).getId() + "_" + ((WebPage) noticia).getSemanticObject().getProperty(CptmgeneralData.cptm_photo) + "\">");
+                    if (((WebPage) noticia).getSemanticObject().getProperty(CptmgeneralData.cptm_photo) != null) {
+                        content.append("\n               <img width=\"150\" height=\"100\" src=\"" + servidor + SWBPortal.getWebWorkPath() + ((WebPage) noticia).getWorkPath() + "/" + CptmgeneralData.cptm_photo.getName() + "_" + ((WebPage) noticia).getId() + "_" + ((WebPage) noticia).getSemanticObject().getProperty(CptmgeneralData.cptm_photo) + "\">");
+                    }
                     content.append("\n             </td>");
                     //content.append("\n             <td align=\"left\">");
                     content.append("\n             <td valign=\"bottom\" align=\"justify\">");
-                    content.append("\n             " + description != null ? description : "");
+                    content.append("\n             " + description != null && !"null".equalsIgnoreCase(description) ? description : "");
                     content.append("\n             </td>");
                     content.append("\n           </tr>");
                     content.append("\n         </table> ");
