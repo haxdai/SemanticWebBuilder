@@ -27,6 +27,7 @@ import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import java.text.SimpleDateFormat;
 
 public class RSSFeed extends GenericAdmResource {
 
@@ -131,6 +132,7 @@ public class RSSFeed extends GenericAdmResource {
 
             WebPage mostrarEvento = WebPage.ClassMgr.getWebPage("Mostrar-Evento", wp.getWebSite());
             int elementosPorCanal = 0;
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
             if (mostrarEvento == null) {
                 mostrarEvento = WebPage.ClassMgr.getWebPage("Mostrar_Evento", wp.getWebSite());
             }
@@ -139,26 +141,34 @@ public class RSSFeed extends GenericAdmResource {
                 Element item = doc.createElement("item");
                 StringBuilder content = new StringBuilder(128);
                 String description = null;
+                Date lastUpdate = null;
 
                 if (noticia instanceof String) {
-                    description = (String) noticia;
-                    addAttribute(item, "description", description != null && !"null".equalsIgnoreCase(description) ? description : "");
+                    description = (String) noticia != null && !"null".equalsIgnoreCase((String) noticia) && !"".equalsIgnoreCase((String) noticia)
+                                ? (String) noticia : "";
+                    addAttribute(item, "description", description);
                     elementosPorCanal = 0;
                 } else if (noticia instanceof Event) {
                     if (mostrarEvento != null) {
                         description = ((Event) noticia).getDisplayDescription(lang);
+                        lastUpdate = ((Event) noticia).getUpdated() != null ? ((Event) noticia).getUpdated() : ((Event) noticia).getCreated();
+                        if (description != null && !description.trim().equalsIgnoreCase("null")) {
+                            description += (" (Actualizado: " + sdf.format(lastUpdate) + ")");
+                        } else {
+                            description = "(Actualizado: " + sdf.format(lastUpdate) + ")";
+                        }
                         addAttribute(item, "title", ((Event) noticia).getDisplayTitle(lang));
                         addAttribute(item, "link", servidor + mostrarEvento.getRealUrl(paramsRequest.getUser().getLanguage()) + "?id=" + ((Event) noticia).getId() + "&show=event");
                         content.append("\n         <table width=\"100%\">");
                         content.append("\n           <tr>");
-                        content.append("\n             <td align=\"left\">");
+                        content.append("\n             <td width=\"170\" align=\"center\">");
                         if (((Event) noticia).getPhoto() != null) {
                             content.append("\n               <img width=\"150\" height=\"100\" src=\"" + servidor + SWBPortal.getWebWorkPath() + ((Event) noticia).getWorkPath() + "/" + CptmgeneralData.cptm_photo.getName() + "_" + ((Event) noticia).getId() + "_" + ((Event) noticia).getPhoto() + "\">");
                         }
                         content.append("\n             </td>");
                         //content.append("\n             <td align=\"left\">");
                         content.append("\n             <td valign=\"bottom\" align=\"justify\">");
-                        content.append("\n             " + description != null && !"null".equalsIgnoreCase(description) ? description : "");
+                        content.append("\n             " + description);
                         content.append("\n             </td>");
                         content.append("\n           </tr>");
                         content.append("\n         </table> ");
@@ -166,18 +176,24 @@ public class RSSFeed extends GenericAdmResource {
                     }
                 } else {
                     description = ((WebPage) noticia).getDisplayDescription(lang);
+                    lastUpdate = ((WebPage) noticia).getUpdated() != null ? ((WebPage) noticia).getUpdated() : ((WebPage) noticia).getCreated();
+                    if (description != null && !description.trim().equalsIgnoreCase("null")) {
+                        description += (" (Actualizado: " + sdf.format(lastUpdate) + ")");
+                    } else {
+                        description = "(Actualizado: " + sdf.format(lastUpdate) + ")";
+                    }
                     addAttribute(item, "title", ((WebPage) noticia).getDisplayName(lang));
                     addAttribute(item, "link", servidor + ((WebPage) noticia).getRealUrl());
                     content.append("\n         <table width=\"100%\">");
                     content.append("\n           <tr>");
-                    content.append("\n             <td align=\"left\">");
+                    content.append("\n             <td width=\"170\" align=\"center\">");
                     if (((WebPage) noticia).getSemanticObject().getProperty(CptmgeneralData.cptm_photo) != null) {
                         content.append("\n               <img width=\"150\" height=\"100\" src=\"" + servidor + SWBPortal.getWebWorkPath() + ((WebPage) noticia).getWorkPath() + "/" + CptmgeneralData.cptm_photo.getName() + "_" + ((WebPage) noticia).getId() + "_" + ((WebPage) noticia).getSemanticObject().getProperty(CptmgeneralData.cptm_photo) + "\">");
                     }
                     content.append("\n             </td>");
                     //content.append("\n             <td align=\"left\">");
                     content.append("\n             <td valign=\"bottom\" align=\"justify\">");
-                    content.append("\n             " + description != null && !"null".equalsIgnoreCase(description) ? description : "");
+                    content.append("\n             " + description);
                     content.append("\n             </td>");
                     content.append("\n           </tr>");
                     content.append("\n         </table> ");
