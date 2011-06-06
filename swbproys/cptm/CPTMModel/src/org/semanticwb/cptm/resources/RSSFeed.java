@@ -154,7 +154,7 @@ public class RSSFeed extends GenericAdmResource {
                         content.append("\n             <td align=\"left\">");
                         content.append("\n               <img width=\"150\" height=\"100\" src=\"" + servidor + SWBPortal.getWebWorkPath() + ((Event) noticia).getWorkPath() + "/" + CptmgeneralData.cptm_photo.getName() + "_" + ((Event) noticia).getId() + "_" + ((Event) noticia).getPhoto() + "\">");
                         content.append("\n             </td>");
-                        content.append("\n             <td align=\"left\">");
+                        //content.append("\n             <td align=\"left\">");
                         content.append("\n             <td valign=\"bottom\" align=\"justify\">");
                         content.append("\n             " + description != null ? description : "");
                         content.append("\n             </td>");
@@ -171,7 +171,7 @@ public class RSSFeed extends GenericAdmResource {
                     content.append("\n             <td align=\"left\">");
                     content.append("\n               <img width=\"150\" height=\"100\" src=\"" + servidor + SWBPortal.getWebWorkPath() + ((WebPage) noticia).getWorkPath() + "/" + CptmgeneralData.cptm_photo.getName() + "_" + ((WebPage) noticia).getId() + "_" + ((WebPage) noticia).getSemanticObject().getProperty(CptmgeneralData.cptm_photo) + "\">");
                     content.append("\n             </td>");
-                    content.append("\n             <td align=\"left\">");
+                    //content.append("\n             <td align=\"left\">");
                     content.append("\n             <td valign=\"bottom\" align=\"justify\">");
                     content.append("\n             " + description != null ? description : "");
                     content.append("\n             </td>");
