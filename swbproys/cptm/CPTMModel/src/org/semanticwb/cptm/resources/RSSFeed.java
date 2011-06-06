@@ -129,8 +129,11 @@ public class RSSFeed extends GenericAdmResource {
                 }
             }
 
-            WebPage mostrarEvento = WebPage.ClassMgr.getWebPage("Mostrar_Evento", wp.getWebSite());
+            WebPage mostrarEvento = WebPage.ClassMgr.getWebPage("Mostrar-Evento", wp.getWebSite());
             int elementosPorCanal = 0;
+            if (mostrarEvento == null) {
+                mostrarEvento = WebPage.ClassMgr.getWebPage("Mostrar_Evento", wp.getWebSite());
+            }
             for (i = 0; i < listaNoticias.size(); i++) { //añadimos los feeds para desplegar en el rss
                 Object noticia = listaNoticias.get(i);
                 Element item = doc.createElement("item");
@@ -142,22 +145,23 @@ public class RSSFeed extends GenericAdmResource {
                     addAttribute(item, "description", description != null ? description : "");
                     elementosPorCanal = 0;
                 } else if (noticia instanceof Event) {
-                    description = ((Event) noticia).getDisplayDescription(lang);
-                    addAttribute(item, "title", ((Event) noticia).getDisplayTitle(lang));
-                    addAttribute(item, "link", servidor + mostrarEvento.getRealUrl(paramsRequest.getUser().getLanguage()) + "?id=" + ((Event) noticia).getId() + "&show=event");
-                    content.append("\n         <table width=\"100%\">");
-                    content.append("\n           <tr>");
-                    content.append("\n             <td align=\"left\">");
-                    content.append("\n               <img width=\"150\" height=\"100\" src=\"" + servidor + SWBPortal.getWebWorkPath() + ((Event) noticia).getWorkPath() + "/" + CptmgeneralData.cptm_photo.getName() + "_" + ((Event) noticia).getId() + "_" + ((Event) noticia).getPhoto() + "\">");
-                    content.append("\n             </td>");
-                    content.append("\n             <td align=\"left\">");
-                    content.append("\n             <td valign=\"bottom\" align=\"justify\">");
-                    content.append("\n             " + description != null ? description : "");
-                    content.append("\n             </td>");
-                    content.append("\n           </tr>");
-                    content.append("\n         </table> ");
-                    addAttribute(item, "description", content.toString());
-
+                    if (mostrarEvento != null) {
+                        description = ((Event) noticia).getDisplayDescription(lang);
+                        addAttribute(item, "title", ((Event) noticia).getDisplayTitle(lang));
+                        addAttribute(item, "link", servidor + mostrarEvento.getRealUrl(paramsRequest.getUser().getLanguage()) + "?id=" + ((Event) noticia).getId() + "&show=event");
+                        content.append("\n         <table width=\"100%\">");
+                        content.append("\n           <tr>");
+                        content.append("\n             <td align=\"left\">");
+                        content.append("\n               <img width=\"150\" height=\"100\" src=\"" + servidor + SWBPortal.getWebWorkPath() + ((Event) noticia).getWorkPath() + "/" + CptmgeneralData.cptm_photo.getName() + "_" + ((Event) noticia).getId() + "_" + ((Event) noticia).getPhoto() + "\">");
+                        content.append("\n             </td>");
+                        content.append("\n             <td align=\"left\">");
+                        content.append("\n             <td valign=\"bottom\" align=\"justify\">");
+                        content.append("\n             " + description != null ? description : "");
+                        content.append("\n             </td>");
+                        content.append("\n           </tr>");
+                        content.append("\n         </table> ");
+                        addAttribute(item, "description", content.toString());
+                    }
                 } else {
                     description = ((WebPage) noticia).getDisplayDescription(lang);
                     addAttribute(item, "title", ((WebPage) noticia).getDisplayName(lang));
