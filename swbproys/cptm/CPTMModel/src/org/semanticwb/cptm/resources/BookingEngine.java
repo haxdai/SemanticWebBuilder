@@ -49,6 +49,11 @@ public class BookingEngine extends GenericResource {
     private static String htmlBestday_es = null;
 
     /**
+     * Contiene el c&oacute;digo HTML de la caja de reservaciones de BestDay para Colombia
+     */
+    private static String htmlBestday_es_Col = null;
+
+    /**
      * Contiene el c&oacute;digo HTML de la caja de reservaciones de BestDay en Portugu&eacute;s
      */
     private static String htmlBestday_pt = null;
@@ -106,6 +111,9 @@ public class BookingEngine extends GenericResource {
 //                        + "/css/images/bookengine/BestDay_es.xsl")));
                 BookingEngine.htmlBestday_es = SWBUtils.IO.getFileFromPath(SWBPortal.getWorkPath()
                         + "/models/" + base.getWebSiteId() + "/css/images/bookengine/BestDay_es.html");
+
+                BookingEngine.htmlBestday_es_Col = SWBUtils.IO.getFileFromPath(SWBPortal.getWorkPath()
+                        + "/models/" + base.getWebSiteId() + "/css/images/bookengine/BestDay/colombia/rb_es.html");
 //            }
 //            if (BookingEngine.htmlBestday_es == null) {
 //                BookingEngine.htmlBestday_es = SWBUtils.IO.getFileFromPath(SWBPortal.getWorkPath()
@@ -189,7 +197,8 @@ public class BookingEngine extends GenericResource {
             doViewTravelocity(request, response, paramRequest);
         } else if (userCountry.equalsIgnoreCase("ar") || userCountry.equalsIgnoreCase("br") ||
                 userCountry.equalsIgnoreCase("cl") || userCountry.equalsIgnoreCase("mx") ||
-                userCountry.equalsIgnoreCase("a2") || userCountry.equalsIgnoreCase("a3")) {
+                userCountry.equalsIgnoreCase("a2") || userCountry.equalsIgnoreCase("a3") ||
+                userCountry.equalsIgnoreCase("co")) {
             doViewBestDay(request, response, paramRequest);
         }
     }
@@ -263,7 +272,11 @@ public class BookingEngine extends GenericResource {
 //                elem_parameters.appendChild(elem_parameter);
 //            out.println(new GenerateHtml().getHtml(doc, xsl));   //todo descomentar este si es generico y comentar el siguiente
 //                out.println(SWBUtils.XML.transformDom(BookingEngine.xsltBestday, doc));
-                out.println(BookingEngine.htmlBestday_es);//Ingles, paises que lo manejen
+                if (userCountry.equalsIgnoreCase("co")) {  //Para Colombia
+                    out.println(BookingEngine.htmlBestday_es_Col);
+                } else {
+                    out.println(BookingEngine.htmlBestday_es);//Español, paises que lo manejen
+                }
             } else if (userLanguage.equals("pt")) {//Portugés
                 out.println(BookingEngine.htmlBestday_pt);
             }
