@@ -152,10 +152,8 @@ public class RSSFeed extends GenericAdmResource {
                     if (mostrarEvento != null) {
                         description = ((Event) noticia).getDisplayDescription(lang);
                         lastUpdate = ((Event) noticia).getUpdated() != null ? ((Event) noticia).getUpdated() : ((Event) noticia).getCreated();
-                        if (description != null && !description.trim().equalsIgnoreCase("null")) {
-                            description += (" (Actualizado: " + sdf.format(lastUpdate) + ")");
-                        } else {
-                            description = "(Actualizado: " + sdf.format(lastUpdate) + ")";
+                        if (description != null && description.trim().equalsIgnoreCase("null")) {
+                            description = "";
                         }
                         addAttribute(item, "title", ((Event) noticia).getDisplayTitle(lang));
                         addAttribute(item, "link", servidor + mostrarEvento.getRealUrl(paramsRequest.getUser().getLanguage()) + "?id=" + ((Event) noticia).getId() + "&show=event");
@@ -173,14 +171,13 @@ public class RSSFeed extends GenericAdmResource {
                         content.append("\n           </tr>");
                         content.append("\n         </table> ");
                         addAttribute(item, "description", content.toString());
+                        addAttribute(item, "pubDate", sdf.format(lastUpdate));
                     }
                 } else {
                     description = ((WebPage) noticia).getDisplayDescription(lang);
                     lastUpdate = ((WebPage) noticia).getUpdated() != null ? ((WebPage) noticia).getUpdated() : ((WebPage) noticia).getCreated();
-                    if (description != null && !description.trim().equalsIgnoreCase("null")) {
-                        description += (" (Actualizado: " + sdf.format(lastUpdate) + ")");
-                    } else {
-                        description = "(Actualizado: " + sdf.format(lastUpdate) + ")";
+                    if (description != null && description.trim().equalsIgnoreCase("null")) {
+                        description = "";
                     }
                     addAttribute(item, "title", ((WebPage) noticia).getDisplayName(lang));
                     addAttribute(item, "link", servidor + ((WebPage) noticia).getRealUrl());
@@ -198,6 +195,7 @@ public class RSSFeed extends GenericAdmResource {
                     content.append("\n           </tr>");
                     content.append("\n         </table> ");
                     addAttribute(item, "description", content.toString());
+                    addAttribute(item, "pubDate", sdf.format(lastUpdate));
 
                 }
 
