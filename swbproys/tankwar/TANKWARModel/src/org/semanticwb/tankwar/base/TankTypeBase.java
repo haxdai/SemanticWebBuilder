@@ -2,25 +2,28 @@ package org.semanticwb.tankwar.base;
 
 
    /**
-   * Tipo de Tanque 
+   * Define la estructura de datos que conforman un Tipo de Tanque 
    */
 public abstract class TankTypeBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
    /**
-   * Clase principal. Es la clase que representa a cada uno de los Tanques
+   * Clase principal. Define la estructura de datos de cada uno de los Tanques
    */
     public static final org.semanticwb.platform.SemanticClass tank_Tank=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/tankwar#Tank");
+   /**
+   * Acceso al listado de los tanques relacionados a este tipo de tanque
+   */
     public static final org.semanticwb.platform.SemanticProperty tank_hasTanksInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/tankwar#hasTanksInv");
    /**
    * Imagen del tipo de tanque
    */
     public static final org.semanticwb.platform.SemanticProperty tank_tankTypeImage=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/tankwar#tankTypeImage");
    /**
-   * Color de Tanque
+   * Color de tanque seleccionado por el usuario
    */
     public static final org.semanticwb.platform.SemanticProperty tank_tankColor=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/tankwar#tankColor");
    /**
-   * Tipo de Tanque
+   * Define la estructura de datos que conforman un Tipo de Tanque
    */
     public static final org.semanticwb.platform.SemanticClass tank_TankType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/tankwar#TankType");
    /**

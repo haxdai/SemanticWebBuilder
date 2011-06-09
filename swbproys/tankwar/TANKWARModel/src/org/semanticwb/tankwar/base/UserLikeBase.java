@@ -2,12 +2,12 @@ package org.semanticwb.tankwar.base;
 
 
    /**
-   * Almacena los gustos del usuario. 
+   * Define la estructura de datos para almacenar los gustos del usuario 
    */
 public abstract class UserLikeBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable
 {
    /**
-   * Almacena los gustos del usuario.
+   * Define la estructura de datos para almacenar los gustos del usuario
    */
     public static final org.semanticwb.platform.SemanticClass tank_UserLike=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/tankwar#userLike");
    /**
