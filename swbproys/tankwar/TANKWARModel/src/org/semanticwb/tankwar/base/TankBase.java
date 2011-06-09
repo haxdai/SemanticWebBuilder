@@ -2,48 +2,61 @@ package org.semanticwb.tankwar.base;
 
 
    /**
-   * Clase principal. Es la clase que representa a cada uno de los Tanques 
+   * Clase principal. Define la estructura de datos de cada uno de los Tanques 
    */
-public abstract class TankBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Traceable
+public abstract class TankBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable
 {
-    public static final org.semanticwb.platform.SemanticProperty tank_wonGames=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/tankwar#wonGames");
    /**
-   * Puntuación
+   * Cantidad de juegos ganados de aquellos en los que ha participado el tanque
+   */
+    public static final org.semanticwb.platform.SemanticProperty tank_wonGames=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/tankwar#wonGames");
+    public static final org.semanticwb.platform.SemanticProperty tank_tankCode=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/tankwar#tankCode");
+   /**
+   * Puntuación ganada por el tanque en base a los resultados de los juegos en que ha participado el tanque
    */
     public static final org.semanticwb.platform.SemanticProperty tank_score=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/tankwar#score");
    /**
    * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
    */
     public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
+   /**
+   * Lista de usuarios que han agregado este tanque a su lista de favoritos
+   */
     public static final org.semanticwb.platform.SemanticProperty tank_hasUserFavorite=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/tankwar#hasUserFavorite");
    /**
-   * Cantidad de Juegos Empatados
+   * Cantidad de juegos empatados de aquellos en los que ha participado el tanque
    */
     public static final org.semanticwb.platform.SemanticProperty tank_tieGames=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/tankwar#tieGames");
    /**
-   * usuario al que pertenece el tanque
+   * Almacena el grito de guerra del tanque capturado por el usuario relacionado al mismo
    */
-    public static final org.semanticwb.platform.SemanticProperty tank_tankUser=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/tankwar#tankUser");
+    public static final org.semanticwb.platform.SemanticProperty tank_warCry=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/tankwar#warCry");
+   /**
+   * Nombre de la imagen que representa al tanque
+   */
     public static final org.semanticwb.platform.SemanticProperty tank_tankImage=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/tankwar#tankImage");
    /**
-   * Cantidad de Juegos Perdidos
+   * Cantidad de juegos perdidos de aquellos en los que ha participado el tanque
    */
     public static final org.semanticwb.platform.SemanticProperty tank_lostGames=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/tankwar#lostGames");
    /**
-   * Comentarios de un Tanque
+   * Define la estructura de datos que conforman los comentarios hechos sobre un Tanque
    */
     public static final org.semanticwb.platform.SemanticClass tank_TankComment=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/tankwar#TankComment");
+   /**
+   * Acceso a la lista de comentarios que se han escrito sobre este tanque
+   */
     public static final org.semanticwb.platform.SemanticProperty tank_hasCommTankInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/tankwar#hasCommTankInv");
    /**
-   * Tipo de Tanque
+   * Define la estructura de datos que conforman un Tipo de Tanque
    */
     public static final org.semanticwb.platform.SemanticClass tank_TankType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/tankwar#TankType");
    /**
-   * Tipo de Tanque
+   * Tipo de tanque seleccionado por el usuario
    */
     public static final org.semanticwb.platform.SemanticProperty tank_tankType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/tankwar#tankType");
    /**
-   * Clase principal. Es la clase que representa a cada uno de los Tanques
+   * Clase principal. Define la estructura de datos de cada uno de los Tanques
    */
     public static final org.semanticwb.platform.SemanticClass tank_Tank=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/tankwar#Tank");
    /**
@@ -161,29 +174,6 @@ public abstract class TankBase extends org.semanticwb.model.SWBClass implements 
             return it;
         }
        /**
-       * Gets all org.semanticwb.tankwar.Tank with a determined TankUser
-       * @param value TankUser of the type org.semanticwb.model.User
-       * @param model Model of the org.semanticwb.tankwar.Tank
-       * @return Iterator with all the org.semanticwb.tankwar.Tank
-       */
-
-        public static java.util.Iterator<org.semanticwb.tankwar.Tank> listTankByTankUser(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.tankwar.Tank> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(tank_tankUser, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.tankwar.Tank with a determined TankUser
-       * @param value TankUser of the type org.semanticwb.model.User
-       * @return Iterator with all the org.semanticwb.tankwar.Tank
-       */
-
-        public static java.util.Iterator<org.semanticwb.tankwar.Tank> listTankByTankUser(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.tankwar.Tank> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(tank_tankUser,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.tankwar.Tank with a determined Creator
        * @param value Creator of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.tankwar.Tank
@@ -279,6 +269,24 @@ public abstract class TankBase extends org.semanticwb.model.SWBClass implements 
     public void setWonGames(int value)
     {
         getSemanticObject().setIntProperty(tank_wonGames, value);
+    }
+
+/**
+* Gets the TankCode property
+* @return String with the TankCode
+*/
+    public String getTankCode()
+    {
+        return getSemanticObject().getProperty(tank_tankCode);
+    }
+
+/**
+* Sets the TankCode property
+* @param value long with the TankCode
+*/
+    public void setTankCode(String value)
+    {
+        getSemanticObject().setProperty(tank_tankCode, value);
     }
 
 /**
@@ -521,43 +529,23 @@ public abstract class TankBase extends org.semanticwb.model.SWBClass implements 
     {
         getSemanticObject().setDateProperty(swb_updated, value);
     }
-   /**
-   * Sets the value for the property TankUser
-   * @param value TankUser to set
-   */
 
-    public void setTankUser(org.semanticwb.model.User value)
+/**
+* Gets the WarCry property
+* @return String with the WarCry
+*/
+    public String getWarCry()
     {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(tank_tankUser, value.getSemanticObject());
-        }else
-        {
-            removeTankUser();
-        }
-    }
-   /**
-   * Remove the value for TankUser property
-   */
-
-    public void removeTankUser()
-    {
-        getSemanticObject().removeProperty(tank_tankUser);
+        return getSemanticObject().getProperty(tank_warCry);
     }
 
-   /**
-   * Gets the TankUser
-   * @return a org.semanticwb.model.User
-   */
-    public org.semanticwb.model.User getTankUser()
+/**
+* Sets the WarCry property
+* @param value long with the WarCry
+*/
+    public void setWarCry(String value)
     {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(tank_tankUser);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
+        getSemanticObject().setProperty(tank_warCry, value);
     }
 
 /**

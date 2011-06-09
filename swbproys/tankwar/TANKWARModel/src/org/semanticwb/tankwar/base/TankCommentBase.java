@@ -2,17 +2,20 @@ package org.semanticwb.tankwar.base;
 
 
    /**
-   * Comentarios de un Tanque 
+   * Define la estructura de datos que conforman los comentarios hechos sobre un Tanque 
    */
 public abstract class TankCommentBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
    /**
-   * Clase principal. Es la clase que representa a cada uno de los Tanques
+   * Clase principal. Define la estructura de datos de cada uno de los Tanques
    */
     public static final org.semanticwb.platform.SemanticClass tank_Tank=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/tankwar#Tank");
+   /**
+   * Referencia al tanque sobre el cual se escribe este comentario
+   */
     public static final org.semanticwb.platform.SemanticProperty tank_commTank=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/tankwar#commTank");
    /**
-   * Comentarios de un Tanque
+   * Define la estructura de datos que conforman los comentarios hechos sobre un Tanque
    */
     public static final org.semanticwb.platform.SemanticClass tank_TankComment=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/tankwar#TankComment");
    /**
