@@ -72,7 +72,8 @@ public class EventCalendar extends com.infotec.swb.resources.eventcalendar.base.
             doViewAll(request, response, paramRequest);
         }else if (paramRequest.getCallMethod() == paramRequest.Call_STRATEGY) {
             try {
-                String jsp = "/swbadmin/jsp/empleo/eventos/view.jsp";
+                //String jsp = "/swbadmin/jsp/empleo/eventos/view.jsp";
+                String jsp = "/work/models/"+paramRequest.getWebPage().getWebSiteId()+"/jsp/eventos/view.jsp";
                 request.setAttribute("paramRequest", paramRequest);
                 RequestDispatcher rd = request.getRequestDispatcher(jsp);
                 rd.include(request, response);
@@ -99,7 +100,8 @@ public class EventCalendar extends com.infotec.swb.resources.eventcalendar.base.
 
         try
         {
-            String jsp = "/swbadmin/jsp/empleo/eventos/roll.jsp";
+            //String jsp = "/swbadmin/jsp/empleo/eventos/roll.jsp";
+            String jsp = "/work/models/"+paramRequest.getWebPage().getWebSiteId()+"/jsp/eventos/roll.jsp";
             request.setAttribute("paramRequest", paramRequest);
             RequestDispatcher rd = request.getRequestDispatcher(jsp);
             rd.include(request, response);
@@ -125,7 +127,8 @@ public class EventCalendar extends com.infotec.swb.resources.eventcalendar.base.
 
         try
         {
-            String jsp = "/swbadmin/jsp/empleo/eventos/eventos.jsp";
+            //String jsp = "/swbadmin/jsp/empleo/eventos/eventos.jsp";
+            String jsp = "/work/models/"+paramRequest.getWebPage().getWebSiteId()+"/jsp/eventos/eventos.jsp";
             request.setAttribute("paramRequest", paramRequest);
             RequestDispatcher rd = request.getRequestDispatcher(jsp);
             rd.include(request, response);
