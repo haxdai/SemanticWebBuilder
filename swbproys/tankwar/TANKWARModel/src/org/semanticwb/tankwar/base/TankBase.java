@@ -48,6 +48,10 @@ public abstract class TankBase extends org.semanticwb.model.SWBClass implements 
    */
     public static final org.semanticwb.platform.SemanticProperty tank_hasCommTankInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/tankwar#hasCommTankInv");
    /**
+   * Color de tanque seleccionado por el usuario
+   */
+    public static final org.semanticwb.platform.SemanticProperty tank_tankColor=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/tankwar#tankColor");
+   /**
    * Define la estructura de datos que conforman un Tipo de Tanque
    */
     public static final org.semanticwb.platform.SemanticClass tank_TankType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/tankwar#TankType");
@@ -692,6 +696,24 @@ public abstract class TankBase extends org.semanticwb.model.SWBClass implements 
     public void setDescription(String description, String lang)
     {
         getSemanticObject().setProperty(swb_description, description, lang);
+    }
+
+/**
+* Gets the TankColor property
+* @return String with the TankColor
+*/
+    public String getTankColor()
+    {
+        return getSemanticObject().getProperty(tank_tankColor);
+    }
+
+/**
+* Sets the TankColor property
+* @param value long with the TankColor
+*/
+    public void setTankColor(String value)
+    {
+        getSemanticObject().setProperty(tank_tankColor, value);
     }
    /**
    * Sets the value for the property TankType
