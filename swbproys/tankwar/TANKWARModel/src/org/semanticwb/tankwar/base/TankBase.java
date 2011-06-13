@@ -51,13 +51,6 @@ public abstract class TankBase extends org.semanticwb.model.SWBClass implements 
    * Color de tanque seleccionado por el usuario
    */
     public static final org.semanticwb.platform.SemanticProperty tank_tankColor=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/tankwar#tankColor");
-   /**
-   * Define la estructura de datos que conforman un Tipo de Tanque
-   */
-    public static final org.semanticwb.platform.SemanticClass tank_TankType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/tankwar#TankType");
-   /**
-   * Tipo de tanque seleccionado por el usuario
-   */
     public static final org.semanticwb.platform.SemanticProperty tank_tankType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/tankwar#tankType");
    /**
    * Clase principal. Define la estructura de datos de cada uno de los Tanques
@@ -221,29 +214,6 @@ public abstract class TankBase extends org.semanticwb.model.SWBClass implements 
         public static java.util.Iterator<org.semanticwb.tankwar.Tank> listTankByCommTankInv(org.semanticwb.tankwar.TankComment value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.tankwar.Tank> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(tank_hasCommTankInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.tankwar.Tank with a determined TankType
-       * @param value TankType of the type org.semanticwb.tankwar.TankType
-       * @param model Model of the org.semanticwb.tankwar.Tank
-       * @return Iterator with all the org.semanticwb.tankwar.Tank
-       */
-
-        public static java.util.Iterator<org.semanticwb.tankwar.Tank> listTankByTankType(org.semanticwb.tankwar.TankType value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.tankwar.Tank> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(tank_tankType, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.tankwar.Tank with a determined TankType
-       * @param value TankType of the type org.semanticwb.tankwar.TankType
-       * @return Iterator with all the org.semanticwb.tankwar.Tank
-       */
-
-        public static java.util.Iterator<org.semanticwb.tankwar.Tank> listTankByTankType(org.semanticwb.tankwar.TankType value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.tankwar.Tank> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(tank_tankType,value.getSemanticObject(),sclass));
             return it;
         }
     }
@@ -715,42 +685,22 @@ public abstract class TankBase extends org.semanticwb.model.SWBClass implements 
     {
         getSemanticObject().setProperty(tank_tankColor, value);
     }
-   /**
-   * Sets the value for the property TankType
-   * @param value TankType to set
-   */
 
-    public void setTankType(org.semanticwb.tankwar.TankType value)
+/**
+* Gets the TankType property
+* @return int with the TankType
+*/
+    public int getTankType()
     {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(tank_tankType, value.getSemanticObject());
-        }else
-        {
-            removeTankType();
-        }
-    }
-   /**
-   * Remove the value for TankType property
-   */
-
-    public void removeTankType()
-    {
-        getSemanticObject().removeProperty(tank_tankType);
+        return getSemanticObject().getIntProperty(tank_tankType);
     }
 
-   /**
-   * Gets the TankType
-   * @return a org.semanticwb.tankwar.TankType
-   */
-    public org.semanticwb.tankwar.TankType getTankType()
+/**
+* Sets the TankType property
+* @param value long with the TankType
+*/
+    public void setTankType(int value)
     {
-         org.semanticwb.tankwar.TankType ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(tank_tankType);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.tankwar.TankType)obj.createGenericInstance();
-         }
-         return ret;
+        getSemanticObject().setIntProperty(tank_tankType, value);
     }
 }
