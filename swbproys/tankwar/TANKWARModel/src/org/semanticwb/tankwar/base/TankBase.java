@@ -47,9 +47,6 @@ public abstract class TankBase extends org.semanticwb.model.SWBClass implements 
    * Acceso a la lista de comentarios que se han escrito sobre este tanque
    */
     public static final org.semanticwb.platform.SemanticProperty tank_hasCommTankInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/tankwar#hasCommTankInv");
-   /**
-   * Color de tanque seleccionado por el usuario
-   */
     public static final org.semanticwb.platform.SemanticProperty tank_tankColor=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/tankwar#tankColor");
     public static final org.semanticwb.platform.SemanticProperty tank_tankType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/tankwar#tankType");
    /**
@@ -83,6 +80,12 @@ public abstract class TankBase extends org.semanticwb.model.SWBClass implements 
         {
             java.util.Iterator it=sclass.listInstances();
             return new org.semanticwb.model.GenericIterator<org.semanticwb.tankwar.Tank>(it, true);
+        }
+
+        public static org.semanticwb.tankwar.Tank createTank(org.semanticwb.model.SWBModel model)
+        {
+            long id=model.getSemanticObject().getModel().getCounter(sclass);
+            return org.semanticwb.tankwar.Tank.ClassMgr.createTank(String.valueOf(id), model);
         }
        /**
        * Gets a org.semanticwb.tankwar.Tank
@@ -670,20 +673,20 @@ public abstract class TankBase extends org.semanticwb.model.SWBClass implements 
 
 /**
 * Gets the TankColor property
-* @return String with the TankColor
+* @return int with the TankColor
 */
-    public String getTankColor()
+    public int getTankColor()
     {
-        return getSemanticObject().getProperty(tank_tankColor);
+        return getSemanticObject().getIntProperty(tank_tankColor);
     }
 
 /**
 * Sets the TankColor property
 * @param value long with the TankColor
 */
-    public void setTankColor(String value)
+    public void setTankColor(int value)
     {
-        getSemanticObject().setProperty(tank_tankColor, value);
+        getSemanticObject().setIntProperty(tank_tankColor, value);
     }
 
 /**
