@@ -7,14 +7,6 @@ package org.semanticwb.tankwar.base;
 public abstract class TankTypeBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
    /**
-   * Clase principal. Define la estructura de datos de cada uno de los Tanques
-   */
-    public static final org.semanticwb.platform.SemanticClass tank_Tank=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/tankwar#Tank");
-   /**
-   * Acceso al listado de los tanques relacionados a este tipo de tanque
-   */
-    public static final org.semanticwb.platform.SemanticProperty tank_hasTanksInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/tankwar#hasTanksInv");
-   /**
    * Imagen del tipo de tanque
    */
     public static final org.semanticwb.platform.SemanticProperty tank_tankTypeImage=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/tankwar#tankTypeImage");
@@ -91,29 +83,6 @@ public abstract class TankTypeBase extends org.semanticwb.model.SWBClass impleme
             return (getTankType(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.tankwar.TankType with a determined TanksInv
-       * @param value TanksInv of the type org.semanticwb.tankwar.Tank
-       * @param model Model of the org.semanticwb.tankwar.TankType
-       * @return Iterator with all the org.semanticwb.tankwar.TankType
-       */
-
-        public static java.util.Iterator<org.semanticwb.tankwar.TankType> listTankTypeByTanksInv(org.semanticwb.tankwar.Tank value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.tankwar.TankType> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(tank_hasTanksInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.tankwar.TankType with a determined TanksInv
-       * @param value TanksInv of the type org.semanticwb.tankwar.Tank
-       * @return Iterator with all the org.semanticwb.tankwar.TankType
-       */
-
-        public static java.util.Iterator<org.semanticwb.tankwar.TankType> listTankTypeByTanksInv(org.semanticwb.tankwar.Tank value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.tankwar.TankType> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(tank_hasTanksInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.tankwar.TankType with a determined ModifiedBy
        * @param value ModifiedBy of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.tankwar.TankType
@@ -186,45 +155,6 @@ public abstract class TankTypeBase extends org.semanticwb.model.SWBClass impleme
     public void setCreated(java.util.Date value)
     {
         getSemanticObject().setDateProperty(swb_created, value);
-    }
-   /**
-   * Gets all the org.semanticwb.tankwar.Tank
-   * @return A GenericIterator with all the org.semanticwb.tankwar.Tank
-   */
-
-    public org.semanticwb.model.GenericIterator<org.semanticwb.tankwar.Tank> listTanksInvs()
-    {
-        return new org.semanticwb.model.GenericIterator<org.semanticwb.tankwar.Tank>(getSemanticObject().listObjectProperties(tank_hasTanksInv));
-    }
-
-   /**
-   * Gets true if has a TanksInv
-   * @param value org.semanticwb.tankwar.Tank to verify
-   * @return true if the org.semanticwb.tankwar.Tank exists, false otherwise
-   */
-    public boolean hasTanksInv(org.semanticwb.tankwar.Tank value)
-    {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(tank_hasTanksInv,value.getSemanticObject());
-        }
-        return ret;
-    }
-
-   /**
-   * Gets the TanksInv
-   * @return a org.semanticwb.tankwar.Tank
-   */
-    public org.semanticwb.tankwar.Tank getTanksInv()
-    {
-         org.semanticwb.tankwar.Tank ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(tank_hasTanksInv);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.tankwar.Tank)obj.createGenericInstance();
-         }
-         return ret;
     }
    /**
    * Sets the value for the property ModifiedBy
