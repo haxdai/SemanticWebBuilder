@@ -35,7 +35,9 @@ import org.semanticwb.base.util.ImageResizer;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.User;
 import org.semanticwb.model.UserRepository;
+import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
+import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticProperty;
 import org.semanticwb.portal.TemplateImp;
 import org.semanticwb.portal.api.GenericAdmResource;
@@ -43,6 +45,8 @@ import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.api.SWBResourceURL;
+import org.semanticwb.portal.api.SWBResourceURLImp;
+import org.semanticwb.servlet.internal.UploadFormElement;
 
 
 /**
@@ -52,6 +56,8 @@ import org.semanticwb.portal.api.SWBResourceURL;
 public class TankWarUserRegistry extends GenericAdmResource {
 
     private static Logger log = SWBUtils.getLogger(TankWarUserRegistry.class);
+
+    private static final int PHOTO_MAX_SIZE = 50000;
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
@@ -76,19 +82,19 @@ public class TankWarUserRegistry extends GenericAdmResource {
                 out.println("<pre>" +
                         "<b><font color=\"red\">Error al capturar los caracteres de la imagen de seguridad." +
                         "</b></font></pre>");
-            }else if (msg != null && msg.equals("editok")) {
-                String editSucc=paramRequest.getResourceBase().getAttribute("editSucc");
-                if(editSucc!=null && editSucc.trim().length()>0){
+            } else if (msg != null && msg.equals("editok")) {
+                String editSucc = paramRequest.getResourceBase().getAttribute("editSucc");
+                if(editSucc != null && editSucc.trim().length()>0){
                     String siteName = paramRequest.getWebPage().getWebSite().getDisplayTitle(user.getLanguage());
                     editSucc = replaceTags(editSucc, request, paramRequest, user, siteName, null);
                 }
                 out.println(editSucc);
             }
-            String wsiteID=paramRequest.getWebPage().getWebSiteId();
+            String wsiteID = paramRequest.getWebPage().getWebSiteId();
             if (act.equals("add")) {
-                path = "/work/models/"+wsiteID+"/jsp/userRegistry/newUser.jsp";
+                path = "/work/models/" + wsiteID + "/jsp/userRegistry/newUser.jsp";
             } else if (act.equals("edit")) {
-                path = "/work/models/"+wsiteID+"/jsp/userRegistry/userEditForm.jsp";
+                path = "/work/models/" + wsiteID + "/jsp/userRegistry/userEditForm.jsp";
             } else if (act.equals("detail")) {
                 path = "/swbadmin/jsp/microsite/RegisterUser/userDetail.groovy";
             }
@@ -138,6 +144,12 @@ public class TankWarUserRegistry extends GenericAdmResource {
                 newUser.setSecondLastName(SWBUtils.XML.replaceXMLChars(request.getParameter("secondLastName")));
                 newUser.setEmail(SWBUtils.XML.replaceXMLChars(request.getParameter("email")));
                 newUser.setPassword(pwd);
+                String usrPhoto = request.getParameter("photoUser");
+                if (usrPhoto != null) {
+                    //newUser.setPhoto(usrPhoto);
+                    processFiles(request, base.getWebSite(), newUser.getSemanticObject());
+                }
+
                 setUserExtendedAttributes(request, newUser);
 
                 try {
@@ -147,12 +159,16 @@ public class TankWarUserRegistry extends GenericAdmResource {
                 }
                 if (!isTwoSteps) {
                     user = newUser;
-                    response.sendRedirect(response.getWebPage().getRealUrl());
+                    //Redirecciona a la pantalla de configuracion del tanque
+                    WebPage wpTank = WebPage.ClassMgr.getWebPage("Configuracion_del_Tanque",
+                            base.getWebSite());
+                    response.sendRedirect(wpTank.getUrl(user.getLanguage()) + "?action=createTank");
+                    //response.sendRedirect(response.getWebPage().getRealUrl());
                     //response.sendRedirect(response.getWebPage().getWebSite().getWebPage("Registro_Exitoso").getUrl());
                 }
                 //comentar para 2 pasos
                 if (isTwoSteps) {
-                    //EnvÃ­o de correo
+                    //Envío de correo
                     WebSite website = response.getWebPage().getWebSite();
                     String siteName = website.getDisplayTitle(response.getUser().getLanguage());
                     String server = "http://" + request.getServerName() + ":" + request.getServerPort();
@@ -183,6 +199,10 @@ public class TankWarUserRegistry extends GenericAdmResource {
             user.setSecondLastName(SWBUtils.XML.replaceXMLChars(request.getParameter("usrSecondLastName")));
             user.setEmail(SWBUtils.XML.replaceXMLChars(request.getParameter("usrEmail")));
 
+            String usrPhoto = request.getParameter("photoUser");
+            if (usrPhoto != null) {
+                processFiles(request, base.getWebSite(), user.getSemanticObject());
+            }
             setUserExtendedAttributes(request, user);
 
             response.setRenderParameter("msg", "editok");
@@ -319,6 +339,78 @@ public class TankWarUserRegistry extends GenericAdmResource {
             }
         } catch (SWBException nex) {
             log.error(nex);
+        }
+    }
+
+    private void processFiles(HttpServletRequest request, WebSite website,
+            SemanticObject sobj) {
+
+        String basepath = SWBPortal.getWorkPath() + sobj.getWorkPath() + "/";
+        if (request.getSession().getAttribute(UploadFormElement.FILES_UPLOADED) != null) {
+            Iterator itfilesUploaded = ((List) request.getSession().getAttribute(UploadFormElement.FILES_UPLOADED)).iterator();
+            while (itfilesUploaded.hasNext()) {
+                FileItem item = (FileItem) itfilesUploaded.next();
+                if (!item.isFormField()) { //Es un campo de tipo file
+
+                    int fileSize = ((Long) item.getSize()).intValue();
+                    String value = item.getName();
+                    String ext = "";
+                    String validFileExtensions = "jpg|jpeg|gif|png";
+                    int pos = -1;
+
+                    if (value != null && value.trim().length() > 0) {
+                        pos = value.lastIndexOf(".");
+                        if (pos > -1) {
+                            ext = value.substring(pos + 1).toLowerCase();
+                        }
+
+                    }
+
+                    if (value != null && value.trim().length() > 0 &&
+                            fileSize <= TankWarUserRegistry.PHOTO_MAX_SIZE &&
+                            validFileExtensions.contains(ext)) {
+                        value = value.replace("\\", "/");
+                        pos = value.lastIndexOf("/");
+                        if (pos > -1) {
+                            value = value.substring(pos + 1);
+                        }
+                        File fichero = new File(basepath);
+                        if (!fichero.exists()) {
+                            fichero.mkdirs();
+                        }
+                        fichero = new File(basepath + value);
+
+                        User usrObj = (User) sobj.createGenericInstance();
+                        if (item.getFieldName().equals("photoUser")) {
+                            String tmpPhoto = usrObj.getPhoto();
+                            usrObj.setPhoto(value);
+                            File file = new File(basepath + tmpPhoto);
+                            file.delete();
+
+                            try {
+                                item.write(fichero);
+                                //ImageResizer.shrinkTo(fichero, 281, 187, fichero, ext);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                log.debug(e);
+                            }
+                        }
+                    } else if (fileSize > TankWarUserRegistry.PHOTO_MAX_SIZE ||
+                            !validFileExtensions.contains(ext)) {
+                        //Si el archivo pesa mas de lo permitido, se elimina de file system
+                        value = value.replace("\\", "/");
+                        pos = value.lastIndexOf("/");
+                        if (pos > -1) {
+                            value = value.substring(pos + 1);
+                        }
+                        File fichero = new File(basepath + value);
+                        if (fichero.exists()) {
+                            fichero.delete();
+                        }
+                    }
+                }
+            }
+            request.getSession().setAttribute(UploadFormElement.FILES_UPLOADED, null);
         }
     }
 
