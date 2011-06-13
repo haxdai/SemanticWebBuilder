@@ -205,7 +205,10 @@ public class WeatherVisit extends GenericAdmResource {
         try {
             PrintWriter out = response.getWriter();
             out.println(HTMLString.replaceFirst("TituloParaI18N",
-                    paramRequest.getLocaleString("msgClima")));
+                    paramRequest.getLocaleString("msgClima")).replaceFirst(
+                    "HoyParaI18N", paramRequest.getLocaleString("msgHoy")
+                    ).replaceFirst("ManianaParaI18N",
+                    paramRequest.getLocaleString("msgManiana")));
         } catch (IOException ioe) {
             log.error("Al generar la vista de contenido del Clima", ioe);
         }
