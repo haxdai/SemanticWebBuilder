@@ -4,15 +4,15 @@ package com.infotec.swb.resources.eventcalendar.base;
 public abstract class EventBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.UserGroupRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Trashable,org.semanticwb.model.Localeable,org.semanticwb.model.Activeable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Undeleteable,org.semanticwb.model.Countryable,org.semanticwb.model.RuleRefable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Rankable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Searchable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Referensable,org.semanticwb.model.Traceable,org.semanticwb.model.Expirable,org.semanticwb.model.Filterable,org.semanticwb.model.Indexable,org.semanticwb.model.Viewable,org.semanticwb.model.Resourceable
 {
    /**
-   * Fecha de inicio
+   * Start date
    */
     public static final org.semanticwb.platform.SemanticProperty infotec_start=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx#start");
    /**
-   * End date
+   * Fecha final
    */
     public static final org.semanticwb.platform.SemanticProperty infotec_end=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx#end");
    /**
-   * Horario
+   * Schedule
    */
     public static final org.semanticwb.platform.SemanticProperty infotec_schedule=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx#schedule");
     public static final org.semanticwb.platform.SemanticClass infotec_Event=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx#Event");
@@ -590,5 +590,14 @@ public abstract class EventBase extends org.semanticwb.model.WebPage implements 
     public void setSchedule(String value)
     {
         getSemanticObject().setProperty(infotec_schedule, value);
+    }
+
+   /**
+   * Gets the PortalInfotecWebSite
+   * @return a instance of com.infotec.swb.PortalInfotecWebSite
+   */
+    public com.infotec.swb.PortalInfotecWebSite getPortalInfotecWebSite()
+    {
+        return (com.infotec.swb.PortalInfotecWebSite)getSemanticObject().getModel().getModelObject().createGenericInstance();
     }
 }
