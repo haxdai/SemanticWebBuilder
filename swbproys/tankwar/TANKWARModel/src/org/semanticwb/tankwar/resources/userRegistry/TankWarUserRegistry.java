@@ -17,6 +17,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.security.auth.Subject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +36,7 @@ import org.semanticwb.SWBUtils;
 import org.semanticwb.base.util.ImageResizer;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.User;
+import org.semanticwb.model.User;
 import org.semanticwb.model.UserRepository;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
@@ -45,7 +48,6 @@ import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.api.SWBResourceURL;
-import org.semanticwb.portal.api.SWBResourceURLImp;
 import org.semanticwb.servlet.internal.UploadFormElement;
 
 
@@ -60,7 +62,9 @@ public class TankWarUserRegistry extends GenericAdmResource {
     private static final int PHOTO_MAX_SIZE = 50000;
 
     @Override
-    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+    public void doView(HttpServletRequest request, HttpServletResponse response,
+            SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+
         PrintWriter out = response.getWriter();
         String act = request.getParameter("act");
         User user=paramRequest.getUser();
@@ -81,6 +85,10 @@ public class TankWarUserRegistry extends GenericAdmResource {
             if (msg != null && msg.equals("regfail")) {
                 out.println("<pre>" +
                         "<b><font color=\"red\">Error al capturar los caracteres de la imagen de seguridad." +
+                        "</b></font></pre>");
+            } else if (msg != null && msg.equals("dataNotValid")) {
+                out.println("<pre>" +
+                        "<b><font color=\"red\">Los datos proporcionados no son v&aacute;lidos y no se almacenaron, favor de verificarlos." +
                         "</b></font></pre>");
             } else if (msg != null && msg.equals("editok")) {
                 String editSucc = paramRequest.getResourceBase().getAttribute("editSucc");
@@ -109,20 +117,27 @@ public class TankWarUserRegistry extends GenericAdmResource {
     }
 
     @Override
-    public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
+    public void processAction(HttpServletRequest request, SWBActionResponse response)
+            throws SWBResourceException, IOException {
+
         Resource base = response.getResourceBase();
         UserRepository ur = response.getWebPage().getWebSite().getUserRepository();
         User user = response.getUser();
         String login = SWBUtils.XML.replaceXMLChars(request.getParameter("login"));
         String pwd = request.getParameter("passwd");
         boolean isTwoSteps = false;
+        boolean isDataValid = isDataValid(request, response.getAction());
         if (base.getAttribute("twosteps") != null && base.getAttribute("twosteps").equals("1")) {
             isTwoSteps = true;
         }
-        if ("create".equals(response.getAction()) && (null != login) && (!"".equals(login.trim())) && (!user.isSigned()) && (null == ur.getUserByLogin(login))) {
+        if ("create".equals(response.getAction()) && (null != login) &&
+                !"".equals(login.trim()) && !user.isSigned() &&
+                null == ur.getUserByLogin(login)) {
+
             String securCodeSent = request.getParameter("cmnt_seccode");
             String securCodeCreated = (String) request.getSession(true).getAttribute("cdlog");
-            if (securCodeCreated != null && securCodeCreated.equalsIgnoreCase(securCodeSent)) {
+            if (securCodeCreated != null && securCodeCreated.equalsIgnoreCase(securCodeSent) &&
+                    isDataValid) {
                 request.getSession(true).removeAttribute("cdlog");
                 User newUser = ur.createUser();
                 newUser.setLogin(login.trim());
@@ -188,27 +203,43 @@ public class TankWarUserRegistry extends GenericAdmResource {
                 response.setRenderParameter("lastName", SWBUtils.XML.replaceXMLChars(request.getParameter("lastName")));
                 response.setRenderParameter("secondLastName", SWBUtils.XML.replaceXMLChars(request.getParameter("secondLastName")));
                 response.setRenderParameter("email", SWBUtils.XML.replaceXMLChars(request.getParameter("email")));
-                response.setRenderParameter("msg", "regfail");
+                if (isDataValid) {
+                    response.setRenderParameter("msg", "regfail");
+                } else {
+                    response.setRenderParameter("msg", "dataNotValid");
+                }
                 response.setMode(response.Mode_VIEW);
                 response.setCallMethod(response.Call_CONTENT);
             }
         }
         if ("edit".equals(response.getAction()) && user.isSigned()) {
-            user.setFirstName(SWBUtils.XML.replaceXMLChars(request.getParameter("usrFirstName")));
-            user.setLastName(SWBUtils.XML.replaceXMLChars(request.getParameter("usrLastName")));
-            user.setSecondLastName(SWBUtils.XML.replaceXMLChars(request.getParameter("usrSecondLastName")));
-            user.setEmail(SWBUtils.XML.replaceXMLChars(request.getParameter("usrEmail")));
+            if (isDataValid) {
+                user.setFirstName(SWBUtils.XML.replaceXMLChars(request.getParameter("usrFirstName")));
+                user.setLastName(SWBUtils.XML.replaceXMLChars(request.getParameter("usrLastName")));
+                user.setSecondLastName(SWBUtils.XML.replaceXMLChars(request.getParameter("usrSecondLastName")));
+                user.setEmail(SWBUtils.XML.replaceXMLChars(request.getParameter("usrEmail")));
 
-            String usrPhoto = request.getParameter("photoUser");
-            if (usrPhoto != null) {
-                processFiles(request, base.getWebSite(), user.getSemanticObject());
+                String usrPhoto = request.getParameter("photoUser");
+                if (usrPhoto != null) {
+                    processFiles(request, base.getWebSite(), user.getSemanticObject());
+                }
+                setUserExtendedAttributes(request, user);
+
+                response.setRenderParameter("msg", "editok");
+                response.setMode(response.Mode_VIEW);
+                response.setCallMethod(response.Call_CONTENT);
+                return;
+            } else {
+                response.setRenderParameter("firstName", SWBUtils.XML.replaceXMLChars(request.getParameter("firstName")));
+                response.setRenderParameter("lastName", SWBUtils.XML.replaceXMLChars(request.getParameter("lastName")));
+                response.setRenderParameter("secondLastName", SWBUtils.XML.replaceXMLChars(request.getParameter("secondLastName")));
+                response.setRenderParameter("email", SWBUtils.XML.replaceXMLChars(request.getParameter("email")));
+                if (isDataValid) {
+                    response.setRenderParameter("msg", "dataNotValid");
+                }
+                response.setMode(response.Mode_VIEW);
+                response.setCallMethod(response.Call_CONTENT);
             }
-            setUserExtendedAttributes(request, user);
-
-            response.setRenderParameter("msg", "editok");
-            response.setMode(response.Mode_VIEW);
-            response.setCallMethod(response.Call_CONTENT);
-            return;
         }
         if ("upload".equals(response.getAction()) && user.isSigned()) {
             final Percentage per = new Percentage();
@@ -457,7 +488,10 @@ public class TankWarUserRegistry extends GenericAdmResource {
         }
     }
 
-    public String replaceTags(String str, HttpServletRequest request, SWBParamRequest paramRequest, User newUser, String siteName, String page2Confirm) {
+    public String replaceTags(String str, HttpServletRequest request,
+            SWBParamRequest paramRequest, User newUser, String siteName,
+            String page2Confirm) {
+
         if (str == null || str.trim().length() == 0) {
             return "";
         }
@@ -465,22 +499,30 @@ public class TankWarUserRegistry extends GenericAdmResource {
         str = str.trim();
         //TODO: codificar cualquier atributo o texto
 
-        Iterator it = SWBUtils.TEXT.findInterStr(str, "{request.getParameter(\"", "\")}");
+        Iterator it = SWBUtils.TEXT.findInterStr(str, "{request.getParameter(\"",
+                                                 "\")}");
         while (it.hasNext()) {
             String s = (String) it.next();
-            str = SWBUtils.TEXT.replaceAll(str, "{request.getParameter(\"" + s + "\")}", request.getParameter(replaceTags(s, request, paramRequest, newUser, siteName, page2Confirm)));
+            str = SWBUtils.TEXT.replaceAll(str,
+                    "{request.getParameter(\"" + s + "\")}",
+                    request.getParameter(replaceTags(s, request, paramRequest,
+                                         newUser, siteName, page2Confirm)));
         }
 
         it = SWBUtils.TEXT.findInterStr(str, "{session.getAttribute(\"", "\")}");
         while (it.hasNext()) {
             String s = (String) it.next();
-            str = SWBUtils.TEXT.replaceAll(str, "{session.getAttribute(\"" + s + "\")}", (String) request.getSession().getAttribute(replaceTags(s, request, paramRequest, newUser, siteName, page2Confirm)));
+            str = SWBUtils.TEXT.replaceAll(str,
+                    "{session.getAttribute(\"" + s + "\")}",
+                    (String) request.getSession().getAttribute(replaceTags(s,
+                                  request, paramRequest, newUser, siteName, page2Confirm)));
         }
 
         it = SWBUtils.TEXT.findInterStr(str, "{getEnv(\"", "\")}");
         while (it.hasNext()) {
             String s = (String) it.next();
-            str = SWBUtils.TEXT.replaceAll(str, "{getEnv(\"" + s + "\")}", SWBPlatform.getEnv(replaceTags(s, request, paramRequest, newUser, siteName, page2Confirm)));
+            str = SWBUtils.TEXT.replaceAll(str, "{getEnv(\"" + s + "\")}",
+                    SWBPlatform.getEnv(replaceTags(s, request, paramRequest, newUser, siteName, page2Confirm)));
         }
 
         str = SWBUtils.TEXT.replaceAll(str, "{user.login}", paramRequest.getUser().getLogin());
@@ -501,4 +543,75 @@ public class TankWarUserRegistry extends GenericAdmResource {
         }
         return str;
     }
+
+    /**
+     * Realiza validaciones sobre los datos recibidos en la petici&oacute;n HTTP
+     * para determinar si en su conjunto son v&aacute;lidos.
+     * @param request petici&oacute;n HTTP que contiene los datos a evaluar
+     * @param action indica la operaci&oacute;n que se desea realizar con los datos
+     * @return un valor boleano que indica si los datos son v&aacute;lidos
+     * ({@literal true) o no ({@literal false}).
+     */
+    private boolean isDataValid(HttpServletRequest request, String action) {
+
+        boolean dataValid = true;
+        String parameter = null;
+
+        if (action.equalsIgnoreCase("create")) {
+            //Estos parametros solo se usan para la creacion:
+            parameter = request.getParameter(User.swb_usrLogin.getName());
+            if (dataValid && parameter != null && parameter.trim().length() > 0) {
+                dataValid = validateRegExp(parameter, "^[\\w-_\\.áéíóúÁÉÍÓÚñÑ]{4,30}$");
+            }
+//            System.out.println("parametro: " + User.swb_usrLogin.getName() + ", validacion: " + dataValid);
+            parameter = request.getParameter(User.swb_usrPassword.getName());
+            if (dataValid && parameter != null && parameter.trim().length() > 0) {
+                dataValid = validateRegExp(parameter, "^[a-zA-Z0-9\\.\\-_]{6,30}$");
+            }
+//            System.out.println("parametro: " + User.swb_usrPassword.getName() + ", validacion: " + dataValid);
+            parameter = request.getParameter(User.swb_usrPassword.getName() + "c");
+            if (dataValid && parameter != null && parameter.trim().length() > 0) {
+                dataValid = validateRegExp(parameter, "^[a-zA-Z0-9\\.\\-_]{6,30}$");
+            }
+//            System.out.println("parametro: " + User.swb_usrPassword.getName() + "c, validacion: " + dataValid);
+        }
+        //Los siguientes se validan siempre (en creacion y edicion)
+        parameter = request.getParameter(User.swb_usrFirstName.getName());
+        if (dataValid && parameter != null && parameter.trim().length() > 0) {
+            dataValid = validateRegExp(parameter, "^[a-zA-ZñÑáéíóú\\.\\s]{1,40}$");
+        }
+//        System.out.println("parametro: " + User.swb_usrFirstName.getName() + ", validacion: " + dataValid);
+        parameter = request.getParameter(User.swb_usrLastName.getName());
+        if (dataValid && parameter != null && parameter.trim().length() > 0) {
+            dataValid = validateRegExp(parameter, "^[a-zA-ZñÑáéíóú\\.\\s]{1,40}$");
+        }
+//        System.out.println("parametro: " + User.swb_usrLastName.getName() + ", validacion: " + dataValid);
+        parameter = request.getParameter(User.swb_usrSecondLastName.getName());
+        if (dataValid && parameter != null && parameter.trim().length() > 0) {
+            dataValid = validateRegExp(parameter, "^[a-zA-ZñÑáéíóú\\.\\s]*$");
+        }
+//        System.out.println("parametro: " + User.swb_usrSecondLastName.getName() + ", validacion: " + dataValid);
+        parameter = request.getParameter(User.swb_usrEmail.getName());
+        if (dataValid && parameter != null && parameter.trim().length() > 0) {
+            dataValid = validateRegExp(parameter, "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$");
+        }
+//        System.out.println("parametro: " + User.swb_usrEmail.getName() + ", validacion: " + dataValid);
+        return dataValid;
+    }
+
+    /**
+     * Eval&uacute;a el contenido de una cadena de texto contra una expresi&oacute;n
+     * regular dada, para conocer el resultado de esa evaluaci&oacute;n.
+     * @param textSource la cadena de texto a evaluar
+     * @param regExp la expresi&oacute; regular que evaluar&aacute; el texto recibido
+     * @return un valor boleano que representa el resultado de la evaluaci&oacute;n
+     *         del texto contra la expresi&oacute; regular indicados.
+     */
+    private boolean validateRegExp(String textSource, String regExp) {
+
+        Pattern p = Pattern.compile(regExp);//regular expression
+        Matcher m = p.matcher(textSource); // the text source
+        return m.find();
+    }
+    
 }
