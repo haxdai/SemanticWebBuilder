@@ -83,13 +83,13 @@ public class TankWarUserRegistry extends GenericAdmResource {
         }
         else {
             if (msg != null && msg.equals("regfail")) {
-                out.println("<pre>" +
+                out.println("<div id=\"errores\"><pre>" +
                         "<b><font color=\"red\">Error al capturar los caracteres de la imagen de seguridad." +
-                        "</b></font></pre>");
+                        "</b></font></pre></div>");
             } else if (msg != null && msg.equals("dataNotValid")) {
-                out.println("<pre>" +
+                out.println("<div id=\"errores\"><pre>" +
                         "<b><font color=\"red\">Los datos proporcionados no son v&aacute;lidos y no se almacenaron, favor de verificarlos." +
-                        "</b></font></pre>");
+                        "</b></font></pre></div>");
             } else if (msg != null && msg.equals("editok")) {
                 String editSucc = paramRequest.getResourceBase().getAttribute("editSucc");
                 if(editSucc != null && editSucc.trim().length()>0){
