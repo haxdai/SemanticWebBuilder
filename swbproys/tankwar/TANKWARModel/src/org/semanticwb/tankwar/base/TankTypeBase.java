@@ -4,7 +4,7 @@ package org.semanticwb.tankwar.base;
    /**
    * Define la estructura de datos que conforman un Tipo de Tanque 
    */
-public abstract class TankTypeBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+public abstract class TankTypeBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
    /**
    * Imagen del tipo de tanque
@@ -140,21 +140,21 @@ public abstract class TankTypeBase extends org.semanticwb.model.SWBClass impleme
     }
 
 /**
-* Gets the Created property
-* @return java.util.Date with the Created
+* Gets the TankTypeImage property
+* @return String with the TankTypeImage
 */
-    public java.util.Date getCreated()
+    public String getTankTypeImage()
     {
-        return getSemanticObject().getDateProperty(swb_created);
+        return getSemanticObject().getProperty(tank_tankTypeImage);
     }
 
 /**
-* Sets the Created property
-* @param value long with the Created
+* Sets the TankTypeImage property
+* @param value long with the TankTypeImage
 */
-    public void setCreated(java.util.Date value)
+    public void setTankTypeImage(String value)
     {
-        getSemanticObject().setDateProperty(swb_created, value);
+        getSemanticObject().setProperty(tank_tankTypeImage, value);
     }
    /**
    * Sets the value for the property ModifiedBy
@@ -188,6 +188,44 @@ public abstract class TankTypeBase extends org.semanticwb.model.SWBClass impleme
     {
          org.semanticwb.model.User ret=null;
          org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_modifiedBy);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Sets the value for the property Creator
+   * @param value Creator to set
+   */
+
+    public void setCreator(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(swb_creator, value.getSemanticObject());
+        }else
+        {
+            removeCreator();
+        }
+    }
+   /**
+   * Remove the value for Creator property
+   */
+
+    public void removeCreator()
+    {
+        getSemanticObject().removeProperty(swb_creator);
+    }
+
+   /**
+   * Gets the Creator
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getCreator()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_creator);
          if(obj!=null)
          {
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
@@ -247,59 +285,21 @@ public abstract class TankTypeBase extends org.semanticwb.model.SWBClass impleme
     }
 
 /**
-* Gets the TankTypeImage property
-* @return String with the TankTypeImage
+* Gets the Created property
+* @return java.util.Date with the Created
 */
-    public String getTankTypeImage()
+    public java.util.Date getCreated()
     {
-        return getSemanticObject().getProperty(tank_tankTypeImage);
+        return getSemanticObject().getDateProperty(swb_created);
     }
 
 /**
-* Sets the TankTypeImage property
-* @param value long with the TankTypeImage
+* Sets the Created property
+* @param value long with the Created
 */
-    public void setTankTypeImage(String value)
+    public void setCreated(java.util.Date value)
     {
-        getSemanticObject().setProperty(tank_tankTypeImage, value);
-    }
-   /**
-   * Sets the value for the property Creator
-   * @param value Creator to set
-   */
-
-    public void setCreator(org.semanticwb.model.User value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(swb_creator, value.getSemanticObject());
-        }else
-        {
-            removeCreator();
-        }
-    }
-   /**
-   * Remove the value for Creator property
-   */
-
-    public void removeCreator()
-    {
-        getSemanticObject().removeProperty(swb_creator);
-    }
-
-   /**
-   * Gets the Creator
-   * @return a org.semanticwb.model.User
-   */
-    public org.semanticwb.model.User getCreator()
-    {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_creator);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
+        getSemanticObject().setDateProperty(swb_created, value);
     }
 
 /**
