@@ -4,7 +4,7 @@ package org.semanticwb.tankwar.base;
    /**
    * Define la estructura de datos que conforman los comentarios hechos sobre un Tanque 
    */
-public abstract class TankCommentBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+public abstract class TankCommentBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
    /**
    * Clase principal. Define la estructura de datos de cada uno de los Tanques
@@ -45,6 +45,12 @@ public abstract class TankCommentBase extends org.semanticwb.model.SWBClass impl
         {
             java.util.Iterator it=sclass.listInstances();
             return new org.semanticwb.model.GenericIterator<org.semanticwb.tankwar.TankComment>(it, true);
+        }
+
+        public static org.semanticwb.tankwar.TankComment createTankComment(org.semanticwb.model.SWBModel model)
+        {
+            long id=model.getSemanticObject().getModel().getCounter(sclass);
+            return org.semanticwb.tankwar.TankComment.ClassMgr.createTankComment(String.valueOf(id), model);
         }
        /**
        * Gets a org.semanticwb.tankwar.TankComment
@@ -110,29 +116,6 @@ public abstract class TankCommentBase extends org.semanticwb.model.SWBClass impl
             return it;
         }
        /**
-       * Gets all org.semanticwb.tankwar.TankComment with a determined CommTank
-       * @param value CommTank of the type org.semanticwb.tankwar.Tank
-       * @param model Model of the org.semanticwb.tankwar.TankComment
-       * @return Iterator with all the org.semanticwb.tankwar.TankComment
-       */
-
-        public static java.util.Iterator<org.semanticwb.tankwar.TankComment> listTankCommentByCommTank(org.semanticwb.tankwar.Tank value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.tankwar.TankComment> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(tank_commTank, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.tankwar.TankComment with a determined CommTank
-       * @param value CommTank of the type org.semanticwb.tankwar.Tank
-       * @return Iterator with all the org.semanticwb.tankwar.TankComment
-       */
-
-        public static java.util.Iterator<org.semanticwb.tankwar.TankComment> listTankCommentByCommTank(org.semanticwb.tankwar.Tank value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.tankwar.TankComment> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(tank_commTank,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.tankwar.TankComment with a determined Creator
        * @param value Creator of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.tankwar.TankComment
@@ -155,6 +138,29 @@ public abstract class TankCommentBase extends org.semanticwb.model.SWBClass impl
             org.semanticwb.model.GenericIterator<org.semanticwb.tankwar.TankComment> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all org.semanticwb.tankwar.TankComment with a determined CommTank
+       * @param value CommTank of the type org.semanticwb.tankwar.Tank
+       * @param model Model of the org.semanticwb.tankwar.TankComment
+       * @return Iterator with all the org.semanticwb.tankwar.TankComment
+       */
+
+        public static java.util.Iterator<org.semanticwb.tankwar.TankComment> listTankCommentByCommTank(org.semanticwb.tankwar.Tank value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.tankwar.TankComment> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(tank_commTank, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.tankwar.TankComment with a determined CommTank
+       * @param value CommTank of the type org.semanticwb.tankwar.Tank
+       * @return Iterator with all the org.semanticwb.tankwar.TankComment
+       */
+
+        public static java.util.Iterator<org.semanticwb.tankwar.TankComment> listTankCommentByCommTank(org.semanticwb.tankwar.Tank value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.tankwar.TankComment> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(tank_commTank,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
    /**
@@ -164,24 +170,6 @@ public abstract class TankCommentBase extends org.semanticwb.model.SWBClass impl
     public TankCommentBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
-    }
-
-/**
-* Gets the Created property
-* @return java.util.Date with the Created
-*/
-    public java.util.Date getCreated()
-    {
-        return getSemanticObject().getDateProperty(swb_created);
-    }
-
-/**
-* Sets the Created property
-* @param value long with the Created
-*/
-    public void setCreated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_created, value);
     }
    /**
    * Sets the value for the property ModifiedBy
@@ -215,6 +203,44 @@ public abstract class TankCommentBase extends org.semanticwb.model.SWBClass impl
     {
          org.semanticwb.model.User ret=null;
          org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_modifiedBy);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Sets the value for the property Creator
+   * @param value Creator to set
+   */
+
+    public void setCreator(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(swb_creator, value.getSemanticObject());
+        }else
+        {
+            removeCreator();
+        }
+    }
+   /**
+   * Remove the value for Creator property
+   */
+
+    public void removeCreator()
+    {
+        getSemanticObject().removeProperty(swb_creator);
+    }
+
+   /**
+   * Gets the Creator
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getCreator()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_creator);
          if(obj!=null)
          {
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
@@ -272,6 +298,57 @@ public abstract class TankCommentBase extends org.semanticwb.model.SWBClass impl
     {
         getSemanticObject().setDateProperty(swb_updated, value);
     }
+
+/**
+* Gets the Created property
+* @return java.util.Date with the Created
+*/
+    public java.util.Date getCreated()
+    {
+        return getSemanticObject().getDateProperty(swb_created);
+    }
+
+/**
+* Sets the Created property
+* @param value long with the Created
+*/
+    public void setCreated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_created, value);
+    }
+
+/**
+* Gets the Description property
+* @return String with the Description
+*/
+    public String getDescription()
+    {
+        return getSemanticObject().getProperty(swb_description);
+    }
+
+/**
+* Sets the Description property
+* @param value long with the Description
+*/
+    public void setDescription(String value)
+    {
+        getSemanticObject().setProperty(swb_description, value);
+    }
+
+    public String getDescription(String lang)
+    {
+        return getSemanticObject().getProperty(swb_description, null, lang);
+    }
+
+    public String getDisplayDescription(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_description, lang);
+    }
+
+    public void setDescription(String description, String lang)
+    {
+        getSemanticObject().setProperty(swb_description, description, lang);
+    }
    /**
    * Sets the value for the property CommTank
    * @param value CommTank to set
@@ -309,76 +386,5 @@ public abstract class TankCommentBase extends org.semanticwb.model.SWBClass impl
              ret=(org.semanticwb.tankwar.Tank)obj.createGenericInstance();
          }
          return ret;
-    }
-   /**
-   * Sets the value for the property Creator
-   * @param value Creator to set
-   */
-
-    public void setCreator(org.semanticwb.model.User value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(swb_creator, value.getSemanticObject());
-        }else
-        {
-            removeCreator();
-        }
-    }
-   /**
-   * Remove the value for Creator property
-   */
-
-    public void removeCreator()
-    {
-        getSemanticObject().removeProperty(swb_creator);
-    }
-
-   /**
-   * Gets the Creator
-   * @return a org.semanticwb.model.User
-   */
-    public org.semanticwb.model.User getCreator()
-    {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_creator);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
-    }
-
-/**
-* Gets the Description property
-* @return String with the Description
-*/
-    public String getDescription()
-    {
-        return getSemanticObject().getProperty(swb_description);
-    }
-
-/**
-* Sets the Description property
-* @param value long with the Description
-*/
-    public void setDescription(String value)
-    {
-        getSemanticObject().setProperty(swb_description, value);
-    }
-
-    public String getDescription(String lang)
-    {
-        return getSemanticObject().getProperty(swb_description, null, lang);
-    }
-
-    public String getDisplayDescription(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_description, lang);
-    }
-
-    public void setDescription(String description, String lang)
-    {
-        getSemanticObject().setProperty(swb_description, description, lang);
     }
 }

@@ -88,21 +88,6 @@ public class TankWarResource extends org.semanticwb.tankwar.resources.base.TankW
                 semObject.remove();
                 //Tank tank = (Tank) semObject.createGenericInstance();
                 //tank.remove();
-            }else if(action.equals("addComent") && request.getParameter("tankUri")!=null && request.getParameter("description")!=null)
-            {
-                SWBFormMgr mgr = new SWBFormMgr(TankComment.tank_TankComment, wsite.getSemanticObject(), null);
-                try
-                {
-                    SemanticObject semObject = mgr.processForm(request);
-                    TankComment TankComment = (TankComment) semObject.createGenericInstance();
-                    TankComment.setDescription(request.getParameter("description"));
-                    SemanticObject semObjectTank = SemanticObject.createSemanticObject(request.getParameter("tankUri"));
-                    Tank tank = (Tank) semObjectTank.createGenericInstance();
-                    TankComment.setCommTank(tank);
-
-                }catch(Exception e){
-                    log.error(e);
-                }
             }
         }
     }
