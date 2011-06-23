@@ -4,139 +4,139 @@ package org.semanticwb.tankwar.base;
    /**
    * Noticias de los tanques 
    */
-public abstract class TankNewsBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+public abstract class TankNewBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
    /**
    * Noticias de los tanques
    */
-    public static final org.semanticwb.platform.SemanticClass tank_TankNews=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/tankwar#TankNews");
+    public static final org.semanticwb.platform.SemanticClass tank_TankNew=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/tankwar#TankNew");
    /**
    * The semantic class that represents the currentObject
    */
-    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/tankwar#TankNews");
+    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/tankwar#TankNew");
 
     public static class ClassMgr
     {
        /**
-       * Returns a list of TankNews for a model
+       * Returns a list of TankNew for a model
        * @param model Model to find
-       * @return Iterator of org.semanticwb.tankwar.TankNews
+       * @return Iterator of org.semanticwb.tankwar.TankNew
        */
 
-        public static java.util.Iterator<org.semanticwb.tankwar.TankNews> listTankNewses(org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.tankwar.TankNew> listTankNews(org.semanticwb.model.SWBModel model)
         {
             java.util.Iterator it=model.getSemanticObject().getModel().listInstancesOfClass(sclass);
-            return new org.semanticwb.model.GenericIterator<org.semanticwb.tankwar.TankNews>(it, true);
+            return new org.semanticwb.model.GenericIterator<org.semanticwb.tankwar.TankNew>(it, true);
         }
        /**
-       * Returns a list of org.semanticwb.tankwar.TankNews for all models
-       * @return Iterator of org.semanticwb.tankwar.TankNews
+       * Returns a list of org.semanticwb.tankwar.TankNew for all models
+       * @return Iterator of org.semanticwb.tankwar.TankNew
        */
 
-        public static java.util.Iterator<org.semanticwb.tankwar.TankNews> listTankNewses()
+        public static java.util.Iterator<org.semanticwb.tankwar.TankNew> listTankNews()
         {
             java.util.Iterator it=sclass.listInstances();
-            return new org.semanticwb.model.GenericIterator<org.semanticwb.tankwar.TankNews>(it, true);
+            return new org.semanticwb.model.GenericIterator<org.semanticwb.tankwar.TankNew>(it, true);
         }
 
-        public static org.semanticwb.tankwar.TankNews createTankNews(org.semanticwb.model.SWBModel model)
+        public static org.semanticwb.tankwar.TankNew createTankNew(org.semanticwb.model.SWBModel model)
         {
             long id=model.getSemanticObject().getModel().getCounter(sclass);
-            return org.semanticwb.tankwar.TankNews.ClassMgr.createTankNews(String.valueOf(id), model);
+            return org.semanticwb.tankwar.TankNew.ClassMgr.createTankNew(String.valueOf(id), model);
         }
        /**
-       * Gets a org.semanticwb.tankwar.TankNews
-       * @param id Identifier for org.semanticwb.tankwar.TankNews
-       * @param model Model of the org.semanticwb.tankwar.TankNews
-       * @return A org.semanticwb.tankwar.TankNews
+       * Gets a org.semanticwb.tankwar.TankNew
+       * @param id Identifier for org.semanticwb.tankwar.TankNew
+       * @param model Model of the org.semanticwb.tankwar.TankNew
+       * @return A org.semanticwb.tankwar.TankNew
        */
-        public static org.semanticwb.tankwar.TankNews getTankNews(String id, org.semanticwb.model.SWBModel model)
+        public static org.semanticwb.tankwar.TankNew getTankNew(String id, org.semanticwb.model.SWBModel model)
         {
-            return (org.semanticwb.tankwar.TankNews)model.getSemanticObject().getModel().getGenericObject(model.getSemanticObject().getModel().getObjectUri(id,sclass),sclass);
+            return (org.semanticwb.tankwar.TankNew)model.getSemanticObject().getModel().getGenericObject(model.getSemanticObject().getModel().getObjectUri(id,sclass),sclass);
         }
        /**
-       * Create a org.semanticwb.tankwar.TankNews
-       * @param id Identifier for org.semanticwb.tankwar.TankNews
-       * @param model Model of the org.semanticwb.tankwar.TankNews
-       * @return A org.semanticwb.tankwar.TankNews
+       * Create a org.semanticwb.tankwar.TankNew
+       * @param id Identifier for org.semanticwb.tankwar.TankNew
+       * @param model Model of the org.semanticwb.tankwar.TankNew
+       * @return A org.semanticwb.tankwar.TankNew
        */
-        public static org.semanticwb.tankwar.TankNews createTankNews(String id, org.semanticwb.model.SWBModel model)
+        public static org.semanticwb.tankwar.TankNew createTankNew(String id, org.semanticwb.model.SWBModel model)
         {
-            return (org.semanticwb.tankwar.TankNews)model.getSemanticObject().getModel().createGenericObject(model.getSemanticObject().getModel().getObjectUri(id,sclass),sclass);
+            return (org.semanticwb.tankwar.TankNew)model.getSemanticObject().getModel().createGenericObject(model.getSemanticObject().getModel().getObjectUri(id,sclass),sclass);
         }
        /**
-       * Remove a org.semanticwb.tankwar.TankNews
-       * @param id Identifier for org.semanticwb.tankwar.TankNews
-       * @param model Model of the org.semanticwb.tankwar.TankNews
+       * Remove a org.semanticwb.tankwar.TankNew
+       * @param id Identifier for org.semanticwb.tankwar.TankNew
+       * @param model Model of the org.semanticwb.tankwar.TankNew
        */
-        public static void removeTankNews(String id, org.semanticwb.model.SWBModel model)
+        public static void removeTankNew(String id, org.semanticwb.model.SWBModel model)
         {
             model.getSemanticObject().getModel().removeSemanticObject(model.getSemanticObject().getModel().getObjectUri(id,sclass));
         }
        /**
-       * Returns true if exists a org.semanticwb.tankwar.TankNews
-       * @param id Identifier for org.semanticwb.tankwar.TankNews
-       * @param model Model of the org.semanticwb.tankwar.TankNews
-       * @return true if the org.semanticwb.tankwar.TankNews exists, false otherwise
+       * Returns true if exists a org.semanticwb.tankwar.TankNew
+       * @param id Identifier for org.semanticwb.tankwar.TankNew
+       * @param model Model of the org.semanticwb.tankwar.TankNew
+       * @return true if the org.semanticwb.tankwar.TankNew exists, false otherwise
        */
 
-        public static boolean hasTankNews(String id, org.semanticwb.model.SWBModel model)
+        public static boolean hasTankNew(String id, org.semanticwb.model.SWBModel model)
         {
-            return (getTankNews(id, model)!=null);
+            return (getTankNew(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.tankwar.TankNews with a determined ModifiedBy
+       * Gets all org.semanticwb.tankwar.TankNew with a determined ModifiedBy
        * @param value ModifiedBy of the type org.semanticwb.model.User
-       * @param model Model of the org.semanticwb.tankwar.TankNews
-       * @return Iterator with all the org.semanticwb.tankwar.TankNews
+       * @param model Model of the org.semanticwb.tankwar.TankNew
+       * @return Iterator with all the org.semanticwb.tankwar.TankNew
        */
 
-        public static java.util.Iterator<org.semanticwb.tankwar.TankNews> listTankNewsByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.tankwar.TankNew> listTankNewByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.tankwar.TankNews> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.tankwar.TankNew> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.tankwar.TankNews with a determined ModifiedBy
+       * Gets all org.semanticwb.tankwar.TankNew with a determined ModifiedBy
        * @param value ModifiedBy of the type org.semanticwb.model.User
-       * @return Iterator with all the org.semanticwb.tankwar.TankNews
+       * @return Iterator with all the org.semanticwb.tankwar.TankNew
        */
 
-        public static java.util.Iterator<org.semanticwb.tankwar.TankNews> listTankNewsByModifiedBy(org.semanticwb.model.User value)
+        public static java.util.Iterator<org.semanticwb.tankwar.TankNew> listTankNewByModifiedBy(org.semanticwb.model.User value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.tankwar.TankNews> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.tankwar.TankNew> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.tankwar.TankNews with a determined Creator
+       * Gets all org.semanticwb.tankwar.TankNew with a determined Creator
        * @param value Creator of the type org.semanticwb.model.User
-       * @param model Model of the org.semanticwb.tankwar.TankNews
-       * @return Iterator with all the org.semanticwb.tankwar.TankNews
+       * @param model Model of the org.semanticwb.tankwar.TankNew
+       * @return Iterator with all the org.semanticwb.tankwar.TankNew
        */
 
-        public static java.util.Iterator<org.semanticwb.tankwar.TankNews> listTankNewsByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.tankwar.TankNew> listTankNewByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.tankwar.TankNews> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.tankwar.TankNew> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.tankwar.TankNews with a determined Creator
+       * Gets all org.semanticwb.tankwar.TankNew with a determined Creator
        * @param value Creator of the type org.semanticwb.model.User
-       * @return Iterator with all the org.semanticwb.tankwar.TankNews
+       * @return Iterator with all the org.semanticwb.tankwar.TankNew
        */
 
-        public static java.util.Iterator<org.semanticwb.tankwar.TankNews> listTankNewsByCreator(org.semanticwb.model.User value)
+        public static java.util.Iterator<org.semanticwb.tankwar.TankNew> listTankNewByCreator(org.semanticwb.model.User value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.tankwar.TankNews> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.tankwar.TankNew> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
     }
 
    /**
-   * Constructs a TankNewsBase with a SemanticObject
-   * @param base The SemanticObject with the properties for the TankNews
+   * Constructs a TankNewBase with a SemanticObject
+   * @param base The SemanticObject with the properties for the TankNew
    */
-    public TankNewsBase(org.semanticwb.platform.SemanticObject base)
+    public TankNewBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
     }
