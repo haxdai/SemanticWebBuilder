@@ -4,7 +4,7 @@ package org.semanticwb.tankwar.base;
    /**
    * Clase principal. Define la estructura de datos de cada uno de los Tanques 
    */
-public abstract class TankBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable
+public abstract class TankBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable
 {
    /**
    * Puntuación ganada por el tanque en base a los resultados de los juegos en que ha participado el tanque
