@@ -58,6 +58,14 @@ public class ListTanks extends org.semanticwb.tankwar.resources.base.ListTanksBa
                 {
                     tank.addUserFavorite(user);
                 }
+            }else if(action.equals("removeFavorite"))
+            {
+                SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("tankUri"));
+                Tank tank = (Tank) semObject.createGenericInstance();
+                if(tank.hasUserFavorite(user))
+                {
+                    tank.removeUserFavorite(user);
+                }
             }
         }
     }
