@@ -62,7 +62,8 @@ public class TankData extends GenericResource{
                     //TankComment.setDescription(request.getParameter("description"));
                     SemanticObject semObjectTank = SemanticObject.createSemanticObject(request.getParameter("tankUri"));
                     Tank tank = (Tank) semObjectTank.createGenericInstance();
-                    TankComment.setCommTank(tank);                   
+                    TankComment.setCommTank(tank);
+                    response.setRenderParameter("tankUri", tank.getURI());
                 }catch(Exception e){
                     log.error(e);
                 }
