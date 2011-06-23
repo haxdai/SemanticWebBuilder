@@ -51,6 +51,9 @@ public class TankData extends GenericResource{
         WebSite wsite=response.getWebPage().getWebSite();
         if(action!=null)
         {
+            System.out.println("action:"+action);
+            System.out.println("tankUri:"+request.getParameter("tankUri"));
+            System.out.println("description:"+request.getParameter("description"));
             if(action.equals("addComent") && request.getParameter("tankUri")!=null && request.getParameter("description")!=null)
             {
                 SWBFormMgr mgr = new SWBFormMgr(TankComment.tank_TankComment, wsite.getSemanticObject(), null);
