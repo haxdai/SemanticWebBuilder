@@ -49,6 +49,9 @@ public class TankGame extends GenericResource
         }else if(paramRequest.getMode().equals("stk"))
         {
             saveTank(request,response,paramRequest);        
+        }else if(paramRequest.getMode().equals("uts"))
+        {
+            updateTankScore(request, response, paramRequest);
         }else
         {
             super.processRequest(request, response, paramRequest);
@@ -63,7 +66,11 @@ public class TankGame extends GenericResource
         Tank tk=null;
         Iterator<Tank> it=Tank.ClassMgr.listTankByCreator(user, site);
         if(it.hasNext())tk=it.next();        
-        out.println(tk.getId()+" "+tk.getTankType()+" "+tk.getTankColor());
+        if(tk!=null)
+        {
+            out.println(tk.getId()+" "+tk.getTankType()+" "+tk.getTankColor());
+            request.getSession().setAttribute("tankid", tk.getId());
+        }
         
         String tankids[]=(String[])request.getSession().getAttribute("tankids");
         if(tankids!=null)
@@ -71,7 +78,7 @@ public class TankGame extends GenericResource
             for(int x=0;x<tankids.length;x++)
             {
                 Tank tank = Tank.ClassMgr.getTank(tankids[x], site);
-                out.println(tank.getId()+" "+tk.getTankType()+" "+tk.getTankColor());
+                out.println(tank.getId()+" "+tank.getTankType()+" "+tank.getTankColor());
             }
         }
         //out.println("DemoTank 0 0");
@@ -135,9 +142,51 @@ public class TankGame extends GenericResource
             String code=SWBUtils.IO.readInputStream(request.getInputStream());
             tk.setTankCode(code);
             System.out.println("code:"+code);
-        }
-        
+        } 
     }    
     
+    public void updateTankScore(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException 
+    {
+        WebSite site=paramRequest.getWebPage().getWebSite();
+        User user=paramRequest.getUser();
+        String score=SWBUtils.IO.readInputStream(request.getInputStream()).trim();
+        System.out.println("updateScore:"+score);
+        
+        String tankid=(String)request.getSession().getAttribute("tankid");
+        String tankids[]=(String[])request.getSession().getAttribute("tankids");
+        
+        System.out.println(score.length()+" "+(tankids.length+1));
+
+        if(score.length()!=tankids.length+1)return;
+        
+        int maxScore=0;
+        Tank win=null;
+        for(int x=0;x<score.length();x++)
+        {
+            char c=score.charAt(x);
+            Tank t=null;
+            if(x==0)t=Tank.ClassMgr.getTank(tankid, site);
+            else t=Tank.ClassMgr.getTank(tankids[x-1], site);
+            System.out.println(t+" "+c);
+            if(t!=null)
+            {
+                if(c=='w')
+                {
+                    t.setWonGames(t.getWonGames()+1);
+                    win=t;
+                }
+                else if(c=='t')t.setTieGames(t.getTieGames()+1);
+                else if(c=='l')t.setLostGames(t.getLostGames()+1);
+                if(t!=win && maxScore<t.getScore())maxScore=t.getScore();
+            }
+        }
+        if(win.getScore()<=maxScore)
+        {
+            double i=(maxScore-win.getScore())/5.0;
+            if(i<1)i=1;
+            win.setScore(win.getScore()+(int)i);
+        }
+        
+    }
     
 }
