@@ -10,11 +10,18 @@ import java.util.Comparator;
  * @author Carlos Ramos
  */
 
-public class Event extends mx.gob.stps.portalempleo.swb.base.EventBase 
+public class Event extends mx.gob.stps.portalempleo.swb.base.EventBase implements Comparable
 {
     public Event(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+    public int compareTo(Object obj) throws ClassCastException {
+        if (!(obj instanceof Event))
+            throw new ClassCastException("Se esperaba un evento");
+        Event event = (Event)obj;
+        return this.getStart().compareTo(event.getStart());
     }
 
 
