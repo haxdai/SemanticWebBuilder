@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
+import org.semanticwb.model.User;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.SWBFormMgr;
@@ -49,6 +50,7 @@ public class TankData extends GenericResource{
     {
         String action=response.getAction();
         WebSite wsite=response.getWebPage().getWebSite();
+        User user=response.getUser();
         if(action!=null)
         {
             if(action.equals("addComent") && request.getParameter("tankUri")!=null && request.getParameter("description")!=null)
@@ -62,12 +64,28 @@ public class TankData extends GenericResource{
                     //TankComment.setDescription(request.getParameter("description"));
                     SemanticObject semObjectTank = SemanticObject.createSemanticObject(request.getParameter("tankUri"));
                     Tank tank = (Tank) semObjectTank.createGenericInstance();
-                    TankComment.setCommTank(tank);
-                    response.setRenderParameter("tankUri", tank.getURI());
+                    TankComment.setCommTank(tank);                    
                 }catch(Exception e){
                     log.error(e);
                 }
+            }else  if(action.equals("addFavorite"))
+            {
+                SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("tankUri"));
+                Tank tank = (Tank) semObject.createGenericInstance();
+                if(!tank.hasUserFavorite(user))
+                {
+                    tank.addUserFavorite(user);
+                }
+            }else if(action.equals("removeFavorite"))
+            {
+                SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("tankUri"));
+                Tank tank = (Tank) semObject.createGenericInstance();
+                if(tank.hasUserFavorite(user))
+                {
+                    tank.removeUserFavorite(user);
+                }
             }
+            response.setRenderParameter("tankUri", request.getParameter("tankUri"));
             response.setAction(response.Mode_VIEW);
         }
     }
