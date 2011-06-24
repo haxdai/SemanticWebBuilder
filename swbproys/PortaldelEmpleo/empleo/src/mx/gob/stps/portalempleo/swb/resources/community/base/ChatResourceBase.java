@@ -21,18 +21,12 @@ public abstract class ChatResourceBase extends org.semanticwb.portal.api.Generic
         super(base);
     }
 
-    /*
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() 
     {
         return getSemanticObject().hashCode();
     }
 
-    /*
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) 
     {
