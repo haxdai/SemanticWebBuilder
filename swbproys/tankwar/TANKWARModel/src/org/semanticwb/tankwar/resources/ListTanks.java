@@ -7,10 +7,7 @@ import javax.servlet.http.*;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
-import org.semanticwb.model.User;
-import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.api.*;
-import org.semanticwb.tankwar.Tank;
 
 public class ListTanks extends org.semanticwb.tankwar.resources.base.ListTanksBase
 {
@@ -42,32 +39,4 @@ public class ListTanks extends org.semanticwb.tankwar.resources.base.ListTanksBa
             log.error(e);
         }
     }
-
-    @Override
-    public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
-    {
-        String action=response.getAction();
-        User user=response.getUser();
-        if(action!=null)
-        {
-            if(action.equals("addFavorite"))
-            {
-                SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("tankUri"));
-                Tank tank = (Tank) semObject.createGenericInstance();
-                if(!tank.hasUserFavorite(user))
-                {
-                    tank.addUserFavorite(user);
-                }
-            }else if(action.equals("removeFavorite"))
-            {
-                SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("tankUri"));
-                Tank tank = (Tank) semObject.createGenericInstance();
-                if(tank.hasUserFavorite(user))
-                {
-                    tank.removeUserFavorite(user);
-                }
-            }
-        }
-    }
-
 }
