@@ -27,6 +27,9 @@ public class TankGame extends GenericResource
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException 
     {
+        String tankids[]=request.getParameterValues("tankID");
+        request.getSession().setAttribute("tankids", tankids);
+        System.out.println(tankids);
         PrintWriter out=response.getWriter();
         out.println("<applet codebase=\"/work/models/TankWar/app\" archive=\"TankWarApplet.jar,lib/rsyntaxtextarea.jar,lib/autocomplete.jar\" code=\"com/infotec/games/infotank/TankGame.class\" width=\"800\" height=\"600\">");        
         out.println("<param name=\"jsess\" value=\"" + request.getSession().getId() + "\">");
@@ -56,10 +59,20 @@ public class TankGame extends GenericResource
     {
         PrintWriter out=response.getWriter();
         WebSite site=paramRequest.getWebPage().getWebSite();
-        Iterator<Tank> it=Tank.ClassMgr.listTanks(site);
-        while (it.hasNext()) {
-            Tank tank = it.next();
-            out.println(tank.getId()+" 0 0");
+        User user=paramRequest.getUser();
+        Tank tk=null;
+        Iterator<Tank> it=Tank.ClassMgr.listTankByCreator(user, site);
+        if(it.hasNext())tk=it.next();        
+        out.println(tk.getId()+" "+tk.getTankType()+" "+tk.getTankColor());
+        
+        String tankids[]=(String[])request.getSession().getAttribute("tankids");
+        if(tankids!=null)
+        {
+            for(int x=0;x<tankids.length;x++)
+            {
+                Tank tank = Tank.ClassMgr.getTank(tankids[x], site);
+                out.println(tank.getId()+" "+tk.getTankType()+" "+tk.getTankColor());
+            }
         }
         //out.println("DemoTank 0 0");
         //out.println("JeiTank 3 2");
