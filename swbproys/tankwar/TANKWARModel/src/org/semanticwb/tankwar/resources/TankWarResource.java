@@ -8,12 +8,12 @@ import javax.servlet.http.*;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
+import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.SWBFormMgr;
 import org.semanticwb.portal.api.*;
 import org.semanticwb.tankwar.Tank;
-import org.semanticwb.tankwar.TankComment;
 
 public class TankWarResource extends org.semanticwb.tankwar.resources.base.TankWarResourceBase 
 {
@@ -33,16 +33,28 @@ public class TankWarResource extends org.semanticwb.tankwar.resources.base.TankW
     }
 
     @Override
-    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
-    {
-        String path = SWBPortal.getWebWorkPath() +"/models/"+paramRequest.getWebPage().getWebSiteId()+"/jsp/tankWarResource.jsp" ;
-        RequestDispatcher rd = request.getRequestDispatcher(path);
-        try{
-            request.setAttribute("paramRequest",paramRequest);
-            rd.include(request, response);
-        }catch(Exception e)
-        {
-            log.error(e);
+    public void doView(HttpServletRequest request, HttpServletResponse response,
+                       SWBParamRequest paramRequest)
+                       throws SWBResourceException, IOException {
+
+        String action = paramRequest.getAction();
+
+        if (action == null || (action != null &&
+                !action.equalsIgnoreCase(SWBParamRequest.Action_ADD))) {
+            String path = SWBPortal.getWebWorkPath() + "/models/"
+                    + paramRequest.getWebPage().getWebSiteId()
+                    + "/jsp/tankWarResource.jsp" ;
+            RequestDispatcher rd = request.getRequestDispatcher(path);
+            try {
+                request.setAttribute("paramRequest", paramRequest);
+                rd.include(request, response);
+            } catch (Exception e) {
+                log.error(e);
+            }
+        } else {
+            WebPage wp = WebPage.ClassMgr.getWebPage("Campo_de_Pruebas",
+                                 paramRequest.getWebPage().getWebSite());
+            response.sendRedirect(wp.getRealUrl(paramRequest.getUser().getLanguage()));
         }
     }
 
@@ -62,7 +74,7 @@ public class TankWarResource extends org.semanticwb.tankwar.resources.base.TankW
         
         if(action!=null)
         {
-            if(action.equals(response.Action_ADD)){
+            if(action.equals(response.Action_ADD)) {
                 SWBFormMgr mgr = new SWBFormMgr(Tank.tank_Tank, wsite.getSemanticObject(), null);
                 try
                 {
@@ -72,7 +84,7 @@ public class TankWarResource extends org.semanticwb.tankwar.resources.base.TankW
                 }catch(Exception e){
                     log.error(e);
                 }
-            }else if(action.equals(response.Action_EDIT)){
+            } else if(action.equals(response.Action_EDIT)) {
                 SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("tankUri"));
                 SWBFormMgr mgr = new SWBFormMgr(semObject, null, SWBFormMgr.MODE_EDIT);
                 try
@@ -82,8 +94,7 @@ public class TankWarResource extends org.semanticwb.tankwar.resources.base.TankW
                 }catch(Exception e){
                     log.error(e);
                 }
-            }else if(action.equals(response.Action_REMOVE))
-            {
+            } else if(action.equals(response.Action_REMOVE)) {
                 SemanticObject semObject = SemanticObject.createSemanticObject(request.getParameter("tankUri"));
                 semObject.remove();
                 //Tank tank = (Tank) semObject.createGenericInstance();
