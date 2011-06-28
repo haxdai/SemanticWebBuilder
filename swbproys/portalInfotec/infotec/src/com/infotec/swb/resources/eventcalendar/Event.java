@@ -3,11 +3,18 @@ package com.infotec.swb.resources.eventcalendar;
 import java.util.Comparator;
 
 
-public class Event extends com.infotec.swb.resources.eventcalendar.base.EventBase 
+public class Event extends com.infotec.swb.resources.eventcalendar.base.EventBase implements Comparable
 {
     public Event(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+    public int compareTo(Object obj) throws ClassCastException {
+        if (!(obj instanceof Event))
+            throw new ClassCastException("Se esperaba un evento");
+        Event event = (Event)obj;
+        return this.getStart().compareTo(event.getStart());
     }
     
     @Override
