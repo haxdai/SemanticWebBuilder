@@ -64,8 +64,11 @@ public class TankGameEditor extends GenericResource
         WebSite site=paramRequest.getWebPage().getWebSite();
         User user=paramRequest.getUser();
         Tank tk=null;
-        Iterator<Tank> it=Tank.ClassMgr.listTankByCreator(user, site);
-        if(it.hasNext())tk=it.next();        
+        if(user.isSigned())
+        {
+            Iterator<Tank> it=Tank.ClassMgr.listTankByCreator(user, site);
+            if(it.hasNext())tk=it.next();        
+        }
         if(tk!=null)
         {
             out.println(tk.getId()+" "+tk.getTankType()+" "+tk.getTankColor());
@@ -81,12 +84,6 @@ public class TankGameEditor extends GenericResource
                 out.println(tank.getId()+" "+tank.getTankType()+" "+tank.getTankColor());
             }
         }
-        //out.println("DemoTank 0 0");
-        //out.println("JeiTank 3 2");
-        //out.println("SleepyTank 1 1");
-        //out.println("JeiTank 2 3");
-        //out.println("DemoTank 3 4");
-        //out.println("DemoTank 0 5");
     }
     
     public void getTank(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException 
@@ -141,7 +138,7 @@ public class TankGameEditor extends GenericResource
         {
             String code=SWBUtils.IO.readInputStream(request.getInputStream());
             tk.setTankCode(code);
-            System.out.println("code:"+code);
+            //System.out.println("code:"+code);
         } 
     }    
     
