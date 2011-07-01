@@ -7,6 +7,8 @@ package org.semanticwb.tankwar.resources;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.SWBUtils;
@@ -24,12 +26,42 @@ import org.semanticwb.tankwar.Tank;
 public class TankGameView extends GenericResource
 {
 
+    private Random ran=new Random();
+    
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException 
     {
+        User user=paramRequest.getUser();
+        WebSite site=paramRequest.getWebPage().getWebSite();
         String tankids[]=request.getParameterValues("tankID");
+        if(tankids==null)
+        {
+            int m=6;
+            if(user.isSigned())m=5;
+            System.out.println(m+" "+user+" "+user.isSigned());
+            tankids= new String[m];
+            Iterator<Tank> it=Tank.ClassMgr.listTanks(site);
+            List<Tank> l=SWBUtils.Collections.copyIterator(it);
+            
+            if(user.isSigned())
+            {
+                Iterator<Tank> it2=Tank.ClassMgr.listTankByCreator(user, site);
+                if(it.hasNext())
+                {
+                    Tank tk=it2.next();
+                    l.remove(tk);
+                }
+            }
+            
+            for(int x=0;x<m && l.size()>0;x++)
+            {
+                int r=ran.nextInt(l.size());
+                tankids[x]=l.get(r).getId();
+                l.remove(r);
+            }
+        }
         request.getSession().setAttribute("tankids", tankids);
-        System.out.println(tankids);
+        //System.out.println(tankids);
         PrintWriter out=response.getWriter();
         out.println("<applet codebase=\"/work/models/TankWar/app\" archive=\"TankWarApplet.jar\" code=\"com/infotec/games/infotank/TankGameView.class\" width=\"800\" height=\"600\">");        
         out.println("<param name=\"jsess\" value=\"" + request.getSession().getId() + "\">");
@@ -64,8 +96,11 @@ public class TankGameView extends GenericResource
         WebSite site=paramRequest.getWebPage().getWebSite();
         User user=paramRequest.getUser();
         Tank tk=null;
-        Iterator<Tank> it=Tank.ClassMgr.listTankByCreator(user, site);
-        if(it.hasNext())tk=it.next();        
+        if(user.isSigned())
+        {
+            Iterator<Tank> it=Tank.ClassMgr.listTankByCreator(user, site);
+            if(it.hasNext())tk=it.next();        
+        }
         if(tk!=null)
         {
             out.println(tk.getId()+" "+tk.getTankType()+" "+tk.getTankColor());
@@ -81,12 +116,6 @@ public class TankGameView extends GenericResource
                 out.println(tank.getId()+" "+tank.getTankType()+" "+tank.getTankColor());
             }
         }
-        //out.println("DemoTank 0 0");
-        //out.println("JeiTank 3 2");
-        //out.println("SleepyTank 1 1");
-        //out.println("JeiTank 2 3");
-        //out.println("DemoTank 3 4");
-        //out.println("DemoTank 0 5");
     }
     
     public void getTank(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException 
@@ -122,8 +151,6 @@ public class TankGameView extends GenericResource
                     "        }",
                     "    }"
                 });
-
-
             }
         }
         out.println(code);
@@ -141,7 +168,7 @@ public class TankGameView extends GenericResource
         {
             String code=SWBUtils.IO.readInputStream(request.getInputStream());
             tk.setTankCode(code);
-            System.out.println("code:"+code);
+            //System.out.println("code:"+code);
         } 
     }    
     
@@ -155,19 +182,29 @@ public class TankGameView extends GenericResource
         String tankid=(String)request.getSession().getAttribute("tankid");
         String tankids[]=(String[])request.getSession().getAttribute("tankids");
         
-        //System.out.println(score.length()+" "+(tankids.length+1));
-
-        if(score==null || score.length()!=tankids.length+1)return;
+        if(tankid!=null)
+        {
+            String aux[]=new String[tankids.length+1];
+            aux[0]=tankid;
+            for(int x=0;x<tankids.length;x++)
+            {
+                aux[x+1]=tankids[x];
+            }
+            tankids=aux;
+        }
         
+        System.out.println(score.length()+" "+(tankids.length));
+
+        if(score==null || score.length()!=tankids.length)return;
+        
+        site.begin();
         int maxScore=0;
         Tank win=null;
         for(int x=0;x<score.length();x++)
         {
             char c=score.charAt(x);
-            Tank t=null;
-            if(x==0)t=Tank.ClassMgr.getTank(tankid, site);
-            else t=Tank.ClassMgr.getTank(tankids[x-1], site);
-            System.out.println(t+" "+c);
+            Tank t=Tank.ClassMgr.getTank(tankids[x], site);
+            //System.out.println(t+" "+c);
             if(t!=null)
             {
                 if(c=='w')
@@ -180,13 +217,13 @@ public class TankGameView extends GenericResource
                 if(t!=win && maxScore<t.getScore())maxScore=t.getScore();
             }
         }
-        if(win.getScore()<=maxScore)
+        if(win!=null && win.getScore()<=maxScore)
         {
             double i=(maxScore-win.getScore())/5.0;
             if(i<1)i=1;
             win.setScore(win.getScore()+(int)i);
         }
-        
+        site.commit();
     }
     
 }
