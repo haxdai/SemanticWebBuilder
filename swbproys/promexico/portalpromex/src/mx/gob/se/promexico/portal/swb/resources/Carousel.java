@@ -109,7 +109,5 @@ System.out.println("res"+res);
         out.println("	noAddedSpace: true");
         out.println("  });");
         out.println("</script>");
-
-
     }
 }
