@@ -47,6 +47,9 @@ public class TankWarResource extends org.semanticwb.tankwar.resources.base.TankW
             RequestDispatcher rd = request.getRequestDispatcher(path);
             try {
                 request.setAttribute("paramRequest", paramRequest);
+                if (request.getParameter("tankEditedRes") != null) {
+                    request.setAttribute("tankEdited", "yes");
+                }
                 rd.include(request, response);
             } catch (Exception e) {
                 log.error(e);
@@ -61,16 +64,16 @@ public class TankWarResource extends org.semanticwb.tankwar.resources.base.TankW
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
     {
-        System.out.println("Entra a processAction");
+//        System.out.println("Entra a processAction");
         String action=response.getAction();
         WebSite wsite=response.getWebPage().getWebSite();
         
-        Enumeration<String> enumParams=request.getParameterNames();
-        while(enumParams.hasMoreElements())
-        {
-            String pName=enumParams.nextElement();
-            System.out.println("pName:"+pName+", value:"+request.getParameter(pName));
-        }
+//        Enumeration<String> enumParams=request.getParameterNames();
+//        while(enumParams.hasMoreElements())
+//        {
+//            String pName=enumParams.nextElement();
+//            System.out.println("pName:"+pName+", value:"+request.getParameter(pName));
+//        }
         
         if(action!=null)
         {
@@ -90,7 +93,8 @@ public class TankWarResource extends org.semanticwb.tankwar.resources.base.TankW
                 try
                 {
                     SemanticObject semObj=mgr.processForm(request);
-                    Tank tank = (Tank) semObj.createGenericInstance();                    
+                    Tank tank = (Tank) semObj.createGenericInstance();
+                    response.setRenderParameter("tankEditedRes", "yes");
                 }catch(Exception e){
                     log.error(e);
                 }
