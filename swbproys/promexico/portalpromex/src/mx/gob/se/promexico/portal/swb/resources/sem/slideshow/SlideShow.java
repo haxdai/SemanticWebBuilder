@@ -44,25 +44,27 @@ public class SlideShow extends mx.gob.se.promexico.portal.swb.resources.sem.slid
             
             StringBuilder preload = new StringBuilder();
             StringBuilder script = new StringBuilder();
-            String url;
+            String url = "#";
             int i = 0;
             
             for(PictureSlide pic:rs) {
                 if(pic.isValid() && user.haveAccess(pic)) {
                     url = pic.getExternalURL()==null || pic.getExternalURL().isEmpty()?pic.getInternaURL():pic.getExternalURL();
                     preload.append(" var imagen").append(i).append(" = new Image(); imagen").append(i++).append(".src = '").append(SWBPortal.getWebWorkPath()).append(pic.getWorkPath()).append("/").append("poster_").append(pic.getId()).append("_").append(pic.getPoster()).append("';\n");
-                    script.append("  <a href=\"javascript:nav('crwlr_bckg','").append(SWBPortal.getWebWorkPath()).append(pic.getWorkPath()).append("/").append("poster_").append(pic.getId()).append("_").append(pic.getPoster()).append("','").append(url).append("')\" title=\"").append(pic.getTitle(lang)).append("\" class=\"crwlr_a\"><img alt=\"").append(pic.getAlt(lang)).append("\" class=\"crwlr_img\" src=\"").append(SWBPortal.getWebWorkPath()).append(pic.getWorkPath()).append("/").append("thmbn_").append(pic.getId()).append("_").append(pic.getThmbn()).append("\" /></a>\n");
-                }
+                    //script.append("  <a href=\"javascript:nav('crwlr_bckg','").append(SWBPortal.getWebWorkPath()).append(pic.getWorkPath()).append("/").append("poster_").append(pic.getId()).append("_").append(pic.getPoster()).append("','").append(url).append("')\" title=\"").append(pic.getTitle(lang)).append("\" class=\"crwlr_a\"><img alt=\"").append(pic.getAlt(lang)).append("\" class=\"crwlr_img\" src=\"").append(SWBPortal.getWebWorkPath()).append(pic.getWorkPath()).append("/").append("thmbn_").append(pic.getId()).append("_").append(pic.getThmbn()).append("\" /></a>\n");
+                }   script.append("  <a href=\"javascript:nav('crwlr_bckg','"+SWBPortal.getWebWorkPath()+pic.getWorkPath()+"/poster_"+pic.getId()+"_"+pic.getPoster()+"','"+url+"','"+pic.getTitle(lang) +"','"+pic.getDescription(lang) +"')\" title=\""+pic.getTitle(lang)+"\" class=\"crwlr_a\"><img alt=\""+pic.getAlt(lang)+"\" class=\"crwlr_img\" src=\""+SWBPortal.getWebWorkPath()+pic.getWorkPath()+"/thmbn_"+pic.getId()+"_"+pic.getThmbn()+"\" /></a>\n");
             }
             out.println(getScript());
             out.println("<script type=\"text/javascript\">");
             out.println(preload.toString());
-            out.println("  function nav(id, img, url) {");
+            out.println("  function nav(id, img, url, title, desc) {");
             out.println("    obj = document.getElementById(id)");
             out.println("    if(obj) {");
             out.println("      obj.src=img;");
-            out.println("	  obj.parentNode.href=url;");
-            out.println("	}");
+            out.println("        obj.parentNode.href=url;");
+            out.println("    }");
+            out.println("    document.getElementById('pic_title').innerHTML=title;");
+            out.println("    document.getElementById('pic_desc').innerHTML=desc;");
             out.println("  }");
             out.println("</script>");
 
@@ -71,17 +73,23 @@ public class SlideShow extends mx.gob.se.promexico.portal.swb.resources.sem.slid
             r.setSeed((new Date()).getTime());        
             i = r.nextInt(rs.size());
             url = rs.get(i).getExternalURL()==null || rs.get(i).getExternalURL().isEmpty()?rs.get(i).getInternaURL():rs.get(i).getExternalURL();
-            out.println("  <a href=\""+url+"\" class=\"crwlr_a\"><img class=\"crwlr_img\" src=\""+SWBPortal.getWebWorkPath()+rs.get(i).getWorkPath()+"/poster_"+rs.get(i).getId()+"_"+rs.get(i).getPoster()+"\" alt=\""+rs.get(i).getAlt()+"\" id=\"crwlr_bckg\"/></a>");
-            out.println("  <div id=\"banners_100\">");
+            if(isTargetNew())
+                out.println("  <a href=\""+url+"\" target=\"_blank\" class=\"crwlr_a\"><img class=\"crwlr_img\" src=\""+SWBPortal.getWebWorkPath()+rs.get(i).getWorkPath()+"/poster_"+rs.get(i).getId()+"_"+rs.get(i).getPoster()+"\" alt=\""+rs.get(i).getAlt()+"\" id=\"crwlr_bckg\"/></a>");
+            else
+                out.println("  <a href=\""+url+"\" class=\"crwlr_a\"><img class=\"crwlr_img\" src=\""+SWBPortal.getWebWorkPath()+rs.get(i).getWorkPath()+"/poster_"+rs.get(i).getId()+"_"+rs.get(i).getPoster()+"\" alt=\""+rs.get(i).getAlt()+"\" id=\"crwlr_bckg\"/></a>");
+            
+            out.println("  <div id=\"pics_"+getId()+"\">");
             out.println(script.toString());
             out.println("  </div>");
+            out.println("  <div class=\"title\"><p id=\"pic_title\">"+rs.get(i).getTitle(lang) +"</p></div>");
+            out.println("  <div class=\"desc\"><p id=\"pic_desc\">"+rs.get(i).getDescription(lang) +"</p></div>");
             out.println("</div>");
 
             out.println("<script type=\"text/javascript\">");
             out.println("  marqueeInit({");
-            out.println("	uniqueid: 'banners_100',");
+            out.println("	uniqueid: 'pics_"+getId()+"',");
             out.println("	style: {");
-            out.println("		'width': '412px',");
+            out.println("		'width': '416px',");
             out.println("		'height': '100px',");
             out.println("	},");
             out.println("	inc: 5,");
@@ -120,15 +128,6 @@ public class SlideShow extends mx.gob.se.promexico.portal.swb.resources.sem.slid
 
         script.append(" document.write('<style type=\"text/css\">.marquee{white-space:nowrap;overflow:hidden;visibility:hidden;}' +");
         script.append(" '#marq_kill_marg_bord{border:none!important;margin:0!important;}<\\/style>\\n');\n");
-        
-//script.append("document.write('<style type=\"text/css\" media=\"all\">\\n');\n");
-//script.append("document.write('#pm_carousel_slideshow {width:945px; height:325px; position: relative;}\\n');\n");
-//script.append("document.write('#pm_carousel_slideshow .msg {width: 140px; height: 60px; position:relative; top:-205px; left: 720px;}\\n');\n");
-//script.append("document.write('#pm_carousel_slideshow .msg .more {width: 192px; height: 43px;	background-image:url(btn.png); text-decoration:none; text-align:left;font-family:document.write('Verdana, Arial,Helvetica, sans-serif; font-size:12px; font-weight:bold; color:#999999; outline:none; }\\n')\n");
-//script.append("document.write('.crwlr_a {outline:none; text-decoration:none;}\\n');\n");
-//script.append("document.write('.crwlr_a {outline:none; text-decoration:none;}\\n');\n");
-//script.append("document.write('.crwlr_img {border:none; outline:none; }\\n');\n");
-//script.append("document.write('</style>\\n');\n");
            
         script.append(" var c = 0, tTRE = [/^\\s*$/, /^\\s*/, /\\s*$/, /[^\\/]+$/],\n");
         script.append(" req1 = {'position': 'relative', 'overflow': 'hidden'}, defaultconfig = {\n");
