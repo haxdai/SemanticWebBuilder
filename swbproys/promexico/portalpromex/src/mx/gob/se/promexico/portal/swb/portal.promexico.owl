@@ -145,9 +145,9 @@
   <owl:DatatypeProperty rdf:ID="targetNew">
     <swb:displayProperty>
       <swbxf:DisplayProperty rdf:ID="dp_target">
-        <swbxf:propSelectValues xml:lang="es">true:Si|false:No</swbxf:propSelectValues>
+        <swbxf:propSelectValues xml:lang="en">true:Yes|false:No</swbxf:propSelectValues>
         <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SelectOne_1"/>
-        <swbxf:propSelectValues xml:lang="es">true:Yes|false:No</swbxf:propSelectValues>
+        <swbxf:propSelectValues xml:lang="es">true:Si|false:No</swbxf:propSelectValues>
         <swb:index rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >20</swb:index>
         <rdfs:label xml:lang="es">Abrir en otra ventana</rdfs:label>
