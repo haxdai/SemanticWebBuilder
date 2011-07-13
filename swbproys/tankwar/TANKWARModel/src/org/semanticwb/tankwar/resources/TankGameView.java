@@ -12,6 +12,7 @@ import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.SWBUtils;
+import org.semanticwb.model.SWBModel;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.portal.api.GenericResource;
@@ -36,29 +37,7 @@ public class TankGameView extends GenericResource
         String tankids[]=request.getParameterValues("tankID");
         if(tankids==null)
         {
-            int m=6;
-            if(user.isSigned())m=5;
-            System.out.println(m+" "+user+" "+user.isSigned());
-            tankids= new String[m];
-            Iterator<Tank> it=Tank.ClassMgr.listTanks(site);
-            List<Tank> l=SWBUtils.Collections.copyIterator(it);
-            
-            if(user.isSigned())
-            {
-                Iterator<Tank> it2=Tank.ClassMgr.listTankByCreator(user, site);
-                if(it.hasNext())
-                {
-                    Tank tk=it2.next();
-                    l.remove(tk);
-                }
-            }
-            
-            for(int x=0;x<m && l.size()>0;x++)
-            {
-                int r=ran.nextInt(l.size());
-                tankids[x]=l.get(r).getId();
-                l.remove(r);
-            }
+            tankids=getTanks(site, user);
         }
         request.getSession().setAttribute("tankids", tankids);
         //System.out.println(tankids);
@@ -172,6 +151,36 @@ public class TankGameView extends GenericResource
         } 
     }    
     
+    private String[] getTanks(SWBModel site, User user)
+    {
+        int m=6;
+        if(user.isSigned())m=5;
+        System.out.println(m+" "+user+" "+user.isSigned());
+        String tankids[]= new String[m];
+        Iterator<Tank> it=Tank.ClassMgr.listTanks(site);
+        List<Tank> l=SWBUtils.Collections.copyIterator(it);
+
+        if(user.isSigned())
+        {
+            Iterator<Tank> it2=Tank.ClassMgr.listTankByCreator(user, site);
+            if(it.hasNext())
+            {
+                Tank tk=it2.next();
+                l.remove(tk);
+            }
+        }
+
+        for(int x=0;x<m && l.size()>0;x++)
+        {
+            int r=ran.nextInt(l.size());
+            tankids[x]=l.get(r).getId();
+            l.remove(r);
+        }
+        
+        return tankids;
+        
+    }
+    
     public void updateTankScore(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException 
     {
         WebSite site=paramRequest.getWebPage().getWebSite();
@@ -219,11 +228,32 @@ public class TankGameView extends GenericResource
         }
         if(win!=null && win.getScore()<=maxScore)
         {
-            double i=(maxScore-win.getScore())/5.0;
-            if(i<1)i=1;
-            win.setScore(win.getScore()+(int)i);
+            if(win.getScore()<maxScore)
+            {
+                double i=(maxScore-win.getScore())/5.0;
+                if(i<1)i=1;
+                win.setScore(win.getScore()+(int)i);
+            }else
+            {
+                int maxs=0;
+                Iterator <Tank> it=Tank.ClassMgr.listTanks();
+                while (it.hasNext()) {
+                    Tank tk = it.next();
+                    if(tk.getScore()>maxs)
+                    {
+                        maxs=tk.getScore();
+                    }
+                }
+                if(maxs==win.getScore())
+                {
+                    win.setScore(win.getScore()+1);
+                }
+            }
         }
         site.commit();
+        
+        tankids=getTanks(site, user);
+        request.getSession().setAttribute("tankids", tankids);        
     }
     
 }
