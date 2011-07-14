@@ -202,7 +202,12 @@ public class TankWarUserRegistry extends GenericAdmResource {
                 response.setRenderParameter("firstName", SWBUtils.XML.replaceXMLChars(request.getParameter("firstName")));
                 response.setRenderParameter("lastName", SWBUtils.XML.replaceXMLChars(request.getParameter("lastName")));
                 response.setRenderParameter("secondLastName", SWBUtils.XML.replaceXMLChars(request.getParameter("secondLastName")));
+                response.setRenderParameter("tankUserSex", SWBUtils.XML.replaceXMLChars(request.getParameter("tankUserSex")));
                 response.setRenderParameter("email", SWBUtils.XML.replaceXMLChars(request.getParameter("email")));
+                response.setRenderParameter("userCareer", SWBUtils.XML.replaceXMLChars(request.getParameter("userCareer")));
+                response.setRenderParameter("userMainActivity", SWBUtils.XML.replaceXMLChars(request.getParameter("userMainActivity")));
+                response.setRenderParameter("userSchoolEnterprise", SWBUtils.XML.replaceXMLChars(request.getParameter("userSchoolEnterprise")));
+                response.setRenderParameter("userTelephoneType", SWBUtils.XML.replaceXMLChars(request.getParameter("userTelephoneType")));
                 if (isDataValid) {
                     response.setRenderParameter("msg", "regfail");
                 } else {
@@ -233,7 +238,12 @@ public class TankWarUserRegistry extends GenericAdmResource {
                 response.setRenderParameter("firstName", SWBUtils.XML.replaceXMLChars(request.getParameter("firstName")));
                 response.setRenderParameter("lastName", SWBUtils.XML.replaceXMLChars(request.getParameter("lastName")));
                 response.setRenderParameter("secondLastName", SWBUtils.XML.replaceXMLChars(request.getParameter("secondLastName")));
+                response.setRenderParameter("tankUserSex", SWBUtils.XML.replaceXMLChars(request.getParameter("tankUserSex")));
                 response.setRenderParameter("email", SWBUtils.XML.replaceXMLChars(request.getParameter("email")));
+                response.setRenderParameter("userCareer", SWBUtils.XML.replaceXMLChars(request.getParameter("userCareer")));
+                response.setRenderParameter("userMainActivity", SWBUtils.XML.replaceXMLChars(request.getParameter("userMainActivity")));
+                response.setRenderParameter("userSchoolEnterprise", SWBUtils.XML.replaceXMLChars(request.getParameter("userSchoolEnterprise")));
+                response.setRenderParameter("userTelephoneType", SWBUtils.XML.replaceXMLChars(request.getParameter("userTelephoneType")));
                 if (isDataValid) {
                     response.setRenderParameter("msg", "dataNotValid");
                 }
@@ -596,6 +606,32 @@ public class TankWarUserRegistry extends GenericAdmResource {
             dataValid = validateRegExp(parameter, "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$");
         }
 //        System.out.println("parametro: " + User.swb_usrEmail.getName() + ", validacion: " + dataValid);
+        parameter = request.getParameter("tankUserSex");
+        if (dataValid && parameter != null && (parameter.trim().equals("") ||
+                parameter.trim().equalsIgnoreCase("female") ||
+                parameter.trim().equalsIgnoreCase("male"))) {
+            dataValid = true;
+        }
+//        System.out.println("parametro: tankUserSex, validacion: " + dataValid);
+        parameter = request.getParameter("userCareer");
+        if (dataValid && parameter != null && parameter.trim().length() > 0) {
+            dataValid = validateRegExp(parameter, "^[a-zA-ZñÑáéíóúüÁÉÍÓÚÜ\\.\\s]{1,60}$");
+        }
+//        System.out.println("parametro: userCareer, validacion: " + dataValid);
+        parameter = request.getParameter("userMainActivity");
+        if (dataValid && parameter != null && (parameter.trim().equals("") ||
+                parameter.trim().equalsIgnoreCase("study") ||
+                parameter.trim().equalsIgnoreCase("work"))) {
+            dataValid = true;
+        }
+//        System.out.println("parametro: userMainActivity, validacion: " + dataValid);
+        parameter = request.getParameter("userSchoolEnterprise");
+        if (dataValid && parameter != null && parameter.trim().length() > 0) {
+            dataValid = validateRegExp(parameter, "^[a-zA-Z0-9ñÑáéíóúüÁÉÍÓÚÜ\\.\\s]{1,60}$");
+        }
+//        System.out.println("parametro: userSchoolEnterprise, validacion: " + dataValid);
+
+
         return dataValid;
     }
 
