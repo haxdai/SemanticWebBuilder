@@ -5,6 +5,7 @@ public abstract class SlideShowBase extends org.semanticwb.portal.api.GenericSem
 {
     public static final org.semanticwb.platform.SemanticClass swb_Resource=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#Resource");
     public static final org.semanticwb.platform.SemanticProperty swb_semanticResourceInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#semanticResourceInv");
+    public static final org.semanticwb.platform.SemanticProperty promexico_targetNew=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.promexico.gob.mx#targetNew");
     public static final org.semanticwb.platform.SemanticClass promexico_PictureSlide=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.promexico.gob.mx#PictureSlide");
     public static final org.semanticwb.platform.SemanticProperty promexico_hasPictureSlides=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.promexico.gob.mx#hasPictureSlides");
     public static final org.semanticwb.platform.SemanticClass promexico_SlideShow=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.promexico.gob.mx#SlideShow");
@@ -78,6 +79,24 @@ public abstract class SlideShowBase extends org.semanticwb.portal.api.GenericSem
              ret=(org.semanticwb.model.Resource)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the TargetNew property
+* @return boolean with the TargetNew
+*/
+    public boolean isTargetNew()
+    {
+        return getSemanticObject().getBooleanProperty(promexico_targetNew);
+    }
+
+/**
+* Sets the TargetNew property
+* @param value long with the TargetNew
+*/
+    public void setTargetNew(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(promexico_targetNew, value);
     }
    /**
    * Gets all the mx.gob.se.promexico.portal.swb.resources.sem.slideshow.PictureSlide
