@@ -4,13 +4,8 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que se encarga de manejar el catálogo de "Rutas de Viaje" (Ej. Ruta del Vino, Ruta Morelos, etc) 
    */
-public abstract class TravelRouteBase extends org.semanticwb.cptm.CPTMGeneralWebPage implements org.semanticwb.model.Searchable,org.semanticwb.model.Hiddenable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Viewable,org.semanticwb.model.RoleRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Tagable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Countryable,org.semanticwb.model.Rankable,org.semanticwb.model.Indexable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Trashable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Resourceable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Descriptiveable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Localeable,org.semanticwb.model.Expirable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.cptm.CptmDescriptionPage
+public abstract class TravelRouteBase extends org.semanticwb.cptm.CPTMGeneralWebPage implements org.semanticwb.model.Rankable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Resourceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableNode,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Countryable,org.semanticwb.model.Filterable,org.semanticwb.cptm.CptmDescriptionPage,org.semanticwb.model.RuleRefable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Traceable,org.semanticwb.model.Searchable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.RoleRefable,org.semanticwb.model.Indexable,org.semanticwb.model.Activeable,org.semanticwb.model.Trashable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Referensable,org.semanticwb.model.Localeable,org.semanticwb.model.Viewable,org.semanticwb.model.Hiddenable
 {
-   /**
-   * Interfaz que define propiedades en comun para un Punto Geografico y una Marca Regional
-   */
-    public static final org.semanticwb.platform.SemanticClass cptm_LocalityInt=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#LocalityInt");
-    public static final org.semanticwb.platform.SemanticProperty cptm_hasTravelRouteLocality=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasTravelRouteLocality");
    /**
    * Clase que se encarga de administrar el cátalogo de "Tipos de Rutas de Viaje" (Ej. Rutas Turisticas, Rutas Bicentenario, etc)
    */
@@ -19,6 +14,11 @@ public abstract class TravelRouteBase extends org.semanticwb.cptm.CPTMGeneralWeb
    * Tipo de ruta de viaje a la cual pertenece la Ruta de Viaje
    */
     public static final org.semanticwb.platform.SemanticProperty cptm_trTravelRouteType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#trTravelRouteType");
+   /**
+   * Interfaz que define propiedades en comun para un Punto Geografico y una Marca Regional
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_LocalityInt=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#LocalityInt");
+    public static final org.semanticwb.platform.SemanticProperty cptm_hasTravelRouteLocality=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasTravelRouteLocality");
    /**
    * Clase que se encarga de manejar el catálogo de "Rutas de Viaje" (Ej. Ruta del Vino, Ruta Morelos, etc)
    */
@@ -92,49 +92,210 @@ public abstract class TravelRouteBase extends org.semanticwb.cptm.CPTMGeneralWeb
             return (getTravelRoute(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.cptm.TravelRoute with a determined AssMember
-       * @param value AssMember of the type org.semanticwb.model.AssMember
+       * Gets all org.semanticwb.cptm.TravelRoute with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.cptm.TravelRoute
        * @return Iterator with all the org.semanticwb.cptm.TravelRoute
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByAssMember(org.semanticwb.model.AssMember value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasAssMemberInv, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.TravelRoute with a determined AssMember
-       * @param value AssMember of the type org.semanticwb.model.AssMember
+       * Gets all org.semanticwb.cptm.TravelRoute with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
        * @return Iterator with all the org.semanticwb.cptm.TravelRoute
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByAssMember(org.semanticwb.model.AssMember value)
+        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByModifiedBy(org.semanticwb.model.User value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasAssMemberInv,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.TravelRoute with a determined VirtualParent
-       * @param value VirtualParent of the type org.semanticwb.model.WebPage
+       * Gets all org.semanticwb.cptm.TravelRoute with a determined TrTravelRouteType
+       * @param value TrTravelRouteType of the type org.semanticwb.cptm.TravelRouteType
        * @param model Model of the org.semanticwb.cptm.TravelRoute
        * @return Iterator with all the org.semanticwb.cptm.TravelRoute
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByVirtualParent(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByTrTravelRouteType(org.semanticwb.cptm.TravelRouteType value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualParent, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_trTravelRouteType, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.TravelRoute with a determined VirtualParent
-       * @param value VirtualParent of the type org.semanticwb.model.WebPage
+       * Gets all org.semanticwb.cptm.TravelRoute with a determined TrTravelRouteType
+       * @param value TrTravelRouteType of the type org.semanticwb.cptm.TravelRouteType
        * @return Iterator with all the org.semanticwb.cptm.TravelRoute
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByVirtualParent(org.semanticwb.model.WebPage value)
+        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByTrTravelRouteType(org.semanticwb.cptm.TravelRouteType value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualParent,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_trTravelRouteType,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.TravelRoute with a determined ThisTypeAssociation
+       * @param value ThisTypeAssociation of the type org.semanticwb.model.Association
+       * @param model Model of the org.semanticwb.cptm.TravelRoute
+       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByThisTypeAssociation(org.semanticwb.model.Association value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisTypeAssociationInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.TravelRoute with a determined ThisTypeAssociation
+       * @param value ThisTypeAssociation of the type org.semanticwb.model.Association
+       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByThisTypeAssociation(org.semanticwb.model.Association value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisTypeAssociationInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.TravelRoute with a determined TemplateRef
+       * @param value TemplateRef of the type org.semanticwb.model.TemplateRef
+       * @param model Model of the org.semanticwb.cptm.TravelRoute
+       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByTemplateRef(org.semanticwb.model.TemplateRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.TravelRoute with a determined TemplateRef
+       * @param value TemplateRef of the type org.semanticwb.model.TemplateRef
+       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByTemplateRef(org.semanticwb.model.TemplateRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.TravelRoute with a determined Language
+       * @param value Language of the type org.semanticwb.model.Language
+       * @param model Model of the org.semanticwb.cptm.TravelRoute
+       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByLanguage(org.semanticwb.model.Language value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_language, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.TravelRoute with a determined Language
+       * @param value Language of the type org.semanticwb.model.Language
+       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByLanguage(org.semanticwb.model.Language value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_language,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.TravelRoute with a determined RuleRef
+       * @param value RuleRef of the type org.semanticwb.model.RuleRef
+       * @param model Model of the org.semanticwb.cptm.TravelRoute
+       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByRuleRef(org.semanticwb.model.RuleRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.TravelRoute with a determined RuleRef
+       * @param value RuleRef of the type org.semanticwb.model.RuleRef
+       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByRuleRef(org.semanticwb.model.RuleRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.TravelRoute with a determined WebPageVirtualChild
+       * @param value WebPageVirtualChild of the type org.semanticwb.model.WebPage
+       * @param model Model of the org.semanticwb.cptm.TravelRoute
+       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByWebPageVirtualChild(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualChild, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.TravelRoute with a determined WebPageVirtualChild
+       * @param value WebPageVirtualChild of the type org.semanticwb.model.WebPage
+       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByWebPageVirtualChild(org.semanticwb.model.WebPage value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualChild,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.TravelRoute with a determined PFlowRef
+       * @param value PFlowRef of the type org.semanticwb.model.PFlowRef
+       * @param model Model of the org.semanticwb.cptm.TravelRoute
+       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByPFlowRef(org.semanticwb.model.PFlowRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.TravelRoute with a determined PFlowRef
+       * @param value PFlowRef of the type org.semanticwb.model.PFlowRef
+       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByPFlowRef(org.semanticwb.model.PFlowRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.TravelRoute with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * @param model Model of the org.semanticwb.cptm.TravelRoute
+       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByUserGroupRef(org.semanticwb.model.UserGroupRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.TravelRoute with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByUserGroupRef(org.semanticwb.model.UserGroupRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -158,6 +319,121 @@ public abstract class TravelRouteBase extends org.semanticwb.cptm.CPTMGeneralWeb
         public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByCalendarRef(org.semanticwb.model.CalendarRef value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasCalendarRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.TravelRoute with a determined FriendlyURL
+       * @param value FriendlyURL of the type org.semanticwb.model.FriendlyURL
+       * @param model Model of the org.semanticwb.cptm.TravelRoute
+       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByFriendlyURL(org.semanticwb.model.FriendlyURL value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasFriendlyURL, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.TravelRoute with a determined FriendlyURL
+       * @param value FriendlyURL of the type org.semanticwb.model.FriendlyURL
+       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByFriendlyURL(org.semanticwb.model.FriendlyURL value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasFriendlyURL,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.TravelRoute with a determined AssMember
+       * @param value AssMember of the type org.semanticwb.model.AssMember
+       * @param model Model of the org.semanticwb.cptm.TravelRoute
+       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByAssMember(org.semanticwb.model.AssMember value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasAssMemberInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.TravelRoute with a determined AssMember
+       * @param value AssMember of the type org.semanticwb.model.AssMember
+       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByAssMember(org.semanticwb.model.AssMember value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasAssMemberInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.TravelRoute with a determined ThisRoleAssMember
+       * @param value ThisRoleAssMember of the type org.semanticwb.model.AssMember
+       * @param model Model of the org.semanticwb.cptm.TravelRoute
+       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByThisRoleAssMember(org.semanticwb.model.AssMember value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisRoleAssMemberInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.TravelRoute with a determined ThisRoleAssMember
+       * @param value ThisRoleAssMember of the type org.semanticwb.model.AssMember
+       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByThisRoleAssMember(org.semanticwb.model.AssMember value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisRoleAssMemberInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.TravelRoute with a determined Child
+       * @param value Child of the type org.semanticwb.model.WebPage
+       * @param model Model of the org.semanticwb.cptm.TravelRoute
+       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByChild(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageChild, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.TravelRoute with a determined Child
+       * @param value Child of the type org.semanticwb.model.WebPage
+       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByChild(org.semanticwb.model.WebPage value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageChild,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.TravelRoute with a determined Country
+       * @param value Country of the type org.semanticwb.model.Country
+       * @param model Model of the org.semanticwb.cptm.TravelRoute
+       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByCountry(org.semanticwb.model.Country value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_country, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.TravelRoute with a determined Country
+       * @param value Country of the type org.semanticwb.model.Country
+       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByCountry(org.semanticwb.model.Country value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_country,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -207,29 +483,6 @@ public abstract class TravelRouteBase extends org.semanticwb.cptm.CPTMGeneralWeb
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.TravelRoute with a determined FriendlyURL
-       * @param value FriendlyURL of the type org.semanticwb.model.FriendlyURL
-       * @param model Model of the org.semanticwb.cptm.TravelRoute
-       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByFriendlyURL(org.semanticwb.model.FriendlyURL value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasFriendlyURL, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.TravelRoute with a determined FriendlyURL
-       * @param value FriendlyURL of the type org.semanticwb.model.FriendlyURL
-       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByFriendlyURL(org.semanticwb.model.FriendlyURL value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasFriendlyURL,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.cptm.TravelRoute with a determined Creator
        * @param value Creator of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.cptm.TravelRoute
@@ -250,190 +503,6 @@ public abstract class TravelRouteBase extends org.semanticwb.cptm.CPTMGeneralWeb
         public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByCreator(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.TravelRoute with a determined Country
-       * @param value Country of the type org.semanticwb.model.Country
-       * @param model Model of the org.semanticwb.cptm.TravelRoute
-       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByCountry(org.semanticwb.model.Country value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_country, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.TravelRoute with a determined Country
-       * @param value Country of the type org.semanticwb.model.Country
-       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByCountry(org.semanticwb.model.Country value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_country,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.TravelRoute with a determined UserGroupRef
-       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
-       * @param model Model of the org.semanticwb.cptm.TravelRoute
-       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByUserGroupRef(org.semanticwb.model.UserGroupRef value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.TravelRoute with a determined UserGroupRef
-       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
-       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByUserGroupRef(org.semanticwb.model.UserGroupRef value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.TravelRoute with a determined WebPageVirtualChild
-       * @param value WebPageVirtualChild of the type org.semanticwb.model.WebPage
-       * @param model Model of the org.semanticwb.cptm.TravelRoute
-       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByWebPageVirtualChild(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualChild, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.TravelRoute with a determined WebPageVirtualChild
-       * @param value WebPageVirtualChild of the type org.semanticwb.model.WebPage
-       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByWebPageVirtualChild(org.semanticwb.model.WebPage value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualChild,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.TravelRoute with a determined Language
-       * @param value Language of the type org.semanticwb.model.Language
-       * @param model Model of the org.semanticwb.cptm.TravelRoute
-       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByLanguage(org.semanticwb.model.Language value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_language, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.TravelRoute with a determined Language
-       * @param value Language of the type org.semanticwb.model.Language
-       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByLanguage(org.semanticwb.model.Language value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_language,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.TravelRoute with a determined PFlowRef
-       * @param value PFlowRef of the type org.semanticwb.model.PFlowRef
-       * @param model Model of the org.semanticwb.cptm.TravelRoute
-       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByPFlowRef(org.semanticwb.model.PFlowRef value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.TravelRoute with a determined PFlowRef
-       * @param value PFlowRef of the type org.semanticwb.model.PFlowRef
-       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByPFlowRef(org.semanticwb.model.PFlowRef value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.TravelRoute with a determined TemplateRef
-       * @param value TemplateRef of the type org.semanticwb.model.TemplateRef
-       * @param model Model of the org.semanticwb.cptm.TravelRoute
-       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByTemplateRef(org.semanticwb.model.TemplateRef value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.TravelRoute with a determined TemplateRef
-       * @param value TemplateRef of the type org.semanticwb.model.TemplateRef
-       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByTemplateRef(org.semanticwb.model.TemplateRef value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.TravelRoute with a determined Child
-       * @param value Child of the type org.semanticwb.model.WebPage
-       * @param model Model of the org.semanticwb.cptm.TravelRoute
-       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByChild(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageChild, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.TravelRoute with a determined Child
-       * @param value Child of the type org.semanticwb.model.WebPage
-       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByChild(org.semanticwb.model.WebPage value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageChild,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.TravelRoute with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
-       * @param model Model of the org.semanticwb.cptm.TravelRoute
-       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.TravelRoute with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
-       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByModifiedBy(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -460,95 +529,26 @@ public abstract class TravelRouteBase extends org.semanticwb.cptm.CPTMGeneralWeb
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.TravelRoute with a determined TrTravelRouteType
-       * @param value TrTravelRouteType of the type org.semanticwb.cptm.TravelRouteType
+       * Gets all org.semanticwb.cptm.TravelRoute with a determined VirtualParent
+       * @param value VirtualParent of the type org.semanticwb.model.WebPage
        * @param model Model of the org.semanticwb.cptm.TravelRoute
        * @return Iterator with all the org.semanticwb.cptm.TravelRoute
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByTrTravelRouteType(org.semanticwb.cptm.TravelRouteType value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByVirtualParent(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_trTravelRouteType, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualParent, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.TravelRoute with a determined TrTravelRouteType
-       * @param value TrTravelRouteType of the type org.semanticwb.cptm.TravelRouteType
+       * Gets all org.semanticwb.cptm.TravelRoute with a determined VirtualParent
+       * @param value VirtualParent of the type org.semanticwb.model.WebPage
        * @return Iterator with all the org.semanticwb.cptm.TravelRoute
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByTrTravelRouteType(org.semanticwb.cptm.TravelRouteType value)
+        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByVirtualParent(org.semanticwb.model.WebPage value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_trTravelRouteType,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.TravelRoute with a determined RoleRef
-       * @param value RoleRef of the type org.semanticwb.model.RoleRef
-       * @param model Model of the org.semanticwb.cptm.TravelRoute
-       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByRoleRef(org.semanticwb.model.RoleRef value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.TravelRoute with a determined RoleRef
-       * @param value RoleRef of the type org.semanticwb.model.RoleRef
-       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByRoleRef(org.semanticwb.model.RoleRef value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.TravelRoute with a determined ThisRoleAssMember
-       * @param value ThisRoleAssMember of the type org.semanticwb.model.AssMember
-       * @param model Model of the org.semanticwb.cptm.TravelRoute
-       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByThisRoleAssMember(org.semanticwb.model.AssMember value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisRoleAssMemberInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.TravelRoute with a determined ThisRoleAssMember
-       * @param value ThisRoleAssMember of the type org.semanticwb.model.AssMember
-       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByThisRoleAssMember(org.semanticwb.model.AssMember value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisRoleAssMemberInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.TravelRoute with a determined RuleRef
-       * @param value RuleRef of the type org.semanticwb.model.RuleRef
-       * @param model Model of the org.semanticwb.cptm.TravelRoute
-       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByRuleRef(org.semanticwb.model.RuleRef value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.TravelRoute with a determined RuleRef
-       * @param value RuleRef of the type org.semanticwb.model.RuleRef
-       * @return Iterator with all the org.semanticwb.cptm.TravelRoute
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByRuleRef(org.semanticwb.model.RuleRef value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualParent,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -575,26 +575,26 @@ public abstract class TravelRouteBase extends org.semanticwb.cptm.CPTMGeneralWeb
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.TravelRoute with a determined ThisTypeAssociation
-       * @param value ThisTypeAssociation of the type org.semanticwb.model.Association
+       * Gets all org.semanticwb.cptm.TravelRoute with a determined RoleRef
+       * @param value RoleRef of the type org.semanticwb.model.RoleRef
        * @param model Model of the org.semanticwb.cptm.TravelRoute
        * @return Iterator with all the org.semanticwb.cptm.TravelRoute
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByThisTypeAssociation(org.semanticwb.model.Association value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByRoleRef(org.semanticwb.model.RoleRef value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisTypeAssociationInv, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.TravelRoute with a determined ThisTypeAssociation
-       * @param value ThisTypeAssociation of the type org.semanticwb.model.Association
+       * Gets all org.semanticwb.cptm.TravelRoute with a determined RoleRef
+       * @param value RoleRef of the type org.semanticwb.model.RoleRef
        * @return Iterator with all the org.semanticwb.cptm.TravelRoute
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByThisTypeAssociation(org.semanticwb.model.Association value)
+        public static java.util.Iterator<org.semanticwb.cptm.TravelRoute> listTravelRouteByRoleRef(org.semanticwb.model.RoleRef value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisTypeAssociationInv,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.TravelRoute> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef,value.getSemanticObject(),sclass));
             return it;
         }
     }
@@ -606,6 +606,44 @@ public abstract class TravelRouteBase extends org.semanticwb.cptm.CPTMGeneralWeb
     public TravelRouteBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+   /**
+   * Sets the value for the property TrTravelRouteType
+   * @param value TrTravelRouteType to set
+   */
+
+    public void setTrTravelRouteType(org.semanticwb.cptm.TravelRouteType value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(cptm_trTravelRouteType, value.getSemanticObject());
+        }else
+        {
+            removeTrTravelRouteType();
+        }
+    }
+   /**
+   * Remove the value for TrTravelRouteType property
+   */
+
+    public void removeTrTravelRouteType()
+    {
+        getSemanticObject().removeProperty(cptm_trTravelRouteType);
+    }
+
+   /**
+   * Gets the TrTravelRouteType
+   * @return a org.semanticwb.cptm.TravelRouteType
+   */
+    public org.semanticwb.cptm.TravelRouteType getTrTravelRouteType()
+    {
+         org.semanticwb.cptm.TravelRouteType ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_trTravelRouteType);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.cptm.TravelRouteType)obj.createGenericInstance();
+         }
+         return ret;
     }
    /**
    * Gets all the org.semanticwb.cptm.LocalityInt
@@ -669,44 +707,6 @@ public abstract class TravelRouteBase extends org.semanticwb.cptm.CPTMGeneralWeb
          if(obj!=null)
          {
              ret=(org.semanticwb.cptm.LocalityInt)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Sets the value for the property TrTravelRouteType
-   * @param value TrTravelRouteType to set
-   */
-
-    public void setTrTravelRouteType(org.semanticwb.cptm.TravelRouteType value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(cptm_trTravelRouteType, value.getSemanticObject());
-        }else
-        {
-            removeTrTravelRouteType();
-        }
-    }
-   /**
-   * Remove the value for TrTravelRouteType property
-   */
-
-    public void removeTrTravelRouteType()
-    {
-        getSemanticObject().removeProperty(cptm_trTravelRouteType);
-    }
-
-   /**
-   * Gets the TrTravelRouteType
-   * @return a org.semanticwb.cptm.TravelRouteType
-   */
-    public org.semanticwb.cptm.TravelRouteType getTrTravelRouteType()
-    {
-         org.semanticwb.cptm.TravelRouteType ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_trTravelRouteType);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.cptm.TravelRouteType)obj.createGenericInstance();
          }
          return ret;
     }

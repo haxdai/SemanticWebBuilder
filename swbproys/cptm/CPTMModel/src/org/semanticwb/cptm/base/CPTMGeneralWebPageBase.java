@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Tipo de Página, este tipo no se puede crear en el árbol de WebBuilder, solo sirve para ponerle la interfaz de fotos y que las subclases de esta clase poseean los atributos de esta interface (cptmGeneralData). 
    */
-public abstract class CPTMGeneralWebPageBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Searchable,org.semanticwb.model.Hiddenable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Viewable,org.semanticwb.model.RoleRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Tagable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Countryable,org.semanticwb.model.Rankable,org.semanticwb.model.Indexable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Trashable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Resourceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Localeable,org.semanticwb.model.Expirable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.cptm.CptmDescriptionPage
+public abstract class CPTMGeneralWebPageBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Rankable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Resourceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableNode,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Countryable,org.semanticwb.model.Filterable,org.semanticwb.cptm.CptmDescriptionPage,org.semanticwb.model.RuleRefable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Traceable,org.semanticwb.model.Searchable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.RoleRefable,org.semanticwb.model.Indexable,org.semanticwb.model.Activeable,org.semanticwb.model.Trashable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Referensable,org.semanticwb.model.Localeable,org.semanticwb.model.Viewable,org.semanticwb.model.Hiddenable
 {
    /**
    * Tipo de Página, este tipo no se puede crear en el árbol de WebBuilder, solo sirve para ponerle la interfaz de fotos y que las subclases de esta clase poseean los atributos de esta interface (cptmGeneralData).
@@ -79,256 +79,49 @@ public abstract class CPTMGeneralWebPageBase extends org.semanticwb.model.WebPag
             return (getCPTMGeneralWebPage(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined AssMember
-       * @param value AssMember of the type org.semanticwb.model.AssMember
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.cptm.CPTMGeneralWebPage
        * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByAssMember(org.semanticwb.model.AssMember value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasAssMemberInv, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined AssMember
-       * @param value AssMember of the type org.semanticwb.model.AssMember
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
        * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByAssMember(org.semanticwb.model.AssMember value)
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByModifiedBy(org.semanticwb.model.User value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasAssMemberInv,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined VirtualParent
-       * @param value VirtualParent of the type org.semanticwb.model.WebPage
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined ThisTypeAssociation
+       * @param value ThisTypeAssociation of the type org.semanticwb.model.Association
        * @param model Model of the org.semanticwb.cptm.CPTMGeneralWebPage
        * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByVirtualParent(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByThisTypeAssociation(org.semanticwb.model.Association value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualParent, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisTypeAssociationInv, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined VirtualParent
-       * @param value VirtualParent of the type org.semanticwb.model.WebPage
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined ThisTypeAssociation
+       * @param value ThisTypeAssociation of the type org.semanticwb.model.Association
        * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByVirtualParent(org.semanticwb.model.WebPage value)
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByThisTypeAssociation(org.semanticwb.model.Association value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualParent,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined CalendarRef
-       * @param value CalendarRef of the type org.semanticwb.model.CalendarRef
-       * @param model Model of the org.semanticwb.cptm.CPTMGeneralWebPage
-       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByCalendarRef(org.semanticwb.model.CalendarRef value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasCalendarRef, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined CalendarRef
-       * @param value CalendarRef of the type org.semanticwb.model.CalendarRef
-       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByCalendarRef(org.semanticwb.model.CalendarRef value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasCalendarRef,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined Parent
-       * @param value Parent of the type org.semanticwb.model.WebPage
-       * @param model Model of the org.semanticwb.cptm.CPTMGeneralWebPage
-       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByParent(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_webPageParent, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined Parent
-       * @param value Parent of the type org.semanticwb.model.WebPage
-       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByParent(org.semanticwb.model.WebPage value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_webPageParent,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined FriendlyURL
-       * @param value FriendlyURL of the type org.semanticwb.model.FriendlyURL
-       * @param model Model of the org.semanticwb.cptm.CPTMGeneralWebPage
-       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByFriendlyURL(org.semanticwb.model.FriendlyURL value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasFriendlyURL, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined FriendlyURL
-       * @param value FriendlyURL of the type org.semanticwb.model.FriendlyURL
-       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByFriendlyURL(org.semanticwb.model.FriendlyURL value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasFriendlyURL,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @param model Model of the org.semanticwb.cptm.CPTMGeneralWebPage
-       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByCreator(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined Country
-       * @param value Country of the type org.semanticwb.model.Country
-       * @param model Model of the org.semanticwb.cptm.CPTMGeneralWebPage
-       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByCountry(org.semanticwb.model.Country value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_country, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined Country
-       * @param value Country of the type org.semanticwb.model.Country
-       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByCountry(org.semanticwb.model.Country value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_country,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined UserGroupRef
-       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
-       * @param model Model of the org.semanticwb.cptm.CPTMGeneralWebPage
-       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByUserGroupRef(org.semanticwb.model.UserGroupRef value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined UserGroupRef
-       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
-       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByUserGroupRef(org.semanticwb.model.UserGroupRef value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined WebPageVirtualChild
-       * @param value WebPageVirtualChild of the type org.semanticwb.model.WebPage
-       * @param model Model of the org.semanticwb.cptm.CPTMGeneralWebPage
-       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByWebPageVirtualChild(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualChild, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined WebPageVirtualChild
-       * @param value WebPageVirtualChild of the type org.semanticwb.model.WebPage
-       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByWebPageVirtualChild(org.semanticwb.model.WebPage value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualChild,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined Language
-       * @param value Language of the type org.semanticwb.model.Language
-       * @param model Model of the org.semanticwb.cptm.CPTMGeneralWebPage
-       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByLanguage(org.semanticwb.model.Language value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_language, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined Language
-       * @param value Language of the type org.semanticwb.model.Language
-       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByLanguage(org.semanticwb.model.Language value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_language,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined PFlowRef
-       * @param value PFlowRef of the type org.semanticwb.model.PFlowRef
-       * @param model Model of the org.semanticwb.cptm.CPTMGeneralWebPage
-       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByPFlowRef(org.semanticwb.model.PFlowRef value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined PFlowRef
-       * @param value PFlowRef of the type org.semanticwb.model.PFlowRef
-       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByPFlowRef(org.semanticwb.model.PFlowRef value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisTypeAssociationInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -355,118 +148,26 @@ public abstract class CPTMGeneralWebPageBase extends org.semanticwb.model.WebPag
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined Child
-       * @param value Child of the type org.semanticwb.model.WebPage
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined Language
+       * @param value Language of the type org.semanticwb.model.Language
        * @param model Model of the org.semanticwb.cptm.CPTMGeneralWebPage
        * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByChild(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByLanguage(org.semanticwb.model.Language value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageChild, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_language, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined Child
-       * @param value Child of the type org.semanticwb.model.WebPage
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined Language
+       * @param value Language of the type org.semanticwb.model.Language
        * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByChild(org.semanticwb.model.WebPage value)
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByLanguage(org.semanticwb.model.Language value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageChild,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
-       * @param model Model of the org.semanticwb.cptm.CPTMGeneralWebPage
-       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
-       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByModifiedBy(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined Resource
-       * @param value Resource of the type org.semanticwb.model.Resource
-       * @param model Model of the org.semanticwb.cptm.CPTMGeneralWebPage
-       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByResource(org.semanticwb.model.Resource value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasResource, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined Resource
-       * @param value Resource of the type org.semanticwb.model.Resource
-       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByResource(org.semanticwb.model.Resource value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasResource,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined RoleRef
-       * @param value RoleRef of the type org.semanticwb.model.RoleRef
-       * @param model Model of the org.semanticwb.cptm.CPTMGeneralWebPage
-       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByRoleRef(org.semanticwb.model.RoleRef value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined RoleRef
-       * @param value RoleRef of the type org.semanticwb.model.RoleRef
-       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByRoleRef(org.semanticwb.model.RoleRef value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined ThisRoleAssMember
-       * @param value ThisRoleAssMember of the type org.semanticwb.model.AssMember
-       * @param model Model of the org.semanticwb.cptm.CPTMGeneralWebPage
-       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByThisRoleAssMember(org.semanticwb.model.AssMember value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisRoleAssMemberInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined ThisRoleAssMember
-       * @param value ThisRoleAssMember of the type org.semanticwb.model.AssMember
-       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByThisRoleAssMember(org.semanticwb.model.AssMember value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisRoleAssMemberInv,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_language,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -493,6 +194,305 @@ public abstract class CPTMGeneralWebPageBase extends org.semanticwb.model.WebPag
             return it;
         }
        /**
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined WebPageVirtualChild
+       * @param value WebPageVirtualChild of the type org.semanticwb.model.WebPage
+       * @param model Model of the org.semanticwb.cptm.CPTMGeneralWebPage
+       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByWebPageVirtualChild(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualChild, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined WebPageVirtualChild
+       * @param value WebPageVirtualChild of the type org.semanticwb.model.WebPage
+       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByWebPageVirtualChild(org.semanticwb.model.WebPage value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualChild,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined PFlowRef
+       * @param value PFlowRef of the type org.semanticwb.model.PFlowRef
+       * @param model Model of the org.semanticwb.cptm.CPTMGeneralWebPage
+       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByPFlowRef(org.semanticwb.model.PFlowRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined PFlowRef
+       * @param value PFlowRef of the type org.semanticwb.model.PFlowRef
+       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByPFlowRef(org.semanticwb.model.PFlowRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * @param model Model of the org.semanticwb.cptm.CPTMGeneralWebPage
+       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByUserGroupRef(org.semanticwb.model.UserGroupRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByUserGroupRef(org.semanticwb.model.UserGroupRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined CalendarRef
+       * @param value CalendarRef of the type org.semanticwb.model.CalendarRef
+       * @param model Model of the org.semanticwb.cptm.CPTMGeneralWebPage
+       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByCalendarRef(org.semanticwb.model.CalendarRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasCalendarRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined CalendarRef
+       * @param value CalendarRef of the type org.semanticwb.model.CalendarRef
+       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByCalendarRef(org.semanticwb.model.CalendarRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasCalendarRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined FriendlyURL
+       * @param value FriendlyURL of the type org.semanticwb.model.FriendlyURL
+       * @param model Model of the org.semanticwb.cptm.CPTMGeneralWebPage
+       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByFriendlyURL(org.semanticwb.model.FriendlyURL value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasFriendlyURL, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined FriendlyURL
+       * @param value FriendlyURL of the type org.semanticwb.model.FriendlyURL
+       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByFriendlyURL(org.semanticwb.model.FriendlyURL value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasFriendlyURL,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined AssMember
+       * @param value AssMember of the type org.semanticwb.model.AssMember
+       * @param model Model of the org.semanticwb.cptm.CPTMGeneralWebPage
+       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByAssMember(org.semanticwb.model.AssMember value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasAssMemberInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined AssMember
+       * @param value AssMember of the type org.semanticwb.model.AssMember
+       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByAssMember(org.semanticwb.model.AssMember value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasAssMemberInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined ThisRoleAssMember
+       * @param value ThisRoleAssMember of the type org.semanticwb.model.AssMember
+       * @param model Model of the org.semanticwb.cptm.CPTMGeneralWebPage
+       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByThisRoleAssMember(org.semanticwb.model.AssMember value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisRoleAssMemberInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined ThisRoleAssMember
+       * @param value ThisRoleAssMember of the type org.semanticwb.model.AssMember
+       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByThisRoleAssMember(org.semanticwb.model.AssMember value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisRoleAssMemberInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined Child
+       * @param value Child of the type org.semanticwb.model.WebPage
+       * @param model Model of the org.semanticwb.cptm.CPTMGeneralWebPage
+       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByChild(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageChild, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined Child
+       * @param value Child of the type org.semanticwb.model.WebPage
+       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByChild(org.semanticwb.model.WebPage value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageChild,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined Country
+       * @param value Country of the type org.semanticwb.model.Country
+       * @param model Model of the org.semanticwb.cptm.CPTMGeneralWebPage
+       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByCountry(org.semanticwb.model.Country value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_country, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined Country
+       * @param value Country of the type org.semanticwb.model.Country
+       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByCountry(org.semanticwb.model.Country value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_country,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined Parent
+       * @param value Parent of the type org.semanticwb.model.WebPage
+       * @param model Model of the org.semanticwb.cptm.CPTMGeneralWebPage
+       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByParent(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_webPageParent, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined Parent
+       * @param value Parent of the type org.semanticwb.model.WebPage
+       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByParent(org.semanticwb.model.WebPage value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_webPageParent,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.cptm.CPTMGeneralWebPage
+       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByCreator(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined Resource
+       * @param value Resource of the type org.semanticwb.model.Resource
+       * @param model Model of the org.semanticwb.cptm.CPTMGeneralWebPage
+       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByResource(org.semanticwb.model.Resource value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasResource, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined Resource
+       * @param value Resource of the type org.semanticwb.model.Resource
+       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByResource(org.semanticwb.model.Resource value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasResource,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined VirtualParent
+       * @param value VirtualParent of the type org.semanticwb.model.WebPage
+       * @param model Model of the org.semanticwb.cptm.CPTMGeneralWebPage
+       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByVirtualParent(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualParent, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined VirtualParent
+       * @param value VirtualParent of the type org.semanticwb.model.WebPage
+       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByVirtualParent(org.semanticwb.model.WebPage value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualParent,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined MorePhoto
        * @param value MorePhoto of the type org.semanticwb.cptm.Photo
        * @param model Model of the org.semanticwb.cptm.CPTMGeneralWebPage
@@ -516,26 +516,26 @@ public abstract class CPTMGeneralWebPageBase extends org.semanticwb.model.WebPag
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined ThisTypeAssociation
-       * @param value ThisTypeAssociation of the type org.semanticwb.model.Association
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined RoleRef
+       * @param value RoleRef of the type org.semanticwb.model.RoleRef
        * @param model Model of the org.semanticwb.cptm.CPTMGeneralWebPage
        * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByThisTypeAssociation(org.semanticwb.model.Association value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByRoleRef(org.semanticwb.model.RoleRef value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisTypeAssociationInv, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined ThisTypeAssociation
-       * @param value ThisTypeAssociation of the type org.semanticwb.model.Association
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined RoleRef
+       * @param value RoleRef of the type org.semanticwb.model.RoleRef
        * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByThisTypeAssociation(org.semanticwb.model.Association value)
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByRoleRef(org.semanticwb.model.RoleRef value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisTypeAssociationInv,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef,value.getSemanticObject(),sclass));
             return it;
         }
     }
@@ -550,36 +550,36 @@ public abstract class CPTMGeneralWebPageBase extends org.semanticwb.model.WebPag
     }
 
 /**
-* Gets the CptmAbstractDescription property
-* @return String with the CptmAbstractDescription
+* Gets the PhotoEscudoAlt property
+* @return String with the PhotoEscudoAlt
 */
-    public String getCptmAbstractDescription()
+    public String getPhotoEscudoAlt()
     {
-        return getSemanticObject().getProperty(cptm_cptmAbstractDescription);
+        return getSemanticObject().getProperty(cptm_photoEscudoAlt);
     }
 
 /**
-* Sets the CptmAbstractDescription property
-* @param value long with the CptmAbstractDescription
+* Sets the PhotoEscudoAlt property
+* @param value long with the PhotoEscudoAlt
 */
-    public void setCptmAbstractDescription(String value)
+    public void setPhotoEscudoAlt(String value)
     {
-        getSemanticObject().setProperty(cptm_cptmAbstractDescription, value);
+        getSemanticObject().setProperty(cptm_photoEscudoAlt, value);
     }
 
-    public String getCptmAbstractDescription(String lang)
+    public String getPhotoEscudoAlt(String lang)
     {
-        return getSemanticObject().getProperty(cptm_cptmAbstractDescription, null, lang);
+        return getSemanticObject().getProperty(cptm_photoEscudoAlt, null, lang);
     }
 
-    public String getDisplayCptmAbstractDescription(String lang)
+    public String getDisplayPhotoEscudoAlt(String lang)
     {
-        return getSemanticObject().getLocaleProperty(cptm_cptmAbstractDescription, lang);
+        return getSemanticObject().getLocaleProperty(cptm_photoEscudoAlt, lang);
     }
 
-    public void setCptmAbstractDescription(String cptmAbstractDescription, String lang)
+    public void setPhotoEscudoAlt(String photoEscudoAlt, String lang)
     {
-        getSemanticObject().setProperty(cptm_cptmAbstractDescription, cptmAbstractDescription, lang);
+        getSemanticObject().setProperty(cptm_photoEscudoAlt, photoEscudoAlt, lang);
     }
 
 /**
@@ -598,6 +598,24 @@ public abstract class CPTMGeneralWebPageBase extends org.semanticwb.model.WebPag
     public void setPhotoAuthor(String value)
     {
         getSemanticObject().setProperty(cptm_photoAuthor, value);
+    }
+
+/**
+* Gets the PhotoEscudo property
+* @return String with the PhotoEscudo
+*/
+    public String getPhotoEscudo()
+    {
+        return getSemanticObject().getProperty(cptm_photoEscudo);
+    }
+
+/**
+* Sets the PhotoEscudo property
+* @param value long with the PhotoEscudo
+*/
+    public void setPhotoEscudo(String value)
+    {
+        getSemanticObject().setProperty(cptm_photoEscudo, value);
     }
 
 /**
@@ -634,72 +652,36 @@ public abstract class CPTMGeneralWebPageBase extends org.semanticwb.model.WebPag
     }
 
 /**
-* Gets the PhotoEscudo property
-* @return String with the PhotoEscudo
+* Gets the CptmAbstractDescription property
+* @return String with the CptmAbstractDescription
 */
-    public String getPhotoEscudo()
+    public String getCptmAbstractDescription()
     {
-        return getSemanticObject().getProperty(cptm_photoEscudo);
+        return getSemanticObject().getProperty(cptm_cptmAbstractDescription);
     }
 
 /**
-* Sets the PhotoEscudo property
-* @param value long with the PhotoEscudo
+* Sets the CptmAbstractDescription property
+* @param value long with the CptmAbstractDescription
 */
-    public void setPhotoEscudo(String value)
+    public void setCptmAbstractDescription(String value)
     {
-        getSemanticObject().setProperty(cptm_photoEscudo, value);
+        getSemanticObject().setProperty(cptm_cptmAbstractDescription, value);
     }
 
-/**
-* Gets the Photo property
-* @return String with the Photo
-*/
-    public String getPhoto()
+    public String getCptmAbstractDescription(String lang)
     {
-        return getSemanticObject().getProperty(cptm_photo);
+        return getSemanticObject().getProperty(cptm_cptmAbstractDescription, null, lang);
     }
 
-/**
-* Sets the Photo property
-* @param value long with the Photo
-*/
-    public void setPhoto(String value)
+    public String getDisplayCptmAbstractDescription(String lang)
     {
-        getSemanticObject().setProperty(cptm_photo, value);
+        return getSemanticObject().getLocaleProperty(cptm_cptmAbstractDescription, lang);
     }
 
-/**
-* Gets the PhotoEscudoAlt property
-* @return String with the PhotoEscudoAlt
-*/
-    public String getPhotoEscudoAlt()
+    public void setCptmAbstractDescription(String cptmAbstractDescription, String lang)
     {
-        return getSemanticObject().getProperty(cptm_photoEscudoAlt);
-    }
-
-/**
-* Sets the PhotoEscudoAlt property
-* @param value long with the PhotoEscudoAlt
-*/
-    public void setPhotoEscudoAlt(String value)
-    {
-        getSemanticObject().setProperty(cptm_photoEscudoAlt, value);
-    }
-
-    public String getPhotoEscudoAlt(String lang)
-    {
-        return getSemanticObject().getProperty(cptm_photoEscudoAlt, null, lang);
-    }
-
-    public String getDisplayPhotoEscudoAlt(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(cptm_photoEscudoAlt, lang);
-    }
-
-    public void setPhotoEscudoAlt(String photoEscudoAlt, String lang)
-    {
-        getSemanticObject().setProperty(cptm_photoEscudoAlt, photoEscudoAlt, lang);
+        getSemanticObject().setProperty(cptm_cptmAbstractDescription, cptmAbstractDescription, lang);
     }
    /**
    * Gets all the org.semanticwb.cptm.Photo
@@ -765,5 +747,23 @@ public abstract class CPTMGeneralWebPageBase extends org.semanticwb.model.WebPag
              ret=(org.semanticwb.cptm.Photo)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the Photo property
+* @return String with the Photo
+*/
+    public String getPhoto()
+    {
+        return getSemanticObject().getProperty(cptm_photo);
+    }
+
+/**
+* Sets the Photo property
+* @param value long with the Photo
+*/
+    public void setPhoto(String value)
+    {
+        getSemanticObject().setProperty(cptm_photo, value);
     }
 }

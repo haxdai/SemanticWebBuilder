@@ -116,39 +116,6 @@ public abstract class PhotoBase extends org.semanticwb.model.SWBClass implements
     }
 
 /**
-* Gets the PhotoAlt property
-* @return String with the PhotoAlt
-*/
-    public String getPhotoAlt()
-    {
-        return getSemanticObject().getProperty(cptm_PhotoAlt);
-    }
-
-/**
-* Sets the PhotoAlt property
-* @param value long with the PhotoAlt
-*/
-    public void setPhotoAlt(String value)
-    {
-        getSemanticObject().setProperty(cptm_PhotoAlt, value);
-    }
-
-    public String getPhotoAlt(String lang)
-    {
-        return getSemanticObject().getProperty(cptm_PhotoAlt, null, lang);
-    }
-
-    public String getDisplayPhotoAlt(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(cptm_PhotoAlt, lang);
-    }
-
-    public void setPhotoAlt(String PhotoAlt, String lang)
-    {
-        getSemanticObject().setProperty(cptm_PhotoAlt, PhotoAlt, lang);
-    }
-
-/**
 * Gets the Title property
 * @return String with the Title
 */
@@ -212,5 +179,38 @@ public abstract class PhotoBase extends org.semanticwb.model.SWBClass implements
     public void setDescription(String description, String lang)
     {
         getSemanticObject().setProperty(swb_description, description, lang);
+    }
+
+/**
+* Gets the PhotoAlt property
+* @return String with the PhotoAlt
+*/
+    public String getPhotoAlt()
+    {
+        return getSemanticObject().getProperty(cptm_PhotoAlt);
+    }
+
+/**
+* Sets the PhotoAlt property
+* @param value long with the PhotoAlt
+*/
+    public void setPhotoAlt(String value)
+    {
+        getSemanticObject().setProperty(cptm_PhotoAlt, value);
+    }
+
+    public String getPhotoAlt(String lang)
+    {
+        return getSemanticObject().getProperty(cptm_PhotoAlt, null, lang);
+    }
+
+    public String getDisplayPhotoAlt(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(cptm_PhotoAlt, lang);
+    }
+
+    public void setPhotoAlt(String PhotoAlt, String lang)
+    {
+        getSemanticObject().setProperty(cptm_PhotoAlt, PhotoAlt, lang);
     }
 }
