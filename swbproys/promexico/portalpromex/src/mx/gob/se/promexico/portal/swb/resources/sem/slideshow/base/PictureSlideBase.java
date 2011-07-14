@@ -4,23 +4,23 @@ package mx.gob.se.promexico.portal.swb.resources.sem.slideshow.base;
 public abstract class PictureSlideBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable
 {
    /**
-   * Internal URL
+   * URL Externa
    */
     public static final org.semanticwb.platform.SemanticProperty promexico_externalURL=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.promexico.gob.mx#externalURL");
    /**
-   * Thumbnail
+   * Imagen miniatura
    */
     public static final org.semanticwb.platform.SemanticProperty promexico_thmbn=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.promexico.gob.mx#thmbn");
    /**
-   * Poster
+   * Cartel
    */
     public static final org.semanticwb.platform.SemanticProperty promexico_poster=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.promexico.gob.mx#poster");
    /**
-   * Internal URL
+   * URL Interna
    */
     public static final org.semanticwb.platform.SemanticProperty promexico_internaURL=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.promexico.gob.mx#internaURL");
    /**
-   * Descripción alterna. Pauta de accesibilidad
+   * Alternative descriptions. Accessibility Guidelines
    */
     public static final org.semanticwb.platform.SemanticProperty promexico_alt=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.promexico.gob.mx#alt");
     public static final org.semanticwb.platform.SemanticClass promexico_PictureSlide=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.promexico.gob.mx#PictureSlide");
