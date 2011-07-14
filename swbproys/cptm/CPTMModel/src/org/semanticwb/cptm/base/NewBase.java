@@ -98,26 +98,26 @@ public abstract class NewBase extends org.semanticwb.model.SWBClass implements o
             return (getNew(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.cptm.New with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.cptm.New with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.cptm.New
        * @return Iterator with all the org.semanticwb.cptm.New
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.New> listNewByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.cptm.New> listNewByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.New> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.New> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.New with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.cptm.New with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
        * @return Iterator with all the org.semanticwb.cptm.New
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.New> listNewByCreator(org.semanticwb.model.User value)
+        public static java.util.Iterator<org.semanticwb.cptm.New> listNewByModifiedBy(org.semanticwb.model.User value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.New> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.New> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -144,26 +144,49 @@ public abstract class NewBase extends org.semanticwb.model.SWBClass implements o
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.New with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.cptm.New with a determined NewType
+       * @param value NewType of the type org.semanticwb.cptm.NewType
        * @param model Model of the org.semanticwb.cptm.New
        * @return Iterator with all the org.semanticwb.cptm.New
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.New> listNewByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.cptm.New> listNewByNewType(org.semanticwb.cptm.NewType value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.New> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.New> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_newType, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.New with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.cptm.New with a determined NewType
+       * @param value NewType of the type org.semanticwb.cptm.NewType
        * @return Iterator with all the org.semanticwb.cptm.New
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.New> listNewByModifiedBy(org.semanticwb.model.User value)
+        public static java.util.Iterator<org.semanticwb.cptm.New> listNewByNewType(org.semanticwb.cptm.NewType value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.New> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.New> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_newType,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.New with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.cptm.New
+       * @return Iterator with all the org.semanticwb.cptm.New
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.New> listNewByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.New> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.New with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.cptm.New
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.New> listNewByCreator(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.New> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -189,29 +212,6 @@ public abstract class NewBase extends org.semanticwb.model.SWBClass implements o
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.New> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasResource,value.getSemanticObject(),sclass));
             return it;
         }
-       /**
-       * Gets all org.semanticwb.cptm.New with a determined NewType
-       * @param value NewType of the type org.semanticwb.cptm.NewType
-       * @param model Model of the org.semanticwb.cptm.New
-       * @return Iterator with all the org.semanticwb.cptm.New
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.New> listNewByNewType(org.semanticwb.cptm.NewType value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.New> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_newType, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.New with a determined NewType
-       * @param value NewType of the type org.semanticwb.cptm.NewType
-       * @return Iterator with all the org.semanticwb.cptm.New
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.New> listNewByNewType(org.semanticwb.cptm.NewType value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.New> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_newType,value.getSemanticObject(),sclass));
-            return it;
-        }
     }
 
    /**
@@ -222,56 +222,38 @@ public abstract class NewBase extends org.semanticwb.model.SWBClass implements o
     {
         super(base);
     }
-
-/**
-* Gets the Created property
-* @return java.util.Date with the Created
-*/
-    public java.util.Date getCreated()
-    {
-        return getSemanticObject().getDateProperty(swb_created);
-    }
-
-/**
-* Sets the Created property
-* @param value long with the Created
-*/
-    public void setCreated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_created, value);
-    }
    /**
-   * Sets the value for the property Creator
-   * @param value Creator to set
+   * Sets the value for the property ModifiedBy
+   * @param value ModifiedBy to set
    */
 
-    public void setCreator(org.semanticwb.model.User value)
+    public void setModifiedBy(org.semanticwb.model.User value)
     {
         if(value!=null)
         {
-            getSemanticObject().setObjectProperty(swb_creator, value.getSemanticObject());
+            getSemanticObject().setObjectProperty(swb_modifiedBy, value.getSemanticObject());
         }else
         {
-            removeCreator();
+            removeModifiedBy();
         }
     }
    /**
-   * Remove the value for Creator property
+   * Remove the value for ModifiedBy property
    */
 
-    public void removeCreator()
+    public void removeModifiedBy()
     {
-        getSemanticObject().removeProperty(swb_creator);
+        getSemanticObject().removeProperty(swb_modifiedBy);
     }
 
    /**
-   * Gets the Creator
+   * Gets the ModifiedBy
    * @return a org.semanticwb.model.User
    */
-    public org.semanticwb.model.User getCreator()
+    public org.semanticwb.model.User getModifiedBy()
     {
          org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_creator);
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_modifiedBy);
          if(obj!=null)
          {
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
@@ -343,38 +325,178 @@ public abstract class NewBase extends org.semanticwb.model.SWBClass implements o
          }
          return ret;
     }
+
+/**
+* Gets the Created property
+* @return java.util.Date with the Created
+*/
+    public java.util.Date getCreated()
+    {
+        return getSemanticObject().getDateProperty(swb_created);
+    }
+
+/**
+* Sets the Created property
+* @param value long with the Created
+*/
+    public void setCreated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_created, value);
+    }
+
+/**
+* Gets the Title property
+* @return String with the Title
+*/
+    public String getTitle()
+    {
+        return getSemanticObject().getProperty(swb_title);
+    }
+
+/**
+* Sets the Title property
+* @param value long with the Title
+*/
+    public void setTitle(String value)
+    {
+        getSemanticObject().setProperty(swb_title, value);
+    }
+
+    public String getTitle(String lang)
+    {
+        return getSemanticObject().getProperty(swb_title, null, lang);
+    }
+
+    public String getDisplayTitle(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_title, lang);
+    }
+
+    public void setTitle(String title, String lang)
+    {
+        getSemanticObject().setProperty(swb_title, title, lang);
+    }
+
+/**
+* Gets the Updated property
+* @return java.util.Date with the Updated
+*/
+    public java.util.Date getUpdated()
+    {
+        return getSemanticObject().getDateProperty(swb_updated);
+    }
+
+/**
+* Sets the Updated property
+* @param value long with the Updated
+*/
+    public void setUpdated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_updated, value);
+    }
+
+/**
+* Gets the Description property
+* @return String with the Description
+*/
+    public String getDescription()
+    {
+        return getSemanticObject().getProperty(swb_description);
+    }
+
+/**
+* Sets the Description property
+* @param value long with the Description
+*/
+    public void setDescription(String value)
+    {
+        getSemanticObject().setProperty(swb_description, value);
+    }
+
+    public String getDescription(String lang)
+    {
+        return getSemanticObject().getProperty(swb_description, null, lang);
+    }
+
+    public String getDisplayDescription(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_description, lang);
+    }
+
+    public void setDescription(String description, String lang)
+    {
+        getSemanticObject().setProperty(swb_description, description, lang);
+    }
    /**
-   * Sets the value for the property ModifiedBy
-   * @param value ModifiedBy to set
+   * Sets the value for the property NewType
+   * @param value NewType to set
    */
 
-    public void setModifiedBy(org.semanticwb.model.User value)
+    public void setNewType(org.semanticwb.cptm.NewType value)
     {
         if(value!=null)
         {
-            getSemanticObject().setObjectProperty(swb_modifiedBy, value.getSemanticObject());
+            getSemanticObject().setObjectProperty(cptm_newType, value.getSemanticObject());
         }else
         {
-            removeModifiedBy();
+            removeNewType();
         }
     }
    /**
-   * Remove the value for ModifiedBy property
+   * Remove the value for NewType property
    */
 
-    public void removeModifiedBy()
+    public void removeNewType()
     {
-        getSemanticObject().removeProperty(swb_modifiedBy);
+        getSemanticObject().removeProperty(cptm_newType);
     }
 
    /**
-   * Gets the ModifiedBy
+   * Gets the NewType
+   * @return a org.semanticwb.cptm.NewType
+   */
+    public org.semanticwb.cptm.NewType getNewType()
+    {
+         org.semanticwb.cptm.NewType ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_newType);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.cptm.NewType)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Sets the value for the property Creator
+   * @param value Creator to set
+   */
+
+    public void setCreator(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(swb_creator, value.getSemanticObject());
+        }else
+        {
+            removeCreator();
+        }
+    }
+   /**
+   * Remove the value for Creator property
+   */
+
+    public void removeCreator()
+    {
+        getSemanticObject().removeProperty(swb_creator);
+    }
+
+   /**
+   * Gets the Creator
    * @return a org.semanticwb.model.User
    */
-    public org.semanticwb.model.User getModifiedBy()
+    public org.semanticwb.model.User getCreator()
     {
          org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_modifiedBy);
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_creator);
          if(obj!=null)
          {
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
@@ -445,127 +567,5 @@ public abstract class NewBase extends org.semanticwb.model.SWBClass implements o
              ret=(org.semanticwb.model.Resource)obj.createGenericInstance();
          }
          return ret;
-    }
-
-/**
-* Gets the Title property
-* @return String with the Title
-*/
-    public String getTitle()
-    {
-        return getSemanticObject().getProperty(swb_title);
-    }
-
-/**
-* Sets the Title property
-* @param value long with the Title
-*/
-    public void setTitle(String value)
-    {
-        getSemanticObject().setProperty(swb_title, value);
-    }
-
-    public String getTitle(String lang)
-    {
-        return getSemanticObject().getProperty(swb_title, null, lang);
-    }
-
-    public String getDisplayTitle(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_title, lang);
-    }
-
-    public void setTitle(String title, String lang)
-    {
-        getSemanticObject().setProperty(swb_title, title, lang);
-    }
-
-/**
-* Gets the Updated property
-* @return java.util.Date with the Updated
-*/
-    public java.util.Date getUpdated()
-    {
-        return getSemanticObject().getDateProperty(swb_updated);
-    }
-
-/**
-* Sets the Updated property
-* @param value long with the Updated
-*/
-    public void setUpdated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_updated, value);
-    }
-   /**
-   * Sets the value for the property NewType
-   * @param value NewType to set
-   */
-
-    public void setNewType(org.semanticwb.cptm.NewType value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(cptm_newType, value.getSemanticObject());
-        }else
-        {
-            removeNewType();
-        }
-    }
-   /**
-   * Remove the value for NewType property
-   */
-
-    public void removeNewType()
-    {
-        getSemanticObject().removeProperty(cptm_newType);
-    }
-
-   /**
-   * Gets the NewType
-   * @return a org.semanticwb.cptm.NewType
-   */
-    public org.semanticwb.cptm.NewType getNewType()
-    {
-         org.semanticwb.cptm.NewType ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_newType);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.cptm.NewType)obj.createGenericInstance();
-         }
-         return ret;
-    }
-
-/**
-* Gets the Description property
-* @return String with the Description
-*/
-    public String getDescription()
-    {
-        return getSemanticObject().getProperty(swb_description);
-    }
-
-/**
-* Sets the Description property
-* @param value long with the Description
-*/
-    public void setDescription(String value)
-    {
-        getSemanticObject().setProperty(swb_description, value);
-    }
-
-    public String getDescription(String lang)
-    {
-        return getSemanticObject().getProperty(swb_description, null, lang);
-    }
-
-    public String getDisplayDescription(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_description, lang);
-    }
-
-    public void setDescription(String description, String lang)
-    {
-        getSemanticObject().setProperty(swb_description, description, lang);
     }
 }

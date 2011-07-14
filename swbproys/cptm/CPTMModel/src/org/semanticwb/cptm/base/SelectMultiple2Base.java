@@ -6,8 +6,8 @@ package org.semanticwb.cptm.base;
    */
 public abstract class SelectMultiple2Base extends org.semanticwb.model.base.FormElementBase 
 {
-    public static final org.semanticwb.platform.SemanticProperty cptm_sm2_globalScope=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#sm2_globalScope");
     public static final org.semanticwb.platform.SemanticProperty cptm_sm2_nullSuport=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#sm2_nullSuport");
+    public static final org.semanticwb.platform.SemanticProperty cptm_sm2_globalScope=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#sm2_globalScope");
    /**
    * Select Multiple2
    */
@@ -92,24 +92,6 @@ public abstract class SelectMultiple2Base extends org.semanticwb.model.base.Form
     }
 
 /**
-* Gets the GlobalScope property
-* @return boolean with the GlobalScope
-*/
-    public boolean isGlobalScope()
-    {
-        return getSemanticObject().getBooleanProperty(cptm_sm2_globalScope);
-    }
-
-/**
-* Sets the GlobalScope property
-* @param value long with the GlobalScope
-*/
-    public void setGlobalScope(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(cptm_sm2_globalScope, value);
-    }
-
-/**
 * Gets the NullSuport property
 * @return boolean with the NullSuport
 */
@@ -125,6 +107,24 @@ public abstract class SelectMultiple2Base extends org.semanticwb.model.base.Form
     public void setNullSuport(boolean value)
     {
         getSemanticObject().setBooleanProperty(cptm_sm2_nullSuport, value);
+    }
+
+/**
+* Gets the GlobalScope property
+* @return boolean with the GlobalScope
+*/
+    public boolean isGlobalScope()
+    {
+        return getSemanticObject().getBooleanProperty(cptm_sm2_globalScope);
+    }
+
+/**
+* Sets the GlobalScope property
+* @param value long with the GlobalScope
+*/
+    public void setGlobalScope(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(cptm_sm2_globalScope, value);
     }
 
     public void remove()

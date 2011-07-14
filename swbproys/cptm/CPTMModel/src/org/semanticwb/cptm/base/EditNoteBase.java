@@ -4,8 +4,9 @@ package org.semanticwb.cptm.base;
    /**
    * Notas Editoriales 
    */
-public abstract class EditNoteBase extends org.semanticwb.cptm.CPTMGeneralWebPage implements org.semanticwb.model.Searchable,org.semanticwb.model.Hiddenable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Viewable,org.semanticwb.model.RoleRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Tagable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Countryable,org.semanticwb.model.Rankable,org.semanticwb.model.Indexable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Trashable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Resourceable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Descriptiveable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Localeable,org.semanticwb.model.Expirable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.cptm.CptmDescriptionPage
+public abstract class EditNoteBase extends org.semanticwb.cptm.CPTMGeneralWebPage implements org.semanticwb.model.Rankable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Resourceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableNode,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Countryable,org.semanticwb.model.Filterable,org.semanticwb.cptm.CptmDescriptionPage,org.semanticwb.model.RuleRefable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Traceable,org.semanticwb.model.Searchable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.RoleRefable,org.semanticwb.model.Indexable,org.semanticwb.model.Activeable,org.semanticwb.model.Trashable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Referensable,org.semanticwb.model.Localeable,org.semanticwb.model.Viewable,org.semanticwb.model.Hiddenable
 {
+    public static final org.semanticwb.platform.SemanticProperty cptm_isathome=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#isathome");
    /**
    * Clase que hereda de WebPage.Mediante esta se administra el catálogo de Estados de la República (Ej. Tamaulipas, Morelos)
    */
@@ -14,7 +15,15 @@ public abstract class EditNoteBase extends org.semanticwb.cptm.CPTMGeneralWebPag
    * Estado(s)  Relacionado(s) a las Notas Editoriales.
    */
     public static final org.semanticwb.platform.SemanticProperty cptm_hasNoteState=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasNoteState");
-    public static final org.semanticwb.platform.SemanticProperty cptm_isathome=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#isathome");
+    public static final org.semanticwb.platform.SemanticProperty cptm_noteHomeIndex=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#noteHomeIndex");
+   /**
+   * Interfaz que define propiedades en comun para un Punto Geografico y una Marca Regional
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_LocalityInt=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#LocalityInt");
+   /**
+   * Destinos relacionados con la nota editorial
+   */
+    public static final org.semanticwb.platform.SemanticProperty cptm_hasLocality=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasLocality");
    /**
    * Catalogo de Tipos de Notas (Tipo 1/Primarias|Tipo 2/Secundarias|Tipo 3/Terciarias)
    */
@@ -24,15 +33,6 @@ public abstract class EditNoteBase extends org.semanticwb.cptm.CPTMGeneralWebPag
    * Redirección a una ágina interna de la instancia de SWB
    */
     public static final org.semanticwb.platform.SemanticProperty cptm_editNoteInternalURL=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#editNoteInternalURL");
-    public static final org.semanticwb.platform.SemanticProperty cptm_noteHomeIndex=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#noteHomeIndex");
-   /**
-   * Clase que se encarga de administrar el catálogo de Actividades (Buceo, Pesca, etc)
-   */
-    public static final org.semanticwb.platform.SemanticClass cptm_Activity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Activity");
-   /**
-   * Actividades asociadas a la nota editorial
-   */
-    public static final org.semanticwb.platform.SemanticProperty cptm_hasNoteActivity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasNoteActivity");
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de experiencias (Ej. Bodas, Parejas)
    */
@@ -42,13 +42,13 @@ public abstract class EditNoteBase extends org.semanticwb.cptm.CPTMGeneralWebPag
    */
     public static final org.semanticwb.platform.SemanticProperty cptm_hasNoteExperience=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasNoteExperience");
    /**
-   * Interfaz que define propiedades en comun para un Punto Geografico y una Marca Regional
+   * Clase que se encarga de administrar el catálogo de Actividades (Buceo, Pesca, etc)
    */
-    public static final org.semanticwb.platform.SemanticClass cptm_LocalityInt=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#LocalityInt");
+    public static final org.semanticwb.platform.SemanticClass cptm_Activity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Activity");
    /**
-   * Destinos relacionados con la nota editorial
+   * Actividades asociadas a la nota editorial
    */
-    public static final org.semanticwb.platform.SemanticProperty cptm_hasLocality=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasLocality");
+    public static final org.semanticwb.platform.SemanticProperty cptm_hasNoteActivity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasNoteActivity");
    /**
    * Notas Editoriales
    */
@@ -122,187 +122,26 @@ public abstract class EditNoteBase extends org.semanticwb.cptm.CPTMGeneralWebPag
             return (getEditNote(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined AssMember
-       * @param value AssMember of the type org.semanticwb.model.AssMember
+       * Gets all org.semanticwb.cptm.EditNote with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.cptm.EditNote
        * @return Iterator with all the org.semanticwb.cptm.EditNote
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByAssMember(org.semanticwb.model.AssMember value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasAssMemberInv, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined AssMember
-       * @param value AssMember of the type org.semanticwb.model.AssMember
+       * Gets all org.semanticwb.cptm.EditNote with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
        * @return Iterator with all the org.semanticwb.cptm.EditNote
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByAssMember(org.semanticwb.model.AssMember value)
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByModifiedBy(org.semanticwb.model.User value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasAssMemberInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined VirtualParent
-       * @param value VirtualParent of the type org.semanticwb.model.WebPage
-       * @param model Model of the org.semanticwb.cptm.EditNote
-       * @return Iterator with all the org.semanticwb.cptm.EditNote
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByVirtualParent(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualParent, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined VirtualParent
-       * @param value VirtualParent of the type org.semanticwb.model.WebPage
-       * @return Iterator with all the org.semanticwb.cptm.EditNote
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByVirtualParent(org.semanticwb.model.WebPage value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualParent,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined CalendarRef
-       * @param value CalendarRef of the type org.semanticwb.model.CalendarRef
-       * @param model Model of the org.semanticwb.cptm.EditNote
-       * @return Iterator with all the org.semanticwb.cptm.EditNote
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByCalendarRef(org.semanticwb.model.CalendarRef value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasCalendarRef, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined CalendarRef
-       * @param value CalendarRef of the type org.semanticwb.model.CalendarRef
-       * @return Iterator with all the org.semanticwb.cptm.EditNote
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByCalendarRef(org.semanticwb.model.CalendarRef value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasCalendarRef,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined Parent
-       * @param value Parent of the type org.semanticwb.model.WebPage
-       * @param model Model of the org.semanticwb.cptm.EditNote
-       * @return Iterator with all the org.semanticwb.cptm.EditNote
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByParent(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_webPageParent, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined Parent
-       * @param value Parent of the type org.semanticwb.model.WebPage
-       * @return Iterator with all the org.semanticwb.cptm.EditNote
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByParent(org.semanticwb.model.WebPage value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_webPageParent,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined FriendlyURL
-       * @param value FriendlyURL of the type org.semanticwb.model.FriendlyURL
-       * @param model Model of the org.semanticwb.cptm.EditNote
-       * @return Iterator with all the org.semanticwb.cptm.EditNote
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByFriendlyURL(org.semanticwb.model.FriendlyURL value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasFriendlyURL, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined FriendlyURL
-       * @param value FriendlyURL of the type org.semanticwb.model.FriendlyURL
-       * @return Iterator with all the org.semanticwb.cptm.EditNote
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByFriendlyURL(org.semanticwb.model.FriendlyURL value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasFriendlyURL,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @param model Model of the org.semanticwb.cptm.EditNote
-       * @return Iterator with all the org.semanticwb.cptm.EditNote
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @return Iterator with all the org.semanticwb.cptm.EditNote
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByCreator(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined Country
-       * @param value Country of the type org.semanticwb.model.Country
-       * @param model Model of the org.semanticwb.cptm.EditNote
-       * @return Iterator with all the org.semanticwb.cptm.EditNote
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByCountry(org.semanticwb.model.Country value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_country, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined Country
-       * @param value Country of the type org.semanticwb.model.Country
-       * @return Iterator with all the org.semanticwb.cptm.EditNote
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByCountry(org.semanticwb.model.Country value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_country,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined UserGroupRef
-       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
-       * @param model Model of the org.semanticwb.cptm.EditNote
-       * @return Iterator with all the org.semanticwb.cptm.EditNote
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByUserGroupRef(org.semanticwb.model.UserGroupRef value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined UserGroupRef
-       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
-       * @return Iterator with all the org.semanticwb.cptm.EditNote
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByUserGroupRef(org.semanticwb.model.UserGroupRef value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -329,95 +168,49 @@ public abstract class EditNoteBase extends org.semanticwb.cptm.CPTMGeneralWebPag
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined NoteType
-       * @param value NoteType of the type org.semanticwb.cptm.EditNoteType
+       * Gets all org.semanticwb.cptm.EditNote with a determined Locality
+       * @param value Locality of the type org.semanticwb.cptm.LocalityInt
        * @param model Model of the org.semanticwb.cptm.EditNote
        * @return Iterator with all the org.semanticwb.cptm.EditNote
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByNoteType(org.semanticwb.cptm.EditNoteType value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByLocality(org.semanticwb.cptm.LocalityInt value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_noteType, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasLocality, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined NoteType
-       * @param value NoteType of the type org.semanticwb.cptm.EditNoteType
+       * Gets all org.semanticwb.cptm.EditNote with a determined Locality
+       * @param value Locality of the type org.semanticwb.cptm.LocalityInt
        * @return Iterator with all the org.semanticwb.cptm.EditNote
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByNoteType(org.semanticwb.cptm.EditNoteType value)
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByLocality(org.semanticwb.cptm.LocalityInt value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_noteType,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasLocality,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined WebPageVirtualChild
-       * @param value WebPageVirtualChild of the type org.semanticwb.model.WebPage
+       * Gets all org.semanticwb.cptm.EditNote with a determined ThisTypeAssociation
+       * @param value ThisTypeAssociation of the type org.semanticwb.model.Association
        * @param model Model of the org.semanticwb.cptm.EditNote
        * @return Iterator with all the org.semanticwb.cptm.EditNote
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByWebPageVirtualChild(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByThisTypeAssociation(org.semanticwb.model.Association value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualChild, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisTypeAssociationInv, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined WebPageVirtualChild
-       * @param value WebPageVirtualChild of the type org.semanticwb.model.WebPage
+       * Gets all org.semanticwb.cptm.EditNote with a determined ThisTypeAssociation
+       * @param value ThisTypeAssociation of the type org.semanticwb.model.Association
        * @return Iterator with all the org.semanticwb.cptm.EditNote
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByWebPageVirtualChild(org.semanticwb.model.WebPage value)
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByThisTypeAssociation(org.semanticwb.model.Association value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualChild,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined Language
-       * @param value Language of the type org.semanticwb.model.Language
-       * @param model Model of the org.semanticwb.cptm.EditNote
-       * @return Iterator with all the org.semanticwb.cptm.EditNote
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByLanguage(org.semanticwb.model.Language value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_language, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined Language
-       * @param value Language of the type org.semanticwb.model.Language
-       * @return Iterator with all the org.semanticwb.cptm.EditNote
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByLanguage(org.semanticwb.model.Language value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_language,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined PFlowRef
-       * @param value PFlowRef of the type org.semanticwb.model.PFlowRef
-       * @param model Model of the org.semanticwb.cptm.EditNote
-       * @return Iterator with all the org.semanticwb.cptm.EditNote
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByPFlowRef(org.semanticwb.model.PFlowRef value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined PFlowRef
-       * @param value PFlowRef of the type org.semanticwb.model.PFlowRef
-       * @return Iterator with all the org.semanticwb.cptm.EditNote
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByPFlowRef(org.semanticwb.model.PFlowRef value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisTypeAssociationInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -444,6 +237,213 @@ public abstract class EditNoteBase extends org.semanticwb.cptm.CPTMGeneralWebPag
             return it;
         }
        /**
+       * Gets all org.semanticwb.cptm.EditNote with a determined Language
+       * @param value Language of the type org.semanticwb.model.Language
+       * @param model Model of the org.semanticwb.cptm.EditNote
+       * @return Iterator with all the org.semanticwb.cptm.EditNote
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByLanguage(org.semanticwb.model.Language value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_language, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.EditNote with a determined Language
+       * @param value Language of the type org.semanticwb.model.Language
+       * @return Iterator with all the org.semanticwb.cptm.EditNote
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByLanguage(org.semanticwb.model.Language value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_language,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.EditNote with a determined RuleRef
+       * @param value RuleRef of the type org.semanticwb.model.RuleRef
+       * @param model Model of the org.semanticwb.cptm.EditNote
+       * @return Iterator with all the org.semanticwb.cptm.EditNote
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByRuleRef(org.semanticwb.model.RuleRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.EditNote with a determined RuleRef
+       * @param value RuleRef of the type org.semanticwb.model.RuleRef
+       * @return Iterator with all the org.semanticwb.cptm.EditNote
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByRuleRef(org.semanticwb.model.RuleRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.EditNote with a determined WebPageVirtualChild
+       * @param value WebPageVirtualChild of the type org.semanticwb.model.WebPage
+       * @param model Model of the org.semanticwb.cptm.EditNote
+       * @return Iterator with all the org.semanticwb.cptm.EditNote
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByWebPageVirtualChild(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualChild, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.EditNote with a determined WebPageVirtualChild
+       * @param value WebPageVirtualChild of the type org.semanticwb.model.WebPage
+       * @return Iterator with all the org.semanticwb.cptm.EditNote
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByWebPageVirtualChild(org.semanticwb.model.WebPage value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualChild,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.EditNote with a determined PFlowRef
+       * @param value PFlowRef of the type org.semanticwb.model.PFlowRef
+       * @param model Model of the org.semanticwb.cptm.EditNote
+       * @return Iterator with all the org.semanticwb.cptm.EditNote
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByPFlowRef(org.semanticwb.model.PFlowRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.EditNote with a determined PFlowRef
+       * @param value PFlowRef of the type org.semanticwb.model.PFlowRef
+       * @return Iterator with all the org.semanticwb.cptm.EditNote
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByPFlowRef(org.semanticwb.model.PFlowRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.EditNote with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * @param model Model of the org.semanticwb.cptm.EditNote
+       * @return Iterator with all the org.semanticwb.cptm.EditNote
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByUserGroupRef(org.semanticwb.model.UserGroupRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.EditNote with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * @return Iterator with all the org.semanticwb.cptm.EditNote
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByUserGroupRef(org.semanticwb.model.UserGroupRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.EditNote with a determined CalendarRef
+       * @param value CalendarRef of the type org.semanticwb.model.CalendarRef
+       * @param model Model of the org.semanticwb.cptm.EditNote
+       * @return Iterator with all the org.semanticwb.cptm.EditNote
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByCalendarRef(org.semanticwb.model.CalendarRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasCalendarRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.EditNote with a determined CalendarRef
+       * @param value CalendarRef of the type org.semanticwb.model.CalendarRef
+       * @return Iterator with all the org.semanticwb.cptm.EditNote
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByCalendarRef(org.semanticwb.model.CalendarRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasCalendarRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.EditNote with a determined FriendlyURL
+       * @param value FriendlyURL of the type org.semanticwb.model.FriendlyURL
+       * @param model Model of the org.semanticwb.cptm.EditNote
+       * @return Iterator with all the org.semanticwb.cptm.EditNote
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByFriendlyURL(org.semanticwb.model.FriendlyURL value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasFriendlyURL, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.EditNote with a determined FriendlyURL
+       * @param value FriendlyURL of the type org.semanticwb.model.FriendlyURL
+       * @return Iterator with all the org.semanticwb.cptm.EditNote
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByFriendlyURL(org.semanticwb.model.FriendlyURL value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasFriendlyURL,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.EditNote with a determined AssMember
+       * @param value AssMember of the type org.semanticwb.model.AssMember
+       * @param model Model of the org.semanticwb.cptm.EditNote
+       * @return Iterator with all the org.semanticwb.cptm.EditNote
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByAssMember(org.semanticwb.model.AssMember value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasAssMemberInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.EditNote with a determined AssMember
+       * @param value AssMember of the type org.semanticwb.model.AssMember
+       * @return Iterator with all the org.semanticwb.cptm.EditNote
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByAssMember(org.semanticwb.model.AssMember value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasAssMemberInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.EditNote with a determined ThisRoleAssMember
+       * @param value ThisRoleAssMember of the type org.semanticwb.model.AssMember
+       * @param model Model of the org.semanticwb.cptm.EditNote
+       * @return Iterator with all the org.semanticwb.cptm.EditNote
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByThisRoleAssMember(org.semanticwb.model.AssMember value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisRoleAssMemberInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.EditNote with a determined ThisRoleAssMember
+       * @param value ThisRoleAssMember of the type org.semanticwb.model.AssMember
+       * @return Iterator with all the org.semanticwb.cptm.EditNote
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByThisRoleAssMember(org.semanticwb.model.AssMember value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisRoleAssMemberInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.cptm.EditNote with a determined Child
        * @param value Child of the type org.semanticwb.model.WebPage
        * @param model Model of the org.semanticwb.cptm.EditNote
@@ -467,49 +467,95 @@ public abstract class EditNoteBase extends org.semanticwb.cptm.CPTMGeneralWebPag
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined NoteActivity
-       * @param value NoteActivity of the type org.semanticwb.cptm.Activity
+       * Gets all org.semanticwb.cptm.EditNote with a determined NoteType
+       * @param value NoteType of the type org.semanticwb.cptm.EditNoteType
        * @param model Model of the org.semanticwb.cptm.EditNote
        * @return Iterator with all the org.semanticwb.cptm.EditNote
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByNoteActivity(org.semanticwb.cptm.Activity value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByNoteType(org.semanticwb.cptm.EditNoteType value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasNoteActivity, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_noteType, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined NoteActivity
-       * @param value NoteActivity of the type org.semanticwb.cptm.Activity
+       * Gets all org.semanticwb.cptm.EditNote with a determined NoteType
+       * @param value NoteType of the type org.semanticwb.cptm.EditNoteType
        * @return Iterator with all the org.semanticwb.cptm.EditNote
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByNoteActivity(org.semanticwb.cptm.Activity value)
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByNoteType(org.semanticwb.cptm.EditNoteType value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasNoteActivity,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_noteType,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.cptm.EditNote with a determined Country
+       * @param value Country of the type org.semanticwb.model.Country
        * @param model Model of the org.semanticwb.cptm.EditNote
        * @return Iterator with all the org.semanticwb.cptm.EditNote
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByCountry(org.semanticwb.model.Country value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_country, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.cptm.EditNote with a determined Country
+       * @param value Country of the type org.semanticwb.model.Country
        * @return Iterator with all the org.semanticwb.cptm.EditNote
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByModifiedBy(org.semanticwb.model.User value)
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByCountry(org.semanticwb.model.Country value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_country,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.EditNote with a determined Parent
+       * @param value Parent of the type org.semanticwb.model.WebPage
+       * @param model Model of the org.semanticwb.cptm.EditNote
+       * @return Iterator with all the org.semanticwb.cptm.EditNote
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByParent(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_webPageParent, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.EditNote with a determined Parent
+       * @param value Parent of the type org.semanticwb.model.WebPage
+       * @return Iterator with all the org.semanticwb.cptm.EditNote
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByParent(org.semanticwb.model.WebPage value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_webPageParent,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.EditNote with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.cptm.EditNote
+       * @return Iterator with all the org.semanticwb.cptm.EditNote
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.EditNote with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.cptm.EditNote
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByCreator(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -559,95 +605,26 @@ public abstract class EditNoteBase extends org.semanticwb.cptm.CPTMGeneralWebPag
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined Locality
-       * @param value Locality of the type org.semanticwb.cptm.LocalityInt
+       * Gets all org.semanticwb.cptm.EditNote with a determined VirtualParent
+       * @param value VirtualParent of the type org.semanticwb.model.WebPage
        * @param model Model of the org.semanticwb.cptm.EditNote
        * @return Iterator with all the org.semanticwb.cptm.EditNote
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByLocality(org.semanticwb.cptm.LocalityInt value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByVirtualParent(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasLocality, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualParent, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined Locality
-       * @param value Locality of the type org.semanticwb.cptm.LocalityInt
+       * Gets all org.semanticwb.cptm.EditNote with a determined VirtualParent
+       * @param value VirtualParent of the type org.semanticwb.model.WebPage
        * @return Iterator with all the org.semanticwb.cptm.EditNote
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByLocality(org.semanticwb.cptm.LocalityInt value)
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByVirtualParent(org.semanticwb.model.WebPage value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasLocality,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined RoleRef
-       * @param value RoleRef of the type org.semanticwb.model.RoleRef
-       * @param model Model of the org.semanticwb.cptm.EditNote
-       * @return Iterator with all the org.semanticwb.cptm.EditNote
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByRoleRef(org.semanticwb.model.RoleRef value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined RoleRef
-       * @param value RoleRef of the type org.semanticwb.model.RoleRef
-       * @return Iterator with all the org.semanticwb.cptm.EditNote
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByRoleRef(org.semanticwb.model.RoleRef value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined ThisRoleAssMember
-       * @param value ThisRoleAssMember of the type org.semanticwb.model.AssMember
-       * @param model Model of the org.semanticwb.cptm.EditNote
-       * @return Iterator with all the org.semanticwb.cptm.EditNote
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByThisRoleAssMember(org.semanticwb.model.AssMember value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisRoleAssMemberInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined ThisRoleAssMember
-       * @param value ThisRoleAssMember of the type org.semanticwb.model.AssMember
-       * @return Iterator with all the org.semanticwb.cptm.EditNote
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByThisRoleAssMember(org.semanticwb.model.AssMember value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisRoleAssMemberInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined RuleRef
-       * @param value RuleRef of the type org.semanticwb.model.RuleRef
-       * @param model Model of the org.semanticwb.cptm.EditNote
-       * @return Iterator with all the org.semanticwb.cptm.EditNote
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByRuleRef(org.semanticwb.model.RuleRef value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined RuleRef
-       * @param value RuleRef of the type org.semanticwb.model.RuleRef
-       * @return Iterator with all the org.semanticwb.cptm.EditNote
-       */
-
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByRuleRef(org.semanticwb.model.RuleRef value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualParent,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -674,26 +651,49 @@ public abstract class EditNoteBase extends org.semanticwb.cptm.CPTMGeneralWebPag
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined ThisTypeAssociation
-       * @param value ThisTypeAssociation of the type org.semanticwb.model.Association
+       * Gets all org.semanticwb.cptm.EditNote with a determined RoleRef
+       * @param value RoleRef of the type org.semanticwb.model.RoleRef
        * @param model Model of the org.semanticwb.cptm.EditNote
        * @return Iterator with all the org.semanticwb.cptm.EditNote
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByThisTypeAssociation(org.semanticwb.model.Association value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByRoleRef(org.semanticwb.model.RoleRef value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisTypeAssociationInv, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.cptm.EditNote with a determined ThisTypeAssociation
-       * @param value ThisTypeAssociation of the type org.semanticwb.model.Association
+       * Gets all org.semanticwb.cptm.EditNote with a determined RoleRef
+       * @param value RoleRef of the type org.semanticwb.model.RoleRef
        * @return Iterator with all the org.semanticwb.cptm.EditNote
        */
 
-        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByThisTypeAssociation(org.semanticwb.model.Association value)
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByRoleRef(org.semanticwb.model.RoleRef value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisTypeAssociationInv,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.EditNote with a determined NoteActivity
+       * @param value NoteActivity of the type org.semanticwb.cptm.Activity
+       * @param model Model of the org.semanticwb.cptm.EditNote
+       * @return Iterator with all the org.semanticwb.cptm.EditNote
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByNoteActivity(org.semanticwb.cptm.Activity value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasNoteActivity, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.EditNote with a determined NoteActivity
+       * @param value NoteActivity of the type org.semanticwb.cptm.Activity
+       * @return Iterator with all the org.semanticwb.cptm.EditNote
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.EditNote> listEditNoteByNoteActivity(org.semanticwb.cptm.Activity value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasNoteActivity,value.getSemanticObject(),sclass));
             return it;
         }
     }
@@ -705,6 +705,24 @@ public abstract class EditNoteBase extends org.semanticwb.cptm.CPTMGeneralWebPag
     public EditNoteBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+/**
+* Gets the Isathome property
+* @return boolean with the Isathome
+*/
+    public boolean isIsathome()
+    {
+        return getSemanticObject().getBooleanProperty(cptm_isathome);
+    }
+
+/**
+* Sets the Isathome property
+* @param value long with the Isathome
+*/
+    public void setIsathome(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(cptm_isathome, value);
     }
    /**
    * Gets all the org.semanticwb.cptm.State
@@ -773,21 +791,86 @@ public abstract class EditNoteBase extends org.semanticwb.cptm.CPTMGeneralWebPag
     }
 
 /**
-* Gets the Isathome property
-* @return boolean with the Isathome
+* Gets the NoteHomeIndex property
+* @return int with the NoteHomeIndex
 */
-    public boolean isIsathome()
+    public int getNoteHomeIndex()
     {
-        return getSemanticObject().getBooleanProperty(cptm_isathome);
+        return getSemanticObject().getIntProperty(cptm_noteHomeIndex);
     }
 
 /**
-* Sets the Isathome property
-* @param value long with the Isathome
+* Sets the NoteHomeIndex property
+* @param value long with the NoteHomeIndex
 */
-    public void setIsathome(boolean value)
+    public void setNoteHomeIndex(int value)
     {
-        getSemanticObject().setBooleanProperty(cptm_isathome, value);
+        getSemanticObject().setIntProperty(cptm_noteHomeIndex, value);
+    }
+   /**
+   * Gets all the org.semanticwb.cptm.LocalityInt
+   * @return A GenericIterator with all the org.semanticwb.cptm.LocalityInt
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.LocalityInt> listLocalities()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.LocalityInt>(getSemanticObject().listObjectProperties(cptm_hasLocality));
+    }
+
+   /**
+   * Gets true if has a Locality
+   * @param value org.semanticwb.cptm.LocalityInt to verify
+   * @return true if the org.semanticwb.cptm.LocalityInt exists, false otherwise
+   */
+    public boolean hasLocality(org.semanticwb.cptm.LocalityInt value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(cptm_hasLocality,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a Locality
+   * @param value org.semanticwb.cptm.LocalityInt to add
+   */
+
+    public void addLocality(org.semanticwb.cptm.LocalityInt value)
+    {
+        getSemanticObject().addObjectProperty(cptm_hasLocality, value.getSemanticObject());
+    }
+   /**
+   * Removes all the Locality
+   */
+
+    public void removeAllLocality()
+    {
+        getSemanticObject().removeProperty(cptm_hasLocality);
+    }
+   /**
+   * Removes a Locality
+   * @param value org.semanticwb.cptm.LocalityInt to remove
+   */
+
+    public void removeLocality(org.semanticwb.cptm.LocalityInt value)
+    {
+        getSemanticObject().removeObjectProperty(cptm_hasLocality,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the Locality
+   * @return a org.semanticwb.cptm.LocalityInt
+   */
+    public org.semanticwb.cptm.LocalityInt getLocality()
+    {
+         org.semanticwb.cptm.LocalityInt ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasLocality);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.cptm.LocalityInt)obj.createGenericInstance();
+         }
+         return ret;
     }
    /**
    * Sets the value for the property NoteType
@@ -844,89 +927,6 @@ public abstract class EditNoteBase extends org.semanticwb.cptm.CPTMGeneralWebPag
     public void setEditNoteInternalURL(String value)
     {
         getSemanticObject().setProperty(cptm_editNoteInternalURL, value);
-    }
-
-/**
-* Gets the NoteHomeIndex property
-* @return int with the NoteHomeIndex
-*/
-    public int getNoteHomeIndex()
-    {
-        return getSemanticObject().getIntProperty(cptm_noteHomeIndex);
-    }
-
-/**
-* Sets the NoteHomeIndex property
-* @param value long with the NoteHomeIndex
-*/
-    public void setNoteHomeIndex(int value)
-    {
-        getSemanticObject().setIntProperty(cptm_noteHomeIndex, value);
-    }
-   /**
-   * Gets all the org.semanticwb.cptm.Activity
-   * @return A GenericIterator with all the org.semanticwb.cptm.Activity
-   */
-
-    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Activity> listNoteActivities()
-    {
-        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Activity>(getSemanticObject().listObjectProperties(cptm_hasNoteActivity));
-    }
-
-   /**
-   * Gets true if has a NoteActivity
-   * @param value org.semanticwb.cptm.Activity to verify
-   * @return true if the org.semanticwb.cptm.Activity exists, false otherwise
-   */
-    public boolean hasNoteActivity(org.semanticwb.cptm.Activity value)
-    {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(cptm_hasNoteActivity,value.getSemanticObject());
-        }
-        return ret;
-    }
-   /**
-   * Adds a NoteActivity
-   * @param value org.semanticwb.cptm.Activity to add
-   */
-
-    public void addNoteActivity(org.semanticwb.cptm.Activity value)
-    {
-        getSemanticObject().addObjectProperty(cptm_hasNoteActivity, value.getSemanticObject());
-    }
-   /**
-   * Removes all the NoteActivity
-   */
-
-    public void removeAllNoteActivity()
-    {
-        getSemanticObject().removeProperty(cptm_hasNoteActivity);
-    }
-   /**
-   * Removes a NoteActivity
-   * @param value org.semanticwb.cptm.Activity to remove
-   */
-
-    public void removeNoteActivity(org.semanticwb.cptm.Activity value)
-    {
-        getSemanticObject().removeObjectProperty(cptm_hasNoteActivity,value.getSemanticObject());
-    }
-
-   /**
-   * Gets the NoteActivity
-   * @return a org.semanticwb.cptm.Activity
-   */
-    public org.semanticwb.cptm.Activity getNoteActivity()
-    {
-         org.semanticwb.cptm.Activity ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasNoteActivity);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.cptm.Activity)obj.createGenericInstance();
-         }
-         return ret;
     }
    /**
    * Gets all the org.semanticwb.cptm.Experience
@@ -994,67 +994,67 @@ public abstract class EditNoteBase extends org.semanticwb.cptm.CPTMGeneralWebPag
          return ret;
     }
    /**
-   * Gets all the org.semanticwb.cptm.LocalityInt
-   * @return A GenericIterator with all the org.semanticwb.cptm.LocalityInt
+   * Gets all the org.semanticwb.cptm.Activity
+   * @return A GenericIterator with all the org.semanticwb.cptm.Activity
    */
 
-    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.LocalityInt> listLocalities()
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Activity> listNoteActivities()
     {
-        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.LocalityInt>(getSemanticObject().listObjectProperties(cptm_hasLocality));
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Activity>(getSemanticObject().listObjectProperties(cptm_hasNoteActivity));
     }
 
    /**
-   * Gets true if has a Locality
-   * @param value org.semanticwb.cptm.LocalityInt to verify
-   * @return true if the org.semanticwb.cptm.LocalityInt exists, false otherwise
+   * Gets true if has a NoteActivity
+   * @param value org.semanticwb.cptm.Activity to verify
+   * @return true if the org.semanticwb.cptm.Activity exists, false otherwise
    */
-    public boolean hasLocality(org.semanticwb.cptm.LocalityInt value)
+    public boolean hasNoteActivity(org.semanticwb.cptm.Activity value)
     {
         boolean ret=false;
         if(value!=null)
         {
-           ret=getSemanticObject().hasObjectProperty(cptm_hasLocality,value.getSemanticObject());
+           ret=getSemanticObject().hasObjectProperty(cptm_hasNoteActivity,value.getSemanticObject());
         }
         return ret;
     }
    /**
-   * Adds a Locality
-   * @param value org.semanticwb.cptm.LocalityInt to add
+   * Adds a NoteActivity
+   * @param value org.semanticwb.cptm.Activity to add
    */
 
-    public void addLocality(org.semanticwb.cptm.LocalityInt value)
+    public void addNoteActivity(org.semanticwb.cptm.Activity value)
     {
-        getSemanticObject().addObjectProperty(cptm_hasLocality, value.getSemanticObject());
+        getSemanticObject().addObjectProperty(cptm_hasNoteActivity, value.getSemanticObject());
     }
    /**
-   * Removes all the Locality
+   * Removes all the NoteActivity
    */
 
-    public void removeAllLocality()
+    public void removeAllNoteActivity()
     {
-        getSemanticObject().removeProperty(cptm_hasLocality);
+        getSemanticObject().removeProperty(cptm_hasNoteActivity);
     }
    /**
-   * Removes a Locality
-   * @param value org.semanticwb.cptm.LocalityInt to remove
+   * Removes a NoteActivity
+   * @param value org.semanticwb.cptm.Activity to remove
    */
 
-    public void removeLocality(org.semanticwb.cptm.LocalityInt value)
+    public void removeNoteActivity(org.semanticwb.cptm.Activity value)
     {
-        getSemanticObject().removeObjectProperty(cptm_hasLocality,value.getSemanticObject());
+        getSemanticObject().removeObjectProperty(cptm_hasNoteActivity,value.getSemanticObject());
     }
 
    /**
-   * Gets the Locality
-   * @return a org.semanticwb.cptm.LocalityInt
+   * Gets the NoteActivity
+   * @return a org.semanticwb.cptm.Activity
    */
-    public org.semanticwb.cptm.LocalityInt getLocality()
+    public org.semanticwb.cptm.Activity getNoteActivity()
     {
-         org.semanticwb.cptm.LocalityInt ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasLocality);
+         org.semanticwb.cptm.Activity ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasNoteActivity);
          if(obj!=null)
          {
-             ret=(org.semanticwb.cptm.LocalityInt)obj.createGenericInstance();
+             ret=(org.semanticwb.cptm.Activity)obj.createGenericInstance();
          }
          return ret;
     }
