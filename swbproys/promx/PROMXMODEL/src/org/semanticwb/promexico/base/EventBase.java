@@ -4,8 +4,10 @@ package org.semanticwb.promexico.base;
    /**
    * Eventos de ProMéxico 
    */
-public abstract class EventBase extends org.semanticwb.portal.resources.sem.calendar.Event implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Localeable,org.semanticwb.model.Searchable,org.semanticwb.model.Activeable
+public abstract class EventBase extends org.semanticwb.portal.resources.sem.calendar.Event implements org.semanticwb.model.Activeable,org.semanticwb.model.Localeable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Searchable
 {
+    public static final org.semanticwb.platform.SemanticClass promx_Sector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Sector");
+    public static final org.semanticwb.platform.SemanticProperty promx_hasSectores=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasSectores");
    /**
    * Eventos de ProMéxico
    */
@@ -108,6 +110,29 @@ public abstract class EventBase extends org.semanticwb.portal.resources.sem.cale
             return it;
         }
        /**
+       * Gets all org.semanticwb.promexico.Event with a determined Sectores
+       * @param value Sectores of the type org.semanticwb.promexico.Sector
+       * @param model Model of the org.semanticwb.promexico.Event
+       * @return Iterator with all the org.semanticwb.promexico.Event
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Event> listEventBySectores(org.semanticwb.promexico.Sector value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Event> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(promx_hasSectores, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.Event with a determined Sectores
+       * @param value Sectores of the type org.semanticwb.promexico.Sector
+       * @return Iterator with all the org.semanticwb.promexico.Event
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Event> listEventBySectores(org.semanticwb.promexico.Sector value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Event> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(promx_hasSectores,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.promexico.Event with a determined Language
        * @param value Language of the type org.semanticwb.model.Language
        * @param model Model of the org.semanticwb.promexico.Event
@@ -162,6 +187,71 @@ public abstract class EventBase extends org.semanticwb.portal.resources.sem.cale
     public EventBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+   /**
+   * Gets all the org.semanticwb.promexico.Sector
+   * @return A GenericIterator with all the org.semanticwb.promexico.Sector
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Sector> listSectoreses()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Sector>(getSemanticObject().listObjectProperties(promx_hasSectores));
+    }
+
+   /**
+   * Gets true if has a Sectores
+   * @param value org.semanticwb.promexico.Sector to verify
+   * @return true if the org.semanticwb.promexico.Sector exists, false otherwise
+   */
+    public boolean hasSectores(org.semanticwb.promexico.Sector value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(promx_hasSectores,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a Sectores
+   * @param value org.semanticwb.promexico.Sector to add
+   */
+
+    public void addSectores(org.semanticwb.promexico.Sector value)
+    {
+        getSemanticObject().addObjectProperty(promx_hasSectores, value.getSemanticObject());
+    }
+   /**
+   * Removes all the Sectores
+   */
+
+    public void removeAllSectores()
+    {
+        getSemanticObject().removeProperty(promx_hasSectores);
+    }
+   /**
+   * Removes a Sectores
+   * @param value org.semanticwb.promexico.Sector to remove
+   */
+
+    public void removeSectores(org.semanticwb.promexico.Sector value)
+    {
+        getSemanticObject().removeObjectProperty(promx_hasSectores,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the Sectores
+   * @return a org.semanticwb.promexico.Sector
+   */
+    public org.semanticwb.promexico.Sector getSectores()
+    {
+         org.semanticwb.promexico.Sector ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(promx_hasSectores);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.promexico.Sector)obj.createGenericInstance();
+         }
+         return ret;
     }
 
    /**

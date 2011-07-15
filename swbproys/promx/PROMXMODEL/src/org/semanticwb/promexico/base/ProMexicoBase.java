@@ -4,7 +4,7 @@ package org.semanticwb.promexico.base;
    /**
    * Clase que hereda de swb:WebSite. Es un tipo de website para ProMéxico. De esta manera se puede contar con todos los elementos en el arbol de navegación en la administración, y otros elementos utiles para ProMéxico. 
    */
-public abstract class ProMexicoBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.Traceable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Countryable,org.semanticwb.model.FilterableClass,org.semanticwb.model.OntologyDepable,org.semanticwb.model.Trashable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Filterable,org.semanticwb.model.Indexable,org.semanticwb.model.Localeable,org.semanticwb.model.Activeable
+public abstract class ProMexicoBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.Undeleteable,org.semanticwb.model.Localeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.model.FilterableClass,org.semanticwb.model.Trashable,org.semanticwb.model.Activeable,org.semanticwb.model.Filterable,org.semanticwb.model.OntologyDepable,org.semanticwb.model.Indexable,org.semanticwb.model.Traceable,org.semanticwb.model.Countryable
 {
     public static final org.semanticwb.platform.SemanticClass promx_Sector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Sector");
     public static final org.semanticwb.platform.SemanticClass promx_New=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#New");
