@@ -37,7 +37,11 @@ public class TankGameView extends GenericResource
         String tankids[]=request.getParameterValues("tankID");
         if(tankids==null)
         {
+            request.getSession().setAttribute("tkpre", false);
             tankids=getTanks(site, user);
+        }else
+        {
+            request.getSession().setAttribute("tkpre", true);
         }
         request.getSession().setAttribute("tankids", tankids);
         //System.out.println(tankids);
@@ -252,8 +256,11 @@ public class TankGameView extends GenericResource
         }
         site.commit();
         
-        tankids=getTanks(site, user);
-        request.getSession().setAttribute("tankids", tankids);        
+        if(!((Boolean)request.getSession().getAttribute("tkpre")))
+        {
+            tankids=getTanks(site, user);
+            request.getSession().setAttribute("tankids", tankids);        
+        }
     }
     
 }
