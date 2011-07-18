@@ -106,7 +106,8 @@ public class TankGameView extends GenericResource
                 ret.append(tank.getId()+" "+tank.getTankType()+" "+tank.getTankColor()+"\n");
             }
         }
-        out.print(encript(pwd, ret.toString()));        
+        //out.print(encript(pwd, ret.toString()));        
+        out.print(ret.toString());        
     }
     
     public void getTank(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException 
@@ -285,6 +286,7 @@ public class TankGameView extends GenericResource
     
     private String encript(String key, String data)
     {
+        if(data==null)return null;        
         try
         {
             return SWBUtils.CryptoWrapper.byteArrayToHexString(SWBUtils.CryptoWrapper.PBEAES128Cipher(key, data.getBytes()));
@@ -294,6 +296,7 @@ public class TankGameView extends GenericResource
     
     private String decript(String key, String data)
     {
+        if(data==null)return null;        
         try
         {
             return new String(SWBUtils.CryptoWrapper.PBEAES128Decipher(key, SWBUtils.CryptoWrapper.hexStringToByteArray(data)));
