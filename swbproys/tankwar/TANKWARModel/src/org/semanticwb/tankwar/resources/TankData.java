@@ -34,7 +34,7 @@ public class TankData extends GenericResource{
       @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
-       String path = SWBPortal.getWebWorkPath() +"/models/"+paramRequest.getWebPage().getWebSiteId()+"/jsp/tankData.jsp" ;
+        String path = SWBPortal.getWebWorkPath() +"/models/"+paramRequest.getWebPage().getWebSiteId()+"/jsp/tankData.jsp" ;
         RequestDispatcher rd = request.getRequestDispatcher(path);
         try{
             request.setAttribute("paramRequest",paramRequest);
@@ -58,13 +58,23 @@ public class TankData extends GenericResource{
                 SWBFormMgr mgr = new SWBFormMgr(TankComment.tank_TankComment, wsite.getSemanticObject(), null);
                 try
                 {
-                    mgr.setFilterRequired(false);
-                    SemanticObject semObject = mgr.processForm(request);
-                    TankComment TankComment = (TankComment) semObject.createGenericInstance();
-                    //TankComment.setDescription(request.getParameter("description"));
-                    SemanticObject semObjectTank = SemanticObject.createSemanticObject(request.getParameter("tankUri"));
-                    Tank tank = (Tank) semObjectTank.createGenericInstance();
-                    TankComment.setCommTank(tank);                    
+                    String securCodeSent = request.getParameter("cmnt_seccode");
+                    String securCodeCreated = (String) request.getSession(true).getAttribute("cdlog");
+                    if (securCodeCreated != null && securCodeCreated.equalsIgnoreCase(securCodeSent)) {
+                        request.getSession(true).removeAttribute("cdlog");
+                        mgr.setFilterRequired(false);
+                        SemanticObject semObject = mgr.processForm(request);
+                        TankComment TankComment = (TankComment) semObject.createGenericInstance();
+                        //TankComment.setDescription(request.getParameter("description"));
+                        SemanticObject semObjectTank = SemanticObject.createSemanticObject(request.getParameter("tankUri"));
+                        Tank tank = (Tank) semObjectTank.createGenericInstance();
+                        TankComment.setCommTank(tank);
+                    } else {
+                        response.setRenderParameter("coment", SWBUtils.XML.replaceXMLChars(request.getParameter("description")));
+                        response.setRenderParameter("msg", "capfail");
+                        response.setMode(response.Mode_VIEW);
+                        response.setCallMethod(response.Call_CONTENT);
+                    }
                 }catch(Exception e){
                     log.error(e);
                 }
