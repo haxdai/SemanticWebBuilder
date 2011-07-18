@@ -198,7 +198,7 @@ public class TankWarUserRegistry extends GenericAdmResource {
                 return;
             } else {
                 response.setRenderParameter("login", login);
-                response.setRenderParameter("pwd", pwd);
+                //response.setRenderParameter("pwd", pwd);
                 response.setRenderParameter("firstName", SWBUtils.XML.replaceXMLChars(request.getParameter("firstName")));
                 response.setRenderParameter("lastName", SWBUtils.XML.replaceXMLChars(request.getParameter("lastName")));
                 response.setRenderParameter("secondLastName", SWBUtils.XML.replaceXMLChars(request.getParameter("secondLastName")));
@@ -208,6 +208,7 @@ public class TankWarUserRegistry extends GenericAdmResource {
                 response.setRenderParameter("userMainActivity", SWBUtils.XML.replaceXMLChars(request.getParameter("userMainActivity")));
                 response.setRenderParameter("userSchoolEnterprise", SWBUtils.XML.replaceXMLChars(request.getParameter("userSchoolEnterprise")));
                 response.setRenderParameter("userTelephoneType", SWBUtils.XML.replaceXMLChars(request.getParameter("userTelephoneType")));
+                response.setRenderParameter("userLikes", SWBUtils.XML.replaceXMLChars(request.getParameter("userLikes")));
                 if (isDataValid) {
                     response.setRenderParameter("msg", "regfail");
                 } else {
@@ -244,6 +245,7 @@ public class TankWarUserRegistry extends GenericAdmResource {
                 response.setRenderParameter("userMainActivity", SWBUtils.XML.replaceXMLChars(request.getParameter("userMainActivity")));
                 response.setRenderParameter("userSchoolEnterprise", SWBUtils.XML.replaceXMLChars(request.getParameter("userSchoolEnterprise")));
                 response.setRenderParameter("userTelephoneType", SWBUtils.XML.replaceXMLChars(request.getParameter("userTelephoneType")));
+                response.setRenderParameter("userLikes", SWBUtils.XML.replaceXMLChars(request.getParameter("userLikes")));
                 if (isDataValid) {
                     response.setRenderParameter("msg", "dataNotValid");
                 }
