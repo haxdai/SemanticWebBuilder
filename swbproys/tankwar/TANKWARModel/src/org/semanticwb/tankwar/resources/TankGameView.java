@@ -47,7 +47,11 @@ public class TankGameView extends GenericResource
         //System.out.println(tankids);
         PrintWriter out=response.getWriter();
         out.println("<applet codebase=\"/work/models/TankWar/app\" archive=\"TankWarApplet.jar\" code=\"com/infotec/games/infotank/TankGameView.class\" width=\"800\" height=\"600\">");        
-        out.println("<param name=\"jsess\" value=\"" + request.getSession().getId() + "\">");
+        //out.println("<param name=\"jsess\" value=\"" + request.getSession().getId() + "\">");
+        String sessid=request.getSession().getId();
+        String pwd=sessid.substring(0,10);
+        String jsps=SWBUtils.CryptoWrapper.byteArrayToHexString(pwd.getBytes())+encript(pwd, sessid);
+        out.println("<param name=\"jsps\" value=\"" + jsps + "\">");
         out.println("<param name=\"gtw\" value=\"" + paramRequest.getRenderUrl() + "\">");
         out.println("</applet>");        
     }
@@ -75,7 +79,10 @@ public class TankGameView extends GenericResource
     
     public void getTanks(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException 
     {
+        String sessid=request.getSession().getId();
+        String pwd=sessid.substring(0,10);         
         PrintWriter out=response.getWriter();
+        StringBuffer ret=new StringBuffer();        
         WebSite site=paramRequest.getWebPage().getWebSite();
         User user=paramRequest.getUser();
         Tank tk=null;
@@ -86,7 +93,7 @@ public class TankGameView extends GenericResource
         }
         if(tk!=null)
         {
-            out.println(tk.getId()+" "+tk.getTankType()+" "+tk.getTankColor());
+            ret.append(tk.getId()+" "+tk.getTankType()+" "+tk.getTankColor()+"\n");
             request.getSession().setAttribute("tankid", tk.getId());
         }
         
@@ -96,13 +103,16 @@ public class TankGameView extends GenericResource
             for(int x=0;x<tankids.length;x++)
             {
                 Tank tank = Tank.ClassMgr.getTank(tankids[x], site);
-                out.println(tank.getId()+" "+tank.getTankType()+" "+tank.getTankColor());
+                ret.append(tank.getId()+" "+tank.getTankType()+" "+tank.getTankColor()+"\n");
             }
         }
+        out.print(encript(pwd, ret.toString()));        
     }
     
     public void getTank(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException 
     {
+        String sessid=request.getSession().getId();
+        String pwd=sessid.substring(0,10);         
         String code=null;
         PrintWriter out=response.getWriter();
         WebSite site=paramRequest.getWebPage().getWebSite();
@@ -136,11 +146,15 @@ public class TankGameView extends GenericResource
                 });
             }
         }
-        out.println(code);
+        //out.println(code);
+        out.print(encript(pwd, code));        
+        
     }
     
     public void saveTank(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException 
     {
+        String sessid=request.getSession().getId();
+        String pwd=sessid.substring(0,10);         
         WebSite site=paramRequest.getWebPage().getWebSite();
         User user=paramRequest.getUser();
         Tank tk=null;
@@ -150,6 +164,7 @@ public class TankGameView extends GenericResource
         if(tk!=null)
         {
             String code=SWBUtils.IO.readInputStream(request.getInputStream());
+            code=decript(pwd, code);
             tk.setTankCode(code);
             //System.out.println("code:"+code);
         } 
@@ -187,9 +202,13 @@ public class TankGameView extends GenericResource
     
     public void updateTankScore(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException 
     {
+        String sessid=request.getSession().getId();
+        String pwd=sessid.substring(0,10);         
         WebSite site=paramRequest.getWebPage().getWebSite();
         User user=paramRequest.getUser();
         String score=SWBUtils.IO.readInputStream(request.getInputStream()).trim();
+        score=decript(pwd, score);
+        
         System.out.println("updateScore:"+score);
         
         String tankid=(String)request.getSession().getAttribute("tankid");
@@ -262,5 +281,24 @@ public class TankGameView extends GenericResource
             request.getSession().setAttribute("tankids", tankids);        
         }
     }
+    
+    
+    private String encript(String key, String data)
+    {
+        try
+        {
+            return SWBUtils.CryptoWrapper.byteArrayToHexString(SWBUtils.CryptoWrapper.PBEAES128Cipher(key, data.getBytes()));
+        }catch(Exception e){e.printStackTrace();}
+        return null;
+    }
+    
+    private String decript(String key, String data)
+    {
+        try
+        {
+            return new String(SWBUtils.CryptoWrapper.PBEAES128Decipher(key, SWBUtils.CryptoWrapper.hexStringToByteArray(data)));
+        }catch(Exception e){e.printStackTrace();}
+        return null;
+    }    
     
 }
