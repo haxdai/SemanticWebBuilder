@@ -4,7 +4,7 @@ package org.semanticwb.tankwar.base;
    /**
    * Define la estructura de datos que conforman los comentarios hechos sobre un Tanque 
    */
-public abstract class TankCommentBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+public abstract class TankCommentBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
    /**
    * Clase principal. Define la estructura de datos de cada uno de los Tanques
