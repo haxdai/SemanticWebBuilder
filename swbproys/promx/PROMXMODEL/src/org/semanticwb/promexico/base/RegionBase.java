@@ -1,7 +1,7 @@
 package org.semanticwb.promexico.base;
 
 
-public abstract class RegionBase extends org.semanticwb.promexico.ProMxWebPage implements org.semanticwb.model.Rankable,org.semanticwb.model.Viewable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Trashable,org.semanticwb.model.Tagable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Activeable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Indexable,org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable,org.semanticwb.model.Searchable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Expirable,org.semanticwb.model.Referensable,org.semanticwb.model.Localeable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.model.RuleRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Filterable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Countryable
+public abstract class RegionBase extends org.semanticwb.promexico.ProMxWebPage implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Viewable,org.semanticwb.promexico.Representable,org.semanticwb.model.Traceable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Expirable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Indexable,org.semanticwb.model.Tagable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Hiddenable,org.semanticwb.model.FilterableNode,org.semanticwb.model.FilterableClass,org.semanticwb.model.Resourceable,org.semanticwb.model.Countryable,org.semanticwb.model.Searchable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Rankable,org.semanticwb.model.Localeable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Activeable,org.semanticwb.model.Referensable,org.semanticwb.model.Trashable
 {
     public static final org.semanticwb.platform.SemanticClass promx_Region=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Region");
    /**
@@ -518,6 +518,60 @@ public abstract class RegionBase extends org.semanticwb.promexico.ProMxWebPage i
     public RegionBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+/**
+* Gets the RepreName property
+* @return String with the RepreName
+*/
+    public String getRepreName()
+    {
+        return getSemanticObject().getProperty(promx_repreName);
+    }
+
+/**
+* Sets the RepreName property
+* @param value long with the RepreName
+*/
+    public void setRepreName(String value)
+    {
+        getSemanticObject().setProperty(promx_repreName, value);
+    }
+
+/**
+* Gets the RepreEmail property
+* @return String with the RepreEmail
+*/
+    public String getRepreEmail()
+    {
+        return getSemanticObject().getProperty(promx_repreEmail);
+    }
+
+/**
+* Sets the RepreEmail property
+* @param value long with the RepreEmail
+*/
+    public void setRepreEmail(String value)
+    {
+        getSemanticObject().setProperty(promx_repreEmail, value);
+    }
+
+/**
+* Gets the ReprePhone property
+* @return String with the ReprePhone
+*/
+    public String getReprePhone()
+    {
+        return getSemanticObject().getProperty(promx_reprePhone);
+    }
+
+/**
+* Sets the ReprePhone property
+* @param value long with the ReprePhone
+*/
+    public void setReprePhone(String value)
+    {
+        getSemanticObject().setProperty(promx_reprePhone, value);
     }
 
    /**
