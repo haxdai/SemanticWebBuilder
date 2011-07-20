@@ -4,7 +4,7 @@ package org.semanticwb.promexico.base;
    /**
    * Catálogo de Tipos de Eventos 
    */
-public abstract class EventTypeBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+public abstract class EventTypeBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
    /**
    * Eventos de ProMéxico
