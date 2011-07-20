@@ -1,136 +1,142 @@
 package org.semanticwb.promexico.base;
 
 
-public abstract class ProMxVideoBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+   /**
+   * Preguntas Frecuentes 
+   */
+public abstract class FaqBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
-    public static final org.semanticwb.platform.SemanticClass promx_ProMxVideo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#ProMxVideo");
+   /**
+   * Preguntas Frecuentes
+   */
+    public static final org.semanticwb.platform.SemanticClass promx_Faq=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Faq");
    /**
    * The semantic class that represents the currentObject
    */
-    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#ProMxVideo");
+    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Faq");
 
     public static class ClassMgr
     {
        /**
-       * Returns a list of ProMxVideo for a model
+       * Returns a list of Faq for a model
        * @param model Model to find
-       * @return Iterator of org.semanticwb.promexico.ProMxVideo
+       * @return Iterator of org.semanticwb.promexico.Faq
        */
 
-        public static java.util.Iterator<org.semanticwb.promexico.ProMxVideo> listProMxVideos(org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.promexico.Faq> listFaqs(org.semanticwb.model.SWBModel model)
         {
             java.util.Iterator it=model.getSemanticObject().getModel().listInstancesOfClass(sclass);
-            return new org.semanticwb.model.GenericIterator<org.semanticwb.promexico.ProMxVideo>(it, true);
+            return new org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Faq>(it, true);
         }
        /**
-       * Returns a list of org.semanticwb.promexico.ProMxVideo for all models
-       * @return Iterator of org.semanticwb.promexico.ProMxVideo
+       * Returns a list of org.semanticwb.promexico.Faq for all models
+       * @return Iterator of org.semanticwb.promexico.Faq
        */
 
-        public static java.util.Iterator<org.semanticwb.promexico.ProMxVideo> listProMxVideos()
+        public static java.util.Iterator<org.semanticwb.promexico.Faq> listFaqs()
         {
             java.util.Iterator it=sclass.listInstances();
-            return new org.semanticwb.model.GenericIterator<org.semanticwb.promexico.ProMxVideo>(it, true);
+            return new org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Faq>(it, true);
         }
 
-        public static org.semanticwb.promexico.ProMxVideo createProMxVideo(org.semanticwb.model.SWBModel model)
+        public static org.semanticwb.promexico.Faq createFaq(org.semanticwb.model.SWBModel model)
         {
             long id=model.getSemanticObject().getModel().getCounter(sclass);
-            return org.semanticwb.promexico.ProMxVideo.ClassMgr.createProMxVideo(String.valueOf(id), model);
+            return org.semanticwb.promexico.Faq.ClassMgr.createFaq(String.valueOf(id), model);
         }
        /**
-       * Gets a org.semanticwb.promexico.ProMxVideo
-       * @param id Identifier for org.semanticwb.promexico.ProMxVideo
-       * @param model Model of the org.semanticwb.promexico.ProMxVideo
-       * @return A org.semanticwb.promexico.ProMxVideo
+       * Gets a org.semanticwb.promexico.Faq
+       * @param id Identifier for org.semanticwb.promexico.Faq
+       * @param model Model of the org.semanticwb.promexico.Faq
+       * @return A org.semanticwb.promexico.Faq
        */
-        public static org.semanticwb.promexico.ProMxVideo getProMxVideo(String id, org.semanticwb.model.SWBModel model)
+        public static org.semanticwb.promexico.Faq getFaq(String id, org.semanticwb.model.SWBModel model)
         {
-            return (org.semanticwb.promexico.ProMxVideo)model.getSemanticObject().getModel().getGenericObject(model.getSemanticObject().getModel().getObjectUri(id,sclass),sclass);
+            return (org.semanticwb.promexico.Faq)model.getSemanticObject().getModel().getGenericObject(model.getSemanticObject().getModel().getObjectUri(id,sclass),sclass);
         }
        /**
-       * Create a org.semanticwb.promexico.ProMxVideo
-       * @param id Identifier for org.semanticwb.promexico.ProMxVideo
-       * @param model Model of the org.semanticwb.promexico.ProMxVideo
-       * @return A org.semanticwb.promexico.ProMxVideo
+       * Create a org.semanticwb.promexico.Faq
+       * @param id Identifier for org.semanticwb.promexico.Faq
+       * @param model Model of the org.semanticwb.promexico.Faq
+       * @return A org.semanticwb.promexico.Faq
        */
-        public static org.semanticwb.promexico.ProMxVideo createProMxVideo(String id, org.semanticwb.model.SWBModel model)
+        public static org.semanticwb.promexico.Faq createFaq(String id, org.semanticwb.model.SWBModel model)
         {
-            return (org.semanticwb.promexico.ProMxVideo)model.getSemanticObject().getModel().createGenericObject(model.getSemanticObject().getModel().getObjectUri(id,sclass),sclass);
+            return (org.semanticwb.promexico.Faq)model.getSemanticObject().getModel().createGenericObject(model.getSemanticObject().getModel().getObjectUri(id,sclass),sclass);
         }
        /**
-       * Remove a org.semanticwb.promexico.ProMxVideo
-       * @param id Identifier for org.semanticwb.promexico.ProMxVideo
-       * @param model Model of the org.semanticwb.promexico.ProMxVideo
+       * Remove a org.semanticwb.promexico.Faq
+       * @param id Identifier for org.semanticwb.promexico.Faq
+       * @param model Model of the org.semanticwb.promexico.Faq
        */
-        public static void removeProMxVideo(String id, org.semanticwb.model.SWBModel model)
+        public static void removeFaq(String id, org.semanticwb.model.SWBModel model)
         {
             model.getSemanticObject().getModel().removeSemanticObject(model.getSemanticObject().getModel().getObjectUri(id,sclass));
         }
        /**
-       * Returns true if exists a org.semanticwb.promexico.ProMxVideo
-       * @param id Identifier for org.semanticwb.promexico.ProMxVideo
-       * @param model Model of the org.semanticwb.promexico.ProMxVideo
-       * @return true if the org.semanticwb.promexico.ProMxVideo exists, false otherwise
+       * Returns true if exists a org.semanticwb.promexico.Faq
+       * @param id Identifier for org.semanticwb.promexico.Faq
+       * @param model Model of the org.semanticwb.promexico.Faq
+       * @return true if the org.semanticwb.promexico.Faq exists, false otherwise
        */
 
-        public static boolean hasProMxVideo(String id, org.semanticwb.model.SWBModel model)
+        public static boolean hasFaq(String id, org.semanticwb.model.SWBModel model)
         {
-            return (getProMxVideo(id, model)!=null);
+            return (getFaq(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.promexico.ProMxVideo with a determined ModifiedBy
+       * Gets all org.semanticwb.promexico.Faq with a determined ModifiedBy
        * @param value ModifiedBy of the type org.semanticwb.model.User
-       * @param model Model of the org.semanticwb.promexico.ProMxVideo
-       * @return Iterator with all the org.semanticwb.promexico.ProMxVideo
+       * @param model Model of the org.semanticwb.promexico.Faq
+       * @return Iterator with all the org.semanticwb.promexico.Faq
        */
 
-        public static java.util.Iterator<org.semanticwb.promexico.ProMxVideo> listProMxVideoByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.promexico.Faq> listFaqByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.ProMxVideo> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Faq> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.promexico.ProMxVideo with a determined ModifiedBy
+       * Gets all org.semanticwb.promexico.Faq with a determined ModifiedBy
        * @param value ModifiedBy of the type org.semanticwb.model.User
-       * @return Iterator with all the org.semanticwb.promexico.ProMxVideo
+       * @return Iterator with all the org.semanticwb.promexico.Faq
        */
 
-        public static java.util.Iterator<org.semanticwb.promexico.ProMxVideo> listProMxVideoByModifiedBy(org.semanticwb.model.User value)
+        public static java.util.Iterator<org.semanticwb.promexico.Faq> listFaqByModifiedBy(org.semanticwb.model.User value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.ProMxVideo> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Faq> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.promexico.ProMxVideo with a determined Creator
+       * Gets all org.semanticwb.promexico.Faq with a determined Creator
        * @param value Creator of the type org.semanticwb.model.User
-       * @param model Model of the org.semanticwb.promexico.ProMxVideo
-       * @return Iterator with all the org.semanticwb.promexico.ProMxVideo
+       * @param model Model of the org.semanticwb.promexico.Faq
+       * @return Iterator with all the org.semanticwb.promexico.Faq
        */
 
-        public static java.util.Iterator<org.semanticwb.promexico.ProMxVideo> listProMxVideoByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.promexico.Faq> listFaqByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.ProMxVideo> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Faq> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.promexico.ProMxVideo with a determined Creator
+       * Gets all org.semanticwb.promexico.Faq with a determined Creator
        * @param value Creator of the type org.semanticwb.model.User
-       * @return Iterator with all the org.semanticwb.promexico.ProMxVideo
+       * @return Iterator with all the org.semanticwb.promexico.Faq
        */
 
-        public static java.util.Iterator<org.semanticwb.promexico.ProMxVideo> listProMxVideoByCreator(org.semanticwb.model.User value)
+        public static java.util.Iterator<org.semanticwb.promexico.Faq> listFaqByCreator(org.semanticwb.model.User value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.ProMxVideo> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Faq> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
     }
 
    /**
-   * Constructs a ProMxVideoBase with a SemanticObject
-   * @param base The SemanticObject with the properties for the ProMxVideo
+   * Constructs a FaqBase with a SemanticObject
+   * @param base The SemanticObject with the properties for the Faq
    */
-    public ProMxVideoBase(org.semanticwb.platform.SemanticObject base)
+    public FaqBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
     }

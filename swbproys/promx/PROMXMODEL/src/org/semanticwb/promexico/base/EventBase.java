@@ -4,10 +4,31 @@ package org.semanticwb.promexico.base;
    /**
    * Eventos de ProMéxico 
    */
-public abstract class EventBase extends org.semanticwb.portal.resources.sem.calendar.Event implements org.semanticwb.model.Activeable,org.semanticwb.model.Localeable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Searchable
+public abstract class EventBase extends org.semanticwb.portal.resources.sem.calendar.Event implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Localeable,org.semanticwb.model.Searchable,org.semanticwb.model.Traceable,org.semanticwb.model.Activeable
 {
+   /**
+   * Objeto controlador de oficinas
+   */
+    public static final org.semanticwb.platform.SemanticClass promx_Office=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Office");
+   /**
+   * Oficinas con las cuales esta relacionado el evento
+   */
+    public static final org.semanticwb.platform.SemanticProperty promx_hasOffice=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasOffice");
     public static final org.semanticwb.platform.SemanticClass promx_Sector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Sector");
     public static final org.semanticwb.platform.SemanticProperty promx_hasSectores=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasSectores");
+   /**
+   * Catálogo de Tipos de Eventos
+   */
+    public static final org.semanticwb.platform.SemanticClass promx_EventType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#eventType");
+    public static final org.semanticwb.platform.SemanticProperty promx_evType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#evType");
+   /**
+   * Subtipos de Eventos, despues cambiar la manera de presentar en la administración por combos anidados, es decir, de acuerdo al tipo (Nacional o Internacional), presentar los subtipos.
+   */
+    public static final org.semanticwb.platform.SemanticClass promx_EventSubType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#EventSubType");
+   /**
+   * SubTipo de Evento, despues cambiar esto por un combo anidado presentando las opciones de subtipos de acuerdo al typo seleccionado (Nacional o Internacional)
+   */
+    public static final org.semanticwb.platform.SemanticProperty promx_evSubType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#evSubType");
    /**
    * Eventos de ProMéxico
    */
@@ -87,6 +108,29 @@ public abstract class EventBase extends org.semanticwb.portal.resources.sem.cale
             return (getEvent(id, model)!=null);
         }
        /**
+       * Gets all org.semanticwb.promexico.Event with a determined Office
+       * @param value Office of the type org.semanticwb.promexico.Office
+       * @param model Model of the org.semanticwb.promexico.Event
+       * @return Iterator with all the org.semanticwb.promexico.Event
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Event> listEventByOffice(org.semanticwb.promexico.Office value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Event> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(promx_hasOffice, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.Event with a determined Office
+       * @param value Office of the type org.semanticwb.promexico.Office
+       * @return Iterator with all the org.semanticwb.promexico.Event
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Event> listEventByOffice(org.semanticwb.promexico.Office value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Event> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(promx_hasOffice,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.promexico.Event with a determined ModifiedBy
        * @param value ModifiedBy of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.promexico.Event
@@ -130,6 +174,29 @@ public abstract class EventBase extends org.semanticwb.portal.resources.sem.cale
         public static java.util.Iterator<org.semanticwb.promexico.Event> listEventBySectores(org.semanticwb.promexico.Sector value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Event> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(promx_hasSectores,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.Event with a determined EvType
+       * @param value EvType of the type org.semanticwb.promexico.EventType
+       * @param model Model of the org.semanticwb.promexico.Event
+       * @return Iterator with all the org.semanticwb.promexico.Event
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Event> listEventByEvType(org.semanticwb.promexico.EventType value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Event> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(promx_evType, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.Event with a determined EvType
+       * @param value EvType of the type org.semanticwb.promexico.EventType
+       * @return Iterator with all the org.semanticwb.promexico.Event
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Event> listEventByEvType(org.semanticwb.promexico.EventType value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Event> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(promx_evType,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -178,6 +245,29 @@ public abstract class EventBase extends org.semanticwb.portal.resources.sem.cale
             org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Event> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all org.semanticwb.promexico.Event with a determined EvSubType
+       * @param value EvSubType of the type org.semanticwb.promexico.EventSubType
+       * @param model Model of the org.semanticwb.promexico.Event
+       * @return Iterator with all the org.semanticwb.promexico.Event
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Event> listEventByEvSubType(org.semanticwb.promexico.EventSubType value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Event> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(promx_evSubType, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.Event with a determined EvSubType
+       * @param value EvSubType of the type org.semanticwb.promexico.EventSubType
+       * @return Iterator with all the org.semanticwb.promexico.Event
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Event> listEventByEvSubType(org.semanticwb.promexico.EventSubType value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Event> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(promx_evSubType,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
    /**
@@ -187,6 +277,71 @@ public abstract class EventBase extends org.semanticwb.portal.resources.sem.cale
     public EventBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+   /**
+   * Gets all the org.semanticwb.promexico.Office
+   * @return A GenericIterator with all the org.semanticwb.promexico.Office
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Office> listOffices()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Office>(getSemanticObject().listObjectProperties(promx_hasOffice));
+    }
+
+   /**
+   * Gets true if has a Office
+   * @param value org.semanticwb.promexico.Office to verify
+   * @return true if the org.semanticwb.promexico.Office exists, false otherwise
+   */
+    public boolean hasOffice(org.semanticwb.promexico.Office value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(promx_hasOffice,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a Office
+   * @param value org.semanticwb.promexico.Office to add
+   */
+
+    public void addOffice(org.semanticwb.promexico.Office value)
+    {
+        getSemanticObject().addObjectProperty(promx_hasOffice, value.getSemanticObject());
+    }
+   /**
+   * Removes all the Office
+   */
+
+    public void removeAllOffice()
+    {
+        getSemanticObject().removeProperty(promx_hasOffice);
+    }
+   /**
+   * Removes a Office
+   * @param value org.semanticwb.promexico.Office to remove
+   */
+
+    public void removeOffice(org.semanticwb.promexico.Office value)
+    {
+        getSemanticObject().removeObjectProperty(promx_hasOffice,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the Office
+   * @return a org.semanticwb.promexico.Office
+   */
+    public org.semanticwb.promexico.Office getOffice()
+    {
+         org.semanticwb.promexico.Office ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(promx_hasOffice);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.promexico.Office)obj.createGenericInstance();
+         }
+         return ret;
     }
    /**
    * Gets all the org.semanticwb.promexico.Sector
@@ -250,6 +405,82 @@ public abstract class EventBase extends org.semanticwb.portal.resources.sem.cale
          if(obj!=null)
          {
              ret=(org.semanticwb.promexico.Sector)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Sets the value for the property EvType
+   * @param value EvType to set
+   */
+
+    public void setEvType(org.semanticwb.promexico.EventType value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(promx_evType, value.getSemanticObject());
+        }else
+        {
+            removeEvType();
+        }
+    }
+   /**
+   * Remove the value for EvType property
+   */
+
+    public void removeEvType()
+    {
+        getSemanticObject().removeProperty(promx_evType);
+    }
+
+   /**
+   * Gets the EvType
+   * @return a org.semanticwb.promexico.EventType
+   */
+    public org.semanticwb.promexico.EventType getEvType()
+    {
+         org.semanticwb.promexico.EventType ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(promx_evType);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.promexico.EventType)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Sets the value for the property EvSubType
+   * @param value EvSubType to set
+   */
+
+    public void setEvSubType(org.semanticwb.promexico.EventSubType value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(promx_evSubType, value.getSemanticObject());
+        }else
+        {
+            removeEvSubType();
+        }
+    }
+   /**
+   * Remove the value for EvSubType property
+   */
+
+    public void removeEvSubType()
+    {
+        getSemanticObject().removeProperty(promx_evSubType);
+    }
+
+   /**
+   * Gets the EvSubType
+   * @return a org.semanticwb.promexico.EventSubType
+   */
+    public org.semanticwb.promexico.EventSubType getEvSubType()
+    {
+         org.semanticwb.promexico.EventSubType ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(promx_evSubType);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.promexico.EventSubType)obj.createGenericInstance();
          }
          return ret;
     }

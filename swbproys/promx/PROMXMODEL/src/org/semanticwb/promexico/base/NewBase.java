@@ -1,8 +1,26 @@
 package org.semanticwb.promexico.base;
 
 
-public abstract class NewBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Activeable,org.semanticwb.model.Ruleable,org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class NewBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable,org.semanticwb.model.Ruleable
 {
+   /**
+   * Objeto controlador de oficinas
+   */
+    public static final org.semanticwb.platform.SemanticClass promx_Office=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Office");
+   /**
+   * Oficinas relacionadas (En las que aparece) con la Noticia
+   */
+    public static final org.semanticwb.platform.SemanticProperty promx_hasOffices=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasOffices");
+   /**
+   * Tipos de Noticias
+   */
+    public static final org.semanticwb.platform.SemanticClass promx_NewType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#NewType");
+    public static final org.semanticwb.platform.SemanticProperty promx_newType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#newType");
+    public static final org.semanticwb.platform.SemanticClass promx_Sector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Sector");
+   /**
+   * Sectores Relacionados con la Noticia
+   */
+    public static final org.semanticwb.platform.SemanticProperty promx_hasSector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasSector");
     public static final org.semanticwb.platform.SemanticClass promx_New=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#New");
    /**
    * The semantic class that represents the currentObject
@@ -31,6 +49,12 @@ public abstract class NewBase extends org.semanticwb.model.SWBClass implements o
         {
             java.util.Iterator it=sclass.listInstances();
             return new org.semanticwb.model.GenericIterator<org.semanticwb.promexico.New>(it, true);
+        }
+
+        public static org.semanticwb.promexico.New createNew(org.semanticwb.model.SWBModel model)
+        {
+            long id=model.getSemanticObject().getModel().getCounter(sclass);
+            return org.semanticwb.promexico.New.ClassMgr.createNew(String.valueOf(id), model);
         }
        /**
        * Gets a org.semanticwb.promexico.New
@@ -96,6 +120,75 @@ public abstract class NewBase extends org.semanticwb.model.SWBClass implements o
             return it;
         }
        /**
+       * Gets all org.semanticwb.promexico.New with a determined Offices
+       * @param value Offices of the type org.semanticwb.promexico.Office
+       * @param model Model of the org.semanticwb.promexico.New
+       * @return Iterator with all the org.semanticwb.promexico.New
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.New> listNewByOffices(org.semanticwb.promexico.Office value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.New> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(promx_hasOffices, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.New with a determined Offices
+       * @param value Offices of the type org.semanticwb.promexico.Office
+       * @return Iterator with all the org.semanticwb.promexico.New
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.New> listNewByOffices(org.semanticwb.promexico.Office value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.New> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(promx_hasOffices,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.New with a determined Rule
+       * @param value Rule of the type org.semanticwb.model.Rule
+       * @param model Model of the org.semanticwb.promexico.New
+       * @return Iterator with all the org.semanticwb.promexico.New
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.New> listNewByRule(org.semanticwb.model.Rule value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.New> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRule, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.New with a determined Rule
+       * @param value Rule of the type org.semanticwb.model.Rule
+       * @return Iterator with all the org.semanticwb.promexico.New
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.New> listNewByRule(org.semanticwb.model.Rule value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.New> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRule,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.New with a determined NewType
+       * @param value NewType of the type org.semanticwb.promexico.NewType
+       * @param model Model of the org.semanticwb.promexico.New
+       * @return Iterator with all the org.semanticwb.promexico.New
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.New> listNewByNewType(org.semanticwb.promexico.NewType value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.New> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(promx_newType, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.New with a determined NewType
+       * @param value NewType of the type org.semanticwb.promexico.NewType
+       * @return Iterator with all the org.semanticwb.promexico.New
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.New> listNewByNewType(org.semanticwb.promexico.NewType value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.New> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(promx_newType,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.promexico.New with a determined Creator
        * @param value Creator of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.promexico.New
@@ -142,26 +235,26 @@ public abstract class NewBase extends org.semanticwb.model.SWBClass implements o
             return it;
         }
        /**
-       * Gets all org.semanticwb.promexico.New with a determined Rule
-       * @param value Rule of the type org.semanticwb.model.Rule
+       * Gets all org.semanticwb.promexico.New with a determined Sector
+       * @param value Sector of the type org.semanticwb.promexico.Sector
        * @param model Model of the org.semanticwb.promexico.New
        * @return Iterator with all the org.semanticwb.promexico.New
        */
 
-        public static java.util.Iterator<org.semanticwb.promexico.New> listNewByRule(org.semanticwb.model.Rule value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.promexico.New> listNewBySector(org.semanticwb.promexico.Sector value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.New> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRule, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.New> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(promx_hasSector, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.promexico.New with a determined Rule
-       * @param value Rule of the type org.semanticwb.model.Rule
+       * Gets all org.semanticwb.promexico.New with a determined Sector
+       * @param value Sector of the type org.semanticwb.promexico.Sector
        * @return Iterator with all the org.semanticwb.promexico.New
        */
 
-        public static java.util.Iterator<org.semanticwb.promexico.New> listNewByRule(org.semanticwb.model.Rule value)
+        public static java.util.Iterator<org.semanticwb.promexico.New> listNewBySector(org.semanticwb.promexico.Sector value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.New> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRule,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.New> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(promx_hasSector,value.getSemanticObject(),sclass));
             return it;
         }
     }
@@ -209,6 +302,243 @@ public abstract class NewBase extends org.semanticwb.model.SWBClass implements o
          if(obj!=null)
          {
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Gets all the org.semanticwb.promexico.Office
+   * @return A GenericIterator with all the org.semanticwb.promexico.Office
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Office> listOfficeses()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Office>(getSemanticObject().listObjectProperties(promx_hasOffices));
+    }
+
+   /**
+   * Gets true if has a Offices
+   * @param value org.semanticwb.promexico.Office to verify
+   * @return true if the org.semanticwb.promexico.Office exists, false otherwise
+   */
+    public boolean hasOffices(org.semanticwb.promexico.Office value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(promx_hasOffices,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a Offices
+   * @param value org.semanticwb.promexico.Office to add
+   */
+
+    public void addOffices(org.semanticwb.promexico.Office value)
+    {
+        getSemanticObject().addObjectProperty(promx_hasOffices, value.getSemanticObject());
+    }
+   /**
+   * Removes all the Offices
+   */
+
+    public void removeAllOffices()
+    {
+        getSemanticObject().removeProperty(promx_hasOffices);
+    }
+   /**
+   * Removes a Offices
+   * @param value org.semanticwb.promexico.Office to remove
+   */
+
+    public void removeOffices(org.semanticwb.promexico.Office value)
+    {
+        getSemanticObject().removeObjectProperty(promx_hasOffices,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the Offices
+   * @return a org.semanticwb.promexico.Office
+   */
+    public org.semanticwb.promexico.Office getOffices()
+    {
+         org.semanticwb.promexico.Office ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(promx_hasOffices);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.promexico.Office)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+/**
+* Gets the Created property
+* @return java.util.Date with the Created
+*/
+    public java.util.Date getCreated()
+    {
+        return getSemanticObject().getDateProperty(swb_created);
+    }
+
+/**
+* Sets the Created property
+* @param value long with the Created
+*/
+    public void setCreated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_created, value);
+    }
+
+/**
+* Gets the Updated property
+* @return java.util.Date with the Updated
+*/
+    public java.util.Date getUpdated()
+    {
+        return getSemanticObject().getDateProperty(swb_updated);
+    }
+
+/**
+* Sets the Updated property
+* @param value long with the Updated
+*/
+    public void setUpdated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_updated, value);
+    }
+
+/**
+* Gets the Description property
+* @return String with the Description
+*/
+    public String getDescription()
+    {
+        return getSemanticObject().getProperty(swb_description);
+    }
+
+/**
+* Sets the Description property
+* @param value long with the Description
+*/
+    public void setDescription(String value)
+    {
+        getSemanticObject().setProperty(swb_description, value);
+    }
+
+    public String getDescription(String lang)
+    {
+        return getSemanticObject().getProperty(swb_description, null, lang);
+    }
+
+    public String getDisplayDescription(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_description, lang);
+    }
+
+    public void setDescription(String description, String lang)
+    {
+        getSemanticObject().setProperty(swb_description, description, lang);
+    }
+   /**
+   * Gets all the org.semanticwb.model.Rule
+   * @return A GenericIterator with all the org.semanticwb.model.Rule
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.model.Rule> listRules()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.model.Rule>(getSemanticObject().listObjectProperties(swb_hasRule));
+    }
+
+   /**
+   * Gets true if has a Rule
+   * @param value org.semanticwb.model.Rule to verify
+   * @return true if the org.semanticwb.model.Rule exists, false otherwise
+   */
+    public boolean hasRule(org.semanticwb.model.Rule value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(swb_hasRule,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a Rule
+   * @param value org.semanticwb.model.Rule to add
+   */
+
+    public void addRule(org.semanticwb.model.Rule value)
+    {
+        getSemanticObject().addObjectProperty(swb_hasRule, value.getSemanticObject());
+    }
+   /**
+   * Removes all the Rule
+   */
+
+    public void removeAllRule()
+    {
+        getSemanticObject().removeProperty(swb_hasRule);
+    }
+   /**
+   * Removes a Rule
+   * @param value org.semanticwb.model.Rule to remove
+   */
+
+    public void removeRule(org.semanticwb.model.Rule value)
+    {
+        getSemanticObject().removeObjectProperty(swb_hasRule,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the Rule
+   * @return a org.semanticwb.model.Rule
+   */
+    public org.semanticwb.model.Rule getRule()
+    {
+         org.semanticwb.model.Rule ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_hasRule);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.Rule)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Sets the value for the property NewType
+   * @param value NewType to set
+   */
+
+    public void setNewType(org.semanticwb.promexico.NewType value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(promx_newType, value.getSemanticObject());
+        }else
+        {
+            removeNewType();
+        }
+    }
+   /**
+   * Remove the value for NewType property
+   */
+
+    public void removeNewType()
+    {
+        getSemanticObject().removeProperty(promx_newType);
+    }
+
+   /**
+   * Gets the NewType
+   * @return a org.semanticwb.promexico.NewType
+   */
+    public org.semanticwb.promexico.NewType getNewType()
+    {
+         org.semanticwb.promexico.NewType ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(promx_newType);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.promexico.NewType)obj.createGenericInstance();
          }
          return ret;
     }
@@ -283,75 +613,6 @@ public abstract class NewBase extends org.semanticwb.model.SWBClass implements o
     {
         getSemanticObject().setProperty(swb_title, title, lang);
     }
-
-/**
-* Gets the Updated property
-* @return java.util.Date with the Updated
-*/
-    public java.util.Date getUpdated()
-    {
-        return getSemanticObject().getDateProperty(swb_updated);
-    }
-
-/**
-* Sets the Updated property
-* @param value long with the Updated
-*/
-    public void setUpdated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_updated, value);
-    }
-
-/**
-* Gets the Created property
-* @return java.util.Date with the Created
-*/
-    public java.util.Date getCreated()
-    {
-        return getSemanticObject().getDateProperty(swb_created);
-    }
-
-/**
-* Sets the Created property
-* @param value long with the Created
-*/
-    public void setCreated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_created, value);
-    }
-
-/**
-* Gets the Description property
-* @return String with the Description
-*/
-    public String getDescription()
-    {
-        return getSemanticObject().getProperty(swb_description);
-    }
-
-/**
-* Sets the Description property
-* @param value long with the Description
-*/
-    public void setDescription(String value)
-    {
-        getSemanticObject().setProperty(swb_description, value);
-    }
-
-    public String getDescription(String lang)
-    {
-        return getSemanticObject().getProperty(swb_description, null, lang);
-    }
-
-    public String getDisplayDescription(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_description, lang);
-    }
-
-    public void setDescription(String description, String lang)
-    {
-        getSemanticObject().setProperty(swb_description, description, lang);
-    }
    /**
    * Gets all the org.semanticwb.model.Resource
    * @return A GenericIterator with all the org.semanticwb.model.Resource
@@ -418,87 +679,69 @@ public abstract class NewBase extends org.semanticwb.model.SWBClass implements o
          return ret;
     }
    /**
-   * Gets all the org.semanticwb.model.Rule
-   * @return A GenericIterator with all the org.semanticwb.model.Rule
+   * Gets all the org.semanticwb.promexico.Sector
+   * @return A GenericIterator with all the org.semanticwb.promexico.Sector
    */
 
-    public org.semanticwb.model.GenericIterator<org.semanticwb.model.Rule> listRules()
+    public org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Sector> listSectors()
     {
-        return new org.semanticwb.model.GenericIterator<org.semanticwb.model.Rule>(getSemanticObject().listObjectProperties(swb_hasRule));
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Sector>(getSemanticObject().listObjectProperties(promx_hasSector));
     }
 
    /**
-   * Gets true if has a Rule
-   * @param value org.semanticwb.model.Rule to verify
-   * @return true if the org.semanticwb.model.Rule exists, false otherwise
+   * Gets true if has a Sector
+   * @param value org.semanticwb.promexico.Sector to verify
+   * @return true if the org.semanticwb.promexico.Sector exists, false otherwise
    */
-    public boolean hasRule(org.semanticwb.model.Rule value)
+    public boolean hasSector(org.semanticwb.promexico.Sector value)
     {
         boolean ret=false;
         if(value!=null)
         {
-           ret=getSemanticObject().hasObjectProperty(swb_hasRule,value.getSemanticObject());
+           ret=getSemanticObject().hasObjectProperty(promx_hasSector,value.getSemanticObject());
         }
         return ret;
     }
    /**
-   * Adds a Rule
-   * @param value org.semanticwb.model.Rule to add
+   * Adds a Sector
+   * @param value org.semanticwb.promexico.Sector to add
    */
 
-    public void addRule(org.semanticwb.model.Rule value)
+    public void addSector(org.semanticwb.promexico.Sector value)
     {
-        getSemanticObject().addObjectProperty(swb_hasRule, value.getSemanticObject());
+        getSemanticObject().addObjectProperty(promx_hasSector, value.getSemanticObject());
     }
    /**
-   * Removes all the Rule
+   * Removes all the Sector
    */
 
-    public void removeAllRule()
+    public void removeAllSector()
     {
-        getSemanticObject().removeProperty(swb_hasRule);
+        getSemanticObject().removeProperty(promx_hasSector);
     }
    /**
-   * Removes a Rule
-   * @param value org.semanticwb.model.Rule to remove
+   * Removes a Sector
+   * @param value org.semanticwb.promexico.Sector to remove
    */
 
-    public void removeRule(org.semanticwb.model.Rule value)
+    public void removeSector(org.semanticwb.promexico.Sector value)
     {
-        getSemanticObject().removeObjectProperty(swb_hasRule,value.getSemanticObject());
+        getSemanticObject().removeObjectProperty(promx_hasSector,value.getSemanticObject());
     }
 
    /**
-   * Gets the Rule
-   * @return a org.semanticwb.model.Rule
+   * Gets the Sector
+   * @return a org.semanticwb.promexico.Sector
    */
-    public org.semanticwb.model.Rule getRule()
+    public org.semanticwb.promexico.Sector getSector()
     {
-         org.semanticwb.model.Rule ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_hasRule);
+         org.semanticwb.promexico.Sector ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(promx_hasSector);
          if(obj!=null)
          {
-             ret=(org.semanticwb.model.Rule)obj.createGenericInstance();
+             ret=(org.semanticwb.promexico.Sector)obj.createGenericInstance();
          }
          return ret;
-    }
-
-/**
-* Gets the Active property
-* @return boolean with the Active
-*/
-    public boolean isActive()
-    {
-        return getSemanticObject().getBooleanProperty(swb_active);
-    }
-
-/**
-* Sets the Active property
-* @param value long with the Active
-*/
-    public void setActive(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(swb_active, value);
     }
 
    /**
