@@ -4,7 +4,7 @@ package org.semanticwb.promexico.base;
    /**
    * Eventos de ProMéxico 
    */
-public abstract class EventBase extends org.semanticwb.portal.resources.sem.calendar.Event implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Localeable,org.semanticwb.model.Searchable,org.semanticwb.model.Traceable,org.semanticwb.model.Activeable
+public abstract class EventBase extends org.semanticwb.portal.resources.sem.calendar.Event implements org.semanticwb.model.Traceable,org.semanticwb.model.Resourceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Localeable,org.semanticwb.model.Searchable,org.semanticwb.model.Activeable
 {
    /**
    * Objeto controlador de oficinas
@@ -246,6 +246,29 @@ public abstract class EventBase extends org.semanticwb.portal.resources.sem.cale
             return it;
         }
        /**
+       * Gets all org.semanticwb.promexico.Event with a determined Resource
+       * @param value Resource of the type org.semanticwb.model.Resource
+       * @param model Model of the org.semanticwb.promexico.Event
+       * @return Iterator with all the org.semanticwb.promexico.Event
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Event> listEventByResource(org.semanticwb.model.Resource value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Event> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasResource, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.Event with a determined Resource
+       * @param value Resource of the type org.semanticwb.model.Resource
+       * @return Iterator with all the org.semanticwb.promexico.Event
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Event> listEventByResource(org.semanticwb.model.Resource value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Event> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasResource,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.promexico.Event with a determined EvSubType
        * @param value EvSubType of the type org.semanticwb.promexico.EventSubType
        * @param model Model of the org.semanticwb.promexico.Event
@@ -443,6 +466,71 @@ public abstract class EventBase extends org.semanticwb.portal.resources.sem.cale
          if(obj!=null)
          {
              ret=(org.semanticwb.promexico.EventType)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Gets all the org.semanticwb.model.Resource
+   * @return A GenericIterator with all the org.semanticwb.model.Resource
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.model.Resource> listResources()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.model.Resource>(getSemanticObject().listObjectProperties(swb_hasResource));
+    }
+
+   /**
+   * Gets true if has a Resource
+   * @param value org.semanticwb.model.Resource to verify
+   * @return true if the org.semanticwb.model.Resource exists, false otherwise
+   */
+    public boolean hasResource(org.semanticwb.model.Resource value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(swb_hasResource,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a Resource
+   * @param value org.semanticwb.model.Resource to add
+   */
+
+    public void addResource(org.semanticwb.model.Resource value)
+    {
+        getSemanticObject().addObjectProperty(swb_hasResource, value.getSemanticObject());
+    }
+   /**
+   * Removes all the Resource
+   */
+
+    public void removeAllResource()
+    {
+        getSemanticObject().removeProperty(swb_hasResource);
+    }
+   /**
+   * Removes a Resource
+   * @param value org.semanticwb.model.Resource to remove
+   */
+
+    public void removeResource(org.semanticwb.model.Resource value)
+    {
+        getSemanticObject().removeObjectProperty(swb_hasResource,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the Resource
+   * @return a org.semanticwb.model.Resource
+   */
+    public org.semanticwb.model.Resource getResource()
+    {
+         org.semanticwb.model.Resource ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_hasResource);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.Resource)obj.createGenericInstance();
          }
          return ret;
     }
