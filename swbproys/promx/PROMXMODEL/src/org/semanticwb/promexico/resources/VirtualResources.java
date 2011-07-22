@@ -32,7 +32,6 @@ public class VirtualResources extends GenericResource{
     @Override
     public void render(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
-//        System.out.println("en virtualResources...");
         WebPage page=paramRequest.getWebPage();
         Resource base=paramRequest.getResourceBase();
         Resourceable resourceAble=null;
@@ -44,22 +43,15 @@ public class VirtualResources extends GenericResource{
             //else if(show.equalsIgnoreCase("event")) resourceAble=Event.ClassMgr.getEvent(id, page.getWebSite());
             //else if(show.equalsIgnoreCase("company")) resourceAble=Company.ClassMgr.getCompany(id, page.getWebSite());
             resourceAble=Event.ClassMgr.getEvent(id, page.getWebSite());
-//            System.out.println("resourceable: " + resourceAble);
             if(resourceAble != null)
             {
                 Iterator<Resource> it=SWBComparator.sortSortableObject(resourceAble.listResources());
                 while(it.hasNext())
                 {
                     Resource res=it.next();
-//                    System.out.println("res: " + res);
-//                    System.out.println("valid: " + res.isValid());
-//                    System.out.println("haveAccess: " + paramRequest.getUser().haveAccess(res));
-//                    SWBResource swbres1=SWBPortal.getResourceMgr().getResource(res);
-//                    System.out.println("swbres1: " + swbres1);
                     if(paramRequest.getUser().haveAccess(res))//res.isValid() && 
                     {
                         SWBResource swbres=SWBPortal.getResourceMgr().getResource(res);
-//                        System.out.println("swbres: " + swbres);
                         //SWBParamRequestImp pr=new SWBParamRequestImp(request,res,paramRequest.getWebPage(),paramRequest.getUser());
                         ((SWBParamRequestImp)paramRequest).setResourceBase(res);
                         ((SWBParamRequestImp)paramRequest).setVirtualResource(base);
