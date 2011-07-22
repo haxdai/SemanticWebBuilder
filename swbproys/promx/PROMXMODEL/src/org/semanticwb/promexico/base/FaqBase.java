@@ -4,8 +4,21 @@ package org.semanticwb.promexico.base;
    /**
    * Preguntas Frecuentes 
    */
-public abstract class FaqBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class FaqBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
+   /**
+   * Temas de Preguntas Frecuentes
+   */
+    public static final org.semanticwb.platform.SemanticClass promx_FaqTopic=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#FaqTopic");
+   /**
+   * Tema asociado a la pregunta frecuente
+   */
+    public static final org.semanticwb.platform.SemanticProperty promx_faqTopic=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#faqTopic");
+   /**
+   * Servicios
+   */
+    public static final org.semanticwb.platform.SemanticClass promx_Service=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Service");
+    public static final org.semanticwb.platform.SemanticProperty promx_hasFaqService=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasFaqService");
    /**
    * Preguntas Frecuentes
    */
@@ -108,6 +121,29 @@ public abstract class FaqBase extends org.semanticwb.model.SWBClass implements o
             return it;
         }
        /**
+       * Gets all org.semanticwb.promexico.Faq with a determined FaqTopic
+       * @param value FaqTopic of the type org.semanticwb.promexico.FaqTopic
+       * @param model Model of the org.semanticwb.promexico.Faq
+       * @return Iterator with all the org.semanticwb.promexico.Faq
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Faq> listFaqByFaqTopic(org.semanticwb.promexico.FaqTopic value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Faq> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(promx_faqTopic, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.Faq with a determined FaqTopic
+       * @param value FaqTopic of the type org.semanticwb.promexico.FaqTopic
+       * @return Iterator with all the org.semanticwb.promexico.Faq
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Faq> listFaqByFaqTopic(org.semanticwb.promexico.FaqTopic value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Faq> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(promx_faqTopic,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.promexico.Faq with a determined Creator
        * @param value Creator of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.promexico.Faq
@@ -128,6 +164,29 @@ public abstract class FaqBase extends org.semanticwb.model.SWBClass implements o
         public static java.util.Iterator<org.semanticwb.promexico.Faq> listFaqByCreator(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Faq> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.Faq with a determined FaqService
+       * @param value FaqService of the type org.semanticwb.promexico.Service
+       * @param model Model of the org.semanticwb.promexico.Faq
+       * @return Iterator with all the org.semanticwb.promexico.Faq
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Faq> listFaqByFaqService(org.semanticwb.promexico.Service value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Faq> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(promx_hasFaqService, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.Faq with a determined FaqService
+       * @param value FaqService of the type org.semanticwb.promexico.Service
+       * @return Iterator with all the org.semanticwb.promexico.Faq
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Faq> listFaqByFaqService(org.semanticwb.promexico.Service value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Faq> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(promx_hasFaqService,value.getSemanticObject(),sclass));
             return it;
         }
     }
@@ -175,6 +234,44 @@ public abstract class FaqBase extends org.semanticwb.model.SWBClass implements o
          if(obj!=null)
          {
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Sets the value for the property FaqTopic
+   * @param value FaqTopic to set
+   */
+
+    public void setFaqTopic(org.semanticwb.promexico.FaqTopic value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(promx_faqTopic, value.getSemanticObject());
+        }else
+        {
+            removeFaqTopic();
+        }
+    }
+   /**
+   * Remove the value for FaqTopic property
+   */
+
+    public void removeFaqTopic()
+    {
+        getSemanticObject().removeProperty(promx_faqTopic);
+    }
+
+   /**
+   * Gets the FaqTopic
+   * @return a org.semanticwb.promexico.FaqTopic
+   */
+    public org.semanticwb.promexico.FaqTopic getFaqTopic()
+    {
+         org.semanticwb.promexico.FaqTopic ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(promx_faqTopic);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.promexico.FaqTopic)obj.createGenericInstance();
          }
          return ret;
     }
@@ -282,6 +379,71 @@ public abstract class FaqBase extends org.semanticwb.model.SWBClass implements o
          if(obj!=null)
          {
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Gets all the org.semanticwb.promexico.Service
+   * @return A GenericIterator with all the org.semanticwb.promexico.Service
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Service> listFaqServices()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Service>(getSemanticObject().listObjectProperties(promx_hasFaqService));
+    }
+
+   /**
+   * Gets true if has a FaqService
+   * @param value org.semanticwb.promexico.Service to verify
+   * @return true if the org.semanticwb.promexico.Service exists, false otherwise
+   */
+    public boolean hasFaqService(org.semanticwb.promexico.Service value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(promx_hasFaqService,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a FaqService
+   * @param value org.semanticwb.promexico.Service to add
+   */
+
+    public void addFaqService(org.semanticwb.promexico.Service value)
+    {
+        getSemanticObject().addObjectProperty(promx_hasFaqService, value.getSemanticObject());
+    }
+   /**
+   * Removes all the FaqService
+   */
+
+    public void removeAllFaqService()
+    {
+        getSemanticObject().removeProperty(promx_hasFaqService);
+    }
+   /**
+   * Removes a FaqService
+   * @param value org.semanticwb.promexico.Service to remove
+   */
+
+    public void removeFaqService(org.semanticwb.promexico.Service value)
+    {
+        getSemanticObject().removeObjectProperty(promx_hasFaqService,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the FaqService
+   * @return a org.semanticwb.promexico.Service
+   */
+    public org.semanticwb.promexico.Service getFaqService()
+    {
+         org.semanticwb.promexico.Service ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(promx_hasFaqService);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.promexico.Service)obj.createGenericInstance();
          }
          return ret;
     }
