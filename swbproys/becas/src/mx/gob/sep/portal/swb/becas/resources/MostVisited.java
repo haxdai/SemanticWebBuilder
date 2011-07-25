@@ -3,6 +3,7 @@ package mx.gob.sep.portal.swb.becas.resources;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
@@ -70,7 +71,17 @@ public class MostVisited extends GenericResource {
             out.println("</div>");
         }else {
             out.println("<div class=\"TabbedPanelsContent\">");
-            Iterator<WebPage> childs = SortWebPage.sortByViews(WebPage.ClassMgr.listWebPages(base.getWebSite()), false);
+            Iterator<WebPage> childs = SortWebPage.sortByCreated(WebPage.ClassMgr.listWebPages(base.getWebSite()), false);
+            for(int i=0; i<6 && childs.hasNext(); i++) {
+                WebPage wp = childs.next();
+                if(wp.isValid() && user.haveAccess(wp)) {
+                    out.println(" <a href=\""+wp.getRealUrl()+"\" class=\"nota\" title=\"ir a "+(wp.getDisplayTitle(lang)==null?wp.getTitle():wp.getDisplayTitle(lang))+"\">"+(wp.getDisplayTitle(lang)==null?wp.getTitle():wp.getDisplayTitle(lang))+"</a>");
+                    out.println(" <p>"+(wp.getDisplayDescription(lang)==null?wp.getDescription():wp.getDisplayDescription(lang))+"</p>");
+                }
+            }
+            out.println("</div>");
+            out.println("<div class=\"TabbedPanelsContent\">");
+            childs = SortWebPage.sortByViews(WebPage.ClassMgr.listWebPages(base.getWebSite()), false);
             for(int i=0; i<6 && childs.hasNext(); i++) {
                 WebPage wp = childs.next();
                 if(wp.isValid() && user.haveAccess(wp)) {
@@ -90,6 +101,10 @@ public class MostVisited extends GenericResource {
     public static class SortWebPage  {
         public static Iterator sortByViews(Iterator it, boolean ascendente) {
             return sortByViewsSet(it, ascendente).iterator();
+        }
+        
+        public static Iterator sortByCreated(Iterator it, boolean ascendente) {
+            return sortByCreatedSet(it, ascendente).iterator();
         }
 
         /**
@@ -118,6 +133,38 @@ public class MostVisited extends GenericResource {
                             long v1 = ((WebPage)o1).getViews();
                             long v2 = ((WebPage)o2).getViews();
                             return v1 > v2 ? -1 : 1;
+                        }
+                        return 0;
+                    }
+                });
+            }
+
+            while (it.hasNext()) {
+                set.add(it.next());
+            }
+            return set;
+        }
+        
+        public static Set sortByCreatedSet(Iterator it, boolean ascendente) {
+            TreeSet set = null;
+            if(ascendente) {
+                set = new TreeSet(new Comparator() {
+                    public int compare(Object o1, Object o2) {
+                        if(o1 instanceof WebPage && o2 instanceof WebPage) {
+                            Date v1 = ((WebPage)o1).getCreated();
+                            Date v2 = ((WebPage)o2).getCreated();
+                            return v1.compareTo(v2);
+                        }
+                        return 0;
+                    }
+                });
+            }else {
+                set = new TreeSet(new Comparator() {
+                    public int compare(Object o1, Object o2) {
+                        if(o1 instanceof WebPage && o2 instanceof WebPage) {
+                            Date v1 = ((WebPage)o1).getCreated();
+                            Date v2 = ((WebPage)o2).getCreated();
+                            return v1.compareTo(v2);
                         }
                         return 0;
                     }
