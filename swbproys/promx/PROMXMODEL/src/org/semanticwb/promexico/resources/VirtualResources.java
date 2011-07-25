@@ -21,7 +21,7 @@ import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBParamRequestImp;
 import org.semanticwb.portal.api.SWBResource;
 import org.semanticwb.portal.api.SWBResourceException;
-import org.semanticwb.promexico.Event;
+import org.semanticwb.promexico.*;
 
 /**
  *
@@ -32,35 +32,27 @@ public class VirtualResources extends GenericResource{
     @Override
     public void render(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
-//        System.out.println("en virtualResources...");
+        System.out.println("en virtualResources...");
         WebPage page=paramRequest.getWebPage();
         Resource base=paramRequest.getResourceBase();
         Resourceable resourceAble=null;
         if(request.getParameter("id") != null){ // && request.getParameter("show")!=null
             String id=request.getParameter("id");
-            //String show=request.getParameter("show");
-            //if(show.equalsIgnoreCase("activity")) resourceAble=ActivityRef.ClassMgr.getActivityRef(id, page.getWebSite());
-            //else if(show.equalsIgnoreCase("experience")) resourceAble=ExperienceRef.ClassMgr.getExperienceRef(id, page.getWebSite());
-            //else if(show.equalsIgnoreCase("event")) resourceAble=Event.ClassMgr.getEvent(id, page.getWebSite());
-            //else if(show.equalsIgnoreCase("company")) resourceAble=Company.ClassMgr.getCompany(id, page.getWebSite());
-            resourceAble=Event.ClassMgr.getEvent(id, page.getWebSite());
-//            System.out.println("resourceable: " + resourceAble);
+            String show=request.getParameter("show");
+            if(show.equalsIgnoreCase("new")) resourceAble=New.ClassMgr.getNew(id, page.getWebSite());
+            else if(show.equalsIgnoreCase("event")) resourceAble=Event.ClassMgr.getEvent(id, page.getWebSite());
+            System.out.println("resourceAbleJ:"+resourceAble);
             if(resourceAble != null)
             {
                 Iterator<Resource> it=SWBComparator.sortSortableObject(resourceAble.listResources());
                 while(it.hasNext())
                 {
                     Resource res=it.next();
-//                    System.out.println("res: " + res);
-//                    System.out.println("valid: " + res.isValid());
-//                    System.out.println("haveAccess: " + paramRequest.getUser().haveAccess(res));
-//                    SWBResource swbres1=SWBPortal.getResourceMgr().getResource(res);
-//                    System.out.println("swbres1: " + swbres1);
+                    System.out.println("resJ:"+res);
                     if(paramRequest.getUser().haveAccess(res))//res.isValid() &&
                     {
+                        System.out.println("resJ-1:"+res);
                         SWBResource swbres=SWBPortal.getResourceMgr().getResource(res);
-//                        System.out.println("swbres: " + swbres);
-                        //SWBParamRequestImp pr=new SWBParamRequestImp(request,res,paramRequest.getWebPage(),paramRequest.getUser());
                         ((SWBParamRequestImp)paramRequest).setResourceBase(res);
                         ((SWBParamRequestImp)paramRequest).setVirtualResource(base);
                         ((SWBParamRequestImp)paramRequest).setCallMethod(SWBParamRequest.Call_CONTENT);
@@ -79,11 +71,9 @@ public class VirtualResources extends GenericResource{
         Resourceable resourceAble=null;
         if(request.getParameter("id") != null) { // && request.getParameter("show")!=null
             String id=request.getParameter("id");
-            //String show=request.getParameter("show");
-            //if(show.equalsIgnoreCase("activity")) resourceAble=ActivityRef.ClassMgr.getActivityRef(id, page.getWebSite());
-            //else if(show.equalsIgnoreCase("experience")) resourceAble=ExperienceRef.ClassMgr.getExperienceRef(id, page.getWebSite());
-            //else if(show.equalsIgnoreCase("event")) resourceAble=Event.ClassMgr.getEvent(id, page.getWebSite());
-            //else if(show.equalsIgnoreCase("company")) resourceAble=GeneralCompany.ClassMgr.getGeneralCompany(id, page.getWebSite());
+            String show=request.getParameter("show");
+            if(show.equalsIgnoreCase("new")) resourceAble=New.ClassMgr.getNew(id, page.getWebSite());
+            else if(show.equalsIgnoreCase("event")) resourceAble=Event.ClassMgr.getEvent(id, page.getWebSite());
             resourceAble=Event.ClassMgr.getEvent(id, page.getWebSite());
 
             if(resourceAble!=null)
