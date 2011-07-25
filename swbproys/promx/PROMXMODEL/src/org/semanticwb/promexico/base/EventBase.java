@@ -4,7 +4,7 @@ package org.semanticwb.promexico.base;
    /**
    * Eventos de ProMéxico 
    */
-public abstract class EventBase extends org.semanticwb.portal.resources.sem.calendar.Event implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Resourceable,org.semanticwb.model.Localeable,org.semanticwb.model.Searchable,org.semanticwb.model.Traceable,org.semanticwb.model.Activeable
+public abstract class EventBase extends org.semanticwb.portal.resources.sem.calendar.Event implements org.semanticwb.model.Traceable,org.semanticwb.model.Resourceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Localeable,org.semanticwb.model.Searchable,org.semanticwb.model.Activeable
 {
    /**
    * Objeto controlador de oficinas

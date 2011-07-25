@@ -1,7 +1,7 @@
 package org.semanticwb.promexico.base;
 
 
-public abstract class NewBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable,org.semanticwb.model.Ruleable
+public abstract class NewBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Resourceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Ruleable
 {
    /**
    * Objeto controlador de oficinas
@@ -11,6 +11,7 @@ public abstract class NewBase extends org.semanticwb.model.SWBClass implements o
    * Oficinas relacionadas (En las que aparece) con la Noticia
    */
     public static final org.semanticwb.platform.SemanticProperty promx_hasOffices=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasOffices");
+    public static final org.semanticwb.platform.SemanticProperty promx_fileAttach=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#fileAttach");
    /**
    * Tipos de Noticias
    */
@@ -503,6 +504,24 @@ public abstract class NewBase extends org.semanticwb.model.SWBClass implements o
              ret=(org.semanticwb.model.Rule)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the FileAttach property
+* @return String with the FileAttach
+*/
+    public String getFileAttach()
+    {
+        return getSemanticObject().getProperty(promx_fileAttach);
+    }
+
+/**
+* Sets the FileAttach property
+* @param value long with the FileAttach
+*/
+    public void setFileAttach(String value)
+    {
+        getSemanticObject().setProperty(promx_fileAttach, value);
     }
    /**
    * Sets the value for the property NewType
