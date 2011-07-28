@@ -1,46 +1,45 @@
-package org.semanticwb.promexico.base;
+package org.semanticwb.promexico.resources.base;
 
 
-public abstract class CalendarPromBase extends org.semanticwb.portal.resources.sem.calendar.Calendar implements org.semanticwb.model.Traceable,org.semanticwb.model.Trashable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Localeable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Referensable
+public abstract class ProMxResourceCalendarBase extends org.semanticwb.portal.resources.sem.genericCalendar.ResourceCalendar implements org.semanticwb.model.Traceable,org.semanticwb.model.Trashable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Localeable,org.semanticwb.model.Referensable,org.semanticwb.model.RoleRefable
 {
-    public static final org.semanticwb.platform.SemanticProperty cal_previousYear=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/calendar#previousYear");
-    public static final org.semanticwb.platform.SemanticProperty cal_roleForAdmin=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/calendar#roleForAdmin");
+    public static final org.semanticwb.platform.SemanticProperty genCal_previousYear=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://org.semanticwb.resources/GenericCalendar#previousYear");
     public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
     public static final org.semanticwb.platform.SemanticProperty swb_modifiedBy=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#modifiedBy");
     public static final org.semanticwb.platform.SemanticProperty swb_created=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#created");
     public static final org.semanticwb.platform.SemanticProperty swb_updated=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#updated");
-    public static final org.semanticwb.platform.SemanticClass cal_Event=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/calendar#Event");
-    public static final org.semanticwb.platform.SemanticProperty cal_hasEvents=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/calendar#hasEvents");
-    public static final org.semanticwb.platform.SemanticProperty cal_JspStrategy=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/calendar#JspStrategy");
+    public static final org.semanticwb.platform.SemanticProperty genCal_canSubscribed=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://org.semanticwb.resources/GenericCalendar#canSubscribed");
+    public static final org.semanticwb.platform.SemanticClass genCal_Event=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://org.semanticwb.resources/GenericCalendar#Event");
+    public static final org.semanticwb.platform.SemanticProperty genCal_hasEvents=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://org.semanticwb.resources/GenericCalendar#hasEvents");
     public static final org.semanticwb.platform.SemanticProperty swb_deleted=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#deleted");
     public static final org.semanticwb.platform.SemanticClass swb_Resource=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#Resource");
     public static final org.semanticwb.platform.SemanticProperty swb_semanticResourceInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#semanticResourceInv");
     public static final org.semanticwb.platform.SemanticClass swb_Language=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#Language");
     public static final org.semanticwb.platform.SemanticProperty swb_language=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#language");
-    public static final org.semanticwb.platform.SemanticProperty cal_idPage=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/calendar#idPage");
-    public static final org.semanticwb.platform.SemanticProperty cal_nextYear=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/calendar#nextYear");
+    public static final org.semanticwb.platform.SemanticProperty genCal_idPage=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://org.semanticwb.resources/GenericCalendar#idPage");
+    public static final org.semanticwb.platform.SemanticProperty genCal_jspStrategy=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://org.semanticwb.resources/GenericCalendar#jspStrategy");
+    public static final org.semanticwb.platform.SemanticProperty genCal_jspView=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://org.semanticwb.resources/GenericCalendar#jspView");
+    public static final org.semanticwb.platform.SemanticProperty genCal_nextYear=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://org.semanticwb.resources/GenericCalendar#nextYear");
     public static final org.semanticwb.platform.SemanticProperty swb_creator=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#creator");
-    public static final org.semanticwb.platform.SemanticClass promx_EventType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#eventType");
-    public static final org.semanticwb.platform.SemanticProperty promx_EvtType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#EvtType");
-    public static final org.semanticwb.platform.SemanticProperty cal_numberNearEvents=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/calendar#numberNearEvents");
-    public static final org.semanticwb.platform.SemanticProperty cal_paginationEvents=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/calendar#paginationEvents");
+    public static final org.semanticwb.platform.SemanticClass genCal_EventType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://org.semanticwb.resources/GenericCalendar#EventType");
+    public static final org.semanticwb.platform.SemanticProperty genCal_EvtType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://org.semanticwb.resources/GenericCalendar#EvtType");
+    public static final org.semanticwb.platform.SemanticProperty genCal_numberNearEvents=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://org.semanticwb.resources/GenericCalendar#numberNearEvents");
     public static final org.semanticwb.platform.SemanticClass swb_UserGroupRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#UserGroupRef");
     public static final org.semanticwb.platform.SemanticProperty swb_hasUserGroupRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#hasUserGroupRef");
     public static final org.semanticwb.platform.SemanticClass swb_RoleRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#RoleRef");
     public static final org.semanticwb.platform.SemanticProperty swb_hasRoleRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#hasRoleRef");
-    public static final org.semanticwb.platform.SemanticProperty cal_JspView=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/calendar#JspView");
-    public static final org.semanticwb.platform.SemanticClass promx_CalendarProm=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#CalendarProm");
-    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#CalendarProm");
+    public static final org.semanticwb.platform.SemanticClass promx_ProMxResourceCalendar=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#ProMxResourceCalendar");
+    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#ProMxResourceCalendar");
 
-    public CalendarPromBase()
+    public ProMxResourceCalendarBase()
     {
     }
 
    /**
-   * Constructs a CalendarPromBase with a SemanticObject
-   * @param base The SemanticObject with the properties for the CalendarProm
+   * Constructs a ProMxResourceCalendarBase with a SemanticObject
+   * @param base The SemanticObject with the properties for the ProMxResourceCalendar
    */
-    public CalendarPromBase(org.semanticwb.platform.SemanticObject base)
+    public ProMxResourceCalendarBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
     }
@@ -70,7 +69,7 @@ public abstract class CalendarPromBase extends org.semanticwb.portal.resources.s
 */
     public boolean isPreviousYear()
     {
-        return getSemanticObject().getBooleanProperty(cal_previousYear);
+        return getSemanticObject().getBooleanProperty(genCal_previousYear);
     }
 
 /**
@@ -79,25 +78,7 @@ public abstract class CalendarPromBase extends org.semanticwb.portal.resources.s
 */
     public void setPreviousYear(boolean value)
     {
-        getSemanticObject().setBooleanProperty(cal_previousYear, value);
-    }
-
-/**
-* Gets the RoleForAdmin property
-* @return String with the RoleForAdmin
-*/
-    public String getRoleForAdmin()
-    {
-        return getSemanticObject().getProperty(cal_roleForAdmin);
-    }
-
-/**
-* Sets the RoleForAdmin property
-* @param value long with the RoleForAdmin
-*/
-    public void setRoleForAdmin(String value)
-    {
-        getSemanticObject().setProperty(cal_roleForAdmin, value);
+        getSemanticObject().setBooleanProperty(genCal_previousYear, value);
     }
    /**
    * Sets the value for the property ModifiedBy
@@ -173,38 +154,56 @@ public abstract class CalendarPromBase extends org.semanticwb.portal.resources.s
     {
         getSemanticObject().setDateProperty(swb_updated, value);
     }
+
+/**
+* Gets the CanSubscribed property
+* @return boolean with the CanSubscribed
+*/
+    public boolean isCanSubscribed()
+    {
+        return getSemanticObject().getBooleanProperty(genCal_canSubscribed);
+    }
+
+/**
+* Sets the CanSubscribed property
+* @param value long with the CanSubscribed
+*/
+    public void setCanSubscribed(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(genCal_canSubscribed, value);
+    }
    /**
-   * Gets all the org.semanticwb.portal.resources.sem.calendar.Event
-   * @return A GenericIterator with all the org.semanticwb.portal.resources.sem.calendar.Event
+   * Gets all the org.semanticwb.portal.resources.sem.genericCalendar.Event
+   * @return A GenericIterator with all the org.semanticwb.portal.resources.sem.genericCalendar.Event
    */
 
-    public org.semanticwb.model.GenericIterator<org.semanticwb.portal.resources.sem.calendar.Event> listEventses()
+    public org.semanticwb.model.GenericIterator<org.semanticwb.portal.resources.sem.genericCalendar.Event> listEventses()
     {
-        return new org.semanticwb.model.GenericIterator<org.semanticwb.portal.resources.sem.calendar.Event>(getSemanticObject().listObjectProperties(cal_hasEvents));
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.portal.resources.sem.genericCalendar.Event>(getSemanticObject().listObjectProperties(genCal_hasEvents));
     }
 
    /**
    * Gets true if has a Events
-   * @param value org.semanticwb.portal.resources.sem.calendar.Event to verify
-   * @return true if the org.semanticwb.portal.resources.sem.calendar.Event exists, false otherwise
+   * @param value org.semanticwb.portal.resources.sem.genericCalendar.Event to verify
+   * @return true if the org.semanticwb.portal.resources.sem.genericCalendar.Event exists, false otherwise
    */
-    public boolean hasEvents(org.semanticwb.portal.resources.sem.calendar.Event value)
+    public boolean hasEvents(org.semanticwb.portal.resources.sem.genericCalendar.Event value)
     {
         boolean ret=false;
         if(value!=null)
         {
-           ret=getSemanticObject().hasObjectProperty(cal_hasEvents,value.getSemanticObject());
+           ret=getSemanticObject().hasObjectProperty(genCal_hasEvents,value.getSemanticObject());
         }
         return ret;
     }
    /**
    * Adds a Events
-   * @param value org.semanticwb.portal.resources.sem.calendar.Event to add
+   * @param value org.semanticwb.portal.resources.sem.genericCalendar.Event to add
    */
 
-    public void addEvents(org.semanticwb.portal.resources.sem.calendar.Event value)
+    public void addEvents(org.semanticwb.portal.resources.sem.genericCalendar.Event value)
     {
-        getSemanticObject().addObjectProperty(cal_hasEvents, value.getSemanticObject());
+        getSemanticObject().addObjectProperty(genCal_hasEvents, value.getSemanticObject());
     }
    /**
    * Removes all the Events
@@ -212,49 +211,31 @@ public abstract class CalendarPromBase extends org.semanticwb.portal.resources.s
 
     public void removeAllEvents()
     {
-        getSemanticObject().removeProperty(cal_hasEvents);
+        getSemanticObject().removeProperty(genCal_hasEvents);
     }
    /**
    * Removes a Events
-   * @param value org.semanticwb.portal.resources.sem.calendar.Event to remove
+   * @param value org.semanticwb.portal.resources.sem.genericCalendar.Event to remove
    */
 
-    public void removeEvents(org.semanticwb.portal.resources.sem.calendar.Event value)
+    public void removeEvents(org.semanticwb.portal.resources.sem.genericCalendar.Event value)
     {
-        getSemanticObject().removeObjectProperty(cal_hasEvents,value.getSemanticObject());
+        getSemanticObject().removeObjectProperty(genCal_hasEvents,value.getSemanticObject());
     }
 
    /**
    * Gets the Events
-   * @return a org.semanticwb.portal.resources.sem.calendar.Event
+   * @return a org.semanticwb.portal.resources.sem.genericCalendar.Event
    */
-    public org.semanticwb.portal.resources.sem.calendar.Event getEvents()
+    public org.semanticwb.portal.resources.sem.genericCalendar.Event getEvents()
     {
-         org.semanticwb.portal.resources.sem.calendar.Event ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cal_hasEvents);
+         org.semanticwb.portal.resources.sem.genericCalendar.Event ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(genCal_hasEvents);
          if(obj!=null)
          {
-             ret=(org.semanticwb.portal.resources.sem.calendar.Event)obj.createGenericInstance();
+             ret=(org.semanticwb.portal.resources.sem.genericCalendar.Event)obj.createGenericInstance();
          }
          return ret;
-    }
-
-/**
-* Gets the JspStrategy property
-* @return String with the JspStrategy
-*/
-    public String getJspStrategy()
-    {
-        return getSemanticObject().getProperty(cal_JspStrategy);
-    }
-
-/**
-* Sets the JspStrategy property
-* @param value long with the JspStrategy
-*/
-    public void setJspStrategy(String value)
-    {
-        getSemanticObject().setProperty(cal_JspStrategy, value);
     }
 
 /**
@@ -357,7 +338,7 @@ public abstract class CalendarPromBase extends org.semanticwb.portal.resources.s
 */
     public String getIdPage()
     {
-        return getSemanticObject().getProperty(cal_idPage);
+        return getSemanticObject().getProperty(genCal_idPage);
     }
 
 /**
@@ -366,7 +347,43 @@ public abstract class CalendarPromBase extends org.semanticwb.portal.resources.s
 */
     public void setIdPage(String value)
     {
-        getSemanticObject().setProperty(cal_idPage, value);
+        getSemanticObject().setProperty(genCal_idPage, value);
+    }
+
+/**
+* Gets the JspStrategy property
+* @return String with the JspStrategy
+*/
+    public String getJspStrategy()
+    {
+        return getSemanticObject().getProperty(genCal_jspStrategy);
+    }
+
+/**
+* Sets the JspStrategy property
+* @param value long with the JspStrategy
+*/
+    public void setJspStrategy(String value)
+    {
+        getSemanticObject().setProperty(genCal_jspStrategy, value);
+    }
+
+/**
+* Gets the JspView property
+* @return String with the JspView
+*/
+    public String getJspView()
+    {
+        return getSemanticObject().getProperty(genCal_jspView);
+    }
+
+/**
+* Sets the JspView property
+* @param value long with the JspView
+*/
+    public void setJspView(String value)
+    {
+        getSemanticObject().setProperty(genCal_jspView, value);
     }
 
 /**
@@ -375,7 +392,7 @@ public abstract class CalendarPromBase extends org.semanticwb.portal.resources.s
 */
     public boolean isNextYear()
     {
-        return getSemanticObject().getBooleanProperty(cal_nextYear);
+        return getSemanticObject().getBooleanProperty(genCal_nextYear);
     }
 
 /**
@@ -384,7 +401,7 @@ public abstract class CalendarPromBase extends org.semanticwb.portal.resources.s
 */
     public void setNextYear(boolean value)
     {
-        getSemanticObject().setBooleanProperty(cal_nextYear, value);
+        getSemanticObject().setBooleanProperty(genCal_nextYear, value);
     }
    /**
    * Sets the value for the property Creator
@@ -429,11 +446,11 @@ public abstract class CalendarPromBase extends org.semanticwb.portal.resources.s
    * @param value EvtType to set
    */
 
-    public void setEvtType(org.semanticwb.promexico.EventType value)
+    public void setEvtType(org.semanticwb.portal.resources.sem.genericCalendar.EventType value)
     {
         if(value!=null)
         {
-            getSemanticObject().setObjectProperty(promx_EvtType, value.getSemanticObject());
+            getSemanticObject().setObjectProperty(genCal_EvtType, value.getSemanticObject());
         }else
         {
             removeEvtType();
@@ -445,20 +462,20 @@ public abstract class CalendarPromBase extends org.semanticwb.portal.resources.s
 
     public void removeEvtType()
     {
-        getSemanticObject().removeProperty(promx_EvtType);
+        getSemanticObject().removeProperty(genCal_EvtType);
     }
 
    /**
    * Gets the EvtType
-   * @return a org.semanticwb.promexico.EventType
+   * @return a org.semanticwb.portal.resources.sem.genericCalendar.EventType
    */
-    public org.semanticwb.promexico.EventType getEvtType()
+    public org.semanticwb.portal.resources.sem.genericCalendar.EventType getEvtType()
     {
-         org.semanticwb.promexico.EventType ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(promx_EvtType);
+         org.semanticwb.portal.resources.sem.genericCalendar.EventType ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(genCal_EvtType);
          if(obj!=null)
          {
-             ret=(org.semanticwb.promexico.EventType)obj.createGenericInstance();
+             ret=(org.semanticwb.portal.resources.sem.genericCalendar.EventType)obj.createGenericInstance();
          }
          return ret;
     }
@@ -469,7 +486,7 @@ public abstract class CalendarPromBase extends org.semanticwb.portal.resources.s
 */
     public int getNumberNearEvents()
     {
-        return getSemanticObject().getIntProperty(cal_numberNearEvents);
+        return getSemanticObject().getIntProperty(genCal_numberNearEvents);
     }
 
 /**
@@ -478,25 +495,7 @@ public abstract class CalendarPromBase extends org.semanticwb.portal.resources.s
 */
     public void setNumberNearEvents(int value)
     {
-        getSemanticObject().setIntProperty(cal_numberNearEvents, value);
-    }
-
-/**
-* Gets the PaginationEvents property
-* @return int with the PaginationEvents
-*/
-    public int getPaginationEvents()
-    {
-        return getSemanticObject().getIntProperty(cal_paginationEvents);
-    }
-
-/**
-* Sets the PaginationEvents property
-* @param value long with the PaginationEvents
-*/
-    public void setPaginationEvents(int value)
-    {
-        getSemanticObject().setIntProperty(cal_paginationEvents, value);
+        getSemanticObject().setIntProperty(genCal_numberNearEvents, value);
     }
    /**
    * Gets all the org.semanticwb.model.UserGroupRef
@@ -645,23 +644,5 @@ public abstract class CalendarPromBase extends org.semanticwb.portal.resources.s
              ret=(org.semanticwb.model.RoleRef)obj.createGenericInstance();
          }
          return ret;
-    }
-
-/**
-* Gets the JspView property
-* @return String with the JspView
-*/
-    public String getJspView()
-    {
-        return getSemanticObject().getProperty(cal_JspView);
-    }
-
-/**
-* Sets the JspView property
-* @param value long with the JspView
-*/
-    public void setJspView(String value)
-    {
-        getSemanticObject().setProperty(cal_JspView, value);
     }
 }
