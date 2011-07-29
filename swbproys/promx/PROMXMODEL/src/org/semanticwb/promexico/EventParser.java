@@ -6,9 +6,11 @@
 package org.semanticwb.promexico;
 
 import java.util.Iterator;
+import java.util.Map;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.model.Searchable;
 import org.semanticwb.model.WebPage;
+import org.semanticwb.portal.indexer.IndexTerm;
 import org.semanticwb.portal.indexer.parser.GenericParser;
 
 /**
@@ -89,17 +91,13 @@ public class EventParser extends GenericParser {
         return ret.trim();
     }
 
-   /*
-
-
+   
     @Override
     public Map<String, IndexTerm> getIndexTerms(Searchable gen) {
         Map map = super.getIndexTerms(gen);
-        map.put(ATT_EXPERIENCE, new IndexTerm(ATT_EXPERIENCE, getEventExperiences(gen), false, IndexTerm.INDEXED_ANALYZED));
-        map.put(ATT_ACTIVITY, new IndexTerm(ATT_ACTIVITY, getEventActivities(gen), false, IndexTerm.INDEXED_ANALYZED));
-        map.put(ATT_LOCALITY, new IndexTerm(ATT_LOCALITY, getEventLocalities(gen), false, IndexTerm.INDEXED_ANALYZED));
-        map.put(ATT_STATE, new IndexTerm(ATT_STATE, getEventStates(gen), false, IndexTerm.INDEXED_ANALYZED));
+        map.put(ATT_OFFICE, new IndexTerm(ATT_OFFICE, getEventOffices(gen), false, IndexTerm.INDEXED_ANALYZED));
+        map.put(ATT_SECTOR, new IndexTerm(ATT_SECTOR, getEventSectores(gen), false, IndexTerm.INDEXED_ANALYZED));
         return map;
     }
-*/
+
 }
