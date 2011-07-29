@@ -1,7 +1,7 @@
 package org.semanticwb.promexico.base;
 
 
-public abstract class NewBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Ruleable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Resourceable
+public abstract class NewBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable,org.semanticwb.model.Ruleable,org.semanticwb.model.Tagable
 {
    /**
    * Objeto controlador de oficinas
@@ -11,6 +11,10 @@ public abstract class NewBase extends org.semanticwb.model.SWBClass implements o
    * Oficinas relacionadas (En las que aparece) con la Noticia
    */
     public static final org.semanticwb.platform.SemanticProperty promx_hasOffices=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasOffices");
+   /**
+   * Foto de Noticia
+   */
+    public static final org.semanticwb.platform.SemanticProperty promx_newPhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#newPhoto");
     public static final org.semanticwb.platform.SemanticProperty promx_fileAttach=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#fileAttach");
    /**
    * Tipos de Noticias
@@ -373,6 +377,24 @@ public abstract class NewBase extends org.semanticwb.model.SWBClass implements o
     }
 
 /**
+* Gets the NewPhoto property
+* @return String with the NewPhoto
+*/
+    public String getNewPhoto()
+    {
+        return getSemanticObject().getProperty(promx_newPhoto);
+    }
+
+/**
+* Sets the NewPhoto property
+* @param value long with the NewPhoto
+*/
+    public void setNewPhoto(String value)
+    {
+        getSemanticObject().setProperty(promx_newPhoto, value);
+    }
+
+/**
 * Gets the Created property
 * @return java.util.Date with the Created
 */
@@ -696,6 +718,39 @@ public abstract class NewBase extends org.semanticwb.model.SWBClass implements o
              ret=(org.semanticwb.model.Resource)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the Tags property
+* @return String with the Tags
+*/
+    public String getTags()
+    {
+        return getSemanticObject().getProperty(swb_tags);
+    }
+
+/**
+* Sets the Tags property
+* @param value long with the Tags
+*/
+    public void setTags(String value)
+    {
+        getSemanticObject().setProperty(swb_tags, value);
+    }
+
+    public String getTags(String lang)
+    {
+        return getSemanticObject().getProperty(swb_tags, null, lang);
+    }
+
+    public String getDisplayTags(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_tags, lang);
+    }
+
+    public void setTags(String tags, String lang)
+    {
+        getSemanticObject().setProperty(swb_tags, tags, lang);
     }
    /**
    * Gets all the org.semanticwb.promexico.Sector

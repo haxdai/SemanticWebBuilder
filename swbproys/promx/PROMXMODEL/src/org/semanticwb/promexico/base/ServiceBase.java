@@ -4,8 +4,9 @@ package org.semanticwb.promexico.base;
    /**
    * Servicios 
    */
-public abstract class ServiceBase extends org.semanticwb.promexico.ProMxWebPage implements org.semanticwb.model.RuleRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableNode,org.semanticwb.model.FilterableClass,org.semanticwb.model.Indexable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Rankable,org.semanticwb.model.Trashable,org.semanticwb.model.Referensable,org.semanticwb.model.Localeable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Resourceable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Traceable,org.semanticwb.model.Activeable,org.semanticwb.model.Expirable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Searchable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Countryable,org.semanticwb.model.Hiddenable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Viewable
+public abstract class ServiceBase extends org.semanticwb.promexico.ProMxWebPage implements org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable,org.semanticwb.model.Viewable,org.semanticwb.model.Activeable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Referensable,org.semanticwb.model.Localeable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Indexable,org.semanticwb.model.Trashable,org.semanticwb.model.Searchable,org.semanticwb.model.Countryable,org.semanticwb.model.Tagable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.model.RoleRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Rankable,org.semanticwb.model.Filterable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableClass
 {
+    public static final org.semanticwb.platform.SemanticProperty promx_ServicePhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#ServicePhoto");
    /**
    * Objeto controlador de oficinas
    */
@@ -552,6 +553,24 @@ public abstract class ServiceBase extends org.semanticwb.promexico.ProMxWebPage 
     public ServiceBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+/**
+* Gets the ServicePhoto property
+* @return String with the ServicePhoto
+*/
+    public String getServicePhoto()
+    {
+        return getSemanticObject().getProperty(promx_ServicePhoto);
+    }
+
+/**
+* Sets the ServicePhoto property
+* @param value long with the ServicePhoto
+*/
+    public void setServicePhoto(String value)
+    {
+        getSemanticObject().setProperty(promx_ServicePhoto, value);
     }
    /**
    * Gets all the org.semanticwb.promexico.Office

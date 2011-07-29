@@ -1,7 +1,7 @@
 package org.semanticwb.promexico.base;
 
 
-public abstract class SectorBase extends org.semanticwb.promexico.ProMxWebPage implements org.semanticwb.model.RuleRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableNode,org.semanticwb.model.FilterableClass,org.semanticwb.model.Indexable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Rankable,org.semanticwb.model.Trashable,org.semanticwb.model.Localeable,org.semanticwb.model.Referensable,org.semanticwb.model.Resourceable,org.semanticwb.model.RoleRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Traceable,org.semanticwb.model.Activeable,org.semanticwb.model.Expirable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Searchable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Countryable,org.semanticwb.model.Hiddenable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Viewable
+public abstract class SectorBase extends org.semanticwb.promexico.ProMxWebPage implements org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable,org.semanticwb.model.Viewable,org.semanticwb.model.Activeable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Referensable,org.semanticwb.model.Localeable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Indexable,org.semanticwb.model.Trashable,org.semanticwb.model.Searchable,org.semanticwb.model.Countryable,org.semanticwb.model.Tagable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.model.RoleRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Rankable,org.semanticwb.model.Filterable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableClass
 {
     public static final org.semanticwb.platform.SemanticClass promx_New=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#New");
     public static final org.semanticwb.platform.SemanticProperty promx_hasNews=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasNews");
@@ -10,6 +10,7 @@ public abstract class SectorBase extends org.semanticwb.promexico.ProMxWebPage i
    */
     public static final org.semanticwb.platform.SemanticClass promx_Event=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Event");
     public static final org.semanticwb.platform.SemanticProperty promx_hasEventsInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasEventsInv");
+    public static final org.semanticwb.platform.SemanticProperty promx_SectorPhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#SectorPhoto");
     public static final org.semanticwb.platform.SemanticClass promx_Sector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Sector");
    /**
    * The semantic class that represents the currentObject
@@ -649,6 +650,24 @@ public abstract class SectorBase extends org.semanticwb.promexico.ProMxWebPage i
              ret=(org.semanticwb.promexico.Event)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the SectorPhoto property
+* @return String with the SectorPhoto
+*/
+    public String getSectorPhoto()
+    {
+        return getSemanticObject().getProperty(promx_SectorPhoto);
+    }
+
+/**
+* Sets the SectorPhoto property
+* @param value long with the SectorPhoto
+*/
+    public void setSectorPhoto(String value)
+    {
+        getSemanticObject().setProperty(promx_SectorPhoto, value);
     }
 
    /**
