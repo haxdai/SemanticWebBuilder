@@ -4,8 +4,17 @@ package org.semanticwb.promexico.base;
    /**
    * Objeto controlador de oficinas 
    */
-public abstract class OfficeBase extends org.semanticwb.promexico.ProMxWebPage implements org.semanticwb.model.RuleRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableNode,org.semanticwb.model.FilterableClass,org.semanticwb.model.Indexable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Trashable,org.semanticwb.model.Rankable,org.semanticwb.model.Localeable,org.semanticwb.model.Referensable,org.semanticwb.promexico.Representable,org.semanticwb.model.Resourceable,org.semanticwb.model.RoleRefable,org.semanticwb.promexico.Localizable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Traceable,org.semanticwb.model.Activeable,org.semanticwb.model.Expirable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Searchable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Countryable,org.semanticwb.model.Hiddenable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Viewable
+public abstract class OfficeBase extends org.semanticwb.promexico.ProMxWebPage implements org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable,org.semanticwb.promexico.Representable,org.semanticwb.model.Viewable,org.semanticwb.model.Activeable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Referensable,org.semanticwb.model.Localeable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Indexable,org.semanticwb.model.Trashable,org.semanticwb.model.Searchable,org.semanticwb.model.Countryable,org.semanticwb.model.Tagable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Descriptiveable,org.semanticwb.promexico.Localizable,org.semanticwb.model.FilterableNode,org.semanticwb.model.RoleRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Rankable,org.semanticwb.model.Filterable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableClass
 {
+    public static final org.semanticwb.platform.SemanticClass promx_ProMxVideo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#ProMxVideo");
+   /**
+   * Videos relacionados a una oficina
+   */
+    public static final org.semanticwb.platform.SemanticProperty promx_hasVideo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasVideo");
+   /**
+   * Foto de la Oficina
+   */
+    public static final org.semanticwb.platform.SemanticProperty promx_OfficePhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#OfficePhoto");
     public static final org.semanticwb.platform.SemanticClass promx_New=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#New");
     public static final org.semanticwb.platform.SemanticProperty promx_hasNewsOfficeInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasNewsOfficeInv");
    /**
@@ -183,6 +192,29 @@ public abstract class OfficeBase extends org.semanticwb.promexico.ProMxWebPage i
         public static java.util.Iterator<org.semanticwb.promexico.Office> listOfficeByChild(org.semanticwb.model.WebPage value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Office> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageChild,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.Office with a determined Video
+       * @param value Video of the type org.semanticwb.promexico.ProMxVideo
+       * @param model Model of the org.semanticwb.promexico.Office
+       * @return Iterator with all the org.semanticwb.promexico.Office
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Office> listOfficeByVideo(org.semanticwb.promexico.ProMxVideo value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Office> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(promx_hasVideo, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.Office with a determined Video
+       * @param value Video of the type org.semanticwb.promexico.ProMxVideo
+       * @return Iterator with all the org.semanticwb.promexico.Office
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Office> listOfficeByVideo(org.semanticwb.promexico.ProMxVideo value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Office> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(promx_hasVideo,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -609,6 +641,71 @@ public abstract class OfficeBase extends org.semanticwb.promexico.ProMxWebPage i
     {
         super(base);
     }
+   /**
+   * Gets all the org.semanticwb.promexico.ProMxVideo
+   * @return A GenericIterator with all the org.semanticwb.promexico.ProMxVideo
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.promexico.ProMxVideo> listVideos()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.promexico.ProMxVideo>(getSemanticObject().listObjectProperties(promx_hasVideo));
+    }
+
+   /**
+   * Gets true if has a Video
+   * @param value org.semanticwb.promexico.ProMxVideo to verify
+   * @return true if the org.semanticwb.promexico.ProMxVideo exists, false otherwise
+   */
+    public boolean hasVideo(org.semanticwb.promexico.ProMxVideo value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(promx_hasVideo,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a Video
+   * @param value org.semanticwb.promexico.ProMxVideo to add
+   */
+
+    public void addVideo(org.semanticwb.promexico.ProMxVideo value)
+    {
+        getSemanticObject().addObjectProperty(promx_hasVideo, value.getSemanticObject());
+    }
+   /**
+   * Removes all the Video
+   */
+
+    public void removeAllVideo()
+    {
+        getSemanticObject().removeProperty(promx_hasVideo);
+    }
+   /**
+   * Removes a Video
+   * @param value org.semanticwb.promexico.ProMxVideo to remove
+   */
+
+    public void removeVideo(org.semanticwb.promexico.ProMxVideo value)
+    {
+        getSemanticObject().removeObjectProperty(promx_hasVideo,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the Video
+   * @return a org.semanticwb.promexico.ProMxVideo
+   */
+    public org.semanticwb.promexico.ProMxVideo getVideo()
+    {
+         org.semanticwb.promexico.ProMxVideo ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(promx_hasVideo);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.promexico.ProMxVideo)obj.createGenericInstance();
+         }
+         return ret;
+    }
 
 /**
 * Gets the Longitude property
@@ -680,6 +777,24 @@ public abstract class OfficeBase extends org.semanticwb.promexico.ProMxWebPage i
     public void setRepreEmail(String value)
     {
         getSemanticObject().setProperty(promx_repreEmail, value);
+    }
+
+/**
+* Gets the OfficePhoto property
+* @return String with the OfficePhoto
+*/
+    public String getOfficePhoto()
+    {
+        return getSemanticObject().getProperty(promx_OfficePhoto);
+    }
+
+/**
+* Sets the OfficePhoto property
+* @param value long with the OfficePhoto
+*/
+    public void setOfficePhoto(String value)
+    {
+        getSemanticObject().setProperty(promx_OfficePhoto, value);
     }
    /**
    * Gets all the org.semanticwb.promexico.New

@@ -4,7 +4,7 @@ package org.semanticwb.promexico.base;
    /**
    * Eventos de ProMéxico 
    */
-public abstract class EventBase extends org.semanticwb.portal.resources.sem.genericCalendar.Event implements org.semanticwb.model.Traceable,org.semanticwb.model.Activeable,org.semanticwb.model.Searchable,org.semanticwb.model.Localeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Resourceable
+public abstract class EventBase extends org.semanticwb.portal.resources.sem.genericCalendar.Event implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Localeable,org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable,org.semanticwb.model.Searchable,org.semanticwb.model.Activeable,org.semanticwb.model.Tagable
 {
    /**
    * Objeto controlador de oficinas
@@ -16,6 +16,10 @@ public abstract class EventBase extends org.semanticwb.portal.resources.sem.gene
     public static final org.semanticwb.platform.SemanticProperty promx_hasOffice=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasOffice");
     public static final org.semanticwb.platform.SemanticClass promx_Sector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Sector");
     public static final org.semanticwb.platform.SemanticProperty promx_hasSectores=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasSectores");
+   /**
+   * Foto del Evento
+   */
+    public static final org.semanticwb.platform.SemanticProperty promx_eventPhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#eventPhoto");
    /**
    * Subtipos de Eventos, despues cambiar la manera de presentar en la administración por combos anidados, es decir, de acuerdo al tipo (Nacional o Internacional), presentar los subtipos.
    */
@@ -425,6 +429,57 @@ public abstract class EventBase extends org.semanticwb.portal.resources.sem.gene
              ret=(org.semanticwb.promexico.Sector)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the EventPhoto property
+* @return String with the EventPhoto
+*/
+    public String getEventPhoto()
+    {
+        return getSemanticObject().getProperty(promx_eventPhoto);
+    }
+
+/**
+* Sets the EventPhoto property
+* @param value long with the EventPhoto
+*/
+    public void setEventPhoto(String value)
+    {
+        getSemanticObject().setProperty(promx_eventPhoto, value);
+    }
+
+/**
+* Gets the Tags property
+* @return String with the Tags
+*/
+    public String getTags()
+    {
+        return getSemanticObject().getProperty(swb_tags);
+    }
+
+/**
+* Sets the Tags property
+* @param value long with the Tags
+*/
+    public void setTags(String value)
+    {
+        getSemanticObject().setProperty(swb_tags, value);
+    }
+
+    public String getTags(String lang)
+    {
+        return getSemanticObject().getProperty(swb_tags, null, lang);
+    }
+
+    public String getDisplayTags(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_tags, lang);
+    }
+
+    public void setTags(String tags, String lang)
+    {
+        getSemanticObject().setProperty(swb_tags, tags, lang);
     }
    /**
    * Sets the value for the property EvSubType
