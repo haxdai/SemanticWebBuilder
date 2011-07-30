@@ -267,7 +267,7 @@ public class ProMxResourceCalendar extends org.semanticwb.promexico.resources.ba
             if(cal.getIdPage() != null) {
                 wp = paramRequest.getWebPage().getWebSite().getWebPage(cal.getIdPage());
                 if(wp != null && wp.isActive()) {
-                   url = wp.getUrl() + "?id=" + event.getId();
+                   url = wp.getUrl() + "?id=" + event.getId()+"&show=event";
                 }
             }
         }

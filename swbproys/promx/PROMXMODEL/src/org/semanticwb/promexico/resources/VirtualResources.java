@@ -32,7 +32,7 @@ public class VirtualResources extends GenericResource{
     @Override
     public void render(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
-        System.out.println("en virtualResources...");
+        //System.out.println("en virtualResources...");
         WebPage page=paramRequest.getWebPage();
         Resource base=paramRequest.getResourceBase();
         Resourceable resourceAble=null;
@@ -40,18 +40,18 @@ public class VirtualResources extends GenericResource{
             String id=request.getParameter("id");
             String show=request.getParameter("show");
             if(show.equalsIgnoreCase("new")) resourceAble=New.ClassMgr.getNew(id, page.getWebSite());
-            //else if(show.equalsIgnoreCase("event")) resourceAble=Event.ClassMgr.getEvent(id, page.getWebSite());
-            System.out.println("resourceAbleJ:"+resourceAble);
+            else if(show.equalsIgnoreCase("event")) resourceAble=Event.ClassMgr.getEvent(id, page.getWebSite());
+            //System.out.println("resourceAbleJ:"+resourceAble);
             if(resourceAble != null)
             {
                 Iterator<Resource> it=SWBComparator.sortSortableObject(resourceAble.listResources());
                 while(it.hasNext())
                 {
                     Resource res=it.next();
-                    System.out.println("resJ:"+res);
+                    //System.out.println("resJ:"+res);
                     if(paramRequest.getUser().haveAccess(res))//res.isValid() &&
                     {
-                        System.out.println("resJ-1:"+res);
+                        //System.out.println("resJ-1:"+res);
                         SWBResource swbres=SWBPortal.getResourceMgr().getResource(res);
                         ((SWBParamRequestImp)paramRequest).setResourceBase(res);
                         ((SWBParamRequestImp)paramRequest).setVirtualResource(base);
