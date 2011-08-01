@@ -1,7 +1,7 @@
 package org.semanticwb.promexico.base;
 
 
-public abstract class NewBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Tagable,org.semanticwb.model.Searchable,org.semanticwb.model.Ruleable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Resourceable
+public abstract class NewBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Ruleable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Searchable,org.semanticwb.model.Resourceable,org.semanticwb.model.Tagable,org.semanticwb.model.Traceable
 {
    /**
    * Objeto controlador de oficinas

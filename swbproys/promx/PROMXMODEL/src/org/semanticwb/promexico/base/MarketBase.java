@@ -4,7 +4,7 @@ package org.semanticwb.promexico.base;
    /**
    * Catalogo de Mercados 
    */
-public abstract class MarketBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class MarketBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
    /**
    * Objeto controlador de oficinas

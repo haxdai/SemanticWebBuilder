@@ -4,7 +4,7 @@ package org.semanticwb.promexico.base;
    /**
    * Objeto controlador de oficinas 
    */
-public abstract class OfficeBase extends org.semanticwb.promexico.ProMxWebPage implements org.semanticwb.model.RuleRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableNode,org.semanticwb.model.FilterableClass,org.semanticwb.model.Indexable,org.semanticwb.promexico.Localizable,org.semanticwb.model.TemplateRefable,org.semanticwb.promexico.Representable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Trashable,org.semanticwb.model.Rankable,org.semanticwb.model.Localeable,org.semanticwb.model.Referensable,org.semanticwb.model.Resourceable,org.semanticwb.model.RoleRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Traceable,org.semanticwb.model.Activeable,org.semanticwb.model.Expirable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Searchable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Countryable,org.semanticwb.model.Hiddenable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Viewable
+public abstract class OfficeBase extends org.semanticwb.promexico.ProMxWebPage implements org.semanticwb.model.Countryable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Expirable,org.semanticwb.model.Referensable,org.semanticwb.promexico.Localizable,org.semanticwb.model.Traceable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Activeable,org.semanticwb.promexico.Representable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Hiddenable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Resourceable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Trashable,org.semanticwb.model.Undeleteable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Viewable,org.semanticwb.model.Searchable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Tagable,org.semanticwb.model.Rankable,org.semanticwb.model.Localeable,org.semanticwb.model.Indexable
 {
     public static final org.semanticwb.platform.SemanticClass promx_ProMxVideo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#ProMxVideo");
    /**
@@ -563,29 +563,6 @@ public abstract class OfficeBase extends org.semanticwb.promexico.ProMxWebPage i
             return it;
         }
        /**
-       * Gets all org.semanticwb.promexico.Office with a determined CalendarRef
-       * @param value CalendarRef of the type org.semanticwb.model.CalendarRef
-       * @param model Model of the org.semanticwb.promexico.Office
-       * @return Iterator with all the org.semanticwb.promexico.Office
-       */
-
-        public static java.util.Iterator<org.semanticwb.promexico.Office> listOfficeByCalendarRef(org.semanticwb.model.CalendarRef value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Office> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasCalendarRef, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.promexico.Office with a determined CalendarRef
-       * @param value CalendarRef of the type org.semanticwb.model.CalendarRef
-       * @return Iterator with all the org.semanticwb.promexico.Office
-       */
-
-        public static java.util.Iterator<org.semanticwb.promexico.Office> listOfficeByCalendarRef(org.semanticwb.model.CalendarRef value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Office> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasCalendarRef,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.promexico.Office with a determined RoleRef
        * @param value RoleRef of the type org.semanticwb.model.RoleRef
        * @param model Model of the org.semanticwb.promexico.Office
@@ -606,6 +583,29 @@ public abstract class OfficeBase extends org.semanticwb.promexico.ProMxWebPage i
         public static java.util.Iterator<org.semanticwb.promexico.Office> listOfficeByRoleRef(org.semanticwb.model.RoleRef value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Office> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.Office with a determined CalendarRef
+       * @param value CalendarRef of the type org.semanticwb.model.CalendarRef
+       * @param model Model of the org.semanticwb.promexico.Office
+       * @return Iterator with all the org.semanticwb.promexico.Office
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Office> listOfficeByCalendarRef(org.semanticwb.model.CalendarRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Office> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasCalendarRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.Office with a determined CalendarRef
+       * @param value CalendarRef of the type org.semanticwb.model.CalendarRef
+       * @return Iterator with all the org.semanticwb.promexico.Office
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Office> listOfficeByCalendarRef(org.semanticwb.model.CalendarRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Office> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasCalendarRef,value.getSemanticObject(),sclass));
             return it;
         }
        /**
