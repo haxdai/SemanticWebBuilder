@@ -32,6 +32,12 @@ public abstract class InstitucionBase extends org.semanticwb.model.SWBClass impl
             java.util.Iterator it=sclass.listInstances();
             return new org.semanticwb.model.GenericIterator<gob.sep.becas.Institucion>(it, true);
         }
+
+        public static gob.sep.becas.Institucion createInstitucion(org.semanticwb.model.SWBModel model)
+        {
+            long id=model.getSemanticObject().getModel().getCounter(sclass);
+            return gob.sep.becas.Institucion.ClassMgr.createInstitucion(String.valueOf(id), model);
+        }
        /**
        * Gets a gob.sep.becas.Institucion
        * @param id Identifier for gob.sep.becas.Institucion
