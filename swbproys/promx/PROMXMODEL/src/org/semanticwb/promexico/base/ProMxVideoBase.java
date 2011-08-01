@@ -1,8 +1,18 @@
 package org.semanticwb.promexico.base;
 
 
-public abstract class ProMxVideoBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Traceable
+public abstract class ProMxVideoBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Searchable,org.semanticwb.model.Tagable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
+    public static final org.semanticwb.platform.SemanticClass promx_Sector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Sector");
+    public static final org.semanticwb.platform.SemanticProperty promx_hasVideoSector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasVideoSector");
+   /**
+   * Servicios
+   */
+    public static final org.semanticwb.platform.SemanticClass promx_Service=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Service");
+    public static final org.semanticwb.platform.SemanticProperty promx_hasVideoService=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasVideoService");
+    public static final org.semanticwb.platform.SemanticProperty promx_isMainVideo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#isMainVideo");
+    public static final org.semanticwb.platform.SemanticClass promx_ProMxVideoType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#ProMxVideoType");
+    public static final org.semanticwb.platform.SemanticProperty promx_videoType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#videoType");
     public static final org.semanticwb.platform.SemanticClass promx_ProMxVideo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#ProMxVideo");
    /**
    * The semantic class that represents the currentObject
@@ -79,6 +89,29 @@ public abstract class ProMxVideoBase extends org.semanticwb.model.SWBClass imple
             return (getProMxVideo(id, model)!=null);
         }
        /**
+       * Gets all org.semanticwb.promexico.ProMxVideo with a determined VideoSector
+       * @param value VideoSector of the type org.semanticwb.promexico.Sector
+       * @param model Model of the org.semanticwb.promexico.ProMxVideo
+       * @return Iterator with all the org.semanticwb.promexico.ProMxVideo
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.ProMxVideo> listProMxVideoByVideoSector(org.semanticwb.promexico.Sector value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.ProMxVideo> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(promx_hasVideoSector, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.ProMxVideo with a determined VideoSector
+       * @param value VideoSector of the type org.semanticwb.promexico.Sector
+       * @return Iterator with all the org.semanticwb.promexico.ProMxVideo
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.ProMxVideo> listProMxVideoByVideoSector(org.semanticwb.promexico.Sector value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.ProMxVideo> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(promx_hasVideoSector,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.promexico.ProMxVideo with a determined ModifiedBy
        * @param value ModifiedBy of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.promexico.ProMxVideo
@@ -99,6 +132,52 @@ public abstract class ProMxVideoBase extends org.semanticwb.model.SWBClass imple
         public static java.util.Iterator<org.semanticwb.promexico.ProMxVideo> listProMxVideoByModifiedBy(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.promexico.ProMxVideo> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.ProMxVideo with a determined VideoService
+       * @param value VideoService of the type org.semanticwb.promexico.Service
+       * @param model Model of the org.semanticwb.promexico.ProMxVideo
+       * @return Iterator with all the org.semanticwb.promexico.ProMxVideo
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.ProMxVideo> listProMxVideoByVideoService(org.semanticwb.promexico.Service value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.ProMxVideo> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(promx_hasVideoService, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.ProMxVideo with a determined VideoService
+       * @param value VideoService of the type org.semanticwb.promexico.Service
+       * @return Iterator with all the org.semanticwb.promexico.ProMxVideo
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.ProMxVideo> listProMxVideoByVideoService(org.semanticwb.promexico.Service value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.ProMxVideo> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(promx_hasVideoService,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.ProMxVideo with a determined VideoType
+       * @param value VideoType of the type org.semanticwb.promexico.ProMxVideoType
+       * @param model Model of the org.semanticwb.promexico.ProMxVideo
+       * @return Iterator with all the org.semanticwb.promexico.ProMxVideo
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.ProMxVideo> listProMxVideoByVideoType(org.semanticwb.promexico.ProMxVideoType value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.ProMxVideo> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(promx_videoType, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.ProMxVideo with a determined VideoType
+       * @param value VideoType of the type org.semanticwb.promexico.ProMxVideoType
+       * @return Iterator with all the org.semanticwb.promexico.ProMxVideo
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.ProMxVideo> listProMxVideoByVideoType(org.semanticwb.promexico.ProMxVideoType value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.ProMxVideo> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(promx_videoType,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -133,6 +212,71 @@ public abstract class ProMxVideoBase extends org.semanticwb.model.SWBClass imple
     public ProMxVideoBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+   /**
+   * Gets all the org.semanticwb.promexico.Sector
+   * @return A GenericIterator with all the org.semanticwb.promexico.Sector
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Sector> listVideoSectors()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Sector>(getSemanticObject().listObjectProperties(promx_hasVideoSector));
+    }
+
+   /**
+   * Gets true if has a VideoSector
+   * @param value org.semanticwb.promexico.Sector to verify
+   * @return true if the org.semanticwb.promexico.Sector exists, false otherwise
+   */
+    public boolean hasVideoSector(org.semanticwb.promexico.Sector value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(promx_hasVideoSector,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a VideoSector
+   * @param value org.semanticwb.promexico.Sector to add
+   */
+
+    public void addVideoSector(org.semanticwb.promexico.Sector value)
+    {
+        getSemanticObject().addObjectProperty(promx_hasVideoSector, value.getSemanticObject());
+    }
+   /**
+   * Removes all the VideoSector
+   */
+
+    public void removeAllVideoSector()
+    {
+        getSemanticObject().removeProperty(promx_hasVideoSector);
+    }
+   /**
+   * Removes a VideoSector
+   * @param value org.semanticwb.promexico.Sector to remove
+   */
+
+    public void removeVideoSector(org.semanticwb.promexico.Sector value)
+    {
+        getSemanticObject().removeObjectProperty(promx_hasVideoSector,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the VideoSector
+   * @return a org.semanticwb.promexico.Sector
+   */
+    public org.semanticwb.promexico.Sector getVideoSector()
+    {
+         org.semanticwb.promexico.Sector ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(promx_hasVideoSector);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.promexico.Sector)obj.createGenericInstance();
+         }
+         return ret;
     }
    /**
    * Sets the value for the property ModifiedBy
@@ -171,6 +315,89 @@ public abstract class ProMxVideoBase extends org.semanticwb.model.SWBClass imple
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
          }
          return ret;
+    }
+   /**
+   * Gets all the org.semanticwb.promexico.Service
+   * @return A GenericIterator with all the org.semanticwb.promexico.Service
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Service> listVideoServices()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Service>(getSemanticObject().listObjectProperties(promx_hasVideoService));
+    }
+
+   /**
+   * Gets true if has a VideoService
+   * @param value org.semanticwb.promexico.Service to verify
+   * @return true if the org.semanticwb.promexico.Service exists, false otherwise
+   */
+    public boolean hasVideoService(org.semanticwb.promexico.Service value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(promx_hasVideoService,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a VideoService
+   * @param value org.semanticwb.promexico.Service to add
+   */
+
+    public void addVideoService(org.semanticwb.promexico.Service value)
+    {
+        getSemanticObject().addObjectProperty(promx_hasVideoService, value.getSemanticObject());
+    }
+   /**
+   * Removes all the VideoService
+   */
+
+    public void removeAllVideoService()
+    {
+        getSemanticObject().removeProperty(promx_hasVideoService);
+    }
+   /**
+   * Removes a VideoService
+   * @param value org.semanticwb.promexico.Service to remove
+   */
+
+    public void removeVideoService(org.semanticwb.promexico.Service value)
+    {
+        getSemanticObject().removeObjectProperty(promx_hasVideoService,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the VideoService
+   * @return a org.semanticwb.promexico.Service
+   */
+    public org.semanticwb.promexico.Service getVideoService()
+    {
+         org.semanticwb.promexico.Service ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(promx_hasVideoService);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.promexico.Service)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+/**
+* Gets the IsMainVideo property
+* @return boolean with the IsMainVideo
+*/
+    public boolean isIsMainVideo()
+    {
+        return getSemanticObject().getBooleanProperty(promx_isMainVideo);
+    }
+
+/**
+* Sets the IsMainVideo property
+* @param value long with the IsMainVideo
+*/
+    public void setIsMainVideo(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(promx_isMainVideo, value);
     }
 
 /**
@@ -240,6 +467,44 @@ public abstract class ProMxVideoBase extends org.semanticwb.model.SWBClass imple
     public void setDescription(String description, String lang)
     {
         getSemanticObject().setProperty(swb_description, description, lang);
+    }
+   /**
+   * Sets the value for the property VideoType
+   * @param value VideoType to set
+   */
+
+    public void setVideoType(org.semanticwb.promexico.ProMxVideoType value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(promx_videoType, value.getSemanticObject());
+        }else
+        {
+            removeVideoType();
+        }
+    }
+   /**
+   * Remove the value for VideoType property
+   */
+
+    public void removeVideoType()
+    {
+        getSemanticObject().removeProperty(promx_videoType);
+    }
+
+   /**
+   * Gets the VideoType
+   * @return a org.semanticwb.promexico.ProMxVideoType
+   */
+    public org.semanticwb.promexico.ProMxVideoType getVideoType()
+    {
+         org.semanticwb.promexico.ProMxVideoType ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(promx_videoType);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.promexico.ProMxVideoType)obj.createGenericInstance();
+         }
+         return ret;
     }
    /**
    * Sets the value for the property Creator
