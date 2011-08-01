@@ -4,8 +4,13 @@ package org.semanticwb.promexico.base;
    /**
    * Temas de Preguntas Frecuentes 
    */
-public abstract class FaqTopicBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class FaqTopicBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
+   /**
+   * Preguntas Frecuentes
+   */
+    public static final org.semanticwb.platform.SemanticClass promx_Faq=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Faq");
+    public static final org.semanticwb.platform.SemanticProperty promx_hasFaqsInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasFaqsInv");
    /**
    * Temas de Preguntas Frecuentes
    */
@@ -108,6 +113,29 @@ public abstract class FaqTopicBase extends org.semanticwb.model.SWBClass impleme
             return it;
         }
        /**
+       * Gets all org.semanticwb.promexico.FaqTopic with a determined FaqsInv
+       * @param value FaqsInv of the type org.semanticwb.promexico.Faq
+       * @param model Model of the org.semanticwb.promexico.FaqTopic
+       * @return Iterator with all the org.semanticwb.promexico.FaqTopic
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.FaqTopic> listFaqTopicByFaqsInv(org.semanticwb.promexico.Faq value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.FaqTopic> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(promx_hasFaqsInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.FaqTopic with a determined FaqsInv
+       * @param value FaqsInv of the type org.semanticwb.promexico.Faq
+       * @return Iterator with all the org.semanticwb.promexico.FaqTopic
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.FaqTopic> listFaqTopicByFaqsInv(org.semanticwb.promexico.Faq value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.FaqTopic> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(promx_hasFaqsInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.promexico.FaqTopic with a determined Creator
        * @param value Creator of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.promexico.FaqTopic
@@ -175,6 +203,45 @@ public abstract class FaqTopicBase extends org.semanticwb.model.SWBClass impleme
          if(obj!=null)
          {
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Gets all the org.semanticwb.promexico.Faq
+   * @return A GenericIterator with all the org.semanticwb.promexico.Faq
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Faq> listFaqsInvs()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Faq>(getSemanticObject().listObjectProperties(promx_hasFaqsInv));
+    }
+
+   /**
+   * Gets true if has a FaqsInv
+   * @param value org.semanticwb.promexico.Faq to verify
+   * @return true if the org.semanticwb.promexico.Faq exists, false otherwise
+   */
+    public boolean hasFaqsInv(org.semanticwb.promexico.Faq value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(promx_hasFaqsInv,value.getSemanticObject());
+        }
+        return ret;
+    }
+
+   /**
+   * Gets the FaqsInv
+   * @return a org.semanticwb.promexico.Faq
+   */
+    public org.semanticwb.promexico.Faq getFaqsInv()
+    {
+         org.semanticwb.promexico.Faq ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(promx_hasFaqsInv);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.promexico.Faq)obj.createGenericInstance();
          }
          return ret;
     }
