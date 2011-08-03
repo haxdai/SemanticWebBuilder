@@ -42,6 +42,15 @@ public class UserRegistration extends GenericResource {
             "return true; }"+
            "estado.innerHTML=\"Contraseña aceptable\";  "+
             "estado.style.color=\"green\";"+
+            "}\n"+
+            "function submitfrm() { "+
+            "var forma = document.getElementById(\"formaRegistro\"); "+
+            "if (usrName.value.length==0 || usrPrimA.value.length==0 ||"+
+            "mail.value.length==0 || clave.value.length==0 ||"+
+            "preguntaSecreta.selectedIndex<1 ||"+
+            "respuestaSecreta.value.length==0 "+
+            ") {alert ('Datos incompletos'); } else { "+
+            "forma.submit(); }"+
             "}"+
             "</script>"+
         "<script type=\"text/javascript\" src=\""+SWBPortal.getContextPath()+"/swbadmin/js/swb.js\" ></script><form id=\"formaRegistro\" name=\"formaRegistro\" method=\"post\" action=\"{$actionURL}\">"
@@ -96,7 +105,7 @@ public class UserRegistration extends GenericResource {
         "<p>&nbsp;</p>\n"+
         "<p>&nbsp;</p>\n"+
         "<p>\n"+
-        "  <label for=\"respuestaSecreta\">Respuesta</label>\n"+
+        "  <label for=\"respuestaSecreta\">Respuesta*</label>\n"+
         "  <input type=\"text\" name=\"respuestaSecreta\" id=\"respuestaSecreta\" class=\"inputPop\" />\n"+
         "</p>\n"+
         "<p>&nbsp;</p>\n"+
@@ -197,7 +206,7 @@ public class UserRegistration extends GenericResource {
         "<p>&nbsp;</p>\n"+
         "<p>&nbsp;</p>\n"+
         "<p>&nbsp;</p>\n"+
-        "<p><a href=\"javascript:formaRegistro.submit();\" class=\"cerrarBoton\">Guardar</a></p></form>\n";
+        "<p><a href=\"javascript:submitfrm()\" class=\"cerrarBoton\">Guardar</a></p></form>\n";
 
     String Message="<html><body><p font=\"arial\" size=\"3\"><em>Bienvenido al portal de Becas, donde podrás encontrar "
             + "información sobre diferentes tipos de apoyos que ofrecen las instituciones participantes en el "
