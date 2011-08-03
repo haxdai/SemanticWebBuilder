@@ -16,7 +16,6 @@ import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.*;
-import org.semanticwb.platform.SemanticClass;
 import org.semanticwb.platform.SemanticLiteral;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.api.GenericResource;
@@ -30,7 +29,23 @@ import org.semanticwb.portal.api.SWBResourceException;
  */
 public class UserRegistration extends GenericResource {
     ///work/models/Beca_SEP/CSS/estilos_lightBox.css
-    String tplt = "<form id=\"formaRegistro\" method=\"post\" action=\"{$actionURL}\"><link type=\"text/css\" rel=\"stylesheet\" href=\"{$rutacss}\" />\n"+ // /work/estilos_lightBox.css
+    String tplt = "<script  type=\"text/javascript\"> function validatePassowrd(clave) {"+
+            "var estado = document.getElementById(\"passwordstatus\");"+
+            "if (clave.length<6) { "+
+            "estado.innerHTML=\"La contraseña debe tener al menos 6 caracteres\";  "+
+            "estado.style.color=\"red\";"+
+            "return true; }"+
+            "var pRegEx=/^[ A-Za-z0-9\\!\\@\\_\\-\\.]*?([A-Za-z][ A-Za-z0-9\\!\\@\\_\\-\\.]*?[0-9]|[0-9][ A-Za-z0-9\\!\\@\\_\\-\\.]*?[A-Za-z])[ A-Za-z0-9\\!\\@\\_\\-\\.]*$/;"+
+            "if (!pRegEx.test(clave)) {"+
+            "estado.innerHTML=\"La contraseña debe contener letras, números ó los símbolos ! @ _ - .\";  "+
+            "estado.style.color=\"red\";"+
+            "return true; }"+
+           "estado.innerHTML=\"Contraseña aceptable\";  "+
+            "estado.style.color=\"green\";"+
+            "}"+
+            "</script>"+
+        "<script type=\"text/javascript\" src=\""+SWBPortal.getContextPath()+"/swbadmin/js/swb.js\" ></script><form id=\"formaRegistro\" name=\"formaRegistro\" method=\"post\" action=\"{$actionURL}\">"
+        + "<link type=\"text/css\" rel=\"stylesheet\" href=\""+SWBPortal.getContextPath()+"/work/models/Beca_SEP/CSS/estilos_lightBox.css\" />\n"+ // /work/estilos_lightBox.css
         "<h2>Crear Cuenta</h2>\n"+
         "<p>&nbsp;</p>\n"+
         "<p class=\"introPop\">Bienvenido, para enviarte la informaci&oacute;n actualizada sobre las fechas ofrecidas por el Gobierno Federal, llena los siguientes datos:</p>\n"+
@@ -38,22 +53,35 @@ public class UserRegistration extends GenericResource {
         "<p class=\"introPop\">portal, <a href=\"#\">entra a tu cuenta  aqu&iacute;</a></p>\n"+
         "<h5>Informaci&oacute;n del Usuario</h5>\n"+
         "<p class=\"obligatorio\">*Datos Obligatorios, favor de proporcionarlos</p>\n"+
+        "<p><label for=\"usrName\">Nombre(s)*</label>\n"+
+        "<input type=\"text\" name=\"usrName\" id=\"usrName\" class=\"inputPop\" /></p>\n"+
+        "<p>&nbsp;</p>\n"+
+        "<p>&nbsp;</p>\n"+
+        "<p><label for=\"usrPrimA\">Primer Apellído*</label>\n"+
+        "<input type=\"text\" name=\"usrPrimA\" id=\"usrPrimA\" class=\"inputPop\" /></p>\n"+
+        "<p>&nbsp;</p>\n"+
+        "<p>&nbsp;</p>\n"+
+        "<p><label for=\"usrSegA\">Segundo Apellído</label>\n"+
+        "<input type=\"text\" name=\"usrSegA\" id=\"usrSegA\" class=\"inputPop\" /></p>\n"+
+        "<p>&nbsp;</p>\n"+
+        "<p>&nbsp;</p>\n"+
         "<p>\n"+
         "  <label for=\"mail\">Correo Electr&oacute;nico*</label>\n"+
-        "  <input type=\"text\" name=\"mail\" id=\"mail\" class=\"inputPop\" />\n"+
+        "  <input type=\"text\" name=\"mail\" id=\"mail\" class=\"inputPop\" onchange=\" if (!isValidEmail(this.value) || !canAddEmail('{$model}', this.value))"+
+        " alert ('El correo ya existe o no tiene el formato adecuado');\"/>\n"+
         "</p>\n"+
         "<p>&nbsp;</p>\n"+
         "<p>&nbsp;</p>\n"+
         "<p>\n"+
         "  <label for=\"clave\">Contrase&ntilde;a*</label>\n"+
-        "  <input type=\"password\" name=\"clave\" id=\"clave\" class=\"inputPop\" />\n"+
+        "  <input type=\"password\" name=\"clave\" id=\"clave\" class=\"inputPop\" onkeyup=\"validatePassowrd(this.value);\" />\n"+
         "</p>\n"+
         "<p>&nbsp;</p>\n"+
         "<p>&nbsp;</p>\n"+
-        "<p class=\"popText\">Nivel de Seguridad</p>\n"+
+        "<p class=\"popText\">Nivel de Seguridad:<div id=\"passwordstatus\" style=\"color:red\">Proporcione una contraseña</div></p>\n"+
         "<p>\n"+
         "  <label for=\"clave2\">Confirmar contrase&ntilde;a*</label>\n"+
-        "  <input type=\"password\" name=\"clave2\" id=\"clave2\" class=\"inputPop\" />\n"+
+        "  <input type=\"password\" name=\"clave2\" id=\"clave2\" class=\"inputPop\" onchange=\"if (this.value!=clave.value) alert ('Las contraseñas son diferentes');\" />\n"+
         "</p>\n"+
         "<p>&nbsp;</p>\n"+
         "<p>&nbsp;</p>\n"+
@@ -82,7 +110,8 @@ public class UserRegistration extends GenericResource {
         "<a onclick=\"document.getElementById('captchaimg').src='"+SWBPlatform.getContextPath()+
                         "/frmprocess/requestCaptcha?'+ Math.random(); document.getElementById('captcha').value=''; return false;\">cambiar imagen</a></p>\n"+ //Captcha - width=\"345\" height=\"59\"
         "<p>&nbsp;\n"+
-        "  <input type=\"text\" name=\"captcha\" id=\"captcha\" class=\"inputPop\" />\n"+
+        "  <input type=\"text\" name=\"frmCaptchaValue\" id=\"frmCaptchaValue\" class=\"inputPop\" onchange=\"if (!validateElement('frmCaptchaValue','/frmprocess/validCaptcha?none=1',this.value)) "+
+        "alert('Verificación incorrecta');\"/>\n"+
         "</p>\n"+
         "<p>&nbsp;</p>\n"+
         "<h5>Nivel de estudios actual</h5>\n"+
@@ -168,7 +197,24 @@ public class UserRegistration extends GenericResource {
         "<p>&nbsp;</p>\n"+
         "<p>&nbsp;</p>\n"+
         "<p>&nbsp;</p>\n"+
-        "<p><a href=\"javascript:this.submit();\" class=\"cerrarBoton\">Guardar</a></p></form>\n";
+        "<p><a href=\"javascript:formaRegistro.submit();\" class=\"cerrarBoton\">Guardar</a></p></form>\n";
+
+    String Message="<html><body><p font=\"arial\" size=\"3\"><em>Bienvenido al portal de Becas, donde podrás encontrar "
+            + "información sobre diferentes tipos de apoyos que ofrecen las instituciones participantes en el "
+            + "programa a través de sus distintas convocatorias.<br><br>Gracias por crear una cuenta con nosotros, "
+            + "ahora sólo tienes que ingresar a la siguiente dirección para activarla:</em><br><br>"
+            + "<a href=\"{$link}\">Haz clic aquí</a><br><br>¡No dejes pasar más tiempo, busca tu beca y  aprovecha todos "
+            + "los beneficios que te ofrece el portal para cumplir tus objetivos!</p></body></html>";
+
+    String Activacion="<p><img src=\""+SWBPlatform.getContextPath()+"/work/models/Beca_SEP/images/unpaso.png\" alt=\"\" /></p>\n"+
+        "<h3>Hola <b>{$nombre}</b>, est&aacute;s a punto de crear tu cuenta.</h3>\n"+
+        "<p>Hemos enviado un correo  a la direcci&oacute;n electr&oacute;nica que nos proporcionaste al crear tu cuenta:</p>\n"+
+        "<p>&nbsp;</p>\n"+
+        "<p style=\"text-align:center;\"><b>{$correo}</b></p>\n"+
+        "<p>&nbsp;</p>\n"+
+        "<p>Por favor haz clic en el v&iacute;nculo dentro del correo para activar tu cuenta.Si no recibes nuestro correo con "
+        + "el v&iacute;nculo de activaci&oacute;n en 24 horas, por favor cont&aacute;ctanos en "
+        + "<a href=\"mailto:ayuda@becas.com\">ayuda@becas.com</a></p>\n";
 
     String Seguridad = "";
     static Logger log = SWBUtils.getLogger(UserRegistration.class);
@@ -213,7 +259,6 @@ public class UserRegistration extends GenericResource {
          }
          Instituciones = ret.toString();
 
-        System.out.println("***********************************");
         iter = NivelEstudio.sclass.listInstances();
         ret = new StringBuffer("");
          while (iter.hasNext()){
@@ -223,7 +268,6 @@ public class UserRegistration extends GenericResource {
              ret.append("<input type=\"radio\" name=\"nest\" id=\"nest\" class=\"radioB\" value=\""+id+"\" />\n<label for=\"nest\">"+title+"</label>\n");
          }
         Niveles = ret.toString();
-        System.out.println("got Niveles:"+Niveles);
     }
 
 
@@ -231,25 +275,32 @@ public class UserRegistration extends GenericResource {
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
         response.setContentType("text/html");
-        String tmp = SWBUtils.TEXT.replaceAll(tplt,"{$rutacss}","/work/estilos_lightBox.css");
-        tmp = SWBUtils.TEXT.replaceAll(tmp,"{$actionURL}",paramRequest.getActionUrl().toString(true));
+        //String tmp = SWBUtils.TEXT.replaceAll(tplt,"{$rutacss}","/work/estilos_lightBox.css");
+        String tmp = SWBUtils.TEXT.replaceAll(tplt,"{$actionURL}",paramRequest.getActionUrl().toString(true));
         tmp = SWBUtils.TEXT.replaceAll(tmp,"{$preguntas}",Seguridad);
         tmp = SWBUtils.TEXT.replaceAll(tmp,"{$instituciones}",Instituciones);
         tmp = SWBUtils.TEXT.replaceAll(tmp,"{$niveles}",Niveles);
+        tmp = SWBUtils.TEXT.replaceAll(tmp,"{$model}",paramRequest.getUser().getUserRepository().getId());
+        if (null!=request.getParameter("ERROR")){
+            tmp = tmp + "<script>alert('"+request.getParameter("ERROR").replace('\'','`')+"');</script>";
+        }
         response.getWriter().println(tmp);
+
         
     }
 
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
     {
-        if (null==request.getParameter("captcha") || !((String) request.getSession(true).getAttribute("captchaCad")).equalsIgnoreCase(request.getParameter("captcha")))
+        if (null==request.getParameter("frmCaptchaValue") || null==request.getSession(true).getAttribute("captchaCad") ||!((String) request.getSession(true).getAttribute("captchaCad")).equalsIgnoreCase(request.getParameter("frmCaptchaValue")))
         {
-            response.setRenderParameter("ERROR", "Fall&oacute; la verificaci&oacute;n de palabra");
+            response.setRenderParameter("ERROR", "Falló la verificación de palabra");
+            return;
         }
         if (null==request.getParameter("clave") || !request.getParameter("clave").equals(request.getParameter("clave2")))
         {
             response.setRenderParameter("ERROR", "Contraseñas no corresponden");
+            return;
         }
         String usrLogin = request.getParameter("mail");
         User user = response.getUser();
@@ -259,7 +310,7 @@ public class UserRegistration extends GenericResource {
             {
                 if (null != userRep.getUserByLogin(usrLogin))
                 {
-                    //TODO report Error, Loging Already Exists!
+                    response.setRenderParameter("ERROR", "El correo ya fue registrado con anterioridad");
                     return;
                 }
                 User newUser = userRep.createUser();
@@ -269,9 +320,18 @@ public class UserRegistration extends GenericResource {
                 subject.getPrincipals().add(newUser);
                 newUser.setLanguage(user.getLanguage());
                 newUser.setIp(user.getIp());
-                newUser.setActive(true);
+                //newUser.setActive(true);
                 newUser.setDevice(user.getDevice());
                 try {
+                    if (null!=request.getParameter("usrName") && !"".equals(request.getParameter("usrName").trim())){
+                        newUser.setFirstName(request.getParameter("usrName").trim());
+                    }
+                    if (null!=request.getParameter("usrPrimA") && !"".equals(request.getParameter("usrPrimA").trim())){
+                        newUser.setLastName(request.getParameter("usrPrimA").trim());
+                    }
+                    if (null!=request.getParameter("usrSegA") && !"".equals(request.getParameter("usrSegA").trim())){
+                        newUser.setSecondLastName(request.getParameter("usrSegA").trim());
+                    }
                     if (null!=request.getParameter("clave") && !"".equals(request.getParameter("clave").trim())){
                         newUser.setPassword(request.getParameter("clave").trim());
                     }
@@ -279,7 +339,7 @@ public class UserRegistration extends GenericResource {
                         newUser.setSecurityQuestion(Integer.valueOf(request.getParameter("preguntaSecreta").trim()));
                     }
                     if (null!=request.getParameter("respuestaSecreta") && !"".equals(request.getParameter("respuestaSecreta").trim())){
-                        newUser.setPassword(request.getParameter("respuestaSecreta").trim());
+                        newUser.setSecurityAnswer(request.getParameter("respuestaSecreta").trim());
                     }
                     if (null!=request.getParameter("nest") && !"".equals(request.getParameter("nest").trim())){
                         newUser.setExtendedAttribute(Becarios.becas_usrNivelEstudios, request.getParameter("nest").trim());
@@ -316,14 +376,39 @@ public class UserRegistration extends GenericResource {
 
                         newUser.getSemanticObject().addLiteralProperty(Becarios.becas_hasInterestIn, new SemanticLiteral(interes));
                     }
-
+                    response.setMode(response.Mode_EDIT);
                 } catch (SWBException swbe) {
                     log.error("registrando usuario", swbe);
                 }
+                String token = SWBUtils.CryptoWrapper.genCryptoToken();
+                while (TicketActivate.ClassMgr.hasTicketActivate(token, userRep)){
+                    System.out.println("************************************ "+token);
+                    token = SWBUtils.CryptoWrapper.genCryptoToken();
+                }
+                TicketActivate ta=TicketActivate.ClassMgr.createTicketActivate(token, userRep);
+                ta.setTVused(false);
+                ta.setTVRelatedTo(newUser);
+                
+                String url = "http://"+request.getServerName()+":"+request.getServerPort()+response.getWebPage().getWebSite().getWebPage("TicketActivate").getRealUrl()+"/"+token;
+                String message = SWBUtils.TEXT.replaceAll(Message,"{$link}",url);
+                SWBUtils.EMAIL.sendBGEmail(usrLogin, "Registro al portal de Becas de la SEP", message);
 //                System.out.println("*************** "+newUser.isActive());
-                user = newUser;
+                //user = newUser;
+                request.getSession(true).setAttribute("nombre", newUser.getFirstName());
+                request.getSession(true).setAttribute("mail", usrLogin);
 //                System.out.println("*************** "+user.isActive());
             }
+    }
+
+    @Override
+    public void doEdit(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
+    {
+        response.setContentType("text/html");
+        String nombre = null!=request.getSession().getAttribute("nombre")?(String)request.getSession().getAttribute("nombre"):"";
+        String mail = null!=request.getSession().getAttribute("mail")?(String)request.getSession().getAttribute("mail"):"";
+        String tmp = SWBUtils.TEXT.replaceAll(Activacion,"{$nombre}",nombre);
+        tmp = SWBUtils.TEXT.replaceAll(tmp,"{$correo}",mail);
+        response.getWriter().println(tmp);
     }
 
     
