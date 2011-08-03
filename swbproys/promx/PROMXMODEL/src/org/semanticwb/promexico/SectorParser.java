@@ -28,7 +28,7 @@ public class SectorParser extends WebPageParser {
     @Override
     public String getImage(Searchable gen) {
         Sector sector = (Sector)gen;
-        String ret=SWBPortal.getWebWorkPath()+"/models/"+gen.getSemanticObject().getModel().getName()+"/css/images/i_activity.png";
+        String ret=SWBPortal.getWebWorkPath()+"/models/"+gen.getSemanticObject().getModel().getName()+"/css/images/gen_sector.png";
         if(sector.getSectorPhoto()!=null){
             ret=SWBPortal.getWebWorkPath() + sector.getWorkPath() + "/" + sector.promx_SectorPhoto.getName() + "_" + sector.getId()+"_"+sector.getSectorPhoto();
         }

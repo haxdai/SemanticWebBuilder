@@ -29,7 +29,7 @@ public class OfficeParser extends WebPageParser {
     @Override
     public String getImage(Searchable gen) {
         Office office = (Office)gen;
-        String ret=SWBPortal.getWebWorkPath()+"/models/"+gen.getSemanticObject().getModel().getName()+"/css/images/i_activity.png";
+        String ret=SWBPortal.getWebWorkPath()+"/models/"+gen.getSemanticObject().getModel().getName()+"/css/images/gen_office.png";
         if(office.getOfficePhoto()!=null){
             ret=SWBPortal.getWebWorkPath() + office.getWorkPath() + "/" + office.promx_OfficePhoto.getName() + "_" + office.getId()+"_"+office.getOfficePhoto();
         }

@@ -4,7 +4,7 @@ package org.semanticwb.promexico.base;
    /**
    * Clase que hereda de swb:WebSite. Es un tipo de website para ProMéxico. De esta manera se puede contar con todos los elementos en el arbol de navegación en la administración, y otros elementos utiles para ProMéxico. 
    */
-public abstract class ProMexicoBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.Countryable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Trashable,org.semanticwb.model.OntologyDepable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Activeable,org.semanticwb.model.Filterable,org.semanticwb.model.Indexable,org.semanticwb.model.Localeable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class ProMexicoBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,org.semanticwb.model.Activeable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Localeable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Indexable,org.semanticwb.model.Trashable,org.semanticwb.model.Filterable,org.semanticwb.model.Countryable,org.semanticwb.model.OntologyDepable,org.semanticwb.model.FilterableClass
 {
    /**
    * Temas de Preguntas Frecuentes
@@ -627,6 +627,12 @@ public abstract class ProMexicoBase extends org.semanticwb.model.WebSite impleme
     {
         return org.semanticwb.promexico.EventSubType.ClassMgr.createEventSubType(id,this);
     }
+
+    public org.semanticwb.promexico.EventSubType createEventSubType()
+    {
+        long id=getSemanticObject().getModel().getCounter(promx_EventSubType);
+        return org.semanticwb.promexico.EventSubType.ClassMgr.createEventSubType(String.valueOf(id),this);
+    } 
 
     public void removeEventSubType(String id)
     {
