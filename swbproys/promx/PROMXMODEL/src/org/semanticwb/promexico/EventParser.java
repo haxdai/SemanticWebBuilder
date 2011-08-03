@@ -61,7 +61,7 @@ public class EventParser extends GenericParser {
     @Override
     public String getImage(Searchable gen) {
         Event event = (Event)gen;
-        String ret=SWBPortal.getWebWorkPath()+"/models/"+gen.getSemanticObject().getModel().getName()+"/css/images/i_event.png";
+        String ret=SWBPortal.getWebWorkPath()+"/models/"+gen.getSemanticObject().getModel().getName()+"/css/images/gen_event.png";
         if(event.getEventPhoto()!=null){
             ret=SWBPortal.getWebWorkPath() + event.getWorkPath() + "/" + event.promx_eventPhoto.getName() + "_" + event.getId()+"_"+event.getEventPhoto();
         }

@@ -28,7 +28,7 @@ public class ServiceParser extends WebPageParser {
     @Override
     public String getImage(Searchable gen) {
         Service service = (Service)gen;
-        String ret=SWBPortal.getWebWorkPath()+"/models/"+gen.getSemanticObject().getModel().getName()+"/css/images/i_activity.png";
+        String ret=SWBPortal.getWebWorkPath()+"/models/"+gen.getSemanticObject().getModel().getName()+"/css/images/gen_service.png";
         if(service.getServicePhoto()!=null){
             ret=SWBPortal.getWebWorkPath() + service.getWorkPath() + "/" + service.promx_ServicePhoto.getName() + "_" + service.getId()+"_"+service.getServicePhoto();
         }

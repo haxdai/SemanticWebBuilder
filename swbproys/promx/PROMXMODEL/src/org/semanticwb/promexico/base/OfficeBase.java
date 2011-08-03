@@ -4,13 +4,14 @@ package org.semanticwb.promexico.base;
    /**
    * Objeto controlador de oficinas 
    */
-public abstract class OfficeBase extends org.semanticwb.promexico.ProMxWebPage implements org.semanticwb.model.FilterableClass,org.semanticwb.promexico.Representable,org.semanticwb.model.Trashable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Viewable,org.semanticwb.promexico.Localizable,org.semanticwb.model.Activeable,org.semanticwb.model.Referensable,org.semanticwb.model.Indexable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Traceable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Countryable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Resourceable,org.semanticwb.model.Expirable,org.semanticwb.model.Undeleteable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Tagable,org.semanticwb.model.Localeable,org.semanticwb.model.Searchable,org.semanticwb.model.Rankable
+public abstract class OfficeBase extends org.semanticwb.promexico.ProMxWebPage implements org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable,org.semanticwb.model.Viewable,org.semanticwb.model.Activeable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Referensable,org.semanticwb.model.Localeable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Indexable,org.semanticwb.promexico.Representable,org.semanticwb.model.Trashable,org.semanticwb.model.Searchable,org.semanticwb.model.Countryable,org.semanticwb.model.Tagable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.promexico.Localizable,org.semanticwb.model.RoleRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Rankable,org.semanticwb.model.Filterable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableClass
 {
     public static final org.semanticwb.platform.SemanticClass promx_ProMxVideo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#ProMxVideo");
    /**
    * Videos relacionados a una oficina
    */
     public static final org.semanticwb.platform.SemanticProperty promx_hasVideo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasVideo");
+    public static final org.semanticwb.platform.SemanticProperty promx_international=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#international");
    /**
    * Foto de la Oficina
    */
@@ -723,6 +724,24 @@ public abstract class OfficeBase extends org.semanticwb.promexico.ProMxWebPage i
     public void setLongitude(double value)
     {
         getSemanticObject().setDoubleProperty(promx_longitude, value);
+    }
+
+/**
+* Gets the International property
+* @return boolean with the International
+*/
+    public boolean isInternational()
+    {
+        return getSemanticObject().getBooleanProperty(promx_international);
+    }
+
+/**
+* Sets the International property
+* @param value long with the International
+*/
+    public void setInternational(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(promx_international, value);
     }
 
 /**

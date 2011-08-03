@@ -1,8 +1,9 @@
 package org.semanticwb.promexico.base;
 
 
-public abstract class NewBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Ruleable,org.semanticwb.model.Resourceable,org.semanticwb.model.Tagable,org.semanticwb.model.Searchable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class NewBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable,org.semanticwb.model.Ruleable,org.semanticwb.model.Searchable,org.semanticwb.model.Tagable
 {
+    public static final org.semanticwb.platform.SemanticProperty promx_newUrl=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#newUrl");
    /**
    * Objeto controlador de oficinas
    */
@@ -310,6 +311,24 @@ public abstract class NewBase extends org.semanticwb.model.SWBClass implements o
          }
          return ret;
     }
+
+/**
+* Gets the NewUrl property
+* @return String with the NewUrl
+*/
+    public String getNewUrl()
+    {
+        return getSemanticObject().getProperty(promx_newUrl);
+    }
+
+/**
+* Sets the NewUrl property
+* @param value long with the NewUrl
+*/
+    public void setNewUrl(String value)
+    {
+        getSemanticObject().setProperty(promx_newUrl, value);
+    }
    /**
    * Gets all the org.semanticwb.promexico.Office
    * @return A GenericIterator with all the org.semanticwb.promexico.Office
@@ -395,24 +414,6 @@ public abstract class NewBase extends org.semanticwb.model.SWBClass implements o
     }
 
 /**
-* Gets the Created property
-* @return java.util.Date with the Created
-*/
-    public java.util.Date getCreated()
-    {
-        return getSemanticObject().getDateProperty(swb_created);
-    }
-
-/**
-* Sets the Created property
-* @param value long with the Created
-*/
-    public void setCreated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_created, value);
-    }
-
-/**
 * Gets the Updated property
 * @return java.util.Date with the Updated
 */
@@ -428,6 +429,24 @@ public abstract class NewBase extends org.semanticwb.model.SWBClass implements o
     public void setUpdated(java.util.Date value)
     {
         getSemanticObject().setDateProperty(swb_updated, value);
+    }
+
+/**
+* Gets the Created property
+* @return java.util.Date with the Created
+*/
+    public java.util.Date getCreated()
+    {
+        return getSemanticObject().getDateProperty(swb_created);
+    }
+
+/**
+* Sets the Created property
+* @param value long with the Created
+*/
+    public void setCreated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_created, value);
     }
 
 /**

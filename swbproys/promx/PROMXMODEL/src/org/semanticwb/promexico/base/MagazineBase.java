@@ -1,7 +1,7 @@
 package org.semanticwb.promexico.base;
 
 
-public abstract class MagazineBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Tagable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class MagazineBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable
 {
    /**
    * Archivo Pdf de la revista
@@ -9,6 +9,7 @@ public abstract class MagazineBase extends org.semanticwb.model.SWBClass impleme
     public static final org.semanticwb.platform.SemanticProperty promx_pdfFile=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#pdfFile");
     public static final org.semanticwb.platform.SemanticProperty promx_mzPhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#mzPhoto");
     public static final org.semanticwb.platform.SemanticProperty promx_flashFile=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#flashFile");
+    public static final org.semanticwb.platform.SemanticProperty promx_openInSameWindow=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#openInSameWindow");
     public static final org.semanticwb.platform.SemanticProperty promx_mzLink=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#mzLink");
     public static final org.semanticwb.platform.SemanticClass promx_Magazine=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Magazine");
    /**
@@ -181,24 +182,6 @@ public abstract class MagazineBase extends org.semanticwb.model.SWBClass impleme
     }
 
 /**
-* Gets the Created property
-* @return java.util.Date with the Created
-*/
-    public java.util.Date getCreated()
-    {
-        return getSemanticObject().getDateProperty(swb_created);
-    }
-
-/**
-* Sets the Created property
-* @param value long with the Created
-*/
-    public void setCreated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_created, value);
-    }
-
-/**
 * Gets the Updated property
 * @return java.util.Date with the Updated
 */
@@ -214,6 +197,24 @@ public abstract class MagazineBase extends org.semanticwb.model.SWBClass impleme
     public void setUpdated(java.util.Date value)
     {
         getSemanticObject().setDateProperty(swb_updated, value);
+    }
+
+/**
+* Gets the Created property
+* @return java.util.Date with the Created
+*/
+    public java.util.Date getCreated()
+    {
+        return getSemanticObject().getDateProperty(swb_created);
+    }
+
+/**
+* Sets the Created property
+* @param value long with the Created
+*/
+    public void setCreated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_created, value);
     }
 
 /**
@@ -405,6 +406,24 @@ public abstract class MagazineBase extends org.semanticwb.model.SWBClass impleme
     public void setTags(String tags, String lang)
     {
         getSemanticObject().setProperty(swb_tags, tags, lang);
+    }
+
+/**
+* Gets the OpenInSameWindow property
+* @return boolean with the OpenInSameWindow
+*/
+    public boolean isOpenInSameWindow()
+    {
+        return getSemanticObject().getBooleanProperty(promx_openInSameWindow);
+    }
+
+/**
+* Sets the OpenInSameWindow property
+* @param value long with the OpenInSameWindow
+*/
+    public void setOpenInSameWindow(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(promx_openInSameWindow, value);
     }
 
 /**

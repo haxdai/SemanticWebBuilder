@@ -4,7 +4,7 @@ package org.semanticwb.promexico.base;
    /**
    * Eventos de ProMéxico 
    */
-public abstract class EventBase extends org.semanticwb.portal.resources.sem.genericCalendar.Event implements org.semanticwb.model.Resourceable,org.semanticwb.model.Tagable,org.semanticwb.model.Localeable,org.semanticwb.model.Searchable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class EventBase extends org.semanticwb.portal.resources.sem.genericCalendar.Event implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Localeable,org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable,org.semanticwb.model.Ruleable,org.semanticwb.model.Searchable,org.semanticwb.model.Tagable
 {
    /**
    * Objeto controlador de oficinas
@@ -196,6 +196,29 @@ public abstract class EventBase extends org.semanticwb.portal.resources.sem.gene
         public static java.util.Iterator<org.semanticwb.promexico.Event> listEventByEvType(org.semanticwb.portal.resources.sem.genericCalendar.EventType value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Event> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(genCal_evType,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.Event with a determined Rule
+       * @param value Rule of the type org.semanticwb.model.Rule
+       * @param model Model of the org.semanticwb.promexico.Event
+       * @return Iterator with all the org.semanticwb.promexico.Event
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Event> listEventByRule(org.semanticwb.model.Rule value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Event> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRule, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.Event with a determined Rule
+       * @param value Rule of the type org.semanticwb.model.Rule
+       * @return Iterator with all the org.semanticwb.promexico.Event
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Event> listEventByRule(org.semanticwb.model.Rule value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Event> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRule,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -447,6 +470,71 @@ public abstract class EventBase extends org.semanticwb.portal.resources.sem.gene
     public void setEventPhoto(String value)
     {
         getSemanticObject().setProperty(promx_eventPhoto, value);
+    }
+   /**
+   * Gets all the org.semanticwb.model.Rule
+   * @return A GenericIterator with all the org.semanticwb.model.Rule
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.model.Rule> listRules()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.model.Rule>(getSemanticObject().listObjectProperties(swb_hasRule));
+    }
+
+   /**
+   * Gets true if has a Rule
+   * @param value org.semanticwb.model.Rule to verify
+   * @return true if the org.semanticwb.model.Rule exists, false otherwise
+   */
+    public boolean hasRule(org.semanticwb.model.Rule value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(swb_hasRule,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a Rule
+   * @param value org.semanticwb.model.Rule to add
+   */
+
+    public void addRule(org.semanticwb.model.Rule value)
+    {
+        getSemanticObject().addObjectProperty(swb_hasRule, value.getSemanticObject());
+    }
+   /**
+   * Removes all the Rule
+   */
+
+    public void removeAllRule()
+    {
+        getSemanticObject().removeProperty(swb_hasRule);
+    }
+   /**
+   * Removes a Rule
+   * @param value org.semanticwb.model.Rule to remove
+   */
+
+    public void removeRule(org.semanticwb.model.Rule value)
+    {
+        getSemanticObject().removeObjectProperty(swb_hasRule,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the Rule
+   * @return a org.semanticwb.model.Rule
+   */
+    public org.semanticwb.model.Rule getRule()
+    {
+         org.semanticwb.model.Rule ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_hasRule);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.Rule)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
