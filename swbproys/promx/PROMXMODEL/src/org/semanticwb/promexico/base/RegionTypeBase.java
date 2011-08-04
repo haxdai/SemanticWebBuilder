@@ -4,7 +4,7 @@ package org.semanticwb.promexico.base;
    /**
    * Tipos de Regiones (Nacionales, Internacionales, etc) 
    */
-public abstract class RegionTypeBase extends org.semanticwb.promexico.ProMxWebPage implements org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable,org.semanticwb.model.Viewable,org.semanticwb.model.Activeable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Referensable,org.semanticwb.model.Localeable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Indexable,org.semanticwb.model.Trashable,org.semanticwb.model.Searchable,org.semanticwb.model.Countryable,org.semanticwb.model.Tagable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.model.RoleRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Rankable,org.semanticwb.model.Filterable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableClass
+public abstract class RegionTypeBase extends org.semanticwb.promexico.ProMxWebPage implements org.semanticwb.model.UserGroupRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Trashable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Activeable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Indexable,org.semanticwb.model.Localeable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Countryable,org.semanticwb.model.Hiddenable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Viewable,org.semanticwb.model.Expirable,org.semanticwb.model.Tagable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Resourceable,org.semanticwb.model.Searchable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Rankable
 {
    /**
    * Tipos de Regiones (Nacionales, Internacionales, etc)
@@ -524,5 +524,14 @@ public abstract class RegionTypeBase extends org.semanticwb.promexico.ProMxWebPa
     public RegionTypeBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+   /**
+   * Gets the ProMexico
+   * @return a instance of org.semanticwb.promexico.ProMexico
+   */
+    public org.semanticwb.promexico.ProMexico getProMexico()
+    {
+        return (org.semanticwb.promexico.ProMexico)getSemanticObject().getModel().getModelObject().createGenericInstance();
     }
 }
