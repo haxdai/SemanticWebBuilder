@@ -4,8 +4,12 @@ package org.semanticwb.promexico.base;
    /**
    * Clase que hereda de swb:WebSite. Es un tipo de website para ProMéxico. De esta manera se puede contar con todos los elementos en el arbol de navegación en la administración, y otros elementos utiles para ProMéxico. 
    */
-public abstract class ProMexicoBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,org.semanticwb.model.Activeable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Localeable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Indexable,org.semanticwb.model.Trashable,org.semanticwb.model.Filterable,org.semanticwb.model.Countryable,org.semanticwb.model.OntologyDepable,org.semanticwb.model.FilterableClass
+public abstract class ProMexicoBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.Countryable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Trashable,org.semanticwb.model.Filterable,org.semanticwb.model.OntologyDepable,org.semanticwb.model.Activeable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Indexable,org.semanticwb.model.Localeable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
+   /**
+   * Tipos de Regiones (Nacionales, Internacionales, etc)
+   */
+    public static final org.semanticwb.platform.SemanticClass promx_RegionType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#RegionType");
    /**
    * Temas de Preguntas Frecuentes
    */
@@ -395,6 +399,30 @@ public abstract class ProMexicoBase extends org.semanticwb.model.WebSite impleme
     public ProMexicoBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+    public org.semanticwb.promexico.RegionType getRegionType(String id)
+    {
+        return org.semanticwb.promexico.RegionType.ClassMgr.getRegionType(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.promexico.RegionType> listRegionTypes()
+    {
+        return org.semanticwb.promexico.RegionType.ClassMgr.listRegionTypes(this);
+    }
+
+    public org.semanticwb.promexico.RegionType createRegionType(String id)
+    {
+        return org.semanticwb.promexico.RegionType.ClassMgr.createRegionType(id,this);
+    }
+
+    public void removeRegionType(String id)
+    {
+        org.semanticwb.promexico.RegionType.ClassMgr.removeRegionType(id, this);
+    }
+    public boolean hasRegionType(String id)
+    {
+        return org.semanticwb.promexico.RegionType.ClassMgr.hasRegionType(id, this);
     }
 
     public org.semanticwb.promexico.FaqTopic getFaqTopic(String id)

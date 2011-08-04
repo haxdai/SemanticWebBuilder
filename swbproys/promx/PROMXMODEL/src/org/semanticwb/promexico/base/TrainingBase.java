@@ -1,7 +1,7 @@
 package org.semanticwb.promexico.base;
 
 
-public abstract class TrainingBase extends org.semanticwb.promexico.Event implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Localeable,org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable,org.semanticwb.model.Ruleable,org.semanticwb.model.Searchable,org.semanticwb.model.Tagable
+public abstract class TrainingBase extends org.semanticwb.promexico.Event implements org.semanticwb.model.Tagable,org.semanticwb.model.Localeable,org.semanticwb.model.Resourceable,org.semanticwb.model.Ruleable,org.semanticwb.model.Searchable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticClass promx_Training=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Training");
    /**
