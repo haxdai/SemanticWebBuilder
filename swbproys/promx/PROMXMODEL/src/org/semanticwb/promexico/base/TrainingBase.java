@@ -1,14 +1,20 @@
 package org.semanticwb.promexico.base;
 
 
-public abstract class TrainingBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Searchable,org.semanticwb.model.Localeable,org.semanticwb.model.Tagable
+public abstract class TrainingBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Localeable,org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable,org.semanticwb.model.Searchable,org.semanticwb.model.Tagable
 {
     public static final org.semanticwb.platform.SemanticProperty promx_traShowInstitutionsContact=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#traShowInstitutionsContact");
+    public static final org.semanticwb.platform.SemanticClass promx_TrainingType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#TrainingType");
+    public static final org.semanticwb.platform.SemanticProperty promx_traType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#traType");
     public static final org.semanticwb.platform.SemanticClass promx_ProStates=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#ProStates");
     public static final org.semanticwb.platform.SemanticProperty promx_hasProStates=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasProStates");
+    public static final org.semanticwb.platform.SemanticProperty promx_traPhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#traPhoto");
     public static final org.semanticwb.platform.SemanticProperty promx_traEndDate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#traEndDate");
     public static final org.semanticwb.platform.SemanticProperty promx_traInitDate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#traInitDate");
+    public static final org.semanticwb.platform.SemanticProperty promx_traExternalUrl=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#traExternalUrl");
     public static final org.semanticwb.platform.SemanticProperty promx_traHours=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#traHours");
+    public static final org.semanticwb.platform.SemanticClass promx_Sector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Sector");
+    public static final org.semanticwb.platform.SemanticProperty promx_hasTraSectores=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasTraSectores");
     public static final org.semanticwb.platform.SemanticProperty promx_traPrice=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#traPrice");
     public static final org.semanticwb.platform.SemanticClass promx_TrainingWay=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#TrainingWay");
     public static final org.semanticwb.platform.SemanticProperty promx_hasTrainingWay=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasTrainingWay");
@@ -114,6 +120,29 @@ public abstract class TrainingBase extends org.semanticwb.model.SWBClass impleme
             return it;
         }
        /**
+       * Gets all org.semanticwb.promexico.Training with a determined TraType
+       * @param value TraType of the type org.semanticwb.promexico.TrainingType
+       * @param model Model of the org.semanticwb.promexico.Training
+       * @return Iterator with all the org.semanticwb.promexico.Training
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Training> listTrainingByTraType(org.semanticwb.promexico.TrainingType value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Training> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(promx_traType, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.Training with a determined TraType
+       * @param value TraType of the type org.semanticwb.promexico.TrainingType
+       * @return Iterator with all the org.semanticwb.promexico.Training
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Training> listTrainingByTraType(org.semanticwb.promexico.TrainingType value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Training> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(promx_traType,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.promexico.Training with a determined ProStates
        * @param value ProStates of the type org.semanticwb.promexico.ProStates
        * @param model Model of the org.semanticwb.promexico.Training
@@ -157,6 +186,29 @@ public abstract class TrainingBase extends org.semanticwb.model.SWBClass impleme
         public static java.util.Iterator<org.semanticwb.promexico.Training> listTrainingByLanguage(org.semanticwb.model.Language value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Training> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_language,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.Training with a determined TraSectores
+       * @param value TraSectores of the type org.semanticwb.promexico.Sector
+       * @param model Model of the org.semanticwb.promexico.Training
+       * @return Iterator with all the org.semanticwb.promexico.Training
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Training> listTrainingByTraSectores(org.semanticwb.promexico.Sector value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Training> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(promx_hasTraSectores, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.Training with a determined TraSectores
+       * @param value TraSectores of the type org.semanticwb.promexico.Sector
+       * @return Iterator with all the org.semanticwb.promexico.Training
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Training> listTrainingByTraSectores(org.semanticwb.promexico.Sector value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Training> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(promx_hasTraSectores,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -317,6 +369,44 @@ public abstract class TrainingBase extends org.semanticwb.model.SWBClass impleme
     {
         getSemanticObject().setBooleanProperty(promx_traShowInstitutionsContact, value);
     }
+   /**
+   * Sets the value for the property TraType
+   * @param value TraType to set
+   */
+
+    public void setTraType(org.semanticwb.promexico.TrainingType value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(promx_traType, value.getSemanticObject());
+        }else
+        {
+            removeTraType();
+        }
+    }
+   /**
+   * Remove the value for TraType property
+   */
+
+    public void removeTraType()
+    {
+        getSemanticObject().removeProperty(promx_traType);
+    }
+
+   /**
+   * Gets the TraType
+   * @return a org.semanticwb.promexico.TrainingType
+   */
+    public org.semanticwb.promexico.TrainingType getTraType()
+    {
+         org.semanticwb.promexico.TrainingType ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(promx_traType);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.promexico.TrainingType)obj.createGenericInstance();
+         }
+         return ret;
+    }
 
 /**
 * Gets the Updated property
@@ -453,6 +543,24 @@ public abstract class TrainingBase extends org.semanticwb.model.SWBClass impleme
     }
 
 /**
+* Gets the TraPhoto property
+* @return String with the TraPhoto
+*/
+    public String getTraPhoto()
+    {
+        return getSemanticObject().getProperty(promx_traPhoto);
+    }
+
+/**
+* Sets the TraPhoto property
+* @param value long with the TraPhoto
+*/
+    public void setTraPhoto(String value)
+    {
+        getSemanticObject().setProperty(promx_traPhoto, value);
+    }
+
+/**
 * Gets the TraEndDate property
 * @return String with the TraEndDate
 */
@@ -486,6 +594,24 @@ public abstract class TrainingBase extends org.semanticwb.model.SWBClass impleme
     public void setTraInitDate(String value)
     {
         getSemanticObject().setProperty(promx_traInitDate, value);
+    }
+
+/**
+* Gets the TraExternalUrl property
+* @return String with the TraExternalUrl
+*/
+    public String getTraExternalUrl()
+    {
+        return getSemanticObject().getProperty(promx_traExternalUrl);
+    }
+
+/**
+* Sets the TraExternalUrl property
+* @param value long with the TraExternalUrl
+*/
+    public void setTraExternalUrl(String value)
+    {
+        getSemanticObject().setProperty(promx_traExternalUrl, value);
     }
 
 /**
@@ -540,6 +666,71 @@ public abstract class TrainingBase extends org.semanticwb.model.SWBClass impleme
          if(obj!=null)
          {
              ret=(org.semanticwb.model.Language)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Gets all the org.semanticwb.promexico.Sector
+   * @return A GenericIterator with all the org.semanticwb.promexico.Sector
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Sector> listTraSectoreses()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Sector>(getSemanticObject().listObjectProperties(promx_hasTraSectores));
+    }
+
+   /**
+   * Gets true if has a TraSectores
+   * @param value org.semanticwb.promexico.Sector to verify
+   * @return true if the org.semanticwb.promexico.Sector exists, false otherwise
+   */
+    public boolean hasTraSectores(org.semanticwb.promexico.Sector value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(promx_hasTraSectores,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a TraSectores
+   * @param value org.semanticwb.promexico.Sector to add
+   */
+
+    public void addTraSectores(org.semanticwb.promexico.Sector value)
+    {
+        getSemanticObject().addObjectProperty(promx_hasTraSectores, value.getSemanticObject());
+    }
+   /**
+   * Removes all the TraSectores
+   */
+
+    public void removeAllTraSectores()
+    {
+        getSemanticObject().removeProperty(promx_hasTraSectores);
+    }
+   /**
+   * Removes a TraSectores
+   * @param value org.semanticwb.promexico.Sector to remove
+   */
+
+    public void removeTraSectores(org.semanticwb.promexico.Sector value)
+    {
+        getSemanticObject().removeObjectProperty(promx_hasTraSectores,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the TraSectores
+   * @return a org.semanticwb.promexico.Sector
+   */
+    public org.semanticwb.promexico.Sector getTraSectores()
+    {
+         org.semanticwb.promexico.Sector ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(promx_hasTraSectores);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.promexico.Sector)obj.createGenericInstance();
          }
          return ret;
     }
