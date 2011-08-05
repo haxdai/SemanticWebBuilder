@@ -1,8 +1,9 @@
 package org.semanticwb.promexico.base;
 
 
-public abstract class TrainingBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Localeable,org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable,org.semanticwb.model.Searchable,org.semanticwb.model.Tagable
+public abstract class TrainingBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Tagable,org.semanticwb.model.Searchable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Localeable,org.semanticwb.model.Resourceable
 {
+    public static final org.semanticwb.platform.SemanticProperty promx_traOpenInNewWindow=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#traOpenInNewWindow");
     public static final org.semanticwb.platform.SemanticProperty promx_traShowInstitutionsContact=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#traShowInstitutionsContact");
     public static final org.semanticwb.platform.SemanticClass promx_TrainingType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#TrainingType");
     public static final org.semanticwb.platform.SemanticProperty promx_traType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#traType");
@@ -350,6 +351,24 @@ public abstract class TrainingBase extends org.semanticwb.model.SWBClass impleme
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the TraOpenInNewWindow property
+* @return boolean with the TraOpenInNewWindow
+*/
+    public boolean isTraOpenInNewWindow()
+    {
+        return getSemanticObject().getBooleanProperty(promx_traOpenInNewWindow);
+    }
+
+/**
+* Sets the TraOpenInNewWindow property
+* @param value long with the TraOpenInNewWindow
+*/
+    public void setTraOpenInNewWindow(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(promx_traOpenInNewWindow, value);
     }
 
 /**
