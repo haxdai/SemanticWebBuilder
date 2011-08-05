@@ -1,11 +1,12 @@
 package org.semanticwb.promexico.base;
 
 
-public abstract class ProInstitutionSupportBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class ProInstitutionSupportBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
     public static final org.semanticwb.platform.SemanticProperty promx_insPhone=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#insPhone");
     public static final org.semanticwb.platform.SemanticProperty promx_instEmail=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#instEmail");
     public static final org.semanticwb.platform.SemanticProperty promx_insLatitude=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#insLatitude");
+    public static final org.semanticwb.platform.SemanticProperty promx_instPhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#instPhoto");
     public static final org.semanticwb.platform.SemanticProperty promx_insAddress=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#insAddress");
     public static final org.semanticwb.platform.SemanticProperty promx_intsLongitude=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#intsLongitude");
     public static final org.semanticwb.platform.SemanticClass promx_ProInstitutionSupport=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#proInstitutionSupport");
@@ -299,6 +300,24 @@ public abstract class ProInstitutionSupportBase extends org.semanticwb.model.SWB
     public void setInsLatitude(double value)
     {
         getSemanticObject().setDoubleProperty(promx_insLatitude, value);
+    }
+
+/**
+* Gets the InstPhoto property
+* @return String with the InstPhoto
+*/
+    public String getInstPhoto()
+    {
+        return getSemanticObject().getProperty(promx_instPhoto);
+    }
+
+/**
+* Sets the InstPhoto property
+* @param value long with the InstPhoto
+*/
+    public void setInstPhoto(String value)
+    {
+        getSemanticObject().setProperty(promx_instPhoto, value);
     }
 
 /**
