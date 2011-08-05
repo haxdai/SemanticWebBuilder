@@ -1,7 +1,7 @@
 package org.semanticwb.promexico.base;
 
 
-public abstract class MagazineBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable
+public abstract class MagazineBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Tagable,org.semanticwb.model.Descriptiveable
 {
    /**
    * Archivo Pdf de la revista
