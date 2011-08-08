@@ -3,6 +3,7 @@ package org.semanticwb.promexico.resources;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.String;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,12 +16,14 @@ import org.json.JSONObject;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
+import org.semanticwb.model.User;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.portal.api.*;
 import org.semanticwb.portal.resources.sem.genericCalendar.EventType;
 import org.semanticwb.portal.resources.sem.genericCalendar.ResourceCalendar;
 import org.semanticwb.promexico.Event;
 import org.semanticwb.promexico.Sector;
+import org.semanticwb.promexico.Training;
 
 public class ProMxResourceCalendar extends org.semanticwb.promexico.resources.base.ProMxResourceCalendarBase 
 {
@@ -65,9 +68,11 @@ public class ProMxResourceCalendar extends org.semanticwb.promexico.resources.ba
         response.setHeader("Pragma", "no-cache");
         PrintWriter out = response.getWriter();
         ProMxResourceCalendar cal = (ProMxResourceCalendar)getSemanticObject().createGenericInstance();
+        User user = paramRequest.getUser();
         String value = request.getParameter("month");
         int mont = 0, year=0;
         HashMap eventMonth = new HashMap();
+        HashMap traiMonth = new HashMap();
         try {
             mont = Integer.parseInt(value);
         } catch(NumberFormatException e) {
@@ -79,81 +84,113 @@ public class ProMxResourceCalendar extends org.semanticwb.promexico.resources.ba
         } catch(NumberFormatException e) {
             log.error("Error while convert year in Calendar: " + e);
         }
-        //boolean EventType.ClassMgr.listEventTypes(paramRequest.getWebPage().getWebSite());
         boolean isOnlyType = getEvtType() != null ? true : false;
 
         if(mont > 0 && year > 0) {
-            Iterator ist=null;
+            Iterator ist = null;
+            Iterator ist2 = null;
             if(isOnlyType && getEvtType().toString().trim().length() > 1) {
                 EventType type = (EventType) getEvtType();
                 ist = Event.ClassMgr.listEventByEvType(type, paramRequest.getWebPage().getWebSite());
             } else {
                 ist = Event.ClassMgr.listEvents(paramRequest.getWebPage().getWebSite());
+                ist2 = Training.ClassMgr.listTrainings(paramRequest.getWebPage().getWebSite());
             }
-            //ist = cal.listEventses();
-
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             while(ist.hasNext()) {
                 Event ev = (Event)ist.next();
-                try {
-                    if(ev.getEventInitDate() != null) {
-                        int valueMonth=sdf.parse(ev.getEventInitDate()).getMonth()+1;
-                        int valueYear = sdf.parse(ev.getEventInitDate()).getYear();
-                        int year1 = (valueYear< 1000) ? valueYear + 1900 : valueYear;
-                        int valueDay = sdf.parse(ev.getEventInitDate()).getDate();
+                if(user.haveAccess(ev)) {
+                    try {
+                        if(ev.getEventInitDate() != null) {
+                            int valueMonth=sdf.parse(ev.getEventInitDate()).getMonth()+1;
+                            int valueYear = sdf.parse(ev.getEventInitDate()).getYear();
+                            int year1 = (valueYear< 1000) ? valueYear + 1900 : valueYear;
+                            int valueDay = sdf.parse(ev.getEventInitDate()).getDate();
 
-                        boolean isYearly = (mont == valueMonth && ev.getPeriodicity().equals("yearly")) ? true : false;
-                        int monthCurrent = java.util.Calendar.getInstance().MONTH + 1;
-                        boolean isMonthly = ev.getPeriodicity().equals("monthly") && valueDay <= lastDayOfMonth(monthCurrent, year) ? true : false;//java.util.Calendar.getInstance().DAY_OF_MONTH == valueMonth ? true : false;
-                        boolean isWeekly = ev.getPeriodicity().equals("weekly") ? true : false;
-                        int valMonthEndEvt, valYearEndEvt, year2;
-                        valMonthEndEvt = valYearEndEvt = year2 = 0;
-                        if(ev.getEventEndDate() != null ) {
-                            valMonthEndEvt = sdf.parse(ev.getEventEndDate()).getMonth()+1;
-                        }
-                        if(ev.getEventEndDate() != null) {
-                            valYearEndEvt = sdf.parse(ev.getEventEndDate()).getYear();
-                            year2 = (valYearEndEvt < 1000) ? valYearEndEvt + 1900 : valYearEndEvt;
-                        }
+                            boolean isYearly = (mont == valueMonth && ev.getPeriodicity().equals("yearly")) ? true : false;
+                            int monthCurrent = java.util.Calendar.getInstance().MONTH + 1;
+                            boolean isMonthly = ev.getPeriodicity().equals("monthly") && valueDay <= lastDayOfMonth(monthCurrent, year) ? true : false;//java.util.Calendar.getInstance().DAY_OF_MONTH == valueMonth ? true : false;
+                            boolean isWeekly = ev.getPeriodicity().equals("weekly") ? true : false;
+                            int valMonthEndEvt, valYearEndEvt, year2;
+                            valMonthEndEvt = valYearEndEvt = year2 = 0;
+                            if(ev.getEventEndDate() != null ) {
+                                valMonthEndEvt = sdf.parse(ev.getEventEndDate()).getMonth()+1;
+                            }
+                            if(ev.getEventEndDate() != null) {
+                                valYearEndEvt = sdf.parse(ev.getEventEndDate()).getYear();
+                                year2 = (valYearEndEvt < 1000) ? valYearEndEvt + 1900 : valYearEndEvt;
+                            }
 
-                        if(((mont == valueMonth) && (year == year1)) || (isYearly && year >= year2) || (isMonthly && year >= year2 ) || (isWeekly && year >= year2)) {
-                            ArrayList listEvents = new ArrayList();
-                            if((!isWeekly && year <= year2 && mont <= valMonthEndEvt && mont >= valueMonth && year >= year1) || (!isWeekly && mont >= valueMonth && year >= year1 && ev.getEventEndDate() == null)) {
-                                if(eventMonth.containsKey(valueDay)) {
-                                    listEvents = (ArrayList)eventMonth.get(valueDay);
-                                    listEvents.add(ev);
-                                    eventMonth.remove(valueDay);
-                                } else {
-                                    listEvents.add(ev);
-                                }
-                                eventMonth.put(valueDay, listEvents);
-                            } else if((year <= year2 && mont <= valMonthEndEvt && mont >= valueMonth) || (mont >= valueMonth && year >= year1 && ev.getEventEndDate() == null)) {
-                                ArrayList week = getWeekly(ev, mont-1, year);
-                                Iterator it = week.iterator();
-                                while(it.hasNext()) {
-                                    int day = Integer.parseInt(it.next().toString());
-                                    if(eventMonth.containsKey(day)) {
-                                        listEvents = (ArrayList)eventMonth.get(day);
+                            if(((mont == valueMonth) && (year == year1)) || (isYearly && year >= year2) || (isMonthly && year >= year2 ) || (isWeekly && year >= year2)) {
+                                ArrayList listEvents = new ArrayList();
+                                if((!isWeekly && year <= year2 && mont <= valMonthEndEvt && mont >= valueMonth && year >= year1) || (!isWeekly && mont >= valueMonth && year >= year1 && ev.getEventEndDate() == null)) {
+                                    if(eventMonth.containsKey(valueDay)) {
+                                        listEvents = (ArrayList)eventMonth.get(valueDay);
                                         listEvents.add(ev);
-                                        eventMonth.remove(day);
+                                        eventMonth.remove(valueDay);
                                     } else {
                                         listEvents.add(ev);
                                     }
-                                    eventMonth.put(day, listEvents);
+                                    eventMonth.put(valueDay, listEvents);
+                                } else if((year <= year2 && mont <= valMonthEndEvt && mont >= valueMonth) || (mont >= valueMonth && year >= year1 && ev.getEventEndDate() == null)) {
+                                    ArrayList week = getWeekly(ev, mont-1, year);
+                                    Iterator it = week.iterator();
+                                    while(it.hasNext()) {
+                                        int day = Integer.parseInt(it.next().toString());
+                                        if(eventMonth.containsKey(day)) {
+                                            listEvents = (ArrayList)eventMonth.get(day);
+                                            listEvents.add(ev);
+                                            eventMonth.remove(day);
+                                        } else {
+                                            listEvents.add(ev);
+                                        }
+                                        eventMonth.put(day, listEvents);
+                                    }
                                 }
-                            }
 
+                            }
                         }
+                    } catch(Exception e) {
+                        log.error("Error while process events in ScheduledEvents" + e);
                     }
-                } catch(Exception e) {
-                    log.error("Error while process events in ScheduledEvents" + e);
                 }
             }
+            /*---Lectura de Capacitaciones---*/
+            if(ist2 != null) {
+                while(ist2.hasNext()) {
+                    Training training = (Training)ist2.next();
+                    if(user.haveAccess(training)) {
+                        try {
+                            if(training.getTraInitDate() != null) {
+                                int valueMonth=sdf.parse(training.getTraInitDate()).getMonth()+1;
+                                int valueYear = sdf.parse(training.getTraInitDate()).getYear();
+                                int year1 = (valueYear< 1000) ? valueYear + 1900 : valueYear;
+                                int valueDay = sdf.parse(training.getTraInitDate()).getDate();
+
+                                if((mont == valueMonth) && (year == year1)) {
+                                    ArrayList listTraining = new ArrayList();
+                                    if(traiMonth.containsKey(valueDay)) {
+                                        listTraining = (ArrayList)traiMonth.get(valueDay);
+                                        listTraining.add(training);
+                                        traiMonth.remove(valueDay);
+                                    } else {
+                                        listTraining.add(training);
+                                    }
+                                    traiMonth.put(valueDay, listTraining);
+                                }
+                            }
+                        } catch(Exception e) {
+                            log.error("Error while process events in ScheduledEvents" + e);
+                        }
+                    }
+                }
+            }
+            /*-------------------------------*/
         }
 
         JSONObject objEventMonth = new JSONObject();
-        Iterator it = eventMonth.entrySet().iterator();
 
+        Iterator it = eventMonth.entrySet().iterator();
         while(it.hasNext()) {
             Map.Entry e = (Map.Entry)it.next();
             String day = e.getKey().toString();
@@ -165,6 +202,26 @@ public class ProMxResourceCalendar extends org.semanticwb.promexico.resources.ba
                 log.error("Error while build the events for day: " + e1);
             }
         }
+        /* --Capacitaciones-- */
+        it = traiMonth.entrySet().iterator();
+        while(it.hasNext()) {
+            Map.Entry e = (Map.Entry)it.next();
+            String day = e.getKey().toString();
+            ArrayList training = (ArrayList)e.getValue();
+            try {
+                JSONObject getEv = null;
+                if(objEventMonth.has(day)) {
+                     getEv = (JSONObject)objEventMonth.get(day);
+                     objEventMonth.remove(day);
+                }
+                JSONObject train = getTraining(training, paramRequest, cal, getEv);
+                objEventMonth.put(day, train);
+
+            } catch(Exception e1) {
+                log.error("Error while build the events for day: " + e1);
+            }
+        }
+        /*--------------------------------*/
         out.print(objEventMonth);
     }
 
@@ -203,13 +260,10 @@ public class ProMxResourceCalendar extends org.semanticwb.promexico.resources.ba
         Iterator it = Events.iterator();
         while(it.hasNext()) {
             Event event = (Event)it.next();
-            if(paramRequest.getUser().haveAccess(event))
-            {
-                try {
-                    objJSONEvents.put(SWBUtils.TEXT.encode(event.getTitle(paramRequest.getUser().getLanguage())==null?event.getTitle():event.getTitle(paramRequest.getUser().getLanguage()), SWBUtils.TEXT.CHARSET_UTF8), getData(event, paramRequest, cal)); //SWBUtils.TEXT.encode(event.getTitle(),SWBUtils.TEXT.CHARSET_UTF8)
-                }catch(Exception e) {
-                    log.error("Error while build properties in Events: "+e);
-                }
+            try {
+                objJSONEvents.put(SWBUtils.TEXT.encode(event.getTitle(paramRequest.getUser().getLanguage())==null?event.getTitle():event.getTitle(paramRequest.getUser().getLanguage()), SWBUtils.TEXT.CHARSET_UTF8), getData(event, paramRequest, cal)); //SWBUtils.TEXT.encode(event.getTitle(),SWBUtils.TEXT.CHARSET_UTF8)
+            }catch(Exception e) {
+                log.error("Error while build properties in Events: "+e);
             }
         }
         return objJSONEvents;
@@ -258,6 +312,7 @@ public class ProMxResourceCalendar extends org.semanticwb.promexico.resources.ba
     private JSONObject getData(Event event,SWBParamRequest paramRequest, ResourceCalendar cal)
     {
         JSONObject objJSONData = new JSONObject();
+        User user = paramRequest.getUser();
         String url, photo, target;
         photo = url= target = "";
         if(event.getUrlExternal() != null) {
@@ -306,12 +361,12 @@ public class ProMxResourceCalendar extends org.semanticwb.promexico.resources.ba
                 }
             }
         }
-        String evtType = (event.getEvType() == null) ? "" : event.getEvType().getTitle();
+        String evtType = (event.getEvType() == null) ? "" : (event.getEvType().getTitle(user.getLanguage()) == null ? (event.getEvType().getTitle() == null ? "" : event.getEvType().getTitle()) : event.getEvType().getTitle(user.getLanguage()));
         Iterator<Sector> itSec = event.listSectoreses();
         String sector = "";
         while(itSec.hasNext()) {
             Sector sec = itSec.next();
-            String nameSec = sec.getDisplayName(paramRequest.getUser().getLanguage()) == null ? (sec.getDisplayName() == null ? "" : sec.getDisplayName()) : sec.getDisplayName(paramRequest.getUser().getLanguage());
+            String nameSec = sec.getDisplayName(user.getLanguage()) == null ? (sec.getDisplayName() == null ? "" : sec.getDisplayName()) : sec.getDisplayName(user.getLanguage());
             String n = sector.trim().length() > 1 ? ", ": "";
             try {
                 nameSec = SWBUtils.TEXT.encode(nameSec, SWBUtils.TEXT.CHARSET_UTF8);
@@ -322,17 +377,115 @@ public class ProMxResourceCalendar extends org.semanticwb.promexico.resources.ba
         try {
             objJSONData.put("target", target);
             objJSONData.put("url", url);
-            objJSONData.put("title", SWBUtils.TEXT.encode(event.getTitle(paramRequest.getUser().getLanguage())==null?event.getTitle():event.getTitle(paramRequest.getUser().getLanguage()), SWBUtils.TEXT.CHARSET_UTF8));
+            objJSONData.put("title", SWBUtils.TEXT.encode(event.getTitle(user.getLanguage()) == null ? event.getTitle() : event.getTitle(user.getLanguage()), SWBUtils.TEXT.CHARSET_UTF8));
             objJSONData.put("image", photo);
             String descr = "";
-            if(event.getDescription(paramRequest.getUser().getLanguage()) != null) {
-                descr = SWBUtils.TEXT.encode(event.getDescription(paramRequest.getUser().getLanguage()),SWBUtils.TEXT.CHARSET_UTF8);
+            if(event.getDescription(user.getLanguage()) != null) {
+                descr = SWBUtils.TEXT.encode(event.getDescription(user.getLanguage()),SWBUtils.TEXT.CHARSET_UTF8);
             } else if(event.getDescription() != null) {
                 descr = SWBUtils.TEXT.encode(event.getDescription(),SWBUtils.TEXT.CHARSET_UTF8);
             }
             objJSONData.put("description", descr);
             objJSONData.put("rdates", dates);
             objJSONData.put("evtType", evtType);
+            objJSONData.put("sector", sector);
+        } catch(Exception e) {
+            log.error("Error while add the properties to Events: " + e);
+        }
+        return objJSONData;
+    }
+
+    private JSONObject getTraining(ArrayList traing,SWBParamRequest paramRequest, ResourceCalendar cal, JSONObject getAllEvts)
+    {
+        if(getAllEvts == null) {
+            getAllEvts = new JSONObject();
+        }
+        Iterator<Training> it = traing.iterator();
+        while(it.hasNext()) {
+            Training tr = it.next();
+            try {
+                getAllEvts.put(SWBUtils.TEXT.encode(tr.getTitle(paramRequest.getUser().getLanguage()) == null ? tr.getTitle() : tr.getTitle(paramRequest.getUser().getLanguage()), SWBUtils.TEXT.CHARSET_UTF8), getDataTrai(tr, paramRequest, cal)); //SWBUtils.TEXT.encode(event.getTitle(),SWBUtils.TEXT.CHARSET_UTF8)
+            }catch(Exception e) {
+                log.error("Error while build properties in Events: "+e);
+            }
+        }
+        return getAllEvts;
+    }
+
+    private JSONObject getDataTrai(Training train,SWBParamRequest paramRequest, ResourceCalendar cal)
+    {
+        JSONObject objJSONData = new JSONObject();
+        User user = paramRequest.getUser();
+        String url, photo, target;
+        photo = url= target = "";
+        if(train.getTraExternalUrl() != null) {
+            url = train.getTraExternalUrl();
+        } else  {
+            WebPage wp;
+            if(cal.getIdPage() != null) {
+                wp = paramRequest.getWebPage().getWebSite().getWebPage(cal.getIdPage());
+                if(wp != null && wp.isActive()) {
+                   url = wp.getUrl() + "?id=" + train.getId()+"&show=training";
+                }
+            }
+        }
+        if(train.isTraOpenInNewWindow()) {
+            target = "_black";
+        }
+        if(train.getTraPhoto() != null && train.getTraPhoto().trim().length() > 0) {
+             photo= SWBPortal.getWebWorkPath() + train.getWorkPath() + "/" + Training.promx_traPhoto.getName() +
+                     "_" + train.getId() + "_" + train.getTraPhoto();
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sd = new SimpleDateFormat("dd/MM/yyyy");
+
+        String dates = "";
+       if(train.getTraInitDate() != null && train.getTraInitDate().length() > 1) {
+            try{
+                Date ds = sdf.parse(train.getTraInitDate());
+                dates = dates + sd.format(ds);
+            }catch(Exception e)
+            {
+            }
+        }
+
+        if(train.getTraEndDate() != null && train.getTraEndDate().length() > 1) {
+            try {
+                Date de = sdf.parse(train.getTraEndDate());
+                if(dates.length()>1) {
+                    dates = dates + " - ";
+                }
+                dates = dates +sd.format(de);
+            } catch(Exception e) {
+            }
+        }
+        String trainingEvt = (train.getTraType() == null) ? "" : (train.getTraType().getTitle(user.getLanguage()) == null ? (train.getTraType().getTitle() == null ? "" : train.getTraType().getTitle()) : train.getTraType().getTitle(user.getLanguage()));
+        Iterator<Sector> itSec = train.listTraSectoreses();
+        String sector = "";
+        while(itSec.hasNext()) {
+            Sector sec = itSec.next();
+            String nameSec = sec.getDisplayName(user.getLanguage()) == null ? (sec.getDisplayName() == null ? "" : sec.getDisplayName()) : sec.getDisplayName(user.getLanguage());
+            String n = sector.trim().length() > 1 ? ", ": "";
+            try {
+                nameSec = SWBUtils.TEXT.encode(nameSec, SWBUtils.TEXT.CHARSET_UTF8);
+            } catch(Exception e) {
+            }
+            sector = sector + n + nameSec;
+        }
+        try {
+            objJSONData.put("target", target);
+            objJSONData.put("url", url);
+            objJSONData.put("title", SWBUtils.TEXT.encode(train.getTitle(user.getLanguage()) == null ? train.getTitle() : train.getTitle(user.getLanguage()), SWBUtils.TEXT.CHARSET_UTF8));
+            objJSONData.put("image", photo);
+            String descr = "";
+            if(train.getDescription(user.getLanguage()) != null) {
+                descr = SWBUtils.TEXT.encode(train.getDescription(user.getLanguage()),SWBUtils.TEXT.CHARSET_UTF8);
+            } else if(train.getDescription() != null) {
+                descr = SWBUtils.TEXT.encode(train.getDescription(),SWBUtils.TEXT.CHARSET_UTF8);
+            }
+            objJSONData.put("description", descr);
+            objJSONData.put("rdates", dates);
+            objJSONData.put("trainingEvt", trainingEvt);
             objJSONData.put("sector", sector);
         } catch(Exception e) {
             log.error("Error while add the properties to Events: " + e);
