@@ -39,8 +39,9 @@ public class VirtualResources extends GenericResource{
         if(request.getParameter("id") != null){ // && request.getParameter("show")!=null
             String id=request.getParameter("id");
             String show=request.getParameter("show");
-            if(show.equalsIgnoreCase("new")) resourceAble=New.ClassMgr.getNew(id, page.getWebSite());
-            else if(show.equalsIgnoreCase("event")) resourceAble=Event.ClassMgr.getEvent(id, page.getWebSite());
+            if(show.equalsIgnoreCase("new")) resourceAble = New.ClassMgr.getNew(id, page.getWebSite());
+            else if(show.equalsIgnoreCase("event")) resourceAble = Event.ClassMgr.getEvent(id, page.getWebSite());
+            else if(show.equalsIgnoreCase("training")) resourceAble = Training.ClassMgr.getTraining(id, page.getWebSite());
             //System.out.println("resourceAbleJ:"+resourceAble);
             if(resourceAble != null)
             {
@@ -73,6 +74,8 @@ public class VirtualResources extends GenericResource{
             String id=request.getParameter("id");
             String show=request.getParameter("show");
             if(show.equalsIgnoreCase("new")) resourceAble=New.ClassMgr.getNew(id, page.getWebSite());
+            else if(show.equalsIgnoreCase("event")) resourceAble = Event.ClassMgr.getEvent(id, page.getWebSite());
+            else if(show.equalsIgnoreCase("training")) resourceAble = Training.ClassMgr.getTraining(id, page.getWebSite());
             //else if(show.equalsIgnoreCase("event")) resourceAble=Event.ClassMgr.getEvent(id, page.getWebSite());
             resourceAble=Event.ClassMgr.getEvent(id, page.getWebSite());
 
