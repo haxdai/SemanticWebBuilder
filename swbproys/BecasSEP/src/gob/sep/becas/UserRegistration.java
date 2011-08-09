@@ -45,10 +45,10 @@ public class UserRegistration extends GenericResource {
             "}\n"+
             "function submitfrm() { "+
             "var forma = document.getElementById(\"formaRegistro\"); "+
-            "if (usrName.value.length==0 || usrPrimA.value.length==0 ||"+
-            "mail.value.length==0 || clave.value.length==0 ||"+
-            "preguntaSecreta.selectedIndex<1 ||"+
-            "respuestaSecreta.value.length==0 "+
+            "if (forma.usrName.value.length==0 || forma.usrPrimA.value.length==0 || "+
+            "forma.mail.value.length==0 || forma.clave.value.length==0 || "+
+            "forma.preguntaSecreta.selectedIndex<1 || "+
+            "forma.respuestaSecreta.value.length==0 "+
             ") {alert ('Datos incompletos'); } else { "+
             "forma.submit(); }"+
             "}"+
@@ -211,9 +211,9 @@ public class UserRegistration extends GenericResource {
     String tpltEd = "<script  type=\"text/javascript\"> \n"+
             "function submitfrm() { "+
             "var forma = document.getElementById(\"formaRegistro\"); "+
-            "if (usrName.value.length==0 || usrPrimA.value.length==0 ||"+
-            "preguntaSecreta.selectedIndex<1 ||"+
-            "respuestaSecreta.value.length==0 "+
+            "if (forma.usrName.value.length==0 || forma.usrPrimA.value.length==0 || "+
+            "forma.preguntaSecreta.selectedIndex<1 || "+
+            "forma.respuestaSecreta.value.length==0 "+
             ") {alert ('Datos incompletos'); } else { "+
             "forma.submit(); }"+
             "}"+
@@ -298,9 +298,9 @@ public class UserRegistration extends GenericResource {
         "<div id=\"municipioDel\">\n"+
         "  <p>\n"+
         "    <label for=\"municipio\">Municipio o delegaci&oacute;n</label>\n"+
-        "  </p>\n"+
-        "  <p>&nbsp;</p>\n"+
-        "  <p>\n"+
+        //"  </p>\n"+
+        //"  <p>&nbsp;</p>\n"+
+        //"  <p>\n"+
         "    <input type=\"text\" name=\"municipio\" id=\"municipio\" value=\"{$municipio}\" />\n"+
         "  </p>\n"+
         "</div>\n"+
