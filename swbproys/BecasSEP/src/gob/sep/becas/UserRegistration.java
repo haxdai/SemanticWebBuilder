@@ -153,9 +153,9 @@ public class UserRegistration extends GenericResource {
         "<div id=\"municipioDel\">\n"+
         "  <p>\n"+
         "    <label for=\"municipio\">Municipio o delegaci&oacute;n</label>\n"+
-        "  </p>\n"+
-        "  <p>&nbsp;</p>\n"+
-        "  <p>\n"+
+        //"  </p>\n"+
+        //"  <p>&nbsp;</p>\n"+
+        //"  <p>\n"+
         "    <input type=\"text\" name=\"municipio\" id=\"municipio\" />\n"+
         "  </p>\n"+
         "</div>\n"+
