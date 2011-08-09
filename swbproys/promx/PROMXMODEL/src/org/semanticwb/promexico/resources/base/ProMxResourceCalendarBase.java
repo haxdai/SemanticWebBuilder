@@ -1,11 +1,13 @@
 package org.semanticwb.promexico.resources.base;
 
 
-public abstract class ProMxResourceCalendarBase extends org.semanticwb.portal.resources.sem.genericCalendar.ResourceCalendar implements org.semanticwb.model.Traceable,org.semanticwb.model.Trashable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Localeable,org.semanticwb.model.Referensable,org.semanticwb.model.RoleRefable
+public abstract class ProMxResourceCalendarBase extends org.semanticwb.portal.resources.sem.genericCalendar.ResourceCalendar implements org.semanticwb.model.UserGroupRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Trashable,org.semanticwb.model.Localeable,org.semanticwb.model.Traceable
 {
     public static final org.semanticwb.platform.SemanticProperty genCal_previousYear=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/GenericCalendar#previousYear");
     public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
     public static final org.semanticwb.platform.SemanticProperty swb_modifiedBy=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#modifiedBy");
+    public static final org.semanticwb.platform.SemanticClass promx_TrainingType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#TrainingType");
+    public static final org.semanticwb.platform.SemanticProperty promx_calTrainingType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#calTrainingType");
     public static final org.semanticwb.platform.SemanticProperty swb_updated=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#updated");
     public static final org.semanticwb.platform.SemanticProperty swb_created=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#created");
     public static final org.semanticwb.platform.SemanticProperty genCal_canSubscribed=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/GenericCalendar#canSubscribed");
@@ -115,6 +117,44 @@ public abstract class ProMxResourceCalendarBase extends org.semanticwb.portal.re
          if(obj!=null)
          {
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Sets the value for the property CalTrainingType
+   * @param value CalTrainingType to set
+   */
+
+    public void setCalTrainingType(org.semanticwb.promexico.TrainingType value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(promx_calTrainingType, value.getSemanticObject());
+        }else
+        {
+            removeCalTrainingType();
+        }
+    }
+   /**
+   * Remove the value for CalTrainingType property
+   */
+
+    public void removeCalTrainingType()
+    {
+        getSemanticObject().removeProperty(promx_calTrainingType);
+    }
+
+   /**
+   * Gets the CalTrainingType
+   * @return a org.semanticwb.promexico.TrainingType
+   */
+    public org.semanticwb.promexico.TrainingType getCalTrainingType()
+    {
+         org.semanticwb.promexico.TrainingType ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(promx_calTrainingType);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.promexico.TrainingType)obj.createGenericInstance();
          }
          return ret;
     }
