@@ -48,7 +48,7 @@ public class UserRegistration extends GenericResource {
             "if (forma.usrName.value.length==0 || forma.usrPrimA.value.length==0 || "+
             "forma.mail.value.length==0 || forma.clave.value.length==0 || "+
             "forma.preguntaSecreta.selectedIndex<1 || "+
-            "forma.respuestaSecreta.value.length==0 "+
+            "forma.respuestaSecreta.value.length==0 || !validateElement('frmCaptchaValue','/frmprocess/validCaptcha?none=1',forma.frmCaptchaValue.value) "+
             ") {alert ('Datos incompletos'); } else { "+
             "forma.submit(); }"+
             "}"+
@@ -213,7 +213,7 @@ public class UserRegistration extends GenericResource {
             "var forma = document.getElementById(\"formaRegistro\"); "+
             "if (forma.usrName.value.length==0 || forma.usrPrimA.value.length==0 || "+
             "forma.preguntaSecreta.selectedIndex<1 || "+
-            "forma.respuestaSecreta.value.length==0 "+
+            "forma.respuestaSecreta.value.length==0 || !validateElement('frmCaptchaValue','/frmprocess/validCaptcha?none=1',forma.frmCaptchaValue.value)"+
             ") {alert ('Datos incompletos'); } else { "+
             "forma.submit(); }"+
             "}"+
