@@ -56,7 +56,7 @@ public class UserRegistration extends GenericResource {
         "<script type=\"text/javascript\" src=\""+SWBPortal.getContextPath()+"/swbadmin/js/swb.js\" ></script><form id=\"formaRegistro\" name=\"formaRegistro\" method=\"post\" action=\"{$actionURL}\">"
         + "<link type=\"text/css\" rel=\"stylesheet\" href=\""+SWBPortal.getContextPath()+"/work/models/Beca_SEP/CSS/estilos_lightBox.css\" />\n"+ // /work/estilos_lightBox.css
         "<h2>Crear Cuenta</h2>\n"+
-        "<p>&nbsp;</p>\n"+
+       // "<p>&nbsp;</p>\n"+
         "<p class=\"introPop\">Bienvenido, para enviarte la informaci&oacute;n actualizada sobre las fechas ofrecidas por el Gobierno Federal, llena los siguientes datos:</p>\n"+
         "<p class=\"introPop\">La cuenta del portal de becas le permite acceder a la informaci&oacute;n y otros servicios. Si ya te registraste en el</p>\n"+
         "<p class=\"introPop\">portal, <a href=\"#\">entra a tu cuenta  aqu&iacute;</a></p>\n"+
@@ -64,16 +64,16 @@ public class UserRegistration extends GenericResource {
         "<p class=\"obligatorio\">*Datos Obligatorios, favor de proporcionarlos</p>\n"+
         "<p class=\"csNombre\"><label for=\"usrName\">Nombre(s)*</label>\n"+
         "<input type=\"text\" name=\"usrName\" id=\"usrName\" class=\"inputPop\" /></p>\n"+
-        "<p>&nbsp;</p>\n"+
-        "<p>&nbsp;</p>\n"+
+//        "<p>&nbsp;</p>\n"+
+//        "<p>&nbsp;</p>\n"+
         "<p class=\"csPApe\"><label for=\"usrPrimA\">Primer Apellído*</label>\n"+
         "<input type=\"text\" name=\"usrPrimA\" id=\"usrPrimA\" class=\"inputPop\" /></p>\n"+
-        "<p>&nbsp;</p>\n"+
-        "<p>&nbsp;</p>\n"+
+//        "<p>&nbsp;</p>\n"+
+//        "<p>&nbsp;</p>\n"+
         "<p class=\"csSApe\"><label for=\"usrSegA\">Segundo Apellído</label>\n"+
         "<input type=\"text\" name=\"usrSegA\" id=\"usrSegA\" class=\"inputPop\" /></p>\n"+
-        "<p>&nbsp;</p>\n"+
-        "<p>&nbsp;</p>\n"+
+//        "<p>&nbsp;</p>\n"+
+//        "<p>&nbsp;</p>\n"+
         "<p>\n"+
         "  <label for=\"mail\">Correo Electr&oacute;nico*</label>\n"+
         "  <input type=\"text\" name=\"mail\" id=\"mail\" class=\"inputPop\" onchange=\" if (!isValidEmail(this.value) || !canAddEmail('{$model}', this.value))"+
@@ -125,14 +125,14 @@ public class UserRegistration extends GenericResource {
         "<p>&nbsp;</p>\n"+
         "<h5>Nivel de estudios actual</h5>\n"+
         "<div>\n"+
-        "  <p>\n"+
+        "  <p class=\"nivel\">\n"+
         "{$niveles}"+
         "  </p>\n"+
         "</div>\n"+
         "<p>&nbsp;</p>\n"+
         "<h5>Becas de Inter&eacute;s</h5>\n"+
         "<div>\n"+
-        "  <p>\n"+
+        "  <p class=\"instituciones\">\n"+
         "{$instituciones}"+
         "  </p>\n"+
         "</div>\n"+
@@ -221,7 +221,7 @@ public class UserRegistration extends GenericResource {
         "<script type=\"text/javascript\" src=\""+SWBPortal.getContextPath()+"/swbadmin/js/swb.js\" ></script><form id=\"formaRegistro\" name=\"formaRegistro\" method=\"post\" action=\"{$actionURL}\">"
         + "<link type=\"text/css\" rel=\"stylesheet\" href=\""+SWBPortal.getContextPath()+"/work/models/Beca_SEP/CSS/estilos_lightBox.css\" />\n"+ // /work/estilos_lightBox.css
         "<h2>Crear Cuenta</h2>\n"+
-        "<p>&nbsp;</p>\n"+
+//        "<p>&nbsp;</p>\n"+
         "<p class=\"introPop\">Bienvenido, para enviarte la informaci&oacute;n actualizada sobre las fechas ofrecidas por el Gobierno Federal, llena los siguientes datos:</p>\n"+
         "<p class=\"introPop\">La cuenta del portal de becas le permite acceder a la informaci&oacute;n y otros servicios. Si ya te registraste en el</p>\n"+
         "<p class=\"introPop\">portal, <a href=\"#\">entra a tu cuenta  aqu&iacute;</a></p>\n"+
@@ -229,16 +229,16 @@ public class UserRegistration extends GenericResource {
         "<p class=\"obligatorio\">*Datos Obligatorios, favor de proporcionarlos</p>\n"+
         "<p class=\"csNombre\"><label for=\"usrName\">Nombre(s)*</label>\n"+
         "<input type=\"text\" name=\"usrName\" id=\"usrName\" class=\"inputPop\" value=\"{$usrName}\"/></p>\n"+
-        "<p>&nbsp;</p>\n"+
-        "<p>&nbsp;</p>\n"+
+//        "<p>&nbsp;</p>\n"+
+//        "<p>&nbsp;</p>\n"+
         "<p class=\"csPApe\"><label for=\"usrPrimA\">Primer Apellído*</label>\n"+
         "<input type=\"text\" name=\"usrPrimA\" id=\"usrPrimA\" class=\"inputPop\" value=\"{$usrPrimA}\" /></p>\n"+
-        "<p>&nbsp;</p>\n"+
-        "<p>&nbsp;</p>\n"+
+//        "<p>&nbsp;</p>\n"+
+//        "<p>&nbsp;</p>\n"+
         "<p class=\"csSApe\"><label for=\"usrSegA\">Segundo Apellído</label>\n"+
         "<input type=\"text\" name=\"usrSegA\" id=\"usrSegA\" class=\"inputPop\"  value=\"{$usrSegA}\"/></p>\n"+
-        "<p>&nbsp;</p>\n"+
-        "<p>&nbsp;</p>\n"+
+//        "<p>&nbsp;</p>\n"+
+//        "<p>&nbsp;</p>\n"+
         "<h5>Datos para recuperar contrase&ntilde;a</h5>\n"+
         "<p>\n"+
         "  <label for=\"preguntaSecreta\">Pregunta de seguridad*</label>\n"+
@@ -270,14 +270,14 @@ public class UserRegistration extends GenericResource {
         "<p>&nbsp;</p>\n"+
         "<h5>Nivel de estudios actual</h5>\n"+
         "<div>\n"+
-        "  <p>\n"+
+        "  <p class=\"nivel\">\n"+
         "{$niveles}"+
         "  </p>\n"+
         "</div>\n"+
         "<p>&nbsp;</p>\n"+
         "<h5>Becas de Inter&eacute;s</h5>\n"+
         "<div>\n"+
-        "  <p>\n"+
+        "  <p class=\"instituciones\">\n"+
         "{$instituciones}"+
         "  </p>\n"+
         "</div>\n"+
