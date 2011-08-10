@@ -18,12 +18,14 @@ import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebPage;
+import org.semanticwb.model.WebSite;
 import org.semanticwb.portal.api.*;
 import org.semanticwb.portal.resources.sem.genericCalendar.EventType;
 import org.semanticwb.portal.resources.sem.genericCalendar.ResourceCalendar;
 import org.semanticwb.promexico.Event;
 import org.semanticwb.promexico.Sector;
 import org.semanticwb.promexico.Training;
+import org.semanticwb.promexico.TrainingType;
 
 public class ProMxResourceCalendar extends org.semanticwb.promexico.resources.base.ProMxResourceCalendarBase 
 {
@@ -68,6 +70,7 @@ public class ProMxResourceCalendar extends org.semanticwb.promexico.resources.ba
         response.setHeader("Pragma", "no-cache");
         PrintWriter out = response.getWriter();
         ProMxResourceCalendar cal = (ProMxResourceCalendar)getSemanticObject().createGenericInstance();
+        WebSite ws = paramRequest.getWebPage().getWebSite();
         User user = paramRequest.getUser();
         String value = request.getParameter("month");
         int mont = 0, year=0;
@@ -85,73 +88,84 @@ public class ProMxResourceCalendar extends org.semanticwb.promexico.resources.ba
             log.error("Error while convert year in Calendar: " + e);
         }
         boolean isOnlyType = getEvtType() != null ? true : false;
+        boolean isTrainingType = getCalTrainingType() != null ? true : false;
 
         if(mont > 0 && year > 0) {
             Iterator ist = null;
             Iterator ist2 = null;
-            if(isOnlyType && getEvtType().toString().trim().length() > 1) {
+            if((isOnlyType && getEvtType().toString().trim().length() > 1) && (isTrainingType && getCalTrainingType().toString().trim().length() > 1)) {
                 EventType type = (EventType) getEvtType();
-                ist = Event.ClassMgr.listEventByEvType(type, paramRequest.getWebPage().getWebSite());
-            } else {
-                ist = Event.ClassMgr.listEvents(paramRequest.getWebPage().getWebSite());
-                ist2 = Training.ClassMgr.listTrainings(paramRequest.getWebPage().getWebSite());
+                ist = Event.ClassMgr.listEventByEvType(type, ws);
+                TrainingType type2 = (TrainingType) getCalTrainingType();
+                ist2 = Training.ClassMgr.listTrainingByTraType(type2, ws);
+            } else if (isOnlyType && getEvtType().toString().trim().length() > 1) {
+                EventType type = (EventType) getEvtType();
+                ist = Event.ClassMgr.listEventByEvType(type, ws);
+            } else if(isTrainingType && getCalTrainingType().toString().trim().length() > 1){
+                TrainingType type = (TrainingType) getCalTrainingType();
+                ist2 = Training.ClassMgr.listTrainingByTraType(type, ws);
+            }else {
+                ist = Event.ClassMgr.listEvents(ws);
+                ist2 = Training.ClassMgr.listTrainings(ws);
             }
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            while(ist.hasNext()) {
-                Event ev = (Event)ist.next();
-                if(user.haveAccess(ev)) {
-                    try {
-                        if(ev.getEventInitDate() != null) {
-                            int valueMonth=sdf.parse(ev.getEventInitDate()).getMonth()+1;
-                            int valueYear = sdf.parse(ev.getEventInitDate()).getYear();
-                            int year1 = (valueYear< 1000) ? valueYear + 1900 : valueYear;
-                            int valueDay = sdf.parse(ev.getEventInitDate()).getDate();
+            if(ist != null) {
+                while(ist.hasNext()) {
+                    Event ev = (Event)ist.next();
+                    if(user.haveAccess(ev)) {
+                        try {
+                            if(ev.getEventInitDate() != null) {
+                                int valueMonth=sdf.parse(ev.getEventInitDate()).getMonth()+1;
+                                int valueYear = sdf.parse(ev.getEventInitDate()).getYear();
+                                int year1 = (valueYear< 1000) ? valueYear + 1900 : valueYear;
+                                int valueDay = sdf.parse(ev.getEventInitDate()).getDate();
 
-                            boolean isYearly = (mont == valueMonth && ev.getPeriodicity().equals("yearly")) ? true : false;
-                            int monthCurrent = java.util.Calendar.getInstance().MONTH + 1;
-                            boolean isMonthly = ev.getPeriodicity().equals("monthly") && valueDay <= lastDayOfMonth(monthCurrent, year) ? true : false;//java.util.Calendar.getInstance().DAY_OF_MONTH == valueMonth ? true : false;
-                            boolean isWeekly = ev.getPeriodicity().equals("weekly") ? true : false;
-                            int valMonthEndEvt, valYearEndEvt, year2;
-                            valMonthEndEvt = valYearEndEvt = year2 = 0;
-                            if(ev.getEventEndDate() != null ) {
-                                valMonthEndEvt = sdf.parse(ev.getEventEndDate()).getMonth()+1;
-                            }
-                            if(ev.getEventEndDate() != null) {
-                                valYearEndEvt = sdf.parse(ev.getEventEndDate()).getYear();
-                                year2 = (valYearEndEvt < 1000) ? valYearEndEvt + 1900 : valYearEndEvt;
-                            }
+                                boolean isYearly = (mont == valueMonth && ev.getPeriodicity().equals("yearly")) ? true : false;
+                                int monthCurrent = java.util.Calendar.getInstance().MONTH + 1;
+                                boolean isMonthly = ev.getPeriodicity().equals("monthly") && valueDay <= lastDayOfMonth(monthCurrent, year) ? true : false;//java.util.Calendar.getInstance().DAY_OF_MONTH == valueMonth ? true : false;
+                                boolean isWeekly = ev.getPeriodicity().equals("weekly") ? true : false;
+                                int valMonthEndEvt, valYearEndEvt, year2;
+                                valMonthEndEvt = valYearEndEvt = year2 = 0;
+                                if(ev.getEventEndDate() != null ) {
+                                    valMonthEndEvt = sdf.parse(ev.getEventEndDate()).getMonth()+1;
+                                }
+                                if(ev.getEventEndDate() != null) {
+                                    valYearEndEvt = sdf.parse(ev.getEventEndDate()).getYear();
+                                    year2 = (valYearEndEvt < 1000) ? valYearEndEvt + 1900 : valYearEndEvt;
+                                }
 
-                            if(((mont == valueMonth) && (year == year1)) || (isYearly && year >= year2) || (isMonthly && year >= year2 ) || (isWeekly && year >= year2)) {
-                                ArrayList listEvents = new ArrayList();
-                                if((!isWeekly && year <= year2 && mont <= valMonthEndEvt && mont >= valueMonth && year >= year1) || (!isWeekly && mont >= valueMonth && year >= year1 && ev.getEventEndDate() == null)) {
-                                    if(eventMonth.containsKey(valueDay)) {
-                                        listEvents = (ArrayList)eventMonth.get(valueDay);
-                                        listEvents.add(ev);
-                                        eventMonth.remove(valueDay);
-                                    } else {
-                                        listEvents.add(ev);
-                                    }
-                                    eventMonth.put(valueDay, listEvents);
-                                } else if((year <= year2 && mont <= valMonthEndEvt && mont >= valueMonth) || (mont >= valueMonth && year >= year1 && ev.getEventEndDate() == null)) {
-                                    ArrayList week = getWeekly(ev, mont-1, year);
-                                    Iterator it = week.iterator();
-                                    while(it.hasNext()) {
-                                        int day = Integer.parseInt(it.next().toString());
-                                        if(eventMonth.containsKey(day)) {
-                                            listEvents = (ArrayList)eventMonth.get(day);
+                                if(((mont == valueMonth) && (year == year1)) || (isYearly && year >= year2) || (isMonthly && year >= year2 ) || (isWeekly && year >= year2)) {
+                                    ArrayList listEvents = new ArrayList();
+                                    if((!isWeekly && year <= year2 && mont <= valMonthEndEvt && mont >= valueMonth && year >= year1) || (!isWeekly && mont >= valueMonth && year >= year1 && ev.getEventEndDate() == null)) {
+                                        if(eventMonth.containsKey(valueDay)) {
+                                            listEvents = (ArrayList)eventMonth.get(valueDay);
                                             listEvents.add(ev);
-                                            eventMonth.remove(day);
+                                            eventMonth.remove(valueDay);
                                         } else {
                                             listEvents.add(ev);
                                         }
-                                        eventMonth.put(day, listEvents);
+                                        eventMonth.put(valueDay, listEvents);
+                                    } else if((year <= year2 && mont <= valMonthEndEvt && mont >= valueMonth) || (mont >= valueMonth && year >= year1 && ev.getEventEndDate() == null)) {
+                                        ArrayList week = getWeekly(ev, mont-1, year);
+                                        Iterator it = week.iterator();
+                                        while(it.hasNext()) {
+                                            int day = Integer.parseInt(it.next().toString());
+                                            if(eventMonth.containsKey(day)) {
+                                                listEvents = (ArrayList)eventMonth.get(day);
+                                                listEvents.add(ev);
+                                                eventMonth.remove(day);
+                                            } else {
+                                                listEvents.add(ev);
+                                            }
+                                            eventMonth.put(day, listEvents);
+                                        }
                                     }
-                                }
 
+                                }
                             }
+                        } catch(Exception e) {
+                            log.error("Error while process events in ScheduledEvents" + e);
                         }
-                    } catch(Exception e) {
-                        log.error("Error while process events in ScheduledEvents" + e);
                     }
                 }
             }
