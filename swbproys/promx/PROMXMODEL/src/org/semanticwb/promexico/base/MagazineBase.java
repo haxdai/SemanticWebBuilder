@@ -1,8 +1,9 @@
 package org.semanticwb.promexico.base;
 
 
-public abstract class MagazineBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Tagable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class MagazineBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Traceable
 {
+    public static final org.semanticwb.platform.SemanticProperty promx_flashLink=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#flashLink");
    /**
    * Archivo Pdf de la revista
    */
@@ -248,6 +249,24 @@ public abstract class MagazineBase extends org.semanticwb.model.SWBClass impleme
     public void setDescription(String description, String lang)
     {
         getSemanticObject().setProperty(swb_description, description, lang);
+    }
+
+/**
+* Gets the FlashLink property
+* @return String with the FlashLink
+*/
+    public String getFlashLink()
+    {
+        return getSemanticObject().getProperty(promx_flashLink);
+    }
+
+/**
+* Sets the FlashLink property
+* @param value long with the FlashLink
+*/
+    public void setFlashLink(String value)
+    {
+        getSemanticObject().setProperty(promx_flashLink, value);
     }
 
 /**
