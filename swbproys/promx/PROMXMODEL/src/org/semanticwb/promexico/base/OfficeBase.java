@@ -4,7 +4,7 @@ package org.semanticwb.promexico.base;
    /**
    * Objeto controlador de oficinas 
    */
-public abstract class OfficeBase extends org.semanticwb.promexico.ProMxWebPage implements org.semanticwb.model.Countryable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Expirable,org.semanticwb.model.Referensable,org.semanticwb.promexico.Localizable,org.semanticwb.model.Traceable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Activeable,org.semanticwb.promexico.Representable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Hiddenable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Resourceable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Trashable,org.semanticwb.model.Undeleteable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Viewable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Searchable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Tagable,org.semanticwb.model.Rankable,org.semanticwb.model.Localeable,org.semanticwb.model.Indexable
+public abstract class OfficeBase extends org.semanticwb.promexico.ProMxWebPage implements org.semanticwb.model.UserGroupRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Trashable,org.semanticwb.model.CalendarRefable,org.semanticwb.promexico.Representable,org.semanticwb.model.Activeable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Indexable,org.semanticwb.model.Localeable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Countryable,org.semanticwb.model.Hiddenable,org.semanticwb.model.PFlowRefable,org.semanticwb.promexico.Localizable,org.semanticwb.model.Filterable,org.semanticwb.model.Expirable,org.semanticwb.model.Viewable,org.semanticwb.model.Tagable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Resourceable,org.semanticwb.model.Searchable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Rankable
 {
     public static final org.semanticwb.platform.SemanticClass promx_ProMxVideo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#ProMxVideo");
    /**
@@ -12,6 +12,7 @@ public abstract class OfficeBase extends org.semanticwb.promexico.ProMxWebPage i
    */
     public static final org.semanticwb.platform.SemanticProperty promx_hasVideo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasVideo");
     public static final org.semanticwb.platform.SemanticProperty promx_international=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#international");
+    public static final org.semanticwb.platform.SemanticProperty promx_OfficeAdress=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#OfficeAdress");
    /**
    * Foto de la Oficina
    */
@@ -642,6 +643,24 @@ public abstract class OfficeBase extends org.semanticwb.promexico.ProMxWebPage i
     {
         super(base);
     }
+
+/**
+* Gets the RepreFax property
+* @return String with the RepreFax
+*/
+    public String getRepreFax()
+    {
+        return getSemanticObject().getProperty(promx_repreFax);
+    }
+
+/**
+* Sets the RepreFax property
+* @param value long with the RepreFax
+*/
+    public void setRepreFax(String value)
+    {
+        getSemanticObject().setProperty(promx_repreFax, value);
+    }
    /**
    * Gets all the org.semanticwb.promexico.ProMxVideo
    * @return A GenericIterator with all the org.semanticwb.promexico.ProMxVideo
@@ -742,6 +761,24 @@ public abstract class OfficeBase extends org.semanticwb.promexico.ProMxWebPage i
     public void setInternational(boolean value)
     {
         getSemanticObject().setBooleanProperty(promx_international, value);
+    }
+
+/**
+* Gets the OfficeAdress property
+* @return String with the OfficeAdress
+*/
+    public String getOfficeAdress()
+    {
+        return getSemanticObject().getProperty(promx_OfficeAdress);
+    }
+
+/**
+* Sets the OfficeAdress property
+* @param value long with the OfficeAdress
+*/
+    public void setOfficeAdress(String value)
+    {
+        getSemanticObject().setProperty(promx_OfficeAdress, value);
     }
 
 /**

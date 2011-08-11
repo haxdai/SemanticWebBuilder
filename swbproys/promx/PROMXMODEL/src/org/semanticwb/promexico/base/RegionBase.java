@@ -1,7 +1,7 @@
 package org.semanticwb.promexico.base;
 
 
-public abstract class RegionBase extends org.semanticwb.promexico.ProMxWebPage implements org.semanticwb.model.Countryable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Expirable,org.semanticwb.model.Referensable,org.semanticwb.model.Traceable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Activeable,org.semanticwb.promexico.Representable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Hiddenable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Resourceable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Trashable,org.semanticwb.model.Undeleteable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Viewable,org.semanticwb.model.Searchable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Tagable,org.semanticwb.model.Rankable,org.semanticwb.model.Localeable,org.semanticwb.model.Indexable
+public abstract class RegionBase extends org.semanticwb.promexico.ProMxWebPage implements org.semanticwb.model.UserGroupRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Trashable,org.semanticwb.model.CalendarRefable,org.semanticwb.promexico.Representable,org.semanticwb.model.Activeable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Indexable,org.semanticwb.model.Localeable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Countryable,org.semanticwb.model.Hiddenable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Expirable,org.semanticwb.model.Viewable,org.semanticwb.model.Tagable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Resourceable,org.semanticwb.model.Searchable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Rankable
 {
     public static final org.semanticwb.platform.SemanticClass promx_Region=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Region");
    /**
@@ -518,6 +518,24 @@ public abstract class RegionBase extends org.semanticwb.promexico.ProMxWebPage i
     public RegionBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+/**
+* Gets the RepreFax property
+* @return String with the RepreFax
+*/
+    public String getRepreFax()
+    {
+        return getSemanticObject().getProperty(promx_repreFax);
+    }
+
+/**
+* Sets the RepreFax property
+* @param value long with the RepreFax
+*/
+    public void setRepreFax(String value)
+    {
+        getSemanticObject().setProperty(promx_repreFax, value);
     }
 
 /**

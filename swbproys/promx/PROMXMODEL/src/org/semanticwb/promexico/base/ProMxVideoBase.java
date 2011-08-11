@@ -1,7 +1,7 @@
 package org.semanticwb.promexico.base;
 
 
-public abstract class ProMxVideoBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Searchable,org.semanticwb.model.Tagable,org.semanticwb.model.Traceable
+public abstract class ProMxVideoBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Tagable,org.semanticwb.model.Ruleable,org.semanticwb.model.Searchable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticClass promx_Sector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Sector");
     public static final org.semanticwb.platform.SemanticProperty promx_hasVideoSector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasVideoSector");
@@ -14,6 +14,7 @@ public abstract class ProMxVideoBase extends org.semanticwb.model.SWBClass imple
     public static final org.semanticwb.platform.SemanticClass promx_ProMxVideoType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#ProMxVideoType");
     public static final org.semanticwb.platform.SemanticProperty promx_videoType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#videoType");
     public static final org.semanticwb.platform.SemanticProperty promx_pmVideo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#pmVideo");
+    public static final org.semanticwb.platform.SemanticProperty promx_pmVideoEN=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#pmVideoEN");
     public static final org.semanticwb.platform.SemanticProperty promx_pmVideoImage=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#pmVideoImage");
     public static final org.semanticwb.platform.SemanticClass promx_ProMxVideo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#ProMxVideo");
    /**
@@ -157,6 +158,29 @@ public abstract class ProMxVideoBase extends org.semanticwb.model.SWBClass imple
         public static java.util.Iterator<org.semanticwb.promexico.ProMxVideo> listProMxVideoByVideoService(org.semanticwb.promexico.Service value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.promexico.ProMxVideo> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(promx_hasVideoService,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.ProMxVideo with a determined Rule
+       * @param value Rule of the type org.semanticwb.model.Rule
+       * @param model Model of the org.semanticwb.promexico.ProMxVideo
+       * @return Iterator with all the org.semanticwb.promexico.ProMxVideo
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.ProMxVideo> listProMxVideoByRule(org.semanticwb.model.Rule value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.ProMxVideo> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRule, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.ProMxVideo with a determined Rule
+       * @param value Rule of the type org.semanticwb.model.Rule
+       * @return Iterator with all the org.semanticwb.promexico.ProMxVideo
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.ProMxVideo> listProMxVideoByRule(org.semanticwb.model.Rule value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.ProMxVideo> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRule,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -471,6 +495,71 @@ public abstract class ProMxVideoBase extends org.semanticwb.model.SWBClass imple
         getSemanticObject().setProperty(swb_description, description, lang);
     }
    /**
+   * Gets all the org.semanticwb.model.Rule
+   * @return A GenericIterator with all the org.semanticwb.model.Rule
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.model.Rule> listRules()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.model.Rule>(getSemanticObject().listObjectProperties(swb_hasRule));
+    }
+
+   /**
+   * Gets true if has a Rule
+   * @param value org.semanticwb.model.Rule to verify
+   * @return true if the org.semanticwb.model.Rule exists, false otherwise
+   */
+    public boolean hasRule(org.semanticwb.model.Rule value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(swb_hasRule,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a Rule
+   * @param value org.semanticwb.model.Rule to add
+   */
+
+    public void addRule(org.semanticwb.model.Rule value)
+    {
+        getSemanticObject().addObjectProperty(swb_hasRule, value.getSemanticObject());
+    }
+   /**
+   * Removes all the Rule
+   */
+
+    public void removeAllRule()
+    {
+        getSemanticObject().removeProperty(swb_hasRule);
+    }
+   /**
+   * Removes a Rule
+   * @param value org.semanticwb.model.Rule to remove
+   */
+
+    public void removeRule(org.semanticwb.model.Rule value)
+    {
+        getSemanticObject().removeObjectProperty(swb_hasRule,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the Rule
+   * @return a org.semanticwb.model.Rule
+   */
+    public org.semanticwb.model.Rule getRule()
+    {
+         org.semanticwb.model.Rule ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_hasRule);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.Rule)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
    * Sets the value for the property VideoType
    * @param value VideoType to set
    */
@@ -596,6 +685,24 @@ public abstract class ProMxVideoBase extends org.semanticwb.model.SWBClass imple
     public void setTitle(String title, String lang)
     {
         getSemanticObject().setProperty(swb_title, title, lang);
+    }
+
+/**
+* Gets the PmVideoEN property
+* @return String with the PmVideoEN
+*/
+    public String getPmVideoEN()
+    {
+        return getSemanticObject().getProperty(promx_pmVideoEN);
+    }
+
+/**
+* Sets the PmVideoEN property
+* @param value long with the PmVideoEN
+*/
+    public void setPmVideoEN(String value)
+    {
+        getSemanticObject().setProperty(promx_pmVideoEN, value);
     }
 
 /**
