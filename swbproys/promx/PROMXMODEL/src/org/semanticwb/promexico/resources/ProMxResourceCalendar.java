@@ -87,24 +87,59 @@ public class ProMxResourceCalendar extends org.semanticwb.promexico.resources.ba
         } catch(NumberFormatException e) {
             log.error("Error while convert year in Calendar: " + e);
         }
-        boolean isOnlyType = getEvtType() != null ? true : false;
-        boolean isTrainingType = getCalTrainingType() != null ? true : false;
 
         if(mont > 0 && year > 0) {
             Iterator ist = null;
             Iterator ist2 = null;
-            if((isOnlyType && getEvtType().toString().trim().length() > 1) && (isTrainingType && getCalTrainingType().toString().trim().length() > 1)) {
-                EventType type = (EventType) getEvtType();
-                ist = Event.ClassMgr.listEventByEvType(type, ws);
-                TrainingType type2 = (TrainingType) getCalTrainingType();
-                ist2 = Training.ClassMgr.listTrainingByTraType(type2, ws);
-            } else if (isOnlyType && getEvtType().toString().trim().length() > 1) {
-                EventType type = (EventType) getEvtType();
-                ist = Event.ClassMgr.listEventByEvType(type, ws);
-            } else if(isTrainingType && getCalTrainingType().toString().trim().length() > 1){
-                TrainingType type = (TrainingType) getCalTrainingType();
-                ist2 = Training.ClassMgr.listTrainingByTraType(type, ws);
-            }else {
+            Iterator istEvts = listEvtTypes();
+            Iterator istTraining = listCalTrainingTypes();
+            ArrayList allList = new ArrayList();
+
+            if(istEvts.hasNext() && istTraining.hasNext()) {
+                while(istEvts.hasNext()) {
+                    EventType type =  (EventType)istEvts.next();
+                    ist = Event.ClassMgr.listEventByEvType(type, paramRequest.getWebPage().getWebSite());
+                    while(ist.hasNext()) {
+                        allList.add(ist.next());
+                    }
+                }
+                if(!allList.isEmpty()) {
+                    ist = allList.iterator();
+                }
+                allList = new ArrayList();
+                while(istTraining.hasNext()) {
+                    TrainingType type =  (TrainingType)istTraining.next();
+                    ist2 = Training.ClassMgr.listTrainingByTraType(type, paramRequest.getWebPage().getWebSite());
+                    while(ist2.hasNext()) {
+                        allList.add(ist2.next());
+                    }
+                }
+                if(!allList.isEmpty()) {
+                    ist2 = allList.iterator();
+                }
+            } else if(istEvts.hasNext()) {
+                while(istEvts.hasNext()) {
+                    EventType type =  (EventType)istEvts.next();
+                    ist = Event.ClassMgr.listEventByEvType(type, paramRequest.getWebPage().getWebSite());
+                    while(ist.hasNext()) {
+                        allList.add(ist.next());
+                    }
+                }
+                if(!allList.isEmpty()) {
+                    ist = allList.iterator();
+                }
+            } else if(istTraining.hasNext()) {
+                while(istTraining.hasNext()) {
+                    TrainingType type =  (TrainingType)istTraining.next();
+                    ist2 = Training.ClassMgr.listTrainingByTraType(type, paramRequest.getWebPage().getWebSite());
+                    while(ist2.hasNext()) {
+                        allList.add(ist2.next());
+                    }
+                }
+                if(!allList.isEmpty()) {
+                    ist2 = allList.iterator();
+                }  
+            } else {
                 ist = Event.ClassMgr.listEvents(ws);
                 ist2 = Training.ClassMgr.listTrainings(ws);
             }
