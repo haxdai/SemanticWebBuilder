@@ -16,7 +16,6 @@ import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.*;
-import org.semanticwb.platform.SemanticLiteral;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBActionResponse;
@@ -37,7 +36,7 @@ public class UserRegistration extends GenericResource {
             "return true; }"+
             "var pRegEx=/^[ A-Za-z0-9\\!\\@\\_\\-\\.]*?([A-Za-z][ A-Za-z0-9\\!\\@\\_\\-\\.]*?[0-9]|[0-9][ A-Za-z0-9\\!\\@\\_\\-\\.]*?[A-Za-z])[ A-Za-z0-9\\!\\@\\_\\-\\.]*$/;"+
             "if (!pRegEx.test(clave)) {"+
-            "estado.innerHTML=\"La contraseña debe contener letras, números ó los símbolos ! @ _ - .\";  "+
+            "estado.innerHTML=\"La contraseña puede contener letras, números y los símbolos &quot;!&quot;, &quot;@&quot;, &quot;_&quot;, &quot;-&quot; y &quot;.&quot;.\";  "+
             "estado.style.color=\"red\";"+
             "return true; }"+
            "estado.innerHTML=\"Contraseña aceptable\";  "+
@@ -49,7 +48,7 @@ public class UserRegistration extends GenericResource {
             "forma.mail.value.length==0 || forma.clave.value.length==0 || "+
             "forma.preguntaSecreta.selectedIndex<1 || "+
             "forma.respuestaSecreta.value.length==0 || !validateElement('frmCaptchaValue','/frmprocess/validCaptcha?none=1',forma.frmCaptchaValue.value) "+
-            ") {alert ('Datos incompletos'); } else { "+
+            ") {alert ('Tus datos se encuentran incompletos. Es necesario que llenes todos los campos obligatorios marcados con \"*\".'); } else { "+
             "forma.submit(); }"+
             "}"+
             "</script>"+
@@ -77,7 +76,7 @@ public class UserRegistration extends GenericResource {
         "<p>\n"+
         "  <label for=\"mail\">Correo Electr&oacute;nico*</label>\n"+
         "  <input type=\"text\" name=\"mail\" id=\"mail\" class=\"inputPop\" onchange=\" if (!isValidEmail(this.value) || !canAddEmail('{$model}', this.value))"+
-        " alert ('El correo ya existe o no tiene el formato adecuado');\"/>\n"+
+        " alert ('El correo electrónico no es válido o ya fue registrado por otro usuario. Verifica que contenga \"@\" o ingresa una nueva dirección de correo electrónico.');\"/>\n"+
         "</p>\n"+
         "<p>&nbsp;</p>\n"+
         "<p>&nbsp;</p>\n"+
@@ -90,7 +89,7 @@ public class UserRegistration extends GenericResource {
         "<p class=\"popText\">Nivel de Seguridad: <div id=\"passwordstatus\" style=\"color:red\">Proporcione una contraseña</div></p>\n"+
         "<p>\n"+
         "  <label for=\"clave2\">Confirmar contrase&ntilde;a*</label>\n"+
-        "  <input type=\"password\" name=\"clave2\" id=\"clave2\" class=\"inputPop\" onchange=\"if (this.value!=clave.value) alert ('Las contraseñas son diferentes');\" />\n"+
+        "  <input type=\"password\" name=\"clave2\" id=\"clave2\" class=\"inputPop\" onchange=\"if (this.value!=clave.value) alert ('La confirmación de tu contraseña es incorrecta. Las contraseñas deben ser iguales.');\" />\n"+
         "</p>\n"+
         "<p>&nbsp;</p>\n"+
         "<p>&nbsp;</p>\n"+
@@ -120,7 +119,7 @@ public class UserRegistration extends GenericResource {
                         "/frmprocess/requestCaptcha?'+ Math.random(); document.getElementById('captcha').value=''; return false;\">cambiar imagen</a></p>\n"+ //Captcha - width=\"345\" height=\"59\"
         "<p>&nbsp;\n"+
         "  <input type=\"text\" name=\"frmCaptchaValue\" id=\"frmCaptchaValue\" class=\"inputPop\" onchange=\"if (!validateElement('frmCaptchaValue','/frmprocess/validCaptcha?none=1',this.value)) "+
-        "alert('Verificación incorrecta');\"/>\n"+
+        "alert('Los caracteres son incorrectos. Asegúrate de escribir el texto tal como se muestra en la imagen.');\"/>\n"+
         "</p>\n"+
         "<p>&nbsp;</p>\n"+
         "<h5>Nivel de estudios actual</h5>\n"+
@@ -214,7 +213,7 @@ public class UserRegistration extends GenericResource {
             "if (forma.usrName.value.length==0 || forma.usrPrimA.value.length==0 || "+
             "forma.preguntaSecreta.selectedIndex<1 || "+
             "forma.respuestaSecreta.value.length==0 || !validateElement('frmCaptchaValue','/frmprocess/validCaptcha?none=1',forma.frmCaptchaValue.value)"+
-            ") {alert ('Datos incompletos'); } else { "+
+            ") {alert ('Tus datos se encuentran incompletos. Es necesario que llenes todos los campos obligatorios marcados con \"*\".'); } else { "+
             "forma.submit(); }"+
             "}"+
             "</script>"+
@@ -265,7 +264,7 @@ public class UserRegistration extends GenericResource {
                         "/frmprocess/requestCaptcha?'+ Math.random(); document.getElementById('captcha').value=''; return false;\">cambiar imagen</a></p>\n"+ //Captcha - width=\"345\" height=\"59\"
         "<p>&nbsp;\n"+
         "  <input type=\"text\" name=\"frmCaptchaValue\" id=\"frmCaptchaValue\" class=\"inputPop\" onchange=\"if (!validateElement('frmCaptchaValue','/frmprocess/validCaptcha?none=1',this.value)) "+
-        "alert('Verificación incorrecta');\"/>\n"+
+        "alert('Los caracteres son incorrectos. Asegúrate de escribir el texto tal como se muestra en la imagen.');\"/>\n"+
         "</p>\n"+
         "<p>&nbsp;</p>\n"+
         "<h5>Nivel de estudios actual</h5>\n"+
@@ -353,21 +352,22 @@ public class UserRegistration extends GenericResource {
         "<p>&nbsp;</p>\n"+
         "<p><a href=\"javascript:submitfrm()\" class=\"cerrarBoton\">Guardar</a></p></form>\n";
 
-    String Message="<html><body><p font=\"arial\" size=\"3\"><em>Bienvenido al portal de Becas, donde podrás encontrar "
-            + "información sobre diferentes tipos de apoyos que ofrecen las instituciones participantes en el "
-            + "programa a través de sus distintas convocatorias.<br><br>Gracias por crear una cuenta con nosotros, "
-            + "ahora sólo tienes que ingresar a la siguiente dirección para activarla:</em><br><br>"
-            + "<a href=\"{$link}\">Haz clic aquí</a><br><br>¡No dejes pasar más tiempo, busca tu beca y  aprovecha todos "
-            + "los beneficios que te ofrece el portal para cumplir tus objetivos!</p></body></html>";
+    String Message="<html><body><p font=\"arial\" size=\"3\"><em>Bienvenido al Portal Becas,  "
+            + "donde podrás consultar información acerca de los apoyos disponibles para continuar "
+            + "tus estudios, además de las convocatorias impulsadas por las instituciones participantes en el programa.<br><br>"+
+            "Agradecemos tu interés por crear una cuenta en el Portal Becas y te invitamos a realizar la "
+            + "activación de la cuenta para que puedas disfrutar de los beneficios que el portal te ofrece. </em><br><br>"
+            + "Para activar tu cuenta <a href=\"{$link}\">Haz clic aquí</a><br><br>¡No dejes pasar más tiempo, busca tu "
+            + "beca y aprovecha todos los beneficios que te ofrece el portal para continuar tus estudios!</p></body></html>";
 
     String Activacion="<p><img src=\""+SWBPlatform.getContextPath()+"/work/models/Beca_SEP/images/unpaso.png\" alt=\"\" /></p>\n"+
-        "<h3>Hola <b>{$nombre}</b>, est&aacute;s a punto de crear tu cuenta.</h3>\n"+
-        "<p>Hemos enviado un correo  a la direcci&oacute;n electr&oacute;nica que nos proporcionaste al crear tu cuenta:</p>\n"+
+        "<h3>Hola <b>{$nombre}</b>, has creado tu cuenta en el Portal <em>Becas</em>, ahora debes activarla.</h3>\n"+
+        "<p>Hemos enviado un mensaje a la cuenta de correo electrónico que nos proporcionaste:</p>\n"+
         "<p>&nbsp;</p>\n"+
         "<p style=\"text-align:center;\"><b>{$correo}</b></p>\n"+
         "<p>&nbsp;</p>\n"+
-        "<p>Por favor haz clic en el v&iacute;nculo dentro del correo para activar tu cuenta.Si no recibes nuestro correo con "
-        + "el v&iacute;nculo de activaci&oacute;n en 24 horas, por favor cont&aacute;ctanos en "
+        "<p>Para activar tu cuenta debes consultar el mensaje que te fue enviado y dar clic en el vínculo de activación. "+
+        "Si no recibes nuestro mensaje de correo electrónico con el vínculo de activación en 24 horas, por favor contáctanos en "
         + "<a href=\"mailto:ayuda@becas.com\">ayuda@becas.com</a></p>\n";
 
     String editado="<img src=\""+SWBPortal.getContextPath()+"/work/models/Beca_SEP/images/bienvenido.png\" />\n"+
