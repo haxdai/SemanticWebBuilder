@@ -36,7 +36,7 @@ String message1 = "<div id=\"cuerpo_pop2\">\n"+
 "<link type=\"text/css\" rel=\"stylesheet\" href=\""+SWBPlatform.getContextPath()+"/work/models/Beca_SEP/CSS/estilos_lightBox.css\" />\n"+
 "<h2>Restaurar contraseña</h2>\n"+
 "<p>&nbsp;</p><form method=\"post\" id=\"frmMail\" name=\"frmMail\">\n"+
-"<p class=\"introPop\">Bienvenido, para poder restaurar tu contraseña, necesitamos que nos proporciones las respuestas correctas a las siguientes preguntas:</p>\n"+
+"<p class=\"introPop\">Para restaurar tu contraseña, es necesario que ingreses los siguientes datos:</p>\n"+
 "<p class=\"introPop\">&nbsp;</p>\n"+
 "<h3 class=\"introPop\">Paso 1</h3>\n"+
 "<p class=\"introPop\">\n"+
@@ -44,14 +44,14 @@ String message1 = "<div id=\"cuerpo_pop2\">\n"+
 "  <input type=\"text\" name=\"mail\" id=\"mail\" class=\"inputPop\" />\n"+
 "  <span></span></p>\n"+
 "<span>\n"+
-"<p>Escribe los caracteres que veas en la siguiente imagen</p>\n"+
+"<p>Escribe los caracteres que aparecen en la imagen</p>\n"+
 "</span>\n"+
 "<p><img  src=\""+SWBPlatform.getContextPath()+"/frmprocess/requestCaptcha\" alt=\"captcha\" id=\"captchaimg\" />\n"+
         "<a onclick=\"document.getElementById('captchaimg').src='"+SWBPlatform.getContextPath()+
                         "/frmprocess/requestCaptcha?'+ Math.random(); document.getElementById('captcha').value=''; return false;\">cambiar imagen</a></p>\n"+ //Captcha - width=\"345\" height=\"59\"
         "<p>&nbsp;\n"+
         "  <input type=\"text\" name=\"frmCaptchaValue\" id=\"frmCaptchaValue\" class=\"inputPop\" onchange=\"if (!validateElement('frmCaptchaValue','/frmprocess/validCaptcha?none=1',this.value)) "+
-        "alert('Verificación incorrecta');\"/></p>\n"+
+        "alert('Código de verificación incorrecto. Asegúrate de escribir el texto tal como aparece en la imagen.');\"/></p>\n"+
 "<p>&nbsp;</p>\n"+
 "<p><a href=\"javascript:frmMail.submit()\" class=\"cerrarBoton\">Continuar</a></p></form>\n"+
 "</div>\n";
@@ -60,7 +60,7 @@ String message2="<div id=\"cuerpo_pop2\">\n"+
 "<link type=\"text/css\" rel=\"stylesheet\" href=\""+SWBPlatform.getContextPath()+"/work/models/Beca_SEP/CSS/estilos_lightBox.css\" />\n"+
 "<h2>Restaurar contraseña</h2>\n"+
 "<p>&nbsp;</p><form method=\"post\" id=\"frmSec\" name=\"frmSec\">\n"+
-"<p class=\"introPop\">Bienvenido, para poder restaurar tu contraseña, necesitamos que nos proporciones las respuestas correctas a las siguientes preguntas:</p>\n"+
+"<p class=\"introPop\">Para restaurar tu contraseña, es necesario que ingreses los siguientes datos:</p>\n"+
 "<p class=\"introPop\">&nbsp;</p>\n"+
 "<h3 class=\"introPop\">Paso 2</h3>\n"+
 "<p><span class=\"introPop\">Responde tu pregunta secreta:</span></p>\n"+
@@ -82,7 +82,7 @@ String message3="<script  type=\"text/javascript\"> function validatePassowrd(cl
             "return true; }"+
             "var pRegEx=/^[ A-Za-z0-9\\!\\@\\_\\-\\.]*?([A-Za-z][ A-Za-z0-9\\!\\@\\_\\-\\.]*?[0-9]|[0-9][ A-Za-z0-9\\!\\@\\_\\-\\.]*?[A-Za-z])[ A-Za-z0-9\\!\\@\\_\\-\\.]*$/;"+
             "if (!pRegEx.test(clave)) {"+
-            "estado.innerHTML=\"La contraseña debe contener letras, números ó los símbolos ! @ _ - .\";  "+
+            "estado.innerHTML=\"La contraseña puede contener letras, números y los símbolos &quot;!&quot;, &quot;@&quot;, &quot;_&quot;, &quot;-&quot; y &quot;.&quot;.\";  "+
             "estado.style.color=\"red\";"+
             "return true; }"+
            "estado.innerHTML=\"Contraseña aceptable\";  "+
@@ -92,7 +92,7 @@ String message3="<script  type=\"text/javascript\"> function validatePassowrd(cl
 "<link type=\"text/css\" rel=\"stylesheet\" href=\""+SWBPlatform.getContextPath()+"/work/models/Beca_SEP/CSS/estilos_lightBox.css\" />\n"+
 "<h2>Restaurar contraseña</h2>\n"+
 "<p>&nbsp;</p><form method=\"post\" id=\"frmClave\" name=\"frmClave\" action=\"{$url}\">\n"+
-"<p class=\"introPop\">Bienvenido, para poder restaurar tu contraseña, necesitamos que nos proporciones las respuestas correctas a las siguientes preguntas:</p>\n"+
+"<p class=\"introPop\">Para restaurar tu contraseña, es necesario que ingreses los siguientes datos:</p>\n"+
 "<p class=\"introPop\">&nbsp;</p>\n"+
 "<h3 class=\"introPop\">Paso 3</h3>\n"+
 "<p>Ingresa tu nueva contraseña</p>\n"+
@@ -115,7 +115,7 @@ String message4="<div id=\"cuerpo_pop2\">\n"+
 "<h2>Restaurar contraseña</h2>\n"+
 "<p>&nbsp;</p>\n"+
 "<h3><strong>¡Tu contraseña ha sido cambiada con éxito!</strong></h3>\n"+
-"<p>  Use la nueva contraseña para iniciar sesión en los sitos y servicios del portal de Becas.</p>\n"+
+"<p>A partir de este momento, ingresarás al portal con tu nueva contraseña.</p>\n"+
 "<p class=\"introPop\">&nbsp;</p>\n"+
 "<p><a href=\"/\" class=\"cerrarBoton\">Regresar</a></p>\n"+
 "</div>\n";
@@ -186,7 +186,7 @@ long tiempo = 1000l * 60 * 5;
             {
                 PrintWriter pw = response.getWriter();
                 pw.println(message1);
-                pw.println("<script>alert('Verifique su información');</script>");
+                pw.println("<script>alert('Información incorrecta. Asegúrate de escribir correctamente tu cuenta de correo electrónico.');</script>");
             }
             else
             {
