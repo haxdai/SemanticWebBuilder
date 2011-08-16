@@ -4,7 +4,7 @@ package org.semanticwb.promexico.base;
    /**
    * Objeto controlador de oficinas 
    */
-public abstract class OfficeBase extends org.semanticwb.promexico.ProMxWebPage implements org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Activeable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Descriptiveable,org.semanticwb.promexico.Representable,org.semanticwb.promexico.Localizable,org.semanticwb.model.Filterable,org.semanticwb.model.Resourceable,org.semanticwb.model.Undeleteable,org.semanticwb.model.FilterableNode,org.semanticwb.model.FilterableClass,org.semanticwb.model.RuleRefable,org.semanticwb.model.Trashable,org.semanticwb.model.Expirable,org.semanticwb.model.Indexable,org.semanticwb.model.Traceable,org.semanticwb.model.Rankable,org.semanticwb.model.Tagable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Viewable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Localeable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Searchable,org.semanticwb.model.Countryable
+public abstract class OfficeBase extends org.semanticwb.promexico.ProMxWebPage implements org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Activeable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Descriptiveable,org.semanticwb.promexico.Localizable,org.semanticwb.model.Filterable,org.semanticwb.model.Resourceable,org.semanticwb.model.Undeleteable,org.semanticwb.model.FilterableNode,org.semanticwb.model.FilterableClass,org.semanticwb.model.RuleRefable,org.semanticwb.model.Trashable,org.semanticwb.model.Expirable,org.semanticwb.model.Indexable,org.semanticwb.model.Traceable,org.semanticwb.model.Rankable,org.semanticwb.model.Tagable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Viewable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Localeable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Searchable,org.semanticwb.model.Countryable
 {
     public static final org.semanticwb.platform.SemanticClass promx_ProMxVideo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#ProMxVideo");
    /**
@@ -12,13 +12,18 @@ public abstract class OfficeBase extends org.semanticwb.promexico.ProMxWebPage i
    */
     public static final org.semanticwb.platform.SemanticProperty promx_hasVideo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasVideo");
     public static final org.semanticwb.platform.SemanticProperty promx_international=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#international");
-    public static final org.semanticwb.platform.SemanticProperty promx_OfficeAdress=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#OfficeAdress");
+   /**
+   * Datos de un representante, se utiliza para las oficinas y para las regiones
+   */
+    public static final org.semanticwb.platform.SemanticClass promx_Manager=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Manager");
+    public static final org.semanticwb.platform.SemanticProperty promx_hasManager=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasManager");
    /**
    * Foto de la Oficina
    */
     public static final org.semanticwb.platform.SemanticProperty promx_OfficePhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#OfficePhoto");
     public static final org.semanticwb.platform.SemanticClass promx_New=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#New");
     public static final org.semanticwb.platform.SemanticProperty promx_hasNewsOfficeInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasNewsOfficeInv");
+    public static final org.semanticwb.platform.SemanticProperty promx_OfficeAddress=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#OfficeAddress");
    /**
    * Catalogo de Mercados
    */
@@ -335,6 +340,29 @@ public abstract class OfficeBase extends org.semanticwb.promexico.ProMxWebPage i
             return it;
         }
        /**
+       * Gets all org.semanticwb.promexico.Office with a determined Manager
+       * @param value Manager of the type org.semanticwb.promexico.Manager
+       * @param model Model of the org.semanticwb.promexico.Office
+       * @return Iterator with all the org.semanticwb.promexico.Office
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Office> listOfficeByManager(org.semanticwb.promexico.Manager value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Office> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(promx_hasManager, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.Office with a determined Manager
+       * @param value Manager of the type org.semanticwb.promexico.Manager
+       * @return Iterator with all the org.semanticwb.promexico.Office
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Office> listOfficeByManager(org.semanticwb.promexico.Manager value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Office> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(promx_hasManager,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.promexico.Office with a determined NewsOfficeInv
        * @param value NewsOfficeInv of the type org.semanticwb.promexico.New
        * @param model Model of the org.semanticwb.promexico.Office
@@ -643,24 +671,6 @@ public abstract class OfficeBase extends org.semanticwb.promexico.ProMxWebPage i
     {
         super(base);
     }
-
-/**
-* Gets the RepreFax property
-* @return String with the RepreFax
-*/
-    public String getRepreFax()
-    {
-        return getSemanticObject().getProperty(promx_repreFax);
-    }
-
-/**
-* Sets the RepreFax property
-* @param value long with the RepreFax
-*/
-    public void setRepreFax(String value)
-    {
-        getSemanticObject().setProperty(promx_repreFax, value);
-    }
    /**
    * Gets all the org.semanticwb.promexico.ProMxVideo
    * @return A GenericIterator with all the org.semanticwb.promexico.ProMxVideo
@@ -764,42 +774,6 @@ public abstract class OfficeBase extends org.semanticwb.promexico.ProMxWebPage i
     }
 
 /**
-* Gets the OfficeAdress property
-* @return String with the OfficeAdress
-*/
-    public String getOfficeAdress()
-    {
-        return getSemanticObject().getProperty(promx_OfficeAdress);
-    }
-
-/**
-* Sets the OfficeAdress property
-* @param value long with the OfficeAdress
-*/
-    public void setOfficeAdress(String value)
-    {
-        getSemanticObject().setProperty(promx_OfficeAdress, value);
-    }
-
-/**
-* Gets the RepreName property
-* @return String with the RepreName
-*/
-    public String getRepreName()
-    {
-        return getSemanticObject().getProperty(promx_repreName);
-    }
-
-/**
-* Sets the RepreName property
-* @param value long with the RepreName
-*/
-    public void setRepreName(String value)
-    {
-        getSemanticObject().setProperty(promx_repreName, value);
-    }
-
-/**
 * Gets the Latitude property
 * @return double with the Latitude
 */
@@ -816,23 +790,70 @@ public abstract class OfficeBase extends org.semanticwb.promexico.ProMxWebPage i
     {
         getSemanticObject().setDoubleProperty(promx_latitude, value);
     }
+   /**
+   * Gets all the org.semanticwb.promexico.Manager
+   * @return A GenericIterator with all the org.semanticwb.promexico.Manager
+   */
 
-/**
-* Gets the RepreEmail property
-* @return String with the RepreEmail
-*/
-    public String getRepreEmail()
+    public org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Manager> listManagers()
     {
-        return getSemanticObject().getProperty(promx_repreEmail);
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Manager>(getSemanticObject().listObjectProperties(promx_hasManager));
     }
 
-/**
-* Sets the RepreEmail property
-* @param value long with the RepreEmail
-*/
-    public void setRepreEmail(String value)
+   /**
+   * Gets true if has a Manager
+   * @param value org.semanticwb.promexico.Manager to verify
+   * @return true if the org.semanticwb.promexico.Manager exists, false otherwise
+   */
+    public boolean hasManager(org.semanticwb.promexico.Manager value)
     {
-        getSemanticObject().setProperty(promx_repreEmail, value);
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(promx_hasManager,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a Manager
+   * @param value org.semanticwb.promexico.Manager to add
+   */
+
+    public void addManager(org.semanticwb.promexico.Manager value)
+    {
+        getSemanticObject().addObjectProperty(promx_hasManager, value.getSemanticObject());
+    }
+   /**
+   * Removes all the Manager
+   */
+
+    public void removeAllManager()
+    {
+        getSemanticObject().removeProperty(promx_hasManager);
+    }
+   /**
+   * Removes a Manager
+   * @param value org.semanticwb.promexico.Manager to remove
+   */
+
+    public void removeManager(org.semanticwb.promexico.Manager value)
+    {
+        getSemanticObject().removeObjectProperty(promx_hasManager,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the Manager
+   * @return a org.semanticwb.promexico.Manager
+   */
+    public org.semanticwb.promexico.Manager getManager()
+    {
+         org.semanticwb.promexico.Manager ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(promx_hasManager);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.promexico.Manager)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
@@ -1020,24 +1041,6 @@ public abstract class OfficeBase extends org.semanticwb.promexico.ProMxWebPage i
              ret=(org.semanticwb.promexico.Service)obj.createGenericInstance();
          }
          return ret;
-    }
-
-/**
-* Gets the ReprePhone property
-* @return String with the ReprePhone
-*/
-    public String getReprePhone()
-    {
-        return getSemanticObject().getProperty(promx_reprePhone);
-    }
-
-/**
-* Sets the ReprePhone property
-* @param value long with the ReprePhone
-*/
-    public void setReprePhone(String value)
-    {
-        getSemanticObject().setProperty(promx_reprePhone, value);
     }
 
    /**

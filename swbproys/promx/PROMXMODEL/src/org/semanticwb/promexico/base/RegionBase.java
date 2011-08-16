@@ -1,8 +1,13 @@
 package org.semanticwb.promexico.base;
 
 
-public abstract class RegionBase extends org.semanticwb.promexico.ProMxWebPage implements org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Activeable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Descriptiveable,org.semanticwb.promexico.Representable,org.semanticwb.model.Filterable,org.semanticwb.model.Resourceable,org.semanticwb.model.Undeleteable,org.semanticwb.model.FilterableNode,org.semanticwb.model.FilterableClass,org.semanticwb.model.RuleRefable,org.semanticwb.model.Trashable,org.semanticwb.model.Expirable,org.semanticwb.model.Indexable,org.semanticwb.model.Traceable,org.semanticwb.model.Rankable,org.semanticwb.model.Tagable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Viewable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Localeable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Searchable,org.semanticwb.model.Countryable
+public abstract class RegionBase extends org.semanticwb.promexico.ProMxWebPage implements org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Activeable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Filterable,org.semanticwb.model.Resourceable,org.semanticwb.model.Undeleteable,org.semanticwb.model.FilterableNode,org.semanticwb.model.FilterableClass,org.semanticwb.model.RuleRefable,org.semanticwb.model.Trashable,org.semanticwb.model.Expirable,org.semanticwb.model.Indexable,org.semanticwb.model.Traceable,org.semanticwb.model.Rankable,org.semanticwb.model.Tagable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Viewable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Localeable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Searchable,org.semanticwb.model.Countryable
 {
+   /**
+   * Datos de un representante, se utiliza para las oficinas y para las regiones
+   */
+    public static final org.semanticwb.platform.SemanticClass promx_Manager=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Manager");
+    public static final org.semanticwb.platform.SemanticProperty promx_hasRegionManager=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasRegionManager");
     public static final org.semanticwb.platform.SemanticClass promx_Region=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Region");
    /**
    * The semantic class that represents the currentObject
@@ -418,6 +423,29 @@ public abstract class RegionBase extends org.semanticwb.promexico.ProMxWebPage i
             return it;
         }
        /**
+       * Gets all org.semanticwb.promexico.Region with a determined RegionManager
+       * @param value RegionManager of the type org.semanticwb.promexico.Manager
+       * @param model Model of the org.semanticwb.promexico.Region
+       * @return Iterator with all the org.semanticwb.promexico.Region
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Region> listRegionByRegionManager(org.semanticwb.promexico.Manager value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Region> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(promx_hasRegionManager, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.Region with a determined RegionManager
+       * @param value RegionManager of the type org.semanticwb.promexico.Manager
+       * @return Iterator with all the org.semanticwb.promexico.Region
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Region> listRegionByRegionManager(org.semanticwb.promexico.Manager value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Region> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(promx_hasRegionManager,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.promexico.Region with a determined UserGroupRef
        * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
        * @param model Model of the org.semanticwb.promexico.Region
@@ -519,77 +547,70 @@ public abstract class RegionBase extends org.semanticwb.promexico.ProMxWebPage i
     {
         super(base);
     }
+   /**
+   * Gets all the org.semanticwb.promexico.Manager
+   * @return A GenericIterator with all the org.semanticwb.promexico.Manager
+   */
 
-/**
-* Gets the RepreFax property
-* @return String with the RepreFax
-*/
-    public String getRepreFax()
+    public org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Manager> listRegionManagers()
     {
-        return getSemanticObject().getProperty(promx_repreFax);
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Manager>(getSemanticObject().listObjectProperties(promx_hasRegionManager));
     }
 
-/**
-* Sets the RepreFax property
-* @param value long with the RepreFax
-*/
-    public void setRepreFax(String value)
+   /**
+   * Gets true if has a RegionManager
+   * @param value org.semanticwb.promexico.Manager to verify
+   * @return true if the org.semanticwb.promexico.Manager exists, false otherwise
+   */
+    public boolean hasRegionManager(org.semanticwb.promexico.Manager value)
     {
-        getSemanticObject().setProperty(promx_repreFax, value);
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(promx_hasRegionManager,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a RegionManager
+   * @param value org.semanticwb.promexico.Manager to add
+   */
+
+    public void addRegionManager(org.semanticwb.promexico.Manager value)
+    {
+        getSemanticObject().addObjectProperty(promx_hasRegionManager, value.getSemanticObject());
+    }
+   /**
+   * Removes all the RegionManager
+   */
+
+    public void removeAllRegionManager()
+    {
+        getSemanticObject().removeProperty(promx_hasRegionManager);
+    }
+   /**
+   * Removes a RegionManager
+   * @param value org.semanticwb.promexico.Manager to remove
+   */
+
+    public void removeRegionManager(org.semanticwb.promexico.Manager value)
+    {
+        getSemanticObject().removeObjectProperty(promx_hasRegionManager,value.getSemanticObject());
     }
 
-/**
-* Gets the RepreName property
-* @return String with the RepreName
-*/
-    public String getRepreName()
+   /**
+   * Gets the RegionManager
+   * @return a org.semanticwb.promexico.Manager
+   */
+    public org.semanticwb.promexico.Manager getRegionManager()
     {
-        return getSemanticObject().getProperty(promx_repreName);
-    }
-
-/**
-* Sets the RepreName property
-* @param value long with the RepreName
-*/
-    public void setRepreName(String value)
-    {
-        getSemanticObject().setProperty(promx_repreName, value);
-    }
-
-/**
-* Gets the RepreEmail property
-* @return String with the RepreEmail
-*/
-    public String getRepreEmail()
-    {
-        return getSemanticObject().getProperty(promx_repreEmail);
-    }
-
-/**
-* Sets the RepreEmail property
-* @param value long with the RepreEmail
-*/
-    public void setRepreEmail(String value)
-    {
-        getSemanticObject().setProperty(promx_repreEmail, value);
-    }
-
-/**
-* Gets the ReprePhone property
-* @return String with the ReprePhone
-*/
-    public String getReprePhone()
-    {
-        return getSemanticObject().getProperty(promx_reprePhone);
-    }
-
-/**
-* Sets the ReprePhone property
-* @param value long with the ReprePhone
-*/
-    public void setReprePhone(String value)
-    {
-        getSemanticObject().setProperty(promx_reprePhone, value);
+         org.semanticwb.promexico.Manager ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(promx_hasRegionManager);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.promexico.Manager)obj.createGenericInstance();
+         }
+         return ret;
     }
 
    /**

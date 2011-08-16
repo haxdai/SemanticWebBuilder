@@ -50,7 +50,7 @@ public class VirtualResources extends GenericResource{
                 {
                     Resource res=it.next();
                     //System.out.println("resJ:"+res);
-                    if(paramRequest.getUser().haveAccess(res))//res.isValid() &&
+                    if(res.isValid() && res.isActive() && paramRequest.getUser().haveAccess(res))//res.isValid() &&
                     {
                         //System.out.println("resJ-1:"+res);
                         SWBResource swbres=SWBPortal.getResourceMgr().getResource(res);
