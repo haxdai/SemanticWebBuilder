@@ -88,6 +88,12 @@ public class SlideShowViewer extends org.semanticwb.promexico.base.SlideShowView
 
             /* script que permite altenar las imagenes al cargarse */
             out.println("<script type=\"text/javascript\">");
+            out.println("/*****************************************************************************");
+            out.println("   Presentación de Imágenes (SlideShow) por Tunait!");
+            out.println("   Actualizado el 28/12/2003");
+            out.println("   http://javascript.tunait.com");
+            out.println("   tunait@yahoo.com ");
+            out.println("******************************************************************************/");
             out.println("   var segundos = 6; //cada cuantos segundos cambia la imagen");
             out.println("   var randomImages = new Array();");
             String path = "";
@@ -107,7 +113,9 @@ public class SlideShowViewer extends org.semanticwb.promexico.base.SlideShowView
             out.println("   cont = 0;");
             out.println("   var isClick = false;");
             out.println("   function presImagen() {");
-            out.println("      document.crwlr_bckg.src= randomImages[cont];");
+            out.println("      var el = document.getElementById('crwlr_bckg')");
+            out.println("      el.setAttribute('src', randomImages[cont])");
+            //out.println("      document.crwlr_bckg.src= randomImages[cont];");
             out.println("      subeOpacidad();");
             out.println("      if (cont < randomImages.length-1) {");
             out.println("         cont++;");
@@ -117,7 +125,7 @@ public class SlideShowViewer extends org.semanticwb.promexico.base.SlideShowView
             out.println("      tiempo=window.setTimeout('bajaOpacidad()',segundos*1200);");
             out.println("   }");
             out.println("   var iex = navigator.appName==\"Microsoft Internet Explorer\" ? true : false;");
-            out.println("   var fi = iex?'filters.alpha.opacity':'style.MozOpacity';");
+            out.println("   var fi = iex?'filters.alpha.opacity=40':'style.MozOpacity';");
             out.println("   var opa = iex ? 100 : 1;");
             out.println("   function bajaOpacidad() {");
             out.println("      if(!isClick) {");
@@ -143,7 +151,12 @@ public class SlideShowViewer extends org.semanticwb.promexico.base.SlideShowView
             out.println("   }");
             out.println("   function cambia() {");
             out.println("      if(!isClick) {");
-            out.println("         eval('document.crwlr_bckg.' + fi + ' = opa');");
+            out.println("         var el = document.getElementById('crwlr_bckg')");
+            out.println("         if(navigator.userAgent.match('MSIE')) {");
+            out.println("            el.style.filter='alpha(opacity='+opa+')'");
+            out.println("         } else {");
+            out.println("            eval('document.crwlr_bckg.' + fi + ' = opa');");
+            out.println("         }");
             out.println("      }");
             out.println("   }");
             out.println("   var tiempo;");
