@@ -235,7 +235,7 @@ public class SlideShowViewer extends org.semanticwb.promexico.base.SlideShowView
             out.println("	uniqueid: 'pics_"+getId()+"',");
             out.println("	style: {");
             out.println("		'width': '416px',");
-            out.println("		'height': '100px',");
+            out.println("		'height': '100px'");
             out.println("	},");
             out.println("	inc: 5,");
             out.println("	mouse: 'cursor driven',");
