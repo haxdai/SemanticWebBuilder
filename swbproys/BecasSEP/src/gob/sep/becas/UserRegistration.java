@@ -46,7 +46,7 @@ public class UserRegistration extends GenericResource {
             "var forma = document.getElementById(\"formaRegistro\"); "+
             "if (forma.usrName.value.length==0 || forma.usrPrimA.value.length==0 || "+
             "forma.mail.value.length==0 || forma.clave.value.length==0 || "+
-            "forma.preguntaSecreta.selectedIndex<1 || "+
+            "forma.preguntaSecreta.selectedIndex<1 || !forma.polpriv.checked ||"+
             "forma.respuestaSecreta.value.length==0 || !validateElement('frmCaptchaValue','/frmprocess/validCaptcha?none=1',forma.frmCaptchaValue.value) "+
             ") {alert ('Tus datos se encuentran incompletos. Es necesario que llenes todos los campos obligatorios marcados con \"*\".'); } else { "+
             "forma.submit(); }"+
@@ -122,7 +122,7 @@ public class UserRegistration extends GenericResource {
         "alert('Los caracteres son incorrectos. Asegúrate de escribir el texto tal como se muestra en la imagen.');\"/>\n"+
         "</p>\n"+
         "<p>&nbsp;</p>\n"+
-        "<h5>Nivel de estudios actual</h5>\n"+
+        "<h5>Nivel de Estudios de tú interés</h5>\n"+
         "<div>\n"+
         "  <p class=\"nivel\">\n"+
         "{$niveles}"+
@@ -146,7 +146,8 @@ public class UserRegistration extends GenericResource {
         "<div id=\"estado\">\n"+
         "  <p>\n"+
         "    <label for=\"estado\">Entidad Federativa</label>\n"+
-        "    <input type=\"text\" name=\"estado\" id=\"estado\" />\n"+
+      //  "    <input type=\"text\" name=\"estado\" id=\"estado\" />\n"+
+        "{$estado}"+
         "  </p>\n"+
         "</div>\n"+
         "<div id=\"municipioDel\">\n"+
@@ -155,7 +156,8 @@ public class UserRegistration extends GenericResource {
         //"  </p>\n"+
         //"  <p>&nbsp;</p>\n"+
         //"  <p>\n"+
-        "    <input type=\"text\" name=\"municipio\" id=\"municipio\" />\n"+
+       // "    <input type=\"text\" name=\"municipio\" id=\"municipio\" />\n"+
+        "<div id=\"MunChg\"><select name=\"municipio\" size=\"1\" class=\"inputPop\" id=\"municipio\" >{$currMun}</select></div>\n"+
         "  </p>\n"+
         "</div>\n"+
         "<p>&nbsp;</p>\n"+
@@ -203,7 +205,7 @@ public class UserRegistration extends GenericResource {
         "</div>\n"+
         "<p>&nbsp;</p>\n"+
         "<p>&nbsp;</p>\n"+
-        "<p>&nbsp;</p>\n"+
+        "<p><input type=\"checkbox\" id=\"polpriv\" name=\"polpriv\">He leído y acepto los términos de uso y las políticas de <a href=\"/es/Beca_SEP/Politicas_Privacidad\">privacidad del sitio</a>.</p>\n"+
         "<p>&nbsp;</p>\n"+
         "<p><a href=\"javascript:submitfrm()\" class=\"cerrarBoton\">Guardar</a></p></form>\n";
 
@@ -267,7 +269,7 @@ public class UserRegistration extends GenericResource {
         "alert('Los caracteres son incorrectos. Asegúrate de escribir el texto tal como se muestra en la imagen.');\"/>\n"+
         "</p>\n"+
         "<p>&nbsp;</p>\n"+
-        "<h5>Nivel de estudios actual</h5>\n"+
+        "<h5>Nivel de Estudios de tú interés</h5>\n"+
         "<div>\n"+
         "  <p class=\"nivel\">\n"+
         "{$niveles}"+
@@ -390,10 +392,16 @@ public class UserRegistration extends GenericResource {
     static Logger log = SWBUtils.getLogger(UserRegistration.class);
     String Instituciones ="";
     String Niveles ="";
+    String EdosBase = "";
+    String MunBase = "";
 
     HashMap<String, String> pseg;
     HashMap<String, String> inst;
     HashMap<String, String> nive;
+    HashMap<String, String> edos;
+    HashMap<String, HashMap<String, String>> muni;
+
+
 
     @Override
     public void setResourceBase(Resource base) throws SWBResourceException
@@ -450,6 +458,36 @@ public class UserRegistration extends GenericResource {
              ret.append("<input type=\"radio\" name=\"nest\" id=\"nest\" class=\"radioB\" value=\""+id+"\" />\n<label for=\"nest\">"+title+"</label>\n");
          }
         Niveles = ret.toString();
+        edos = new HashMap<String, String>();
+        muni = new HashMap<String, HashMap<String, String>>();
+        Iterator<Estado> ieds =Estado.ClassMgr.listEstados();
+        String ed1 = null;
+        StringBuilder sb= new StringBuilder( "<select name=\"estado\" size=\"1\" class=\"inputPop\" id=\"estado\">");
+        while (ieds.hasNext()){
+            Estado edo = ieds.next();
+            if (null==ed1) {
+                ed1="";
+                Iterator<Municipio>imun= edo.listMunicipioInvs();
+                while (imun.hasNext()){
+                    Municipio mun = imun.next();
+                    MunBase += "<option value=\""+mun.getId()+"\" >"+mun.getTitle()+"</option>";
+                }
+            }
+            edos.put(edo.getId(), edo.getTitle());
+            sb.append("<option value=\"").append(edo.getId()).append("\" >").append(edo.getTitle()).append("</option>");
+            System.out.println("Edo:"+edo.getId()+"-"+edo.getTitle());
+            Iterator<Municipio>imun= edo.listMunicipioInvs();
+            HashMap<String, String> muniEd = new HashMap<String, String>();
+            while (imun.hasNext()){
+                Municipio mun = imun.next();
+                muniEd.put(mun.getId(), mun.getTitle());
+                System.out.println("Muni:"+mun.getId()+"-"+mun.getTitle());
+            }
+            muni.put(edo.getId(), muniEd);
+            
+        }
+        sb.append("</select>\n");
+        EdosBase = sb.toString();
     }
 
 
@@ -465,8 +503,11 @@ public class UserRegistration extends GenericResource {
             tmp = SWBUtils.TEXT.replaceAll(tmp,"{$instituciones}",Instituciones);
             tmp = SWBUtils.TEXT.replaceAll(tmp,"{$niveles}",Niveles);
             tmp = SWBUtils.TEXT.replaceAll(tmp,"{$model}",paramRequest.getUser().getUserRepository().getId());
+            tmp = SWBUtils.TEXT.replaceAll(tmp,"{$estado}",EdosBase);
+            tmp = SWBUtils.TEXT.replaceAll(tmp,"{$currMun}",MunBase);
+
             if (null!=request.getParameter("ERROR")){
-                tmp = tmp + "<script>alert('"+request.getParameter("ERROR").replace('\'','`')+"');</script>";
+                tmp = tmp + "<script>alert('ERROR: "+request.getParameter("ERROR").replace('\'','`')+"');</script>";
             }
             response.getWriter().println(tmp);
         } else {
@@ -547,7 +588,7 @@ public class UserRegistration extends GenericResource {
 //            tmp = SWBUtils.TEXT.replaceAll(tmp,"{$usrName}",user.getFirstName()==null?"":user.getFirstName());
 
             if (null!=request.getParameter("ERROR")){
-                tmp = tmp + "<script>alert('"+request.getParameter("ERROR").replace('\'','`')+"');</script>";
+                tmp = tmp + "<script>alert('ERROR: "+request.getParameter("ERROR").replace('\'','`')+"');</script>";
             }
             response.getWriter().println(tmp);
         }
@@ -761,6 +802,24 @@ public class UserRegistration extends GenericResource {
         String tmp = SWBUtils.TEXT.replaceAll(Activacion,"{$nombre}",nombre);
         tmp = SWBUtils.TEXT.replaceAll(tmp,"{$correo}",mail);
         response.getWriter().println(tmp);
+    }
+
+    public void doMunicipio(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
+    {
+        
+    }
+
+    @Override
+    public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
+    {
+        if (paramRequest.getAction().equalsIgnoreCase("doMunicipio"))
+        {
+            doMunicipio(request, response, paramRequest);
+        } 
+        else
+        {
+            super.processRequest(request, response, paramRequest);
+        }
     }
 
     
