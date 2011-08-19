@@ -83,7 +83,7 @@ public class SlideShowViewer extends org.semanticwb.promexico.base.SlideShowView
                     "','" + (pic.getDescription(lang) == null ? (pic.getDescription() == null ? "" : pic.getDescription()) : pic.getDescription(lang)) +
                     "', '" + txtButtons + "')\" title=\"" + (pic.getTitle(lang) == null ? (pic.getTitle() == null ? "" : pic.getTitle()) : pic.getTitle(lang)) +
                     "\" class=\"crwlr_a\"><img alt=\"" + (pic.getAlt(lang) == null ? (pic.getAlt() == null ? "" : pic.getAlt()) : pic.getAlt(lang)) +
-                    "\" class=\"crwlr_img\" onclick=\"javascript:pause()\" src=\"" + SWBPortal.getWebWorkPath() + pic.getWorkPath() + "/thmbn_" + pic.getId() + "_" + pic.getThmbn() + "\" /></a>\n");
+                    "\" class=\"promx_crwlr_img\" onclick=\"javascript:pause()\" src=\"" + SWBPortal.getWebWorkPath() + pic.getWorkPath() + "/thmbn_" + pic.getId() + "_" + pic.getThmbn() + "\" /></a>\n");
             }
 
             /* script que permite altenar las imagenes al cargarse */
@@ -200,22 +200,22 @@ public class SlideShowViewer extends org.semanticwb.promexico.base.SlideShowView
             out.println("  }");
             out.println("</script>");
 
-            out.println("<div class=\"swb-slideshow\">");
+            out.println("<div class=\"promx-slideshow\">");
             Random r = new Random();
             r.setSeed((new Date()).getTime());
             i = r.nextInt(rs.size());
             url = rs.get(i).getExternalURL()==null || rs.get(i).getExternalURL().isEmpty()?rs.get(i).getInternalURL():rs.get(i).getExternalURL();
             if(url != null) {
                 if(isTargetNew()) {
-                    out.println("  <a href=\""+url+"\" target=\"_blank\" class=\"crwlr_a\"><img id=\"crwlr_bckg\" onclick=\"javascript:pause()\" class=\"crwlr_img\" src=\""+SWBPortal.getWebWorkPath()+rs.get(i).getWorkPath()+"/poster_"+rs.get(i).getId()+"_"+rs.get(i).getPoster()+"\" alt=\""+(rs.get(i).getAlt(lang)==null?rs.get(i).getAlt():rs.get(i).getAlt(lang))+"\" /></a>");
+                    out.println("  <a href=\""+url+"\" target=\"_blank\" class=\"crwlr_a\"><img id=\"crwlr_bckg\" onclick=\"javascript:pause()\" class=\"promx_crwlr_img\" src=\""+SWBPortal.getWebWorkPath()+rs.get(i).getWorkPath()+"/poster_"+rs.get(i).getId()+"_"+rs.get(i).getPoster()+"\" alt=\""+(rs.get(i).getAlt(lang)==null?rs.get(i).getAlt():rs.get(i).getAlt(lang))+"\" /></a>");
                 }  else {
-                    out.println("  <a href=\""+url+"\" class=\"crwlr_a\"><img id=\"crwlr_bckg\" onclick=\"javascript:pause()\" class=\"crwlr_img\" src=\""+SWBPortal.getWebWorkPath()+rs.get(i).getWorkPath()+"/poster_"+rs.get(i).getId()+"_"+rs.get(i).getPoster()+"\" alt=\""+(rs.get(i).getAlt(lang)==null?rs.get(i).getAlt():rs.get(i).getAlt(lang))+"\" /></a>");
+                    out.println("  <a href=\""+url+"\" class=\"crwlr_a\"><img id=\"crwlr_bckg\" onclick=\"javascript:pause()\" class=\"promx_crwlr_img\" src=\""+SWBPortal.getWebWorkPath()+rs.get(i).getWorkPath()+"/poster_"+rs.get(i).getId()+"_"+rs.get(i).getPoster()+"\" alt=\""+(rs.get(i).getAlt(lang)==null?rs.get(i).getAlt():rs.get(i).getAlt(lang))+"\" /></a>");
                 }
             } else {
                 if(isTargetNew()) {
-                    out.println("  <img id=\"crwlr_bckg\" onclick=\"javascript:pause()\" class=\"crwlr_img\" src=\""+SWBPortal.getWebWorkPath()+rs.get(i).getWorkPath()+"/poster_"+rs.get(i).getId()+"_"+rs.get(i).getPoster()+"\" alt=\""+(rs.get(i).getAlt(lang)==null ? (rs.get(i).getAlt() == null ? "" : rs.get(i).getAlt()) : rs.get(i).getAlt(lang))+"\" />");
+                    out.println("  <img id=\"crwlr_bckg\" onclick=\"javascript:pause()\" class=\"promx_crwlr_img\" src=\""+SWBPortal.getWebWorkPath()+rs.get(i).getWorkPath()+"/poster_"+rs.get(i).getId()+"_"+rs.get(i).getPoster()+"\" alt=\""+(rs.get(i).getAlt(lang)==null ? (rs.get(i).getAlt() == null ? "" : rs.get(i).getAlt()) : rs.get(i).getAlt(lang))+"\" />");
                 }  else {
-                    out.println("  <img id=\"crwlr_bckg\" onclick=\"javascript:pause()\" class=\"crwlr_img\" src=\""+SWBPortal.getWebWorkPath()+rs.get(i).getWorkPath()+"/poster_"+rs.get(i).getId()+"_"+rs.get(i).getPoster()+"\" alt=\""+(rs.get(i).getAlt(lang)==null ? (rs.get(i).getAlt() == null ? "" : rs.get(i).getAlt()) : rs.get(i).getAlt(lang))+"\" />");
+                    out.println("  <img id=\"crwlr_bckg\" onclick=\"javascript:pause()\" class=\"promx_crwlr_img\" src=\""+SWBPortal.getWebWorkPath()+rs.get(i).getWorkPath()+"/poster_"+rs.get(i).getId()+"_"+rs.get(i).getPoster()+"\" alt=\""+(rs.get(i).getAlt(lang)==null ? (rs.get(i).getAlt() == null ? "" : rs.get(i).getAlt()) : rs.get(i).getAlt(lang))+"\" />");
                 }
             }
 
@@ -402,7 +402,7 @@ public class SlideShowViewer extends org.semanticwb.promexico.base.SlideShowView
         script.append("  tag.className = ['marquee', c].join('');\n");
         script.append("  tag.style.overflow = 'hidden';\n");
         script.append("tag.style.position = 'relative';\n");
-        script.append("tag.style.left = '18px';\n");
+        script.append("tag.style.left = '-168px';\n");//-18
         script.append("tag.style.top = '-118px';\n");
         script.append("  this.c = tag.firstChild;\n");
         script.append("  this.c.appendChild(this.c.cloneNode(false));\n");
