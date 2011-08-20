@@ -21,6 +21,7 @@ import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
+import org.semanticwb.portal.api.SWBResourceURL;
 
 /**
  *
@@ -50,6 +51,14 @@ public class UserRegistration extends GenericResource {
             "forma.respuestaSecreta.value.length==0 || !validateElement('frmCaptchaValue','/frmprocess/validCaptcha?none=1',forma.frmCaptchaValue.value) "+
             ") {alert ('Tus datos se encuentran incompletos. Es necesario que llenes todos los campos obligatorios marcados con \"*\".'); } else { "+
             "forma.submit(); }"+
+            "}\n"+
+            "function actualizaComboMun(valor) {\n"+
+           // "alert('valor:'+valor);\n" +
+            "var munele=document.getElementById('MunChg');\n"+
+            "dojo.xhrGet({ url: '{$urlMun}'+valor, load: function(response, ioArgs)  "+
+            " {munele.innerHTML=response;}, error: function(response, ioArgs) {alert('Server error: '+response)}});"+
+//            "var tmp = getHtmlByTag('{$urlMun}'+valor, munele, false, true);" +
+//            "alert(tmp);"+
             "}"+
             "</script>"+
         "<script type=\"text/javascript\" src=\""+SWBPortal.getContextPath()+"/swbadmin/js/swb.js\" ></script><form id=\"formaRegistro\" name=\"formaRegistro\" method=\"post\" action=\"{$actionURL}\">"
@@ -205,7 +214,7 @@ public class UserRegistration extends GenericResource {
         "</div>\n"+
         "<p>&nbsp;</p>\n"+
         "<p>&nbsp;</p>\n"+
-        "<p><input type=\"checkbox\" id=\"polpriv\" name=\"polpriv\">He leído y acepto los términos de uso y las políticas de <a href=\"/es/Beca_SEP/Politicas_Privacidad\">privacidad del sitio</a>.</p>\n"+
+        "<p><input type=\"checkbox\" id=\"polpriv\" name=\"polpriv\" value=\"OK\">He leído y acepto los términos de uso y las políticas de <a href=\"/es/Beca_SEP/Politicas_Privacidad\">privacidad del sitio</a>.</p>\n"+
         "<p>&nbsp;</p>\n"+
         "<p><a href=\"javascript:submitfrm()\" class=\"cerrarBoton\">Guardar</a></p></form>\n";
 
@@ -217,6 +226,14 @@ public class UserRegistration extends GenericResource {
             "forma.respuestaSecreta.value.length==0 || !validateElement('frmCaptchaValue','/frmprocess/validCaptcha?none=1',forma.frmCaptchaValue.value)"+
             ") {alert ('Tus datos se encuentran incompletos. Es necesario que llenes todos los campos obligatorios marcados con \"*\".'); } else { "+
             "forma.submit(); }"+
+            "}"+
+            "function actualizaComboMun(valor) {\n"+
+           // "alert('valor:'+valor);\n" +
+            "var munele=document.getElementById('MunChg');\n"+
+            "dojo.xhrGet({ url: '{$urlMun}'+valor, load: function(response, ioArgs)  "+
+            " {munele.innerHTML=response;}, error: function(response, ioArgs) {alert('Server error: '+response)}});"+
+//            "var tmp = getHtmlByTag('{$urlMun}'+valor, munele, false, true);" +
+//            "alert(tmp);"+
             "}"+
             "</script>"+
         "<script type=\"text/javascript\" src=\""+SWBPortal.getContextPath()+"/swbadmin/js/swb.js\" ></script><form id=\"formaRegistro\" name=\"formaRegistro\" method=\"post\" action=\"{$actionURL}\">"
@@ -293,7 +310,8 @@ public class UserRegistration extends GenericResource {
         "<div id=\"estado\">\n"+
         "  <p>\n"+
         "    <label for=\"estado\">Entidad Federativa</label>\n"+
-        "    <input type=\"text\" name=\"estado\" id=\"estado\" value=\"{$estado}\"/>\n"+
+     //   "    <input type=\"text\" name=\"estado\" id=\"estado\" value=\"{$estado}\"/>\n"+
+        "{$estado}"+
         "  </p>\n"+
         "</div>\n"+
         "<div id=\"municipioDel\">\n"+
@@ -302,7 +320,8 @@ public class UserRegistration extends GenericResource {
         //"  </p>\n"+
         //"  <p>&nbsp;</p>\n"+
         //"  <p>\n"+
-        "    <input type=\"text\" name=\"municipio\" id=\"municipio\" value=\"{$municipio}\" />\n"+
+         "<div id=\"MunChg\"><select name=\"municipio\" size=\"1\" class=\"inputPop\" id=\"municipio\" >{$currMun}</select></div>\n"+
+     //   "    <input type=\"text\" name=\"municipio\" id=\"municipio\" value=\"{$municipio}\" />\n"+
         "  </p>\n"+
         "</div>\n"+
         "<p>&nbsp;</p>\n"+
@@ -460,9 +479,10 @@ public class UserRegistration extends GenericResource {
         Niveles = ret.toString();
         edos = new HashMap<String, String>();
         muni = new HashMap<String, HashMap<String, String>>();
+        MunBase = "";
         Iterator<Estado> ieds =Estado.ClassMgr.listEstados();
         String ed1 = null;
-        StringBuilder sb= new StringBuilder( "<select name=\"estado\" size=\"1\" class=\"inputPop\" id=\"estado\">");
+        StringBuilder sb= new StringBuilder( "<select name=\"estado\" size=\"1\" class=\"inputPop\" id=\"estado\" onchange=\"actualizaComboMun(this.value)\">");
         while (ieds.hasNext()){
             Estado edo = ieds.next();
             if (null==ed1) {
@@ -475,13 +495,13 @@ public class UserRegistration extends GenericResource {
             }
             edos.put(edo.getId(), edo.getTitle());
             sb.append("<option value=\"").append(edo.getId()).append("\" >").append(edo.getTitle()).append("</option>");
-            System.out.println("Edo:"+edo.getId()+"-"+edo.getTitle());
+            //System.out.println("Edo:"+edo.getId()+"-"+edo.getTitle());
             Iterator<Municipio>imun= edo.listMunicipioInvs();
             HashMap<String, String> muniEd = new HashMap<String, String>();
             while (imun.hasNext()){
                 Municipio mun = imun.next();
                 muniEd.put(mun.getId(), mun.getTitle());
-                System.out.println("Muni:"+mun.getId()+"-"+mun.getTitle());
+                //System.out.println("Muni:"+mun.getId()+"-"+mun.getTitle());
             }
             muni.put(edo.getId(), muniEd);
             
@@ -504,7 +524,9 @@ public class UserRegistration extends GenericResource {
             tmp = SWBUtils.TEXT.replaceAll(tmp,"{$niveles}",Niveles);
             tmp = SWBUtils.TEXT.replaceAll(tmp,"{$model}",paramRequest.getUser().getUserRepository().getId());
             tmp = SWBUtils.TEXT.replaceAll(tmp,"{$estado}",EdosBase);
-            tmp = SWBUtils.TEXT.replaceAll(tmp,"{$currMun}",MunBase);
+            tmp = SWBUtils.TEXT.replaceAll(tmp,"{$currMun}",MunBase); 
+            String urlmun = paramRequest.getRenderUrl().setMode("Municipio").setCallMethod(SWBResourceURL.Call_DIRECT).toString();
+            tmp = SWBUtils.TEXT.replaceAll(tmp,"{$urlMun}",urlmun+"/");
 
             if (null!=request.getParameter("ERROR")){
                 tmp = tmp + "<script>alert('ERROR: "+request.getParameter("ERROR").replace('\'','`')+"');</script>";
@@ -568,8 +590,40 @@ public class UserRegistration extends GenericResource {
             tmp = SWBUtils.TEXT.replaceAll(tmp,"{$respuestaSecreta}",user.getSecurityAnswer()==null?"":user.getSecurityAnswer());
 
             tmp = SWBUtils.TEXT.replaceAll(tmp,"{$codigo}",user.getExtendedAttribute(Becarios.becas_usrCP)==null?"":(String)user.getExtendedAttribute(Becarios.becas_usrCP));
-            tmp = SWBUtils.TEXT.replaceAll(tmp,"{$estado}",user.getExtendedAttribute(Becarios.becas_usrEntidadFederativa)==null?"":(String)user.getExtendedAttribute(Becarios.becas_usrEntidadFederativa));
-            tmp = SWBUtils.TEXT.replaceAll(tmp,"{$municipio}",user.getExtendedAttribute(Becarios.becas_usrMunicipio)==null?"":(String)user.getExtendedAttribute(Becarios.becas_usrMunicipio));
+            String selectedEdo = (String)user.getExtendedAttribute(Becarios.becas_usrEntidadFederativa);
+            StringBuilder sb= new StringBuilder( "<select name=\"estado\" size=\"1\" class=\"inputPop\" id=\"estado\" onchange=\"actualizaComboMun(this.value)\">");
+            Iterator<String> iedo = edos.keySet().iterator();
+            while(iedo.hasNext()){
+                String edo=iedo.next();
+                sb.append("<option value=\"").append(edo).append("\"");
+                if (edo.equalsIgnoreCase(selectedEdo)) sb.append(" selected ");
+                sb.append("\" >").append(edos.get(edo)).append("</option>");
+            }
+            sb.append("</select>");
+            String edoTmp = sb.toString();
+            
+            tmp = SWBUtils.TEXT.replaceAll(tmp,"{$estado}",edoTmp);
+            String urlmun = paramRequest.getRenderUrl().setMode("Municipio").setCallMethod(SWBResourceURL.Call_DIRECT).toString();
+            tmp = SWBUtils.TEXT.replaceAll(tmp,"{$urlMun}",urlmun+"/");
+            //user.getExtendedAttribute(Becarios.becas_usrEntidadFederativa)==null?"":(String)user.getExtendedAttribute(Becarios.becas_usrEntidadFederativa));
+            HashMap<String, String> tmpmun=null;
+            if (muni.containsKey(selectedEdo)){
+                tmpmun = muni.get(selectedEdo);
+            }else {
+                tmpmun = muni.get(muni.keySet().iterator().next());
+            }
+            iedo = tmpmun.keySet().iterator();
+            String selectedMun = (String)user.getExtendedAttribute(Becarios.becas_usrMunicipio);
+            sb= new StringBuilder();
+            while(iedo.hasNext()){
+                String edo=iedo.next();
+                sb.append("<option value=\"").append(edo).append("\"");
+                if (edo.equalsIgnoreCase(selectedMun)) sb.append(" selected ");
+                sb.append(" >").append(tmpmun.get(edo)).append("</option>");
+            }
+            String munTmp=sb.toString();
+            tmp = SWBUtils.TEXT.replaceAll(tmp,"{$currMun}",munTmp);
+                    //user.getExtendedAttribute(Becarios.becas_usrMunicipio)==null?"":(String)user.getExtendedAttribute(Becarios.becas_usrMunicipio));
             tmp = SWBUtils.TEXT.replaceAll(tmp,"{$colonia}",user.getExtendedAttribute(Becarios.becas_usrColonia)==null?"":(String)user.getExtendedAttribute(Becarios.becas_usrColonia));
             tmp = SWBUtils.TEXT.replaceAll(tmp,"{$direccion}",user.getExtendedAttribute(Becarios.becas_usrDireccion)==null?"":(String)user.getExtendedAttribute(Becarios.becas_usrDireccion));
             
@@ -681,6 +735,11 @@ public class UserRegistration extends GenericResource {
         if (null==request.getParameter("clave") || !request.getParameter("clave").equals(request.getParameter("clave2")))
         {
             response.setRenderParameter("ERROR", "Contraseñas no corresponden");
+            return;
+        }
+        if (null==request.getParameter("polpriv"))
+        {
+            response.setRenderParameter("ERROR", "No aceptó nuestra política de privacidad");
             return;
         }
         String usrLogin = request.getParameter("mail");
@@ -806,13 +865,31 @@ public class UserRegistration extends GenericResource {
 
     public void doMunicipio(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
+        String edoID = request.getRequestURI();
+        edoID = edoID.substring(edoID.lastIndexOf("/")+1);
+        //System.out.println(request.getRequestURI()+" - "+edoID);
+        response.setContentType("text/html; charset=ISO8859-1");
         
+        //Estado edo = Estado.ClassMgr.getEstado(edoID, paramRequest.getWebPage().getWebSite());
+        HashMap<String, String>munhash = muni.get(edoID);
+        if (null == munhash){
+            munhash = muni.get(muni.keySet().iterator().next());
+        }
+        String muncombo = "<select name=\"municipio\" size=\"1\" class=\"inputPop\" id=\"municipio\" >";
+        Iterator<String> imun = munhash.keySet().iterator();
+                while (imun.hasNext()){
+                    String mun = imun.next();
+                    muncombo += "<option value=\""+mun+"\" >"+munhash.get(mun)+"</option>";
+                }
+        muncombo +="</select>";
+        response.getWriter().println(muncombo);
+
     }
 
     @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
-        if (paramRequest.getAction().equalsIgnoreCase("doMunicipio"))
+        if (paramRequest.getMode().equalsIgnoreCase("Municipio"))
         {
             doMunicipio(request, response, paramRequest);
         } 
