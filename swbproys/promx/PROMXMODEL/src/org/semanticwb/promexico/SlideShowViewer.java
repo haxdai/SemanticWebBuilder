@@ -178,6 +178,7 @@ public class SlideShowViewer extends org.semanticwb.promexico.base.SlideShowView
             out.println("  function nav(id, img, url, title, desc, buttons) {");
             out.println("    var arraButon = buttons.split('|')");
             out.println("    var createButtons = ''");
+            out.println("    if(arraButon.length > 1) {");
             out.println("    for (i=0;i<arraButon.length;i=i+3){");
             out.println("       var ur = '';");
 //            out.println("       var ur = \"javascript:window.location='\" + arraButon[i + 1] + \"';\"");
@@ -187,6 +188,7 @@ public class SlideShowViewer extends org.semanticwb.promexico.base.SlideShowView
             out.println("       }");
             //out.println("       createButtons = createButtons + '<input type=\"button\" value=\"' + arraButon[i] + '\" onclick=\"' + ur + '\" >';");//+ tar
             out.println("       createButtons = createButtons + '<li><a href=\"' + arraButon[i + 1] + '\" ' + ur + '>' + arraButon[i] + '</a></li> ';");//+ tar
+            out.println("    }");
             out.println("    }");
             out.println("    document.getElementById('subhome_btns').innerHTML=createButtons;");
             out.println("    obj = document.getElementById(id)");
