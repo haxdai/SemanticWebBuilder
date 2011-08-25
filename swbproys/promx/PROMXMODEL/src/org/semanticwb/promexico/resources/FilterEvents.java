@@ -19,11 +19,9 @@ import org.semanticwb.SWBUtils;
 import org.semanticwb.SWBUtils.Collections;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
-import org.semanticwb.portal.api.GenericResource;
+import org.semanticwb.portal.api.GenericAdmResource;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
-import org.semanticwb.portal.api.SWBResourceURL;
-import org.semanticwb.portal.api.SWBResourceURLImp;
 import org.semanticwb.portal.resources.sem.genericCalendar.EventType;
 import org.semanticwb.promexico.Event;
 import org.semanticwb.promexico.Office;
@@ -34,7 +32,7 @@ import org.semanticwb.promexico.Sector;
  *
  * @author martha.jimenez
  */
-public class FilterEvents extends GenericResource{
+public class FilterEvents extends GenericAdmResource{
 
     Logger log = SWBUtils.getLogger(FilterEvents.class);
 
