@@ -29,12 +29,18 @@ public abstract class HTMLReferencedContentBase extends org.semanticwb.portal.re
         super(base);
     }
 
+    /*
+     * @see java.lang.Object#hashCode()
+     */
     @Override
     public int hashCode() 
     {
         return getSemanticObject().hashCode();
     }
 
+    /*
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(Object obj) 
     {
