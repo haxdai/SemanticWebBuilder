@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import javax.servlet.http.*;
 import org.semanticwb.SWBPortal;
@@ -33,15 +34,12 @@ public class SlideShowViewer extends org.semanticwb.promexico.base.SlideShowView
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
-
         PrintWriter out=response.getWriter();
-
         Iterator<PictureSlide>it = listPictureSlideses();
         List<PictureSlide> rs = SWBUtils.Collections.copyIterator(it);
+        User user = paramRequest.getUser();
+        String lang = user.getLanguage();
         if(rs.size()>0) {
-            User user = paramRequest.getUser();
-            String lang = user.getLanguage();
-
             StringBuilder preload = new StringBuilder();
             StringBuilder script = new StringBuilder();
             String url = "#";
@@ -96,12 +94,18 @@ public class SlideShowViewer extends org.semanticwb.promexico.base.SlideShowView
             out.println("******************************************************************************/");
             out.println("   var segundos = 6; //cada cuantos segundos cambia la imagen");
             out.println("   var randomImages = new Array();");
+            out.println("   var randomText = new Array();");
+            out.println("   var randomDescr = new Array();");
             String path = "";
             int k = 0;
             for(PictureSlide pic:rs) {
                 if(pic.isValid() && user.haveAccess(pic)) {
                     path = SWBPortal.getWebWorkPath() + pic.getWorkPath() + "/" + "poster_" + pic.getId() + "_" + pic.getPoster();
                     out.println("   randomImages[" + k +"] = '" + path + "';");
+                    String rTitle = pic.getTitle(lang) == null ? (pic.getTitle() == null ? "" : pic.getTitle()) : pic.getTitle(lang);
+                    String rDescr = pic.getDescription(lang) == null ? (pic.getDescription() == null ? "" : pic.getDescription()) : pic.getDescription(lang);
+                    out.println("   randomText[" + k + "] = '" + rTitle +"';");
+                    out.println("   randomDescr[" + k + "] = '" + rDescr +"';");
                     k = k + 1;
                 }
             }
@@ -115,7 +119,18 @@ public class SlideShowViewer extends org.semanticwb.promexico.base.SlideShowView
             out.println("   function presImagen() {");
             out.println("      var el = document.getElementById('crwlr_bckg')");
             out.println("      el.setAttribute('src', randomImages[cont])");
-            //out.println("      document.crwlr_bckg.src= randomImages[cont];");
+            out.println("      el = document.getElementById('pic_title');");
+            out.println("      var texto = document.createTextNode(randomText[cont]);");
+            out.println("      if(el.hasChildNodes()) {");
+            out.println("          el.removeChild(el.firstChild);");
+            out.println("      }");
+            out.println("      el.appendChild(texto);");
+            out.println("      el = document.getElementById('pic_desc');");
+            out.println("      texto = document.createTextNode(randomDescr[cont]);");
+            out.println("      if(el.hasChildNodes()) {");
+            out.println("          el.removeChild(el.firstChild);");
+            out.println("      }");
+            out.println("      el.appendChild(texto);");
             out.println("      subeOpacidad();");
             out.println("      if (cont < randomImages.length-1) {");
             out.println("         cont++;");
@@ -258,7 +273,7 @@ public class SlideShowViewer extends org.semanticwb.promexico.base.SlideShowView
             out.println("     -->");
             out.println("   </script>");
         }else {
-            out.println(paramRequest.getLocaleString("msgNoPicture"));
+            out.println(SWBUtils.TEXT.getLocaleString("org.semanticwb.promexico.locales.ProMxLocale", "msg_NoPicture",new Locale(lang)));
         }
     }
 
