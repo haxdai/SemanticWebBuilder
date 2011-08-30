@@ -5,6 +5,7 @@
 
 package gob.sep.becas;
 
+import gob.sep.becas.ws.ValidaCURPSEP;
 import java.io.IOException;
 import java.util.*;
 import javax.security.auth.Subject;
@@ -29,6 +30,26 @@ import org.semanticwb.portal.api.SWBResourceURL;
  */
 public class UserRegistration extends GenericResource {
     ///work/models/Beca_SEP/CSS/estilos_lightBox.css
+    String tplCURP = "<input type=\"hidden\" name=\"curpchkd\" id=\"curpchkd\" value=\"no\" />\n"+
+        "<input type=\"hidden\" name=\"cveEntNac\" id=\"cveEntNac\" value=\"\" />\n"+
+        "<input type=\"hidden\" name=\"fechaNac\" id=\"fechaNac\" value=\"\" />\n"+
+        "<input type=\"hidden\" name=\"sexo\" id=\"sexo\" value=\"\" />\n"+
+         "<p>\n"+
+        "  <label for=\"CURP\">CURP*</label>\n"+
+        "  <input type=\"text\" name=\"CURP\" id=\"CURP\" class=\"inputPop\" />\n"+
+        "</p>\n"+
+        "<p><a href=\"javascript:validaCURP()\" class=\"cerrarBoton\">Valida CURP</a></p>"+
+        "<p>&nbsp;</p>\n"+
+        "<p>&nbsp;</p>\n"+
+        "<script  type=\"text/javascript\">"+
+        "function validaCURP(){"+
+            "var vCURP=document.getElementById('CURP');"+
+            "dojo.xhrGet({ url: '{$urlCURP}'+vCURP.value, load: function(response, ioArgs) "+
+            "{eval(response);}, "+
+            "error: function(response, ioArgs) {alert('Server error: '+response)}});;"+
+            "}"+
+            "</script>";
+
     String tplt = "<script  type=\"text/javascript\"> function validatePassowrd(clave) {"+
             "var estado = document.getElementById(\"passwordstatus\");"+
             "if (clave.length<6) { "+
@@ -47,7 +68,7 @@ public class UserRegistration extends GenericResource {
             "var forma = document.getElementById(\"formaRegistro\"); "+
             "if (forma.usrName.value.length==0 || forma.usrPrimA.value.length==0 || "+
             "forma.mail.value.length==0 || forma.clave.value.length==0 || "+
-            "forma.preguntaSecreta.selectedIndex<1 || !forma.polpriv.checked ||"+
+            "forma.preguntaSecreta.selectedIndex<1 || !forma.polpriv.checked || (forma.CURP.length>0 && forma.curpchkd.value=='no') || "+
             "forma.respuestaSecreta.value.length==0 || !validateElement('frmCaptchaValue','/frmprocess/validCaptcha?none=1',forma.frmCaptchaValue.value) "+
             ") {alert ('Tus datos se encuentran incompletos. Es necesario que llenes todos los campos obligatorios marcados con \"*\".'); } else { "+
             "forma.submit(); }"+
@@ -59,17 +80,33 @@ public class UserRegistration extends GenericResource {
             " {munele.innerHTML=response;}, error: function(response, ioArgs) {alert('Server error: '+response)}});"+
 //            "var tmp = getHtmlByTag('{$urlMun}'+valor, munele, false, true);" +
 //            "alert(tmp);"+
+            "}\n"+
+            "function validaCURP(){"+
+            "var vCURP=document.getElementById('CURP');"+
+            "dojo.xhrGet({ url: '{$urlCURP}'+vCURP.value, load: function(response, ioArgs) "+
+            "{eval(response);}, "+
+            "error: function(response, ioArgs) {alert('Server error: '+response)}});;"+
             "}"+
             "</script>"+
         "<script type=\"text/javascript\" src=\""+SWBPortal.getContextPath()+"/swbadmin/js/swb.js\" ></script><form id=\"formaRegistro\" name=\"formaRegistro\" method=\"post\" action=\"{$actionURL}\">"
         + "<link type=\"text/css\" rel=\"stylesheet\" href=\""+SWBPortal.getContextPath()+"/work/models/Beca_SEP/CSS/estilos_lightBox.css\" />\n"+ // /work/estilos_lightBox.css
         "<h2>Crear Cuenta</h2>\n"+
-       // "<p>&nbsp;</p>\n"+
+        "<input type=\"hidden\" name=\"curpchkd\" id=\"curpchkd\" value=\"no\" />\n"+ 
+        "<input type=\"hidden\" name=\"cveEntNac\" id=\"cveEntNac\" value=\"\" />\n"+
+        "<input type=\"hidden\" name=\"fechaNac\" id=\"fechaNac\" value=\"\" />\n"+
+        "<input type=\"hidden\" name=\"sexo\" id=\"sexo\" value=\"\" />\n"+
         "<p class=\"introPop\">Bienvenido, para enviarte la informaci&oacute;n actualizada sobre las fechas ofrecidas por el Gobierno Federal, llena los siguientes datos:</p>\n"+
         "<p class=\"introPop\">La cuenta del portal de becas le permite acceder a la informaci&oacute;n y otros servicios. Si ya te registraste en el</p>\n"+
         "<p class=\"introPop\">portal, <a href=\"#\">entra a tu cuenta  aqu&iacute;</a></p>\n"+
         "<h5>Informaci&oacute;n del Usuario</h5>\n"+
         "<p class=\"obligatorio\">*Datos Obligatorios, favor de proporcionarlos</p>\n"+
+        "<p>\n"+
+        "  <label for=\"CURP\">CURP*</label>\n"+
+        "  <input type=\"text\" name=\"CURP\" id=\"CURP\" class=\"inputPop\" />\n"+
+        "</p>\n"+
+        "<p><a href=\"javascript:validaCURP()\" class=\"cerrarBoton\">Valida CURP</a></p>"+
+        "<p>&nbsp;</p>\n"+
+        "<p>&nbsp;</p>\n"+
         "<p class=\"csNombre\"><label for=\"usrName\">Nombre(s)*</label>\n"+
         "<input type=\"text\" name=\"usrName\" id=\"usrName\" class=\"inputPop\" /></p>\n"+
 //        "<p>&nbsp;</p>\n"+
@@ -214,7 +251,8 @@ public class UserRegistration extends GenericResource {
         "</div>\n"+
         "<p>&nbsp;</p>\n"+
         "<p>&nbsp;</p>\n"+
-        "<p><input type=\"checkbox\" id=\"polpriv\" name=\"polpriv\" value=\"OK\">He leído y acepto los términos de uso y las políticas de <a href=\"/es/Beca_SEP/Politicas_Privacidad\">privacidad del sitio</a>.</p>\n"+
+        "<p><input type=\"checkbox\" id=\"polpriv\" name=\"polpriv\" value=\"OK\">He leído y acepto los términos de uso y las políticas de "
+        + "<a href=\"/es/Beca_SEP/Politicas_Privacidad\" target=\"_blank\">privacidad del sitio</a>.</p>\n"+
         "<p>&nbsp;</p>\n"+
         "<p><a href=\"javascript:submitfrm()\" class=\"cerrarBoton\">Guardar</a></p></form>\n";
 
@@ -245,6 +283,7 @@ public class UserRegistration extends GenericResource {
         "<p class=\"introPop\">portal, <a href=\"#\">entra a tu cuenta  aqu&iacute;</a></p>\n"+
         "<h5>Informaci&oacute;n del Usuario</h5>\n"+
         "<p class=\"obligatorio\">*Datos Obligatorios, favor de proporcionarlos</p>\n"+
+        "{$curpdata}\n"+
         "<p class=\"csNombre\"><label for=\"usrName\">Nombre(s)*</label>\n"+
         "<input type=\"text\" name=\"usrName\" id=\"usrName\" class=\"inputPop\" value=\"{$usrName}\"/></p>\n"+
 //        "<p>&nbsp;</p>\n"+
@@ -527,6 +566,8 @@ public class UserRegistration extends GenericResource {
             tmp = SWBUtils.TEXT.replaceAll(tmp,"{$currMun}",MunBase); 
             String urlmun = paramRequest.getRenderUrl().setMode("Municipio").setCallMethod(SWBResourceURL.Call_DIRECT).toString();
             tmp = SWBUtils.TEXT.replaceAll(tmp,"{$urlMun}",urlmun+"/");
+            String urlCurp = paramRequest.getRenderUrl().setMode("curp").setCallMethod(SWBResourceURL.Call_DIRECT).toString();
+            tmp = SWBUtils.TEXT.replaceAll(tmp,"{$urlCURP}",urlCurp+"/");
 
             if (null!=request.getParameter("ERROR")){
                 tmp = tmp + "<script>alert('ERROR: "+request.getParameter("ERROR").replace('\'','`')+"');</script>";
@@ -605,6 +646,16 @@ public class UserRegistration extends GenericResource {
             tmp = SWBUtils.TEXT.replaceAll(tmp,"{$estado}",edoTmp);
             String urlmun = paramRequest.getRenderUrl().setMode("Municipio").setCallMethod(SWBResourceURL.Call_DIRECT).toString();
             tmp = SWBUtils.TEXT.replaceAll(tmp,"{$urlMun}",urlmun+"/");
+
+            String urlCurp = paramRequest.getRenderUrl().setMode("curpEd").setCallMethod(SWBResourceURL.Call_DIRECT).toString();
+            String tmpCurp = "";
+
+            if (null==user.getExtendedAttribute(Becarios.becas_usrCURP))
+            {
+                tmpCurp = SWBUtils.TEXT.replaceAll(tplCURP,"{$urlCURP}",urlCurp+"/");
+            }
+            tmp = SWBUtils.TEXT.replaceAll(tmp,"{$curpdata}",tmpCurp);
+
             //user.getExtendedAttribute(Becarios.becas_usrEntidadFederativa)==null?"":(String)user.getExtendedAttribute(Becarios.becas_usrEntidadFederativa));
             HashMap<String, String> tmpmun=null;
             if (muni.containsKey(selectedEdo)){
@@ -712,6 +763,21 @@ public class UserRegistration extends GenericResource {
                     if (null!=request.getParameter("extension") && !"".equals(request.getParameter("extension").trim())){
                         newUser.setExtendedAttribute(Becarios.becas_usrExtTel , request.getParameter("extension").trim());
                     }
+
+                    //cveEntNac fechaNac sexo
+                    if (null!=request.getParameter("CURP") && !"".equals(request.getParameter("CURP").trim())){
+                        newUser.setExtendedAttribute(Becarios.becas_usrCURP , request.getParameter("CURP").trim().toUpperCase());
+                    }
+                    if (null!=request.getParameter("cveEntNac") && !"".equals(request.getParameter("cveEntNac").trim())){
+                        newUser.setExtendedAttribute(Becarios.becas_usrCveEntidadNac , request.getParameter("cveEntNac").trim());
+                    }
+                    if (null!=request.getParameter("fechaNac") && !"".equals(request.getParameter("fechaNac").trim())){
+                        newUser.setExtendedAttribute(Becarios.becas_usrFechaNac , request.getParameter("fechaNac").trim());
+                    }
+                    if (null!=request.getParameter("sexo") && !"".equals(request.getParameter("sexo").trim())){
+                        newUser.setExtendedAttribute(Becarios.becas_usrSexo , request.getParameter("sexo").trim());
+                    }
+
                     Iterator<SemanticObject>iterso = newUser.getSemanticObject().listObjectProperties(Becarios.becas_hasInterestIn);
                     while (iterso.hasNext()){
                         SemanticObject so = iterso.next();
@@ -813,6 +879,21 @@ public class UserRegistration extends GenericResource {
                     if (null!=request.getParameter("extension") && !"".equals(request.getParameter("extension").trim())){
                         newUser.setExtendedAttribute(Becarios.becas_usrExtTel , request.getParameter("extension").trim());
                     }
+                   //cveEntNac fechaNac sexo
+                    if (null!=request.getParameter("CURP") && !"".equals(request.getParameter("CURP").trim())){
+                        newUser.setExtendedAttribute(Becarios.becas_usrCURP , request.getParameter("CURP").trim().toUpperCase());
+                    }
+                    if (null!=request.getParameter("cveEntNac") && !"".equals(request.getParameter("cveEntNac").trim())){
+                        newUser.setExtendedAttribute(Becarios.becas_usrCveEntidadNac , request.getParameter("cveEntNac").trim());
+                    }
+                    if (null!=request.getParameter("fechaNac") && !"".equals(request.getParameter("fechaNac").trim())){
+                        newUser.setExtendedAttribute(Becarios.becas_usrFechaNac , request.getParameter("fechaNac").trim());
+                    }
+                    if (null!=request.getParameter("sexo") && !"".equals(request.getParameter("sexo").trim())){
+                        newUser.setExtendedAttribute(Becarios.becas_usrSexo , request.getParameter("sexo").trim());
+                    }
+
+
                     String [] intereses = request.getParameterValues("interes");
                     if (null != intereses)
                     {
@@ -886,6 +967,70 @@ public class UserRegistration extends GenericResource {
 
     }
 
+    public void doCURP(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
+    {
+        String ret="";
+        String curp=request.getRequestURI();
+        curp=curp.substring(curp.lastIndexOf("/")+1);
+        curp=curp.toUpperCase();
+        Iterator<SemanticObject>iso = paramRequest.getWebPage().getWebSite().getUserRepository().getSemanticObject().getModel().listSubjects(Becarios.becas_usrCURP, curp);
+        if (!iso.hasNext()) {
+        try {
+            DatosFromCURPSEP datos = (new ValidaCURPSEP()).checa(curp);
+            if (null != datos){
+                ret = "var vforma=document.getElementById('formaRegistro'); "
+                        + "vforma.curpchkd.value=\"yes\"; "
+                        + "vforma.cveEntNac.value=\""+datos.getCveEdoNac()+"\"; "
+                        + "vforma.fechaNac.value=\""+datos.getFechaNac()+"\"; "
+                        + "vforma.sexo.value=\""+datos.getSexo()+"\"; "
+                        + "vforma.usrName.value=\""+datos.getNombres()+"\"; "
+                        + "vforma.usrPrimA.value=\""+datos.getApellido1()+"\"; "
+                        + "vforma.usrSegA.value=\""+datos.getApellido2()+"\"; "; //curpchkd cveEntNac fechaNac sexo usrName usrPrimA usrSegA
+            } else {
+                ret = "alert('CURP NO EXISTE');";
+            }
+
+        } catch (Exception noe) {
+            ret = "alert('Error al validar CURP: "+noe.getMessage()+"');";
+        }
+        } else {
+            ret = "alert('Ya se han registrado con esta CURP');";
+        }
+        response.getWriter().print(ret);
+    }
+
+    public void doCURPED(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
+    {
+        String ret="";
+        String curp=request.getRequestURI();
+        curp=curp.substring(curp.lastIndexOf("/")+1);
+        curp=curp.toUpperCase();
+        Iterator<SemanticObject>iso = paramRequest.getWebPage().getWebSite().getUserRepository().getSemanticObject().getModel().listSubjects(Becarios.becas_usrCURP, curp);
+        if (!iso.hasNext()) {
+        try {
+            DatosFromCURPSEP datos = (new ValidaCURPSEP()).checa(curp);
+            if (null != datos){
+                ret = "var vforma=document.getElementById('formaRegistro'); "
+                        + "vforma.curpchkd.value=\"yes\"; "
+                        + "vforma.cveEntNac.value=\""+datos.getCveEdoNac()+"\"; "
+                        + "vforma.fechaNac.value=\""+datos.getFechaNac()+"\"; "
+                        + "vforma.sexo.value=\""+datos.getSexo()+"\"; "
+                        + "vforma.usrName.value=\""+datos.getNombres()+"\"; "
+                        + "vforma.usrPrimA.value=\""+datos.getApellido1()+"\"; "
+                        + "vforma.usrSegA.value=\""+datos.getApellido2()+"\"; "; //curpchkd cveEntNac fechaNac sexo usrName usrPrimA usrSegA
+            } else {
+                ret = "alert('CURP NO EXISTE');";
+            }
+
+        } catch (Exception noe) {
+            ret = "alert('Error al validar CURP: "+noe.getMessage()+"');";
+        }
+        } else {
+            ret = "alert('Ya se han registrado con esta CURP');";
+        }
+        response.getWriter().print(ret);
+    }
+
     @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
@@ -893,14 +1038,19 @@ public class UserRegistration extends GenericResource {
         {
             doMunicipio(request, response, paramRequest);
         } 
+        else if (paramRequest.getMode().equalsIgnoreCase("curp"))
+        {
+            doCURP(request, response, paramRequest);
+        }
+        else if (paramRequest.getMode().equalsIgnoreCase("curpEd"))
+        {
+            doCURPED(request, response, paramRequest);
+        }
         else
         {
             super.processRequest(request, response, paramRequest);
         }
     }
 
-    
-
-    
 
 }
