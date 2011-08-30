@@ -36,7 +36,7 @@ public class UserRegistration extends GenericResource {
         "<input type=\"hidden\" name=\"sexo\" id=\"sexo\" value=\"\" />\n"+
          "<p>\n"+
         "  <label for=\"CURP\">CURP*</label>\n"+
-        "  <input type=\"text\" name=\"CURP\" id=\"CURP\" class=\"inputPop\" />\n"+
+        "  <input type=\"text\" name=\"CURP\" id=\"CURP\" class=\"inputPop\" /><div id=\"valCURPS\">&nbsp;</div>\n"+
         "</p>\n"+
         "<p><a href=\"javascript:validaCURP()\" class=\"cerrarBoton\">Valida CURP</a></p>"+
         "<p>&nbsp;</p>\n"+
@@ -44,6 +44,8 @@ public class UserRegistration extends GenericResource {
         "<script  type=\"text/javascript\">"+
         "function validaCURP(){"+
             "var vCURP=document.getElementById('CURP');"+
+            "var curpSpace=document.getElementById('valCURPS');"+
+            "curpSpace.innerHTML=\"Validando...\";"+
             "dojo.xhrGet({ url: '{$urlCURP}'+vCURP.value, load: function(response, ioArgs) "+
             "{eval(response);}, "+
             "error: function(response, ioArgs) {alert('Server error: '+response)}});;"+
@@ -83,6 +85,8 @@ public class UserRegistration extends GenericResource {
             "}\n"+
             "function validaCURP(){"+
             "var vCURP=document.getElementById('CURP');"+
+            "var curpSpace=document.getElementById('valCURPS');"+
+            "curpSpace.innerHTML=\"Validando...\";"+
             "dojo.xhrGet({ url: '{$urlCURP}'+vCURP.value, load: function(response, ioArgs) "+
             "{eval(response);}, "+
             "error: function(response, ioArgs) {alert('Server error: '+response)}});;"+
@@ -102,7 +106,7 @@ public class UserRegistration extends GenericResource {
         "<p class=\"obligatorio\">*Datos Obligatorios, favor de proporcionarlos</p>\n"+
         "<p>\n"+
         "  <label for=\"CURP\">CURP*</label>\n"+
-        "  <input type=\"text\" name=\"CURP\" id=\"CURP\" class=\"inputPop\" />\n"+
+        "  <input type=\"text\" name=\"CURP\" id=\"CURP\" class=\"inputPop\" /><div id=\"valCURPS\">&nbsp;</div>\n"+
         "</p>\n"+
         "<p><a href=\"javascript:validaCURP()\" class=\"cerrarBoton\">Valida CURP</a></p>"+
         "<p>&nbsp;</p>\n"+
@@ -764,19 +768,9 @@ public class UserRegistration extends GenericResource {
                         newUser.setExtendedAttribute(Becarios.becas_usrExtTel , request.getParameter("extension").trim());
                     }
 
-                    //cveEntNac fechaNac sexo
-                    if (null!=request.getParameter("CURP") && !"".equals(request.getParameter("CURP").trim())){
-                        newUser.setExtendedAttribute(Becarios.becas_usrCURP , request.getParameter("CURP").trim().toUpperCase());
-                    }
-                    if (null!=request.getParameter("cveEntNac") && !"".equals(request.getParameter("cveEntNac").trim())){
-                        newUser.setExtendedAttribute(Becarios.becas_usrCveEntidadNac , request.getParameter("cveEntNac").trim());
-                    }
-                    if (null!=request.getParameter("fechaNac") && !"".equals(request.getParameter("fechaNac").trim())){
-                        newUser.setExtendedAttribute(Becarios.becas_usrFechaNac , request.getParameter("fechaNac").trim());
-                    }
-                    if (null!=request.getParameter("sexo") && !"".equals(request.getParameter("sexo").trim())){
-                        newUser.setExtendedAttribute(Becarios.becas_usrSexo , request.getParameter("sexo").trim());
-                    }
+                    String err = updateCurp(request, response.getWebPage(), newUser);
+                    if (null!=err) response.setRenderParameter("ERROR", err);
+
 
                     Iterator<SemanticObject>iterso = newUser.getSemanticObject().listObjectProperties(Becarios.becas_hasInterestIn);
                     while (iterso.hasNext()){
@@ -879,20 +873,9 @@ public class UserRegistration extends GenericResource {
                     if (null!=request.getParameter("extension") && !"".equals(request.getParameter("extension").trim())){
                         newUser.setExtendedAttribute(Becarios.becas_usrExtTel , request.getParameter("extension").trim());
                     }
-                   //cveEntNac fechaNac sexo
-                    if (null!=request.getParameter("CURP") && !"".equals(request.getParameter("CURP").trim())){
-                        newUser.setExtendedAttribute(Becarios.becas_usrCURP , request.getParameter("CURP").trim().toUpperCase());
-                    }
-                    if (null!=request.getParameter("cveEntNac") && !"".equals(request.getParameter("cveEntNac").trim())){
-                        newUser.setExtendedAttribute(Becarios.becas_usrCveEntidadNac , request.getParameter("cveEntNac").trim());
-                    }
-                    if (null!=request.getParameter("fechaNac") && !"".equals(request.getParameter("fechaNac").trim())){
-                        newUser.setExtendedAttribute(Becarios.becas_usrFechaNac , request.getParameter("fechaNac").trim());
-                    }
-                    if (null!=request.getParameter("sexo") && !"".equals(request.getParameter("sexo").trim())){
-                        newUser.setExtendedAttribute(Becarios.becas_usrSexo , request.getParameter("sexo").trim());
-                    }
 
+                    String err = updateCurp(request, response.getWebPage(), newUser);
+                    if (null!=err) response.setRenderParameter("ERROR", err);
 
                     String [] intereses = request.getParameterValues("interes");
                     if (null != intereses)
@@ -927,6 +910,51 @@ public class UserRegistration extends GenericResource {
             }
     }
 
+    String updateCurp(HttpServletRequest request, WebPage webPage, User newUser)
+    {
+        String ret = null;
+        String curp = request.getParameter("CURP");
+        if (null != curp && !"".equals(curp.trim()))
+        {
+            curp=curp.toUpperCase();
+            Iterator<SemanticObject> iso = webPage.getWebSite().getUserRepository().getSemanticObject().getModel().listSubjects(Becarios.becas_usrCURP, curp);
+            if (iso.hasNext())
+            { //System.out.println("Curp EXISTE ***********************");
+                ret = "La CURP ya fue dada de alta con anterioridad";
+            } else
+            {
+                try
+                {
+                    if (null != (new ValidaCURPSEP()).checa(curp))
+                    {
+
+                        newUser.setExtendedAttribute(Becarios.becas_usrCURP, curp.toUpperCase());
+
+                        if (null != request.getParameter("cveEntNac") && !"".equals(request.getParameter("cveEntNac").trim()))
+                        {
+                            newUser.setExtendedAttribute(Becarios.becas_usrCveEntidadNac, request.getParameter("cveEntNac").trim());
+                        }
+                        if (null != request.getParameter("fechaNac") && !"".equals(request.getParameter("fechaNac").trim()))
+                        {
+                            newUser.setExtendedAttribute(Becarios.becas_usrFechaNac, request.getParameter("fechaNac").trim());
+                        }
+                        if (null != request.getParameter("sexo") && !"".equals(request.getParameter("sexo").trim()))
+                        {
+                            newUser.setExtendedAttribute(Becarios.becas_usrSexo, request.getParameter("sexo").trim());
+                        }
+                    }
+                } catch (Exception noe)
+                {
+                    ret = "Error al actualizar la CURP";
+                }
+
+            }
+        }
+
+        return ret;
+    }
+
+
     @Override
     public void doEdit(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
@@ -935,6 +963,9 @@ public class UserRegistration extends GenericResource {
             String nombre = paramRequest.getUser().getFullName();
             String tmp = SWBUtils.TEXT.replaceAll(editado,"{$nombre}",nombre);
             response.getWriter().println(tmp);
+            if (null!=request.getParameter("ERROR")){
+                tmp = tmp + "<script>alert('ERROR: "+request.getParameter("ERROR").replace('\'','`')+"');</script>";
+            }
             return;
         }
         String nombre = null!=request.getSession().getAttribute("nombre")?(String)request.getSession().getAttribute("nombre"):"";
@@ -985,16 +1016,17 @@ public class UserRegistration extends GenericResource {
                         + "vforma.sexo.value=\""+datos.getSexo()+"\"; "
                         + "vforma.usrName.value=\""+datos.getNombres()+"\"; "
                         + "vforma.usrPrimA.value=\""+datos.getApellido1()+"\"; "
-                        + "vforma.usrSegA.value=\""+datos.getApellido2()+"\"; "; //curpchkd cveEntNac fechaNac sexo usrName usrPrimA usrSegA
+                        + "vforma.usrSegA.value=\""+datos.getApellido2()+"\"; "
+                        + "curpSpace.innerHTML=\"Validado\";"; //curpchkd cveEntNac fechaNac sexo usrName usrPrimA usrSegA
             } else {
-                ret = "alert('CURP NO EXISTE');";
+                ret = "alert('CURP NO EXISTE'); curpSpace.innerHTML=\"Inexistente...\";";
             }
 
         } catch (Exception noe) {
-            ret = "alert('Error al validar CURP: "+noe.getMessage()+"');";
+            ret = "alert('Error al validar CURP: "+noe.getMessage()+"'); curpSpace.innerHTML=\"&nbsp;\";";
         }
         } else {
-            ret = "alert('Ya se han registrado con esta CURP');";
+            ret = "alert('Ya se han registrado con esta CURP'); curpSpace.innerHTML=\"Ya registrada...\";";
         }
         response.getWriter().print(ret);
     }
@@ -1017,16 +1049,17 @@ public class UserRegistration extends GenericResource {
                         + "vforma.sexo.value=\""+datos.getSexo()+"\"; "
                         + "vforma.usrName.value=\""+datos.getNombres()+"\"; "
                         + "vforma.usrPrimA.value=\""+datos.getApellido1()+"\"; "
-                        + "vforma.usrSegA.value=\""+datos.getApellido2()+"\"; "; //curpchkd cveEntNac fechaNac sexo usrName usrPrimA usrSegA
+                        + "vforma.usrSegA.value=\""+datos.getApellido2()+"\"; "
+                        + "curpSpace.innerHTML=\"Validado\";"; //curpchkd cveEntNac fechaNac sexo usrName usrPrimA usrSegA
             } else {
-                ret = "alert('CURP NO EXISTE');";
+                ret = "alert('CURP NO EXISTE'); curpSpace.innerHTML=\"Inexistente...\";";
             }
 
         } catch (Exception noe) {
-            ret = "alert('Error al validar CURP: "+noe.getMessage()+"');";
+            ret = "alert('Error al validar CURP: "+noe.getMessage()+"'); curpSpace.innerHTML=\"&nbsp;\";";
         }
         } else {
-            ret = "alert('Ya se han registrado con esta CURP');";
+            ret = "alert('Ya se han registrado con esta CURP'); curpSpace.innerHTML=\"ya registrada...\";";
         }
         response.getWriter().print(ret);
     }
