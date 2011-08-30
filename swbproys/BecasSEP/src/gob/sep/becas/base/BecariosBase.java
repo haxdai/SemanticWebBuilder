@@ -5,15 +5,19 @@ public abstract class BecariosBase extends org.semanticwb.model.UserTypeDef
 {
     public static final org.semanticwb.platform.SemanticProperty becas_usrEntidadFederativa=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#usrEntidadFederativa");
     public static final org.semanticwb.platform.SemanticProperty becas_usrTelefono=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#usrTelefono");
+    public static final org.semanticwb.platform.SemanticProperty becas_usrCURP=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#usrCURP");
     public static final org.semanticwb.platform.SemanticProperty becas_usrCP=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#usrCP");
+    public static final org.semanticwb.platform.SemanticProperty becas_usrMunicipio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#usrMunicipio");
     public static final org.semanticwb.platform.SemanticProperty becas_usrExtTel=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#usrExtTel");
+    public static final org.semanticwb.platform.SemanticProperty becas_usrFechaNac=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#usrFechaNac");
     public static final org.semanticwb.platform.SemanticProperty becas_usrDireccion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#usrDireccion");
-    public static final org.semanticwb.platform.SemanticProperty becas_usrClaveTel=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#usrClaveTel");
     public static final org.semanticwb.platform.SemanticProperty becas_usrTipoTel=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#usrTipoTel");
+    public static final org.semanticwb.platform.SemanticProperty becas_usrClaveTel=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#usrClaveTel");
+    public static final org.semanticwb.platform.SemanticProperty becas_usrCveEntidadNac=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#usrCveEntidadNac");
     public static final org.semanticwb.platform.SemanticClass becas_Institucion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#Institucion");
     public static final org.semanticwb.platform.SemanticProperty becas_hasInterestIn=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#hasInterestIn");
     public static final org.semanticwb.platform.SemanticProperty becas_usrColonia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#usrColonia");
-    public static final org.semanticwb.platform.SemanticProperty becas_usrMunicipio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#usrMunicipio");
+    public static final org.semanticwb.platform.SemanticProperty becas_usrSexo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#usrSexo");
     public static final org.semanticwb.platform.SemanticClass becas_NivelEstudio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#NivelEstudio");
     public static final org.semanticwb.platform.SemanticProperty becas_usrNivelEstudios=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#usrNivelEstudios");
     public static final org.semanticwb.platform.SemanticClass becas_Becarios=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#Becarios");
@@ -179,6 +183,24 @@ public abstract class BecariosBase extends org.semanticwb.model.UserTypeDef
     }
 
 /**
+* Gets the UsrCURP property
+* @return String with the UsrCURP
+*/
+    public String getUsrCURP()
+    {
+        return getSemanticObject().getProperty(becas_usrCURP);
+    }
+
+/**
+* Sets the UsrCURP property
+* @param value long with the UsrCURP
+*/
+    public void setUsrCURP(String value)
+    {
+        getSemanticObject().setProperty(becas_usrCURP, value);
+    }
+
+/**
 * Gets the UsrCP property
 * @return String with the UsrCP
 */
@@ -194,6 +216,24 @@ public abstract class BecariosBase extends org.semanticwb.model.UserTypeDef
     public void setUsrCP(String value)
     {
         getSemanticObject().setProperty(becas_usrCP, value);
+    }
+
+/**
+* Gets the UsrMunicipio property
+* @return String with the UsrMunicipio
+*/
+    public String getUsrMunicipio()
+    {
+        return getSemanticObject().getProperty(becas_usrMunicipio);
+    }
+
+/**
+* Sets the UsrMunicipio property
+* @param value long with the UsrMunicipio
+*/
+    public void setUsrMunicipio(String value)
+    {
+        getSemanticObject().setProperty(becas_usrMunicipio, value);
     }
 
 /**
@@ -215,6 +255,24 @@ public abstract class BecariosBase extends org.semanticwb.model.UserTypeDef
     }
 
 /**
+* Gets the UsrFechaNac property
+* @return String with the UsrFechaNac
+*/
+    public String getUsrFechaNac()
+    {
+        return getSemanticObject().getProperty(becas_usrFechaNac);
+    }
+
+/**
+* Sets the UsrFechaNac property
+* @param value long with the UsrFechaNac
+*/
+    public void setUsrFechaNac(String value)
+    {
+        getSemanticObject().setProperty(becas_usrFechaNac, value);
+    }
+
+/**
 * Gets the UsrDireccion property
 * @return String with the UsrDireccion
 */
@@ -230,6 +288,24 @@ public abstract class BecariosBase extends org.semanticwb.model.UserTypeDef
     public void setUsrDireccion(String value)
     {
         getSemanticObject().setProperty(becas_usrDireccion, value);
+    }
+
+/**
+* Gets the UsrTipoTel property
+* @return String with the UsrTipoTel
+*/
+    public String getUsrTipoTel()
+    {
+        return getSemanticObject().getProperty(becas_usrTipoTel);
+    }
+
+/**
+* Sets the UsrTipoTel property
+* @param value long with the UsrTipoTel
+*/
+    public void setUsrTipoTel(String value)
+    {
+        getSemanticObject().setProperty(becas_usrTipoTel, value);
     }
 
 /**
@@ -251,21 +327,21 @@ public abstract class BecariosBase extends org.semanticwb.model.UserTypeDef
     }
 
 /**
-* Gets the UsrTipoTel property
-* @return String with the UsrTipoTel
+* Gets the UsrCveEntidadNac property
+* @return String with the UsrCveEntidadNac
 */
-    public String getUsrTipoTel()
+    public String getUsrCveEntidadNac()
     {
-        return getSemanticObject().getProperty(becas_usrTipoTel);
+        return getSemanticObject().getProperty(becas_usrCveEntidadNac);
     }
 
 /**
-* Sets the UsrTipoTel property
-* @param value long with the UsrTipoTel
+* Sets the UsrCveEntidadNac property
+* @param value long with the UsrCveEntidadNac
 */
-    public void setUsrTipoTel(String value)
+    public void setUsrCveEntidadNac(String value)
     {
-        getSemanticObject().setProperty(becas_usrTipoTel, value);
+        getSemanticObject().setProperty(becas_usrCveEntidadNac, value);
     }
    /**
    * Gets all the gob.sep.becas.Institucion
@@ -352,21 +428,21 @@ public abstract class BecariosBase extends org.semanticwb.model.UserTypeDef
     }
 
 /**
-* Gets the UsrMunicipio property
-* @return String with the UsrMunicipio
+* Gets the UsrSexo property
+* @return String with the UsrSexo
 */
-    public String getUsrMunicipio()
+    public String getUsrSexo()
     {
-        return getSemanticObject().getProperty(becas_usrMunicipio);
+        return getSemanticObject().getProperty(becas_usrSexo);
     }
 
 /**
-* Sets the UsrMunicipio property
-* @param value long with the UsrMunicipio
+* Sets the UsrSexo property
+* @param value long with the UsrSexo
 */
-    public void setUsrMunicipio(String value)
+    public void setUsrSexo(String value)
     {
-        getSemanticObject().setProperty(becas_usrMunicipio, value);
+        getSemanticObject().setProperty(becas_usrSexo, value);
     }
    /**
    * Sets the value for the property UsrNivelEstudios
