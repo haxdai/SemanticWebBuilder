@@ -34,11 +34,10 @@ public class UserRegistration extends GenericResource {
         "<input type=\"hidden\" name=\"cveEntNac\" id=\"cveEntNac\" value=\"\" />\n"+
         "<input type=\"hidden\" name=\"fechaNac\" id=\"fechaNac\" value=\"\" />\n"+
         "<input type=\"hidden\" name=\"sexo\" id=\"sexo\" value=\"\" />\n"+
-         "<p>\n"+
+         "<p class=\"curpf\">\n"+
         "  <label for=\"CURP\">CURP*</label>\n"+
         "  <input type=\"text\" name=\"CURP\" id=\"CURP\" class=\"inputPop\" /><div id=\"valCURPS\">&nbsp;</div>\n"+
-        "</p>\n"+
-        "<p><a href=\"javascript:validaCURP()\" class=\"cerrarBoton\">Valida CURP</a></p>"+
+        "<a href=\"javascript:validaCURP()\" class=\"cerrarBoton\">Valida CURP</a></p>"+
         "<p>&nbsp;</p>\n"+
         "<p>&nbsp;</p>\n"+
         "<script  type=\"text/javascript\">"+
@@ -104,11 +103,10 @@ public class UserRegistration extends GenericResource {
         "<p class=\"introPop\">portal, <a href=\"#\">entra a tu cuenta  aqu&iacute;</a></p>\n"+
         "<h5>Informaci&oacute;n del Usuario</h5>\n"+
         "<p class=\"obligatorio\">*Datos Obligatorios, favor de proporcionarlos</p>\n"+
-        "<p>\n"+
+        "<p class=\"curpf\">\n"+
         "  <label for=\"CURP\">CURP*</label>\n"+
         "  <input type=\"text\" name=\"CURP\" id=\"CURP\" class=\"inputPop\" /><div id=\"valCURPS\">&nbsp;</div>\n"+
-        "</p>\n"+
-        "<p><a href=\"javascript:validaCURP()\" class=\"cerrarBoton\">Valida CURP</a></p>"+
+        "<a href=\"javascript:validaCURP()\" class=\"cerrarBoton\">Valida CURP</a></p>"+
         "<p>&nbsp;</p>\n"+
         "<p>&nbsp;</p>\n"+
         "<p class=\"csNombre\"><label for=\"usrName\">Nombre(s)*</label>\n"+
