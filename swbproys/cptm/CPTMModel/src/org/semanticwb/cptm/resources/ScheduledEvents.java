@@ -225,11 +225,14 @@ public class ScheduledEvents extends GenericResource{
         JSONObject objJSONData = new JSONObject();
         String url = "", target = "";
         if(!event.isEventIsWithoutLink()) {
-            if(event.getEventURL()!=null&&!event.getEventURL().equals("")) {
+            if(event.getEventURL() != null && event.getEventURL().trim().length() > 1) {
                 url=event.getEventURL();
                 target = "_blank";
             } else {
                 WebPage wp = paramRequest.getWebPage().getWebSite().getWebPage("Mostrar_Evento");
+                if(wp == null) {
+                    wp = paramRequest.getWebPage().getWebSite().getWebPage("Mostrar-Evento");
+                }
                 if(wp!=null) {
                    url = wp.getUrl()+"?id=" + event.getId()+"&show=event";
                 }
