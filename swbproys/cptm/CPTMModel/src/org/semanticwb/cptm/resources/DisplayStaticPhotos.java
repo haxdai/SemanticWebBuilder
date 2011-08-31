@@ -45,7 +45,7 @@ public class DisplayStaticPhotos extends GenericResource{
                 CptmgeneralData.cptm_hasMorePhoto.getName());
         Iterator fotos = null;
         ArrayList listImage = new ArrayList();
-        if (wp.getId().matches("Mostrar_Evento")) {
+        if (wp.getId().matches("Mostrar_Evento") || wp.getId().matches("Mostrar-Evento")) {
             if (request.getParameter("show") != null &&
                     request.getParameter("show").equalsIgnoreCase("event")) {
 
