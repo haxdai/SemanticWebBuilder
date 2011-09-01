@@ -37,6 +37,12 @@ public abstract class SubscrpcionCorreoBase extends org.semanticwb.model.SWBClas
             java.util.Iterator it=sclass.listInstances();
             return new org.semanticwb.model.GenericIterator<gob.sep.becas.SubscrpcionCorreo>(it, true);
         }
+
+        public static gob.sep.becas.SubscrpcionCorreo createSubscrpcionCorreo(org.semanticwb.model.SWBModel model)
+        {
+            long id=model.getSemanticObject().getModel().getCounter(sclass);
+            return gob.sep.becas.SubscrpcionCorreo.ClassMgr.createSubscrpcionCorreo(String.valueOf(id), model);
+        }
        /**
        * Gets a gob.sep.becas.SubscrpcionCorreo
        * @param id Identifier for gob.sep.becas.SubscrpcionCorreo
