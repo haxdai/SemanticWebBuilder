@@ -84,47 +84,47 @@ public abstract class SubscrpcionCorreoBase extends org.semanticwb.model.SWBClas
             return (getSubscrpcionCorreo(id, model)!=null);
         }
        /**
-       * Gets all gob.sep.becas.SubscrpcionCorreo with a determined SubCNivelEdu
-       * @param value SubCNivelEdu of the type gob.sep.becas.NivelEstudio
+       * Gets all gob.sep.becas.SubscrpcionCorreo with a determined NivelEducativo
+       * @param value NivelEducativo of the type gob.sep.becas.NivelEstudio
        * @param model Model of the gob.sep.becas.SubscrpcionCorreo
        * @return Iterator with all the gob.sep.becas.SubscrpcionCorreo
        */
 
-        public static java.util.Iterator<gob.sep.becas.SubscrpcionCorreo> listSubscrpcionCorreoBySubCNivelEdu(gob.sep.becas.NivelEstudio value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<gob.sep.becas.SubscrpcionCorreo> listSubscrpcionCorreoByNivelEducativo(gob.sep.becas.NivelEstudio value,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<gob.sep.becas.SubscrpcionCorreo> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(becas_subCNivelEdu, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all gob.sep.becas.SubscrpcionCorreo with a determined SubCNivelEdu
-       * @param value SubCNivelEdu of the type gob.sep.becas.NivelEstudio
+       * Gets all gob.sep.becas.SubscrpcionCorreo with a determined NivelEducativo
+       * @param value NivelEducativo of the type gob.sep.becas.NivelEstudio
        * @return Iterator with all the gob.sep.becas.SubscrpcionCorreo
        */
 
-        public static java.util.Iterator<gob.sep.becas.SubscrpcionCorreo> listSubscrpcionCorreoBySubCNivelEdu(gob.sep.becas.NivelEstudio value)
+        public static java.util.Iterator<gob.sep.becas.SubscrpcionCorreo> listSubscrpcionCorreoByNivelEducativo(gob.sep.becas.NivelEstudio value)
         {
             org.semanticwb.model.GenericIterator<gob.sep.becas.SubscrpcionCorreo> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(becas_subCNivelEdu,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all gob.sep.becas.SubscrpcionCorreo with a determined SubCInstitucion
-       * @param value SubCInstitucion of the type gob.sep.becas.Institucion
+       * Gets all gob.sep.becas.SubscrpcionCorreo with a determined Instituciones
+       * @param value Instituciones of the type gob.sep.becas.Institucion
        * @param model Model of the gob.sep.becas.SubscrpcionCorreo
        * @return Iterator with all the gob.sep.becas.SubscrpcionCorreo
        */
 
-        public static java.util.Iterator<gob.sep.becas.SubscrpcionCorreo> listSubscrpcionCorreoBySubCInstitucion(gob.sep.becas.Institucion value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<gob.sep.becas.SubscrpcionCorreo> listSubscrpcionCorreoByInstituciones(gob.sep.becas.Institucion value,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<gob.sep.becas.SubscrpcionCorreo> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(becas_hasSubCInstitucion, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all gob.sep.becas.SubscrpcionCorreo with a determined SubCInstitucion
-       * @param value SubCInstitucion of the type gob.sep.becas.Institucion
+       * Gets all gob.sep.becas.SubscrpcionCorreo with a determined Instituciones
+       * @param value Instituciones of the type gob.sep.becas.Institucion
        * @return Iterator with all the gob.sep.becas.SubscrpcionCorreo
        */
 
-        public static java.util.Iterator<gob.sep.becas.SubscrpcionCorreo> listSubscrpcionCorreoBySubCInstitucion(gob.sep.becas.Institucion value)
+        public static java.util.Iterator<gob.sep.becas.SubscrpcionCorreo> listSubscrpcionCorreoByInstituciones(gob.sep.becas.Institucion value)
         {
             org.semanticwb.model.GenericIterator<gob.sep.becas.SubscrpcionCorreo> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(becas_hasSubCInstitucion,value.getSemanticObject(),sclass));
             return it;
@@ -141,51 +141,51 @@ public abstract class SubscrpcionCorreoBase extends org.semanticwb.model.SWBClas
     }
 
 /**
-* Gets the SubCMail property
-* @return String with the SubCMail
+* Gets the EMail property
+* @return String with the EMail
 */
-    public String getSubCMail()
+    public String getEMail()
     {
         return getSemanticObject().getProperty(becas_subCMail);
     }
 
 /**
-* Sets the SubCMail property
-* @param value long with the SubCMail
+* Sets the EMail property
+* @param value long with the EMail
 */
-    public void setSubCMail(String value)
+    public void setEMail(String value)
     {
         getSemanticObject().setProperty(becas_subCMail, value);
     }
    /**
-   * Sets the value for the property SubCNivelEdu
-   * @param value SubCNivelEdu to set
+   * Sets the value for the property NivelEducativo
+   * @param value NivelEducativo to set
    */
 
-    public void setSubCNivelEdu(gob.sep.becas.NivelEstudio value)
+    public void setNivelEducativo(gob.sep.becas.NivelEstudio value)
     {
         if(value!=null)
         {
             getSemanticObject().setObjectProperty(becas_subCNivelEdu, value.getSemanticObject());
         }else
         {
-            removeSubCNivelEdu();
+            removeNivelEducativo();
         }
     }
    /**
-   * Remove the value for SubCNivelEdu property
+   * Remove the value for NivelEducativo property
    */
 
-    public void removeSubCNivelEdu()
+    public void removeNivelEducativo()
     {
         getSemanticObject().removeProperty(becas_subCNivelEdu);
     }
 
    /**
-   * Gets the SubCNivelEdu
+   * Gets the NivelEducativo
    * @return a gob.sep.becas.NivelEstudio
    */
-    public gob.sep.becas.NivelEstudio getSubCNivelEdu()
+    public gob.sep.becas.NivelEstudio getNivelEducativo()
     {
          gob.sep.becas.NivelEstudio ret=null;
          org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(becas_subCNivelEdu);
@@ -200,17 +200,17 @@ public abstract class SubscrpcionCorreoBase extends org.semanticwb.model.SWBClas
    * @return A GenericIterator with all the gob.sep.becas.Institucion
    */
 
-    public org.semanticwb.model.GenericIterator<gob.sep.becas.Institucion> listSubCInstitucions()
+    public org.semanticwb.model.GenericIterator<gob.sep.becas.Institucion> listInstitucioneses()
     {
         return new org.semanticwb.model.GenericIterator<gob.sep.becas.Institucion>(getSemanticObject().listObjectProperties(becas_hasSubCInstitucion));
     }
 
    /**
-   * Gets true if has a SubCInstitucion
+   * Gets true if has a Instituciones
    * @param value gob.sep.becas.Institucion to verify
    * @return true if the gob.sep.becas.Institucion exists, false otherwise
    */
-    public boolean hasSubCInstitucion(gob.sep.becas.Institucion value)
+    public boolean hasInstituciones(gob.sep.becas.Institucion value)
     {
         boolean ret=false;
         if(value!=null)
@@ -220,37 +220,37 @@ public abstract class SubscrpcionCorreoBase extends org.semanticwb.model.SWBClas
         return ret;
     }
    /**
-   * Adds a SubCInstitucion
+   * Adds a Instituciones
    * @param value gob.sep.becas.Institucion to add
    */
 
-    public void addSubCInstitucion(gob.sep.becas.Institucion value)
+    public void addInstituciones(gob.sep.becas.Institucion value)
     {
         getSemanticObject().addObjectProperty(becas_hasSubCInstitucion, value.getSemanticObject());
     }
    /**
-   * Removes all the SubCInstitucion
+   * Removes all the Instituciones
    */
 
-    public void removeAllSubCInstitucion()
+    public void removeAllInstituciones()
     {
         getSemanticObject().removeProperty(becas_hasSubCInstitucion);
     }
    /**
-   * Removes a SubCInstitucion
+   * Removes a Instituciones
    * @param value gob.sep.becas.Institucion to remove
    */
 
-    public void removeSubCInstitucion(gob.sep.becas.Institucion value)
+    public void removeInstituciones(gob.sep.becas.Institucion value)
     {
         getSemanticObject().removeObjectProperty(becas_hasSubCInstitucion,value.getSemanticObject());
     }
 
    /**
-   * Gets the SubCInstitucion
+   * Gets the Instituciones
    * @return a gob.sep.becas.Institucion
    */
-    public gob.sep.becas.Institucion getSubCInstitucion()
+    public gob.sep.becas.Institucion getInstituciones()
     {
          gob.sep.becas.Institucion ret=null;
          org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(becas_hasSubCInstitucion);
