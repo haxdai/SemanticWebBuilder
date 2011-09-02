@@ -218,7 +218,7 @@ public class HTMLReferencedContent extends mx.gob.stps.portalempleo.swb.resource
         refs = search.x(wsite, tkn, user);
         if(refs!=null && refs.length>0) {
             StringBuilder htm = new StringBuilder();
-htm.append("<p>tkn="+tkn+"</p>");
+//htm.append("<p>tkn="+tkn+"</p>");
             for(Searchable srch:refs) {
                 if(srch.equals(wp))
                     continue;

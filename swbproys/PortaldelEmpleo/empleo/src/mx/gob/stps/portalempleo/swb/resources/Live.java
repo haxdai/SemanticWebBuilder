@@ -29,12 +29,22 @@ public class Live extends GenericAdmResource {
     private static Logger log = SWBUtils.getLogger(Live.class);
     
     @Override
+    public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        String mode = paramRequest.getMode();
+        if("chat".equals(mode))
+            doChat(request, response, paramRequest);
+        else
+            super.processRequest(request, response, paramRequest);
+    }
+
+    
+    @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         Resource base = getResourceBase();
         StringBuilder sb = new StringBuilder(1000);
         PrintWriter out = response.getWriter();
         SWBResourceURL url = null;
-        url = paramRequest.getRenderUrl().setMode("edit");
+        url = paramRequest.getRenderUrl().setMode("chat");
         //Set set = paramRequest.getTopic().getMap().getHome().getSortChildSet(true);
         String lang = paramRequest.getUser().getLanguage();
         Iterator<WebPage> set = base.getWebSite().getHomePage().listChilds(lang, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE); 
@@ -131,7 +141,7 @@ public class Live extends GenericAdmResource {
 
         sb.append("\n      <p align=\"justify\" class=\"textmin\">Por favor llene los campos siguientes lo cual nos permitir&aacute; tener  la oportunidad de atenderle mejor.</p>");
 
-        sb.append("\n      <form name=\"ayuda\" method=\"post\" action=\"" + url + "\" >");
+        sb.append("\n      <form name=\"ayuda\" method=\"get\" action=\"" + url + "\" >");
         sb.append("\n        <table border=\"0\" cellspacing=\"2\" cellpadding=\"2\" >");
         sb.append("\n          <tr >");
         sb.append("\n            <td align=\"left\" valign=\"middle\" bgcolor=\"#FFDCBA\" ><p class=\"textmin\">Nombre:</p></td>");
@@ -215,154 +225,156 @@ public class Live extends GenericAdmResource {
 
         out.print(sb.toString());
     }
-
-    @Override
-    public void doEdit(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-    StringBuilder sb = new StringBuilder(1000);
-    PrintWriter out = response.getWriter();
-    String firstName = "";
-    String lastName = "";
-    String materno = "";
-    String email = "";
-    int tipoUsuario = 0;
-    String canal = "";
-    String asunto = "";
-    String conCopia = "";
-    String enMensaje = "";
-    char enter = '\n';
-    char retorno = '\r';
-
-    log.info(" >> AtencionEnLinea En doEdit");
-    if ((request.getParameter("firstName") != null) && (!"".equals(request.getParameter("firstName")))) {
-      firstName = request.getParameter("firstName");
-    }
-    if ((request.getParameter("lastName") != null) && (!"".equals(request.getParameter("lastName")))) {
-      lastName = request.getParameter("lastName");
-    }
-    if ((request.getParameter("materno") != null) && (!"".equals(request.getParameter("materno")))) {
-      materno = request.getParameter("materno");
-    }
-    if ((request.getParameter("email") != null) && (!"".equals(request.getParameter("email")))) {
-      email = request.getParameter("email");
-    }
-    if ((request.getParameter("tipoUsuario") != null) && (!"".equals(request.getParameter("tipoUsuario")))) {
-      try {
-        tipoUsuario = Integer.parseInt(request.getParameter("tipoUsuario"));
-        switch (tipoUsuario) { case 1:
-          enMensaje = "Tipo de usuario: BUSCADOR DE EMPLEO,";
-          break;
-        case 2:
-          enMensaje = "Tipo de usuario: EMPRESARIO,";
-          break;
-        case 3:
-          enMensaje = "Tipo de usuario: ESTUDIANTE,";
-          break;
-        case 4:
-          enMensaje = "Tipo de usuario: TRABAJADOR EN ACTIVO,";
-          break;
-        case 5:
-          enMensaje = "Tipo de usuario: OTRO,"; }
-      }
-      catch (NumberFormatException nfe)
-      {
-        log.error("Al convertir el tipo de usuario en chat", nfe);
-      }
-    }
-    if ((request.getParameter("canal") != null) && (!"".equals(request.getParameter("canal")))) {
-      canal = request.getParameter("canal");
-      if (canal.equals("1")) {
-        enMensaje = enMensaje + " Canal: Busco empleo. ";
-      }
-      if (canal.equals("2")) {
-        enMensaje = enMensaje + " Canal: Ofrezco empleo. ";
-      }
-      if (canal.equals("3")) {
-        enMensaje = enMensaje + " Canal: Opciones de capacitaciÃ³n. ";
-      }
-      if (canal.equals("4")) {
-        enMensaje = enMensaje + " Canal: Qué me conviene estudiar?. ";
-      }
-      if (canal.equals("5")) {
-        enMensaje = enMensaje + " Canal: Asesoría para el trabajo. ";
-      }
-      if (canal.equals("6")) {
-        enMensaje = enMensaje + " Canal: Estadasticas del mercado laboral. ";
-      }
-    }
-    if ((request.getParameter("asunto") != null) && (!"".equals(request.getParameter("asunto")))) {
-      asunto = request.getParameter("asunto").replace('\n', ' ');
-      asunto = asunto.replace('\r', ' ');
-    }
-    if (request.getParameter("conCopia") != null)
-      conCopia = request.getParameter("conCopia");
-    else {
-      conCopia = "0";
-    }
-    //sb.append("\n<link href=\"" + WBUtils.getInstance().getWebPath() + "images/estilos.css\" rel=\"stylesheet\" type=\"text/css\" >");
-
-    sb.append("\n<form name=\"chat\" method=\"post\" target=\"_blank\" action=\"http://cat5.behelper.com/cgi-bin/bchat5\">");
-    sb.append("\n    <input name=\"p\" value=\"sne\" type=\"hidden\">");
-    sb.append("\n    <input name=\"f\" value=\"login\" type=\"hidden\">");
-
-    sb.append("\n    <input name=\"nombre\" value=\"" + firstName + "\" type=\"hidden\">");
-    sb.append("\n    <input name=\"apellidos\" value=\"" + lastName + " " + materno + "\" type=\"hidden\">");
-    sb.append("\n    <input name=\"materno\" value=\"" + materno + "\" type=\"hidden\">");
-    sb.append("\n    <input name=\"mail\" value=\"" + email + "\" type=\"hidden\">");
-
-    sb.append("\n    <input name=\"comentarios\" value=\"" + enMensaje + asunto + "\" type=\"hidden\">");
-    sb.append("\n    <input name=\"sendchat\" value=\"" + conCopia + "\" type=\"hidden\">");
-    sb.append("\n</form>");
-    sb.append("\n");
-    sb.append("\n<table width=\"600\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"0\">");
-    sb.append("\n  <tr><td align=\"center\"> </td></tr>");
-    sb.append("\n  <tr>");
-    sb.append("\n    <td align=\"center\" ><p align=\"justify\" class=\"textmin\">Comienzo de la charla.</td>");
-    sb.append("\n  </tr>");
-    sb.append("\n</table>");
-    sb.append("\n");
-    sb.append("\n<script type=\"text/javascript\">");
-
-    sb.append("\n  var dir = \"http://cti.toptel.com.mx/cti/chat/?proyecto=sne&p=sne&b=LOGIND&%7Bnombre%7D=" + firstName + "%20&%7Bapellidos%7D=" + lastName + " " + materno + "%20&%7Bmail%7D=" + email + "&comentarios=Tipo%20de%20usuario:%20" + tipoUsuario + ",%20Canal:" + canal + "%20" + asunto + "&%7Bsendchat%7D=1\"");
-
-    sb.append("\n  window.open(dir, \"chat\", \"width=400,height=400,location=no,menubar=no,directories=no,resizable=no,scrollbars=no,toolbar=no,status=no\");");
-    sb.append("\n  //document.chat.submit();");
-    sb.append("\n</script>");
-    out.print(sb.toString());
-
-    /* 08/2011
-    Connection con = null;
-    PreparedStatement ps = null;
-    try {
-      AFUtils.log(" >> AtencionEnLinea antes de modificar BD");
-      con = AFUtils.getDBConnection("chamba", "AtencionEnLinea.doEdit - Almacena datos de inicio de sesion en chat");
-
-      ps = con.prepareStatement("INSERT INTO SesionChat VALUES (SYSDATE, ?, ?, ?, ?, ?, ?, ?)");
-
-      ps.setInt(1, tipoUsuario);
-      ps.setString(2, canal);
-      ps.setString(3, firstName);
-      ps.setString(4, lastName);
-      ps.setString(5, materno);
-      ps.setString(6, email);
-      ps.setString(7, asunto);
-      ps.executeUpdate();
-      ps.close();
-      con.close();
-      ps = null;
-      con = null;
-    } catch (SQLException sqle2) {
-      AFUtils.log(sqle2, "Al insertar un registro en SesionChat");
-    } finally {
-      if (con != null) {
-        try {
-          con.close();
-        } catch (SQLException sqle2) {
-          AFUtils.log(sqle2, "Al cerrar conexion despues de insertar en SesionChat");
+    
+    public void doChat(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        StringBuilder sb = new StringBuilder();
+        PrintWriter out = response.getWriter();
+        String firstName = "";
+        String lastName = "";
+        String materno = "";
+        String email = "";
+        int tipoUsuario = 0;
+        String canal = "";
+        String asunto = "";
+        String conCopia = "";
+        String enMensaje = "";
+        char enter = '\n';
+        char retorno = '\r';
+System.out.println("doChat:debug...1");
+        log.info(" >> AtencionEnLinea En doEdit");
+        if ((request.getParameter("firstName") != null) && (!"".equals(request.getParameter("firstName")))) {
+          firstName = request.getParameter("firstName");
         }
+        if ((request.getParameter("lastName") != null) && (!"".equals(request.getParameter("lastName")))) {
+          lastName = request.getParameter("lastName");
+        }
+        if ((request.getParameter("materno") != null) && (!"".equals(request.getParameter("materno")))) {
+          materno = request.getParameter("materno");
+        }
+        if ((request.getParameter("email") != null) && (!"".equals(request.getParameter("email")))) {
+          email = request.getParameter("email");
+        }
+        if ((request.getParameter("tipoUsuario") != null) && (!"".equals(request.getParameter("tipoUsuario")))) {
+          try {
+            tipoUsuario = Integer.parseInt(request.getParameter("tipoUsuario"));
+            switch (tipoUsuario) { case 1:
+              enMensaje = "Tipo de usuario: BUSCADOR DE EMPLEO,";
+              break;
+            case 2:
+              enMensaje = "Tipo de usuario: EMPRESARIO,";
+              break;
+            case 3:
+              enMensaje = "Tipo de usuario: ESTUDIANTE,";
+              break;
+            case 4:
+              enMensaje = "Tipo de usuario: TRABAJADOR EN ACTIVO,";
+              break;
+            case 5:
+              enMensaje = "Tipo de usuario: OTRO,"; }
+          }
+          catch (NumberFormatException nfe)
+          {
+            log.error("Al convertir el tipo de usuario en chat", nfe);
+          }
+        }
+        if ((request.getParameter("canal") != null) && (!"".equals(request.getParameter("canal")))) {
+          canal = request.getParameter("canal");
+          if (canal.equals("1")) {
+            enMensaje = enMensaje + " Canal: Busco empleo. ";
+          }
+          if (canal.equals("2")) {
+            enMensaje = enMensaje + " Canal: Ofrezco empleo. ";
+          }
+          if (canal.equals("3")) {
+            enMensaje = enMensaje + " Canal: Opciones de capacitaciÃ³n. ";
+          }
+          if (canal.equals("4")) {
+            enMensaje = enMensaje + " Canal: Qué me conviene estudiar?. ";
+          }
+          if (canal.equals("5")) {
+            enMensaje = enMensaje + " Canal: Asesoría para el trabajo. ";
+          }
+          if (canal.equals("6")) {
+            enMensaje = enMensaje + " Canal: Estadasticas del mercado laboral. ";
+          }
+        }
+        if ((request.getParameter("asunto") != null) && (!"".equals(request.getParameter("asunto")))) {
+          asunto = request.getParameter("asunto").replace('\n', ' ');
+          asunto = asunto.replace('\r', ' ');
+        }
+        if (request.getParameter("conCopia") != null)
+          conCopia = request.getParameter("conCopia");
+        else {
+          conCopia = "0";
+        }
+        //sb.append("\n<link href=\"" + WBUtils.getInstance().getWebPath() + "images/estilos.css\" rel=\"stylesheet\" type=\"text/css\" >");
+System.out.println("doChat:debug...2");
+        sb.append("\n<form name=\"chat\" method=\"post\" target=\"_blank\" action=\"http://cat5.behelper.com/cgi-bin/bchat5\">");
+        sb.append("\n    <input name=\"p\" value=\"sne\" type=\"hidden\">");
+        sb.append("\n    <input name=\"f\" value=\"login\" type=\"hidden\">");
 
-        con = null;
-      }
-    }
-    */
+        sb.append("\n    <input name=\"nombre\" value=\"" + firstName + "\" type=\"hidden\">");
+        sb.append("\n    <input name=\"apellidos\" value=\"" + lastName + " " + materno + "\" type=\"hidden\">");
+        sb.append("\n    <input name=\"materno\" value=\"" + materno + "\" type=\"hidden\">");
+        sb.append("\n    <input name=\"mail\" value=\"" + email + "\" type=\"hidden\">");
+
+        sb.append("\n    <input name=\"comentarios\" value=\"" + enMensaje + asunto + "\" type=\"hidden\">");
+        sb.append("\n    <input name=\"sendchat\" value=\"" + conCopia + "\" type=\"hidden\">");
+        sb.append("\n</form>");
+        sb.append("\n");
+        sb.append("\n<table width=\"600\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"0\">");
+        sb.append("\n  <tr><td align=\"center\"> </td></tr>");
+        sb.append("\n  <tr>");
+        sb.append("\n    <td align=\"center\" ><p align=\"justify\" class=\"textmin\">Comienzo de la charla.</td>");
+        sb.append("\n  </tr>");
+        sb.append("\n</table>");
+        sb.append("\n");
+System.out.println("doChat:debug...3");   
+System.out.println("dir=http://cti.toptel.com.mx/cti/chat/?proyecto=sne&p=sne&b=LOGIND&%7Bnombre%7D=" + firstName + "%20&%7Bapellidos%7D=" + lastName + " " + materno + "%20&%7Bmail%7D=" + email + "&comentarios=Tipo%20de%20usuario:%20" + tipoUsuario + ",%20Canal:" + canal + "%20" + asunto + "&%7Bsendchat%7D=1");
+        sb.append("\n<script type=\"text/javascript\">");
+
+        sb.append("\n  var dir = \"http://cti.toptel.com.mx/cti/chat/?proyecto=sne&p=sne&b=LOGIND&%7Bnombre%7D=" + firstName + "%20&%7Bapellidos%7D=" + lastName + " " + materno + "%20&%7Bmail%7D=" + email + "&comentarios=Tipo%20de%20usuario:%20" + tipoUsuario + ",%20Canal:" + canal + "%20" + asunto + "&%7Bsendchat%7D=1\"");
+
+        sb.append("\n  window.open(dir, \"chat\", \"width=400,height=400,location=no,menubar=no,directories=no,resizable=no,scrollbars=no,toolbar=no,status=no\");");
+        sb.append("\n  //document.chat.submit();");
+        sb.append("\n</script>");
+System.out.println("doChat:debug...4");        
+        out.print(sb.toString());
+
+        /* 08/2011
+        Connection con = null;
+        PreparedStatement ps = null;
+        try {
+          AFUtils.log(" >> AtencionEnLinea antes de modificar BD");
+          con = AFUtils.getDBConnection("chamba", "AtencionEnLinea.doEdit - Almacena datos de inicio de sesion en chat");
+
+          ps = con.prepareStatement("INSERT INTO SesionChat VALUES (SYSDATE, ?, ?, ?, ?, ?, ?, ?)");
+
+          ps.setInt(1, tipoUsuario);
+          ps.setString(2, canal);
+          ps.setString(3, firstName);
+          ps.setString(4, lastName);
+          ps.setString(5, materno);
+          ps.setString(6, email);
+          ps.setString(7, asunto);
+          ps.executeUpdate();
+          ps.close();
+          con.close();
+          ps = null;
+          con = null;
+        } catch (SQLException sqle2) {
+          AFUtils.log(sqle2, "Al insertar un registro en SesionChat");
+        } finally {
+          if (con != null) {
+            try {
+              con.close();
+            } catch (SQLException sqle2) {
+              AFUtils.log(sqle2, "Al cerrar conexion despues de insertar en SesionChat");
+            }
+
+            con = null;
+          }
+        }
+        */
   }
 }
