@@ -1,8 +1,14 @@
 package org.semanticwb.cptm.base;
 
 
+   /**
+   * TreeSelect 
+   */
 public abstract class TreeSelectBase extends org.semanticwb.model.base.FormElementBase 
 {
+   /**
+   * TreeSelect
+   */
     public static final org.semanticwb.platform.SemanticClass cptm_TreeSelect=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#TreeSelect");
    /**
    * The semantic class that represents the currentObject

@@ -6,26 +6,10 @@ package org.semanticwb.cptm.base;
 public interface LocalityIntBase extends org.semanticwb.model.GenericObject
 {
    /**
-   * Interface para datos generales de Cadenas, Marcas y Empresas 
-   */
-    public static final org.semanticwb.platform.SemanticClass cptm_GeneralCompany=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#GeneralCompany");
-    public static final org.semanticwb.platform.SemanticProperty cptm_hasCompanyLocalityInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasCompanyLocalityInv");
-   /**
-   * Experiencia en un específico "Destino", si le quisiera agregar un Directorio de empresas aqui, tendría que tener una relación además de con el Destino, con el objeto  SPType 
-   */
-    public static final org.semanticwb.platform.SemanticClass cptm_ExperienceRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#ExperienceRef");
-    public static final org.semanticwb.platform.SemanticProperty cptm_ExpLocalityInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#ExpLocalityInv");
-    public static final org.semanticwb.platform.SemanticProperty cptm_longitude=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#longitude");
-   /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Eventos. 
    */
     public static final org.semanticwb.platform.SemanticClass cptm_Event=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Event");
     public static final org.semanticwb.platform.SemanticProperty cptm_hasEventGeographicPointInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasEventGeographicPointInv");
-   /**
-   * Clase que hereda de WebPage.Mediante estas se administra el catálogo de experiencias (Ej. Bodas, Parejas) 
-   */
-    public static final org.semanticwb.platform.SemanticClass cptm_Experience=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Experience");
-    public static final org.semanticwb.platform.SemanticProperty cptm_hasExperienceLocalityInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasExperienceLocalityInv");
    /**
    * Clase que se encarga de administrar el catálogo de Actividades (Buceo, Pesca, etc) 
    */
@@ -64,36 +48,29 @@ public interface LocalityIntBase extends org.semanticwb.model.GenericObject
    */
     public static final org.semanticwb.platform.SemanticProperty cptm_hasProximity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasProximity");
    /**
+   * Interface para datos generales de Cadenas, Marcas y Empresas 
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_GeneralCompany=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#GeneralCompany");
+    public static final org.semanticwb.platform.SemanticProperty cptm_hasCompanyLocalityInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasCompanyLocalityInv");
+   /**
+   * Experiencia en un específico "Destino", si le quisiera agregar un Directorio de empresas aqui, tendría que tener una relación además de con el Destino, con el objeto  SPType 
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_ExperienceRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#ExperienceRef");
+    public static final org.semanticwb.platform.SemanticProperty cptm_ExpLocalityInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#ExpLocalityInv");
+    public static final org.semanticwb.platform.SemanticProperty cptm_longitude=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#longitude");
+   /**
+   * Clase que hereda de WebPage.Mediante estas se administra el catálogo de experiencias (Ej. Bodas, Parejas) 
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_Experience=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Experience");
+    public static final org.semanticwb.platform.SemanticProperty cptm_hasExperienceLocalityInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasExperienceLocalityInv");
+   /**
    * Notas Editoriales 
    */
     public static final org.semanticwb.platform.SemanticClass cptm_EditNote=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#EditNote");
     public static final org.semanticwb.platform.SemanticProperty cptm_hasLocalityEditNoteInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasLocalityEditNoteInv");
 
-    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.GeneralCompany> listCompanyLocalityInvs();
-    public boolean hasCompanyLocalityInv(org.semanticwb.cptm.GeneralCompany value);
-
-   /**
-   * Sets a value from the property ExpLocalityInv
-   * @param value An instance of org.semanticwb.cptm.ExperienceRef
-   */
-    public void setExpLocalityInv(org.semanticwb.cptm.ExperienceRef value);
-
-   /**
-   * Remove the value from the property ExpLocalityInv
-   */
-    public void removeExpLocalityInv();
-
-    public org.semanticwb.cptm.ExperienceRef getExpLocalityInv();
-
-    public double getLongitude();
-
-    public void setLongitude(double value);
-
     public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Event> listEventGeographicPointInvs();
     public boolean hasEventGeographicPointInv(org.semanticwb.cptm.Event value);
-
-    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Experience> listExperienceLocalityInvs();
-    public boolean hasExperienceLocalityInv(org.semanticwb.cptm.Experience value);
 
     public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Activity> listActLocalityInvs();
     public boolean hasActLocalityInv(org.semanticwb.cptm.Activity value);
@@ -172,6 +149,29 @@ public interface LocalityIntBase extends org.semanticwb.model.GenericObject
 * @return a instance of org.semanticwb.cptm.LocalityInt
 */
     public org.semanticwb.cptm.LocalityInt getProximity();
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.GeneralCompany> listCompanyLocalityInvs();
+    public boolean hasCompanyLocalityInv(org.semanticwb.cptm.GeneralCompany value);
+
+   /**
+   * Sets a value from the property ExpLocalityInv
+   * @param value An instance of org.semanticwb.cptm.ExperienceRef
+   */
+    public void setExpLocalityInv(org.semanticwb.cptm.ExperienceRef value);
+
+   /**
+   * Remove the value from the property ExpLocalityInv
+   */
+    public void removeExpLocalityInv();
+
+    public org.semanticwb.cptm.ExperienceRef getExpLocalityInv();
+
+    public double getLongitude();
+
+    public void setLongitude(double value);
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.Experience> listExperienceLocalityInvs();
+    public boolean hasExperienceLocalityInv(org.semanticwb.cptm.Experience value);
 
     public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.EditNote> listLocalityEditNoteInvs();
     public boolean hasLocalityEditNoteInv(org.semanticwb.cptm.EditNote value);

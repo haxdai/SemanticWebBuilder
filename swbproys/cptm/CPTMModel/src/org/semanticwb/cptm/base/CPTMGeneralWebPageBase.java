@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Tipo de Página, este tipo no se puede crear en el árbol de WebBuilder, solo sirve para ponerle la interfaz de fotos y que las subclases de esta clase poseean los atributos de esta interface (cptmGeneralData). 
    */
-public abstract class CPTMGeneralWebPageBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Rankable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Resourceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableNode,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Countryable,org.semanticwb.model.Filterable,org.semanticwb.cptm.CptmDescriptionPage,org.semanticwb.model.RuleRefable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Traceable,org.semanticwb.model.Searchable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.RoleRefable,org.semanticwb.model.Indexable,org.semanticwb.model.Activeable,org.semanticwb.model.Trashable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Referensable,org.semanticwb.model.Localeable,org.semanticwb.model.Viewable,org.semanticwb.model.Hiddenable
+public abstract class CPTMGeneralWebPageBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.FilterableNode,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.MetaTagable,org.semanticwb.model.FilterableClass,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Viewable,org.semanticwb.model.Trashable,org.semanticwb.model.Descriptiveable,org.semanticwb.cptm.CptmDescriptionPage,org.semanticwb.model.PFlowRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Tagable,org.semanticwb.model.Hiddenable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Indexable,org.semanticwb.model.Traceable,org.semanticwb.model.Rankable,org.semanticwb.model.Resourceable,org.semanticwb.model.Countryable,org.semanticwb.model.Referensable,org.semanticwb.model.Localeable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Activeable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Searchable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Expirable
 {
    /**
    * Tipo de Página, este tipo no se puede crear en el árbol de WebBuilder, solo sirve para ponerle la interfaz de fotos y que las subclases de esta clase poseean los atributos de esta interface (cptmGeneralData).
@@ -375,6 +375,29 @@ public abstract class CPTMGeneralWebPageBase extends org.semanticwb.model.WebPag
         public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByChild(org.semanticwb.model.WebPage value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageChild,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined MetaTagsValue
+       * @param value MetaTagsValue of the type org.semanticwb.model.MetaTagValue
+       * @param model Model of the org.semanticwb.cptm.CPTMGeneralWebPage
+       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByMetaTagsValue(org.semanticwb.model.MetaTagValue value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasMetaTagsValue, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined MetaTagsValue
+       * @param value MetaTagsValue of the type org.semanticwb.model.MetaTagValue
+       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByMetaTagsValue(org.semanticwb.model.MetaTagValue value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasMetaTagsValue,value.getSemanticObject(),sclass));
             return it;
         }
        /**
