@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que hereda de WebPage.Mediante esta se administra el catálogo de Estados de la República (Ej. Tamaulipas, Morelos) 
    */
-public abstract class StateBase extends org.semanticwb.cptm.CPTMGeneralWebPage implements org.semanticwb.model.Rankable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Resourceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableNode,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Countryable,org.semanticwb.model.Filterable,org.semanticwb.cptm.CptmDescriptionPage,org.semanticwb.model.RuleRefable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Traceable,org.semanticwb.model.Searchable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.RoleRefable,org.semanticwb.model.Indexable,org.semanticwb.model.Activeable,org.semanticwb.model.Trashable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Referensable,org.semanticwb.model.Localeable,org.semanticwb.model.Viewable,org.semanticwb.model.Hiddenable
+public abstract class StateBase extends org.semanticwb.cptm.CPTMGeneralWebPage implements org.semanticwb.model.FilterableNode,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.MetaTagable,org.semanticwb.model.FilterableClass,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Descriptiveable,org.semanticwb.cptm.CptmDescriptionPage,org.semanticwb.model.Trashable,org.semanticwb.model.Viewable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Tagable,org.semanticwb.model.Hiddenable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Indexable,org.semanticwb.model.Traceable,org.semanticwb.model.Rankable,org.semanticwb.model.Resourceable,org.semanticwb.model.Countryable,org.semanticwb.model.Referensable,org.semanticwb.model.Localeable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Activeable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Searchable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Expirable
 {
    /**
    * Notas Editoriales
@@ -431,6 +431,29 @@ public abstract class StateBase extends org.semanticwb.cptm.CPTMGeneralWebPage i
         public static java.util.Iterator<org.semanticwb.cptm.State> listStateByChild(org.semanticwb.model.WebPage value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.State> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageChild,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.State with a determined MetaTagsValue
+       * @param value MetaTagsValue of the type org.semanticwb.model.MetaTagValue
+       * @param model Model of the org.semanticwb.cptm.State
+       * @return Iterator with all the org.semanticwb.cptm.State
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.State> listStateByMetaTagsValue(org.semanticwb.model.MetaTagValue value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.State> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasMetaTagsValue, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.State with a determined MetaTagsValue
+       * @param value MetaTagsValue of the type org.semanticwb.model.MetaTagValue
+       * @return Iterator with all the org.semanticwb.cptm.State
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.State> listStateByMetaTagsValue(org.semanticwb.model.MetaTagValue value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.State> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasMetaTagsValue,value.getSemanticObject(),sclass));
             return it;
         }
        /**

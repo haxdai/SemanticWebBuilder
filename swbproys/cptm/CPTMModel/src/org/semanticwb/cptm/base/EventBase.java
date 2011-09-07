@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Eventos. 
    */
-public abstract class EventBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.RuleRefable,org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable,org.semanticwb.model.Referensable,org.semanticwb.model.Searchable,org.semanticwb.model.Localeable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Countryable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable
+public abstract class EventBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Countryable,org.semanticwb.model.Referensable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Tagable,org.semanticwb.model.Localeable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Searchable,org.semanticwb.model.Resourceable,org.semanticwb.model.Descriptiveable
 {
    /**
    * Interfaz que define propiedades en comun para un Punto Geografico y una Marca Regional
