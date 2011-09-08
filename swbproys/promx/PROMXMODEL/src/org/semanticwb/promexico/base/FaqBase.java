@@ -4,7 +4,7 @@ package org.semanticwb.promexico.base;
    /**
    * Preguntas Frecuentes 
    */
-public abstract class FaqBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,org.semanticwb.model.Searchable,org.semanticwb.model.Tagable
+public abstract class FaqBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.promexico.ProSearchAble,org.semanticwb.model.Searchable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable
 {
    /**
    * Temas de Preguntas Frecuentes
@@ -343,6 +343,39 @@ public abstract class FaqBase extends org.semanticwb.model.SWBClass implements o
     public void setDescription(String description, String lang)
     {
         getSemanticObject().setProperty(swb_description, description, lang);
+    }
+
+/**
+* Gets the ProSearchDescription property
+* @return String with the ProSearchDescription
+*/
+    public String getProSearchDescription()
+    {
+        return getSemanticObject().getProperty(promx_proSearchDescription);
+    }
+
+/**
+* Sets the ProSearchDescription property
+* @param value long with the ProSearchDescription
+*/
+    public void setProSearchDescription(String value)
+    {
+        getSemanticObject().setProperty(promx_proSearchDescription, value);
+    }
+
+    public String getProSearchDescription(String lang)
+    {
+        return getSemanticObject().getProperty(promx_proSearchDescription, null, lang);
+    }
+
+    public String getDisplayProSearchDescription(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(promx_proSearchDescription, lang);
+    }
+
+    public void setProSearchDescription(String proSearchDescription, String lang)
+    {
+        getSemanticObject().setProperty(promx_proSearchDescription, proSearchDescription, lang);
     }
    /**
    * Sets the value for the property Creator

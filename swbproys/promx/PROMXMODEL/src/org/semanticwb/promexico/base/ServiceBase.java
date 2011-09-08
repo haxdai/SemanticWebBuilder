@@ -4,9 +4,11 @@ package org.semanticwb.promexico.base;
    /**
    * Servicios 
    */
-public abstract class ServiceBase extends org.semanticwb.promexico.ProMxWebPage implements org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Activeable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Filterable,org.semanticwb.model.Resourceable,org.semanticwb.model.Undeleteable,org.semanticwb.model.FilterableNode,org.semanticwb.model.FilterableClass,org.semanticwb.model.RuleRefable,org.semanticwb.model.Trashable,org.semanticwb.model.Expirable,org.semanticwb.model.Indexable,org.semanticwb.model.Traceable,org.semanticwb.model.Rankable,org.semanticwb.model.Tagable,org.semanticwb.model.Viewable,org.semanticwb.model.Hiddenable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Localeable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Searchable,org.semanticwb.model.Countryable
+public abstract class ServiceBase extends org.semanticwb.promexico.ProMxWebPage implements org.semanticwb.model.Viewable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.FilterableNode,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RuleRefable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Localeable,org.semanticwb.model.Traceable,org.semanticwb.model.Indexable,org.semanticwb.model.Searchable,org.semanticwb.model.MetaTagable,org.semanticwb.model.Rankable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Trashable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Tagable,org.semanticwb.model.Expirable,org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Countryable,org.semanticwb.model.Filterable,org.semanticwb.model.Resourceable
 {
     public static final org.semanticwb.platform.SemanticProperty promx_ServicePhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#ServicePhoto");
+    public static final org.semanticwb.platform.SemanticClass promx_ProMxVideo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#ProMxVideo");
+    public static final org.semanticwb.platform.SemanticProperty promx_hasSrvVideosInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasSrvVideosInv");
    /**
    * Objeto controlador de oficinas
    */
@@ -200,6 +202,29 @@ public abstract class ServiceBase extends org.semanticwb.promexico.ProMxWebPage 
             return it;
         }
        /**
+       * Gets all org.semanticwb.promexico.Service with a determined MetaTagsValue
+       * @param value MetaTagsValue of the type org.semanticwb.model.MetaTagValue
+       * @param model Model of the org.semanticwb.promexico.Service
+       * @return Iterator with all the org.semanticwb.promexico.Service
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Service> listServiceByMetaTagsValue(org.semanticwb.model.MetaTagValue value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Service> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasMetaTagsValue, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.Service with a determined MetaTagsValue
+       * @param value MetaTagsValue of the type org.semanticwb.model.MetaTagValue
+       * @return Iterator with all the org.semanticwb.promexico.Service
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Service> listServiceByMetaTagsValue(org.semanticwb.model.MetaTagValue value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Service> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasMetaTagsValue,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.promexico.Service with a determined TemplateRef
        * @param value TemplateRef of the type org.semanticwb.model.TemplateRef
        * @param model Model of the org.semanticwb.promexico.Service
@@ -289,6 +314,29 @@ public abstract class ServiceBase extends org.semanticwb.promexico.ProMxWebPage 
         public static java.util.Iterator<org.semanticwb.promexico.Service> listServiceByLanguage(org.semanticwb.model.Language value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Service> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_language,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.Service with a determined SrvVideosInv
+       * @param value SrvVideosInv of the type org.semanticwb.promexico.ProMxVideo
+       * @param model Model of the org.semanticwb.promexico.Service
+       * @return Iterator with all the org.semanticwb.promexico.Service
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Service> listServiceBySrvVideosInv(org.semanticwb.promexico.ProMxVideo value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Service> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(promx_hasSrvVideosInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.Service with a determined SrvVideosInv
+       * @param value SrvVideosInv of the type org.semanticwb.promexico.ProMxVideo
+       * @return Iterator with all the org.semanticwb.promexico.Service
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Service> listServiceBySrvVideosInv(org.semanticwb.promexico.ProMxVideo value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Service> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(promx_hasSrvVideosInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -571,6 +619,45 @@ public abstract class ServiceBase extends org.semanticwb.promexico.ProMxWebPage 
     public void setServicePhoto(String value)
     {
         getSemanticObject().setProperty(promx_ServicePhoto, value);
+    }
+   /**
+   * Gets all the org.semanticwb.promexico.ProMxVideo
+   * @return A GenericIterator with all the org.semanticwb.promexico.ProMxVideo
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.promexico.ProMxVideo> listSrvVideosInvs()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.promexico.ProMxVideo>(getSemanticObject().listObjectProperties(promx_hasSrvVideosInv));
+    }
+
+   /**
+   * Gets true if has a SrvVideosInv
+   * @param value org.semanticwb.promexico.ProMxVideo to verify
+   * @return true if the org.semanticwb.promexico.ProMxVideo exists, false otherwise
+   */
+    public boolean hasSrvVideosInv(org.semanticwb.promexico.ProMxVideo value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(promx_hasSrvVideosInv,value.getSemanticObject());
+        }
+        return ret;
+    }
+
+   /**
+   * Gets the SrvVideosInv
+   * @return a org.semanticwb.promexico.ProMxVideo
+   */
+    public org.semanticwb.promexico.ProMxVideo getSrvVideosInv()
+    {
+         org.semanticwb.promexico.ProMxVideo ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(promx_hasSrvVideosInv);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.promexico.ProMxVideo)obj.createGenericInstance();
+         }
+         return ret;
     }
    /**
    * Gets all the org.semanticwb.promexico.Office

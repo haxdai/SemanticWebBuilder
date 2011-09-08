@@ -5,8 +5,8 @@ public abstract class ProInstitutionSupportBase extends org.semanticwb.model.SWB
 {
     public static final org.semanticwb.platform.SemanticProperty promx_insPhone=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#insPhone");
     public static final org.semanticwb.platform.SemanticProperty promx_instEmail=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#instEmail");
-    public static final org.semanticwb.platform.SemanticProperty promx_insLatitude=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#insLatitude");
     public static final org.semanticwb.platform.SemanticProperty promx_instPhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#instPhoto");
+    public static final org.semanticwb.platform.SemanticProperty promx_insLatitude=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#insLatitude");
     public static final org.semanticwb.platform.SemanticProperty promx_insAddress=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#insAddress");
     public static final org.semanticwb.platform.SemanticProperty promx_intsLongitude=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#intsLongitude");
     public static final org.semanticwb.platform.SemanticClass promx_ProInstitutionSupport=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#proInstitutionSupport");
@@ -285,24 +285,6 @@ public abstract class ProInstitutionSupportBase extends org.semanticwb.model.SWB
     }
 
 /**
-* Gets the InsLatitude property
-* @return double with the InsLatitude
-*/
-    public double getInsLatitude()
-    {
-        return getSemanticObject().getDoubleProperty(promx_insLatitude);
-    }
-
-/**
-* Sets the InsLatitude property
-* @param value long with the InsLatitude
-*/
-    public void setInsLatitude(double value)
-    {
-        getSemanticObject().setDoubleProperty(promx_insLatitude, value);
-    }
-
-/**
 * Gets the InstPhoto property
 * @return String with the InstPhoto
 */
@@ -318,6 +300,24 @@ public abstract class ProInstitutionSupportBase extends org.semanticwb.model.SWB
     public void setInstPhoto(String value)
     {
         getSemanticObject().setProperty(promx_instPhoto, value);
+    }
+
+/**
+* Gets the InsLatitude property
+* @return double with the InsLatitude
+*/
+    public double getInsLatitude()
+    {
+        return getSemanticObject().getDoubleProperty(promx_insLatitude);
+    }
+
+/**
+* Sets the InsLatitude property
+* @param value long with the InsLatitude
+*/
+    public void setInsLatitude(double value)
+    {
+        getSemanticObject().setDoubleProperty(promx_insLatitude, value);
     }
 
 /**

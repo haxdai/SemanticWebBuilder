@@ -3,13 +3,13 @@ package org.semanticwb.promexico.base;
 
 public abstract class SlideShowViewerBase extends org.semanticwb.portal.resources.sem.slideshow.Viewer 
 {
+    public static final org.semanticwb.platform.SemanticClass swb_Resource=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#Resource");
+    public static final org.semanticwb.platform.SemanticProperty swb_semanticResourceInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#semanticResourceInv");
     public static final org.semanticwb.platform.SemanticClass promx_SlideButton=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#SlideButton");
     public static final org.semanticwb.platform.SemanticProperty promx_hasButtons=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasButtons");
     public static final org.semanticwb.platform.SemanticProperty slideshow_targetNew=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/slideshow#targetNew");
     public static final org.semanticwb.platform.SemanticClass slideshow_PictureSlide=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/slideshow#PictureSlide");
     public static final org.semanticwb.platform.SemanticProperty slideshow_hasPictureSlides=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/slideshow#hasPictureSlides");
-    public static final org.semanticwb.platform.SemanticClass swb_Resource=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#Resource");
-    public static final org.semanticwb.platform.SemanticProperty swb_semanticResourceInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#semanticResourceInv");
     public static final org.semanticwb.platform.SemanticClass promx_SlideShowViewer=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#SlideShowViewer");
     public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#SlideShowViewer");
 
@@ -43,6 +43,44 @@ public abstract class SlideShowViewerBase extends org.semanticwb.portal.resource
     {
         if(obj==null)return false;
         return hashCode()==obj.hashCode();
+    }
+   /**
+   * Sets the value for the property Resource
+   * @param value Resource to set
+   */
+
+    public void setResource(org.semanticwb.model.Resource value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(swb_semanticResourceInv, value.getSemanticObject());
+        }else
+        {
+            removeResource();
+        }
+    }
+   /**
+   * Remove the value for Resource property
+   */
+
+    public void removeResource()
+    {
+        getSemanticObject().removeProperty(swb_semanticResourceInv);
+    }
+
+   /**
+   * Gets the Resource
+   * @return a org.semanticwb.model.Resource
+   */
+    public org.semanticwb.model.Resource getResource()
+    {
+         org.semanticwb.model.Resource ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_semanticResourceInv);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.Resource)obj.createGenericInstance();
+         }
+         return ret;
     }
    /**
    * Gets all the org.semanticwb.promexico.SlideButton
@@ -189,44 +227,6 @@ public abstract class SlideShowViewerBase extends org.semanticwb.portal.resource
          if(obj!=null)
          {
              ret=(org.semanticwb.portal.resources.sem.slideshow.PictureSlide)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Sets the value for the property Resource
-   * @param value Resource to set
-   */
-
-    public void setResource(org.semanticwb.model.Resource value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(swb_semanticResourceInv, value.getSemanticObject());
-        }else
-        {
-            removeResource();
-        }
-    }
-   /**
-   * Remove the value for Resource property
-   */
-
-    public void removeResource()
-    {
-        getSemanticObject().removeProperty(swb_semanticResourceInv);
-    }
-
-   /**
-   * Gets the Resource
-   * @return a org.semanticwb.model.Resource
-   */
-    public org.semanticwb.model.Resource getResource()
-    {
-         org.semanticwb.model.Resource ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_semanticResourceInv);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.Resource)obj.createGenericInstance();
          }
          return ret;
     }

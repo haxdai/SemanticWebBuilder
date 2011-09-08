@@ -4,7 +4,7 @@ package org.semanticwb.promexico.base;
    /**
    * Eventos de ProMéxico 
    */
-public abstract class EventBase extends org.semanticwb.portal.resources.sem.genericCalendar.Event implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Localeable,org.semanticwb.model.Ruleable,org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable,org.semanticwb.model.Searchable,org.semanticwb.model.Tagable
+public abstract class EventBase extends org.semanticwb.portal.resources.sem.genericCalendar.Event implements org.semanticwb.model.Descriptiveable,org.semanticwb.promexico.ProSearchAble,org.semanticwb.model.Searchable,org.semanticwb.model.Ruleable,org.semanticwb.model.Resourceable,org.semanticwb.model.Localeable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable
 {
    /**
    * Objeto controlador de oficinas
@@ -535,6 +535,39 @@ public abstract class EventBase extends org.semanticwb.portal.resources.sem.gene
              ret=(org.semanticwb.model.Rule)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the ProSearchDescription property
+* @return String with the ProSearchDescription
+*/
+    public String getProSearchDescription()
+    {
+        return getSemanticObject().getProperty(promx_proSearchDescription);
+    }
+
+/**
+* Sets the ProSearchDescription property
+* @param value long with the ProSearchDescription
+*/
+    public void setProSearchDescription(String value)
+    {
+        getSemanticObject().setProperty(promx_proSearchDescription, value);
+    }
+
+    public String getProSearchDescription(String lang)
+    {
+        return getSemanticObject().getProperty(promx_proSearchDescription, null, lang);
+    }
+
+    public String getDisplayProSearchDescription(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(promx_proSearchDescription, lang);
+    }
+
+    public void setProSearchDescription(String proSearchDescription, String lang)
+    {
+        getSemanticObject().setProperty(promx_proSearchDescription, proSearchDescription, lang);
     }
 
 /**
