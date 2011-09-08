@@ -1,7 +1,7 @@
 package org.semanticwb.promexico.base;
 
 
-public abstract class NewBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Resourceable,org.semanticwb.model.Ruleable,org.semanticwb.model.Traceable,org.semanticwb.model.Searchable,org.semanticwb.model.Tagable
+public abstract class NewBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Searchable,org.semanticwb.model.Ruleable,org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable
 {
     public static final org.semanticwb.platform.SemanticProperty promx_newUrl=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#newUrl");
    /**
@@ -16,12 +16,14 @@ public abstract class NewBase extends org.semanticwb.model.SWBClass implements o
    * Foto de Noticia
    */
     public static final org.semanticwb.platform.SemanticProperty promx_newPhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#newPhoto");
+    public static final org.semanticwb.platform.SemanticProperty promx_newSource=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#newSource");
     public static final org.semanticwb.platform.SemanticProperty promx_fileAttach=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#fileAttach");
    /**
    * Tipos de Noticias
    */
     public static final org.semanticwb.platform.SemanticClass promx_NewType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#NewType");
     public static final org.semanticwb.platform.SemanticProperty promx_newType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#newType");
+    public static final org.semanticwb.platform.SemanticProperty promx_enFileAttach=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#enFileAttach");
     public static final org.semanticwb.platform.SemanticClass promx_Sector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Sector");
    /**
    * Sectores Relacionados con la Noticia
@@ -481,6 +483,24 @@ public abstract class NewBase extends org.semanticwb.model.SWBClass implements o
     {
         getSemanticObject().setProperty(swb_description, description, lang);
     }
+
+/**
+* Gets the NewSource property
+* @return String with the NewSource
+*/
+    public String getNewSource()
+    {
+        return getSemanticObject().getProperty(promx_newSource);
+    }
+
+/**
+* Sets the NewSource property
+* @param value long with the NewSource
+*/
+    public void setNewSource(String value)
+    {
+        getSemanticObject().setProperty(promx_newSource, value);
+    }
    /**
    * Gets all the org.semanticwb.model.Rule
    * @return A GenericIterator with all the org.semanticwb.model.Rule
@@ -737,6 +757,24 @@ public abstract class NewBase extends org.semanticwb.model.SWBClass implements o
              ret=(org.semanticwb.model.Resource)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the EnFileAttach property
+* @return String with the EnFileAttach
+*/
+    public String getEnFileAttach()
+    {
+        return getSemanticObject().getProperty(promx_enFileAttach);
+    }
+
+/**
+* Sets the EnFileAttach property
+* @param value long with the EnFileAttach
+*/
+    public void setEnFileAttach(String value)
+    {
+        getSemanticObject().setProperty(promx_enFileAttach, value);
     }
 
 /**

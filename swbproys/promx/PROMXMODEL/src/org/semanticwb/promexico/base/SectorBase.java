@@ -1,8 +1,10 @@
 package org.semanticwb.promexico.base;
 
 
-public abstract class SectorBase extends org.semanticwb.promexico.ProMxWebPage implements org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Activeable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Filterable,org.semanticwb.model.Resourceable,org.semanticwb.model.Undeleteable,org.semanticwb.model.FilterableNode,org.semanticwb.model.FilterableClass,org.semanticwb.model.RuleRefable,org.semanticwb.model.Trashable,org.semanticwb.model.Expirable,org.semanticwb.model.Indexable,org.semanticwb.model.Traceable,org.semanticwb.model.Rankable,org.semanticwb.model.Tagable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Viewable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Localeable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Searchable,org.semanticwb.model.Countryable
+public abstract class SectorBase extends org.semanticwb.promexico.ProMxWebPage implements org.semanticwb.model.Viewable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.FilterableNode,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RuleRefable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Localeable,org.semanticwb.model.Traceable,org.semanticwb.model.Indexable,org.semanticwb.model.Searchable,org.semanticwb.model.MetaTagable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Rankable,org.semanticwb.model.Trashable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Tagable,org.semanticwb.model.Expirable,org.semanticwb.model.Activeable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Countryable,org.semanticwb.model.Filterable,org.semanticwb.model.Resourceable
 {
+    public static final org.semanticwb.platform.SemanticClass promx_Training=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Training");
+    public static final org.semanticwb.platform.SemanticProperty promx_hasTrainingSectoresInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasTrainingSectoresInv");
     public static final org.semanticwb.platform.SemanticClass promx_New=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#New");
     public static final org.semanticwb.platform.SemanticProperty promx_hasNews=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasNews");
    /**
@@ -11,6 +13,8 @@ public abstract class SectorBase extends org.semanticwb.promexico.ProMxWebPage i
     public static final org.semanticwb.platform.SemanticClass promx_Event=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Event");
     public static final org.semanticwb.platform.SemanticProperty promx_hasEventsInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasEventsInv");
     public static final org.semanticwb.platform.SemanticProperty promx_SectorPhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#SectorPhoto");
+    public static final org.semanticwb.platform.SemanticClass promx_ProMxVideo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#ProMxVideo");
+    public static final org.semanticwb.platform.SemanticProperty promx_hasVideosInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasVideosInv");
     public static final org.semanticwb.platform.SemanticClass promx_Sector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Sector");
    /**
    * The semantic class that represents the currentObject
@@ -79,6 +83,29 @@ public abstract class SectorBase extends org.semanticwb.promexico.ProMxWebPage i
         public static boolean hasSector(String id, org.semanticwb.model.SWBModel model)
         {
             return (getSector(id, model)!=null);
+        }
+       /**
+       * Gets all org.semanticwb.promexico.Sector with a determined TrainingSectoresInv
+       * @param value TrainingSectoresInv of the type org.semanticwb.promexico.Training
+       * @param model Model of the org.semanticwb.promexico.Sector
+       * @return Iterator with all the org.semanticwb.promexico.Sector
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Sector> listSectorByTrainingSectoresInv(org.semanticwb.promexico.Training value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Sector> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(promx_hasTrainingSectoresInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.Sector with a determined TrainingSectoresInv
+       * @param value TrainingSectoresInv of the type org.semanticwb.promexico.Training
+       * @return Iterator with all the org.semanticwb.promexico.Sector
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Sector> listSectorByTrainingSectoresInv(org.semanticwb.promexico.Training value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Sector> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(promx_hasTrainingSectoresInv,value.getSemanticObject(),sclass));
+            return it;
         }
        /**
        * Gets all org.semanticwb.promexico.Sector with a determined AssMember
@@ -193,6 +220,29 @@ public abstract class SectorBase extends org.semanticwb.promexico.ProMxWebPage i
         public static java.util.Iterator<org.semanticwb.promexico.Sector> listSectorByThisTypeAssociation(org.semanticwb.model.Association value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Sector> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisTypeAssociationInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.Sector with a determined MetaTagsValue
+       * @param value MetaTagsValue of the type org.semanticwb.model.MetaTagValue
+       * @param model Model of the org.semanticwb.promexico.Sector
+       * @return Iterator with all the org.semanticwb.promexico.Sector
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Sector> listSectorByMetaTagsValue(org.semanticwb.model.MetaTagValue value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Sector> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasMetaTagsValue, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.Sector with a determined MetaTagsValue
+       * @param value MetaTagsValue of the type org.semanticwb.model.MetaTagValue
+       * @return Iterator with all the org.semanticwb.promexico.Sector
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Sector> listSectorByMetaTagsValue(org.semanticwb.model.MetaTagValue value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Sector> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasMetaTagsValue,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -426,29 +476,6 @@ public abstract class SectorBase extends org.semanticwb.promexico.ProMxWebPage i
             return it;
         }
        /**
-       * Gets all org.semanticwb.promexico.Sector with a determined PFlowRef
-       * @param value PFlowRef of the type org.semanticwb.model.PFlowRef
-       * @param model Model of the org.semanticwb.promexico.Sector
-       * @return Iterator with all the org.semanticwb.promexico.Sector
-       */
-
-        public static java.util.Iterator<org.semanticwb.promexico.Sector> listSectorByPFlowRef(org.semanticwb.model.PFlowRef value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Sector> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.promexico.Sector with a determined PFlowRef
-       * @param value PFlowRef of the type org.semanticwb.model.PFlowRef
-       * @return Iterator with all the org.semanticwb.promexico.Sector
-       */
-
-        public static java.util.Iterator<org.semanticwb.promexico.Sector> listSectorByPFlowRef(org.semanticwb.model.PFlowRef value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Sector> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.promexico.Sector with a determined EventsInv
        * @param value EventsInv of the type org.semanticwb.promexico.Event
        * @param model Model of the org.semanticwb.promexico.Sector
@@ -469,6 +496,29 @@ public abstract class SectorBase extends org.semanticwb.promexico.ProMxWebPage i
         public static java.util.Iterator<org.semanticwb.promexico.Sector> listSectorByEventsInv(org.semanticwb.promexico.Event value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Sector> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(promx_hasEventsInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.Sector with a determined PFlowRef
+       * @param value PFlowRef of the type org.semanticwb.model.PFlowRef
+       * @param model Model of the org.semanticwb.promexico.Sector
+       * @return Iterator with all the org.semanticwb.promexico.Sector
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Sector> listSectorByPFlowRef(org.semanticwb.model.PFlowRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Sector> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.Sector with a determined PFlowRef
+       * @param value PFlowRef of the type org.semanticwb.model.PFlowRef
+       * @return Iterator with all the org.semanticwb.promexico.Sector
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Sector> listSectorByPFlowRef(org.semanticwb.model.PFlowRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Sector> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -563,6 +613,29 @@ public abstract class SectorBase extends org.semanticwb.promexico.ProMxWebPage i
             org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Sector> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasFriendlyURL,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all org.semanticwb.promexico.Sector with a determined VideosInv
+       * @param value VideosInv of the type org.semanticwb.promexico.ProMxVideo
+       * @param model Model of the org.semanticwb.promexico.Sector
+       * @return Iterator with all the org.semanticwb.promexico.Sector
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Sector> listSectorByVideosInv(org.semanticwb.promexico.ProMxVideo value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Sector> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(promx_hasVideosInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.Sector with a determined VideosInv
+       * @param value VideosInv of the type org.semanticwb.promexico.ProMxVideo
+       * @return Iterator with all the org.semanticwb.promexico.Sector
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Sector> listSectorByVideosInv(org.semanticwb.promexico.ProMxVideo value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Sector> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(promx_hasVideosInv,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
    /**
@@ -572,6 +645,45 @@ public abstract class SectorBase extends org.semanticwb.promexico.ProMxWebPage i
     public SectorBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+   /**
+   * Gets all the org.semanticwb.promexico.Training
+   * @return A GenericIterator with all the org.semanticwb.promexico.Training
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Training> listTrainingSectoresInvs()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Training>(getSemanticObject().listObjectProperties(promx_hasTrainingSectoresInv));
+    }
+
+   /**
+   * Gets true if has a TrainingSectoresInv
+   * @param value org.semanticwb.promexico.Training to verify
+   * @return true if the org.semanticwb.promexico.Training exists, false otherwise
+   */
+    public boolean hasTrainingSectoresInv(org.semanticwb.promexico.Training value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(promx_hasTrainingSectoresInv,value.getSemanticObject());
+        }
+        return ret;
+    }
+
+   /**
+   * Gets the TrainingSectoresInv
+   * @return a org.semanticwb.promexico.Training
+   */
+    public org.semanticwb.promexico.Training getTrainingSectoresInv()
+    {
+         org.semanticwb.promexico.Training ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(promx_hasTrainingSectoresInv);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.promexico.Training)obj.createGenericInstance();
+         }
+         return ret;
     }
    /**
    * Gets all the org.semanticwb.promexico.New
@@ -668,6 +780,45 @@ public abstract class SectorBase extends org.semanticwb.promexico.ProMxWebPage i
     public void setSectorPhoto(String value)
     {
         getSemanticObject().setProperty(promx_SectorPhoto, value);
+    }
+   /**
+   * Gets all the org.semanticwb.promexico.ProMxVideo
+   * @return A GenericIterator with all the org.semanticwb.promexico.ProMxVideo
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.promexico.ProMxVideo> listVideosInvs()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.promexico.ProMxVideo>(getSemanticObject().listObjectProperties(promx_hasVideosInv));
+    }
+
+   /**
+   * Gets true if has a VideosInv
+   * @param value org.semanticwb.promexico.ProMxVideo to verify
+   * @return true if the org.semanticwb.promexico.ProMxVideo exists, false otherwise
+   */
+    public boolean hasVideosInv(org.semanticwb.promexico.ProMxVideo value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(promx_hasVideosInv,value.getSemanticObject());
+        }
+        return ret;
+    }
+
+   /**
+   * Gets the VideosInv
+   * @return a org.semanticwb.promexico.ProMxVideo
+   */
+    public org.semanticwb.promexico.ProMxVideo getVideosInv()
+    {
+         org.semanticwb.promexico.ProMxVideo ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(promx_hasVideosInv);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.promexico.ProMxVideo)obj.createGenericInstance();
+         }
+         return ret;
     }
 
    /**

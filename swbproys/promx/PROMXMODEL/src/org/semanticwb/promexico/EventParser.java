@@ -34,7 +34,7 @@ public class EventParser extends GenericParser {
 
     @Override
     public String getSummary(Searchable gen, String lang) {
-        return ((Event) gen).getDescription();
+        return ((Event) gen).getProSearchDescription(lang);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class EventParser extends GenericParser {
 
     @Override
     public String getIndexDescription(Searchable gen) {
-        return ((Event) gen).getDescription();
+        return ((Event) gen).getProSearchDescription();
     }
 
     @Override
