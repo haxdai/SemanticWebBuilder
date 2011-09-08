@@ -4,7 +4,7 @@ package org.semanticwb.promexico.base;
    /**
    * Datos de un representante, se utiliza para las oficinas y para las regiones 
    */
-public abstract class ManagerBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+public abstract class ManagerBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticProperty promx_repreFax=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#repreFax");
     public static final org.semanticwb.platform.SemanticProperty promx_repreName=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#repreName");
