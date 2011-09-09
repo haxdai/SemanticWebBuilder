@@ -141,7 +141,7 @@ public class Live extends GenericAdmResource {
 
         sb.append("\n      <p align=\"justify\" class=\"textmin\">Por favor llene los campos siguientes lo cual nos permitir&aacute; tener  la oportunidad de atenderle mejor.</p>");
 
-        sb.append("\n      <form name=\"ayuda\" method=\"get\" action=\"" + url + "\" >");
+        sb.append("\n      <form name=\"ayuda\" method=\"post\" action=\"" + url + "\" >");
         sb.append("\n        <table border=\"0\" cellspacing=\"2\" cellpadding=\"2\" >");
         sb.append("\n          <tr >");
         sb.append("\n            <td align=\"left\" valign=\"middle\" bgcolor=\"#FFDCBA\" ><p class=\"textmin\">Nombre:</p></td>");

@@ -10,8 +10,6 @@ import org.semanticwb.SWBUtils;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.portal.api.*;
-import org.semanticwb.portal.community.MicroSite;
-import org.semanticwb.portal.community.MicroSiteWebPageUtil;
 
     /**
     * Implementación de referencia para una aplicación de chat.
@@ -79,13 +77,13 @@ public class ChatResource extends ChatResourceBase
      */
     private String getCommId(WebPage current) {
         String ret = null;
-        if (current instanceof MicroSite) {
-            ret = current.getId();
-        }else if (current instanceof MicroSiteWebPageUtil) {
-            ret = getCommId(((MicroSiteWebPageUtil) current).getMicroSite());
-        }else {
-            ret = current.getWebSiteId();
-        }
+//        if (current instanceof MicroSite) {
+//            ret = current.getId();
+//        }else if (current instanceof MicroSiteWebPageUtil) {
+//            ret = getCommId(((MicroSiteWebPageUtil) current).getMicroSite());
+//        }else {
+//            ret = current.getWebSiteId();
+//        }
         return ret;
     }
 
