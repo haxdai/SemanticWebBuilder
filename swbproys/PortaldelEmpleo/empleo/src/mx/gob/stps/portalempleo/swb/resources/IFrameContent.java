@@ -79,8 +79,7 @@ public class IFrameContent extends GenericAdmResource
         String host = null;
         try
         {
-            URI uri = new URI(request.getRequestURI());
-            host = uri.getHost();
+           host=request.getServerName();
         }
         catch (Exception e)
         {
