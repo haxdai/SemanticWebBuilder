@@ -148,7 +148,7 @@ public class IFrameContent extends GenericAdmResource
                     }
                     else
                     {
-                        url = url + "&host" + host;
+                        url = url + "&host=" + host;
                     }
                 }
                 else
