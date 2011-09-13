@@ -40,14 +40,14 @@ public class Live extends GenericAdmResource {
     
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        Resource base = getResourceBase();
+        //Resource base = getResourceBase();
         StringBuilder sb = new StringBuilder(1000);
         PrintWriter out = response.getWriter();
         SWBResourceURL url = null;
         url = paramRequest.getRenderUrl().setMode("chat");
         //Set set = paramRequest.getTopic().getMap().getHome().getSortChildSet(true);
-        String lang = paramRequest.getUser().getLanguage();
-        Iterator<WebPage> set = base.getWebSite().getHomePage().listChilds(lang, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE); 
+        //String lang = paramRequest.getUser().getLanguage();
+        //Iterator<WebPage> set = base.getWebSite().getHomePage().listChilds(lang, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE);
         //sb.append("\n<link href=\"" + sWBUtils.getInstance().getWebPath() + "images/estilos.css\" rel=\"stylesheet\" type=\"text/css\" >");
 
         sb.append("\n<script type=\"text/javascript\">");
