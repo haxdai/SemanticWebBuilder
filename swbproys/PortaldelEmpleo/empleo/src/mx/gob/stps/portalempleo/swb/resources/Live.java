@@ -6,16 +6,10 @@ package mx.gob.stps.portalempleo.swb.resources;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Iterator;
-import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
-import org.semanticwb.model.Resource;
-import org.semanticwb.model.User;
-import org.semanticwb.model.WebPage;
-import org.semanticwb.model.WebSite;
 import org.semanticwb.portal.api.GenericAdmResource;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
@@ -141,7 +135,7 @@ public class Live extends GenericAdmResource {
 
         sb.append("\n      <p align=\"justify\" class=\"textmin\">Por favor llene los campos siguientes lo cual nos permitir&aacute; tener  la oportunidad de atenderle mejor.</p>");
 
-        sb.append("\n      <form name=\"ayuda\" method=\"post\" action=\"" + url + "\" >");
+        sb.append("\n      <form name=\"ayuda\" method=\"post\" action=\"").append(url).append("\" >");
         sb.append("\n        <table border=\"0\" cellspacing=\"2\" cellpadding=\"2\" >");
         sb.append("\n          <tr >");
         sb.append("\n            <td align=\"left\" valign=\"middle\" bgcolor=\"#FFDCBA\" ><p class=\"textmin\">Nombre:</p></td>");
@@ -313,13 +307,13 @@ System.out.println("doChat:debug...2");
         sb.append("\n    <input name=\"p\" value=\"sne\" type=\"hidden\">");
         sb.append("\n    <input name=\"f\" value=\"login\" type=\"hidden\">");
 
-        sb.append("\n    <input name=\"nombre\" value=\"" + firstName + "\" type=\"hidden\">");
-        sb.append("\n    <input name=\"apellidos\" value=\"" + lastName + " " + materno + "\" type=\"hidden\">");
-        sb.append("\n    <input name=\"materno\" value=\"" + materno + "\" type=\"hidden\">");
-        sb.append("\n    <input name=\"mail\" value=\"" + email + "\" type=\"hidden\">");
+        sb.append("\n    <input name=\"nombre\" value=\"").append(firstName).append("\" type=\"hidden\">");
+        sb.append("\n    <input name=\"apellidos\" value=\"").append(lastName).append(" ").append(materno).append("\" type=\"hidden\">");
+        sb.append("\n    <input name=\"materno\" value=\"").append(materno).append("\" type=\"hidden\">");
+        sb.append("\n    <input name=\"mail\" value=\"").append(email).append("\" type=\"hidden\">");
 
-        sb.append("\n    <input name=\"comentarios\" value=\"" + enMensaje + asunto + "\" type=\"hidden\">");
-        sb.append("\n    <input name=\"sendchat\" value=\"" + conCopia + "\" type=\"hidden\">");
+        sb.append("\n    <input name=\"comentarios\" value=\"").append(enMensaje).append(asunto).append("\" type=\"hidden\">");
+        sb.append("\n    <input name=\"sendchat\" value=\"").append(conCopia).append("\" type=\"hidden\">");
         sb.append("\n</form>");
         sb.append("\n");
         sb.append("\n<table width=\"600\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"0\">");
@@ -333,7 +327,7 @@ System.out.println("doChat:debug...3");
 System.out.println("dir=http://cti.toptel.com.mx/cti/chat/?proyecto=sne&p=sne&b=LOGIND&%7Bnombre%7D=" + firstName + "%20&%7Bapellidos%7D=" + lastName + " " + materno + "%20&%7Bmail%7D=" + email + "&comentarios=Tipo%20de%20usuario:%20" + tipoUsuario + ",%20Canal:" + canal + "%20" + asunto + "&%7Bsendchat%7D=1");
         sb.append("\n<script type=\"text/javascript\">");
 
-        sb.append("\n  var dir = \"http://cti.toptel.com.mx/cti/chat/?proyecto=sne&p=sne&b=LOGIND&%7Bnombre%7D=" + firstName + "%20&%7Bapellidos%7D=" + lastName + " " + materno + "%20&%7Bmail%7D=" + email + "&comentarios=Tipo%20de%20usuario:%20" + tipoUsuario + ",%20Canal:" + canal + "%20" + asunto + "&%7Bsendchat%7D=1\"");
+        sb.append("\n  var dir = \"http://cti.toptel.com.mx/cti/chat/?proyecto=sne&p=sne&b=LOGIND&%7Bnombre%7D=").append(firstName).append("%20&%7Bapellidos%7D=").append(lastName).append(" ").append(materno).append("%20&%7Bmail%7D=").append(email).append("&comentarios=Tipo%20de%20usuario:%20").append(tipoUsuario).append(",%20Canal:").append(canal).append("%20").append(asunto).append("&%7Bsendchat%7D=1\"");
 
         sb.append("\n  window.open(dir, \"chat\", \"width=400,height=400,location=no,menubar=no,directories=no,resizable=no,scrollbars=no,toolbar=no,status=no\");");
         sb.append("\n  //document.chat.submit();");
