@@ -196,9 +196,12 @@ public class SlideShowViewer extends org.semanticwb.promexico.base.SlideShowView
             out.println("    if(arraButon.length > 1) {");
             out.println("    for (i=0;i<arraButon.length;i=i+3){");
             out.println("       var ur = '';");
+//            out.println("       var ur = \"javascript:window.location='\" + arraButon[i + 1] + \"';\"");
             out.println("       if(arraButon[i+2] == 'true') {");
             out.println("          ur = \"target='_blank';\"");
+            //out.println("          ur = \"javascript:window.open('\" + arraButon[i + 1] + \"');\"");
             out.println("       }");
+            //out.println("       createButtons = createButtons + '<input type=\"button\" value=\"' + arraButon[i] + '\" onclick=\"' + ur + '\" >';");//+ tar
             out.println("       createButtons = createButtons + '<li><a href=\"' + arraButon[i + 1] + '\" ' + ur + '>' + arraButon[i] + '</a></li> ';");//+ tar
             out.println("    }");
             out.println("    }");
@@ -214,7 +217,7 @@ public class SlideShowViewer extends org.semanticwb.promexico.base.SlideShowView
             out.println("  }");
             out.println("</script>");
 
-            out.println("<div class=\"promx-slideshow\" id=\"promx-slideshow\">");
+            out.println("<div class=\"promx-slideshow\">");
             Random r = new Random();
             r.setSeed((new Date()).getTime());
             i = r.nextInt(rs.size());
@@ -232,11 +235,10 @@ public class SlideShowViewer extends org.semanticwb.promexico.base.SlideShowView
                     out.println("  <img id=\"crwlr_bckg\" onclick=\"javascript:pause()\" class=\"promx_crwlr_img\" src=\""+SWBPortal.getWebWorkPath()+rs.get(i).getWorkPath()+"/poster_"+rs.get(i).getId()+"_"+rs.get(i).getPoster()+"\" alt=\""+(rs.get(i).getAlt(lang)==null ? (rs.get(i).getAlt() == null ? "" : rs.get(i).getAlt()) : rs.get(i).getAlt(lang))+"\" />");
                 }
             }
-            out.println("  <a class=\"btn_slideShowLeft\" href=\"javascript:data1(randomImages.length, 'ant');\"><img onclick=\"javascript:pause()\" class=\"promx_left\" src=\""+SWBPortal.getWebWorkPath()+ "/models/" + paramRequest.getWebPage().getWebSiteId() + "/css/images/promx_left.gif" + "\" /></a>\n");
+
             out.println("  <div id=\"pics_"+getId()+"\">");
             out.println(script.toString());
             out.println("  </div>");
-            out.println("  <a class=\"btn_slideShowRight\" href=\"javascript:data1(randomImages.length, 'sig')\"><img onclick=\"javascript:pause()\" class=\"promx_left\" src=\""+SWBPortal.getWebWorkPath()+ "/models/" + paramRequest.getWebPage().getWebSiteId() + "/css/images/promx_right.gif" + "\" /></a>\n");
             out.println("  <div class=\"title\"><p id=\"pic_title\">" + (rs.get(i).getTitle(lang) == null ? (rs.get(i).getTitle() == null ? "" : rs.get(i).getTitle()) : rs.get(i).getTitle(lang)) + "</p></div>");
             out.println("  <div class=\"desc\"><p id=\"pic_desc\">" + (rs.get(i).getDescription(lang) == null ? (rs.get(i).getDescription() == null ? "" : rs.get(i).getDescription()) : rs.get(i).getDescription(lang)) + "</p></div>");
             out.println("  <ul id=\"subhome_btns\">");
@@ -244,84 +246,6 @@ public class SlideShowViewer extends org.semanticwb.promexico.base.SlideShowView
             out.println("  </ul>");
             out.println("</div>");
 
-            out.println("<script type = \"text/javascript\">");
-            out.println(" var plusDivs = 0;");
-            //out.println(" var arrPrev = new Array();");
-            out.println(" var arrNext = new Array();");
-            out.println(" function data1(noElement, button){\n");
-            out.println("  var a = document.getElementById('promx-slideshow');");
-            out.println("  var allDivs = a.getElementsByTagName(\"div\");");
-            out.println("  if(arrNext.length < 1 || plusDivs < 1) {");
-            out.println(" arrNext = new Array();");
-            out.println(" plusDivs = 0;");
-
- 
-            out.println("  var sizeImage = 0;");
-            out.println("  if(a != null){");
-            out.println("     for(var i=0; i < allDivs.length; i++){");
-            out.println("        if(allDivs[i].className == 'marquee0') {");
-            out.println("           var all3 = allDivs[i].getElementsByTagName(\"div\");");
-            out.println("           var allDivs3 = all3[0].getElementsByTagName(\"div\");");
-            out.println("           plusDivs = plusDivs + Math.abs(parseInt(allDivs3[0].style.left));");
-            out.println("           plusDivs = plusDivs + Math.abs(parseInt(allDivs3[1].style.left));");
-            out.println("           sizeImage = (plusDivs) / noElement;");
-            out.println("           sizeImage = sizeImage.toFixed(0);");
-            out.println("           var n = 0;");
-            out.println("           for(var j=noElement; j > 0; j--) {");
-            out.println("              arrNext[n] = (plusDivs - (sizeImage * (n))) * -1;");
-            out.println("              n = n + 1; ");
-            out.println("           }");
-            out.println("           arrNext[n] = 0;");
-            out.println("           n = n + 1; ");
-            out.println("           for(var j=0; j < noElement; j++) {");
-            out.println("              arrNext[n] = sizeImage * (j+1)");
-            out.println("              n = n + 1; ");
-            out.println("           }");
-            out.println("        }");
-            out.println("        break;");
-            out.println("     }");
-            out.println("  }");
-            out.println("  }");
-
-            out.println("     var leftFirstDiv=0;");
-            out.println("     var allDivs3 = new Array();");
-            out.println("     for(var i=0; i < allDivs.length; i++){");
-            out.println("        if(allDivs[i].className == 'marquee0') {");
-            out.println("           var all3 = allDivs[i].getElementsByTagName(\"div\");");
-            out.println("           allDivs3 = all3[0].getElementsByTagName(\"div\");");
-            out.println("           leftFirstDiv = parseInt(allDivs3[0].style.left);");
-            out.println("        }");
-            out.println("     }");
-
-            out.println("  if(button == 'sig') {");
-            out.println("     var i = 0; ");
-            out.println("     do{");
-            out.println("        i = i + 1;");
-            out.println("     }while(arrNext[i]<leftFirstDiv);");
-            out.println("     var n1 = arrNext[i-1];");
-            out.println("     if(n1 == -404 || n1 == -405 || n1 == -406){n1 = 0;}");
-            out.println("     allDivs3[0].style.left = n1 + 'px';");
-            out.println("     var styLeft = plusDivs - Math.abs(n1);");
-            out.println("     if(arrNext[n]>0){styLeft = styLeft*(-1);}");
-            out.println("     allDivs3[1].style.left = styLeft + 'px';");
-            out.println("  }else{ ");
-            out.println("     for(var i = 0; i<arrNext.length; i++){");
-            out.println("        if(arrNext[i] > leftFirstDiv){");
-            out.println("           n = i;");
-            out.println("           break;");
-            out.println("        }");
-            out.println("     }");
-            out.println("     var n1 = arrNext[n];");
-            out.println("     if(n1 == 404 || n1 == 405 || n1 == 406){n1 = 0;}");
-            out.println("     allDivs3[0].style.left = n1 + 'px';");
-            out.println("     var styLeft = plusDivs - Math.abs(n1);");
-            out.println("     if(arrNext[n]>0){styLeft = styLeft*(-1);}");
-            out.println("     allDivs3[1].style.left = styLeft + 'px';");
-            out.println("  }");
-
-
-            out.println(" }\n");
-            out.println("</script>");
 
             out.println("<script type=\"text/javascript\">");
             out.println("  marqueeInit({");
@@ -428,6 +352,7 @@ public class SlideShowViewer extends org.semanticwb.promexico.base.SlideShowView
         script.append(" };\n");
 
         script.append(" marqueeInit.run = function(id){\n");
+     //   script.append("   alert(id);");
         script.append("   if(ie && !marqueeInit.OK && iever < 8 && intable(document.getElementById(id))){\n");
         script.append("    marqueeInit.table.push(id);\n");
         script.append("    return;\n");
