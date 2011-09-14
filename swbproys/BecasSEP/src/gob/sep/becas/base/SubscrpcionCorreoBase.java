@@ -7,6 +7,7 @@ package gob.sep.becas.base;
 public abstract class SubscrpcionCorreoBase extends org.semanticwb.model.SWBClass 
 {
     public static final org.semanticwb.platform.SemanticProperty becas_subCMail=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#subCMail");
+    public static final org.semanticwb.platform.SemanticProperty becas_subActivo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#subActivo");
     public static final org.semanticwb.platform.SemanticClass becas_Estado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#Estado");
     public static final org.semanticwb.platform.SemanticProperty becas_subEstado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#subEstado");
     public static final org.semanticwb.platform.SemanticClass becas_NivelEstudio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#NivelEstudio");
@@ -242,6 +243,24 @@ public abstract class SubscrpcionCorreoBase extends org.semanticwb.model.SWBClas
     public void setEMail(String value)
     {
         getSemanticObject().setProperty(becas_subCMail, value);
+    }
+
+/**
+* Gets the SubActivo property
+* @return boolean with the SubActivo
+*/
+    public boolean isSubActivo()
+    {
+        return getSemanticObject().getBooleanProperty(becas_subActivo);
+    }
+
+/**
+* Sets the SubActivo property
+* @param value long with the SubActivo
+*/
+    public void setSubActivo(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(becas_subActivo, value);
     }
    /**
    * Sets the value for the property SubEstado
