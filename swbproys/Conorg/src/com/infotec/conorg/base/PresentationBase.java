@@ -1,8 +1,9 @@
 package com.infotec.conorg.base;
 
 
-public abstract class PresentationBase extends com.infotec.conorg.Document implements org.semanticwb.model.Calendarable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Traceable
+public abstract class PresentationBase extends com.infotec.conorg.Document implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Calendarable,org.semanticwb.model.Traceable
 {
+    public static final org.semanticwb.platform.SemanticProperty conorg_presentationVersion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#presentationVersion");
     public static final org.semanticwb.platform.SemanticClass conorg_Presentation=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#Presentation");
    /**
    * The semantic class that represents the currentObject
@@ -125,6 +126,52 @@ public abstract class PresentationBase extends com.infotec.conorg.Document imple
             return it;
         }
        /**
+       * Gets all com.infotec.conorg.Presentation with a determined Editors
+       * @param value Editors of the type com.infotec.conorg.Editors
+       * @param model Model of the com.infotec.conorg.Presentation
+       * @return Iterator with all the com.infotec.conorg.Presentation
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Presentation> listPresentationByEditors(com.infotec.conorg.Editors value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Presentation> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(conorg_hasEditors, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Presentation with a determined Editors
+       * @param value Editors of the type com.infotec.conorg.Editors
+       * @return Iterator with all the com.infotec.conorg.Presentation
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Presentation> listPresentationByEditors(com.infotec.conorg.Editors value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Presentation> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(conorg_hasEditors,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Presentation with a determined Author
+       * @param value Author of the type com.infotec.conorg.Author
+       * @param model Model of the com.infotec.conorg.Presentation
+       * @return Iterator with all the com.infotec.conorg.Presentation
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Presentation> listPresentationByAuthor(com.infotec.conorg.Author value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Presentation> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(conorg_hasAuthor, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Presentation with a determined Author
+       * @param value Author of the type com.infotec.conorg.Author
+       * @return Iterator with all the com.infotec.conorg.Presentation
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Presentation> listPresentationByAuthor(com.infotec.conorg.Author value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Presentation> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(conorg_hasAuthor,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all com.infotec.conorg.Presentation with a determined Calendar
        * @param value Calendar of the type org.semanticwb.model.Calendar
        * @param model Model of the com.infotec.conorg.Presentation
@@ -179,5 +226,23 @@ public abstract class PresentationBase extends com.infotec.conorg.Document imple
     public PresentationBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+/**
+* Gets the PresentationVersion property
+* @return String with the PresentationVersion
+*/
+    public String getPresentationVersion()
+    {
+        return getSemanticObject().getProperty(conorg_presentationVersion);
+    }
+
+/**
+* Sets the PresentationVersion property
+* @param value long with the PresentationVersion
+*/
+    public void setPresentationVersion(String value)
+    {
+        getSemanticObject().setProperty(conorg_presentationVersion, value);
     }
 }

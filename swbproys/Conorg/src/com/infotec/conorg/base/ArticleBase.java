@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class ArticleBase extends com.infotec.conorg.Document implements org.semanticwb.model.Calendarable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Traceable
+public abstract class ArticleBase extends com.infotec.conorg.Document implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Calendarable,org.semanticwb.model.Traceable
 {
     public static final org.semanticwb.platform.SemanticProperty conorg_articleISSN=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#articleISSN");
     public static final org.semanticwb.platform.SemanticProperty conorg_articleNumber=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#articleNumber");
@@ -127,6 +127,52 @@ public abstract class ArticleBase extends com.infotec.conorg.Document implements
         public static java.util.Iterator<com.infotec.conorg.Article> listArticleByTopic(com.infotec.conorg.Topic value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.conorg.Article> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(conorg_hasTopic,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Article with a determined Editors
+       * @param value Editors of the type com.infotec.conorg.Editors
+       * @param model Model of the com.infotec.conorg.Article
+       * @return Iterator with all the com.infotec.conorg.Article
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Article> listArticleByEditors(com.infotec.conorg.Editors value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Article> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(conorg_hasEditors, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Article with a determined Editors
+       * @param value Editors of the type com.infotec.conorg.Editors
+       * @return Iterator with all the com.infotec.conorg.Article
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Article> listArticleByEditors(com.infotec.conorg.Editors value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Article> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(conorg_hasEditors,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Article with a determined Author
+       * @param value Author of the type com.infotec.conorg.Author
+       * @param model Model of the com.infotec.conorg.Article
+       * @return Iterator with all the com.infotec.conorg.Article
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Article> listArticleByAuthor(com.infotec.conorg.Author value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Article> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(conorg_hasAuthor, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Article with a determined Author
+       * @param value Author of the type com.infotec.conorg.Author
+       * @return Iterator with all the com.infotec.conorg.Article
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Article> listArticleByAuthor(com.infotec.conorg.Author value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Article> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(conorg_hasAuthor,value.getSemanticObject(),sclass));
             return it;
         }
        /**

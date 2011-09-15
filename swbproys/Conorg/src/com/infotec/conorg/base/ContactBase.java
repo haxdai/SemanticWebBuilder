@@ -1,9 +1,8 @@
 package com.infotec.conorg.base;
 
 
-public abstract class ContactBase extends com.infotec.conorg.Tile implements org.semanticwb.model.Calendarable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Traceable
+public abstract class ContactBase extends com.infotec.conorg.Tile implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Calendarable,org.semanticwb.model.Traceable
 {
-    public static final org.semanticwb.platform.SemanticProperty conorg_contactTwitter=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#contactTwitter");
     public static final org.semanticwb.platform.SemanticProperty conorg_contactOfficePhone=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#contactOfficePhone");
     public static final org.semanticwb.platform.SemanticProperty conorg_contactExperienceArea=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#contactExperienceArea");
     public static final org.semanticwb.platform.SemanticProperty conorg_contactHomePhone=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#contactHomePhone");
@@ -17,6 +16,7 @@ public abstract class ContactBase extends com.infotec.conorg.Tile implements org
     public static final org.semanticwb.platform.SemanticProperty conorg_contactFirstName=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#contactFirstName");
     public static final org.semanticwb.platform.SemanticProperty conorg_contactOrganizationArea=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#contactOrganizationArea");
     public static final org.semanticwb.platform.SemanticProperty conorg_contactURL=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#contactURL");
+    public static final org.semanticwb.platform.SemanticProperty conorg_contactSocialNetworkId=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#contactSocialNetworkId");
     public static final org.semanticwb.platform.SemanticClass conorg_Contact=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#Contact");
    /**
    * The semantic class that represents the currentObject
@@ -193,24 +193,6 @@ public abstract class ContactBase extends com.infotec.conorg.Tile implements org
     public ContactBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
-    }
-
-/**
-* Gets the ContactTwitter property
-* @return String with the ContactTwitter
-*/
-    public String getContactTwitter()
-    {
-        return getSemanticObject().getProperty(conorg_contactTwitter);
-    }
-
-/**
-* Sets the ContactTwitter property
-* @param value long with the ContactTwitter
-*/
-    public void setContactTwitter(String value)
-    {
-        getSemanticObject().setProperty(conorg_contactTwitter, value);
     }
 
 /**
@@ -445,5 +427,23 @@ public abstract class ContactBase extends com.infotec.conorg.Tile implements org
     public void setContactURL(String value)
     {
         getSemanticObject().setProperty(conorg_contactURL, value);
+    }
+
+/**
+* Gets the ContactSocialNetworkId property
+* @return String with the ContactSocialNetworkId
+*/
+    public String getContactSocialNetworkId()
+    {
+        return getSemanticObject().getProperty(conorg_contactSocialNetworkId);
+    }
+
+/**
+* Sets the ContactSocialNetworkId property
+* @param value long with the ContactSocialNetworkId
+*/
+    public void setContactSocialNetworkId(String value)
+    {
+        getSemanticObject().setProperty(conorg_contactSocialNetworkId, value);
     }
 }
