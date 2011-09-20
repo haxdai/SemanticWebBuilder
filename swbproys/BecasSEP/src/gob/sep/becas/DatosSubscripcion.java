@@ -64,17 +64,7 @@ public class DatosSubscripcion extends GenericResource {
         "  </p>\n"+
         "<div style=\"clear:both\">&nbsp;</div>"+
         "</div>\n"+
-      "<h3>Informaci&oacute;n del Usuario</h3>\n"+
-        "<div id=\"tipodetelefono\">\n"+
-        "  <p class=\"popText\">¿Cuál es tu género?</p>\n"+
-        "  <p>\n"+
-        "    <input type=\"radio\" name=\"genero\" id=\"genero\" value=\"M\" class=\"radioB\" />\n"+
-        "    <label for=\"genero\">Mujer</label>\n"+
-        "    <input type=\"radio\" name=\"genero\" id=\"genero\" value=\"F\" class=\"radioB\" />\n"+
-        "    <label for=\"genero\">Hombre</label>\n"+
-        "  </p>\n"+
-        "<div style=\"clear:both\">&nbsp;</div>"+
-        "</div>\n"+
+      "<h3>Perfil del Usuario</h3>\n"+
         "<div id=\"edad\">\n"+
         "  <p>\n"+
         "    <label for=\"edad\">¿Cuántos años tienes?</label>\n"+
@@ -93,21 +83,31 @@ public class DatosSubscripcion extends GenericResource {
         "  </p>\n"+
         "<div style=\"clear:both\">&nbsp;</div>"+
         "</div>\n"+              
+        "<div id=\"tipodetelefono\">\n"+
+        "  <p class=\"popText\">¿Cuál es tu género?</p>\n"+
+        "  <p>\n"+
+        "    <input type=\"radio\" name=\"genero\" id=\"genero\" value=\"M\" class=\"radioB\" />\n"+
+        "    <label for=\"genero\">Mujer</label>\n"+
+        "    <input type=\"radio\" name=\"genero\" id=\"genero\" value=\"F\" class=\"radioB\" />\n"+
+        "    <label for=\"genero\">Hombre</label>\n"+
+        "  </p>\n"+
+        "<div style=\"clear:both\">&nbsp;</div>"+
+        "</div>\n"+
         "<div id=\"estado\">\n"+
         "  <p>\n"+
-        "    <label for=\"estado\">Entidad Federativa</label>\n"+
+        "    <label for=\"estado\">¿En qué estado vives?</label>\n"+
         "{$estado}"+
         "  </p>\n"+
         "<div style=\"clear:both\">&nbsp;</div>"+
         "</div>\n"+
         "<div id=\"municipioDel\">\n"+
         "  <p>\n"+
-        "    <label for=\"municipio\">Municipio o delegaci&oacute;n</label>\n"+
+        "    <label for=\"municipio\">¿En qué municipio o delegaci&oacute;n vives?</label>\n"+
         "<div id=\"MunChg\"><select name=\"municipio\" size=\"1\" class=\"inputPop\" id=\"municipio\" >{$currMun}</select></div>\n"+
         "  </p>\n"+
         "<div style=\"clear:both\">&nbsp;</div>"+
         "</div>\n"+
-        "  <label for=\"mail\" class=\"obligatorio\">¿A qué correo te podemos enviar la información?*</label>\n"+
+        "  <label for=\"mail\" class=\"obligatorio\">* Si deseas recibir información de las becas que se publiquen en este portal déjanos tu correo electrónico</label>\n"+
         "  <input type=\"text\" name=\"mail\" id=\"mail\" class=\"inputPop\" onchange=\" if (!isValidEmail(this.value))"+
         " alert ('El correo electrónico no es válido o ya fue registrado por otro usuario. Verifica que contenga \"@\" o ingresa una nueva dirección de correo electrónico.');\"/>\n"+
         "</p>\n"+
