@@ -140,7 +140,7 @@ public class SlideShowViewer extends org.semanticwb.promexico.base.SlideShowView
             out.println("      tiempo=window.setTimeout('bajaOpacidad()',segundos*1200);");
             out.println("   }");
             out.println("   var iex = navigator.appName==\"Microsoft Internet Explorer\" ? true : false;");
-            out.println("   var fi = iex?'filters.alpha.opacity=40':'style.MozOpacity';");
+          //  out.println("   var fi = iex?'filters.alpha.opacity=40':'style.MozOpacity';");
             out.println("   var opa = iex ? 100 : 1;");
             out.println("   function bajaOpacidad() {");
             out.println("      if(!isClick) {");
@@ -166,11 +166,12 @@ public class SlideShowViewer extends org.semanticwb.promexico.base.SlideShowView
             out.println("   }");
             out.println("   function cambia() {");
             out.println("      if(!isClick) {");
-            out.println("         var el = document.getElementById('crwlr_bckg')");
+            out.println("         var el = document.getElementById('crwlr_bckg');");
             out.println("         if(navigator.userAgent.match('MSIE')) {");
-            out.println("            el.style.filter='alpha(opacity='+opa+')'");
+            out.println("            el.style.filter='alpha(opacity='+opa+');'");
             out.println("         } else {");
-            out.println("            eval('document.crwlr_bckg.' + fi + ' = opa');");
+            out.println("            var el = document.getElementById('crwlr_bckg');");
+            out.println("            el.style.MozOpacity = opa;");
             out.println("         }");
             out.println("      }");
             out.println("   }");
