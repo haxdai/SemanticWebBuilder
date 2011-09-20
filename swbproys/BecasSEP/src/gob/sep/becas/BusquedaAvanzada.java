@@ -33,9 +33,9 @@ public class BusquedaAvanzada extends GenericResource {
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         SWBResourceURL searchUrl = paramRequest.getRenderUrl().setMode("search");
         response.setContentType("text/html");
-        Iterator<Institucion> insts = Institucion.ClassMgr.listInstitucions();
-        Iterator<NivelEstudio> nivelEst = NivelEstudio.ClassMgr.listNivelEstudios();
-        Iterator<Genero> genero = Genero.ClassMgr.listGeneros();
+        Iterator<Institucion> insts = Institucion.ClassMgr.listInstitucions(paramRequest.getWebPage().getWebSite());
+        Iterator<NivelEstudio> nivelEst = NivelEstudio.ClassMgr.listNivelEstudios(paramRequest.getWebPage().getWebSite());
+        Iterator<Genero> genero = Genero.ClassMgr.listGeneros(paramRequest.getWebPage().getWebSite());
 
         PrintWriter out = response.getWriter();
         StringBuilder busquedaAva = new StringBuilder();
@@ -80,7 +80,7 @@ public class BusquedaAvanzada extends GenericResource {
         Genero gener = Genero.ClassMgr.getGenero(generc, paramRequest.getWebPage().getWebSite());
 
 
-        System.out.println("Institucion " + institucion + " Nivel educativo " + nEstudios + " Genero " + generc);
+//        System.out.println("Institucion " + institucion + " Nivel educativo " + nEstudios + " Genero " + generc);
         StringBuilder resultadoBusqueda = new StringBuilder();
         resultadoBusqueda.append("<div class=\"busquedaAvan\">");
         /*
@@ -99,17 +99,17 @@ public class BusquedaAvanzada extends GenericResource {
                 + "?z rdf:type becas:BecasContent.";
 
         if (insti != null) {
-            queryString += "?z becas:bcInstitucion <http://www.demo.swb#becas_Institucion:" + insti.getId() + ">.";
+            queryString += "?z becas:bcInstitucion <" + insti.getURI() + ">.";
         }
         if (nivelEsts != null) {
-            queryString += "?z becas:bcNivelEstudios <http://www.demo.swb#becas_NivelEstudio:" + insti.getId() + ">.";
+            queryString += "?z becas:bcNivelEstudios <" + nivelEsts.getURI() + ">.";
         }
         if (gener != null) {
-            queryString += "?z becas:bcGenero <http://www.demo.swb#becas_Genero:" + insti.getId() + ">.";
+            queryString += "?z becas:bcGenero <" + gener.getURI() + ">";
         }
         queryString += "}";
         Query query = QueryFactory.create(queryString);
-
+//        System.out.println("\n  Query: "+queryString+"\n\n");
         QueryExecution qexec = QueryExecutionFactory.create(query, paramRequest.getWebPage().getSemanticObject().getModel().getRDFModel());
         resultadoBusqueda.append("<ul>");
         try {
@@ -121,14 +121,13 @@ public class BusquedaAvanzada extends GenericResource {
                 QuerySolution rb = rs.nextSolution();
                 String current = rb.get("x").toString();//WebPage
                 WebPage wp = (WebPage) paramRequest.getWebPage().getWebSite().getSemanticModel().getGenericObject(current);
-
                 resultadoBusqueda.append("<li>").append("<a href=\"").append(wp.getRealUrl()).append("\">").append(wp.getTitle()).append("</a>").append("</li>");
-                System.out.println("Titulo de la consulta " + wp.getTitle() + " URL:" + wp.getRealUrl());
+//                System.out.println("Titulo de la consulta " + wp.getTitle() + " URL:" + wp.getRealUrl());
                 wp.getRealUrl();//Url más completo
             }
             resultadoBusqueda.append("</ul>");
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("do Search", e);
         } finally {
             qexec.close();
         }
