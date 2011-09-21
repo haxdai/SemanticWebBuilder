@@ -64,7 +64,7 @@ public class DatosSubscripcion extends GenericResource {
         "  </p>\n"+
         "<div style=\"clear:both\">&nbsp;</div>"+
         "</div>\n"+
-      "<h3>Perfil del Usuario</h3>\n"+
+      "<h3>Ayúdanos a conocerte</h3>\n"+
         "<div id=\"edad\">\n"+
         "  <p>\n"+
         "    <label for=\"edad\">¿Cuántos años tienes?</label>\n"+
@@ -113,7 +113,6 @@ public class DatosSubscripcion extends GenericResource {
         "</p>\n"+
         "<span>\n"+
         "<p>Verificaci&oacute;n de Palabras</p>\n"+
-        "<p>&nbsp;</p>\n"+
         "<p>Escribe los caracteres que veas en la siguiente imagen *</p>\n"+
         "</span>\n"+
         "<p><img  src=\""+SWBPlatform.getContextPath()+"/frmprocess/requestCaptcha\" alt=\"captcha\" id=\"captchaimg\" />\n"+
