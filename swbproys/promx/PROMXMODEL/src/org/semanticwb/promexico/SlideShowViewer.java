@@ -502,8 +502,8 @@ public class SlideShowViewer extends org.semanticwb.promexico.base.SlideShowView
         script.append("  tag.className = ['marquee', c].join('');\n");
         script.append("  tag.style.overflow = 'hidden';\n");
         script.append("tag.style.position = 'relative';\n");
-        script.append("tag.style.left = '-168px';\n");//-18
-        script.append("tag.style.top = '-118px';\n");
+        script.append("tag.style.left = '-328px';\n");//-18,-168, -258
+        script.append("tag.style.top = '-98px';\n");//-118
         script.append("  this.c = tag.firstChild;\n");
         script.append("  this.c.appendChild(this.c.cloneNode(false));\n");
         script.append("  this.c.style.visibility = 'hidden';\n");
