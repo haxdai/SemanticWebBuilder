@@ -39,7 +39,7 @@ public class BusquedaAvanzada extends GenericResource {
 
         PrintWriter out = response.getWriter();
         StringBuilder busquedaAva = new StringBuilder();
-        busquedaAva.append("<form method=\"post\" action=\"" + searchUrl + "\"><p><label for=\"institucion\">Institución:</label>").append("<select name=\"institucion\" size=\"1\" class=\"inputPop\" id=\"institucion\"/>").append("<option value=\"0\"></option>");
+        busquedaAva.append("<form method=\"post\" action=\"" + searchUrl + "\" class=\"avanzada\"><p><label for=\"institucion\">Institución:</label>").append("<select name=\"institucion\" size=\"1\" class=\"inputPop\" id=\"institucion\"/>").append("<option value=\"0\"></option>");
         while (insts.hasNext()) {
             Institucion inst = insts.next();
             //System.out.println("ID:" + inst.getId() + " Titulo:" + inst.getTitle());
