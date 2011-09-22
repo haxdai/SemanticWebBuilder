@@ -3,7 +3,11 @@ package com.infotec.eworkplace.swb.resources;
 import com.infotec.eworkplace.swb.search.Search;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
@@ -29,6 +33,7 @@ import org.semanticwb.portal.resources.sem.favoriteWebPages.SWBFavoriteWebPagesR
 
 public class RelatedPages extends GenericAdmResource {
     private static Logger log = SWBUtils.getLogger(RelatedPages.class);
+    public static final int MX_DSPLY = 5;
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramsRequest) throws SWBResourceException, IOException {
@@ -49,48 +54,46 @@ public class RelatedPages extends GenericAdmResource {
         GenericParser parser;
         Search search = new Search();
         String lang = user.getLanguage();
-
-        Iterator<WebPage> webPages = SWBFavoriteWebPagesResource.getFavWebPages(user, wsite).iterator();
-        while(webPages.hasNext()) {
-            WebPage p = webPages.next();
+        
+        HashSet<Searchable> pages = new HashSet<Searchable>();
+        List<WebPage> webPages = SWBFavoriteWebPagesResource.getFavorites(user, wsite);
+        for(int i=0; i<webPages.size() && pages.size()<=MX_DSPLY; i++) {
+            WebPage p = webPages.get(i);
             if(p!=null && p.getTags()!=null && p.isValid() && user.haveAccess(p)) {
-                String[] tags = p.getTags().split(",");           
-                for(String t:tags) {
-                    refs = search.x(wsite, t.trim(), user);
+                String[] tags = p.getTags().split(",");
+                if(tags.length>0) {
+                    Random r = new Random((new Date()).getTime());
+                    int j = r.nextInt(tags.length); 
+                    refs = search.x(wsite, tags[j].trim(), user);
                     if(refs!=null && refs.length>0) {
-                        //StringBuilder htm = new StringBuilder();
                         for(Searchable srch:refs) {
+                            if(srch==null)
+                                continue;
                             if(!(srch instanceof WebPage))
                                 continue;
                             if(srch.equals(p))
                                 continue;
-                            parser = indexer.getParser(srch);
-                            htm.append("<li><a href=\""+parser.getUrl(srch)+"\" title=\"Ir a la referencia\">"+parser.getTitle(srch, lang)+"</a></li>");
+                            pages.add(srch);
+                            //parser = indexer.getParser(srch);
+                            //htm.append("<li><a href=\""+parser.getUrl(srch)+"\" title=\"Ir a la referencia\">"+parser.getTitle(srch, lang)+"</a></li>");
+                            break;
                         }            
-                        //out.println(htm.toString());
                     }
                 }
             }
         }
-        out.println(htm.toString());
-//        refs = search.x(wsite, "un token", user);
-//        /*out.println("<div class=\"user_rel envolvente\">");
-//        out.println("  <p class=\"title\">Esto puede interesarte:</p>");
-//        out.println("  <ul>");*/
-//        if(refs!=null && refs.length>0) {
-//            StringBuilder htm = new StringBuilder();
-//            for(Searchable srch:refs) {
-//                if(srch.equals(wp))
-//                    continue;
-//                parser = indexer.getParser(srch);
-//                htm.append("<li><a href=\""+parser.getUrl(srch)+"\" title=\"Ir a la referencia\">"+parser.getTitle(srch, lang)+"</a></li>");
-//            }            
-//            out.println(htm.toString());
-//        }else {
-//            out.println("<li><a href=\"#\">Sin referencias</a></li>");
-//        }
-//        /*out.println("  </ul>");
-//        out.println("</div>");*/
-        
+        Iterator<Searchable> it = pages.iterator();
+        while(it.hasNext()) {
+            Searchable srch = it.next();
+            parser = indexer.getParser(srch);
+            out.println("<li><a href=\""+parser.getUrl(srch)+"\" title=\"Ir a la referencia\">");
+            try {
+                out.println(parser.getTitle(srch, lang).substring(0,80));
+            }catch(IndexOutOfBoundsException iobe) {
+                out.println(parser.getTitle(srch, lang));
+            }
+            out.println("</a></li>"); 
+        }
+        //out.println(htm.toString());
     }
 }
