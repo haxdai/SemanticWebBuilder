@@ -17,9 +17,9 @@
     static final int MX_DSPLY = 5;
 %>
 <%
-/*Iterator<SWBFavoriteWebPage> it = SWBFavoriteWebPage.ClassMgr.listSWBFavoriteWebPages(paramRequest.getWebPage().getWebSite());
-while(it.hasNext()) {
-    it.next().remove();
+/*Iterator<SWBFavoriteWebPage> it_ = SWBFavoriteWebPage.ClassMgr.listSWBFavoriteWebPages(paramRequest.getWebPage().getWebSite());
+while(it_.hasNext()) {
+    it_.next().remove();
 }*/
     ArrayList<WebPage> pages = (ArrayList<WebPage>) request.getAttribute("pages");
     if(pages.isEmpty()) {
