@@ -10,10 +10,10 @@ public abstract class SubscrpcionCorreoBase extends org.semanticwb.model.SWBClas
     public static final org.semanticwb.platform.SemanticProperty becas_subActivo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#subActivo");
     public static final org.semanticwb.platform.SemanticClass becas_Estado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#Estado");
     public static final org.semanticwb.platform.SemanticProperty becas_subEstado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#subEstado");
-    public static final org.semanticwb.platform.SemanticClass becas_NivelEstudio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#NivelEstudio");
-    public static final org.semanticwb.platform.SemanticProperty becas_subCNivelEdu=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#subCNivelEdu");
     public static final org.semanticwb.platform.SemanticClass becas_Municipio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#Municipio");
     public static final org.semanticwb.platform.SemanticProperty becas_subMunicipio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#subMunicipio");
+    public static final org.semanticwb.platform.SemanticClass becas_NivelEstudio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#NivelEstudio");
+    public static final org.semanticwb.platform.SemanticProperty becas_hassubCNivelEdu=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#hassubCNivelEdu");
    /**
    * Catalogo de paises
    */
@@ -125,29 +125,6 @@ public abstract class SubscrpcionCorreoBase extends org.semanticwb.model.SWBClas
             return it;
         }
        /**
-       * Gets all gob.sep.becas.SubscrpcionCorreo with a determined NivelEducativo
-       * @param value NivelEducativo of the type gob.sep.becas.NivelEstudio
-       * @param model Model of the gob.sep.becas.SubscrpcionCorreo
-       * @return Iterator with all the gob.sep.becas.SubscrpcionCorreo
-       */
-
-        public static java.util.Iterator<gob.sep.becas.SubscrpcionCorreo> listSubscrpcionCorreoByNivelEducativo(gob.sep.becas.NivelEstudio value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<gob.sep.becas.SubscrpcionCorreo> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(becas_subCNivelEdu, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all gob.sep.becas.SubscrpcionCorreo with a determined NivelEducativo
-       * @param value NivelEducativo of the type gob.sep.becas.NivelEstudio
-       * @return Iterator with all the gob.sep.becas.SubscrpcionCorreo
-       */
-
-        public static java.util.Iterator<gob.sep.becas.SubscrpcionCorreo> listSubscrpcionCorreoByNivelEducativo(gob.sep.becas.NivelEstudio value)
-        {
-            org.semanticwb.model.GenericIterator<gob.sep.becas.SubscrpcionCorreo> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(becas_subCNivelEdu,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all gob.sep.becas.SubscrpcionCorreo with a determined SubMunicipio
        * @param value SubMunicipio of the type gob.sep.becas.Municipio
        * @param model Model of the gob.sep.becas.SubscrpcionCorreo
@@ -168,6 +145,29 @@ public abstract class SubscrpcionCorreoBase extends org.semanticwb.model.SWBClas
         public static java.util.Iterator<gob.sep.becas.SubscrpcionCorreo> listSubscrpcionCorreoBySubMunicipio(gob.sep.becas.Municipio value)
         {
             org.semanticwb.model.GenericIterator<gob.sep.becas.SubscrpcionCorreo> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(becas_subMunicipio,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all gob.sep.becas.SubscrpcionCorreo with a determined NivelEducativo
+       * @param value NivelEducativo of the type gob.sep.becas.NivelEstudio
+       * @param model Model of the gob.sep.becas.SubscrpcionCorreo
+       * @return Iterator with all the gob.sep.becas.SubscrpcionCorreo
+       */
+
+        public static java.util.Iterator<gob.sep.becas.SubscrpcionCorreo> listSubscrpcionCorreoByNivelEducativo(gob.sep.becas.NivelEstudio value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<gob.sep.becas.SubscrpcionCorreo> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(becas_hassubCNivelEdu, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all gob.sep.becas.SubscrpcionCorreo with a determined NivelEducativo
+       * @param value NivelEducativo of the type gob.sep.becas.NivelEstudio
+       * @return Iterator with all the gob.sep.becas.SubscrpcionCorreo
+       */
+
+        public static java.util.Iterator<gob.sep.becas.SubscrpcionCorreo> listSubscrpcionCorreoByNivelEducativo(gob.sep.becas.NivelEstudio value)
+        {
+            org.semanticwb.model.GenericIterator<gob.sep.becas.SubscrpcionCorreo> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(becas_hassubCNivelEdu,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -301,44 +301,6 @@ public abstract class SubscrpcionCorreoBase extends org.semanticwb.model.SWBClas
          return ret;
     }
    /**
-   * Sets the value for the property NivelEducativo
-   * @param value NivelEducativo to set
-   */
-
-    public void setNivelEducativo(gob.sep.becas.NivelEstudio value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(becas_subCNivelEdu, value.getSemanticObject());
-        }else
-        {
-            removeNivelEducativo();
-        }
-    }
-   /**
-   * Remove the value for NivelEducativo property
-   */
-
-    public void removeNivelEducativo()
-    {
-        getSemanticObject().removeProperty(becas_subCNivelEdu);
-    }
-
-   /**
-   * Gets the NivelEducativo
-   * @return a gob.sep.becas.NivelEstudio
-   */
-    public gob.sep.becas.NivelEstudio getNivelEducativo()
-    {
-         gob.sep.becas.NivelEstudio ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(becas_subCNivelEdu);
-         if(obj!=null)
-         {
-             ret=(gob.sep.becas.NivelEstudio)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
    * Sets the value for the property SubMunicipio
    * @param value SubMunicipio to set
    */
@@ -373,6 +335,44 @@ public abstract class SubscrpcionCorreoBase extends org.semanticwb.model.SWBClas
          if(obj!=null)
          {
              ret=(gob.sep.becas.Municipio)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Sets the value for the property NivelEducativo
+   * @param value NivelEducativo to set
+   */
+
+    public void setNivelEducativo(gob.sep.becas.NivelEstudio value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(becas_hassubCNivelEdu, value.getSemanticObject());
+        }else
+        {
+            removeNivelEducativo();
+        }
+    }
+   /**
+   * Remove the value for NivelEducativo property
+   */
+
+    public void removeNivelEducativo()
+    {
+        getSemanticObject().removeProperty(becas_hassubCNivelEdu);
+    }
+
+   /**
+   * Gets the NivelEducativo
+   * @return a gob.sep.becas.NivelEstudio
+   */
+    public gob.sep.becas.NivelEstudio getNivelEducativo()
+    {
+         gob.sep.becas.NivelEstudio ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(becas_hassubCNivelEdu);
+         if(obj!=null)
+         {
+             ret=(gob.sep.becas.NivelEstudio)obj.createGenericInstance();
          }
          return ret;
     }
