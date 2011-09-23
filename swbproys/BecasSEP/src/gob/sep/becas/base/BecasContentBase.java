@@ -1,7 +1,7 @@
 package gob.sep.becas.base;
 
 
-public abstract class BecasContentBase extends org.semanticwb.portal.resources.sem.HTMLContent implements org.semanticwb.model.ResourceVersionable,org.semanticwb.model.Versionable
+public abstract class BecasContentBase extends org.semanticwb.portal.resources.sem.HTMLContent implements org.semanticwb.model.Versionable,org.semanticwb.model.ResourceVersionable
 {
     public static final org.semanticwb.platform.SemanticProperty becas_bcFechaFinConvocatoria=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/sep/becas.owl#bcFechaFinConvocatoria");
     public static final org.semanticwb.platform.SemanticClass swb_VersionInfo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#VersionInfo");
