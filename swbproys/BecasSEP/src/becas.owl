@@ -78,10 +78,10 @@
     <rdfs:label xml:lang="es">Nivel de estudios Actual</rdfs:label>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="hassubCNivelEdu">
+    <swb:propertyCodeName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >hasNivelEducativo</swb:propertyCodeName>
     <rdfs:domain rdf:resource="#SubscrpcionCorreo"/>
     <rdfs:range rdf:resource="#NivelEstudio"/>
-    <swb:propertyCodeName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >NivelEducativo</swb:propertyCodeName>
     <rdfs:label>Nivel Educativo</rdfs:label>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="subCountry">

@@ -339,27 +339,54 @@ public abstract class SubscrpcionCorreoBase extends org.semanticwb.model.SWBClas
          return ret;
     }
    /**
-   * Sets the value for the property NivelEducativo
-   * @param value NivelEducativo to set
+   * Gets all the gob.sep.becas.NivelEstudio
+   * @return A GenericIterator with all the gob.sep.becas.NivelEstudio
    */
 
-    public void setNivelEducativo(gob.sep.becas.NivelEstudio value)
+    public org.semanticwb.model.GenericIterator<gob.sep.becas.NivelEstudio> listNivelEducativos()
     {
+        return new org.semanticwb.model.GenericIterator<gob.sep.becas.NivelEstudio>(getSemanticObject().listObjectProperties(becas_hassubCNivelEdu));
+    }
+
+   /**
+   * Gets true if has a NivelEducativo
+   * @param value gob.sep.becas.NivelEstudio to verify
+   * @return true if the gob.sep.becas.NivelEstudio exists, false otherwise
+   */
+    public boolean hasNivelEducativo(gob.sep.becas.NivelEstudio value)
+    {
+        boolean ret=false;
         if(value!=null)
         {
-            getSemanticObject().setObjectProperty(becas_hassubCNivelEdu, value.getSemanticObject());
-        }else
-        {
-            removeNivelEducativo();
+           ret=getSemanticObject().hasObjectProperty(becas_hassubCNivelEdu,value.getSemanticObject());
         }
+        return ret;
     }
    /**
-   * Remove the value for NivelEducativo property
+   * Adds a NivelEducativo
+   * @param value gob.sep.becas.NivelEstudio to add
    */
 
-    public void removeNivelEducativo()
+    public void addNivelEducativo(gob.sep.becas.NivelEstudio value)
+    {
+        getSemanticObject().addObjectProperty(becas_hassubCNivelEdu, value.getSemanticObject());
+    }
+   /**
+   * Removes all the NivelEducativo
+   */
+
+    public void removeAllNivelEducativo()
     {
         getSemanticObject().removeProperty(becas_hassubCNivelEdu);
+    }
+   /**
+   * Removes a NivelEducativo
+   * @param value gob.sep.becas.NivelEstudio to remove
+   */
+
+    public void removeNivelEducativo(gob.sep.becas.NivelEstudio value)
+    {
+        getSemanticObject().removeObjectProperty(becas_hassubCNivelEdu,value.getSemanticObject());
     }
 
    /**
