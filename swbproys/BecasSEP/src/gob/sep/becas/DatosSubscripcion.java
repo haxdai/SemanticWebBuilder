@@ -42,9 +42,23 @@ public class DatosSubscripcion extends GenericResource {
 //            "var tmp = getHtmlByTag('{$urlMun}'+valor, munele, false, true);" +
 //            "alert(tmp);"+
             "}\n"+
+            "function habilitar(form, b){\n"+
+            "if (b == 'MX' || b=='mx'){ \n"+
+            "form.estado.disabled = false; \n"+
+            "form.municipio.disabled = false; \n"+
+            "}\n"+
+           "else \n"+
+            "{\n"+
+            "form.estado.disabled = true; \n"+
+            "form.municipio.disabled = true; \n"+
+            "   }\n"+
+            "}\n"+
             "</script>"+
-        "<script type=\"text/javascript\" src=\""+SWBPortal.getContextPath()+"/swbadmin/js/swb.js\" ></script><form id=\"formaRegistro\" name=\"formaRegistro\" method=\"post\" action=\"{$actionURL}\">"
-        + "<link type=\"text/css\" rel=\"stylesheet\" href=\""+SWBPortal.getContextPath()+"/work/models/Beca_SEP/CSS/estilos_lightBox.css\" />\n"+ // /work/estilos_lightBox.css
+        "<script type=\"text/javascript\" src=\""+SWBPortal.getContextPath()+"/work/models/Beca_SEP/js/mootools.js\"></script>\n"+
+        "<script type=\"text/javascript\" src=\""+SWBPortal.getContextPath()+"/work/models/Beca_SEP/js/moodalbox.js\"></script> \n"+
+        "<script type=\"text/javascript\" src=\""+SWBPortal.getContextPath()+"/swbadmin/js/swb.js\" ></script><form id=\"formaRegistro\" name=\"formaRegistro\" method=\"post\" action=\"{$actionURL}\">"+
+        "<link type=\"text/css\" rel=\"stylesheet\" href=\""+SWBPortal.getContextPath()+"/work/models/Beca_SEP/CSS/estilos_lightBox.css\" />\n"+ // /work/estilos_lightBox.css
+        "<link media=\"screen\" type=\"text/css\" rel=\"stylesheet\" href=\""+SWBPortal.getContextPath()+"/work/models/Beca_SEP/CSS/moodalbox.css\" />\n"+
         "<h3>Recibir Información</h3>\n"+
         "<p class=\"introPop\">Bienvenido, para mantenerte informado respecto de las convocatorias de tu interés, ayúdanos con la siguiente información:</p>\n"+
         "<p class=\"obligatorio\">*Datos Obligatorios, favor de proporcionarlos</p>\n"+
@@ -56,8 +70,7 @@ public class DatosSubscripcion extends GenericResource {
         "  </p>\n"+
         "<div style=\"clear:both\">&nbsp;</div>"+
         "</div>\n"+
-        "<p>&nbsp;</p>\n"+
-      "<h3>Becas de Inter&eacute;s</h3>\n"+
+        "<h3>Becas de Inter&eacute;s</h3>\n"+
         "<div>\n"+
         "  <p class=\"instituciones\">\n"+
         "{$instituciones}"+
@@ -93,6 +106,13 @@ public class DatosSubscripcion extends GenericResource {
         "  </p>\n"+
         "<div style=\"clear:both\">&nbsp;</div>"+
         "</div>\n"+
+        "<div id=\"pais\">\n"+
+        "  <p>\n"+
+        "    <label for=\"pais\">¿Actualmente en qué pais vives?</label>\n"+
+        "{$paises}"+
+        "  </p>\n"+
+        "<div style=\"clear:both\">&nbsp;</div>"+
+        "</div>\n"+
         "<div id=\"estado\">\n"+
         "  <p>\n"+
         "    <label for=\"estado\">¿En qué estado vives?</label>\n"+
@@ -123,7 +143,7 @@ public class DatosSubscripcion extends GenericResource {
         "alert('Los caracteres son incorrectos. Asegúrate de escribir el texto tal como se muestra en la imagen.');\"/>\n"+
         "</p>\n"+
         "<p><input type=\"checkbox\" id=\"polpriv\" name=\"polpriv\" value=\"OK\">He leído y acepto los términos de uso y las políticas de "
-        + "<a href=\"/es/Beca_SEP/Politicas_Privacidad\" target=\"_blank\">privacidad del sitio</a>.</p>\n"+
+        + "<a href=\"/es/Beca_SEP/Politicas_modal\" rel=\"moodalbox\" title=\"Privacidad del sitio\">privacidad del sitio</a>.</p>\n"+
         "<p>&nbsp;</p>\n"+
         "<p><a href=\"javascript:submitfrm()\" class=\"cerrarBoton\">Guardar</a></p></form>\n";
 
@@ -164,12 +184,14 @@ public class DatosSubscripcion extends GenericResource {
     static Logger log = SWBUtils.getLogger(UserRegistration.class);
     String Instituciones ="";
     String Niveles ="";
+    String Paises = "";
     String EdosBase = "";
     String MunBase = "";
 
     HashMap<String, String> pseg;
     HashMap<String, String> inst;
     HashMap<String, String> nive;
+    HashMap<String, String> pais;
     HashMap<String, String> edos;
     HashMap<String, HashMap<String, String>> muni;
 
@@ -181,6 +203,7 @@ public class DatosSubscripcion extends GenericResource {
 //        new Exception().printStackTrace();
         pseg = new HashMap<String, String>();
         inst = new HashMap<String, String>();
+        pais = new HashMap<String, String>();
         nive = new HashMap<String, String>();
         String selectValues = SWBContext.getUserRepository(base.getWebSite().getUserRepository().getId()).getUserRepSecurityQuestionList("es");
         if (selectValues==null)
@@ -225,52 +248,72 @@ public class DatosSubscripcion extends GenericResource {
              String id = so.getId();
              String title  =so.getProperty(Institucion.swb_title);
              nive.put(id, title);
-             ret.append("<input type=\"radio\" name=\"nest\" id=\"nest\" class=\"radioB\" value=\""+id+"\" />\n<label for=\"nest\">"+title+"</label>\n");
+             ret.append("<input type=\"checkbox\" name=\"nest\" id=\"nest\" class=\"radioB\" value=\""+id+"\" />\n<label for=\"nest\">"+title+"</label>\n");
          }
         Niveles = ret.toString();
-        edos = new HashMap<String, String>();
-        muni = new HashMap<String, HashMap<String, String>>();
-        MunBase = "";
-        Iterator<Estado> ieds =Estado.ClassMgr.listEstados();
-        String ed1 = null;
-        StringBuilder sb= new StringBuilder( "<select name=\"estado\" size=\"1\" class=\"inputPop\" id=\"estado\" onchange=\"actualizaComboMun(this.value)\">");
-        while (ieds.hasNext()){
-            Estado edo = ieds.next();
-            if (null==ed1) {
-                ed1="";
-                Iterator<Municipio>imun= edo.listMunicipioInvs();
-                while (imun.hasNext()){
-                    Municipio mun = imun.next();
-                    MunBase += "<option value=\""+mun.getId()+"\" >"+mun.getTitle()+"</option>";
-                }
-            }
-            edos.put(edo.getId(), edo.getTitle());
-            sb.append("<option value=\"").append(edo.getId()).append("\" >").append(edo.getTitle()).append("</option>");
-            //System.out.println("Edo:"+edo.getId()+"-"+edo.getTitle());
-            Iterator<Municipio>imun= edo.listMunicipioInvs();
-            HashMap<String, String> muniEd = new HashMap<String, String>();
-            while (imun.hasNext()){
-                Municipio mun = imun.next();
-                muniEd.put(mun.getId(), mun.getTitle());
-                //System.out.println("Muni:"+mun.getId()+"-"+mun.getTitle());
-            }
-            muni.put(edo.getId(), muniEd);
 
-        }
+        Iterator<Country> country =Country.ClassMgr.listCountries(base.getWebSite());
+        ret = new StringBuffer("");
+
+        StringBuilder sb= new StringBuilder( "<select name=\"pais\" size=\"1\" class=\"inputPop\" id=\"pais\" onChange=\"habilitar(this.form,this.options[this.selectedIndex].value)\">" );
+         while (country.hasNext()){
+             Country so = country.next();
+             String id = so.getId();
+             String title  =so.getTitle();
+            if(id.equals("mx"))
+             {
+             pais.put(id, title);
+             sb.append("<option SELECTED value=\"").append(id).append("\" />\n<label for=\"pais\">").append(title).append("</label>\n");
+             }
+            else {
+             pais.put(id, title);
+             sb.append("<option value=\"").append(id).append("\" />\n<label for=\"pais\">").append(title).append("</label>\n");
+             }
+         }
         sb.append("</select>\n");
-        EdosBase = sb.toString();
+        Paises = sb.toString();
+                
+                edos = new HashMap<String, String>();
+                muni = new HashMap<String, HashMap<String, String>>();
+                MunBase = "";
+                Iterator<Estado> ieds =Estado.ClassMgr.listEstados();
+                String ed1 = null;
+                StringBuilder sb2= new StringBuilder( "<select name=\"estado\" size=\"1\" class=\"inputPop\" id=\"estado\" onchange=\"actualizaComboMun(this.value)\">");
+                while (ieds.hasNext()){
+                    Estado edo = ieds.next();
+                    if (null==ed1) {
+                        ed1="";
+                        Iterator<Municipio>imun= edo.listMunicipioInvs();
+                        while (imun.hasNext()){
+                            Municipio mun = imun.next();
+                            MunBase += "<option value=\""+mun.getId()+"\" >"+mun.getTitle()+"</option>";
+                        }
+                    }
+                    edos.put(edo.getId(), edo.getTitle());
+                    sb2.append("<option value=\"").append(edo.getId()).append("\" >").append(edo.getTitle()).append("</option>");
+                    //System.out.println("Edo:"+edo.getId()+"-"+edo.getTitle());
+                    Iterator<Municipio>imun= edo.listMunicipioInvs();
+                    HashMap<String, String> muniEd = new HashMap<String, String>();
+                    while (imun.hasNext()){
+                        Municipio mun = imun.next();
+                        muniEd.put(mun.getId(), mun.getTitle());
+                        //System.out.println("Muni:"+mun.getId()+"-"+mun.getTitle());
+                    }
+                    muni.put(edo.getId(), muniEd);
+
+                }
+                sb2.append("</select>\n");
+                EdosBase = sb2.toString();
     }
 @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
         response.setContentType("text/html");
 
-            
-            String tmp = SWBUtils.TEXT.replaceAll(tplt,"{$actionURL}",paramRequest.getActionUrl().toString(true));
-            //tmp = SWBUtils.TEXT.replaceAll(tmp,"{$preguntas}",Seguridad);
+             String tmp = SWBUtils.TEXT.replaceAll(tplt,"{$actionURL}",paramRequest.getActionUrl().toString(true));
             tmp = SWBUtils.TEXT.replaceAll(tmp,"{$instituciones}",Instituciones);
             tmp = SWBUtils.TEXT.replaceAll(tmp,"{$niveles}",Niveles);
-            //tmp = SWBUtils.TEXT.replaceAll(tmp,"{$model}",paramRequest.getUser().getUserRepository().getId());
+            tmp = SWBUtils.TEXT.replaceAll(tmp,"{$paises}",Paises);
             tmp = SWBUtils.TEXT.replaceAll(tmp,"{$estado}",EdosBase);
             tmp = SWBUtils.TEXT.replaceAll(tmp,"{$currMun}",MunBase);
             String urlmun = paramRequest.getRenderUrl().setMode("Municipio").setCallMethod(SWBResourceURL.Call_DIRECT).toString();
@@ -302,10 +345,10 @@ public class DatosSubscripcion extends GenericResource {
          SubscrpcionCorreo newSub = SubscrpcionCorreo.ClassMgr.createSubscrpcionCorreo(response.getWebPage().getWebSite());
                 newSub.setEMail(usrMail);
                 try {
-                    if (null!=request.getParameter("nest") && !"".equals(request.getParameter("nest").trim())){
-                        NivelEstudio ne = NivelEstudio.ClassMgr.getNivelEstudio(request.getParameter("nest").trim(), response.getWebPage().getWebSite());
-                        if (null!= ne)
-                            newSub.setNivelEducativo(ne);
+                    if (null!=request.getParameter("pais") && !"".equals(request.getParameter("pais").trim())){
+                        Country c = Country.ClassMgr.getCountry(request.getParameter("pais").trim(), response.getWebPage().getWebSite());
+                        if (null!= c)
+                            newSub.setSubCountry(c);
                     }
                     if (null!=request.getParameter("estado") && !"".equals(request.getParameter("estado").trim())){
                         Estado edo = Estado.ClassMgr.getEstado(request.getParameter("estado").trim(), response.getWebPage().getWebSite());
@@ -334,6 +377,18 @@ public class DatosSubscripcion extends GenericResource {
                                 newSub.addInstituciones(instit);
                         }
                     }
+
+                    String [] ne = request.getParameterValues("nest");
+                    if (null != ne)
+                    {
+                        for (String nivel: ne){
+                            NivelEstudio nvl=NivelEstudio.ClassMgr.getNivelEstudio(nivel, response.getWebPage().getWebSite());
+
+                            if (null!= nvl)
+                                newSub.addNivelEducativo(nvl);
+                        }
+                    }
+
                     newSub.setSubActivo(false);
                     response.setMode(response.Mode_EDIT); //envia a la sig pantalla
                 } catch (Exception swbe) {
