@@ -105,7 +105,19 @@ public class BusquedaAvanzada extends GenericResource {
             queryString += "?z becas:bcNivelEstudios <" + nivelEsts.getURI() + ">.";
         }
         if (gener != null) {
-            queryString += "?z becas:bcGenero <" + gener.getURI() + ">";
+//            System.out.println("\n\n\nElección del genero:" + gener.getId() + "\n\n\n");
+            if (gener.getId().equals("1") || gener.getId().equals("2")) {
+                queryString += "{?z becas:bcGenero <" + gener.getURI() + ">}"
+                        + " UNION "
+                        + "{?z becas:bcGenero <http://www.Beca_SEP.swb#becas_Genero:3>}";
+                /*{?z becas:bcGenero
+                <http://www.Beca_SEP.swb#becas_Genero:2>}
+                UNION
+                {?z becas:bcGenero
+                <http://www.Beca_SEP.swb#becas_Genero:3>}*/
+            } else {
+                queryString += "?z becas:bcGenero <" + gener.getURI() + ">";
+            }
         }
         queryString += "}";
         Query query = QueryFactory.create(queryString);
