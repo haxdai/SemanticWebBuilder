@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que hereda de WebPage.Mediante esta se administra el catálogo de Estados de la República (Ej. Tamaulipas, Morelos) 
    */
-public abstract class StateBase extends org.semanticwb.cptm.CPTMGeneralWebPage implements org.semanticwb.model.FilterableNode,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.MetaTagable,org.semanticwb.model.FilterableClass,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Descriptiveable,org.semanticwb.cptm.CptmDescriptionPage,org.semanticwb.model.Trashable,org.semanticwb.model.Viewable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Tagable,org.semanticwb.model.Hiddenable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Indexable,org.semanticwb.model.Traceable,org.semanticwb.model.Rankable,org.semanticwb.model.Resourceable,org.semanticwb.model.Countryable,org.semanticwb.model.Referensable,org.semanticwb.model.Localeable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Activeable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Searchable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Expirable
+public abstract class StateBase extends org.semanticwb.cptm.CPTMGeneralWebPage implements org.semanticwb.model.Filterable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Searchable,org.semanticwb.model.Expirable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.RuleRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Viewable,org.semanticwb.model.Trashable,org.semanticwb.model.Localeable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Countryable,org.semanticwb.cptm.CptmDescriptionPage,org.semanticwb.model.Referensable,org.semanticwb.model.Undeleteable,org.semanticwb.model.RoleRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.MetaTagable,org.semanticwb.model.Resourceable,org.semanticwb.model.Rankable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Indexable
 {
    /**
    * Notas Editoriales
@@ -16,6 +16,11 @@ public abstract class StateBase extends org.semanticwb.cptm.CPTMGeneralWebPage i
    */
     public static final org.semanticwb.platform.SemanticClass cptm_Event=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Event");
     public static final org.semanticwb.platform.SemanticProperty cptm_hasEventStateInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasEventStateInv");
+   /**
+   * Clase para administrar tipos de Destinos, pudiendo ser: Destinos, Pueblos Mágicos ó Atractivos
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_DestinationType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#DestinationType");
+    public static final org.semanticwb.platform.SemanticProperty cptm_hasStateDestinationType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasStateDestinationType");
    /**
    * Clase que hereda de WebPage.Mediante esta se administra el catálogo de Estados de la República (Ej. Tamaulipas, Morelos)
    */
@@ -434,6 +439,29 @@ public abstract class StateBase extends org.semanticwb.cptm.CPTMGeneralWebPage i
             return it;
         }
        /**
+       * Gets all org.semanticwb.cptm.State with a determined StateDestinationType
+       * @param value StateDestinationType of the type org.semanticwb.cptm.DestinationType
+       * @param model Model of the org.semanticwb.cptm.State
+       * @return Iterator with all the org.semanticwb.cptm.State
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.State> listStateByStateDestinationType(org.semanticwb.cptm.DestinationType value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.State> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasStateDestinationType, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.State with a determined StateDestinationType
+       * @param value StateDestinationType of the type org.semanticwb.cptm.DestinationType
+       * @return Iterator with all the org.semanticwb.cptm.State
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.State> listStateByStateDestinationType(org.semanticwb.cptm.DestinationType value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.State> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasStateDestinationType,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.cptm.State with a determined MetaTagsValue
        * @param value MetaTagsValue of the type org.semanticwb.model.MetaTagValue
        * @param model Model of the org.semanticwb.cptm.State
@@ -702,6 +730,71 @@ public abstract class StateBase extends org.semanticwb.cptm.CPTMGeneralWebPage i
          if(obj!=null)
          {
              ret=(org.semanticwb.cptm.Event)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Gets all the org.semanticwb.cptm.DestinationType
+   * @return A GenericIterator with all the org.semanticwb.cptm.DestinationType
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.DestinationType> listStateDestinationTypes()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.DestinationType>(getSemanticObject().listObjectProperties(cptm_hasStateDestinationType));
+    }
+
+   /**
+   * Gets true if has a StateDestinationType
+   * @param value org.semanticwb.cptm.DestinationType to verify
+   * @return true if the org.semanticwb.cptm.DestinationType exists, false otherwise
+   */
+    public boolean hasStateDestinationType(org.semanticwb.cptm.DestinationType value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(cptm_hasStateDestinationType,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a StateDestinationType
+   * @param value org.semanticwb.cptm.DestinationType to add
+   */
+
+    public void addStateDestinationType(org.semanticwb.cptm.DestinationType value)
+    {
+        getSemanticObject().addObjectProperty(cptm_hasStateDestinationType, value.getSemanticObject());
+    }
+   /**
+   * Removes all the StateDestinationType
+   */
+
+    public void removeAllStateDestinationType()
+    {
+        getSemanticObject().removeProperty(cptm_hasStateDestinationType);
+    }
+   /**
+   * Removes a StateDestinationType
+   * @param value org.semanticwb.cptm.DestinationType to remove
+   */
+
+    public void removeStateDestinationType(org.semanticwb.cptm.DestinationType value)
+    {
+        getSemanticObject().removeObjectProperty(cptm_hasStateDestinationType,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the StateDestinationType
+   * @return a org.semanticwb.cptm.DestinationType
+   */
+    public org.semanticwb.cptm.DestinationType getStateDestinationType()
+    {
+         org.semanticwb.cptm.DestinationType ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasStateDestinationType);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.cptm.DestinationType)obj.createGenericInstance();
          }
          return ret;
     }

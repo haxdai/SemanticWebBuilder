@@ -4,8 +4,13 @@ package org.semanticwb.cptm.base;
    /**
    * Clase para administrar tipos de Destinos, pudiendo ser: Destinos, Pueblos Mágicos ó Atractivos 
    */
-public abstract class DestinationTypeBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class DestinationTypeBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
+   /**
+   * Clase que hereda de WebPage.Mediante esta se administra el catálogo de Estados de la República (Ej. Tamaulipas, Morelos)
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_State=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#State");
+    public static final org.semanticwb.platform.SemanticProperty cptm_hasStateDestinationTypeInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasStateDestinationTypeInv");
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de Puntos Geográficos (Cancun, Tampico, etc)
    */
@@ -107,6 +112,29 @@ public abstract class DestinationTypeBase extends org.semanticwb.model.SWBClass 
             return it;
         }
        /**
+       * Gets all org.semanticwb.cptm.DestinationType with a determined StateDestinationTypeInv
+       * @param value StateDestinationTypeInv of the type org.semanticwb.cptm.State
+       * @param model Model of the org.semanticwb.cptm.DestinationType
+       * @return Iterator with all the org.semanticwb.cptm.DestinationType
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.DestinationType> listDestinationTypeByStateDestinationTypeInv(org.semanticwb.cptm.State value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.DestinationType> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasStateDestinationTypeInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.DestinationType with a determined StateDestinationTypeInv
+       * @param value StateDestinationTypeInv of the type org.semanticwb.cptm.State
+       * @return Iterator with all the org.semanticwb.cptm.DestinationType
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.DestinationType> listDestinationTypeByStateDestinationTypeInv(org.semanticwb.cptm.State value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.DestinationType> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasStateDestinationTypeInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.cptm.DestinationType with a determined DestinationTypeInv
        * @param value DestinationTypeInv of the type org.semanticwb.cptm.GeographicPoint
        * @param model Model of the org.semanticwb.cptm.DestinationType
@@ -197,6 +225,45 @@ public abstract class DestinationTypeBase extends org.semanticwb.model.SWBClass 
          if(obj!=null)
          {
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Gets all the org.semanticwb.cptm.State
+   * @return A GenericIterator with all the org.semanticwb.cptm.State
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.State> listStateDestinationTypeInvs()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.State>(getSemanticObject().listObjectProperties(cptm_hasStateDestinationTypeInv));
+    }
+
+   /**
+   * Gets true if has a StateDestinationTypeInv
+   * @param value org.semanticwb.cptm.State to verify
+   * @return true if the org.semanticwb.cptm.State exists, false otherwise
+   */
+    public boolean hasStateDestinationTypeInv(org.semanticwb.cptm.State value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(cptm_hasStateDestinationTypeInv,value.getSemanticObject());
+        }
+        return ret;
+    }
+
+   /**
+   * Gets the StateDestinationTypeInv
+   * @return a org.semanticwb.cptm.State
+   */
+    public org.semanticwb.cptm.State getStateDestinationTypeInv()
+    {
+         org.semanticwb.cptm.State ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasStateDestinationTypeInv);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.cptm.State)obj.createGenericInstance();
          }
          return ret;
     }
