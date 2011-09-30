@@ -4,7 +4,7 @@ package org.semanticwb.promexico.base;
    /**
    * Subtipos de Eventos, despues cambiar la manera de presentar en la administración por combos anidados, es decir, de acuerdo al tipo (Nacional o Internacional), presentar los subtipos. 
    */
-public abstract class EventSubTypeBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class EventSubTypeBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
    /**
    * Subtipos de Eventos, despues cambiar la manera de presentar en la administración por combos anidados, es decir, de acuerdo al tipo (Nacional o Internacional), presentar los subtipos.
