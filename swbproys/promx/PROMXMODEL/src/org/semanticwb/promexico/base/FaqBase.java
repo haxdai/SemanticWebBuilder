@@ -4,7 +4,7 @@ package org.semanticwb.promexico.base;
    /**
    * Preguntas Frecuentes 
    */
-public abstract class FaqBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Tagable,org.semanticwb.model.Searchable,org.semanticwb.promexico.ProSearchAble,org.semanticwb.model.Descriptiveable
+public abstract class FaqBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Searchable,org.semanticwb.promexico.ProSearchAble,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable
 {
    /**
    * Temas de Preguntas Frecuentes
