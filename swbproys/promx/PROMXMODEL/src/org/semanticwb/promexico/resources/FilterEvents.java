@@ -52,6 +52,18 @@ public class FilterEvents extends GenericAdmResource{
         Iterator<EventType> listEvtType = EventType.ClassMgr.listEventTypes(ws);
         Iterator<Sector> listSector = Sector.ClassMgr.listSectors(ws);
         Iterator<Region> listRegion = Region.ClassMgr.listRegions(ws);
+        ArrayList listRegs = new ArrayList();
+        ArrayList listSectrs = new ArrayList();
+        while(listRegion.hasNext()){
+            listRegs.add(listRegion.next());
+        }
+        while(listSector.hasNext()){
+            Sector sct1 = listSector.next();
+            Iterator tmp = Event.ClassMgr.listEventBySectores(sct1, ws);
+            if(tmp.hasNext()) {
+                listSectrs.add(sct1);
+            }
+        }
         String evType = request.getParameter(EventType.genCal_EventType.getName());
         String sec = request.getParameter(Sector.promx_Sector.getName());
         String reg = request.getParameter(Region.promx_Region.getName());
@@ -69,8 +81,8 @@ public class FilterEvents extends GenericAdmResource{
             request.setAttribute("showData", showData);
             request.setAttribute("regT", reg);
             request.setAttribute("lEvtType", listEvtType);
-            request.setAttribute("lRegion", listRegion);
-            request.setAttribute("lSector", listSector);
+            request.setAttribute("lRegion", listRegs);
+            request.setAttribute("lSector", listSectrs.iterator());
             rd.include(request, response);
         } catch(Exception e) {
             log.error(e);
