@@ -59,18 +59,18 @@ public class DatosSubscripcion extends GenericResource {
         "<script type=\"text/javascript\" src=\""+SWBPortal.getContextPath()+"/swbadmin/js/swb.js\" ></script><form id=\"formaRegistro\" name=\"formaRegistro\" method=\"post\" action=\"{$actionURL}\">"+
         "<link type=\"text/css\" rel=\"stylesheet\" href=\""+SWBPortal.getContextPath()+"/work/models/Beca_SEP/CSS/estilos_lightBox.css\" />\n"+ // /work/estilos_lightBox.css
         "<link media=\"screen\" type=\"text/css\" rel=\"stylesheet\" href=\""+SWBPortal.getContextPath()+"/work/models/Beca_SEP/CSS/moodalbox.css\" />\n"+
-        "<h3>Recibir Información</h3>\n"+
+        "<h3>Recibe Información</h3>\n"+
         "<p class=\"introPop\">Bienvenido, para mantenerte informado respecto de las convocatorias de tu interés, ayúdanos con la siguiente información:</p>\n"+
         "<p class=\"obligatorio\">*Datos Obligatorios, favor de proporcionarlos</p>\n"+
         "<p>&nbsp;</p>\n"+
-        "<h3>Nivel de Estudios de tú interés</h3>\n"+
+        "<h3>Nivel de estudios de tu interés (Puedes marcar varios)</h3>\n"+
         "<div>\n"+
         "  <p class=\"nivel\">\n"+
         "{$niveles}"+
         "  </p>\n"+
         "<div style=\"clear:both\">&nbsp;</div>"+
         "</div>\n"+
-        "<h3>Becas de Inter&eacute;s</h3>\n"+
+        "<h3>Instituciones de tu interés (Pueden ser varias)</h3>\n"+
         "<div>\n"+
         "  <p class=\"instituciones\">\n"+
         "{$instituciones}"+
@@ -127,12 +127,12 @@ public class DatosSubscripcion extends GenericResource {
         "  </p>\n"+
         "<div style=\"clear:both\">&nbsp;</div>"+
         "</div>\n"+
-        "  <label for=\"mail\" class=\"obligatorio\">* Si deseas recibir información de las becas que se publiquen en este portal déjanos tu correo electrónico</label>\n"+
+        "  <label for=\"mail\" class=\"obligatorio\">* ¿A qué correo te podemos enviar la información?</label>\n"+
         "  <input type=\"text\" name=\"mail\" id=\"mail\" class=\"inputPop\" onchange=\" if (!isValidEmail(this.value))"+
         " alert ('El correo electrónico no es válido o ya fue registrado por otro usuario. Verifica que contenga \"@\" o ingresa una nueva dirección de correo electrónico.');\"/>\n"+
         "</p>\n"+
         "<span>\n"+
-        "<p>Verificaci&oacute;n de Palabras</p>\n"+
+        "<p>Por último</p>\n"+
         "<p>Escribe los caracteres que veas en la siguiente imagen *</p>\n"+
         "</span>\n"+
         "<p><img  src=\""+SWBPlatform.getContextPath()+"/frmprocess/requestCaptcha\" alt=\"captcha\" id=\"captchaimg\" />\n"+
