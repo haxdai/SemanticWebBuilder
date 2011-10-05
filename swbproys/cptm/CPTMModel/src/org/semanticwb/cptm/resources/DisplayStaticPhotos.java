@@ -64,7 +64,9 @@ public class DisplayStaticPhotos extends GenericResource{
                             } else if(objPhoto.getPhotoAlt() != null) {
                                 txtAlt = objPhoto.getPhotoAlt();
                             }
-                            String [] data = { image , txtAlt };
+                            String txtDescr =  objPhoto.getDescription(paramRequest.getUser().getLanguage()) != null ?
+                                objPhoto.getDescription(paramRequest.getUser().getLanguage()) : "";
+                            String [] data = { image , txtAlt, txtDescr };
                             listImage.add(data);
                         }
                     }
@@ -83,7 +85,9 @@ public class DisplayStaticPhotos extends GenericResource{
                     } else if(phot.getPhotoAlt() != null) {
                         txtAlt = phot.getPhotoAlt();
                     }
-                    String [] data = { image , txtAlt };
+                    String txtDescr =  phot.getDescription(paramRequest.getUser().getLanguage()) != null ?
+                        phot.getDescription(paramRequest.getUser().getLanguage()) : "";
+                    String [] data = { image , txtAlt, txtDescr };
                     listImage.add(data);
                 }
             }
