@@ -4,7 +4,7 @@ package org.semanticwb.promexico.base;
    /**
    * Clase que hereda de swb:WebSite. Es un tipo de website para ProMéxico. De esta manera se puede contar con todos los elementos en el arbol de navegación en la administración, y otros elementos utiles para ProMéxico. 
    */
-public abstract class ProMexicoBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Trashable,org.semanticwb.model.Localeable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Filterable,org.semanticwb.model.Indexable,org.semanticwb.model.Traceable,org.semanticwb.model.FilterableClass,org.semanticwb.model.OntologyDepable,org.semanticwb.model.Countryable
+public abstract class ProMexicoBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.OntologyDepable,org.semanticwb.model.FilterableClass,org.semanticwb.model.FilterableNode,org.semanticwb.model.Undeleteable,org.semanticwb.model.Trashable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Activeable,org.semanticwb.model.Countryable,org.semanticwb.model.Filterable,org.semanticwb.model.Localeable,org.semanticwb.model.Traceable,org.semanticwb.model.Indexable
 {
    /**
    * Tipos de Regiones (Nacionales, Internacionales, etc)
@@ -36,18 +36,18 @@ public abstract class ProMexicoBase extends org.semanticwb.model.WebSite impleme
    */
     public static final org.semanticwb.platform.SemanticClass promx_Canal=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Canal");
    /**
+   * Eventos de ProMéxico
+   */
+    public static final org.semanticwb.platform.SemanticClass promx_Event=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Event");
+   /**
    * Preguntas Frecuentes
    */
     public static final org.semanticwb.platform.SemanticClass promx_Faq=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Faq");
    /**
-   * Eventos de ProMéxico
-   */
-    public static final org.semanticwb.platform.SemanticClass promx_Event=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Event");
-    public static final org.semanticwb.platform.SemanticClass promx_ProMxVideo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#ProMxVideo");
-   /**
    * Servicios
    */
     public static final org.semanticwb.platform.SemanticClass promx_Service=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Service");
+    public static final org.semanticwb.platform.SemanticClass promx_ProMxVideo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#ProMxVideo");
    /**
    * Catalogo de Mercados
    */
@@ -695,36 +695,6 @@ public abstract class ProMexicoBase extends org.semanticwb.model.WebSite impleme
         return org.semanticwb.promexico.Canal.ClassMgr.hasCanal(id, this);
     }
 
-    public org.semanticwb.promexico.Faq getFaq(String id)
-    {
-        return org.semanticwb.promexico.Faq.ClassMgr.getFaq(id, this);
-    }
-
-    public java.util.Iterator<org.semanticwb.promexico.Faq> listFaqs()
-    {
-        return org.semanticwb.promexico.Faq.ClassMgr.listFaqs(this);
-    }
-
-    public org.semanticwb.promexico.Faq createFaq(String id)
-    {
-        return org.semanticwb.promexico.Faq.ClassMgr.createFaq(id,this);
-    }
-
-    public org.semanticwb.promexico.Faq createFaq()
-    {
-        long id=getSemanticObject().getModel().getCounter(promx_Faq);
-        return org.semanticwb.promexico.Faq.ClassMgr.createFaq(String.valueOf(id),this);
-    } 
-
-    public void removeFaq(String id)
-    {
-        org.semanticwb.promexico.Faq.ClassMgr.removeFaq(id, this);
-    }
-    public boolean hasFaq(String id)
-    {
-        return org.semanticwb.promexico.Faq.ClassMgr.hasFaq(id, this);
-    }
-
     public org.semanticwb.promexico.Event getEvent(String id)
     {
         return org.semanticwb.promexico.Event.ClassMgr.getEvent(id, this);
@@ -755,6 +725,60 @@ public abstract class ProMexicoBase extends org.semanticwb.model.WebSite impleme
         return org.semanticwb.promexico.Event.ClassMgr.hasEvent(id, this);
     }
 
+    public org.semanticwb.promexico.Faq getFaq(String id)
+    {
+        return org.semanticwb.promexico.Faq.ClassMgr.getFaq(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.promexico.Faq> listFaqs()
+    {
+        return org.semanticwb.promexico.Faq.ClassMgr.listFaqs(this);
+    }
+
+    public org.semanticwb.promexico.Faq createFaq(String id)
+    {
+        return org.semanticwb.promexico.Faq.ClassMgr.createFaq(id,this);
+    }
+
+    public org.semanticwb.promexico.Faq createFaq()
+    {
+        long id=getSemanticObject().getModel().getCounter(promx_Faq);
+        return org.semanticwb.promexico.Faq.ClassMgr.createFaq(String.valueOf(id),this);
+    } 
+
+    public void removeFaq(String id)
+    {
+        org.semanticwb.promexico.Faq.ClassMgr.removeFaq(id, this);
+    }
+    public boolean hasFaq(String id)
+    {
+        return org.semanticwb.promexico.Faq.ClassMgr.hasFaq(id, this);
+    }
+
+    public org.semanticwb.promexico.Service getService(String id)
+    {
+        return org.semanticwb.promexico.Service.ClassMgr.getService(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.promexico.Service> listServices()
+    {
+        return org.semanticwb.promexico.Service.ClassMgr.listServices(this);
+    }
+
+    public org.semanticwb.promexico.Service createService(String id)
+    {
+        return org.semanticwb.promexico.Service.ClassMgr.createService(id,this);
+    }
+
+    public void removeService(String id)
+    {
+        org.semanticwb.promexico.Service.ClassMgr.removeService(id, this);
+    }
+    public boolean hasService(String id)
+    {
+        return org.semanticwb.promexico.Service.ClassMgr.hasService(id, this);
+    }
+
     public org.semanticwb.promexico.ProMxVideo getProMxVideo(String id)
     {
         return org.semanticwb.promexico.ProMxVideo.ClassMgr.getProMxVideo(id, this);
@@ -783,30 +807,6 @@ public abstract class ProMexicoBase extends org.semanticwb.model.WebSite impleme
     public boolean hasProMxVideo(String id)
     {
         return org.semanticwb.promexico.ProMxVideo.ClassMgr.hasProMxVideo(id, this);
-    }
-
-    public org.semanticwb.promexico.Service getService(String id)
-    {
-        return org.semanticwb.promexico.Service.ClassMgr.getService(id, this);
-    }
-
-    public java.util.Iterator<org.semanticwb.promexico.Service> listServices()
-    {
-        return org.semanticwb.promexico.Service.ClassMgr.listServices(this);
-    }
-
-    public org.semanticwb.promexico.Service createService(String id)
-    {
-        return org.semanticwb.promexico.Service.ClassMgr.createService(id,this);
-    }
-
-    public void removeService(String id)
-    {
-        org.semanticwb.promexico.Service.ClassMgr.removeService(id, this);
-    }
-    public boolean hasService(String id)
-    {
-        return org.semanticwb.promexico.Service.ClassMgr.hasService(id, this);
     }
 
     public org.semanticwb.promexico.Market getMarket(String id)

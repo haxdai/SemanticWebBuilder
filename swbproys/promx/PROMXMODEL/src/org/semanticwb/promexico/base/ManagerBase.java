@@ -11,6 +11,14 @@ public abstract class ManagerBase extends org.semanticwb.model.SWBClass implemen
     public static final org.semanticwb.platform.SemanticProperty promx_reprePhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#reprePhoto");
     public static final org.semanticwb.platform.SemanticProperty promx_repreAdress=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#repreAdress");
     public static final org.semanticwb.platform.SemanticProperty promx_repreEmail=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#repreEmail");
+   /**
+   * Define la estructura de los puestos para los representantes de oficinas
+   */
+    public static final org.semanticwb.platform.SemanticClass promx_JobTitle=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#JobTitle");
+   /**
+   * Almacena el puesto para cada representate
+   */
+    public static final org.semanticwb.platform.SemanticProperty promx_managerJobTitle=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#managerJobTitle");
     public static final org.semanticwb.platform.SemanticProperty promx_reprePhone=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#reprePhone");
    /**
    * Datos de un representante, se utiliza para las oficinas y para las regiones
@@ -134,6 +142,29 @@ public abstract class ManagerBase extends org.semanticwb.model.SWBClass implemen
         public static java.util.Iterator<org.semanticwb.promexico.Manager> listManagerByCreator(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Manager> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.Manager with a determined ManagerJobTitle
+       * @param value ManagerJobTitle of the type org.semanticwb.promexico.JobTitle
+       * @param model Model of the org.semanticwb.promexico.Manager
+       * @return Iterator with all the org.semanticwb.promexico.Manager
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Manager> listManagerByManagerJobTitle(org.semanticwb.promexico.JobTitle value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Manager> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(promx_managerJobTitle, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.Manager with a determined ManagerJobTitle
+       * @param value ManagerJobTitle of the type org.semanticwb.promexico.JobTitle
+       * @return Iterator with all the org.semanticwb.promexico.Manager
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Manager> listManagerByManagerJobTitle(org.semanticwb.promexico.JobTitle value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Manager> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(promx_managerJobTitle,value.getSemanticObject(),sclass));
             return it;
         }
     }
@@ -413,6 +444,44 @@ public abstract class ManagerBase extends org.semanticwb.model.SWBClass implemen
     public void setTitle(String title, String lang)
     {
         getSemanticObject().setProperty(swb_title, title, lang);
+    }
+   /**
+   * Sets the value for the property ManagerJobTitle
+   * @param value ManagerJobTitle to set
+   */
+
+    public void setManagerJobTitle(org.semanticwb.promexico.JobTitle value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(promx_managerJobTitle, value.getSemanticObject());
+        }else
+        {
+            removeManagerJobTitle();
+        }
+    }
+   /**
+   * Remove the value for ManagerJobTitle property
+   */
+
+    public void removeManagerJobTitle()
+    {
+        getSemanticObject().removeProperty(promx_managerJobTitle);
+    }
+
+   /**
+   * Gets the ManagerJobTitle
+   * @return a org.semanticwb.promexico.JobTitle
+   */
+    public org.semanticwb.promexico.JobTitle getManagerJobTitle()
+    {
+         org.semanticwb.promexico.JobTitle ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(promx_managerJobTitle);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.promexico.JobTitle)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**

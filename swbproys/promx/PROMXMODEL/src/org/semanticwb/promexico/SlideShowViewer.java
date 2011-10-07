@@ -3,6 +3,8 @@ package org.semanticwb.promexico;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -37,6 +39,7 @@ public class SlideShowViewer extends org.semanticwb.promexico.base.SlideShowView
         PrintWriter out=response.getWriter();
         Iterator<PictureSlide>it = listPictureSlideses();
         List<PictureSlide> rs = SWBUtils.Collections.copyIterator(it);
+        Collections.sort(rs, new ImageComparator());
         User user = paramRequest.getUser();
         String lang = user.getLanguage();
         if(rs.size()>0) {
@@ -69,8 +72,10 @@ public class SlideShowViewer extends org.semanticwb.promexico.base.SlideShowView
                 creaButtons = creaButtons + "<li><a href=\"" + redi + "\"" + tar + ">" + tit + "</a></li>"; //target=\"_blank\"
             }
 
-
-            for(PictureSlide pic:rs) {
+            //for(PictureSlide pic:rs) {
+            it = rs.listIterator();
+            while(it.hasNext()){
+                PictureSlide pic = it.next();
                 if(pic.isValid() && user.haveAccess(pic)) {
                     url = (pic.getExternalURL()==null || pic.getExternalURL().isEmpty()) ? (pic.getInternalURL() == null || pic.getInternalURL().isEmpty() ? "#" : pic.getInternalURL()) : pic.getExternalURL();
 
@@ -98,7 +103,10 @@ public class SlideShowViewer extends org.semanticwb.promexico.base.SlideShowView
             out.println("   var randomDescr = new Array();");
             String path = "";
             int k = 0;
-            for(PictureSlide pic:rs) {
+            //for(PictureSlide pic:rs) {
+            it = rs.listIterator();
+            while(it.hasNext()){
+                PictureSlide pic = it.next();
                 if(pic.isValid() && user.haveAccess(pic)) {
                     path = SWBPortal.getWebWorkPath() + pic.getWorkPath() + "/" + "poster_" + pic.getId() + "_" + pic.getPoster();
                     out.println("   randomImages[" + k +"] = '" + path + "';");
@@ -217,9 +225,9 @@ public class SlideShowViewer extends org.semanticwb.promexico.base.SlideShowView
 
             //out.println("<div class=\"promx-slideshow\" id=\"promx-slideshow\">");//Si se desea agregar los botones siguiente/anterior
             out.println("<div class=\"promx-slideshow\">");
-            Random r = new Random();
-            r.setSeed((new Date()).getTime());
-            i = r.nextInt(rs.size());
+            //Random r = new Random();
+            //r.setSeed((new Date()).getTime());
+            i = 0;//r.nextInt(rs.size());
             url = rs.get(i).getExternalURL()==null || rs.get(i).getExternalURL().isEmpty()?rs.get(i).getInternalURL():rs.get(i).getExternalURL();
             if(url != null) {
                 if(isTargetNew()) {
@@ -669,4 +677,15 @@ public class SlideShowViewer extends org.semanticwb.promexico.base.SlideShowView
         return script.toString();
     }
 
+}
+
+class ImageComparator implements Comparator {
+
+    public int compare(Object image1, Object image2) {
+       int comparacion;
+       Integer d1= ((PictureSlide) image1).getImgOrder();
+       Integer d2= ((PictureSlide) image2).getImgOrder();
+       comparacion=d1.compareTo(d2);
+       return comparacion;
+   }
 }

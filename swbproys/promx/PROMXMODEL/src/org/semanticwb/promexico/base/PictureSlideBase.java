@@ -3,6 +3,10 @@ package org.semanticwb.promexico.base;
 
 public abstract class PictureSlideBase extends org.semanticwb.portal.resources.sem.slideshow.PictureSlide implements org.semanticwb.model.Descriptiveable
 {
+   /**
+   * Almacena el número de orden en que se desplegará la imagen
+   */
+    public static final org.semanticwb.platform.SemanticProperty promx_imgOrder=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#imgOrder");
     public static final org.semanticwb.platform.SemanticClass promx_PictureSlide=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#PictureSlide");
    /**
    * The semantic class that represents the currentObject
@@ -81,5 +85,23 @@ public abstract class PictureSlideBase extends org.semanticwb.portal.resources.s
     public PictureSlideBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+/**
+* Gets the ImgOrder property
+* @return int with the ImgOrder
+*/
+    public int getImgOrder()
+    {
+        return getSemanticObject().getIntProperty(promx_imgOrder);
+    }
+
+/**
+* Sets the ImgOrder property
+* @param value long with the ImgOrder
+*/
+    public void setImgOrder(int value)
+    {
+        getSemanticObject().setIntProperty(promx_imgOrder, value);
     }
 }
