@@ -92,9 +92,9 @@ public class SecondLevelEditorial extends GenericResource {
             while (it.hasNext()) {
                 EditNote editorial = it.next();
 
-                if (editorial != null && editorial.isActive() && user.haveAccess(editorial) && map.size() < 3) {
+                if (editorial != null && editorial.isActive() && editorial.getNoteHomeIndex() < 4 && user.haveAccess(editorial) && map.size() < 3) {
                     cont++;
-                    map.put(Integer.valueOf(cont), editorial);
+                    map.put(Integer.valueOf(editorial.getNoteHomeIndex()), editorial);
                 } else if (map.size() >= 3) {
                     break;
                 }
@@ -114,7 +114,7 @@ public class SecondLevelEditorial extends GenericResource {
             while (it.hasNext()) {
                 EditNote editorial = it.next();
 
-                if (editorial != null && editorial.isActive() && user.haveAccess(editorial)) {
+                if (editorial != null && editorial.isActive() && editorial.getNoteHomeIndex() < 2 && user.haveAccess(editorial)) {
                     editorialTipo3 = editorial;
                     break;
                 }
