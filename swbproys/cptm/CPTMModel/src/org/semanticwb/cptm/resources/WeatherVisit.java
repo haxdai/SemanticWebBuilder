@@ -12,6 +12,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Calendar;
@@ -198,8 +199,12 @@ public class WeatherVisit extends GenericAdmResource {
             HTMLString = this.contentCode[destinationId - 1];
         } else {
             processHTMLCode(destinationId, request, paramRequest);
-            this.generatedAt[destinationId - 1] = requestTime;
-            HTMLString = this.contentCode[destinationId - 1];
+            if (this.contentCode[destinationId - 1] != null) {
+                this.generatedAt[destinationId - 1] = requestTime;
+                HTMLString = this.contentCode[destinationId - 1];
+            } else {
+                HTMLString = "";
+            }
         }
         
         try {
@@ -283,8 +288,13 @@ public class WeatherVisit extends GenericAdmResource {
             HTMLString = this.strategyCode[destinationId - 1];
         } else {
             processHTMLCode(destinationId, request, paramRequest);
-            HTMLString = this.strategyCode[destinationId - 1];
+            if (this.strategyCode[destinationId - 1] != null) {
+                HTMLString = this.strategyCode[destinationId - 1];
+            } else {
+                HTMLString = "";
+            }
         }
+
         
         try {
             PrintWriter out = response.getWriter();
@@ -299,20 +309,19 @@ public class WeatherVisit extends GenericAdmResource {
     }
 
     /**
-     * Obtiene el c&oacute;digo HTML a mostrar para el reporte del clima del destino
-     * cuyo identificador se indica en el par&aacute;metro recibido.
+     * Genera el c&oacute;digo HTML a mostrar para el reporte del clima del destino
+     * cuyo identificador se indica en el par&aacute;metro recibido. Almacena en
+     * {@code contentCode} y en {@code strategyCode} los c&oacute;digos HTML correspondientes
+     * y en {@code generatedAt} el momento en que se actualiza dicho c&oacute;digo.
      * @param destinationId identificador del destino
-     * @return la cadena que representa el HTML con el reporte del clima del destino
-     *         con identificador {@code destinationId}
      */
-    private String processHTMLCode(short destinationId, HttpServletRequest request,
+    private void processHTMLCode(short destinationId, HttpServletRequest request,
             SWBParamRequest paramRequest) {
 
         Document dom = null;
         String propiedad = null;
         String imagen = null;
         String destino = null;
-        String HTMLGenerated = null;
 
         //Se obtiene información del clima para el destino indicado
         try {
@@ -329,6 +338,7 @@ public class WeatherVisit extends GenericAdmResource {
             try {
                 //Se realiza la peticion a la página externa
                 conex = pagina.openConnection();
+                conex.setConnectTimeout(5000);
             } catch (Exception nexc) {
                 conex = null;
                 dom = null;
@@ -575,6 +585,8 @@ public class WeatherVisit extends GenericAdmResource {
                 //        "\nCon longitud de: " + selectOptions.length());
             }
 
+        } catch (SocketTimeoutException stoe) {
+            dom = null;
         } catch (Exception e) {
             log.error("Error al obtener datos remotos, WeatherVisit.processHTMLCode()", e);
         }
@@ -592,7 +604,6 @@ public class WeatherVisit extends GenericAdmResource {
             }
         }
 
-        return HTMLGenerated;
     }
 
     /**
