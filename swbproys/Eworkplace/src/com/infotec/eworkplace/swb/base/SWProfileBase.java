@@ -1,0 +1,587 @@
+package com.infotec.eworkplace.swb.base;
+
+
+public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable
+{
+    public static final org.semanticwb.platform.SemanticProperty ewp_misIdeas=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#misIdeas");
+    public static final org.semanticwb.platform.SemanticProperty ewp_misGustos=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#misGustos");
+    public static final org.semanticwb.platform.SemanticClass ewp_Gerencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Gerencia");
+    public static final org.semanticwb.platform.SemanticProperty ewp_gerencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#gerencia");
+    public static final org.semanticwb.platform.SemanticProperty ewp_puesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#puesto");
+    public static final org.semanticwb.platform.SemanticProperty ewp_miPersonalidad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#miPersonalidad");
+    public static final org.semanticwb.platform.SemanticClass ewp_Proyecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Proyecto");
+    public static final org.semanticwb.platform.SemanticProperty ewp_hasProyecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#hasProyecto");
+    public static final org.semanticwb.platform.SemanticProperty ewp_ubicacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#ubicacion");
+    public static final org.semanticwb.platform.SemanticClass ewp_TemaInteres=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#TemaInteres");
+    public static final org.semanticwb.platform.SemanticProperty ewp_hasTemaInteres=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#hasTemaInteres");
+    public static final org.semanticwb.platform.SemanticClass ewp_SWProfile=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#SWProfile");
+   /**
+   * The semantic class that represents the currentObject
+   */
+    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#SWProfile");
+
+    public static class ClassMgr
+    {
+       /**
+       * Returns a list of SWProfile for a model
+       * @param model Model to find
+       * @return Iterator of com.infotec.eworkplace.swb.SWProfile
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.SWProfile> listSWProfiles(org.semanticwb.model.SWBModel model)
+        {
+            java.util.Iterator it=model.getSemanticObject().getModel().listInstancesOfClass(sclass);
+            return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SWProfile>(it, true);
+        }
+       /**
+       * Returns a list of com.infotec.eworkplace.swb.SWProfile for all models
+       * @return Iterator of com.infotec.eworkplace.swb.SWProfile
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.SWProfile> listSWProfiles()
+        {
+            java.util.Iterator it=sclass.listInstances();
+            return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SWProfile>(it, true);
+        }
+
+        public static com.infotec.eworkplace.swb.SWProfile createSWProfile(org.semanticwb.model.SWBModel model)
+        {
+            long id=model.getSemanticObject().getModel().getCounter(sclass);
+            return com.infotec.eworkplace.swb.SWProfile.ClassMgr.createSWProfile(String.valueOf(id), model);
+        }
+       /**
+       * Gets a com.infotec.eworkplace.swb.SWProfile
+       * @param id Identifier for com.infotec.eworkplace.swb.SWProfile
+       * @param model Model of the com.infotec.eworkplace.swb.SWProfile
+       * @return A com.infotec.eworkplace.swb.SWProfile
+       */
+        public static com.infotec.eworkplace.swb.SWProfile getSWProfile(String id, org.semanticwb.model.SWBModel model)
+        {
+            return (com.infotec.eworkplace.swb.SWProfile)model.getSemanticObject().getModel().getGenericObject(model.getSemanticObject().getModel().getObjectUri(id,sclass),sclass);
+        }
+       /**
+       * Create a com.infotec.eworkplace.swb.SWProfile
+       * @param id Identifier for com.infotec.eworkplace.swb.SWProfile
+       * @param model Model of the com.infotec.eworkplace.swb.SWProfile
+       * @return A com.infotec.eworkplace.swb.SWProfile
+       */
+        public static com.infotec.eworkplace.swb.SWProfile createSWProfile(String id, org.semanticwb.model.SWBModel model)
+        {
+            return (com.infotec.eworkplace.swb.SWProfile)model.getSemanticObject().getModel().createGenericObject(model.getSemanticObject().getModel().getObjectUri(id,sclass),sclass);
+        }
+       /**
+       * Remove a com.infotec.eworkplace.swb.SWProfile
+       * @param id Identifier for com.infotec.eworkplace.swb.SWProfile
+       * @param model Model of the com.infotec.eworkplace.swb.SWProfile
+       */
+        public static void removeSWProfile(String id, org.semanticwb.model.SWBModel model)
+        {
+            model.getSemanticObject().getModel().removeSemanticObject(model.getSemanticObject().getModel().getObjectUri(id,sclass));
+        }
+       /**
+       * Returns true if exists a com.infotec.eworkplace.swb.SWProfile
+       * @param id Identifier for com.infotec.eworkplace.swb.SWProfile
+       * @param model Model of the com.infotec.eworkplace.swb.SWProfile
+       * @return true if the com.infotec.eworkplace.swb.SWProfile exists, false otherwise
+       */
+
+        public static boolean hasSWProfile(String id, org.semanticwb.model.SWBModel model)
+        {
+            return (getSWProfile(id, model)!=null);
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.SWProfile with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * @param model Model of the com.infotec.eworkplace.swb.SWProfile
+       * @return Iterator with all the com.infotec.eworkplace.swb.SWProfile
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.SWProfile> listSWProfileByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SWProfile> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.SWProfile with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * @return Iterator with all the com.infotec.eworkplace.swb.SWProfile
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.SWProfile> listSWProfileByModifiedBy(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SWProfile> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.SWProfile with a determined Gerencia
+       * @param value Gerencia of the type com.infotec.eworkplace.swb.Gerencia
+       * @param model Model of the com.infotec.eworkplace.swb.SWProfile
+       * @return Iterator with all the com.infotec.eworkplace.swb.SWProfile
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.SWProfile> listSWProfileByGerencia(com.infotec.eworkplace.swb.Gerencia value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SWProfile> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(ewp_gerencia, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.SWProfile with a determined Gerencia
+       * @param value Gerencia of the type com.infotec.eworkplace.swb.Gerencia
+       * @return Iterator with all the com.infotec.eworkplace.swb.SWProfile
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.SWProfile> listSWProfileByGerencia(com.infotec.eworkplace.swb.Gerencia value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SWProfile> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(ewp_gerencia,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.SWProfile with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @param model Model of the com.infotec.eworkplace.swb.SWProfile
+       * @return Iterator with all the com.infotec.eworkplace.swb.SWProfile
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.SWProfile> listSWProfileByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SWProfile> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.SWProfile with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @return Iterator with all the com.infotec.eworkplace.swb.SWProfile
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.SWProfile> listSWProfileByCreator(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SWProfile> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.SWProfile with a determined Proyecto
+       * @param value Proyecto of the type com.infotec.eworkplace.swb.Proyecto
+       * @param model Model of the com.infotec.eworkplace.swb.SWProfile
+       * @return Iterator with all the com.infotec.eworkplace.swb.SWProfile
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.SWProfile> listSWProfileByProyecto(com.infotec.eworkplace.swb.Proyecto value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SWProfile> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(ewp_hasProyecto, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.SWProfile with a determined Proyecto
+       * @param value Proyecto of the type com.infotec.eworkplace.swb.Proyecto
+       * @return Iterator with all the com.infotec.eworkplace.swb.SWProfile
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.SWProfile> listSWProfileByProyecto(com.infotec.eworkplace.swb.Proyecto value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SWProfile> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(ewp_hasProyecto,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.SWProfile with a determined TemaInteres
+       * @param value TemaInteres of the type com.infotec.eworkplace.swb.TemaInteres
+       * @param model Model of the com.infotec.eworkplace.swb.SWProfile
+       * @return Iterator with all the com.infotec.eworkplace.swb.SWProfile
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.SWProfile> listSWProfileByTemaInteres(com.infotec.eworkplace.swb.TemaInteres value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SWProfile> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(ewp_hasTemaInteres, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.SWProfile with a determined TemaInteres
+       * @param value TemaInteres of the type com.infotec.eworkplace.swb.TemaInteres
+       * @return Iterator with all the com.infotec.eworkplace.swb.SWProfile
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.SWProfile> listSWProfileByTemaInteres(com.infotec.eworkplace.swb.TemaInteres value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SWProfile> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(ewp_hasTemaInteres,value.getSemanticObject(),sclass));
+            return it;
+        }
+    }
+
+   /**
+   * Constructs a SWProfileBase with a SemanticObject
+   * @param base The SemanticObject with the properties for the SWProfile
+   */
+    public SWProfileBase(org.semanticwb.platform.SemanticObject base)
+    {
+        super(base);
+    }
+   /**
+   * Sets the value for the property ModifiedBy
+   * @param value ModifiedBy to set
+   */
+
+    public void setModifiedBy(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(swb_modifiedBy, value.getSemanticObject());
+        }else
+        {
+            removeModifiedBy();
+        }
+    }
+   /**
+   * Remove the value for ModifiedBy property
+   */
+
+    public void removeModifiedBy()
+    {
+        getSemanticObject().removeProperty(swb_modifiedBy);
+    }
+
+   /**
+   * Gets the ModifiedBy
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getModifiedBy()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_modifiedBy);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+/**
+* Gets the Updated property
+* @return java.util.Date with the Updated
+*/
+    public java.util.Date getUpdated()
+    {
+        return getSemanticObject().getDateProperty(swb_updated);
+    }
+
+/**
+* Sets the Updated property
+* @param value long with the Updated
+*/
+    public void setUpdated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_updated, value);
+    }
+
+/**
+* Gets the Created property
+* @return java.util.Date with the Created
+*/
+    public java.util.Date getCreated()
+    {
+        return getSemanticObject().getDateProperty(swb_created);
+    }
+
+/**
+* Sets the Created property
+* @param value long with the Created
+*/
+    public void setCreated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_created, value);
+    }
+
+/**
+* Gets the MisIdeas property
+* @return String with the MisIdeas
+*/
+    public String getMisIdeas()
+    {
+        return getSemanticObject().getProperty(ewp_misIdeas);
+    }
+
+/**
+* Sets the MisIdeas property
+* @param value long with the MisIdeas
+*/
+    public void setMisIdeas(String value)
+    {
+        getSemanticObject().setProperty(ewp_misIdeas, value);
+    }
+
+/**
+* Gets the MisGustos property
+* @return String with the MisGustos
+*/
+    public String getMisGustos()
+    {
+        return getSemanticObject().getProperty(ewp_misGustos);
+    }
+
+/**
+* Sets the MisGustos property
+* @param value long with the MisGustos
+*/
+    public void setMisGustos(String value)
+    {
+        getSemanticObject().setProperty(ewp_misGustos, value);
+    }
+   /**
+   * Sets the value for the property Gerencia
+   * @param value Gerencia to set
+   */
+
+    public void setGerencia(com.infotec.eworkplace.swb.Gerencia value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(ewp_gerencia, value.getSemanticObject());
+        }else
+        {
+            removeGerencia();
+        }
+    }
+   /**
+   * Remove the value for Gerencia property
+   */
+
+    public void removeGerencia()
+    {
+        getSemanticObject().removeProperty(ewp_gerencia);
+    }
+
+   /**
+   * Gets the Gerencia
+   * @return a com.infotec.eworkplace.swb.Gerencia
+   */
+    public com.infotec.eworkplace.swb.Gerencia getGerencia()
+    {
+         com.infotec.eworkplace.swb.Gerencia ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(ewp_gerencia);
+         if(obj!=null)
+         {
+             ret=(com.infotec.eworkplace.swb.Gerencia)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+/**
+* Gets the Puesto property
+* @return String with the Puesto
+*/
+    public String getPuesto()
+    {
+        return getSemanticObject().getProperty(ewp_puesto);
+    }
+
+/**
+* Sets the Puesto property
+* @param value long with the Puesto
+*/
+    public void setPuesto(String value)
+    {
+        getSemanticObject().setProperty(ewp_puesto, value);
+    }
+
+/**
+* Gets the MiPersonalidad property
+* @return String with the MiPersonalidad
+*/
+    public String getMiPersonalidad()
+    {
+        return getSemanticObject().getProperty(ewp_miPersonalidad);
+    }
+
+/**
+* Sets the MiPersonalidad property
+* @param value long with the MiPersonalidad
+*/
+    public void setMiPersonalidad(String value)
+    {
+        getSemanticObject().setProperty(ewp_miPersonalidad, value);
+    }
+   /**
+   * Sets the value for the property Creator
+   * @param value Creator to set
+   */
+
+    public void setCreator(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(swb_creator, value.getSemanticObject());
+        }else
+        {
+            removeCreator();
+        }
+    }
+   /**
+   * Remove the value for Creator property
+   */
+
+    public void removeCreator()
+    {
+        getSemanticObject().removeProperty(swb_creator);
+    }
+
+   /**
+   * Gets the Creator
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getCreator()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_creator);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Gets all the com.infotec.eworkplace.swb.Proyecto
+   * @return A GenericIterator with all the com.infotec.eworkplace.swb.Proyecto
+   */
+
+    public org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Proyecto> listProyectos()
+    {
+        return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Proyecto>(getSemanticObject().listObjectProperties(ewp_hasProyecto));
+    }
+
+   /**
+   * Gets true if has a Proyecto
+   * @param value com.infotec.eworkplace.swb.Proyecto to verify
+   * @return true if the com.infotec.eworkplace.swb.Proyecto exists, false otherwise
+   */
+    public boolean hasProyecto(com.infotec.eworkplace.swb.Proyecto value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(ewp_hasProyecto,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a Proyecto
+   * @param value com.infotec.eworkplace.swb.Proyecto to add
+   */
+
+    public void addProyecto(com.infotec.eworkplace.swb.Proyecto value)
+    {
+        getSemanticObject().addObjectProperty(ewp_hasProyecto, value.getSemanticObject());
+    }
+   /**
+   * Removes all the Proyecto
+   */
+
+    public void removeAllProyecto()
+    {
+        getSemanticObject().removeProperty(ewp_hasProyecto);
+    }
+   /**
+   * Removes a Proyecto
+   * @param value com.infotec.eworkplace.swb.Proyecto to remove
+   */
+
+    public void removeProyecto(com.infotec.eworkplace.swb.Proyecto value)
+    {
+        getSemanticObject().removeObjectProperty(ewp_hasProyecto,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the Proyecto
+   * @return a com.infotec.eworkplace.swb.Proyecto
+   */
+    public com.infotec.eworkplace.swb.Proyecto getProyecto()
+    {
+         com.infotec.eworkplace.swb.Proyecto ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(ewp_hasProyecto);
+         if(obj!=null)
+         {
+             ret=(com.infotec.eworkplace.swb.Proyecto)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+/**
+* Gets the Ubicacion property
+* @return String with the Ubicacion
+*/
+    public String getUbicacion()
+    {
+        return getSemanticObject().getProperty(ewp_ubicacion);
+    }
+
+/**
+* Sets the Ubicacion property
+* @param value long with the Ubicacion
+*/
+    public void setUbicacion(String value)
+    {
+        getSemanticObject().setProperty(ewp_ubicacion, value);
+    }
+   /**
+   * Gets all the com.infotec.eworkplace.swb.TemaInteres
+   * @return A GenericIterator with all the com.infotec.eworkplace.swb.TemaInteres
+   */
+
+    public org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.TemaInteres> listTemaIntereses()
+    {
+        return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.TemaInteres>(getSemanticObject().listObjectProperties(ewp_hasTemaInteres));
+    }
+
+   /**
+   * Gets true if has a TemaInteres
+   * @param value com.infotec.eworkplace.swb.TemaInteres to verify
+   * @return true if the com.infotec.eworkplace.swb.TemaInteres exists, false otherwise
+   */
+    public boolean hasTemaInteres(com.infotec.eworkplace.swb.TemaInteres value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(ewp_hasTemaInteres,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a TemaInteres
+   * @param value com.infotec.eworkplace.swb.TemaInteres to add
+   */
+
+    public void addTemaInteres(com.infotec.eworkplace.swb.TemaInteres value)
+    {
+        getSemanticObject().addObjectProperty(ewp_hasTemaInteres, value.getSemanticObject());
+    }
+   /**
+   * Removes all the TemaInteres
+   */
+
+    public void removeAllTemaInteres()
+    {
+        getSemanticObject().removeProperty(ewp_hasTemaInteres);
+    }
+   /**
+   * Removes a TemaInteres
+   * @param value com.infotec.eworkplace.swb.TemaInteres to remove
+   */
+
+    public void removeTemaInteres(com.infotec.eworkplace.swb.TemaInteres value)
+    {
+        getSemanticObject().removeObjectProperty(ewp_hasTemaInteres,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the TemaInteres
+   * @return a com.infotec.eworkplace.swb.TemaInteres
+   */
+    public com.infotec.eworkplace.swb.TemaInteres getTemaInteres()
+    {
+         com.infotec.eworkplace.swb.TemaInteres ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(ewp_hasTemaInteres);
+         if(obj!=null)
+         {
+             ret=(com.infotec.eworkplace.swb.TemaInteres)obj.createGenericInstance();
+         }
+         return ret;
+    }
+}
