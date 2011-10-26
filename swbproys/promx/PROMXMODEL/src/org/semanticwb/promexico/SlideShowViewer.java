@@ -65,7 +65,7 @@ public class SlideShowViewer extends org.semanticwb.promexico.base.SlideShowView
                 txtButtons = txtButtons + tit + "|" + redi + "|" + button.isBtnNewWindow();
                 String tar = "";
                 if(button.isBtnNewWindow()) {
-                    tar = "target='_blank'";
+                    tar = " target='_blank'";
                 } /*else {
                     creaButtons = creaButtons + "<input type=\"button\" onclick=\"javascript:window.location='" + redi + "';\" value=\"" + tit + "\">";
                 }*/
