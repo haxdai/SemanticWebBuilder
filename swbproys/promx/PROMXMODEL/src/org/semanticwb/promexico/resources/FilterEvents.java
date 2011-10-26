@@ -92,8 +92,12 @@ public class FilterEvents extends GenericAdmResource{
     public void doRedir(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         WebPage wpRedi = paramRequest.getWebPage().getWebSite().getWebPage("showSearchEvents");
         String typ = request.getParameter(EventType.genCal_EventType.getName());
-        String reg = request.getParameter(Region.promx_Region.getName());
-        String sec = request.getParameter(Sector.promx_Sector.getName());
+        String reg = "";
+        String sec = "";
+        if(typ != null && !typ.equals("Eventos_Nacionales1")) {
+            reg = request.getParameter(Region.promx_Region.getName());
+            sec = request.getParameter(Sector.promx_Sector.getName());
+        }
         boolean isFirst = true;
         String url2 = wpRedi.getUrl();
         String url2a = wpRedi.getUrl();
