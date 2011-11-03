@@ -1,7 +1,7 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class CandidatoBase extends org.semanticwb.model.UserTypeDef 
+public abstract class CandidatoBase extends org.semanticwb.model.UserTypeDef implements com.infotec.eworkplace.swb.CVable
 {
     public static final org.semanticwb.platform.SemanticProperty ewp_solicitud=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#solicitud");
     public static final org.semanticwb.platform.SemanticClass ewp_Candidato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Candidato");

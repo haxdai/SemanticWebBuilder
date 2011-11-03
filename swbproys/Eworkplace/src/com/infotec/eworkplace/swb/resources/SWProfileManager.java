@@ -42,11 +42,12 @@ public class SWProfileManager extends GenericAdmResource {
     private static final String Send_VIEW = "sview";
     private static final String Send_EDIT = "sedit";
     private static final String Send_CHGPHTO = "phto";
+    private static final String Send_REQ = "req";
+    private static final String Send_FAV = "fav";
     
     @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         String mode = paramRequest.getMode();
-System.out.println("\n\nprocessRequest............ mode="+mode);
         if("fam".equals(mode))
             doFam(request, response, paramRequest);
         else
@@ -98,12 +99,10 @@ System.out.println("\n\nprocessRequest............ mode="+mode);
                     out.println("    </li>");
                     out.println("    <li class=\"perfil\">");
                     //out.println("      <p><a href=\""+SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+wsite.getId()+"/editar_datos"+"/_lang/"+user.getLanguage()+"\" title=\"Editar mi perfil\">Editar mi perfil</a></p>");
-                    final String urlEdit = paramRequest.getActionUrl().setAction(Send_EDIT).toString();
-                    out.println("      <p><a href=\""+urlEdit+"\" title=\"Editar mi perfil\">Editar mi perfil</a></p>");
-                    out.println("      <p><a href=\"#\" title=\"\">Mis favoritos</a></p>");
-                    out.println("      <p><a href=\"#\" title=\"\">Mis solicitudes</a></p>");
-                    final String urlView = paramRequest.getActionUrl().setAction(Send_VIEW).toString();
-                    out.println("      <p><a href=\""+urlView+"\" title=\"\">Ver mi perfil</a></p>");
+                    out.println("      <p><a href=\""+paramRequest.getActionUrl().setAction(Send_EDIT).toString()+"\" title=\"Editar mi perfil\">Editar mi perfil</a></p>");
+                    out.println("      <p><a href=\""+paramRequest.getActionUrl().setAction(Send_FAV).toString()+"\" title=\"Editar mis favoritos\">Mis favoritos</a></p>");
+                    out.println("      <p><a href=\""+paramRequest.getActionUrl().setAction(Send_REQ).toString()+"\" title=\"\">Mis solicitudes</a></p>");
+                    out.println("      <p><a href=\""+paramRequest.getActionUrl().setAction(Send_VIEW).toString()+"\" title=\"\">Ver mi perfil</a></p>");
                     out.println("      <p class=\"salir\"><a href=\""+SWBPlatform.getContextPath()+"/login?wb_logout=true&wb_goto="+urlLogout+"\" title=\"Salir\">Salir</a></p>");
                     out.println("    </li>");
                     out.println("    <li style=\"clear:both; height:1px;\"></li>");
@@ -166,9 +165,22 @@ System.out.println("\n\nprocessRequest............ mode="+mode);
             htm.append("            <div class=\"foto\"><img src=\""+pimg+"\" alt=\""+me.getFullName()+"\" /><a href=\""+urlChgPhto+"\">Cambiar foto</a></div>");
             htm.append("            <div class=\"user\">");
             htm.append("                <p class=\"name\">"+me.getFullName()+"</p>");
-            htm.append("                <p class=\"tercio\"><a href=\"#\">M&aacute;s acerca de m&iacute;</a></p>");
+            htm.append("                <p class=\"tercio\"><a href=\"javascript:expande('acercade_mi')\">M&aacute;s acerca de m&iacute;</a></p>");
             htm.append("            </div>");
             htm.append("            <div class=\"datos\">");
+            
+            htm.append("              <div id=\"acercade_mi\">");
+            htm.append("                <div class=\"text_editor\">");
+            htm.append("                  <h3>Mi personalidad</h3>");
+            htm.append("                  <textarea name=\"prsnld\" id=\"prsnld\" rows=\"2\" cols=\"70\"></textarea>");
+            htm.append("                </div>");
+            htm.append("                <div class=\"text_editor\">");
+            htm.append("                  <h3>Mis gustos e intereses</h3>");
+            htm.append("                  <textarea name=\"gsts\" id=\"gsts\" rows=\"2\" cols=\"70\"></textarea>");
+            htm.append("                </div>");
+            htm.append("                <a href=\"javascript:collapse('acercade_mi')\">Cerrar</a>");
+            htm.append("              </div>");
+            
             htm.append("              <p class=\"tercio\"><label>Direcci&oacute;n de adscripci&oacute;n</label><select name=\"da\">");
             htm.append("                <option>Competitividad</option>");
             htm.append("              </select></p>");
@@ -348,6 +360,11 @@ System.out.println("\n\nprocessRequest............ mode="+mode);
             htm.append("    </div>  ");
             htm.append("</div>");
             htm.append("</form>");
+            htm.append("\n<script type=\"text/javascript\">\n");
+            htm.append("<!--\n");
+            htm.append("  dojo.addOnLoad(collapse('acercade_mi'));\n");
+            htm.append("-->\n");
+            htm.append("</script>\n");            
             out.println(htm.toString());
         }
     }
@@ -360,8 +377,7 @@ System.out.println("\n\nprocessRequest............ mode="+mode);
             return;
         
         Resource base = getResourceBase();
-        final String action = response.getAction();
-System.out.println("processAction...........action="+action);        
+        final String action = response.getAction();       
         final WebSite wsite = base.getWebSite();
         if(Send_VIEW.equals(action)) {
             final String url = SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+wsite.getId()+"/vista_perfil"+"/_lang/"+user.getLanguage();
@@ -373,6 +389,12 @@ System.out.println("processAction...........action="+action);
         }else if(Send_CHGPHTO.equals(action)) {
             final String url = SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+wsite.getId()+"/editar_foto"+"/_lang/"+user.getLanguage();
             request.getSession(true).setAttribute(Send, Send_CHGPHTO);
+            response.sendRedirect(url);
+        }else if(Send_REQ.equals(action)) {
+            final String url = SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+wsite.getId()+"/solicitudes"+"/_lang/"+user.getLanguage();
+            response.sendRedirect(url);
+        }else if(Send_FAV.equals(action)) {
+            final String url = SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+wsite.getId()+"/favoritos"+"/_lang/"+user.getLanguage();
             response.sendRedirect(url);
         }
         
@@ -514,8 +536,7 @@ System.out.println("processAction...........action="+action);
             if(me.getPhoto()==null)
                 pimg = SWBPortal.getWebWorkPath()+"/models/"+wsite.getId()+"/css/user.jpg";
             else
-                pimg = SWBPortal.getWebWorkPath()+base.getWorkPath()+"/"+me.getPhoto();
-            
+                pimg = SWBPortal.getWebWorkPath()+profile.getWorkPath()+"/"+me.getPhoto();
             htm.append("            <div class=\"foto\"><img src=\""+pimg+"\" alt=\"\" /></div>");
             htm.append("            <div class=\"user\">");
             htm.append("                <p class=\"name\">"+me.getFullName()+"</p>");
@@ -537,7 +558,23 @@ System.out.println("processAction...........action="+action);
         js.append("\n");
         js.append("<script type=\"text/javascript\">\n");
         js.append("<!--\n");
-        js.append("  var idx=0;");
+        
+        js.append("dojo.require(\"dojo.fx\");\n");
+        js.append("dojo.require(\"dijit.dijit\");\n");
+        
+        js.append("function expande(domId) {\n");
+        js.append("   var anim1 = dojo.fx.wipeIn( {node:domId, duration:500 });\n");
+        js.append("   var anim2 = dojo.fadeIn({node:domId, duration:650});\n");
+        js.append("   dojo.fx.combine([anim1,anim2]).play();\n");
+        js.append("}\n");
+
+        js.append("function collapse(domId) {\n");
+        js.append("   var anim1 = dojo.fx.wipeOut( {node:domId, duration:500 });\n");
+        js.append("   var anim2 = dojo.fadeOut({node:domId, duration:650});\n");
+        js.append("   dojo.fx.combine([anim1, anim2]).play();\n");
+        js.append(" }\n");        
+                
+        js.append("  var idx=0;\n");
         js.append("  function appendChild(childId, parentId) {\n");
         js.append("    var s = new String('');\n");
         js.append("    s = s.concat('<li id=\"');\n");
@@ -557,8 +594,6 @@ System.out.println("processAction...........action="+action);
     }
     
     private void chgPhto(HttpServletRequest request, SWBActionResponse response) throws Exception {
-        System.out.println("chgPhto....");
-        
         Resource base = getResourceBase();    
         User me = response.getUser();
         SWProfile profile = SWProfile.ClassMgr.getSWProfile(me.getId(), base.getWebSite());
@@ -566,7 +601,6 @@ System.out.println("processAction...........action="+action);
         if (isMultipart && me.equals(profile.getCreator())) {
             //final String path = SWBPortal.getWebWorkPath()+base.getWorkPath()+"/"+user.getPhoto();
             final String path = SWBPortal.getWorkPath()+profile.getWorkPath();
-System.out.println("path="+path);
             File file = new File(path);
             if(!file.exists()) {
                 file.mkdirs();
@@ -578,7 +612,6 @@ System.out.println("path="+path);
                     continue;
                 }else {
                     String filename = item.getName().toLowerCase();
-System.out.println("filename="+filename);
                     if(!filename.isEmpty() && (filename.endsWith(".jpg")||filename.endsWith(".jpeg")||filename.endsWith(".gif")||filename.endsWith(".png"))) {
                         file = new File(path+"/"+filename);
                         item.write(file);
