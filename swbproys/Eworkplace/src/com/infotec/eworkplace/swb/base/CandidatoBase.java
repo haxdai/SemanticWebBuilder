@@ -3,7 +3,7 @@ package com.infotec.eworkplace.swb.base;
 
 public abstract class CandidatoBase extends org.semanticwb.model.UserTypeDef implements com.infotec.eworkplace.swb.CVable
 {
-    public static final org.semanticwb.platform.SemanticProperty ewp_solicitud=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#solicitud");
+    public static final org.semanticwb.platform.SemanticProperty ewp_fechaSolicitud=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#fechaSolicitud");
     public static final org.semanticwb.platform.SemanticClass ewp_Candidato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Candidato");
    /**
    * The semantic class that represents the currentObject
@@ -85,20 +85,20 @@ public abstract class CandidatoBase extends org.semanticwb.model.UserTypeDef imp
     }
 
 /**
-* Gets the Solicitud property
-* @return java.util.Date with the Solicitud
+* Gets the FechaSolicitud property
+* @return java.util.Date with the FechaSolicitud
 */
-    public java.util.Date getSolicitud()
+    public java.util.Date getFechaSolicitud()
     {
-        return getSemanticObject().getDateProperty(ewp_solicitud);
+        return getSemanticObject().getDateProperty(ewp_fechaSolicitud);
     }
 
 /**
-* Sets the Solicitud property
-* @param value long with the Solicitud
+* Sets the FechaSolicitud property
+* @param value long with the FechaSolicitud
 */
-    public void setSolicitud(java.util.Date value)
+    public void setFechaSolicitud(java.util.Date value)
     {
-        getSemanticObject().setDateProperty(ewp_solicitud, value);
+        getSemanticObject().setDateProperty(ewp_fechaSolicitud, value);
     }
 }
