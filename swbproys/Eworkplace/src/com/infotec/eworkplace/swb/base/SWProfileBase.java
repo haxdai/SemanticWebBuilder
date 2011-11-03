@@ -1,7 +1,7 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable
+public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Placeable,org.semanticwb.model.Traceable
 {
     public static final org.semanticwb.platform.SemanticProperty ewp_misIdeas=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#misIdeas");
     public static final org.semanticwb.platform.SemanticProperty ewp_misGustos=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#misGustos");
@@ -11,7 +11,6 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
     public static final org.semanticwb.platform.SemanticProperty ewp_miPersonalidad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#miPersonalidad");
     public static final org.semanticwb.platform.SemanticClass ewp_Proyecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Proyecto");
     public static final org.semanticwb.platform.SemanticProperty ewp_hasProyecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#hasProyecto");
-    public static final org.semanticwb.platform.SemanticProperty ewp_ubicacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#ubicacion");
     public static final org.semanticwb.platform.SemanticClass ewp_TemaInteres=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#TemaInteres");
     public static final org.semanticwb.platform.SemanticProperty ewp_hasTemaInteres=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#hasTemaInteres");
     public static final org.semanticwb.platform.SemanticClass ewp_SWProfile=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#SWProfile");

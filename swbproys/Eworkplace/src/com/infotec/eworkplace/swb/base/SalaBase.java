@@ -1,7 +1,7 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class SalaBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable
+public abstract class SalaBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,com.infotec.eworkplace.swb.Placeable
 {
     public static final org.semanticwb.platform.SemanticProperty ewp_capacidad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#capacidad");
     public static final org.semanticwb.platform.SemanticProperty ewp_tieneProyector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#tieneProyector");
@@ -149,6 +149,24 @@ public abstract class SalaBase extends org.semanticwb.model.SWBClass implements 
     public void setDescription(String description, String lang)
     {
         getSemanticObject().setProperty(swb_description, description, lang);
+    }
+
+/**
+* Gets the Ubicacion property
+* @return String with the Ubicacion
+*/
+    public String getUbicacion()
+    {
+        return getSemanticObject().getProperty(ewp_ubicacion);
+    }
+
+/**
+* Sets the Ubicacion property
+* @param value long with the Ubicacion
+*/
+    public void setUbicacion(String value)
+    {
+        getSemanticObject().setProperty(ewp_ubicacion, value);
     }
 
 /**
