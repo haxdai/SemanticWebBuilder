@@ -1,11 +1,9 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class ConocimientoBase extends org.semanticwb.model.SWBClass 
+public abstract class ConocimientoBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Capacidad
 {
     public static final org.semanticwb.platform.SemanticProperty ewp_materia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#materia");
-    public static final org.semanticwb.platform.SemanticProperty ewp_domain=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#domain");
-    public static final org.semanticwb.platform.SemanticProperty ewp_experience=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#experience");
     public static final org.semanticwb.platform.SemanticClass ewp_Conocimiento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Conocimiento");
    /**
    * The semantic class that represents the currentObject

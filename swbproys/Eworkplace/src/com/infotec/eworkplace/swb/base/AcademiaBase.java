@@ -1,36 +1,20 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class AcademiaBase extends org.semanticwb.model.SWBClass 
+public abstract class AcademiaBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Institucion
 {
     public static final org.semanticwb.platform.SemanticClass ewp_Curso=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Curso");
     public static final org.semanticwb.platform.SemanticProperty ewp_hasCurso=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#hasCurso");
-   /**
-   * Nombre del documentos obtenido
-   */
-    public static final org.semanticwb.platform.SemanticProperty ewp_documentoObtenido=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#documentoObtenido");
     public static final org.semanticwb.platform.SemanticClass ewp_Idioma=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Idioma");
     public static final org.semanticwb.platform.SemanticProperty ewp_hasIdioma=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#hasIdioma");
-   /**
-   * Fecha en la que se concluyó el curso
-   */
-    public static final org.semanticwb.platform.SemanticProperty ewp_fin=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#fin");
     public static final org.semanticwb.platform.SemanticProperty ewp_situacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#situacion");
     public static final org.semanticwb.platform.SemanticClass ewp_Certificacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Certificacion");
     public static final org.semanticwb.platform.SemanticProperty ewp_hasCertificacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#hasCertificacion");
-   /**
-   * Fecha en la que se inició el curso
-   */
-    public static final org.semanticwb.platform.SemanticProperty ewp_inicio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#inicio");
     public static final org.semanticwb.platform.SemanticProperty ewp_grado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#grado");
    /**
    * Carrera o especialidad
    */
     public static final org.semanticwb.platform.SemanticProperty ewp_carrera=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#carrera");
-   /**
-   * Escuela donde se obtuvo el grado académico
-   */
-    public static final org.semanticwb.platform.SemanticProperty ewp_institucion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#institucion");
     public static final org.semanticwb.platform.SemanticClass ewp_Diplomado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Diplomado");
     public static final org.semanticwb.platform.SemanticProperty ewp_hasDiplomado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#hasDiplomado");
     public static final org.semanticwb.platform.SemanticClass ewp_Academia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Academia");

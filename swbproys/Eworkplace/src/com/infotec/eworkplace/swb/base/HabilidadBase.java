@@ -1,10 +1,8 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class HabilidadBase extends org.semanticwb.model.SWBClass 
+public abstract class HabilidadBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Capacidad
 {
-    public static final org.semanticwb.platform.SemanticProperty ewp_domain=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#domain");
-    public static final org.semanticwb.platform.SemanticProperty ewp_experience=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#experience");
     public static final org.semanticwb.platform.SemanticProperty ewp_tema=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#tema");
     public static final org.semanticwb.platform.SemanticClass ewp_Habilidad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Habilidad");
    /**
