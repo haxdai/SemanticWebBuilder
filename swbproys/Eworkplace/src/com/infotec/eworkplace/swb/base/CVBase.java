@@ -11,6 +11,11 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass
    * Fecha de la última actualización
    */
     public static final org.semanticwb.platform.SemanticProperty ewp_actualizacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#actualizacion");
+   /**
+   * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
+   */
+    public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
+    public static final org.semanticwb.platform.SemanticProperty ewp_propietario=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#propietario");
     public static final org.semanticwb.platform.SemanticClass ewp_Persona=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Persona");
     public static final org.semanticwb.platform.SemanticProperty ewp_persona=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#persona");
     public static final org.semanticwb.platform.SemanticClass ewp_CV=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#CV");
@@ -132,6 +137,29 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass
         public static java.util.Iterator<com.infotec.eworkplace.swb.CV> listCVByCompetencia(com.infotec.eworkplace.swb.Competencia value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.CV> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(ewp_competencia,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.CV with a determined Propietario
+       * @param value Propietario of the type org.semanticwb.model.User
+       * @param model Model of the com.infotec.eworkplace.swb.CV
+       * @return Iterator with all the com.infotec.eworkplace.swb.CV
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.CV> listCVByPropietario(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.CV> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(ewp_propietario, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.CV with a determined Propietario
+       * @param value Propietario of the type org.semanticwb.model.User
+       * @return Iterator with all the com.infotec.eworkplace.swb.CV
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.CV> listCVByPropietario(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.CV> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(ewp_propietario,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -260,6 +288,44 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass
     public void setActualizacion(java.util.Date value)
     {
         getSemanticObject().setDateProperty(ewp_actualizacion, value);
+    }
+   /**
+   * Sets the value for the property Propietario
+   * @param value Propietario to set
+   */
+
+    public void setPropietario(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(ewp_propietario, value.getSemanticObject());
+        }else
+        {
+            removePropietario();
+        }
+    }
+   /**
+   * Remove the value for Propietario property
+   */
+
+    public void removePropietario()
+    {
+        getSemanticObject().removeProperty(ewp_propietario);
+    }
+
+   /**
+   * Gets the Propietario
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getPropietario()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(ewp_propietario);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
     }
    /**
    * Sets the value for the property Persona
