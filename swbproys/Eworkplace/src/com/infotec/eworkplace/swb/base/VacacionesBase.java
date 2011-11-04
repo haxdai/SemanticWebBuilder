@@ -4,19 +4,19 @@ package com.infotec.eworkplace.swb.base;
 public abstract class VacacionesBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Solicitable
 {
    /**
-   * Fecha de regreso al trabajo
+   * Return to work date
    */
     public static final org.semanticwb.platform.SemanticProperty ewp_presentandose=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#presentandose");
    /**
-   * Fecha de término de las vacaciones @es
+   * Termination date of the holiday
    */
     public static final org.semanticwb.platform.SemanticProperty ewp_finVacaciones=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#finVacaciones");
    /**
-   * Fecha de inicio de vacaciones
+   * Start date of holiday
    */
     public static final org.semanticwb.platform.SemanticProperty ewp_inicioVacaciones=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#inicioVacaciones");
    /**
-   * Año período de vacaciones
+   * Years holiday period
    */
     public static final org.semanticwb.platform.SemanticProperty ewp_periodo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#periodo");
     public static final org.semanticwb.platform.SemanticClass ewp_Vacaciones=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Vacaciones");
