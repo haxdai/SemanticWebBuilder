@@ -1,7 +1,7 @@
 package org.semanticwb.promexico.base;
 
 
-public abstract class ProMxVideoBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Searchable,org.semanticwb.model.Ruleable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable
+public abstract class ProMxVideoBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Tagable,org.semanticwb.model.Ruleable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Searchable
 {
     public static final org.semanticwb.platform.SemanticClass promx_Sector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Sector");
     public static final org.semanticwb.platform.SemanticProperty promx_hasVideoSector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasVideoSector");
@@ -11,6 +11,10 @@ public abstract class ProMxVideoBase extends org.semanticwb.model.SWBClass imple
     public static final org.semanticwb.platform.SemanticClass promx_Service=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#Service");
     public static final org.semanticwb.platform.SemanticProperty promx_hasVideoService=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasVideoService");
     public static final org.semanticwb.platform.SemanticProperty promx_isMainVideo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#isMainVideo");
+   /**
+   * Indica si el video forma parte del conjunto que es susceptible de presentarse en el Home.
+   */
+    public static final org.semanticwb.platform.SemanticProperty promx_isShownAtHome=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#isShownAtHome");
     public static final org.semanticwb.platform.SemanticClass promx_ProMxVideoType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#ProMxVideoType");
     public static final org.semanticwb.platform.SemanticProperty promx_videoType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#videoType");
     public static final org.semanticwb.platform.SemanticProperty promx_pmVideo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#pmVideo");
@@ -558,6 +562,24 @@ public abstract class ProMxVideoBase extends org.semanticwb.model.SWBClass imple
              ret=(org.semanticwb.model.Rule)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the IsShownAtHome property
+* @return boolean with the IsShownAtHome
+*/
+    public boolean isIsShownAtHome()
+    {
+        return getSemanticObject().getBooleanProperty(promx_isShownAtHome);
+    }
+
+/**
+* Sets the IsShownAtHome property
+* @param value long with the IsShownAtHome
+*/
+    public void setIsShownAtHome(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(promx_isShownAtHome, value);
     }
    /**
    * Sets the value for the property VideoType

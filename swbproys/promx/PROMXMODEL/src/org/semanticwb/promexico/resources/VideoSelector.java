@@ -125,12 +125,13 @@ public class VideoSelector extends GenericAdmResource {
 
     private ArrayList<ProMxVideo> getVideos(WebSite ws) {
 
-        Iterator<ProMxVideo> videosIt = ProMxVideo.ClassMgr.listProMxVideos(ws);
+        Iterator<SemanticObject> videosIt = ws.getSemanticModel().listSubjects(
+                    ProMxVideo.promx_isShownAtHome, true);
         ArrayList<ProMxVideo> array = new ArrayList<ProMxVideo>();
 
         if (videosIt != null) {
             while (videosIt.hasNext()) {
-                ProMxVideo proMxVideo = videosIt.next();
+                ProMxVideo proMxVideo = (ProMxVideo) videosIt.next().createGenericInstance();
                 if (!proMxVideo.isIsMainVideo()) {
                     array.add(proMxVideo);
                 }
