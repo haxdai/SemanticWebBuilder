@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.lang.String;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -48,6 +49,63 @@ public class ProMxResourceCalendar extends org.semanticwb.promexico.resources.ba
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
+        User user = paramRequest.getUser();
+        HashMap eventMonth = new HashMap();
+        HashMap traiMonth = new HashMap();
+        java.util.Calendar now = Calendar.getInstance();
+        int monthP = request.getParameter("mP") == null ? now.get(Calendar.MONTH) + 1 : Integer.parseInt(request.getParameter("mP")+"");
+        int yearP = request.getParameter("yP") == null ? now.get(Calendar.YEAR) : Integer.parseInt(request.getParameter("yP")+"");
+
+        int minYear = now.get(Calendar.YEAR);
+        int maxYear = minYear;
+        if (isPreviousYear()) {
+            minYear = minYear - 1;
+        }
+        if (isNextYear()) {
+            maxYear = maxYear + 1;
+        }
+        if (yearP > maxYear) {
+            yearP = maxYear;
+        }
+        if(yearP < minYear) {
+            yearP = minYear;
+        }
+
+        if(request.getParameter("chYear") != null && request.getParameter("chYear").equals("1")) {
+            if(request.getParameter("monthP") != null && request.getParameter("menuSelectYear") != null) {
+                monthP = Integer.parseInt(request.getParameter("monthP"));
+                yearP = Integer.parseInt(request.getParameter("menuSelectYear"));
+            }
+        }
+
+        WebSite ws  = paramRequest.getWebPage().getWebSite();
+        if(monthP > 0 && yearP > 0) {
+            Iterator ist = null;
+            Iterator ist2 = null;
+            Iterator istEvts = EventType.ClassMgr.listEventTypes();// listEvtTypes();
+            Iterator istTraining = TrainingType.ClassMgr.listTrainingTypes();// listCalTrainingTypes();
+
+            if(istEvts.hasNext() && istTraining.hasNext()) {
+                ist = getListEvtsType(istEvts, ws);
+                ist2 = getListTrainingType(istTraining, ws);
+            } else if(istEvts.hasNext()) {
+                ist = getListEvtsType(istEvts, ws);
+            } else if(istTraining.hasNext()) {
+                ist2 = getListTrainingType(istTraining, ws);
+            } else {
+                ist = Event.ClassMgr.listEvents(ws);
+                ist2 = Training.ClassMgr.listTrainings(ws);
+            }
+
+            if(ist != null) {
+                eventMonth = getHashMapListEvts(ist, user, monthP, yearP);
+            }
+            if(ist2 != null) {
+                traiMonth = getHashMapListTraining(ist2, user, monthP, yearP);
+            }
+        }
+
+
         String path = "/swbadmin/jsp/genericCalendar/viewGralCalendar.jsp";
         if(getJspView() != null) {
             if(getJspView().indexOf(".jsp") > 0) {
@@ -57,6 +115,12 @@ public class ProMxResourceCalendar extends org.semanticwb.promexico.resources.ba
         RequestDispatcher rd = request.getRequestDispatcher(path);
         try {
             request.setAttribute("paramRequest", paramRequest);
+            request.setAttribute("eventMonth", eventMonth);
+            request.setAttribute("traiMonth", traiMonth);
+            request.setAttribute("mP", monthP);
+            request.setAttribute("yP", yearP);
+            request.setAttribute("nextYear", isNextYear());
+            request.setAttribute("prevYear", isPreviousYear());
             rd.include(request, response);
         } catch(Exception e) {
             log.error(e);
@@ -93,185 +157,185 @@ public class ProMxResourceCalendar extends org.semanticwb.promexico.resources.ba
             Iterator ist2 = null;
             Iterator istEvts = listEvtTypes();
             Iterator istTraining = listCalTrainingTypes();
-            ArrayList allList = new ArrayList();
 
             if(istEvts.hasNext() && istTraining.hasNext()) {
-                while(istEvts.hasNext()) {
-                    EventType type =  (EventType)istEvts.next();
-                    ist = Event.ClassMgr.listEventByEvType(type, paramRequest.getWebPage().getWebSite());
-                    while(ist.hasNext()) {
-                        allList.add(ist.next());
-                    }
-                }
-                if(!allList.isEmpty()) {
-                    ist = allList.iterator();
-                }
-                allList = new ArrayList();
-                while(istTraining.hasNext()) {
-                    TrainingType type =  (TrainingType)istTraining.next();
-                    ist2 = Training.ClassMgr.listTrainingByTraType(type, paramRequest.getWebPage().getWebSite());
-                    while(ist2.hasNext()) {
-                        allList.add(ist2.next());
-                    }
-                }
-                if(!allList.isEmpty()) {
-                    ist2 = allList.iterator();
-                }
+                ist = getListEvtsType(istEvts, ws);
+                ist2 = getListTrainingType(istTraining, ws);
             } else if(istEvts.hasNext()) {
-                while(istEvts.hasNext()) {
-                    EventType type =  (EventType)istEvts.next();
-                    ist = Event.ClassMgr.listEventByEvType(type, paramRequest.getWebPage().getWebSite());
-                    while(ist.hasNext()) {
-                        allList.add(ist.next());
-                    }
-                }
-                if(!allList.isEmpty()) {
-                    ist = allList.iterator();
-                }
+                ist = getListEvtsType(istEvts, ws);
             } else if(istTraining.hasNext()) {
-                while(istTraining.hasNext()) {
-                    TrainingType type =  (TrainingType)istTraining.next();
-                    ist2 = Training.ClassMgr.listTrainingByTraType(type, paramRequest.getWebPage().getWebSite());
-                    while(ist2.hasNext()) {
-                        allList.add(ist2.next());
-                    }
-                }
-                if(!allList.isEmpty()) {
-                    ist2 = allList.iterator();
-                }  
+                ist2 = getListTrainingType(istTraining, ws);
             } else {
                 ist = Event.ClassMgr.listEvents(ws);
                 ist2 = Training.ClassMgr.listTrainings(ws);
             }
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            
             if(ist != null) {
-                while(ist.hasNext()) {
-                    Event ev = (Event)ist.next();
-                    if(user.haveAccess(ev)) {
-                        try {
-                            if(ev.getEventInitDate() != null) {
-                                int valueMonth=sdf.parse(ev.getEventInitDate()).getMonth()+1;
-                                int valueYear = sdf.parse(ev.getEventInitDate()).getYear();
-                                int year1 = (valueYear< 1000) ? valueYear + 1900 : valueYear;
-                                int valueDay = sdf.parse(ev.getEventInitDate()).getDate();
-
-                                boolean isYearly = (mont == valueMonth && ev.getPeriodicity().equals("yearly")) ? true : false;
-                                int monthCurrent = java.util.Calendar.getInstance().MONTH + 1;
-                                boolean isMonthly = ev.getPeriodicity().equals("monthly") && valueDay <= lastDayOfMonth(monthCurrent, year) ? true : false;//java.util.Calendar.getInstance().DAY_OF_MONTH == valueMonth ? true : false;
-                                boolean isWeekly = ev.getPeriodicity().equals("weekly") ? true : false;
-                                int valMonthEndEvt, valYearEndEvt, year2;
-                                valMonthEndEvt = valYearEndEvt = year2 = 0;
-                                if(ev.getEventEndDate() != null ) {
-                                    valMonthEndEvt = sdf.parse(ev.getEventEndDate()).getMonth()+1;
-                                }
-                                if(ev.getEventEndDate() != null) {
-                                    valYearEndEvt = sdf.parse(ev.getEventEndDate()).getYear();
-                                    year2 = (valYearEndEvt < 1000) ? valYearEndEvt + 1900 : valYearEndEvt;
-                                }
-
-                                if(((mont == valueMonth) && (year == year1)) || (isYearly && year >= year2) || (isMonthly && year >= year2 ) || (isWeekly && year >= year2)) {
-                                    ArrayList listEvents = new ArrayList();
-                                    if((!isWeekly && year <= year2 && mont <= valMonthEndEvt && mont >= valueMonth && year >= year1) || (!isWeekly && mont >= valueMonth && year >= year1 && ev.getEventEndDate() == null)) {
-                                        if(eventMonth.containsKey(valueDay)) {
-                                            listEvents = (ArrayList)eventMonth.get(valueDay);
-                                            listEvents.add(ev);
-                                            eventMonth.remove(valueDay);
-                                        } else {
-                                            listEvents.add(ev);
-                                        }
-                                        eventMonth.put(valueDay, listEvents);
-                                    } else if((year <= year2 && mont <= valMonthEndEvt && mont >= valueMonth) || (mont >= valueMonth && year >= year1 && ev.getEventEndDate() == null)) {
-                                        ArrayList week = getWeekly(ev, mont-1, year);
-                                        Iterator it = week.iterator();
-                                        while(it.hasNext()) {
-                                            int day = Integer.parseInt(it.next().toString());
-                                            if(eventMonth.containsKey(day)) {
-                                                listEvents = (ArrayList)eventMonth.get(day);
-                                                listEvents.add(ev);
-                                                eventMonth.remove(day);
-                                            } else {
-                                                listEvents.add(ev);
-                                            }
-                                            eventMonth.put(day, listEvents);
-                                        }
-                                    }
-
-                                }
-                            }
-                        } catch(Exception e) {
-                            log.error("Error while process events in ScheduledEvents" + e);
-                        }
-                    }
-                }
+                eventMonth = getHashMapListEvts(ist, user, mont, year);
             }
             /*---Lectura de Capacitaciones---*/
             if(ist2 != null) {
-                while(ist2.hasNext()) {
-                    Training training = (Training)ist2.next();
-                    if(user.haveAccess(training)) {
-                        try {
-                            if(training.getTraInitDate() != null) {
-                                int valueMonth=sdf.parse(training.getTraInitDate()).getMonth()+1;
-                                int valueYear = sdf.parse(training.getTraInitDate()).getYear();
-                                int year1 = (valueYear< 1000) ? valueYear + 1900 : valueYear;
-                                int valueDay = sdf.parse(training.getTraInitDate()).getDate();
+                traiMonth = getHashMapListTraining(ist2, user, mont, year);
+            /*-------------------------------*/
+            }
 
-                                if((mont == valueMonth) && (year == year1)) {
-                                    ArrayList listTraining = new ArrayList();
-                                    if(traiMonth.containsKey(valueDay)) {
-                                        listTraining = (ArrayList)traiMonth.get(valueDay);
-                                        listTraining.add(training);
-                                        traiMonth.remove(valueDay);
-                                    } else {
-                                        listTraining.add(training);
-                                    }
-                                    traiMonth.put(valueDay, listTraining);
-                                }
+            JSONObject objEventMonth = new JSONObject();
+
+            Iterator it = eventMonth.entrySet().iterator();
+            while(it.hasNext()) {
+                Map.Entry e = (Map.Entry)it.next();
+                String day = e.getKey().toString();
+                ArrayList eventos = (ArrayList)e.getValue();
+                try {
+                    JSONObject getEv = getEvents(eventos, paramRequest, cal);
+                    objEventMonth.put(day, getEv);
+                } catch(Exception e1) {
+                    log.error("Error while build the events for day: " + e1);
+                }
+            }
+        /* --Capacitaciones-- */
+            it = traiMonth.entrySet().iterator();
+            while(it.hasNext()) {
+                Map.Entry e = (Map.Entry)it.next();
+                String day = e.getKey().toString();
+                ArrayList training = (ArrayList)e.getValue();
+                try {
+                    JSONObject getEv = null;
+                    if(objEventMonth.has(day)) {
+                         getEv = (JSONObject)objEventMonth.get(day);
+                         objEventMonth.remove(day);
+                    }
+                    JSONObject train = getTraining(training, paramRequest, cal, getEv);
+                    objEventMonth.put(day, train);
+
+                } catch(Exception e1) {
+                    log.error("Error while build the events for day: " + e1);
+                }
+            }
+            /*--------------------------------*/
+            out.print(objEventMonth);
+        }
+    }
+
+    private HashMap getHashMapListTraining(Iterator ist2, User user, int mont, int year) {
+        HashMap traiMonth = new HashMap();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        while(ist2.hasNext()) {
+            Training training = (Training)ist2.next();
+            if(user.haveAccess(training)) {
+                try {
+                    if(training.getTraInitDate() != null) {
+                        int valueMonth=sdf.parse(training.getTraInitDate()).getMonth()+1;
+                        int valueYear = sdf.parse(training.getTraInitDate()).getYear();
+                        int year1 = (valueYear< 1000) ? valueYear + 1900 : valueYear;
+                        int valueDay = sdf.parse(training.getTraInitDate()).getDate();
+
+                        if((mont == valueMonth) && (year == year1)) {
+                            ArrayList listTraining = new ArrayList();
+                            if(traiMonth.containsKey(valueDay)) {
+                                listTraining = (ArrayList)traiMonth.get(valueDay);
+                                listTraining.add(training);
+                                traiMonth.remove(valueDay);
+                            } else {
+                                listTraining.add(training);
                             }
-                        } catch(Exception e) {
-                            log.error("Error while process events in ScheduledEvents" + e);
+                            traiMonth.put(valueDay, listTraining);
                         }
                     }
+                } catch(Exception e) {
+                    log.error("Error while process events in ScheduledEvents" + e);
                 }
             }
-            /*-------------------------------*/
         }
+        return traiMonth;
+    }
 
-        JSONObject objEventMonth = new JSONObject();
+    private HashMap getHashMapListEvts(Iterator ist, User user, int mont, int year) {
+        HashMap eventMonth = new HashMap();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        while(ist.hasNext()) {
+            Event ev = (Event)ist.next();
+            if(user.haveAccess(ev)) {
+                try {
+                    if(ev.getEventInitDate() != null) {
+                        int valueMonth=sdf.parse(ev.getEventInitDate()).getMonth()+1;
+                        int valueYear = sdf.parse(ev.getEventInitDate()).getYear();
+                        int year1 = (valueYear< 1000) ? valueYear + 1900 : valueYear;
+                        int valueDay = sdf.parse(ev.getEventInitDate()).getDate();
 
-        Iterator it = eventMonth.entrySet().iterator();
-        while(it.hasNext()) {
-            Map.Entry e = (Map.Entry)it.next();
-            String day = e.getKey().toString();
-            ArrayList eventos = (ArrayList)e.getValue();
-            try {
-                JSONObject getEv = getEvents(eventos, paramRequest, cal);
-                objEventMonth.put(day, getEv);
-            } catch(Exception e1) {
-                log.error("Error while build the events for day: " + e1);
-            }
-        }
-        /* --Capacitaciones-- */
-        it = traiMonth.entrySet().iterator();
-        while(it.hasNext()) {
-            Map.Entry e = (Map.Entry)it.next();
-            String day = e.getKey().toString();
-            ArrayList training = (ArrayList)e.getValue();
-            try {
-                JSONObject getEv = null;
-                if(objEventMonth.has(day)) {
-                     getEv = (JSONObject)objEventMonth.get(day);
-                     objEventMonth.remove(day);
+                        boolean isYearly = (mont == valueMonth && ev.getPeriodicity().equals("yearly")) ? true : false;
+                        int monthCurrent = java.util.Calendar.getInstance().MONTH + 1;
+                        boolean isMonthly = ev.getPeriodicity().equals("monthly") && valueDay <= lastDayOfMonth(monthCurrent, year) ? true : false;//java.util.Calendar.getInstance().DAY_OF_MONTH == valueMonth ? true : false;
+                        boolean isWeekly = ev.getPeriodicity().equals("weekly") ? true : false;
+                        int valMonthEndEvt, valYearEndEvt, year2;
+                        valMonthEndEvt = valYearEndEvt = year2 = 0;
+                        if(ev.getEventEndDate() != null ) {
+                            valMonthEndEvt = sdf.parse(ev.getEventEndDate()).getMonth()+1;
+                        }
+                        if(ev.getEventEndDate() != null) {
+                            valYearEndEvt = sdf.parse(ev.getEventEndDate()).getYear();
+                            year2 = (valYearEndEvt < 1000) ? valYearEndEvt + 1900 : valYearEndEvt;
+                        }
+
+                        if(((mont == valueMonth) && (year == year1)) || (isYearly && year >= year2) || (isMonthly && year >= year2 ) || (isWeekly && year >= year2)) {
+                            ArrayList listEvents = new ArrayList();
+                            if((!isWeekly && year <= year2 && mont <= valMonthEndEvt && mont >= valueMonth && year >= year1) || (!isWeekly && mont >= valueMonth && year >= year1 && ev.getEventEndDate() == null)) {
+                                if(eventMonth.containsKey(valueDay)) {
+                                    listEvents = (ArrayList)eventMonth.get(valueDay);
+                                    listEvents.add(ev);
+                                    eventMonth.remove(valueDay);
+                                } else {
+                                    listEvents.add(ev);
+                                }
+                                eventMonth.put(valueDay, listEvents);
+                            } else if((year <= year2 && mont <= valMonthEndEvt && mont >= valueMonth) || (mont >= valueMonth && year >= year1 && ev.getEventEndDate() == null)) {
+                                ArrayList week = getWeekly(ev, mont-1, year);
+                                Iterator it = week.iterator();
+                                while(it.hasNext()) {
+                                    int day = Integer.parseInt(it.next().toString());
+                                    if(eventMonth.containsKey(day)) {
+                                        listEvents = (ArrayList)eventMonth.get(day);
+                                        listEvents.add(ev);
+                                        eventMonth.remove(day);
+                                    } else {
+                                        listEvents.add(ev);
+                                    }
+                                    eventMonth.put(day, listEvents);
+                                }
+                            }
+
+                        }
+                    }
+                } catch(Exception e) {
+                    log.error("Error while process events in ScheduledEvents" + e);
                 }
-                JSONObject train = getTraining(training, paramRequest, cal, getEv);
-                objEventMonth.put(day, train);
-
-            } catch(Exception e1) {
-                log.error("Error while build the events for day: " + e1);
             }
         }
-        /*--------------------------------*/
-        out.print(objEventMonth);
+        return eventMonth;
+    }
+
+    private Iterator getListEvtsType (Iterator<EventType> istEvts, WebSite site) {
+        ArrayList allList = new ArrayList();
+        while(istEvts.hasNext()) {
+            EventType type =  (EventType)istEvts.next();
+            Iterator ist = Event.ClassMgr.listEventByEvType(type, site);
+            while(ist.hasNext()) {
+                allList.add(ist.next());
+            }
+        }
+        return allList.iterator();
+    }
+
+    private Iterator getListTrainingType(Iterator<TrainingType> istTraining, WebSite site){
+        ArrayList allList = new ArrayList();
+        while(istTraining.hasNext()) {
+            TrainingType type =  (TrainingType)istTraining.next();
+            Iterator ist2 = Training.ClassMgr.listTrainingByTraType(type, site);
+            while(ist2.hasNext()) {
+                allList.add(ist2.next());
+            }
+        }
+        return allList.iterator();
     }
 
     private int lastDayOfMonth(int month,int year) {
@@ -541,4 +605,6 @@ public class ProMxResourceCalendar extends org.semanticwb.promexico.resources.ba
         }
         return objJSONData;
     }
+
+
 }
