@@ -1,7 +1,7 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class ReservaSalaBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,com.infotec.eworkplace.swb.Solicitable
+public abstract class ReservaSalaBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Solicitable,com.infotec.eworkplace.swb.Status,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticProperty ewp_observaciones=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#observaciones");
     public static final org.semanticwb.platform.SemanticProperty ewp_totalAsistentes=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#totalAsistentes");
@@ -243,6 +243,24 @@ public abstract class ReservaSalaBase extends org.semanticwb.model.SWBClass impl
     public void setDescription(String description, String lang)
     {
         getSemanticObject().setProperty(swb_description, description, lang);
+    }
+
+/**
+* Gets the Status property
+* @return String with the Status
+*/
+    public String getStatus()
+    {
+        return getSemanticObject().getProperty(ewp_status);
+    }
+
+/**
+* Sets the Status property
+* @param value long with the Status
+*/
+    public void setStatus(String value)
+    {
+        getSemanticObject().setProperty(ewp_status, value);
     }
    /**
    * Sets the value for the property Sala

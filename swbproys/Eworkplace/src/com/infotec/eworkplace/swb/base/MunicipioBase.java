@@ -6,7 +6,7 @@ public abstract class MunicipioBase extends org.semanticwb.model.SWBClass implem
    /**
    * Entidad federativa
    */
-    public static final org.semanticwb.platform.SemanticClass ewp_Estado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Estado");
+    public static final org.semanticwb.platform.SemanticClass ewp_EntidadFederativa=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#EntidadFederativa");
     public static final org.semanticwb.platform.SemanticProperty ewp_estado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#estado");
     public static final org.semanticwb.platform.SemanticClass ewp_Municipio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Municipio");
    /**
@@ -85,23 +85,23 @@ public abstract class MunicipioBase extends org.semanticwb.model.SWBClass implem
         }
        /**
        * Gets all com.infotec.eworkplace.swb.Municipio with a determined Estado
-       * @param value Estado of the type com.infotec.eworkplace.swb.Estado
+       * @param value Estado of the type com.infotec.eworkplace.swb.EntidadFederativa
        * @param model Model of the com.infotec.eworkplace.swb.Municipio
        * @return Iterator with all the com.infotec.eworkplace.swb.Municipio
        */
 
-        public static java.util.Iterator<com.infotec.eworkplace.swb.Municipio> listMunicipioByEstado(com.infotec.eworkplace.swb.Estado value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Municipio> listMunicipioByEstado(com.infotec.eworkplace.swb.EntidadFederativa value,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Municipio> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(ewp_estado, value.getSemanticObject(),sclass));
             return it;
         }
        /**
        * Gets all com.infotec.eworkplace.swb.Municipio with a determined Estado
-       * @param value Estado of the type com.infotec.eworkplace.swb.Estado
+       * @param value Estado of the type com.infotec.eworkplace.swb.EntidadFederativa
        * @return Iterator with all the com.infotec.eworkplace.swb.Municipio
        */
 
-        public static java.util.Iterator<com.infotec.eworkplace.swb.Municipio> listMunicipioByEstado(com.infotec.eworkplace.swb.Estado value)
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Municipio> listMunicipioByEstado(com.infotec.eworkplace.swb.EntidadFederativa value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Municipio> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(ewp_estado,value.getSemanticObject(),sclass));
             return it;
@@ -187,7 +187,7 @@ public abstract class MunicipioBase extends org.semanticwb.model.SWBClass implem
    * @param value Estado to set
    */
 
-    public void setEstado(com.infotec.eworkplace.swb.Estado value)
+    public void setEstado(com.infotec.eworkplace.swb.EntidadFederativa value)
     {
         if(value!=null)
         {
@@ -208,15 +208,15 @@ public abstract class MunicipioBase extends org.semanticwb.model.SWBClass implem
 
    /**
    * Gets the Estado
-   * @return a com.infotec.eworkplace.swb.Estado
+   * @return a com.infotec.eworkplace.swb.EntidadFederativa
    */
-    public com.infotec.eworkplace.swb.Estado getEstado()
+    public com.infotec.eworkplace.swb.EntidadFederativa getEstado()
     {
-         com.infotec.eworkplace.swb.Estado ret=null;
+         com.infotec.eworkplace.swb.EntidadFederativa ret=null;
          org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(ewp_estado);
          if(obj!=null)
          {
-             ret=(com.infotec.eworkplace.swb.Estado)obj.createGenericInstance();
+             ret=(com.infotec.eworkplace.swb.EntidadFederativa)obj.createGenericInstance();
          }
          return ret;
     }

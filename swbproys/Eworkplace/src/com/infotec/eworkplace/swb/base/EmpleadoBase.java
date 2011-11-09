@@ -3,17 +3,19 @@ package com.infotec.eworkplace.swb.base;
 
 public abstract class EmpleadoBase extends org.semanticwb.model.UserTypeDef implements com.infotec.eworkplace.swb.Extensible
 {
-   /**
-   * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
-   */
-    public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
-    public static final org.semanticwb.platform.SemanticProperty ewp_jefeInmediato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#jefeInmediato");
     public static final org.semanticwb.platform.SemanticProperty ewp_noe=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#noe");
    /**
    * Fecha de ingreso
    */
     public static final org.semanticwb.platform.SemanticProperty ewp_fechaIngreso=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#fechaIngreso");
     public static final org.semanticwb.platform.SemanticProperty ewp_nss=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#nss");
+    public static final org.semanticwb.platform.SemanticClass ewp_Organo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Organo");
+    public static final org.semanticwb.platform.SemanticProperty ewp_adscripcion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#adscripcion");
+   /**
+   * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
+   */
+    public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
+    public static final org.semanticwb.platform.SemanticProperty ewp_jefeInmediato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#jefeInmediato");
     public static final org.semanticwb.platform.SemanticClass ewp_Empleado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Empleado");
    /**
    * The semantic class that represents the currentObject
@@ -84,6 +86,29 @@ public abstract class EmpleadoBase extends org.semanticwb.model.UserTypeDef impl
             return (getEmpleado(id, model)!=null);
         }
        /**
+       * Gets all com.infotec.eworkplace.swb.Empleado with a determined Adscripcion
+       * @param value Adscripcion of the type com.infotec.eworkplace.swb.Organo
+       * @param model Model of the com.infotec.eworkplace.swb.Empleado
+       * @return Iterator with all the com.infotec.eworkplace.swb.Empleado
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Empleado> listEmpleadoByAdscripcion(com.infotec.eworkplace.swb.Organo value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Empleado> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(ewp_adscripcion, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.Empleado with a determined Adscripcion
+       * @param value Adscripcion of the type com.infotec.eworkplace.swb.Organo
+       * @return Iterator with all the com.infotec.eworkplace.swb.Empleado
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Empleado> listEmpleadoByAdscripcion(com.infotec.eworkplace.swb.Organo value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Empleado> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(ewp_adscripcion,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all com.infotec.eworkplace.swb.Empleado with a determined JefeInmediato
        * @param value JefeInmediato of the type org.semanticwb.model.User
        * @param model Model of the com.infotec.eworkplace.swb.Empleado
@@ -115,6 +140,98 @@ public abstract class EmpleadoBase extends org.semanticwb.model.UserTypeDef impl
     public EmpleadoBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+/**
+* Gets the Noe property
+* @return int with the Noe
+*/
+    public int getNoe()
+    {
+        return getSemanticObject().getIntProperty(ewp_noe);
+    }
+
+/**
+* Sets the Noe property
+* @param value long with the Noe
+*/
+    public void setNoe(int value)
+    {
+        getSemanticObject().setIntProperty(ewp_noe, value);
+    }
+
+/**
+* Gets the FechaIngreso property
+* @return java.util.Date with the FechaIngreso
+*/
+    public java.util.Date getFechaIngreso()
+    {
+        return getSemanticObject().getDateProperty(ewp_fechaIngreso);
+    }
+
+/**
+* Sets the FechaIngreso property
+* @param value long with the FechaIngreso
+*/
+    public void setFechaIngreso(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(ewp_fechaIngreso, value);
+    }
+
+/**
+* Gets the Nss property
+* @return int with the Nss
+*/
+    public int getNss()
+    {
+        return getSemanticObject().getIntProperty(ewp_nss);
+    }
+
+/**
+* Sets the Nss property
+* @param value long with the Nss
+*/
+    public void setNss(int value)
+    {
+        getSemanticObject().setIntProperty(ewp_nss, value);
+    }
+   /**
+   * Sets the value for the property Adscripcion
+   * @param value Adscripcion to set
+   */
+
+    public void setAdscripcion(com.infotec.eworkplace.swb.Organo value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(ewp_adscripcion, value.getSemanticObject());
+        }else
+        {
+            removeAdscripcion();
+        }
+    }
+   /**
+   * Remove the value for Adscripcion property
+   */
+
+    public void removeAdscripcion()
+    {
+        getSemanticObject().removeProperty(ewp_adscripcion);
+    }
+
+   /**
+   * Gets the Adscripcion
+   * @return a com.infotec.eworkplace.swb.Organo
+   */
+    public com.infotec.eworkplace.swb.Organo getAdscripcion()
+    {
+         com.infotec.eworkplace.swb.Organo ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(ewp_adscripcion);
+         if(obj!=null)
+         {
+             ret=(com.infotec.eworkplace.swb.Organo)obj.createGenericInstance();
+         }
+         return ret;
     }
    /**
    * Sets the value for the property JefeInmediato
@@ -156,42 +273,6 @@ public abstract class EmpleadoBase extends org.semanticwb.model.UserTypeDef impl
     }
 
 /**
-* Gets the Noe property
-* @return int with the Noe
-*/
-    public int getNoe()
-    {
-        return getSemanticObject().getIntProperty(ewp_noe);
-    }
-
-/**
-* Sets the Noe property
-* @param value long with the Noe
-*/
-    public void setNoe(int value)
-    {
-        getSemanticObject().setIntProperty(ewp_noe, value);
-    }
-
-/**
-* Gets the FechaIngreso property
-* @return java.util.Date with the FechaIngreso
-*/
-    public java.util.Date getFechaIngreso()
-    {
-        return getSemanticObject().getDateProperty(ewp_fechaIngreso);
-    }
-
-/**
-* Sets the FechaIngreso property
-* @param value long with the FechaIngreso
-*/
-    public void setFechaIngreso(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(ewp_fechaIngreso, value);
-    }
-
-/**
 * Gets the Extension property
 * @return int with the Extension
 */
@@ -207,23 +288,5 @@ public abstract class EmpleadoBase extends org.semanticwb.model.UserTypeDef impl
     public void setExtension(int value)
     {
         getSemanticObject().setIntProperty(ewp_extension, value);
-    }
-
-/**
-* Gets the Nss property
-* @return int with the Nss
-*/
-    public int getNss()
-    {
-        return getSemanticObject().getIntProperty(ewp_nss);
-    }
-
-/**
-* Sets the Nss property
-* @param value long with the Nss
-*/
-    public void setNss(int value)
-    {
-        getSemanticObject().setIntProperty(ewp_nss, value);
     }
 }
