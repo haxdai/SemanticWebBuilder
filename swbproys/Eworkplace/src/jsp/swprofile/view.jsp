@@ -6,16 +6,19 @@
 <%@page import="org.semanticwb.SWBUtils" %>
 <%@page import="org.semanticwb.model.Country" %>
 <%@page import="org.semanticwb.model.Resource" %>
-<%@page import="rg.semanticwb.model.Role" %>
+<%@page import="org.semanticwb.model.Role" %>
 <%@page import="org.semanticwb.model.User" %>
 <%@page import="org.semanticwb.model.UserRepository" %>
 <%@page import="org.semanticwb.model.WebSite" %>
+<%@page import="org.semanticwb.platform.SemanticProperty" %>
+<%@page import="com.infotec.eworkplace.swb.SWProfile" %>
+<%@page import="static com.infotec.eworkplace.swb.resources.SWProfileManager.RH_Role" %>
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/>
 <%
     Resource base = paramRequest.getResourceBase();
     WebSite wsite = base.getWebSite();
-    SWProfile profile = SWProfile.ClassMgr.getSWProfile(user.getId(), wsite);
     User user = paramRequest.getUser();
+    SWProfile profile = SWProfile.ClassMgr.getSWProfile(user.getId(), wsite);
     
     if(user.isSigned()) {
         final String pimg;
@@ -83,7 +86,7 @@
 
 
     
-    UserRepository ur = site.getUserRepository();
+    UserRepository ur = wsite.getUserRepository();
     Role role = ur.getRole(RH_Role);
     if( user.hasRole(role) ) {
 
