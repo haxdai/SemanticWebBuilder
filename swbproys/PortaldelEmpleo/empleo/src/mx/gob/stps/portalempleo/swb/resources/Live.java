@@ -34,15 +34,10 @@ public class Live extends GenericAdmResource {
     
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        //Resource base = getResourceBase();
         StringBuilder sb = new StringBuilder(1000);
         PrintWriter out = response.getWriter();
         SWBResourceURL url = null;
         url = paramRequest.getRenderUrl().setMode("chat");
-        //Set set = paramRequest.getTopic().getMap().getHome().getSortChildSet(true);
-        //String lang = paramRequest.getUser().getLanguage();
-        //Iterator<WebPage> set = base.getWebSite().getHomePage().listChilds(lang, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE);
-        //sb.append("\n<link href=\"" + sWBUtils.getInstance().getWebPath() + "images/estilos.css\" rel=\"stylesheet\" type=\"text/css\" >");
 
         sb.append("\n<script type=\"text/javascript\">");
         sb.append("\n  function valida() {");
@@ -87,15 +82,15 @@ public class Live extends GenericAdmResource {
         sb.append("\n         document.getElementById(\"asunto\").focus();");
         sb.append("\n         return false;");
         sb.append("\n     }");
-        sb.append("\n    if (document.ayuda.asunto.value == \"\") {");
-        sb.append("\n      alert(\"Por favor escriba su mensaje.\");");
-        sb.append("\n      document.ayuda.asunto.focus();");
-        sb.append("\n      return;");
+        sb.append("\n     if (document.ayuda.asunto.value == \"\") {");
+        sb.append("\n         alert(\"Por favor escriba su mensaje.\");");
+        sb.append("\n         document.ayuda.asunto.focus();");
+        sb.append("\n         return;");
         sb.append("\n    }");
         sb.append("\n    if (document.ayuda.asunto.value.length > 100) {");
-        sb.append("\n      alert(\"Escriba no mÃ­s de 100 caracteres.\");");
-        sb.append("\n      document.ayuda.asunto.focus();");
-        sb.append("\n      return;");
+        sb.append("\n        alert(\"Escriba no mÃ­s de 100 caracteres.\");");
+        sb.append("\n        document.ayuda.asunto.focus();");
+        sb.append("\n        return;");
         sb.append("\n    }");
         sb.append("\n     if(document.ayuda.conCopia[0].checked){if (document.ayuda.email.value == \"\") {");
         sb.append("\n         alert(\"Por favor escriba su cuenta de correo.\");");
@@ -107,7 +102,7 @@ public class Live extends GenericAdmResource {
         sb.append("\n         return false;");
         sb.append("\n    }}");
         sb.append("\n    if (document.ayuda.asunto.value.length > 100) {");
-        sb.append("\n       document.ayuda.asunto.value = document.ayuda.asunto.value.substr(0, 99);");
+        sb.append("\n        document.ayuda.asunto.value = document.ayuda.asunto.value.substr(0, 99);");
         sb.append("\n    }");
         sb.append("\n  ");
         sb.append("\n  ");
@@ -122,12 +117,12 @@ public class Live extends GenericAdmResource {
         sb.append("\n              sFieldValue.indexOf(\"\\\"\") != -1)");
         sb.append("\n  }");
         sb.append("\n  function showEmail(){document.getElementById('email').disabled= false;}");
-        sb.append("\n  function hideEmail(){document.getElementById('email').disabled= true;}</script>");
+        sb.append("\n  function hideEmail(){document.getElementById('email').disabled= true;}");
+        sb.append("\n</script>");
 
-        sb.append("\n  <table width=\"600\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"0\">");
-        sb.append("\n  <tr > </tr>");
-        sb.append("\n  <tr >");
-        sb.append("\n    <td align=\"center\" ><p align=\"justify\" class=\"textmin\">Este apartado constituye un mecanismo de  comunicaci&oacute;n para asesor&iacute;a en l&iacute;nea sobre la navegaci&oacute;n (operaci&oacute;n) del Portal  del Empleo. La asesor&iacute;a la recibir&aacute; directamente de un ejecutivo capacitado  para ayudarle a resolver sus problemas de operaci&oacute;n y navegaci&oacute;n del sitio. El  horario de servicio es de las 8:00 a 20:00 hrs. de lunes a viernes si tiene  alguna duda en un horario distinto d&eacute;jenos un mensaje a trav&eacute;s de la&nbsp; opci&oacute;n de contacto y nosotros le daremos  respuesta a sus dudas.</p>");
+        sb.append("\n  <table id=\"ayuda\">");
+        sb.append("\n  <tr>");
+        sb.append("\n    <td><p align=\"justify\" class=\"textmin\">Este apartado constituye un mecanismo de  comunicaci&oacute;n para asesor&iacute;a en l&iacute;nea sobre la navegaci&oacute;n (operaci&oacute;n) del Portal  del Empleo. La asesor&iacute;a la recibir&aacute; directamente de un ejecutivo capacitado  para ayudarle a resolver sus problemas de operaci&oacute;n y navegaci&oacute;n del sitio. El  horario de servicio es de las 8:00 a 20:00 hrs. de lunes a viernes si tiene  alguna duda en un horario distinto d&eacute;jenos un mensaje a trav&eacute;s de la&nbsp; opci&oacute;n de contacto y nosotros le daremos  respuesta a sus dudas.</p>");
 
         sb.append("\n      <p align=\"justify\" class=\"textmin\">Es importante que tenga en cuenta que la asesor&iacute;a que se le  brindar&aacute; es s&oacute;lo sobre la navegaci&oacute;n del Portal del Empleo.</p>");
 
@@ -136,29 +131,29 @@ public class Live extends GenericAdmResource {
         sb.append("\n      <p align=\"justify\" class=\"textmin\">Por favor llene los campos siguientes lo cual nos permitir&aacute; tener  la oportunidad de atenderle mejor.</p>");
 
         sb.append("\n      <form name=\"ayuda\" method=\"post\" action=\"").append(url).append("\" >");
-        sb.append("\n        <table border=\"0\" cellspacing=\"2\" cellpadding=\"2\" >");
+        sb.append("\n        <table>");
         sb.append("\n          <tr >");
-        sb.append("\n            <td align=\"left\" valign=\"middle\" bgcolor=\"#FFDCBA\" ><p class=\"textmin\">Nombre:</p></td>");
+        sb.append("\n            <td><p class=\"textmin\">Nombre:</p></td>");
 
-        sb.append("\n            <td align=\"left\" valign=\"middle\" bgcolor=\"#FFDCBA\" ><input name=\"firstName\" id=\"firstName\" type=\"text\" maxlength=\"30\" class=\"textmin\" ></td>");
+        sb.append("\n            <td><input name=\"firstName\" id=\"firstName\" type=\"text\" maxlength=\"30\" class=\"textmin\" ></td>");
 
         sb.append("\n          </tr>");
         sb.append("\n          <tr >");
-        sb.append("\n            <td align=\"left\" valign=\"middle\" bgcolor=\"#FFDCBA\" ><p class=\"textmin\">Apellido Paterno:</p></td>");
+        sb.append("\n            <td><p class=\"textmin\">Apellido Paterno:</p></td>");
 
-        sb.append("\n            <td align=\"left\" valign=\"middle\" bgcolor=\"#FFDCBA\" ><input name=\"lastName\"  id=\"lastName\"type=\"text\" maxlength=\"35\" class=\"textmin\" ></td>");
-
-        sb.append("\n          </tr>");
-        sb.append("\n          <tr >");
-        sb.append("\n            <td align=\"left\" valign=\"middle\" bgcolor=\"#FFDCBA\" ><p class=\"textmin\">Apellido Materno:</p></td>");
-
-        sb.append("\n            <td align=\"left\" valign=\"middle\" bgcolor=\"#FFDCBA\" ><input name=\"materno\" id=\"materno\" type=\"text\" maxlength=\"35\" class=\"textmin\" ></td>");
+        sb.append("\n            <td><input name=\"lastName\"  id=\"lastName\"type=\"text\" maxlength=\"35\" class=\"textmin\" ></td>");
 
         sb.append("\n          </tr>");
         sb.append("\n          <tr >");
-        sb.append("\n            <td align=\"left\" valign=\"middle\" bgcolor=\"#FFDCBA\" class=\"textmin\" >&iquest;Usted Es?&nbsp; </td>");
+        sb.append("\n            <td><p class=\"textmin\">Apellido Materno:</p></td>");
 
-        sb.append("\n            <td align=\"left\" valign=\"middle\" bgcolor=\"#FFDCBA\" >");
+        sb.append("\n            <td><input name=\"materno\" id=\"materno\" type=\"text\" maxlength=\"35\" class=\"textmin\" ></td>");
+
+        sb.append("\n          </tr>");
+        sb.append("\n          <tr>");
+        sb.append("\n            <td class=\"textmin\" >&iquest;Usted Es?&nbsp; </td>");
+
+        sb.append("\n            <td>");
         sb.append("\n              <select name=\"tipoUsuario\" id=\"tipoUsuario\" size=\"1\" class=\"textmin\">");
         sb.append("\n                <option value=\"0\">SELECCIONE UNA OPCI&Oacute;N</option>");
         sb.append("\n                <option value=\"1\">BUSCADOR DE EMPLEO</option>");
@@ -170,9 +165,9 @@ public class Live extends GenericAdmResource {
         sb.append("\n            </td>");
         sb.append("\n          </tr>");
         sb.append("\n          <tr >");
-        sb.append("\n            <td align=\"left\" valign=\"middle\" bgcolor=\"#FFDCBA\" class=\"textmin\" >Indique la sección  sobre el que tiene Dudas: </td>");
+        sb.append("\n            <td class=\"textmin\" >Indique la sección  sobre el que tiene Dudas: </td>");
 
-        sb.append("\n            <td align=\"left\" valign=\"middle\" bgcolor=\"#FFDCBA\" >");
+        sb.append("\n            <td>");
         sb.append("\n              <select name=\"canal\" id=\"canal\" size=\"1\" class=\"textmin\">");
         sb.append("\n                <option value=\"0\">SELECCIONE UNA OPCI&Oacute;N</option>");
 //        while(set.hasNext()) { 
@@ -189,23 +184,21 @@ public class Live extends GenericAdmResource {
         sb.append("\n            </select></td>");
         sb.append("\n          </tr>");
         sb.append("\n          <tr >");
-        sb.append("\n            <td align=\"left\" valign=\"middle\" bgcolor=\"#FFDCBA\" class=\"textmin\" ><p>&iquest;En que podemos ayudarle?</p></td>");
+        sb.append("\n            <td class=\"textmin\" ><p>&iquest;En que podemos ayudarle?</p></td>");
 
-        sb.append("\n            <td align=\"left\" valign=\"middle\" bgcolor=\"#FFDCBA\" >");
-        sb.append("\n              <textarea name=\"asunto\" id=\"asunto\" maxlength=\"100\" cols=\"40\" rows=\"8\" class=\"textmin\" wrap=\"virtual\"></textarea>");
+        sb.append("\n            <td>");
+        sb.append("\n              <textarea name=\"asunto\" id=\"asunto\" maxlength=\"100\" cols=\"40\" rows=\"8\" class=\"textmin\"></textarea>");
         sb.append("\n              <br><font class=\"textmin\">Cuenta con 100 caracteres como m&aacute;ximo para su pregunta inicial</font>");
         sb.append("\n            </td>");
         sb.append("\n          </tr>");
         sb.append("\n          <tr >");
-        sb.append("\n            <td align=\"left\" valign=\"middle\" bgcolor=\"#FFDCBA\" class=\"textmin\" >&iquest;Desea  copia de la conversaci&oacute;n?</td>");
-
-        sb.append("\n            <td align=\"left\" valign=\"middle\" bgcolor=\"#FFDCBA\" class=\"textmin\"><input name=\"conCopia\" id=\"conCopia\" type=\"radio\" value=\"1\" onClick=\"showEmail()\">Si<input name=\"conCopia\" id=\"sinCopia\" type=\"radio\" value=\"0\" onClick=\"hideEmail()\">No</td>");
-
+        sb.append("\n            <td class=\"textmin\" >&iquest;Desea  copia de la conversaci&oacute;n?</td>");
+        sb.append("\n            <td class=\"textmin\"><input name=\"conCopia\" id=\"conCopia\" type=\"radio\" value=\"1\" onClick=\"showEmail()\">Si<input name=\"conCopia\" id=\"sinCopia\" type=\"radio\" value=\"0\" onClick=\"hideEmail()\">No</td>");
         sb.append("\n          </tr>");
         sb.append("\n          <tr >");
-        sb.append("\n            <td align=\"left\" valign=\"middle\" bgcolor=\"#FFDCBA\" class=\"textmin\" >Correo Electr&oacute;nico:</td>");
+        sb.append("\n            <td class=\"textmin\" >Correo Electr&oacute;nico:</td>");
 
-        sb.append("\n            <td align=\"left\" valign=\"middle\" bgcolor=\"#FFDCBA\" ><input name=\"email\" id=\"email\" type=\"text\" maxlength=\"50\" class=\"textmin\" disabled ></td>");
+        sb.append("\n            <td><input name=\"email\" id=\"email\" type=\"text\" maxlength=\"50\" class=\"textmin\" disabled ></td>");
 
         sb.append("\n          </tr>");
         sb.append("\n        </table>");
@@ -232,9 +225,6 @@ public class Live extends GenericAdmResource {
         String asunto = "";
         String conCopia = "";
         String enMensaje = "";
-        char enter = '\n';
-        char retorno = '\r';
-System.out.println("doChat:debug...1");
         log.info(" >> AtencionEnLinea En doEdit");
         if ((request.getParameter("firstName") != null) && (!"".equals(request.getParameter("firstName")))) {
           firstName = request.getParameter("firstName");
@@ -301,74 +291,12 @@ System.out.println("doChat:debug...1");
         else {
           conCopia = "0";
         }
-        //sb.append("\n<link href=\"" + WBUtils.getInstance().getWebPath() + "images/estilos.css\" rel=\"stylesheet\" type=\"text/css\" >");
-System.out.println("doChat:debug...2");
-        sb.append("\n<form name=\"chat\" method=\"post\" target=\"_blank\" action=\"http://cat5.behelper.com/cgi-bin/bchat5\">");
-        sb.append("\n    <input name=\"p\" value=\"sne\" type=\"hidden\">");
-        sb.append("\n    <input name=\"f\" value=\"login\" type=\"hidden\">");
 
-        sb.append("\n    <input name=\"nombre\" value=\"").append(firstName).append("\" type=\"hidden\">");
-        sb.append("\n    <input name=\"apellidos\" value=\"").append(lastName).append(" ").append(materno).append("\" type=\"hidden\">");
-        sb.append("\n    <input name=\"materno\" value=\"").append(materno).append("\" type=\"hidden\">");
-        sb.append("\n    <input name=\"mail\" value=\"").append(email).append("\" type=\"hidden\">");
-
-        sb.append("\n    <input name=\"comentarios\" value=\"").append(enMensaje).append(asunto).append("\" type=\"hidden\">");
-        sb.append("\n    <input name=\"sendchat\" value=\"").append(conCopia).append("\" type=\"hidden\">");
-        sb.append("\n</form>");
-        sb.append("\n");
-        sb.append("\n<table width=\"600\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"0\">");
-        sb.append("\n  <tr><td align=\"center\"> </td></tr>");
-        sb.append("\n  <tr>");
-        sb.append("\n    <td align=\"center\" ><p align=\"justify\" class=\"textmin\">Comienzo de la charla.</td>");
-        sb.append("\n  </tr>");
-        sb.append("\n</table>");
-        sb.append("\n");
-System.out.println("doChat:debug...3");   
-System.out.println("dir=http://cti.toptel.com.mx/cti/chat/?proyecto=sne&p=sne&b=LOGIND&%7Bnombre%7D=" + firstName + "%20&%7Bapellidos%7D=" + lastName + " " + materno + "%20&%7Bmail%7D=" + email + "&comentarios=Tipo%20de%20usuario:%20" + tipoUsuario + ",%20Canal:" + canal + "%20" + asunto + "&%7Bsendchat%7D=1");
+        sb.append("\n    <p align=\"justify\" class=\"textmin\">Comienzo de la charla.</p>");
         sb.append("\n<script type=\"text/javascript\">");
-
-        sb.append("\n  var dir = \"http://cti.toptel.com.mx/cti/chat/?proyecto=sne&p=sne&b=LOGIND&%7Bnombre%7D=").append(firstName).append("%20&%7Bapellidos%7D=").append(lastName).append(" ").append(materno).append("%20&%7Bmail%7D=").append(email).append("&comentarios=Tipo%20de%20usuario:%20").append(tipoUsuario).append(",%20Canal:").append(canal).append("%20").append(asunto).append("&%7Bsendchat%7D=1\"");
-
+        sb.append("\n  var dir = \"http://cti.toptel.com.mx/cti/chat/?proyecto=sne&p=sne&b=LOGIND&%7Bnombre%7D=").append(firstName).append("%20&%7Bapellidos%7D=").append(lastName).append(" ").append(materno).append("%20&%7Bmail%7D=").append(email).append("&comentarios=Tipo%20de%20usuario:%20").append(tipoUsuario).append(",%20Canal:").append(canal).append("%20").append(asunto).append("&%7Bsendchat%7D=1\";");
         sb.append("\n  window.open(dir, \"chat\", \"width=400,height=400,location=no,menubar=no,directories=no,resizable=no,scrollbars=no,toolbar=no,status=no\");");
-        sb.append("\n  //document.chat.submit();");
         sb.append("\n</script>");
-System.out.println("doChat:debug...4");        
         out.print(sb.toString());
-
-        /* 08/2011
-        Connection con = null;
-        PreparedStatement ps = null;
-        try {
-          AFUtils.log(" >> AtencionEnLinea antes de modificar BD");
-          con = AFUtils.getDBConnection("chamba", "AtencionEnLinea.doEdit - Almacena datos de inicio de sesion en chat");
-
-          ps = con.prepareStatement("INSERT INTO SesionChat VALUES (SYSDATE, ?, ?, ?, ?, ?, ?, ?)");
-
-          ps.setInt(1, tipoUsuario);
-          ps.setString(2, canal);
-          ps.setString(3, firstName);
-          ps.setString(4, lastName);
-          ps.setString(5, materno);
-          ps.setString(6, email);
-          ps.setString(7, asunto);
-          ps.executeUpdate();
-          ps.close();
-          con.close();
-          ps = null;
-          con = null;
-        } catch (SQLException sqle2) {
-          AFUtils.log(sqle2, "Al insertar un registro en SesionChat");
-        } finally {
-          if (con != null) {
-            try {
-              con.close();
-            } catch (SQLException sqle2) {
-              AFUtils.log(sqle2, "Al cerrar conexion despues de insertar en SesionChat");
-            }
-
-            con = null;
-          }
-        }
-        */
   }
 }
