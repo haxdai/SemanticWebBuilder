@@ -1,7 +1,7 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class DireccionAdjuntaBase extends com.infotec.eworkplace.swb.Puesto implements org.semanticwb.model.Descriptiveable
+public abstract class DireccionAdjuntaBase extends com.infotec.eworkplace.swb.Organo implements com.infotec.eworkplace.swb.Mision,com.infotec.eworkplace.swb.Vision,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticClass ewp_Gerencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Gerencia");
     public static final org.semanticwb.platform.SemanticProperty ewp_hasGerencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#hasGerencia");

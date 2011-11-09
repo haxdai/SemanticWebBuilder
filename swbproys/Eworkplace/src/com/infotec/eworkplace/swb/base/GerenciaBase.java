@@ -1,7 +1,7 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class GerenciaBase extends com.infotec.eworkplace.swb.Puesto implements org.semanticwb.model.Descriptiveable
+public abstract class GerenciaBase extends com.infotec.eworkplace.swb.Organo implements com.infotec.eworkplace.swb.Mision,com.infotec.eworkplace.swb.Vision,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticClass ewp_SubGerencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#SubGerencia");
     public static final org.semanticwb.platform.SemanticProperty ewp_hasSubGerencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#hasSubGerencia");

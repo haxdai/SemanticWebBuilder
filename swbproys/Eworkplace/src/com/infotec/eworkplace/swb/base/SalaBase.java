@@ -1,10 +1,10 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class SalaBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,com.infotec.eworkplace.swb.Placeable
+public abstract class SalaBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Placeable,com.infotec.eworkplace.swb.Status,org.semanticwb.model.Descriptiveable
 {
-    public static final org.semanticwb.platform.SemanticProperty ewp_capacidad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#capacidad");
     public static final org.semanticwb.platform.SemanticProperty ewp_tieneProyector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#tieneProyector");
+    public static final org.semanticwb.platform.SemanticProperty ewp_capacidad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#capacidad");
     public static final org.semanticwb.platform.SemanticClass ewp_Sala=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Sala");
    /**
    * The semantic class that represents the currentObject
@@ -33,6 +33,12 @@ public abstract class SalaBase extends org.semanticwb.model.SWBClass implements 
         {
             java.util.Iterator it=sclass.listInstances();
             return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Sala>(it, true);
+        }
+
+        public static com.infotec.eworkplace.swb.Sala createSala(org.semanticwb.model.SWBModel model)
+        {
+            long id=model.getSemanticObject().getModel().getCounter(sclass);
+            return com.infotec.eworkplace.swb.Sala.ClassMgr.createSala(String.valueOf(id), model);
         }
        /**
        * Gets a com.infotec.eworkplace.swb.Sala
@@ -86,39 +92,6 @@ public abstract class SalaBase extends org.semanticwb.model.SWBClass implements 
     }
 
 /**
-* Gets the Title property
-* @return String with the Title
-*/
-    public String getTitle()
-    {
-        return getSemanticObject().getProperty(swb_title);
-    }
-
-/**
-* Sets the Title property
-* @param value long with the Title
-*/
-    public void setTitle(String value)
-    {
-        getSemanticObject().setProperty(swb_title, value);
-    }
-
-    public String getTitle(String lang)
-    {
-        return getSemanticObject().getProperty(swb_title, null, lang);
-    }
-
-    public String getDisplayTitle(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_title, lang);
-    }
-
-    public void setTitle(String title, String lang)
-    {
-        getSemanticObject().setProperty(swb_title, title, lang);
-    }
-
-/**
 * Gets the Description property
 * @return String with the Description
 */
@@ -152,21 +125,72 @@ public abstract class SalaBase extends org.semanticwb.model.SWBClass implements 
     }
 
 /**
-* Gets the Ubicacion property
-* @return String with the Ubicacion
+* Gets the Status property
+* @return String with the Status
 */
-    public String getUbicacion()
+    public String getStatus()
     {
-        return getSemanticObject().getProperty(ewp_ubicacion);
+        return getSemanticObject().getProperty(ewp_status);
     }
 
 /**
-* Sets the Ubicacion property
-* @param value long with the Ubicacion
+* Sets the Status property
+* @param value long with the Status
 */
-    public void setUbicacion(String value)
+    public void setStatus(String value)
     {
-        getSemanticObject().setProperty(ewp_ubicacion, value);
+        getSemanticObject().setProperty(ewp_status, value);
+    }
+
+/**
+* Gets the TieneProyector property
+* @return boolean with the TieneProyector
+*/
+    public boolean isTieneProyector()
+    {
+        return getSemanticObject().getBooleanProperty(ewp_tieneProyector);
+    }
+
+/**
+* Sets the TieneProyector property
+* @param value long with the TieneProyector
+*/
+    public void setTieneProyector(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(ewp_tieneProyector, value);
+    }
+
+/**
+* Gets the Title property
+* @return String with the Title
+*/
+    public String getTitle()
+    {
+        return getSemanticObject().getProperty(swb_title);
+    }
+
+/**
+* Sets the Title property
+* @param value long with the Title
+*/
+    public void setTitle(String value)
+    {
+        getSemanticObject().setProperty(swb_title, value);
+    }
+
+    public String getTitle(String lang)
+    {
+        return getSemanticObject().getProperty(swb_title, null, lang);
+    }
+
+    public String getDisplayTitle(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_title, lang);
+    }
+
+    public void setTitle(String title, String lang)
+    {
+        getSemanticObject().setProperty(swb_title, title, lang);
     }
 
 /**
@@ -188,20 +212,20 @@ public abstract class SalaBase extends org.semanticwb.model.SWBClass implements 
     }
 
 /**
-* Gets the TieneProyector property
-* @return boolean with the TieneProyector
+* Gets the Ubicacion property
+* @return String with the Ubicacion
 */
-    public boolean isTieneProyector()
+    public String getUbicacion()
     {
-        return getSemanticObject().getBooleanProperty(ewp_tieneProyector);
+        return getSemanticObject().getProperty(ewp_ubicacion);
     }
 
 /**
-* Sets the TieneProyector property
-* @param value long with the TieneProyector
+* Sets the Ubicacion property
+* @param value long with the Ubicacion
 */
-    public void setTieneProyector(boolean value)
+    public void setUbicacion(String value)
     {
-        getSemanticObject().setBooleanProperty(ewp_tieneProyector, value);
+        getSemanticObject().setProperty(ewp_ubicacion, value);
     }
 }
