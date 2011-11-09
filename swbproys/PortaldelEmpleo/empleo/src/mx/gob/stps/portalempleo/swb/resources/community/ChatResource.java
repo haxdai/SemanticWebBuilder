@@ -64,8 +64,8 @@ public class ChatResource extends ChatResourceBase
         out.println("    <param name=\"formato\" value=\"0-Dialog-ORANGE-12\"/>");
 //        out.println("    <param name=\"bg\" value=\"http://192.168.4.228:9020/work/models/empleo/images/chat_fondo_interfaz_small.jpg\"/>");
 //        out.println("    <param name=\"photo\" value=\"http://192.168.4.228:9020/work/models/empleo/images/foto.jpg\"/>");
-        out.println("    <param name=\"bg\" value=\"http://localhost:8088/work/models/A/images/chat_fondo_interfaz_small.jpg\"/>");
-        out.println("    <param name=\"photo\" value=\"http://localhost:8088/work/models/A/images/foto.jpg\"/>");
+        out.println("    <param name=\"bg\" value=\"http://qa.empleo.gob.mx/work/models/empleo/images/chat_fondo_interfaz_small.jpg\"/>");
+        out.println("    <param name=\"photo\" value=\"http://qa.empleo.gob.mx/work/models/empleo/images/foto.jpg\"/>");
         out.println("  </applet>");
         out.println("</div>");
     }
