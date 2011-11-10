@@ -6,13 +6,16 @@ import com.infotec.eworkplace.swb.Familia;
 import com.infotec.eworkplace.swb.Persona;
 import com.infotec.eworkplace.swb.SWProfile;
 import com.infotec.eworkplace.swb.TemaInteres;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.semanticwb.Logger;
@@ -22,7 +25,9 @@ import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.Country;
 import org.semanticwb.model.Resource;
+import org.semanticwb.model.Role;
 import org.semanticwb.model.User;
+import org.semanticwb.model.UserRepository;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.platform.SemanticProperty;
 import org.semanticwb.portal.api.GenericAdmResource;
@@ -44,6 +49,8 @@ public class SWProfileManager extends GenericAdmResource {
     private static final String Send_CHGPHTO = "phto";
     private static final String Send_REQ = "req";
     private static final String Send_FAV = "fav";
+    
+    public static final String RH_Role = "RH";
     
     @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
@@ -118,15 +125,48 @@ public class SWProfileManager extends GenericAdmResource {
                 WebSite wsite = base.getWebSite();
                 SWProfile profile = SWProfile.ClassMgr.getSWProfile(user.getId(), wsite);
                 
-                HttpSession session = request.getSession(true);
-                String send = (String)session.getAttribute(Send);
-                session.removeAttribute(Send);
-                if(Send_EDIT.equals(send) && user.equals(profile.getCreator())) {
-                    doEdit(request, response, paramRequest);
-                }else if(Send_CHGPHTO.equals(send) && user.equals(profile.getCreator())) {
-                    doChgPhto(request, response, paramRequest);
+                if( user.equals(profile.getCreator()) ) {
+                    HttpSession session = request.getSession(true);
+                    String send = (String)session.getAttribute(Send);
+                    session.removeAttribute(Send);
+                    if(Send_EDIT.equals(send)) {
+                        doEdit(request, response, paramRequest);
+                    }else if(Send_CHGPHTO.equals(send)) {
+                        doChgPhto(request, response, paramRequest);
+                    }else {
+                        //out.println("vista del perfil de "+user.getFullName());
+                        try {
+                            final String jsp = "/work/models/"+paramRequest.getWebPage().getWebSiteId()+"/jsp/swprofile/view.jsp";
+                            request.setAttribute("paramRequest", paramRequest);
+                            RequestDispatcher rd = request.getRequestDispatcher(jsp);
+                            rd.include(request, response);
+                        }catch(Exception e) {
+                            log.error(e);
+                        }
+                    }
                 }else {
-                    out.println("vista del perfil de "+user.getFullName());
+//                    WebSite site = base.getWebSite();
+//                    UserRepository ur = site.getUserRepository();
+//                    Role role = ur.getRole(RH_Role);
+//                    if(user.hasRole(role)) {
+//                         try {
+//                            final String jsp = "/work/models/"+paramRequest.getWebPage().getWebSiteId()+"/jsp/swprofile/rhedit.jsp";
+//                            request.setAttribute("paramRequest", paramRequest);
+//                            RequestDispatcher rd = request.getRequestDispatcher(jsp);
+//                            rd.include(request, response);
+//                        }catch(Exception e) {
+//                            log.error(e);
+//                        }
+//                    }else {
+                        try {
+                            final String jsp = "/work/models/"+paramRequest.getWebPage().getWebSiteId()+"/jsp/swprofile/view.jsp";
+                            request.setAttribute("paramRequest", paramRequest);
+                            RequestDispatcher rd = request.getRequestDispatcher(jsp);
+                            rd.include(request, response);
+                        }catch(Exception e) {
+                            log.error(e);
+                        }
+//                    } 
                 }
             }
         }
