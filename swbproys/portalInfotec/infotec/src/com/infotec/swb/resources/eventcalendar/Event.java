@@ -129,22 +129,6 @@ public class Event extends com.infotec.swb.resources.eventcalendar.base.EventBas
         return sb.toString();
     }
     
-    public static Set<Integer> getDays(Set<Event> eventos, int year, int month)
-    {
-
-        HashSet<Integer> getYears = new HashSet<Integer>();
-        for (Event event : eventos)
-        {
-            Date date = event.getStart();
-            if (date != null && date.getYear() == year && date.getMonth() == month && event.isActive())
-            {
-                getYears.add(date.getDate());
-            }
-        }
-        return getYears;
-
-    }
-
     public static Set<Integer> getMonths(List<com.infotec.swb.resources.eventcalendar.Event> eventos, int year)
     {
 
@@ -154,21 +138,6 @@ public class Event extends com.infotec.swb.resources.eventcalendar.base.EventBas
             if( event.getStart()!=null && event.getStart().getYear()==year && event.isActive())
             {
                 getYears.add(event.getStart().getMonth());
-            }
-        }
-        return getYears;
-
-    }
-
-    public static Set<Event> getEvents(Set<Event> eventos, int year, int month, int day)
-    {
-
-        HashSet<Event> getYears = new HashSet<Event>();
-        for (Event event : eventos)
-        {
-            if( event.getStart()!=null && event.getStart().getYear()==year && (event.getStart().getMonth()==month||event.getEnd().getMonth()==month) && event.getStart().getDate()==day && event.isActive())
-            {
-                getYears.add(event);
             }
         }
         return getYears;

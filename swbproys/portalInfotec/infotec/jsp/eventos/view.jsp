@@ -20,7 +20,7 @@
 <%@page import="com.infotec.swb.resources.eventcalendar.*"%>
 <%!
 
-public static String changeCharacters(String data)
+    public static String changeCharacters(String data)
     {
         if (data == null || data.trim().equals(""))
         {
@@ -134,8 +134,6 @@ public static String changeCharacters(String data)
         HashSet<Integer> getYears = new HashSet<Integer>();
         for (Event event : eventos)
         {
-            //Date date = event.getStart();
-            //if (date != null && date.getYear() == year && event.isActive())
             if( event.getStart()!=null && event.getStart().getYear()==year && event.isActive())
             {
                 getYears.add(event.getStart().getMonth());
@@ -151,8 +149,6 @@ public static String changeCharacters(String data)
         HashSet<Event> getYears = new HashSet<Event>();
         for (Event event : eventos)
         {
-            //Date date = event.getExpiration();
-            //if (date != null && date.getYear() == year && date.getDate() == day && date.getMonth() == month && event.isActive())
             if( event.getStart()!=null && event.getStart().getYear()==year && (event.getStart().getMonth()==month||event.getEnd().getMonth()==month) && event.getStart().getDate()==day && event.isActive())
             {
                 getYears.add(event);
@@ -168,8 +164,6 @@ public static String changeCharacters(String data)
         HashSet<Event> getYears = new HashSet<Event>();
         for (Event event : eventos)
         {
-            //Date date = event.getExpiration();
-            //if( date!=null && date.getYear()==year && date.getMonth()==month && event.isActive())
             if( event.isActive() && (event.getStart()!=null && event.getStart().getYear()==year && event.getStart().getMonth()==month || event.getEnd()!=null && event.getEnd().getYear()==year && event.getEnd().getMonth()==month) )
             {
                 getYears.add(event);
@@ -325,7 +319,6 @@ public static String changeCharacters(String data)
     List<Event> temp = new ArrayList<Event>();
     for (Event event : events)
     {
-        //if(event.getExpiration() != null && event.isValid() && currentYear == event.getExpiration().getYear())
         if( event.isValid() && event.getStart()!=null && event.getStart().getYear()==currentYear )
             temp.add(event);
 
@@ -348,7 +341,6 @@ public static String changeCharacters(String data)
         }
         catch (IllegalArgumentException e)
         {
-            //log.debug(e);
             moy = MonthOfYear.valueOf(gc.getTime().getMonth());
         }
     }
@@ -364,15 +356,13 @@ public static String changeCharacters(String data)
         }
         catch (NumberFormatException e)
         {
-            //log.debug(e);
             moy = MonthOfYear.valueOf(gc.getTime().getMonth());
         }
     }
     int m = moy.ordinal();
 
-    gc = new GregorianCalendar(gc.get(Calendar.YEAR), m, 1, 0, 0, 0);
+    gc = new GregorianCalendar(gc.get(Calendar.YEAR), m, gc.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
     Date di = gc.getTime();
-
 
 
     Set<Event> allEventsOnMonth = getEvents(events, currentYear, moy.ordinal());
@@ -509,9 +499,7 @@ public static String changeCharacters(String data)
     }
     if (urltoViewAll != null)
     {
-        //url.setCallMethod(paramRequest.Call_CONTENT).setMode("vall");
         out.println("<div class=\"bottom_calendario\">");
-        //out.println(" <a style=\"float: right; margin: 10px 20px 0pt 0pt;\" name=\"a_"+base.getId()+"\" href=\""+url+"#a_"+base.getId()+"\" class=\"links\">ver todos los eventos</a>");
         out.println(" <a style=\"float: right; margin: 10px 20px 0pt 0pt;\" name=\"a_" + base.getId() + "\" href=\"" + urltoViewAll + "\" class=\"links\">ver todos los eventos</a>");
         out.println("</div>");
     }

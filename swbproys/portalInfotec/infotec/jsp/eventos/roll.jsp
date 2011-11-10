@@ -134,8 +134,6 @@
         HashSet<Integer> getYears = new HashSet<Integer>();
         for (Event event : eventos)
         {
-            //Date date = event.getExpiration();
-            //if (date != null && date.getYear() == year && event.isActive())
             if (event.getStart() != null && event.getStart().getYear() == year && event.isActive())
             {
                 getYears.add(event.getStart().getMonth());
@@ -151,8 +149,6 @@
         HashSet<Event> getYears = new HashSet<Event>();
         for (Event event : eventos)
         {
-            //Date date = event.getExpiration();
-            //if (date != null && date.getYear() == year && date.getDate() == day && date.getMonth() == month && event.isActive())
             if (event.isActive() && (event.getStart() != null && event.getStart().getYear() == year && event.getStart().getMonth() == month || event.getEnd() != null && event.getEnd().getYear() == year && event.getEnd().getMonth() == month))
             {
                 getYears.add(event);
@@ -168,8 +164,6 @@
         HashSet<Event> getYears = new HashSet<Event>();
         for (Event event : eventos)
         {
-            //Date date = event.getExpiration();
-            //if( date!=null && date.getYear()==year && date.getMonth()==month && event.isActive())
             if (event.isActive() && (event.getStart() != null && event.getStart().getYear() == year && event.getStart().getMonth() == month || event.getEnd() != null && event.getEnd().getYear() == year && event.getEnd().getMonth() == month))
             {
                 getYears.add(event);
@@ -317,180 +311,181 @@
         }
     }
 %><%
-            SWBParamRequest paramRequest = (SWBParamRequest) request.getAttribute("paramRequest");
-            int currentYear = java.util.Calendar.getInstance().getTime().getYear();
+    SWBParamRequest paramRequest = (SWBParamRequest) request.getAttribute("paramRequest");
+    int currentYear = java.util.Calendar.getInstance().getTime().getYear();
 
-            Iterator<Event> itevents = Event.ClassMgr.listEvents(paramRequest.getWebPage().getWebSite());
-            List<Event> events = SWBUtils.Collections.copyIterator(itevents);
-            List<Event> temp = new ArrayList<Event>();
-            for (Event event : events)
+    Iterator<Event> itevents = Event.ClassMgr.listEvents(paramRequest.getWebPage().getWebSite());
+    List<Event> events = SWBUtils.Collections.copyIterator(itevents);
+    List<Event> temp = new ArrayList<Event>();
+    for (Event event : events)
+    {
+        if (event.isValid() && event.getStart() != null && event.getStart().getYear() == currentYear)
+        {
+            temp.add(event);
+        }
+    }
+    events.clear();
+    events.addAll(temp);
+    Collections.sort(events, new Event.EventSortByStartDate());
+    Locale locale = new Locale("es", "MX");
+    SimpleDateFormat sdf = new SimpleDateFormat("MMMM", locale);
+    GregorianCalendar gc = new GregorianCalendar(locale);
+    boolean hasAhead = false, hasBehind = false;
+    MonthOfYear moy;
+    if (request.getParameter("m") == null)
+    {
+        try
+        {
+            moy = MonthOfYear.valueOf(sdf.format(gc.getTime()).toLowerCase());
+        }
+        catch (IllegalArgumentException e)
+        {
+            moy = MonthOfYear.valueOf(gc.getTime().getMonth());
+        }
+    }
+    else
+    {
+        try
+        {
+            moy = MonthOfYear.valueOf(Integer.parseInt(request.getParameter("m")));
+            if (moy.ordinal() < gc.get(GregorianCalendar.MONTH))
             {
-                //if (event.getExpiration() != null && event.isValid() && currentYear == event.getExpiration().getYear())
-                if (event.isValid() && event.getStart() != null && event.getStart().getYear() == currentYear)
-                {
-                    temp.add(event);
-                }
-
-            }
-            events.clear();
-            events.addAll(temp);
-            Collections.sort(events, new Event.EventSortByStartDate());
-            Locale locale = new Locale("es", "MX");
-            SimpleDateFormat sdf = new SimpleDateFormat("MMMM", locale);
-            GregorianCalendar gc = new GregorianCalendar(locale);
-            boolean hasAhead = false, hasBehind = false;
-            MonthOfYear moy;
-            if (request.getParameter("m") == null)
-            {
-                try
-                {
-                    moy = MonthOfYear.valueOf(sdf.format(gc.getTime()).toLowerCase());
-                }
-                catch (IllegalArgumentException e)
-                {
-                    moy = MonthOfYear.valueOf(gc.getTime().getMonth());
-                }
+                hasBehind = false;
             }
             else
             {
-                try
-                {
-                    moy = MonthOfYear.valueOf(Integer.parseInt(request.getParameter("m")));
-                    if (moy.ordinal() < gc.get(GregorianCalendar.MONTH))
-                    {
-                        hasBehind = false;
-                    }
-                    else
-                    {
-                        hasBehind = true;
-                    }
-                }
-                catch (NumberFormatException e)
-                {
-                    moy = MonthOfYear.valueOf(gc.getTime().getMonth());
-                }
+                hasBehind = true;
             }
-            int m = moy.ordinal();
-            gc = new GregorianCalendar(gc.get(GregorianCalendar.YEAR), m, 1, 0, 0, 0);
-            Date di = gc.getTime();
-            Set<Event> allEventsOnMonth = getEvents(events, currentYear, moy.ordinal());
-            Set<Event> eventsOnMonth = new HashSet<Event>();
-            for (Event event : allEventsOnMonth)
+        }
+        catch (NumberFormatException e)
+        {
+            moy = MonthOfYear.valueOf(gc.getTime().getMonth());
+        }
+    }
+    int m = moy.ordinal();
+    if(m==gc.get(Calendar.MONTH))
+        gc = new GregorianCalendar(gc.get(Calendar.YEAR), m, gc.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
+    else
+        gc = new GregorianCalendar(gc.get(GregorianCalendar.YEAR), m, 1, 0, 0, 0);
+    Date di = gc.getTime();
+    Set<Event> allEventsOnMonth = getEvents(events, currentYear, moy.ordinal());
+    Set<Event> eventsOnMonth = new HashSet<Event>();
+    for (Event event : allEventsOnMonth)
+    {
+        if(event.getStart()!=null && event.getStart().after(di)) {
+            eventsOnMonth.add(event);
+        }
+    }
+    if (eventsOnMonth.isEmpty())
+    {
+        int nextmonth = moy.next().ordinal();
+        for (int imonth = nextmonth; imonth <= 11; imonth++)
+        {
+            Set<Event> tempEvents = getEvents(events, currentYear, imonth);
+            if (!tempEvents.isEmpty())
             {
-                //if(event.getStart()!=null && event.getStart().after(di)) {
-                eventsOnMonth.add(event);
-                //}
+                moy = MonthOfYear.valueOf(imonth);
+                eventsOnMonth.clear();
+                eventsOnMonth.addAll(tempEvents);
+                break;
             }
-            if (eventsOnMonth.isEmpty())
+        }
+    }
+    out.println("<script type=\"text/javascript\">");
+    out.println("<!--");
+    out.println(" dojo.require('dijit.dijit');");
+    out.println("-->");
+    out.println("</script>");
+    SWBResourceURL url = paramRequest.getRenderUrl().setCallMethod(paramRequest.Call_DIRECT).setMode("roll");
+
+    Set<Integer> months = getMonths(events, currentYear);
+    if (months.size() > 0)
+    {
+
+
+        int nextmonth = moy.next().ordinal();
+        int previousmonth = moy.previus().ordinal();
+
+
+        for (int imonth = nextmonth; imonth <= 11; imonth++)
+        {
+            Set<Event> tempEvents = getEvents(events, currentYear, imonth);
+            if (!tempEvents.isEmpty())
             {
-                int nextmonth = moy.next().ordinal();
-                for (int imonth = nextmonth; imonth <= 11; imonth++)
-                {
-                    Set<Event> tempEvents = getEvents(events, currentYear, imonth);
-                    if (!tempEvents.isEmpty())
-                    {
-                        moy = MonthOfYear.valueOf(imonth);
-                        eventsOnMonth.clear();
-                        eventsOnMonth.addAll(tempEvents);
-                        break;
-                    }
-                }
+                nextmonth = imonth;
+                hasAhead = true;
+                break;
             }
-            out.println("<script type=\"text/javascript\">");
-            out.println("<!--");
-            out.println(" dojo.require('dijit.dijit');");
-            out.println("-->");
-            out.println("</script>");
-            SWBResourceURL url = paramRequest.getRenderUrl().setCallMethod(paramRequest.Call_DIRECT).setMode("roll");
+        }
 
-            Set<Integer> months = getMonths(events, currentYear);
-            if (months.size() > 0)
+        for (int imonth = previousmonth; imonth >= 0; imonth--)
+        {
+            Set<Event> tempEvents = getEvents(events, currentYear, imonth);
+            if (!tempEvents.isEmpty())
             {
-
-
-                int nextmonth = moy.next().ordinal();
-                int previousmonth = moy.previus().ordinal();
-
-
-                for (int imonth = nextmonth; imonth <= 11; imonth++)
-                {
-                    Set<Event> tempEvents = getEvents(events, currentYear, imonth);
-                    if (!tempEvents.isEmpty())
-                    {
-                        nextmonth = imonth;
-                        hasAhead = true;
-                        break;
-                    }
-                }
-
-                for (int imonth = previousmonth; imonth >= 0; imonth--)
-                {
-                    Set<Event> tempEvents = getEvents(events, currentYear, imonth);
-                    if (!tempEvents.isEmpty())
-                    {
-                        previousmonth = imonth;
-                        hasBehind = true;
-                        break;
-                    }
-                }
-                if (hasAhead && nextmonth == 11 && moy == MonthOfYear.diciembre)
-                {
-                    hasAhead = false;
-                }
-                if (hasBehind && previousmonth == (java.util.Calendar.getInstance().getTime().getMonth() - 1))
-                {
-                    hasBehind = false;
-                }
-                if (hasBehind && java.util.Calendar.getInstance().getTime().getMonth() == 0)
-                {
-                    hasBehind = false;
-                }
-
-                sdf = new SimpleDateFormat("dd 'de' '<span class=\"cap\">'MMMM'</span>' 'de' yyyy", locale);
-                SimpleDateFormat md = new SimpleDateFormat("'<span class=\"cap\">'MMM'</span>' dd", locale);
-                SimpleDateFormat dd = new SimpleDateFormat("dd", locale);
-                out.println(" <div id=\"mes\">");
-                if (hasBehind)
-                {
-                    url.setParameter("m", Integer.toString(previousmonth));
-                    out.println(" <a id=\"mes_anterior\" href=\"javascript:postHtml('" + url + "','calendario_eventos')\" >mes anterior</a>");
-                }
-
-                out.println("  <h3>" + moy.getDescription() + " " + Calendar.getInstance().get(Calendar.YEAR) + "</h3>");
-                if (hasAhead)
-                {
-                    url.setParameter("m", Integer.toString(nextmonth));
-                    out.println(" <a id=\"mes_siguiente\" href=\"javascript:postHtml('" + url + "','calendario_eventos')\">mes siguiente</a>");
-                }
-                out.println(" </div>");
-
-                events.clear();
-                events.addAll(eventsOnMonth);
-                Collections.sort(events, new Event.EventSortByStartDate());
-                for (Event event : events)
-                {
-                    out.println("<div>");
-                    out.println("<div class=\"range\">");
-                    if (event.getEnd() == null)
-                    {
-                        out.println("<span class=\"dia_calendario\">" + md.format(event.getStart()) + "</span>");
-                    }
-                    else if (event.getEnd() != null && event.getStart().getMonth() == event.getEnd().getMonth())
-                    {
-                        out.println("<span class=\"dia_calendario\">" + md.format(event.getStart()) + "</span> <span class=\"art\">al</span> <span class=\"dia_calendario\">" + dd.format(event.getEnd()) + "</span>");
-                    }
-                    else if (event.getEnd() != null && event.getStart().getMonth() != event.getEnd().getMonth())
-                    {
-                        out.println("<span class=\"dia_calendario\">" + md.format(event.getStart()) + "</span> <span class=\"art\">a</span> <span class=\"dia_calendario\">" + md.format(event.getEnd()) + "</span>");
-                    }
-                    out.println("</div>");
-                    String titleURL = getTitleURL(event.getDisplayTitle(paramRequest.getUser().getLanguage()));
-
-                    out.println("<p><a href=\"" + event.getUrl() + "/" + titleURL + "\">" + event.getTitle() + "</a></p>");
-                    out.println("<p>" + sdf.format(event.getStart()) + "</p>");
-                    out.println("<p>" + (event.getSchedule() == null ? "" : event.getSchedule()) + "</p>");
-                    out.println(" </div>");
-                }
-
+                previousmonth = imonth;
+                hasBehind = true;
+                break;
             }
+        }
+        if (hasAhead && nextmonth == 11 && moy == MonthOfYear.diciembre)
+        {
+            hasAhead = false;
+        }
+        if (hasBehind && previousmonth == (java.util.Calendar.getInstance().getTime().getMonth() - 1))
+        {
+            hasBehind = false;
+        }
+        if (hasBehind && java.util.Calendar.getInstance().getTime().getMonth() == 0)
+        {
+            hasBehind = false;
+        }
+
+        sdf = new SimpleDateFormat("dd 'de' '<span class=\"cap\">'MMMM'</span>' 'de' yyyy", locale);
+        SimpleDateFormat md = new SimpleDateFormat("'<span class=\"cap\">'MMM'</span>' dd", locale);
+        SimpleDateFormat dd = new SimpleDateFormat("dd", locale);
+        out.println(" <div id=\"mes\">");
+        if (hasBehind)
+        {
+            url.setParameter("m", Integer.toString(previousmonth));
+            out.println(" <a id=\"mes_anterior\" href=\"javascript:postHtml('" + url + "','calendario_eventos')\" >mes anterior</a>");
+        }
+
+        out.println("  <h3>" + moy.getDescription() + " " + Calendar.getInstance().get(Calendar.YEAR) + "</h3>");
+        if (hasAhead)
+        {
+            url.setParameter("m", Integer.toString(nextmonth));
+            out.println(" <a id=\"mes_siguiente\" href=\"javascript:postHtml('" + url + "','calendario_eventos')\">mes siguiente</a>");
+        }
+        out.println(" </div>");
+
+        events.clear();
+        events.addAll(eventsOnMonth);
+        Collections.sort(events, new Event.EventSortByStartDate());
+        for (Event event : events)
+        {
+            out.println("<div>");
+            out.println("<div class=\"range\">");
+            if (event.getEnd() == null)
+            {
+                out.println("<span class=\"dia_calendario\">" + md.format(event.getStart()) + "</span>");
+            }
+            else if (event.getEnd() != null && event.getStart().getMonth() == event.getEnd().getMonth())
+            {
+                out.println("<span class=\"dia_calendario\">" + md.format(event.getStart()) + "</span> <span class=\"art\">al</span> <span class=\"dia_calendario\">" + dd.format(event.getEnd()) + "</span>");
+            }
+            else if (event.getEnd() != null && event.getStart().getMonth() != event.getEnd().getMonth())
+            {
+                out.println("<span class=\"dia_calendario\">" + md.format(event.getStart()) + "</span> <span class=\"art\">a</span> <span class=\"dia_calendario\">" + md.format(event.getEnd()) + "</span>");
+            }
+            out.println("</div>");
+            String titleURL = getTitleURL(event.getDisplayTitle(paramRequest.getUser().getLanguage()));
+
+            out.println("<p><a href=\"" + event.getUrl() + "/" + titleURL + "\">" + event.getTitle() + "</a></p>");
+            out.println("<p>" + sdf.format(event.getStart()) + "</p>");
+            out.println("<p>" + (event.getSchedule() == null ? "" : event.getSchedule()) + "</p>");
+            out.println(" </div>");
+        }
+
+    }
 %>
