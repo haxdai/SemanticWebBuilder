@@ -1,7 +1,7 @@
 package org.semanticwb.promexico.base;
 
 
-public abstract class NewBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Searchable,org.semanticwb.model.Ruleable,org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable
+public abstract class NewBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Ruleable,org.semanticwb.model.Resourceable,org.semanticwb.model.Searchable,org.semanticwb.model.Tagable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticProperty promx_newUrl=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#newUrl");
    /**
@@ -16,6 +16,10 @@ public abstract class NewBase extends org.semanticwb.model.SWBClass implements o
    * Foto de Noticia
    */
     public static final org.semanticwb.platform.SemanticProperty promx_newPhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#newPhoto");
+   /**
+   * Almacena la fecha de publicación de la noticia
+   */
+    public static final org.semanticwb.platform.SemanticProperty promx_publicationDate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#publicationDate");
     public static final org.semanticwb.platform.SemanticProperty promx_newSource=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#newSource");
     public static final org.semanticwb.platform.SemanticProperty promx_fileAttach=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#fileAttach");
    /**
@@ -482,6 +486,24 @@ public abstract class NewBase extends org.semanticwb.model.SWBClass implements o
     public void setDescription(String description, String lang)
     {
         getSemanticObject().setProperty(swb_description, description, lang);
+    }
+
+/**
+* Gets the PublicationDate property
+* @return java.util.Date with the PublicationDate
+*/
+    public java.util.Date getPublicationDate()
+    {
+        return getSemanticObject().getDateProperty(promx_publicationDate);
+    }
+
+/**
+* Sets the PublicationDate property
+* @param value long with the PublicationDate
+*/
+    public void setPublicationDate(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(promx_publicationDate, value);
     }
 
 /**
