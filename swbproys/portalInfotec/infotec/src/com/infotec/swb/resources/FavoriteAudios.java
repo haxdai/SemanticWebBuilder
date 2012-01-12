@@ -54,6 +54,7 @@ public class FavoriteAudios extends GenericResource {
         Collections.reverse(resources);
         iresources = resources.iterator();
         if(iresources.hasNext()) {
+            out.println("<h3>"+paramRequest.getLocaleString("msgDoViewMostLiked")+"</h3>");
             int min = 0;
             out.println("<ul>");
             while(min<MIN_LIST && iresources.hasNext()) {
@@ -65,6 +66,8 @@ public class FavoriteAudios extends GenericResource {
                 min++;
             }
             out.println("</ul>");
+        }else {
+            out.println(paramRequest.getLocaleString("msgDoViewNoPodcast"));
         }
     }
     
