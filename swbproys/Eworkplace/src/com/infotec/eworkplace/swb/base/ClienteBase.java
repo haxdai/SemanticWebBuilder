@@ -3,11 +3,11 @@ package com.infotec.eworkplace.swb.base;
 
 public abstract class ClienteBase extends org.semanticwb.model.SWBClass 
 {
-    public static final org.semanticwb.platform.SemanticClass ewp_Cliente=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Cliente");
+    public static final org.semanticwb.platform.SemanticClass intranet_Cliente=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Cliente");
    /**
    * The semantic class that represents the currentObject
    */
-    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Cliente");
+    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Cliente");
 
     public static class ClassMgr
     {
@@ -31,12 +31,6 @@ public abstract class ClienteBase extends org.semanticwb.model.SWBClass
         {
             java.util.Iterator it=sclass.listInstances();
             return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Cliente>(it, true);
-        }
-
-        public static com.infotec.eworkplace.swb.Cliente createCliente(org.semanticwb.model.SWBModel model)
-        {
-            long id=model.getSemanticObject().getModel().getCounter(sclass);
-            return com.infotec.eworkplace.swb.Cliente.ClassMgr.createCliente(String.valueOf(id), model);
         }
        /**
        * Gets a com.infotec.eworkplace.swb.Cliente

@@ -3,15 +3,15 @@ package com.infotec.eworkplace.swb.base;
 
 public abstract class FamiliaBase extends org.semanticwb.model.SWBClass 
 {
-    public static final org.semanticwb.platform.SemanticProperty ewp_direccion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#direccion");
-    public static final org.semanticwb.platform.SemanticProperty ewp_parentesco=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#parentesco");
-    public static final org.semanticwb.platform.SemanticProperty ewp_miembro=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#miembro");
-    public static final org.semanticwb.platform.SemanticProperty ewp_telefono=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#telefono");
-    public static final org.semanticwb.platform.SemanticClass ewp_Familia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Familia");
+    public static final org.semanticwb.platform.SemanticProperty intranet_direccion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#direccion");
+    public static final org.semanticwb.platform.SemanticProperty intranet_parentesco=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#parentesco");
+    public static final org.semanticwb.platform.SemanticProperty intranet_nombre=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nombre");
+    public static final org.semanticwb.platform.SemanticProperty intranet_telefono=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#telefono");
+    public static final org.semanticwb.platform.SemanticClass intranet_Familia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Familia");
    /**
    * The semantic class that represents the currentObject
    */
-    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Familia");
+    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Familia");
 
     public static class ClassMgr
     {
@@ -99,7 +99,7 @@ public abstract class FamiliaBase extends org.semanticwb.model.SWBClass
 */
     public String getDireccion()
     {
-        return getSemanticObject().getProperty(ewp_direccion);
+        return getSemanticObject().getProperty(intranet_direccion);
     }
 
 /**
@@ -108,7 +108,7 @@ public abstract class FamiliaBase extends org.semanticwb.model.SWBClass
 */
     public void setDireccion(String value)
     {
-        getSemanticObject().setProperty(ewp_direccion, value);
+        getSemanticObject().setProperty(intranet_direccion, value);
     }
 
 /**
@@ -117,7 +117,7 @@ public abstract class FamiliaBase extends org.semanticwb.model.SWBClass
 */
     public String getParentesco()
     {
-        return getSemanticObject().getProperty(ewp_parentesco);
+        return getSemanticObject().getProperty(intranet_parentesco);
     }
 
 /**
@@ -126,25 +126,25 @@ public abstract class FamiliaBase extends org.semanticwb.model.SWBClass
 */
     public void setParentesco(String value)
     {
-        getSemanticObject().setProperty(ewp_parentesco, value);
+        getSemanticObject().setProperty(intranet_parentesco, value);
     }
 
 /**
-* Gets the Miembro property
-* @return String with the Miembro
+* Gets the Nombre property
+* @return String with the Nombre
 */
-    public String getMiembro()
+    public String getNombre()
     {
-        return getSemanticObject().getProperty(ewp_miembro);
+        return getSemanticObject().getProperty(intranet_nombre);
     }
 
 /**
-* Sets the Miembro property
-* @param value long with the Miembro
+* Sets the Nombre property
+* @param value long with the Nombre
 */
-    public void setMiembro(String value)
+    public void setNombre(String value)
     {
-        getSemanticObject().setProperty(ewp_miembro, value);
+        getSemanticObject().setProperty(intranet_nombre, value);
     }
 
 /**
@@ -153,7 +153,7 @@ public abstract class FamiliaBase extends org.semanticwb.model.SWBClass
 */
     public String getTelefono()
     {
-        return getSemanticObject().getProperty(ewp_telefono);
+        return getSemanticObject().getProperty(intranet_telefono);
     }
 
 /**
@@ -162,6 +162,6 @@ public abstract class FamiliaBase extends org.semanticwb.model.SWBClass
 */
     public void setTelefono(String value)
     {
-        getSemanticObject().setProperty(ewp_telefono, value);
+        getSemanticObject().setProperty(intranet_telefono, value);
     }
 }

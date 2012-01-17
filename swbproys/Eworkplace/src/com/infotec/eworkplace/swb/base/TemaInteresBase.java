@@ -3,11 +3,11 @@ package com.infotec.eworkplace.swb.base;
 
 public abstract class TemaInteresBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable
 {
-    public static final org.semanticwb.platform.SemanticClass ewp_TemaInteres=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#TemaInteres");
+    public static final org.semanticwb.platform.SemanticClass intranet_TemaInteres=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#TemaInteres");
    /**
    * The semantic class that represents the currentObject
    */
-    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#TemaInteres");
+    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#TemaInteres");
 
     public static class ClassMgr
     {
@@ -31,12 +31,6 @@ public abstract class TemaInteresBase extends org.semanticwb.model.SWBClass impl
         {
             java.util.Iterator it=sclass.listInstances();
             return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.TemaInteres>(it, true);
-        }
-
-        public static com.infotec.eworkplace.swb.TemaInteres createTemaInteres(org.semanticwb.model.SWBModel model)
-        {
-            long id=model.getSemanticObject().getModel().getCounter(sclass);
-            return com.infotec.eworkplace.swb.TemaInteres.ClassMgr.createTemaInteres(String.valueOf(id), model);
         }
        /**
        * Gets a com.infotec.eworkplace.swb.TemaInteres

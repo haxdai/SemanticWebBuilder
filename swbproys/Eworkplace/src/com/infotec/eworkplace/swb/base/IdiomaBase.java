@@ -3,16 +3,11 @@ package com.infotec.eworkplace.swb.base;
 
 public abstract class IdiomaBase extends org.semanticwb.model.SWBClass 
 {
-    public static final org.semanticwb.platform.SemanticProperty ewp_lectura=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#lectura");
-    public static final org.semanticwb.platform.SemanticProperty ewp_conversacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#conversacion");
-    public static final org.semanticwb.platform.SemanticProperty ewp_tecnico=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#tecnico");
-    public static final org.semanticwb.platform.SemanticProperty ewp_nombre=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#nombre");
-    public static final org.semanticwb.platform.SemanticProperty ewp_escritura=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#escritura");
-    public static final org.semanticwb.platform.SemanticClass ewp_Idioma=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Idioma");
+    public static final org.semanticwb.platform.SemanticClass intranet_Idioma=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Idioma");
    /**
    * The semantic class that represents the currentObject
    */
-    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Idioma");
+    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Idioma");
 
     public static class ClassMgr
     {
@@ -36,12 +31,6 @@ public abstract class IdiomaBase extends org.semanticwb.model.SWBClass
         {
             java.util.Iterator it=sclass.listInstances();
             return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Idioma>(it, true);
-        }
-
-        public static com.infotec.eworkplace.swb.Idioma createIdioma(org.semanticwb.model.SWBModel model)
-        {
-            long id=model.getSemanticObject().getModel().getCounter(sclass);
-            return com.infotec.eworkplace.swb.Idioma.ClassMgr.createIdioma(String.valueOf(id), model);
         }
        /**
        * Gets a com.infotec.eworkplace.swb.Idioma
@@ -92,95 +81,5 @@ public abstract class IdiomaBase extends org.semanticwb.model.SWBClass
     public IdiomaBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
-    }
-
-/**
-* Gets the Lectura property
-* @return int with the Lectura
-*/
-    public int getLectura()
-    {
-        return getSemanticObject().getIntProperty(ewp_lectura);
-    }
-
-/**
-* Sets the Lectura property
-* @param value long with the Lectura
-*/
-    public void setLectura(int value)
-    {
-        getSemanticObject().setIntProperty(ewp_lectura, value);
-    }
-
-/**
-* Gets the Conversacion property
-* @return int with the Conversacion
-*/
-    public int getConversacion()
-    {
-        return getSemanticObject().getIntProperty(ewp_conversacion);
-    }
-
-/**
-* Sets the Conversacion property
-* @param value long with the Conversacion
-*/
-    public void setConversacion(int value)
-    {
-        getSemanticObject().setIntProperty(ewp_conversacion, value);
-    }
-
-/**
-* Gets the Tecnico property
-* @return boolean with the Tecnico
-*/
-    public boolean isTecnico()
-    {
-        return getSemanticObject().getBooleanProperty(ewp_tecnico);
-    }
-
-/**
-* Sets the Tecnico property
-* @param value long with the Tecnico
-*/
-    public void setTecnico(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(ewp_tecnico, value);
-    }
-
-/**
-* Gets the Nombre property
-* @return String with the Nombre
-*/
-    public String getNombre()
-    {
-        return getSemanticObject().getProperty(ewp_nombre);
-    }
-
-/**
-* Sets the Nombre property
-* @param value long with the Nombre
-*/
-    public void setNombre(String value)
-    {
-        getSemanticObject().setProperty(ewp_nombre, value);
-    }
-
-/**
-* Gets the Escritura property
-* @return int with the Escritura
-*/
-    public int getEscritura()
-    {
-        return getSemanticObject().getIntProperty(ewp_escritura);
-    }
-
-/**
-* Sets the Escritura property
-* @param value long with the Escritura
-*/
-    public void setEscritura(int value)
-    {
-        getSemanticObject().setIntProperty(ewp_escritura, value);
     }
 }

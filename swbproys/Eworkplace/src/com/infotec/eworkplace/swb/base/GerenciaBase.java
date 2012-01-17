@@ -1,15 +1,15 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class GerenciaBase extends com.infotec.eworkplace.swb.Organo implements com.infotec.eworkplace.swb.Mision,com.infotec.eworkplace.swb.Vision,org.semanticwb.model.Descriptiveable
+public abstract class GerenciaBase extends com.infotec.eworkplace.swb.Organo implements com.infotec.eworkplace.swb.Extensible,org.semanticwb.model.Descriptiveable,com.infotec.eworkplace.swb.Vision,com.infotec.eworkplace.swb.Mision
 {
-    public static final org.semanticwb.platform.SemanticClass ewp_SubGerencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#SubGerencia");
-    public static final org.semanticwb.platform.SemanticProperty ewp_hasSubGerencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#hasSubGerencia");
-    public static final org.semanticwb.platform.SemanticClass ewp_Gerencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Gerencia");
+    public static final org.semanticwb.platform.SemanticClass intranet_Subgerencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Subgerencia");
+    public static final org.semanticwb.platform.SemanticProperty intranet_hasSubgerencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasSubgerencia");
+    public static final org.semanticwb.platform.SemanticClass intranet_Gerencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Gerencia");
    /**
    * The semantic class that represents the currentObject
    */
-    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Gerencia");
+    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Gerencia");
 
     public static class ClassMgr
     {
@@ -81,26 +81,26 @@ public abstract class GerenciaBase extends com.infotec.eworkplace.swb.Organo imp
             return (getGerencia(id, model)!=null);
         }
        /**
-       * Gets all com.infotec.eworkplace.swb.Gerencia with a determined SubGerencia
-       * @param value SubGerencia of the type com.infotec.eworkplace.swb.SubGerencia
+       * Gets all com.infotec.eworkplace.swb.Gerencia with a determined Subgerencia
+       * @param value Subgerencia of the type com.infotec.eworkplace.swb.Subgerencia
        * @param model Model of the com.infotec.eworkplace.swb.Gerencia
        * @return Iterator with all the com.infotec.eworkplace.swb.Gerencia
        */
 
-        public static java.util.Iterator<com.infotec.eworkplace.swb.Gerencia> listGerenciaBySubGerencia(com.infotec.eworkplace.swb.SubGerencia value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Gerencia> listGerenciaBySubgerencia(com.infotec.eworkplace.swb.Subgerencia value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Gerencia> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(ewp_hasSubGerencia, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Gerencia> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasSubgerencia, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all com.infotec.eworkplace.swb.Gerencia with a determined SubGerencia
-       * @param value SubGerencia of the type com.infotec.eworkplace.swb.SubGerencia
+       * Gets all com.infotec.eworkplace.swb.Gerencia with a determined Subgerencia
+       * @param value Subgerencia of the type com.infotec.eworkplace.swb.Subgerencia
        * @return Iterator with all the com.infotec.eworkplace.swb.Gerencia
        */
 
-        public static java.util.Iterator<com.infotec.eworkplace.swb.Gerencia> listGerenciaBySubGerencia(com.infotec.eworkplace.swb.SubGerencia value)
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Gerencia> listGerenciaBySubgerencia(com.infotec.eworkplace.swb.Subgerencia value)
         {
-            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Gerencia> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(ewp_hasSubGerencia,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Gerencia> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasSubgerencia,value.getSemanticObject(),sclass));
             return it;
         }
     }
@@ -114,67 +114,67 @@ public abstract class GerenciaBase extends com.infotec.eworkplace.swb.Organo imp
         super(base);
     }
    /**
-   * Gets all the com.infotec.eworkplace.swb.SubGerencia
-   * @return A GenericIterator with all the com.infotec.eworkplace.swb.SubGerencia
+   * Gets all the com.infotec.eworkplace.swb.Subgerencia
+   * @return A GenericIterator with all the com.infotec.eworkplace.swb.Subgerencia
    */
 
-    public org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SubGerencia> listSubGerencias()
+    public org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Subgerencia> listSubgerencias()
     {
-        return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SubGerencia>(getSemanticObject().listObjectProperties(ewp_hasSubGerencia));
+        return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Subgerencia>(getSemanticObject().listObjectProperties(intranet_hasSubgerencia));
     }
 
    /**
-   * Gets true if has a SubGerencia
-   * @param value com.infotec.eworkplace.swb.SubGerencia to verify
-   * @return true if the com.infotec.eworkplace.swb.SubGerencia exists, false otherwise
+   * Gets true if has a Subgerencia
+   * @param value com.infotec.eworkplace.swb.Subgerencia to verify
+   * @return true if the com.infotec.eworkplace.swb.Subgerencia exists, false otherwise
    */
-    public boolean hasSubGerencia(com.infotec.eworkplace.swb.SubGerencia value)
+    public boolean hasSubgerencia(com.infotec.eworkplace.swb.Subgerencia value)
     {
         boolean ret=false;
         if(value!=null)
         {
-           ret=getSemanticObject().hasObjectProperty(ewp_hasSubGerencia,value.getSemanticObject());
+           ret=getSemanticObject().hasObjectProperty(intranet_hasSubgerencia,value.getSemanticObject());
         }
         return ret;
     }
    /**
-   * Adds a SubGerencia
-   * @param value com.infotec.eworkplace.swb.SubGerencia to add
+   * Adds a Subgerencia
+   * @param value com.infotec.eworkplace.swb.Subgerencia to add
    */
 
-    public void addSubGerencia(com.infotec.eworkplace.swb.SubGerencia value)
+    public void addSubgerencia(com.infotec.eworkplace.swb.Subgerencia value)
     {
-        getSemanticObject().addObjectProperty(ewp_hasSubGerencia, value.getSemanticObject());
+        getSemanticObject().addObjectProperty(intranet_hasSubgerencia, value.getSemanticObject());
     }
    /**
-   * Removes all the SubGerencia
+   * Removes all the Subgerencia
    */
 
-    public void removeAllSubGerencia()
+    public void removeAllSubgerencia()
     {
-        getSemanticObject().removeProperty(ewp_hasSubGerencia);
+        getSemanticObject().removeProperty(intranet_hasSubgerencia);
     }
    /**
-   * Removes a SubGerencia
-   * @param value com.infotec.eworkplace.swb.SubGerencia to remove
+   * Removes a Subgerencia
+   * @param value com.infotec.eworkplace.swb.Subgerencia to remove
    */
 
-    public void removeSubGerencia(com.infotec.eworkplace.swb.SubGerencia value)
+    public void removeSubgerencia(com.infotec.eworkplace.swb.Subgerencia value)
     {
-        getSemanticObject().removeObjectProperty(ewp_hasSubGerencia,value.getSemanticObject());
+        getSemanticObject().removeObjectProperty(intranet_hasSubgerencia,value.getSemanticObject());
     }
 
    /**
-   * Gets the SubGerencia
-   * @return a com.infotec.eworkplace.swb.SubGerencia
+   * Gets the Subgerencia
+   * @return a com.infotec.eworkplace.swb.Subgerencia
    */
-    public com.infotec.eworkplace.swb.SubGerencia getSubGerencia()
+    public com.infotec.eworkplace.swb.Subgerencia getSubgerencia()
     {
-         com.infotec.eworkplace.swb.SubGerencia ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(ewp_hasSubGerencia);
+         com.infotec.eworkplace.swb.Subgerencia ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasSubgerencia);
          if(obj!=null)
          {
-             ret=(com.infotec.eworkplace.swb.SubGerencia)obj.createGenericInstance();
+             ret=(com.infotec.eworkplace.swb.Subgerencia)obj.createGenericInstance();
          }
          return ret;
     }
