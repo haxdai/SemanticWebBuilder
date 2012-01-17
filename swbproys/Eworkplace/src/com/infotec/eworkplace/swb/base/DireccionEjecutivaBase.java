@@ -1,15 +1,15 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class DireccionEjecutivaBase extends com.infotec.eworkplace.swb.Organo implements com.infotec.eworkplace.swb.Mision,com.infotec.eworkplace.swb.Vision,org.semanticwb.model.Descriptiveable
+public abstract class DireccionEjecutivaBase extends com.infotec.eworkplace.swb.Organo implements com.infotec.eworkplace.swb.Extensible,org.semanticwb.model.Descriptiveable,com.infotec.eworkplace.swb.Vision,com.infotec.eworkplace.swb.Mision
 {
-    public static final org.semanticwb.platform.SemanticClass ewp_DireccionAdjunta=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#DireccionAdjunta");
-    public static final org.semanticwb.platform.SemanticProperty ewp_hasDireccionAdjunta=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#hasDireccionAdjunta");
-    public static final org.semanticwb.platform.SemanticClass ewp_DireccionEjecutiva=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#DireccionEjecutiva");
+    public static final org.semanticwb.platform.SemanticClass intranet_DireccionAdjunta=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#DireccionAdjunta");
+    public static final org.semanticwb.platform.SemanticProperty intranet_hasDireccionAdjunta=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasDireccionAdjunta");
+    public static final org.semanticwb.platform.SemanticClass intranet_DireccionEjecutiva=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#DireccionEjecutiva");
    /**
    * The semantic class that represents the currentObject
    */
-    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#DireccionEjecutiva");
+    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#DireccionEjecutiva");
 
     public static class ClassMgr
     {
@@ -33,6 +33,12 @@ public abstract class DireccionEjecutivaBase extends com.infotec.eworkplace.swb.
         {
             java.util.Iterator it=sclass.listInstances();
             return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.DireccionEjecutiva>(it, true);
+        }
+
+        public static com.infotec.eworkplace.swb.DireccionEjecutiva createDireccionEjecutiva(org.semanticwb.model.SWBModel model)
+        {
+            long id=model.getSemanticObject().getModel().getCounter(sclass);
+            return com.infotec.eworkplace.swb.DireccionEjecutiva.ClassMgr.createDireccionEjecutiva(String.valueOf(id), model);
         }
        /**
        * Gets a com.infotec.eworkplace.swb.DireccionEjecutiva
@@ -83,7 +89,7 @@ public abstract class DireccionEjecutivaBase extends com.infotec.eworkplace.swb.
 
         public static java.util.Iterator<com.infotec.eworkplace.swb.DireccionEjecutiva> listDireccionEjecutivaByDireccionAdjunta(com.infotec.eworkplace.swb.DireccionAdjunta value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.DireccionEjecutiva> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(ewp_hasDireccionAdjunta, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.DireccionEjecutiva> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasDireccionAdjunta, value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -94,7 +100,7 @@ public abstract class DireccionEjecutivaBase extends com.infotec.eworkplace.swb.
 
         public static java.util.Iterator<com.infotec.eworkplace.swb.DireccionEjecutiva> listDireccionEjecutivaByDireccionAdjunta(com.infotec.eworkplace.swb.DireccionAdjunta value)
         {
-            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.DireccionEjecutiva> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(ewp_hasDireccionAdjunta,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.DireccionEjecutiva> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasDireccionAdjunta,value.getSemanticObject(),sclass));
             return it;
         }
     }
@@ -114,7 +120,7 @@ public abstract class DireccionEjecutivaBase extends com.infotec.eworkplace.swb.
 
     public org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.DireccionAdjunta> listDireccionAdjuntas()
     {
-        return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.DireccionAdjunta>(getSemanticObject().listObjectProperties(ewp_hasDireccionAdjunta));
+        return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.DireccionAdjunta>(getSemanticObject().listObjectProperties(intranet_hasDireccionAdjunta));
     }
 
    /**
@@ -127,7 +133,7 @@ public abstract class DireccionEjecutivaBase extends com.infotec.eworkplace.swb.
         boolean ret=false;
         if(value!=null)
         {
-           ret=getSemanticObject().hasObjectProperty(ewp_hasDireccionAdjunta,value.getSemanticObject());
+           ret=getSemanticObject().hasObjectProperty(intranet_hasDireccionAdjunta,value.getSemanticObject());
         }
         return ret;
     }
@@ -138,7 +144,7 @@ public abstract class DireccionEjecutivaBase extends com.infotec.eworkplace.swb.
 
     public void addDireccionAdjunta(com.infotec.eworkplace.swb.DireccionAdjunta value)
     {
-        getSemanticObject().addObjectProperty(ewp_hasDireccionAdjunta, value.getSemanticObject());
+        getSemanticObject().addObjectProperty(intranet_hasDireccionAdjunta, value.getSemanticObject());
     }
    /**
    * Removes all the DireccionAdjunta
@@ -146,7 +152,7 @@ public abstract class DireccionEjecutivaBase extends com.infotec.eworkplace.swb.
 
     public void removeAllDireccionAdjunta()
     {
-        getSemanticObject().removeProperty(ewp_hasDireccionAdjunta);
+        getSemanticObject().removeProperty(intranet_hasDireccionAdjunta);
     }
    /**
    * Removes a DireccionAdjunta
@@ -155,7 +161,7 @@ public abstract class DireccionEjecutivaBase extends com.infotec.eworkplace.swb.
 
     public void removeDireccionAdjunta(com.infotec.eworkplace.swb.DireccionAdjunta value)
     {
-        getSemanticObject().removeObjectProperty(ewp_hasDireccionAdjunta,value.getSemanticObject());
+        getSemanticObject().removeObjectProperty(intranet_hasDireccionAdjunta,value.getSemanticObject());
     }
 
    /**
@@ -165,7 +171,7 @@ public abstract class DireccionEjecutivaBase extends com.infotec.eworkplace.swb.
     public com.infotec.eworkplace.swb.DireccionAdjunta getDireccionAdjunta()
     {
          com.infotec.eworkplace.swb.DireccionAdjunta ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(ewp_hasDireccionAdjunta);
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasDireccionAdjunta);
          if(obj!=null)
          {
              ret=(com.infotec.eworkplace.swb.DireccionAdjunta)obj.createGenericInstance();

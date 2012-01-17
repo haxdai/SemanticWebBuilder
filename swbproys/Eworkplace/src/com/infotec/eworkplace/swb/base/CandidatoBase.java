@@ -1,14 +1,13 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class CandidatoBase extends org.semanticwb.model.UserTypeDef implements com.infotec.eworkplace.swb.CVable
+public abstract class CandidatoBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.CVable
 {
-    public static final org.semanticwb.platform.SemanticProperty ewp_fechaSolicitud=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#fechaSolicitud");
-    public static final org.semanticwb.platform.SemanticClass ewp_Candidato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Candidato");
+    public static final org.semanticwb.platform.SemanticClass intranet_Candidato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Candidato");
    /**
    * The semantic class that represents the currentObject
    */
-    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Candidato");
+    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Candidato");
 
     public static class ClassMgr
     {
@@ -32,6 +31,12 @@ public abstract class CandidatoBase extends org.semanticwb.model.UserTypeDef imp
         {
             java.util.Iterator it=sclass.listInstances();
             return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Candidato>(it, true);
+        }
+
+        public static com.infotec.eworkplace.swb.Candidato createCandidato(org.semanticwb.model.SWBModel model)
+        {
+            long id=model.getSemanticObject().getModel().getCounter(sclass);
+            return com.infotec.eworkplace.swb.Candidato.ClassMgr.createCandidato(String.valueOf(id), model);
         }
        /**
        * Gets a com.infotec.eworkplace.swb.Candidato
@@ -82,23 +87,5 @@ public abstract class CandidatoBase extends org.semanticwb.model.UserTypeDef imp
     public CandidatoBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
-    }
-
-/**
-* Gets the FechaSolicitud property
-* @return java.util.Date with the FechaSolicitud
-*/
-    public java.util.Date getFechaSolicitud()
-    {
-        return getSemanticObject().getDateProperty(ewp_fechaSolicitud);
-    }
-
-/**
-* Sets the FechaSolicitud property
-* @param value long with the FechaSolicitud
-*/
-    public void setFechaSolicitud(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(ewp_fechaSolicitud, value);
     }
 }

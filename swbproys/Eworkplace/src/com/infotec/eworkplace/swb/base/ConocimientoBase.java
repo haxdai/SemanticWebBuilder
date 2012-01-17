@@ -1,14 +1,13 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class ConocimientoBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Capacidad
+public abstract class ConocimientoBase extends org.semanticwb.model.SWBClass 
 {
-    public static final org.semanticwb.platform.SemanticProperty ewp_materia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#materia");
-    public static final org.semanticwb.platform.SemanticClass ewp_Conocimiento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Conocimiento");
+    public static final org.semanticwb.platform.SemanticClass intranet_Conocimiento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Conocimiento");
    /**
    * The semantic class that represents the currentObject
    */
-    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Conocimiento");
+    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Conocimiento");
 
     public static class ClassMgr
     {
@@ -32,12 +31,6 @@ public abstract class ConocimientoBase extends org.semanticwb.model.SWBClass imp
         {
             java.util.Iterator it=sclass.listInstances();
             return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Conocimiento>(it, true);
-        }
-
-        public static com.infotec.eworkplace.swb.Conocimiento createConocimiento(org.semanticwb.model.SWBModel model)
-        {
-            long id=model.getSemanticObject().getModel().getCounter(sclass);
-            return com.infotec.eworkplace.swb.Conocimiento.ClassMgr.createConocimiento(String.valueOf(id), model);
         }
        /**
        * Gets a com.infotec.eworkplace.swb.Conocimiento
@@ -88,59 +81,5 @@ public abstract class ConocimientoBase extends org.semanticwb.model.SWBClass imp
     public ConocimientoBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
-    }
-
-/**
-* Gets the Materia property
-* @return String with the Materia
-*/
-    public String getMateria()
-    {
-        return getSemanticObject().getProperty(ewp_materia);
-    }
-
-/**
-* Sets the Materia property
-* @param value long with the Materia
-*/
-    public void setMateria(String value)
-    {
-        getSemanticObject().setProperty(ewp_materia, value);
-    }
-
-/**
-* Gets the Domain property
-* @return String with the Domain
-*/
-    public String getDomain()
-    {
-        return getSemanticObject().getProperty(ewp_domain);
-    }
-
-/**
-* Sets the Domain property
-* @param value long with the Domain
-*/
-    public void setDomain(String value)
-    {
-        getSemanticObject().setProperty(ewp_domain, value);
-    }
-
-/**
-* Gets the Experience property
-* @return String with the Experience
-*/
-    public String getExperience()
-    {
-        return getSemanticObject().getProperty(ewp_experience);
-    }
-
-/**
-* Sets the Experience property
-* @param value long with the Experience
-*/
-    public void setExperience(String value)
-    {
-        getSemanticObject().setProperty(ewp_experience, value);
     }
 }

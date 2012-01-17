@@ -1,15 +1,15 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class DireccionAdjuntaBase extends com.infotec.eworkplace.swb.Organo implements com.infotec.eworkplace.swb.Mision,com.infotec.eworkplace.swb.Vision,org.semanticwb.model.Descriptiveable
+public abstract class DireccionAdjuntaBase extends com.infotec.eworkplace.swb.Organo implements com.infotec.eworkplace.swb.Extensible,org.semanticwb.model.Descriptiveable,com.infotec.eworkplace.swb.Vision,com.infotec.eworkplace.swb.Mision
 {
-    public static final org.semanticwb.platform.SemanticClass ewp_Gerencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Gerencia");
-    public static final org.semanticwb.platform.SemanticProperty ewp_hasGerencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#hasGerencia");
-    public static final org.semanticwb.platform.SemanticClass ewp_DireccionAdjunta=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#DireccionAdjunta");
+    public static final org.semanticwb.platform.SemanticClass intranet_Gerencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Gerencia");
+    public static final org.semanticwb.platform.SemanticProperty intranet_hasGerencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasGerencia");
+    public static final org.semanticwb.platform.SemanticClass intranet_DireccionAdjunta=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#DireccionAdjunta");
    /**
    * The semantic class that represents the currentObject
    */
-    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#DireccionAdjunta");
+    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#DireccionAdjunta");
 
     public static class ClassMgr
     {
@@ -33,6 +33,12 @@ public abstract class DireccionAdjuntaBase extends com.infotec.eworkplace.swb.Or
         {
             java.util.Iterator it=sclass.listInstances();
             return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.DireccionAdjunta>(it, true);
+        }
+
+        public static com.infotec.eworkplace.swb.DireccionAdjunta createDireccionAdjunta(org.semanticwb.model.SWBModel model)
+        {
+            long id=model.getSemanticObject().getModel().getCounter(sclass);
+            return com.infotec.eworkplace.swb.DireccionAdjunta.ClassMgr.createDireccionAdjunta(String.valueOf(id), model);
         }
        /**
        * Gets a com.infotec.eworkplace.swb.DireccionAdjunta
@@ -83,7 +89,7 @@ public abstract class DireccionAdjuntaBase extends com.infotec.eworkplace.swb.Or
 
         public static java.util.Iterator<com.infotec.eworkplace.swb.DireccionAdjunta> listDireccionAdjuntaByGerencia(com.infotec.eworkplace.swb.Gerencia value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.DireccionAdjunta> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(ewp_hasGerencia, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.DireccionAdjunta> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasGerencia, value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -94,7 +100,7 @@ public abstract class DireccionAdjuntaBase extends com.infotec.eworkplace.swb.Or
 
         public static java.util.Iterator<com.infotec.eworkplace.swb.DireccionAdjunta> listDireccionAdjuntaByGerencia(com.infotec.eworkplace.swb.Gerencia value)
         {
-            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.DireccionAdjunta> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(ewp_hasGerencia,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.DireccionAdjunta> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasGerencia,value.getSemanticObject(),sclass));
             return it;
         }
     }
@@ -114,7 +120,7 @@ public abstract class DireccionAdjuntaBase extends com.infotec.eworkplace.swb.Or
 
     public org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Gerencia> listGerencias()
     {
-        return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Gerencia>(getSemanticObject().listObjectProperties(ewp_hasGerencia));
+        return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Gerencia>(getSemanticObject().listObjectProperties(intranet_hasGerencia));
     }
 
    /**
@@ -127,7 +133,7 @@ public abstract class DireccionAdjuntaBase extends com.infotec.eworkplace.swb.Or
         boolean ret=false;
         if(value!=null)
         {
-           ret=getSemanticObject().hasObjectProperty(ewp_hasGerencia,value.getSemanticObject());
+           ret=getSemanticObject().hasObjectProperty(intranet_hasGerencia,value.getSemanticObject());
         }
         return ret;
     }
@@ -138,7 +144,7 @@ public abstract class DireccionAdjuntaBase extends com.infotec.eworkplace.swb.Or
 
     public void addGerencia(com.infotec.eworkplace.swb.Gerencia value)
     {
-        getSemanticObject().addObjectProperty(ewp_hasGerencia, value.getSemanticObject());
+        getSemanticObject().addObjectProperty(intranet_hasGerencia, value.getSemanticObject());
     }
    /**
    * Removes all the Gerencia
@@ -146,7 +152,7 @@ public abstract class DireccionAdjuntaBase extends com.infotec.eworkplace.swb.Or
 
     public void removeAllGerencia()
     {
-        getSemanticObject().removeProperty(ewp_hasGerencia);
+        getSemanticObject().removeProperty(intranet_hasGerencia);
     }
    /**
    * Removes a Gerencia
@@ -155,7 +161,7 @@ public abstract class DireccionAdjuntaBase extends com.infotec.eworkplace.swb.Or
 
     public void removeGerencia(com.infotec.eworkplace.swb.Gerencia value)
     {
-        getSemanticObject().removeObjectProperty(ewp_hasGerencia,value.getSemanticObject());
+        getSemanticObject().removeObjectProperty(intranet_hasGerencia,value.getSemanticObject());
     }
 
    /**
@@ -165,7 +171,7 @@ public abstract class DireccionAdjuntaBase extends com.infotec.eworkplace.swb.Or
     public com.infotec.eworkplace.swb.Gerencia getGerencia()
     {
          com.infotec.eworkplace.swb.Gerencia ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(ewp_hasGerencia);
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasGerencia);
          if(obj!=null)
          {
              ret=(com.infotec.eworkplace.swb.Gerencia)obj.createGenericInstance();

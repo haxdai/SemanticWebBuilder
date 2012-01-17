@@ -1,18 +1,13 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class MunicipioBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable
+public abstract class MunicipioBase extends org.semanticwb.model.SWBClass 
 {
-   /**
-   * Entidad federativa
-   */
-    public static final org.semanticwb.platform.SemanticClass ewp_EntidadFederativa=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#EntidadFederativa");
-    public static final org.semanticwb.platform.SemanticProperty ewp_estado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#estado");
-    public static final org.semanticwb.platform.SemanticClass ewp_Municipio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Municipio");
+    public static final org.semanticwb.platform.SemanticClass intranet_Municipio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Municipio");
    /**
    * The semantic class that represents the currentObject
    */
-    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Municipio");
+    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Municipio");
 
     public static class ClassMgr
     {
@@ -36,12 +31,6 @@ public abstract class MunicipioBase extends org.semanticwb.model.SWBClass implem
         {
             java.util.Iterator it=sclass.listInstances();
             return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Municipio>(it, true);
-        }
-
-        public static com.infotec.eworkplace.swb.Municipio createMunicipio(org.semanticwb.model.SWBModel model)
-        {
-            long id=model.getSemanticObject().getModel().getCounter(sclass);
-            return com.infotec.eworkplace.swb.Municipio.ClassMgr.createMunicipio(String.valueOf(id), model);
         }
        /**
        * Gets a com.infotec.eworkplace.swb.Municipio
@@ -83,29 +72,6 @@ public abstract class MunicipioBase extends org.semanticwb.model.SWBClass implem
         {
             return (getMunicipio(id, model)!=null);
         }
-       /**
-       * Gets all com.infotec.eworkplace.swb.Municipio with a determined Estado
-       * @param value Estado of the type com.infotec.eworkplace.swb.EntidadFederativa
-       * @param model Model of the com.infotec.eworkplace.swb.Municipio
-       * @return Iterator with all the com.infotec.eworkplace.swb.Municipio
-       */
-
-        public static java.util.Iterator<com.infotec.eworkplace.swb.Municipio> listMunicipioByEstado(com.infotec.eworkplace.swb.EntidadFederativa value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Municipio> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(ewp_estado, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.eworkplace.swb.Municipio with a determined Estado
-       * @param value Estado of the type com.infotec.eworkplace.swb.EntidadFederativa
-       * @return Iterator with all the com.infotec.eworkplace.swb.Municipio
-       */
-
-        public static java.util.Iterator<com.infotec.eworkplace.swb.Municipio> listMunicipioByEstado(com.infotec.eworkplace.swb.EntidadFederativa value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Municipio> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(ewp_estado,value.getSemanticObject(),sclass));
-            return it;
-        }
     }
 
    /**
@@ -115,109 +81,5 @@ public abstract class MunicipioBase extends org.semanticwb.model.SWBClass implem
     public MunicipioBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
-    }
-
-/**
-* Gets the Title property
-* @return String with the Title
-*/
-    public String getTitle()
-    {
-        return getSemanticObject().getProperty(swb_title);
-    }
-
-/**
-* Sets the Title property
-* @param value long with the Title
-*/
-    public void setTitle(String value)
-    {
-        getSemanticObject().setProperty(swb_title, value);
-    }
-
-    public String getTitle(String lang)
-    {
-        return getSemanticObject().getProperty(swb_title, null, lang);
-    }
-
-    public String getDisplayTitle(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_title, lang);
-    }
-
-    public void setTitle(String title, String lang)
-    {
-        getSemanticObject().setProperty(swb_title, title, lang);
-    }
-
-/**
-* Gets the Description property
-* @return String with the Description
-*/
-    public String getDescription()
-    {
-        return getSemanticObject().getProperty(swb_description);
-    }
-
-/**
-* Sets the Description property
-* @param value long with the Description
-*/
-    public void setDescription(String value)
-    {
-        getSemanticObject().setProperty(swb_description, value);
-    }
-
-    public String getDescription(String lang)
-    {
-        return getSemanticObject().getProperty(swb_description, null, lang);
-    }
-
-    public String getDisplayDescription(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_description, lang);
-    }
-
-    public void setDescription(String description, String lang)
-    {
-        getSemanticObject().setProperty(swb_description, description, lang);
-    }
-   /**
-   * Sets the value for the property Estado
-   * @param value Estado to set
-   */
-
-    public void setEstado(com.infotec.eworkplace.swb.EntidadFederativa value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(ewp_estado, value.getSemanticObject());
-        }else
-        {
-            removeEstado();
-        }
-    }
-   /**
-   * Remove the value for Estado property
-   */
-
-    public void removeEstado()
-    {
-        getSemanticObject().removeProperty(ewp_estado);
-    }
-
-   /**
-   * Gets the Estado
-   * @return a com.infotec.eworkplace.swb.EntidadFederativa
-   */
-    public com.infotec.eworkplace.swb.EntidadFederativa getEstado()
-    {
-         com.infotec.eworkplace.swb.EntidadFederativa ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(ewp_estado);
-         if(obj!=null)
-         {
-             ret=(com.infotec.eworkplace.swb.EntidadFederativa)obj.createGenericInstance();
-         }
-         return ret;
     }
 }

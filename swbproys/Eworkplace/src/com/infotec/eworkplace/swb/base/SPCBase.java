@@ -3,11 +3,11 @@ package com.infotec.eworkplace.swb.base;
 
 public abstract class SPCBase extends org.semanticwb.model.SWBClass 
 {
-    public static final org.semanticwb.platform.SemanticClass ewp_SPC=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#SPC");
+    public static final org.semanticwb.platform.SemanticClass intranet_SPC=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#SPC");
    /**
    * The semantic class that represents the currentObject
    */
-    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#SPC");
+    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#SPC");
 
     public static class ClassMgr
     {
@@ -31,12 +31,6 @@ public abstract class SPCBase extends org.semanticwb.model.SWBClass
         {
             java.util.Iterator it=sclass.listInstances();
             return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SPC>(it, true);
-        }
-
-        public static com.infotec.eworkplace.swb.SPC createSPC(org.semanticwb.model.SWBModel model)
-        {
-            long id=model.getSemanticObject().getModel().getCounter(sclass);
-            return com.infotec.eworkplace.swb.SPC.ClassMgr.createSPC(String.valueOf(id), model);
         }
        /**
        * Gets a com.infotec.eworkplace.swb.SPC

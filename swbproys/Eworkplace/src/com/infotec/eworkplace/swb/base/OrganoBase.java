@@ -1,13 +1,13 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class OrganoBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Mision,com.infotec.eworkplace.swb.Vision,org.semanticwb.model.Descriptiveable
+public abstract class OrganoBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Extensible,org.semanticwb.model.Descriptiveable,com.infotec.eworkplace.swb.Vision,com.infotec.eworkplace.swb.Mision
 {
-    public static final org.semanticwb.platform.SemanticClass ewp_Organo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Organo");
+    public static final org.semanticwb.platform.SemanticClass intranet_Organo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Organo");
    /**
    * The semantic class that represents the currentObject
    */
-    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Organo");
+    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Organo");
 
     public static class ClassMgr
     {
@@ -31,6 +31,12 @@ public abstract class OrganoBase extends org.semanticwb.model.SWBClass implement
         {
             java.util.Iterator it=sclass.listInstances();
             return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Organo>(it, true);
+        }
+
+        public static com.infotec.eworkplace.swb.Organo createOrgano(org.semanticwb.model.SWBModel model)
+        {
+            long id=model.getSemanticObject().getModel().getCounter(sclass);
+            return com.infotec.eworkplace.swb.Organo.ClassMgr.createOrgano(String.valueOf(id), model);
         }
        /**
        * Gets a com.infotec.eworkplace.swb.Organo
@@ -89,7 +95,7 @@ public abstract class OrganoBase extends org.semanticwb.model.SWBClass implement
 */
     public String getMision()
     {
-        return getSemanticObject().getProperty(ewp_mision);
+        return getSemanticObject().getProperty(intranet_mision);
     }
 
 /**
@@ -98,7 +104,7 @@ public abstract class OrganoBase extends org.semanticwb.model.SWBClass implement
 */
     public void setMision(String value)
     {
-        getSemanticObject().setProperty(ewp_mision, value);
+        getSemanticObject().setProperty(intranet_mision, value);
     }
 
 /**
@@ -173,7 +179,7 @@ public abstract class OrganoBase extends org.semanticwb.model.SWBClass implement
 */
     public String getVision()
     {
-        return getSemanticObject().getProperty(ewp_vision);
+        return getSemanticObject().getProperty(intranet_vision);
     }
 
 /**
@@ -182,6 +188,24 @@ public abstract class OrganoBase extends org.semanticwb.model.SWBClass implement
 */
     public void setVision(String value)
     {
-        getSemanticObject().setProperty(ewp_vision, value);
+        getSemanticObject().setProperty(intranet_vision, value);
+    }
+
+/**
+* Gets the Extension property
+* @return int with the Extension
+*/
+    public int getExtension()
+    {
+        return getSemanticObject().getIntProperty(intranet_extension);
+    }
+
+/**
+* Sets the Extension property
+* @param value long with the Extension
+*/
+    public void setExtension(int value)
+    {
+        getSemanticObject().setIntProperty(intranet_extension, value);
     }
 }

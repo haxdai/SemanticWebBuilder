@@ -1,14 +1,13 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class DiplomadoBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Institucion
+public abstract class DiplomadoBase extends org.semanticwb.model.SWBClass 
 {
-    public static final org.semanticwb.platform.SemanticProperty ewp_nombreDiplomado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#nombreDiplomado");
-    public static final org.semanticwb.platform.SemanticClass ewp_Diplomado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Diplomado");
+    public static final org.semanticwb.platform.SemanticClass intranet_Diplomado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Diplomado");
    /**
    * The semantic class that represents the currentObject
    */
-    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Diplomado");
+    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Diplomado");
 
     public static class ClassMgr
     {
@@ -32,12 +31,6 @@ public abstract class DiplomadoBase extends org.semanticwb.model.SWBClass implem
         {
             java.util.Iterator it=sclass.listInstances();
             return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Diplomado>(it, true);
-        }
-
-        public static com.infotec.eworkplace.swb.Diplomado createDiplomado(org.semanticwb.model.SWBModel model)
-        {
-            long id=model.getSemanticObject().getModel().getCounter(sclass);
-            return com.infotec.eworkplace.swb.Diplomado.ClassMgr.createDiplomado(String.valueOf(id), model);
         }
        /**
        * Gets a com.infotec.eworkplace.swb.Diplomado
@@ -88,95 +81,5 @@ public abstract class DiplomadoBase extends org.semanticwb.model.SWBClass implem
     public DiplomadoBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
-    }
-
-/**
-* Gets the Fin property
-* @return java.util.Date with the Fin
-*/
-    public java.util.Date getFin()
-    {
-        return getSemanticObject().getDateProperty(ewp_fin);
-    }
-
-/**
-* Sets the Fin property
-* @param value long with the Fin
-*/
-    public void setFin(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(ewp_fin, value);
-    }
-
-/**
-* Gets the DocumentoObtenido property
-* @return String with the DocumentoObtenido
-*/
-    public String getDocumentoObtenido()
-    {
-        return getSemanticObject().getProperty(ewp_documentoObtenido);
-    }
-
-/**
-* Sets the DocumentoObtenido property
-* @param value long with the DocumentoObtenido
-*/
-    public void setDocumentoObtenido(String value)
-    {
-        getSemanticObject().setProperty(ewp_documentoObtenido, value);
-    }
-
-/**
-* Gets the Inicio property
-* @return java.util.Date with the Inicio
-*/
-    public java.util.Date getInicio()
-    {
-        return getSemanticObject().getDateProperty(ewp_inicio);
-    }
-
-/**
-* Sets the Inicio property
-* @param value long with the Inicio
-*/
-    public void setInicio(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(ewp_inicio, value);
-    }
-
-/**
-* Gets the NombreDiplomado property
-* @return String with the NombreDiplomado
-*/
-    public String getNombreDiplomado()
-    {
-        return getSemanticObject().getProperty(ewp_nombreDiplomado);
-    }
-
-/**
-* Sets the NombreDiplomado property
-* @param value long with the NombreDiplomado
-*/
-    public void setNombreDiplomado(String value)
-    {
-        getSemanticObject().setProperty(ewp_nombreDiplomado, value);
-    }
-
-/**
-* Gets the Institucion property
-* @return String with the Institucion
-*/
-    public String getInstitucion()
-    {
-        return getSemanticObject().getProperty(ewp_institucion);
-    }
-
-/**
-* Sets the Institucion property
-* @param value long with the Institucion
-*/
-    public void setInstitucion(String value)
-    {
-        getSemanticObject().setProperty(ewp_institucion, value);
     }
 }

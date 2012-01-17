@@ -3,26 +3,23 @@ package com.infotec.eworkplace.swb.base;
 
 public abstract class CVBase extends org.semanticwb.model.SWBClass 
 {
-    public static final org.semanticwb.platform.SemanticClass ewp_Academia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Academia");
-    public static final org.semanticwb.platform.SemanticProperty ewp_academia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#academia");
-    public static final org.semanticwb.platform.SemanticClass ewp_Competencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Competencia");
-    public static final org.semanticwb.platform.SemanticProperty ewp_competencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#competencia");
-   /**
-   * Fecha de la última actualización
-   */
-    public static final org.semanticwb.platform.SemanticProperty ewp_actualizacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#actualizacion");
+    public static final org.semanticwb.platform.SemanticClass intranet_Academia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Academia");
+    public static final org.semanticwb.platform.SemanticProperty intranet_academia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#academia");
+    public static final org.semanticwb.platform.SemanticClass intranet_Competencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Competencia");
+    public static final org.semanticwb.platform.SemanticProperty intranet_competencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#competencia");
+    public static final org.semanticwb.platform.SemanticProperty intranet_actualizacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#actualizacion");
    /**
    * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
    */
     public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
-    public static final org.semanticwb.platform.SemanticProperty ewp_propietario=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#propietario");
-    public static final org.semanticwb.platform.SemanticClass ewp_Persona=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Persona");
-    public static final org.semanticwb.platform.SemanticProperty ewp_persona=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#persona");
-    public static final org.semanticwb.platform.SemanticClass ewp_CV=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#CV");
+    public static final org.semanticwb.platform.SemanticProperty intranet_propietario=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#propietario");
+    public static final org.semanticwb.platform.SemanticClass intranet_Persona=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Persona");
+    public static final org.semanticwb.platform.SemanticProperty intranet_persona=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#persona");
+    public static final org.semanticwb.platform.SemanticClass intranet_CV=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#CV");
    /**
    * The semantic class that represents the currentObject
    */
-    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#CV");
+    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#CV");
 
     public static class ClassMgr
     {
@@ -46,12 +43,6 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass
         {
             java.util.Iterator it=sclass.listInstances();
             return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.CV>(it, true);
-        }
-
-        public static com.infotec.eworkplace.swb.CV createCV(org.semanticwb.model.SWBModel model)
-        {
-            long id=model.getSemanticObject().getModel().getCounter(sclass);
-            return com.infotec.eworkplace.swb.CV.ClassMgr.createCV(String.valueOf(id), model);
         }
        /**
        * Gets a com.infotec.eworkplace.swb.CV
@@ -102,7 +93,7 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass
 
         public static java.util.Iterator<com.infotec.eworkplace.swb.CV> listCVByAcademia(com.infotec.eworkplace.swb.Academia value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.CV> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(ewp_academia, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.CV> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_academia, value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -113,7 +104,7 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass
 
         public static java.util.Iterator<com.infotec.eworkplace.swb.CV> listCVByAcademia(com.infotec.eworkplace.swb.Academia value)
         {
-            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.CV> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(ewp_academia,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.CV> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_academia,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -125,7 +116,7 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass
 
         public static java.util.Iterator<com.infotec.eworkplace.swb.CV> listCVByCompetencia(com.infotec.eworkplace.swb.Competencia value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.CV> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(ewp_competencia, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.CV> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_competencia, value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -136,7 +127,7 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass
 
         public static java.util.Iterator<com.infotec.eworkplace.swb.CV> listCVByCompetencia(com.infotec.eworkplace.swb.Competencia value)
         {
-            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.CV> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(ewp_competencia,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.CV> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_competencia,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -148,7 +139,7 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass
 
         public static java.util.Iterator<com.infotec.eworkplace.swb.CV> listCVByPropietario(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.CV> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(ewp_propietario, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.CV> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_propietario, value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -159,7 +150,7 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass
 
         public static java.util.Iterator<com.infotec.eworkplace.swb.CV> listCVByPropietario(org.semanticwb.model.User value)
         {
-            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.CV> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(ewp_propietario,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.CV> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_propietario,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -171,7 +162,7 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass
 
         public static java.util.Iterator<com.infotec.eworkplace.swb.CV> listCVByPersona(com.infotec.eworkplace.swb.Persona value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.CV> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(ewp_persona, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.CV> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_persona, value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -182,7 +173,7 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass
 
         public static java.util.Iterator<com.infotec.eworkplace.swb.CV> listCVByPersona(com.infotec.eworkplace.swb.Persona value)
         {
-            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.CV> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(ewp_persona,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.CV> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_persona,value.getSemanticObject(),sclass));
             return it;
         }
     }
@@ -204,7 +195,7 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass
     {
         if(value!=null)
         {
-            getSemanticObject().setObjectProperty(ewp_academia, value.getSemanticObject());
+            getSemanticObject().setObjectProperty(intranet_academia, value.getSemanticObject());
         }else
         {
             removeAcademia();
@@ -216,7 +207,7 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass
 
     public void removeAcademia()
     {
-        getSemanticObject().removeProperty(ewp_academia);
+        getSemanticObject().removeProperty(intranet_academia);
     }
 
    /**
@@ -226,7 +217,7 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass
     public com.infotec.eworkplace.swb.Academia getAcademia()
     {
          com.infotec.eworkplace.swb.Academia ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(ewp_academia);
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_academia);
          if(obj!=null)
          {
              ret=(com.infotec.eworkplace.swb.Academia)obj.createGenericInstance();
@@ -242,7 +233,7 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass
     {
         if(value!=null)
         {
-            getSemanticObject().setObjectProperty(ewp_competencia, value.getSemanticObject());
+            getSemanticObject().setObjectProperty(intranet_competencia, value.getSemanticObject());
         }else
         {
             removeCompetencia();
@@ -254,7 +245,7 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass
 
     public void removeCompetencia()
     {
-        getSemanticObject().removeProperty(ewp_competencia);
+        getSemanticObject().removeProperty(intranet_competencia);
     }
 
    /**
@@ -264,7 +255,7 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass
     public com.infotec.eworkplace.swb.Competencia getCompetencia()
     {
          com.infotec.eworkplace.swb.Competencia ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(ewp_competencia);
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_competencia);
          if(obj!=null)
          {
              ret=(com.infotec.eworkplace.swb.Competencia)obj.createGenericInstance();
@@ -278,7 +269,7 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass
 */
     public java.util.Date getActualizacion()
     {
-        return getSemanticObject().getDateProperty(ewp_actualizacion);
+        return getSemanticObject().getDateProperty(intranet_actualizacion);
     }
 
 /**
@@ -287,7 +278,7 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass
 */
     public void setActualizacion(java.util.Date value)
     {
-        getSemanticObject().setDateProperty(ewp_actualizacion, value);
+        getSemanticObject().setDateProperty(intranet_actualizacion, value);
     }
    /**
    * Sets the value for the property Propietario
@@ -298,7 +289,7 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass
     {
         if(value!=null)
         {
-            getSemanticObject().setObjectProperty(ewp_propietario, value.getSemanticObject());
+            getSemanticObject().setObjectProperty(intranet_propietario, value.getSemanticObject());
         }else
         {
             removePropietario();
@@ -310,7 +301,7 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass
 
     public void removePropietario()
     {
-        getSemanticObject().removeProperty(ewp_propietario);
+        getSemanticObject().removeProperty(intranet_propietario);
     }
 
    /**
@@ -320,7 +311,7 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass
     public org.semanticwb.model.User getPropietario()
     {
          org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(ewp_propietario);
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_propietario);
          if(obj!=null)
          {
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
@@ -336,7 +327,7 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass
     {
         if(value!=null)
         {
-            getSemanticObject().setObjectProperty(ewp_persona, value.getSemanticObject());
+            getSemanticObject().setObjectProperty(intranet_persona, value.getSemanticObject());
         }else
         {
             removePersona();
@@ -348,7 +339,7 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass
 
     public void removePersona()
     {
-        getSemanticObject().removeProperty(ewp_persona);
+        getSemanticObject().removeProperty(intranet_persona);
     }
 
    /**
@@ -358,7 +349,7 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass
     public com.infotec.eworkplace.swb.Persona getPersona()
     {
          com.infotec.eworkplace.swb.Persona ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(ewp_persona);
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_persona);
          if(obj!=null)
          {
              ret=(com.infotec.eworkplace.swb.Persona)obj.createGenericInstance();

@@ -1,23 +1,23 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,com.infotec.eworkplace.swb.Placeable
+public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Placeable,org.semanticwb.model.Traceable
 {
-    public static final org.semanticwb.platform.SemanticProperty ewp_misIdeas=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#misIdeas");
-    public static final org.semanticwb.platform.SemanticProperty ewp_misGustos=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#misGustos");
-    public static final org.semanticwb.platform.SemanticClass ewp_Gerencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Gerencia");
-    public static final org.semanticwb.platform.SemanticProperty ewp_gerencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#gerencia");
-    public static final org.semanticwb.platform.SemanticProperty ewp_puesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#puesto");
-    public static final org.semanticwb.platform.SemanticProperty ewp_miPersonalidad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#miPersonalidad");
-    public static final org.semanticwb.platform.SemanticClass ewp_Proyecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Proyecto");
-    public static final org.semanticwb.platform.SemanticProperty ewp_hasProyecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#hasProyecto");
-    public static final org.semanticwb.platform.SemanticClass ewp_TemaInteres=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#TemaInteres");
-    public static final org.semanticwb.platform.SemanticProperty ewp_hasTemaInteres=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#hasTemaInteres");
-    public static final org.semanticwb.platform.SemanticClass ewp_SWProfile=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#SWProfile");
+    public static final org.semanticwb.platform.SemanticProperty intranet_misIdeas=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#misIdeas");
+    public static final org.semanticwb.platform.SemanticProperty intranet_misGustos=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#misGustos");
+    public static final org.semanticwb.platform.SemanticClass intranet_Gerencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Gerencia");
+    public static final org.semanticwb.platform.SemanticProperty intranet_gerencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#gerencia");
+    public static final org.semanticwb.platform.SemanticProperty intranet_puesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#puesto");
+    public static final org.semanticwb.platform.SemanticProperty intranet_miPersonalidad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#miPersonalidad");
+    public static final org.semanticwb.platform.SemanticClass intranet_Proyecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Proyecto");
+    public static final org.semanticwb.platform.SemanticProperty intranet_hasProyecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasProyecto");
+    public static final org.semanticwb.platform.SemanticClass intranet_TemaInteres=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#TemaInteres");
+    public static final org.semanticwb.platform.SemanticProperty intranet_hasTemaInteres=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasTemaInteres");
+    public static final org.semanticwb.platform.SemanticClass intranet_SWProfile=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#SWProfile");
    /**
    * The semantic class that represents the currentObject
    */
-    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#SWProfile");
+    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#SWProfile");
 
     public static class ClassMgr
     {
@@ -41,12 +41,6 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
         {
             java.util.Iterator it=sclass.listInstances();
             return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SWProfile>(it, true);
-        }
-
-        public static com.infotec.eworkplace.swb.SWProfile createSWProfile(org.semanticwb.model.SWBModel model)
-        {
-            long id=model.getSemanticObject().getModel().getCounter(sclass);
-            return com.infotec.eworkplace.swb.SWProfile.ClassMgr.createSWProfile(String.valueOf(id), model);
         }
        /**
        * Gets a com.infotec.eworkplace.swb.SWProfile
@@ -120,7 +114,7 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
 
         public static java.util.Iterator<com.infotec.eworkplace.swb.SWProfile> listSWProfileByGerencia(com.infotec.eworkplace.swb.Gerencia value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SWProfile> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(ewp_gerencia, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SWProfile> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_gerencia, value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -131,7 +125,7 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
 
         public static java.util.Iterator<com.infotec.eworkplace.swb.SWProfile> listSWProfileByGerencia(com.infotec.eworkplace.swb.Gerencia value)
         {
-            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SWProfile> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(ewp_gerencia,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SWProfile> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_gerencia,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -166,7 +160,7 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
 
         public static java.util.Iterator<com.infotec.eworkplace.swb.SWProfile> listSWProfileByProyecto(com.infotec.eworkplace.swb.Proyecto value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SWProfile> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(ewp_hasProyecto, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SWProfile> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasProyecto, value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -177,7 +171,7 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
 
         public static java.util.Iterator<com.infotec.eworkplace.swb.SWProfile> listSWProfileByProyecto(com.infotec.eworkplace.swb.Proyecto value)
         {
-            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SWProfile> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(ewp_hasProyecto,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SWProfile> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasProyecto,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -189,7 +183,7 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
 
         public static java.util.Iterator<com.infotec.eworkplace.swb.SWProfile> listSWProfileByTemaInteres(com.infotec.eworkplace.swb.TemaInteres value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SWProfile> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(ewp_hasTemaInteres, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SWProfile> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasTemaInteres, value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -200,7 +194,7 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
 
         public static java.util.Iterator<com.infotec.eworkplace.swb.SWProfile> listSWProfileByTemaInteres(com.infotec.eworkplace.swb.TemaInteres value)
         {
-            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SWProfile> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(ewp_hasTemaInteres,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SWProfile> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasTemaInteres,value.getSemanticObject(),sclass));
             return it;
         }
     }
@@ -253,24 +247,6 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
     }
 
 /**
-* Gets the Updated property
-* @return java.util.Date with the Updated
-*/
-    public java.util.Date getUpdated()
-    {
-        return getSemanticObject().getDateProperty(swb_updated);
-    }
-
-/**
-* Sets the Updated property
-* @param value long with the Updated
-*/
-    public void setUpdated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_updated, value);
-    }
-
-/**
 * Gets the Created property
 * @return java.util.Date with the Created
 */
@@ -289,12 +265,30 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
     }
 
 /**
+* Gets the Updated property
+* @return java.util.Date with the Updated
+*/
+    public java.util.Date getUpdated()
+    {
+        return getSemanticObject().getDateProperty(swb_updated);
+    }
+
+/**
+* Sets the Updated property
+* @param value long with the Updated
+*/
+    public void setUpdated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_updated, value);
+    }
+
+/**
 * Gets the MisIdeas property
 * @return String with the MisIdeas
 */
     public String getMisIdeas()
     {
-        return getSemanticObject().getProperty(ewp_misIdeas);
+        return getSemanticObject().getProperty(intranet_misIdeas);
     }
 
 /**
@@ -303,7 +297,7 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
 */
     public void setMisIdeas(String value)
     {
-        getSemanticObject().setProperty(ewp_misIdeas, value);
+        getSemanticObject().setProperty(intranet_misIdeas, value);
     }
 
 /**
@@ -312,7 +306,7 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
 */
     public String getMisGustos()
     {
-        return getSemanticObject().getProperty(ewp_misGustos);
+        return getSemanticObject().getProperty(intranet_misGustos);
     }
 
 /**
@@ -321,7 +315,7 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
 */
     public void setMisGustos(String value)
     {
-        getSemanticObject().setProperty(ewp_misGustos, value);
+        getSemanticObject().setProperty(intranet_misGustos, value);
     }
    /**
    * Sets the value for the property Gerencia
@@ -332,7 +326,7 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
     {
         if(value!=null)
         {
-            getSemanticObject().setObjectProperty(ewp_gerencia, value.getSemanticObject());
+            getSemanticObject().setObjectProperty(intranet_gerencia, value.getSemanticObject());
         }else
         {
             removeGerencia();
@@ -344,7 +338,7 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
 
     public void removeGerencia()
     {
-        getSemanticObject().removeProperty(ewp_gerencia);
+        getSemanticObject().removeProperty(intranet_gerencia);
     }
 
    /**
@@ -354,7 +348,7 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
     public com.infotec.eworkplace.swb.Gerencia getGerencia()
     {
          com.infotec.eworkplace.swb.Gerencia ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(ewp_gerencia);
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_gerencia);
          if(obj!=null)
          {
              ret=(com.infotec.eworkplace.swb.Gerencia)obj.createGenericInstance();
@@ -368,7 +362,7 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
 */
     public String getPuesto()
     {
-        return getSemanticObject().getProperty(ewp_puesto);
+        return getSemanticObject().getProperty(intranet_puesto);
     }
 
 /**
@@ -377,7 +371,7 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
 */
     public void setPuesto(String value)
     {
-        getSemanticObject().setProperty(ewp_puesto, value);
+        getSemanticObject().setProperty(intranet_puesto, value);
     }
 
 /**
@@ -386,7 +380,7 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
 */
     public String getMiPersonalidad()
     {
-        return getSemanticObject().getProperty(ewp_miPersonalidad);
+        return getSemanticObject().getProperty(intranet_miPersonalidad);
     }
 
 /**
@@ -395,7 +389,7 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
 */
     public void setMiPersonalidad(String value)
     {
-        getSemanticObject().setProperty(ewp_miPersonalidad, value);
+        getSemanticObject().setProperty(intranet_miPersonalidad, value);
     }
    /**
    * Sets the value for the property Creator
@@ -442,7 +436,7 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
 
     public org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Proyecto> listProyectos()
     {
-        return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Proyecto>(getSemanticObject().listObjectProperties(ewp_hasProyecto));
+        return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Proyecto>(getSemanticObject().listObjectProperties(intranet_hasProyecto));
     }
 
    /**
@@ -455,7 +449,7 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
         boolean ret=false;
         if(value!=null)
         {
-           ret=getSemanticObject().hasObjectProperty(ewp_hasProyecto,value.getSemanticObject());
+           ret=getSemanticObject().hasObjectProperty(intranet_hasProyecto,value.getSemanticObject());
         }
         return ret;
     }
@@ -466,7 +460,7 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
 
     public void addProyecto(com.infotec.eworkplace.swb.Proyecto value)
     {
-        getSemanticObject().addObjectProperty(ewp_hasProyecto, value.getSemanticObject());
+        getSemanticObject().addObjectProperty(intranet_hasProyecto, value.getSemanticObject());
     }
    /**
    * Removes all the Proyecto
@@ -474,7 +468,7 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
 
     public void removeAllProyecto()
     {
-        getSemanticObject().removeProperty(ewp_hasProyecto);
+        getSemanticObject().removeProperty(intranet_hasProyecto);
     }
    /**
    * Removes a Proyecto
@@ -483,7 +477,7 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
 
     public void removeProyecto(com.infotec.eworkplace.swb.Proyecto value)
     {
-        getSemanticObject().removeObjectProperty(ewp_hasProyecto,value.getSemanticObject());
+        getSemanticObject().removeObjectProperty(intranet_hasProyecto,value.getSemanticObject());
     }
 
    /**
@@ -493,7 +487,7 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
     public com.infotec.eworkplace.swb.Proyecto getProyecto()
     {
          com.infotec.eworkplace.swb.Proyecto ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(ewp_hasProyecto);
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasProyecto);
          if(obj!=null)
          {
              ret=(com.infotec.eworkplace.swb.Proyecto)obj.createGenericInstance();
@@ -507,7 +501,7 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
 */
     public String getUbicacion()
     {
-        return getSemanticObject().getProperty(ewp_ubicacion);
+        return getSemanticObject().getProperty(intranet_ubicacion);
     }
 
 /**
@@ -516,7 +510,7 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
 */
     public void setUbicacion(String value)
     {
-        getSemanticObject().setProperty(ewp_ubicacion, value);
+        getSemanticObject().setProperty(intranet_ubicacion, value);
     }
    /**
    * Gets all the com.infotec.eworkplace.swb.TemaInteres
@@ -525,7 +519,7 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
 
     public org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.TemaInteres> listTemaIntereses()
     {
-        return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.TemaInteres>(getSemanticObject().listObjectProperties(ewp_hasTemaInteres));
+        return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.TemaInteres>(getSemanticObject().listObjectProperties(intranet_hasTemaInteres));
     }
 
    /**
@@ -538,7 +532,7 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
         boolean ret=false;
         if(value!=null)
         {
-           ret=getSemanticObject().hasObjectProperty(ewp_hasTemaInteres,value.getSemanticObject());
+           ret=getSemanticObject().hasObjectProperty(intranet_hasTemaInteres,value.getSemanticObject());
         }
         return ret;
     }
@@ -549,7 +543,7 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
 
     public void addTemaInteres(com.infotec.eworkplace.swb.TemaInteres value)
     {
-        getSemanticObject().addObjectProperty(ewp_hasTemaInteres, value.getSemanticObject());
+        getSemanticObject().addObjectProperty(intranet_hasTemaInteres, value.getSemanticObject());
     }
    /**
    * Removes all the TemaInteres
@@ -557,7 +551,7 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
 
     public void removeAllTemaInteres()
     {
-        getSemanticObject().removeProperty(ewp_hasTemaInteres);
+        getSemanticObject().removeProperty(intranet_hasTemaInteres);
     }
    /**
    * Removes a TemaInteres
@@ -566,7 +560,7 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
 
     public void removeTemaInteres(com.infotec.eworkplace.swb.TemaInteres value)
     {
-        getSemanticObject().removeObjectProperty(ewp_hasTemaInteres,value.getSemanticObject());
+        getSemanticObject().removeObjectProperty(intranet_hasTemaInteres,value.getSemanticObject());
     }
 
    /**
@@ -576,7 +570,7 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
     public com.infotec.eworkplace.swb.TemaInteres getTemaInteres()
     {
          com.infotec.eworkplace.swb.TemaInteres ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(ewp_hasTemaInteres);
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasTemaInteres);
          if(obj!=null)
          {
              ret=(com.infotec.eworkplace.swb.TemaInteres)obj.createGenericInstance();

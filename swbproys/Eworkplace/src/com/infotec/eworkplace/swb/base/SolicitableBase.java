@@ -6,8 +6,8 @@ public interface SolicitableBase extends org.semanticwb.model.GenericObject
    * Un usuario es una persona que tiene relación con el portal a través de un método de acceso. 
    */
     public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
-    public static final org.semanticwb.platform.SemanticProperty ewp_solicitante=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#solicitante");
-    public static final org.semanticwb.platform.SemanticClass ewp_Solicitable=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#Solicitable");
+    public static final org.semanticwb.platform.SemanticProperty intranet_solicitante=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#solicitante");
+    public static final org.semanticwb.platform.SemanticClass intranet_Solicitable=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Solicitable");
 
    /**
    * Sets a value from the property Solicitante
