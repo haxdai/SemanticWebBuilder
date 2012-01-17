@@ -3,12 +3,14 @@ package com.infotec.eworkplace.swb.resources.sem.base;
 
 public abstract class ReservaSalaManagerBase extends org.semanticwb.portal.api.GenericSemResource 
 {
-    public static final org.semanticwb.platform.SemanticClass ewp_ReservaSala=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#ReservaSala");
-    public static final org.semanticwb.platform.SemanticProperty ewp_hasReservaSala=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#hasReservaSala");
+    public static final org.semanticwb.platform.SemanticClass swb_Role=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#Role");
+    public static final org.semanticwb.platform.SemanticProperty intranet_editAccess=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#editAccess");
+    public static final org.semanticwb.platform.SemanticClass intranet_ReservacionSala=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#ReservacionSala");
+    public static final org.semanticwb.platform.SemanticProperty intranet_hasReservacionSala=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasReservacionSala");
     public static final org.semanticwb.platform.SemanticClass swb_Resource=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#Resource");
     public static final org.semanticwb.platform.SemanticProperty swb_semanticResourceInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#semanticResourceInv");
-    public static final org.semanticwb.platform.SemanticClass ewp_ReservaSalaManager=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#ReservaSalaManager");
-    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://infotec.com.mx/eworkplace#ReservaSalaManager");
+    public static final org.semanticwb.platform.SemanticClass intranet_ReservaSalaManager=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#ReservaSalaManager");
+    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#ReservaSalaManager");
 
     public ReservaSalaManagerBase()
     {
@@ -42,67 +44,105 @@ public abstract class ReservaSalaManagerBase extends org.semanticwb.portal.api.G
         return hashCode()==obj.hashCode();
     }
    /**
-   * Gets all the com.infotec.eworkplace.swb.ReservaSala
-   * @return A GenericIterator with all the com.infotec.eworkplace.swb.ReservaSala
+   * Sets the value for the property EditAccess
+   * @param value EditAccess to set
    */
 
-    public org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.ReservaSala> listReservaSalas()
+    public void setEditAccess(org.semanticwb.model.Role value)
     {
-        return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.ReservaSala>(getSemanticObject().listObjectProperties(ewp_hasReservaSala));
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_editAccess, value.getSemanticObject());
+        }else
+        {
+            removeEditAccess();
+        }
+    }
+   /**
+   * Remove the value for EditAccess property
+   */
+
+    public void removeEditAccess()
+    {
+        getSemanticObject().removeProperty(intranet_editAccess);
     }
 
    /**
-   * Gets true if has a ReservaSala
-   * @param value com.infotec.eworkplace.swb.ReservaSala to verify
-   * @return true if the com.infotec.eworkplace.swb.ReservaSala exists, false otherwise
+   * Gets the EditAccess
+   * @return a org.semanticwb.model.Role
    */
-    public boolean hasReservaSala(com.infotec.eworkplace.swb.ReservaSala value)
+    public org.semanticwb.model.Role getEditAccess()
+    {
+         org.semanticwb.model.Role ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_editAccess);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.Role)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Gets all the com.infotec.eworkplace.swb.ReservacionSala
+   * @return A GenericIterator with all the com.infotec.eworkplace.swb.ReservacionSala
+   */
+
+    public org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.ReservacionSala> listReservacionSalas()
+    {
+        return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.ReservacionSala>(getSemanticObject().listObjectProperties(intranet_hasReservacionSala));
+    }
+
+   /**
+   * Gets true if has a ReservacionSala
+   * @param value com.infotec.eworkplace.swb.ReservacionSala to verify
+   * @return true if the com.infotec.eworkplace.swb.ReservacionSala exists, false otherwise
+   */
+    public boolean hasReservacionSala(com.infotec.eworkplace.swb.ReservacionSala value)
     {
         boolean ret=false;
         if(value!=null)
         {
-           ret=getSemanticObject().hasObjectProperty(ewp_hasReservaSala,value.getSemanticObject());
+           ret=getSemanticObject().hasObjectProperty(intranet_hasReservacionSala,value.getSemanticObject());
         }
         return ret;
     }
    /**
-   * Adds a ReservaSala
-   * @param value com.infotec.eworkplace.swb.ReservaSala to add
+   * Adds a ReservacionSala
+   * @param value com.infotec.eworkplace.swb.ReservacionSala to add
    */
 
-    public void addReservaSala(com.infotec.eworkplace.swb.ReservaSala value)
+    public void addReservacionSala(com.infotec.eworkplace.swb.ReservacionSala value)
     {
-        getSemanticObject().addObjectProperty(ewp_hasReservaSala, value.getSemanticObject());
+        getSemanticObject().addObjectProperty(intranet_hasReservacionSala, value.getSemanticObject());
     }
    /**
-   * Removes all the ReservaSala
+   * Removes all the ReservacionSala
    */
 
-    public void removeAllReservaSala()
+    public void removeAllReservacionSala()
     {
-        getSemanticObject().removeProperty(ewp_hasReservaSala);
+        getSemanticObject().removeProperty(intranet_hasReservacionSala);
     }
    /**
-   * Removes a ReservaSala
-   * @param value com.infotec.eworkplace.swb.ReservaSala to remove
+   * Removes a ReservacionSala
+   * @param value com.infotec.eworkplace.swb.ReservacionSala to remove
    */
 
-    public void removeReservaSala(com.infotec.eworkplace.swb.ReservaSala value)
+    public void removeReservacionSala(com.infotec.eworkplace.swb.ReservacionSala value)
     {
-        getSemanticObject().removeObjectProperty(ewp_hasReservaSala,value.getSemanticObject());
+        getSemanticObject().removeObjectProperty(intranet_hasReservacionSala,value.getSemanticObject());
     }
 
    /**
-   * Gets the ReservaSala
-   * @return a com.infotec.eworkplace.swb.ReservaSala
+   * Gets the ReservacionSala
+   * @return a com.infotec.eworkplace.swb.ReservacionSala
    */
-    public com.infotec.eworkplace.swb.ReservaSala getReservaSala()
+    public com.infotec.eworkplace.swb.ReservacionSala getReservacionSala()
     {
-         com.infotec.eworkplace.swb.ReservaSala ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(ewp_hasReservaSala);
+         com.infotec.eworkplace.swb.ReservacionSala ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasReservacionSala);
          if(obj!=null)
          {
-             ret=(com.infotec.eworkplace.swb.ReservaSala)obj.createGenericInstance();
+             ret=(com.infotec.eworkplace.swb.ReservacionSala)obj.createGenericInstance();
          }
          return ret;
     }
