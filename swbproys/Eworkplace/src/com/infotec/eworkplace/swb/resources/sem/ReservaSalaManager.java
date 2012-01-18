@@ -13,7 +13,6 @@ import javax.servlet.http.*;
 
 import com.infotec.eworkplace.swb.ReservacionSala;
 import com.infotec.eworkplace.swb.Sala;
-import java.util.Date;
 
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
@@ -24,6 +23,7 @@ import org.semanticwb.model.Role;
 import org.semanticwb.model.SWBComparator;
 import org.semanticwb.model.User;
 import org.semanticwb.model.UserGroup;
+import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticOntology;
 import org.semanticwb.portal.api.*;
 import org.semanticwb.portal.api.SWBResourceURL;
@@ -58,30 +58,13 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         String mode = paramRequest.getMode();
         if(Mode_ROLL.equals(mode))
             doRoll(request, response, paramRequest);
-        /*if(Mode_ROLL_DATE.equals(mode))
-            doRollDate(request, response, paramRequest);
-        else if(Mode_ROLL_MONTH.equals(mode))
-            doRollMonth(request, response, paramRequest);*/
         else
             super.processRequest(request, response, paramRequest);
     }
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        response.setContentType("text/html; charset=utf-8");
-        
-        
-        
-//Iterator<ReservacionSala> reservations = ReservacionSala.ClassMgr.listReservacionSalas(getResourceBase().getWebSite());
-//while(reservations.hasNext()) { 
-//    ReservacionSala rs = reservations.next();
-//System.out.println("rs="+rs);   
-//    rs.getSala().setReservada(false);
-//    rs.remove();
-//}        
-        
-        
-        
+        response.setContentType("text/html; charset=utf-8");        
         System.out.println("\n\n\n-------------------------------\neditAccess role="+getEditAccess());
         
         Resource base = getResourceBase();
@@ -111,9 +94,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         out.println("    if(hrs.length>0) {");
         out.println("        hrs.sort();");
         out.println("        if(dojo.every(hrs, f1)) {");
-        SWBResourceURL url = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT);
-        url.setMode(SWBResourceURL.Mode_EDIT);
-        out.println("            showDialog2('"+url+"'+'?hrs='+hrs.join(), '"+paramRequest.getLocaleString("usrmsg_doView_titleLbl")+"');");
+        out.println("            showDialog2('"+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_EDIT).setCallMethod(SWBResourceURL.Call_DIRECT)+"'+'?hrs='+hrs.join(), '"+paramRequest.getLocaleString("usrmsg_doView_titleLbl")+"');");
         out.println("        }else {");
         out.println("            alert('no juegas');");
         out.println("            dojo.every(hrs, function(item){dojo.style(dojo.byId(item),'backgroundColor','#ffffff');return true;});");
@@ -157,10 +138,6 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         HttpSession session = request.getSession(true);
         if(session.getAttribute("cur")==null) {
             current = new GregorianCalendar(locale);
-//            current.set(Calendar.HOUR_OF_DAY, 0);
-//            current.set(Calendar.MINUTE, 0);
-//            current.set(Calendar.SECOND, 0);
-//            current.set(Calendar.MILLISECOND, 0);
             session.setAttribute("cur", current);
         }else {
             current = (GregorianCalendar)session.getAttribute("cur");
@@ -170,7 +147,7 @@ System.out.println("current="+current.getTime());
         
         out.println("<div id=\"cal\">");
         out.println("<div id=\"salasCal\">");
-        url.setMode(Mode_ROLL);
+        SWBResourceURL url = paramRequest.getRenderUrl().setMode(Mode_ROLL);
         url.setParameter(Rel, Roll_MONTH);
         url.setParameter(Roll, Roll_LEFT);
         out.println(" <a href=\"javascript:postHtml('"+url+"','cal')\" class=\"salasAtras\">atr&aacute;s</a>");
@@ -237,16 +214,17 @@ System.out.println("current="+current.getTime());
         out.println("</tr>");
         
         
-GregorianCalendar cur = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
-cur.set(Calendar.MILLISECOND, 0);
-cur.add(Calendar.MINUTE, 450);
-        for(int i=480; i<=1260; i+=30) {
+        GregorianCalendar cur = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
+        cur.set(Calendar.MILLISECOND, 0);
+        cur.add(Calendar.MINUTE, 450);
+        //for(int i=480; i<=1260; i+=30) {
+        for(int i=480; i<=600; i+=30) {
             cur.add(Calendar.MINUTE, 30);
-System.out.println("cur="+cur.getTime());
+System.out.println("\ncur="+cur.getTime());
             out.println("<tr>");
             out.println("  <td rowspan=\"2\" class=\"theHoursCal\"><p>"+sdf.format(gc.getTime())+"</p></td>");
             for(Sala sala:salas) {
-                if(sala.isReservada(cur))
+                if(sala.isReservada(cur, i, i+29))
                     out.println("  <td id=\""+sala.getId()+"_"+i+"\" class=\"x sltc trCal1\"></td>");
                 else
                     out.println("  <td id=\""+sala.getId()+"_"+i+"\" class=\"sltc trCal1\"></td>");
@@ -255,7 +233,7 @@ System.out.println("cur="+cur.getTime());
             out.println("<tr>");
             i+=30;
             for(Sala sala:salas) {
-                if(sala.isReservada(cur))
+                if(sala.isReservada(cur, i, i+29))
                     out.println("  <td id=\""+sala.getId()+"_"+i+"\" class=\"x sltc trCal1\"></td>");
                 else
                     out.println("  <td id=\""+sala.getId()+"_"+i+"\" class=\"sltc trCal1\"></td>");
@@ -265,7 +243,71 @@ System.out.println("cur="+cur.getTime());
         }
         out.println("</table>");
         out.println("<p><input type=\"button\" value=\"reservar\" onclick=\"validate()\" /></p>");
+        out.println("<p><a href=\""+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_HELP) +"\">borrar reservaciones</a></p>");
         out.println("</div>");
+    }
+    
+    @Override
+    public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
+        Resource base = getResourceBase();
+        String action = response.getAction();
+        if(SWBResourceURL.Action_ADD.equals(action)) {
+            User user = response.getUser();
+            
+            String motive = SWBUtils.XML.replaceXMLChars(request.getParameter("motive"));
+            String typeMeet = request.getParameter("typeMeet");
+            String turnout = SWBUtils.XML.replaceXMLChars(request.getParameter("turnout"));
+            String[] equipment = request.getParameterValues("equipment");
+            String services = SWBUtils.XML.replaceXMLChars(request.getParameter("services")); 
+            String typeCafe = SWBUtils.XML.replaceXMLChars(request.getParameter("typeCafe"));
+            String hoursService = SWBUtils.XML.replaceXMLChars(request.getParameter("hoursService"));
+            
+System.out.println("\n***************************************");
+System.out.println("*************************** processAction");
+
+            final String uri = SWBUtils.XML.replaceXMLChars(request.getParameter("sl"));
+            try {
+                HttpSession session = request.getSession(true);
+                GregorianCalendar current = (GregorianCalendar)session.getAttribute("cur");
+                GregorianCalendar cur = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
+                
+                int hi = Integer.parseInt(request.getParameter("hi"));
+                int hf = Integer.parseInt(request.getParameter("hf"));
+                //Sala sala = Sala.ClassMgr.getSala(request.getParameter("sl"), base.getWebSite());
+                Sala sala = (Sala)SemanticObject.createSemanticObject(uri).createGenericInstance();
+                if(!sala.isReservada(cur, hi, hf)) {
+System.out.println("111111111111");
+                    ReservacionSala reservation = ReservacionSala.ClassMgr.createReservacionSala(base.getWebSite());
+System.out.println("222222222222");
+                    sala.setReservada(true);
+                    reservation.setSala(sala);
+                    reservation.setResponsable(user);
+                    reservation.setFecha(cur.getTime());
+                    reservation.setDe(hi);
+                    reservation.setA(hf);
+System.out.println("rs="+reservation.toString());
+                }
+            }catch(NumberFormatException nfe) {
+                log.error(nfe);
+                nfe.printStackTrace(System.out);
+            }catch(Exception e) {
+                log.error(e);
+                e.printStackTrace(System.out);
+            }
+        }
+        /*else if(SWBResourceURL.Action_EDIT.equals(action)) {
+            String editAccessURI = request.getParameter("editAccess");
+            if(editAccessURI!=null) {
+                base.setAttribute("editAccess", editAccessURI);
+                try {
+                    base.updateAttributesToDB();
+                }catch(Exception e) {
+                    log.error("Error al guardar Role/UserGroup para acceso al InlineEdit.",e);
+                }finally {
+                    response.setAction(response.Action_ADD);
+                }
+            }
+        }*/
     }
 
     @Override
@@ -284,7 +326,7 @@ System.out.println("cur="+cur.getTime());
             out.close();
             return;
         }    
-        
+System.out.println("\n\n*******************doEdit********************");
         int hi=0, hf=0;
         for(int i=0; i<hrs.length-1; i++) {
             if(!hrs[i].startsWith(hrs[i+1].substring(0, hrs[i+1].indexOf("_")))) {
@@ -298,22 +340,29 @@ System.out.println("cur="+cur.getTime());
                 hi = Integer.parseInt(hrs[i].substring(hrs[i].indexOf("_")+1));
                 hf = Integer.parseInt(hrs[i+1].substring(hrs[i+1].indexOf("_")+1));
                 if(hi+30 != hf) {
-                    out.println("<p>2.2 no se puede determinar el horario de reservaci&oacute;n</p>");
+                    out.println("<p>2.1 no se puede determinar el horario de reservaci&oacute;n</p>");
                     out.flush();
                     out.close();
                     return;
                 }
-                hi-=30;
             }catch(NumberFormatException nfe) {
                 log.error(nfe);
-                out.println("<p>2.1 no se puede determinar el horario de reservaci&oacute;n</p>");
+                out.println("<p>2.2 no se puede determinar el horario de reservaci&oacute;n</p>");
                 out.flush();
                 out.close();
                 return;
             }
         }
+        hi = Integer.parseInt(hrs[0].substring(hrs[0].indexOf("_")+1));
+        hf = Integer.parseInt(hrs[hrs.length-1].substring(hrs[hrs.length-1].indexOf("_")+1))+59;
+        if(hi==0 || hf==0) {
+            out.println("<p>3 no existe horario</p>");
+            out.flush();
+            out.close();
+            return;
+        }
 
-        final String id = hrs[0].substring(0, hrs[0].indexOf("_"));        
+        final String id = hrs[0].substring(0, hrs[0].indexOf("_"));
         final Sala sala = Sala.ClassMgr.getSala(id, base.getWebSite());
         if(sala==null) {
             out.println("<p>4 no existe esa sala</p>");
@@ -322,17 +371,28 @@ System.out.println("cur="+cur.getTime());
             return;
         }
         
-        if(sala.isReservada()) {
-            out.println("<p>5 la sala esta ocupada</p>");
+        try {
+            HttpSession session = request.getSession(true);
+            GregorianCalendar current = (GregorianCalendar)session.getAttribute("cur");
+            GregorianCalendar cur = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
+            if(sala.isReservada(cur, hi,hf)) {
+                out.println("<p>5 la sala esta ocupada</p>");
+                out.flush();
+                out.close();
+                return;
+            }
+        }catch(Exception nfe) {
+            log.error(nfe);
+            out.println("<p>6 no hay fecha para comparar reservacioens</p>");
             out.flush();
             out.close();
             return;
         }
         
         out.println("<form id=\"rs\" method=\"post\" action=\""+paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD)+"\">");
-        out.println("<input type=\"hidden\" name=\"hi\" value=\""+hrs[0].substring(hrs[0].indexOf("_")+1)+"\"/>");
-        out.println("<input type=\"hidden\" name=\"hf\" value=\""+hrs[hrs.length-1].substring(hrs[hrs.length-1].indexOf("_")+1)+"\"/>");
-        out.println("<input type=\"hidden\" name=\"sl\" value=\""+sala.getId()+"\"/>");
+        out.println("<input type=\"hidden\" name=\"hi\" value=\""+hi+"\"/>");
+        out.println("<input type=\"hidden\" name=\"hf\" value=\""+hf+"\"/>");
+        out.println("<input type=\"hidden\" name=\"sl\" value=\""+sala.getURI()+"\"/>");
         out.println("<div id=\"mainPop\">");
         out.println("  <div id=\"popMiddle\">");
         out.println("    <p>Fecha de reservaci&oacute;n:<br />");
@@ -413,15 +473,10 @@ System.out.println("cur="+cur.getTime());
         GregorianCalendar current;
         if(session.getAttribute("cur")==null) {
             current = new GregorianCalendar(locale);
-//            current.set(Calendar.HOUR_OF_DAY, 0);
-//            current.set(Calendar.MINUTE, 0);
-//            current.set(Calendar.SECOND, 0);
-//            current.set(Calendar.MILLISECOND, 0);
             session.setAttribute("cur", current);
         }else {
             current = (GregorianCalendar)session.getAttribute("cur") ;
         }
-//        session.setAttribute("cur", current);
         
         if(Roll_MONTH.equals(request.getParameter(Rel))) {
             String roll = request.getParameter(Roll);
@@ -489,190 +544,27 @@ System.out.println("cur="+cur.getTime());
         out.println("</div>");
     }
     
-    @Override
-    public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
-        Resource base = getResourceBase();
-        String action = response.getAction();
-        if(SWBResourceURL.Action_ADD.equals(action)) {
-            User user = response.getUser();
-            
-            String motive = SWBUtils.XML.replaceXMLChars(request.getParameter("motive"));
-            String typeMeet = request.getParameter("typeMeet");
-            String turnout = SWBUtils.XML.replaceXMLChars(request.getParameter("turnout"));
-            String[] equipment = request.getParameterValues("equipment");
-            String services = SWBUtils.XML.replaceXMLChars(request.getParameter("services"));
-            
-            String typeCafe = SWBUtils.XML.replaceXMLChars(request.getParameter("typeCafe"));
-            String hoursService = SWBUtils.XML.replaceXMLChars(request.getParameter("hoursService"));
-            Sala sala = Sala.ClassMgr.getSala(request.getParameter("sl"), base.getWebSite());
-            if(sala!=null) {
-                try {
-                    int hi = Integer.parseInt(request.getParameter("hi"));
-                    int hf = Integer.parseInt(request.getParameter("hf"));
-
-                    
-                    HttpSession session = request.getSession(true);
-                    GregorianCalendar current = (GregorianCalendar)session.getAttribute("cur");
-                    GregorianCalendar cur = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
-                    cur.set(Calendar.MILLISECOND, 0);
-                    
-                    
-                    ReservacionSala rs = ReservacionSala.ClassMgr.createReservacionSala(base.getWebSite());
-                    cur.add(Calendar.MINUTE, hi);
-                    rs.setDe(cur.getTime());
-                    cur.add(Calendar.MINUTE, hf-hi+29);
-                    rs.setA(cur.getTime());
-                    rs.setSala(sala);
-                    rs.setResponsable(user);
-                    System.out.println("rs="+rs.toString());
-                    
-                }catch(Exception e) {
-                
-                }
-                
-                System.out.println("sala="+sala.getDisplayTitle(user.getLanguage()));   
-                System.out.println("motive="+motive);
-                System.out.println("typeMeet="+typeMeet);
-                System.out.println("turnout="+turnout);
-                System.out.println(Arrays.toString(equipment));
-                System.out.println("services="+services);
-
-                System.out.println("hi="+request.getParameter("hi"));
-                System.out.println("hf="+request.getParameter("hf"));
-            }else {
-                System.out.println("la sala es nula");
-            }
-        }
-        /*else if(SWBResourceURL.Action_EDIT.equals(action)) {
-            String editAccessURI = request.getParameter("editAccess");
-            if(editAccessURI!=null) {
-                base.setAttribute("editAccess", editAccessURI);
-                try {
-                    base.updateAttributesToDB();
-                }catch(Exception e) {
-                    log.error("Error al guardar Role/UserGroup para acceso al InlineEdit.",e);
-                }finally {
-                    response.setAction(response.Action_ADD);
-                }
-            }
-        }*/
-    }
-    
     public void doCommit(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         
     }
-
-    /*@Override
-    public void doAdmin(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        response.setContentType("text/html; charset=utf-8");  
-        PrintWriter out = response.getWriter();
-        
-        Resource base = getResourceBase();
-        String lang = paramRequest.getUser().getLanguage();
-                
-        String action  = paramRequest.getAction();
-        if(paramRequest.Action_ADD.equals(action)) {
-            
-            
-            String editAccessURI = request.getParameter("editAccess");
-            if(editAccessURI!=null) {
-                base.setAttribute("editAccess", editAccessURI);
-                try {
-                    base.updateAttributesToDB();
-                }catch(Exception e) {
-                    log.error("Error al guardar Role/UserGroup para acceso al InlineEdit.",e);
-                }
+    
+    @Override
+    public void doHelp(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        Iterator<ReservacionSala> reservations = ReservacionSala.ClassMgr.listReservacionSalas(getResourceBase().getWebSite());
+        while(reservations.hasNext()) { 
+            ReservacionSala rs = reservations.next();
+            if(rs!=null){
+                System.out.println("rs="+rs);   
+                rs.getSala().setReservada(false);
+                rs.remove();
             }
-            
-            
-            out.println("<script type=\"text/javascript\">");
-            out.println("<!--");
-            out.println("   alert('"+paramRequest.getLocaleString("usrmsg_doAdmin_resourceUpdatedMsg")+" "+base.getId()+"');");
-            out.println("   location.href='"+paramRequest.getRenderUrl().setAction(paramRequest.Action_EDIT)+"';");
-            out.println("-->");
-            out.println("</script>");
         }
-        String editAccessURI = base.getAttribute("editAccess");
-
-        //SWBResourceURL urlAction = paramRequest.getActionUrl();
-        //urlAction.setAction(paramRequest.Action_EDIT);
-        SWBResourceURL urlAction = paramRequest.getRenderUrl();
-        urlAction.setAction(paramRequest.Action_ADD);
-        
-        
-        
-        
-        WebSite wsite = base.getWebSite();
-        
-        out.println("<div class=\"swbform\">");
-        out.println("<form id=\"frmAdmRes\" dojoType=\"dijit.form.Form\" method=\"post\" action=\""+urlAction+"\">");
-        out.println("<fieldset>");
-        out.println("<legend>");
-        //out.println(fieldsetText);
-        out.println("</legend>");
-        out.println(" <ul class=\"swbform-ul\">");
-        out.println("  <li class=\"swbform-li\">");
-        out.println("   <label for=\"leyenda1\" class=\"swbform-label\">"+paramRequest.getLocaleString("usrmsg_doAdmin_EditionLbl")+"</label>");
-        out.println("   <select name=\"editar\">");
-        out.println("    <option value=\"null\">"+paramRequest.getLocaleString("usrmsg_doAdmin_noRequiredLbl")+"</option>");
-        Iterator<Role> roles = wsite.getUserRepository().listRoles();
-        Iterator<UserGroup> userGroups = wsite.getUserRepository().listUserGroups();
-        if(roles.hasNext() || userGroups.hasNext()) {
-            String selected;
-            if(roles.hasNext()) {
-                out.println("\n<optgroup label=\"");
-                out.println(paramRequest.getLocaleString("usrmsg_doAdmin_rolesLbl"));
-                out.println("\">");
-                while(roles.hasNext()) {
-                    Role role = roles.next();
-                    selected = "";
-                    if(role.getURI().equals(editAccessURI)) {
-                        selected = "selected";
-                    }
-                    out.println("\n<option value=\"");
-                    out.println(role.getURI());
-                    out.println("\"");
-                    out.println(selected);
-                    out.println(">");
-                    out.println(role.getDisplayTitle(lang));
-                    out.println("</option>");
-                }
-                out.println("\n</optgroup>");
-            }
-            if(userGroups.hasNext()) {
-                out.println("\n<optgroup label=\"");
-                out.println(paramRequest.getLocaleString("usrmsg_doAdmin_userGroupsLbl") );
-                out.println("\">");
-                while (userGroups.hasNext()) {
-                    UserGroup userGroup = userGroups.next();
-                    selected = "";
-                    if(userGroup.getURI().equals(editAccessURI)) {
-                        selected = "selected";
-                    }
-                    out.println("\n<option value=\"");
-                    out.println(userGroup.getURI());
-                    out.println("\"");
-                    out.println(selected);
-                    out.println(">");
-                    out.println(userGroup.getDisplayTitle(lang));
-                    out.println("</option>");
-                }
-                out.println("\n</optgroup>");
-            }
-        }else
-            out.println("<option value=\"-1\">"+paramRequest.getLocaleString("usrmsg_doAdmin_rolesNotFoundMsg") +"</option>");
-        out.println("   </select>");
-        out.println("  </li>");
-        out.println(" </ul>");
-        out.println("</fieldset>");
-        out.println("<fieldset>");
-        out.println(" <button dojoType=\"dijit.form.Button\" type=\"submit\">"+paramRequest.getLocaleString("usrmsg_doAdmin_saveLbl")+"</button>");
-        out.println(" <button dojoType=\"dijit.form.Button\" type=\"reset\">"+paramRequest.getLocaleString("usrmsg_doAdmin_resetLbl")+"</button>");
-        out.println("</fieldset>");
-        out.println("</form>");
-        out.println("</div>");
+        PrintWriter out = response.getWriter();
+        out.println("<script type=\"text/javascript\">");
+        out.println("location.href='"+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW)+"'");
+        out.println("</script>");
     }
-    */
+    
     private boolean userCanEdit(SWBParamRequest paramrequest) {
         boolean access = false;
         String editAccessURI = getResourceBase().getAttribute("editAccess");
@@ -722,17 +614,4 @@ System.out.println("cur="+cur.getTime());
 //        }
         return access;
     }
-    
-//    private boolean isReserved(Sala sala, Date ht) {
-//        boolean reserved = true;
-//        Iterator<ReservacionSala> reservations = ReservacionSala.ClassMgr.listReservacionSalaBySala(sala, getResourceBase().getWebSite());
-//        while(reserved && reservations.hasNext()) {
-//            ReservacionSala reservation = reservations.next();
-//System.out.println("\n\n----------------\nreservation="+reservation);
-//try{
-//            reserved = reserved && ht.after(reservation.getDe()) && ht.before(reservation.getA());
-//}catch(Exception e){}
-//        }
-//        return reserved;
-//    }
 }
