@@ -56,6 +56,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
     @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         String mode = paramRequest.getMode();
+System.out.println("processRequest..........mode="+mode);
         if(Mode_ROLL.equals(mode))
             doRoll(request, response, paramRequest);
         else
@@ -65,20 +66,14 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setContentType("text/html; charset=utf-8");        
-        System.out.println("\n\n\n-------------------------------\neditAccess role="+getEditAccess());
+System.out.println("\n\n*******************doView********************");
         
         Resource base = getResourceBase();
         User user = paramRequest.getUser();
         String lang = user.getLanguage();
-        
+        Locale locale = new Locale(user.getLanguage(),(user.getCountry()==null?"MX":user.getCountry()));
         PrintWriter out = response.getWriter();
-        
-        Iterator<Sala> isalas = Sala.ClassMgr.listSalas(base.getWebSite());        
-        isalas = SWBComparator.sortByDisplayName(isalas, lang);
-        List<Sala> salas = SWBUtils.Collections.copyIterator(isalas);
-        
-        GregorianCalendar gc = new GregorianCalendar(2011,0,1,8,0);
-        
+                
         out.println("<script type=\"text/javascript\">");
         out.println("dojo.require(\"dijit.Dialog\");");
         out.println("dojo.require(\"dojox.layout.ContentPane\");");
@@ -133,7 +128,6 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
                 "  </div>\n" +
                 "</div>\n");
         
-        Locale locale = new Locale(lang,(user.getCountry()==null?"MX":user.getCountry()));
         GregorianCalendar current;
         HttpSession session = request.getSession(true);
         if(session.getAttribute("cur")==null) {
@@ -142,19 +136,17 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         }else {
             current = (GregorianCalendar)session.getAttribute("cur");
         }
-System.out.println("current="+current.getTime());
         out.println("<div id=\"apartadoSalas\">");
-        
-        out.println("<div id=\"cal\">");
+        //out.println("<div id=\"cal\">");
         out.println("<div id=\"salasCal\">");
         SWBResourceURL url = paramRequest.getRenderUrl().setMode(Mode_ROLL);
         url.setParameter(Rel, Roll_MONTH);
         url.setParameter(Roll, Roll_LEFT);
-        out.println(" <a href=\"javascript:postHtml('"+url+"','cal')\" class=\"salasAtras\">atr&aacute;s</a>");
+        out.println(" <a href=\"javascript:location.href='"+url+"'\" class=\"salasAtras\">atr&aacute;s</a>");
         SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", locale);
         out.println(" <span id=\"month\" class=\"salasMonthYear\">"+sdf.format(current.getTime()) +"</span>");
         url.setParameter(Roll, Roll_RIGHT);
-        out.println(" <a href=\"javascript:postHtml('"+url+"','cal')\" class=\"salasAdelante\">adelante</a>");
+        out.println(" <a href=\"javascript:location.href='"+url+"'\" class=\"salasAdelante\">adelante</a>");
         out.println("<ul class=\"daysTop\">");
         out.println("  <li>D</li>");
         out.println("  <li>L</li>");
@@ -191,31 +183,32 @@ System.out.println("current="+current.getTime());
         sdf = new SimpleDateFormat("yyyy,M,d", locale);
         url.setParameter(Rel, Roll_DATE);
         url.setParameter(Roll, Roll_LEFT);
-        out.println(" <p><a href=\"javascript:postHtml('"+url+"','cal')\" class=\"salasAtras\">atr&aacute;s</a></p>");
+        out.println(" <p><a href=\"javascript:location.href='"+url+"'\" class=\"salasAtras\">atr&aacute;s</a></p>");
         sdf = new SimpleDateFormat("EEEE d 'de' MMMM", locale);
         out.println(" <p id=\"current\" class=\"dayAndMonth\">"+sdf.format(current.getTime())+"</p>");
         url.setParameter(Roll, Roll_RIGHT);
-        out.println(" <p><a href=\"javascript:postHtml('"+url+"','cal')\" class=\"salasAdelante\">adelante</a></p>");
+        out.println(" <p><a href=\"javascript:location.href='"+url+"'\" class=\"salasAdelante\">adelante</a></p>");
         out.println("</div>");
-        out.println("</div>");//<div id="cal">
+        //out.println("</div>");//<div id="cal">
         
         
         out.println("<br class=\"clear\"/>");
-        
         
         sdf = new SimpleDateFormat("HH:mm");
         out.println("<table id=\"mainTableCal\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
         out.println("<tr class=\"trCalSalas\">");
         out.println("  <td height=\"30\">Hora</td>");
+        Iterator<Sala> isalas = Sala.ClassMgr.listSalas(base.getWebSite());        
+        isalas = SWBComparator.sortByDisplayName(isalas, lang);
+        List<Sala> salas = SWBUtils.Collections.copyIterator(isalas);
         isalas = salas.iterator();
         while(isalas.hasNext()) {
             out.println("  <td height=\"30\">"+isalas.next().getDisplayTitle(lang) +"</td>");
         }
         out.println("</tr>");
         
-        
+        GregorianCalendar gc = new GregorianCalendar(2011,0,1,8,0);//auxiliar
         GregorianCalendar cur = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
-        cur.set(Calendar.MILLISECOND, 0);
         cur.add(Calendar.MINUTE, 450);
         //for(int i=480; i<=1260; i+=30) {
         for(int i=480; i<=600; i+=30) {
@@ -262,8 +255,7 @@ System.out.println("\ncur="+cur.getTime());
             String typeCafe = SWBUtils.XML.replaceXMLChars(request.getParameter("typeCafe"));
             String hoursService = SWBUtils.XML.replaceXMLChars(request.getParameter("hoursService"));
             
-System.out.println("\n***************************************");
-System.out.println("*************************** processAction");
+System.out.println("\n\n*******************processAction********************");
 
             final String uri = SWBUtils.XML.replaceXMLChars(request.getParameter("sl"));
             try {
@@ -285,7 +277,7 @@ System.out.println("222222222222");
                     reservation.setFecha(cur.getTime());
                     reservation.setDe(hi);
                     reservation.setA(hf);
-System.out.println("rs="+reservation.toString());
+System.out.println("reservacion creada..."+reservation.toString());
                 }
             }catch(NumberFormatException nfe) {
                 log.error(nfe);
@@ -457,20 +449,77 @@ System.out.println("\n\n*******************doEdit********************");
         out.println("  <p id=\"popBottom\"></p>");
         out.println("</div>");
         out.println("</form>");
-        out.flush();
+System.out.println(".....................................");
+        //out.flush();
     }
     
     public void doRoll(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setContentType("text/html; charset=ISO-8859-1");
         response.setHeader("Cache-Control", "no-cache");
-        response.setHeader("Pragma", "no-cache");  
-        
+        response.setHeader("Pragma", "no-cache");
+System.out.println("\n\n*******************doRoll********************");
+        Resource base = getResourceBase();
         User user = paramRequest.getUser();
-        Locale locale = new Locale(user.getLanguage(),(user.getCountry()==null?"MX":user.getCountry()));        
+        String lang = user.getLanguage();
+        Locale locale = new Locale(user.getLanguage(),(user.getCountry()==null?"MX":user.getCountry()));
         PrintWriter out = response.getWriter();
         
-        HttpSession session = request.getSession(true);
+        out.println("<script type=\"text/javascript\">");
+        out.println("dojo.require(\"dijit.Dialog\");");
+        out.println("dojo.require(\"dojox.layout.ContentPane\");");
+        out.println("dojo.require(\"dojo.parser\");");
+  
+        out.println("var hrs = [];");
+        out.println("var f1=function(item,i,pfx) {");
+        out.println("    var s = new String(pfx);");
+        out.println("    return item.substring(0,2)==s.substring(0,2);");
+        out.println("}");
+
+        out.println("function validate() {");
+        out.println("    if(hrs.length>0) {");
+        out.println("        hrs.sort();");
+        out.println("        if(dojo.every(hrs, f1)) {");
+        out.println("            showDialog2('"+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_EDIT).setCallMethod(SWBResourceURL.Call_DIRECT)+"'+'?hrs='+hrs.join(), '"+paramRequest.getLocaleString("usrmsg_doView_titleLbl")+"');");
+        out.println("        }else {");
+        out.println("            alert('no juegas');");
+        out.println("            dojo.every(hrs, function(item){dojo.style(dojo.byId(item),'backgroundColor','#ffffff');return true;});");
+        out.println("            hrs=[];");
+        out.println("        }");
+        out.println("    }else {");
+        out.println("        alert('para jugar hay que  seleccionar');");
+        out.println("    }");
+        out.println("}");
+
+        out.println("dojo.addOnLoad (");
+        out.println("  function() {");
+        out.println("    dojo.query(\".sltc\").connect(\"onclick\", function() {");
+        out.println("                      if(dojo.hasClass(this, 'x'))");
+        out.println("                          return;");
+        out.println("                      if(dojo.colorFromString(dojo.style(dojo.attr(this, 'id'),'backgroundColor')).toHex()=='#ffffff') {");
+        out.println("                          dojo.style(dojo.attr(this, 'id'),'backgroundColor','#1d75b9');");
+        out.println("                          hrs.push(dojo.attr(this, 'id'));");
+        out.println("                      }else {");
+        out.println("                          dojo.style(dojo.attr(this, 'id'),'backgroundColor','#ffffff');");
+        out.println("                          var i = dojo.indexOf(hrs, dojo.attr(this, 'id'));");
+        out.println("                          if(i>=0)");
+        out.println("                              hrs.splice(i,1);");
+        out.println("                      }");
+        out.println("                    }");
+        out.println("    );");
+        out.println("  }");
+        out.println(");");
+        out.println("</script>");
+        
+        
+        out.println("<div dojoType=\"dijit.Dialog\" class=\"soria\" style=\"display:none;\" id=\"swbDialog\" " +
+                "title=\"Agregar\" onFocus=\"hideApplet(true);\" onBlur=\"if(!this.open)hideApplet(false);\" >\n" +
+                "  <div dojoType=\"dojox.layout.ContentPane\" class=\"soria\" id=\"swbDialogImp\" executeScripts=\"true\">\n" +
+                "    Cargando...\n" +
+                "  </div>\n" +
+                "</div>\n");
+        
         GregorianCalendar current;
+        HttpSession session = request.getSession(true);
         if(session.getAttribute("cur")==null) {
             current = new GregorianCalendar(locale);
             session.setAttribute("cur", current);
@@ -492,15 +541,16 @@ System.out.println("\n\n*******************doEdit********************");
                 current.add(Calendar.DAY_OF_MONTH, 1);
         }
         
-        SWBResourceURL url = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(Mode_ROLL);
+        out.println("<div id=\"apartadoSalas\">");
         out.println("<div id=\"salasCal\">");
+        SWBResourceURL url = paramRequest.getRenderUrl().setMode(Mode_ROLL);
         url.setParameter(Rel, Roll_MONTH);
         url.setParameter(Roll, Roll_LEFT);
-        out.println(" <a href=\"javascript:postHtml('"+url+"','cal')\" class=\"salasAtras\">atr&aacute;s</a>");
+        out.println(" <a href=\"javascript:location.href='"+url+"'\" class=\"salasAtras\">atr&aacute;s</a>");
         SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", locale);
         out.println(" <span id=\"month\" class=\"salasMonthYear\">"+sdf.format(current.getTime()) +"</span>");
         url.setParameter(Roll, Roll_RIGHT);
-        out.println(" <a href=\"javascript:postHtml('"+url+"','cal')\" class=\"salasAdelante\">adelante</a>");    
+        out.println(" <a href=\"javascript:location.href='"+url+"'\" class=\"salasAdelante\">adelante</a>");    
         out.println("<ul class=\"daysTop\">");
         out.println("  <li>D</li>");
         out.println("  <li>L</li>");
@@ -536,12 +586,63 @@ System.out.println("\n\n*******************doEdit********************");
         out.println(" <p class=\"disponibilidadSalas\">Disponibilidad de salas</p>");
         url.setParameter(Rel, Roll_DATE);
         url.setParameter(Roll, Roll_LEFT);
-        out.println(" <p><a href=\"javascript:postHtml('"+url+"','cal')\" class=\"salasAtras\">atr&aacute;s</a></p>");
+        out.println(" <p><a href=\"javascript:location.href='"+url+"'\" class=\"salasAtras\">atr&aacute;s</a></p>");
         sdf = new SimpleDateFormat("EEEE d 'de' MMMM", locale);
         out.println(" <p id=\"current\" class=\"dayAndMonth\">"+sdf.format(current.getTime())+"</p>");
         url.setParameter(Roll, Roll_RIGHT);
-        out.println(" <p><a href=\"javascript:postHtml('"+url+"','cal')\" class=\"salasAdelante\">adelante</a></p>");
+        out.println(" <p><a href=\"javascript:location.href='"+url+"'\" class=\"salasAdelante\">adelante</a></p>");
         out.println("</div>");
+        
+        
+        
+        out.println("<br class=\"clear\"/>");   
+        
+        sdf = new SimpleDateFormat("HH:mm");
+        out.println("<table id=\"mainTableCal\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
+        out.println("<tr class=\"trCalSalas\">");
+        out.println("  <td height=\"30\">Hora</td>");
+        Iterator<Sala> isalas = Sala.ClassMgr.listSalas(base.getWebSite());        
+        isalas = SWBComparator.sortByDisplayName(isalas, lang);
+        List<Sala> salas = SWBUtils.Collections.copyIterator(isalas);
+        isalas = salas.iterator();
+        while(isalas.hasNext()) {
+            out.println("  <td height=\"30\">"+isalas.next().getDisplayTitle(lang) +"</td>");
+        }
+        out.println("</tr>");
+        
+        GregorianCalendar gc = new GregorianCalendar(2011,0,1,8,0);//auxiliar
+        GregorianCalendar cur = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
+        cur.set(Calendar.MILLISECOND, 0);
+        cur.add(Calendar.MINUTE, 450);
+        //for(int i=480; i<=1260; i+=30) {
+        for(int i=480; i<=600; i+=30) {
+            cur.add(Calendar.MINUTE, 30);
+System.out.println("\ncur="+cur.getTime());
+            out.println("<tr>");
+            out.println("  <td rowspan=\"2\" class=\"theHoursCal\"><p>"+sdf.format(gc.getTime())+"</p></td>");
+            for(Sala sala:salas) {
+                if(sala.isReservada(cur, i, i+29))
+                    out.println("  <td id=\""+sala.getId()+"_"+i+"\" class=\"x sltc trCal1\"></td>");
+                else
+                    out.println("  <td id=\""+sala.getId()+"_"+i+"\" class=\"sltc trCal1\"></td>");
+            }
+            cur.add(Calendar.MINUTE, 30);
+            out.println("<tr>");
+            i+=30;
+            for(Sala sala:salas) {
+                if(sala.isReservada(cur, i, i+29))
+                    out.println("  <td id=\""+sala.getId()+"_"+i+"\" class=\"x sltc trCal1\"></td>");
+                else
+                    out.println("  <td id=\""+sala.getId()+"_"+i+"\" class=\"sltc trCal1\"></td>");
+            }
+            out.println("</tr>");
+            gc.add(Calendar.HOUR_OF_DAY, 1);
+        }
+        out.println("</table>");
+        out.println("<p><input type=\"button\" value=\"reservar\" onclick=\"validate()\" /></p>");
+        out.println("<p><a href=\""+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_HELP) +"\">borrar reservaciones</a></p>");
+        out.println("</div>");
+System.out.println("modo="+paramRequest.getMode());
     }
     
     public void doCommit(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
