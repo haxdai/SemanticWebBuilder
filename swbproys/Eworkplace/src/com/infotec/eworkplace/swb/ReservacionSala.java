@@ -10,10 +10,10 @@ public class ReservacionSala extends com.infotec.eworkplace.swb.base.Reservacion
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-//        sb.append("Sala "+getSala());
-//        sb.append("; User= "+getResponsable());
-        sb.append(" de= "+getDe()+", long="+getDe().getTime());
-        sb.append("\n a= "+getA()+", long="+getA().getTime());
+        sb.append("Sala "+getSala().getDisplayTitle("es") +"; "+getSala().isReservada());
+        sb.append("; User= "+getResponsable());
+        sb.append("; de= "+getDe());
+        sb.append("; a= "+getA());
         return sb.toString();
     }
 }
