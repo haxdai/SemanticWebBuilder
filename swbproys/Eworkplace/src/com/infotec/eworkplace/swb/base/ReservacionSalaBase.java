@@ -9,6 +9,7 @@ public abstract class ReservacionSalaBase extends org.semanticwb.model.SWBClass 
     public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
     public static final org.semanticwb.platform.SemanticProperty intranet_responsable=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#responsable");
     public static final org.semanticwb.platform.SemanticProperty intranet_de=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#de");
+    public static final org.semanticwb.platform.SemanticProperty intranet_fecha=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fecha");
     public static final org.semanticwb.platform.SemanticProperty intranet_a=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#a");
     public static final org.semanticwb.platform.SemanticClass intranet_Sala=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Sala");
     public static final org.semanticwb.platform.SemanticProperty intranet_sala=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sala");
@@ -306,38 +307,20 @@ public abstract class ReservacionSalaBase extends org.semanticwb.model.SWBClass 
 
 /**
 * Gets the De property
-* @return java.util.Date with the De
+* @return int with the De
 */
-    public java.util.Date getDe()
+    public int getDe()
     {
-        return getSemanticObject().getDateProperty(intranet_de);
+        return getSemanticObject().getIntProperty(intranet_de);
     }
 
 /**
 * Sets the De property
 * @param value long with the De
 */
-    public void setDe(java.util.Date value)
+    public void setDe(int value)
     {
-        getSemanticObject().setDateProperty(intranet_de, value);
-    }
-
-/**
-* Gets the Updated property
-* @return java.util.Date with the Updated
-*/
-    public java.util.Date getUpdated()
-    {
-        return getSemanticObject().getDateProperty(swb_updated);
-    }
-
-/**
-* Sets the Updated property
-* @param value long with the Updated
-*/
-    public void setUpdated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_updated, value);
+        getSemanticObject().setIntProperty(intranet_de, value);
     }
 
 /**
@@ -359,21 +342,57 @@ public abstract class ReservacionSalaBase extends org.semanticwb.model.SWBClass 
     }
 
 /**
-* Gets the A property
-* @return java.util.Date with the A
+* Gets the Updated property
+* @return java.util.Date with the Updated
 */
-    public java.util.Date getA()
+    public java.util.Date getUpdated()
     {
-        return getSemanticObject().getDateProperty(intranet_a);
+        return getSemanticObject().getDateProperty(swb_updated);
+    }
+
+/**
+* Sets the Updated property
+* @param value long with the Updated
+*/
+    public void setUpdated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_updated, value);
+    }
+
+/**
+* Gets the Fecha property
+* @return java.util.Date with the Fecha
+*/
+    public java.util.Date getFecha()
+    {
+        return getSemanticObject().getDateProperty(intranet_fecha);
+    }
+
+/**
+* Sets the Fecha property
+* @param value long with the Fecha
+*/
+    public void setFecha(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(intranet_fecha, value);
+    }
+
+/**
+* Gets the A property
+* @return int with the A
+*/
+    public int getA()
+    {
+        return getSemanticObject().getIntProperty(intranet_a);
     }
 
 /**
 * Sets the A property
 * @param value long with the A
 */
-    public void setA(java.util.Date value)
+    public void setA(int value)
     {
-        getSemanticObject().setDateProperty(intranet_a, value);
+        getSemanticObject().setIntProperty(intranet_a, value);
     }
    /**
    * Sets the value for the property Sala

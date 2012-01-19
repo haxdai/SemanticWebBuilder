@@ -3,6 +3,9 @@ package com.infotec.eworkplace.swb.base;
 
 public abstract class CandidatoBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.CVable
 {
+    public static final org.semanticwb.platform.SemanticProperty intranet_diasHabilesDisponibles=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#diasHabilesDisponibles");
+    public static final org.semanticwb.platform.SemanticProperty intranet_situacionLaboral=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#situacionLaboral");
+    public static final org.semanticwb.platform.SemanticProperty intranet_disponibilidad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#disponibilidad");
     public static final org.semanticwb.platform.SemanticClass intranet_Candidato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Candidato");
    /**
    * The semantic class that represents the currentObject
@@ -87,5 +90,59 @@ public abstract class CandidatoBase extends org.semanticwb.model.SWBClass implem
     public CandidatoBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+/**
+* Gets the DiasHabilesDisponibles property
+* @return String with the DiasHabilesDisponibles
+*/
+    public String getDiasHabilesDisponibles()
+    {
+        return getSemanticObject().getProperty(intranet_diasHabilesDisponibles);
+    }
+
+/**
+* Sets the DiasHabilesDisponibles property
+* @param value long with the DiasHabilesDisponibles
+*/
+    public void setDiasHabilesDisponibles(String value)
+    {
+        getSemanticObject().setProperty(intranet_diasHabilesDisponibles, value);
+    }
+
+/**
+* Gets the SituacionLaboral property
+* @return int with the SituacionLaboral
+*/
+    public int getSituacionLaboral()
+    {
+        return getSemanticObject().getIntProperty(intranet_situacionLaboral);
+    }
+
+/**
+* Sets the SituacionLaboral property
+* @param value long with the SituacionLaboral
+*/
+    public void setSituacionLaboral(int value)
+    {
+        getSemanticObject().setIntProperty(intranet_situacionLaboral, value);
+    }
+
+/**
+* Gets the Disponibilidad property
+* @return int with the Disponibilidad
+*/
+    public int getDisponibilidad()
+    {
+        return getSemanticObject().getIntProperty(intranet_disponibilidad);
+    }
+
+/**
+* Sets the Disponibilidad property
+* @param value long with the Disponibilidad
+*/
+    public void setDisponibilidad(int value)
+    {
+        getSemanticObject().setIntProperty(intranet_disponibilidad, value);
     }
 }

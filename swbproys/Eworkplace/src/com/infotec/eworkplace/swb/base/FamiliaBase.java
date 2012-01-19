@@ -1,12 +1,11 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class FamiliaBase extends org.semanticwb.model.SWBClass 
+public abstract class FamiliaBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Telefoneable
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_direccion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#direccion");
     public static final org.semanticwb.platform.SemanticProperty intranet_parentesco=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#parentesco");
     public static final org.semanticwb.platform.SemanticProperty intranet_nombre=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nombre");
-    public static final org.semanticwb.platform.SemanticProperty intranet_telefono=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#telefono");
     public static final org.semanticwb.platform.SemanticClass intranet_Familia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Familia");
    /**
    * The semantic class that represents the currentObject
@@ -82,6 +81,29 @@ public abstract class FamiliaBase extends org.semanticwb.model.SWBClass
         {
             return (getFamilia(id, model)!=null);
         }
+       /**
+       * Gets all com.infotec.eworkplace.swb.Familia with a determined Telefono
+       * @param value Telefono of the type com.infotec.eworkplace.swb.Telefono
+       * @param model Model of the com.infotec.eworkplace.swb.Familia
+       * @return Iterator with all the com.infotec.eworkplace.swb.Familia
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Familia> listFamiliaByTelefono(com.infotec.eworkplace.swb.Telefono value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Familia> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_telefono, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.Familia with a determined Telefono
+       * @param value Telefono of the type com.infotec.eworkplace.swb.Telefono
+       * @return Iterator with all the com.infotec.eworkplace.swb.Familia
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Familia> listFamiliaByTelefono(com.infotec.eworkplace.swb.Telefono value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Familia> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_telefono,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
    /**
@@ -146,22 +168,42 @@ public abstract class FamiliaBase extends org.semanticwb.model.SWBClass
     {
         getSemanticObject().setProperty(intranet_nombre, value);
     }
+   /**
+   * Sets the value for the property Telefono
+   * @param value Telefono to set
+   */
 
-/**
-* Gets the Telefono property
-* @return String with the Telefono
-*/
-    public String getTelefono()
+    public void setTelefono(com.infotec.eworkplace.swb.Telefono value)
     {
-        return getSemanticObject().getProperty(intranet_telefono);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_telefono, value.getSemanticObject());
+        }else
+        {
+            removeTelefono();
+        }
+    }
+   /**
+   * Remove the value for Telefono property
+   */
+
+    public void removeTelefono()
+    {
+        getSemanticObject().removeProperty(intranet_telefono);
     }
 
-/**
-* Sets the Telefono property
-* @param value long with the Telefono
-*/
-    public void setTelefono(String value)
+   /**
+   * Gets the Telefono
+   * @return a com.infotec.eworkplace.swb.Telefono
+   */
+    public com.infotec.eworkplace.swb.Telefono getTelefono()
     {
-        getSemanticObject().setProperty(intranet_telefono, value);
+         com.infotec.eworkplace.swb.Telefono ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_telefono);
+         if(obj!=null)
+         {
+             ret=(com.infotec.eworkplace.swb.Telefono)obj.createGenericInstance();
+         }
+         return ret;
     }
 }

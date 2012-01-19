@@ -1,7 +1,7 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class DireccionEjecutivaBase extends com.infotec.eworkplace.swb.Organo implements com.infotec.eworkplace.swb.Extensible,org.semanticwb.model.Descriptiveable,com.infotec.eworkplace.swb.Vision,com.infotec.eworkplace.swb.Mision
+public abstract class DireccionEjecutivaBase extends com.infotec.eworkplace.swb.Organo implements com.infotec.eworkplace.swb.Extensible,com.infotec.eworkplace.swb.Vision,org.semanticwb.model.Descriptiveable,com.infotec.eworkplace.swb.Mision
 {
     public static final org.semanticwb.platform.SemanticClass intranet_DireccionAdjunta=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#DireccionAdjunta");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasDireccionAdjunta=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasDireccionAdjunta");
