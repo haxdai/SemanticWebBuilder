@@ -526,7 +526,8 @@ public class SWProfileManager extends GenericAdmResource {
                             fam.setDireccion(SWBUtils.XML.replaceXMLChars(df[i]));
                         }catch(IndexOutOfBoundsException iobe){}
                         try{
-                            fam.setTelefono(SWBUtils.XML.replaceXMLChars(tf[i]));
+                            SWBUtils.XML.replaceXMLChars(tf[i]);
+                            fam.setTelefono(null);
                         }catch(IndexOutOfBoundsException iobe){}
                         persona.addFamilia(fam);
                     }
