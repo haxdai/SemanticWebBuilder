@@ -1,13 +1,19 @@
 package com.infotec.swb.resources;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URL;
+import java.net.URLDecoder;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
+import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.WebPage;
@@ -25,8 +31,19 @@ import org.semanticwb.portal.resources.sem.AudioFile;
  */
 public class AudioPromotion extends GenericResource {
     private static Logger log = SWBUtils.getLogger(AudioPromotion.class);
+    private static final int DEFAULT_BUFFER_SIZE = 2048; // 2KB.
     public static final int MIN_LIST = 5;
     private static final String Action_UPDATE = "update";
+    public static final String Mode_PLAY = "play";
+    
+    @Override
+    public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        final String mode = paramRequest.getMode();
+        if(Mode_PLAY.equals(mode))
+            doPlay(request, response, paramRequest);
+        else
+            super.processRequest(request, response, paramRequest);
+    }
     
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
@@ -53,18 +70,24 @@ public class AudioPromotion extends GenericResource {
         Collections.sort(resources, new AudioFile.SortByReviews());
         iresources = resources.iterator();
         if(iresources.hasNext()) {
+            SWBResourceURL directURL = paramRequest.getRenderUrl().setMode(Mode_PLAY).setCallMethod(paramRequest.Call_DIRECT);
+            
+            out.println("<div id=\"masPodcasts\">");
             out.println("<h3>"+paramRequest.getLocaleString("msgDoViewMorePodcasts")+"</h3>");
-            int min = 0;
             out.println("<ul>");
-            while(min<MIN_LIST && iresources.hasNext()) {
-                AudioFile audio = iresources.next();
+            for(int i=0; i<MIN_LIST && iresources.hasNext(); i++) {
+                AudioFile audiofile = iresources.next();
                 out.println("<li>");
-                out.println("<a href=\""+page.getRealUrl(lang)+"?uri="+audio.getEncodedURI()+"\" title=\""+paramRequest.getLocaleString("msgDoViewSeeMore")+"\">"+audio.getDisplayTitle(lang)+"</a>");
-                out.println(audio.getDisplayDescription(lang));
+                out.println(" <p class=\"podName\">"+(audiofile.getDisplayTitle(lang)==null?audiofile.getTitle():audiofile.getDisplayTitle(lang))+"</p>");
+                out.println(" <p class=\"podAutor\">"+paramRequest.getLocaleString("lblDoViewBy")+"&nbsp;"+audiofile.getAuthor()+"</p>");
+                out.println(" <p class=\"escuchar_mp3\"><a href=\""+page.getRealUrl(lang)+"?uri="+audiofile.getEncodedURI()+"\" title=\""+paramRequest.getLocaleString("lblDoViewListen")+"\">"+paramRequest.getLocaleString("lblDoViewListen")+"</a></p>");
+                out.println(" <p class=\"descargar_mp3\"><a href=\""+directURL.setParameter("uri", audiofile.getURI())+"\" title=\""+(audiofile.getDisplayTitle(lang)==null?audiofile.getTitle():audiofile.getDisplayTitle(lang))+"\">"+paramRequest.getLocaleString("lblDoViewDownload")+"</a><span>"+paramRequest.getLocaleString("lblDoViewFormat")+"&nbsp;"+audiofile.getFilename().substring(audiofile.getFilename().lastIndexOf(".")+1)+"</span></p>");
+//                out.println("<a href=\""+page.getRealUrl(lang)+"?uri="+audiofile.getEncodedURI()+"\" title=\""+paramRequest.getLocaleString("msgDoViewSeeMore")+"\">"+audiofile.getDisplayTitle(lang)+"</a>");
+//                out.println(audiofile.getDisplayDescription(lang));
                 out.println("</li>");
-                min++;
             }
             out.println("</ul>");
+            out.println("</div>");
         }else {
             out.println(paramRequest.getLocaleString("msgDoViewNoPodcast"));
         }
@@ -181,6 +204,89 @@ public class AudioPromotion extends GenericResource {
         out.println("</fieldset>\n");
         out.println("</form>\n");
         out.println("</div>\n");
+    }
+    
+    public void doPlay(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        String uri = request.getParameter("uri");
+        AudioFile audiofile = null;
+        try {
+            audiofile = (AudioFile)SemanticObject.createSemanticObject(uri).createGenericInstance();
+        }catch(Exception e) {
+            log.error(e);
+        }
+        if(audiofile!=null && audiofile.isValid()) {
+            String filename = audiofile.getFilename();
+            if(filename.endsWith(".htm"))
+                response.setContentType("text/html");
+    //        else if(filename.endsWith(".xml"))
+    //            response.setContentType("text/xml");
+    //        else if(filename.endsWith(".rtf"))
+    //            response.setContentType("application/rtf");
+    //        else if(filename.endsWith(".pdf"))
+    //            response.setContentType("application/pdf");
+    //        else if (filename.endsWith(".do"))
+    //            response.setContentType("application/msword");
+    //        else if(filename.endsWith(".xl"))
+    //            response.setContentType("application/vnd.ms-excel");
+    //        else if(filename.endsWith(".pp"))
+    //            response.setContentType("application/vnd.ms-powerpoint");
+    //        else if(filename.endsWith(".msg"))
+    //            response.setContentType("application/vnd.ms-outlook");
+    //        else if(filename.endsWith(".mpp"))
+    //            response.setContentType("application/vnd.ms-project");
+    //        else if(filename.endsWith(".iii"))
+    //            response.setContentType("application/x-iphone");
+    //        else if(filename.endsWith(".mdb"))
+    //            response.setContentType("application/x-msaccess");
+    //        else if(filename.endsWith(".pub"))
+    //            response.setContentType("application/x-mspublisher");
+    //        else if(filename.endsWith(".swf"))
+    //            response.setContentType("application/x-shockwave-flash");
+    //        else if(filename.endsWith(".text"))
+    //            response.setContentType("application/x-tex");
+            else if (filename.endsWith(".zip"))
+                response.setContentType("application/zip");
+    //        else if (filename.endsWith(".jp"))
+    //            response.setContentType("image/jpeg");
+    //        else if (filename.endsWith(".png"))
+    //            response.setContentType("image/png");
+    //        else if (filename.endsWith(".gif"))
+    //            response.setContentType("image/gif");
+    //        else if(filename.endsWith(".bmp"))
+    //            response.setContentType("image/bmp");
+    //        else if(filename.endsWith(".tif"))
+    //            response.setContentType("image/tiff");
+    //        else if(filename.endsWith(".ico"))
+    //            response.setContentType("image/x-icon");
+            else if (filename.endsWith(".mp3"))
+                response.setContentType("audio/mpeg");
+    //        else if(filename.endsWith(".mp"))
+    //            response.setContentType("video/mpeg");
+    //        else if(filename.endsWith(".mov"))
+    //            response.setContentType("video/quicktime");
+    //        else if(filename.endsWith(".qt"))
+    //            response.setContentType("video/quicktime");
+    //        else if(filename.endsWith(".as"))
+    //            response.setContentType("video/x-ms-asf");
+    //        else if(filename.endsWith(".avi"))
+    //            response.setContentType("video/x-msvideo");
+    //        else
+    //            response.setContentType("application/octet-stream");
+
+            response.setHeader("Content-Disposition", "attachment; filename=" + filename);
+            String resourceURL = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+SWBPortal.getContextPath()+SWBPortal.getWebWorkPath()+audiofile.getWorkPath()+"/"+URLDecoder.decode(audiofile.getFilename(), "UTF-8");
+            URL url = new URL(resourceURL);File f=new File(url.getFile());
+            BufferedInputStream  bis = new BufferedInputStream(url.openStream());
+            BufferedOutputStream bos = new BufferedOutputStream(response.getOutputStream());
+            byte[] buff = new byte[DEFAULT_BUFFER_SIZE];
+            int bytesRead;
+            while(-1 != (bytesRead = bis.read(buff, 0, buff.length))) {
+                bos.write(buff, 0, bytesRead);
+            }
+            bis.close();
+            bos.flush();
+            bos.close();
+        }
     }
     
     @Override
