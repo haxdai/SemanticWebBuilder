@@ -118,7 +118,6 @@ public class SWProfileManager extends GenericAdmResource {
                     out.println("      </div>");
                     out.println("    </li>");
                     out.println("    <li class=\"perfil\">");
-                    //out.println("      <p><a href=\""+SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+wsite.getId()+"/editar_datos"+"/_lang/"+user.getLanguage()+"\" title=\"Editar mi perfil\">Editar mi perfil</a></p>");
                     out.println("      <p><a href=\""+paramRequest.getActionUrl().setAction(Send_EDIT).toString()+"\" title=\"Editar mi perfil\">Editar mi perfil</a></p>");
                     out.println("      <p><a href=\""+paramRequest.getActionUrl().setAction(Send_FAV).toString()+"\" title=\"Editar mis favoritos\">Mis favoritos</a></p>");
                     out.println("      <p><a href=\""+paramRequest.getActionUrl().setAction(Send_REQ).toString()+"\" title=\"\">Mis solicitudes</a></p>");
