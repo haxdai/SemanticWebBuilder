@@ -8,11 +8,18 @@ public abstract class ReservacionSalaBase extends org.semanticwb.model.SWBClass 
    */
     public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
     public static final org.semanticwb.platform.SemanticProperty intranet_responsable=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#responsable");
-    public static final org.semanticwb.platform.SemanticProperty intranet_de=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#de");
-    public static final org.semanticwb.platform.SemanticProperty intranet_fecha=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fecha");
-    public static final org.semanticwb.platform.SemanticProperty intranet_a=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#a");
     public static final org.semanticwb.platform.SemanticClass intranet_Sala=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Sala");
     public static final org.semanticwb.platform.SemanticProperty intranet_sala=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sala");
+    public static final org.semanticwb.platform.SemanticProperty intranet_motivo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#motivo");
+    public static final org.semanticwb.platform.SemanticProperty intranet_asistentes=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#asistentes");
+    public static final org.semanticwb.platform.SemanticProperty intranet_cafeteria=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#cafeteria");
+    public static final org.semanticwb.platform.SemanticProperty intranet_de=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#de");
+    public static final org.semanticwb.platform.SemanticProperty intranet_tipoReunion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#tipoReunion");
+    public static final org.semanticwb.platform.SemanticClass intranet_Date=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Date");
+    public static final org.semanticwb.platform.SemanticProperty intranet_fecha=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fecha");
+    public static final org.semanticwb.platform.SemanticProperty intranet_a=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#a");
+    public static final org.semanticwb.platform.SemanticProperty intranet_otroServicio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#otroServicio");
+    public static final org.semanticwb.platform.SemanticProperty intranet_servicios=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#servicios");
     public static final org.semanticwb.platform.SemanticClass intranet_ReservacionSala=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#ReservacionSala");
    /**
    * The semantic class that represents the currentObject
@@ -135,6 +142,29 @@ public abstract class ReservacionSalaBase extends org.semanticwb.model.SWBClass 
             return it;
         }
        /**
+       * Gets all com.infotec.eworkplace.swb.ReservacionSala with a determined Sala
+       * @param value Sala of the type com.infotec.eworkplace.swb.Sala
+       * @param model Model of the com.infotec.eworkplace.swb.ReservacionSala
+       * @return Iterator with all the com.infotec.eworkplace.swb.ReservacionSala
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.ReservacionSala> listReservacionSalaBySala(com.infotec.eworkplace.swb.Sala value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.ReservacionSala> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_sala, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.ReservacionSala with a determined Sala
+       * @param value Sala of the type com.infotec.eworkplace.swb.Sala
+       * @return Iterator with all the com.infotec.eworkplace.swb.ReservacionSala
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.ReservacionSala> listReservacionSalaBySala(com.infotec.eworkplace.swb.Sala value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.ReservacionSala> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_sala,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all com.infotec.eworkplace.swb.ReservacionSala with a determined Creator
        * @param value Creator of the type org.semanticwb.model.User
        * @param model Model of the com.infotec.eworkplace.swb.ReservacionSala
@@ -158,26 +188,26 @@ public abstract class ReservacionSalaBase extends org.semanticwb.model.SWBClass 
             return it;
         }
        /**
-       * Gets all com.infotec.eworkplace.swb.ReservacionSala with a determined Sala
-       * @param value Sala of the type com.infotec.eworkplace.swb.Sala
+       * Gets all com.infotec.eworkplace.swb.ReservacionSala with a determined Fecha
+       * @param value Fecha of the type com.infotec.eworkplace.swb.Date
        * @param model Model of the com.infotec.eworkplace.swb.ReservacionSala
        * @return Iterator with all the com.infotec.eworkplace.swb.ReservacionSala
        */
 
-        public static java.util.Iterator<com.infotec.eworkplace.swb.ReservacionSala> listReservacionSalaBySala(com.infotec.eworkplace.swb.Sala value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<com.infotec.eworkplace.swb.ReservacionSala> listReservacionSalaByFecha(com.infotec.eworkplace.swb.Date value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.ReservacionSala> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_sala, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.ReservacionSala> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_fecha, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all com.infotec.eworkplace.swb.ReservacionSala with a determined Sala
-       * @param value Sala of the type com.infotec.eworkplace.swb.Sala
+       * Gets all com.infotec.eworkplace.swb.ReservacionSala with a determined Fecha
+       * @param value Fecha of the type com.infotec.eworkplace.swb.Date
        * @return Iterator with all the com.infotec.eworkplace.swb.ReservacionSala
        */
 
-        public static java.util.Iterator<com.infotec.eworkplace.swb.ReservacionSala> listReservacionSalaBySala(com.infotec.eworkplace.swb.Sala value)
+        public static java.util.Iterator<com.infotec.eworkplace.swb.ReservacionSala> listReservacionSalaByFecha(com.infotec.eworkplace.swb.Date value)
         {
-            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.ReservacionSala> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_sala,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.ReservacionSala> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_fecha,value.getSemanticObject(),sclass));
             return it;
         }
     }
@@ -266,6 +296,134 @@ public abstract class ReservacionSalaBase extends org.semanticwb.model.SWBClass 
          }
          return ret;
     }
+
+/**
+* Gets the Updated property
+* @return java.util.Date with the Updated
+*/
+    public java.util.Date getUpdated()
+    {
+        return getSemanticObject().getDateProperty(swb_updated);
+    }
+
+/**
+* Sets the Updated property
+* @param value long with the Updated
+*/
+    public void setUpdated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_updated, value);
+    }
+
+/**
+* Gets the Created property
+* @return java.util.Date with the Created
+*/
+    public java.util.Date getCreated()
+    {
+        return getSemanticObject().getDateProperty(swb_created);
+    }
+
+/**
+* Sets the Created property
+* @param value long with the Created
+*/
+    public void setCreated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_created, value);
+    }
+   /**
+   * Sets the value for the property Sala
+   * @param value Sala to set
+   */
+
+    public void setSala(com.infotec.eworkplace.swb.Sala value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_sala, value.getSemanticObject());
+        }else
+        {
+            removeSala();
+        }
+    }
+   /**
+   * Remove the value for Sala property
+   */
+
+    public void removeSala()
+    {
+        getSemanticObject().removeProperty(intranet_sala);
+    }
+
+   /**
+   * Gets the Sala
+   * @return a com.infotec.eworkplace.swb.Sala
+   */
+    public com.infotec.eworkplace.swb.Sala getSala()
+    {
+         com.infotec.eworkplace.swb.Sala ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_sala);
+         if(obj!=null)
+         {
+             ret=(com.infotec.eworkplace.swb.Sala)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+/**
+* Gets the Motivo property
+* @return String with the Motivo
+*/
+    public String getMotivo()
+    {
+        return getSemanticObject().getProperty(intranet_motivo);
+    }
+
+/**
+* Sets the Motivo property
+* @param value long with the Motivo
+*/
+    public void setMotivo(String value)
+    {
+        getSemanticObject().setProperty(intranet_motivo, value);
+    }
+
+/**
+* Gets the Asistentes property
+* @return int with the Asistentes
+*/
+    public int getAsistentes()
+    {
+        return getSemanticObject().getIntProperty(intranet_asistentes);
+    }
+
+/**
+* Sets the Asistentes property
+* @param value long with the Asistentes
+*/
+    public void setAsistentes(int value)
+    {
+        getSemanticObject().setIntProperty(intranet_asistentes, value);
+    }
+
+/**
+* Gets the Cafeteria property
+* @return String with the Cafeteria
+*/
+    public String getCafeteria()
+    {
+        return getSemanticObject().getProperty(intranet_cafeteria);
+    }
+
+/**
+* Sets the Cafeteria property
+* @param value long with the Cafeteria
+*/
+    public void setCafeteria(String value)
+    {
+        getSemanticObject().setProperty(intranet_cafeteria, value);
+    }
    /**
    * Sets the value for the property Creator
    * @param value Creator to set
@@ -324,57 +482,59 @@ public abstract class ReservacionSalaBase extends org.semanticwb.model.SWBClass 
     }
 
 /**
-* Gets the Created property
-* @return java.util.Date with the Created
+* Gets the TipoReunion property
+* @return String with the TipoReunion
 */
-    public java.util.Date getCreated()
+    public String getTipoReunion()
     {
-        return getSemanticObject().getDateProperty(swb_created);
+        return getSemanticObject().getProperty(intranet_tipoReunion);
     }
 
 /**
-* Sets the Created property
-* @param value long with the Created
+* Sets the TipoReunion property
+* @param value long with the TipoReunion
 */
-    public void setCreated(java.util.Date value)
+    public void setTipoReunion(String value)
     {
-        getSemanticObject().setDateProperty(swb_created, value);
+        getSemanticObject().setProperty(intranet_tipoReunion, value);
+    }
+   /**
+   * Sets the value for the property Fecha
+   * @param value Fecha to set
+   */
+
+    public void setFecha(com.infotec.eworkplace.swb.Date value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_fecha, value.getSemanticObject());
+        }else
+        {
+            removeFecha();
+        }
+    }
+   /**
+   * Remove the value for Fecha property
+   */
+
+    public void removeFecha()
+    {
+        getSemanticObject().removeProperty(intranet_fecha);
     }
 
-/**
-* Gets the Updated property
-* @return java.util.Date with the Updated
-*/
-    public java.util.Date getUpdated()
+   /**
+   * Gets the Fecha
+   * @return a com.infotec.eworkplace.swb.Date
+   */
+    public com.infotec.eworkplace.swb.Date getFecha()
     {
-        return getSemanticObject().getDateProperty(swb_updated);
-    }
-
-/**
-* Sets the Updated property
-* @param value long with the Updated
-*/
-    public void setUpdated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_updated, value);
-    }
-
-/**
-* Gets the Fecha property
-* @return java.util.Date with the Fecha
-*/
-    public java.util.Date getFecha()
-    {
-        return getSemanticObject().getDateProperty(intranet_fecha);
-    }
-
-/**
-* Sets the Fecha property
-* @param value long with the Fecha
-*/
-    public void setFecha(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(intranet_fecha, value);
+         com.infotec.eworkplace.swb.Date ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_fecha);
+         if(obj!=null)
+         {
+             ret=(com.infotec.eworkplace.swb.Date)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
@@ -394,42 +554,40 @@ public abstract class ReservacionSalaBase extends org.semanticwb.model.SWBClass 
     {
         getSemanticObject().setIntProperty(intranet_a, value);
     }
-   /**
-   * Sets the value for the property Sala
-   * @param value Sala to set
-   */
 
-    public void setSala(com.infotec.eworkplace.swb.Sala value)
+/**
+* Gets the OtroServicio property
+* @return String with the OtroServicio
+*/
+    public String getOtroServicio()
     {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(intranet_sala, value.getSemanticObject());
-        }else
-        {
-            removeSala();
-        }
-    }
-   /**
-   * Remove the value for Sala property
-   */
-
-    public void removeSala()
-    {
-        getSemanticObject().removeProperty(intranet_sala);
+        return getSemanticObject().getProperty(intranet_otroServicio);
     }
 
-   /**
-   * Gets the Sala
-   * @return a com.infotec.eworkplace.swb.Sala
-   */
-    public com.infotec.eworkplace.swb.Sala getSala()
+/**
+* Sets the OtroServicio property
+* @param value long with the OtroServicio
+*/
+    public void setOtroServicio(String value)
     {
-         com.infotec.eworkplace.swb.Sala ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_sala);
-         if(obj!=null)
-         {
-             ret=(com.infotec.eworkplace.swb.Sala)obj.createGenericInstance();
-         }
-         return ret;
+        getSemanticObject().setProperty(intranet_otroServicio, value);
+    }
+
+/**
+* Gets the Servicios property
+* @return String with the Servicios
+*/
+    public String getServicios()
+    {
+        return getSemanticObject().getProperty(intranet_servicios);
+    }
+
+/**
+* Sets the Servicios property
+* @param value long with the Servicios
+*/
+    public void setServicios(String value)
+    {
+        getSemanticObject().setProperty(intranet_servicios, value);
     }
 }
