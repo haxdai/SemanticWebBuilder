@@ -1,6 +1,5 @@
 package com.infotec.eworkplace.swb.base;
 
-
 public abstract class GerenciaBase extends com.infotec.eworkplace.swb.Organo implements com.infotec.eworkplace.swb.Extensible,org.semanticwb.model.Descriptiveable,com.infotec.eworkplace.swb.Vision,com.infotec.eworkplace.swb.Mision
 {
     public static final org.semanticwb.platform.SemanticClass intranet_Subgerencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Subgerencia");
