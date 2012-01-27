@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Clase se administra el catálogo de Marcas de Empresas 
    */
-public abstract class CompanyBrandBase extends org.semanticwb.cptm.GeneralCompany implements org.semanticwb.model.Searchable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Geolocalizable,org.semanticwb.model.Resourceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,org.semanticwb.model.Indexable,org.semanticwb.model.Tagable,org.semanticwb.portal.community.Addressable
+public abstract class CompanyBrandBase extends org.semanticwb.cptm.GeneralCompany implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Indexable,org.semanticwb.model.Geolocalizable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.portal.community.Addressable,org.semanticwb.model.Tagable,org.semanticwb.model.Resourceable,org.semanticwb.model.Searchable
 {
    /**
    * Clase que administra el catálogo de Cadenas de Empresas

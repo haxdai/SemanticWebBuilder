@@ -4,8 +4,17 @@ package org.semanticwb.cptm.base;
    /**
    * Tipo de Página, este tipo no se puede crear en el árbol de WebBuilder, solo sirve para ponerle la interfaz de fotos y que las subclases de esta clase poseean los atributos de esta interface (cptmGeneralData). 
    */
-public abstract class CPTMGeneralWebPageBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Filterable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Searchable,org.semanticwb.model.Expirable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.RuleRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Viewable,org.semanticwb.model.Trashable,org.semanticwb.model.Localeable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Countryable,org.semanticwb.cptm.CptmDescriptionPage,org.semanticwb.model.Referensable,org.semanticwb.model.Undeleteable,org.semanticwb.model.RoleRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.MetaTagable,org.semanticwb.model.Resourceable,org.semanticwb.model.Rankable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Indexable
+public abstract class CPTMGeneralWebPageBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Rankable,org.semanticwb.model.Localeable,org.semanticwb.model.Trashable,org.semanticwb.model.Referensable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Searchable,org.semanticwb.model.Traceable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Viewable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.FilterableNode,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Hiddenable,org.semanticwb.model.MetaTagable,org.semanticwb.model.Tagable,org.semanticwb.model.Resourceable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Indexable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Activeable,org.semanticwb.model.Filterable,org.semanticwb.cptm.CptmDescriptionPage,org.semanticwb.model.Expirable,org.semanticwb.model.Countryable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RoleRefable
 {
+   /**
+   * Relación de una sección con otra sección de otro modelo
+   */
+    public static final org.semanticwb.platform.SemanticClass cptm_ModelRelation=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#ModelRelation");
+    public static final org.semanticwb.platform.SemanticProperty cptm_hasModelRelation=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#hasModelRelation");
+   /**
+   * Sección oculta
+   */
+    public static final org.semanticwb.platform.SemanticProperty cptm_cptmHiddenTopic=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/cptm#cptmHiddenTopic");
    /**
    * Tipo de Página, este tipo no se puede crear en el árbol de WebBuilder, solo sirve para ponerle la interfaz de fotos y que las subclases de esta clase poseean los atributos de esta interface (cptmGeneralData).
    */
@@ -99,6 +108,29 @@ public abstract class CPTMGeneralWebPageBase extends org.semanticwb.model.WebPag
         public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByModifiedBy(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined ModelRelation
+       * @param value ModelRelation of the type org.semanticwb.cptm.ModelRelation
+       * @param model Model of the org.semanticwb.cptm.CPTMGeneralWebPage
+       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByModelRelation(org.semanticwb.cptm.ModelRelation value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasModelRelation, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.CPTMGeneralWebPage with a determined ModelRelation
+       * @param value ModelRelation of the type org.semanticwb.cptm.ModelRelation
+       * @return Iterator with all the org.semanticwb.cptm.CPTMGeneralWebPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.CPTMGeneralWebPage> listCPTMGeneralWebPageByModelRelation(org.semanticwb.cptm.ModelRelation value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.CPTMGeneralWebPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasModelRelation,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -571,6 +603,71 @@ public abstract class CPTMGeneralWebPageBase extends org.semanticwb.model.WebPag
     {
         super(base);
     }
+   /**
+   * Gets all the org.semanticwb.cptm.ModelRelation
+   * @return A GenericIterator with all the org.semanticwb.cptm.ModelRelation
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.cptm.ModelRelation> listModelRelations()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.cptm.ModelRelation>(getSemanticObject().listObjectProperties(cptm_hasModelRelation));
+    }
+
+   /**
+   * Gets true if has a ModelRelation
+   * @param value org.semanticwb.cptm.ModelRelation to verify
+   * @return true if the org.semanticwb.cptm.ModelRelation exists, false otherwise
+   */
+    public boolean hasModelRelation(org.semanticwb.cptm.ModelRelation value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(cptm_hasModelRelation,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a ModelRelation
+   * @param value org.semanticwb.cptm.ModelRelation to add
+   */
+
+    public void addModelRelation(org.semanticwb.cptm.ModelRelation value)
+    {
+        getSemanticObject().addObjectProperty(cptm_hasModelRelation, value.getSemanticObject());
+    }
+   /**
+   * Removes all the ModelRelation
+   */
+
+    public void removeAllModelRelation()
+    {
+        getSemanticObject().removeProperty(cptm_hasModelRelation);
+    }
+   /**
+   * Removes a ModelRelation
+   * @param value org.semanticwb.cptm.ModelRelation to remove
+   */
+
+    public void removeModelRelation(org.semanticwb.cptm.ModelRelation value)
+    {
+        getSemanticObject().removeObjectProperty(cptm_hasModelRelation,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the ModelRelation
+   * @return a org.semanticwb.cptm.ModelRelation
+   */
+    public org.semanticwb.cptm.ModelRelation getModelRelation()
+    {
+         org.semanticwb.cptm.ModelRelation ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(cptm_hasModelRelation);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.cptm.ModelRelation)obj.createGenericInstance();
+         }
+         return ret;
+    }
 
 /**
 * Gets the PhotoEscudoAlt property
@@ -639,6 +736,24 @@ public abstract class CPTMGeneralWebPageBase extends org.semanticwb.model.WebPag
     public void setPhotoEscudo(String value)
     {
         getSemanticObject().setProperty(cptm_photoEscudo, value);
+    }
+
+/**
+* Gets the CptmHiddenTopic property
+* @return boolean with the CptmHiddenTopic
+*/
+    public boolean isCptmHiddenTopic()
+    {
+        return getSemanticObject().getBooleanProperty(cptm_cptmHiddenTopic);
+    }
+
+/**
+* Sets the CptmHiddenTopic property
+* @param value long with the CptmHiddenTopic
+*/
+    public void setCptmHiddenTopic(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(cptm_cptmHiddenTopic, value);
     }
 
 /**
