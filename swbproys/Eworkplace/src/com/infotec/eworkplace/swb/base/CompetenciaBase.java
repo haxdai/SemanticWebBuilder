@@ -32,6 +32,12 @@ public abstract class CompetenciaBase extends org.semanticwb.model.SWBClass
             java.util.Iterator it=sclass.listInstances();
             return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Competencia>(it, true);
         }
+
+        public static com.infotec.eworkplace.swb.Competencia createCompetencia(org.semanticwb.model.SWBModel model)
+        {
+            long id=model.getSemanticObject().getModel().getCounter(sclass);
+            return com.infotec.eworkplace.swb.Competencia.ClassMgr.createCompetencia(String.valueOf(id), model);
+        }
        /**
        * Gets a com.infotec.eworkplace.swb.Competencia
        * @param id Identifier for com.infotec.eworkplace.swb.Competencia
