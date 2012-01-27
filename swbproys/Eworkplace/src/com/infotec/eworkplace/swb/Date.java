@@ -7,15 +7,19 @@ public class Date extends com.infotec.eworkplace.swb.base.DateBase
     {
         super(base);
     }
-
+    
+    @Override
+    public int hashCode() {
+        return getURI().hashCode();
+    }
+    
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-	    return true;
-	}
-	if (obj instanceof Date) {
-            Date date = (Date)obj;
-            return getURI().equals(date.getURI());
+        if(this == obj)
+            return true;
+        
+        if(obj instanceof Date) {
+            return hashCode()==obj.hashCode();
         }
         return false;
     }
