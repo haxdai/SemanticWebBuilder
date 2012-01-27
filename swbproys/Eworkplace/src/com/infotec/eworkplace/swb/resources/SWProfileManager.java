@@ -5,6 +5,7 @@ import com.infotec.eworkplace.swb.Domicilio;
 import com.infotec.eworkplace.swb.Familia;
 import com.infotec.eworkplace.swb.Persona;
 import com.infotec.eworkplace.swb.SWProfile;
+import com.infotec.eworkplace.swb.Telefono;
 import com.infotec.eworkplace.swb.TemaInteres;
 
 import java.io.File;
@@ -46,9 +47,9 @@ public class SWProfileManager extends GenericAdmResource {
     private static final String Send = "send";
     private static final String Send_VIEW = "sview";
     private static final String Send_EDIT = "sedit";
-    private static final String Send_CHGPHTO = "phto";
+    private static final String Mode_CHGPHTO = "foto";
     private static final String Send_REQ = "req";
-    private static final String Send_FAV = "fav";
+    private static final String Mode_FAV = "fav";
     
     public static final String RH_Role = "RH";
     
@@ -57,10 +58,11 @@ public class SWProfileManager extends GenericAdmResource {
         String mode = paramRequest.getMode();
         if("fam".equals(mode))
             doFam(request, response, paramRequest);
+        else if(this.Mode_CHGPHTO.equals(mode))
+            doChangePhoto(request, response, paramRequest);
         else
             super.processRequest(request, response, paramRequest);
     }
-
     
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
@@ -118,8 +120,8 @@ public class SWProfileManager extends GenericAdmResource {
                     out.println("      </div>");
                     out.println("    </li>");
                     out.println("    <li class=\"perfil\">");
-                    out.println("      <p><a href=\""+paramRequest.getActionUrl().setAction(Send_EDIT).toString()+"\" title=\"Editar mi perfil\">Editar mi perfil</a></p>");
-                    out.println("      <p><a href=\""+paramRequest.getActionUrl().setAction(Send_FAV).toString()+"\" title=\"Editar mis favoritos\">Mis favoritos</a></p>");
+                    out.println("      <p><a href=\""+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_EDIT).setCallMethod(SWBResourceURL.Call_CONTENT) +"\" title=\"Editar mi perfil\">Editar mi perfil</a></p>");
+                    out.println("      <p><a href=\""+paramRequest.getActionUrl().setAction(Mode_FAV).toString()+"\" title=\"Editar mis favoritos\">Mis favoritos</a></p>");
                     out.println("      <p><a href=\""+paramRequest.getActionUrl().setAction(Send_REQ).toString()+"\" title=\"\">Mis solicitudes</a></p>");
                     out.println("      <p><a href=\""+paramRequest.getActionUrl().setAction(Send_VIEW).toString()+"\" title=\"\">Ver mi perfil</a></p>");
                     out.println("      <p class=\"salir\"><a href=\""+SWBPlatform.getContextPath()+"/login?wb_logout=true&wb_goto="+urlLogout+"\" title=\"Salir\">Salir</a></p>");
@@ -133,7 +135,81 @@ public class SWProfileManager extends GenericAdmResource {
                 }
             }
         }else {
-            if(user.isSigned()) {
+            out.println("<div id=\"cuerpo_texto\">");
+            out.println(" <div id=\"perfil_usuario\">");
+            out.println("  <div id=\"formPerfil\">");
+            out.println("   <div id=\"menu_perfil\">");
+            out.println("    <ul>");
+            out.println("     <li><a href=\"#\">Ir a mi perfil</a></li>");
+            out.println("    </ul>");
+            out.println("   </div>");
+            out.println("   <div class=\"pBase\">");
+            out.println("    <div class=\"pModulos\">");
+            out.println("    <div class=\"foto2\"><img src=\"forms_files/user.jpg\" alt=\"\"/></div>");
+            out.println("    <div class=\"usuario2\">");
+            out.println("     <p class=\"pName\">Rosy Hernández Flores</p>");
+            out.println("     <p clas=\"pOcupacion\">Modelado de Portales</p>");
+            out.println("     <p>Consultor de portales Web</p>");
+            out.println("    </div>");
+            out.println("    <a href=\"#\" class=\"pCM\">Conoce m&aacute;s de Rosy</a>");
+            out.println("   </div>");
+            out.println("   <div class=\"pModulos\">");
+            out.println("    <div class=\"pColumnsx\">");
+            out.println("     <p class=\"pOcupacion\">Contacto Interno</p>");
+            out.println("     <p>&nbsp;</p>");
+            out.println("     <p>Ext. 4333</p>");
+            out.println("     <p>e-mail: <a href=\"#\">asjkfhjah@hdakjh.com</a></p>");
+            out.println("     <p>&nbsp;</p>");
+            out.println("     <p><abbr title=\"Avenida\">Av.</abbr> San Fernando 37, <abbr title=\"Colonia\">Col.</abbr> Toriello Guerra, Tlalpan, <abbr title=\"C&oacute;digo Postal\">C.P.</abbr> 14050, M&eacute;xico <abbr title=\"Distrito Federal\">D.F.</abbr></p>");
+            out.println("    </div>");
+            out.println("    <div class=\"pColumnsx\">");
+            out.println("     <p class=\"pOcupacion\">Colaboradores Asociados</p>");
+            out.println("     <p>&nbsp;</p>");
+            out.println("     <p>Fernando L&oacute;pez</p>");
+            out.println("     <p>Carlos Espinoza</p>");
+            out.println("     <p>Edgar Aguilar</p>");
+            out.println("     <p>Eva Pedroza</p>");
+            out.println("     <p>Manuel Menchca</p>");
+            out.println("     <p>&nbsp;</p>");
+            out.println("     <p><a href=\"#\">Ver todos</a></p>");
+            out.println("    </div>");
+            out.println("   </div>");
+            out.println("   <div class=\"pModulos\">");
+            out.println("    <div class=\"pColumnsx\">");
+            out.println("     <p class=\"pOcupacion\">Experiencia en infotec</p>");
+            out.println("     <p>&nbsp;</p>");
+            out.println("     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at   libero a elit sollicitudin sollicitudin. Aenean sem felis, mattis quis   elementum lacinia, consectetur ac lacus. Vestibulum facilisis tortor   quis mi facilisis tempus. Donec laoreet enim in justo lacinia   consectetur.</p>");
+            out.println("     <p>&nbsp;</p>");
+            out.println("     <p class=\"pSubP\"><span class=\"pOcupacion\">Ha participado en</span></p>");
+            out.println("     <p>&nbsp;</p>");
+            out.println("     <p>Vivamus tempor tortor</p>");
+            out.println("     <p>Vel libero varius viverra</p>");
+            out.println("     <p>Maecenas   ullamcorper</p>");
+            out.println("     <p> Ligula vel interdum ultricies</p>");
+            out.println("     <p>&nbsp;</p>");
+            out.println("     <p><a href=\"#\">Seguir leyendo</a></p>");
+            out.println("    </div>");
+            out.println("    <div class=\"pColumnsx\">");
+            out.println("     <p class=\"pOcupacion\">Habilidades</p>");
+            out.println("     <p>&nbsp;</p>");
+            out.println("     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at   libero a elit sollicitudin sollicitudin. Aenean sem felis, mattis quis   elementum lacinia, consectetur ac lacus. Vestibulum facilisis tortor   quis mi facilisis tempus. Donec laoreet enim in justo lacinia   consectetur.</p>");
+            out.println("     <p>&nbsp;</p>");
+            out.println("     <p><span class=\"pOcupacion\">Conocimientos</span></p>");
+            out.println("     <p>&nbsp;</p>");
+            out.println("     <p>Vivamus tempor tortor</p>");
+            out.println("     <p>Vel libero varius viverra</p>");
+            out.println("     <p>Maecenas   ullamcorper</p>");
+            out.println("     <p>Ligula vel interdum ultricies</p>");
+            out.println("     <p>&nbsp;</p>");
+            out.println("     <p><a href=\"#\">Seguir leyendo</a></p>");
+            out.println("    </div>");
+            out.println("   </div>");
+            out.println("   <br class=\"clear\" />");
+            out.println("  </div>");
+            out.println(" </div>");
+            out.println("</div>");
+            
+            /*if(user.isSigned()) {
                 WebSite wsite = base.getWebSite();
                 SWProfile profile = SWProfile.ClassMgr.getSWProfile(user.getId(), wsite);
                 
@@ -143,8 +219,8 @@ public class SWProfileManager extends GenericAdmResource {
                     session.removeAttribute(Send);
                     if(Send_EDIT.equals(send)) {
                         doEdit(request, response, paramRequest);
-                    }else if(Send_CHGPHTO.equals(send)) {
-                        doChgPhto(request, response, paramRequest);
+                    }else if(Mode_CHGPHTO.equals(send)) {
+                        doChangePhoto(request, response, paramRequest);
                     }else {
                         //out.println("vista del perfil de "+user.getFullName());
                         try {
@@ -180,95 +256,106 @@ public class SWProfileManager extends GenericAdmResource {
                         }
 //                    } 
                 }
-            }
+            }*/
         }
     }
 
     @Override
     public void doEdit(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setContentType("text/html; charset=UTF-8");
+        
+        User user = paramRequest.getUser();
+        if(!user.isSigned())
+            return;
+        
         Resource base = getResourceBase();
         WebSite wsite = base.getWebSite();
-        User user = paramRequest.getUser();
-        
         PrintWriter out =  response.getWriter();
         
 //        SemanticProperty sp = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#miPerfilSL");
 //        SWProfile profile = (SWProfile)user.getExtendedAttribute(sp);
         SWProfile profile = SWProfile.ClassMgr.getSWProfile(user.getId(), wsite);
-        if( user.isSigned() && user.equals(profile.getCreator()) ) {
+        if(user.equals(profile.getCreator())) {
             final String lang = user.getLanguage();
             final String axn = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_EDIT).toString();
             StringBuilder htm = new StringBuilder();
             htm.append(script());
             htm.append("<form id=\"profile/user\" method=\"post\" action=\""+axn+"\">");
             htm.append("<div id=\"perfil_usuario\">");
-            htm.append("    <div id=\"formPerfil\">");
+            htm.append(" <div id=\"formPerfil\">");
             
             //datos empleado
-            htm.append("        <div class=\"perfil divisor\">");
-            htm.append("            <h3>Mi perfil</h3>");
+            htm.append("  <div class=\"perfil divisor\">");
+            htm.append("   <h3>Mi perfil</h3>");
+
             final String pimg;
             if(user.getPhoto()==null)
                 pimg = SWBPortal.getWebWorkPath()+"/models/"+wsite.getId()+"/css/user.jpg";
             else
                 pimg = SWBPortal.getWebWorkPath()+profile.getWorkPath()+"/"+user.getPhoto();
-            final String urlChgPhto = paramRequest.getActionUrl().setAction(Send_CHGPHTO).toString();
-            htm.append("            <div class=\"foto\"><img src=\""+pimg+"\" alt=\""+user.getFullName()+"\" /><a href=\""+urlChgPhto+"\">Cambiar foto</a></div>");
-            htm.append("            <div class=\"user\">");
-            htm.append("                <p class=\"name\">"+user.getFullName()+"</p>");
-            htm.append("                <p><a href=\"javascript:expande('acercade_mi')\">M&aacute;s acerca de m&iacute;</a></p>");
-            htm.append("            </div>");
-            htm.append("            <div class=\"datos\">");
+
+            htm.append("   <div class=\"foto\"><img src=\""+pimg+"\" alt=\""+user.getFullName()+"\" /><a href=\""+paramRequest.getRenderUrl().setMode(Mode_CHGPHTO)+"\">Cambiar foto</a></div>");
+            htm.append("   <div class=\"user\">");
+            htm.append("    <p class=\"name\">"+user.getFullName()+"</p>");
+            htm.append("    <p><a href=\"javascript:expande('acercade_mi')\">M&aacute;s acerca de m&iacute;</a></p>");
+            htm.append("   </div>");
+            htm.append("   <div class=\"datos\">");
             
-            htm.append("              <div id=\"acercade_mi\">");
-            htm.append("                <div class=\"text_editor\">");
-            htm.append("                  <h3>Mi personalidad</h3>");
-            htm.append("                  <textarea name=\"prsnld\" id=\"prsnld\" rows=\"2\" cols=\"70\"></textarea>");
-            htm.append("                </div>");
-            htm.append("                <div class=\"text_editor\">");
-            htm.append("                  <h3>Mis gustos e intereses</h3>");
-            htm.append("                  <textarea name=\"gsts\" id=\"gsts\" rows=\"2\" cols=\"70\"></textarea>");
-            htm.append("                </div>");
-            htm.append("                <a href=\"javascript:collapse('acercade_mi')\">Cerrar</a>");
-            htm.append("              </div>");
+            htm.append("    <div id=\"acercade_mi\">");
+            htm.append("     <div class=\"text_editor\">");
+            htm.append("      <h3>Mi personalidad</h3>");
+            htm.append("      <textarea name=\"prsnld\" id=\"prsnld\" rows=\"2\" cols=\"70\">");
+            htm.append(profile.getMiPersonalidad()==null?"":profile.getMiPersonalidad());
+            htm.append("      </textarea>");
+            htm.append("     </div>");
+            htm.append("     <div class=\"text_editor\">");
+            htm.append("      <h3>Mis gustos e intereses</h3>");
+            htm.append("      <textarea name=\"gsts\" id=\"gsts\" rows=\"2\" cols=\"70\">");
+            htm.append(profile.getMisGustos()==null?"":profile.getMisGustos());
+            htm.append("      </textarea>");
+            htm.append("     </div>");
+            htm.append("     <a href=\"javascript:collapse('acercade_mi')\">Cerrar</a>");
+            htm.append("    </div>");
             
-            htm.append("              <p class=\"tercio\"><label>Direcci&oacute;n de adscripci&oacute;n</label><select name=\"da\">");
-            htm.append("                <option>Competitividad</option>");
-            htm.append("              </select></p>");
-            htm.append("              <p class=\"tercio\"><label>Gerencia</label><select name=\"mngt\">");
-            htm.append("                <option>Modelado de portales</option>");
-            htm.append("              </select></p>");
-            htm.append("              <p class=\"tercio\"><label>Cargo o nombre del puesto designado</label><select name=\"pto\">");
-            htm.append("                <option>Consultor en portales</option>");
-            htm.append("              </select></p>");
-            htm.append("              <p class=\"status entero\"><label>&iquest;Qu&eacute; haces o piensas?</label>");
-            htm.append("              <textarea name=\"ideas\" id=\"ideas\" rows=\"2\" cols=\"70\">");
+            htm.append("    <p class=\"tercio\"><label>Direcci&oacute;n de adscripci&oacute;n</label>");
+            htm.append("     <select name=\"da\">");
+            htm.append("      <option>Competitividad</option>");
+            htm.append("     </select></p>");
+            htm.append("    <p class=\"tercio\"><label>Gerencia</label>");
+            htm.append("     <select name=\"mngt\">");
+            htm.append("      <option>Modelado de portales</option>");
+            htm.append("     </select></p>");
+            htm.append("    <p class=\"tercio\"><label>Cargo o nombre del puesto designado</label>");
+            htm.append("     <select name=\"pto\">");
+            htm.append("      <option>Consultor en portales</option>");
+            htm.append("     </select></p>");
+            htm.append("    <p class=\"status entero\"><label>&iquest;Qu&eacute; haces o piensas?</label><br/>");
+            htm.append("     <textarea name=\"ideas\" id=\"ideas\" rows=\"2\" cols=\"70\">");
             //SemanticProperty ideas = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#ideas");
             //htm.append(user.getExtendedAttribute(ideas)==null?"":user.getExtendedAttribute(ideas));
-            htm.append(               profile.getMisIdeas()==null?"":profile.getMisIdeas());
-            htm.append("              </textarea></p>");
-            htm.append("            </div>");
-            htm.append("            <div class=\"clearer\">&nbsp;</div>");
-            htm.append("        </div>");
+            htm.append(profile.getMisIdeas()==null?"":profile.getMisIdeas());
+            htm.append("     </textarea></p>");
+            htm.append("    </div>");
+            htm.append("    <div class=\"clearer\">&nbsp;</div>");
+            htm.append("   </div>");
             /////////////////////htm.append("    </div>");
             /////////////////////htm.append("</div>"); 
             //contacto interno
-            htm.append("        <div class=\"contacto_interno divisor\">");
-            htm.append("            <h3>Contacto interno</h3>");
+            htm.append("   <div class=\"contacto_interno divisor\">");
+            htm.append("    <h3>Contacto interno</h3>");
             SemanticProperty ext = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#extension");
-            htm.append("            <p class=\"medio\"><label>Extensi&oacute;n</label>");
-            htm.append("                <input type=\"text\" name=\"ext\" id=\"ext\" value=\""+(user.getExtendedAttribute(ext)==null?"":user.getExtendedAttribute(ext))+"\"/></p>");
-            htm.append("            <p class\"medio\"><label>Extensi&oacute;n de tu Direcci&oacute;n Adjunta</label>");
-            htm.append("                <input type=\"text\" name=\"extd\"  value=\"\"/></p>");
-            htm.append("            <p class=\"entero\"><label>Correo electr&oacute;nico institucional</label>");
-            htm.append("                <input type=\"text\" name=\"emaili\" id=\"emaili\" value=\""+user.getEmail()+"\"/></p>");
-            htm.append("            <p class=\"entero\"><label>Ubicaci&oacute;n f&iacute;sica de tu lugar u oficina</label><br />");
-            htm.append("                <textarea id=\"loc\" name=\"loc\" rows=\"2\" cols=\"70\">");
-            htm.append(                 profile.getUbicacion()==null?"":profile.getUbicacion());
-            htm.append("                </textarea></p>");
-            htm.append("            <div class=\"clearer\">&nbsp;</div>");
-            htm.append("        </div>");   
+            htm.append("    <p class=\"medio\"><label>Extensi&oacute;n</label>");
+            htm.append("     <input type=\"text\" name=\"ext\" id=\"ext\" value=\""+(user.getExtendedAttribute(ext)==null?"":user.getExtendedAttribute(ext))+"\"/></p>");
+            htm.append("    <p class\"medio\"><label>Extensi&oacute;n de tu Direcci&oacute;n Adjunta</label>");
+            htm.append("     <input type=\"text\" name=\"extd\"  value=\"\"/></p>");
+            htm.append("    <p class=\"entero\"><label>Correo electr&oacute;nico institucional</label>");
+            htm.append("     <input type=\"text\" name=\"emaili\" id=\"emaili\" value=\""+user.getEmail()+"\"/></p>");
+            htm.append("    <p class=\"entero\"><label>Ubicaci&oacute;n f&iacute;sica de tu lugar u oficina</label><br/>");
+            htm.append("     <textarea id=\"loc\" name=\"loc\" rows=\"2\" cols=\"70\">");
+            htm.append(profile.getUbicacion()==null?"":profile.getUbicacion());
+            htm.append("     </textarea></p>");
+            htm.append("    <div class=\"clearer\">&nbsp;</div>");
+            htm.append("  </div>");   
             //contacto externo
             CV cv = CV.ClassMgr.getCV(user.getId(), wsite);
             if(cv==null) {
@@ -287,17 +374,17 @@ public class SWProfileManager extends GenericAdmResource {
                 persona.setDomicilio(d);
                 log.info("Creado y asignado objeto Domicilio para usuario "+user.getFullName()+" con id="+user.getId());
             }
-            htm.append("        <div class=\"contacto_externo divisor\">");
-            htm.append("            <h3>Contacto externo</h3>");
-            htm.append("            <p>Esta informaci&oacute;n es para uso exclusivo de la instituci&oacute;n, no aparecer&aacute; en tu perfil</p>");
-            htm.append("            <p class=\"tercio\"><label for=\"cn\">Calle y n&uacute;mero</label><input type=\"text\" name=\"cn\" id=\"cn\" value=\""+(d.getCalle()==null?"":d.getCalle())+"\" /></p>");
-            htm.append("            <p class=\"tercio\"><label for=\"col\">Colonia</label><input type=\"text\" name=\"col\" id=\"col\" value=\""+(d.getColonia()==null?"":d.getColonia())+"\" /></p>");
-            htm.append("            <p class=\"tercio\"><label for=\"cd\">Ciudad/Poblaci&oacute;n</label><input type=\"text\" name=\"cd\" id=\"cd\" value=\""+(d.getCiudad()==null?"":d.getCiudad())+"\" /></p>");
-            htm.append("            <p class=\"tercio\"><label for=\"mun\">Municipio/Delegaci&oacute;n</label><input type=\"text\" name=\"mun\" id=\"mun\" value=\""+(d.getMunicipio()==null?"":d.getMunicipio())+"\" /></p>");
-            htm.append("            <p class=\"tercio\"><label for=\"edo\">Estado</label><input type=\"text\" name=\"edo\" id=\"edo\" value=\""+(d.getEntidad()==null?"":d.getEntidad())+"\" /></p>");
-            htm.append("            <p class=\"tercio\"><label for=\"cp\">C&oacute;digo postal</label><input type=\"text\" name=\"cp\" id=\"cp\" value=\""+(d.getCp()==null?"":d.getCp())+"\" /></p>");
-            htm.append("            <p class=\"medio\"><label for=\"ctry\">Pa&iacute;s</label>");
-            htm.append("            <select name=\"ctry\" id=\"ctry\">");
+            htm.append("  <div class=\"contacto_externo divisor\">");
+            htm.append("   <h3>Contacto externo</h3>");
+            htm.append("   <p>Esta informaci&oacute;n es para uso exclusivo de la instituci&oacute;n, no aparecer&aacute; en tu perfil</p>");
+            htm.append("   <p class=\"tercio\"><label for=\"cn\">Calle y n&uacute;mero</label><input type=\"text\" name=\"cn\" id=\"cn\" value=\""+(d.getCalle()==null?"":d.getCalle())+"\" /></p>");
+            htm.append("   <p class=\"tercio\"><label for=\"col\">Colonia</label><input type=\"text\" name=\"col\" id=\"col\" value=\""+(d.getColonia()==null?"":d.getColonia())+"\" /></p>");
+            htm.append("   <p class=\"tercio\"><label for=\"cd\">Ciudad/Poblaci&oacute;n</label><input type=\"text\" name=\"cd\" id=\"cd\" value=\""+(d.getCiudad()==null?"":d.getCiudad())+"\" /></p>");
+            htm.append("   <p class=\"tercio\"><label for=\"mun\">Municipio/Delegaci&oacute;n</label><input type=\"text\" name=\"mun\" id=\"mun\" value=\""+(d.getMunicipio()==null?"":d.getMunicipio())+"\" /></p>");
+            htm.append("   <p class=\"tercio\"><label for=\"edo\">Estado</label><input type=\"text\" name=\"edo\" id=\"edo\" value=\""+(d.getEntidad()==null?"":d.getEntidad())+"\" /></p>");
+            htm.append("   <p class=\"tercio\"><label for=\"cp\">C&oacute;digo postal</label><input type=\"text\" name=\"cp\" id=\"cp\" value=\""+(d.getCp()==null?"":d.getCp())+"\" /></p>");
+            htm.append("   <p class=\"medio\"><label for=\"ctry\">Pa&iacute;s</label>");
+            htm.append("   <select name=\"ctry\" id=\"ctry\">");
             Iterator<Country> countries = Country.ClassMgr.listCountries(wsite);
             if(countries.hasNext()) {
                 Country c;
@@ -309,15 +396,15 @@ public class SWProfileManager extends GenericAdmResource {
                         htm.append("<option value=\""+c.getId()+"\">"+c.getDisplayTitle(lang)+"</option>");
                 }
             }
-            htm.append("            </select></p>");
-            htm.append("            <div class=\"clearer\">&nbsp;</div>");
-            htm.append("        </div>");
+            htm.append("   </select></p>");
+            htm.append("   <div class=\"clearer\">&nbsp;</div>");
+            htm.append("  </div>");
             //datos familiares
-            htm.append("        <div class=\"contacto_externo divisor\">");
-            htm.append("            <h3>Datos familiares</h3>");
+            htm.append("  <div class=\"contacto_externo divisor\">");
+            htm.append("   <h3>Datos familiares</h3>");
             //htm.append("        <p>Esta informaci&oacute;n es para uso exclusivo de la instituci&oacute;n, no aparecer&aacute; en tu perfil</p>");
             Iterator<Familia> familiares = persona.listFamilias();
-            htm.append("            <ol id=\"fms\">");
+            htm.append("   <ol id=\"fms\">");
             if(familiares.hasNext()) {
                 SWBResourceURL rem = paramRequest.getActionUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setAction(SWBResourceURL.Action_REMOVE);
                 Familia f;
@@ -325,26 +412,29 @@ public class SWProfileManager extends GenericAdmResource {
                     f = familiares.next();
                     rem.setParameter("fid", f.getId());
                     htm.append("<li class=\"aaaa\">");
-                    htm.append("  <p class=\"entero\">Nombre completo <br /><input type=\"text\" name=\"ncf\" value=\""+f.getNombre()+"\" /></p>");
-                    htm.append("  <p class=\"tercio\">Parentesco <br /><input type=\"text\" name=\"p\" value=\""+f.getParentesco()+"\" /></p>");
-                    htm.append("  <p class=\"tercio\">Direcci&oacute;n <br /><input type=\"text\" name=\"df\" value=\""+f.getDireccion()+"\" /></p>");
-                    htm.append("  <p class=\"tercio\">Tel&eacute;fono <br /><input type=\"text\" name=\"tf\" value=\""+f.getTelefono()+"\" /></p>");
+                    htm.append("  <p class=\"entero\"><label>Nombre completo</label><br/><input type=\"text\" name=\"ncf\" value=\""+f.getNombre()+"\" /></p>");
+                    htm.append("  <p class=\"tercio\"><label>Parentesco</label><br/><input type=\"text\" name=\"p\" value=\""+f.getParentesco()+"\" /></p>");
+                    htm.append("  <p class=\"tercio\"><label>Direcci&oacute;n</label><br/><input type=\"text\" name=\"df\" value=\""+f.getDireccion()+"\" /></p>");
+                    htm.append("  <p class=\"tercio\"><label>Tel&eacute;fono</label><br/><label>Clave</label>:<input type=\"text\" name=\"cve\" value=\""+f.getTelefono().getLada()+"\" />&nbsp;<label>Tel&eacute;fono</label>:<input type=\"text\" name=\"tf\" value=\""+f.getTelefono().getNumero()+"\" /></p>");
                     htm.append("  <p><input type=\"button\" onclick=\"postHtml('"+rem+"','fms')\" value=\"Eliminar\" /></p>");
                     htm.append("  <br clear=\"all\" />");
                     htm.append("</li>");
                 }
             }else {
                 htm.append("<li class=\"aaaa\">");
-                htm.append("  <p class=\"entero\">Nombre completo <br /><input type=\"text\" name=\"ncf\" value=\"\" /></p>");
-                htm.append("  <p class=\"tercio\">Parentesco <br /><input type=\"text\" name=\"p\" value=\"\" /></p>");
-                htm.append("  <p class=\"tercio\">Direcci&oacute;n <br /><input type=\"text\" name=\"df\" value=\"\" /></p>");
-                htm.append("  <p class=\"tercio\">Tel&eacute;fono <br /><input type=\"text\" name=\"tf\" value=\"\" /></p>");
+                htm.append("  <p class=\"entero\"><label>Nombre completo</label><br/><input type=\"text\" name=\"ncf\" value=\"\" /></p>");
+                htm.append("  <p class=\"tercio\"><label>Parentesco</label><br/><input type=\"text\" name=\"p\" value=\"\" /></p>");
+                htm.append("  <p class=\"tercio\"><label>Direcci&oacute;n</label><br/><input type=\"text\" name=\"df\" value=\"\" /></p>");
+                htm.append("  <p class=\"tercio\"><label>Tel&eacute;fono</label><br/>");
+                htm.append("   <label>Clave</label>:<input type=\"text\" name=\"cve\" id=\"cve\" value=\"\" />");
+                htm.append("   <label>Tel&eacute;fono</label>:<input type=\"text\" name=\"tf\" id=\"tf\" value=\"\" />");
+                htm.append("  </p>");
                 htm.append("  <br clear=\"all\" />");
                 htm.append("</li>");
             }
-            htm.append("            </ol>");
-            htm.append("            <p><a href=\"javascript:appendChild('_"+base.getId()+"_'+(idx++),'fms')\">Agregar</a></p>");          
-            htm.append("        </div>");
+            htm.append("   </ol>");
+            htm.append("   <p><a href=\"javascript:appendChild('_"+base.getId()+"_'+(idx++),'fms')\">Agregar</a></p>");          
+            htm.append("  </div>");
             
 //            //experiencia laboral
 //            htm.append("    <div class=\"experiencia divisor\">");
@@ -396,9 +486,9 @@ public class SWProfileManager extends GenericAdmResource {
 //            htm.append("        <p><a href=\"#\">Agregar</a></p>");
 //            htm.append("    </div>");
             // temas de interes
-            htm.append("        <div class=\"de_interes divisor\">");
-            htm.append("            <h3>Temas de tu inter&eacute;s</h3>");
-            htm.append("            <p>El sistema te ofrecer&aacute; contenidos acordes con tus temas de inter&eacute;s</p>");
+            htm.append("  <div class=\"de_interes divisor\">");
+            htm.append("   <h3>Temas de tu inter&eacute;s</h3>");
+            htm.append("   <p>El sistema te ofrecer&aacute; contenidos acordes con tus temas de inter&eacute;s</p>");
             Iterator<TemaInteres> tis = TemaInteres.ClassMgr.listTemaIntereses(wsite);
             if(tis.hasNext()) {
                 htm.append("<ul>");
@@ -409,10 +499,10 @@ public class SWProfileManager extends GenericAdmResource {
                 }
                 htm.append("</ul>");
             }
-            htm.append("            <div class=\"clearer\">&nbsp;</div>");
-            htm.append("        </div>");
-            htm.append("        <div class=\"guardar\"><input type=\"submit\" value=\"Guardar\" /></div>");
-            htm.append("    </div>  ");
+            htm.append("   <div class=\"clearer\">&nbsp;</div>");
+            htm.append("  </div>");
+            htm.append("  <div class=\"guardar\"><input type=\"submit\" value=\"Guardar\" /></div>");
+            htm.append(" </div>  ");
             htm.append("</div>");
             htm.append("</form>");
             htm.append("\n<script type=\"text/javascript\">\n");
@@ -421,6 +511,8 @@ public class SWProfileManager extends GenericAdmResource {
             htm.append("-->\n");
             htm.append("</script>\n");            
             out.println(htm.toString());
+        }else {
+            out.println("usuario distinto al dueño del perfil");
         }
     }
 
@@ -442,14 +534,14 @@ public class SWProfileManager extends GenericAdmResource {
             final String url = SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+wsite.getId()+"/editar_datos"+"/_lang/"+user.getLanguage();
             request.getSession(true).setAttribute(Send, Send_EDIT);
             response.sendRedirect(url);
-        }else if(Send_CHGPHTO.equals(action)) {
+        }else if(this.Mode_CHGPHTO.equals(action)) {
             final String url = SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+wsite.getId()+"/editar_foto"+"/_lang/"+user.getLanguage();
-            request.getSession(true).setAttribute(Send, Send_CHGPHTO);
+            request.getSession(true).setAttribute(Send, Mode_CHGPHTO);
             response.sendRedirect(url);
         }else if(Send_REQ.equals(action)) {
             final String url = SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+wsite.getId()+"/solicitudes"+"/_lang/"+user.getLanguage();
             response.sendRedirect(url);
-        }else if(Send_FAV.equals(action)) {
+        }else if(Mode_FAV.equals(action)) {
             final String url = SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+wsite.getId()+"/favoritos"+"/_lang/"+user.getLanguage();
             response.sendRedirect(url);
         }
@@ -466,9 +558,9 @@ public class SWProfileManager extends GenericAdmResource {
                 if(isMultipart) {
                     try {
                         chgPhto(request, response);
-                        final String url = SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+wsite.getId()+"/editar_datos"+"/_lang/"+user.getLanguage();
+                        /*final String url = SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+wsite.getId()+"/editar_datos"+"/_lang/"+user.getLanguage();
                         request.getSession(true).setAttribute(Send, Send_EDIT);
-                        response.sendRedirect(url);
+                        response.sendRedirect(url);*/
                     }catch(Exception e) {
                         e.printStackTrace(System.out);
                     }
@@ -510,24 +602,27 @@ public class SWProfileManager extends GenericAdmResource {
                     String[] ncf = request.getParameterValues("ncf");
                     String[] p = request.getParameterValues("p");
                     String[] df = request.getParameterValues("df");
+                    String[] cve = request.getParameterValues("cve");
                     String[] tf = request.getParameterValues("tf");  
                     for(int i=0; i<ncf.length; i++) {
                         if(ncf[i].isEmpty() || p[i].isEmpty() || df[i].isEmpty() || tf[i].isEmpty())
                             continue;
                         Familia fam = Familia.ClassMgr.createFamilia(wsite);
-                        try{
+                        try {
                             fam.setNombre(SWBUtils.XML.replaceXMLChars(ncf[i]));
                         }catch(IndexOutOfBoundsException iobe){}
-                        try{
+                        try {
                             fam.setParentesco(SWBUtils.XML.replaceXMLChars(p[i]));
                         }catch(IndexOutOfBoundsException iobe){}
-                        try{
+                        try {
                             fam.setDireccion(SWBUtils.XML.replaceXMLChars(df[i]));
                         }catch(IndexOutOfBoundsException iobe){}
-                        try{
-                            SWBUtils.XML.replaceXMLChars(tf[i]);
-                            fam.setTelefono(null);
-                        }catch(IndexOutOfBoundsException iobe){}
+                        try {
+                            Telefono tel = Telefono.ClassMgr.createTelefono(wsite);
+                            tel.setLada(Integer.parseInt(SWBUtils.XML.replaceXMLChars(cve[i])));
+                            tel.setNumero(Integer.parseInt(SWBUtils.XML.replaceXMLChars(tf[i])));
+                            fam.setTelefono(tel);
+                        }catch(Exception iobe){}
                         persona.addFamilia(fam);
                     }
                     request.getSession(true).setAttribute(Send_EDIT, Send_EDIT);
@@ -588,7 +683,7 @@ public class SWProfileManager extends GenericAdmResource {
         out.println(htm.toString());
     }
     
-    public void doChgPhto(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+    public void doChangePhoto(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setContentType("text/html; charset=UTF-8");
         Resource base = getResourceBase();
         WebSite wsite = base.getWebSite();
@@ -655,12 +750,15 @@ public class SWProfileManager extends GenericAdmResource {
         js.append("    s = s.concat('<li class=\"aaaa\" id=\"');\n");
         js.append("    s = s.concat(childId);\n");
         js.append("    s = s.concat('\">');\n");
-        js.append("    s = s.concat('  <p class=\"entero\">Nombre completo <br /><input type=\"text\" name=\"ncf\" value=\"\" /></p>');\n");
-        js.append("    s = s.concat('  <p class=\"tercio\">Parentesco <br /><input type=\"text\" name=\"p\" value=\"\" /></p>');\n");
-        js.append("    s = s.concat('  <p class=\"tercio\">Direcci&oacute;n <br /><input type=\"text\" name=\"df\" value=\"\" /></p>');\n");
-        js.append("    s = s.concat('  <p class=\"tercio\">Tel&eacute;fono <br /><input type=\"text\" name=\"tf\" value=\"\" /></p>');\n");
-        js.append("    s = s.concat('  <p><input type=\"button\" onclick=\"dojo.destroy(\\''+childId+'\\')\" value=\"Eliminar\" /></p>');\n");
-        js.append("    s = s.concat('  <br clear=\"all\"/>');\n");
+        js.append("    s = s.concat('<p class=\"entero\"><label>Nombre completo</label><br/><input type=\"text\" name=\"ncf\" value=\"\" /></p>');\n");
+        js.append("    s = s.concat('<p class=\"tercio\"><label>Parentesco</label><br/><input type=\"text\" name=\"p\" value=\"\" /></p>');\n");
+        js.append("    s = s.concat('<p class=\"tercio\"><label>Direcci&oacute;n</label><br/><input type=\"text\" name=\"df\" value=\"\" /></p>');\n");
+        js.append("    s = s.concat('<p class=\"tercio\"><label>Tel&eacute;fono</label><br/>');\n");
+        js.append("    s = s.concat('<label>Clave</label>:<input type=\"text\" name=\"cve\" value=\"\" />&nbsp;');\n");
+        js.append("    s = s.concat('<label>N&uacute;mero</label>:<input type=\"text\" name=\"tf\" value=\"\" />');\n");
+        js.append("    s = s.concat('</p>');\n");
+        js.append("    s = s.concat('<p><input type=\"button\" onclick=\"dojo.destroy(\\''+childId+'\\')\" value=\"Eliminar\" /></p>');\n");
+        js.append("    s = s.concat('<br clear=\"all\"/>');\n");
         js.append("    s = s.concat('</li>');\n");
         js.append("    dojo.place(s, parentId, 'last');\n");
         js.append("  }\n");
