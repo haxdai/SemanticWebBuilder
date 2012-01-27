@@ -25,6 +25,7 @@ public class MenuCanal extends GenericResource{
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         String path = SWBPortal.getWebWorkPath() +"/models/"+paramRequest.getWebPage().getWebSiteId()+"/jsp/menuCanal.jsp" ;
+
         RequestDispatcher rd = request.getRequestDispatcher(path);
         try{
             request.setAttribute("paramRequest",paramRequest);

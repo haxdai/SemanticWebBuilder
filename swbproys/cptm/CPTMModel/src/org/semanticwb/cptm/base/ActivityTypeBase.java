@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que hereda de WebPage.Mediante esta se administra el catálogo de tipos de actividades (Ej. Aventura y Ecoturismo, Cultura) 
    */
-public abstract class ActivityTypeBase extends org.semanticwb.cptm.CPTMGeneralWebPage implements org.semanticwb.model.Filterable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Searchable,org.semanticwb.model.Expirable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.RuleRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Viewable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Trashable,org.semanticwb.model.Localeable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Countryable,org.semanticwb.cptm.CptmDescriptionPage,org.semanticwb.model.Referensable,org.semanticwb.model.Undeleteable,org.semanticwb.model.RoleRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.MetaTagable,org.semanticwb.model.Resourceable,org.semanticwb.model.Rankable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Indexable
+public abstract class ActivityTypeBase extends org.semanticwb.cptm.CPTMGeneralWebPage implements org.semanticwb.model.Rankable,org.semanticwb.model.Localeable,org.semanticwb.model.Trashable,org.semanticwb.model.Referensable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Searchable,org.semanticwb.model.Traceable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Viewable,org.semanticwb.model.FilterableNode,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.TemplateRefable,org.semanticwb.model.MetaTagable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Tagable,org.semanticwb.model.Resourceable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Indexable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Activeable,org.semanticwb.cptm.CptmDescriptionPage,org.semanticwb.model.Expirable,org.semanticwb.model.Countryable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RoleRefable
 {
    /**
    * Clase que hereda de WebPage.Mediante esta se administra el catálogo de tipos de actividades (Ej. Aventura y Ecoturismo, Cultura)
@@ -99,6 +99,29 @@ public abstract class ActivityTypeBase extends org.semanticwb.cptm.CPTMGeneralWe
         public static java.util.Iterator<org.semanticwb.cptm.ActivityType> listActivityTypeByModifiedBy(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.ActivityType> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.ActivityType with a determined ModelRelation
+       * @param value ModelRelation of the type org.semanticwb.cptm.ModelRelation
+       * @param model Model of the org.semanticwb.cptm.ActivityType
+       * @return Iterator with all the org.semanticwb.cptm.ActivityType
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.ActivityType> listActivityTypeByModelRelation(org.semanticwb.cptm.ModelRelation value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.ActivityType> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasModelRelation, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.ActivityType with a determined ModelRelation
+       * @param value ModelRelation of the type org.semanticwb.cptm.ModelRelation
+       * @return Iterator with all the org.semanticwb.cptm.ActivityType
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.ActivityType> listActivityTypeByModelRelation(org.semanticwb.cptm.ModelRelation value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.ActivityType> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasModelRelation,value.getSemanticObject(),sclass));
             return it;
         }
        /**

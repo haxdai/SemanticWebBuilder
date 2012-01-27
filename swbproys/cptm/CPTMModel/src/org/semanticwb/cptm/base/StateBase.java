@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que hereda de WebPage.Mediante esta se administra el catálogo de Estados de la República (Ej. Tamaulipas, Morelos) 
    */
-public abstract class StateBase extends org.semanticwb.cptm.CPTMGeneralWebPage implements org.semanticwb.model.Filterable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Searchable,org.semanticwb.model.Expirable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.RuleRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Viewable,org.semanticwb.model.Trashable,org.semanticwb.model.Localeable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Countryable,org.semanticwb.cptm.CptmDescriptionPage,org.semanticwb.model.Referensable,org.semanticwb.model.Undeleteable,org.semanticwb.model.RoleRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.MetaTagable,org.semanticwb.model.Resourceable,org.semanticwb.model.Rankable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Indexable
+public abstract class StateBase extends org.semanticwb.cptm.CPTMGeneralWebPage implements org.semanticwb.model.Rankable,org.semanticwb.model.Localeable,org.semanticwb.model.Trashable,org.semanticwb.model.Referensable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Searchable,org.semanticwb.model.Traceable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Viewable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.FilterableNode,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Hiddenable,org.semanticwb.model.MetaTagable,org.semanticwb.model.Tagable,org.semanticwb.model.Resourceable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Indexable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Activeable,org.semanticwb.cptm.CptmDescriptionPage,org.semanticwb.model.Expirable,org.semanticwb.model.Countryable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RoleRefable
 {
    /**
    * Notas Editoriales
@@ -114,6 +114,29 @@ public abstract class StateBase extends org.semanticwb.cptm.CPTMGeneralWebPage i
         public static java.util.Iterator<org.semanticwb.cptm.State> listStateByModifiedBy(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.cptm.State> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.State with a determined ModelRelation
+       * @param value ModelRelation of the type org.semanticwb.cptm.ModelRelation
+       * @param model Model of the org.semanticwb.cptm.State
+       * @return Iterator with all the org.semanticwb.cptm.State
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.State> listStateByModelRelation(org.semanticwb.cptm.ModelRelation value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.State> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(cptm_hasModelRelation, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.cptm.State with a determined ModelRelation
+       * @param value ModelRelation of the type org.semanticwb.cptm.ModelRelation
+       * @return Iterator with all the org.semanticwb.cptm.State
+       */
+
+        public static java.util.Iterator<org.semanticwb.cptm.State> listStateByModelRelation(org.semanticwb.cptm.ModelRelation value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.cptm.State> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(cptm_hasModelRelation,value.getSemanticObject(),sclass));
             return it;
         }
        /**
