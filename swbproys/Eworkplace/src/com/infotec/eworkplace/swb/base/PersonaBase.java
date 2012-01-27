@@ -15,6 +15,11 @@ public abstract class PersonaBase extends org.semanticwb.model.SWBClass
     public static final org.semanticwb.platform.SemanticProperty intranet_nacionalidad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nacionalidad");
     public static final org.semanticwb.platform.SemanticProperty intranet_msn=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#msn");
     public static final org.semanticwb.platform.SemanticProperty intranet_pEmail=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#pEmail");
+   /**
+   * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
+   */
+    public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
+    public static final org.semanticwb.platform.SemanticProperty intranet_owner=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#owner");
     public static final org.semanticwb.platform.SemanticProperty intranet_cedula=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#cedula");
     public static final org.semanticwb.platform.SemanticClass intranet_Telefono=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Telefono");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasTelefono=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasTelefono");
@@ -146,6 +151,29 @@ public abstract class PersonaBase extends org.semanticwb.model.SWBClass
         public static java.util.Iterator<com.infotec.eworkplace.swb.Persona> listPersonaByNacionalidad(org.semanticwb.model.Country value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Persona> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_nacionalidad,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.Persona with a determined Owner
+       * @param value Owner of the type org.semanticwb.model.User
+       * @param model Model of the com.infotec.eworkplace.swb.Persona
+       * @return Iterator with all the com.infotec.eworkplace.swb.Persona
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Persona> listPersonaByOwner(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Persona> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_owner, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.Persona with a determined Owner
+       * @param value Owner of the type org.semanticwb.model.User
+       * @return Iterator with all the com.infotec.eworkplace.swb.Persona
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Persona> listPersonaByOwner(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Persona> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_owner,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -392,6 +420,44 @@ public abstract class PersonaBase extends org.semanticwb.model.SWBClass
     public void setPEmail(String value)
     {
         getSemanticObject().setProperty(intranet_pEmail, value);
+    }
+   /**
+   * Sets the value for the property Owner
+   * @param value Owner to set
+   */
+
+    public void setOwner(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_owner, value.getSemanticObject());
+        }else
+        {
+            removeOwner();
+        }
+    }
+   /**
+   * Remove the value for Owner property
+   */
+
+    public void removeOwner()
+    {
+        getSemanticObject().removeProperty(intranet_owner);
+    }
+
+   /**
+   * Gets the Owner
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getOwner()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_owner);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
