@@ -1,7 +1,7 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class ExperienciaLaboralBase extends com.infotec.eworkplace.swb.ExperienciaProfesional implements com.infotec.eworkplace.swb.Telefoneable,org.semanticwb.model.Traceable
+public abstract class ExperienciaLaboralBase extends com.infotec.eworkplace.swb.ExperienciaProfesional implements org.semanticwb.model.Traceable,com.infotec.eworkplace.swb.Telefoneable
 {
     public static final org.semanticwb.platform.SemanticClass intranet_Sector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Sector");
     public static final org.semanticwb.platform.SemanticProperty intranet_sector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sector");
