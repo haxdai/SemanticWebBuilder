@@ -1,14 +1,10 @@
-package com.infotec.intranet.swb.resources;
+package com.infotec.cvi.swb.resources;
 
 import java.io.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Iterator;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import org.semanticwb.*;
 import org.semanticwb.model.*;
-import org.semanticwb.platform.SemanticProperty;
 import org.semanticwb.portal.api.*;
 import org.semanticwb.base.util.SFBase64;
 
@@ -23,14 +19,11 @@ public class UserRegister extends GenericAdmResource {
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
 //System.out.println("processRequest");
         if(paramRequest.getMode().equals(Mode_THANK))
-        {
             doThank(request,response,paramRequest);
-        }else if(paramRequest.getMode().equals(Mode_FINAL))
-        {
+        else if(paramRequest.getMode().equals(Mode_FINAL))
             doFinal(request,response,paramRequest);
-        }else{
+        else
             super.processRequest(request, response, paramRequest);
-        }
     }
 
     @Override
@@ -57,25 +50,26 @@ public class UserRegister extends GenericAdmResource {
                 String securCodeCreated = (String) request.getSession(true).getAttribute("cdlog");
 
                 StringBuilder msg = new StringBuilder();
-                if(securCodeCreated!=null && !securCodeCreated.equalsIgnoreCase(securCodeSent))
-                    msg.append(response.getLocaleString("msgErrSecureCodeRequired")+",");
+                if(securCodeCreated!=null && !securCodeCreated.equalsIgnoreCase(securCodeSent)) {
+                    msg.append(response.getLocaleString("msgErrSecureCodeRequired")).append(",");
+                }
                 if( request.getParameter("firstName")==null || "".equals(request.getParameter("firstName")) ) {
-                    msg.append(response.getLocaleString("msgErrFirstNameRequired")+",");
+                    msg.append(response.getLocaleString("msgErrFirstNameRequired")).append(",");
                 }
                 if( request.getParameter("lastName")==null || "".equals(request.getParameter("lastName")) ) {
-                    msg.append(response.getLocaleString("msgErrLastNameRequired")+",");
+                    msg.append(response.getLocaleString("msgErrLastNameRequired")).append(",");
                 }
                 if( !SWBUtils.EMAIL.isValidEmailAddress(email) ) {
-                    msg.append(response.getLocaleString("msgErrInvalidEmail")+",");
+                    msg.append(response.getLocaleString("msgErrInvalidEmail")).append(",");
                 }
-                if( pwd==null || cpwd==null || "".equals(pwd) || "".equals(cpwd) || (pwd!=null && !pwd.equals(cpwd)) ) {
-                    msg.append(response.getLocaleString("msgErrPasswordRequired")+",");
+                if( pwd==null || cpwd==null || pwd.isEmpty() || cpwd.isEmpty() || !pwd.equals(cpwd) ) {
+                    msg.append(response.getLocaleString("msgErrPasswordRequired")).append(",");
                 }
                 if(user.isSigned()) {
-                    msg.append(response.getLocaleString("msgErrUserAlreadySigned")+",");
+                    msg.append(response.getLocaleString("msgErrUserAlreadySigned")).append(",");
                 }
                 if(ur.getUserByLogin(email)!=null) {
-                    msg.append(response.getLocaleString("msgErrUserAlreadyExists")+",");
+                    msg.append(response.getLocaleString("msgErrUserAlreadyExists")).append(",");
                 }
     //System.out.println("msg:"+msg);
                 if( securCodeCreated!=null && securCodeCreated.equalsIgnoreCase(securCodeSent) && !user.isSigned() && ur.getUserByLogin(email)==null && msg.length()==0) {
@@ -118,8 +112,7 @@ public class UserRegister extends GenericAdmResource {
                     }
 
      */
-                    String servidor = request.getScheme() + "://" + request.getServerName()
-                    + ((request.getServerPort() != 80)? (":" + request.getServerPort()) : "");
+                    String servidor = request.getScheme() + "://" + request.getServerName() + ((request.getServerPort() != 80)? (":" + request.getServerPort()) : "");
                     SWBResourceURLImp urlAcc = new SWBResourceURLImp(request, base, wp, SWBResourceURL.UrlType_ACTION);
                     urlAcc.setAction(Action_ACTIVATE);
                     String strCode=SFBase64.encodeBytes(SWBUtils.CryptoWrapper.PBEAES128Cipher(PassPhrase,user.getId().getBytes()));
@@ -238,7 +231,7 @@ public class UserRegister extends GenericAdmResource {
 
         User user = paramRequest.getUser();
         //if(!user.isSigned()) {
-            RequestDispatcher dis = request.getRequestDispatcher("/work/models/"+model+"/jsp/UserRegister/newUser.jsp");
+            RequestDispatcher dis = request.getRequestDispatcher("/work/models/"+model+"/jsp/cvi/UserRegister/newUser.jsp");
             try {
                 request.setAttribute("paramRequest", paramRequest);
                 dis.include(request, response);
