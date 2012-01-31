@@ -65,18 +65,18 @@ public class WeatherVisit extends GenericAdmResource {
     private javax.xml.transform.Templates strategyTpl;
 
     /**
-     * Almacena el código HTML generado para cada destino posible, como contenido
+     * Almacena el código HTML generado (cache interno) para cada destino posible, como contenido
      */
     private String[] contentCode = new String[74];
 
     /**
-     * Almacena el código HTML generado para cada destino posible, como estrategia
+     * Almacena el código HTML generado (cache interno) para cada destino posible, como estrategia
      */
     private String[] strategyCode = new String[74];
 
     /**
      * Almacena la hora en que se gener&oacute; por &uacute;ltima vez el reporte
-     * del clima para cada destino
+     * del clima para cada destino y as&iacute; poder controlar el cache interno
      */
     private long[] generatedAt = new long[74];
 
@@ -89,7 +89,7 @@ public class WeatherVisit extends GenericAdmResource {
         try {
             super.setResourceBase(base);
         } catch (Exception e) {
-            log.error("Error while setting resource base: " + base.getId()
+            WeatherVisit.log.error("Error while setting resource base: " + base.getId()
                     + "-" + base.getTitle(), e);
         }
 
@@ -102,7 +102,7 @@ public class WeatherVisit extends GenericAdmResource {
 //                path = SWBPortal.getWebWorkPath() +  base.getWorkPath() + "/";
             } catch (Exception e) {
                 contentTmplt = null;
-                log.error("Error while loading resource's content template: "
+                WeatherVisit.log.error("Error while loading resource's content template: "
                         + base.getId(), e);
             }
         }
@@ -114,7 +114,7 @@ public class WeatherVisit extends GenericAdmResource {
                                 + base.getWebSite().getId()
                                 + "/xsl/WeatherVisitCntnt.xslt"));
             } catch (Exception e) {
-                log.error("Error while loading default resource's content template: "
+                WeatherVisit.log.error("Error while loading default resource's content template: "
                         + base.getId(), e);
             }
         }
@@ -128,7 +128,7 @@ public class WeatherVisit extends GenericAdmResource {
 //                path = SWBPortal.getWebWorkPath() +  base.getWorkPath() + "/";
             } catch (Exception e) {
                 strategyTpl = null;
-                log.error("Error while loading resource's strategy template: "
+                WeatherVisit.log.error("Error while loading resource's strategy template: "
                         + base.getId(), e);
             }
         }
@@ -140,7 +140,7 @@ public class WeatherVisit extends GenericAdmResource {
                                 + base.getWebSite().getId()
                                 + "/xsl/WeatherVisitStrat.xslt"));
             } catch (Exception e) {
-                log.error("Error while loading default resource's strategy template: "
+                WeatherVisit.log.error("Error while loading default resource's strategy template: "
                         + base.getId(), e);
             }
         }
@@ -158,6 +158,14 @@ public class WeatherVisit extends GenericAdmResource {
         }
     }
 
+    /**
+     * Genera y presenta el c&oacute;digo HTML del reporte del clima con la informaci&oacute;n
+     * facilitada por la URL especificada, para la vista como contenido.
+     * @param request la petici&oacute;n HTTP en atenci&oacute;n
+     * @param response la respuesta HTTP a devolver
+     * @param paramRequest los par&aacute;metros de la petici&oacute;n generados por SWB
+     * @throws SWBResourceException en caso de ocurrir alg&uacute;n problema en la ejecuci&on del recurso
+     */
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response,
             SWBParamRequest paramRequest) throws SWBResourceException {
@@ -178,6 +186,7 @@ public class WeatherVisit extends GenericAdmResource {
             destinationId = 53;
         }
 
+        //Se obtiene el valor de los minutos de duracion del cache configurados en la administracion del recurso
         if (base.getAttribute("cacheInMins") != null) {
             try {
                 if (base.getAttribute("cacheInMins") != null &&
@@ -191,13 +200,15 @@ public class WeatherVisit extends GenericAdmResource {
             }
         }
         
-        //tiempo en cache (milisegundos)
+        //tiempo en cache configurado (milisegundos)
         cacheInMiliSecs = minutes * 60000;
 
+        //Si el tiempo en cache no se ha sobrepasado se devuelve la cadena generada y almacenada previamente
         if (this.contentCode[destinationId - 1] != null &&
                 cacheInMiliSecs >= (requestTime - this.generatedAt[destinationId - 1])) {
             HTMLString = this.contentCode[destinationId - 1];
         } else {
+            //Si el tiempo en cache se ha sobrepasado, se genera de nuevo el código a mostrar.
             processHTMLCode(destinationId, request, paramRequest);
             if (this.contentCode[destinationId - 1] != null) {
                 this.generatedAt[destinationId - 1] = requestTime;
@@ -206,7 +217,8 @@ public class WeatherVisit extends GenericAdmResource {
                 HTMLString = "";
             }
         }
-        
+
+        //Se muestra la cadena del reporte del clima con algunos ajustes de acuerdo al idioma de la petici&oacute;n
         try {
             PrintWriter out = response.getWriter();
             out.println(HTMLString.replaceFirst("TituloParaI18N",
@@ -215,16 +227,24 @@ public class WeatherVisit extends GenericAdmResource {
                     ).replaceFirst("ManianaParaI18N",
                     paramRequest.getLocaleString("msgManiana")));
         } catch (IOException ioe) {
-            log.error("Al generar la vista de contenido del Clima", ioe);
+            WeatherVisit.log.error("Al generar la vista de contenido del Clima", ioe);
         }
 
     }
 
+    /**
+     * Genera y presenta el c&oacute;digo HTML del reporte del clima con la informaci&oacute;n
+     * facilitada por la URL especificada, para la vista como estrategia.
+     * @param request la petici&oacute;n HTTP en atenci&oacute;n
+     * @param response la respuesta HTTP a devolver
+     * @param paramRequest los par&aacute;metros de la petici&oacute;n generados por SWB
+     * @throws SWBResourceException en caso de ocurrir alg&uacute;n problema en la ejecuci&on del recurso
+     */
     private void doStrategyCall(HttpServletRequest request,
             HttpServletResponse response, SWBParamRequest paramRequest)
             throws SWBResourceException {
 
-        short destinationId = 53;
+        short destinationId = 53;  //por defecto (D.F.)
         String calculatedId = null;
         WebPage wp = paramRequest.getWebPage();
         String HTMLString = null;
@@ -267,6 +287,7 @@ public class WeatherVisit extends GenericAdmResource {
             }
         }
 
+        //Se obtiene el valor de los minutos de duracion del cache configurados en la administracion del recurso
         if (base.getAttribute("cacheInMins") != null) {
             try {
                 if (base.getAttribute("cacheInMins") != null &&
@@ -283,10 +304,12 @@ public class WeatherVisit extends GenericAdmResource {
         //tiempo en cache (milisegundos)
         cacheInMiliSecs = minutes * 60000;
 
+        //Si el tiempo en cache no se ha sobrepasado se devuelve la cadena generada y almacenada previamente
         if (this.strategyCode[destinationId - 1] != null &&
                 cacheInMiliSecs >= (requestTime - this.generatedAt[destinationId - 1])) {
             HTMLString = this.strategyCode[destinationId - 1];
         } else {
+            //Si el tiempo en cache se ha sobrepasado, se genera de nuevo el código a mostrar.
             processHTMLCode(destinationId, request, paramRequest);
             if (this.strategyCode[destinationId - 1] != null) {
                 HTMLString = this.strategyCode[destinationId - 1];
@@ -295,7 +318,7 @@ public class WeatherVisit extends GenericAdmResource {
             }
         }
 
-        
+        //Se muestra la cadena del reporte del clima con algunos ajustes de acuerdo al idioma de la petici&oacute;n
         try {
             PrintWriter out = response.getWriter();
             out.println(HTMLString.replaceFirst("TituloParaI18N",
@@ -304,7 +327,7 @@ public class WeatherVisit extends GenericAdmResource {
                     ).replaceFirst("ManianaParaI18N",
                     paramRequest.getLocaleString("msgManiana")));
         } catch (IOException ioe) {
-            this.log.error("Al generar la vista por estrategia del Clima", ioe);
+            WeatherVisit.log.error("Al generar la vista por estrategia del Clima", ioe);
         }
     }
 
@@ -314,6 +337,8 @@ public class WeatherVisit extends GenericAdmResource {
      * {@code contentCode} y en {@code strategyCode} los c&oacute;digos HTML correspondientes
      * y en {@code generatedAt} el momento en que se actualiza dicho c&oacute;digo.
      * @param destinationId identificador del destino
+     * @param request la petici&oacute;n HTTP en atenci&oacute;n
+     * @param paramRequest los par&aacute;metros de la petici&oacute;n generados por SWB
      */
     private void processHTMLCode(short destinationId, HttpServletRequest request,
             SWBParamRequest paramRequest) {
@@ -347,8 +372,8 @@ public class WeatherVisit extends GenericAdmResource {
             if (conex != null) {
                 Calendar cal = Calendar.getInstance();
                 cal.setTimeInMillis(System.currentTimeMillis());
-                int diaMes = cal.get(cal.DATE);
-                int mes = cal.get(cal.MONTH);
+                int diaMes = cal.get(Calendar.DATE);
+                int mes = cal.get(Calendar.MONTH);
                 String url = climaWP.getRealUrl(
                         paramRequest.getUser().getLanguage()) + "?idDest="
                         + destinationId;
@@ -363,6 +388,7 @@ public class WeatherVisit extends GenericAdmResource {
                     conex.setRequestProperty("host", hostCookie);
                 }
 
+                //Se prepara el an&aacute;lisis de la respuesta para obtener los datos del clima
                 DataInputStream datos = new DataInputStream(conex.getInputStream());
                 HtmlStreamTokenizer tok = new HtmlStreamTokenizer(
                                               new InputStreamReader(datos));
@@ -400,7 +426,7 @@ public class WeatherVisit extends GenericAdmResource {
                                      SWBPortal.getWebWorkPath()));
                 ele.appendChild(img_path);
 
-                //Se realiza el parseo del contenido de la petición
+                //Se realiza el parseo del contenido de la respuesta
                 while (tok.nextToken() != HtmlStreamTokenizer.TT_EOF) {
 
                     String clima_dia = null;
@@ -473,9 +499,8 @@ public class WeatherVisit extends GenericAdmResource {
                             }
                             optionTag = true;
                             entrar = true;
-                            //System.out.println("Encuentra option: " + prueba);
                         }
-                    //Si no es un tag, sino texto
+                    //Si no es un tag, sino texto, se obtienen los datos
                     } else if (ttype == HtmlStreamTokenizer.TT_TEXT && entrar) {
                         if (null == destino &&
                                 propiedad.equalsIgnoreCase("clima_ciudad")) {
@@ -502,13 +527,12 @@ public class WeatherVisit extends GenericAdmResource {
                             temps[cont] = clima_temps;
                         }
                         if (optionTag) {
-                            //arma el conjunto de valores para las opciones de destinos a consultar (select)
+                            //arma el conjunto de valores para las opciones de destinos a consultar (select - HTML)
                             optionTag = false;
                             if (tok.getStringValue() != null &&
                                     !"".equals(tok.getStringValue())) {
                                 selectOptions.append(tok.getStringValue());
                                 selectOptions.append("@");
-                                //System.out.println("Valor agregado a cadena:\n" + tok.getStringValue());
                             }
                         }
                         entrar = false;
@@ -550,7 +574,7 @@ public class WeatherVisit extends GenericAdmResource {
                     ele.appendChild(fechaEstrategia);
 
                 } catch (Exception edom) {
-                    log.error("Error al generar el DOM de WeatherVisit.processHTMLCode()", edom);
+                    WeatherVisit.log.error("Error al generar el DOM de WeatherVisit.processHTMLCode()", edom);
                 }
 
                 //Agrega en el DOM, los destinos (extraídos de la petición remota) posibles de consultar
@@ -559,7 +583,6 @@ public class WeatherVisit extends GenericAdmResource {
                     String[] options = selectOptions.toString().split("@");
                     Element destination = dom.createElement("destOptions");
                     for (int j = 0; j < options.length; j++) {
-                        //System.out.println("Elemento a generar: " + options[j]);
                         String[] values = options[j].split("-");
                         if (values != null && values.length == 2) {
                             Element option = dom.createElement("option");
@@ -576,31 +599,29 @@ public class WeatherVisit extends GenericAdmResource {
                             ele.appendChild(destination);
                         }
                     }
-                    //System.out.println("longitud de arreglo -options: " + options.length);
                     } catch (DOMException dome) {
-                        this.log.error("Al agregar destinos del combo.", dome);
+                        WeatherVisit.log.error("Al agregar destinos del combo.", dome);
                     }
                 }
-                //System.out.println("cadena generada:\n" + selectOptions +
-                //        "\nCon longitud de: " + selectOptions.length());
             }
 
         } catch (SocketTimeoutException stoe) {
             dom = null;
         } catch (Exception e) {
-            log.error("Error al obtener datos remotos, WeatherVisit.processHTMLCode()", e);
+            WeatherVisit.log.error("Error al obtener datos remotos, WeatherVisit.processHTMLCode()", e);
         }
 
+        //Se generan y almacenan las cadenas del código HTML para las vistas de contenido y estrategia
+        //con los datos remotos obtenidos, así como el momento en que se generan dichas cadenas, para control de cache
         if (null != dom) {
             try {
-//                System.out.println("\nDOM generado:\n" + SWBUtils.XML.domToXml(dom, true));
                 this.contentCode[destinationId - 1] = SWBUtils.XML.transformDom(
                         this.contentTmplt, dom);
                 this.strategyCode[destinationId - 1] = SWBUtils.XML.transformDom(
                         this.strategyTpl, dom);
                 this.generatedAt[destinationId - 1] = System.currentTimeMillis();
             } catch (Exception transexc) {
-                log.error("Error durante la transformación del XSL para WeatherVisit.processHTMLCode()", transexc);
+                WeatherVisit.log.error("Error durante la transformación del XSL para WeatherVisit.processHTMLCode()", transexc);
             }
         }
 
@@ -645,7 +666,7 @@ public class WeatherVisit extends GenericAdmResource {
                 }
             }
         } catch (Exception e) {
-            log.error("Error al obtener propiedad de archivo de i18n "
+            WeatherVisit.log.error("Error al obtener propiedad de archivo de i18n "
                     + "(WeatherVisit.properties). WeatherVisit.getMonthName()", e);
         }
         return m_name;
