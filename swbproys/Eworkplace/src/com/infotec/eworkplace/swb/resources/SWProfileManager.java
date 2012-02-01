@@ -48,6 +48,7 @@ public class SWProfileManager extends GenericAdmResource {
     private static final String Send_VIEW = "sview";
     private static final String Send_EDIT = "sedit";
     private static final String Mode_CHGPHTO = "foto";
+    private static final String Mode_VIEWPRFL = "prfl";
     private static final String Send_REQ = "req";
     private static final String Mode_FAV = "fav";
     
@@ -58,25 +59,32 @@ public class SWProfileManager extends GenericAdmResource {
         String mode = paramRequest.getMode();
         if("fam".equals(mode))
             doFam(request, response, paramRequest);
-        else if(this.Mode_CHGPHTO.equals(mode))
+        else if(Mode_CHGPHTO.equals(mode))
             doChangePhoto(request, response, paramRequest);
+        else if(Mode_VIEWPRFL.equals(mode))
+            doViewMyProfile(request, response, paramRequest);
         else
             super.processRequest(request, response, paramRequest);
     }
     
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+System.out.println("*************** doView");
         response.setContentType("text/html; charset=UTF-8");
-        Resource base = getResourceBase();
+        
         User user = paramRequest.getUser();
-        PrintWriter out =  response.getWriter();        
+        if(!user.isSigned())
+            return;
+        
+        Resource base = getResourceBase();
+        WebSite wsite = base.getWebSite();
+        PrintWriter out =  response.getWriter();
+
+System.out.println("paramRequest.getMode()="+paramRequest.getMode());
+System.out.println("paramRequest.getCallMethod()="+paramRequest.getCallMethod());
+System.out.println("paramRequest.getAction()="+paramRequest.getAction());
         
         if(paramRequest.getCallMethod()==paramRequest.Call_STRATEGY) {
-            if(user.isSigned()) {
-                WebSite wsite = base.getWebSite();
-                
-                
-                
 //                SemanticProperty sp = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#miPerfilSL");
 //                SWProfile profile = (SWProfile)user.getExtendedAttribute(sp);
 //                if(profile==null) {
@@ -87,128 +95,53 @@ public class SWProfileManager extends GenericAdmResource {
 //                        swbe.printStackTrace(System.out);
 //                    }
 //                }
-                SWProfile profile = SWProfile.ClassMgr.getSWProfile(user.getId(), wsite);
-                if(profile==null) {
-                    profile = SWProfile.ClassMgr.createSWProfile(user.getId(), wsite);
-                }
-                if( user.equals(profile.getCreator()) ) {
-                    final String urlLogout = SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+wsite.getId()+"/"+wsite.getHomePage().getId()+"/_lang/"+user.getLanguage();
-                    final String pimg;
-                    if(user.getPhoto()==null)
-                        pimg = SWBPortal.getWebWorkPath()+"/models/"+wsite.getId()+"/css/user.jpg";
-                    else
-                        pimg = SWBPortal.getWebWorkPath()+profile.getWorkPath()+"/"+user.getPhoto();
-                    
-                    String surl = paramRequest.getWebPage().getUrl();
-                    Iterator<Resourceable> res = base.listResourceables();
-                    while(res.hasNext()) {
-                        Resourceable re = res.next();
-                        if( re instanceof WebPage ) {
-                            surl = ((WebPage)re).getUrl();
-                            break;
-                        }
-                    }
-                    final String contentURL = surl;
+            SWProfile profile = SWProfile.ClassMgr.getSWProfile(user.getId(), wsite);
+            if(profile==null) {
+                profile = SWProfile.ClassMgr.createSWProfile(user.getId(), wsite);
+            }
+            if( user.equals(profile.getCreator()) ) {
+                final String urlLogout = SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+wsite.getId()+"/"+wsite.getHomePage().getId()+"/_lang/"+user.getLanguage();
+                final String pimg;
+                if(user.getPhoto()==null)
+                    pimg = SWBPortal.getWebWorkPath()+"/models/"+wsite.getId()+"/css/user.jpg";
+                else
+                    pimg = SWBPortal.getWebWorkPath()+profile.getWorkPath()+"/"+user.getPhoto();
 
-                    out.println("<li class=\"herr2\">");
-                    out.println("  <a class=\"MenuBarItemSubmenu\" href=\"{distpath}/{websiteid}/espacio_personal\" title=\"\">Entrar a mi espacio</a>");
-                    out.println("  <ul>");
-                    out.println("    <li>");
-                    out.println("      <div class=\"user\">");
-                    out.println("        <img src=\""+pimg+"\" alt=\""+user.getLogin()+"\" />");
-                    out.println("        <strong>"+user.getFullName()+"</strong>");
-                    out.println("      </div>");
-                    out.println("    </li>");
-                    out.println("    <li class=\"perfil\">");
-                    out.println("      <p><a href=\""+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_EDIT).setCallMethod(SWBResourceURL.Call_CONTENT) +"\" title=\"Editar mi perfil\">Editar mi perfil</a></p>");
-                    out.println("      <p><a href=\""+paramRequest.getActionUrl().setAction(Mode_FAV).toString()+"\" title=\"Editar mis favoritos\">Mis favoritos</a></p>");
-                    out.println("      <p><a href=\""+paramRequest.getActionUrl().setAction(Send_REQ).toString()+"\" title=\"\">Mis solicitudes</a></p>");
-                    out.println("      <p><a href=\""+paramRequest.getActionUrl().setAction(Send_VIEW).toString()+"\" title=\"\">Ver mi perfil</a></p>");
-                    out.println("      <p class=\"salir\"><a href=\""+SWBPlatform.getContextPath()+"/login?wb_logout=true&wb_goto="+urlLogout+"\" title=\"Salir\">Salir</a></p>");
-                    out.println("    </li>");
-                    out.println("    <li style=\"clear:both; height:1px;\"></li>");
-                    out.println("  </ul>");
-                    out.println("</li>");
-                }else {
-                    System.out.println("<p>Usuario no autorizado</p>");
-                    log.info("Acceso no autorizado");
+                String surl = paramRequest.getWebPage().getUrl();
+                Iterator<Resourceable> res = base.listResourceables();
+                while(res.hasNext()) {
+                    Resourceable re = res.next();
+                    if( re instanceof WebPage ) {
+                        surl = ((WebPage)re).getUrl();
+                        break;
+                    }
                 }
+                final String contentURL = surl;
+
+                out.println("<li class=\"herr2\">");
+                out.println("  <a class=\"MenuBarItemSubmenu\" href=\"{distpath}/{websiteid}/espacio_personal\" title=\"\">Entrar a mi espacio</a>");
+                out.println("  <ul>");
+                out.println("    <li>");
+                out.println("      <div class=\"user\">");
+                out.println("        <img src=\""+pimg+"\" alt=\""+user.getLogin()+"\" />");
+                out.println("        <strong>"+user.getFullName()+"</strong>");
+                out.println("      </div>");
+                out.println("    </li>");
+                out.println("    <li class=\"perfil\">");
+                out.println("      <p><a href=\""+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_EDIT)+"\" title=\"Editar mi perfil\">Editar mi perfil</a></p>");
+                out.println("      <p><a href=\""+paramRequest.getActionUrl().setAction(Mode_FAV).toString()+"\" title=\"Editar mis favoritos\">Mis favoritos</a></p>");
+                out.println("      <p><a href=\""+paramRequest.getActionUrl().setAction(Send_REQ).toString()+"\" title=\"\">Mis solicitudes</a></p>");
+                out.println("      <p><a href=\""+paramRequest.getActionUrl().setAction(Send_VIEW).toString()+"\" title=\"\">Ver mi perfil</a></p>");
+                out.println("      <p class=\"salir\"><a href=\""+SWBPlatform.getContextPath()+"/login?wb_logout=true&wb_goto="+urlLogout+"\" title=\"Salir\">Salir</a></p>");
+                out.println("    </li>");
+                out.println("    <li style=\"clear:both; height:1px;\"></li>");
+                out.println("  </ul>");
+                out.println("</li>");
+            }else {
+                System.out.println("<p>Usuario no autorizado</p>");
+                log.info("Acceso no autorizado");
             }
         }else {
-            out.println("<div id=\"cuerpo_texto\">");
-            out.println(" <div id=\"perfil_usuario\">");
-            out.println("  <div id=\"formPerfil\">");
-            out.println("   <div id=\"menu_perfil\">");
-            out.println("    <ul>");
-            out.println("     <li><a href=\"#\">Ir a mi perfil</a></li>");
-            out.println("    </ul>");
-            out.println("   </div>");
-            out.println("   <div class=\"pBase\">");
-            out.println("    <div class=\"pModulos\">");
-            out.println("    <div class=\"foto2\"><img src=\"forms_files/user.jpg\" alt=\"\"/></div>");
-            out.println("    <div class=\"usuario2\">");
-            out.println("     <p class=\"pName\">Rosy Hernández Flores</p>");
-            out.println("     <p clas=\"pOcupacion\">Modelado de Portales</p>");
-            out.println("     <p>Consultor de portales Web</p>");
-            out.println("    </div>");
-            out.println("    <a href=\"#\" class=\"pCM\">Conoce m&aacute;s de Rosy</a>");
-            out.println("   </div>");
-            out.println("   <div class=\"pModulos\">");
-            out.println("    <div class=\"pColumnsx\">");
-            out.println("     <p class=\"pOcupacion\">Contacto Interno</p>");
-            out.println("     <p>&nbsp;</p>");
-            out.println("     <p>Ext. 4333</p>");
-            out.println("     <p>e-mail: <a href=\"#\">asjkfhjah@hdakjh.com</a></p>");
-            out.println("     <p>&nbsp;</p>");
-            out.println("     <p><abbr title=\"Avenida\">Av.</abbr> San Fernando 37, <abbr title=\"Colonia\">Col.</abbr> Toriello Guerra, Tlalpan, <abbr title=\"C&oacute;digo Postal\">C.P.</abbr> 14050, M&eacute;xico <abbr title=\"Distrito Federal\">D.F.</abbr></p>");
-            out.println("    </div>");
-            out.println("    <div class=\"pColumnsx\">");
-            out.println("     <p class=\"pOcupacion\">Colaboradores Asociados</p>");
-            out.println("     <p>&nbsp;</p>");
-            out.println("     <p>Fernando L&oacute;pez</p>");
-            out.println("     <p>Carlos Espinoza</p>");
-            out.println("     <p>Edgar Aguilar</p>");
-            out.println("     <p>Eva Pedroza</p>");
-            out.println("     <p>Manuel Menchca</p>");
-            out.println("     <p>&nbsp;</p>");
-            out.println("     <p><a href=\"#\">Ver todos</a></p>");
-            out.println("    </div>");
-            out.println("   </div>");
-            out.println("   <div class=\"pModulos\">");
-            out.println("    <div class=\"pColumnsx\">");
-            out.println("     <p class=\"pOcupacion\">Experiencia en infotec</p>");
-            out.println("     <p>&nbsp;</p>");
-            out.println("     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at   libero a elit sollicitudin sollicitudin. Aenean sem felis, mattis quis   elementum lacinia, consectetur ac lacus. Vestibulum facilisis tortor   quis mi facilisis tempus. Donec laoreet enim in justo lacinia   consectetur.</p>");
-            out.println("     <p>&nbsp;</p>");
-            out.println("     <p class=\"pSubP\"><span class=\"pOcupacion\">Ha participado en</span></p>");
-            out.println("     <p>&nbsp;</p>");
-            out.println("     <p>Vivamus tempor tortor</p>");
-            out.println("     <p>Vel libero varius viverra</p>");
-            out.println("     <p>Maecenas   ullamcorper</p>");
-            out.println("     <p> Ligula vel interdum ultricies</p>");
-            out.println("     <p>&nbsp;</p>");
-            out.println("     <p><a href=\"#\">Seguir leyendo</a></p>");
-            out.println("    </div>");
-            out.println("    <div class=\"pColumnsx\">");
-            out.println("     <p class=\"pOcupacion\">Habilidades</p>");
-            out.println("     <p>&nbsp;</p>");
-            out.println("     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at   libero a elit sollicitudin sollicitudin. Aenean sem felis, mattis quis   elementum lacinia, consectetur ac lacus. Vestibulum facilisis tortor   quis mi facilisis tempus. Donec laoreet enim in justo lacinia   consectetur.</p>");
-            out.println("     <p>&nbsp;</p>");
-            out.println("     <p><span class=\"pOcupacion\">Conocimientos</span></p>");
-            out.println("     <p>&nbsp;</p>");
-            out.println("     <p>Vivamus tempor tortor</p>");
-            out.println("     <p>Vel libero varius viverra</p>");
-            out.println("     <p>Maecenas   ullamcorper</p>");
-            out.println("     <p>Ligula vel interdum ultricies</p>");
-            out.println("     <p>&nbsp;</p>");
-            out.println("     <p><a href=\"#\">Seguir leyendo</a></p>");
-            out.println("    </div>");
-            out.println("   </div>");
-            out.println("   <br class=\"clear\" />");
-            out.println("  </div>");
-            out.println(" </div>");
-            out.println("</div>");
-            
             /*if(user.isSigned()) {
                 WebSite wsite = base.getWebSite();
                 SWProfile profile = SWProfile.ClassMgr.getSWProfile(user.getId(), wsite);
@@ -259,6 +192,104 @@ public class SWProfileManager extends GenericAdmResource {
             }*/
         }
     }
+    
+    public void doViewMyProfile(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("text/html; charset=UTF-8");
+        
+        User user = paramRequest.getUser();
+        if(!user.isSigned())
+            return;
+        
+        Resource base = getResourceBase();
+        WebSite wsite = base.getWebSite();
+        PrintWriter out =  response.getWriter();
+        
+        SWProfile profile = SWProfile.ClassMgr.getSWProfile(user.getId(), wsite);
+        if(user.equals(profile.getCreator())) {
+            out.println("<div id=\"cuerpo_texto\">");
+            out.println(" <div id=\"perfil_usuario\">");
+            out.println("  <div id=\"formPerfil\">");
+            out.println("   <div id=\"menu_perfil\">");
+            out.println("    <ul>");
+            out.println("     <li><a href=\""+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_EDIT)+"\">Editar mi perfil</a></li>");
+            out.println("     <li><a href=\"#\">Mis favoritos</a></li>");
+            out.println("     <li><a href=\"#\">Mis solicitudes</a></li>");
+            out.println("     <li><a href=\"#\">Mi perfil</a></li>");
+            out.println("    </ul>");
+            out.println("   </div>");
+            out.println("   <div class=\"pBase\">");
+            out.println("    <div class=\"pModulos\">");
+            final String pimg;
+            if(user.getPhoto()==null)
+                pimg = SWBPortal.getWebWorkPath()+"/models/"+wsite.getId()+"/css/user.jpg";
+            else
+                pimg = SWBPortal.getWebWorkPath()+profile.getWorkPath()+"/"+user.getPhoto();
+            out.println("    <div class=\"foto2\"><img src=\""+pimg+"\" alt=\""+user.getFullName()+"\" /></div>");
+            out.println("    <div class=\"usuario2\">");
+            out.println("     <p class=\"pName\">"+user.getFullName()+"</p>");
+            out.println("     <p clas=\"pOcupacion\">"+profile.getPuesto()+"</p>");
+            out.println("     <p>"+(profile.getPuesto()==null?"":profile.getPuesto())+"</p>");
+            out.println("    </div>");
+            out.println("    <a href=\"#\" class=\"pCM\">Conoce m&aacute;s de Rosy</a>");
+            out.println("   </div>");
+            out.println("   <div class=\"pModulos\">");
+            out.println("    <div class=\"pColumnsx\">");
+            out.println("     <p class=\"pOcupacion\">Contacto Interno</p>");
+            out.println("     <p>&nbsp;</p>");
+            SemanticProperty ext = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#extension");
+            out.println("     <p>Ext. "+(user.getExtendedAttribute(ext)==null?"":user.getExtendedAttribute(ext))+"</p>");
+            out.println("     <p>e-mail: <a href=\"#\">"+user.getEmail()+"</a></p>");
+            out.println("     <p>&nbsp;</p>");
+            out.println("     <p>"+profile.getUbicacion()+"</p>");
+            out.println("    </div>");
+            out.println("    <div class=\"pColumnsx\">");
+            out.println("     <p class=\"pOcupacion\">Colaboradores Asociados</p>");
+            out.println("     <p>&nbsp;</p>");
+            out.println("     <p>Fernando L&oacute;pez</p>");
+            out.println("     <p>Carlos Espinoza</p>");
+            out.println("     <p>Edgar Aguilar</p>");
+            out.println("     <p>Eva Pedroza</p>");
+            out.println("     <p>Manuel Menchca</p>");
+            out.println("     <p>&nbsp;</p>");
+            out.println("     <p><a href=\"#\">Ver todos</a></p>");
+            out.println("    </div>");
+            out.println("   </div>");
+            out.println("   <div class=\"pModulos\">");
+            out.println("    <div class=\"pColumnsx\">");
+            out.println("     <p class=\"pOcupacion\">Experiencia en infotec</p>");
+            out.println("     <p>&nbsp;</p>");
+            out.println("     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at   libero a elit sollicitudin sollicitudin. Aenean sem felis, mattis quis   elementum lacinia, consectetur ac lacus. Vestibulum facilisis tortor   quis mi facilisis tempus. Donec laoreet enim in justo lacinia   consectetur.</p>");
+            out.println("     <p>&nbsp;</p>");
+            out.println("     <p class=\"pSubP\"><span class=\"pOcupacion\">Ha participado en</span></p>");
+            out.println("     <p>&nbsp;</p>");
+            out.println("     <p>Vivamus tempor tortor</p>");
+            out.println("     <p>Vel libero varius viverra</p>");
+            out.println("     <p>Maecenas   ullamcorper</p>");
+            out.println("     <p> Ligula vel interdum ultricies</p>");
+            out.println("     <p>&nbsp;</p>");
+            out.println("     <p><a href=\"#\">Seguir leyendo</a></p>");
+            out.println("    </div>");
+            out.println("    <div class=\"pColumnsx\">");
+            out.println("     <p class=\"pOcupacion\">Habilidades</p>");
+            out.println("     <p>&nbsp;</p>");
+            out.println("     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at   libero a elit sollicitudin sollicitudin. Aenean sem felis, mattis quis   elementum lacinia, consectetur ac lacus. Vestibulum facilisis tortor   quis mi facilisis tempus. Donec laoreet enim in justo lacinia   consectetur.</p>");
+            out.println("     <p>&nbsp;</p>");
+            out.println("     <p><span class=\"pOcupacion\">Conocimientos</span></p>");
+            out.println("     <p>&nbsp;</p>");
+            out.println("     <p>Vivamus tempor tortor</p>");
+            out.println("     <p>Vel libero varius viverra</p>");
+            out.println("     <p>Maecenas   ullamcorper</p>");
+            out.println("     <p>Ligula vel interdum ultricies</p>");
+            out.println("     <p>&nbsp;</p>");
+            out.println("     <p><a href=\"#\">Seguir leyendo</a></p>");
+            out.println("    </div>");
+            out.println("   </div>");
+            out.println("   <br class=\"clear\" />");
+            out.println("  </div>");
+            out.println(" </div>");
+            out.println("</div>");
+        }
+    }
 
     @Override
     public void doEdit(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
@@ -295,12 +326,12 @@ public class SWProfileManager extends GenericAdmResource {
                 pimg = SWBPortal.getWebWorkPath()+profile.getWorkPath()+"/"+user.getPhoto();
 
             htm.append("   <div class=\"foto\"><img src=\""+pimg+"\" alt=\""+user.getFullName()+"\" /><a href=\""+paramRequest.getRenderUrl().setMode(Mode_CHGPHTO)+"\">Cambiar foto</a></div>");
-            htm.append("   <div class=\"user\">");
+            htm.append("    <div class=\"user\">");
             htm.append("    <p class=\"name\">"+user.getFullName()+"</p>");
             htm.append("    <p><a href=\"javascript:expande('acercade_mi')\">M&aacute;s acerca de m&iacute;</a></p>");
             htm.append("   </div>");
-            htm.append("   <div class=\"datos\">");
             
+            htm.append("   <div class=\"datos\">");          
             htm.append("    <div id=\"acercade_mi\">");
             htm.append("     <div class=\"text_editor\">");
             htm.append("      <h3>Mi personalidad</h3>");
@@ -330,31 +361,31 @@ public class SWProfileManager extends GenericAdmResource {
             htm.append("      <option>Consultor en portales</option>");
             htm.append("     </select></p>");
             htm.append("    <p class=\"status entero\"><label>&iquest;Qu&eacute; haces o piensas?</label><br/>");
-            htm.append("     <textarea name=\"ideas\" id=\"ideas\" rows=\"2\" cols=\"70\">");
+            htm.append("    <textarea name=\"ideas\" id=\"ideas\" rows=\"2\" cols=\"70\">");
             //SemanticProperty ideas = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#ideas");
             //htm.append(user.getExtendedAttribute(ideas)==null?"":user.getExtendedAttribute(ideas));
             htm.append(profile.getMisIdeas()==null?"":profile.getMisIdeas());
-            htm.append("     </textarea></p>");
-            htm.append("    </div>");
-            htm.append("    <div class=\"clearer\">&nbsp;</div>");
+            htm.append("    </textarea></p>");
             htm.append("   </div>");
+            htm.append("   <div class=\"clearer\">&nbsp;</div>");
+            htm.append("  </div>");
             /////////////////////htm.append("    </div>");
             /////////////////////htm.append("</div>"); 
             //contacto interno
-            htm.append("   <div class=\"contacto_interno divisor\">");
-            htm.append("    <h3>Contacto interno</h3>");
+            htm.append("  <div class=\"contacto_interno divisor\">");
+            htm.append("   <h3>Contacto interno</h3>");
             SemanticProperty ext = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#extension");
-            htm.append("    <p class=\"medio\"><label>Extensi&oacute;n</label>");
-            htm.append("     <input type=\"text\" name=\"ext\" id=\"ext\" value=\""+(user.getExtendedAttribute(ext)==null?"":user.getExtendedAttribute(ext))+"\"/></p>");
-            htm.append("    <p class\"medio\"><label>Extensi&oacute;n de tu Direcci&oacute;n Adjunta</label>");
-            htm.append("     <input type=\"text\" name=\"extd\"  value=\"\"/></p>");
-            htm.append("    <p class=\"entero\"><label>Correo electr&oacute;nico institucional</label>");
-            htm.append("     <input type=\"text\" name=\"emaili\" id=\"emaili\" value=\""+user.getEmail()+"\"/></p>");
-            htm.append("    <p class=\"entero\"><label>Ubicaci&oacute;n f&iacute;sica de tu lugar u oficina</label><br/>");
-            htm.append("     <textarea id=\"loc\" name=\"loc\" rows=\"2\" cols=\"70\">");
+            htm.append("   <p class=\"medio\"><label>Extensi&oacute;n</label>");
+            htm.append("    <input type=\"text\" name=\"ext\" id=\"ext\" value=\""+(user.getExtendedAttribute(ext)==null?"":user.getExtendedAttribute(ext))+"\"/></p>");
+            htm.append("   <p class\"medio\"><label>Extensi&oacute;n de tu Direcci&oacute;n Adjunta</label>");
+            htm.append("    <input type=\"text\" name=\"extd\"  value=\"\"/></p>");
+            htm.append("   <p class=\"entero\"><label>Correo electr&oacute;nico institucional</label>");
+            htm.append("    <input type=\"text\" name=\"emaili\" id=\"emaili\" value=\""+user.getEmail()+"\"/></p>");
+            htm.append("   <p class=\"entero\"><label>Ubicaci&oacute;n f&iacute;sica de tu lugar u oficina</label><br/>");
+            htm.append("   <textarea id=\"loc\" name=\"loc\" rows=\"2\" cols=\"70\">");
             htm.append(profile.getUbicacion()==null?"":profile.getUbicacion());
-            htm.append("     </textarea></p>");
-            htm.append("    <div class=\"clearer\">&nbsp;</div>");
+            htm.append("   </textarea></p>");
+            htm.append("   <div class=\"clearer\">&nbsp;</div>");
             htm.append("  </div>");   
             //contacto externo
             CV cv = CV.ClassMgr.getCV(user.getId(), wsite);
@@ -415,7 +446,7 @@ public class SWProfileManager extends GenericAdmResource {
                     htm.append("  <p class=\"entero\"><label>Nombre completo</label><br/><input type=\"text\" name=\"ncf\" value=\""+f.getNombre()+"\" /></p>");
                     htm.append("  <p class=\"tercio\"><label>Parentesco</label><br/><input type=\"text\" name=\"p\" value=\""+f.getParentesco()+"\" /></p>");
                     htm.append("  <p class=\"tercio\"><label>Direcci&oacute;n</label><br/><input type=\"text\" name=\"df\" value=\""+f.getDireccion()+"\" /></p>");
-                    htm.append("  <p class=\"tercio\"><label>Tel&eacute;fono</label><br/><label>Clave</label>:<input type=\"text\" name=\"cve\" value=\""+f.getTelefono().getLada()+"\" />&nbsp;<label>Tel&eacute;fono</label>:<input type=\"text\" name=\"tf\" value=\""+f.getTelefono().getNumero()+"\" /></p>");
+//                    htm.append("  <p class=\"tercio\"><label>Tel&eacute;fono</label><br/><label>Clave</label>:<input type=\"text\" name=\"cve\" value=\""+f.getTelefono().getLada()+"\" />&nbsp;<label>Tel&eacute;fono</label>:<input type=\"text\" name=\"tf\" value=\""+f.getTelefono().getNumero()+"\" /></p>");
                     htm.append("  <p><input type=\"button\" onclick=\"postHtml('"+rem+"','fms')\" value=\"Eliminar\" /></p>");
                     htm.append("  <br clear=\"all\" />");
                     htm.append("</li>");
@@ -518,6 +549,7 @@ public class SWProfileManager extends GenericAdmResource {
 
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
+System.out.println("*************** processAction");
         final User user = response.getUser();
         
         if(!user.isSigned())
@@ -547,7 +579,7 @@ public class SWProfileManager extends GenericAdmResource {
         }
         
         else if(SWBResourceURL.Action_EDIT.equals(action)) {
-            response.setMode(SWBResourceURL.Mode_EDIT);
+            response.setMode(Mode_VIEWPRFL);
             SWProfile profile = SWProfile.ClassMgr.getSWProfile(user.getId(), wsite);
             if(user.equals(profile.getCreator())) {
 //            SemanticProperty sp = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#miPerfilSL");
@@ -570,13 +602,12 @@ public class SWProfileManager extends GenericAdmResource {
                     profile.setMisIdeas(SWBUtils.XML.replaceXMLChars(request.getParameter("ideas")));
                     SemanticProperty ext = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#extension");
                     try {
-                        user.setExtendedAttribute(ext, new Integer(request.getParameter("ext")));
-                    }catch(NumberFormatException nfe) {
-                        log.error(nfe);
-                    }catch(SWBException swbe) {
-                        swbe.printStackTrace(System.out);
-                        log.error(swbe);
-                    }                
+                        String es = request.getParameter("ext").trim();
+                        Integer e = new Integer(es);
+                        user.setExtendedAttribute(ext, e);
+                    }catch(Exception nfe) {
+                        //log.error(nfe);
+                    }               
                     profile.setUbicacion(SWBUtils.XML.replaceXMLChars(request.getParameter("loc")));
                     CV cv = CV.ClassMgr.getCV(user.getId(), wsite);
                     Persona persona = cv.getPersona();
@@ -596,8 +627,11 @@ public class SWProfileManager extends GenericAdmResource {
                     }
                     
                     Iterator<Familia> familiares = persona.listFamilias();
-                    if(familiares.hasNext()) {
-                        familiares.next().remove();
+                    while(familiares.hasNext()) {
+                        Familia familiar = familiares.next();
+                        if(familiar.getTelefono()!=null)
+                            familiar.getTelefono().remove();
+                        familiar.remove();
                     }
                     String[] ncf = request.getParameterValues("ncf");
                     String[] p = request.getParameterValues("p");
@@ -621,19 +655,24 @@ public class SWProfileManager extends GenericAdmResource {
                             Telefono tel = Telefono.ClassMgr.createTelefono(wsite);
                             tel.setLada(Integer.parseInt(SWBUtils.XML.replaceXMLChars(cve[i])));
                             tel.setNumero(Integer.parseInt(SWBUtils.XML.replaceXMLChars(tf[i])));
+System.out.println("tel="+tel);
                             fam.setTelefono(tel);
-                        }catch(Exception iobe){}
+                        }catch(Exception iobe){
+                        }
                         persona.addFamilia(fam);
                     }
-                    request.getSession(true).setAttribute(Send_EDIT, Send_EDIT);
+                    //request.getSession(true).setAttribute(Send_EDIT, Send_EDIT);
                 }
             }
         }else if(SWBResourceURL.Action_REMOVE.equals(action)) {
             SWProfile profile = SWProfile.ClassMgr.getSWProfile(user.getId(), wsite);
             if(user.equals(profile.getCreator())) {
-                    String fid = request.getParameter("fid");
+                String fid = request.getParameter("fid");
                 if(Familia.ClassMgr.hasFamilia(fid, wsite)) {
-                    Familia.ClassMgr.removeFamilia(fid, wsite);
+                    Familia familiar = Familia.ClassMgr.getFamilia(fid, wsite);
+                    familiar.getTelefono().remove();
+                    familiar.remove();
+                    //Familia.ClassMgr.removeFamilia(fid, wsite);
                     response.setMode("fam");
                 }
             }
