@@ -128,10 +128,10 @@ System.out.println("paramRequest.getAction()="+paramRequest.getAction());
                 out.println("      </div>");
                 out.println("    </li>");
                 out.println("    <li class=\"perfil\">");
-                out.println("      <p><a href=\""+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_EDIT)+"\" title=\"Editar mi perfil\">Editar mi perfil</a></p>");
-                out.println("      <p><a href=\""+paramRequest.getActionUrl().setAction(Mode_FAV).toString()+"\" title=\"Editar mis favoritos\">Mis favoritos</a></p>");
-                out.println("      <p><a href=\""+paramRequest.getActionUrl().setAction(Send_REQ).toString()+"\" title=\"\">Mis solicitudes</a></p>");
-                out.println("      <p><a href=\""+paramRequest.getActionUrl().setAction(Send_VIEW).toString()+"\" title=\"\">Ver mi perfil</a></p>");
+                out.println("      <p><a href=\""+contentURL+"?action="+SWBResourceURL.Action_EDIT+"\" title=\"Editar mi perfil\">Editar mi perfil</a></p>");
+                out.println("      <p><a href=\""+contentURL+"\" title=\"Editar mis favoritos\">Mis favoritos</a></p>");
+                out.println("      <p><a href=\""+contentURL+"\" title=\"\">Mis solicitudes</a></p>");
+                out.println("      <p><a href=\""+contentURL+"\" title=\"\">Ver mi perfil</a></p>");
                 out.println("      <p class=\"salir\"><a href=\""+SWBPlatform.getContextPath()+"/login?wb_logout=true&wb_goto="+urlLogout+"\" title=\"Salir\">Salir</a></p>");
                 out.println("    </li>");
                 out.println("    <li style=\"clear:both; height:1px;\"></li>");
@@ -142,30 +142,34 @@ System.out.println("paramRequest.getAction()="+paramRequest.getAction());
                 log.info("Acceso no autorizado");
             }
         }else {
-            /*if(user.isSigned()) {
-                WebSite wsite = base.getWebSite();
+//            if(user.isSigned()) {
+//                WebSite wsite = base.getWebSite();
+            
                 SWProfile profile = SWProfile.ClassMgr.getSWProfile(user.getId(), wsite);
-                
+//                SWProfile profile = SWProfile.ClassMgr.listSWProfileByCreator(user).next();
                 if( user.equals(profile.getCreator()) ) {
-                    HttpSession session = request.getSession(true);
-                    String send = (String)session.getAttribute(Send);
-                    session.removeAttribute(Send);
-                    if(Send_EDIT.equals(send)) {
+                    final String action = request.getParameter("action"); 
+//                    HttpSession session = request.getSession(true);
+//                    String send = (String)session.getAttribute(Send);
+//                    session.removeAttribute(Send);
+                    if(SWBResourceURL.Action_EDIT.equals(action)) {
                         doEdit(request, response, paramRequest);
-                    }else if(Mode_CHGPHTO.equals(send)) {
-                        doChangePhoto(request, response, paramRequest);
-                    }else {
-                        //out.println("vista del perfil de "+user.getFullName());
-                        try {
-                            final String jsp = "/work/models/"+paramRequest.getWebPage().getWebSiteId()+"/jsp/swprofile/view.jsp";
-                            request.setAttribute("paramRequest", paramRequest);
-                            RequestDispatcher rd = request.getRequestDispatcher(jsp);
-                            rd.include(request, response);
-                        }catch(Exception e) {
-                            log.error(e);
-                        }
                     }
-                }else {
+//                    else if(Mode_CHGPHTO.equals(send)) {
+//                        doChangePhoto(request, response, paramRequest);
+//                    }else {
+//                        //out.println("vista del perfil de "+user.getFullName());
+//                        try {
+//                            final String jsp = "/work/models/"+paramRequest.getWebPage().getWebSiteId()+"/jsp/swprofile/view.jsp";
+//                            request.setAttribute("paramRequest", paramRequest);
+//                            RequestDispatcher rd = request.getRequestDispatcher(jsp);
+//                            rd.include(request, response);
+//                        }catch(Exception e) {
+//                            log.error(e);
+//                        }
+//                    }
+                }
+//                else {
 //                    WebSite site = base.getWebSite();
 //                    UserRepository ur = site.getUserRepository();
 //                    Role role = ur.getRole(RH_Role);
@@ -179,17 +183,17 @@ System.out.println("paramRequest.getAction()="+paramRequest.getAction());
 //                            log.error(e);
 //                        }
 //                    }else {
-                        try {
-                            final String jsp = "/work/models/"+paramRequest.getWebPage().getWebSiteId()+"/jsp/swprofile/view.jsp";
-                            request.setAttribute("paramRequest", paramRequest);
-                            RequestDispatcher rd = request.getRequestDispatcher(jsp);
-                            rd.include(request, response);
-                        }catch(Exception e) {
-                            log.error(e);
-                        }
+//                        try {
+//                            final String jsp = "/work/models/"+paramRequest.getWebPage().getWebSiteId()+"/jsp/swprofile/view.jsp";
+//                            request.setAttribute("paramRequest", paramRequest);
+//                            RequestDispatcher rd = request.getRequestDispatcher(jsp);
+//                            rd.include(request, response);
+//                        }catch(Exception e) {
+//                            log.error(e);
+//                        }
 //                    } 
-                }
-            }*/
+//                }
+//            }
         }
     }
     
