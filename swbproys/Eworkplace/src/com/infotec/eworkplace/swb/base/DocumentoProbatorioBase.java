@@ -1,9 +1,8 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class DocumentoProbatorioBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Iconable,org.semanticwb.model.Traceable
+public abstract class DocumentoProbatorioBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable
 {
-    public static final org.semanticwb.platform.SemanticProperty intranet_filename=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#filename");
     public static final org.semanticwb.platform.SemanticClass intranet_DocumentoProbatorio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#DocumentoProbatorio");
    /**
    * The semantic class that represents the currentObject
@@ -173,24 +172,6 @@ public abstract class DocumentoProbatorioBase extends org.semanticwb.model.SWBCl
          }
          return ret;
     }
-
-/**
-* Gets the IconClass property
-* @return String with the IconClass
-*/
-    public String getIconClass()
-    {
-        return getSemanticObject().getProperty(swb_iconClass);
-    }
-
-/**
-* Sets the IconClass property
-* @param value long with the IconClass
-*/
-    public void setIconClass(String value)
-    {
-        getSemanticObject().setProperty(swb_iconClass, value);
-    }
    /**
    * Sets the value for the property Creator
    * @param value Creator to set
@@ -231,57 +212,6 @@ public abstract class DocumentoProbatorioBase extends org.semanticwb.model.SWBCl
     }
 
 /**
-* Gets the Title property
-* @return String with the Title
-*/
-    public String getTitle()
-    {
-        return getSemanticObject().getProperty(swb_title);
-    }
-
-/**
-* Sets the Title property
-* @param value long with the Title
-*/
-    public void setTitle(String value)
-    {
-        getSemanticObject().setProperty(swb_title, value);
-    }
-
-    public String getTitle(String lang)
-    {
-        return getSemanticObject().getProperty(swb_title, null, lang);
-    }
-
-    public String getDisplayTitle(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_title, lang);
-    }
-
-    public void setTitle(String title, String lang)
-    {
-        getSemanticObject().setProperty(swb_title, title, lang);
-    }
-
-/**
-* Gets the Created property
-* @return java.util.Date with the Created
-*/
-    public java.util.Date getCreated()
-    {
-        return getSemanticObject().getDateProperty(swb_created);
-    }
-
-/**
-* Sets the Created property
-* @param value long with the Created
-*/
-    public void setCreated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_created, value);
-    }
-
-/**
 * Gets the Updated property
 * @return java.util.Date with the Updated
 */
@@ -300,53 +230,20 @@ public abstract class DocumentoProbatorioBase extends org.semanticwb.model.SWBCl
     }
 
 /**
-* Gets the Description property
-* @return String with the Description
+* Gets the Created property
+* @return java.util.Date with the Created
 */
-    public String getDescription()
+    public java.util.Date getCreated()
     {
-        return getSemanticObject().getProperty(swb_description);
+        return getSemanticObject().getDateProperty(swb_created);
     }
 
 /**
-* Sets the Description property
-* @param value long with the Description
+* Sets the Created property
+* @param value long with the Created
 */
-    public void setDescription(String value)
+    public void setCreated(java.util.Date value)
     {
-        getSemanticObject().setProperty(swb_description, value);
-    }
-
-    public String getDescription(String lang)
-    {
-        return getSemanticObject().getProperty(swb_description, null, lang);
-    }
-
-    public String getDisplayDescription(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_description, lang);
-    }
-
-    public void setDescription(String description, String lang)
-    {
-        getSemanticObject().setProperty(swb_description, description, lang);
-    }
-
-/**
-* Gets the Filename property
-* @return String with the Filename
-*/
-    public String getFilename()
-    {
-        return getSemanticObject().getProperty(intranet_filename);
-    }
-
-/**
-* Sets the Filename property
-* @param value long with the Filename
-*/
-    public void setFilename(String value)
-    {
-        getSemanticObject().setProperty(intranet_filename, value);
+        getSemanticObject().setDateProperty(swb_created, value);
     }
 }
