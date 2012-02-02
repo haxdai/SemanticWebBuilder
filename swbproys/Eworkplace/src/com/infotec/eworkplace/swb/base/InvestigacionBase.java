@@ -3,6 +3,14 @@ package com.infotec.eworkplace.swb.base;
 
 public abstract class InvestigacionBase extends com.infotec.eworkplace.swb.InvestigacionDocencia 
 {
+    public static final org.semanticwb.platform.SemanticProperty intranet_numTelefono=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#numTelefono");
+    public static final org.semanticwb.platform.SemanticClass intranet_SNIConacyt=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#SNIConacyt");
+    public static final org.semanticwb.platform.SemanticProperty intranet_sniConacyt=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sniConacyt");
+    public static final org.semanticwb.platform.SemanticProperty intranet_fechaTermino=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaTermino");
+    public static final org.semanticwb.platform.SemanticProperty intranet_nombreJefePuesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nombreJefePuesto");
+    public static final org.semanticwb.platform.SemanticProperty intranet_nombreEmpresa=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nombreEmpresa");
+    public static final org.semanticwb.platform.SemanticProperty intranet_areaInvestigacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#areaInvestigacion");
+    public static final org.semanticwb.platform.SemanticProperty intranet_nombrePuesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nombrePuesto");
     public static final org.semanticwb.platform.SemanticClass intranet_Investigacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Investigacion");
    /**
    * The semantic class that represents the currentObject
@@ -78,6 +86,29 @@ public abstract class InvestigacionBase extends com.infotec.eworkplace.swb.Inves
         {
             return (getInvestigacion(id, model)!=null);
         }
+       /**
+       * Gets all com.infotec.eworkplace.swb.Investigacion with a determined SniConacyt
+       * @param value SniConacyt of the type com.infotec.eworkplace.swb.SNIConacyt
+       * @param model Model of the com.infotec.eworkplace.swb.Investigacion
+       * @return Iterator with all the com.infotec.eworkplace.swb.Investigacion
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Investigacion> listInvestigacionBySniConacyt(com.infotec.eworkplace.swb.SNIConacyt value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Investigacion> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_sniConacyt, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.Investigacion with a determined SniConacyt
+       * @param value SniConacyt of the type com.infotec.eworkplace.swb.SNIConacyt
+       * @return Iterator with all the com.infotec.eworkplace.swb.Investigacion
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Investigacion> listInvestigacionBySniConacyt(com.infotec.eworkplace.swb.SNIConacyt value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Investigacion> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_sniConacyt,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
    /**
@@ -87,5 +118,151 @@ public abstract class InvestigacionBase extends com.infotec.eworkplace.swb.Inves
     public InvestigacionBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+/**
+* Gets the NumTelefono property
+* @return int with the NumTelefono
+*/
+    public int getNumTelefono()
+    {
+        return getSemanticObject().getIntProperty(intranet_numTelefono);
+    }
+
+/**
+* Sets the NumTelefono property
+* @param value long with the NumTelefono
+*/
+    public void setNumTelefono(int value)
+    {
+        getSemanticObject().setIntProperty(intranet_numTelefono, value);
+    }
+   /**
+   * Sets the value for the property SniConacyt
+   * @param value SniConacyt to set
+   */
+
+    public void setSniConacyt(com.infotec.eworkplace.swb.SNIConacyt value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_sniConacyt, value.getSemanticObject());
+        }else
+        {
+            removeSniConacyt();
+        }
+    }
+   /**
+   * Remove the value for SniConacyt property
+   */
+
+    public void removeSniConacyt()
+    {
+        getSemanticObject().removeProperty(intranet_sniConacyt);
+    }
+
+   /**
+   * Gets the SniConacyt
+   * @return a com.infotec.eworkplace.swb.SNIConacyt
+   */
+    public com.infotec.eworkplace.swb.SNIConacyt getSniConacyt()
+    {
+         com.infotec.eworkplace.swb.SNIConacyt ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_sniConacyt);
+         if(obj!=null)
+         {
+             ret=(com.infotec.eworkplace.swb.SNIConacyt)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+/**
+* Gets the FechaTermino property
+* @return int with the FechaTermino
+*/
+    public int getFechaTermino()
+    {
+        return getSemanticObject().getIntProperty(intranet_fechaTermino);
+    }
+
+/**
+* Sets the FechaTermino property
+* @param value long with the FechaTermino
+*/
+    public void setFechaTermino(int value)
+    {
+        getSemanticObject().setIntProperty(intranet_fechaTermino, value);
+    }
+
+/**
+* Gets the NombreJefePuesto property
+* @return String with the NombreJefePuesto
+*/
+    public String getNombreJefePuesto()
+    {
+        return getSemanticObject().getProperty(intranet_nombreJefePuesto);
+    }
+
+/**
+* Sets the NombreJefePuesto property
+* @param value long with the NombreJefePuesto
+*/
+    public void setNombreJefePuesto(String value)
+    {
+        getSemanticObject().setProperty(intranet_nombreJefePuesto, value);
+    }
+
+/**
+* Gets the NombreEmpresa property
+* @return String with the NombreEmpresa
+*/
+    public String getNombreEmpresa()
+    {
+        return getSemanticObject().getProperty(intranet_nombreEmpresa);
+    }
+
+/**
+* Sets the NombreEmpresa property
+* @param value long with the NombreEmpresa
+*/
+    public void setNombreEmpresa(String value)
+    {
+        getSemanticObject().setProperty(intranet_nombreEmpresa, value);
+    }
+
+/**
+* Gets the AreaInvestigacion property
+* @return String with the AreaInvestigacion
+*/
+    public String getAreaInvestigacion()
+    {
+        return getSemanticObject().getProperty(intranet_areaInvestigacion);
+    }
+
+/**
+* Sets the AreaInvestigacion property
+* @param value long with the AreaInvestigacion
+*/
+    public void setAreaInvestigacion(String value)
+    {
+        getSemanticObject().setProperty(intranet_areaInvestigacion, value);
+    }
+
+/**
+* Gets the NombrePuesto property
+* @return String with the NombrePuesto
+*/
+    public String getNombrePuesto()
+    {
+        return getSemanticObject().getProperty(intranet_nombrePuesto);
+    }
+
+/**
+* Sets the NombrePuesto property
+* @param value long with the NombrePuesto
+*/
+    public void setNombrePuesto(String value)
+    {
+        getSemanticObject().setProperty(intranet_nombrePuesto, value);
     }
 }
