@@ -70,7 +70,6 @@ public class SWProfileManager extends GenericAdmResource {
     
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-System.out.println("*************** doView");
         response.setContentType("text/html; charset=UTF-8");
         
         User user = paramRequest.getUser();
@@ -452,7 +451,7 @@ System.out.println("paramRequest.getAction()="+paramRequest.getAction());
                     htm.append("  <p class=\"tercio\"><label>Parentesco</label><br/><input type=\"text\" name=\"p\" value=\""+f.getParentesco()+"\" /></p>");
                     htm.append("  <p class=\"tercio\"><label>Direcci&oacute;n</label><br/><input type=\"text\" name=\"df\" value=\""+f.getDireccion()+"\" /></p>");
                     if(f.getTelefono()!=null)
-                    htm.append("  <p class=\"tercio\"><label>Tel&eacute;fono</label><br/><label>Clave</label>:<input type=\"text\" name=\"cve\" value=\""+f.getTelefono().getLada()+"\" />&nbsp;<label>Tel&eacute;fono</label>:<input type=\"text\" name=\"tf\" value=\""+f.getTelefono().getNumero()+"\" /></p>");
+                        htm.append("  <p class=\"tercio\"><label>Tel&eacute;fono</label><br/><label>Clave</label>:<input type=\"text\" name=\"cve\" value=\""+f.getTelefono().getLada()+"\" />&nbsp;<label>Tel&eacute;fono</label>:<input type=\"text\" name=\"tf\" value=\""+f.getTelefono().getNumero()+"\" /></p>");
                     htm.append("  <p><input type=\"button\" onclick=\"postHtml('"+rem+"','fms')\" value=\"Eliminar\" /></p>");
                     htm.append("  <br clear=\"all\" />");
                     htm.append("</li>");
@@ -555,7 +554,6 @@ System.out.println("paramRequest.getAction()="+paramRequest.getAction());
 
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
-System.out.println("*************** processAction");
         final User user = response.getUser();
         
         if(!user.isSigned())
@@ -643,12 +641,7 @@ System.out.println("*************** processAction");
                     String[] p = request.getParameterValues("p");
                     String[] df = request.getParameterValues("df");
                     String[] cve = request.getParameterValues("cve");
-System.out.println("tf="+request.getParameterValues("tf"));
                     String[] tf = request.getParameterValues("tf");
-if(tf!=null)
-System.out.println("tf="+tf.length+",tf="+Arrays.toString(tf));
-if(cve!=null)
-System.out.println("cve="+cve.length+",cve="+Arrays.toString(cve));
                     for(int i=0; i<ncf.length; i++) {
                         if(ncf[i].isEmpty() || p[i].isEmpty() || df[i].isEmpty() || tf[i].isEmpty())
                             continue;
@@ -666,7 +659,6 @@ System.out.println("cve="+cve.length+",cve="+Arrays.toString(cve));
                             Telefono tel = Telefono.ClassMgr.createTelefono(wsite);
                             tel.setLada(Integer.parseInt(SWBUtils.XML.replaceXMLChars(cve[i])));
                             tel.setNumero(Integer.parseInt(SWBUtils.XML.replaceXMLChars(tf[i])));
-System.out.println("tel="+tel);
                             fam.setTelefono(tel);
                         }catch(Exception iobe){
                         }
@@ -718,7 +710,8 @@ System.out.println("tel="+tel);
                     htm.append("  <p class=\"tercio\">Nombre completo <br /><input type=\"text\" name=\"ncf\" value=\""+f.getNombre()+"\" /></p>");
                     htm.append("  <p class=\"tercio\">Parentesco <br /><input type=\"text\" name=\"p\" value=\""+f.getParentesco()+"\" /></p>");
                     htm.append("  <p class=\"tercio\">Direcci&oacute;n <br /><input type=\"text\" name=\"df\" value=\""+f.getDireccion()+"\" /></p>");
-                    htm.append("  <p class=\"tercio\">Tel&eacute;fono <br /><input type=\"text\" name=\"tf\" value=\""+f.getTelefono()+"\" /></p>");
+                    if(f.getTelefono()!=null)
+                        htm.append("  <p class=\"tercio\"><label>Tel&eacute;fono</label><br/><label>Clave</label>:<input type=\"text\" name=\"cve\" value=\""+f.getTelefono().getLada()+"\" />&nbsp;<label>Tel&eacute;fono</label>:<input type=\"text\" name=\"tf\" value=\""+f.getTelefono().getNumero()+"\" /></p>");
                     htm.append("  <p><input type=\"button\" onclick=\"postHtml('"+rem+"','fms')\" value=\"Eliminar\" /></p>");
                     htm.append("</li>");
                 }
@@ -727,7 +720,10 @@ System.out.println("tel="+tel);
                 htm.append("  <p class=\"tercio\">Nombre completo <br /><input type=\"text\" name=\"ncf\" value=\"\" /></p>");
                 htm.append("  <p class=\"tercio\">Parentesco <br /><input type=\"text\" name=\"p\" value=\"\" /></p>");
                 htm.append("  <p class=\"tercio\">Direcci&oacute;n <br /><input type=\"text\" name=\"df\" value=\"\" /></p>");
-                htm.append("  <p class=\"tercio\">Tel&eacute;fono <br /><input type=\"text\" name=\"tf\" value=\"\" /></p>");
+                htm.append("  <p class=\"tercio\"><label>Tel&eacute;fono</label><br/>");
+                htm.append("   <label>Clave</label>:<input type=\"text\" name=\"cve\" value=\"\" />");
+                htm.append("   <label>Tel&eacute;fono</label>:<input type=\"text\" name=\"tf\" value=\"\" />");
+                htm.append("  </p>");
                 htm.append("</li>");
             }
         }
