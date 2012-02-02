@@ -1,7 +1,7 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class EntidadFederativaBase extends org.semanticwb.model.SWBClass 
+public abstract class EntidadFederativaBase extends com.infotec.eworkplace.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticClass intranet_EntidadFederativa=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#EntidadFederativa");
    /**
@@ -71,6 +71,52 @@ public abstract class EntidadFederativaBase extends org.semanticwb.model.SWBClas
         public static boolean hasEntidadFederativa(String id, org.semanticwb.model.SWBModel model)
         {
             return (getEntidadFederativa(id, model)!=null);
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.EntidadFederativa with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * @param model Model of the com.infotec.eworkplace.swb.EntidadFederativa
+       * @return Iterator with all the com.infotec.eworkplace.swb.EntidadFederativa
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.EntidadFederativa> listEntidadFederativaByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.EntidadFederativa> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.EntidadFederativa with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * @return Iterator with all the com.infotec.eworkplace.swb.EntidadFederativa
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.EntidadFederativa> listEntidadFederativaByModifiedBy(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.EntidadFederativa> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.EntidadFederativa with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @param model Model of the com.infotec.eworkplace.swb.EntidadFederativa
+       * @return Iterator with all the com.infotec.eworkplace.swb.EntidadFederativa
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.EntidadFederativa> listEntidadFederativaByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.EntidadFederativa> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.EntidadFederativa with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @return Iterator with all the com.infotec.eworkplace.swb.EntidadFederativa
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.EntidadFederativa> listEntidadFederativaByCreator(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.EntidadFederativa> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
         }
     }
 
