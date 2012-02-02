@@ -11,6 +11,7 @@ import com.infotec.eworkplace.swb.TemaInteres;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Iterator;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
@@ -450,7 +451,8 @@ System.out.println("paramRequest.getAction()="+paramRequest.getAction());
                     htm.append("  <p class=\"entero\"><label>Nombre completo</label><br/><input type=\"text\" name=\"ncf\" value=\""+f.getNombre()+"\" /></p>");
                     htm.append("  <p class=\"tercio\"><label>Parentesco</label><br/><input type=\"text\" name=\"p\" value=\""+f.getParentesco()+"\" /></p>");
                     htm.append("  <p class=\"tercio\"><label>Direcci&oacute;n</label><br/><input type=\"text\" name=\"df\" value=\""+f.getDireccion()+"\" /></p>");
-//                    htm.append("  <p class=\"tercio\"><label>Tel&eacute;fono</label><br/><label>Clave</label>:<input type=\"text\" name=\"cve\" value=\""+f.getTelefono().getLada()+"\" />&nbsp;<label>Tel&eacute;fono</label>:<input type=\"text\" name=\"tf\" value=\""+f.getTelefono().getNumero()+"\" /></p>");
+                    if(f.getTelefono()!=null)
+                    htm.append("  <p class=\"tercio\"><label>Tel&eacute;fono</label><br/><label>Clave</label>:<input type=\"text\" name=\"cve\" value=\""+f.getTelefono().getLada()+"\" />&nbsp;<label>Tel&eacute;fono</label>:<input type=\"text\" name=\"tf\" value=\""+f.getTelefono().getNumero()+"\" /></p>");
                     htm.append("  <p><input type=\"button\" onclick=\"postHtml('"+rem+"','fms')\" value=\"Eliminar\" /></p>");
                     htm.append("  <br clear=\"all\" />");
                     htm.append("</li>");
@@ -461,8 +463,8 @@ System.out.println("paramRequest.getAction()="+paramRequest.getAction());
                 htm.append("  <p class=\"tercio\"><label>Parentesco</label><br/><input type=\"text\" name=\"p\" value=\"\" /></p>");
                 htm.append("  <p class=\"tercio\"><label>Direcci&oacute;n</label><br/><input type=\"text\" name=\"df\" value=\"\" /></p>");
                 htm.append("  <p class=\"tercio\"><label>Tel&eacute;fono</label><br/>");
-                htm.append("   <label>Clave</label>:<input type=\"text\" name=\"cve\" id=\"cve\" value=\"\" />");
-                htm.append("   <label>Tel&eacute;fono</label>:<input type=\"text\" name=\"tf\" id=\"tf\" value=\"\" />");
+                htm.append("   <label>Clave</label>:<input type=\"text\" name=\"cve\" value=\"\" />");
+                htm.append("   <label>Tel&eacute;fono</label>:<input type=\"text\" name=\"tf\" value=\"\" />");
                 htm.append("  </p>");
                 htm.append("  <br clear=\"all\" />");
                 htm.append("</li>");
@@ -641,7 +643,12 @@ System.out.println("*************** processAction");
                     String[] p = request.getParameterValues("p");
                     String[] df = request.getParameterValues("df");
                     String[] cve = request.getParameterValues("cve");
-                    String[] tf = request.getParameterValues("tf");  
+System.out.println("tf="+request.getParameterValues("tf"));
+                    String[] tf = request.getParameterValues("tf");
+if(tf!=null)
+System.out.println("tf="+tf.length+",tf="+Arrays.toString(tf));
+if(cve!=null)
+System.out.println("cve="+cve.length+",cve="+Arrays.toString(cve));
                     for(int i=0; i<ncf.length; i++) {
                         if(ncf[i].isEmpty() || p[i].isEmpty() || df[i].isEmpty() || tf[i].isEmpty())
                             continue;
@@ -674,7 +681,8 @@ System.out.println("tel="+tel);
                 String fid = request.getParameter("fid");
                 if(Familia.ClassMgr.hasFamilia(fid, wsite)) {
                     Familia familiar = Familia.ClassMgr.getFamilia(fid, wsite);
-                    familiar.getTelefono().remove();
+                    if(familiar.getTelefono()!=null)
+                        familiar.getTelefono().remove();
                     familiar.remove();
                     //Familia.ClassMgr.removeFamilia(fid, wsite);
                     response.setMode("fam");
