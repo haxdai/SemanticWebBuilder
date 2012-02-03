@@ -7,7 +7,9 @@ package org.semanticwb.promexico.resources;
 
 import java.io.IOException;
 //import java.util.Collections;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
@@ -67,8 +69,9 @@ public class FilterEvents extends GenericAdmResource{
         String evType = request.getParameter(EventType.genCal_EventType.getName());
         String sec = request.getParameter(Sector.promx_Sector.getName());
         String reg = request.getParameter(Region.promx_Region.getName());
+        String yr = request.getParameter("selectYear");
         String showData = "1";
-        if(evType == null && sec == null && reg == null) {
+        if(evType == null && sec == null && reg == null && yr == null) {
             showData = "0";
         }
 
@@ -78,6 +81,7 @@ public class FilterEvents extends GenericAdmResource{
             request.setAttribute("paramRequest", paramRequest);
             request.setAttribute("typ", evType);
             request.setAttribute("sec", sec);
+            request.setAttribute("yr", yr);
             request.setAttribute("showData", showData);
             request.setAttribute("regT", reg);
             request.setAttribute("lEvtType", listEvtType);
@@ -94,10 +98,12 @@ public class FilterEvents extends GenericAdmResource{
         String typ = request.getParameter(EventType.genCal_EventType.getName());
         String reg = "";
         String sec = "";
+        String yr = "";
         if(typ != null && !typ.equals("Eventos_Nacionales1")) {
             reg = request.getParameter(Region.promx_Region.getName());
             sec = request.getParameter(Sector.promx_Sector.getName());
         }
+        yr = request.getParameter("selectYear");
         boolean isFirst = true;
         String url2 = wpRedi.getUrl();
         String url2a = wpRedi.getUrl();
@@ -122,14 +128,21 @@ public class FilterEvents extends GenericAdmResource{
             }
             url2 = url2 + letter + "sec=" + sec;
         }
+        if(yr != null && yr.trim().length() > 1) {
+            String letter = isFirst ? "?" : "&";
+            if(isFirst) {
+                isFirst = false;
+            }
+            url2 = url2 + letter + "yr=" + yr;
+        }
         if(url2.equals(url2a)) {
             url2 = url2 + "?sv=false";
         }
         response.sendRedirect(url2);
     }
-    public static Iterator filterEvts(String evType, String sec, String reg, WebSite ws) {
+    public static Iterator filterEvts(String evType, String sec, String reg, String yr, WebSite ws) {
         List allEvts = new ArrayList();
-        if(evType != null || sec != null || reg != null) {
+        if(evType != null || sec != null || reg != null || yr != null) {
             Iterator it;
             if(evType != null && evType.trim().length() > 1) {
                 EventType evtT = EventType.ClassMgr.getEventType(evType, ws);
@@ -156,9 +169,9 @@ public class FilterEvents extends GenericAdmResource{
                     }
                 }
             }
-            if(allEvts != null && !allEvts.isEmpty()) {
+            /*if(allEvts != null && !allEvts.isEmpty()) {
                 it = allEvts.iterator();
-            }
+            }*/
             if(reg != null && reg.trim().length() > 1) {
                 Region region = Region.ClassMgr.getRegion(reg, ws);
                 Iterator<Office> offices = Office.ClassMgr.listOfficeByParent(region, ws);
@@ -179,6 +192,28 @@ public class FilterEvents extends GenericAdmResource{
                                 allEvts.add(event);
                                 break;
                             }
+                        }
+                    }
+                }
+            }
+            if(yr != null && yr.trim().length() > 1) {
+                it = allEvts.iterator();
+                allEvts = new ArrayList();
+                while(it.hasNext()) {
+                    Event evtTemp = (Event)it.next();
+                    SimpleDateFormat sd1 = new SimpleDateFormat("yyyy-MM-dd");
+                    Date ds = null;
+                    int yearEvt = 0;
+                    int yrAux = Integer.parseInt(yr);
+                    if(yrAux > 0 && (evtTemp.getEventInitDate() != null && evtTemp.getEventInitDate().trim().length() > 1)) {
+                        try {
+                            ds = sd1.parse(evtTemp.getEventInitDate());
+                            yearEvt = ds.getYear() + 1900;
+                            if(yrAux == yearEvt) {
+                                allEvts.add(evtTemp);
+                            }
+                        } catch(Exception e){
+                            System.out.println("Exception in method filterEvts, convert to date" + e);
                         }
                     }
                 }
