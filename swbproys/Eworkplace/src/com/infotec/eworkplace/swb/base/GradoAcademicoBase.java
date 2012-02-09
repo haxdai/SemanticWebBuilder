@@ -5,6 +5,8 @@ public abstract class GradoAcademicoBase extends org.semanticwb.model.SWBClass i
 {
     public static final org.semanticwb.platform.SemanticClass intranet_SituacionAcademica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#SituacionAcademica");
     public static final org.semanticwb.platform.SemanticProperty intranet_situacionAcademica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#situacionAcademica");
+    public static final org.semanticwb.platform.SemanticClass intranet_Grado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Grado");
+    public static final org.semanticwb.platform.SemanticProperty intranet_grado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#grado");
     public static final org.semanticwb.platform.SemanticClass intranet_Carrera=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Carrera");
     public static final org.semanticwb.platform.SemanticProperty intranet_carrera=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#carrera");
     public static final org.semanticwb.platform.SemanticClass intranet_GradoAcademico=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#GradoAcademico");
@@ -103,6 +105,29 @@ public abstract class GradoAcademicoBase extends org.semanticwb.model.SWBClass i
         public static java.util.Iterator<com.infotec.eworkplace.swb.GradoAcademico> listGradoAcademicoBySituacionAcademica(com.infotec.eworkplace.swb.SituacionAcademica value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.GradoAcademico> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_situacionAcademica,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.GradoAcademico with a determined Grado
+       * @param value Grado of the type com.infotec.eworkplace.swb.Grado
+       * @param model Model of the com.infotec.eworkplace.swb.GradoAcademico
+       * @return Iterator with all the com.infotec.eworkplace.swb.GradoAcademico
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.GradoAcademico> listGradoAcademicoByGrado(com.infotec.eworkplace.swb.Grado value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.GradoAcademico> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_grado, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.GradoAcademico with a determined Grado
+       * @param value Grado of the type com.infotec.eworkplace.swb.Grado
+       * @return Iterator with all the com.infotec.eworkplace.swb.GradoAcademico
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.GradoAcademico> listGradoAcademicoByGrado(com.infotec.eworkplace.swb.Grado value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.GradoAcademico> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_grado,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -247,6 +272,44 @@ public abstract class GradoAcademicoBase extends org.semanticwb.model.SWBClass i
     public void setInicio(java.util.Date value)
     {
         getSemanticObject().setDateProperty(intranet_inicio, value);
+    }
+   /**
+   * Sets the value for the property Grado
+   * @param value Grado to set
+   */
+
+    public void setGrado(com.infotec.eworkplace.swb.Grado value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_grado, value.getSemanticObject());
+        }else
+        {
+            removeGrado();
+        }
+    }
+   /**
+   * Remove the value for Grado property
+   */
+
+    public void removeGrado()
+    {
+        getSemanticObject().removeProperty(intranet_grado);
+    }
+
+   /**
+   * Gets the Grado
+   * @return a com.infotec.eworkplace.swb.Grado
+   */
+    public com.infotec.eworkplace.swb.Grado getGrado()
+    {
+         com.infotec.eworkplace.swb.Grado ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_grado);
+         if(obj!=null)
+         {
+             ret=(com.infotec.eworkplace.swb.Grado)obj.createGenericInstance();
+         }
+         return ret;
     }
    /**
    * Sets the value for the property Carrera

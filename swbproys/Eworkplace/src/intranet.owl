@@ -516,6 +516,30 @@
     </rdfs:range>
     <rdfs:domain rdf:resource="#Autoevaluacion"/>
   </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="grado">
+    <rdfs:range>
+      <swb:Class rdf:ID="Grado">
+        <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+        >true</swb:autogenId>
+        <rdfs:label xml:lang="en">Academic Degree</rdfs:label>
+        <rdfs:label xml:lang="es">Grado Académico</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Catalogo"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+      </swb:Class>
+    </rdfs:range>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Grado académico</rdfs:label>
+    <rdfs:domain>
+      <swb:Class rdf:ID="GradoAcademico">
+        <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+        >true</swb:autogenId>
+        <rdfs:subClassOf rdf:resource="#Institucion"/>
+        <rdfs:subClassOf rdf:resource="#Periodo"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+      </swb:Class>
+    </rdfs:domain>
+  </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="hasReservacionSala">
     <rdfs:domain rdf:resource="#ReservaSalaManager"/>
     <rdfs:range rdf:resource="#ReservacionSala"/>
@@ -591,16 +615,7 @@
   <owl:ObjectProperty rdf:ID="hasGradoAcademico">
     <rdfs:label xml:lang="en">Academic degree</rdfs:label>
     <rdfs:label xml:lang="es">Grado Académico</rdfs:label>
-    <rdfs:range>
-      <swb:Class rdf:ID="GradoAcademico">
-        <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-        >true</swb:autogenId>
-        <rdfs:subClassOf rdf:resource="#Institucion"/>
-        <rdfs:subClassOf rdf:resource="#Periodo"/>
-        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-      </swb:Class>
-    </rdfs:range>
+    <rdfs:range rdf:resource="#GradoAcademico"/>
     <rdfs:domain rdf:resource="#Academia"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="hasProyecto">
@@ -1596,14 +1611,6 @@
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Cartas recomendacion</rdfs:label>
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-  </swb:Class>
-  <swb:Class rdf:ID="Grado">
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</swb:autogenId>
-    <rdfs:label xml:lang="en">Academic Degree</rdfs:label>
-    <rdfs:label xml:lang="es">Grado Académico</rdfs:label>
-    <rdfs:subClassOf rdf:resource="#Catalogo"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
   </swb:Class>
   <swbxf:DisplayProperty rdf:ID="dp_clave">
