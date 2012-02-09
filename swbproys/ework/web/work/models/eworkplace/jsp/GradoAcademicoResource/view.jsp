@@ -1,4 +1,4 @@
-<%--  
+<%--   
     Document   : view Recurso Actividades
     Created on : 31/10/2011, 02:03:16 PM
     Author     : juan.fernandez
@@ -32,7 +32,8 @@
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest" />
 
 <%
-            WebPage wpage = paramRequest.getWebPage();
+
+            WebPage wpage = paramRequest.getWebPage(); 
             WebSite wsite = wpage.getWebSite();
             User usr = paramRequest.getUser();
             Role role=null;
@@ -45,7 +46,7 @@
              
             Academia aca = cv.getAcademia();
             if(aca==null){
-                aca = Academia.ClassMgr.createAcademia(usr.getId(), wsite);
+                aca = Academia.ClassMgr.createAcademia(wsite);
                 cv.setAcademia(aca);
             }
             
@@ -69,29 +70,107 @@
                 numPages = 10;
             }
 
-            if (orderby == null) {
-                orderby = "date";
-            }
+            //if (orderby == null) {
+            //    orderby = "date";
+            //}
 
             if (action == null) {
                 action = "";
             }
 
-            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", new Locale("es"));
+            //SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", new Locale("es"));
 
             //Set<GradoAcademico> list = null;
 
-            String strOrder = "";
+            //String strOrder = "";
              
             //todo: ordenamiento
 //            list=SWBComparator.sortByCreatedSet(GradoAcademico.ClassMgr.listG(usuario, wsite),false);
+
+
+
+    if(request.getParameter("alertmsg")!=null)
+    {
+        String strMsg = request.getParameter("alertmsg");
+        strMsg = strMsg.replace("<br>", "\\n\\r");
 %>
+<script type="text/javascript">
+    alert('<%=strMsg%>');
+</script>
+<%
+    }
+%>
+
+
+<h2>Curriculum Vitae</h2>
+<div id="icv">
+<!-- %@include file="../menucvi.jsp" % -->
+<%
+    WebPage wpbase = wsite.getWebPage("CVI");
+    WebPage wpparent = null;
+    if(!wpage.getParent().equals(wpbase)){
+        wpparent = wpage;
+    } else { wpparent = wpage.getParent(); }
+
+    StringBuffer strsubmenu = new StringBuffer("");
+%>
+<div id="icv-menu">
+	<ul>
+<%
+         Iterator<WebPage> itwp=wpbase.listChilds();
+         while(itwp.hasNext()){
+             WebPage wp = itwp.next();
+             String strSelect = "";
+             if(wp.equals(wpparent)||wp.isParentof(wpage)){
+                 strSelect = "class=\"icv-menu-select\"";
+                 Iterator<WebPage> itcwp = wp.listChilds();
+                 if(itcwp.hasNext()){
+                    strsubmenu.append("\n<div id=\"icv-submenu\">");
+                    strsubmenu.append("\n  <ul>");
+                 }
+                 boolean isFirst = true;
+                 while(itcwp.hasNext()){
+                     String strSelect2 = "";
+                     WebPage wpsm = itcwp.next();
+                     if(isFirst){
+                         isFirst=false;
+                         strSelect2 = "class=\"icv-submenu-select\"";
+                     }
+%>
+                     <li <%=strSelect2%>><a href="<%=wpsm.getUrl()%>"><%=wpsm.getDisplayName(usr.getLanguage())%></a></li>
+<%                     
+                    if(!itcwp.hasNext()){
+                        strsubmenu.append("\n  </ul>");
+                        strsubmenu.append("\n</div>");
+                     }
+                 }
+             }
+%>
+  		<li <%=strSelect%>><a href="<%=wp.getUrl()%>"><%=wp.getDisplayName(usr.getLanguage())%></a></li>
+<%
+         }
+%>
+	</ul>
+</div>
+        <%=strsubmenu.toString()%>
+<!-- div id="icv-submenu">
+    
+	<ul>
+  		<li class="icv-submenu-select"><a href="iCV-conocimiento_1grados.html">Grados académicos</a></li>
+  		<li><a href="iCV-conocimiento_2estudios.html">Estudios superiores</a></li>
+  		<li><a href="iCV-conocimiento_3diplomados.html">Diplomados, cursos<br /> y certificaciones</a></li>
+  		<li><a href="iCV-conocimiento_4especializacion.html">Especialización en TIC</a></li>
+  		<li><a href="iCV-conocimiento_5idiomas.html">Idiomas</a></li>
+	</ul>
+</div -->
+
+
 <div id="icv-data">
 <%
             if(action.equals(""))
             {
             
-            SWBResourceURL urlorder = paramRequest.getRenderUrl();
+            //SWBResourceURL urlorder = paramRequest.getRenderUrl();
 
 %>
 
@@ -162,7 +241,7 @@
                     urldel.setParameter("id",ga.getId());   
         %>
         <tr>
-            <td><a href="<%=urldel%>">borrar</a></td>
+            <td><span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">borrar</a></span></td>
             <td><%=strGrado%></td>
             <td><%=strCarrera%></td>
             <td><%=strInstitucion%></td>
@@ -246,7 +325,7 @@
  <%
           } else if(action.equals("add")) {
             String wptitle = wpage.getDisplayName(usr.getLanguage());
-              SWBResourceURL urladd = paramRequest.getRenderUrl();
+              SWBResourceURL urladd = paramRequest.getActionUrl();
               urladd.setAction("add");  
  %>         
           <h3><%=wptitle%></h3>
@@ -314,12 +393,11 @@
     <div class="centro">
     <input type="submit" name="guardar" id="guardar" value="Guardar" />
 </div>
-</form>
-
-          
+</form>          
 <%         
           }
 %>
 </div><!-- icv-data -->  
+</div>
 
 
