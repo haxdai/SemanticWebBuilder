@@ -244,9 +244,9 @@ public class UserRegister extends GenericAdmResource {
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         PrintWriter out = response.getWriter();
-
+        String basePath = "/work/models/" + paramRequest.getWebPage().getWebSite().getId() + "/jsp/" + this.getClass().getSimpleName() + "/";
         String msg = request.getParameter("msg");
-        String model = paramRequest.getWebPage().getWebSiteId();
+
 
         if(msg!=null) {
             out.println("<div class=\"\"><p class=\"\">"+msg+"</p></div>");
@@ -254,7 +254,7 @@ public class UserRegister extends GenericAdmResource {
 
         User user = paramRequest.getUser();
         //if(!user.isSigned()) {
-            RequestDispatcher dis = request.getRequestDispatcher("/work/models/"+model+"/jsp/cvi/UserRegister/newUser.jsp");
+            RequestDispatcher dis = request.getRequestDispatcher(basePath+"/newUser.jsp");
             try {
                 request.setAttribute("paramRequest", paramRequest);
                 dis.include(request, response);
@@ -275,9 +275,9 @@ public class UserRegister extends GenericAdmResource {
 
     public void doThanks(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         PrintWriter out = response.getWriter();
-        String model = paramRequest.getWebPage().getWebSiteId();
+        String basePath = "/work/models/" + paramRequest.getWebPage().getWebSite().getId() + "/jsp/" + this.getClass().getSimpleName() + "/";
         User user = paramRequest.getUser();
-        RequestDispatcher dis = request.getRequestDispatcher("/work/models/"+model+"/jsp/cvi/UserRegister/thanksUser.jsp");
+        RequestDispatcher dis = request.getRequestDispatcher(basePath+"thanksUser.jsp");
         try {
             request.setAttribute("paramRequest", paramRequest);
             dis.include(request, response);
@@ -289,11 +289,11 @@ public class UserRegister extends GenericAdmResource {
 
     public void doFinal(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         PrintWriter out = response.getWriter();
-        String model = paramRequest.getWebPage().getWebSiteId();
+        String basePath = "/work/models/" + paramRequest.getWebPage().getWebSite().getId() + "/jsp/" + this.getClass().getSimpleName() + "/";
         User user = paramRequest.getUser();
         String servidor = request.getScheme() + "://" + request.getServerName() + ((request.getServerPort() != 80)? (":" + request.getServerPort()) : "");
         String url=servidor+"/swb/cvi/datos_personales/";
-        RequestDispatcher dis = request.getRequestDispatcher("/work/models/"+model+"/jsp/cvi/UserRegister/finalUser.jsp");
+        RequestDispatcher dis = request.getRequestDispatcher(basePath+"finalUser.jsp");
         try {
             request.setAttribute("paramRequest", paramRequest);
             request.setAttribute("url", url);
