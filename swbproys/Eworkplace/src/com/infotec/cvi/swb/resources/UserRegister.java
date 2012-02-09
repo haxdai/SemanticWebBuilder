@@ -1,6 +1,10 @@
 package com.infotec.cvi.swb.resources;
 
+import com.infotec.eworkplace.swb.Persona;
 import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import org.semanticwb.*;
@@ -12,14 +16,14 @@ public class UserRegister extends GenericAdmResource {
     private static Logger log = SWBUtils.getLogger(UserRegister.class);
     private static String PassPhrase="f:,+#u4w=EkJ0R[";
     public static final String Action_ACTIVATE="act";
-    public static final String Mode_THANK="tnk";
+    public static final String Mode_THANKS="tnk";
     public static final String Mode_FINAL="fnl";
 
     @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
 //System.out.println("processRequest");
-        if(paramRequest.getMode().equals(Mode_THANK))
-            doThank(request,response,paramRequest);
+        if(paramRequest.getMode().equals(Mode_THANKS))
+            doThanks(request,response,paramRequest);
         else if(paramRequest.getMode().equals(Mode_FINAL))
             doFinal(request,response,paramRequest);
         else
@@ -44,35 +48,49 @@ public class UserRegister extends GenericAdmResource {
     //            UserRepository ur = wsite.getUserRepository();
 
                 String email = SWBUtils.XML.replaceXMLChars(request.getParameter("email"));
+                Date birthday=new Date();
                 String pwd = request.getParameter("passwd");
                 String cpwd = request.getParameter("cpasswd");
                 String securCodeSent = request.getParameter("cmnt_seccode");
                 String securCodeCreated = (String) request.getSession(true).getAttribute("cdlog");
-
+// TORG agregar validacion por expresiones regulares
                 StringBuilder msg = new StringBuilder();
-                if(securCodeCreated!=null && !securCodeCreated.equalsIgnoreCase(securCodeSent)) {
-                    msg.append(response.getLocaleString("msgErrSecureCodeRequired")).append(",");
-                }
                 if( request.getParameter("firstName")==null || "".equals(request.getParameter("firstName")) ) {
                     msg.append(response.getLocaleString("msgErrFirstNameRequired")).append(",");
                 }
                 if( request.getParameter("lastName")==null || "".equals(request.getParameter("lastName")) ) {
                     msg.append(response.getLocaleString("msgErrLastNameRequired")).append(",");
                 }
+                if( request.getParameter("birthday")==null || "".equals(request.getParameter("birthday")) ) {
+                    msg.append(response.getLocaleString("msgErrBirthdayRequired")).append(",");
+                }else{
+                try{
+                        SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
+
+                        birthday=sdf.parse(request.getParameter("birthday"));
+                         }catch(ParseException ex){
+                             msg.append(response.getLocaleString("lblBirthdayFault")).append(",");
+                         }
+                }
                 if( !SWBUtils.EMAIL.isValidEmailAddress(email) ) {
                     msg.append(response.getLocaleString("msgErrInvalidEmail")).append(",");
                 }
+//TORG se va a validar dos correos
                 if( pwd==null || cpwd==null || pwd.isEmpty() || cpwd.isEmpty() || !pwd.equals(cpwd) ) {
                     msg.append(response.getLocaleString("msgErrPasswordRequired")).append(",");
                 }
-                if(user.isSigned()) {
+/*                if(user.isSigned()) {
                     msg.append(response.getLocaleString("msgErrUserAlreadySigned")).append(",");
-                }
+                }*/
                 if(ur.getUserByLogin(email)!=null) {
                     msg.append(response.getLocaleString("msgErrUserAlreadyExists")).append(",");
                 }
+                if(securCodeCreated!=null && !securCodeCreated.equalsIgnoreCase(securCodeSent)) {
+                    msg.append(response.getLocaleString("msgErrSecureCodeRequired")).append(",");
+                }
+// TORG validar teminos y condiciones
     //System.out.println("msg:"+msg);
-                if( securCodeCreated!=null && securCodeCreated.equalsIgnoreCase(securCodeSent) && !user.isSigned() && ur.getUserByLogin(email)==null && msg.length()==0) {
+                if( securCodeCreated!=null && securCodeCreated.equalsIgnoreCase(securCodeSent) && ur.getUserByLogin(email)==null && msg.length()==0) {
     //System.out.println("a");
                     request.getSession(true).removeAttribute("cdlog");
 
@@ -92,7 +110,12 @@ public class UserRegister extends GenericAdmResource {
                     newUser.setPassword(pwd);
                     newUser.checkCredential(pwd.toCharArray());
 
-                    user = newUser;
+                    //user = newUser;
+                    Persona persona = Persona.ClassMgr.createPersona(newUser.getId(), ws);
+                        persona.setOwner(newUser);
+                        persona.setNacimiento(birthday);
+
+
     /*
                     try {
                         Iterator<SemanticProperty> list = org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://portal.medicasur.com.mx#_ExtendedAttributes").listProperties();
@@ -115,7 +138,7 @@ public class UserRegister extends GenericAdmResource {
                     String servidor = request.getScheme() + "://" + request.getServerName() + ((request.getServerPort() != 80)? (":" + request.getServerPort()) : "");
                     SWBResourceURLImp urlAcc = new SWBResourceURLImp(request, base, wp, SWBResourceURL.UrlType_ACTION);
                     urlAcc.setAction(Action_ACTIVATE);
-                    String strCode=SFBase64.encodeBytes(SWBUtils.CryptoWrapper.PBEAES128Cipher(PassPhrase,user.getId().getBytes()));
+                    String strCode=SFBase64.encodeBytes(SWBUtils.CryptoWrapper.PBEAES128Cipher(PassPhrase,newUser.getId().getBytes()));
                     urlAcc.setParameter("id",strCode);
 //                    urlAcc.setExtURIParams("/rg/"+user.getId());
 
@@ -123,10 +146,10 @@ public class UserRegister extends GenericAdmResource {
                     String emailMsg = base.getAttribute("emailMsg","No Message");
                     emailMsg+="\n"+servidor+urlAcc.toString();
 
-
+// TORG Cambiar  destinatario de correos y mensaje de correo
                     SWBUtils.EMAIL.sendMail("gsixtos@infotec.com.mx", sitename+" - "+response.getLocaleString("msgSubject"), emailMsg);
     //                response.setMode(response.Mode_HELP);
-                    response.setMode(Mode_THANK);
+                    response.setMode(Mode_THANKS);
                 }else {
     //System.out.println("a");
                     //response.setRenderParameter("passwd", pwd);
@@ -135,7 +158,7 @@ public class UserRegister extends GenericAdmResource {
                     response.setRenderParameter("lastName", SWBUtils.XML.replaceXMLChars(request.getParameter("lastName")));
                     response.setRenderParameter("secondLastName", SWBUtils.XML.replaceXMLChars(request.getParameter("secondLastName")));
                     response.setRenderParameter("email", email);
-
+                    response.setRenderParameter("birthday", request.getParameter("birthday"));
                     response.setRenderParameter("msg", msg.toString());
                     response.setMode(response.Mode_VIEW);
                 }
@@ -250,11 +273,11 @@ public class UserRegister extends GenericAdmResource {
         }*/
     }
 
-    public void doThank(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+    public void doThanks(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         PrintWriter out = response.getWriter();
         String model = paramRequest.getWebPage().getWebSiteId();
         User user = paramRequest.getUser();
-        RequestDispatcher dis = request.getRequestDispatcher("/work/models/"+model+"/jsp/UserRegister/thanksUser.jsp");
+        RequestDispatcher dis = request.getRequestDispatcher("/work/models/"+model+"/jsp/cvi/UserRegister/thanksUser.jsp");
         try {
             request.setAttribute("paramRequest", paramRequest);
             dis.include(request, response);
@@ -268,9 +291,12 @@ public class UserRegister extends GenericAdmResource {
         PrintWriter out = response.getWriter();
         String model = paramRequest.getWebPage().getWebSiteId();
         User user = paramRequest.getUser();
-        RequestDispatcher dis = request.getRequestDispatcher("/work/models/"+model+"/jsp/UserRegister/finalUser.jsp");
+        String servidor = request.getScheme() + "://" + request.getServerName() + ((request.getServerPort() != 80)? (":" + request.getServerPort()) : "");
+        String url=servidor+"/swb/cvi/datos_personales/";
+        RequestDispatcher dis = request.getRequestDispatcher("/work/models/"+model+"/jsp/cvi/UserRegister/finalUser.jsp");
         try {
             request.setAttribute("paramRequest", paramRequest);
+            request.setAttribute("url", url);
             dis.include(request, response);
         }catch (Exception e) {
             log.error(e);
