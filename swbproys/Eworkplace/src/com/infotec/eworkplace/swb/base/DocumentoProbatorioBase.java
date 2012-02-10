@@ -1,7 +1,7 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class DocumentoProbatorioBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable
+public abstract class DocumentoProbatorioBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Documento,org.semanticwb.model.Traceable,org.semanticwb.model.Iconable
 {
     public static final org.semanticwb.platform.SemanticClass intranet_DocumentoProbatorio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#DocumentoProbatorio");
    /**
@@ -172,6 +172,24 @@ public abstract class DocumentoProbatorioBase extends org.semanticwb.model.SWBCl
          }
          return ret;
     }
+
+/**
+* Gets the IconClass property
+* @return String with the IconClass
+*/
+    public String getIconClass()
+    {
+        return getSemanticObject().getProperty(swb_iconClass);
+    }
+
+/**
+* Sets the IconClass property
+* @param value long with the IconClass
+*/
+    public void setIconClass(String value)
+    {
+        getSemanticObject().setProperty(swb_iconClass, value);
+    }
    /**
    * Sets the value for the property Creator
    * @param value Creator to set
@@ -212,6 +230,24 @@ public abstract class DocumentoProbatorioBase extends org.semanticwb.model.SWBCl
     }
 
 /**
+* Gets the Created property
+* @return java.util.Date with the Created
+*/
+    public java.util.Date getCreated()
+    {
+        return getSemanticObject().getDateProperty(swb_created);
+    }
+
+/**
+* Sets the Created property
+* @param value long with the Created
+*/
+    public void setCreated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_created, value);
+    }
+
+/**
 * Gets the Updated property
 * @return java.util.Date with the Updated
 */
@@ -230,20 +266,20 @@ public abstract class DocumentoProbatorioBase extends org.semanticwb.model.SWBCl
     }
 
 /**
-* Gets the Created property
-* @return java.util.Date with the Created
+* Gets the Filename property
+* @return String with the Filename
 */
-    public java.util.Date getCreated()
+    public String getFilename()
     {
-        return getSemanticObject().getDateProperty(swb_created);
+        return getSemanticObject().getProperty(intranet_filename);
     }
 
 /**
-* Sets the Created property
-* @param value long with the Created
+* Sets the Filename property
+* @param value long with the Filename
 */
-    public void setCreated(java.util.Date value)
+    public void setFilename(String value)
     {
-        getSemanticObject().setDateProperty(swb_created, value);
+        getSemanticObject().setProperty(intranet_filename, value);
     }
 }
