@@ -5,8 +5,8 @@
  */
 package com.infotec.cvi.swb.resources;
 
-import com.infotec.eworkplace.swb.CV;
-import com.infotec.eworkplace.swb.CursoTIC;
+import com.infotec.cvi.swb.CV;
+import com.infotec.cvi.swb.CursoTIC;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
