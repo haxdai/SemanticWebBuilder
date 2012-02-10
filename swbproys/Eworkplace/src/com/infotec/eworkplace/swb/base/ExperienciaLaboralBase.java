@@ -1,10 +1,8 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class ExperienciaLaboralBase extends com.infotec.eworkplace.swb.ExperienciaProfesional implements org.semanticwb.model.Traceable,com.infotec.eworkplace.swb.Telefoneable
+public abstract class ExperienciaLaboralBase extends com.infotec.eworkplace.swb.ExperienciaProfesional implements com.infotec.eworkplace.swb.Telefoneable,org.semanticwb.model.Traceable
 {
-    public static final org.semanticwb.platform.SemanticClass intranet_Sector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Sector");
-    public static final org.semanticwb.platform.SemanticProperty intranet_sector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sector");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaFin=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaFin");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaIni=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaIni");
     public static final org.semanticwb.platform.SemanticProperty intranet_nombrePuestoJefe=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nombrePuestoJefe");
@@ -86,29 +84,6 @@ public abstract class ExperienciaLaboralBase extends com.infotec.eworkplace.swb.
             return (getExperienciaLaboral(id, model)!=null);
         }
        /**
-       * Gets all com.infotec.eworkplace.swb.ExperienciaLaboral with a determined Sector
-       * @param value Sector of the type com.infotec.eworkplace.swb.Sector
-       * @param model Model of the com.infotec.eworkplace.swb.ExperienciaLaboral
-       * @return Iterator with all the com.infotec.eworkplace.swb.ExperienciaLaboral
-       */
-
-        public static java.util.Iterator<com.infotec.eworkplace.swb.ExperienciaLaboral> listExperienciaLaboralBySector(com.infotec.eworkplace.swb.Sector value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.ExperienciaLaboral> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_sector, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.eworkplace.swb.ExperienciaLaboral with a determined Sector
-       * @param value Sector of the type com.infotec.eworkplace.swb.Sector
-       * @return Iterator with all the com.infotec.eworkplace.swb.ExperienciaLaboral
-       */
-
-        public static java.util.Iterator<com.infotec.eworkplace.swb.ExperienciaLaboral> listExperienciaLaboralBySector(com.infotec.eworkplace.swb.Sector value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.ExperienciaLaboral> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_sector,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all com.infotec.eworkplace.swb.ExperienciaLaboral with a determined ModifiedBy
        * @param value ModifiedBy of the type org.semanticwb.model.User
        * @param model Model of the com.infotec.eworkplace.swb.ExperienciaLaboral
@@ -186,44 +161,6 @@ public abstract class ExperienciaLaboralBase extends com.infotec.eworkplace.swb.
     public ExperienciaLaboralBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
-    }
-   /**
-   * Sets the value for the property Sector
-   * @param value Sector to set
-   */
-
-    public void setSector(com.infotec.eworkplace.swb.Sector value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(intranet_sector, value.getSemanticObject());
-        }else
-        {
-            removeSector();
-        }
-    }
-   /**
-   * Remove the value for Sector property
-   */
-
-    public void removeSector()
-    {
-        getSemanticObject().removeProperty(intranet_sector);
-    }
-
-   /**
-   * Gets the Sector
-   * @return a com.infotec.eworkplace.swb.Sector
-   */
-    public com.infotec.eworkplace.swb.Sector getSector()
-    {
-         com.infotec.eworkplace.swb.Sector ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_sector);
-         if(obj!=null)
-         {
-             ret=(com.infotec.eworkplace.swb.Sector)obj.createGenericInstance();
-         }
-         return ret;
     }
 
 /**
