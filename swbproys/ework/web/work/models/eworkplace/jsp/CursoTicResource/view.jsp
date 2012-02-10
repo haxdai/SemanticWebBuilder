@@ -4,14 +4,9 @@
     Author     : juan.fernandez
 --%>
 
+<%@page import="org.semanticwb.portal.SWBFormMgr"%>
 <%@page import="com.infotec.eworkplace.swb.CursoTIC"%>
-<%@page import="com.infotec.eworkplace.swb.SituacionAcademica"%>
-<%@page import="com.infotec.eworkplace.swb.Carrera"%>
-<%@page import="com.infotec.eworkplace.swb.Grado"%>
-<%@page import="com.infotec.eworkplace.swb.base.GradoBase"%>
 <%@page import="org.semanticwb.model.WebPage"%>
-<%@page import="com.infotec.eworkplace.swb.GradoAcademico"%>
-<%@page import="com.infotec.eworkplace.swb.Academia"%>
 <%@page import="com.infotec.eworkplace.swb.CV"%>
 <%@page import="java.util.Set"%>
 <%@page import="org.semanticwb.model.SWBComparator"%>
@@ -97,7 +92,6 @@
 %>
 
 
-<h2>Curriculum Vitae</h2>
 <div id="icv">
 <%@include file="../menucvi.jsp" %>
 <div id="icv-data">
@@ -261,15 +255,19 @@
 
  <%
           } else if(action.equals("add")) {
-            //String wptitle = wpage.getDisplayName(usr.getLanguage());
+            String wptitle = wpage.getDisplayName(usr.getLanguage());
               SWBResourceURL urladd = paramRequest.getActionUrl();
               urladd.setAction("add");  
+              
  %>         
+ <%=SWBFormMgr.DOJO_REQUIRED%>
+ 
 <script type="text/javascript">
     dojo.require("dijit.form.DateTextBox");
     dojo.require("dijit.form.Button");
 </script>
-          <form id="form1" name="form1" method="post" action="<%=urladd%>">
+<h3><%=wptitle%></h3>
+          <form class="soria" id="form1" name="form1" method="post" action="<%=urladd%>">
     <!-- input type="hidden" name="" value="" / --> 
 <div class="icv-div-grupo">
 
