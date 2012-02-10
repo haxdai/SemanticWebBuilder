@@ -94,6 +94,7 @@
 
 <div id="icv">
 <%@include file="../menucvi.jsp" %>
+<div>
 <div id="icv-data">
 <%
             if(action.equals(""))
@@ -303,5 +304,5 @@
 %>
 </div><!-- icv-data -->  
 </div>
-
+</div>
 

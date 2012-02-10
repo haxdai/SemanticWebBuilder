@@ -103,9 +103,7 @@
 <%
     }
 %>
-
-
-<h2>Curriculum Vitae</h2>
+<div>
 <div id="icv">
 <%@include file="../menucvi.jsp" %>
       
@@ -317,5 +315,5 @@
 %>
 </div><!-- icv-data -->  
 </div>
-
+</div>
 

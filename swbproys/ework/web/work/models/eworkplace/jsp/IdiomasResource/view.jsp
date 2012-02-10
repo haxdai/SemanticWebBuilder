@@ -90,7 +90,7 @@
 <%
     }
 %>
-
+<div>
 <div id="icv">
 <%@include file="../menucvi.jsp" %>
     
@@ -131,7 +131,7 @@
                     if (l == 0) {
         %>
         <tr >
-            <td colspan="6" >No se encontraron registros</td>
+            <td colspan="5" >No se encontraron registros</td>
         </tr>
         <%    } else {
 
@@ -331,6 +331,7 @@
           }
 %>
 </div><!-- icv-data -->  
+</div>
 </div>
 
 
