@@ -1,6 +1,6 @@
 package com.infotec.eworkplace.swb.resources;
 
-import com.infotec.eworkplace.swb.CV;
+import com.infotec.cvi.swb.CV;
 import com.infotec.eworkplace.swb.Domicilio;
 import com.infotec.eworkplace.swb.Familia;
 import com.infotec.eworkplace.swb.Persona;
@@ -11,17 +11,13 @@ import com.infotec.eworkplace.swb.TemaInteres;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
 import java.util.Iterator;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.semanticwb.Logger;
-import org.semanticwb.SWBException;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
