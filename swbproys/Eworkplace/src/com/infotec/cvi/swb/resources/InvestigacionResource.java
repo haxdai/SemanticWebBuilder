@@ -7,9 +7,7 @@ package com.infotec.cvi.swb.resources;
 import com.infotec.eworkplace.swb.CV;
 import com.infotec.eworkplace.swb.Conversacion;
 import com.infotec.eworkplace.swb.Escritura;
-import com.infotec.eworkplace.swb.GradoAcademico;
-import com.infotec.eworkplace.swb.Idioma;
-import com.infotec.eworkplace.swb.Idiomas;
+import com.infotec.eworkplace.swb.Investigacion;
 import com.infotec.eworkplace.swb.Lectura;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
@@ -80,39 +78,39 @@ public class InvestigacionResource extends GenericResource
             String idlectura = request.getParameter("idlectura");
             String idescritura = request.getParameter("idescritura");
             
-            Idiomas idiomas = Idiomas.ClassMgr.getIdiomas(ididioma,wsite); 
+            Investigacion invest = Investigacion.ClassMgr.getInvestigacion(ididioma,wsite); 
             Conversacion conv = Conversacion.ClassMgr.getConversacion(idconversacion, wsite);
             Lectura lectura = Lectura.ClassMgr.getLectura(idlectura, wsite);
             Escritura escritura = Escritura.ClassMgr.getEscritura(idescritura, wsite); 
             
             if(idiomas!=null&&conv!=null&&lectura!=null&&escritura!=null)
             {
-                Idioma idioma = Idioma.ClassMgr.createIdioma(wsite);
+                Investigacion inves = Investigacion.ClassMgr.createInvestigacion(wsite);
 
-                idioma.setConversacion(conv);
-                idioma.setEscritura(escritura);
-                idioma.setIdiomas(idiomas);
-                idioma.setLectura(lectura);
+                inves.setConversacion(conv);
+                inves.setEscritura(escritura);
+                inves.setIdiomas(idiomas);
+                inves.setLectura(lectura);
                 
-                cv.addIdioma(idioma);
+                cv.addInvestigacion(inves);
                 
                 response.setAction("");
                 
                 response.setRenderParameter("act", "");
-                response.setRenderParameter("alertmsg", "Se agregó correctamente el Idioma");
+                response.setRenderParameter("alertmsg", "Se agregó correctamente la Investigación");
             } else {
-                response.setRenderParameter("alertmsg", "Datos inválidos, no se pudo agregar Idioma");
+                response.setRenderParameter("alertmsg", "Datos inválidos, no se pudo agregar Investigación");
             }
 
         } else if ("del".equals(action)) {
             if(id!=null){
-                Idioma idioma = Idioma.ClassMgr.getIdioma(id, wsite);
-                if(idioma!=null){
+                Investigacion invest = Investigacion.ClassMgr.getInvestigacion(id, wsite);
+                if(invest!=null){
                     try {
-                        idioma.remove();
-                        response.setRenderParameter("alertmsg", "Se eliminó correctamente el Idioma.");
+                        invest.remove();
+                        response.setRenderParameter("alertmsg", "Se eliminó correctamente la Investigación.");
                     } catch (Exception e) {
-                        response.setRenderParameter("alertmsg", "No se pudo eliminar el Idioma");
+                        response.setRenderParameter("alertmsg", "No se pudo eliminar la Investigación");
                     }                    
                 }                
             }
