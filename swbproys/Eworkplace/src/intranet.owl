@@ -779,6 +779,21 @@
     <rdfs:range rdf:resource="#Telefono"/>
     <rdfs:domain rdf:resource="#Telefoneable"/>
   </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasUnidadEconomica">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Unidad ecónomica</rdfs:label>
+    <rdfs:domain rdf:resource="#Sector"/>
+    <rdfs:range>
+      <swb:Class rdf:ID="UnidadEconomica">
+        <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+        >true</swb:autogenId>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >Unidad economica</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Catalogo"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+      </swb:Class>
+    </rdfs:range>
+  </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="nivelDocencia">
     <swb:displayProperty rdf:resource="#dp_nivel"/>
     <rdfs:range rdf:resource="#Nivel"/>
@@ -867,6 +882,13 @@
       </swb:Class>
     </rdfs:range>
     <rdfs:domain rdf:resource="#Idioma"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="invSector">
+    <rdfs:range rdf:resource="#Sector"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Sector</rdfs:label>
+    <rdfs:domain rdf:resource="#UnidadEconomica"/>
+    <owl:inverseOf rdf:resource="#sector"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="competencia">
     <rdfs:domain rdf:resource="#CV"/>
