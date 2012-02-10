@@ -75,10 +75,10 @@ public class IdiomasResource extends GenericResource
         
         if ("add".equals(action)) {
             
-            String ididioma = request.getParameter("idcarrera");
-            String idconversacion = request.getParameter("idsituacion");
-            String idlectura = request.getParameter("txtInstitucion");
-            String idescritura = request.getParameter("txtInstitucion");
+            String ididioma = request.getParameter("ididoma");
+            String idconversacion = request.getParameter("idconversacion");
+            String idlectura = request.getParameter("idlectura");
+            String idescritura = request.getParameter("idescritura");
             
             Idiomas idiomas = Idiomas.ClassMgr.getIdiomas(ididioma,wsite); 
             Conversacion conv = Conversacion.ClassMgr.getConversacion(idconversacion, wsite);
