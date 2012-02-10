@@ -1,6 +1,6 @@
 <%--   
-    Document   : view Recurso GradoAcademicoResource
-    Created on : 08/02/2012
+    Document   : view Recurso CursoTicResource
+    Created on : 09/02/2012
     Author     : juan.fernandez
 --%>
 
@@ -121,9 +121,8 @@
          while(itwp.hasNext()){
              WebPage wp = itwp.next();
              String strSelect = "";
-             if(wp.equals(wpage)||wp.isParentof(wpage)){
-                 strSelect = "class=\"icv-menu-select\"";
-                 wpparent = wp;
+             if(wp.equals(wpparent)){
+                 strSelect = "class=\"icv-menu-select\"";  
              }
 %>
   		<li <%=strSelect%>><a href="<%=wp.getUrl()%>"><%=wp.getDisplayName(usr.getLanguage())%></a></li>
@@ -158,13 +157,12 @@ if(wpparent.isParentof(wpage)){
        {
 %>
 	</ul>
-</div> 
-
+</div>        
 <%
        }
 }         
 %>        
-<div class="clearer">&nbsp;</div>
+
 <div id="icv-data">
 <%
             if(action.equals(""))
@@ -173,7 +171,9 @@ if(wpparent.isParentof(wpage)){
             //SWBResourceURL urlorder = paramRequest.getRenderUrl();
 
 %>
+
 <table class="icv-table">
+
     <thead>
         <tr>
             <th width="5%" >&nbsp;</th>
@@ -184,6 +184,7 @@ if(wpparent.isParentof(wpage)){
             <th width="7%" >Años</th>
         </tr>
     </thead>
+
     <tbody>
 
         <%

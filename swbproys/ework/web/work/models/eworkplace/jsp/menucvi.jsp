@@ -14,35 +14,14 @@
     StringBuffer strsubmenu = new StringBuffer("");
 %>
 <div id="icv-menu">
-	<ul>
+   <ul>
 <%
          Iterator<WebPage> itwp=wpbase.listChilds();
          while(itwp.hasNext()){
              WebPage wp = itwp.next();
              String strSelect = "";
-             if(wp.equals(wpparent)||wp.isParentof(wpage)){
-                 strSelect = "class=\"icv-menu-select\"";
-                 Iterator<WebPage> itcwp = wp.listChilds();
-                 if(itcwp.hasNext()){
-                    strsubmenu.append("\n<div id=\"icv-submenu\">");
-                    strsubmenu.append("\n  <ul>");
-                 }
-                 boolean isFirst = true;
-                 while(itcwp.hasNext()){
-                     String strSelect2 = "";
-                     WebPage wpsm = itcwp.next();
-                     if(isFirst){
-                         isFirst=false;
-                         strSelect2 = "class=\"icv-submenu-select\"";
-                     }
-%>
-                     <li <%=strSelect2%>><a href="<%=wpsm.getUrl()%>"><%=wpsm.getDisplayName(usr.getLanguage())%></a></li>
-<%                     
-                    if(!itcwp.hasNext()){
-                        strsubmenu.append("\n  </ul>");
-                        strsubmenu.append("\n</div>");
-                     }
-                 }
+             if(wp.equals(wpparent)){
+                 strSelect = "class=\"icv-menu-select\"";  
              }
 %>
   		<li <%=strSelect%>><a href="<%=wp.getUrl()%>"><%=wp.getDisplayName(usr.getLanguage())%></a></li>
@@ -51,16 +30,34 @@
 %>
 	</ul>
 </div>
-        <%=strsubmenu.toString()%>
-<!-- div id="icv-submenu">
-    
-	<ul>
-  		<li class="icv-submenu-select"><a href="iCV-conocimiento_1grados.html">Grados académicos</a></li>
-  		<li><a href="iCV-conocimiento_2estudios.html">Estudios superiores</a></li>
-  		<li><a href="iCV-conocimiento_3diplomados.html">Diplomados, cursos<br /> y certificaciones</a></li>
-  		<li><a href="iCV-conocimiento_4especializacion.html">Especialización en TIC</a></li>
-  		<li><a href="iCV-conocimiento_5idiomas.html">Idiomas</a></li>
+<%
+if(wpparent.isParentof(wpage)){
+         boolean writeBottom = false;
+         Iterator<WebPage> itsmwp=wpparent.listChilds();
+         if(itsmwp.hasNext())
+         {
+            writeBottom = true;         
+%>
+<div id="icv-submenu">
+    <ul>
+<%
+         }
+         while(itsmwp.hasNext()){
+             WebPage wp = itsmwp.next();
+             String strSelect = "";
+             if(wp.equals(wpage)){
+                 strSelect = "class=\"icv-submenu-select\"";
+             }
+%>
+                     <li <%=strSelect%>><a href="<%=wp.getUrl()%>"><%=wp.getDisplayName(usr.getLanguage())%></a></li>
+<%                                      
+         }
+       if(writeBottom)
+       {
+%>
 	</ul>
-</div -->
-
-
+</div>        
+<%
+       }
+}         
+%>  
