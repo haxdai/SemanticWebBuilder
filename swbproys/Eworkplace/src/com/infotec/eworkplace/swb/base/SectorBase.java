@@ -1,8 +1,10 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class SectorBase extends com.infotec.eworkplace.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class SectorBase extends com.infotec.eworkplace.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
+    public static final org.semanticwb.platform.SemanticClass intranet_UnidadEconomica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#UnidadEconomica");
+    public static final org.semanticwb.platform.SemanticProperty intranet_hasUnidadEconomica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasUnidadEconomica");
     public static final org.semanticwb.platform.SemanticClass intranet_Sector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Sector");
    /**
    * The semantic class that represents the currentObject
@@ -124,6 +126,29 @@ public abstract class SectorBase extends com.infotec.eworkplace.swb.Catalogo imp
             org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Sector> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all com.infotec.eworkplace.swb.Sector with a determined UnidadEconomica
+       * @param value UnidadEconomica of the type com.infotec.eworkplace.swb.UnidadEconomica
+       * @param model Model of the com.infotec.eworkplace.swb.Sector
+       * @return Iterator with all the com.infotec.eworkplace.swb.Sector
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Sector> listSectorByUnidadEconomica(com.infotec.eworkplace.swb.UnidadEconomica value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Sector> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasUnidadEconomica, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.Sector with a determined UnidadEconomica
+       * @param value UnidadEconomica of the type com.infotec.eworkplace.swb.UnidadEconomica
+       * @return Iterator with all the com.infotec.eworkplace.swb.Sector
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Sector> listSectorByUnidadEconomica(com.infotec.eworkplace.swb.UnidadEconomica value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Sector> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasUnidadEconomica,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
    /**
@@ -133,5 +158,70 @@ public abstract class SectorBase extends com.infotec.eworkplace.swb.Catalogo imp
     public SectorBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+   /**
+   * Gets all the com.infotec.eworkplace.swb.UnidadEconomica
+   * @return A GenericIterator with all the com.infotec.eworkplace.swb.UnidadEconomica
+   */
+
+    public org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.UnidadEconomica> listUnidadEconomicas()
+    {
+        return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.UnidadEconomica>(getSemanticObject().listObjectProperties(intranet_hasUnidadEconomica));
+    }
+
+   /**
+   * Gets true if has a UnidadEconomica
+   * @param value com.infotec.eworkplace.swb.UnidadEconomica to verify
+   * @return true if the com.infotec.eworkplace.swb.UnidadEconomica exists, false otherwise
+   */
+    public boolean hasUnidadEconomica(com.infotec.eworkplace.swb.UnidadEconomica value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(intranet_hasUnidadEconomica,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a UnidadEconomica
+   * @param value com.infotec.eworkplace.swb.UnidadEconomica to add
+   */
+
+    public void addUnidadEconomica(com.infotec.eworkplace.swb.UnidadEconomica value)
+    {
+        getSemanticObject().addObjectProperty(intranet_hasUnidadEconomica, value.getSemanticObject());
+    }
+   /**
+   * Removes all the UnidadEconomica
+   */
+
+    public void removeAllUnidadEconomica()
+    {
+        getSemanticObject().removeProperty(intranet_hasUnidadEconomica);
+    }
+   /**
+   * Removes a UnidadEconomica
+   * @param value com.infotec.eworkplace.swb.UnidadEconomica to remove
+   */
+
+    public void removeUnidadEconomica(com.infotec.eworkplace.swb.UnidadEconomica value)
+    {
+        getSemanticObject().removeObjectProperty(intranet_hasUnidadEconomica,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the UnidadEconomica
+   * @return a com.infotec.eworkplace.swb.UnidadEconomica
+   */
+    public com.infotec.eworkplace.swb.UnidadEconomica getUnidadEconomica()
+    {
+         com.infotec.eworkplace.swb.UnidadEconomica ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasUnidadEconomica);
+         if(obj!=null)
+         {
+             ret=(com.infotec.eworkplace.swb.UnidadEconomica)obj.createGenericInstance();
+         }
+         return ret;
     }
 }
