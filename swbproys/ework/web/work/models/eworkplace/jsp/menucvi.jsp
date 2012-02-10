@@ -20,8 +20,9 @@
          while(itwp.hasNext()){
              WebPage wp = itwp.next();
              String strSelect = "";
-             if(wp.equals(wpparent)){
-                 strSelect = "class=\"icv-menu-select\"";  
+             if(wp.equals(wpage)||wp.isParentof(wpage)){
+                 strSelect = "class=\"icv-menu-select\"";
+                 wpparent = wp;
              }
 %>
   		<li <%=strSelect%>><a href="<%=wp.getUrl()%>"><%=wp.getDisplayName(usr.getLanguage())%></a></li>
@@ -56,8 +57,10 @@ if(wpparent.isParentof(wpage)){
        {
 %>
 	</ul>
-</div>        
+</div> 
+
 <%
        }
 }         
-%>  
+%>        
+<div class="clearer">&nbsp;</div>

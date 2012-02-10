@@ -4,6 +4,7 @@
     Author     : juan.fernandez
 --%>
 
+<%@page import="com.infotec.eworkplace.swb.CursoTIC"%>
 <%@page import="com.infotec.eworkplace.swb.SituacionAcademica"%>
 <%@page import="com.infotec.eworkplace.swb.Carrera"%>
 <%@page import="com.infotec.eworkplace.swb.Grado"%>
@@ -43,20 +44,14 @@
                 cv = CV.ClassMgr.createCV(usr.getId(),wsite);
                 cv.setPropietario(usr);
             }
-             
-            Academia aca = cv.getAcademia();
-            if(aca==null){
-                aca = Academia.ClassMgr.createAcademia(wsite);
-                cv.setAcademia(aca);
-            }
             
             int intSize=0;
-            Iterator<GradoAcademico> itga = aca.listGradoAcademicos();
-            while(itga.hasNext()){
-                GradoAcademico grado = itga.next();
+            Iterator<CursoTIC> ittic = cv.listCursosTICs();
+            while(ittic.hasNext()){
+                CursoTIC ctic = ittic.next();
                 intSize++;
             }
-            itga = aca.listGradoAcademicos();
+            ittic = cv.listCursosTICs();
             Resource base = paramRequest.getResourceBase();
             String strNumItems = base.getAttribute("numPageItems", "10");
             String npage = request.getParameter("page");
@@ -78,7 +73,7 @@
                 action = "";
             }
 
-            //SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", new Locale("es"));
+            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", new Locale("es"));
 
             //Set<GradoAcademico> list = null;
 
@@ -104,65 +99,7 @@
 
 <h2>Curriculum Vitae</h2>
 <div id="icv">
-<!-- %@include file="../menucvi.jsp" % -->
-<%
-    WebPage wpbase = wsite.getWebPage("CVI");
-    WebPage wpparent = null;
-    if(!wpage.getParent().equals(wpbase)){
-        wpparent = wpage;
-    } else { wpparent = wpage.getParent(); }
-
-    StringBuffer strsubmenu = new StringBuffer("");
-%>
-<div id="icv-menu">
-   <ul>
-<%
-         Iterator<WebPage> itwp=wpbase.listChilds();
-         while(itwp.hasNext()){
-             WebPage wp = itwp.next();
-             String strSelect = "";
-             if(wp.equals(wpparent)){
-                 strSelect = "class=\"icv-menu-select\"";  
-             }
-%>
-  		<li <%=strSelect%>><a href="<%=wp.getUrl()%>"><%=wp.getDisplayName(usr.getLanguage())%></a></li>
-<%
-         }
-%>
-	</ul>
-</div>
-<%
-if(wpparent.isParentof(wpage)){
-         boolean writeBottom = false;
-         Iterator<WebPage> itsmwp=wpparent.listChilds();
-         if(itsmwp.hasNext())
-         {
-            writeBottom = true;         
-%>
-<div id="icv-submenu">
-    <ul>
-<%
-         }
-         while(itsmwp.hasNext()){
-             WebPage wp = itsmwp.next();
-             String strSelect = "";
-             if(wp.equals(wpage)){
-                 strSelect = "class=\"icv-submenu-select\"";
-             }
-%>
-                     <li <%=strSelect%>><a href="<%=wp.getUrl()%>"><%=wp.getDisplayName(usr.getLanguage())%></a></li>
-<%                                      
-         }
-       if(writeBottom)
-       {
-%>
-	</ul>
-</div>        
-<%
-       }
-}         
-%>        
-
+<%@include file="../menucvi.jsp" %>
 <div id="icv-data">
 <%
             if(action.equals(""))
@@ -177,11 +114,11 @@ if(wpparent.isParentof(wpage)){
     <thead>
         <tr>
             <th width="5%" >&nbsp;</th>
-            <th width="23%" >Grado académico</th>
-            <th width="28%" >Carrera o especialidad</th>
-            <th width="24%" >Institución</th>
-            <th width="13%" >Situación</th>
-            <th width="7%" >Años</th>
+            <th width="25%" >Nombre del curso</th>
+            <th width="25%" >Institución</th>
+            <th width="12%" >Periodo de</th>
+            <th width="12%" >Periodo a</th>
+            <th width="21%" >Documento obtenido</th>
         </tr>
     </thead>
 
@@ -205,8 +142,8 @@ if(wpparent.isParentof(wpage)){
         <%    } else {
 
                 //Iterator<GradoAcademico> itcec = itga.iterator();
-                while (itga.hasNext()) {
-                    GradoAcademico ga = itga.next();
+                while (ittic.hasNext()) {
+                    CursoTIC curso = ittic.next();
 
                     //PAGINACION ////////////////////
                     if (x < p * ps) {
@@ -219,32 +156,34 @@ if(wpparent.isParentof(wpage)){
                     x++;
                     /////////////////////////////////
 
-                    String strGrado = "<center>---</center>"; 
-                    String strCarrera = "<center>---</center>";                   
+                    String strCurso = "<center>---</center>";                   
                     String strInstitucion = "<center>---</center>";
-                    String strSituacion = "<center>---</center>";
-                    int strPeriodo = ga.getPeriodoYears();
+                    String strDocumento = "<center>---</center>";
+                    String strPeriodoINI = "<center>---</center>";
+                    String strPeriodoFIN = "<center>---</center>";
 
-                    if(ga.getGrado()!=null&&ga.getGrado().getTitle()!=null)
-                        strGrado = ga.getGrado().getTitle();
-                    if(ga.getSituacionAcademica()!=null&&ga.getSituacionAcademica().getTitle()!=null)
-                        strSituacion = ga.getSituacionAcademica().getTitle();  
-                    if(ga.getCarrera()!=null&&ga.getCarrera().getTitle()!=null)
-                        strCarrera = ga.getCarrera().getTitle();  
-                    if(ga.getNombreInstitucion()!=null)
-                        strInstitucion = ga.getNombreInstitucion();
+                    if(curso.getTitle()!=null)
+                        strCurso = curso.getTitle();
+                    if(curso.getNombreInstitucion()!=null)
+                        strInstitucion = curso.getNombreInstitucion();  
+                    if(curso.getDocumentoObtenido()!=null)
+                        strDocumento = curso.getDocumentoObtenido();  
+                    if(curso.getInicio()!=null)
+                        strPeriodoINI = sdf.format(curso.getInicio());
+                    if(curso.getFin()!=null)
+                        strPeriodoFIN = sdf.format(curso.getFin());
                     
                     SWBResourceURL urldel = paramRequest.getActionUrl();
                     urldel.setAction("del");
-                    urldel.setParameter("id",ga.getId());   
+                    urldel.setParameter("id",curso.getId());   
         %>
         <tr>
             <td><span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">borrar</a></span></td>
-            <td><%=strGrado%></td>
-            <td><%=strCarrera%></td>
+            <td><%=strCurso%></td>
             <td><%=strInstitucion%></td>
-            <td><%=strSituacion%></td>
-            <td><%=strPeriodo%></td>
+            <td><%=strPeriodoINI%></td>
+            <td><%=strPeriodoFIN%></td>
+            <td><%=strDocumento%></td>
         </tr>
         <%
                         }
@@ -322,68 +261,37 @@ if(wpparent.isParentof(wpage)){
 
  <%
           } else if(action.equals("add")) {
-            String wptitle = wpage.getDisplayName(usr.getLanguage());
+            //String wptitle = wpage.getDisplayName(usr.getLanguage());
               SWBResourceURL urladd = paramRequest.getActionUrl();
               urladd.setAction("add");  
  %>         
-          <h3><%=wptitle%></h3>
+<script type="text/javascript">
+    dojo.require("dijit.form.DateTextBox");
+    dojo.require("dijit.form.Button");
+</script>
           <form id="form1" name="form1" method="post" action="<%=urladd%>">
     <!-- input type="hidden" name="" value="" / --> 
 <div class="icv-div-grupo">
+
   <p class="icv-3col">
-    <label for="idgrado">Grado</label>
-    <select name="idgrado" id="idgrado">
-      <option selected="selected">Seleccione...</option>
-<%
-    Iterator<Grado> itgrado = Grado.ClassMgr.listGrados(wsite); 
-        while (itgrado.hasNext()) {
-            Grado grado = itgrado.next();
-            %>
-            <option value="<%=grado.getId()%>"><%=grado.getDisplayTitle(usr.getLanguage())%></option>
-            <%
-        }
-%>
-    </select>
-  </p>
-    <p class="icv-3col">
-    <label for="idcarrera">Carrera o Especialidad</label>
-    <select name="idcarrera" id="idcarrera">
-      <option selected="selected">Seleccione...</option>
-<%
-    Iterator<Carrera> itcarrera = Carrera.ClassMgr.listCarreras(wsite); 
-        while (itcarrera.hasNext()) {
-            Carrera carrera = itcarrera.next();
-            %>
-            <option value="<%=carrera.getId()%>"><%=carrera.getDisplayTitle(usr.getLanguage())%></option>
-            <%
-        }
-%>
-    </select>
+    <label for="nomcurso"><b>*</b>Nombre del curso</label>
+    <input type="text" name="nomcurso" id="nomcurso" />
   </p>
   <p class="icv-3col">
-    <label for="txtInstitucion"><b>*</b>Institución</label>
-    <input type="text" name="txtInstitucion" id="txtInstitucion" />
-  </p>
-    <p class="icv-3col">
-    <label for="idsituacion">Situación Académica</label>
-    <select name="idsituacion" id="idsituacion">
-      <option selected="selected">Seleccione...</option>
-<%
-    Iterator<SituacionAcademica> itsit = SituacionAcademica.ClassMgr.listSituacionAcademicas(wsite); 
-        while (itsit.hasNext()) {
-            SituacionAcademica situacionAcademica = itsit.next();
-            %>
-            <option value="<%=situacionAcademica.getId()%>"><%=situacionAcademica.getDisplayTitle(usr.getLanguage())%></option>
-            <%
-        }
-%>
-    </select>
-  </p>
- 
- 
+    <label for="nominstitucion"><b>*</b>Institución</label>
+    <input type="text" name="nominstitucion" id="nominstitucion" />
+  </p> 
   <p class="icv-3col">
-    <label for="periodo"><b>*</b>Periodo en años</label>
-    <input type="text" name="periodo" id="periodo" />
+    <label for="fechaini"><b>*</b>Pediodo de</label>
+    <input type="text" name="fechaini" id="fechaini" dojoType="dijit.form.DateTextBox"  onChange="dijit.byId('fechafin').constraints.min = arguments[0];" />
+  </p>
+  <p class="icv-3col">
+    <label for="fechafin"><b>*</b>Periodo a</label>
+    <input type="text" name="fechafin" id="fechafin" dojoType="dijit.form.DateTextBox"  onChange="dijit.byId('fechaini').constraints.max = arguments[0];" />
+  </p>
+  <p class="icv-3col">
+    <label for="docobtenido"><b>*</b>Documento obtenido</label>
+    <input type="text" name="docobtenido" id="docobtenido" />
   </p>
 <div class="clearer">&nbsp;</div>
 </div>

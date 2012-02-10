@@ -100,71 +100,9 @@
 <%
     }
 %>
-
-
-<h2>Curriculum Vitae</h2>
 <div id="icv">
-<!-- %@include file="../menucvi.jsp" % -->
-<%
-    WebPage wpbase = wsite.getWebPage("CVI");
-    WebPage wpparent = null;
-    if(!wpage.getParent().equals(wpbase)){
-        wpparent = wpage;
-    } else { wpparent = wpage.getParent(); }
+<%@include file="../menucvi.jsp" %>
 
-    StringBuffer strsubmenu = new StringBuffer("");
-%>
-<div id="icv-menu">
-   <ul>
-<%
-         Iterator<WebPage> itwp=wpbase.listChilds();
-         while(itwp.hasNext()){
-             WebPage wp = itwp.next();
-             String strSelect = "";
-             if(wp.equals(wpage)||wp.isParentof(wpage)){
-                 strSelect = "class=\"icv-menu-select\"";
-                 wpparent = wp;
-             }
-%>
-  		<li <%=strSelect%>><a href="<%=wp.getUrl()%>"><%=wp.getDisplayName(usr.getLanguage())%></a></li>
-<%
-         }
-%>
-	</ul>
-</div>
-<%
-if(wpparent.isParentof(wpage)){
-         boolean writeBottom = false;
-         Iterator<WebPage> itsmwp=wpparent.listChilds();
-         if(itsmwp.hasNext())
-         {
-            writeBottom = true;         
-%>
-<div id="icv-submenu">
-    <ul>
-<%
-         }
-         while(itsmwp.hasNext()){
-             WebPage wp = itsmwp.next();
-             String strSelect = "";
-             if(wp.equals(wpage)){
-                 strSelect = "class=\"icv-submenu-select\"";
-             }
-%>
-                     <li <%=strSelect%>><a href="<%=wp.getUrl()%>"><%=wp.getDisplayName(usr.getLanguage())%></a></li>
-<%                                      
-         }
-       if(writeBottom)
-       {
-%>
-	</ul>
-</div> 
-
-<%
-       }
-}         
-%>        
-<div class="clearer">&nbsp;</div>
 <div id="icv-data">
 <%
             if(action.equals(""))
