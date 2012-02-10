@@ -4,12 +4,12 @@
  */
 package com.infotec.cvi.swb.resources;
 
-import com.infotec.eworkplace.swb.Academia;
-import com.infotec.eworkplace.swb.CV;
-import com.infotec.eworkplace.swb.Carrera;
-import com.infotec.eworkplace.swb.Grado;
-import com.infotec.eworkplace.swb.GradoAcademico;
-import com.infotec.eworkplace.swb.SituacionAcademica;
+import com.infotec.cvi.swb.Academia;
+import com.infotec.cvi.swb.CV;
+import com.infotec.cvi.swb.Carrera;
+import com.infotec.cvi.swb.Grado;
+import com.infotec.cvi.swb.GradoAcademico;
+import com.infotec.cvi.swb.SituacionAcademica;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
