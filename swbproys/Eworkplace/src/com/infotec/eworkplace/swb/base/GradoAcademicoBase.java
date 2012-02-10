@@ -1,7 +1,7 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class GradoAcademicoBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Periodo,com.infotec.eworkplace.swb.Institucion
+public abstract class GradoAcademicoBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Institucion,com.infotec.eworkplace.swb.Periodo
 {
     public static final org.semanticwb.platform.SemanticClass intranet_SituacionAcademica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#SituacionAcademica");
     public static final org.semanticwb.platform.SemanticProperty intranet_situacionAcademica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#situacionAcademica");
