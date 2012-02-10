@@ -10,9 +10,7 @@ import com.infotec.eworkplace.swb.Carrera;
 import com.infotec.eworkplace.swb.Grado;
 import com.infotec.eworkplace.swb.GradoAcademico;
 import com.infotec.eworkplace.swb.SituacionAcademica;
-import com.infotec.eworkplace.swb.base.GradoBase;
 import java.io.IOException;
-import java.util.Iterator;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import org.semanticwb.Logger;
@@ -23,6 +21,7 @@ import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
+import org.semanticwb.portal.api.SWBResourceURL;
 
 /**
  *
@@ -81,7 +80,7 @@ public class GradoAcademicoResource extends GenericResource
         }
         
         
-        if ("add".equals(action)) {
+        if (SWBResourceURL.Action_ADD.equals(action)) {
             
             String idcarrera = request.getParameter("idcarrera");
             String idsituacion = request.getParameter("idsituacion");
@@ -112,7 +111,7 @@ public class GradoAcademicoResource extends GenericResource
                 response.setRenderParameter("alertmsg", "Datos inválidos, no se pudo agregar Grado Académico");
             }
 
-        } else if ("del".equals(action)) {
+        } else if (SWBResourceURL.Action_REMOVE.equals(action)) {
             if(id!=null){
                 GradoAcademico ga = GradoAcademico.ClassMgr.getGradoAcademico(id, wsite);
                 if(ga!=null){
