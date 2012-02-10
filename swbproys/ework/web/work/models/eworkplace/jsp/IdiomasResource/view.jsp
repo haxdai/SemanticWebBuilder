@@ -4,18 +4,14 @@
     Author     : juan.fernandez
 --%>
 
-<%@page import="com.infotec.eworkplace.swb.SituacionAcademica"%>
-<%@page import="com.infotec.eworkplace.swb.Carrera"%>
-<%@page import="com.infotec.eworkplace.swb.Grado"%>
-<%@page import="com.infotec.eworkplace.swb.base.GradoBase"%>
+<%@page import="com.infotec.eworkplace.swb.Escritura"%>
+<%@page import="com.infotec.eworkplace.swb.Lectura"%>
+<%@page import="com.infotec.eworkplace.swb.Conversacion"%>
+<%@page import="com.infotec.eworkplace.swb.Idiomas"%>
+<%@page import="com.infotec.eworkplace.swb.Idioma"%>
 <%@page import="org.semanticwb.model.WebPage"%>
-<%@page import="com.infotec.eworkplace.swb.GradoAcademico"%>
-<%@page import="com.infotec.eworkplace.swb.Academia"%>
 <%@page import="com.infotec.eworkplace.swb.CV"%>
-<%@page import="java.util.Set"%>
-<%@page import="org.semanticwb.model.SWBComparator"%>
 <%@page import="java.util.Locale"%>
-<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.List"%>
 <%@page import="org.semanticwb.model.WebSite"%>
 <%@page import="java.util.Collections"%>
@@ -43,20 +39,14 @@
                 cv = CV.ClassMgr.createCV(usr.getId(),wsite);
                 cv.setPropietario(usr);
             }
-             
-            Academia aca = cv.getAcademia();
-            if(aca==null){
-                aca = Academia.ClassMgr.createAcademia(wsite);
-                cv.setAcademia(aca);
-            }
             
             int intSize=0;
-            Iterator<GradoAcademico> itga = aca.listGradoAcademicos();
-            while(itga.hasNext()){
-                GradoAcademico grado = itga.next();
+            Iterator<Idioma> itid = cv.listIdiomas();
+            while(itid.hasNext()){
+                Idioma idioma = itid.next();
                 intSize++;
             }
-            itga = aca.listGradoAcademicos();
+            itid = cv.listIdiomas();
             Resource base = paramRequest.getResourceBase();
             String strNumItems = base.getAttribute("numPageItems", "10");
             String npage = request.getParameter("page");
@@ -101,67 +91,9 @@
     }
 %>
 
-
-<h2>Curriculum Vitae</h2>
 <div id="icv">
-<!-- %@include file="../menucvi.jsp" % -->
-<%
-    WebPage wpbase = wsite.getWebPage("CVI");
-    WebPage wpparent = null;
-    if(!wpage.getParent().equals(wpbase)){
-        wpparent = wpage;
-    } else { wpparent = wpage.getParent(); }
-
-    StringBuffer strsubmenu = new StringBuffer("");
-%>
-<div id="icv-menu">
-   <ul>
-<%
-         Iterator<WebPage> itwp=wpbase.listChilds();
-         while(itwp.hasNext()){
-             WebPage wp = itwp.next();
-             String strSelect = "";
-             if(wp.equals(wpparent)){
-                 strSelect = "class=\"icv-menu-select\"";  
-             }
-%>
-  		<li <%=strSelect%>><a href="<%=wp.getUrl()%>"><%=wp.getDisplayName(usr.getLanguage())%></a></li>
-<%
-         }
-%>
-	</ul>
-</div>
-<%
-if(wpparent.isParentof(wpage)){
-         boolean writeBottom = false;
-         Iterator<WebPage> itsmwp=wpparent.listChilds();
-         if(itsmwp.hasNext())
-         {
-            writeBottom = true;         
-%>
-<div id="icv-submenu">
-    <ul>
-<%
-         }
-         while(itsmwp.hasNext()){
-             WebPage wp = itsmwp.next();
-             String strSelect = "";
-             if(wp.equals(wpage)){
-                 strSelect = "class=\"icv-submenu-select\"";
-             }
-%>
-                     <li <%=strSelect%>><a href="<%=wp.getUrl()%>"><%=wp.getDisplayName(usr.getLanguage())%></a></li>
-<%                                      
-         }
-       if(writeBottom)
-       {
-%>
-	</ul>
-</div>        
-<%
-       }
-}         
-%>        
+<%@include file="../menucvi.jsp" %>
+    
 
 <div id="icv-data">
 <%
@@ -177,11 +109,10 @@ if(wpparent.isParentof(wpage)){
     <thead>
         <tr>
             <th width="5%" >&nbsp;</th>
-            <th width="23%" >Grado académico</th>
-            <th width="28%" >Carrera o especialidad</th>
-            <th width="24%" >Institución</th>
-            <th width="13%" >Situación</th>
-            <th width="7%" >Años</th>
+            <th width="35%" >Idioma</th>
+            <th width="20%" >Conversación</th>
+            <th width="20%" >Lectura</th>
+            <th width="20%" >Escritura</th>
         </tr>
     </thead>
 
@@ -205,8 +136,8 @@ if(wpparent.isParentof(wpage)){
         <%    } else {
 
                 //Iterator<GradoAcademico> itcec = itga.iterator();
-                while (itga.hasNext()) {
-                    GradoAcademico ga = itga.next();
+                while (itid.hasNext()) {
+                    Idioma ga = itid.next();
 
                     //PAGINACION ////////////////////
                     if (x < p * ps) {
@@ -219,20 +150,20 @@ if(wpparent.isParentof(wpage)){
                     x++;
                     /////////////////////////////////
 
-                    String strGrado = "<center>---</center>"; 
-                    String strCarrera = "<center>---</center>";                   
-                    String strInstitucion = "<center>---</center>";
-                    String strSituacion = "<center>---</center>";
-                    int strPeriodo = ga.getPeriodoYears();
+                    String strIdioma = "<center>---</center>"; 
+                    String strCoversacion = "<center>---</center>";                   
+                    String strLectura = "<center>---</center>";
+                    String strEscritura = "<center>---</center>";
+                    
 
-                    if(ga.getGrado()!=null&&ga.getGrado().getTitle()!=null)
-                        strGrado = ga.getGrado().getTitle();
-                    if(ga.getSituacionAcademica()!=null&&ga.getSituacionAcademica().getTitle()!=null)
-                        strSituacion = ga.getSituacionAcademica().getTitle();  
-                    if(ga.getCarrera()!=null&&ga.getCarrera().getTitle()!=null)
-                        strCarrera = ga.getCarrera().getTitle();  
-                    if(ga.getNombreInstitucion()!=null)
-                        strInstitucion = ga.getNombreInstitucion();
+                    if(ga.getIdiomas()!=null&&ga.getIdiomas().getTitle()!=null)
+                        strIdioma = ga.getIdiomas().getTitle();
+                    if(ga.getConversacion()!=null&&ga.getConversacion().getTitle()!=null)
+                        strCoversacion = ga.getConversacion().getTitle();  
+                    if(ga.getLectura()!=null&&ga.getLectura().getTitle()!=null)
+                        strLectura = ga.getLectura().getTitle();  
+                    if(ga.getEscritura()!=null&&ga.getEscritura().getTitle()!=null)
+                        strEscritura = ga.getEscritura().getTitle();
                     
                     SWBResourceURL urldel = paramRequest.getActionUrl();
                     urldel.setAction("del");
@@ -240,11 +171,10 @@ if(wpparent.isParentof(wpage)){
         %>
         <tr>
             <td><span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">borrar</a></span></td>
-            <td><%=strGrado%></td>
-            <td><%=strCarrera%></td>
-            <td><%=strInstitucion%></td>
-            <td><%=strSituacion%></td>
-            <td><%=strPeriodo%></td>
+            <td><%=strIdioma%></td>
+            <td><%=strCoversacion%></td>
+            <td><%=strLectura%></td>
+            <td><%=strEscritura%></td>
         </tr>
         <%
                         }
@@ -331,59 +261,64 @@ if(wpparent.isParentof(wpage)){
     <!-- input type="hidden" name="" value="" / --> 
 <div class="icv-div-grupo">
   <p class="icv-3col">
-    <label for="idgrado">Grado</label>
-    <select name="idgrado" id="idgrado">
+    <label for="ididoma"><b>*</b>Idioma</label>
+    <select name="ididoma" id="ididoma">
       <option selected="selected">Seleccione...</option>
 <%
-    Iterator<Grado> itgrado = Grado.ClassMgr.listGrados(wsite); 
-        while (itgrado.hasNext()) {
-            Grado grado = itgrado.next();
+    Iterator<Idiomas> itidioma = Idiomas.ClassMgr.listIdiomases(wsite); 
+        while (itidioma.hasNext()) {
+            Idiomas ids = itidioma.next();
             %>
-            <option value="<%=grado.getId()%>"><%=grado.getDisplayTitle(usr.getLanguage())%></option>
+            <option value="<%=ids.getId()%>"><%=ids.getDisplayTitle(usr.getLanguage())%></option>
             <%
         }
 %>
     </select>
   </p>
     <p class="icv-3col">
-    <label for="idcarrera">Carrera o Especialidad</label>
-    <select name="idcarrera" id="idcarrera">
+    <label for="idconversacion"><b>*</b>Conversación</label>
+    <select name="idconversacion" id="idconversacion">
       <option selected="selected">Seleccione...</option>
 <%
-    Iterator<Carrera> itcarrera = Carrera.ClassMgr.listCarreras(wsite); 
-        while (itcarrera.hasNext()) {
-            Carrera carrera = itcarrera.next();
+    Iterator<Conversacion> itconv = Conversacion.ClassMgr.listConversacions(wsite); 
+        while (itconv.hasNext()) {
+            Conversacion conv = itconv.next();
             %>
-            <option value="<%=carrera.getId()%>"><%=carrera.getDisplayTitle(usr.getLanguage())%></option>
+            <option value="<%=conv.getId()%>"><%=conv.getDisplayTitle(usr.getLanguage())%></option>
             <%
         }
 %>
     </select>
-  </p>
-  <p class="icv-3col">
-    <label for="txtInstitucion"><b>*</b>Institución</label>
-    <input type="text" name="txtInstitucion" id="txtInstitucion" />
   </p>
     <p class="icv-3col">
-    <label for="idsituacion">Situación Académica</label>
-    <select name="idsituacion" id="idsituacion">
+    <label for="idlectura"><b>*</b>Lectura</label>
+    <select name="idlectura" id="idlectura">
       <option selected="selected">Seleccione...</option>
 <%
-    Iterator<SituacionAcademica> itsit = SituacionAcademica.ClassMgr.listSituacionAcademicas(wsite); 
-        while (itsit.hasNext()) {
-            SituacionAcademica situacionAcademica = itsit.next();
+    Iterator<Lectura> itlec = Lectura.ClassMgr.listLecturas(wsite); 
+        while (itlec.hasNext()) {
+            Lectura lec = itlec.next();
             %>
-            <option value="<%=situacionAcademica.getId()%>"><%=situacionAcademica.getDisplayTitle(usr.getLanguage())%></option>
+            <option value="<%=lec.getId()%>"><%=lec.getDisplayTitle(usr.getLanguage())%></option>
             <%
         }
 %>
     </select>
   </p>
- 
- 
-  <p class="icv-3col">
-    <label for="periodo"><b>*</b>Periodo en años</label>
-    <input type="text" name="periodo" id="periodo" />
+    <p class="icv-3col">
+    <label for="idescritura"><b>*</b>Escritura</label>
+    <select name="idescritura" id="idescritura">
+      <option selected="selected">Seleccione...</option>
+<%
+    Iterator<Escritura> itesc = Escritura.ClassMgr.listEscrituras(wsite); 
+        while (itesc.hasNext()) {
+            Escritura esc = itesc.next();
+            %>
+            <option value="<%=esc.getId()%>"><%=esc.getDisplayTitle(usr.getLanguage())%></option>
+            <%
+        }
+%>
+    </select>
   </p>
 <div class="clearer">&nbsp;</div>
 </div>
