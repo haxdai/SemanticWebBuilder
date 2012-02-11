@@ -270,7 +270,7 @@
     <!-- input type="hidden" name="" value="" / --> 
 <div class="icv-div-grupo">
   <p class="icv-3col">
-    <label for="idgrado">Grado</label>
+    <label for="idgrado"><b>*</b>Grado</label>
     <select name="idgrado" id="idgrado">
       <option selected="selected">Seleccione...</option>
 <%
@@ -285,7 +285,7 @@
     </select>
   </p>
     <p class="icv-3col">
-    <label for="idcarrera">Carrera o Especialidad</label>
+    <label for="idcarrera"><b>*</b>Carrera o Especialidad</label>
     <select name="idcarrera" id="idcarrera">
       <option selected="selected">Seleccione...</option>
 <%
@@ -301,10 +301,10 @@
   </p>
   <p class="icv-3col">
     <label for="txtInstitucion"><b>*</b>Institución</label>
-    <input type="text" name="txtInstitucion" id="txtInstitucion" />
+    <input type="text" name="txtInstitucion" id="txtInstitucion" maxlength="150" />
   </p>
     <p class="icv-3col">
-    <label for="idsituacion">Situación Académica</label>
+    <label for="idsituacion"><b>*</b>Situación Académica</label>
     <select name="idsituacion" id="idsituacion">
       <option selected="selected">Seleccione...</option>
 <%
@@ -322,7 +322,7 @@
  
   <p class="icv-3col">
     <label for="periodo"><b>*</b>Periodo en años</label>
-    <input type="text" name="periodo" id="periodo" />
+    <input type="text" name="periodo" id="periodo" maxlength="2" />
   </p>
 <div class="clearer">&nbsp;</div>
 </div>
