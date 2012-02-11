@@ -4,11 +4,9 @@
  */
 package com.infotec.cvi.swb.resources;
 
-import com.infotec.eworkplace.swb.CV;
-import com.infotec.eworkplace.swb.Conversacion;
-import com.infotec.eworkplace.swb.Escritura;
-import com.infotec.eworkplace.swb.Investigacion;
-import com.infotec.eworkplace.swb.Lectura;
+import com.infotec.cvi.swb.CV;
+import com.infotec.cvi.swb.Investigacion;
+import com.infotec.cvi.swb.SNIConacyt;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +18,8 @@ import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
+import org.semanticwb.portal.api.SWBResourceModes;
+import org.semanticwb.portal.api.SWBResourceURL;
 
 /**
  *
@@ -71,26 +71,36 @@ public class InvestigacionResource extends GenericResource
             cv.setPropietario(usr);
         }
         
-        if ("add".equals(action)) {
+        if (SWBResourceURL.Action_ADD.equals(action)) {
             
-            String ididioma = request.getParameter("ididoma");
-            String idconversacion = request.getParameter("idconversacion");
-            String idlectura = request.getParameter("idlectura");
-            String idescritura = request.getParameter("idescritura");
+            String txtareainv = request.getParameter("txtareainv");
+            String txtempresa = request.getParameter("txtempresa");
+            String txtnomjefe = request.getParameter("txtnomjefe");
+            String txtnompuesto = request.getParameter("txtnompuesto");
+            String idsniconacyt = request.getParameter("idsniconacyt");
+            int fechafin = 0;
+            try {
+                fechafin = Integer.parseInt(request.getParameter("txtfechafin"));
+            } catch (Exception e) {
+            }
+            int numtel = 0;
+            try {
+                numtel = Integer.parseInt(request.getParameter("numtel"));
+            } catch (Exception e) {
+            }
             
-            Investigacion invest = Investigacion.ClassMgr.getInvestigacion(ididioma,wsite); 
-            Conversacion conv = Conversacion.ClassMgr.getConversacion(idconversacion, wsite);
-            Lectura lectura = Lectura.ClassMgr.getLectura(idlectura, wsite);
-            Escritura escritura = Escritura.ClassMgr.getEscritura(idescritura, wsite); 
+            SNIConacyt snic = SNIConacyt.ClassMgr.getSNIConacyt(idsniconacyt,wsite); 
             
-            if(idiomas!=null&&conv!=null&&lectura!=null&&escritura!=null)
+            if(txtareainv!=null&&txtempresa!=null&&txtnomjefe!=null&&txtnompuesto!=null&&snic!=null&&fechafin>=0&&numtel>0)
             {
                 Investigacion inves = Investigacion.ClassMgr.createInvestigacion(wsite);
 
-                inves.setConversacion(conv);
-                inves.setEscritura(escritura);
-                inves.setIdiomas(idiomas);
-                inves.setLectura(lectura);
+                inves.setAreaInvestigacion(txtareainv);
+                inves.setNombreEmpresa(txtempresa);
+                inves.setNombreJefePuesto(txtnomjefe);
+                inves.setNombrePuesto(txtnompuesto);
+                inves.setFechaTermino(fechafin);
+                inves.setNumTelefono(numtel);
                 
                 cv.addInvestigacion(inves);
                 
@@ -102,7 +112,7 @@ public class InvestigacionResource extends GenericResource
                 response.setRenderParameter("alertmsg", "Datos inválidos, no se pudo agregar Investigación");
             }
 
-        } else if ("del".equals(action)) {
+        } else if (SWBResourceURL.Action_REMOVE.equals(action)) {
             if(id!=null){
                 Investigacion invest = Investigacion.ClassMgr.getInvestigacion(id, wsite);
                 if(invest!=null){
