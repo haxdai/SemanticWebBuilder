@@ -20,6 +20,7 @@ import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
+import org.semanticwb.portal.api.SWBResourceURL;
 
 /**
  *
@@ -78,7 +79,7 @@ public class EstudioSuperiorResource extends GenericResource
         }
         
         
-        if ("add".equals(action)) {
+        if (SWBResourceURL.Action_ADD.equals(action)) {
             
             String idestudio = request.getParameter("idestudio");
             String idgavance = request.getParameter("idgavance");
@@ -104,7 +105,7 @@ public class EstudioSuperiorResource extends GenericResource
                 response.setRenderParameter("alertmsg", "Datos inválidos, no se pudo agregar Estudio Superior");
             }
 
-        } else if ("del".equals(action)) {
+        } else if (SWBResourceURL.Action_REMOVE.equals(action)) {
             if(id!=null){
                 EstudioSuperior estSuperior = EstudioSuperior.ClassMgr.getEstudioSuperior(id, wsite);
                 if(estSuperior!=null){
