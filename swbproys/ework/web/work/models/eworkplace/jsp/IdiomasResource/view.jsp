@@ -4,13 +4,13 @@
     Author     : juan.fernandez
 --%>
 
-<%@page import="com.infotec.eworkplace.swb.Escritura"%>
-<%@page import="com.infotec.eworkplace.swb.Lectura"%>
-<%@page import="com.infotec.eworkplace.swb.Conversacion"%>
-<%@page import="com.infotec.eworkplace.swb.Idiomas"%>
-<%@page import="com.infotec.eworkplace.swb.Idioma"%>
+<%@page import="com.infotec.cvi.swb.Escritura"%>
+<%@page import="com.infotec.cvi.swb.Lectura"%>
+<%@page import="com.infotec.cvi.swb.Conversacion"%>
+<%@page import="com.infotec.cvi.swb.Idiomas"%>
+<%@page import="com.infotec.cvi.swb.Idioma"%>
 <%@page import="org.semanticwb.model.WebPage"%>
-<%@page import="com.infotec.eworkplace.swb.CV"%>
+<%@page import="com.infotec.cvi.swb.CV"%>
 <%@page import="java.util.Locale"%>
 <%@page import="java.util.List"%>
 <%@page import="org.semanticwb.model.WebSite"%>

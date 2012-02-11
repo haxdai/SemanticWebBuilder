@@ -4,10 +4,10 @@
     Author     : juan.fernandez
 --%>
 
+<%@page import="com.infotec.cvi.swb.CursoTIC"%>
+<%@page import="com.infotec.cvi.swb.CV"%>
 <%@page import="org.semanticwb.portal.SWBFormMgr"%>
-<%@page import="com.infotec.eworkplace.swb.CursoTIC"%>
 <%@page import="org.semanticwb.model.WebPage"%>
-<%@page import="com.infotec.eworkplace.swb.CV"%>
 <%@page import="java.util.Set"%>
 <%@page import="org.semanticwb.model.SWBComparator"%>
 <%@page import="java.util.Locale"%>
