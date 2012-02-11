@@ -17,6 +17,7 @@ import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
+import org.semanticwb.portal.api.SWBResourceURL;
 
 /**
  *
@@ -68,7 +69,7 @@ public class DiplomadoCursoResource extends GenericResource
             cv.setPropietario(usr);
         }
         
-        if ("add".equals(action)) {
+        if (SWBResourceURL.Action_ADD.equals(action)) {
             
             String nomcurso = request.getParameter("nomcurso");
             String nominstitucion = request.getParameter("nominstitucion");
@@ -96,7 +97,7 @@ public class DiplomadoCursoResource extends GenericResource
                 response.setRenderParameter("alertmsg", "Datos inválidos, no se pudo agregar Diplomado / Curso");
             }
 
-        } else if ("del".equals(action)) {
+        } else if (SWBResourceURL.Action_REMOVE.equals(action)) {
             if(id!=null){
                 Diplomado ctic = Diplomado.ClassMgr.getDiplomado(id, wsite);
                 if(ctic!=null){

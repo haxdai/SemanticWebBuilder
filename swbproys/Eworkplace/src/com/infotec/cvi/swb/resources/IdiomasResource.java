@@ -21,6 +21,7 @@ import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
+import org.semanticwb.portal.api.SWBResourceURL;
 
 /**
  *
@@ -72,7 +73,7 @@ public class IdiomasResource extends GenericResource
             cv.setPropietario(usr);
         }
         
-        if ("add".equals(action)) {
+        if (SWBResourceURL.Action_ADD.equals(action)) {
             
             String ididioma = request.getParameter("ididoma");
             String idconversacion = request.getParameter("idconversacion");
@@ -103,7 +104,7 @@ public class IdiomasResource extends GenericResource
                 response.setRenderParameter("alertmsg", "Datos inválidos, no se pudo agregar Idioma");
             }
 
-        } else if ("del".equals(action)) {
+        } else if (SWBResourceURL.Action_REMOVE.equals(action)) {
             if(id!=null){
                 Idioma idioma = Idioma.ClassMgr.getIdioma(id, wsite);
                 if(idioma!=null){
