@@ -4,6 +4,7 @@
  */
 package com.infotec.cvi.swb.resources;
 
+import com.infotec.cvi.swb.Candidato;
 import com.infotec.eworkplace.swb.Persona;
 import com.infotec.eworkplace.swb.Telefono;
 import java.io.*;
@@ -64,7 +65,7 @@ public class UserPersonalData extends GenericAdmResource {
                 String email = request.getParameter("email");
                 //String phoneUser = request.getParameter("phoneUser");
                 String sLabor = request.getParameter("sLabor");
-                String avalibility = request.getParameter("avalibility");
+                String availability = request.getParameter("availability");
                 String facebook = request.getParameter("facebook");
                 String skype = request.getParameter("skype");
                 String msn = request.getParameter("msn");
@@ -87,120 +88,136 @@ public class UserPersonalData extends GenericAdmResource {
                 }else{
                     complete=false;
                 }
+
                 Persona persona = Persona.ClassMgr.getPersona(user.getId(), ws);
                 if (persona == null) {
-                    complete=false;
+                    persona = Persona.ClassMgr.createPersona(user.getId(), ws);
+                    persona.setOwner(user);
+                }else if(persona.getOwner()==null){
+                    persona.setOwner(user);
+                }
+
+                if (curp!=null&&!curp.equals("")&&curp.matches("[a-zA-Z]{4}\\d{6}[a-zA-Z]{6}\\d{2}")){
+                    persona.setCurp(curp);
                 }else{
+                    complete=false;
+                }
 
-                    if (curp!=null&&!curp.equals("")&&curp.matches("[a-zA-Z]{4}\\d{6}[a-zA-Z]{6}\\d{2}")){
-                        persona.setCurp(curp);
-                    }else{
-                        complete=false;
-                    }
+                if (gender.equals("f")){
+                    persona.setGenero(true);
+                }else if(gender.equals("m")){
+                    persona.setGenero(false);
+                }else{
+                    complete=false;
+                }
 
-                    if (gender.equals("f")){
-                        persona.setGenero(true);
-                    }else if(gender.equals("m")){
-                        persona.setGenero(false);
-                    }else{
-                        complete=false;
-                    }
+                if (birthday!=null){
+                    persona.setNacimiento(birthday);
+                }else{
+                    complete=false;
+                }
 
-                    if (birthday!=null){
-                        persona.setNacimiento(birthday);
-                    }else{
-                        complete=false;
-                    }
+                persona.setLugarNacimiento(null);
 
-                    persona.setLugarNacimiento(null);
-
-                    if (nationality!=null){
-                        persona.setNacionalidad(nationality);
-                    }else{
-                        complete=false;
-                    }
-                    if (fm2!=null&&!fm2.equals("")&&fm2.matches("\\d+")){
-                        persona.setFM2(fm2);
-                    }else{
-                        complete=false;
-                    }
+                if (nationality!=null){
+                    persona.setNacionalidad(nationality);
+                }else{
+                    complete=false;
+                }
+                if (fm2!=null&&!fm2.equals("")&&fm2.matches("\\d+")){
+                    persona.setFM2(fm2);
+                }else{
+                    complete=false;
+                }
 
 
-                    Enumeration<String> params=request.getParameterNames();
-                    while(params.hasMoreElements()){
-                        String param=params.nextElement();
-                        if (param.startsWith("phoneNum")){
-                            String phoneId=param.substring(8);
-                            int phoneNum=0;
-                            int phoneLada=0;
-                            int phoneExt=0;
-                            String phoneType=request.getParameter("phoneType"+phoneId);
+                Enumeration<String> params=request.getParameterNames();
+                while(params.hasMoreElements()){
+                    String param=params.nextElement();
+                    if (param.startsWith("phoneNum")){
+                        String phoneId=param.substring(8);
+                        int phoneNum=0;
+                        int phoneLada=0;
+                        int phoneExt=0;
+                        String phoneType=request.getParameter("phoneType"+phoneId);
+                        try{
+                            phoneNum=Integer.parseInt(request.getParameter("phoneNum"+phoneId));
                             try{
-                                phoneNum=Integer.parseInt(request.getParameter("phoneNum"+phoneId)); 
-                                try{
-                                    phoneLada=Integer.parseInt(request.getParameter("phoneLada"+phoneId));
-                                }catch(NumberFormatException ignoredException){
-                                }
-                                phoneExt=Integer.parseInt(request.getParameter("phoneExt"+phoneId));    
+                                phoneLada=Integer.parseInt(request.getParameter("phoneLada"+phoneId));
                             }catch(NumberFormatException ignoredException){
                             }
+                            phoneExt=Integer.parseInt(request.getParameter("phoneExt"+phoneId));
+                        }catch(NumberFormatException ignoredException){
+                        }
 
 //System.out.println("phoneId:"+phoneId);
 //System.out.println("phonenum"+request.getParameter("phoneNum"+phoneId));
-                            if(phoneId.startsWith("_")&&phoneNum>0){
-                                Telefono telefono=Telefono.ClassMgr.createTelefono(ws);
-                                telefono.setLada(phoneLada);
-                                telefono.setNumero(phoneNum);
-                                telefono.setExtension(phoneExt);
-                                telefono.setTipo(phoneType);
-                                persona.addTelefono(telefono);
-                            }else{
-                                Iterator<Telefono>  itt=persona.listTelefonos();
-                                while(itt.hasNext()){
-                                    Telefono telefono=itt.next();
+                        if(phoneId.startsWith("_")&&phoneNum>0){
+                            Telefono telefono=Telefono.ClassMgr.createTelefono(ws);
+                            telefono.setLada(phoneLada);
+                            telefono.setNumero(phoneNum);
+                            telefono.setExtension(phoneExt);
+                            telefono.setTipo(phoneType);
+                            persona.addTelefono(telefono);
+                        }else{
+                            Iterator<Telefono>  itt=persona.listTelefonos();
+                            while(itt.hasNext()){
+                                Telefono telefono=itt.next();
 //System.out.println("telefonoId:"+telefono.getId());
-                                    if(telefono.getId().equals(phoneId)&&phoneNum>0){
-                                        telefono.setLada(phoneLada);
-                                        telefono.setNumero(phoneNum);
-                                        telefono.setExtension(phoneExt);
-                                        telefono.setTipo(phoneType);
-                                    }
+                                if(telefono.getId().equals(phoneId)&&phoneNum>0){
+                                    telefono.setLada(phoneLada);
+                                    telefono.setNumero(phoneNum);
+                                    telefono.setExtension(phoneExt);
+                                    telefono.setTipo(phoneType);
                                 }
                             }
                         }
                     }
+                }
 
 
-                    //sLabor = request.getParameter("sLabor");
-                     //avalibility = request.getParameter("avalibility");
+                //sLabor = request.getParameter("sLabor");
+                 //avalibility = request.getParameter("avalibility");
 
-                    if (facebook!=null&&!facebook.equals("")&&facebook.matches(".+")){
-                        persona.setFacebook(facebook);
-                    }else{
-                        //complete=false;
-                    }
-                    if (skype!=null&&!skype.equals("")&&skype.matches(".+")){
-                        persona.setSkype(skype);
-                    }else{
-                        //complete=false;
-                    }
-                    if (msn!=null&&!msn.equals("")&&msn.matches(".+")){
-                        persona.setMsn(msn);
-                    }else{
-                        //complete=false;
-                    }
-                    if (linkedin!=null&&!linkedin.equals("")&&linkedin.matches(".+")){
-                        persona.setLinkedin(linkedin);
-                    }else{
-                        //complete=false;
-                    }
-                    if (twitter!=null&&!twitter.equals("")&&twitter.matches(".+")){
-                        persona.setTwitter(twitter);
-                    }else{
-                        //complete=false;
-                    }
+                if (facebook!=null&&!facebook.equals("")&&facebook.matches(".+")){
+                    persona.setFacebook(facebook);
+                }else{
+                    //complete=false;
+                }
+                if (skype!=null&&!skype.equals("")&&skype.matches(".+")){
+                    persona.setSkype(skype);
+                }else{
+                    //complete=false;
+                }
+                if (msn!=null&&!msn.equals("")&&msn.matches(".+")){
+                    persona.setMsn(msn);
+                }else{
+                    //complete=false;
+                }
+                if (linkedin!=null&&!linkedin.equals("")&&linkedin.matches(".+")){
+                    persona.setLinkedin(linkedin);
+                }else{
+                    //complete=false;
+                }
+                if (twitter!=null&&!twitter.equals("")&&twitter.matches(".+")){
+                    persona.setTwitter(twitter);
+                }else{
+                    //complete=false;
+                }
 
-
+                Candidato candidato = Candidato.ClassMgr.getCandidato(user.getId(), ws);
+                if (candidato == null) {
+                    candidato = Candidato.ClassMgr.createCandidato(user.getId(), ws);
+                }
+                try{
+                    candidato.setSituacionLaboral(Integer.parseInt(sLabor));
+                }catch(NumberFormatException ignoredException){
+                    complete=false;
+                }
+                try{
+                    candidato.setDisponibilidad(Integer.parseInt(availability));
+                }catch(NumberFormatException ignoredException){
+                    complete=false;
                 }
                 if (!complete){
                   /*  response.setRenderParameter("firstName", SWBUtils.XML.replaceXMLChars(request.getParameter("firstName")));
@@ -239,15 +256,19 @@ public class UserPersonalData extends GenericAdmResource {
          */
 
         //if(!user.isSigned()) {
-        Persona persona = Persona.ClassMgr.getPersona(user.getId(), ws);
+/*        Persona persona = Persona.ClassMgr.getPersona(user.getId(), ws);
         if (persona == null) {
             persona = Persona.ClassMgr.createPersona(user.getId(), ws);
             persona.setOwner(user);
+        }else if(persona.getOwner()==null){
+            persona.setOwner(user);
         }
-        RequestDispatcher dis = request.getRequestDispatcher(basePath+"userData.jsp");
+        Persona capersona = Persona.ClassMgr.getPersona(user.getId(), ws);
+        if(){}
+*/        RequestDispatcher dis = request.getRequestDispatcher(basePath+"userData.jsp");
         try {
             request.setAttribute("paramRequest", paramsRequest);
-            request.setAttribute("persona", persona);
+//            request.setAttribute("persona", persona);
             dis.include(request, response);
         } catch (Exception e) {
             log.error(e);
