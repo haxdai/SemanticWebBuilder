@@ -4,17 +4,17 @@
     Author     : juan.fernandez
 --%>
 
-<%@page import="com.infotec.eworkplace.swb.Estudios"%>
-<%@page import="com.infotec.eworkplace.swb.Avance"%>
-<%@page import="com.infotec.eworkplace.swb.EstudioSuperior"%>
-<%@page import="com.infotec.eworkplace.swb.SituacionAcademica"%>
-<%@page import="com.infotec.eworkplace.swb.Carrera"%>
-<%@page import="com.infotec.eworkplace.swb.Grado"%>
-<%@page import="com.infotec.eworkplace.swb.base.GradoBase"%>
+<%@page import="com.infotec.cvi.swb.Estudios"%>
+<%@page import="com.infotec.cvi.swb.Avance"%>
+<%@page import="com.infotec.cvi.swb.EstudioSuperior"%>
+<%@page import="com.infotec.cvi.swb.SituacionAcademica"%>
+<%@page import="com.infotec.cvi.swb.Carrera"%>
+<%@page import="com.infotec.cvi.swb.Grado"%>
+<%@page import="com.infotec.cvi.swb.base.GradoBase"%>
 <%@page import="org.semanticwb.model.WebPage"%>
-<%@page import="com.infotec.eworkplace.swb.GradoAcademico"%>
-<%@page import="com.infotec.eworkplace.swb.Academia"%>
-<%@page import="com.infotec.eworkplace.swb.CV"%>
+<%@page import="com.infotec.cvi.swb.GradoAcademico"%>
+<%@page import="com.infotec.cvi.swb.Academia"%>
+<%@page import="com.infotec.cvi.swb.CV"%>
 <%@page import="java.util.Set"%>
 <%@page import="org.semanticwb.model.SWBComparator"%>
 <%@page import="java.util.Locale"%>
