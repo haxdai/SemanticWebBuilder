@@ -172,7 +172,7 @@
                         strEstudio = ga.getEstudiosSuperiores().getTitle();  
                     
                     SWBResourceURL urldel = paramRequest.getActionUrl();
-                    urldel.setAction("del");
+                    urldel.setAction(SWBResourceURL.Action_REMOVE);
                     urldel.setParameter("id",ga.getId());   
         %>
         <tr>
@@ -249,17 +249,17 @@
             }
                     
                     SWBResourceURL urladd = paramRequest.getRenderUrl();
-                    urladd.setParameter("act","add");
+                    urladd.setParameter("act",SWBResourceURL.Action_ADD);
 %>
 </p></div>
 <p class="icv-txt"><a href="<%=urladd%>">Agregar</a></p>    
 
 
  <%
-          } else if(action.equals("add")) {
+          } else if(action.equals(SWBResourceURL.Action_ADD)) {
             //String wptitle = wpage.getDisplayName(usr.getLanguage());
               SWBResourceURL urladd = paramRequest.getActionUrl();
-              urladd.setAction("add");  
+              urladd.setAction(SWBResourceURL.Action_ADD);  
  %>         
           
           <form id="form1" name="form1" method="post" action="<%=urladd%>">
@@ -267,7 +267,7 @@
 <div class="icv-div-grupo">
   
     <p class="icv-3col">
-    <label for="idestudio">Estudios Superiores</label>
+    <label for="idestudio"><b>*</b>Estudios Superiores</label>
     <select name="idestudio" id="idestudio">
       <option selected="selected">Seleccione...</option>
 <%
@@ -283,7 +283,7 @@
   </p>
 
     <p class="icv-3col">
-    <label for="idgavance">Grado de avance</label>
+    <label for="idgavance"><b>*</b>Grado de avance</label>
     <select name="idgavance" id="idgavance">
       <option selected="selected">Seleccione...</option>
 <%
@@ -301,7 +301,7 @@
  
   <p class="icv-3col">
     <label for="periodo"><b>*</b>Periodo en años</label>
-    <input type="text" name="periodo" id="periodo" />
+    <input type="text" name="periodo" id="periodo" maxlength="2" />
   </p>
 <div class="clearer">&nbsp;</div>
 </div>

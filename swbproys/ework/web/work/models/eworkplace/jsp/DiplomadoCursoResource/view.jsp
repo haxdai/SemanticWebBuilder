@@ -174,7 +174,7 @@
                         strPeriodoFIN = sdf.format(curso.getFin());
                     
                     SWBResourceURL urldel = paramRequest.getActionUrl();
-                    urldel.setAction("del");
+                    urldel.setAction(SWBResourceURL.Action_REMOVE);
                     urldel.setParameter("id",curso.getId());   
         %>
         <tr>
@@ -253,17 +253,17 @@
             }
                     
                     SWBResourceURL urladd = paramRequest.getRenderUrl();
-                    urladd.setParameter("act","add");
+                    urladd.setParameter("act",SWBResourceURL.Action_ADD);
 %>
 </p></div>
 <p class="icv-txt"><a href="<%=urladd%>">Agregar</a></p>    
 
 
  <%
-          } else if(action.equals("add")) {
+          } else if(action.equals(SWBResourceURL.Action_ADD)) {
             String wptitle = wpage.getDisplayName(usr.getLanguage());
               SWBResourceURL urladd = paramRequest.getActionUrl();
-              urladd.setAction("add");  
+              urladd.setAction(SWBResourceURL.Action_ADD);  
               
  %>         
 
@@ -274,23 +274,23 @@
 
   <p class="icv-3col">
     <label for="nomcurso"><b>*</b>Nombre del curso</label>
-    <input type="text" name="nomcurso" id="nomcurso" />
+    <input type="text" name="nomcurso" id="nomcurso" maxlength="100" />
   </p>
   <p class="icv-3col">
     <label for="nominstitucion"><b>*</b>Institución</label>
-    <input type="text" name="nominstitucion" id="nominstitucion" />
+    <input type="text" name="nominstitucion" id="nominstitucion" maxlength="150" />
   </p> 
   <p class="icv-3col">
-    <label for="fechaini"><b>*</b>Pediodo de</label>
-    <input type="text" name="fechaini" id="fechaini" dojoType="dijit.form.DateTextBox"  onChange="dijit.byId('fechafin').constraints.min = arguments[0];" />
+    <label for="fechaini"><b>*</b>Pediodo de (Año)</label>
+    <input type="text" name="fechaini" id="fechaini" maxlength="4" />
   </p>
   <p class="icv-3col">
-    <label for="fechafin"><b>*</b>Periodo a</label>
-    <input type="text" name="fechafin" id="fechafin" dojoType="dijit.form.DateTextBox"  onChange="dijit.byId('fechaini').constraints.max = arguments[0];" />
+    <label for="fechafin"><b>*</b>Periodo a (Año)</label>
+    <input type="text" name="fechafin" id="fechafin" maxlength="4" />
   </p>
   <p class="icv-3col">
     <label for="docobtenido"><b>*</b>Documento obtenido</label>
-    <input type="text" name="docobtenido" id="docobtenido" />
+    <input type="text" name="docobtenido" id="docobtenido" maxlength="100" />
   </p>
 <div class="clearer">&nbsp;</div>
 </div>

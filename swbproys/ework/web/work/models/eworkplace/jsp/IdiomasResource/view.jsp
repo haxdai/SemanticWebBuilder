@@ -166,7 +166,7 @@
                         strEscritura = ga.getEscritura().getTitle();
                     
                     SWBResourceURL urldel = paramRequest.getActionUrl();
-                    urldel.setAction("del");
+                    urldel.setAction(SWBResourceURL.Action_REMOVE);
                     urldel.setParameter("id",ga.getId());   
         %>
         <tr>
@@ -244,17 +244,17 @@
             }
                     
                     SWBResourceURL urladd = paramRequest.getRenderUrl();
-                    urladd.setParameter("act","add");
+                    urladd.setParameter("act",SWBResourceURL.Action_ADD);
 %>
 </p></div>
 <p class="icv-txt"><a href="<%=urladd%>">Agregar</a></p>    
 
 
  <%
-          } else if(action.equals("add")) {
+          } else if(action.equals(SWBResourceURL.Action_ADD)) {
             String wptitle = wpage.getDisplayName(usr.getLanguage());
               SWBResourceURL urladd = paramRequest.getActionUrl();
-              urladd.setAction("add");  
+              urladd.setAction(SWBResourceURL.Action_ADD);  
  %>         
           <h3><%=wptitle%></h3>
           <form id="form1" name="form1" method="post" action="<%=urladd%>">
