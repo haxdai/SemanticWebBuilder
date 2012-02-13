@@ -260,16 +260,46 @@
             //String wptitle = wpage.getDisplayName(usr.getLanguage());
               SWBResourceURL urladd = paramRequest.getActionUrl();
               urladd.setAction(SWBResourceURL.Action_ADD);  
- %>         
-          
-          <form id="form1" name="form1" method="post" action="<%=urladd%>">
+ %>
+<script type="text/javascript">
+    <!--
+    dojo.require("dijit.layout.ContentPane");
+    dojo.require("dijit.form.Form");
+    dojo.require("dijit.form.ValidationTextBox");
+    dojo.require("dijit.form.Button");
+
+    function enviar() {
+        var objd=dijit.byId('form1es');
+//alert(objd);
+        if(objd.isValid()&&!isEmpty('idgavance')&&!isEmpty('idestudio'))
+        {
+                return true;
+        }else {
+            alert("Datos incompletos o erroneos");
+        }
+        return false;
+    }
+    function isEmpty(objid) {
+        var obj = dojo.byId(objid);
+        if (obj==null || obj.value=='' || !isNaN(obj.value) || obj.value.charAt(0) == ' ') {
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+
+
+    -->
+</script>
+          <form id="form1es" name="form1es" method="post" dojoType="dijit.form.Form" action="<%=urladd%>">
     <!-- input type="hidden" name="" value="" / --> 
 <div class="icv-div-grupo">
   
     <p class="icv-3col">
     <label for="idestudio"><b>*</b>Estudios Superiores</label>
     <select name="idestudio" id="idestudio">
-      <option selected="selected">Seleccione...</option>
+      <option value="" selected="selected">Seleccione...</option>
 <%
     Iterator<Estudios> itestudio = Estudios.ClassMgr.listEstudioses(wsite); 
         while (itestudio.hasNext()) {
@@ -301,13 +331,13 @@
  
   <p class="icv-3col">
     <label for="periodo"><b>*</b>Periodo en años</label>
-    <input type="text" name="periodo" id="periodo" maxlength="2" />
+    <input type="text" name="periodo" id="periodo" maxlength="2" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="selecciona" invalidMessage="invaldo" />
   </p>
 <div class="clearer">&nbsp;</div>
 </div>
 
     <div class="centro">
-    <input type="submit" name="guardar" id="guardar" value="Guardar" />
+    <input type="submit" name="guardar" id="guardar" value="Guardar" onclick="return enviar()"/>
 </div>
 </form>          
 <%         
