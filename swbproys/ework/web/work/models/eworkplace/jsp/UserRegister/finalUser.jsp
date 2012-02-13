@@ -3,20 +3,23 @@
 <%@page import="org.semanticwb.model.User"%>
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/>
 <%
-String url=(String)request.getAttribute("url");
- /*   String msg = request.getParameter("msg");
-    if(msg==null)
-        msg = (String)request.getAttribute("msg");
-    if(msg!=null) {
-        if(msg.equalsIgnoreCase("ok")){
-*/%>
+            String url = (String) request.getAttribute("url");
+            /*   String msg = request.getParameter("msg");
+            if(msg==null)
+            msg = (String)request.getAttribute("msg");
+            if(msg!=null) {
+            if(msg.equalsIgnoreCase("ok")){
+             */%>
 <%/*
-        }
-    }else if(request.getAttribute("2confirm")!=null) {
-        WebSite website = paramRequest.getWebPage().getWebSite();
-        User user=(User)request.getAttribute("user");
-*/%>
-            <pre>
+            }
+            }else if(request.getAttribute("2confirm")!=null) {
+            WebSite website = paramRequest.getWebPage().getWebSite();
+            User user=(User)request.getAttribute("user");
+             */%>
+<div id="icv">
+    <%//@include file="../menucvi.jsp" %>
+    <div id="icv-data">
+        <pre>
                 <strong>
                 Hola <%//=user.getFullName()%>,<br/>
                 te damos la más cordial bienvenida a este sitio y te informamos<br/>
@@ -25,12 +28,14 @@ String url=(String)request.getAttribute("url");
                 proporcionaste e ingreses a la página de tu perfil a actualizar tus datos.
                 </strong>
 <a href="<%=url%>">entrar</a>
-            </pre>
-            <script type="text/javascript">
+        </pre>
+        <script type="text/javascript">
             <!--
-                //setTimeout("function(){window.location.href='<%//=website.getHomePage().getUrl()%>'}",5000);
+            //setTimeout("function(){window.location.href='<%//=website.getHomePage().getUrl()%>'}",5000);
             -->
-            </script>
+        </script>
+    </div>
+</div>
 <%
 //    }
 

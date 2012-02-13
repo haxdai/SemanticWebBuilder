@@ -2,11 +2,12 @@
     Document   : userData
     Created on : 31/01/2012, 06:54:51 PM
     Author     : rene.jara
---%><%@page import="com.infotec.eworkplace.swb.Telefono"%>
+--%>
+<%@page import="com.infotec.cvi.swb.Candidato"%>
+<%@page import="com.infotec.eworkplace.swb.Telefono"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="org.semanticwb.model.WebSite"%>
 <%@page import="org.semanticwb.model.Country"%>
-<%@page import="com.google.code.facebookapi.schema.FacebookApiException"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.infotec.eworkplace.swb.*"%>
 <%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
@@ -64,7 +65,7 @@
                 email = user.getEmail();
             }
 
-            if (persona!=null){
+            if (persona != null) {
                 if (persona.getCurp() != null) {
                     curp = persona.getCurp();
                 }
@@ -99,9 +100,9 @@
                     twitter = persona.getTwitter();
                 }
             }
-            if(candidato!=null){
-                sLabor=candidato.getSituacionLaboral();
-                availability=candidato.getDisponibilidad();
+            if (candidato != null) {
+                sLabor = candidato.getSituacionLaboral();
+                availability = candidato.getDisponibilidad();
             }
             String url = paramRequest.getActionUrl().setCallMethod(SWBResourceURL.Call_CONTENT).setAction(paramRequest.Action_EDIT).toString();
 %>
@@ -199,28 +200,28 @@
         var s = '';
         var parentId='phoneList';
         s="<div class=\"icv-div-grupo\">"+
-        "<p class=\"icv-3col\">"+
-        "<label for=\"phoneLada_"+pc+"\"><%=paramRequest.getLocaleString("lblPhoneLada")%></label>"+
-        "<input type=\"text\" name=\"phoneLada_"+pc+"\" id=\"phoneLada_"+pc+"\" dojoType=\"dijit.form.ValidationTextBox\" value=\"\" maxlength=\"14\"  promptMessage=\"<%=paramRequest.getLocaleString("promptMsgPhone")%>\" invalidMessage=\"<%=paramRequest.getLocaleString("lblPhoneFault")%>\" regExp=\"\\d{2,3}\" trim=\"true\"/>"+
-        "</p>"+
-        "<p class=\"icv-3col\">"+
-        "<label for=\"phoneNum_"+pc+"\"><%=paramRequest.getLocaleString("lblPhoneNum")%></label>"+
-        "<input type=\"text\" name=\"phoneNum_"+pc+"\" id=\"phoneNum_"+pc+"\" dojoType=\"dijit.form.ValidationTextBox\" value=\"\" maxlength=\"14\"  promptMessage=\"<%=paramRequest.getLocaleString("promptMsgPhone")%>\" invalidMessage=\"<%=paramRequest.getLocaleString("lblPhoneFault")%>+\" regExp=\"\\d{7,8}\" trim=\"true\"/>"+
-        "</p>"+
-        "<p class=\"icv-3col\">"+
-        "<label for=\"phoneExt_"+pc+"\"><%=paramRequest.getLocaleString("lblPhoneExt")%></label>"+
-        "<input type=\"text\" name=\"phoneExt_"+pc+"\" id=\"phoneExt_"+pc+"\" dojoType=\"dijit.form.ValidationTextBox\" value=\"\" maxlength=\"14\"  promptMessage=\"<%=paramRequest.getLocaleString("promptMsgPhone")%>\" invalidMessage=\"<%=paramRequest.getLocaleString("lblPhoneFault")%>\" regExp=\"\\d+\" trim=\"true\"/>"+
-        "</p>"+
-        "<p class=\"icv-3col\">"+
-        "<label for=\"phoneType_"+pc+"\"><%=paramRequest.getLocaleString("lblPhoneType")%></label>"+
-        "<select name=\"phoneType_"+pc+"\" id=\"phoneType_"+pc+"\"  _dojoType=\"dijit.form.Select\">"+
-        "<option value=\"c\">celular</option>"+
-        "<option value=\"r\">recados</option>"+
-        "<option value=\"t\">trabajo</option>"+
-        "</select>"+
-        "</p>"+
-        "<div class=\"clearer borde\">&nbsp;</div>"+
-        "</div>";
+            "<p class=\"icv-3col\">"+
+            "<label for=\"phoneLada_"+pc+"\"><%=paramRequest.getLocaleString("lblPhoneLada")%></label>"+
+            "<input type=\"text\" name=\"phoneLada_"+pc+"\" id=\"phoneLada_"+pc+"\" dojoType=\"dijit.form.ValidationTextBox\" value=\"\" maxlength=\"14\"  promptMessage=\"<%=paramRequest.getLocaleString("promptMsgPhone")%>\" invalidMessage=\"<%=paramRequest.getLocaleString("lblPhoneFault")%>\" regExp=\"\\d{2,3}\" trim=\"true\"/>"+
+            "</p>"+
+            "<p class=\"icv-3col\">"+
+            "<label for=\"phoneNum_"+pc+"\"><%=paramRequest.getLocaleString("lblPhoneNum")%></label>"+
+            "<input type=\"text\" name=\"phoneNum_"+pc+"\" id=\"phoneNum_"+pc+"\" dojoType=\"dijit.form.ValidationTextBox\" value=\"\" maxlength=\"14\"  promptMessage=\"<%=paramRequest.getLocaleString("promptMsgPhone")%>\" invalidMessage=\"<%=paramRequest.getLocaleString("lblPhoneFault")%>+\" regExp=\"\\d{7,8}\" trim=\"true\"/>"+
+            "</p>"+
+            "<p class=\"icv-3col\">"+
+            "<label for=\"phoneExt_"+pc+"\"><%=paramRequest.getLocaleString("lblPhoneExt")%></label>"+
+            "<input type=\"text\" name=\"phoneExt_"+pc+"\" id=\"phoneExt_"+pc+"\" dojoType=\"dijit.form.ValidationTextBox\" value=\"\" maxlength=\"14\"  promptMessage=\"<%=paramRequest.getLocaleString("promptMsgPhone")%>\" invalidMessage=\"<%=paramRequest.getLocaleString("lblPhoneFault")%>\" regExp=\"\\d+\" trim=\"true\"/>"+
+            "</p>"+
+            "<p class=\"icv-3col\">"+
+            "<label for=\"phoneType_"+pc+"\"><%=paramRequest.getLocaleString("lblPhoneType")%></label>"+
+            "<select name=\"phoneType_"+pc+"\" id=\"phoneType_"+pc+"\"  _dojoType=\"dijit.form.Select\">"+
+            "<option value=\"c\">celular</option>"+
+            "<option value=\"r\">recados</option>"+
+            "<option value=\"t\">trabajo</option>"+
+            "</select>"+
+            "</p>"+
+            "<div class=\"clearer borde\">&nbsp;</div>"+
+            "</div>";
         dojo.place(s, parentId, 'last');
         pc++;
     }
@@ -229,240 +230,244 @@
     //a-zA-Z\u00C0-\u00FF??
     -->
 </script>
+<div id="icv">
+    <%//@include file="../menucvi.jsp" %>
+    <div id="icv-data">
+        <form id="org.semanticwb.community.User/com/create" dojoType="dijit.form.Form" class="swbform" action="<%=url%>" method="post">
+            <div class="icv-div-grupo">
+                <p class="icv-3col">
+                    <label for="curp"><%=paramRequest.getLocaleString("lblCurp")%></label>
+                    <input type="text" name="curp" id="curp" dojoType="dijit.form.ValidationTextBox" value="<%=curp%>" maxlength="60" promptMessage="<%=paramRequest.getLocaleString("promptMsgCurp")%>" invalidMessage="<%=paramRequest.getLocaleString("lblCurpFault")%>" uppercase="true" regExp="[a-zA-Z]{4}\d{6}[a-zA-Z]{6}\d{2}"  trim="true"/>
+                </p>
+                <p class="icv-3col curp">
+                    <!--input type="checkbox" name="nocurp" id="nocurp" />
+                    <label for="nocurp">No conozco mi CURP</label-->
+                </p>
+                <p class="icv-3col">
+                    <label for="firstName"><%=paramRequest.getLocaleString("lblFirstName")%> <em>*</em></label>
+                    <input type="text" name="firstName" id="firstName" dojoType="dijit.form.ValidationTextBox" value="<%=firstName%>" maxlength="25" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgFirstName")%>" invalidMessage="<%=paramRequest.getLocaleString("lblFirstNameFault")%>" trim="true" regExp="[a-zA-Z\u00C0-\u00FF' ]+"/>
+                </p>
+                <p class="icv-3col">
+                    <label for="lastName"><%=paramRequest.getLocaleString("lblLastName")%> <em>*</em></label>
+                    <input type="text" name="lastName" id="lastName" dojoType="dijit.form.ValidationTextBox" value="<%=lastName%>" maxlength="25" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgLastName")%>" invalidMessage="<%=paramRequest.getLocaleString("lblLastNameFault")%>" trim="true" regExp="[a-zA-Z\u00C0-\u00FF' ]+"/>
+                </p>
+                <p class="icv-3col">
+                    <label for="secondLastName"><%=paramRequest.getLocaleString("lblSecondLastName")%></label>
+                    <input type="text" name="secondLastName" id="secondLastName" dojoType="dijit.form.ValidationTextBox" value="<%=secondLastName%>" maxlength="25" required="false" promptMessage="<%=paramRequest.getLocaleString("promptMsgSecondLastName")%>" invalidMessage="<%=paramRequest.getLocaleString("lblSecondLastNameFault")%>" trim="true" regExp="[a-zA-Z\u00C0-\u00FF' ]+"/>
+                </p>
+                <div class="clearer">&nbsp;</div>
+            </div>
+            <div class="icv-div-grupo">
+                <p class="icv-3col">
+                    <label ><%=paramRequest.getLocaleString("lblGender")%></label>
+                    <input type="radio" _dojoType="dijit.form.RadioButton" name="gender" id="radioOne" class="icv-radio2" <%=gender == "f" ? "checked" : ""%> value="f"/>
+                           <label for="radioOne" class="icv-label-negro"><%=paramRequest.getLocaleString("lblGenderFem")%></label>
+                    <input type="radio" _dojoType="dijit.form.RadioButton" name="gender" id="radioTwo" class="icv-radio2" <%=gender == "m" ? "checked" : ""%> value="m"/>
+                           <label for="radioTwo" class="icv-label-negro"><%=paramRequest.getLocaleString("lblGenderMas")%></label>
+                </p>
 
-<form id="org.semanticwb.community.User/com/create" dojoType="dijit.form.Form" class="swbform" action="<%=url%>" method="post">
-    <div class="icv-div-grupo">
-        <p class="icv-3col">
-            <label for="curp"><%=paramRequest.getLocaleString("lblCurp")%></label>
-            <input type="text" name="curp" id="curp" dojoType="dijit.form.ValidationTextBox" value="<%=curp%>" maxlength="60" promptMessage="<%=paramRequest.getLocaleString("promptMsgCurp")%>" invalidMessage="<%=paramRequest.getLocaleString("lblCurpFault")%>" uppercase="true" regExp="[a-zA-Z]{4}\d{6}[a-zA-Z]{6}\d{2}"  trim="true"/>
-        </p>
-        <p class="icv-3col curp">
-            <!--input type="checkbox" name="nocurp" id="nocurp" />
-            <label for="nocurp">No conozco mi CURP</label-->
-        </p>
-        <p class="icv-3col">
-            <label for="firstName"><%=paramRequest.getLocaleString("lblFirstName")%> <em>*</em></label>
-            <input type="text" name="firstName" id="firstName" dojoType="dijit.form.ValidationTextBox" value="<%=firstName%>" maxlength="25" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgFirstName")%>" invalidMessage="<%=paramRequest.getLocaleString("lblFirstNameFault")%>" trim="true" regExp="[a-zA-Z\u00C0-\u00FF' ]+"/>
-        </p>
-        <p class="icv-3col">
-            <label for="lastName"><%=paramRequest.getLocaleString("lblLastName")%> <em>*</em></label>
-            <input type="text" name="lastName" id="lastName" dojoType="dijit.form.ValidationTextBox" value="<%=lastName%>" maxlength="25" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgLastName")%>" invalidMessage="<%=paramRequest.getLocaleString("lblLastNameFault")%>" trim="true" regExp="[a-zA-Z\u00C0-\u00FF' ]+"/>
-        </p>
-        <p class="icv-3col">
-            <label for="secondLastName"><%=paramRequest.getLocaleString("lblSecondLastName")%></label>
-            <input type="text" name="secondLastName" id="secondLastName" dojoType="dijit.form.ValidationTextBox" value="<%=secondLastName%>" maxlength="25" required="false" promptMessage="<%=paramRequest.getLocaleString("promptMsgSecondLastName")%>" invalidMessage="<%=paramRequest.getLocaleString("lblSecondLastNameFault")%>" trim="true" regExp="[a-zA-Z\u00C0-\u00FF' ]+"/>
-        </p>
-        <div class="clearer">&nbsp;</div>
-    </div>
-    <div class="icv-div-grupo">
-        <p class="icv-3col">
-            <label ><%=paramRequest.getLocaleString("lblGender")%></label>
-            <input type="radio" _dojoType="dijit.form.RadioButton" name="gender" id="radioOne" class="icv-radio2" <%=gender == "f" ? "checked" : ""%> value="f"/>
-                   <label for="radioOne" class="icv-label-negro"><%=paramRequest.getLocaleString("lblGenderFem")%></label>
-            <input type="radio" _dojoType="dijit.form.RadioButton" name="gender" id="radioTwo" class="icv-radio2" <%=gender == "m" ? "checked" : ""%> value="m"/>
-                   <label for="radioTwo" class="icv-label-negro"><%=paramRequest.getLocaleString("lblGenderMas")%></label>
-        </p>
+                <p class="icv-3col">
+                    <label for="birthday"><%=paramRequest.getLocaleString("lblBirthday")%></label>
+                    <input type="text" name="birthday" id="birthday" class="icv-calendario" dojoType="dijit.form.ValidationTextBox" value="<%=birthday%>" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgBirthday")%>" invalidMessage="<%=paramRequest.getLocaleString("lblBirthdayFault")%>" regExp="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" trim="true"/>
+                </p>
+                <p class="icv-3col">
+                    <label for="state"><%=paramRequest.getLocaleString("lblState")%></label>
+                    <select name="state" id="state"  _dojoType="dijit.form.Select">
+                            <option value="" ><%=paramRequest.getLocaleString("promptMsgState")%></option>
+                        <option value="DF">distrito Federal</option>
+                        <option value="mc">estado de mexico</option>
 
-        <p class="icv-3col">
-            <label for="birthday"><%=paramRequest.getLocaleString("lblBirthday")%></label>
-            <input type="text" name="birthday" id="birthday" class="icv-calendario" dojoType="dijit.form.ValidationTextBox" value="<%=birthday%>" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgBirthday")%>" invalidMessage="<%=paramRequest.getLocaleString("lblBirthdayFault")%>" regExp="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" trim="true"/>
-        </p>
-        <p class="icv-3col">
-            <label for="state"><%=paramRequest.getLocaleString("lblState")%></label>
-            <select name="state" id="state"  _dojoType="dijit.form.Select">
-                <option value="" ><%=paramRequest.getLocaleString("promptMsgState")%></option>
-                <option value="DF">distrito Federal</option>
-                <option value="mc">estado de mexico</option>
+                    </select>
+                </p>
+                <div class="clearer">&nbsp;</div>
+            </div>
 
-            </select>
-        </p>
-        <div class="clearer">&nbsp;</div>
-    </div>
+            <div class="icv-div-grupo">
+                <p class="icv-3col">
+                    <label for="nationality"><%=paramRequest.getLocaleString("lblNationality")%></label>
+                    <select name="nationality" id="nationality"  _dojoType="dijit.form.Select">
+                            <option value="" ><%=paramRequest.getLocaleString("promptMsgNationality")%></option>
+                        <% Iterator<Country> itc = Country.ClassMgr.listCountries(ws);
+                                    while (itc.hasNext()) {
+                                        Country country = itc.next();%>
+                        <option value="<%=country.getId()%>" <%=country.getId().equals(nationality) ? "selected" : ""%>><%=country.getTitle()%></option>
+                        <%
+                                    }
+                        %>
 
-    <div class="icv-div-grupo">
-        <p class="icv-3col">
-            <label for="nationality"><%=paramRequest.getLocaleString("lblNationality")%></label>
-            <select name="nationality" id="nationality"  _dojoType="dijit.form.Select">
-                <option value="" ><%=paramRequest.getLocaleString("promptMsgNationality")%></option>
-                <% Iterator<Country> itc = Country.ClassMgr.listCountries(ws);
-                            while (itc.hasNext()) {
-                                Country country = itc.next();%>
-                <option value="<%=country.getId()%>" <%=country.getId().equals(nationality) ? "selected" : ""%>><%=country.getTitle()%></option>
+
+                    </select>
+                </p>
+                <p class="icv-3col">
+                    <label for="fm2"><%=paramRequest.getLocaleString("lblFm2")%></label>
+                    <input type="text" name="fm2" id="fm2" dojoType="dijit.form.ValidationTextBox" value="<%=fm2%>" maxlength="25"  promptMessage="<%=paramRequest.getLocaleString("promptMsgFm2")%>" invalidMessage="<%=paramRequest.getLocaleString("lblFm2Fault")%>" trim="true" regExp="\d+"/>
+                </p>
+                <div class="clearer">&nbsp;</div>
+            </div>
+            <div class="icv-div-grupo">
+                <p class="icv-2col">
+                    <label for="sLabor"><%=paramRequest.getLocaleString("lblSLabor")%></label>
+                    <select name="sLabor" id="state"  _dojoType="dijit.form.Select">
+                            <option value="" ><%=paramRequest.getLocaleString("promptMsgSLabor")%></option>
+                        <option value="1" <%=sLabor == 1 ? "selected" : ""%>>Empleado</option>
+                        <option value="2" <%=sLabor == 2 ? "selected" : ""%>>Desempleado</option>
+                        <option value="3" <%=sLabor == 3 ? "selected" : ""%>>Estudiante</option>
+                        <option value="4" <%=sLabor == 4 ? "selected" : ""%>>Jubilado</option>
+                    </select>
+                </p>
+                <p class="icv-2col">
+                    <label for="availability"><%=paramRequest.getLocaleString("lblAvailability")%></label>
+                    <select name="availability" id="availability"  _dojoType="dijit.form.Select">
+                            <option value="" ><%=paramRequest.getLocaleString("promptMsgAvailability")%></option>
+                        <option value="1" <%=availability == 1 ? "selected" : ""%>>1</option>
+                        <option value="2" <%=availability == 2 ? "selected" : ""%>>2</option>
+                        <option value="3" <%=availability == 3 ? "selected" : ""%>>3</option>
+                        <option value="4" <%=availability == 4 ? "selected" : ""%>>4</option>
+                        <option value="5" <%=availability == 5 ? "selected" : ""%>>5</option>
+                        <option value="6" <%=availability == 6 ? "selected" : ""%>>6</option>
+                        <option value="7" <%=availability == 7 ? "selected" : ""%>>7</option>
+                    </select>
+                </p>
+                <!--p class="icv-2col">
+                    <input type=checkbox id="avLu" name="availability" _dojoType="dijit.form.CheckBox" value="lu" />
+                    <label for="avLu"><%=paramRequest.getLocaleString("lblAvailabilityMo")%></label>
+                    <input type=checkbox id="avMa" name="availability" _dojoType="dijit.form.CheckBox" value="ma" />
+                    <label for="avMa"><%=paramRequest.getLocaleString("lblAvailabilityTu")%></label>
+                    <input type=checkbox id="avMi" name="availability" _dojoType="dijit.form.CheckBox" value="mi" />
+                    <label for="avMi"><%=paramRequest.getLocaleString("lblAvailabilityWe")%></label>
+                    <input type=checkbox id="avJu" name="availability" _dojoType="dijit.form.CheckBox" value="ju" />
+                    <label for="avJu"><%=paramRequest.getLocaleString("lblAvailabilityTh")%></label>
+                    <input type=checkbox id="avVi" name="availability" _dojoType="dijit.form.CheckBox" value="vi" />
+                    <label for="avVi"><%=paramRequest.getLocaleString("lblAvailabilityFr")%></label>
+                    <input type=checkbox id="avSa" name="availability" _dojoType="dijit.form.CheckBox" value="sa" />
+                    <label for="avSa"><%=paramRequest.getLocaleString("lblAvailabilitySa")%></label>
+                    <input type=checkbox id="avDo" name="availability" _dojoType="dijit.form.CheckBox" value="do" />
+                    <label for="avDo"><%=paramRequest.getLocaleString("lblAvailabilitySu")%></label>
+                </p-->
+                <div class="clearer">&nbsp;</div>
+            </div>
+            <div id="phoneList">
+
                 <%
-                            }
+                            Iterator<Telefono> itt = persona.listTelefonos();
+                            while (itt.hasNext()) {
+                                Telefono telefono = itt.next();
+                                String phoneId = telefono.getId();
+                                String phoneLada = telefono.getLada() > 0 ? "" + telefono.getLada() : "";
+                                String phoneNum = telefono.getNumero() > 0 ? "" + telefono.getNumero() : "";
+                                String phoneExt = telefono.getExtension() > 0 ? "" + telefono.getExtension() : "";
+                                String phoneType = telefono.getTipo() != null ? telefono.getTipo() : "";
                 %>
+                <div class="icv-div-grupo">
+                    <p class="icv-3col">
+                        <label for="phoneLada<%=phoneId%>"><%=paramRequest.getLocaleString("lblPhoneLada")%></label>
+                        <input type="text" name="phoneLada<%=phoneId%>" id="phoneLada<%=phoneId%>" dojoType="dijit.form.ValidationTextBox" value="<%=phoneLada%>" maxlength="14"  promptMessage="<%=paramRequest.getLocaleString("promptMsgPhone")%>" invalidMessage="<%=paramRequest.getLocaleString("lblPhoneFault")%>" regExp="\d{2,3}" trim="true"/>
+                    </p>
+                    <p class="icv-3col">
+                        <label for="phoneNum<%=phoneId%>"><%=paramRequest.getLocaleString("lblPhone")%></label>
+                        <input type="text" name="phoneNum<%=phoneId%>" id="phoneNum<%=phoneId%>" dojoType="dijit.form.ValidationTextBox" value="<%=phoneNum%>" maxlength="14"  promptMessage="<%=paramRequest.getLocaleString("promptMsgPhone")%>" invalidMessage="<%=paramRequest.getLocaleString("lblPhoneFault")%>" regExp="\d{7,8}" trim="true"/>
+                    </p>
+                    <p class="icv-3col">
+                        <label for="phoneExt<%=phoneId%>"><%=paramRequest.getLocaleString("lblPhoneExt")%></label>
+                        <input type="text" name="phoneExt<%=phoneId%>" id="phoneExt<%=phoneId%>" dojoType="dijit.form.ValidationTextBox" value="<%=phoneExt%>" maxlength="14"  promptMessage="<%=paramRequest.getLocaleString("promptMsgPhone")%>" invalidMessage="<%=paramRequest.getLocaleString("lblPhoneFault")%>" regExp="\d+" trim="true"/>
+                    </p>
+                    <p class="icv-3col">
+                        <label for="phoneType<%=phoneId%>"><%=paramRequest.getLocaleString("lblPhoneType")%></label>
+                        <select name="phoneType<%=phoneId%>" id="phoneType<%=phoneId%>"  _dojoType="dijit.form.Select">
+                                <option value=""><%=paramRequest.getLocaleString("promptMsgPhoneType")%></option>
+                            <option value="c" <%=phoneType.equals("c") ? "selected" : ""%>>celular</option>
+                            <option value="r" <%=phoneType.equals("r") ? "selected" : ""%>>recados</option>
+                            <option value="t" <%=phoneType.equals("t") ? "selected" : ""%>>trabajo</option>
+                        </select>
+                    </p>
+                    <div class="clearer borde">&nbsp;</div>
+                </div>
+                <% }%>
+                <%String phoneId = "_";%>
+                <div class="icv-div-grupo">
+                    <p class="icv-3col">
+                        <label for="phoneLada<%=phoneId%>"><%=paramRequest.getLocaleString("lblPhoneLada")%></label>
+                        <input type="text" name="phoneLada<%=phoneId%>" id="phoneLada<%=phoneId%>" dojoType="dijit.form.ValidationTextBox" value="" maxlength="14"  promptMessage="<%=paramRequest.getLocaleString("promptMsgPhone")%>" invalidMessage="<%=paramRequest.getLocaleString("lblPhoneFault")%>" regExp="\d{2,3}" trim="true"/>
+                    </p>
+                    <p class="icv-3col">
+                        <label for="phoneNum<%=phoneId%>"><%=paramRequest.getLocaleString("lblPhone")%></label>
+                        <input type="text" name="phoneNum<%=phoneId%>" id="phoneNum<%=phoneId%>" dojoType="dijit.form.ValidationTextBox" value="" maxlength="14"  promptMessage="<%=paramRequest.getLocaleString("promptMsgPhone")%>" invalidMessage="<%=paramRequest.getLocaleString("lblPhoneFault")%>" regExp="\d{7,8}" trim="true"/>
+                    </p>
+                    <p class="icv-3col">
+                        <label for="phoneExt<%=phoneId%>"><%=paramRequest.getLocaleString("lblPhoneExt")%></label>
+                        <input type="text" name="phoneExt<%=phoneId%>" id="phoneExt<%=phoneId%>" dojoType="dijit.form.ValidationTextBox" value="" maxlength="14"  promptMessage="<%=paramRequest.getLocaleString("promptMsgPhone")%>" invalidMessage="<%=paramRequest.getLocaleString("lblPhoneFault")%>" regExp="\d+" trim="true"/>
+                    </p>
+                    <p class="icv-3col">
+                        <label for="phoneType<%=phoneId%>"><%=paramRequest.getLocaleString("lblPhoneType")%></label>
+                        <select name="phoneType<%=phoneId%>" id="phoneType<%=phoneId%>"  _dojoType="dijit.form.Select">
+                                <option value="c">celular</option>
+                            <option value="r">recados</option>
+                            <option value="t">trabajo</option>
+                        </select>
+                    </p>
+                    <div class="clearer borde">&nbsp;</div>
+                </div>
+            </div>
+            <div class="icv-div-grupo">
+                <p class="icv-txt"><a href="#" onclick="appendPhone()">Agregar otro teléfono</a></p>
+                <div class="clearer borde">&nbsp;</div>
+            </div>
+
+            <div class="icv-div-grupo">
+                <p class="icv-2col">
+                    <label for="emailro"><%=paramRequest.getLocaleString("lblEmail")%></label>
+                    <input type="text" name="emailro" id="emailro" dojoType="dijit.form.ValidationTextBox" value="<%=email%>" maxlength="60" readonly="true" />
+                </p>
+                <!--div class="">
+                <%//=msgWrnPsw%>
+                <label for=""><%//=paramRequest.getLocaleString("lblPassword")%> <em>*</em></label>
+                <input type="password" name="passwd" id="passwd" dojoType="dijit.form.ValidationTextBox" value="" maxlength="12" required="true" promptMessage="<%//=paramRequest.getLocaleString("promptMsgPassword")%>" invalidMessage="<%//=paramRequest.getLocaleString("lblPasswordFault")%>" trim="true" />
+
+                <label for=""><%//=paramRequest.getLocaleString("lblPasswordConfirm")%> <em>*</em></label>
+                <input type="password" name="cpasswd" id="cpasswd" dojoType="dijit.form.ValidationTextBox" value="" maxlength="12" required="true" promptMessage="<%//=paramRequest.getLocaleString("promptMsgPasswordConfirm")%>" invalidMessage="<%//=paramRequest.getLocaleString("lblPasswordConfirmFault")%>" isValid="return isSamePass()" trim="true" />
+            </div-->
+                <p class="icv-2col">
+                    <label for="facebook"><%=paramRequest.getLocaleString("lblFacebook")%></label>
+                    <input type="text" name="facebook" id="facebook" dojoType="dijit.form.ValidationTextBox" value="<%=facebook%>" maxlength="25"  promptMessage="<%=paramRequest.getLocaleString("promptMsgFacebook")%>" invalidMessage="<%=paramRequest.getLocaleString("lblFacebookFault")%>"  trim="true" regExp="[a-zA-Z\u00C0-\u00FF' ]+"/>
+                </p>
+                <p class="icv-2col">
+                    <label for="skype"><%=paramRequest.getLocaleString("lblSkype")%></label>
+                    <input type="text" name="skype" id="skype" dojoType="dijit.form.ValidationTextBox" value="<%=skype%>" maxlength="25"  promptMessage="<%=paramRequest.getLocaleString("promptMsgSkype")%>" invalidMessage="<%=paramRequest.getLocaleString("lblSkypeFault")%>" trim="true" regExp="[a-zA-Z\u00C0-\u00FF' ]+"/>
+                </p>
+                <p class="icv-2col">
+                    <label for="msn"><%=paramRequest.getLocaleString("lblMsn")%></label>
+                    <input type="text" name="msn" id="msn" dojoType="dijit.form.ValidationTextBox" value="<%=msn%>" maxlength="25"  promptMessage="<%=paramRequest.getLocaleString("promptMsgMsn")%>" invalidMessage="<%=paramRequest.getLocaleString("lblMsnFault")%>" trim="true" regExp="[a-zA-Z\u00C0-\u00FF' ]+"/>
+                </p>
+                <p class="icv-2col">
+                    <label for="linkedin"><%=paramRequest.getLocaleString("lblLinkedin")%></label>
+                    <input type="text" name="linkedin" id="linkedin" dojoType="dijit.form.ValidationTextBox" value="<%=linkedin%>" maxlength="25"  promptMessage="<%=paramRequest.getLocaleString("promptMsgLinkedin")%>" invalidMessage="<%=paramRequest.getLocaleString("lblLinkedinFault")%>" trim="true" regExp="[a-zA-Z\u00C0-\u00FF' ]+"/>
+                </p>
+                <p class="icv-2col">
+                    <label for="twitter"><%=paramRequest.getLocaleString("lblTwitter")%></label>
+                    <input type="text" name="twitter" id="twitter" dojoType="dijit.form.ValidationTextBox" value="<%=twitter%>" maxlength="25"  promptMessage="<%=paramRequest.getLocaleString("promptMsgTwitter")%>" invalidMessage="<%=paramRequest.getLocaleString("lblTwitterFault")%>" trim="true" regExp="[a-zA-Z\u00C0-\u00FF' ]+"/>
+                </p>
 
 
-            </select>
-        </p>
-        <p class="icv-3col">
-            <label for="fm2"><%=paramRequest.getLocaleString("lblFm2")%></label>
-            <input type="text" name="fm2" id="fm2" dojoType="dijit.form.ValidationTextBox" value="<%=fm2%>" maxlength="25"  promptMessage="<%=paramRequest.getLocaleString("promptMsgFm2")%>" invalidMessage="<%=paramRequest.getLocaleString("lblFm2Fault")%>" trim="true" regExp="\d+"/>
-        </p>
-        <div class="clearer">&nbsp;</div>
-    </div>
-    <div class="icv-div-grupo">
-        <p class="icv-2col">
-            <label for="sLabor"><%=paramRequest.getLocaleString("lblSLabor")%></label>
-            <select name="sLabor" id="state"  _dojoType="dijit.form.Select">
-                <option value="" ><%=paramRequest.getLocaleString("promptMsgSLabor")%></option>
-                <option value="1" <%=sLabor==1 ? "selected" : ""%>>Empleado</option>
-                <option value="2" <%=sLabor==2 ? "selected" : ""%>>Desempleado</option>
-                <option value="3" <%=sLabor==3 ? "selected" : ""%>>Estudiante</option>
-                <option value="4" <%=sLabor==4 ? "selected" : ""%>>Jubilado</option>
-            </select>
-        </p>
-        <p class="icv-2col">
-            <label for="availability"><%=paramRequest.getLocaleString("lblAvailability")%></label>
-            <select name="availability" id="availability"  _dojoType="dijit.form.Select">
-                <option value="" ><%=paramRequest.getLocaleString("promptMsgAvailability")%></option>
-                <option value="1" <%=availability==1 ? "selected" : ""%>>1</option>
-                <option value="2" <%=availability==2 ? "selected" : ""%>>2</option>
-                <option value="3" <%=availability==3 ? "selected" : ""%>>3</option>
-                <option value="4" <%=availability==4 ? "selected" : ""%>>4</option>
-                <option value="5" <%=availability==5 ? "selected" : ""%>>5</option>
-                <option value="6" <%=availability==6 ? "selected" : ""%>>6</option>
-                <option value="7" <%=availability==7 ? "selected" : ""%>>7</option>
-            </select>
-        </p>
-        <!--p class="icv-2col">
-            <input type=checkbox id="avLu" name="availability" _dojoType="dijit.form.CheckBox" value="lu" />
-            <label for="avLu"><%=paramRequest.getLocaleString("lblAvailabilityMo")%></label>
-            <input type=checkbox id="avMa" name="availability" _dojoType="dijit.form.CheckBox" value="ma" />
-            <label for="avMa"><%=paramRequest.getLocaleString("lblAvailabilityTu")%></label>
-            <input type=checkbox id="avMi" name="availability" _dojoType="dijit.form.CheckBox" value="mi" />
-            <label for="avMi"><%=paramRequest.getLocaleString("lblAvailabilityWe")%></label>
-            <input type=checkbox id="avJu" name="availability" _dojoType="dijit.form.CheckBox" value="ju" />
-            <label for="avJu"><%=paramRequest.getLocaleString("lblAvailabilityTh")%></label>
-            <input type=checkbox id="avVi" name="availability" _dojoType="dijit.form.CheckBox" value="vi" />
-            <label for="avVi"><%=paramRequest.getLocaleString("lblAvailabilityFr")%></label>
-            <input type=checkbox id="avSa" name="availability" _dojoType="dijit.form.CheckBox" value="sa" />
-            <label for="avSa"><%=paramRequest.getLocaleString("lblAvailabilitySa")%></label>
-            <input type=checkbox id="avDo" name="availability" _dojoType="dijit.form.CheckBox" value="do" />
-            <label for="avDo"><%=paramRequest.getLocaleString("lblAvailabilitySu")%></label>
-        </p-->
-        <div class="clearer">&nbsp;</div>
-    </div>
-    <div id="phoneList">
+                <!--div>
+                    <p><img src="<%//=context%>/swbadmin/jsp/securecode.jsp?sAttr=cdlog" id="imgseccode" width="155" height="65" alt="" /></p>
+                    <p>
+                        <label for="cmnt_seccode"><%//=paramRequest.getLocaleString("lblCaptcha")%>:</label>
+                       <input type="text" name="cmnt_seccode" id="cmnt_seccode" maxlength="8" value="" />
+                    </p>
+                    <p><%//=paramRequest.getLocaleString("lblTryRead")%> <a href="#" onclick="changeSecureCodeImage('imgseccode');"><%=paramRequest.getLocaleString("lblTryAnotherText")%></a></p>
+                </div-->
+                <div class="clearer borde">&nbsp;</div>
+            </div>
+            <div class="">
+                <p>
+                    <!--input type="button" value="<%=paramRequest.getLocaleString("lblReset")%>"  onclick="history.back()"-->
+                    <input type="submit" value="<%=paramRequest.getLocaleString("lblSave")%>"  onclick="return enviar()"/>
+                </p>
+            </div>
 
-        <%
-                    Iterator<Telefono> itt = persona.listTelefonos();
-                    while (itt.hasNext()) {
-                        Telefono telefono = itt.next();
-                        String phoneId = telefono.getId();
-                        String phoneLada = telefono.getLada() > 0 ? "" + telefono.getLada() : "";
-                        String phoneNum = telefono.getNumero() > 0 ? "" + telefono.getNumero() : "";
-                        String phoneExt = telefono.getExtension() > 0 ? "" + telefono.getExtension() : "";
-                        String phoneType = telefono.getTipo() != null ? telefono.getTipo() : "";
-        %>
-    <div class="icv-div-grupo">
-        <p class="icv-3col">
-            <label for="phoneLada<%=phoneId%>"><%=paramRequest.getLocaleString("lblPhoneLada")%></label>
-            <input type="text" name="phoneLada<%=phoneId%>" id="phoneLada<%=phoneId%>" dojoType="dijit.form.ValidationTextBox" value="<%=phoneLada%>" maxlength="14"  promptMessage="<%=paramRequest.getLocaleString("promptMsgPhone")%>" invalidMessage="<%=paramRequest.getLocaleString("lblPhoneFault")%>" regExp="\d{2,3}" trim="true"/>
-        </p>
-        <p class="icv-3col">
-            <label for="phoneNum<%=phoneId%>"><%=paramRequest.getLocaleString("lblPhone")%></label>
-            <input type="text" name="phoneNum<%=phoneId%>" id="phoneNum<%=phoneId%>" dojoType="dijit.form.ValidationTextBox" value="<%=phoneNum%>" maxlength="14"  promptMessage="<%=paramRequest.getLocaleString("promptMsgPhone")%>" invalidMessage="<%=paramRequest.getLocaleString("lblPhoneFault")%>" regExp="\d{7,8}" trim="true"/>
-        </p>
-        <p class="icv-3col">
-            <label for="phoneExt<%=phoneId%>"><%=paramRequest.getLocaleString("lblPhoneExt")%></label>
-            <input type="text" name="phoneExt<%=phoneId%>" id="phoneExt<%=phoneId%>" dojoType="dijit.form.ValidationTextBox" value="<%=phoneExt%>" maxlength="14"  promptMessage="<%=paramRequest.getLocaleString("promptMsgPhone")%>" invalidMessage="<%=paramRequest.getLocaleString("lblPhoneFault")%>" regExp="\d+" trim="true"/>
-        </p>
-        <p class="icv-3col">
-            <label for="phoneType<%=phoneId%>"><%=paramRequest.getLocaleString("lblPhoneType")%></label>
-            <select name="phoneType<%=phoneId%>" id="phoneType<%=phoneId%>"  _dojoType="dijit.form.Select">
-                <option value=""><%=paramRequest.getLocaleString("promptMsgPhoneType")%></option>
-                <option value="c" <%=phoneType.equals("c") ? "selected" : ""%>>celular</option>
-                <option value="r" <%=phoneType.equals("r") ? "selected" : ""%>>recados</option>
-                <option value="t" <%=phoneType.equals("t") ? "selected" : ""%>>trabajo</option>
-            </select>
-        </p>
-        <div class="clearer borde">&nbsp;</div>
+        </form>
     </div>
-        <% }%>
-        <%String phoneId = "_";%>
-    <div class="icv-div-grupo">
-        <p class="icv-3col">
-            <label for="phoneLada<%=phoneId%>"><%=paramRequest.getLocaleString("lblPhoneLada")%></label>
-            <input type="text" name="phoneLada<%=phoneId%>" id="phoneLada<%=phoneId%>" dojoType="dijit.form.ValidationTextBox" value="" maxlength="14"  promptMessage="<%=paramRequest.getLocaleString("promptMsgPhone")%>" invalidMessage="<%=paramRequest.getLocaleString("lblPhoneFault")%>" regExp="\d{2,3}" trim="true"/>
-        </p>
-        <p class="icv-3col">
-            <label for="phoneNum<%=phoneId%>"><%=paramRequest.getLocaleString("lblPhone")%></label>
-            <input type="text" name="phoneNum<%=phoneId%>" id="phoneNum<%=phoneId%>" dojoType="dijit.form.ValidationTextBox" value="" maxlength="14"  promptMessage="<%=paramRequest.getLocaleString("promptMsgPhone")%>" invalidMessage="<%=paramRequest.getLocaleString("lblPhoneFault")%>" regExp="\d{7,8}" trim="true"/>
-        </p>
-        <p class="icv-3col">
-            <label for="phoneExt<%=phoneId%>"><%=paramRequest.getLocaleString("lblPhoneExt")%></label>
-            <input type="text" name="phoneExt<%=phoneId%>" id="phoneExt<%=phoneId%>" dojoType="dijit.form.ValidationTextBox" value="" maxlength="14"  promptMessage="<%=paramRequest.getLocaleString("promptMsgPhone")%>" invalidMessage="<%=paramRequest.getLocaleString("lblPhoneFault")%>" regExp="\d+" trim="true"/>
-        </p>
-        <p class="icv-3col">
-            <label for="phoneType<%=phoneId%>"><%=paramRequest.getLocaleString("lblPhoneType")%></label>
-            <select name="phoneType<%=phoneId%>" id="phoneType<%=phoneId%>"  _dojoType="dijit.form.Select">
-                <option value="c">celular</option>
-                <option value="r">recados</option>
-                <option value="t">trabajo</option>
-            </select>
-        </p>
-        <div class="clearer borde">&nbsp;</div>
-    </div>
-    </div>
-    <div class="icv-div-grupo">
-        <p class="icv-txt"><a href="#" onclick="appendPhone()">Agregar otro teléfono</a></p>
-        <div class="clearer borde">&nbsp;</div>
-    </div>
-
-    <div class="icv-div-grupo">
-        <p class="icv-2col">
-            <label for="emailro"><%=paramRequest.getLocaleString("lblEmail")%></label>
-            <input type="text" name="emailro" id="emailro" dojoType="dijit.form.ValidationTextBox" value="<%=email%>" maxlength="60" readonly="true" />
-        </p>
-        <!--div class="">
-        <%//=msgWrnPsw%>
-        <label for=""><%//=paramRequest.getLocaleString("lblPassword")%> <em>*</em></label>
-        <input type="password" name="passwd" id="passwd" dojoType="dijit.form.ValidationTextBox" value="" maxlength="12" required="true" promptMessage="<%//=paramRequest.getLocaleString("promptMsgPassword")%>" invalidMessage="<%//=paramRequest.getLocaleString("lblPasswordFault")%>" trim="true" />
-
-        <label for=""><%//=paramRequest.getLocaleString("lblPasswordConfirm")%> <em>*</em></label>
-        <input type="password" name="cpasswd" id="cpasswd" dojoType="dijit.form.ValidationTextBox" value="" maxlength="12" required="true" promptMessage="<%//=paramRequest.getLocaleString("promptMsgPasswordConfirm")%>" invalidMessage="<%//=paramRequest.getLocaleString("lblPasswordConfirmFault")%>" isValid="return isSamePass()" trim="true" />
-    </div-->
-        <p class="icv-2col">
-            <label for="facebook"><%=paramRequest.getLocaleString("lblFacebook")%></label>
-            <input type="text" name="facebook" id="facebook" dojoType="dijit.form.ValidationTextBox" value="<%=facebook%>" maxlength="25"  promptMessage="<%=paramRequest.getLocaleString("promptMsgFacebook")%>" invalidMessage="<%=paramRequest.getLocaleString("lblFacebookFault")%>"  trim="true" regExp="[a-zA-Z\u00C0-\u00FF' ]+"/>
-        </p>
-        <p class="icv-2col">
-            <label for="skype"><%=paramRequest.getLocaleString("lblSkype")%></label>
-            <input type="text" name="skype" id="skype" dojoType="dijit.form.ValidationTextBox" value="<%=skype%>" maxlength="25"  promptMessage="<%=paramRequest.getLocaleString("promptMsgSkype")%>" invalidMessage="<%=paramRequest.getLocaleString("lblSkypeFault")%>" trim="true" regExp="[a-zA-Z\u00C0-\u00FF' ]+"/>
-        </p>
-        <p class="icv-2col">
-            <label for="msn"><%=paramRequest.getLocaleString("lblMsn")%></label>
-            <input type="text" name="msn" id="msn" dojoType="dijit.form.ValidationTextBox" value="<%=msn%>" maxlength="25"  promptMessage="<%=paramRequest.getLocaleString("promptMsgMsn")%>" invalidMessage="<%=paramRequest.getLocaleString("lblMsnFault")%>" trim="true" regExp="[a-zA-Z\u00C0-\u00FF' ]+"/>
-        </p>
-        <p class="icv-2col">
-            <label for="linkedin"><%=paramRequest.getLocaleString("lblLinkedin")%></label>
-            <input type="text" name="linkedin" id="linkedin" dojoType="dijit.form.ValidationTextBox" value="<%=linkedin%>" maxlength="25"  promptMessage="<%=paramRequest.getLocaleString("promptMsgLinkedin")%>" invalidMessage="<%=paramRequest.getLocaleString("lblLinkedinFault")%>" trim="true" regExp="[a-zA-Z\u00C0-\u00FF' ]+"/>
-        </p>
-        <p class="icv-2col">
-            <label for="twitter"><%=paramRequest.getLocaleString("lblTwitter")%></label>
-            <input type="text" name="twitter" id="twitter" dojoType="dijit.form.ValidationTextBox" value="<%=twitter%>" maxlength="25"  promptMessage="<%=paramRequest.getLocaleString("promptMsgTwitter")%>" invalidMessage="<%=paramRequest.getLocaleString("lblTwitterFault")%>" trim="true" regExp="[a-zA-Z\u00C0-\u00FF' ]+"/>
-        </p>
-
-
-        <!--div>
-            <p><img src="<%//=context%>/swbadmin/jsp/securecode.jsp?sAttr=cdlog" id="imgseccode" width="155" height="65" alt="" /></p>
-            <p>
-                <label for="cmnt_seccode"><%//=paramRequest.getLocaleString("lblCaptcha")%>:</label>
-               <input type="text" name="cmnt_seccode" id="cmnt_seccode" maxlength="8" value="" />
-            </p>
-            <p><%//=paramRequest.getLocaleString("lblTryRead")%> <a href="#" onclick="changeSecureCodeImage('imgseccode');"><%=paramRequest.getLocaleString("lblTryAnotherText")%></a></p>
-        </div-->
-        <div class="clearer borde">&nbsp;</div>
-    </div>
-    <div class="">
-        <p>
-            <!--input type="button" value="<%=paramRequest.getLocaleString("lblReset")%>"  onclick="history.back()"-->
-            <input type="submit" value="<%=paramRequest.getLocaleString("lblSave")%>"  onclick="return enviar()"/>
-        </p>
-    </div>
-
-</form>
+</div>
 <%
             //} catch (Exception e) {
             // e.printStackTrace(System.out);
