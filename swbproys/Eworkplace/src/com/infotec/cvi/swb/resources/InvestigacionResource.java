@@ -18,7 +18,6 @@ import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
-import org.semanticwb.portal.api.SWBResourceModes;
 import org.semanticwb.portal.api.SWBResourceURL;
 
 /**
@@ -91,7 +90,7 @@ public class InvestigacionResource extends GenericResource
             
             SNIConacyt snic = SNIConacyt.ClassMgr.getSNIConacyt(idsniconacyt,wsite); 
             
-            if(txtareainv!=null&&txtempresa!=null&&txtnomjefe!=null&&txtnompuesto!=null&&snic!=null&&fechafin>=0&&numtel>0)
+            if(txtareainv!=null&&txtempresa!=null&&txtnomjefe!=null&&txtnompuesto!=null&&snic!=null&&fechafin>0&&numtel>0)
             {
                 Investigacion inves = Investigacion.ClassMgr.createInvestigacion(wsite);
 
@@ -101,6 +100,7 @@ public class InvestigacionResource extends GenericResource
                 inves.setNombrePuesto(txtnompuesto);
                 inves.setFechaTermino(fechafin);
                 inves.setNumTelefono(numtel);
+                inves.setSniConacyt(snic);
                 
                 cv.addInvestigacion(inves);
                 
