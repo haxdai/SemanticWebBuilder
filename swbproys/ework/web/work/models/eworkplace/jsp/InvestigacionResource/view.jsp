@@ -6,10 +6,6 @@
 
 <%@page import="com.infotec.cvi.swb.SNIConacyt"%>
 <%@page import="com.infotec.cvi.swb.Investigacion"%>
-<%@page import="com.infotec.cvi.swb.Escritura"%>
-<%@page import="com.infotec.cvi.swb.Lectura"%>
-<%@page import="com.infotec.cvi.swb.Conversacion"%>
-<%@page import="com.infotec.cvi.swb.Idiomas"%>
 <%@page import="com.infotec.cvi.swb.CV"%>
 <%@page import="com.infotec.cvi.swb.Idioma"%>
 <%@page import="org.semanticwb.model.WebPage"%>
