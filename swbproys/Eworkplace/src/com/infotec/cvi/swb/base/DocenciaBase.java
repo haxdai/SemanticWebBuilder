@@ -3,7 +3,7 @@ package com.infotec.cvi.swb.base;
 
 public abstract class DocenciaBase extends com.infotec.cvi.swb.InvestigacionDocencia 
 {
-    public static final org.semanticwb.platform.SemanticClass intranet_Nivel=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Nivel");
+    public static final org.semanticwb.platform.SemanticClass intranet_NivelDocencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#NivelDocencia");
     public static final org.semanticwb.platform.SemanticProperty intranet_nivelDocencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nivelDocencia");
     public static final org.semanticwb.platform.SemanticProperty intranet_aniosDocencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#aniosDocencia");
     public static final org.semanticwb.platform.SemanticProperty intranet_asignatura=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#asignatura");
@@ -85,23 +85,23 @@ public abstract class DocenciaBase extends com.infotec.cvi.swb.InvestigacionDoce
         }
        /**
        * Gets all com.infotec.cvi.swb.Docencia with a determined NivelDocencia
-       * @param value NivelDocencia of the type com.infotec.cvi.swb.Nivel
+       * @param value NivelDocencia of the type com.infotec.cvi.swb.NivelDocencia
        * @param model Model of the com.infotec.cvi.swb.Docencia
        * @return Iterator with all the com.infotec.cvi.swb.Docencia
        */
 
-        public static java.util.Iterator<com.infotec.cvi.swb.Docencia> listDocenciaByNivelDocencia(com.infotec.cvi.swb.Nivel value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<com.infotec.cvi.swb.Docencia> listDocenciaByNivelDocencia(com.infotec.cvi.swb.NivelDocencia value,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Docencia> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_nivelDocencia, value.getSemanticObject(),sclass));
             return it;
         }
        /**
        * Gets all com.infotec.cvi.swb.Docencia with a determined NivelDocencia
-       * @param value NivelDocencia of the type com.infotec.cvi.swb.Nivel
+       * @param value NivelDocencia of the type com.infotec.cvi.swb.NivelDocencia
        * @return Iterator with all the com.infotec.cvi.swb.Docencia
        */
 
-        public static java.util.Iterator<com.infotec.cvi.swb.Docencia> listDocenciaByNivelDocencia(com.infotec.cvi.swb.Nivel value)
+        public static java.util.Iterator<com.infotec.cvi.swb.Docencia> listDocenciaByNivelDocencia(com.infotec.cvi.swb.NivelDocencia value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Docencia> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_nivelDocencia,value.getSemanticObject(),sclass));
             return it;
@@ -121,7 +121,7 @@ public abstract class DocenciaBase extends com.infotec.cvi.swb.InvestigacionDoce
    * @param value NivelDocencia to set
    */
 
-    public void setNivelDocencia(com.infotec.cvi.swb.Nivel value)
+    public void setNivelDocencia(com.infotec.cvi.swb.NivelDocencia value)
     {
         if(value!=null)
         {
@@ -142,15 +142,15 @@ public abstract class DocenciaBase extends com.infotec.cvi.swb.InvestigacionDoce
 
    /**
    * Gets the NivelDocencia
-   * @return a com.infotec.cvi.swb.Nivel
+   * @return a com.infotec.cvi.swb.NivelDocencia
    */
-    public com.infotec.cvi.swb.Nivel getNivelDocencia()
+    public com.infotec.cvi.swb.NivelDocencia getNivelDocencia()
     {
-         com.infotec.cvi.swb.Nivel ret=null;
+         com.infotec.cvi.swb.NivelDocencia ret=null;
          org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_nivelDocencia);
          if(obj!=null)
          {
-             ret=(com.infotec.cvi.swb.Nivel)obj.createGenericInstance();
+             ret=(com.infotec.cvi.swb.NivelDocencia)obj.createGenericInstance();
          }
          return ret;
     }
