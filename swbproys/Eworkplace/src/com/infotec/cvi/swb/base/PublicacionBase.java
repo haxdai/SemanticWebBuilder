@@ -93,20 +93,20 @@ public abstract class PublicacionBase extends com.infotec.cvi.swb.InvestigacionD
 
 /**
 * Gets the Fechapublicado property
-* @return java.util.Date with the Fechapublicado
+* @return int with the Fechapublicado
 */
-    public java.util.Date getFechapublicado()
+    public int getFechapublicado()
     {
-        return getSemanticObject().getDateProperty(intranet_fechapublicado);
+        return getSemanticObject().getIntProperty(intranet_fechapublicado);
     }
 
 /**
 * Sets the Fechapublicado property
 * @param value long with the Fechapublicado
 */
-    public void setFechapublicado(java.util.Date value)
+    public void setFechapublicado(int value)
     {
-        getSemanticObject().setDateProperty(intranet_fechapublicado, value);
+        getSemanticObject().setIntProperty(intranet_fechapublicado, value);
     }
 
 /**
