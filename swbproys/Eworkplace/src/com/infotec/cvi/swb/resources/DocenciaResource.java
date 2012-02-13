@@ -91,7 +91,7 @@ public class DocenciaResource extends GenericResource
 
                 docencia.setAsignatura(txtasignatura);
                 docencia.setInstitucion(txtinstitucion);
-                docencia.setNivelDocencia(nivel);
+                docencia.setNivelDocencia(nivel); 
                 docencia.setAniosDocencia(intyears);
                 
                 cv.addDocencia(docencia);
