@@ -266,13 +266,48 @@
               urladd.setAction(SWBResourceURL.Action_ADD);  
  %>         
           <h3><%=wptitle%></h3>
-          <form id="form1" name="form1" method="post" action="<%=urladd%>">
+<script type="text/javascript">
+    <!--
+    dojo.require("dijit.layout.ContentPane");
+    dojo.require("dijit.form.Form");
+    dojo.require("dijit.form.ValidationTextBox");
+    dojo.require("dijit.form.Button");
+
+    function enviar() {
+        var objd=dijit.byId('form1ga');
+//alert(objd);
+        if(objd.isValid()&&
+            !isEmpty('idgrado')&&
+            !isEmpty('idcarrera')&&
+            !isEmpty('idsituacion'))
+        {
+                return true;
+        }else {
+            alert("Datos incompletos o erroneos");
+        }
+        return false;
+    }
+    function isEmpty(objid) {
+        var obj = dojo.byId(objid);
+        if (obj==null || obj.value=='' || !isNaN(obj.value) || obj.value.charAt(0) == ' ') {
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+
+
+    -->
+</script>
+
+          <form id="form1ga" name="form1ga" method="post" dojoType="dijit.form.Form" action="<%=urladd%>">
     <!-- input type="hidden" name="" value="" / --> 
 <div class="icv-div-grupo">
   <p class="icv-3col">
     <label for="idgrado"><b>*</b>Grado</label>
     <select name="idgrado" id="idgrado">
-      <option selected="selected">Seleccione...</option>
+      <option value="" selected="selected">Seleccione...</option>
 <%
     Iterator<Grado> itgrado = Grado.ClassMgr.listGrados(wsite); 
         while (itgrado.hasNext()) {
@@ -287,7 +322,7 @@
     <p class="icv-3col">
     <label for="idcarrera"><b>*</b>Carrera o Especialidad</label>
     <select name="idcarrera" id="idcarrera">
-      <option selected="selected">Seleccione...</option>
+      <option value="" selected="selected">Seleccione...</option>
 <%
     Iterator<Carrera> itcarrera = Carrera.ClassMgr.listCarreras(wsite); 
         while (itcarrera.hasNext()) {
@@ -301,12 +336,12 @@
   </p>
   <p class="icv-3col">
     <label for="txtInstitucion"><b>*</b>Institución</label>
-    <input type="text" name="txtInstitucion" id="txtInstitucion" maxlength="150" />
+    <input type="text" name="txtInstitucion" id="txtInstitucion" maxlength="150" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese institucion" invalidMessage="invaldo"/>
   </p>
     <p class="icv-3col">
     <label for="idsituacion"><b>*</b>Situación Académica</label>
     <select name="idsituacion" id="idsituacion">
-      <option selected="selected">Seleccione...</option>
+      <option value="" selected="selected">Seleccione...</option>
 <%
     Iterator<SituacionAcademica> itsit = SituacionAcademica.ClassMgr.listSituacionAcademicas(wsite); 
         while (itsit.hasNext()) {
@@ -322,13 +357,13 @@
  
   <p class="icv-3col">
     <label for="periodo"><b>*</b>Periodo en años</label>
-    <input type="text" name="periodo" id="periodo" maxlength="2" />
+    <input type="text" name="periodo" id="periodo" maxlength="2" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese periodo en años" invalidMessage="invaldo" />
   </p>
 <div class="clearer">&nbsp;</div>
 </div>
 
     <div class="centro">
-    <input type="submit" name="guardar" id="guardar" value="Guardar" />
+    <input type="submit" name="guardar" id="guardar" value="Guardar" onclick="return enviar()"/>
 </div>
 </form>          
 <%         

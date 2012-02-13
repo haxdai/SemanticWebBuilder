@@ -315,7 +315,7 @@
     <p class="icv-3col">
     <label for="idgavance"><b>*</b>Grado de avance</label>
     <select name="idgavance" id="idgavance">
-      <option selected="selected">Seleccione...</option>
+      <option value="" selected="selected">Seleccione...</option>
 <%
     Iterator<Avance> itsit = Avance.ClassMgr.listAvances(wsite); 
         while (itsit.hasNext()) {
@@ -331,7 +331,7 @@
  
   <p class="icv-3col">
     <label for="periodo"><b>*</b>Periodo en años</label>
-    <input type="text" name="periodo" id="periodo" maxlength="2" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="selecciona" invalidMessage="invaldo" />
+    <input type="text" name="periodo" id="periodo" maxlength="2" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese periodo en años" invalidMessage="invaldo" />
   </p>
 <div class="clearer">&nbsp;</div>
 </div>

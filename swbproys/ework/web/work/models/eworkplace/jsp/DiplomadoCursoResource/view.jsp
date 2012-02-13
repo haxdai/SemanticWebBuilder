@@ -266,37 +266,68 @@
               urladd.setAction(SWBResourceURL.Action_ADD);  
               
  %>         
+<script type="text/javascript">
+    <!--
+    dojo.require("dijit.layout.ContentPane");
+    dojo.require("dijit.form.Form");
+    dojo.require("dijit.form.ValidationTextBox");
+    dojo.require("dijit.form.Button");
+
+    function enviar() {
+        var objd=dijit.byId('form1dc');
+//alert(objd);
+        if(objd.isValid())
+        {
+                return true;
+        }else {
+            alert("Datos incompletos o erroneos");
+        }
+        return false;
+    }
+    function isEmpty(objid) {
+        var obj = dojo.byId(objid);
+        if (obj==null || obj.value=='' || !isNaN(obj.value) || obj.value.charAt(0) == ' ') {
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+
+
+    -->
+</script>
 
 <h3><%=wptitle%></h3>
-          <form class="soria" id="form1" name="form1" method="post" action="<%=urladd%>">
+          <form class="soria" id="form1dc" name="form1" method="post" dojoType="dijit.form.Form" action="<%=urladd%>">
     <!-- input type="hidden" name="" value="" / --> 
 <div class="icv-div-grupo">
 
   <p class="icv-3col">
     <label for="nomcurso"><b>*</b>Nombre del curso</label>
-    <input type="text" name="nomcurso" id="nomcurso" maxlength="100" />
+    <input type="text" name="nomcurso" id="nomcurso" maxlength="100" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese nombre del curso" invalidMessage="invaldo" />
   </p>
   <p class="icv-3col">
     <label for="nominstitucion"><b>*</b>Institución</label>
-    <input type="text" name="nominstitucion" id="nominstitucion" maxlength="150" />
+    <input type="text" name="nominstitucion" id="nominstitucion" maxlength="150" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese la institucion" invalidMessage="invaldo" />
   </p> 
   <p class="icv-3col">
     <label for="fechaini"><b>*</b>Pediodo de (Año)</label>
-    <input type="text" name="fechaini" id="fechaini" maxlength="4" />
+    <input type="text" name="fechaini" id="fechaini" maxlength="4" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese el año de inicio del curso" invalidMessage="invaldo" />
   </p>
   <p class="icv-3col">
     <label for="fechafin"><b>*</b>Periodo a (Año)</label>
-    <input type="text" name="fechafin" id="fechafin" maxlength="4" />
+    <input type="text" name="fechafin" id="fechafin" maxlength="4" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese el año de fin del curso" invalidMessage="invaldo"/>
   </p>
   <p class="icv-3col">
     <label for="docobtenido"><b>*</b>Documento obtenido</label>
-    <input type="text" name="docobtenido" id="docobtenido" maxlength="100" />
+    <input type="text" name="docobtenido" id="docobtenido" maxlength="100" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese documento obtenido" invalidMessage="invaldo" />
   </p>
 <div class="clearer">&nbsp;</div>
 </div>
 
     <div class="centro">
-    <input type="submit" name="guardar" id="guardar" value="Guardar" />
+    <input type="submit" name="guardar" id="guardar" value="Guardar" onclick="return enviar()"/>
 </div>
 </form>          
 <%         

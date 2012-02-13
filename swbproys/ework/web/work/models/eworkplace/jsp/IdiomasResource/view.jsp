@@ -256,14 +256,45 @@
               SWBResourceURL urladd = paramRequest.getActionUrl();
               urladd.setAction(SWBResourceURL.Action_ADD);  
  %>         
-          <h3><%=wptitle%></h3>
-          <form id="form1" name="form1" method="post" action="<%=urladd%>">
+<script type="text/javascript">
+    <!--
+    dojo.require("dijit.layout.ContentPane");
+    dojo.require("dijit.form.Form");
+    dojo.require("dijit.form.ValidationTextBox");
+    dojo.require("dijit.form.Button");
+
+    function enviar() {
+        var objd=dijit.byId('form1id');
+//alert(objd);
+        if(objd.isValid()&&!isEmpty('ididoma')&&!isEmpty('idconversacion')&&!isEmpty('idlectura')&&!isEmpty('idescritura'))
+        {
+                return true;
+        }else {
+            alert("Datos incompletos o erroneos");
+        }
+        return false;
+    }
+    function isEmpty(objid) {
+        var obj = dojo.byId(objid);
+        if (obj==null || obj.value=='' || !isNaN(obj.value) || obj.value.charAt(0) == ' ') {
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+
+
+    -->
+</script>
+ <h3><%=wptitle%></h3>
+          <form id="form1id" name="form1id" method="post" dojoType="dijit.form.Form" action="<%=urladd%>">
     <!-- input type="hidden" name="" value="" / --> 
 <div class="icv-div-grupo">
   <p class="icv-3col">
     <label for="ididoma"><b>*</b>Idioma</label>
     <select name="ididoma" id="ididoma">
-      <option selected="selected">Seleccione...</option>
+      <option value="" selected="selected">Seleccione...</option>
 <%
     Iterator<Idiomas> itidioma = Idiomas.ClassMgr.listIdiomases(wsite); 
         while (itidioma.hasNext()) {
@@ -278,7 +309,7 @@
     <p class="icv-3col">
     <label for="idconversacion"><b>*</b>Conversación</label>
     <select name="idconversacion" id="idconversacion">
-      <option selected="selected">Seleccione...</option>
+      <option value="" selected="selected">Seleccione...</option>
 <%
     Iterator<Conversacion> itconv = Conversacion.ClassMgr.listConversacions(wsite); 
         while (itconv.hasNext()) {
@@ -293,7 +324,7 @@
     <p class="icv-3col">
     <label for="idlectura"><b>*</b>Lectura</label>
     <select name="idlectura" id="idlectura">
-      <option selected="selected">Seleccione...</option>
+      <option value="" selected="selected">Seleccione...</option>
 <%
     Iterator<Lectura> itlec = Lectura.ClassMgr.listLecturas(wsite); 
         while (itlec.hasNext()) {
@@ -308,7 +339,7 @@
     <p class="icv-3col">
     <label for="idescritura"><b>*</b>Escritura</label>
     <select name="idescritura" id="idescritura">
-      <option selected="selected">Seleccione...</option>
+      <option value="" selected="selected">Seleccione...</option>
 <%
     Iterator<Escritura> itesc = Escritura.ClassMgr.listEscrituras(wsite); 
         while (itesc.hasNext()) {
@@ -324,7 +355,7 @@
 </div>
 
     <div class="centro">
-    <input type="submit" name="guardar" id="guardar" value="Guardar" />
+    <input type="submit" name="guardar" id="guardar" value="Guardar" onclick="return enviar()" />
 </div>
 </form>          
 <%         
