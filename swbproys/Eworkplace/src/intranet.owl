@@ -982,7 +982,18 @@
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="nivelDocencia">
     <rdfs:domain rdf:resource="#Docencia"/>
-    <rdfs:range rdf:resource="#Nivel"/>
+    <rdfs:range>
+      <swb:Class rdf:ID="NivelDocencia">
+        <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >com.infotec.cvi.swb</swb:classCodePackage>
+        <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+        >true</swb:autogenId>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >Nivel docencia</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Catalogo"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+      </swb:Class>
+    </rdfs:range>
     <swb:displayProperty rdf:resource="#dp_nivel"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="gerencia">
@@ -1771,14 +1782,6 @@
   <swbxf:DisplayProperty rdf:ID="dp_clave">
     <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
   </swbxf:DisplayProperty>
-  <swb:Class rdf:ID="NivelDocencia">
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</swb:autogenId>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Nivel docencia</rdfs:label>
-    <rdfs:subClassOf rdf:resource="#Catalogo"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-  </swb:Class>
   <swb:SemanticResource rdf:ID="ReservaEventoManager">
     <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >com.infotec.eworkplace.swb.resources.sem</swb:classCodePackage>
