@@ -278,7 +278,7 @@
     <input type="text" name="txtempresa" id="txtempresa" maxlength="150" />
   </p>
     <p class="icv-3col">
-    <label for="txtareainv"><b>*</b>'Area de Investigación</label>
+    <label for="txtareainv"><b>*</b>Area de Investigación</label>
     <input type="text" name="txtareainv" id="txtareainv" maxlength="100" />
   </p>
     <p class="icv-3col">
