@@ -92,9 +92,9 @@
 %>
 
 
+<div >
 <div id="icv">
-<%@include file="../menucvi.jsp" %>
-<div>
+    <%@include file="../menucvi.jsp" %>
 <div id="icv-data">
 <%
             if(action.equals(""))
