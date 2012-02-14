@@ -83,7 +83,7 @@ System.out.println("user.equals(cv.getPropietario())="+user.equals(cv.getPropiet
             final String axn = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD).toString();
             StringBuilder htm = new StringBuilder();
             htm.append(script(lang));
-            htm.append("<form method=\"post\" action=\""+axn+"\">");
+            htm.append("<form method=\"post\" dojoType=\"dijit.form.Form\" action=\""+axn+"\">");
             htm.append("  <div class=\"contacto_externo divisor\">");
             Iterator<ExperienciaLaboral> experiencias = cv.listExperienciaLaborals();
             htm.append("   <ol id=\"fms\">");
@@ -111,7 +111,7 @@ System.out.println("sdf.format(experiencia.getFechaIni())="+sdf.format(experienc
                     htm.append("  <p class=\"tercio\"><label>Jefe inmediato</label><input type=\"text\" name=\"jf\" value=\""+experiencia.getJefe()+"\" /></p>");
                     htm.append("  <p class=\"tercio\"><label>Cargo</label><input type=\"text\" name=\"crg\" value=\""+experiencia.getCargo()+"\" /></p>");
                     if(experiencia.getTelefono()!=null)
-                        htm.append("  <p class=\"tercio\"><label>Tel&eacute;fono (clave lada, n&uacute;mero y extensi&oacute;n)</label><input type=\"text\" name=\"cve\" value=\""+experiencia.getTelefono().getLada()+"\" size=\"3\" maxlength=\"3\" />&nbsp;<input type=\"text\" name=\"tf\" value=\""+experiencia.getTelefono().getNumero()+"\" size=\"8\" maxlength=\"8\" />&nbsp;Extensi&oacute;n<input type=\"text\" name=\"ext\" value=\""+experiencia.getTelefono().getExtension()+"\" size=\"5\" maxlength=\"5\" /></p>");
+                        htm.append("  <p class=\"tercio\"><label>Tel&eacute;fono (clave lada, n&uacute;mero y extensi&oacute;n)</label><input type=\"text\" name=\"cve\" value=\""+(experiencia.getTelefono().getLada()==0?"":experiencia.getTelefono().getLada())+"\" size=\"3\" maxlength=\"3\" />&nbsp;<input type=\"text\" name=\"tf\" value=\""+(experiencia.getTelefono().getNumero()==0?"":experiencia.getTelefono().getNumero())+"\" size=\"8\" maxlength=\"8\" />&nbsp;Extensi&oacute;n<input type=\"text\" name=\"ext\" value=\""+(experiencia.getTelefono().getExtension()==0?"":experiencia.getTelefono().getExtension())+"\" size=\"5\" maxlength=\"5\" /></p>");
                     else
                         htm.append("  <p class=\"tercio\"><label>Tel&eacute;fono (clave lada, n&uacute;mero y extensi&oacute;n)</label><input type=\"text\" name=\"cve\" value=\"\" size=\"3\" maxlength=\"3\" />&nbsp;<input type=\"text\" name=\"tf\" value=\"\" size=\"8\" maxlength=\"8\" />&nbsp;<input type=\"text\" name=\"ext\" value=\"\" size=\"5\" maxlength=\"5\" /></p>");
                     htm.append("  <p><input type=\"button\" onclick=\"postHtml('"+rem+"','fms')\" value=\"Eliminar\" /></p>");
@@ -157,7 +157,9 @@ System.out.println("sdf.format(experiencia.getFechaIni())="+sdf.format(experienc
         
         js.append("dojo.require(\"dojo.fx\");\n");
         js.append("dojo.require(\"dijit.dijit\");\n");
+        js.append("dojo.require(\"dijit.form.Form\");\n");
         js.append("dojo.require(\"dijit.form.DateTextBox\");\n");
+        js.append("dojo.require(\"dijit.form.ValidationTextBox\");\n");
         
         js.append("function expande(domId) {\n");
         js.append("   var anim1 = dojo.fx.wipeIn( {node:domId, duration:500 });\n");
@@ -299,17 +301,22 @@ e.printStackTrace(System.out);
                 Telefono tel = Telefono.ClassMgr.createTelefono(wsite);
                 try {
                     tel.setLada(Integer.parseInt(SWBUtils.XML.replaceXMLChars(cve[i])));
-                    tel.setNumero(Integer.parseInt(SWBUtils.XML.replaceXMLChars(tf[i])));
+                }catch(Exception iobe){}
+                try {
                     tel.setExtension(Integer.parseInt(SWBUtils.XML.replaceXMLChars(ext[i])));
-                    experiencia.setTelefono(tel);
-//Date fip = sdf.parse(SWBUtils.XML.replaceXMLChars(fi[i]));
-//System.out.println("fip="+fip);
-//Date ffp = sdf.parse(SWBUtils.XML.replaceXMLChars(ff[i]));
-//System.out.println("ffp="+ffp);
+                }catch(Exception iobe){}
+                try {
+                    tel.setNumero(Integer.parseInt(SWBUtils.XML.replaceXMLChars(tf[i])));
                 }catch(Exception iobe){
                     iobe.printStackTrace(System.out);
                     tel.remove();
                 }
+                experiencia.setTelefono(tel);
+//Date fip = sdf.parse(SWBUtils.XML.replaceXMLChars(fi[i]));
+//System.out.println("fip="+fip);
+//Date ffp = sdf.parse(SWBUtils.XML.replaceXMLChars(ff[i]));
+//System.out.println("ffp="+ffp);
+                
                 cv.addExperienciaLaboral(experiencia);
             }
         }else if (SWBResourceURL.Action_REMOVE.equals(action)) {
