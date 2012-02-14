@@ -70,7 +70,7 @@ public class InvestigacionResource extends GenericResource
             cv.setPropietario(usr);
         }
         
-        if (SWBResourceURL.Action_ADD.equals(action)) {
+        if (SWBResourceURL.Action_ADD.equals(action)||SWBResourceURL.Action_EDIT.equals(action)) {
             
             String txtareainv = request.getParameter("txtareainv");
             String txtempresa = request.getParameter("txtempresa");
@@ -92,7 +92,12 @@ public class InvestigacionResource extends GenericResource
             
             if(txtareainv!=null&&txtempresa!=null&&txtnomjefe!=null&&txtnompuesto!=null&&snic!=null&&fechafin>0&&numtel>0)
             {
-                Investigacion inves = Investigacion.ClassMgr.createInvestigacion(wsite);
+                Investigacion inves = null;
+                if(id!=null) inves = Investigacion.ClassMgr.getInvestigacion(id,wsite);
+                if(inves!=null){
+                    inves = Investigacion.ClassMgr.createInvestigacion(wsite);
+                    cv.addInvestigacion(inves);
+                }
 
                 inves.setAreaInvestigacion(txtareainv);
                 inves.setNombreEmpresa(txtempresa);
@@ -101,8 +106,6 @@ public class InvestigacionResource extends GenericResource
                 inves.setFechaTermino(fechafin);
                 inves.setNumTelefono(numtel);
                 inves.setSniConacyt(snic);
-                
-                cv.addInvestigacion(inves);
                 
                 response.setAction("");
                 

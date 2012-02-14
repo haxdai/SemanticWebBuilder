@@ -73,7 +73,7 @@ public class IdiomasResource extends GenericResource
             cv.setPropietario(usr);
         }
         
-        if (SWBResourceURL.Action_ADD.equals(action)) {
+        if (SWBResourceURL.Action_ADD.equals(action)||SWBResourceURL.Action_EDIT.equals(action)) {
             
             String ididioma = request.getParameter("ididoma");
             String idconversacion = request.getParameter("idconversacion");
@@ -87,15 +87,18 @@ public class IdiomasResource extends GenericResource
             
             if(idiomas!=null&&conv!=null&&lectura!=null&&escritura!=null)
             {
-                Idioma idioma = Idioma.ClassMgr.createIdioma(wsite);
+                Idioma idioma = null;
+                if(id!=null) idioma=Idioma.ClassMgr.getIdioma(id,wsite);
+                if(idioma==null){
+                    idioma = Idioma.ClassMgr.createIdioma(wsite);
+                    cv.addIdioma(idioma);
+                }
 
                 idioma.setConversacion(conv);
                 idioma.setEscritura(escritura);
                 idioma.setIdiomas(idiomas);
                 idioma.setLectura(lectura);
-                
-                cv.addIdioma(idioma);
-                
+
                 response.setAction("");
                 
                 response.setRenderParameter("act", "");

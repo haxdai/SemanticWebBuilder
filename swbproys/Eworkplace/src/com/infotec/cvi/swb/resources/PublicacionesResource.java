@@ -69,7 +69,7 @@ public class PublicacionesResource extends GenericResource
             cv.setPropietario(usr);
         }
         
-        if (SWBResourceURL.Action_ADD.equals(action)) {
+        if (SWBResourceURL.Action_ADD.equals(action)||SWBResourceURL.Action_EDIT.equals(action)) {
             
             String txttitulo = request.getParameter("txttitulo");
             String txtpublicado = request.getParameter("txtpublicado");
@@ -81,13 +81,18 @@ public class PublicacionesResource extends GenericResource
             
             if(txttitulo!=null&&txtpublicado!=null&&intfecha>0)
             {
-                Publicacion publi = Publicacion.ClassMgr.createPublicacion(wsite);
+                Publicacion publi = null;
+                if(id!=null) publi = Publicacion.ClassMgr.getPublicacion(id,wsite);
+                if(publi==null){
+                    publi = Publicacion.ClassMgr.createPublicacion(wsite);
+                    cv.addPublicacion(publi);
+                }
 
                 publi.setTitle(txttitulo);
                 publi.setPublicado(txtpublicado);
                 publi.setFechapublicado(intfecha);
                 
-                cv.addPublicacion(publi);
+                
                 
                 response.setAction("");
                 

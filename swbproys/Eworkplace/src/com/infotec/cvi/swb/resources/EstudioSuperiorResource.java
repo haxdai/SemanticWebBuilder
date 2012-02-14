@@ -79,7 +79,7 @@ public class EstudioSuperiorResource extends GenericResource
         }
         
         
-        if (SWBResourceURL.Action_ADD.equals(action)) {
+        if (SWBResourceURL.Action_ADD.equals(action)||SWBResourceURL.Action_EDIT.equals(action)) {
             
             String idestudio = request.getParameter("idestudio");
             String idgavance = request.getParameter("idgavance");
@@ -90,13 +90,17 @@ public class EstudioSuperiorResource extends GenericResource
             
             if(estudio!=null&&gavance!=null&&intPeriodo>=0)
             {
-                EstudioSuperior estSuperior = EstudioSuperior.ClassMgr.createEstudioSuperior(wsite);
+                EstudioSuperior estSuperior = null;
+                if(id!=null) estSuperior = EstudioSuperior.ClassMgr.getEstudioSuperior(id,wsite);
+                if(estSuperior==null){
+                    estSuperior = EstudioSuperior.ClassMgr.createEstudioSuperior(wsite);
+                    aca.addEstudioSuperior(estSuperior);
+                }
 
                 estSuperior.setGradoAvance(gavance);
                 estSuperior.setEstudiosSuperiores(estudio);
                 estSuperior.setPeriodoYears(intPeriodo);
-                
-                aca.addEstudioSuperior(estSuperior);
+
                 response.setAction("");
                 
                 response.setRenderParameter("act", "");
