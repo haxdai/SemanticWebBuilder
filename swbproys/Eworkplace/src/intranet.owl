@@ -58,14 +58,6 @@
     >com.infotec.cvi.swb</swb:classCodePackage>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
   </owl:Class>
-  <owl:Class rdf:ID="Idiomas">
-    <rdfs:subClassOf rdf:resource="#Catalogo"/>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</swb:autogenId>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >com.infotec.cvi.swb</swb:classCodePackage>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-  </owl:Class>
   <owl:Class rdf:ID="Autoevaluacion">
     <rdfs:subClassOf>
       <swb:Class rdf:ID="Competencia">
@@ -1045,8 +1037,8 @@
     </swb:displayProperty>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="idiomas">
+    <rdfs:range rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Language"/>
     <rdfs:domain rdf:resource="#Idioma"/>
-    <rdfs:range rdf:resource="#Idiomas"/>
     <swb:displayProperty>
       <swbxf:DisplayProperty rdf:ID="dp_idiomas">
         <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
