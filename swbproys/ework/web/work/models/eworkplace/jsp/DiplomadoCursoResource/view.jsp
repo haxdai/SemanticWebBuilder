@@ -168,10 +168,8 @@
                         strInstitucion = curso.getNombreInstitucion();  
                     if(curso.getDocumentoObtenido()!=null)
                         strDocumento = curso.getDocumentoObtenido();  
-                    if(curso.getInicio()!=null)
-                        strPeriodoINI = sdf.format(curso.getInicio());
-                    if(curso.getFin()!=null)
-                        strPeriodoFIN = sdf.format(curso.getFin());
+                    strPeriodoINI = Integer.toString(curso.getInicio());
+                    strPeriodoFIN = Integer.toString(curso.getFin()); 
                     
                     SWBResourceURL urldel = paramRequest.getActionUrl();
                     urldel.setAction(SWBResourceURL.Action_REMOVE);
