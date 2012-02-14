@@ -8,9 +8,9 @@ public interface InstitucionBase extends org.semanticwb.model.GenericObject
     public static final org.semanticwb.platform.SemanticProperty intranet_inicio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#inicio");
     public static final org.semanticwb.platform.SemanticClass intranet_Institucion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Institucion");
 
-    public java.util.Date getFin();
+    public int getFin();
 
-    public void setFin(java.util.Date value);
+    public void setFin(int value);
 
     public String getDocumentoObtenido();
 
@@ -20,7 +20,7 @@ public interface InstitucionBase extends org.semanticwb.model.GenericObject
 
     public void setNombreInstitucion(String value);
 
-    public java.util.Date getInicio();
+    public int getInicio();
 
-    public void setInicio(java.util.Date value);
+    public void setInicio(int value);
 }

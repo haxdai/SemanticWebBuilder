@@ -7,7 +7,10 @@ public abstract class IdiomaBase extends org.semanticwb.model.SWBClass
     public static final org.semanticwb.platform.SemanticProperty intranet_lectura=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#lectura");
     public static final org.semanticwb.platform.SemanticClass intranet_Conversacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Conversacion");
     public static final org.semanticwb.platform.SemanticProperty intranet_conversacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#conversacion");
-    public static final org.semanticwb.platform.SemanticClass intranet_Idiomas=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Idiomas");
+   /**
+   * Un Lenguaje en SemanticWebBuilder es la definición de un Idioma para despliegue de las páginas y recursos. Al definir un lenguaje nuevo es posible definir el título y la descripción de páginas y recursos en él.
+   */
+    public static final org.semanticwb.platform.SemanticClass swb_Language=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#Language");
     public static final org.semanticwb.platform.SemanticProperty intranet_idiomas=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#idiomas");
     public static final org.semanticwb.platform.SemanticClass intranet_Escritura=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Escritura");
     public static final org.semanticwb.platform.SemanticProperty intranet_escritura=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#escritura");
@@ -134,23 +137,23 @@ public abstract class IdiomaBase extends org.semanticwb.model.SWBClass
         }
        /**
        * Gets all com.infotec.cvi.swb.Idioma with a determined Idiomas
-       * @param value Idiomas of the type com.infotec.cvi.swb.Idiomas
+       * @param value Idiomas of the type org.semanticwb.model.Language
        * @param model Model of the com.infotec.cvi.swb.Idioma
        * @return Iterator with all the com.infotec.cvi.swb.Idioma
        */
 
-        public static java.util.Iterator<com.infotec.cvi.swb.Idioma> listIdiomaByIdiomas(com.infotec.cvi.swb.Idiomas value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<com.infotec.cvi.swb.Idioma> listIdiomaByIdiomas(org.semanticwb.model.Language value,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Idioma> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_idiomas, value.getSemanticObject(),sclass));
             return it;
         }
        /**
        * Gets all com.infotec.cvi.swb.Idioma with a determined Idiomas
-       * @param value Idiomas of the type com.infotec.cvi.swb.Idiomas
+       * @param value Idiomas of the type org.semanticwb.model.Language
        * @return Iterator with all the com.infotec.cvi.swb.Idioma
        */
 
-        public static java.util.Iterator<com.infotec.cvi.swb.Idioma> listIdiomaByIdiomas(com.infotec.cvi.swb.Idiomas value)
+        public static java.util.Iterator<com.infotec.cvi.swb.Idioma> listIdiomaByIdiomas(org.semanticwb.model.Language value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Idioma> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_idiomas,value.getSemanticObject(),sclass));
             return it;
@@ -269,7 +272,7 @@ public abstract class IdiomaBase extends org.semanticwb.model.SWBClass
    * @param value Idiomas to set
    */
 
-    public void setIdiomas(com.infotec.cvi.swb.Idiomas value)
+    public void setIdiomas(org.semanticwb.model.Language value)
     {
         if(value!=null)
         {
@@ -290,15 +293,15 @@ public abstract class IdiomaBase extends org.semanticwb.model.SWBClass
 
    /**
    * Gets the Idiomas
-   * @return a com.infotec.cvi.swb.Idiomas
+   * @return a org.semanticwb.model.Language
    */
-    public com.infotec.cvi.swb.Idiomas getIdiomas()
+    public org.semanticwb.model.Language getIdiomas()
     {
-         com.infotec.cvi.swb.Idiomas ret=null;
+         org.semanticwb.model.Language ret=null;
          org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_idiomas);
          if(obj!=null)
          {
-             ret=(com.infotec.cvi.swb.Idiomas)obj.createGenericInstance();
+             ret=(org.semanticwb.model.Language)obj.createGenericInstance();
          }
          return ret;
     }

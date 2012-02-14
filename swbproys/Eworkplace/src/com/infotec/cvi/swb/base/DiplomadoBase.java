@@ -1,7 +1,7 @@
 package com.infotec.cvi.swb.base;
 
 
-public abstract class DiplomadoBase extends org.semanticwb.model.SWBClass implements com.infotec.cvi.swb.Institucion,org.semanticwb.model.Descriptiveable,com.infotec.cvi.swb.Curso
+public abstract class DiplomadoBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,com.infotec.cvi.swb.Institucion,com.infotec.cvi.swb.Curso
 {
     public static final org.semanticwb.platform.SemanticClass intranet_Diplomado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Diplomado");
    /**
@@ -91,20 +91,20 @@ public abstract class DiplomadoBase extends org.semanticwb.model.SWBClass implem
 
 /**
 * Gets the Fin property
-* @return java.util.Date with the Fin
+* @return int with the Fin
 */
-    public java.util.Date getFin()
+    public int getFin()
     {
-        return getSemanticObject().getDateProperty(intranet_fin);
+        return getSemanticObject().getIntProperty(intranet_fin);
     }
 
 /**
 * Sets the Fin property
 * @param value long with the Fin
 */
-    public void setFin(java.util.Date value)
+    public void setFin(int value)
     {
-        getSemanticObject().setDateProperty(intranet_fin, value);
+        getSemanticObject().setIntProperty(intranet_fin, value);
     }
 
 /**
@@ -211,19 +211,19 @@ public abstract class DiplomadoBase extends org.semanticwb.model.SWBClass implem
 
 /**
 * Gets the Inicio property
-* @return java.util.Date with the Inicio
+* @return int with the Inicio
 */
-    public java.util.Date getInicio()
+    public int getInicio()
     {
-        return getSemanticObject().getDateProperty(intranet_inicio);
+        return getSemanticObject().getIntProperty(intranet_inicio);
     }
 
 /**
 * Sets the Inicio property
 * @param value long with the Inicio
 */
-    public void setInicio(java.util.Date value)
+    public void setInicio(int value)
     {
-        getSemanticObject().setDateProperty(intranet_inicio, value);
+        getSemanticObject().setIntProperty(intranet_inicio, value);
     }
 }
