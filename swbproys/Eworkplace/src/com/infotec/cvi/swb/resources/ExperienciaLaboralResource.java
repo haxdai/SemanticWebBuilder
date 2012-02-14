@@ -97,10 +97,9 @@ System.out.println("msg="+SWBUtils.XML.replaceXMLChars(request.getParameter("msg
                     experiencia = experiencias.next();
                     rem.setParameter("oid", experiencia.getId());
                     htm.append("<li class=\"aaaa\">");
-                    htm.append("  <p class=\"tercio\"><label>Empresa</label><input type=\"text\" name=\"emp\" value=\""+experiencia.getEmpresa()+"\" /></p>");
-                    htm.append("  <p class=\"tercio\"><label>Fecha inicial</label><input type=\"text\" name=\"fi\" value=\""+sdf.format(experiencia.getFechaIni())+"\" dojoType=\"dijit.form.DateTextBox\" required=\"true\" constraints=\"{datePattern:'dd/MM/yyyy'}\" maxlength=\"10\" hasDownArrow=\"true\"/></p>");
-                    htm.append("  <p class=\"tercio\"><label>Fecha final</label><input type=\"text\" name=\"ff\" value=\""+sdf.format(experiencia.getFechaFin())+"\" dojoType=\"dijit.form.DateTextBox\" required=\"false\" constraints=\"{datePattern:'dd/MM/yyyy'}\" maxlength=\"10\" hasDownArrow=\"true\"/></p>");
-                    htm.append("  <p class=\"entero\"><label>Sector</label><select name=\"sctr\"><option value=\"\"></option>");
+                    htm.append("  <p class=\"tercio\"><label>Trabajo actual <input type=\"checkbox\" name=\"cur\" value=\"1\" "+(experiencia.isActual()?"checked=\"checked\"":"")+"/></label></p>");
+                    htm.append("  <p class=\"tercio\"><label>*Empresa</label><input type=\"text\" name=\"emp\" value=\""+experiencia.getEmpresa()+"\" /></p>");
+                    htm.append("  <p class=\"entero\"><label>*Sector</label><select name=\"sctr\"><option value=\"\"></option>");
                     for(Sector sector:sectors) {
                         if(sector.equals(experiencia.getSector()))
                             htm.append("<option value=\""+sector.getId()+"\" selected=\"selected\">"+sector.getDisplayTitle(lang) +"</option>");
@@ -108,31 +107,36 @@ System.out.println("msg="+SWBUtils.XML.replaceXMLChars(request.getParameter("msg
                             htm.append("<option value=\""+sector.getId()+"\">"+sector.getDisplayTitle(lang) +"</option>");
                     }
                     htm.append("  </select></p>");
-                    htm.append("  <p class=\"tercio\"><label>Jefe inmediato y puesto</label><input type=\"text\" name=\"jf\" value=\""+experiencia.getJefe()+"\" /></p>");
-                    htm.append("  <p class=\"tercio\"><label>Puesto</label><input type=\"text\" name=\"crg\" value=\""+experiencia.getCargo()+"\" /></p>");
+                    htm.append("  <p class=\"tercio\"><label>*Fecha inicial</label><input type=\"text\" name=\"fi\" value=\""+sdf.format(experiencia.getFechaIni())+"\" dojoType=\"dijit.form.DateTextBox\" required=\"true\" constraints=\"{datePattern:'dd/MM/yyyy'}\" maxlength=\"10\" hasDownArrow=\"true\"/></p>");
+                    htm.append("  <p class=\"tercio\"><label>Fecha final</label><input type=\"text\" name=\"ff\" value=\""+sdf.format(experiencia.getFechaFin())+"\" dojoType=\"dijit.form.DateTextBox\" required=\"false\" constraints=\"{datePattern:'dd/MM/yyyy'}\" maxlength=\"10\" hasDownArrow=\"true\"/></p>");
+                    htm.append("  <p class=\"tercio\"><label>*Puesto</label><input type=\"text\" name=\"crg\" value=\""+experiencia.getCargo()+"\" /></p>");
+                    htm.append("  <p class=\"tercio\"><label>*Funciones principales</label><textarea name=\"mfncs\" rows=\"5\" cols=\"40\">"+experiencia.getFuncionesPrincipales()+"</textarea></p>");
+                    htm.append("  <p class=\"tercio\"><label>Nombre y puesto del jefe inmediato</label><input type=\"text\" name=\"jf\" value=\""+experiencia.getJefe()+"\" /></p>");
                     if(experiencia.getTelefono()!=null)
                         htm.append("  <p class=\"tercio\"><label>Tel&eacute;fono (clave lada, n&uacute;mero y extensi&oacute;n)</label><input type=\"text\" name=\"cve\" value=\""+(experiencia.getTelefono().getLada()==0?"":experiencia.getTelefono().getLada())+"\" size=\"3\" maxlength=\"3\" />&nbsp;<input type=\"text\" name=\"tf\" value=\""+(experiencia.getTelefono().getNumero()==0?"":experiencia.getTelefono().getNumero())+"\" size=\"8\" maxlength=\"8\" />&nbsp;<input type=\"text\" name=\"ext\" value=\""+(experiencia.getTelefono().getExtension()==0?"":experiencia.getTelefono().getExtension())+"\" size=\"5\" maxlength=\"5\" /></p>");
                     else
                         htm.append("  <p class=\"tercio\"><label>Tel&eacute;fono (clave lada, n&uacute;mero y extensi&oacute;n)</label><input type=\"text\" name=\"cve\" value=\"\" size=\"3\" maxlength=\"3\" />&nbsp;<input type=\"text\" name=\"tf\" value=\"\" size=\"8\" maxlength=\"8\" />&nbsp;<input type=\"text\" name=\"ext\" value=\"\" size=\"5\" maxlength=\"5\" /></p>");
                     //htm.append("  <p><input type=\"button\" onclick=\"postHtml('"+rem+"','fms')\" value=\"Eliminar\" /></p>");
-                    htm.append("  <p><input type=\"button\" onclick=\"location.href='"+rem+"'\" value=\"Eliminar\" /></p>");
+                    htm.append("  <p class=\"entero\"><input type=\"button\" onclick=\"location.href='"+rem+"'\" value=\"Eliminar\" /></p>");
                     htm.append("  <br clear=\"all\" />");
                     htm.append("</li>");
                 }
             }else {
                 htm.append("<li class=\"aaaa\">");
-                htm.append("  <p class=\"tercio\"><label>Empresa</label><input type=\"text\" name=\"emp\" value=\"\" /></p>");
-                htm.append("  <p class=\"tercio\"><label>Fecha inicial</label><input type=\"text\" name=\"fi\" value=\"\" dojoType=\"dijit.form.DateTextBox\" required=\"true\" constraints=\"{datePattern:'dd/MM/yyyy'}\" maxlength=\"10\" hasDownArrow=\"true\"/></p>");
-                htm.append("  <p class=\"tercio\"><label>Fecha final</label><input type=\"text\" name=\"ff\" value=\"\" dojoType=\"dijit.form.DateTextBox\" required=\"false\" constraints=\"{datePattern:'dd/MM/yyyy'}\" maxlength=\"10\" hasDownArrow=\"true\"/></p>");
-                htm.append("  <p class=\"entero\"><label>Sector</label><select name=\"sctr\"><option value=\"\"></option>");
+                htm.append("  <p class=\"tercio\"><label>Trabajo actual <input type=\"checkbox\" name=\"cur\" value=\"1\"/></label></p>");
+                htm.append("  <p class=\"tercio\"><label>*Empresa</label><input type=\"text\" name=\"emp\" value=\"\" /></p>");
+                htm.append("  <p class=\"entero\"><label>*Sector</label><select name=\"sctr\"><option value=\"\"></option>");
                 Iterator<Sector> sectors = Sector.ClassMgr.listSectors(wsite);
                 while(sectors.hasNext()) {
                     Sector sector = sectors.next();
                     htm.append("<option value=\""+sector.getId()+"\">"+sector.getDisplayTitle(lang) +"</option>");
                 }
                 htm.append("  </select></p>");
-                htm.append("  <p class=\"tercio\"><label>Jefe inmediato</label><input type=\"text\" name=\"jf\" value=\"\" /></p>");
-                htm.append("  <p class=\"tercio\"><label>Cargo</label><input type=\"text\" name=\"crg\" value=\"\" /></p>");
+                htm.append("  <p class=\"tercio\"><label>*Fecha inicial</label><input type=\"text\" name=\"fi\" value=\"\" dojoType=\"dijit.form.DateTextBox\" required=\"true\" constraints=\"{datePattern:'dd/MM/yyyy'}\" maxlength=\"10\" hasDownArrow=\"true\"/></p>");
+                htm.append("  <p class=\"tercio\"><label>Fecha final</label><input type=\"text\" name=\"ff\" value=\"\" dojoType=\"dijit.form.DateTextBox\" required=\"false\" constraints=\"{datePattern:'dd/MM/yyyy'}\" maxlength=\"10\" hasDownArrow=\"true\"/></p>");
+                htm.append("  <p class=\"tercio\"><label>*Puesto</label><input type=\"text\" name=\"crg\" value=\"\" /></p>");
+                htm.append("  <p class=\"tercio\"><label>*Funciones principales</label><textarea name=\"mfncs\" rows=\"5\" cols=\"40\"></textarea></p>");
+                htm.append("  <p class=\"tercio\"><label>Nombre y puesto del jefe inmediato</label><input type=\"text\" name=\"jf\" value=\"\" /></p>");
                 htm.append("  <p class=\"tercio\"><label>Tel&eacute;fono (clave lada, n&uacute;mero y extensi&oacute;n)</label>");
                 htm.append("   <input type=\"text\" name=\"cve\" value=\"\" size=\"3\" maxlength=\"3\" />&nbsp;");
                 htm.append("   <input type=\"text\" name=\"tf\" value=\"\" size=\"8\" maxlength=\"8\" />&nbsp;");
@@ -180,18 +184,19 @@ System.out.println("msg="+SWBUtils.XML.replaceXMLChars(request.getParameter("msg
         js.append("    s = s.concat('<li class=\"aaaa\" id=\"');\n");
         js.append("    s = s.concat(childId);\n");
         js.append("    s = s.concat('\">');\n");
+        js.append("    s = s.concat('');\n");
+        js.append("    s = s.concat('<p class=\"tercio\"><label>Trabajo actual <input type=\"checkbox\" name=\"cur\" value=\"1\"/></label></p>');\n");
         js.append("    s = s.concat('<p class=\"tercio\"><label>Empresa</label><input type=\"text\" name=\"emp\" value=\"\" /></p>');\n");
-        js.append("    s = s.concat('<p class=\"tercio\"><label>Fecha inicial</label><input type=\"text\" id=\"fi_'+dateboxId+'\" name=\"fi\" value=\"\" maxlength=\"10\" style=\"width:110px;\" /></p>');\n");
-        js.append("    s = s.concat('<p class=\"tercio\"><label>Fecha inicial</label><input type=\"text\" id=\"ff_'+dateboxId+'\" name=\"ff\" value=\"\" maxlength=\"10\" style=\"width:110px;\" /></p>');\n");
-//        js.append("    s = s.concat('<p class=\"tercio\"><label>Fecha inicial</label><input type=\"text\" name=\"fi\" value=\"\" dojoType=\"dijit.form.DateTextBox\" required=\"true\" constraints=\"{datePattern:\\'dd/MM/yyyy\\'}\" maxlength=\"10\" style=\"width:110px;\" hasDownArrow=\"true\" /></p>');\n");
-//        js.append("    s = s.concat('<p class=\"tercio\"><label>Fecha final</label><input type=\"text\" name=\"ff\" value=\"\" dojoType=\"dijit.form.DateTextBox\" required=\"true\" constraints=\"{datePattern:\\'dd/MM/yyyy\\'}\" maxlength=\"10\" style=\"width:110px;\" hasDownArrow=\"true\" /></p>');\n");
         js.append("    s = s.concat('<p class=\"entero\"><label>Sector</label><select name=\"sctr\"><option value=\"\"></option>');\n");
         for(Sector sector:sectors) {
             js.append("s= s.concat('<option value=\""+sector.getId()+"\">"+sector.getDisplayTitle(lang) +"</option>');\n");
         }
         js.append("    s = s.concat('</select></p>');\n");
-        js.append("    s = s.concat('<p class=\"tercio\"><label>Jefe inmediato</label><input type=\"text\" name=\"jf\" value=\"\" /></p>');\n");
-        js.append("    s = s.concat('<p class=\"tercio\"><label>Cargo</label><input type=\"text\" name=\"crg\" value=\"\" /></p>');\n");
+        js.append("    s = s.concat('<p class=\"tercio\"><label>Fecha inicial</label><input type=\"text\" id=\"fi_'+dateboxId+'\" name=\"fi\" value=\"\" maxlength=\"10\" style=\"width:110px;\" /></p>');\n");
+        js.append("    s = s.concat('<p class=\"tercio\"><label>Fecha inicial</label><input type=\"text\" id=\"ff_'+dateboxId+'\" name=\"ff\" value=\"\" maxlength=\"10\" style=\"width:110px;\" /></p>');\n");
+        js.append("    s = s.concat('<p class=\"tercio\"><label>Puesto</label><input type=\"text\" name=\"crg\" value=\"\" /></p>');\n");
+        js.append("    s = s.concat('<p class=\"tercio\"><label>*Funciones principales</label><textarea name=\"mfncs\" rows=\"5\" cols=\"40\"></textarea></p>');\n");
+        js.append("    s = s.concat('<p class=\"tercio\"><label>Nombre y puesto del jefe inmediato</label><input type=\"text\" name=\"jf\" value=\"\" /></p>');\n");
         js.append("    s = s.concat('<p class=\"tercio\"><label>Tel&eacute;fono (clave lada, n&uacute;mero y extensi&oacute;n)</label>');\n");
         js.append("    s = s.concat('<input type=\"text\" name=\"cve\" value=\"\" size=\"3\" maxlength=\"3\" />&nbsp;');\n");
         js.append("    s = s.concat('<input type=\"text\" name=\"tf\" value=\"\" size=\"8\" maxlength=\"8\" />');\n");
@@ -267,12 +272,15 @@ System.out.println("msg="+SWBUtils.XML.replaceXMLChars(request.getParameter("msg
                 }catch(Exception e) {}
             }            
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String[] cur = request.getParameterValues("cur");
             String[] emp = request.getParameterValues("emp");
+            String[] sctr = request.getParameterValues("sctr");
             String[] fi = request.getParameterValues("fi");
             String[] ff = request.getParameterValues("ff");
-            String[] sctr = request.getParameterValues("sctr");
-            String[] jf = request.getParameterValues("jf");
             String[] crg = request.getParameterValues("crg");
+            String[] mfncs = request.getParameterValues("mfncs");
+            String[] jf = request.getParameterValues("jf");
+            
             String[] cve = request.getParameterValues("cve");
             String[] tf = request.getParameterValues("tf");
             String[] ext = request.getParameterValues("ext");
@@ -284,7 +292,14 @@ System.out.println("msg="+SWBUtils.XML.replaceXMLChars(request.getParameter("msg
 //                if(emp[i].isEmpty() || fi[i].isEmpty() || ff[i].isEmpty() || jf[i].isEmpty() || tf[i].isEmpty())
 //                    continue;
                 ExperienciaLaboral experiencia = ExperienciaLaboral.ClassMgr.createExperienciaLaboral(wsite);
+                try {
+                    experiencia.setActual(cur[i]==null?false:true);
+                }catch(Exception e) {}
                 experiencia.setEmpresa(SWBUtils.XML.replaceXMLChars(emp[i]));
+                try {
+                    Sector sector = Sector.ClassMgr.getSector(SWBUtils.XML.replaceXMLChars(sctr[i]), wsite);
+                    experiencia.setSector(sector);
+                }catch(Exception e) {}
                 try {
                     experiencia.setFechaIni(sdf.parse(SWBUtils.XML.replaceXMLChars(fi[i])));
                 }catch(Exception e){
@@ -293,11 +308,9 @@ System.out.println("msg="+SWBUtils.XML.replaceXMLChars(request.getParameter("msg
                 try {
                     experiencia.setFechaFin(sdf.parse(SWBUtils.XML.replaceXMLChars(ff[i])));
                 }catch(Exception e) {}
-                Sector sector = Sector.ClassMgr.getSector(SWBUtils.XML.replaceXMLChars(sctr[i]), wsite);
-                if(sector!=null)
-                    experiencia.setSector(sector);
-                experiencia.setJefe(SWBUtils.XML.replaceXMLChars(jf[i]));
                 experiencia.setCargo(SWBUtils.XML.replaceXMLChars(crg[i]));
+                experiencia.setFuncionesPrincipales(SWBUtils.XML.replaceXMLChars(mfncs[i]));
+                experiencia.setJefe(SWBUtils.XML.replaceXMLChars(jf[i]));
                 Telefono tel = Telefono.ClassMgr.createTelefono(wsite);
                 try {
                     tel.setLada(Integer.parseInt(SWBUtils.XML.replaceXMLChars(cve[i])));
