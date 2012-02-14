@@ -173,10 +173,15 @@
                     
                     SWBResourceURL urldel = paramRequest.getActionUrl();
                     urldel.setAction(SWBResourceURL.Action_REMOVE);
-                    urldel.setParameter("id",curso.getId());   
+                    urldel.setParameter("id",curso.getId()); 
+                    
+                    SWBResourceURL urledit = paramRequest.getRenderUrl();
+                    urledit.setParameter("act",SWBResourceURL.Action_EDIT);
+                    urledit.setParameter("id",curso.getId());                      
         %>
         <tr>
-            <td><span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">borrar</a></span></td>
+            <td><span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">borrar</a></span>&nbsp;
+                <span class="icv-editar"><a href="#" onclick="window.location='<%=urledit%>';">editar</a></span></td>
             <td><%=strCurso%></td>
             <td><%=strInstitucion%></td>
             <td><%=strPeriodoINI%></td>
@@ -327,7 +332,80 @@
     <div class="centro">
     <input type="submit" name="guardar" id="guardar" value="Guardar" onclick="return enviar()"/>
 </div>
-</form>          
+</form>  
+          <%         
+          } else if(action.equals(SWBResourceURL.Action_EDIT)) {
+              String id = request.getParameter("id");
+              
+              String wptitle = wpage.getDisplayName(usr.getLanguage());
+              SWBResourceURL urladd = paramRequest.getActionUrl();
+              urladd.setAction(SWBResourceURL.Action_EDIT);  
+              Diplomado ctic = Diplomado.ClassMgr.getDiplomado(id, wsite);
+              
+ %>  
+ <script type="text/javascript">
+    <!--
+    dojo.require("dijit.layout.ContentPane");
+    dojo.require("dijit.form.Form");
+    dojo.require("dijit.form.ValidationTextBox");
+    dojo.require("dijit.form.Button");
+
+    function enviar() {
+        var objd=dijit.byId('form2ct');
+//alert(objd);
+        if(objd.isValid())
+        {
+                return true;
+        }else {
+            alert("Datos incompletos o erroneos");
+        }
+        return false;
+    }
+    function isEmpty(objid) {
+        var obj = dojo.byId(objid);
+        if (obj==null || obj.value=='' || !isNaN(obj.value) || obj.value.charAt(0) == ' ') {
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+
+
+    -->
+</script>
+<h3><%=wptitle%></h3>
+          <form id="form2ct" name="form1" method="post" action="<%=urladd%>">
+              <input type="hidden" name="id" value="<%=id%>" /> 
+<div class="icv-div-grupo">
+
+  <p class="icv-3col">
+    <label for="nomcurso"><b>*</b>Nombre del curso</label>
+    <input type="text" name="nomcurso" id="nomcurso" maxlength="100" value="<%=ctic.getTitle()%>"/>
+  </p>
+  <p class="icv-3col">
+    <label for="nominstitucion"><b>*</b>Institución</label>
+    <input type="text" name="nominstitucion" id="nominstitucion" maxlength="150" value="<%=ctic.getNombreInstitucion()%>" />
+  </p> 
+  <p class="icv-3col">
+    <label for="fechaini"><b>*</b>Pediodo de (Año)</label>
+    <input type="text" name="fechaini" id="fechaini" maxlength="4" value="<%=ctic.getInicio()%>" />
+  </p>
+  <p class="icv-3col">
+    <label for="fechafin"><b>*</b>Periodo a (Año)</label>
+    <input type="text" name="fechafin" id="fechafin" maxlength="4" value="<%=ctic.getFin()%>" />
+  </p>
+  <p class="icv-3col">
+    <label for="docobtenido"><b>*</b>Documento obtenido</label>
+    <input type="text" name="docobtenido" id="docobtenido" value="<%=ctic.getDocumentoObtenido()%>" />
+  </p>
+<div class="clearer">&nbsp;</div>
+</div>
+
+    <div class="centro">
+    <input type="submit" name="guardar" id="guardar" value="Guardar" />
+</div>
+</form>
 <%         
           }
 %>
