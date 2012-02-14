@@ -108,8 +108,8 @@ System.out.println("sdf.format(experiencia.getFechaIni())="+sdf.format(experienc
                             htm.append("<option value=\""+sector.getId()+"\">"+sector.getDisplayTitle(lang) +"</option>");
                     }
                     htm.append("  </select></p>");
-                    htm.append("  <p class=\"tercio\"><label>Jefe inmediato</label><input type=\"text\" name=\"jf\" value=\""+experiencia.getJefe()+"\" /></p>");
-                    htm.append("  <p class=\"tercio\"><label>Cargo</label><input type=\"text\" name=\"crg\" value=\""+experiencia.getCargo()+"\" /></p>");
+                    htm.append("  <p class=\"tercio\"><label>Jefe inmediato y puesto</label><input type=\"text\" name=\"jf\" value=\""+experiencia.getJefe()+"\" /></p>");
+                    htm.append("  <p class=\"tercio\"><label>Puesto</label><input type=\"text\" name=\"crg\" value=\""+experiencia.getCargo()+"\" /></p>");
                     if(experiencia.getTelefono()!=null)
                         htm.append("  <p class=\"tercio\"><label>Tel&eacute;fono (clave lada, n&uacute;mero y extensi&oacute;n)</label><input type=\"text\" name=\"cve\" value=\""+(experiencia.getTelefono().getLada()==0?"":experiencia.getTelefono().getLada())+"\" size=\"3\" maxlength=\"3\" />&nbsp;<input type=\"text\" name=\"tf\" value=\""+(experiencia.getTelefono().getNumero()==0?"":experiencia.getTelefono().getNumero())+"\" size=\"8\" maxlength=\"8\" />&nbsp;<input type=\"text\" name=\"ext\" value=\""+(experiencia.getTelefono().getExtension()==0?"":experiencia.getTelefono().getExtension())+"\" size=\"5\" maxlength=\"5\" /></p>");
                     else
@@ -264,6 +264,9 @@ System.out.println("sdf.format(experiencia.getFechaIni())="+sdf.format(experienc
                 }catch(Exception e) {}
             }
             
+            if(!validate(request, response))
+                return;
+            
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String[] emp = request.getParameterValues("emp");
             String[] fi = request.getParameterValues("fi");
@@ -274,29 +277,23 @@ System.out.println("sdf.format(experiencia.getFechaIni())="+sdf.format(experienc
             String[] cve = request.getParameterValues("cve");
             String[] tf = request.getParameterValues("tf");
             String[] ext = request.getParameterValues("ext");
-            if(emp.length!=fi.length && fi.length!=ff.length && ff.length!=sctr.length && sctr.length!=jf.length && jf.length!=crg.length) {
-                response.setRenderParameter("msg", "Faltan datos");
-                return;
-            }
+//            if(emp.length!=fi.length && fi.length!=crg.length && crg.length!=sctr.length) {
+//                response.setRenderParameter("msg", "Faltan datos");
+//                return;
+//            }
             for(int i=0; i<emp.length; i++) {
-                if(emp[i].isEmpty() || fi[i].isEmpty() || ff[i].isEmpty() || jf[i].isEmpty() || tf[i].isEmpty())
-                    continue;
+//                if(emp[i].isEmpty() || fi[i].isEmpty() || ff[i].isEmpty() || jf[i].isEmpty() || tf[i].isEmpty())
+//                    continue;
                 ExperienciaLaboral experiencia = ExperienciaLaboral.ClassMgr.createExperienciaLaboral(wsite);
                 experiencia.setEmpresa(SWBUtils.XML.replaceXMLChars(emp[i]));
                 try {
                     experiencia.setFechaIni(sdf.parse(SWBUtils.XML.replaceXMLChars(fi[i])));
-                    experiencia.setFechaFin(sdf.parse(SWBUtils.XML.replaceXMLChars(ff[i])));
                 }catch(Exception e){
-//                    response.setRenderParameter("emp", emp);
-//                    response.setRenderParameter("fi", fi);
-//                    response.setRenderParameter("ff", ff);
-//                    response.setRenderParameter("sctr", sctr);
-//                    response.setRenderParameter("cve", cve);
-//                    response.setRenderParameter("tf", tf);
-//                    response.setRenderParameter("ext", ext);
-e.printStackTrace(System.out);
                     return;
                 }
+                try {
+                experiencia.setFechaFin(sdf.parse(SWBUtils.XML.replaceXMLChars(ff[i])));
+                }catch(Exception e) {}
                 Sector sector = Sector.ClassMgr.getSector(SWBUtils.XML.replaceXMLChars(sctr[i]), wsite);
                 if(sector!=null)
                     experiencia.setSector(sector);
@@ -342,5 +339,81 @@ e.printStackTrace(System.out);
 //        if (page != null) {
 //            response.setRenderParameter("page", page);
 //        }
+    }
+    
+    private boolean validate(HttpServletRequest request, SWBActionResponse response) {
+        String[] emp = request.getParameterValues("emp");
+        if(emp.length==0) {
+            response.setRenderParameter("msg", "nombre de empresa falta");
+            return false;
+        }
+        String[] fi = request.getParameterValues("fi");
+        if(fi.length==0) {
+            response.setRenderParameter("msg", "fecha inicial falta");
+            return false;
+        }
+        String[] sctr = request.getParameterValues("sctr");
+        if(sctr.length==0) {
+            response.setRenderParameter("msg", "sector falta");
+            return false;
+        }
+        String[] crg = request.getParameterValues("crg");
+        if(crg.length==0) {
+            response.setRenderParameter("msg", "puesto del candidato falta");
+            return false;
+        }
+        if(emp.length!=fi.length && fi.length!=crg.length && crg.length!=sctr.length) {
+            response.setRenderParameter("msg", "Faltan datos");
+            return false;
+        }  
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        for(String s:fi)
+            try {
+                sdf.parse(SWBUtils.XML.replaceXMLChars(s));
+            }catch(Exception e){
+                response.setRenderParameter("msg", "Fecha inicial es incorrrecta");
+                return false;
+            }
+        String[] ff = request.getParameterValues("ff");
+        for(String s:ff)
+            try {
+                sdf.parse(SWBUtils.XML.replaceXMLChars(s));
+            }catch(Exception e){
+                response.setRenderParameter("msg", "Fecha final es incorrecta");
+                return false;
+            }
+        String[] cve = request.getParameterValues("cve");
+        for(String s:cve)
+            try {
+                if(!s.isEmpty())
+                    Integer.parseInt(SWBUtils.XML.replaceXMLChars(s));
+            }catch(Exception e){
+                response.setRenderParameter("msg", "Clave lada es incorrecta");
+                return false;
+            }
+        String[] tf = request.getParameterValues("tf");
+        for(String s:tf)
+            try {
+                if(!s.isEmpty())
+                    Integer.parseInt(SWBUtils.XML.replaceXMLChars(s));
+            }catch(Exception e){
+                response.setRenderParameter("msg", "Numero telefonico es incorrecto");
+                return false;
+            }
+        String[] ext = request.getParameterValues("ext");
+        for(String s:ext)
+            try {
+                if(!s.isEmpty())
+                    Integer.parseInt(SWBUtils.XML.replaceXMLChars(s));
+            }catch(Exception e){
+                response.setRenderParameter("msg", "Extension telefonica es incorrecta");
+                return false;
+            }
+        
+        if(cve.length>tf.length || ext.length>tf.length)
+            return false;
+
+        return true;
     }
 }
