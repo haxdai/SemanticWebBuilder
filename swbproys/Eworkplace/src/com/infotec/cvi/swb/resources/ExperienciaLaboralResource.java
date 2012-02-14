@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -46,20 +47,10 @@ public class ExperienciaLaboralResource extends GenericResource {
 
     @Override
     public void doView(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-//        String basePath = "/work/models/" + paramRequest.getWebPage().getWebSite().getId() + "/jsp/" + this.getClass().getSimpleName() + "/";
-//        String path = basePath + "view.jsp";
-//        if (request != null) {
-//            RequestDispatcher dis = request.getRequestDispatcher(path);
-//            if (null != dis) {
-//                try {
-//                    request.setAttribute("paramRequest", paramRequest);
-//                    request.setAttribute("this", this);
-//                    dis.include(request, response);
-//                } catch (Exception e) {
-//                    log.error(e);
-//                }
-//            }
-//        }
+        response.setContentType("text/html; charset=UTF-8");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
+        
         User user = paramRequest.getUser();
         if(!user.isSigned())
             return;
@@ -75,7 +66,6 @@ public class ExperienciaLaboralResource extends GenericResource {
             cv = CV.ClassMgr.createCV(user.getId(), wsite);
             cv.setPropietario(user);
         }
-System.out.println("cv="+cv);
 System.out.println("user.equals(cv.getPropietario())="+user.equals(cv.getPropietario()));
         //if(cv!=null && user.equals(cv.getPropietario())) {
         if(cv!=null) {
@@ -83,23 +73,33 @@ System.out.println("user.equals(cv.getPropietario())="+user.equals(cv.getPropiet
             final String axn = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD).toString();
             StringBuilder htm = new StringBuilder();
             htm.append(script(lang));
+System.out.println("msg="+SWBUtils.XML.replaceXMLChars(request.getParameter("msg")));
+            if(request.getParameter("msg")!=null) {
+                htm.append("<script type=\"text/javascript\">\n");
+                htm.append("<!--\n");
+                //htm.append("alert('"+SWBUtils.XML.replaceXMLChars(request.getParameter("msg"))+"');");
+                htm.append("dojo.addOnLoad(function() {alert('"+SWBUtils.XML.replaceXMLChars(request.getParameter("msg"))+"')})\n");
+                htm.append("-->\n");
+                htm.append("</script>\n");
+            }
+            
+            
             htm.append("<form method=\"post\" dojoType=\"dijit.form.Form\" action=\""+axn+"\">");
             htm.append("  <div class=\"contacto_externo divisor\">");
             Iterator<ExperienciaLaboral> experiencias = cv.listExperienciaLaborals();
             htm.append("   <ol id=\"fms\">");
             if(experiencias.hasNext()) {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", locale);
-                SWBResourceURL rem = paramRequest.getActionUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setAction(SWBResourceURL.Action_REMOVE);
+                //SWBResourceURL rem = paramRequest.getActionUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setAction(SWBResourceURL.Action_REMOVE);
+                SWBResourceURL rem = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_REMOVE);
                 ExperienciaLaboral experiencia;
-                while(experiencias.hasNext()) {  
+                while(experiencias.hasNext()) {
                     experiencia = experiencias.next();
                     rem.setParameter("oid", experiencia.getId());
                     htm.append("<li class=\"aaaa\">");
                     htm.append("  <p class=\"tercio\"><label>Empresa</label><input type=\"text\" name=\"emp\" value=\""+experiencia.getEmpresa()+"\" /></p>");
-System.out.println("sdf.format(experiencia.getFechaIni())="+sdf.format(experiencia.getFechaIni()));
-System.out.println("sdf.format(experiencia.getFechaIni())="+sdf.format(experiencia.getFechaIni()));
                     htm.append("  <p class=\"tercio\"><label>Fecha inicial</label><input type=\"text\" name=\"fi\" value=\""+sdf.format(experiencia.getFechaIni())+"\" dojoType=\"dijit.form.DateTextBox\" required=\"true\" constraints=\"{datePattern:'dd/MM/yyyy'}\" maxlength=\"10\" hasDownArrow=\"true\"/></p>");
-                    htm.append("  <p class=\"tercio\"><label>Fecha final</label><input type=\"text\" name=\"ff\" value=\""+sdf.format(experiencia.getFechaIni())+"\" dojoType=\"dijit.form.DateTextBox\" required=\"false\" constraints=\"{datePattern:'dd/MM/yyyy'}\" maxlength=\"10\" hasDownArrow=\"true\"/></p>");
+                    htm.append("  <p class=\"tercio\"><label>Fecha final</label><input type=\"text\" name=\"ff\" value=\""+sdf.format(experiencia.getFechaFin())+"\" dojoType=\"dijit.form.DateTextBox\" required=\"false\" constraints=\"{datePattern:'dd/MM/yyyy'}\" maxlength=\"10\" hasDownArrow=\"true\"/></p>");
                     htm.append("  <p class=\"entero\"><label>Sector</label><select name=\"sctr\"><option value=\"\"></option>");
                     for(Sector sector:sectors) {
                         if(sector.equals(experiencia.getSector()))
@@ -114,7 +114,8 @@ System.out.println("sdf.format(experiencia.getFechaIni())="+sdf.format(experienc
                         htm.append("  <p class=\"tercio\"><label>Tel&eacute;fono (clave lada, n&uacute;mero y extensi&oacute;n)</label><input type=\"text\" name=\"cve\" value=\""+(experiencia.getTelefono().getLada()==0?"":experiencia.getTelefono().getLada())+"\" size=\"3\" maxlength=\"3\" />&nbsp;<input type=\"text\" name=\"tf\" value=\""+(experiencia.getTelefono().getNumero()==0?"":experiencia.getTelefono().getNumero())+"\" size=\"8\" maxlength=\"8\" />&nbsp;<input type=\"text\" name=\"ext\" value=\""+(experiencia.getTelefono().getExtension()==0?"":experiencia.getTelefono().getExtension())+"\" size=\"5\" maxlength=\"5\" /></p>");
                     else
                         htm.append("  <p class=\"tercio\"><label>Tel&eacute;fono (clave lada, n&uacute;mero y extensi&oacute;n)</label><input type=\"text\" name=\"cve\" value=\"\" size=\"3\" maxlength=\"3\" />&nbsp;<input type=\"text\" name=\"tf\" value=\"\" size=\"8\" maxlength=\"8\" />&nbsp;<input type=\"text\" name=\"ext\" value=\"\" size=\"5\" maxlength=\"5\" /></p>");
-                    htm.append("  <p><input type=\"button\" onclick=\"postHtml('"+rem+"','fms')\" value=\"Eliminar\" /></p>");
+                    //htm.append("  <p><input type=\"button\" onclick=\"postHtml('"+rem+"','fms')\" value=\"Eliminar\" /></p>");
+                    htm.append("  <p><input type=\"button\" onclick=\"location.href='"+rem+"'\" value=\"Eliminar\" /></p>");
                     htm.append("  <br clear=\"all\" />");
                     htm.append("</li>");
                 }
@@ -227,7 +228,6 @@ System.out.println("sdf.format(experiencia.getFechaIni())="+sdf.format(experienc
     
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
-        
 //        String id = request.getParameter("id");
 //        if (null == action) {
 //            action = "";
@@ -257,16 +257,15 @@ System.out.println("sdf.format(experiencia.getFechaIni())="+sdf.format(experienc
         
         
         if (SWBResourceURL.Action_ADD.equals(action)) {
+            if(!validate(request, response))
+                return;
+            
             Iterator<ExperienciaLaboral> experiencias = cv.listExperienciaLaborals();
             while(experiencias.hasNext()) {
                 try {
                     experiencias.next().remove();
                 }catch(Exception e) {}
-            }
-            
-            if(!validate(request, response))
-                return;
-            
+            }            
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String[] emp = request.getParameterValues("emp");
             String[] fi = request.getParameterValues("fi");
@@ -292,7 +291,7 @@ System.out.println("sdf.format(experiencia.getFechaIni())="+sdf.format(experienc
                     return;
                 }
                 try {
-                experiencia.setFechaFin(sdf.parse(SWBUtils.XML.replaceXMLChars(ff[i])));
+                    experiencia.setFechaFin(sdf.parse(SWBUtils.XML.replaceXMLChars(ff[i])));
                 }catch(Exception e) {}
                 Sector sector = Sector.ClassMgr.getSector(SWBUtils.XML.replaceXMLChars(sctr[i]), wsite);
                 if(sector!=null)
@@ -313,32 +312,18 @@ System.out.println("sdf.format(experiencia.getFechaIni())="+sdf.format(experienc
                     tel.remove();
                 }
                 experiencia.setTelefono(tel);
-//Date fip = sdf.parse(SWBUtils.XML.replaceXMLChars(fi[i]));
-//System.out.println("fip="+fip);
-//Date ffp = sdf.parse(SWBUtils.XML.replaceXMLChars(ff[i]));
-//System.out.println("ffp="+ffp);
-                
                 cv.addExperienciaLaboral(experiencia);
             }
+            response.setRenderParameter("msg", "Experiencia registrada correctamente");
         }else if (SWBResourceURL.Action_REMOVE.equals(action)) {
-//            if(id!=null){
-//                GradoAcademico ga = GradoAcademico.ClassMgr.getGradoAcademico(id, wsite);
-//                if(ga!=null){
-//                    try {
-//                        ga.remove();
-//                        response.setRenderParameter("alertmsg", "Se eliminó correctamente el Grado Académico.");
-//                    } catch (Exception e) {
-//                        response.setRenderParameter("alertmsg", "No se pudo eliminar el Grado Académico");
-//                    }                    
-//                }                
-//            }
+            final String semObjId = request.getParameter("oid");
+            try {
+                ExperienciaLaboral experiencia = ExperienciaLaboral.ClassMgr.getExperienciaLaboral(semObjId, wsite);
+                experiencia.remove();
+            }catch(Exception e) {
+                log.error(e);
+            }
         }
-//        if (eventid != null) {
-//            response.setRenderParameter("id", eventid);
-//        }
-//        if (page != null) {
-//            response.setRenderParameter("page", page);
-//        }
     }
     
     private boolean validate(HttpServletRequest request, SWBActionResponse response) {
@@ -365,7 +350,7 @@ System.out.println("sdf.format(experiencia.getFechaIni())="+sdf.format(experienc
         if(emp.length!=fi.length && fi.length!=crg.length && crg.length!=sctr.length) {
             response.setRenderParameter("msg", "Faltan datos");
             return false;
-        }  
+        }
         
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         for(String s:fi)
@@ -376,9 +361,12 @@ System.out.println("sdf.format(experiencia.getFechaIni())="+sdf.format(experienc
                 return false;
             }
         String[] ff = request.getParameterValues("ff");
-        for(String s:ff)
+        for(int i=0; i<ff.length; i++)
             try {
-                sdf.parse(SWBUtils.XML.replaceXMLChars(s));
+                Date di = sdf.parse(SWBUtils.XML.replaceXMLChars(fi[i]));
+                Date df = sdf.parse(SWBUtils.XML.replaceXMLChars(ff[i]));
+                if(di.after(df))
+                    throw new Exception("Fecha final es antes de la fecha inicial");
             }catch(Exception e){
                 response.setRenderParameter("msg", "Fecha final es incorrecta");
                 return false;
