@@ -163,17 +163,21 @@
                         strInstitucion = curso.getNombreInstitucion();  
                     if(curso.getDocumentoObtenido()!=null)
                         strDocumento = curso.getDocumentoObtenido();  
-                    if(curso.getInicio()!=null)
-                        strPeriodoINI = sdf.format(curso.getInicio());
-                    if(curso.getFin()!=null)
-                        strPeriodoFIN = sdf.format(curso.getFin());
+                    strPeriodoINI = Integer.toString(curso.getInicio());
+                    strPeriodoFIN = Integer.toString(curso.getFin());
                     
                     SWBResourceURL urldel = paramRequest.getActionUrl();
                     urldel.setAction(SWBResourceURL.Action_REMOVE);
                     urldel.setParameter("id",curso.getId());   
+                    
+                    SWBResourceURL urledit = paramRequest.getActionUrl();
+                    urledit.setAction(SWBResourceURL.Action_EDIT);
+                    urledit.setParameter("id",curso.getId()); 
         %>
         <tr>
-            <td><span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">borrar</a></span></td>
+            <td>
+                <span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">borrar</a></span>
+                <span class="icv-borrar"><a href="#" onclick="window.location='<%=urledit%>';">editar</a></span></td>
             <td><%=strCurso%></td>
             <td><%=strInstitucion%></td>
             <td><%=strPeriodoINI%></td>
@@ -322,6 +326,48 @@
 
     <div class="centro">
     <input type="submit" name="guardar" id="guardar" value="Guardar" onclick="return enviar()"/>
+</div>
+</form>          
+<%         
+          } else if(action.equals(SWBResourceURL.Action_EDIT)) {
+              String id = request.getParameter("id");
+              
+              String wptitle = wpage.getDisplayName(usr.getLanguage());
+              SWBResourceURL urladd = paramRequest.getActionUrl();
+              urladd.setAction(SWBResourceURL.Action_EDIT);  
+              CursoTIC ctic = CursoTIC.ClassMgr.getCursoTIC(id, wsite);
+              
+ %>         
+<h3><%=wptitle%></h3>
+          <form class="soria" id="form1" name="form1" method="post" action="<%=urladd%>">
+    <input type="hidden" name="id" value="" /> 
+<div class="icv-div-grupo">
+
+  <p class="icv-3col">
+    <label for="nomcurso"><b>*</b>Nombre del curso</label>
+    <input type="text" name="nomcurso" id="nomcurso" maxlength="100" value="<%=ctic.getTitle()%>"/>
+  </p>
+  <p class="icv-3col">
+    <label for="nominstitucion"><b>*</b>Institución</label>
+    <input type="text" name="nominstitucion" id="nominstitucion" maxlength="150" value="<%=ctic.getNombreInstitucion()%>" />
+  </p> 
+  <p class="icv-3col">
+    <label for="fechaini"><b>*</b>Pediodo de (Año)</label>
+    <input type="text" name="fechaini" id="fechaini" maxlength="4" value="<%=sdf.format(ctic.getInicio())%>" />
+  </p>
+  <p class="icv-3col">
+    <label for="fechafin"><b>*</b>Periodo a (Año)</label>
+    <input type="text" name="fechafin" id="fechafin" maxlength="4" value="<%=sdf.format(ctic.getFin())%>" />
+  </p>
+  <p class="icv-3col">
+    <label for="docobtenido"><b>*</b>Documento obtenido</label>
+    <input type="text" name="docobtenido" id="docobtenido" value="<%=ctic.getDocumentoObtenido()%>" />
+  </p>
+<div class="clearer">&nbsp;</div>
+</div>
+
+    <div class="centro">
+    <input type="submit" name="guardar" id="guardar" value="Guardar" />
 </div>
 </form>          
 <%         
