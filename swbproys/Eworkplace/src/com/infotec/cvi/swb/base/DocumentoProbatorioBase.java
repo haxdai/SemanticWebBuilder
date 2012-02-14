@@ -1,7 +1,7 @@
 package com.infotec.cvi.swb.base;
 
 
-public abstract class DocumentoProbatorioBase extends org.semanticwb.model.SWBClass implements com.infotec.cvi.swb.Documento,org.semanticwb.model.Traceable,org.semanticwb.model.Iconable
+public abstract class DocumentoProbatorioBase extends org.semanticwb.model.SWBClass implements com.infotec.cvi.swb.Documento,org.semanticwb.model.Iconable,org.semanticwb.model.Traceable
 {
     public static final org.semanticwb.platform.SemanticClass intranet_DocumentoProbatorio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#DocumentoProbatorio");
    /**

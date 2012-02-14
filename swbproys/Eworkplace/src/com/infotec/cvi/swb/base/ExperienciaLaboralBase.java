@@ -1,13 +1,15 @@
 package com.infotec.cvi.swb.base;
 
 
-public abstract class ExperienciaLaboralBase extends com.infotec.cvi.swb.ExperienciaProfesional implements com.infotec.eworkplace.swb.Telefoneable,org.semanticwb.model.Traceable
+public abstract class ExperienciaLaboralBase extends com.infotec.cvi.swb.ExperienciaProfesional implements org.semanticwb.model.Traceable,com.infotec.eworkplace.swb.Telefoneable
 {
     public static final org.semanticwb.platform.SemanticClass intranet_Sector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Sector");
     public static final org.semanticwb.platform.SemanticProperty intranet_sector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sector");
-    public static final org.semanticwb.platform.SemanticProperty intranet_fechaFin=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaFin");
+    public static final org.semanticwb.platform.SemanticProperty intranet_jefe=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#jefe");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaIni=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaIni");
-    public static final org.semanticwb.platform.SemanticProperty intranet_nombrePuestoJefe=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nombrePuestoJefe");
+    public static final org.semanticwb.platform.SemanticProperty intranet_fechaFin=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaFin");
+    public static final org.semanticwb.platform.SemanticProperty intranet_cargo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#cargo");
+    public static final org.semanticwb.platform.SemanticProperty intranet_funcionesPrincipales=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#funcionesPrincipales");
     public static final org.semanticwb.platform.SemanticProperty intranet_empresa=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#empresa");
     public static final org.semanticwb.platform.SemanticProperty intranet_actual=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#actual");
     public static final org.semanticwb.platform.SemanticClass intranet_ExperienciaLaboral=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#ExperienciaLaboral");
@@ -227,21 +229,21 @@ public abstract class ExperienciaLaboralBase extends com.infotec.cvi.swb.Experie
     }
 
 /**
-* Gets the FechaFin property
-* @return java.util.Date with the FechaFin
+* Gets the Jefe property
+* @return String with the Jefe
 */
-    public java.util.Date getFechaFin()
+    public String getJefe()
     {
-        return getSemanticObject().getDateProperty(intranet_fechaFin);
+        return getSemanticObject().getProperty(intranet_jefe);
     }
 
 /**
-* Sets the FechaFin property
-* @param value long with the FechaFin
+* Sets the Jefe property
+* @param value long with the Jefe
 */
-    public void setFechaFin(java.util.Date value)
+    public void setJefe(String value)
     {
-        getSemanticObject().setDateProperty(intranet_fechaFin, value);
+        getSemanticObject().setProperty(intranet_jefe, value);
     }
 
 /**
@@ -260,6 +262,60 @@ public abstract class ExperienciaLaboralBase extends com.infotec.cvi.swb.Experie
     public void setFechaIni(java.util.Date value)
     {
         getSemanticObject().setDateProperty(intranet_fechaIni, value);
+    }
+
+/**
+* Gets the FechaFin property
+* @return java.util.Date with the FechaFin
+*/
+    public java.util.Date getFechaFin()
+    {
+        return getSemanticObject().getDateProperty(intranet_fechaFin);
+    }
+
+/**
+* Sets the FechaFin property
+* @param value long with the FechaFin
+*/
+    public void setFechaFin(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(intranet_fechaFin, value);
+    }
+
+/**
+* Gets the Cargo property
+* @return String with the Cargo
+*/
+    public String getCargo()
+    {
+        return getSemanticObject().getProperty(intranet_cargo);
+    }
+
+/**
+* Sets the Cargo property
+* @param value long with the Cargo
+*/
+    public void setCargo(String value)
+    {
+        getSemanticObject().setProperty(intranet_cargo, value);
+    }
+
+/**
+* Gets the FuncionesPrincipales property
+* @return String with the FuncionesPrincipales
+*/
+    public String getFuncionesPrincipales()
+    {
+        return getSemanticObject().getProperty(intranet_funcionesPrincipales);
+    }
+
+/**
+* Sets the FuncionesPrincipales property
+* @param value long with the FuncionesPrincipales
+*/
+    public void setFuncionesPrincipales(String value)
+    {
+        getSemanticObject().setProperty(intranet_funcionesPrincipales, value);
     }
    /**
    * Sets the value for the property Telefono
@@ -298,24 +354,6 @@ public abstract class ExperienciaLaboralBase extends com.infotec.cvi.swb.Experie
              ret=(com.infotec.eworkplace.swb.Telefono)obj.createGenericInstance();
          }
          return ret;
-    }
-
-/**
-* Gets the NombrePuestoJefe property
-* @return String with the NombrePuestoJefe
-*/
-    public String getNombrePuestoJefe()
-    {
-        return getSemanticObject().getProperty(intranet_nombrePuestoJefe);
-    }
-
-/**
-* Sets the NombrePuestoJefe property
-* @param value long with the NombrePuestoJefe
-*/
-    public void setNombrePuestoJefe(String value)
-    {
-        getSemanticObject().setProperty(intranet_nombrePuestoJefe, value);
     }
 
 /**
