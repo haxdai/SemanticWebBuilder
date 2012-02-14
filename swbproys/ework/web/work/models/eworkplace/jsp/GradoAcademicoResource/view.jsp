@@ -100,8 +100,7 @@
 <%
     }
 %>
-<div>
-    
+<div >  
 <div id="icv">
 <%@include file="../menucvi.jsp" %>
 

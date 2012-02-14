@@ -97,9 +97,9 @@
     dojo.require("dijit.form.DateTextBox");
     dojo.require("dijit.form.Button");
 </script>
+<div >
 <div id="icv">
 <%@include file="../menucvi.jsp" %>
-<div>
 <div id="icv-data">
 <%
             if(action.equals(""))
