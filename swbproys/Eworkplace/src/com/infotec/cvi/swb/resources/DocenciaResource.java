@@ -71,7 +71,7 @@ public class DocenciaResource extends GenericResource
             cv.setPropietario(usr);
         }
         
-        if (SWBResourceURL.Action_ADD.equals(action)) {
+        if (SWBResourceURL.Action_ADD.equals(action)||SWBResourceURL.Action_EDIT.equals(action)) {
             
             String txtasignatura = request.getParameter("txtasignatura");
             String txtinstitucion = request.getParameter("txtinstitucion");
@@ -87,15 +87,18 @@ public class DocenciaResource extends GenericResource
             
             if(txtasignatura!=null&&txtinstitucion!=null&&nivel!=null&&intyears>0)
             {
-                Docencia docencia = Docencia.ClassMgr.createDocencia(wsite);
+                Docencia docencia = null;
+                if(id!=null) docencia = Docencia.ClassMgr.getDocencia(id,wsite);
+                if(docencia==null){
+                    docencia = Docencia.ClassMgr.createDocencia(wsite);
+                    cv.addDocencia(docencia);
+                }
 
                 docencia.setAsignatura(txtasignatura);
                 docencia.setInstitucion(txtinstitucion);
                 docencia.setNivelDocencia(nivel); 
                 docencia.setAniosDocencia(intyears);
-                
-                cv.addDocencia(docencia);
-                
+
                 response.setAction("");
                 
                 response.setRenderParameter("act", "");

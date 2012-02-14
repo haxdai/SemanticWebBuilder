@@ -69,7 +69,7 @@ public class DiplomadoCursoResource extends GenericResource
             cv.setPropietario(usr);
         }
         
-        if (SWBResourceURL.Action_ADD.equals(action)) {
+        if (SWBResourceURL.Action_ADD.equals(action)||SWBResourceURL.Action_EDIT.equals(action)) {
             
             String nomcurso = request.getParameter("nomcurso");
             String nominstitucion = request.getParameter("nominstitucion");
@@ -77,18 +77,33 @@ public class DiplomadoCursoResource extends GenericResource
             String fechafin = request.getParameter("fechafin");
             String docobtenido = request.getParameter("docobtenido");
             
+            int intfechaini = 0;
+            try {
+                intfechaini = Integer.parseInt(fechaini);
+            } catch (Exception e) {
+            }
+            int intfechafin = 0;
+            try {
+                intfechafin = Integer.parseInt(fechafin);
+            } catch (Exception e) {
+            }
+            
             if(nomcurso!=null&&nominstitucion!=null&&fechaini!=null&&fechafin!=null&&docobtenido!=null)
             {
-                Diplomado ctic = Diplomado.ClassMgr.createDiplomado(wsite);
+                Diplomado ctic = null;
+                if(id!=null) ctic= Diplomado.ClassMgr.getDiplomado(id,wsite);
 
+                if(ctic==null){
+                    ctic = Diplomado.ClassMgr.createDiplomado(wsite);
+                    cv.addDiplomado(ctic);
+                }
+                
                 ctic.setNombreInstitucion(nominstitucion);
                 ctic.setTitle(nomcurso);
                 ctic.setDocumentoObtenido(docobtenido);
-                ctic.setInicio(null);
-                ctic.setFin(null);
-                
-                cv.addDiplomado(ctic);
-                
+                ctic.setInicio(intfechaini);
+                ctic.setFin(intfechafin);
+
                 response.setAction("");
                 
                 response.setRenderParameter("act", "");

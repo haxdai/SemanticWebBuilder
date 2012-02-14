@@ -80,7 +80,9 @@ public class GradoAcademicoResource extends GenericResource
         }
         
         
-        if (SWBResourceURL.Action_ADD.equals(action)) {
+        if (SWBResourceURL.Action_ADD.equals(action)||SWBResourceURL.Action_EDIT.equals(action)) {
+            
+            
             
             String idcarrera = request.getParameter("idcarrera");
             String idsituacion = request.getParameter("idsituacion");
@@ -94,15 +96,19 @@ public class GradoAcademicoResource extends GenericResource
             
             if(grado!=null&&situacion!=null&&carrera!=null&&intPeriodo>0)
             {
-                GradoAcademico ga = GradoAcademico.ClassMgr.createGradoAcademico(wsite);
-
+                GradoAcademico ga = null;
+                if(id!=null) ga = GradoAcademico.ClassMgr.getGradoAcademico(id,wsite);
+                if(ga == null){
+                    ga = GradoAcademico.ClassMgr.createGradoAcademico(wsite);
+                    aca.addGradoAcademico(ga);
+                }
+                 
                 ga.setNombreInstitucion(nomInstitucion);
                 ga.setCarrera(carrera);
                 ga.setSituacionAcademica(situacion);
                 ga.setPeriodoYears(intPeriodo);
                 ga.setGrado(grado);
 
-                aca.addGradoAcademico(ga);
                 response.setAction("");
                 
                 response.setRenderParameter("act", "");
@@ -123,7 +129,7 @@ public class GradoAcademicoResource extends GenericResource
                     }                    
                 }                
             }
-        }
+        } 
         if (eventid != null) {
             response.setRenderParameter("id", eventid);
         }

@@ -70,7 +70,7 @@ public class CursoTicResource extends GenericResource
             cv.setPropietario(usr);
         }
         
-        if (SWBResourceURL.Action_ADD.equals(action)) {
+        if (SWBResourceURL.Action_ADD.equals(action)||SWBResourceURL.Action_EDIT.equals(action)) {
             
             String nomcurso = request.getParameter("nomcurso");
             String nominstitucion = request.getParameter("nominstitucion");
@@ -78,17 +78,36 @@ public class CursoTicResource extends GenericResource
             String fechafin = request.getParameter("fechafin");
             String docobtenido = request.getParameter("docobtenido");
             
+            int intfechaini = 0;
+            try {
+                intfechaini = Integer.parseInt(fechaini);
+            } catch (Exception e) {
+            }
+            int intfechafin = 0;
+            try {
+                intfechafin = Integer.parseInt(fechafin);
+            } catch (Exception e) {
+            }
+            
             if(nomcurso!=null&&nominstitucion!=null&&fechaini!=null&&fechafin!=null&&docobtenido!=null)
             {
-                CursoTIC ctic = CursoTIC.ClassMgr.createCursoTIC(wsite);
+                CursoTIC ctic = null;
+                
+                if(id!=null) ctic = CursoTIC.ClassMgr.getCursoTIC(id,wsite);
 
+                if(ctic==null){
+                    ctic = CursoTIC.ClassMgr.createCursoTIC(wsite);
+                    cv.addCursosTIC(ctic);
+                }
+                
+                
                 ctic.setNombreInstitucion(nominstitucion);
                 ctic.setTitle(nomcurso);
                 ctic.setDocumentoObtenido(docobtenido);
-                ctic.setInicio(null);
-                ctic.setFin(null);
+                ctic.setInicio(intfechaini);
+                ctic.setFin(intfechafin);
                 
-                cv.addCursosTIC(ctic);
+                
                 
                 response.setAction("");
                 
