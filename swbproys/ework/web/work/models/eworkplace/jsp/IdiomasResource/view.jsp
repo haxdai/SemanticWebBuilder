@@ -4,10 +4,10 @@
     Author     : juan.fernandez
 --%>
 
+<%@page import="org.semanticwb.model.Language"%>
 <%@page import="com.infotec.cvi.swb.Escritura"%>
 <%@page import="com.infotec.cvi.swb.Lectura"%>
 <%@page import="com.infotec.cvi.swb.Conversacion"%>
-<%@page import="com.infotec.cvi.swb.Idiomas"%>
 <%@page import="com.infotec.cvi.swb.Idioma"%>
 <%@page import="org.semanticwb.model.WebPage"%>
 <%@page import="com.infotec.cvi.swb.CV"%>
@@ -76,8 +76,6 @@
              
             //todo: ordenamiento
 //            list=SWBComparator.sortByCreatedSet(GradoAcademico.ClassMgr.listG(usuario, wsite),false);
-
-
 
     if(request.getParameter("alertmsg")!=null)
     {
@@ -249,7 +247,6 @@
 </p></div>
 <p class="icv-txt"><a href="<%=urladd%>">Agregar</a></p>    
 
-
  <%
           } else if(action.equals(SWBResourceURL.Action_ADD)) {
             String wptitle = wpage.getDisplayName(usr.getLanguage());
@@ -296,9 +293,9 @@
     <select name="ididoma" id="ididoma">
       <option value="" selected="selected">Seleccione...</option>
 <%
-    Iterator<Idiomas> itidioma = Idiomas.ClassMgr.listIdiomases(wsite); 
+    Iterator<Language> itidioma = wsite.listLanguages();
         while (itidioma.hasNext()) {
-            Idiomas ids = itidioma.next();
+            Language ids = itidioma.next();
             %>
             <option value="<%=ids.getId()%>"><%=ids.getDisplayTitle(usr.getLanguage())%></option>
             <%
