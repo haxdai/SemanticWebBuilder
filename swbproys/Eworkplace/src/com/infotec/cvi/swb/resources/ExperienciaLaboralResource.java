@@ -98,8 +98,8 @@ System.out.println("user.equals(cv.getPropietario())="+user.equals(cv.getPropiet
                     htm.append("  <p class=\"tercio\"><label>Empresa</label><input type=\"text\" name=\"emp\" value=\""+experiencia.getEmpresa()+"\" /></p>");
 System.out.println("sdf.format(experiencia.getFechaIni())="+sdf.format(experiencia.getFechaIni()));
 System.out.println("sdf.format(experiencia.getFechaIni())="+sdf.format(experiencia.getFechaIni()));
-                    htm.append("  <p class=\"tercio\"><label>Fecha inicial</label><input type=\"text\" name=\"fi\" value=\""+sdf.format(experiencia.getFechaIni())+"\" dojoType=\"dijit.form.DateTextBox\" required=\"true\" constraints=\"{datePattern:'dd/MM/yyyy'}\" maxlength=\"10\" style=\"width:110px;\" hasDownArrow=\"true\"/></p>");
-                    htm.append("  <p class=\"tercio\"><label>Fecha final</label><input type=\"text\" name=\"ff\" value=\""+sdf.format(experiencia.getFechaIni())+"\" dojoType=\"dijit.form.DateTextBox\" required=\"true\" constraints=\"{datePattern:'dd/MM/yyyy'}\" maxlength=\"10\" style=\"width:110px;\" hasDownArrow=\"true\"/></p>");
+                    htm.append("  <p class=\"tercio\"><label>Fecha inicial</label><input type=\"text\" name=\"fi\" value=\""+sdf.format(experiencia.getFechaIni())+"\" dojoType=\"dijit.form.DateTextBox\" required=\"true\" constraints=\"{datePattern:'dd/MM/yyyy'}\" maxlength=\"10\" hasDownArrow=\"true\"/></p>");
+                    htm.append("  <p class=\"tercio\"><label>Fecha final</label><input type=\"text\" name=\"ff\" value=\""+sdf.format(experiencia.getFechaIni())+"\" dojoType=\"dijit.form.DateTextBox\" required=\"false\" constraints=\"{datePattern:'dd/MM/yyyy'}\" maxlength=\"10\" hasDownArrow=\"true\"/></p>");
                     htm.append("  <p class=\"entero\"><label>Sector</label><select name=\"sctr\"><option value=\"\"></option>");
                     for(Sector sector:sectors) {
                         if(sector.equals(experiencia.getSector()))
@@ -111,7 +111,7 @@ System.out.println("sdf.format(experiencia.getFechaIni())="+sdf.format(experienc
                     htm.append("  <p class=\"tercio\"><label>Jefe inmediato</label><input type=\"text\" name=\"jf\" value=\""+experiencia.getJefe()+"\" /></p>");
                     htm.append("  <p class=\"tercio\"><label>Cargo</label><input type=\"text\" name=\"crg\" value=\""+experiencia.getCargo()+"\" /></p>");
                     if(experiencia.getTelefono()!=null)
-                        htm.append("  <p class=\"tercio\"><label>Tel&eacute;fono (clave lada, n&uacute;mero y extensi&oacute;n)</label><input type=\"text\" name=\"cve\" value=\""+(experiencia.getTelefono().getLada()==0?"":experiencia.getTelefono().getLada())+"\" size=\"3\" maxlength=\"3\" />&nbsp;<input type=\"text\" name=\"tf\" value=\""+(experiencia.getTelefono().getNumero()==0?"":experiencia.getTelefono().getNumero())+"\" size=\"8\" maxlength=\"8\" />&nbsp;Extensi&oacute;n<input type=\"text\" name=\"ext\" value=\""+(experiencia.getTelefono().getExtension()==0?"":experiencia.getTelefono().getExtension())+"\" size=\"5\" maxlength=\"5\" /></p>");
+                        htm.append("  <p class=\"tercio\"><label>Tel&eacute;fono (clave lada, n&uacute;mero y extensi&oacute;n)</label><input type=\"text\" name=\"cve\" value=\""+(experiencia.getTelefono().getLada()==0?"":experiencia.getTelefono().getLada())+"\" size=\"3\" maxlength=\"3\" />&nbsp;<input type=\"text\" name=\"tf\" value=\""+(experiencia.getTelefono().getNumero()==0?"":experiencia.getTelefono().getNumero())+"\" size=\"8\" maxlength=\"8\" />&nbsp;<input type=\"text\" name=\"ext\" value=\""+(experiencia.getTelefono().getExtension()==0?"":experiencia.getTelefono().getExtension())+"\" size=\"5\" maxlength=\"5\" /></p>");
                     else
                         htm.append("  <p class=\"tercio\"><label>Tel&eacute;fono (clave lada, n&uacute;mero y extensi&oacute;n)</label><input type=\"text\" name=\"cve\" value=\"\" size=\"3\" maxlength=\"3\" />&nbsp;<input type=\"text\" name=\"tf\" value=\"\" size=\"8\" maxlength=\"8\" />&nbsp;<input type=\"text\" name=\"ext\" value=\"\" size=\"5\" maxlength=\"5\" /></p>");
                     htm.append("  <p><input type=\"button\" onclick=\"postHtml('"+rem+"','fms')\" value=\"Eliminar\" /></p>");
@@ -121,8 +121,8 @@ System.out.println("sdf.format(experiencia.getFechaIni())="+sdf.format(experienc
             }else {
                 htm.append("<li class=\"aaaa\">");
                 htm.append("  <p class=\"tercio\"><label>Empresa</label><input type=\"text\" name=\"emp\" value=\"\" /></p>");
-                htm.append("  <p class=\"tercio\"><label>Fecha inicial</label><input type=\"text\" name=\"fi\" value=\"\" dojoType=\"dijit.form.DateTextBox\" required=\"true\" constraints=\"{datePattern:'dd/MM/yyyy'}\" maxlength=\"10\" style=\"width:110px;\" hasDownArrow=\"true\"/></p>");
-                htm.append("  <p class=\"tercio\"><label>Fecha final</label><input type=\"text\" name=\"ff\" value=\"\" dojoType=\"dijit.form.DateTextBox\" required=\"true\" constraints=\"{datePattern:'dd/MM/yyyy'}\" maxlength=\"10\" style=\"width:110px;\" hasDownArrow=\"true\"/></p>");
+                htm.append("  <p class=\"tercio\"><label>Fecha inicial</label><input type=\"text\" name=\"fi\" value=\"\" dojoType=\"dijit.form.DateTextBox\" required=\"true\" constraints=\"{datePattern:'dd/MM/yyyy'}\" maxlength=\"10\" hasDownArrow=\"true\"/></p>");
+                htm.append("  <p class=\"tercio\"><label>Fecha final</label><input type=\"text\" name=\"ff\" value=\"\" dojoType=\"dijit.form.DateTextBox\" required=\"false\" constraints=\"{datePattern:'dd/MM/yyyy'}\" maxlength=\"10\" hasDownArrow=\"true\"/></p>");
                 htm.append("  <p class=\"entero\"><label>Sector</label><select name=\"sctr\"><option value=\"\"></option>");
                 Iterator<Sector> sectors = Sector.ClassMgr.listSectors(wsite);
                 while(sectors.hasNext()) {
@@ -180,8 +180,8 @@ System.out.println("sdf.format(experiencia.getFechaIni())="+sdf.format(experienc
         js.append("    s = s.concat(childId);\n");
         js.append("    s = s.concat('\">');\n");
         js.append("    s = s.concat('<p class=\"tercio\"><label>Empresa</label><input type=\"text\" name=\"emp\" value=\"\" /></p>');\n");
-        js.append("    s = s.concat('<p class=\"tercio\"><label>Fecha inicial</label><input type=\"text\" id=\"fi_'+dateboxId+'\" name=\"fi\" value=\"\" /></p>');\n");
-        js.append("    s = s.concat('<p class=\"tercio\"><label>Fecha inicial</label><input type=\"text\" id=\"ff_'+dateboxId+'\" name=\"ff\" value=\"\" /></p>');\n");
+        js.append("    s = s.concat('<p class=\"tercio\"><label>Fecha inicial</label><input type=\"text\" id=\"fi_'+dateboxId+'\" name=\"fi\" value=\"\" maxlength=\"10\" style=\"width:110px;\" /></p>');\n");
+        js.append("    s = s.concat('<p class=\"tercio\"><label>Fecha inicial</label><input type=\"text\" id=\"ff_'+dateboxId+'\" name=\"ff\" value=\"\" maxlength=\"10\" style=\"width:110px;\" /></p>');\n");
 //        js.append("    s = s.concat('<p class=\"tercio\"><label>Fecha inicial</label><input type=\"text\" name=\"fi\" value=\"\" dojoType=\"dijit.form.DateTextBox\" required=\"true\" constraints=\"{datePattern:\\'dd/MM/yyyy\\'}\" maxlength=\"10\" style=\"width:110px;\" hasDownArrow=\"true\" /></p>');\n");
 //        js.append("    s = s.concat('<p class=\"tercio\"><label>Fecha final</label><input type=\"text\" name=\"ff\" value=\"\" dojoType=\"dijit.form.DateTextBox\" required=\"true\" constraints=\"{datePattern:\\'dd/MM/yyyy\\'}\" maxlength=\"10\" style=\"width:110px;\" hasDownArrow=\"true\" /></p>');\n");
         js.append("    s = s.concat('<p class=\"entero\"><label>Sector</label><select name=\"sctr\"><option value=\"\"></option>');\n");
@@ -204,14 +204,18 @@ System.out.println("sdf.format(experiencia.getFechaIni())="+sdf.format(experienc
         js.append("dojo.addOnLoad(function() {");
         js.append("  var datefi = new dijit.form.DateTextBox(");
         js.append("                   {");
-        js.append("                   id:'di987',");
-        js.append("                   name:'fi'");
+        js.append("                   name:'fi',");
+        js.append("                   required:true,");
+        js.append("                   constraints:{datePattern:'dd/MM/yyyy'},");
+        js.append("                   hasDownArrow:true");
         js.append("                   }, 'fi_'+dateboxId");
         js.append("                 );");
         js.append("  var dateff = new dijit.form.DateTextBox(");
         js.append("                   {");
-        js.append("                   id:'df987',");
-        js.append("                   name:'ff'");
+        js.append("                   name:'ff',");
+        js.append("                   required:false,");
+        js.append("                   constraints:{datePattern:'dd/MM/yyyy'},");
+        js.append("                   hasDownArrow:true");
         js.append("                   }, 'ff_'+dateboxId");
         js.append("                 );");
         js.append("});");
