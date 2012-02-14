@@ -1305,10 +1305,10 @@
     </swb:displayProperty>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="inicio">
-    <rdfs:label xml:lang="en">Start</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
     <rdfs:domain rdf:resource="#Institucion"/>
     <rdfs:label xml:lang="es">Inicio</rdfs:label>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdfs:label xml:lang="en">Start</rdfs:label>
     <swb:displayProperty>
       <swbxf:DisplayProperty rdf:ID="dp_fechaIni">
         <rdfs:label xml:lang="es">Fecha inicial</rdfs:label>
@@ -1635,10 +1635,10 @@
     <rdfs:label xml:lang="es">Número de empleado</rdfs:label>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="fin">
-    <rdfs:domain rdf:resource="#Institucion"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
     <rdfs:label xml:lang="en">End</rdfs:label>
     <rdfs:label xml:lang="es">Fin</rdfs:label>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdfs:domain rdf:resource="#Institucion"/>
     <swb:displayProperty rdf:resource="#dp_fechaFin"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="experiencia">
