@@ -8,13 +8,13 @@ import com.infotec.cvi.swb.CV;
 import com.infotec.cvi.swb.Conversacion;
 import com.infotec.cvi.swb.Escritura;
 import com.infotec.cvi.swb.Idioma;
-import com.infotec.cvi.swb.Idiomas;
 import com.infotec.cvi.swb.Lectura;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
+import org.semanticwb.model.Language;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.portal.api.GenericResource;
@@ -80,7 +80,7 @@ public class IdiomasResource extends GenericResource
             String idlectura = request.getParameter("idlectura");
             String idescritura = request.getParameter("idescritura");
             
-            Idiomas idiomas = Idiomas.ClassMgr.getIdiomas(ididioma,wsite); 
+            Language idiomas = Language.ClassMgr.getLanguage(ididioma,wsite); 
             Conversacion conv = Conversacion.ClassMgr.getConversacion(idconversacion, wsite);
             Lectura lectura = Lectura.ClassMgr.getLectura(idlectura, wsite);
             Escritura escritura = Escritura.ClassMgr.getEscritura(idescritura, wsite); 
