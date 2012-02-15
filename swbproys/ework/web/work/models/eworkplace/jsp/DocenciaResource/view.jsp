@@ -253,7 +253,7 @@
           } else if(action.equals(SWBResourceURL.Action_ADD)) {
             String wptitle = wpage.getDisplayName(usr.getLanguage());
               SWBResourceURL urladd = paramRequest.getActionUrl();
-              urladd.setAction("add");  
+              urladd.setAction(SWBResourceURL.Action_EDIT);  
  %>         
           <h3><%=wptitle%></h3>
           <form id="form1" name="form1" method="post" action="<%=urladd%>">
@@ -359,7 +359,7 @@
         String strSelected = "";
         if(nivel.equals(docencia.getNivelDocencia())) strSelected="selected";
         %>
-        <option value="<%=nivel.getId()%>" <%=strSelected%>><%=nivel.getDisplayTitle(usr.getLanguage())%></option>
+        <option value="<%=nivel.getId()%>" <%=strSelected%> ><%=nivel.getDisplayTitle(usr.getLanguage())%></option>
         <%
     }
 %>
