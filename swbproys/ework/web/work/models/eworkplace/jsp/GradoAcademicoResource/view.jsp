@@ -271,14 +271,15 @@
     dojo.require("dijit.form.Form");
     dojo.require("dijit.form.ValidationTextBox");
     dojo.require("dijit.form.Button");
+    dojo.require("dijit.form.FilteringSelect");
 
     function enviar() {
         var objd=dijit.byId('form1ga');
 //alert(objd);
-        if(objd.isValid()&&
-            !isEmpty('idgrado')&&
-            !isEmpty('idcarrera')&&
-            !isEmpty('idsituacion'))
+        if(objd.validate())//.isValid()&&
+           // !isEmpty('idgrado')&&
+           // !isEmpty('idcarrera')&&
+           // !isEmpty('idsituacion'))
         {
                 return true;
         }else {
@@ -288,7 +289,7 @@
     }
     function isEmpty(objid) {
         var obj = dojo.byId(objid);
-        if (obj==null || obj.value=='' || !isNaN(obj.value) || obj.value.charAt(0) == ' ') {
+        if (obj==null || obj.value=='' || isNaN(obj.value) || obj.value.charAt(0) == ' ') {
             return true;
         }else {
             return false;
@@ -305,7 +306,7 @@
 <div class="icv-div-grupo">
   <p class="icv-3col">
     <label for="idgrado"><b>*</b>Grado</label>
-    <select name="idgrado" id="idgrado">
+    <select name="idgrado" id="idgrado" dojoType="dijit.form.FilteringSelect" required="true">
       <option value="" selected="selected">Seleccione...</option>
 <%
     Iterator<Grado> itgrado = Grado.ClassMgr.listGrados(wsite); 
@@ -320,7 +321,7 @@
   </p>
     <p class="icv-3col">
     <label for="idcarrera"><b>*</b>Carrera o Especialidad</label>
-    <select name="idcarrera" id="idcarrera">
+    <select name="idcarrera" id="idcarrera" dojoType="dijit.form.FilteringSelect" required="true">
       <option value="" selected="selected">Seleccione...</option>
 <%
     Iterator<Carrera> itcarrera = Carrera.ClassMgr.listCarreras(wsite); 
@@ -335,11 +336,11 @@
   </p>
   <p class="icv-3col">
     <label for="txtInstitucion"><b>*</b>Institución</label>
-    <input type="text" name="txtInstitucion" id="txtInstitucion" maxlength="150" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese institucion" invalidMessage="invaldo"/>
+    <input type="text" name="txtInstitucion" id="txtInstitucion" maxlength="150" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese institución" />
   </p>
     <p class="icv-3col">
     <label for="idsituacion"><b>*</b>Situación Académica</label>
-    <select name="idsituacion" id="idsituacion">
+    <select name="idsituacion" id="idsituacion" dojoType="dijit.form.FilteringSelect" required="true">
       <option value="" selected="selected">Seleccione...</option>
 <%
     Iterator<SituacionAcademica> itsit = SituacionAcademica.ClassMgr.listSituacionAcademicas(wsite); 
@@ -356,7 +357,7 @@
  
   <p class="icv-3col">
     <label for="periodo"><b>*</b>Periodo en años</label>
-    <input type="text" name="periodo" id="periodo" maxlength="2" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese periodo en años" invalidMessage="invaldo" />
+    <input type="text" name="periodo" id="periodo" maxlength="2" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese periodo en años" regExp="\d{1,2}" />
   </p>
 <div class="clearer">&nbsp;</div>
 </div>
