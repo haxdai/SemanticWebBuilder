@@ -265,11 +265,12 @@
     dojo.require("dijit.form.Form");
     dojo.require("dijit.form.ValidationTextBox");
     dojo.require("dijit.form.Button");
+    dojo.require("dijit.form.FilteringSelect");
 
     function enviar() {
         var objd=dijit.byId('form1es');
 //alert(objd);
-        if(objd.isValid()&&!isEmpty('idgavance')&&!isEmpty('idestudio'))
+        if(objd.validate())//isValid()&&!isEmpty('idgavance')&&!isEmpty('idestudio'))
         {
                 return true;
         }else {
@@ -296,7 +297,7 @@
   
     <p class="icv-3col">
     <label for="idestudio"><b>*</b>Estudios Superiores</label>
-    <select name="idestudio" id="idestudio">
+    <select name="idestudio" id="idestudio" dojoType="dijit.form.FilteringSelect" required="true">
       <option value="" selected="selected">Seleccione...</option>
 <%
     Iterator<Estudios> itestudio = Estudios.ClassMgr.listEstudioses(wsite); 
@@ -312,7 +313,7 @@
 
     <p class="icv-3col">
     <label for="idgavance"><b>*</b>Grado de avance</label>
-    <select name="idgavance" id="idgavance">
+    <select name="idgavance" id="idgavance" dojoType="dijit.form.FilteringSelect" required="true">
       <option value="" selected="selected">Seleccione...</option>
 <%
     Iterator<Avance> itsit = Avance.ClassMgr.listAvances(wsite); 
@@ -329,7 +330,7 @@
  
   <p class="icv-3col">
     <label for="periodo"><b>*</b>Periodo en años</label>
-    <input type="text" name="periodo" id="periodo" maxlength="2" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese periodo en años" invalidMessage="invaldo" />
+    <input type="text" name="periodo" id="periodo" maxlength="2" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese periodo en años" regExp="\d{1,2}" />
   </p>
 <div class="clearer">&nbsp;</div>
 </div>
