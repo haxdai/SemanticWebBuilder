@@ -246,7 +246,7 @@
           } else if(action.equals(SWBResourceURL.Action_ADD)) {
             String wptitle = wpage.getDisplayName(usr.getLanguage());
               SWBResourceURL urladd = paramRequest.getActionUrl();
-              urladd.setAction("add");  
+              urladd.setAction(SWBResourceURL.Action_ADD);  
  %>         
           <h3><%=wptitle%></h3>
           <form id="form1" name="form1" method="post" action="<%=urladd%>">
