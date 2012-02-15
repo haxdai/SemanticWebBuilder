@@ -124,7 +124,7 @@
                     if (l == 0) {
         %>
         <tr >
-            <td colspan="8" >No se encontraron registros</td>
+            <td colspan="4" >No se encontraron registros</td>
         </tr>
         <%    } else {
 
