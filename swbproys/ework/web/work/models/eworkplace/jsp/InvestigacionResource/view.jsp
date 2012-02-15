@@ -106,12 +106,12 @@
 
     <thead>
         <tr>
-            <th width="5%" >&nbsp;</th>
+            <th width="7%" >&nbsp;</th>
             <th width="15%" >Empresa</th>
             <th width="15%" >Area de investigación</th>
             <th width="15%" >Puesto</th>
             <th width="10%" >Teléfono</th>
-            <th width="10%" >Año de término</th>
+            <th width="8%" >Año de término</th>
             <th width="15%" >Nombre y Puesto Jefe</th>
             <th width="15%" >S.N.I. Conacyt</th>
         </tr>
@@ -180,7 +180,7 @@
                     urledit.setParameter("id",inves.getId()); 
         %>
         <tr>
-            <td><span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">borrar</a></span>&nbsp;
+            <td><span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">borrar</a></span>
                 <span class="icv-editar"><a href="#" onclick="window.location='<%=urledit%>';">editar</a></span></td>
             <td><%=strEmpresa%></td>
             <td><%=strArea%></td>
@@ -286,6 +286,10 @@
     <label for="txtnompuesto"><b>*</b>Puesto</label>
     <input type="text" name="txtnompuesto" id="txtnompuesto" maxlength="100" />
   </p>
+  <div class="clearer">&nbsp;</div>
+</div>
+  
+  <div class="icv-div-grupo">
     <p class="icv-3col">
     <label for="numtel">Teléfono</label>
     <input type="text" name="numtel" id="numtel" maxlength="8" />
@@ -298,6 +302,9 @@
     <label for="txtnomjefe">Nombre y puesto del jefe inmediato</label>
     <input type="text" name="txtnomjefe" id="txtnomjefe" maxlength="150" />
   </p>
+  <div class="clearer">&nbsp;</div>
+</div>
+  <div class="icv-div-grupo">
   <p class="icv-3col">
     <label for="idsniconacyt">S.N.I. Conacyt</label>
     <select name="idsniconacyt" id="idsniconacyt">
@@ -378,6 +385,10 @@
     <label for="txtnompuesto"><b>*</b>Puesto</label>
     <input type="text" name="txtnompuesto" id="txtnompuesto" maxlength="100" value="<%=inves.getNombrePuesto()%>" />
   </p>
+    <div class="clearer">&nbsp;</div>
+</div>
+  
+  <div class="icv-div-grupo">
     <p class="icv-3col">
     <label for="numtel">Teléfono</label>
     <input type="text" name="numtel" id="numtel" maxlength="8" value="<%=inves.getNumTelefono()%>" />
@@ -390,6 +401,10 @@
     <label for="txtnomjefe">Nombre y puesto del jefe inmediato</label>
     <input type="text" name="txtnomjefe" id="txtnomjefe" maxlength="150" value="<%=inves.getNombreJefePuesto()%>" />
   </p>
+    <div class="clearer">&nbsp;</div>
+</div>
+  
+  <div class="icv-div-grupo">
   <p class="icv-3col">
     <label for="idsniconacyt">S.N.I. Conacyt</label>
     <select name="idsniconacyt" id="idsniconacyt">

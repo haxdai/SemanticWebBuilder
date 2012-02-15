@@ -108,12 +108,12 @@
 
     <thead>
         <tr>
-            <th width="5%" >&nbsp;</th>
+            <th width="7%" >&nbsp;</th>
             <th width="25%" >Nombre del curso</th>
             <th width="25%" >Institución</th>
             <th width="12%" >Periodo de</th>
             <th width="12%" >Periodo a</th>
-            <th width="21%" >Documento obtenido</th>
+            <th width="19%" >Documento obtenido</th>
         </tr>
     </thead>
 
@@ -176,7 +176,7 @@
         %>
         <tr>
             <td>
-                <span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">borrar</a></span>&nbsp;
+                <span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">borrar</a></span>
                 <span class="icv-editar"><a href="#" onclick="window.location='<%=urledit%>';">editar</a></span></td>
             <td><%=strCurso%></td>
             <td><%=strInstitucion%></td>
@@ -313,6 +313,9 @@
     <label for="fechaini"><b>*</b>Pediodo de (Año)</label>
     <input type="text" name="fechaini" id="fechaini" maxlength="4" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese el año de inicio del curso" invalidMessage="invaldo"/>
   </p>
+  <div class="clearer">&nbsp;</div>
+  </div>
+  <div class="icv-div-grupo">
   <p class="icv-3col">
     <label for="fechafin"><b>*</b>Periodo a (Año)</label>
     <input type="text" name="fechafin" id="fechafin" maxlength="4" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese el año de fin del curso" invalidMessage="invaldo"/>
@@ -386,6 +389,9 @@
     <label for="fechaini"><b>*</b>Pediodo de (Año)</label>
     <input type="text" name="fechaini" id="fechaini" maxlength="4" value="<%=ctic.getInicio()%>" />
   </p>
+    <div class="clearer">&nbsp;</div>
+  </div>
+  <div class="icv-div-grupo">
   <p class="icv-3col">
     <label for="fechafin"><b>*</b>Periodo a (Año)</label>
     <input type="text" name="fechafin" id="fechafin" maxlength="4" value="<%=ctic.getFin()%>" />
