@@ -104,11 +104,11 @@
 
     <thead>
         <tr>
-            <th width="5%" >&nbsp;</th>
+            <th width="7%" >&nbsp;</th>
             <th width="25%" >Asignatura</th>
             <th width="30%" >Institución</th>
             <th width="25%" >Nivel</th>
-            <th width="15%" >Años</th>
+            <th width="13%" >Años</th>
         </tr>
     </thead>
 
@@ -168,7 +168,7 @@
                     urledit.setParameter("id",inves.getId()); 
         %>
         <tr>
-            <td><span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">borrar</a></span>&nbsp;
+            <td><span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">borrar</a></span>
                 <span class="icv-editar"><a href="#" onclick="window.location='<%=urledit%>';">editar</a></span></td>
             <td><%=strAsignatura%></td>
             <td><%=strInstitucion%></td>
@@ -283,6 +283,9 @@
 %>
     </select>
   </p>
+  <div class="clearer">&nbsp;</div>
+</div>
+    <div class="icv-div-grupo">
   <p class="icv-3col">
     <label for="intyears"><b>*</b>Años</label>
     <input type="text" name="intyears" id="intyears" maxlength="4" />

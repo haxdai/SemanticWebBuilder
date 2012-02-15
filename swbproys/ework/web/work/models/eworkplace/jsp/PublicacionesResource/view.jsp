@@ -102,8 +102,8 @@
 
     <thead>
         <tr>
-            <th width="5%" >&nbsp;</th>
-            <th width="40%" >Título</th>
+            <th width="7%" >&nbsp;</th>
+            <th width="38%" >Título</th>
             <th width="30%" >Publicado en</th>
             <th width="25%" >Año</th>
         </tr>
@@ -162,7 +162,7 @@
                     urledit.setParameter("id",inves.getId());                                         
         %>
         <tr>
-            <td><span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">borrar</a></span>&nbsp;
+            <td><span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">borrar</a></span>
                 <span class="icv-editar"><a href="#" onclick="window.location='<%=urledit%>';">editar</a></span></td>
             <td><%=strTitulo%></td>
             <td><%=strPublicado%></td>
