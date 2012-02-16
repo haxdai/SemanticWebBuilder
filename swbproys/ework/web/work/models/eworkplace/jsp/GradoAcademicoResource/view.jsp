@@ -115,9 +115,9 @@
 <table class="icv-table">
     <thead>
         <tr>
-            <th width="5%" >&nbsp;</th>
+            <th width="7%" >&nbsp;</th>
             <th width="23%" >Grado académico</th>
-            <th width="28%" >Carrera o especialidad</th>
+            <th width="26%" >Carrera o especialidad</th>
             <th width="24%" >Institución</th>
             <th width="13%" >Situación</th>
             <th width="7%" >Años</th>
@@ -175,9 +175,14 @@
                     SWBResourceURL urldel = paramRequest.getActionUrl();
                     urldel.setAction(SWBResourceURL.Action_REMOVE);
                     urldel.setParameter("id",ga.getId());   
+
+                    SWBResourceURL urledit = paramRequest.getRenderUrl();
+                    urledit.setParameter("act",SWBResourceURL.Action_EDIT);
+                    urledit.setParameter("id",ga.getId());                     
         %>
         <tr>
-            <td><span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">borrar</a></span></td>
+            <td><span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">borrar</a></span>
+                <span class="icv-editar"><a href="#" onclick="window.location='<%=urledit%>';">editar</a></span></td>
             <td><%=strGrado%></td>
             <td><%=strCarrera%></td>
             <td><%=strInstitucion%></td>
@@ -365,7 +370,127 @@
     <div class="centro">
     <input type="submit" name="guardar" id="guardar" value="Guardar" onclick="return enviar()"/>
 </div>
-</form>          
+</form>   
+<%
+          } else if(SWBResourceURL.Action_EDIT.equals(action)) {
+              String id = request.getParameter("id");
+              
+              String wptitle = wpage.getDisplayName(usr.getLanguage());
+              SWBResourceURL urladd = paramRequest.getActionUrl();
+              urladd.setAction(SWBResourceURL.Action_EDIT); 
+              GradoAcademico gradoAca = GradoAcademico.ClassMgr.getGradoAcademico(id, wsite);              
+ %>         
+          <h3><%=wptitle%></h3>
+<script type="text/javascript">
+    <!--
+    dojo.require("dijit.layout.ContentPane");
+    dojo.require("dijit.form.Form");
+    dojo.require("dijit.form.ValidationTextBox");
+    dojo.require("dijit.form.Button");
+    dojo.require("dijit.form.FilteringSelect");
+
+    function enviar() {
+        var objd=dijit.byId('form2ga');
+//alert(objd);
+        if(objd.validate())//.isValid()&&
+           // !isEmpty('idgrado')&&
+           // !isEmpty('idcarrera')&&
+           // !isEmpty('idsituacion'))
+        {
+                return true;
+        }else {
+            alert("Datos incompletos o erroneos");
+        }
+        return false;
+    }
+    function isEmpty(objid) {
+        var obj = dojo.byId(objid);
+        if (obj==null || obj.value=='' || isNaN(obj.value) || obj.value.charAt(0) == ' ') {
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+
+
+    -->
+</script>
+
+          <form id="form2ga" name="form1ga" method="post" dojoType="dijit.form.Form" action="<%=urladd%>">
+    <input type="hidden" name="id" value="<%=id%>" /> 
+<div class="icv-div-grupo">
+  <p class="icv-3col">
+    <label for="idgrado"><b>*</b>Grado</label>
+    <select name="idgrado" id="idgrado" dojoType="dijit.form.FilteringSelect" required="true">
+      <option value="" selected="selected">Seleccione...</option>
+<%
+    Iterator<Grado> itgrado = Grado.ClassMgr.listGrados(wsite); 
+        while (itgrado.hasNext()) {
+            Grado grado = itgrado.next();
+            String strSelected = "";
+            if(grado.equals(gradoAca.getGrado())) strSelected="selected";
+            %>
+            <option value="<%=grado.getId()%>" <%=strSelected%> ><%=grado.getDisplayTitle(usr.getLanguage())%></option>
+            <%
+        }
+%>
+    </select>
+  </p>
+    <p class="icv-3col">
+    <label for="idcarrera"><b>*</b>Carrera o Especialidad</label>
+    <select name="idcarrera" id="idcarrera" dojoType="dijit.form.FilteringSelect" required="true">
+      <option value="" selected="selected">Seleccione...</option>
+<%
+    Iterator<Carrera> itcarrera = Carrera.ClassMgr.listCarreras(wsite); 
+        while (itcarrera.hasNext()) {
+            Carrera carrera = itcarrera.next();
+            String strSelected = "";
+            if(carrera.equals(gradoAca.getCarrera())) strSelected="selected";
+            %>
+            <option value="<%=carrera.getId()%>" <%=strSelected%> ><%=carrera.getDisplayTitle(usr.getLanguage())%></option>
+            <%
+        }
+%>
+    </select>
+  </p>
+  <p class="icv-3col">
+    <label for="txtInstitucion"><b>*</b>Institución</label>
+    <input type="text" name="txtInstitucion" id="txtInstitucion" maxlength="150" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese institución" value="<%=gradoAca.getNombreInstitucion()%>" />
+  </p>
+  <div class="clearer">&nbsp;</div>
+</div>
+  <div class="icv-div-grupo">
+    <p class="icv-3col">
+    <label for="idsituacion"><b>*</b>Situación Académica</label>
+    <select name="idsituacion" id="idsituacion" dojoType="dijit.form.FilteringSelect" required="true">
+      <option value="" selected="selected">Seleccione...</option>
+<%
+    Iterator<SituacionAcademica> itsit = SituacionAcademica.ClassMgr.listSituacionAcademicas(wsite); 
+        while (itsit.hasNext()) {
+            SituacionAcademica situacionAcademica = itsit.next();
+            String strSelected = "";
+            if(situacionAcademica.equals(gradoAca.getSituacionAcademica())) strSelected="selected";
+            %>
+            <option value="<%=situacionAcademica.getId()%>" <%=strSelected%> ><%=situacionAcademica.getDisplayTitle(usr.getLanguage())%></option>
+            <%
+        }
+%>
+    </select>
+  </p>
+ 
+ 
+  <p class="icv-3col">
+    <label for="periodo"><b>*</b>Periodo en años</label>
+    <input type="text" name="periodo" id="periodo" maxlength="2" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese periodo en años" regExp="\d{1,2}" value="<%=gradoAca.getPeriodoYears()%>"/>
+  </p>
+<div class="clearer">&nbsp;</div>
+</div>
+
+    <div class="centro">
+    <input type="submit" name="guardar" id="guardar" value="Guardar" onclick="return enviar()"/>
+</div>
+</form>   
 <%         
           }
 %>
