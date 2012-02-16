@@ -1,6 +1,6 @@
 <%--   
-    Document   : view Recurso ExperienciaLaboralResource
-    Created on : 15/02/2012
+    Document   : view Recurso DistincionesResource
+    Created on : 16/02/2012
     Author     : carlos.ramos
 --%>
 <%@page import="com.infotec.cvi.swb.*"%>
@@ -37,8 +37,8 @@
 
     CV cv = CV.ClassMgr.getCV(usr.getId(), wsite);
 
-    long intSize = SWBUtils.Collections.sizeOf(cv.listExperienciaLaborals());
-    Iterator<ExperienciaLaboral> itga = cv.listExperienciaLaborals();
+    long intSize = SWBUtils.Collections.sizeOf(cv.listDistincions());
+    Iterator<Distinciones> itga = cv.listDistincions();
     Resource base = paramRequest.getResourceBase();
     String strNumItems = base.getAttribute("numPageItems", "10");
     String npage = request.getParameter("page");
@@ -79,15 +79,9 @@
     <thead>
         <tr>
             <th>&nbsp;</th>
-            <th>Actual</th>
-            <th>Empresa</th>
-            <th>Sector</th>
-            <th>Fecha inicial</th>
-            <th>Fecha final</th>
-            <th>Puesto</th>
-            <th>Funciones principales</th>
-            <th>Nombre y puesto del jefe inmediato</th>
-            <th>telefono</th>
+            <th>Título</th>
+            <th>Otorgante</th>
+            <th>Fecha</th>
         </tr>
     </thead>
     <tbody>
@@ -113,7 +107,7 @@
             SWBResourceURL urldel = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_REMOVE);
             SWBResourceURL urledit = paramRequest.getRenderUrl().setParameter("act",SWBResourceURL.Action_EDIT);
             while (itga.hasNext()) {
-                ExperienciaLaboral ga = itga.next();
+                Distinciones premio = itga.next();
 
                 //PAGINACION ////////////////////
                 if (x < p * ps) {
@@ -125,27 +119,17 @@
                 }
                 x++;
                 /////////////////////////////////
-                urldel.setParameter("id",ga.getId());   
-                urledit.setParameter("id",ga.getId());                     
+                urldel.setParameter("id",premio.getId());   
+                urledit.setParameter("id",premio.getId());                     
         %>
     <tr>
         <td>
             <span class="icv-borrar"><a href="javascript:if(confirm('¿Deseas eliminar este registro?')){window.location.href='<%=urldel%>';}" title="eliminar registro">borrar</a></span>
             <span class="icv-editar"><a href="javascript:window.location.href='<%=urledit%>'" title="editar registro">editar</a></span>
         </td>
-        <td><%=(ga.isActual()?"x":"")%></td>
-        <td><%=ga.getEmpresa()%></td>
-        <td><%=(ga.getSector()==null?"---":(ga.getSector().getTitle()==null?"---":ga.getSector().getTitle()))%></td>
-        <td><%=sdf.format(ga.getFechaIni())%></td>
-        <td><%=sdf.format(ga.getFechaFin())%></td>
-        <td><%=ga.getCargo()%></td>
-        <td><%=ga.getFuncionesPrincipales()%></td>
-        <td><%=(ga.getJefe()==null?"---":ga.getJefe())%></td>
-        <td>
-            <%=(ga.getTelefono()==null?"":(ga.getTelefono().getLada()==0?"":"("+ga.getTelefono().getLada()+")"))%>
-            <%=(ga.getTelefono()==null?"---":(ga.getTelefono().getNumero()==0?"":ga.getTelefono().getNumero()))%>
-            <%=(ga.getTelefono()==null?"":(ga.getTelefono().getExtension()==0?"":" ext."+ga.getTelefono().getExtension()))%>
-        </td>
+        <td><%=premio.getTitle()%></td>
+        <td><%=premio.getOtorgante()%></td>
+        <td><%=sdf.format(premio.getFechaDistincion())%></td>
     </tr>
 <%
             }
@@ -249,33 +233,9 @@
 </script>
 <form id="form1ga" method="post" dojoType="dijit.form.Form" action="<%=urladd%>">
  <div class="icv-div-grupo">
-  <p class="icv-3col"><label>Trabajo actual <input type="checkbox" name="cur" value="1"/></label></p>
-  <p class="icv-3col"><label><em>*</em>Empresa</label><input type="text" name="emp" value="" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Nombre de la empresa" invalidMessage="El nombre de la empresa es requerido"/></p>  
-  <p class="icv-3col">
-   <label><em>*</em>Sector</label>
-   <select name="sctr" id="idsctr" dojoType="dijit.form.FilteringSelect" required="true">
-    <option value="" selected="selected">Seleccione...</option>
-<%
-        Iterator<Sector> sectors = Sector.ClassMgr.listSectors(wsite);
-        while(sectors.hasNext()) {
-        Sector sector = sectors.next();
-%>
-            <option value="<%=sector.getId()%>"><%=sector.getDisplayTitle(lang)%></option>
-<%
-        }
-%>
-   </select>
-  </p>
-  <p class="icv-3col"><label><em>*</em>Fecha inicial</label><input type="text" name="fi" value="" dojoType="dijit.form.DateTextBox" required="true" constraints="{datePattern:'dd/MM/yyyy'}" maxlength="10" hasDownArrow="true"/></p>
-  <p class="icv-3col"><label>Fecha final</label><input type="text" name="ff" value="" dojoType="dijit.form.DateTextBox" required="false" constraints="{datePattern:'dd/MM/yyyy'}" maxlength="10" hasDownArrow="true"/></p>
-  <p class="icv-3col"><label><em>*</em>Puesto</label><input type="text" name="crg" value="" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Puesto ocupado" invalidMessage="El nombre del puesto es requerido"/></p>
-  <p class="icv-3col"><label><em>*</em>Funciones principales</label><textarea name="mfncs" dojoType="dijit.form.Textarea" required="true" promptMessage="Funciones realizadas en el puesto ocupado" invalidMessage="Las funciones realizadas son requeridas"></textarea></p>
-  <p class="icv-3col"><label>Nombre y puesto del jefe inmediato</label><input type="text" name="jf" value="" /></p>
-  <p class="icv-3col"><label>Tel&eacute;fono (clave lada, n&uacute;mero y extensi&oacute;n)</label>
-   <input type="text" name="cve" value="" size="3" maxlength="3" dojoType="dijit.form.ValidationTextBox" promptMessage="Clave lada" invalidMessage="Clave lada incorrecta" regExp="\d{2,3}" />&nbsp;
-   <input type="text" name="tf" value="" size="8" maxlength="8" dojoType="dijit.form.ValidationTextBox" promptMessage="Numero telefonico" invalidMessage="Numero telefonico incorrecto" regExp="\d{7,8}" />&nbsp;
-   <input type="text" name="ext" value="" size="5" maxlength="5" dojoType="dijit.form.ValidationTextBox" promptMessage="Extension telefonica" invalidMessage="Extension telefonica incorrecta" regExp="\d{1,5}" />
-  </p>
+  <p class="icv-3col"><label><em>*</em>Título</label><input type="text" name="ttl" value="" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Registrar titulo" invalidMessage="El nombre del titulo es requerido"/></p>
+  <p class="icv-3col"><label><em>*</em>Otorgante</label><input type="text" name="trgnt" value="" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Registro de Otorgante" invalidMessage="El nombre del otorgante es requerido"/></p>
+  <p class="icv-3col"><label><em>*</em>Fecha de entrega</label><input type="text" name="fp" value="" dojoType="dijit.form.DateTextBox" required="true" constraints="{datePattern:'dd/MM/yyyy'}" maxlength="10" hasDownArrow="true" promptMessage="Registro de fecha en la  que se recibió el titulo" invalidMessage="La fecha es requerida"/></p>
   <div class="clearer">&nbsp;</div>
  </div>
  <div class="centro">
@@ -286,7 +246,7 @@
     }else if(SWBResourceURL.Action_EDIT.equals(action)) {
         String id = request.getParameter("id");
 
-        ExperienciaLaboral gradoAca = ExperienciaLaboral.ClassMgr.getExperienciaLaboral(id, wsite);
+        Distinciones premio = Distinciones.ClassMgr.getDistinciones(id, wsite);
         
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", locale);
 
@@ -326,38 +286,9 @@
 </script>
 <form id="form2ga" method="post" dojoType="dijit.form.Form" action="<%=urladd%>">
  <div class="icv-div-grupo">
-  <p class="icv-3col"><label>Trabajo actual <input type="checkbox" name="cur" value="1" <%=(gradoAca.isActual()?"checked=\"checked\"":"")%> /></label></p>
-  <p class="icv-3col"><label><em>*</em>Empresa</label><input type="text" name="emp" value="<%=gradoAca.getEmpresa()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Nombre de la empresa" invalidMessage="El nombre de la empresa es requerido"/></p>  
-  <p class="icv-3col">
-   <label><em>*</em>Sector</label>
-   <select name="sctr" id="idsctr" dojoType="dijit.form.FilteringSelect" required="true">
-<%
-        Iterator<Sector> sectors = Sector.ClassMgr.listSectors(wsite);
-        while(sectors.hasNext()) {
-            Sector sector = sectors.next();
-            if(sector.equals(gradoAca.getSector())) {
-                %>
-                <option value="<%=sector.getId()%>" selectted="selected"><%=sector.getDisplayTitle(lang)%></option>
-                <%
-            }else {
-                %>
-                <option value="<%=sector.getId()%>"><%=sector.getDisplayTitle(lang)%></option>
-                <%
-            }
-        }
-%>
-   </select>
-  </p>
-  <p class="icv-3col"><label><em>*</em>Fecha inicial</label><input type="text" name="fi" value="<%=sdf.format(gradoAca.getFechaIni())%>" dojoType="dijit.form.DateTextBox" required="true" constraints="{datePattern:'dd/MM/yyyy'}" maxlength="10" hasDownArrow="true"/></p>
-  <p class="icv-3col"><label>Fecha final</label><input type="text" name="ff" value="<%=sdf.format(gradoAca.getFechaFin())%>" dojoType="dijit.form.DateTextBox" required="false" constraints="{datePattern:'dd/MM/yyyy'}" maxlength="10" hasDownArrow="true"/></p>
-  <p class="icv-3col"><label><em>*</em>Puesto</label><input type="text" name="crg" value="<%=gradoAca.getCargo()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Puesto ocupado" invalidMessage="El nombre del puesto es requerido"/></p>
-  <p class="icv-3col"><label><em>*</em>Funciones principales</label><textarea name="mfncs" dojoType="dijit.form.Textarea" required="true" promptMessage="Funciones realizadas en el puesto ocupado" invalidMessage="Las funciones realizadas son requeridas"><%=gradoAca.getFuncionesPrincipales()%></textarea></p>
-  <p class="icv-3col"><label>Nombre y puesto del jefe inmediato</label><input type="text" name="jf" value="<%=gradoAca.getJefe()%>" /></p>
-  <p class="icv-3col"><label>Tel&eacute;fono (clave lada, n&uacute;mero y extensi&oacute;n)</label>
-   <input type="text" name="cve" value="<%=(gradoAca.getTelefono()==null?"":(gradoAca.getTelefono().getLada()==0?"":gradoAca.getTelefono().getLada()))%>" size="3" maxlength="3" dojoType="dijit.form.ValidationTextBox" promptMessage="Clave lada" invalidMessage="Clave lada incorrecta" regExp="\d{2,3}" />&nbsp;
-   <input type="text" name="tf" value="<%=(gradoAca.getTelefono()==null?"":(gradoAca.getTelefono().getNumero()==0?"":gradoAca.getTelefono().getNumero()))%>" size="8" maxlength="8" dojoType="dijit.form.ValidationTextBox" promptMessage="Numero telefonico" invalidMessage="Numero telefonico incorrecto" regExp="\d{7,8}" />&nbsp;
-   <input type="text" name="ext" value="<%=(gradoAca.getTelefono()==null?"":(gradoAca.getTelefono().getExtension()==0?"":gradoAca.getTelefono().getExtension()))%>" size="5" maxlength="5" dojoType="dijit.form.ValidationTextBox" promptMessage="Extension telefonica" invalidMessage="Extension telefonica incorrecta" regExp="\d{1,5}" />
-  </p>
+  <p class="icv-3col"><label><em>*</em>Título</label><input type="text" name="ttl" value="<%=premio.getTitle()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Registrar titulo" invalidMessage="El nombre del titulo es requerido"/></p>
+  <p class="icv-3col"><label><em>*</em>Otorgante</label><input type="text" name="trgnt" value="<%=premio.getOtorgante()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Registro de Otorgante" invalidMessage="El nombre del otorgante es requerido"/></p>
+  <p class="icv-3col"><label><em>*</em>Fecha de entrega</label><input type="text" name="fp" value="<%=sdf.format(premio.getFechaDistincion())%>" dojoType="dijit.form.DateTextBox" required="true" constraints="{datePattern:'dd/MM/yyyy'}" maxlength="10" hasDownArrow="true" promptMessage="Registro de fecha en la  que se recibió el titulo" invalidMessage="La fecha es requerida"/></p>
   <div class="clearer">&nbsp;</div>
  </div>
  <div class="centro">
