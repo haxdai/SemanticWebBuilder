@@ -3,7 +3,7 @@ package com.infotec.cvi.swb.base;
 
 public abstract class CVBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable
 {
-    public static final org.semanticwb.platform.SemanticClass intranet_Distinciones=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Distinciones");
+    public static final org.semanticwb.platform.SemanticClass intranet_Distincion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Distincion");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasDistincion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasDistincion");
     public static final org.semanticwb.platform.SemanticClass intranet_Investigacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Investigacion");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasInvestigacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasInvestigacion");
@@ -20,7 +20,7 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
     public static final org.semanticwb.platform.SemanticProperty intranet_hasCursosTIC=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasCursosTIC");
     public static final org.semanticwb.platform.SemanticClass intranet_Idioma=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Idioma");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasIdioma=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasIdioma");
-    public static final org.semanticwb.platform.SemanticClass intranet_AreasTalento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#AreasTalento");
+    public static final org.semanticwb.platform.SemanticClass intranet_AreaTalento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#AreaTalento");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasAreaTalento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasAreaTalento");
     public static final org.semanticwb.platform.SemanticClass intranet_DocumentoProbatorio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#DocumentoProbatorio");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasDocumentoProbatorio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasDocumentoProbatorio");
@@ -112,23 +112,23 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
         }
        /**
        * Gets all com.infotec.cvi.swb.CV with a determined Distincion
-       * @param value Distincion of the type com.infotec.cvi.swb.Distinciones
+       * @param value Distincion of the type com.infotec.cvi.swb.Distincion
        * @param model Model of the com.infotec.cvi.swb.CV
        * @return Iterator with all the com.infotec.cvi.swb.CV
        */
 
-        public static java.util.Iterator<com.infotec.cvi.swb.CV> listCVByDistincion(com.infotec.cvi.swb.Distinciones value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<com.infotec.cvi.swb.CV> listCVByDistincion(com.infotec.cvi.swb.Distincion value,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.CV> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasDistincion, value.getSemanticObject(),sclass));
             return it;
         }
        /**
        * Gets all com.infotec.cvi.swb.CV with a determined Distincion
-       * @param value Distincion of the type com.infotec.cvi.swb.Distinciones
+       * @param value Distincion of the type com.infotec.cvi.swb.Distincion
        * @return Iterator with all the com.infotec.cvi.swb.CV
        */
 
-        public static java.util.Iterator<com.infotec.cvi.swb.CV> listCVByDistincion(com.infotec.cvi.swb.Distinciones value)
+        public static java.util.Iterator<com.infotec.cvi.swb.CV> listCVByDistincion(com.infotec.cvi.swb.Distincion value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.CV> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasDistincion,value.getSemanticObject(),sclass));
             return it;
@@ -319,23 +319,23 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
         }
        /**
        * Gets all com.infotec.cvi.swb.CV with a determined AreaTalento
-       * @param value AreaTalento of the type com.infotec.cvi.swb.AreasTalento
+       * @param value AreaTalento of the type com.infotec.cvi.swb.AreaTalento
        * @param model Model of the com.infotec.cvi.swb.CV
        * @return Iterator with all the com.infotec.cvi.swb.CV
        */
 
-        public static java.util.Iterator<com.infotec.cvi.swb.CV> listCVByAreaTalento(com.infotec.cvi.swb.AreasTalento value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<com.infotec.cvi.swb.CV> listCVByAreaTalento(com.infotec.cvi.swb.AreaTalento value,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.CV> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasAreaTalento, value.getSemanticObject(),sclass));
             return it;
         }
        /**
        * Gets all com.infotec.cvi.swb.CV with a determined AreaTalento
-       * @param value AreaTalento of the type com.infotec.cvi.swb.AreasTalento
+       * @param value AreaTalento of the type com.infotec.cvi.swb.AreaTalento
        * @return Iterator with all the com.infotec.cvi.swb.CV
        */
 
-        public static java.util.Iterator<com.infotec.cvi.swb.CV> listCVByAreaTalento(com.infotec.cvi.swb.AreasTalento value)
+        public static java.util.Iterator<com.infotec.cvi.swb.CV> listCVByAreaTalento(com.infotec.cvi.swb.AreaTalento value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.CV> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasAreaTalento,value.getSemanticObject(),sclass));
             return it;
@@ -489,21 +489,21 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
         super(base);
     }
    /**
-   * Gets all the com.infotec.cvi.swb.Distinciones
-   * @return A GenericIterator with all the com.infotec.cvi.swb.Distinciones
+   * Gets all the com.infotec.cvi.swb.Distincion
+   * @return A GenericIterator with all the com.infotec.cvi.swb.Distincion
    */
 
-    public org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Distinciones> listDistincions()
+    public org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Distincion> listDistincions()
     {
-        return new org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Distinciones>(getSemanticObject().listObjectProperties(intranet_hasDistincion));
+        return new org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Distincion>(getSemanticObject().listObjectProperties(intranet_hasDistincion));
     }
 
    /**
    * Gets true if has a Distincion
-   * @param value com.infotec.cvi.swb.Distinciones to verify
-   * @return true if the com.infotec.cvi.swb.Distinciones exists, false otherwise
+   * @param value com.infotec.cvi.swb.Distincion to verify
+   * @return true if the com.infotec.cvi.swb.Distincion exists, false otherwise
    */
-    public boolean hasDistincion(com.infotec.cvi.swb.Distinciones value)
+    public boolean hasDistincion(com.infotec.cvi.swb.Distincion value)
     {
         boolean ret=false;
         if(value!=null)
@@ -514,10 +514,10 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
     }
    /**
    * Adds a Distincion
-   * @param value com.infotec.cvi.swb.Distinciones to add
+   * @param value com.infotec.cvi.swb.Distincion to add
    */
 
-    public void addDistincion(com.infotec.cvi.swb.Distinciones value)
+    public void addDistincion(com.infotec.cvi.swb.Distincion value)
     {
         getSemanticObject().addObjectProperty(intranet_hasDistincion, value.getSemanticObject());
     }
@@ -531,25 +531,25 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
     }
    /**
    * Removes a Distincion
-   * @param value com.infotec.cvi.swb.Distinciones to remove
+   * @param value com.infotec.cvi.swb.Distincion to remove
    */
 
-    public void removeDistincion(com.infotec.cvi.swb.Distinciones value)
+    public void removeDistincion(com.infotec.cvi.swb.Distincion value)
     {
         getSemanticObject().removeObjectProperty(intranet_hasDistincion,value.getSemanticObject());
     }
 
    /**
    * Gets the Distincion
-   * @return a com.infotec.cvi.swb.Distinciones
+   * @return a com.infotec.cvi.swb.Distincion
    */
-    public com.infotec.cvi.swb.Distinciones getDistincion()
+    public com.infotec.cvi.swb.Distincion getDistincion()
     {
-         com.infotec.cvi.swb.Distinciones ret=null;
+         com.infotec.cvi.swb.Distincion ret=null;
          org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasDistincion);
          if(obj!=null)
          {
-             ret=(com.infotec.cvi.swb.Distinciones)obj.createGenericInstance();
+             ret=(com.infotec.cvi.swb.Distincion)obj.createGenericInstance();
          }
          return ret;
     }
@@ -1047,21 +1047,21 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
          return ret;
     }
    /**
-   * Gets all the com.infotec.cvi.swb.AreasTalento
-   * @return A GenericIterator with all the com.infotec.cvi.swb.AreasTalento
+   * Gets all the com.infotec.cvi.swb.AreaTalento
+   * @return A GenericIterator with all the com.infotec.cvi.swb.AreaTalento
    */
 
-    public org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.AreasTalento> listAreaTalentos()
+    public org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.AreaTalento> listAreaTalentos()
     {
-        return new org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.AreasTalento>(getSemanticObject().listObjectProperties(intranet_hasAreaTalento));
+        return new org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.AreaTalento>(getSemanticObject().listObjectProperties(intranet_hasAreaTalento));
     }
 
    /**
    * Gets true if has a AreaTalento
-   * @param value com.infotec.cvi.swb.AreasTalento to verify
-   * @return true if the com.infotec.cvi.swb.AreasTalento exists, false otherwise
+   * @param value com.infotec.cvi.swb.AreaTalento to verify
+   * @return true if the com.infotec.cvi.swb.AreaTalento exists, false otherwise
    */
-    public boolean hasAreaTalento(com.infotec.cvi.swb.AreasTalento value)
+    public boolean hasAreaTalento(com.infotec.cvi.swb.AreaTalento value)
     {
         boolean ret=false;
         if(value!=null)
@@ -1072,10 +1072,10 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
     }
    /**
    * Adds a AreaTalento
-   * @param value com.infotec.cvi.swb.AreasTalento to add
+   * @param value com.infotec.cvi.swb.AreaTalento to add
    */
 
-    public void addAreaTalento(com.infotec.cvi.swb.AreasTalento value)
+    public void addAreaTalento(com.infotec.cvi.swb.AreaTalento value)
     {
         getSemanticObject().addObjectProperty(intranet_hasAreaTalento, value.getSemanticObject());
     }
@@ -1089,25 +1089,25 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
     }
    /**
    * Removes a AreaTalento
-   * @param value com.infotec.cvi.swb.AreasTalento to remove
+   * @param value com.infotec.cvi.swb.AreaTalento to remove
    */
 
-    public void removeAreaTalento(com.infotec.cvi.swb.AreasTalento value)
+    public void removeAreaTalento(com.infotec.cvi.swb.AreaTalento value)
     {
         getSemanticObject().removeObjectProperty(intranet_hasAreaTalento,value.getSemanticObject());
     }
 
    /**
    * Gets the AreaTalento
-   * @return a com.infotec.cvi.swb.AreasTalento
+   * @return a com.infotec.cvi.swb.AreaTalento
    */
-    public com.infotec.cvi.swb.AreasTalento getAreaTalento()
+    public com.infotec.cvi.swb.AreaTalento getAreaTalento()
     {
-         com.infotec.cvi.swb.AreasTalento ret=null;
+         com.infotec.cvi.swb.AreaTalento ret=null;
          org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasAreaTalento);
          if(obj!=null)
          {
-             ret=(com.infotec.cvi.swb.AreasTalento)obj.createGenericInstance();
+             ret=(com.infotec.cvi.swb.AreaTalento)obj.createGenericInstance();
          }
          return ret;
     }
