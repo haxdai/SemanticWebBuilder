@@ -5,11 +5,15 @@
 --%>
 
 <%
-    WebPage wpbase = wsite.getWebPage("CVI");
+    WebPage _wpage = paramRequest.getWebPage(); 
+    WebSite _wsite = _wpage.getWebSite();
+    User _usr = paramRequest.getUser();
+
+    WebPage wpbase = _wsite.getWebPage("CVI");
     WebPage wpparent = null;
-    if(!wpage.getParent().equals(wpbase)){
-        wpparent = wpage;
-    } else { wpparent = wpage.getParent(); }
+    if(!_wpage.getParent().equals(wpbase)){
+        wpparent = _wpage;
+    } else { wpparent = _wpage.getParent(); }
 
     StringBuffer strsubmenu = new StringBuffer("");
 %>
@@ -20,19 +24,19 @@
          while(itwp.hasNext()){
              WebPage wp = itwp.next();
              String strSelect = "";
-             if(wp.equals(wpage)||wp.isParentof(wpage)){
+             if(wp.equals(_wpage)||wp.isParentof(_wpage)){
                  strSelect = "class=\"icv-menu-select\"";
                  wpparent = wp;
              }
 %>
-  		<li <%=strSelect%>><a href="<%=wp.getUrl()%>"><%=wp.getDisplayName(usr.getLanguage())%></a></li>
+  		<li <%=strSelect%>><a href="<%=wp.getUrl()%>"><%=wp.getDisplayName(_usr.getLanguage())%></a></li>
 <%
          }
 %>
 	</ul>
 </div>
 <%
-if(wpparent.isParentof(wpage)){
+if(wpparent.isParentof(_wpage)){
          boolean writeBottom = false;
          Iterator<WebPage> itsmwp=wpparent.listChilds();
          if(itsmwp.hasNext())
@@ -46,11 +50,11 @@ if(wpparent.isParentof(wpage)){
          while(itsmwp.hasNext()){
              WebPage wp = itsmwp.next();
              String strSelect = "";
-             if(wp.equals(wpage)){
+             if(wp.equals(_wpage)){
                  strSelect = "class=\"icv-submenu-select\"";
              }
 %>
-                     <li <%=strSelect%>><a href="<%=wp.getUrl()%>"><%=wp.getDisplayName(usr.getLanguage())%></a></li>
+                     <li <%=strSelect%>><a href="<%=wp.getUrl()%>"><%=wp.getDisplayName(_usr.getLanguage())%></a></li>
 <%                                      
          }
        if(writeBottom)
