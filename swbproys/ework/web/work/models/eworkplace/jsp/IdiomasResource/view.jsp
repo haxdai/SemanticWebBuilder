@@ -38,7 +38,7 @@
             if(cv==null) {
                 cv = CV.ClassMgr.createCV(usr.getId(),wsite);
                 cv.setPropietario(usr);
-            }
+            }          
             
             int intSize=0;
             Iterator<Idioma> itid = cv.listIdiomas();
@@ -106,8 +106,8 @@
 
     <thead>
         <tr>
-            <th width="5%" >&nbsp;</th>
-            <th width="35%" >Idioma</th>
+            <th width="7%" >&nbsp;</th>
+            <th width="33%" >Idioma</th>
             <th width="20%" >Conversación</th>
             <th width="20%" >Lectura</th>
             <th width="20%" >Escritura</th>
@@ -165,10 +165,15 @@
                     
                     SWBResourceURL urldel = paramRequest.getActionUrl();
                     urldel.setAction(SWBResourceURL.Action_REMOVE);
-                    urldel.setParameter("id",ga.getId());   
+                    urldel.setParameter("id",ga.getId());  
+
+                    SWBResourceURL urledit = paramRequest.getRenderUrl();
+                    urledit.setParameter("act",SWBResourceURL.Action_EDIT);
+                    urledit.setParameter("id",ga.getId());
         %>
         <tr>
-            <td><span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">borrar</a></span></td>
+            <td><span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">borrar</a></span>
+                <span class="icv-editar"><a href="#" onclick="window.location='<%=urledit%>';">editar</a></span></td>
             <td><%=strIdioma%></td>
             <td><%=strCoversacion%></td>
             <td><%=strLectura%></td>
@@ -333,6 +338,10 @@
 %>
     </select>
   </p>
+    <div class="clearer">&nbsp;</div>
+</div>
+  
+  <div class="icv-div-grupo">
     <p class="icv-3col">
     <label for="idescritura"><b>*</b>Escritura</label>
     <select name="idescritura" id="idescritura">
@@ -354,7 +363,131 @@
     <div class="centro">
     <input type="submit" name="guardar" id="guardar" value="Guardar" onclick="return enviar()" />
 </div>
-</form>          
+</form> 
+<%
+          } else if(action.equals(SWBResourceURL.Action_EDIT)) {
+              String id = request.getParameter("id");
+              
+              String wptitle = wpage.getDisplayName(usr.getLanguage());
+              SWBResourceURL urladd = paramRequest.getActionUrl();
+              urladd.setAction(SWBResourceURL.Action_EDIT);  
+              
+              Idioma idioma = Idioma.ClassMgr.getIdioma(id, wsite);
+ %>         
+<script type="text/javascript">
+    <!--
+    dojo.require("dijit.layout.ContentPane");
+    dojo.require("dijit.form.Form");
+    dojo.require("dijit.form.ValidationTextBox");
+    dojo.require("dijit.form.Button");
+
+    function enviar() {
+        var objd=dijit.byId('form2id');
+//alert(objd);
+        if(objd.isValid()&&!isEmpty('ididoma')&&!isEmpty('idconversacion')&&!isEmpty('idlectura')&&!isEmpty('idescritura'))
+        {
+                return true;
+        }else {
+            alert("Datos incompletos o erroneos");
+        }
+        return false;
+    }
+    function isEmpty(objid) {
+        var obj = dojo.byId(objid);
+        if (obj==null || obj.value=='' || !isNaN(obj.value) || obj.value.charAt(0) == ' ') {
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+
+
+    -->
+</script>
+ <h3><%=wptitle%></h3>
+          <form id="form2id" name="form1id" method="post" dojoType="dijit.form.Form" action="<%=urladd%>">
+    <input type="hidden" name="id" value="<%=id%>" /> 
+<div class="icv-div-grupo">
+  <p class="icv-3col">
+    <label for="ididoma"><b>*</b>Idioma</label>
+    <select name="ididoma" id="ididoma">
+      <option value="" selected="selected">Seleccione...</option>
+<%
+    Iterator<Language> itidioma = wsite.listLanguages();
+        while (itidioma.hasNext()) {
+            Language ids = itidioma.next();
+            String strSelected = "";
+            if(ids.equals(idioma.getIdiomas())) strSelected="selected"; 
+            %>
+            <option value="<%=ids.getId()%>" <%=strSelected%> ><%=ids.getDisplayTitle(usr.getLanguage())%></option>
+            <%
+        }
+%>
+    </select>
+  </p>
+    <p class="icv-3col">
+    <label for="idconversacion"><b>*</b>Conversación</label>
+    <select name="idconversacion" id="idconversacion">
+      <option value="" selected="selected">Seleccione...</option>
+<%
+    Iterator<Conversacion> itconv = Conversacion.ClassMgr.listConversacions(wsite); 
+        while (itconv.hasNext()) {
+            Conversacion conv = itconv.next();
+            String strSelected = "";
+            if(conv.equals(idioma.getConversacion())) strSelected="selected";
+            %>
+            <option value="<%=conv.getId()%>" <%=strSelected%> ><%=conv.getDisplayTitle(usr.getLanguage())%></option>
+            <%
+        }
+%>
+    </select>
+  </p>
+    <p class="icv-3col">
+    <label for="idlectura"><b>*</b>Lectura</label>
+    <select name="idlectura" id="idlectura">
+      <option value="" selected="selected">Seleccione...</option>
+<%
+    Iterator<Lectura> itlec = Lectura.ClassMgr.listLecturas(wsite); 
+        while (itlec.hasNext()) {
+            Lectura lec = itlec.next();
+            String strSelected = "";
+            if(lec.equals(idioma.getLectura())) strSelected="selected";
+            %>
+            <option value="<%=lec.getId()%>" <%=strSelected%> ><%=lec.getDisplayTitle(usr.getLanguage())%></option>
+            <%
+        }
+%>
+    </select>
+  </p>
+    <div class="clearer">&nbsp;</div>
+</div>
+  
+  <div class="icv-div-grupo">
+    <p class="icv-3col">
+    <label for="idescritura"><b>*</b>Escritura</label>
+    <select name="idescritura" id="idescritura">
+      <option value="" selected="selected">Seleccione...</option>
+<%
+    Iterator<Escritura> itesc = Escritura.ClassMgr.listEscrituras(wsite); 
+        while (itesc.hasNext()) {
+            Escritura esc = itesc.next();
+            String strSelected = "";
+            if(esc.equals(idioma.getEscritura())) strSelected="selected";
+            %>
+            <option value="<%=esc.getId()%>" <%=strSelected%> ><%=esc.getDisplayTitle(usr.getLanguage())%></option>
+            <%
+        }
+%>
+    </select>
+  </p>
+<div class="clearer">&nbsp;</div>
+</div>
+
+    <div class="centro">
+    <input type="submit" name="guardar" id="guardar" value="Guardar" onclick="return enviar()" />
+</div>
+</form> 
 <%         
           }
 %>
