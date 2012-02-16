@@ -3,35 +3,36 @@
     Created on : 15/02/2012
     Author     : carlos.ramos
 --%>
-
-<%@page import="org.semanticwb.model.WebPage"%>
-<%@page import="com.infotec.cvi.swb.ExperienciaLaboral"%>
-<%@page import="com.infotec.cvi.swb.Sector"%>
-<%@page import="com.infotec.cvi.swb.CV"%>
+<%@page import="com.infotec.cvi.swb.*"%>
 <%@page import="java.util.Set"%>
-<%@page import="org.semanticwb.model.SWBComparator"%>
 <%@page import="java.util.Locale"%>
-<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.List"%>
-<%@page import="org.semanticwb.model.WebSite"%>
 <%@page import="java.util.Collections"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Iterator"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="org.semanticwb.model.User"%>
 <%@page import="org.semanticwb.model.Role"%>
+<%@page import="org.semanticwb.model.WebSite"%>
+<%@page import="org.semanticwb.model.WebPage"%>
 <%@page import="org.semanticwb.model.Resource"%> 
+<%@page import="org.semanticwb.model.SWBComparator"%>
 <%@page import="org.semanticwb.portal.api.SWBResourceURL"%>
 <%@page import="org.semanticwb.SWBUtils"%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest" />
-
 <%
-
+            User usr = paramRequest.getUser();
+            if(!usr.isSigned())
+                return;
+            
             WebPage wpage = paramRequest.getWebPage(); 
             WebSite wsite = wpage.getWebSite();
-            User usr = paramRequest.getUser();
+            
+            final String lang = usr.getLanguage();
+            Locale locale = new Locale(lang,(usr.getCountry()==null?"MX":usr.getCountry()));
+            
             Role role=null;
             
             CV cv = CV.ClassMgr.getCV(usr.getId(), wsite);
@@ -196,7 +197,7 @@
             <td><%=ga.getFuncionesPrincipales()%></td>
             <td><%=(ga.getJefe()==null?"---":ga.getJefe())%></td>
             <td>
-                <%=(ga.getTelefono()==null?"":(ga.getTelefono().getLada()==0?"":"("+ga.getTelefono().getLada())+")")%>
+                <%=(ga.getTelefono()==null?"":(ga.getTelefono().getLada()==0?"":"("+ga.getTelefono().getLada()+")"))%>
                 <%=(ga.getTelefono()==null?"---":(ga.getTelefono().getNumero()==0?"":ga.getTelefono().getNumero()))%>
                 <%=(ga.getTelefono()==null?"":(ga.getTelefono().getExtension()==0?"":" ext."+ga.getTelefono().getExtension()))%>
             </td>
@@ -277,7 +278,7 @@
 
  <%
           }else if(SWBResourceURL.Action_ADD.equals(action)) {
-            String wptitle = wpage.getDisplayName(usr.getLanguage());
+            String wptitle = wpage.getDisplayName(lang);
               SWBResourceURL urladd = paramRequest.getActionUrl();
               urladd.setAction(SWBResourceURL.Action_ADD);  
  %>         
@@ -329,7 +330,7 @@ Iterator<Sector> sectors = Sector.ClassMgr.listSectors(wsite);
 while(sectors.hasNext()) {
 Sector sector = sectors.next();
             %>
-            <option value="<%=sector.getId()%>"><%=sector.getDisplayTitle(usr.getLanguage())%></option>
+            <option value="<%=sector.getId()%>"><%=sector.getDisplayTitle(lang)%></option>
             <%
         }
 %>
@@ -354,10 +355,16 @@ Sector sector = sectors.next();
           } else if(SWBResourceURL.Action_EDIT.equals(action)) {
               String id = request.getParameter("id");
               
-              String wptitle = wpage.getDisplayName(usr.getLanguage());
+              ExperienciaLaboral gradoAca = ExperienciaLaboral.ClassMgr.getExperienciaLaboral(id, wsite);
+              /*if(gradoAca==null || gradoAca!=null && gradoAca.getCreator().equals(usr))
+                  return;*/
+              
+              SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", locale);
+              
+              String wptitle = wpage.getDisplayName(lang);
               SWBResourceURL urladd = paramRequest.getActionUrl();
-              urladd.setAction(SWBResourceURL.Action_EDIT); 
-              ExperienciaLaboral gradoAca = ExperienciaLaboral.ClassMgr.getExperienciaLaboral(id, wsite);              
+              urladd.setAction(SWBResourceURL.Action_EDIT);
+              urladd.setParameter("id", id);
  %>         
           <h3><%=wptitle%></h3>
 <script type="text/javascript">
@@ -367,6 +374,8 @@ Sector sector = sectors.next();
     dojo.require("dijit.form.ValidationTextBox");
     dojo.require("dijit.form.Button");
     dojo.require("dijit.form.FilteringSelect");
+    dojo.require('dijit.form.Textarea');
+    dojo.require('dijit.form.DateTextBox');
 
     function enviar() {
         var objd=dijit.byId('form2ga');
@@ -397,33 +406,39 @@ Sector sector = sectors.next();
 </script>
 
           <form id="form2ga" name="form1ga" method="post" dojoType="dijit.form.Form" action="<%=urladd%>">
-    <input type="hidden" name="id" value="<%=id%>" /> 
 <div class="icv-div-grupo">
-  <p class="icv-3col">
-    <label for="idgrado"><b>*</b>Grado</label>
-
-  </p>
+<p class="icv-3col"><label>Trabajo actual <input type="checkbox" name="cur" value="1" <%=(gradoAca.isActual()?"checked=\"checked\"":"")%> /></label></p>
+<p class="icv-3col"><label><em>*</em>Empresa</label><input type="text" name="emp" value="<%=gradoAca.getEmpresa()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Nombre de la empresa" invalidMessage="El nombre de la empresa es requerido"/></p>  
     <p class="icv-3col">
-    <label for="idcarrera"><b>*</b>Carrera o Especialidad</label>
-
-  </p>
-  <p class="icv-3col">
-    <label for="txtInstitucion"><b>*</b>Institución</label>
-    <input type="text" name="txtInstitucion" id="txtInstitucion" maxlength="150" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese institución" value="" />
-  </p>
-  <div class="clearer">&nbsp;</div>
-</div>
-  <div class="icv-div-grupo">
-    <p class="icv-3col">
-    <label for="idsituacion"><b>*</b>Situación Académica</label>
-
-  </p>
- 
- 
-  <p class="icv-3col">
-    <label for="periodo"><b>*</b>Periodo en años</label>
-    <input type="text" name="periodo" id="periodo" maxlength="2" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese periodo en años" regExp="\d{1,2}" value=""/>
-  </p>
+        <label><em>*</em>Sector</label>
+    <select name="sctr" id="idsctr" dojoType="dijit.form.FilteringSelect" required="true">
+<%
+Iterator<Sector> sectors = Sector.ClassMgr.listSectors(wsite);
+    while(sectors.hasNext()) {
+        Sector sector = sectors.next();
+        if(sector.equals(gradoAca.getSector())) {
+            %>
+            <option value="<%=sector.getId()%>" selectted="selected"><%=sector.getDisplayTitle(lang)%></option>
+            <%
+        }else {
+            %>
+            <option value="<%=sector.getId()%>"><%=sector.getDisplayTitle(lang)%></option>
+            <%
+        }
+    }
+%>
+    </select>
+    </p>
+  <p class="icv-3col"><label><em>*</em>Fecha inicial</label><input type="text" name="fi" value="<%=sdf.format(gradoAca.getFechaIni())%>" dojoType="dijit.form.DateTextBox" required="true" constraints="{datePattern:'dd/MM/yyyy'}" maxlength="10" hasDownArrow="true"/></p>
+  <p class="icv-3col"><label>Fecha final</label><input type="text" name="ff" value="<%=sdf.format(gradoAca.getFechaFin())%>" dojoType="dijit.form.DateTextBox" required="false" constraints="{datePattern:'dd/MM/yyyy'}" maxlength="10" hasDownArrow="true"/></p>
+<p class="icv-3col"><label><em>*</em>Puesto</label><input type="text" name="crg" value="<%=gradoAca.getCargo()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Puesto ocupado" invalidMessage="El nombre del puesto es requerido"/></p>
+<p class="icv-3col"><label><em>*</em>Funciones principales</label><textarea name="mfncs" dojoType="dijit.form.Textarea" required="true" promptMessage="Funciones realizadas en el puesto ocupado" invalidMessage="Las funciones realizadas son requeridas"><%=gradoAca.getFuncionesPrincipales()%></textarea></p>
+<p class="icv-3col"><label>Nombre y puesto del jefe inmediato</label><input type="text" name="jf" value="<%=gradoAca.getJefe()%>" /></p>
+<p class="icv-3col"><label>Tel&eacute;fono (clave lada, n&uacute;mero y extensi&oacute;n)</label>
+<input type="text" name="cve" value="<%=(gradoAca.getTelefono()==null?"":(gradoAca.getTelefono().getLada()==0?"":gradoAca.getTelefono().getLada()))%>" size="3" maxlength="3" dojoType="dijit.form.ValidationTextBox" promptMessage="Clave lada" invalidMessage="Clave lada incorrecta" regExp="\d{2,3}" />&nbsp;
+<input type="text" name="tf" value="<%=(gradoAca.getTelefono()==null?"":(gradoAca.getTelefono().getNumero()==0?"":gradoAca.getTelefono().getNumero()))%>" size="8" maxlength="8" dojoType="dijit.form.ValidationTextBox" promptMessage="Numero telefonico" invalidMessage="Numero telefonico incorrecto" regExp="\d{7,8}" />&nbsp;
+<input type="text" name="ext" value="<%=(gradoAca.getTelefono()==null?"":(gradoAca.getTelefono().getExtension()==0?"":gradoAca.getTelefono().getExtension()))%>" size="5" maxlength="5" dojoType="dijit.form.ValidationTextBox" promptMessage="Extension telefonica" invalidMessage="Extension telefonica incorrecta" regExp="\d{1,5}" />
+</p>
 <div class="clearer">&nbsp;</div>
 </div>
 
