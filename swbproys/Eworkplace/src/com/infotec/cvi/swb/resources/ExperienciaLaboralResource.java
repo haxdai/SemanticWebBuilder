@@ -8,15 +8,11 @@ import com.infotec.eworkplace.swb.Telefono;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
-import org.semanticwb.model.Resource;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.portal.api.GenericResource;
@@ -31,18 +27,6 @@ import org.semanticwb.portal.api.SWBResourceURL;
  */
 public class ExperienciaLaboralResource extends GenericResource {
     private Logger log = SWBUtils.getLogger(ExperienciaLaboralResource.class);
-    private List<Sector> sectors;
-    
-
-    @Override
-    public void setResourceBase(Resource base) throws SWBResourceException {
-        super.setResourceBase(base);
-        Iterator<Sector> isectors = Sector.ClassMgr.listSectors(base.getWebSite());
-        if(isectors.hasNext())
-            sectors = SWBUtils.Collections.copyIterator(isectors);
-        else
-            sectors = new ArrayList();
-    }
 
     @Override
     public void doView(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
@@ -131,9 +115,9 @@ js.append("});\n");
         js.append("    s = s.concat('<p class=\"tercio\"><label>Trabajo actual <input type=\"checkbox\" name=\"cur\" value=\"1\"/></label></p>');\n");
         js.append("    s = s.concat('<p class=\"tercio\"><label>Empresa</label><input type=\"text\" name=\"emp\" value=\"\" dojoType=\"dijit.form.ValidationTextBox\" required=\"true\" promptMessage=\"Nombre de la empresa\" invalidMessage=\"El nombre de la empresa es requerido\"/></p>');\n");
         js.append("    s = s.concat('<p class=\"entero\"><label>Sector</label><select name=\"sctr\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\"><option value=\"\"></option>');\n");
-        for(Sector sector:sectors) {
+        /*for(Sector sector:sectors) {
             js.append("s= s.concat('<option value=\""+sector.getId()+"\">"+sector.getDisplayTitle(lang) +"</option>');\n");
-        }
+        }*/
         js.append("    s = s.concat('</select></p>');\n");
         js.append("    s = s.concat('<p class=\"tercio\"><label>Fecha inicial</label><input type=\"text\" id=\"fi_'+dateboxId+'\" name=\"fi\" value=\"\" maxlength=\"10\" style=\"width:110px;\" /></p>');\n");
         js.append("    s = s.concat('<p class=\"tercio\"><label>Fecha inicial</label><input type=\"text\" id=\"ff_'+dateboxId+'\" name=\"ff\" value=\"\" maxlength=\"10\" style=\"width:110px;\" /></p>');\n");
@@ -188,7 +172,7 @@ js.append("});\n");
             log.error("Objeto semantico cv del usuario es nulo");
         }
         
-        if (SWBResourceURL.Action_ADD.equals(action)) {
+        if(SWBResourceURL.Action_ADD.equals(action)) {
             if(!validate(request, response))
                 return;
             
@@ -234,7 +218,7 @@ js.append("});\n");
             }catch(Exception e){
                 experiencia.remove();
             }
-        }else if (SWBResourceURL.Action_EDIT.equals(action)) {
+        }else if(SWBResourceURL.Action_EDIT.equals(action)) {
             final String experienciaId = request.getParameter("id");
             ExperienciaLaboral experiencia;
             try {
@@ -291,7 +275,7 @@ js.append("});\n");
                 experiencia.remove();
             }
             response.setRenderParameter("alertmsg", "experiencia modifcada bien");
-        }else if (SWBResourceURL.Action_REMOVE.equals(action)) {
+        }else if(SWBResourceURL.Action_REMOVE.equals(action)) {
             final String experienciaId = request.getParameter("id");
             try {
                 ExperienciaLaboral experiencia = ExperienciaLaboral.ClassMgr.getExperienciaLaboral(experienciaId, wsite);
