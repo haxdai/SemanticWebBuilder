@@ -52,7 +52,6 @@ public class ExperienciaLaboralResource extends GenericResource {
             if (null != dis) {
                 try {
                     request.setAttribute("paramRequest", paramRequest);
-//                    request.setAttribute("this", this);
                     dis.include(request, response);
                 } catch (Exception e) {
                     log.error(e);
@@ -60,110 +59,6 @@ public class ExperienciaLaboralResource extends GenericResource {
                 }
             }
         }
-        /*response.setContentType("text/html; charset=UTF-8");
-        response.setHeader("Cache-Control", "no-cache");
-        response.setHeader("Pragma", "no-cache");
-        
-        User user = paramRequest.getUser();
-        if(!user.isSigned())
-            return;
-        
-        Resource base = getResourceBase();
-        WebSite wsite = base.getWebSite();
-        PrintWriter out =  response.getWriter();
-        String lang = user.getLanguage();
-        
-        //Experiencia laboral
-        CV cv = CV.ClassMgr.getCV(user.getId(), wsite);
-        if(cv==null) {
-            cv = CV.ClassMgr.createCV(user.getId(), wsite);
-            cv.setPropietario(user);
-        }
-        //if(cv!=null && user.equals(cv.getPropietario())) {
-        if(cv!=null) {
-            Locale locale = new Locale(user.getLanguage(),(user.getCountry()==null?"MX":user.getCountry()));
-            final String axn = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD).toString();
-            StringBuilder htm = new StringBuilder();
-            htm.append(script(lang));
-            if(request.getParameter("msg")!=null) {
-                htm.append("<script type=\"text/javascript\">\n");
-                htm.append("<!--\n");
-                //htm.append("alert('"+SWBUtils.XML.replaceXMLChars(request.getParameter("msg"))+"');");
-                htm.append("dojo.addOnLoad(function() {alert('"+SWBUtils.XML.replaceXMLChars(request.getParameter("msg"))+"')})\n");
-                htm.append("-->\n");
-                htm.append("</script>\n");
-            }
-            
-            
-            htm.append("<form id=\"explab_0001\" method=\"post\" dojoType=\"dijit.form.Form\" action=\""+axn+"\">");
-            htm.append("  <div class=\"contacto_externo divisor\">");
-            Iterator<ExperienciaLaboral> experiencias = cv.listExperienciaLaborals();
-            htm.append("   <ol id=\"fms\">");
-            if(experiencias.hasNext()) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", locale);
-                //SWBResourceURL rem = paramRequest.getActionUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setAction(SWBResourceURL.Action_REMOVE);
-                SWBResourceURL rem = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_REMOVE);
-                ExperienciaLaboral experiencia;
-                while(experiencias.hasNext()) {
-                    experiencia = experiencias.next();
-                    rem.setParameter("oid", experiencia.getId());
-                    htm.append("<li class=\"aaaa\">");
-                    htm.append("  <p class=\"tercio\"><label>Trabajo actual <input type=\"checkbox\" name=\"cur\" value=\"1\" "+(experiencia.isActual()?"checked=\"checked\"":"")+"/></label></p>");
-                    htm.append("  <p class=\"tercio\"><label>*Empresa</label><input type=\"text\" name=\"emp\" value=\""+experiencia.getEmpresa()+"\" dojoType=\"dijit.form.ValidationTextBox\" required=\"true\" promptMessage=\"Nombre de la empresa\" invalidMessage=\"El nombre de la empresa es requerido\"/></p>");
-                    htm.append("  <p class=\"entero\"><label>*Sector</label><select name=\"sctr\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\"><option value=\"\"></option>");
-                    for(Sector sector:sectors) {
-                        if(sector.equals(experiencia.getSector()))
-                            htm.append("<option value=\""+sector.getId()+"\" selected=\"selected\">"+sector.getDisplayTitle(lang) +"</option>");
-                        else
-                            htm.append("<option value=\""+sector.getId()+"\">"+sector.getDisplayTitle(lang) +"</option>");
-                    }
-                    htm.append("  </select><span id=\"sctr_msg\"></span></p>");
-                    htm.append("  <p class=\"tercio\"><label>*Fecha inicial</label><input type=\"text\" name=\"fi\" value=\""+sdf.format(experiencia.getFechaIni())+"\" dojoType=\"dijit.form.DateTextBox\" required=\"true\" constraints=\"{datePattern:'dd/MM/yyyy'}\" maxlength=\"10\" hasDownArrow=\"true\"/></p>");
-                    htm.append("  <p class=\"tercio\"><label>Fecha final</label><input type=\"text\" name=\"ff\" value=\""+sdf.format(experiencia.getFechaFin())+"\" dojoType=\"dijit.form.DateTextBox\" required=\"false\" constraints=\"{datePattern:'dd/MM/yyyy'}\" maxlength=\"10\" hasDownArrow=\"true\"/></p>");
-                    htm.append("  <p class=\"tercio\"><label>*Puesto</label><input type=\"text\" name=\"crg\" value=\""+experiencia.getCargo()+"\" dojoType=\"dijit.form.ValidationTextBox\" required=\"true\" promptMessage=\"Puesto ocupado\" invalidMessage=\"El nombre del puesto es requerido\"/></p>");
-                    htm.append("  <p class=\"tercio\"><label>*Funciones principales</label><textarea name=\"mfncs\" rows=\"5\" cols=\"20\" dojoType=\"dijit.form.Textarea\" required=\"true\" promptMessage=\"Funciones realizadas en el puesto ocupado\" invalidMessage=\"Las funciones realizadas son requeridas\">"+experiencia.getFuncionesPrincipales()+"</textarea><span id=\"mfncs_msg\"></span></p>");
-                    htm.append("  <p class=\"tercio\"><label>Nombre y puesto del jefe inmediato</label><input type=\"text\" name=\"jf\" value=\""+experiencia.getJefe()+"\" /></p>");
-                    if(experiencia.getTelefono()!=null)
-                        htm.append("  <p class=\"tercio\"><label>Tel&eacute;fono (clave lada, n&uacute;mero y extensi&oacute;n)</label><input type=\"text\" name=\"cve\" value=\""+(experiencia.getTelefono().getLada()==0?"":experiencia.getTelefono().getLada())+"\" size=\"3\" maxlength=\"3\" dojoType=\"dijit.form.ValidationTextBox\" promptMessage=\"Clave lada\" invalidMessage=\"Clave lada incorrecta\" regExp=\"\\d{2,3}\"/>&nbsp;<input type=\"text\" name=\"tf\" value=\""+(experiencia.getTelefono().getNumero()==0?"":experiencia.getTelefono().getNumero())+"\" size=\"8\" maxlength=\"8\" dojoType=\"dijit.form.ValidationTextBox\" promptMessage=\"Numero de extension\" invalidMessage=\"Numero de extension incorrecto\" regExp=\"\\d{7,8}\"/>&nbsp;<input type=\"text\" name=\"ext\" value=\""+(experiencia.getTelefono().getExtension()==0?"":experiencia.getTelefono().getExtension())+"\" size=\"5\" maxlength=\"5\" dojoType=\"dijit.form.ValidationTextBox\" promptMessage=\"Numero de extension\" invalidMessage=\"Numero de extension incorrecto\" regExp=\"\\d{1,5}\"/></p>");
-                    else
-                        htm.append("  <p class=\"tercio\"><label>Tel&eacute;fono (clave lada, n&uacute;mero y extensi&oacute;n)</label><input type=\"text\" name=\"cve\" value=\"\" size=\"3\" maxlength=\"3\" dojoType=\"dijit.form.ValidationTextBox\" promptMessage=\"Clave lada\" invalidMessage=\"Clave lada incorrecta\" regExp=\"\\d{2,3}\"/>&nbsp;<input type=\"text\" name=\"tf\" value=\"\" size=\"8\" maxlength=\"8\" dojoType=\"dijit.form.ValidationTextBox\" promptMessage=\"Numero de extension\" invalidMessage=\"Numero de extension incorrecto\" regExp=\"\\d{7,8}\"/>&nbsp;<input type=\"text\" name=\"ext\" value=\"\" size=\"5\" maxlength=\"5\" dojoType=\"dijit.form.ValidationTextBox\" promptMessage=\"Numero de extension\" invalidMessage=\"Numero de extension incorrecto\" regExp=\"\\d{1,5}\"/></p>");
-                    //htm.append("  <p><input type=\"button\" onclick=\"postHtml('"+rem+"','fms')\" value=\"Eliminar\" /></p>");
-                    htm.append("  <p class=\"entero\"><input type=\"button\" onclick=\"location.href='"+rem+"'\" value=\"Eliminar\" /></p>");
-                    htm.append("  <br clear=\"all\" />");
-                    htm.append("</li>");
-                }
-            }else {
-                htm.append("<li class=\"aaaa\">");
-                htm.append("  <p class=\"tercio\"><label>Trabajo actual <input type=\"checkbox\" name=\"cur\" value=\"1\"/></label></p>");
-                htm.append("  <p class=\"tercio\"><label>*Empresa</label><input type=\"text\" name=\"emp\" value=\"\" dojoType=\"dijit.form.ValidationTextBox\" required=\"true\" promptMessage=\"Nombre de la empresa\" invalidMessage=\"El nombre de la empresa es requerido\"/></p>");
-                htm.append("  <p class=\"entero\"><label>*Sector</label><select name=\"sctr\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\"><option value=\"\"></option>");
-                Iterator<Sector> sectors = Sector.ClassMgr.listSectors(wsite);
-                while(sectors.hasNext()) {
-                    Sector sector = sectors.next();
-                    htm.append("<option value=\""+sector.getId()+"\">"+sector.getDisplayTitle(lang) +"</option>");
-                }
-                htm.append("  </select></p>");
-                htm.append("  <p class=\"tercio\"><label>*Fecha inicial</label><input type=\"text\" name=\"fi\" value=\"\" dojoType=\"dijit.form.DateTextBox\" required=\"true\" constraints=\"{datePattern:'dd/MM/yyyy'}\" maxlength=\"10\" hasDownArrow=\"true\"/></p>");
-                htm.append("  <p class=\"tercio\"><label>Fecha final</label><input type=\"text\" name=\"ff\" value=\"\" dojoType=\"dijit.form.DateTextBox\" required=\"false\" constraints=\"{datePattern:'dd/MM/yyyy'}\" maxlength=\"10\" hasDownArrow=\"true\"/></p>");
-                htm.append("  <p class=\"tercio\"><label>*Puesto</label><input type=\"text\" name=\"crg\" value=\"\" dojoType=\"dijit.form.ValidationTextBox\" required=\"true\" promptMessage=\"Puesto ocupado\" invalidMessage=\"El nombre del puesto es requerido\"/></p>");
-                htm.append("  <p class=\"tercio\"><label>*Funciones principales</label><textarea name=\"mfncs\" rows=\"5\" cols=\"40\" dojoType=\"dijit.form.Textarea\" required=\"true\" promptMessage=\"Funciones realizadas en el puesto ocupado\" invalidMessage=\"Las funciones realizadas son requeridas\"></textarea></p>");
-                htm.append("  <p class=\"tercio\"><label>Nombre y puesto del jefe inmediato</label><input type=\"text\" name=\"jf\" value=\"\" /></p>");
-                htm.append("  <p class=\"tercio\"><label>Tel&eacute;fono (clave lada, n&uacute;mero y extensi&oacute;n)</label>");
-                htm.append("   <input type=\"text\" name=\"cve\" value=\"\" size=\"3\" maxlength=\"3\" />&nbsp;");
-                htm.append("   <input type=\"text\" name=\"tf\" value=\"\" size=\"8\" maxlength=\"8\" />&nbsp;");
-                htm.append("   <input type=\"text\" name=\"ext\" value=\"\" size=\"5\" maxlength=\"5\" />");
-                htm.append("  </p>");
-                htm.append("  <br clear=\"all\" />");
-                htm.append("</li>");
-            }
-            htm.append("   </ol>");
-            htm.append("   <p><a href=\"javascript:appendChild('_"+base.getId()+"_'+(idx++),'dtb_"+base.getId()+"_'+(idx++),'fms')\">Agregar</a></p>");    
-            htm.append("<p><input type=\"button\" onclick=\"validation()\" value=\"ver lista de elementos\"/></p>");
-            htm.append("  </div>");
-            htm.append("  <div class=\"guardar\"><input type=\"submit\" value=\"Guardar\" onclick=\"return this.form.validate()\"/></div>");
-            htm.append("</form>");
-            out.println(htm.toString());
-        }*/
     }
     
     private String script(final String lang) {
@@ -280,42 +175,21 @@ js.append("});\n");
     
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
-//        String id = request.getParameter("id");
-//        if (null == action) {
-//            action = "";
-//        }
-
         User user = response.getUser();
         if(!user.isSigned())
             return;
         
         final String action = response.getAction();
         WebSite wsite = response.getWebPage().getWebSite();
-//        String eventid = request.getParameter("idevent");
-//        String page = request.getParameter("page");
 
         CV cv = CV.ClassMgr.getCV(user.getId(), wsite);
         if(cv==null) {
             log.error("Objeto semantico cv del usuario es nulo");
-//            cv = CV.ClassMgr.createCV(user.getId(),wsite);
-//            cv.setPropietario(user);
         }
-             
-//        Academia aca = cv.getAcademia();
-//        if(aca==null){
-//            aca = Academia.ClassMgr.createAcademia(wsite);
-//            cv.setAcademia(aca);
-//        }
-        
         
         if (SWBResourceURL.Action_ADD.equals(action)) {
-System.out.println("emp="+request.getParameter("emp"));
-System.out.println("sctr="+request.getParameter("sctr"));
-System.out.println("fi="+request.getParameter("fi"));
-System.out.println("crg="+request.getParameter("crg"));
-System.out.println("mfncs="+request.getParameter("mfncs"));
             if(request.getParameter("emp").isEmpty() || request.getParameter("sctr")==null || request.getParameter("fi").isEmpty() || request.getParameter("crg").isEmpty() || request.getParameter("mfncs")==null) {
-                System.out.println("valores faltan");
+                response.setRenderParameter("alertmsg", "faltan datos");
                 return;
             }
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -355,15 +229,69 @@ System.out.println("mfncs="+request.getParameter("mfncs"));
                 }catch(Exception e) {
                 }
                 experiencia.setTelefono(telefono);
+                cv.addExperienciaLaboral(experiencia);
+                response.setRenderParameter("alertmsg", "experiencia agregada");
+            }catch(Exception e){
+                experiencia.remove();
+            }
+        }else if (SWBResourceURL.Action_EDIT.equals(action)) {
+            if(request.getParameter("emp").isEmpty() || request.getParameter("sctr")==null || request.getParameter("fi").isEmpty() || request.getParameter("crg").isEmpty() || request.getParameter("mfncs")==null) {
+                response.setRenderParameter("alertmsg", "faltan datos");
+                return;
+            }
+            final String semObjId = request.getParameter("id");
+            ExperienciaLaboral experiencia;
+            try {
+                experiencia = ExperienciaLaboral.ClassMgr.getExperienciaLaboral(semObjId, wsite);
+            }catch(Exception e) {
+                response.setRenderParameter("alertmsg", "experiencia no existe");
+                return;
+            }
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            experiencia.setActual(request.getParameter("cur")==null?false:true);
+            experiencia.setEmpresa(SWBUtils.XML.replaceXMLChars(request.getParameter("emp")));
+            try {
+                Sector sector = Sector.ClassMgr.getSector(request.getParameter("sctr"), wsite);
+                experiencia.setSector(sector);
+            }catch(Exception e) {
+            }
+            try {
+                experiencia.setFechaIni(sdf.parse(SWBUtils.XML.replaceXMLChars(request.getParameter("fi"))));
             }catch(Exception e){
             }
-            cv.addExperienciaLaboral(experiencia);
+            try {
+                experiencia.setFechaFin(sdf.parse(SWBUtils.XML.replaceXMLChars(request.getParameter("ff"))));
+            }catch(Exception e) {
+            }
+            experiencia.setCargo(SWBUtils.XML.replaceXMLChars(request.getParameter("crg")));
+            experiencia.setFuncionesPrincipales(SWBUtils.XML.replaceXMLChars(request.getParameter("mfncs")));
+            experiencia.setJefe(SWBUtils.XML.replaceXMLChars(request.getParameter("jf")));
+            try {
+                int num = Integer.parseInt(SWBUtils.XML.replaceXMLChars(request.getParameter("tf")));
+                Telefono telefono = Telefono.ClassMgr.createTelefono(wsite);
+                telefono.setNumero(num);
+                try {
+                    int cve = Integer.parseInt(SWBUtils.XML.replaceXMLChars(request.getParameter("cve")));
+                    telefono.setLada(cve);
+                }catch(Exception e) {
+                }
+                try {
+                    int ext = Integer.parseInt(SWBUtils.XML.replaceXMLChars(request.getParameter("ext")));
+                    telefono.setExtension(ext);
+                }catch(Exception e) {
+                }
+                experiencia.setTelefono(telefono);
+            }catch(Exception e){
+            }
+            response.setRenderParameter("alertmsg", "experiencia modifcada bien");
         }else if (SWBResourceURL.Action_REMOVE.equals(action)) {
             final String semObjId = request.getParameter("oid");
             try {
                 ExperienciaLaboral experiencia = ExperienciaLaboral.ClassMgr.getExperienciaLaboral(semObjId, wsite);
                 experiencia.remove();
+                response.setRenderParameter("alertmsg", "experiencia eliminada");
             }catch(Exception e) {
+                response.setRenderParameter("alertmsg", "experiencia no se pudo eliminar");
                 log.error(e);
             }
         }
