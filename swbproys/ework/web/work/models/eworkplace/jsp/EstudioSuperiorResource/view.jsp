@@ -10,7 +10,7 @@
 <%@page import="com.infotec.cvi.swb.SituacionAcademica"%>
 <%@page import="com.infotec.cvi.swb.Carrera"%>
 <%@page import="com.infotec.cvi.swb.Grado"%>
-<%@page import="com.infotec.cvi.swb.base.GradoBase"%>
+
 <%@page import="org.semanticwb.model.WebPage"%>
 <%@page import="com.infotec.cvi.swb.GradoAcademico"%>
 <%@page import="com.infotec.cvi.swb.Academia"%>
@@ -119,10 +119,10 @@
 
     <thead>
         <tr>
-            <th width="5%" >&nbsp;</th>
+            <th width="7%" >&nbsp;</th>
             <th width="35%" >Estudios Superiores</th>
             <th width="35%" >Periodo en Años</th>
-            <th width="25%" >% avance</th>
+            <th width="23%" >% avance</th>
         </tr>
     </thead>
 
@@ -172,9 +172,14 @@
                     SWBResourceURL urldel = paramRequest.getActionUrl();
                     urldel.setAction(SWBResourceURL.Action_REMOVE);
                     urldel.setParameter("id",ga.getId());   
+                    
+                    SWBResourceURL urledit = paramRequest.getRenderUrl();
+                    urledit.setParameter("act",SWBResourceURL.Action_EDIT);
+                    urledit.setParameter("id",ga.getId());
         %>
         <tr>
-            <td><span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">borrar</a></span></td>
+            <td><span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">borrar</a></span>
+                <span class="icv-editar"><a href="#" onclick="window.location='<%=urledit%>';">editar</a></span></td>
             <td><%=strEstudio%></td>
             <td><%=strPeriodo%></td>
             <td><%=strAvance%></td>
@@ -338,7 +343,101 @@
     <div class="centro">
     <input type="submit" name="guardar" id="guardar" value="Guardar" onclick="return enviar()"/>
 </div>
-</form>          
+</form>  
+<%
+          } else if(action.equals(SWBResourceURL.Action_EDIT)) {
+              String id = request.getParameter("id");
+              
+              String wptitle = wpage.getDisplayName(usr.getLanguage());
+              SWBResourceURL urladd = paramRequest.getActionUrl();
+              urladd.setAction(SWBResourceURL.Action_EDIT);  
+              EstudioSuperior estudioSup = EstudioSuperior.ClassMgr.getEstudioSuperior(id, wsite);
+ %>
+ <h3><%=wptitle%></h3>
+<script type="text/javascript">
+    <!--
+    dojo.require("dijit.layout.ContentPane");
+    dojo.require("dijit.form.Form");
+    dojo.require("dijit.form.ValidationTextBox");
+    dojo.require("dijit.form.Button");
+    dojo.require("dijit.form.FilteringSelect");
+
+    function enviar() {
+        var objd=dijit.byId('form2es');
+//alert(objd);
+        if(objd.validate())//isValid()&&!isEmpty('idgavance')&&!isEmpty('idestudio'))
+        {
+                return true;
+        }else {
+            alert("Datos incompletos o erroneos");
+        }
+        return false;
+    }
+    function isEmpty(objid) {
+        var obj = dojo.byId(objid);
+        if (obj==null || obj.value=='' || !isNaN(obj.value) || obj.value.charAt(0) == ' ') {
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+
+
+    -->
+</script>
+          <form id="form2es" name="form1es" method="post" dojoType="dijit.form.Form" action="<%=urladd%>">
+    <input type="hidden" name="id" value="<%=id%>" /> 
+<div class="icv-div-grupo">
+  
+    <p class="icv-3col">
+    <label for="idestudio"><b>*</b>Estudios Superiores</label>
+    <select name="idestudio" id="idestudio" dojoType="dijit.form.FilteringSelect" required="true">
+      <option value="" selected="selected">Seleccione...</option>
+<%
+    Iterator<Estudios> itestudio = Estudios.ClassMgr.listEstudioses(wsite); 
+        while (itestudio.hasNext()) {
+            Estudios estudio = itestudio.next();
+            String strSelected = "";
+            if(estudio.equals(estudioSup.getEstudiosSuperiores())) strSelected="selected";
+            %>
+            <option value="<%=estudio.getId()%>" <%=strSelected%> ><%=estudio.getDisplayTitle(usr.getLanguage())%></option>
+            <%
+        }
+%>
+    </select>
+  </p>
+
+    <p class="icv-3col">
+    <label for="idgavance"><b>*</b>Grado de avance</label>
+    <select name="idgavance" id="idgavance" dojoType="dijit.form.FilteringSelect" required="true">
+      <option value="" selected="selected">Seleccione...</option>
+<%
+    Iterator<Avance> itsit = Avance.ClassMgr.listAvances(wsite); 
+        while (itsit.hasNext()) {
+            Avance avance = itsit.next();
+            String strSelected = "";
+            if(avance.equals(estudioSup.getGradoAvance())) strSelected="selected";
+            %>
+            <option value="<%=avance.getId()%>" <%=strSelected%> ><%=avance.getDisplayTitle(usr.getLanguage())%></option>
+            <%
+        }
+%>
+    </select>
+  </p>
+ 
+ 
+  <p class="icv-3col">
+    <label for="periodo"><b>*</b>Periodo en años</label>
+    <input type="text" name="periodo" id="periodo" maxlength="2" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese periodo en años" regExp="\d{1,2}" />
+  </p>
+<div class="clearer">&nbsp;</div>
+</div>
+
+    <div class="centro">
+    <input type="submit" name="guardar" id="guardar" value="Guardar" onclick="return enviar()"/>
+</div>
+</form>  
 <%         
           }
 %>
