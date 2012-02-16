@@ -3,6 +3,8 @@ package com.infotec.cvi.swb.base;
 
 public abstract class EstudiosBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
+    public static final org.semanticwb.platform.SemanticClass intranet_AreaEstudio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#AreaEstudio");
+    public static final org.semanticwb.platform.SemanticProperty intranet_areaEstudio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#areaEstudio");
     public static final org.semanticwb.platform.SemanticClass intranet_Estudios=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Estudios");
    /**
    * The semantic class that represents the currentObject
@@ -102,6 +104,29 @@ public abstract class EstudiosBase extends com.infotec.cvi.swb.Catalogo implemen
             return it;
         }
        /**
+       * Gets all com.infotec.cvi.swb.Estudios with a determined AreaEstudio
+       * @param value AreaEstudio of the type com.infotec.cvi.swb.AreaEstudio
+       * @param model Model of the com.infotec.cvi.swb.Estudios
+       * @return Iterator with all the com.infotec.cvi.swb.Estudios
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.Estudios> listEstudiosByAreaEstudio(com.infotec.cvi.swb.AreaEstudio value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Estudios> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_areaEstudio, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.Estudios with a determined AreaEstudio
+       * @param value AreaEstudio of the type com.infotec.cvi.swb.AreaEstudio
+       * @return Iterator with all the com.infotec.cvi.swb.Estudios
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.Estudios> listEstudiosByAreaEstudio(com.infotec.cvi.swb.AreaEstudio value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Estudios> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_areaEstudio,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all com.infotec.cvi.swb.Estudios with a determined Creator
        * @param value Creator of the type org.semanticwb.model.User
        * @param model Model of the com.infotec.cvi.swb.Estudios
@@ -133,5 +158,43 @@ public abstract class EstudiosBase extends com.infotec.cvi.swb.Catalogo implemen
     public EstudiosBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+   /**
+   * Sets the value for the property AreaEstudio
+   * @param value AreaEstudio to set
+   */
+
+    public void setAreaEstudio(com.infotec.cvi.swb.AreaEstudio value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_areaEstudio, value.getSemanticObject());
+        }else
+        {
+            removeAreaEstudio();
+        }
+    }
+   /**
+   * Remove the value for AreaEstudio property
+   */
+
+    public void removeAreaEstudio()
+    {
+        getSemanticObject().removeProperty(intranet_areaEstudio);
+    }
+
+   /**
+   * Gets the AreaEstudio
+   * @return a com.infotec.cvi.swb.AreaEstudio
+   */
+    public com.infotec.cvi.swb.AreaEstudio getAreaEstudio()
+    {
+         com.infotec.cvi.swb.AreaEstudio ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_areaEstudio);
+         if(obj!=null)
+         {
+             ret=(com.infotec.cvi.swb.AreaEstudio)obj.createGenericInstance();
+         }
+         return ret;
     }
 }
