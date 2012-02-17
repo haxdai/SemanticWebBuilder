@@ -284,7 +284,7 @@
 <div class="icv-div-grupo">
   <p class="icv-4col">
     <label for="ididoma"><b>*</b>Idioma</label>
-    <select name="ididoma" id="ididoma" dojoType="dijit.form.FilteringSelect" required="true">
+    <select name="ididoma" id="ididoma" dojoType="dijit.form.FilteringSelect" required="true"  style="width: 85%;">
       <option value="" selected="selected">Seleccione...</option>
 <%
     Iterator<Language> itidioma = wsite.listLanguages();
@@ -298,8 +298,8 @@
     </select>
   </p>
     <p class="icv-4col">
-    <label for="idconversacion"><b>*</b>Conversación</label>
-    <select name="idconversacion" id="idconversacion" dojoType="dijit.form.FilteringSelect" required="true">
+    <label for="idconversacion"><b>*</b> % Conversación</label>
+    <select name="idconversacion" id="idconversacion" dojoType="dijit.form.FilteringSelect" required="true" style="width: 85%;">
       <option value="" selected="selected">Seleccione...</option>
 <%
     Iterator<Conversacion> itconv = Conversacion.ClassMgr.listConversacions(wsite); 
@@ -313,8 +313,8 @@
     </select>
   </p>
     <p class="icv-4col">
-    <label for="idlectura"><b>*</b>Lectura</label>
-    <select name="idlectura" id="idlectura" dojoType="dijit.form.FilteringSelect" required="true">
+    <label for="idlectura"><b>*</b> % Lectura</label>
+    <select name="idlectura" id="idlectura" dojoType="dijit.form.FilteringSelect" required="true" style="width: 85%;">
       <option value="" selected="selected">Seleccione...</option>
 <%
     Iterator<Lectura> itlec = Lectura.ClassMgr.listLecturas(wsite); 
@@ -328,8 +328,8 @@
     </select>
   </p>
     <p class="icv-4col">
-    <label for="idescritura"><b>*</b>Escritura</label>
-    <select name="idescritura" id="idescritura" dojoType="dijit.form.FilteringSelect" required="true">
+    <label for="idescritura"><b>*</b> % Escritura</label>
+    <select name="idescritura" id="idescritura" dojoType="dijit.form.FilteringSelect" required="true" style="width: 85%;">
       <option value="" selected="selected">Seleccione...</option>
 <%
     Iterator<Escritura> itesc = Escritura.ClassMgr.listEscrituras(wsite); 
