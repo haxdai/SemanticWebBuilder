@@ -159,16 +159,24 @@ public class UserPersonalData extends GenericAdmResource {
                             telefono.setExtension(phoneExt);
                             telefono.setTipo(phoneType);
                             persona.addTelefono(telefono);
-                        }else{
+                        }else if(!phoneId.startsWith("_")){
                             Iterator<Telefono>  itt=persona.listTelefonos();
                             while(itt.hasNext()){
                                 Telefono telefono=itt.next();
-//System.out.println("telefonoId:"+telefono.getId());
-                                if(telefono.getId().equals(phoneId)&&phoneNum>0){
-                                    telefono.setLada(phoneLada);
-                                    telefono.setNumero(phoneNum);
-                                    telefono.setExtension(phoneExt);
-                                    telefono.setTipo(phoneType);
+System.out.println("telefonoId:"+telefono.getId());
+System.out.println("phonenum:"+phoneNum);
+System.out.println("phoneId:"+phoneId);
+                                if(telefono.getId().equals(phoneId)){
+                                    if(phoneNum>0){
+System.out.println("actualizar:");
+                                        telefono.setLada(phoneLada);
+                                        telefono.setNumero(phoneNum);
+                                        telefono.setExtension(phoneExt);
+                                        telefono.setTipo(phoneType);
+                                    }else{
+System.out.println("borrar:"+phoneId);
+                                        persona.removeTelefono(telefono);
+                                    }
                                 }
                             }
                         }
