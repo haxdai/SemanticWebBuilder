@@ -50,8 +50,8 @@
     
     function enviar() {
         var objd=dijit.byId('org.semanticwb.community.User/com/create');
-        //alert(objd);
-        if(objd.isValid())
+
+        if(objd.validate())
         {
             if(isEmpty('cmnt_seccode')) {
                 alert('Para registrarte es necesario que escribas el texto de la imagen.\\nEn caso de no ser claro puedes cambiarlo haciendo clic en <<Cambiar imagen>>.');
@@ -75,7 +75,7 @@
 
     function isEmpty(objid) {
         var obj = dojo.byId(objid);
-        if (obj==null || obj.value=='' || !isNaN(obj.value) || obj.value.charAt(0) == ' ') {
+        if (obj==null || obj.value=='' || isNaN(obj.value) || obj.value.charAt(0) == ' ') {
             return true;
         }else {
             return false;
@@ -137,34 +137,37 @@
         <form id="org.semanticwb.community.User/com/create" dojoType="dijit.form.Form" class="swbform" action="<%=url%>" method="post">
             <div class="icv-div-grupo">
                 <p class="icv-3col">
-                    <label for="firstName"><%=paramRequest.getLocaleString("lblFirstName")%> <em>*</em></label>
-                    <input type="text" name="firstName" id="firstName" dojoType="dijit.form.ValidationTextBox" value="<%=firstName%>"  required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgFirstName")%>" invalidMessage="<%=paramRequest.getLocaleString("lblFirstNameFault")%>" trim="true" regExp="[a-zA-Z\u00C0-\u00FF' ]+"/>
+                    <label for="firstName"><b>*</b><%=paramRequest.getLocaleString("lblFirstName")%></label>
+                    <input type="text" name="firstName" id="firstName" dojoType="dijit.form.ValidationTextBox" value="<%=firstName%>"  required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgFirstName")%>" invalidMessage="<%=paramRequest.getLocaleString("lblFirstNameFault")%>" missingMessage="falta" trim="true" regExp="[a-zA-Z\u00C0-\u00FF' ]+"/>
                 </p>
                 <p class="icv-3col">
-                    <label for="lastName"><%=paramRequest.getLocaleString("lblLastName")%> <em>*</em></label>
-                    <input type="text" name="lastName" id="lastName" dojoType="dijit.form.ValidationTextBox" value="<%=lastName%>" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgLastName")%>" invalidMessage="<%=paramRequest.getLocaleString("lblLastNameFault")%>" trim="true" regExp="[a-zA-Z\u00C0-\u00FF' ]+"/>
+                    <label for="lastName"><b>*</b><%=paramRequest.getLocaleString("lblLastName")%></label>
+                    <input type="text" name="lastName" id="lastName" dojoType="dijit.form.ValidationTextBox" value="<%=lastName%>" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgLastName")%>" invalidMessage="<%=paramRequest.getLocaleString("lblLastNameFault")%>" missingMessage="falta" trim="true" regExp="[a-zA-Z\u00C0-\u00FF' ]+"/>
                 </p>
                 <p class="icv-3col">
                     <label for="secondLastName"><%=paramRequest.getLocaleString("lblSecondLastName")%></label>
                     <input type="text" name="secondLastName" id="secondLastName" dojoType="dijit.form.ValidationTextBox" value="<%=secondLastName%>" required="false" promptMessage="<%=paramRequest.getLocaleString("promptMsgSecondLastName")%>" trim="true" regExp="[a-zA-Z\u00C0-\u00FF' ]+"/>
                 </p>
+                <div class="clearer">&nbsp;</div>
+            </div>
+            <div class="icv-div-grupo">
                 <p class="icv-3col">
-                    <label for="birthday"><%=paramRequest.getLocaleString("lblBirthday")%></label>
+                    <label for="email"><b>*</b><%=paramRequest.getLocaleString("lblEmail")%></label>
+                    <input type="text" name="email" id="email" dojoType="dijit.form.ValidationTextBox" value="<%=email%>" maxlength="60" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgEmail")%>" invalidMessage="<%=paramRequest.getLocaleString("lblEmailFault")%>" isValid="return isValidThisEmail()"  intermediateChanges="false" trim="true"/>
+                </p>
+                <p class="icv-3col">
+                    <label for="birthday"><b>*</b><%=paramRequest.getLocaleString("lblBirthday")%></label>
                     <input type="text" name="birthday" id="birthday" dojoType="dijit.form.ValidationTextBox" value="<%=birthday%>" maxlength="14" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgBirthday")%>" invalidMessage="<%=paramRequest.getLocaleString("lblBirthdayFault")%>" regExp="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" trim="true"/>
                 </p>
                 <div class="clearer">&nbsp;</div>
             </div>
             <div class="icv-div-grupo">
                 <p class="icv-3col">
-                    <label for="email"><%=paramRequest.getLocaleString("lblEmail")%> <em>*</em></label>
-                    <input type="text" name="email" id="email" dojoType="dijit.form.ValidationTextBox" value="<%=email%>" maxlength="60" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgEmail")%>" invalidMessage="<%=paramRequest.getLocaleString("lblEmailFault")%>" isValid="return isValidThisEmail()" trim="true"/>
-                </p>
-                <p class="icv-3col">
-                    <label for="passwd"><%=paramRequest.getLocaleString("lblPassword")%> <em>*</em></label>
+                    <label for="passwd"><b>*</b><%=paramRequest.getLocaleString("lblPassword")%></label>
                     <input type="password" name="passwd" id="passwd" dojoType="dijit.form.ValidationTextBox" value="" maxlength="12" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgPassword")%>" invalidMessage="<%=paramRequest.getLocaleString("lblPasswordFault")%>" trim="true" />
                 </p>
                 <p class="icv-3col">
-                    <label for="cpasswd"><%=paramRequest.getLocaleString("lblPasswordConfirm")%> <em>*</em></label>
+                    <label for="cpasswd"><b>*</b><%=paramRequest.getLocaleString("lblPasswordConfirm")%></label>
                     <input type="password" name="cpasswd" id="cpasswd" dojoType="dijit.form.ValidationTextBox" value="" maxlength="12" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgPasswordConfirm")%>" invalidMessage="<%=paramRequest.getLocaleString("lblPasswordConfirmFault")%>" isValid="return isSamePass()" trim="true" />
                 </p>
                 <div class="clearer">&nbsp;</div>
@@ -174,8 +177,8 @@
                     <img src="<%=context%>/swbadmin/jsp/securecode.jsp?sAttr=cdlog" id="imgseccode" width="155" height="65" alt="" />
                 </p>
                 <p class="icv-3col">
-                    <label for="cmnt_seccode"><%=paramRequest.getLocaleString("lblCaptcha")%>:</label>
-                    <input type="text" name="cmnt_seccode" id="cmnt_seccode" maxlength="8" value="" />
+                    <label for="cmnt_seccode"><b>*</b><%=paramRequest.getLocaleString("lblCaptcha")%>:</label>
+                    <input type="text" name="cmnt_seccode" id="cmnt_seccode" maxlength="8" value="" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgCaptcha")%>" invalidMessage="<%=paramRequest.getLocaleString("lblCaptchaFault")%>" trim="true"/>
                 </p>
                 <p class="icv-txt">
                     <label><%=paramRequest.getLocaleString("lblTryRead")%></label><a href="#" onclick="changeSecureCodeImage('imgseccode');"><%=paramRequest.getLocaleString("lblTryAnotherText")%></a>
