@@ -264,11 +264,11 @@
     dojo.require("dijit.form.Form");
     dojo.require("dijit.form.ValidationTextBox");
     dojo.require("dijit.form.Button");
+    dojo.require("dijit.form.FilteringSelect");
 
     function enviar() {
         var objd=dijit.byId('form1id');
-//alert(objd);
-        if(objd.isValid()&&!isEmpty('ididoma')&&!isEmpty('idconversacion')&&!isEmpty('idlectura')&&!isEmpty('idescritura'))
+        if(objd.validate())
         {
                 return true;
         }else {
@@ -276,26 +276,15 @@
         }
         return false;
     }
-    function isEmpty(objid) {
-        var obj = dojo.byId(objid);
-        if (obj==null || obj.value=='' || !isNaN(obj.value) || obj.value.charAt(0) == ' ') {
-            return true;
-        }else {
-            return false;
-        }
-    }
-
-
-
     -->
 </script>
  <h3><%=wptitle%></h3>
-          <form id="form1id" name="form1id" method="post" dojoType="dijit.form.Form" action="<%=urladd%>">
+          <form id="form1id" name="form1id" method="post" action="<%=urladd%>" dojoType="dijit.form.Form">
     <!-- input type="hidden" name="" value="" / --> 
 <div class="icv-div-grupo">
-  <p class="icv-3col">
+  <p class="icv-4col">
     <label for="ididoma"><b>*</b>Idioma</label>
-    <select name="ididoma" id="ididoma">
+    <select name="ididoma" id="ididoma" dojoType="dijit.form.FilteringSelect" required="true">
       <option value="" selected="selected">Seleccione...</option>
 <%
     Iterator<Language> itidioma = wsite.listLanguages();
@@ -308,9 +297,9 @@
 %>
     </select>
   </p>
-    <p class="icv-3col">
+    <p class="icv-4col">
     <label for="idconversacion"><b>*</b>Conversación</label>
-    <select name="idconversacion" id="idconversacion">
+    <select name="idconversacion" id="idconversacion" dojoType="dijit.form.FilteringSelect" required="true">
       <option value="" selected="selected">Seleccione...</option>
 <%
     Iterator<Conversacion> itconv = Conversacion.ClassMgr.listConversacions(wsite); 
@@ -323,9 +312,9 @@
 %>
     </select>
   </p>
-    <p class="icv-3col">
+    <p class="icv-4col">
     <label for="idlectura"><b>*</b>Lectura</label>
-    <select name="idlectura" id="idlectura">
+    <select name="idlectura" id="idlectura" dojoType="dijit.form.FilteringSelect" required="true">
       <option value="" selected="selected">Seleccione...</option>
 <%
     Iterator<Lectura> itlec = Lectura.ClassMgr.listLecturas(wsite); 
@@ -338,13 +327,9 @@
 %>
     </select>
   </p>
-    <div class="clearer">&nbsp;</div>
-</div>
-  
-  <div class="icv-div-grupo">
-    <p class="icv-3col">
+    <p class="icv-4col">
     <label for="idescritura"><b>*</b>Escritura</label>
-    <select name="idescritura" id="idescritura">
+    <select name="idescritura" id="idescritura" dojoType="dijit.form.FilteringSelect" required="true">
       <option value="" selected="selected">Seleccione...</option>
 <%
     Iterator<Escritura> itesc = Escritura.ClassMgr.listEscrituras(wsite); 
@@ -380,11 +365,12 @@
     dojo.require("dijit.form.Form");
     dojo.require("dijit.form.ValidationTextBox");
     dojo.require("dijit.form.Button");
-
+    dojo.require("dijit.form.FilteringSelect");
+    
     function enviar() {
         var objd=dijit.byId('form2id');
-//alert(objd);
-        if(objd.isValid()&&!isEmpty('ididoma')&&!isEmpty('idconversacion')&&!isEmpty('idlectura')&&!isEmpty('idescritura'))
+
+        if(objd.validate())
         {
                 return true;
         }else {
@@ -392,26 +378,15 @@
         }
         return false;
     }
-    function isEmpty(objid) {
-        var obj = dojo.byId(objid);
-        if (obj==null || obj.value=='' || !isNaN(obj.value) || obj.value.charAt(0) == ' ') {
-            return true;
-        }else {
-            return false;
-        }
-    }
-
-
-
     -->
 </script>
  <h3><%=wptitle%></h3>
-          <form id="form2id" name="form1id" method="post" dojoType="dijit.form.Form" action="<%=urladd%>">
+          <form id="form2id" name="form2id" method="post"  action="<%=urladd%>" dojoType="dijit.form.Form">
     <input type="hidden" name="id" value="<%=id%>" /> 
 <div class="icv-div-grupo">
-  <p class="icv-3col">
+  <p class="icv-4col">
     <label for="ididoma"><b>*</b>Idioma</label>
-    <select name="ididoma" id="ididoma">
+    <select name="ididoma" id="ididoma" dojoType="dijit.form.FilteringSelect" required="true">
       <option value="" selected="selected">Seleccione...</option>
 <%
     Iterator<Language> itidioma = wsite.listLanguages();
@@ -426,9 +401,9 @@
 %>
     </select>
   </p>
-    <p class="icv-3col">
+    <p class="icv-4col">
     <label for="idconversacion"><b>*</b>Conversación</label>
-    <select name="idconversacion" id="idconversacion">
+    <select name="idconversacion" id="idconversacion" dojoType="dijit.form.FilteringSelect" required="true">
       <option value="" selected="selected">Seleccione...</option>
 <%
     Iterator<Conversacion> itconv = Conversacion.ClassMgr.listConversacions(wsite); 
@@ -443,9 +418,9 @@
 %>
     </select>
   </p>
-    <p class="icv-3col">
+    <p class="icv-4col">
     <label for="idlectura"><b>*</b>Lectura</label>
-    <select name="idlectura" id="idlectura">
+    <select name="idlectura" id="idlectura" dojoType="dijit.form.FilteringSelect" required="true">
       <option value="" selected="selected">Seleccione...</option>
 <%
     Iterator<Lectura> itlec = Lectura.ClassMgr.listLecturas(wsite); 
@@ -460,13 +435,9 @@
 %>
     </select>
   </p>
-    <div class="clearer">&nbsp;</div>
-</div>
-  
-  <div class="icv-div-grupo">
-    <p class="icv-3col">
+    <p class="icv-4col">
     <label for="idescritura"><b>*</b>Escritura</label>
-    <select name="idescritura" id="idescritura">
+    <select name="idescritura" id="idescritura" dojoType="dijit.form.FilteringSelect" required="true">
       <option value="" selected="selected">Seleccione...</option>
 <%
     Iterator<Escritura> itesc = Escritura.ClassMgr.listEscrituras(wsite); 

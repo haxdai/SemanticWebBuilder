@@ -271,20 +271,41 @@
               urladd.setAction("add");  
  %>         
           <h3><%=wptitle%></h3>
-          <form id="form1" name="form1" method="post" action="<%=urladd%>">
+<script type="text/javascript">
+    <!--
+    dojo.require("dijit.layout.ContentPane");
+    dojo.require("dijit.form.Form");
+    dojo.require("dijit.form.ValidationTextBox");
+    dojo.require("dijit.form.Button");
+    dojo.require("dijit.form.NumberTextBox");
+    dojo.require("dijit.form.FilteringSelect");
+
+    function enviar() {
+        var objd=dijit.byId('form1in');
+        if(objd.validate())
+        {
+                return true;
+        }else {
+            alert("Datos incompletos o erroneos");
+        }
+        return false;
+    }
+    -->
+</script>
+          <form id="form1in" name="form1in" method="post" action="<%=urladd%>" dojoType="dijit.form.Form">
     <!-- input type="hidden" name="" value="" / --> 
 <div class="icv-div-grupo">
       <p class="icv-3col">
     <label for="txtempresa"><b>*</b>Empresa o Institución</label>
-    <input type="text" name="txtempresa" id="txtempresa" maxlength="150" />
+    <input type="text" name="txtempresa" id="txtempresa" maxlength="150" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese la empresa o institución" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
   </p>
     <p class="icv-3col">
     <label for="txtareainv"><b>*</b>Area de Investigación</label>
-    <input type="text" name="txtareainv" id="txtareainv" maxlength="100" />
+    <input type="text" name="txtareainv" id="txtareainv" maxlength="100" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese el área de investigación" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
   </p>
     <p class="icv-3col">
     <label for="txtnompuesto"><b>*</b>Puesto</label>
-    <input type="text" name="txtnompuesto" id="txtnompuesto" maxlength="100" />
+    <input type="text" name="txtnompuesto" id="txtnompuesto" maxlength="100" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese el puesto" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
   </p>
   <div class="clearer">&nbsp;</div>
 </div>
@@ -292,22 +313,22 @@
   <div class="icv-div-grupo">
     <p class="icv-3col">
     <label for="numtel">Teléfono</label>
-    <input type="text" name="numtel" id="numtel" maxlength="8" />
+    <input type="text" name="numtel" id="numtel" maxlength="10" dojoType="dijit.form.ValidationTextBox" promptMessage="Ingrese el telefono" regExp="\d{7,10}" trim="true"/>
   </p>
     <p class="icv-3col">
     <label for="txtfechafin">Fecha de término (Año)</label>
-    <input type="text" name="txtfechafin" id="txtfechafin" maxlength="4" />
+    <input type="text" name="txtfechafin" id="txtfechafin" maxlength="4" dojoType="dijit.form.NumberTextBox"  promptMessage="Ingrese el año de termino" constraints="{min:1920,max:2020,pattern:'####'}"/>
   </p>
     <p class="icv-3col">
     <label for="txtnomjefe">Nombre y puesto del jefe inmediato</label>
-    <input type="text" name="txtnomjefe" id="txtnomjefe" maxlength="150" />
+    <input type="text" name="txtnomjefe" id="txtnomjefe" maxlength="150" dojoType="dijit.form.ValidationTextBox" promptMessage="Ingrese el nombre y puesto del jefe inmediato" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
   </p>
   <div class="clearer">&nbsp;</div>
 </div>
   <div class="icv-div-grupo">
   <p class="icv-3col">
     <label for="idsniconacyt">S.N.I. Conacyt</label>
-    <select name="idsniconacyt" id="idsniconacyt">
+    <select name="idsniconacyt" id="idsniconacyt" dojoType="dijit.form.FilteringSelect" required="false">
       <option selected="selected">Seleccione...</option>
 <%
     Iterator<SNIConacyt> itsni = SNIConacyt.ClassMgr.listSNIConacyts(wsite); 
@@ -325,7 +346,7 @@
 </div>
 
     <div class="centro">
-    <input type="submit" name="guardar" id="guardar" value="Guardar" />
+    <input type="submit" name="guardar" id="guardar" value="Guardar" onclick="return enviar()"/>
 </div>
 </form>    
 <%
@@ -344,11 +365,13 @@
     dojo.require("dijit.form.Form");
     dojo.require("dijit.form.ValidationTextBox");
     dojo.require("dijit.form.Button");
+    dojo.require("dijit.form.NumberTextBox");
+    dojo.require("dijit.form.FilteringSelect");
 
     function enviar() {
-        var objd=dijit.byId('form2ct');
+        var objd=dijit.byId('form2in');
 //alert(objd);
-        if(objd.isValid())
+        if(objd.validate())
         {
                 return true;
         }else {
@@ -356,34 +379,23 @@
         }
         return false;
     }
-    function isEmpty(objid) {
-        var obj = dojo.byId(objid);
-        if (obj==null || obj.value=='' || !isNaN(obj.value) || obj.value.charAt(0) == ' ') {
-            return true;
-        }else {
-            return false;
-        }
-    }
-
-
-
     -->
 </script>
           <h3><%=wptitle%></h3>
-          <form id="form2ct" name="form1" method="post" action="<%=urladd%>">
+          <form id="form2in" name="form2in" method="post" action="<%=urladd%>" dojoType="dijit.form.Form">
     <input type="hidden" name="id" value="<%=id%>" /> 
 <div class="icv-div-grupo">
       <p class="icv-3col">
     <label for="txtempresa"><b>*</b>Empresa o Institución</label>
-    <input type="text" name="txtempresa" id="txtempresa" maxlength="150" value="<%=inves.getNombreEmpresa()%>" />
+    <input type="text" name="txtempresa" id="txtempresa" maxlength="150" value="<%=inves.getNombreEmpresa()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese la empresa o institución" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
   </p>
     <p class="icv-3col">
     <label for="txtareainv"><b>*</b>Area de Investigación</label>
-    <input type="text" name="txtareainv" id="txtareainv" maxlength="100" value="<%=inves.getAreaInvestigacion()%>" />
+    <input type="text" name="txtareainv" id="txtareainv" maxlength="100" value="<%=inves.getAreaInvestigacion()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese el área de investigación" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
   </p>
     <p class="icv-3col">
     <label for="txtnompuesto"><b>*</b>Puesto</label>
-    <input type="text" name="txtnompuesto" id="txtnompuesto" maxlength="100" value="<%=inves.getNombrePuesto()%>" />
+    <input type="text" name="txtnompuesto" id="txtnompuesto" maxlength="100" value="<%=inves.getNombrePuesto()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese el puesto" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
   </p>
     <div class="clearer">&nbsp;</div>
 </div>
@@ -391,15 +403,15 @@
   <div class="icv-div-grupo">
     <p class="icv-3col">
     <label for="numtel">Teléfono</label>
-    <input type="text" name="numtel" id="numtel" maxlength="8" value="<%=inves.getNumTelefono()%>" />
+    <input type="text" name="numtel" id="numtel" maxlength="10" value="<%=inves.getNumTelefono()%>" dojoType="dijit.form.ValidationTextBox" promptMessage="Ingrese el telefono" regExp="\d{7,10}" trim="true"/>
   </p>
     <p class="icv-3col">
     <label for="txtfechafin">Fecha de término (Año)</label>
-    <input type="text" name="txtfechafin" id="txtfechafin" maxlength="4" value="<%=inves.getFechaTermino()%>" />
+    <input type="text" name="txtfechafin" id="txtfechafin" maxlength="4" value="<%=inves.getFechaTermino()%>" dojoType="dijit.form.NumberTextBox"  promptMessage="Ingrese el año de termino" constraints="{min:1920,max:2020,pattern:'####'}"/>
   </p>
     <p class="icv-3col">
     <label for="txtnomjefe">Nombre y puesto del jefe inmediato</label>
-    <input type="text" name="txtnomjefe" id="txtnomjefe" maxlength="150" value="<%=inves.getNombreJefePuesto()%>" />
+    <input type="text" name="txtnomjefe" id="txtnomjefe" maxlength="150" value="<%=inves.getNombreJefePuesto()%>" dojoType="dijit.form.ValidationTextBox" promptMessage="Ingrese el nombre y puesto del jefe inmediato" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
   </p>
     <div class="clearer">&nbsp;</div>
 </div>
@@ -407,7 +419,7 @@
   <div class="icv-div-grupo">
   <p class="icv-3col">
     <label for="idsniconacyt">S.N.I. Conacyt</label>
-    <select name="idsniconacyt" id="idsniconacyt">
+    <select name="idsniconacyt" id="idsniconacyt" dojoType="dijit.form.FilteringSelect" required="false">
       <option selected="selected">Seleccione...</option>
 <%
     Iterator<SNIConacyt> itsni = SNIConacyt.ClassMgr.listSNIConacyts(wsite); 
@@ -427,7 +439,7 @@
 </div>
 
     <div class="centro">
-    <input type="submit" name="guardar" id="guardar" value="Guardar" />
+    <input type="submit" name="guardar" id="guardar" value="Guardar" onclick="return enviar()"/>
 </div>
 </form>
 <%         

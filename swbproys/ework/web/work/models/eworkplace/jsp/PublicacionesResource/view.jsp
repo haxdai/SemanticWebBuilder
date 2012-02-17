@@ -248,27 +248,47 @@
               SWBResourceURL urladd = paramRequest.getActionUrl();
               urladd.setAction(SWBResourceURL.Action_ADD);  
  %>         
-          <h3><%=wptitle%></h3>
-          <form id="form1" name="form1" method="post" action="<%=urladd%>">
+<script type="text/javascript">
+    <!--
+    dojo.require("dijit.layout.ContentPane");
+    dojo.require("dijit.form.Form");
+    dojo.require("dijit.form.ValidationTextBox");
+    dojo.require("dijit.form.Button");
+    dojo.require("dijit.form.NumberTextBox");
+
+    function enviar() {
+        var objd=dijit.byId('form1pu');
+        if(objd.validate())
+        {
+                return true;
+        }else {
+            alert("Datos incompletos o erroneos");
+        }
+        return false;
+    }
+    -->
+</script>
+ <h3><%=wptitle%></h3>
+          <form id="form1pu" name="form1pu" method="post" action="<%=urladd%>" dojoType="dijit.form.Form">
     <!-- input type="hidden" name="" value="" / --> 
 <div class="icv-div-grupo">
   <p class="icv-3col">
     <label for="txttitulo"><b>*</b>Título</label>
-    <input type="text" name="txttitulo" id="txttitulo" maxlength="100" />
+    <input type="text" name="txttitulo" id="txttitulo" maxlength="100"  dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese el título de la publicación" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
   </p>
         <p class="icv-3col">
     <label for="txtpublicado"><b>*</b>Publicado en</label>
-    <input type="text" name="txtpublicado" id="txtpublicado" maxlength="100" />
+    <input type="text" name="txtpublicado" id="txtpublicado" maxlength="100"  dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese el nombre de la publicación" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
   </p>
   <p class="icv-3col">
     <label for="intfecha"><b>*</b>Año</label>
-    <input type="text" name="intfecha" id="intfecha" maxlength="4" />
+    <input type="text" name="intfecha" id="intfecha" maxlength="4" dojoType="dijit.form.NumberTextBox" required="true" promptMessage="Ingrese el año de la publicación" constraints="{min:1920,max:2020,pattern:'####'}"/>
   </p>
 <div class="clearer">&nbsp;</div>
 </div>
 
     <div class="centro">
-    <input type="submit" name="guardar" id="guardar" value="Guardar" />
+    <input type="submit" name="guardar" id="guardar" value="Guardar" onclick="return enviar()"/>
 </div>
 </form>   
           <%
@@ -288,11 +308,11 @@
     dojo.require("dijit.form.Form");
     dojo.require("dijit.form.ValidationTextBox");
     dojo.require("dijit.form.Button");
+    dojo.require("dijit.form.NumberTextBox");
 
     function enviar() {
-        var objd=dijit.byId('form2ct');
-//alert(objd);
-        if(objd.isValid())
+        var objd=dijit.byId('form2pu');
+        if(objd.validate())
         {
                 return true;
         }else {
@@ -300,40 +320,29 @@
         }
         return false;
     }
-    function isEmpty(objid) {
-        var obj = dojo.byId(objid);
-        if (obj==null || obj.value=='' || !isNaN(obj.value) || obj.value.charAt(0) == ' ') {
-            return true;
-        }else {
-            return false;
-        }
-    }
-
-
-
     -->
 </script>
           <h3><%=wptitle%></h3>
-          <form id="form2ct" name="form1" method="post" action="<%=urladd%>">
+          <form id="form2pu" name="form2pu" method="post" action="<%=urladd%>" dojoType="dijit.form.Form">
         <input type="hidden" name="id" value="<%=id%>" /> 
 <div class="icv-div-grupo">
   <p class="icv-3col">
     <label for="txttitulo"><b>*</b>Título</label>
-    <input type="text" name="txttitulo" id="txttitulo" maxlength="100" value="<%=publi.getTitle()%>" />
+    <input type="text" name="txttitulo" id="txttitulo" maxlength="100" value="<%=publi.getTitle()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese el título de la publicación" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
   </p>
         <p class="icv-3col">
     <label for="txtpublicado"><b>*</b>Publicado en</label>
-    <input type="text" name="txtpublicado" id="txtpublicado" maxlength="100" value="<%=publi.getPublicado()%>" />
+    <input type="text" name="txtpublicado" id="txtpublicado" maxlength="100" value="<%=publi.getPublicado()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese el nombre de la publicación" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
   </p>
   <p class="icv-3col">
     <label for="intfecha"><b>*</b>Año</label>
-    <input type="text" name="intfecha" id="intfecha" maxlength="4" value="<%=publi.getFechapublicado()%>"/>
+    <input type="text" name="intfecha" id="intfecha" maxlength="4" value="<%=publi.getFechapublicado()%>" dojoType="dijit.form.NumberTextBox" required="true" promptMessage="Ingrese el año de la publicación" constraints="{min:1920,max:2020,pattern:'####'}"/>
   </p>
 <div class="clearer">&nbsp;</div>
 </div>
 
     <div class="centro">
-    <input type="submit" name="guardar" id="guardar" value="Guardar" />
+    <input type="submit" name="guardar" id="guardar" value="Guardar" onclick="return enviar()"/>
 </div>
 </form>
 <%         
