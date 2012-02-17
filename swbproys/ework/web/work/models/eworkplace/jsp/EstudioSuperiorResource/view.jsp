@@ -296,7 +296,7 @@
 
     -->
 </script>
-          <form id="form1es" name="form1es" method="post" dojoType="dijit.form.Form" action="<%=urladd%>">
+          <form id="form1es" name="form1es" method="post"  action="<%=urladd%>" dojoType="dijit.form.Form">
     <!-- input type="hidden" name="" value="" / --> 
 <div class="icv-div-grupo">
   
@@ -386,7 +386,7 @@
 
     -->
 </script>
-          <form id="form2es" name="form1es" method="post" dojoType="dijit.form.Form" action="<%=urladd%>">
+          <form id="form2es" name="form2es" method="post" action="<%=urladd%>"  dojoType="dijit.form.Form">
     <input type="hidden" name="id" value="<%=id%>" /> 
 <div class="icv-div-grupo">
   
@@ -429,7 +429,7 @@
  
   <p class="icv-3col">
     <label for="periodo"><b>*</b>Periodo en años</label>
-    <input type="text" name="periodo" id="periodo" maxlength="2" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese periodo en años" regExp="\d{1,2}" />
+    <input type="text" name="periodo" id="periodo" maxlength="2" value="<%=estudioSup.getPeriodoYears()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese periodo en años" regExp="\d{1,2}" />
   </p>
 <div class="clearer">&nbsp;</div>
 </div>

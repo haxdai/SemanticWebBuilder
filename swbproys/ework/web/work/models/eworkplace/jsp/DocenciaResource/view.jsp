@@ -255,22 +255,43 @@
               SWBResourceURL urladd = paramRequest.getActionUrl();
               urladd.setAction(SWBResourceURL.Action_EDIT);  
  %>         
-          <h3><%=wptitle%></h3>
-          <form id="form1" name="form1" method="post" action="<%=urladd%>">
+<script type="text/javascript">
+    <!--
+    dojo.require("dijit.layout.ContentPane");
+    dojo.require("dijit.form.Form");
+    dojo.require("dijit.form.ValidationTextBox");
+    dojo.require("dijit.form.Button");
+    dojo.require("dijit.form.NumberTextBox");
+    dojo.require("dijit.form.FilteringSelect");
+
+    function enviar() {
+        var objd=dijit.byId('form1do');
+        if(objd.validate())
+        {
+                return true;
+        }else {
+            alert("Datos incompletos o erroneos");
+        }
+        return false;
+    }
+    -->
+</script>
+ <h3><%=wptitle%></h3>
+          <form id="form1do" name="form1do" method="post" action="<%=urladd%>" dojoType="dijit.form.Form">
     <!-- input type="hidden" name="" value="" / --> 
 <div class="icv-div-grupo">
   <p class="icv-3col">
     <label for="txtasignatura"><b>*</b>Asignatura</label>
-    <input type="text" name="txtasignatura" id="txtasignatura" maxlength="150" />
+    <input type="text" name="txtasignatura" id="txtasignatura" maxlength="150" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese la asignatura" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
   </p>
         <p class="icv-3col">
     <label for="txtinstitucion"><b>*</b>Institución</label>
-    <input type="text" name="txtinstitucion" id="txtinstitucion" maxlength="150" />
+    <input type="text" name="txtinstitucion" id="txtinstitucion" maxlength="150" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese la institución" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
   </p>
   
     <p class="icv-3col">
     <label for="idnivel">Nivel</label>
-    <select name="idnivel" id="idnivel">
+    <select name="idnivel" id="idnivel" dojoType="dijit.form.FilteringSelect" required="false">
       <option selected="selected">Seleccione...</option>
 <%
     Iterator<NivelDocencia> itsni = NivelDocencia.ClassMgr.listNivelDocencias(wsite); 
@@ -288,13 +309,13 @@
     <div class="icv-div-grupo">
   <p class="icv-3col">
     <label for="intyears"><b>*</b>Años</label>
-    <input type="text" name="intyears" id="intyears" maxlength="4" />
+    <input type="text" name="intyears" id="intyears" maxlength="2" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese lapso en años" regExp="\d{1,2}"/>
   </p>
 <div class="clearer">&nbsp;</div>
 </div>
 
     <div class="centro">
-    <input type="submit" name="guardar" id="guardar" value="Guardar" />
+    <input type="submit" name="guardar" id="guardar" value="Guardar" onclick="return enviar()"/>
 </div>
 </form> 
 <%
@@ -313,11 +334,12 @@
     dojo.require("dijit.form.Form");
     dojo.require("dijit.form.ValidationTextBox");
     dojo.require("dijit.form.Button");
+    dojo.require("dijit.form.NumberTextBox");
+    dojo.require("dijit.form.FilteringSelect");
 
     function enviar() {
-        var objd=dijit.byId('form2ct');
-//alert(objd);
-        if(objd.isValid())
+        var objd=dijit.byId('form2do');
+        if(objd.validate())
         {
                 return true;
         }else {
@@ -325,35 +347,24 @@
         }
         return false;
     }
-    function isEmpty(objid) {
-        var obj = dojo.byId(objid);
-        if (obj==null || obj.value=='' || !isNaN(obj.value) || obj.value.charAt(0) == ' ') {
-            return true;
-        }else {
-            return false;
-        }
-    }
-
-
-
     -->
 </script>
           <h3><%=wptitle%></h3>
-          <form id="form2ct" name="form1" method="post" action="<%=urladd%>">
+          <form id="form2do" name="form2do" method="post" action="<%=urladd%>" dojoType="dijit.form.Form">
     <input type="hidden" name="id" value="<%=id%>" /> 
 <div class="icv-div-grupo">
   <p class="icv-3col">
     <label for="txtasignatura"><b>*</b>Asignatura</label>
-    <input type="text" name="txtasignatura" id="txtasignatura" maxlength="150" value="<%=docencia.getAsignatura()%>" />
+    <input type="text" name="txtasignatura" id="txtasignatura" maxlength="150" value="<%=docencia.getAsignatura()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese la asignatura" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
   </p>
         <p class="icv-3col">
     <label for="txtinstitucion"><b>*</b>Institución</label>
-    <input type="text" name="txtinstitucion" id="txtinstitucion" maxlength="150" value="<%=docencia.getInstitucion()%>" />
+    <input type="text" name="txtinstitucion" id="txtinstitucion" maxlength="150" value="<%=docencia.getInstitucion()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese la institución" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
   </p>
   
     <p class="icv-3col">
     <label for="idnivel">Nivel</label>
-    <select name="idnivel" id="idnivel">
+    <select name="idnivel" id="idnivel" dojoType="dijit.form.FilteringSelect" required="false">
       <option selected="selected">Seleccione...</option>
 <%
     Iterator<NivelDocencia> itsni = NivelDocencia.ClassMgr.listNivelDocencias(wsite); 
@@ -370,13 +381,13 @@
   </p>
   <p class="icv-3col">
     <label for="intyears"><b>*</b>Años</label>
-    <input type="text" name="intyears" id="intyears" maxlength="4" value="<%=docencia.getAniosDocencia()%>" />
+    <input type="text" name="intyears" id="intyears" maxlength="" value="<%=docencia.getAniosDocencia()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese lapso en años" regExp="\d{1,2}"/>
   </p>
 <div class="clearer">&nbsp;</div>
 </div>
 
     <div class="centro">
-    <input type="submit" name="guardar" id="guardar" value="Guardar" />
+    <input type="submit" name="guardar" id="guardar" value="Guardar" onclick="return enviar()"/>
 </div>
 </form>  
 <%         

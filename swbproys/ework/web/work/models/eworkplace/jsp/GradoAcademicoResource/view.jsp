@@ -280,11 +280,8 @@
 
     function enviar() {
         var objd=dijit.byId('form1ga');
-//alert(objd);
-        if(objd.validate())//.isValid()&&
-           // !isEmpty('idgrado')&&
-           // !isEmpty('idcarrera')&&
-           // !isEmpty('idsituacion'))
+
+        if(objd.validate())
         {
                 return true;
         }else {
@@ -292,21 +289,10 @@
         }
         return false;
     }
-    function isEmpty(objid) {
-        var obj = dojo.byId(objid);
-        if (obj==null || obj.value=='' || isNaN(obj.value) || obj.value.charAt(0) == ' ') {
-            return true;
-        }else {
-            return false;
-        }
-    }
-
-
-
     -->
 </script>
 
-          <form id="form1ga" name="form1ga" method="post" dojoType="dijit.form.Form" action="<%=urladd%>">
+          <form id="form1ga" name="form1ga" method="post" action="<%=urladd%>" dojoType="dijit.form.Form" >
     <!-- input type="hidden" name="" value="" / --> 
 <div class="icv-div-grupo">
   <p class="icv-3col">
@@ -391,11 +377,7 @@
 
     function enviar() {
         var objd=dijit.byId('form2ga');
-//alert(objd);
-        if(objd.validate())//.isValid()&&
-           // !isEmpty('idgrado')&&
-           // !isEmpty('idcarrera')&&
-           // !isEmpty('idsituacion'))
+        if(objd.validate())
         {
                 return true;
         }else {
@@ -403,21 +385,10 @@
         }
         return false;
     }
-    function isEmpty(objid) {
-        var obj = dojo.byId(objid);
-        if (obj==null || obj.value=='' || isNaN(obj.value) || obj.value.charAt(0) == ' ') {
-            return true;
-        }else {
-            return false;
-        }
-    }
-
-
-
     -->
 </script>
 
-          <form id="form2ga" name="form1ga" method="post" dojoType="dijit.form.Form" action="<%=urladd%>">
+          <form id="form2ga" name="form1ga" method="post" action="<%=urladd%>" dojoType="dijit.form.Form" >
     <input type="hidden" name="id" value="<%=id%>" /> 
 <div class="icv-div-grupo">
   <p class="icv-3col">
@@ -456,7 +427,7 @@
   </p>
   <p class="icv-3col">
     <label for="txtInstitucion"><b>*</b>Institución</label>
-    <input type="text" name="txtInstitucion" id="txtInstitucion" maxlength="150" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese institución" value="<%=gradoAca.getNombreInstitucion()%>" />
+    <input type="text" name="txtInstitucion" id="txtInstitucion" maxlength="150" value="<%=gradoAca.getNombreInstitucion()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese institución"  />
   </p>
   <div class="clearer">&nbsp;</div>
 </div>
@@ -482,7 +453,7 @@
  
   <p class="icv-3col">
     <label for="periodo"><b>*</b>Periodo en años</label>
-    <input type="text" name="periodo" id="periodo" maxlength="2" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese periodo en años" regExp="\d{1,2}" value="<%=gradoAca.getPeriodoYears()%>"/>
+    <input type="text" name="periodo" id="periodo" maxlength="2" value="<%=gradoAca.getPeriodoYears()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese periodo en años" regExp="\d{1,2}" />
   </p>
 <div class="clearer">&nbsp;</div>
 </div>

@@ -271,11 +271,18 @@
     dojo.require("dijit.form.Form");
     dojo.require("dijit.form.ValidationTextBox");
     dojo.require("dijit.form.Button");
+    dojo.require("dijit.form.NumberTextBox");
+
+    //var objff=dijit.byId('fechafin');
+   // dojo.mixin(objff.constraints, {min: dijit.byId("fechaini").attr("value")});
 
     function enviar() {
         var objd=dijit.byId('form1ct');
-//alert(objd);
-        if(objd.isValid())
+
+    //var objff=dijit.byId('fechafin');
+    //dojo.mixin(objff.constraints, {min: dijit.byId("fechaini").attr("value")});
+
+        if(objd.validate())
         {
                 return true;
         }else {
@@ -283,17 +290,6 @@
         }
         return false;
     }
-    function isEmpty(objid) {
-        var obj = dojo.byId(objid);
-        if (obj==null || obj.value=='' || !isNaN(obj.value) || obj.value.charAt(0) == ' ') {
-            return true;
-        }else {
-            return false;
-        }
-    }
-
-
-
     -->
 </script>
  <h3><%=wptitle%></h3>
@@ -303,26 +299,26 @@
 
   <p class="icv-3col">
     <label for="nomcurso"><b>*</b>Nombre del curso</label>
-    <input type="text" name="nomcurso" id="nomcurso" maxlength="100" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese nombre del curso" invalidMessage="invaldo"/>
+    <input type="text" name="nomcurso" id="nomcurso" maxlength="100" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese nombre del curso" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
   </p>
   <p class="icv-3col">
     <label for="nominstitucion"><b>*</b>Institución</label>
-    <input type="text" name="nominstitucion" id="nominstitucion" maxlength="150" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese la institucion" invalidMessage="invaldo" />
+    <input type="text" name="nominstitucion" id="nominstitucion" maxlength="150" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese la institucion" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+" />
   </p> 
   <p class="icv-3col">
     <label for="fechaini"><b>*</b>Pediodo de (Año)</label>
-    <input type="text" name="fechaini" id="fechaini" maxlength="4" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese el año de inicio del curso" invalidMessage="invaldo"/>
+    <input type="text" name="fechaini" id="fechaini" maxlength="4" dojoType="dijit.form.NumberTextBox" required="true" promptMessage="Ingrese el año de inicio del curso" constraints="{min:1920,max:2020,pattern:'####'}"/>
   </p>
   <div class="clearer">&nbsp;</div>
   </div>
   <div class="icv-div-grupo">
   <p class="icv-3col">
     <label for="fechafin"><b>*</b>Periodo a (Año)</label>
-    <input type="text" name="fechafin" id="fechafin" maxlength="4" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese el año de fin del curso" invalidMessage="invaldo"/>
+    <input type="text" name="fechafin" id="fechafin" maxlength="4" dojoType="dijit.form.NumberTextBox" required="true" promptMessage="Ingrese el año de fin del curso" constraints="{min:1920,max:2020,pattern:'####'}"/>
   </p>
   <p class="icv-3col">
     <label for="docobtenido"><b>*</b>Documento obtenido</label>
-    <input type="text" name="docobtenido" id="docobtenido" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese documento obtenido" invalidMessage="invaldo"/>
+    <input type="text" name="docobtenido" id="docobtenido" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese documento obtenido" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
   </p>
 <div class="clearer">&nbsp;</div>
 </div>
@@ -330,7 +326,7 @@
     <div class="centro">
     <input type="submit" name="guardar" id="guardar" value="Guardar" onclick="return enviar()"/>
 </div>
-</form>          
+</form>
 <%         
           } else if(action.equals(SWBResourceURL.Action_EDIT)) {
               String id = request.getParameter("id");
@@ -347,11 +343,12 @@
     dojo.require("dijit.form.Form");
     dojo.require("dijit.form.ValidationTextBox");
     dojo.require("dijit.form.Button");
+    dojo.require("dijit.form.NumberTextBox");
 
     function enviar() {
         var objd=dijit.byId('form2ct');
-//alert(objd);
-        if(objd.isValid())
+
+        if(objd.validate())
         {
                 return true;
         }else {
@@ -359,52 +356,41 @@
         }
         return false;
     }
-    function isEmpty(objid) {
-        var obj = dojo.byId(objid);
-        if (obj==null || obj.value=='' || !isNaN(obj.value) || obj.value.charAt(0) == ' ') {
-            return true;
-        }else {
-            return false;
-        }
-    }
-
-
-
     -->
 </script>
 <h3><%=wptitle%></h3>
-          <form id="form2ct" name="form1" method="post" action="<%=urladd%>">
+          <form id="form2ct" name="form2ct" method="post" action="<%=urladd%>">
               <input type="hidden" name="id" value="<%=id%>" /> 
 <div class="icv-div-grupo">
 
   <p class="icv-3col">
     <label for="nomcurso"><b>*</b>Nombre del curso</label>
-    <input type="text" name="nomcurso" id="nomcurso" maxlength="100" value="<%=ctic.getTitle()%>"/>
+    <input type="text" name="nomcurso" id="nomcurso" maxlength="100" value="<%=ctic.getTitle()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese nombre del curso" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
   </p>
   <p class="icv-3col">
     <label for="nominstitucion"><b>*</b>Institución</label>
-    <input type="text" name="nominstitucion" id="nominstitucion" maxlength="150" value="<%=ctic.getNombreInstitucion()%>" />
+    <input type="text" name="nominstitucion" id="nominstitucion" maxlength="150" value="<%=ctic.getNombreInstitucion()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese la institucion" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
   </p> 
   <p class="icv-3col">
     <label for="fechaini"><b>*</b>Pediodo de (Año)</label>
-    <input type="text" name="fechaini" id="fechaini" maxlength="4" value="<%=ctic.getInicio()%>" />
+    <input type="text" name="fechaini" id="fechaini" maxlength="4" value="<%=ctic.getInicio()%>" dojoType="dijit.form.NumberTextBox" required="true" promptMessage="Ingrese el año de inicio del curso" constraints="{min:1920,max:2020,pattern:'####'}"/>
   </p>
     <div class="clearer">&nbsp;</div>
   </div>
   <div class="icv-div-grupo">
   <p class="icv-3col">
     <label for="fechafin"><b>*</b>Periodo a (Año)</label>
-    <input type="text" name="fechafin" id="fechafin" maxlength="4" value="<%=ctic.getFin()%>" />
+    <input type="text" name="fechafin" id="fechafin" maxlength="4" value="<%=ctic.getFin()%>" dojoType="dijit.form.NumberTextBox" required="true" promptMessage="Ingrese el año de fin del curso" constraints="{min:1920,max:2020,pattern:'####'}"/>
   </p>
   <p class="icv-3col">
     <label for="docobtenido"><b>*</b>Documento obtenido</label>
-    <input type="text" name="docobtenido" id="docobtenido" value="<%=ctic.getDocumentoObtenido()%>" />
+    <input type="text" name="docobtenido" id="docobtenido" value="<%=ctic.getDocumentoObtenido()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese documento obtenido" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
   </p>
 <div class="clearer">&nbsp;</div>
 </div>
 
     <div class="centro">
-    <input type="submit" name="guardar" id="guardar" value="Guardar" />
+    <input type="submit" name="guardar" id="guardar" value="Guardar" onclick="return enviar()"/>
 </div>
 </form>          
 <%         
