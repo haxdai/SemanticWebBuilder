@@ -3,8 +3,8 @@ package com.infotec.cvi.swb.base;
 
 public abstract class AreaTalentoBase extends com.infotec.cvi.swb.ExperienciaProfesional implements org.semanticwb.model.Traceable
 {
-    public static final org.semanticwb.platform.SemanticProperty intranet_areaTalento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#areaTalento");
     public static final org.semanticwb.platform.SemanticProperty intranet_areaDestrezaTI=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#areaDestrezaTI");
+    public static final org.semanticwb.platform.SemanticProperty intranet_areaTalento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#areaTalento");
     public static final org.semanticwb.platform.SemanticProperty intranet_yearExperienceTalento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#yearExperienceTalento");
     public static final org.semanticwb.platform.SemanticProperty intranet_yearExpirienceTI=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#yearExpirienceTI");
     public static final org.semanticwb.platform.SemanticClass intranet_AreaTalento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#AreaTalento");
@@ -140,24 +140,6 @@ public abstract class AreaTalentoBase extends com.infotec.cvi.swb.ExperienciaPro
     }
 
 /**
-* Gets the AreaTalento property
-* @return String with the AreaTalento
-*/
-    public String getAreaTalento()
-    {
-        return getSemanticObject().getProperty(intranet_areaTalento);
-    }
-
-/**
-* Sets the AreaTalento property
-* @param value long with the AreaTalento
-*/
-    public void setAreaTalento(String value)
-    {
-        getSemanticObject().setProperty(intranet_areaTalento, value);
-    }
-
-/**
 * Gets the AreaDestrezaTI property
 * @return String with the AreaDestrezaTI
 */
@@ -173,6 +155,24 @@ public abstract class AreaTalentoBase extends com.infotec.cvi.swb.ExperienciaPro
     public void setAreaDestrezaTI(String value)
     {
         getSemanticObject().setProperty(intranet_areaDestrezaTI, value);
+    }
+
+/**
+* Gets the AreaTalento property
+* @return String with the AreaTalento
+*/
+    public String getAreaTalento()
+    {
+        return getSemanticObject().getProperty(intranet_areaTalento);
+    }
+
+/**
+* Sets the AreaTalento property
+* @param value long with the AreaTalento
+*/
+    public void setAreaTalento(String value)
+    {
+        getSemanticObject().setProperty(intranet_areaTalento, value);
     }
 
 /**

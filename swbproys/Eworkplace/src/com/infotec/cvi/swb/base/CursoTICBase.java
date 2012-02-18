@@ -1,7 +1,7 @@
 package com.infotec.cvi.swb.base;
 
 
-public abstract class CursoTICBase extends org.semanticwb.model.SWBClass implements com.infotec.cvi.swb.Institucion,com.infotec.cvi.swb.Curso,org.semanticwb.model.Descriptiveable
+public abstract class CursoTICBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,com.infotec.cvi.swb.Curso,com.infotec.cvi.swb.Institucion
 {
     public static final org.semanticwb.platform.SemanticClass intranet_CursoTIC=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#CursoTIC");
    /**
@@ -90,24 +90,6 @@ public abstract class CursoTICBase extends org.semanticwb.model.SWBClass impleme
     }
 
 /**
-* Gets the Fin property
-* @return int with the Fin
-*/
-    public int getFin()
-    {
-        return getSemanticObject().getIntProperty(intranet_fin);
-    }
-
-/**
-* Sets the Fin property
-* @param value long with the Fin
-*/
-    public void setFin(int value)
-    {
-        getSemanticObject().setIntProperty(intranet_fin, value);
-    }
-
-/**
 * Gets the DocumentoObtenido property
 * @return String with the DocumentoObtenido
 */
@@ -123,39 +105,6 @@ public abstract class CursoTICBase extends org.semanticwb.model.SWBClass impleme
     public void setDocumentoObtenido(String value)
     {
         getSemanticObject().setProperty(intranet_documentoObtenido, value);
-    }
-
-/**
-* Gets the Title property
-* @return String with the Title
-*/
-    public String getTitle()
-    {
-        return getSemanticObject().getProperty(swb_title);
-    }
-
-/**
-* Sets the Title property
-* @param value long with the Title
-*/
-    public void setTitle(String value)
-    {
-        getSemanticObject().setProperty(swb_title, value);
-    }
-
-    public String getTitle(String lang)
-    {
-        return getSemanticObject().getProperty(swb_title, null, lang);
-    }
-
-    public String getDisplayTitle(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_title, lang);
-    }
-
-    public void setTitle(String title, String lang)
-    {
-        getSemanticObject().setProperty(swb_title, title, lang);
     }
 
 /**
@@ -207,6 +156,57 @@ public abstract class CursoTICBase extends org.semanticwb.model.SWBClass impleme
     public void setNombreInstitucion(String value)
     {
         getSemanticObject().setProperty(intranet_nombreInstitucion, value);
+    }
+
+/**
+* Gets the Fin property
+* @return int with the Fin
+*/
+    public int getFin()
+    {
+        return getSemanticObject().getIntProperty(intranet_fin);
+    }
+
+/**
+* Sets the Fin property
+* @param value long with the Fin
+*/
+    public void setFin(int value)
+    {
+        getSemanticObject().setIntProperty(intranet_fin, value);
+    }
+
+/**
+* Gets the Title property
+* @return String with the Title
+*/
+    public String getTitle()
+    {
+        return getSemanticObject().getProperty(swb_title);
+    }
+
+/**
+* Sets the Title property
+* @param value long with the Title
+*/
+    public void setTitle(String value)
+    {
+        getSemanticObject().setProperty(swb_title, value);
+    }
+
+    public String getTitle(String lang)
+    {
+        return getSemanticObject().getProperty(swb_title, null, lang);
+    }
+
+    public String getDisplayTitle(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_title, lang);
+    }
+
+    public void setTitle(String title, String lang)
+    {
+        getSemanticObject().setProperty(swb_title, title, lang);
     }
 
 /**
