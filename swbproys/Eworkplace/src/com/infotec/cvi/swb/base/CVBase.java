@@ -9,8 +9,6 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
     public static final org.semanticwb.platform.SemanticProperty intranet_hasInvestigacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasInvestigacion");
     public static final org.semanticwb.platform.SemanticClass intranet_Academia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Academia");
     public static final org.semanticwb.platform.SemanticProperty intranet_academia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#academia");
-    public static final org.semanticwb.platform.SemanticClass intranet_Competencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Competencia");
-    public static final org.semanticwb.platform.SemanticProperty intranet_competencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#competencia");
     public static final org.semanticwb.platform.SemanticProperty intranet_actualizacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#actualizacion");
     public static final org.semanticwb.platform.SemanticClass intranet_Docencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Docencia");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasDocencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasDocencia");
@@ -22,6 +20,8 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
     public static final org.semanticwb.platform.SemanticProperty intranet_hasIdioma=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasIdioma");
     public static final org.semanticwb.platform.SemanticClass intranet_AreaTalento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#AreaTalento");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasAreaTalento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasAreaTalento");
+    public static final org.semanticwb.platform.SemanticClass intranet_Competencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Competencia");
+    public static final org.semanticwb.platform.SemanticProperty intranet_hasCompetencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasCompetencia");
     public static final org.semanticwb.platform.SemanticClass intranet_DocumentoProbatorio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#DocumentoProbatorio");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasDocumentoProbatorio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasDocumentoProbatorio");
     public static final org.semanticwb.platform.SemanticClass intranet_ExperienciaLaboral=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#ExperienciaLaboral");
@@ -203,29 +203,6 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
             return it;
         }
        /**
-       * Gets all com.infotec.cvi.swb.CV with a determined Competencia
-       * @param value Competencia of the type com.infotec.cvi.swb.Competencia
-       * @param model Model of the com.infotec.cvi.swb.CV
-       * @return Iterator with all the com.infotec.cvi.swb.CV
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.CV> listCVByCompetencia(com.infotec.cvi.swb.Competencia value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.CV> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_competencia, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.cvi.swb.CV with a determined Competencia
-       * @param value Competencia of the type com.infotec.cvi.swb.Competencia
-       * @return Iterator with all the com.infotec.cvi.swb.CV
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.CV> listCVByCompetencia(com.infotec.cvi.swb.Competencia value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.CV> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_competencia,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all com.infotec.cvi.swb.CV with a determined Docencia
        * @param value Docencia of the type com.infotec.cvi.swb.Docencia
        * @param model Model of the com.infotec.cvi.swb.CV
@@ -338,6 +315,29 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
         public static java.util.Iterator<com.infotec.cvi.swb.CV> listCVByAreaTalento(com.infotec.cvi.swb.AreaTalento value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.CV> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasAreaTalento,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.CV with a determined Competencia
+       * @param value Competencia of the type com.infotec.cvi.swb.Competencia
+       * @param model Model of the com.infotec.cvi.swb.CV
+       * @return Iterator with all the com.infotec.cvi.swb.CV
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.CV> listCVByCompetencia(com.infotec.cvi.swb.Competencia value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.CV> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasCompetencia, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.CV with a determined Competencia
+       * @param value Competencia of the type com.infotec.cvi.swb.Competencia
+       * @return Iterator with all the com.infotec.cvi.swb.CV
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.CV> listCVByCompetencia(com.infotec.cvi.swb.Competencia value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.CV> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasCompetencia,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -694,44 +694,6 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
          }
          return ret;
     }
-   /**
-   * Sets the value for the property Competencia
-   * @param value Competencia to set
-   */
-
-    public void setCompetencia(com.infotec.cvi.swb.Competencia value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(intranet_competencia, value.getSemanticObject());
-        }else
-        {
-            removeCompetencia();
-        }
-    }
-   /**
-   * Remove the value for Competencia property
-   */
-
-    public void removeCompetencia()
-    {
-        getSemanticObject().removeProperty(intranet_competencia);
-    }
-
-   /**
-   * Gets the Competencia
-   * @return a com.infotec.cvi.swb.Competencia
-   */
-    public com.infotec.cvi.swb.Competencia getCompetencia()
-    {
-         com.infotec.cvi.swb.Competencia ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_competencia);
-         if(obj!=null)
-         {
-             ret=(com.infotec.cvi.swb.Competencia)obj.createGenericInstance();
-         }
-         return ret;
-    }
 
 /**
 * Gets the Actualizacion property
@@ -947,24 +909,6 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
     }
 
 /**
-* Gets the Updated property
-* @return java.util.Date with the Updated
-*/
-    public java.util.Date getUpdated()
-    {
-        return getSemanticObject().getDateProperty(swb_updated);
-    }
-
-/**
-* Sets the Updated property
-* @param value long with the Updated
-*/
-    public void setUpdated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_updated, value);
-    }
-
-/**
 * Gets the Created property
 * @return java.util.Date with the Created
 */
@@ -980,6 +924,24 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
     public void setCreated(java.util.Date value)
     {
         getSemanticObject().setDateProperty(swb_created, value);
+    }
+
+/**
+* Gets the Updated property
+* @return java.util.Date with the Updated
+*/
+    public java.util.Date getUpdated()
+    {
+        return getSemanticObject().getDateProperty(swb_updated);
+    }
+
+/**
+* Sets the Updated property
+* @param value long with the Updated
+*/
+    public void setUpdated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_updated, value);
     }
    /**
    * Gets all the com.infotec.cvi.swb.Idioma
@@ -1108,6 +1070,71 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
          if(obj!=null)
          {
              ret=(com.infotec.cvi.swb.AreaTalento)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Gets all the com.infotec.cvi.swb.Competencia
+   * @return A GenericIterator with all the com.infotec.cvi.swb.Competencia
+   */
+
+    public org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Competencia> listCompetencias()
+    {
+        return new org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Competencia>(getSemanticObject().listObjectProperties(intranet_hasCompetencia));
+    }
+
+   /**
+   * Gets true if has a Competencia
+   * @param value com.infotec.cvi.swb.Competencia to verify
+   * @return true if the com.infotec.cvi.swb.Competencia exists, false otherwise
+   */
+    public boolean hasCompetencia(com.infotec.cvi.swb.Competencia value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(intranet_hasCompetencia,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a Competencia
+   * @param value com.infotec.cvi.swb.Competencia to add
+   */
+
+    public void addCompetencia(com.infotec.cvi.swb.Competencia value)
+    {
+        getSemanticObject().addObjectProperty(intranet_hasCompetencia, value.getSemanticObject());
+    }
+   /**
+   * Removes all the Competencia
+   */
+
+    public void removeAllCompetencia()
+    {
+        getSemanticObject().removeProperty(intranet_hasCompetencia);
+    }
+   /**
+   * Removes a Competencia
+   * @param value com.infotec.cvi.swb.Competencia to remove
+   */
+
+    public void removeCompetencia(com.infotec.cvi.swb.Competencia value)
+    {
+        getSemanticObject().removeObjectProperty(intranet_hasCompetencia,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the Competencia
+   * @return a com.infotec.cvi.swb.Competencia
+   */
+    public com.infotec.cvi.swb.Competencia getCompetencia()
+    {
+         com.infotec.cvi.swb.Competencia ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasCompetencia);
+         if(obj!=null)
+         {
+             ret=(com.infotec.cvi.swb.Competencia)obj.createGenericInstance();
          }
          return ret;
     }

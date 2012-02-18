@@ -1,7 +1,7 @@
 package com.infotec.cvi.swb.base;
 
 
-public abstract class CatalogoBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class CatalogoBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
     public static final org.semanticwb.platform.SemanticClass intranet_Catalogo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Catalogo");
    /**
@@ -172,6 +172,75 @@ public abstract class CatalogoBase extends org.semanticwb.model.SWBClass impleme
          }
          return ret;
     }
+
+/**
+* Gets the Updated property
+* @return java.util.Date with the Updated
+*/
+    public java.util.Date getUpdated()
+    {
+        return getSemanticObject().getDateProperty(swb_updated);
+    }
+
+/**
+* Sets the Updated property
+* @param value long with the Updated
+*/
+    public void setUpdated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_updated, value);
+    }
+
+/**
+* Gets the Created property
+* @return java.util.Date with the Created
+*/
+    public java.util.Date getCreated()
+    {
+        return getSemanticObject().getDateProperty(swb_created);
+    }
+
+/**
+* Sets the Created property
+* @param value long with the Created
+*/
+    public void setCreated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_created, value);
+    }
+
+/**
+* Gets the Description property
+* @return String with the Description
+*/
+    public String getDescription()
+    {
+        return getSemanticObject().getProperty(swb_description);
+    }
+
+/**
+* Sets the Description property
+* @param value long with the Description
+*/
+    public void setDescription(String value)
+    {
+        getSemanticObject().setProperty(swb_description, value);
+    }
+
+    public String getDescription(String lang)
+    {
+        return getSemanticObject().getProperty(swb_description, null, lang);
+    }
+
+    public String getDisplayDescription(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_description, lang);
+    }
+
+    public void setDescription(String description, String lang)
+    {
+        getSemanticObject().setProperty(swb_description, description, lang);
+    }
    /**
    * Sets the value for the property Creator
    * @param value Creator to set
@@ -242,74 +311,5 @@ public abstract class CatalogoBase extends org.semanticwb.model.SWBClass impleme
     public void setTitle(String title, String lang)
     {
         getSemanticObject().setProperty(swb_title, title, lang);
-    }
-
-/**
-* Gets the Created property
-* @return java.util.Date with the Created
-*/
-    public java.util.Date getCreated()
-    {
-        return getSemanticObject().getDateProperty(swb_created);
-    }
-
-/**
-* Sets the Created property
-* @param value long with the Created
-*/
-    public void setCreated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_created, value);
-    }
-
-/**
-* Gets the Updated property
-* @return java.util.Date with the Updated
-*/
-    public java.util.Date getUpdated()
-    {
-        return getSemanticObject().getDateProperty(swb_updated);
-    }
-
-/**
-* Sets the Updated property
-* @param value long with the Updated
-*/
-    public void setUpdated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_updated, value);
-    }
-
-/**
-* Gets the Description property
-* @return String with the Description
-*/
-    public String getDescription()
-    {
-        return getSemanticObject().getProperty(swb_description);
-    }
-
-/**
-* Sets the Description property
-* @param value long with the Description
-*/
-    public void setDescription(String value)
-    {
-        getSemanticObject().setProperty(swb_description, value);
-    }
-
-    public String getDescription(String lang)
-    {
-        return getSemanticObject().getProperty(swb_description, null, lang);
-    }
-
-    public String getDisplayDescription(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_description, lang);
-    }
-
-    public void setDescription(String description, String lang)
-    {
-        getSemanticObject().setProperty(swb_description, description, lang);
     }
 }

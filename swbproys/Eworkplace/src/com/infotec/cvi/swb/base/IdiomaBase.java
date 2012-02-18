@@ -5,8 +5,6 @@ public abstract class IdiomaBase extends org.semanticwb.model.SWBClass
 {
     public static final org.semanticwb.platform.SemanticClass intranet_Lectura=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Lectura");
     public static final org.semanticwb.platform.SemanticProperty intranet_lectura=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#lectura");
-    public static final org.semanticwb.platform.SemanticClass intranet_Conversacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Conversacion");
-    public static final org.semanticwb.platform.SemanticProperty intranet_conversacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#conversacion");
    /**
    * Un Lenguaje en SemanticWebBuilder es la definición de un Idioma para despliegue de las páginas y recursos. Al definir un lenguaje nuevo es posible definir el título y la descripción de páginas y recursos en él.
    */
@@ -14,6 +12,8 @@ public abstract class IdiomaBase extends org.semanticwb.model.SWBClass
     public static final org.semanticwb.platform.SemanticProperty intranet_idiomas=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#idiomas");
     public static final org.semanticwb.platform.SemanticClass intranet_Escritura=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Escritura");
     public static final org.semanticwb.platform.SemanticProperty intranet_escritura=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#escritura");
+    public static final org.semanticwb.platform.SemanticClass intranet_Conversacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Conversacion");
+    public static final org.semanticwb.platform.SemanticProperty intranet_conversacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#conversacion");
     public static final org.semanticwb.platform.SemanticClass intranet_Idioma=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Idioma");
    /**
    * The semantic class that represents the currentObject
@@ -113,29 +113,6 @@ public abstract class IdiomaBase extends org.semanticwb.model.SWBClass
             return it;
         }
        /**
-       * Gets all com.infotec.cvi.swb.Idioma with a determined Conversacion
-       * @param value Conversacion of the type com.infotec.cvi.swb.Conversacion
-       * @param model Model of the com.infotec.cvi.swb.Idioma
-       * @return Iterator with all the com.infotec.cvi.swb.Idioma
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.Idioma> listIdiomaByConversacion(com.infotec.cvi.swb.Conversacion value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Idioma> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_conversacion, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.cvi.swb.Idioma with a determined Conversacion
-       * @param value Conversacion of the type com.infotec.cvi.swb.Conversacion
-       * @return Iterator with all the com.infotec.cvi.swb.Idioma
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.Idioma> listIdiomaByConversacion(com.infotec.cvi.swb.Conversacion value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Idioma> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_conversacion,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all com.infotec.cvi.swb.Idioma with a determined Idiomas
        * @param value Idiomas of the type org.semanticwb.model.Language
        * @param model Model of the com.infotec.cvi.swb.Idioma
@@ -179,6 +156,29 @@ public abstract class IdiomaBase extends org.semanticwb.model.SWBClass
         public static java.util.Iterator<com.infotec.cvi.swb.Idioma> listIdiomaByEscritura(com.infotec.cvi.swb.Escritura value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Idioma> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_escritura,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.Idioma with a determined Conversacion
+       * @param value Conversacion of the type com.infotec.cvi.swb.Conversacion
+       * @param model Model of the com.infotec.cvi.swb.Idioma
+       * @return Iterator with all the com.infotec.cvi.swb.Idioma
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.Idioma> listIdiomaByConversacion(com.infotec.cvi.swb.Conversacion value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Idioma> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_conversacion, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.Idioma with a determined Conversacion
+       * @param value Conversacion of the type com.infotec.cvi.swb.Conversacion
+       * @return Iterator with all the com.infotec.cvi.swb.Idioma
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.Idioma> listIdiomaByConversacion(com.infotec.cvi.swb.Conversacion value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Idioma> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_conversacion,value.getSemanticObject(),sclass));
             return it;
         }
     }
@@ -226,44 +226,6 @@ public abstract class IdiomaBase extends org.semanticwb.model.SWBClass
          if(obj!=null)
          {
              ret=(com.infotec.cvi.swb.Lectura)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Sets the value for the property Conversacion
-   * @param value Conversacion to set
-   */
-
-    public void setConversacion(com.infotec.cvi.swb.Conversacion value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(intranet_conversacion, value.getSemanticObject());
-        }else
-        {
-            removeConversacion();
-        }
-    }
-   /**
-   * Remove the value for Conversacion property
-   */
-
-    public void removeConversacion()
-    {
-        getSemanticObject().removeProperty(intranet_conversacion);
-    }
-
-   /**
-   * Gets the Conversacion
-   * @return a com.infotec.cvi.swb.Conversacion
-   */
-    public com.infotec.cvi.swb.Conversacion getConversacion()
-    {
-         com.infotec.cvi.swb.Conversacion ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_conversacion);
-         if(obj!=null)
-         {
-             ret=(com.infotec.cvi.swb.Conversacion)obj.createGenericInstance();
          }
          return ret;
     }
@@ -340,6 +302,44 @@ public abstract class IdiomaBase extends org.semanticwb.model.SWBClass
          if(obj!=null)
          {
              ret=(com.infotec.cvi.swb.Escritura)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Sets the value for the property Conversacion
+   * @param value Conversacion to set
+   */
+
+    public void setConversacion(com.infotec.cvi.swb.Conversacion value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_conversacion, value.getSemanticObject());
+        }else
+        {
+            removeConversacion();
+        }
+    }
+   /**
+   * Remove the value for Conversacion property
+   */
+
+    public void removeConversacion()
+    {
+        getSemanticObject().removeProperty(intranet_conversacion);
+    }
+
+   /**
+   * Gets the Conversacion
+   * @return a com.infotec.cvi.swb.Conversacion
+   */
+    public com.infotec.cvi.swb.Conversacion getConversacion()
+    {
+         com.infotec.cvi.swb.Conversacion ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_conversacion);
+         if(obj!=null)
+         {
+             ret=(com.infotec.cvi.swb.Conversacion)obj.createGenericInstance();
          }
          return ret;
     }

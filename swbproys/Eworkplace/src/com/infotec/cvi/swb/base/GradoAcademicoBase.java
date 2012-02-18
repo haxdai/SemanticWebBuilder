@@ -165,24 +165,6 @@ public abstract class GradoAcademicoBase extends org.semanticwb.model.SWBClass i
     }
 
 /**
-* Gets the Fin property
-* @return int with the Fin
-*/
-    public int getFin()
-    {
-        return getSemanticObject().getIntProperty(intranet_fin);
-    }
-
-/**
-* Sets the Fin property
-* @param value long with the Fin
-*/
-    public void setFin(int value)
-    {
-        getSemanticObject().setIntProperty(intranet_fin, value);
-    }
-
-/**
 * Gets the DocumentoObtenido property
 * @return String with the DocumentoObtenido
 */
@@ -198,6 +180,42 @@ public abstract class GradoAcademicoBase extends org.semanticwb.model.SWBClass i
     public void setDocumentoObtenido(String value)
     {
         getSemanticObject().setProperty(intranet_documentoObtenido, value);
+    }
+
+/**
+* Gets the NombreInstitucion property
+* @return String with the NombreInstitucion
+*/
+    public String getNombreInstitucion()
+    {
+        return getSemanticObject().getProperty(intranet_nombreInstitucion);
+    }
+
+/**
+* Sets the NombreInstitucion property
+* @param value long with the NombreInstitucion
+*/
+    public void setNombreInstitucion(String value)
+    {
+        getSemanticObject().setProperty(intranet_nombreInstitucion, value);
+    }
+
+/**
+* Gets the Fin property
+* @return int with the Fin
+*/
+    public int getFin()
+    {
+        return getSemanticObject().getIntProperty(intranet_fin);
+    }
+
+/**
+* Sets the Fin property
+* @param value long with the Fin
+*/
+    public void setFin(int value)
+    {
+        getSemanticObject().setIntProperty(intranet_fin, value);
     }
    /**
    * Sets the value for the property SituacionAcademica
@@ -236,24 +254,6 @@ public abstract class GradoAcademicoBase extends org.semanticwb.model.SWBClass i
              ret=(com.infotec.cvi.swb.SituacionAcademica)obj.createGenericInstance();
          }
          return ret;
-    }
-
-/**
-* Gets the NombreInstitucion property
-* @return String with the NombreInstitucion
-*/
-    public String getNombreInstitucion()
-    {
-        return getSemanticObject().getProperty(intranet_nombreInstitucion);
-    }
-
-/**
-* Sets the NombreInstitucion property
-* @param value long with the NombreInstitucion
-*/
-    public void setNombreInstitucion(String value)
-    {
-        getSemanticObject().setProperty(intranet_nombreInstitucion, value);
     }
 
 /**

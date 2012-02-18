@@ -1,7 +1,7 @@
 package com.infotec.cvi.swb.base;
 
 
-public abstract class CarreraBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class CarreraBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
     public static final org.semanticwb.platform.SemanticClass intranet_AreaCarrera=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#AreaCarrera");
     public static final org.semanticwb.platform.SemanticProperty intranet_areaCarrera=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#areaCarrera");
@@ -104,29 +104,6 @@ public abstract class CarreraBase extends com.infotec.cvi.swb.Catalogo implement
             return it;
         }
        /**
-       * Gets all com.infotec.cvi.swb.Carrera with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @param model Model of the com.infotec.cvi.swb.Carrera
-       * @return Iterator with all the com.infotec.cvi.swb.Carrera
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.Carrera> listCarreraByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Carrera> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.cvi.swb.Carrera with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @return Iterator with all the com.infotec.cvi.swb.Carrera
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.Carrera> listCarreraByCreator(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Carrera> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all com.infotec.cvi.swb.Carrera with a determined AreaCarrera
        * @param value AreaCarrera of the type com.infotec.cvi.swb.AreaCarrera
        * @param model Model of the com.infotec.cvi.swb.Carrera
@@ -147,6 +124,29 @@ public abstract class CarreraBase extends com.infotec.cvi.swb.Catalogo implement
         public static java.util.Iterator<com.infotec.cvi.swb.Carrera> listCarreraByAreaCarrera(com.infotec.cvi.swb.AreaCarrera value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Carrera> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_areaCarrera,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.Carrera with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @param model Model of the com.infotec.cvi.swb.Carrera
+       * @return Iterator with all the com.infotec.cvi.swb.Carrera
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.Carrera> listCarreraByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Carrera> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.Carrera with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @return Iterator with all the com.infotec.cvi.swb.Carrera
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.Carrera> listCarreraByCreator(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Carrera> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
     }
