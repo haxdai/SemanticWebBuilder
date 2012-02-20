@@ -38,7 +38,7 @@
     CV cv = CV.ClassMgr.getCV(usr.getId(), wsite);
 
     long intSize = SWBUtils.Collections.sizeOf(cv.listDistincions());
-    Iterator<Distinciones> itga = cv.listDistincions();
+    Iterator<Distincion> itga = cv.listDistincions();
     Resource base = paramRequest.getResourceBase();
     String strNumItems = base.getAttribute("numPageItems", "10");
     String npage = request.getParameter("page");
@@ -107,7 +107,7 @@
             SWBResourceURL urldel = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_REMOVE);
             SWBResourceURL urledit = paramRequest.getRenderUrl().setParameter("act",SWBResourceURL.Action_EDIT);
             while (itga.hasNext()) {
-                Distinciones premio = itga.next();
+                Distincion premio = itga.next();
 
                 //PAGINACION ////////////////////
                 if (x < p * ps) {
@@ -246,7 +246,7 @@
     }else if(SWBResourceURL.Action_EDIT.equals(action)) {
         String id = request.getParameter("id");
 
-        Distinciones premio = Distinciones.ClassMgr.getDistinciones(id, wsite);
+        Distincion premio = Distincion.ClassMgr.getDistincion(id, wsite);
         
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", locale);
 
