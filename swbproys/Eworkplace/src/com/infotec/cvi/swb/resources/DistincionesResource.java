@@ -1,12 +1,11 @@
 package com.infotec.cvi.swb.resources;
 
 import com.infotec.cvi.swb.CV;
-import com.infotec.cvi.swb.Distinciones;
+import com.infotec.cvi.swb.Distincion;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import org.semanticwb.Logger;
@@ -62,7 +61,7 @@ public class DistincionesResource extends GenericResource {
             if(!validate(request, response))
                 return;
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Distinciones distincion = Distinciones.ClassMgr.createDistinciones(wsite);
+            Distincion distincion = Distincion.ClassMgr.createDistincion(wsite);
             distincion.setTitle(SWBUtils.XML.replaceXMLChars(request.getParameter("ttl")));
             distincion.setOtorgante(SWBUtils.XML.replaceXMLChars(request.getParameter("trgnt")));
             try {
@@ -75,9 +74,9 @@ public class DistincionesResource extends GenericResource {
             cv.addDistincion(distincion);
         }else if(SWBResourceURL.Action_EDIT.equals(action)) {
             final String distincionId = request.getParameter("id");
-            Distinciones distincion;
+            Distincion distincion;
             try {
-                distincion = Distinciones.ClassMgr.createDistinciones(distincionId, wsite);
+                distincion = Distincion.ClassMgr.createDistincion(distincionId, wsite);
             }catch(Exception e) {
                 response.setRenderParameter("alertmsg", "distincion no existe");
                 return;
@@ -104,7 +103,7 @@ public class DistincionesResource extends GenericResource {
         }else if(SWBResourceURL.Action_REMOVE.equals(action)) {
             final String distincionId = request.getParameter("id");
             try {
-                Distinciones  distincion = Distinciones.ClassMgr.getDistinciones(distincionId, wsite);
+                Distincion  distincion = Distincion.ClassMgr.getDistincion(distincionId, wsite);
                 if(cv.hasDistincion(distincion)) {
                     distincion.remove();
                     response.setRenderParameter("alertmsg", "distincion eliminada");
