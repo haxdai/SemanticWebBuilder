@@ -1,12 +1,9 @@
 package com.infotec.cvi.swb.resources;
 
 import com.infotec.cvi.swb.CV;
-import com.infotec.cvi.swb.AreasTalento;
-import com.infotec.cvi.swb.Distinciones;
+import com.infotec.cvi.swb.AreaTalento;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import org.semanticwb.Logger;
@@ -61,7 +58,7 @@ public class AreasTalentoResource extends GenericResource {
         if(SWBResourceURL.Action_ADD.equals(action)) {
             if(!validate(request, response))
                 return;
-            AreasTalento talento = AreasTalento.ClassMgr.createAreasTalento(wsite);
+            AreaTalento talento = AreaTalento.ClassMgr.createAreaTalento(wsite);
             talento.setAreaTalento(SWBUtils.XML.replaceXMLChars(request.getParameter("tlnt")));
             talento.setYearExperienceTalento(Integer.parseInt(request.getParameter("ytlnt")));
             talento.setAreaDestrezaTI(SWBUtils.XML.replaceXMLChars(request.getParameter("dstrz")));
@@ -69,9 +66,9 @@ public class AreasTalentoResource extends GenericResource {
             cv.addAreaTalento(talento);
         }else if(SWBResourceURL.Action_EDIT.equals(action)) {
             final String distincionId = request.getParameter("id");
-            AreasTalento talento;
+            AreaTalento talento;
             try {
-                talento = AreasTalento.ClassMgr.getAreasTalento(distincionId, wsite);
+                talento = AreaTalento.ClassMgr.getAreaTalento(distincionId, wsite);
             }catch(Exception e) {
                 response.setRenderParameter("alertmsg", "distincion no existe");
                 return;
@@ -92,7 +89,7 @@ public class AreasTalentoResource extends GenericResource {
         }else if(SWBResourceURL.Action_REMOVE.equals(action)) {
             final String talentoId = request.getParameter("id");
             try {
-                AreasTalento talento = AreasTalento.ClassMgr.getAreasTalento(talentoId, wsite);
+                AreaTalento talento = AreaTalento.ClassMgr.getAreaTalento(talentoId, wsite);
                 if(cv.hasAreaTalento(talento)) {
                     talento.remove();
                     response.setRenderParameter("alertmsg", "talento eliminado");
