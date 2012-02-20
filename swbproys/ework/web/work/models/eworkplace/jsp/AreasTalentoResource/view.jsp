@@ -38,7 +38,7 @@
     CV cv = CV.ClassMgr.getCV(usr.getId(), wsite);
 
     long intSize = SWBUtils.Collections.sizeOf(cv.listAreaTalentos());
-    Iterator<AreasTalento> itga = cv.listAreaTalentos();
+    Iterator<AreaTalento> itga = cv.listAreaTalentos();
     Resource base = paramRequest.getResourceBase();
     String strNumItems = base.getAttribute("numPageItems", "10");
     String npage = request.getParameter("page");
@@ -107,7 +107,7 @@
             SWBResourceURL urldel = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_REMOVE);
             SWBResourceURL urledit = paramRequest.getRenderUrl().setParameter("act",SWBResourceURL.Action_EDIT);
             while (itga.hasNext()) {
-                AreasTalento talento = itga.next();
+                AreaTalento talento = itga.next();
 
                 //PAGINACION ////////////////////
                 if (x < p * ps) {
@@ -248,7 +248,7 @@
     }else if(SWBResourceURL.Action_EDIT.equals(action)) {
         String id = request.getParameter("id");
 
-        AreasTalento talento = AreasTalento.ClassMgr.getAreasTalento(id, wsite);
+        AreaTalento talento = AreaTalento.ClassMgr.getAreaTalento(id, wsite);
 
         SWBResourceURL urladd = paramRequest.getActionUrl();
         urladd.setAction(SWBResourceURL.Action_EDIT);
