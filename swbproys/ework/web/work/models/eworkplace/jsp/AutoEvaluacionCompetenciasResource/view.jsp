@@ -93,6 +93,11 @@ System.out.println("...........action="+action);
   <div class="clearer">&nbsp;</div>
  </div>
  <div class="centro">
+     <%
+    SWBResourceURL urlBack = paramRequest.getRenderUrl();
+    urlBack.setParameter("act", "");
+%>
+        <input type="button" name="regresar" id="regresar" value="Regresar" onclick="window.location='<%=urlBack%>'; return false;"/>
   <input type="submit" name="guardar" value="Guardar" />
  </div>
 </form>

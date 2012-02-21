@@ -50,13 +50,8 @@
                 cv.setAcademia(aca);
             }
             
-            int intSize=0;
+            long intSize = SWBUtils.Collections.sizeOf(aca.listGradoAcademicos());
             Iterator<GradoAcademico> itga = aca.listGradoAcademicos();
-            while(itga.hasNext()){
-                GradoAcademico grado = itga.next();
-                intSize++;
-            }
-            itga = aca.listGradoAcademicos();
             Resource base = paramRequest.getResourceBase();
             String strNumItems = base.getAttribute("numPageItems", "10");
             String npage = request.getParameter("page");
@@ -128,7 +123,7 @@
         <%
                     //PAGINACION
                     int ps = numPages;
-                    int l = intSize;
+                    long l = intSize;
 
                     int p = 0;
                     if (npage != null) {
@@ -354,6 +349,11 @@
 </div>
 
     <div class="centro">
+        <%
+    SWBResourceURL urlBack = paramRequest.getRenderUrl();
+    urlBack.setParameter("act", "");
+%>
+        <input type="button" name="regresar" id="regresar" value="Regresar" onclick="window.location='<%=urlBack%>'; return false;"/>
     <input type="submit" name="guardar" id="guardar" value="Guardar" onclick="return enviar()"/>
 </div>
 </form>   
@@ -459,6 +459,11 @@
 </div>
 
     <div class="centro">
+        <%
+    SWBResourceURL urlBack = paramRequest.getRenderUrl();
+    urlBack.setParameter("act", "");
+%>
+        <input type="button" name="regresar" id="regresar" value="Regresar" onclick="window.location='<%=urlBack%>'; return false;"/>
     <input type="submit" name="guardar" id="guardar" value="Guardar" onclick="return enviar()"/>
 </div>
 </form>   
