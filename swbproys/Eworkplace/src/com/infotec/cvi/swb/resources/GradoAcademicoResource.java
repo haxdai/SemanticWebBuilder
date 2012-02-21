@@ -5,16 +5,24 @@
 package com.infotec.cvi.swb.resources;
 
 import com.infotec.cvi.swb.Academia;
+import com.infotec.cvi.swb.AreaCarrera;
 import com.infotec.cvi.swb.CV;
 import com.infotec.cvi.swb.Carrera;
 import com.infotec.cvi.swb.Grado;
 import com.infotec.cvi.swb.GradoAcademico;
 import com.infotec.cvi.swb.SituacionAcademica;
+import com.infotec.cvi.swb.TipoCarrera;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Iterator;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
+import org.semanticwb.model.SWBComparator;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.portal.api.GenericResource;
@@ -27,10 +35,12 @@ import org.semanticwb.portal.api.SWBResourceURL;
  *
  * @author juan.fernandez
  */
-public class GradoAcademicoResource extends GenericResource
-{
+public class GradoAcademicoResource extends GenericResource {
 
     private Logger log = SWBUtils.getLogger(GradoAcademicoResource.class);
+    private final String MODE_TIPO = "mod_tipo";
+    private final String MODE_AREA = "mod_area";
+    private final String MODE_CARRERA = "mod_carrera";
 
     @Override
     public void doView(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
@@ -49,8 +59,8 @@ public class GradoAcademicoResource extends GenericResource
                 }
             }
         }
-        
-        
+
+
 
     }
 
@@ -68,41 +78,42 @@ public class GradoAcademicoResource extends GenericResource
         String page = request.getParameter("page");
 
         CV cv = CV.ClassMgr.getCV(usr.getId(), wsite);
-        if(cv==null) {
-            cv = CV.ClassMgr.createCV(usr.getId(),wsite);
+        if (cv == null) {
+            cv = CV.ClassMgr.createCV(usr.getId(), wsite);
             cv.setPropietario(usr);
         }
-             
+
         Academia aca = cv.getAcademia();
-        if(aca==null){
+        if (aca == null) {
             aca = Academia.ClassMgr.createAcademia(wsite);
             cv.setAcademia(aca);
         }
-        
-        
-        if (SWBResourceURL.Action_ADD.equals(action)||SWBResourceURL.Action_EDIT.equals(action)) {
-            
-            
-            
+
+
+        if (SWBResourceURL.Action_ADD.equals(action) || SWBResourceURL.Action_EDIT.equals(action)) {
+
+
+
             String idcarrera = request.getParameter("idcarrera");
             String idsituacion = request.getParameter("idsituacion");
             String nomInstitucion = request.getParameter("txtInstitucion");
-            int intPeriodo = request.getParameter("periodo")!=null?Integer.parseInt(request.getParameter("periodo")):0;
+            int intPeriodo = request.getParameter("periodo") != null ? Integer.parseInt(request.getParameter("periodo")) : 0;
             String idgrado = request.getParameter("idgrado");
-            
+
             Carrera carrera = Carrera.ClassMgr.getCarrera(idcarrera, wsite);
             SituacionAcademica situacion = SituacionAcademica.ClassMgr.getSituacionAcademica(idsituacion, wsite);
             Grado grado = Grado.ClassMgr.getGrado(idgrado, wsite);
-            
-            if(grado!=null&&situacion!=null&&carrera!=null&&intPeriodo>0)
-            {
+
+            if (grado != null && situacion != null && carrera != null && intPeriodo > 0) {
                 GradoAcademico ga = null;
-                if(id!=null) ga = GradoAcademico.ClassMgr.getGradoAcademico(id,wsite);
-                if(ga == null){
+                if (id != null) {
+                    ga = GradoAcademico.ClassMgr.getGradoAcademico(id, wsite);
+                }
+                if (ga == null) {
                     ga = GradoAcademico.ClassMgr.createGradoAcademico(wsite);
                     aca.addGradoAcademico(ga);
                 }
-                 
+
                 ga.setNombreInstitucion(nomInstitucion);
                 ga.setCarrera(carrera);
                 ga.setSituacionAcademica(situacion);
@@ -110,7 +121,7 @@ public class GradoAcademicoResource extends GenericResource
                 ga.setGrado(grado);
 
                 response.setAction("");
-                
+
                 response.setRenderParameter("act", "");
                 response.setRenderParameter("alertmsg", "Se agregó correctamente el Grado Académico");
             } else {
@@ -118,18 +129,18 @@ public class GradoAcademicoResource extends GenericResource
             }
 
         } else if (SWBResourceURL.Action_REMOVE.equals(action)) {
-            if(id!=null){
+            if (id != null) {
                 GradoAcademico ga = GradoAcademico.ClassMgr.getGradoAcademico(id, wsite);
-                if(ga!=null){
+                if (ga != null) {
                     try {
                         ga.remove();
                         response.setRenderParameter("alertmsg", "Se eliminó correctamente el Grado Académico.");
                     } catch (Exception e) {
                         response.setRenderParameter("alertmsg", "No se pudo eliminar el Grado Académico");
-                    }                    
-                }                
+                    }
+                }
             }
-        } 
+        }
         if (eventid != null) {
             response.setRenderParameter("id", eventid);
         }
@@ -138,5 +149,135 @@ public class GradoAcademicoResource extends GenericResource
         }
     }
 
-    
+    public void getTipo(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+        WebSite wsite = paramRequest.getWebPage().getWebSite();
+        User usr = paramRequest.getUser();
+        String ret = "";
+        try {
+            JSONObject base = new JSONObject();
+            base.put("identifier", "id");
+            base.put("label", "name");
+            JSONArray items = new JSONArray();
+            base.put("items", items);
+            Iterator<TipoCarrera> it = SWBComparator.sortByDisplayName(TipoCarrera.ClassMgr.listTipoCarreras(wsite), usr.getLanguage());
+            while (it.hasNext()) {
+                TipoCarrera tipo = it.next();
+                JSONObject jtipo = new JSONObject();
+                items.put(jtipo);
+                jtipo.put("id", tipo.getId());
+                jtipo.put("name", tipo.getTitle());
+                Iterator<AreaCarrera> itarea = tipo.listAreas();
+                while (itarea.hasNext()) {
+                    AreaCarrera areaCarrera = itarea.next();
+                    jtipo.put("area", areaCarrera.getId());
+                    
+                }
+            }
+
+            ret = base.toString();
+        } catch (Exception e) {
+            log.error(e);
+        }
+        System.out.println("json Tipo:"+ret);
+        out.print(ret);
+    }
+
+    public void getArea(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+        WebSite wsite = paramRequest.getWebPage().getWebSite();
+        User usr = paramRequest.getUser();
+
+        String ret = "";
+        try {
+            JSONObject base = new JSONObject();
+            base.put("identifier", "id");
+            base.put("label", "name");
+            JSONArray items = new JSONArray();
+            base.put("items", items);
+            Iterator<AreaCarrera> it = SWBComparator.sortByDisplayName(AreaCarrera.ClassMgr.listAreaCarreras(wsite), usr.getLanguage());
+            while (it.hasNext()) {
+                AreaCarrera area = it.next();
+                JSONObject jarea = new JSONObject();
+                items.put(jarea);
+                jarea.put("id", area.getId());
+                jarea.put("name", area.getTitle());
+                TipoCarrera tipo = area.getTipoCarreraInv();
+                    if (tipo != null) {
+                        jarea.put("tipo", area.getTipoCarreraInv().getId());
+                    }
+                
+//                Iterator<Carrera> itcar = area.listCarreraInvs();
+//                while (itcar.hasNext()) {
+//                    Carrera carrera = itcar.next();
+//                    jarea.put("carrera", carrera.getId());
+//                    TipoCarrera tipo = carrera.getAreaCarrera().getTipoCarreraInv();
+//                    if (tipo != null) {
+//                        jarea.put("tipo", carrera.getAreaCarrera().getTipoCarreraInv().getId());
+//                    }
+//                }
+            }
+
+            ret = base.toString();
+        } catch (Exception e) {
+            log.error(e);
+        }
+        System.out.println("json Area:"+ret);
+        out.print(ret);
+    }
+
+    public void getCarrera(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+        WebSite wsite = paramRequest.getWebPage().getWebSite();
+        User usr = paramRequest.getUser();
+        String ret = "";
+        try {
+            JSONObject base = new JSONObject();
+            base.put("identifier", "id");
+            base.put("label", "name");
+            JSONArray items = new JSONArray();
+            base.put("items", items);
+            Iterator<Carrera> it = SWBComparator.sortByDisplayName(Carrera.ClassMgr.listCarreras(wsite), usr.getLanguage());
+            while (it.hasNext()) {
+                Carrera car = it.next();
+                JSONObject jcarrera = new JSONObject();
+                items.put(jcarrera);
+                jcarrera.put("id", car.getURI());
+                jcarrera.put("name", car.getTitle());
+                Iterator<AreaCarrera> itt = AreaCarrera.ClassMgr.listAreaCarreraByCarreraInv(car);
+                while (itt.hasNext()) {
+                    AreaCarrera area = itt.next();
+                    jcarrera.put("area", area.getId());
+
+                    TipoCarrera tipo = area.getTipoCarreraInv();
+                    if (tipo != null) {
+                        jcarrera.put("tipo", area.getTipoCarreraInv().getId());
+                    }
+                }
+            }
+            ret = base.toString();
+        } catch (Exception e) {
+            log.error(e);
+        }
+        System.out.println("json Carrera:"+ret);
+        out.print(ret);
+    }
+
+    @Override
+    public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+
+        if (paramRequest.getMode().equals(MODE_TIPO)) {
+            getTipo(request, response, paramRequest);
+        } else if (paramRequest.getMode().equals(MODE_AREA)) {
+            getArea(request, response, paramRequest);
+        } else if (paramRequest.getMode().equals(MODE_CARRERA)) {
+            getCarrera(request, response, paramRequest);
+        } else {
+            super.processRequest(request, response, paramRequest);
+        }
+    }
 }
