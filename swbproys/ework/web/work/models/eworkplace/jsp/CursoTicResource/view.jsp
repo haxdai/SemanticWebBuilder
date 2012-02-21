@@ -40,13 +40,8 @@
                 cv.setPropietario(usr);
             }
             
-            int intSize=0;
-            Iterator<CursoTIC> ittic = cv.listCursosTICs();
-            while(ittic.hasNext()){
-                CursoTIC ctic = ittic.next();
-                intSize++;
-            }
-            ittic = cv.listCursosTICs();
+            long intSize = SWBUtils.Collections.sizeOf(cv.listCursosTICs());
+            Iterator<CursoTIC> ittic = cv.listCursosTICs(); 
             Resource base = paramRequest.getResourceBase();
             String strNumItems = base.getAttribute("numPageItems", "10");
             String npage = request.getParameter("page");
@@ -122,7 +117,7 @@
         <%
                     //PAGINACION
                     int ps = numPages;
-                    int l = intSize;
+                    long l = intSize;
 
                     int p = 0;
                     if (npage != null) {
@@ -324,7 +319,12 @@
 </div>
 
     <div class="centro">
-    <input type="submit" name="guardar" id="guardar" value="Guardar" onclick="return enviar()"/>
+<%
+    SWBResourceURL urlBack = paramRequest.getRenderUrl();
+    urlBack.setParameter("act", "");
+%>
+        <input type="button" name="regresar" id="regresar" value="Regresar" onclick="window.location='<%=urlBack%>'; return false;"/>
+        <input type="submit" name="guardar" id="guardar" value="Guardar" onclick="return enviar()"/>
 </div>
 </form>
 <%         
@@ -390,6 +390,11 @@
 </div>
 
     <div class="centro">
+        <%
+    SWBResourceURL urlBack = paramRequest.getRenderUrl();
+    urlBack.setParameter("act", "");
+%>
+        <input type="button" name="regresar" id="regresar" value="Regresar" onclick="window.location='<%=urlBack%>'; return false;"/>
     <input type="submit" name="guardar" id="guardar" value="Guardar" onclick="return enviar()"/>
 </div>
 </form>          

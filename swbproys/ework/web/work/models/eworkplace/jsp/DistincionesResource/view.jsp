@@ -239,6 +239,11 @@
   <div class="clearer">&nbsp;</div>
  </div>
  <div class="centro">
+     <%
+    SWBResourceURL urlBack = paramRequest.getRenderUrl();
+    urlBack.setParameter("act", "");
+%>
+        <input type="button" name="regresar" id="regresar" value="Regresar" onclick="window.location='<%=urlBack%>'; return false;"/>
   <input type="submit" name="guardar" id="guardar" value="Guardar" onclick="return enviar()"/>
  </div>
 </form>   
@@ -292,6 +297,11 @@
   <div class="clearer">&nbsp;</div>
  </div>
  <div class="centro">
+     <%
+    SWBResourceURL urlBack = paramRequest.getRenderUrl();
+    urlBack.setParameter("act", "");
+%>
+        <input type="button" name="regresar" id="regresar" value="Regresar" onclick="window.location='<%=urlBack%>'; return false;"/>
   <input type="submit" name="guardar" id="guardar" value="Guardar" onclick="return enviar()"/>
  </div>
 </form>   
