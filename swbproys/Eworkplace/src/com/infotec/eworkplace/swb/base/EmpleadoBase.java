@@ -3,6 +3,9 @@ package com.infotec.eworkplace.swb.base;
 
 public abstract class EmpleadoBase extends org.semanticwb.model.UserTypeDef implements com.infotec.eworkplace.swb.Extensible
 {
+    public static final org.semanticwb.platform.SemanticProperty intranet_noe=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#noe");
+    public static final org.semanticwb.platform.SemanticProperty intranet_fechaIngreso=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaIngreso");
+    public static final org.semanticwb.platform.SemanticProperty intranet_nss=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nss");
     public static final org.semanticwb.platform.SemanticClass intranet_Organo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Organo");
     public static final org.semanticwb.platform.SemanticProperty intranet_adscripcion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#adscripcion");
    /**
@@ -10,9 +13,6 @@ public abstract class EmpleadoBase extends org.semanticwb.model.UserTypeDef impl
    */
     public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
     public static final org.semanticwb.platform.SemanticProperty intranet_jefeInmediato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#jefeInmediato");
-    public static final org.semanticwb.platform.SemanticProperty intranet_noe=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#noe");
-    public static final org.semanticwb.platform.SemanticProperty intranet_fechaIngreso=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaIngreso");
-    public static final org.semanticwb.platform.SemanticProperty intranet_nss=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nss");
     public static final org.semanticwb.platform.SemanticClass intranet_Empleado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Empleado");
    /**
    * The semantic class that represents the currentObject
@@ -138,6 +138,60 @@ public abstract class EmpleadoBase extends org.semanticwb.model.UserTypeDef impl
     {
         super(base);
     }
+
+/**
+* Gets the Noe property
+* @return int with the Noe
+*/
+    public int getNoe()
+    {
+        return getSemanticObject().getIntProperty(intranet_noe);
+    }
+
+/**
+* Sets the Noe property
+* @param value long with the Noe
+*/
+    public void setNoe(int value)
+    {
+        getSemanticObject().setIntProperty(intranet_noe, value);
+    }
+
+/**
+* Gets the FechaIngreso property
+* @return java.util.Date with the FechaIngreso
+*/
+    public java.util.Date getFechaIngreso()
+    {
+        return getSemanticObject().getDateProperty(intranet_fechaIngreso);
+    }
+
+/**
+* Sets the FechaIngreso property
+* @param value long with the FechaIngreso
+*/
+    public void setFechaIngreso(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(intranet_fechaIngreso, value);
+    }
+
+/**
+* Gets the Nss property
+* @return int with the Nss
+*/
+    public int getNss()
+    {
+        return getSemanticObject().getIntProperty(intranet_nss);
+    }
+
+/**
+* Sets the Nss property
+* @param value long with the Nss
+*/
+    public void setNss(int value)
+    {
+        getSemanticObject().setIntProperty(intranet_nss, value);
+    }
    /**
    * Sets the value for the property Adscripcion
    * @param value Adscripcion to set
@@ -216,42 +270,6 @@ public abstract class EmpleadoBase extends org.semanticwb.model.UserTypeDef impl
     }
 
 /**
-* Gets the Noe property
-* @return int with the Noe
-*/
-    public int getNoe()
-    {
-        return getSemanticObject().getIntProperty(intranet_noe);
-    }
-
-/**
-* Sets the Noe property
-* @param value long with the Noe
-*/
-    public void setNoe(int value)
-    {
-        getSemanticObject().setIntProperty(intranet_noe, value);
-    }
-
-/**
-* Gets the FechaIngreso property
-* @return java.util.Date with the FechaIngreso
-*/
-    public java.util.Date getFechaIngreso()
-    {
-        return getSemanticObject().getDateProperty(intranet_fechaIngreso);
-    }
-
-/**
-* Sets the FechaIngreso property
-* @param value long with the FechaIngreso
-*/
-    public void setFechaIngreso(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(intranet_fechaIngreso, value);
-    }
-
-/**
 * Gets the Extension property
 * @return int with the Extension
 */
@@ -267,23 +285,5 @@ public abstract class EmpleadoBase extends org.semanticwb.model.UserTypeDef impl
     public void setExtension(int value)
     {
         getSemanticObject().setIntProperty(intranet_extension, value);
-    }
-
-/**
-* Gets the Nss property
-* @return int with the Nss
-*/
-    public int getNss()
-    {
-        return getSemanticObject().getIntProperty(intranet_nss);
-    }
-
-/**
-* Sets the Nss property
-* @param value long with the Nss
-*/
-    public void setNss(int value)
-    {
-        getSemanticObject().setIntProperty(intranet_nss, value);
     }
 }
