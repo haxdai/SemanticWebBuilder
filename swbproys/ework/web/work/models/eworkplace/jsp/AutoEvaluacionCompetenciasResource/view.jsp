@@ -65,7 +65,7 @@
 </script>
 <div>  
 <div id="icv">
-<%-- @include file="../menucvi.jsp" --%>
+<%@include file="../menucvi.jsp"%>
 <div id="icv-data">
 <%
 System.out.println("...........action="+action);
@@ -93,11 +93,6 @@ System.out.println("...........action="+action);
   <div class="clearer">&nbsp;</div>
  </div>
  <div class="centro">
-     <%
-    SWBResourceURL urlBack = paramRequest.getRenderUrl();
-    urlBack.setParameter("act", "");
-%>
-        <input type="button" name="regresar" id="regresar" value="Regresar" onclick="window.location='<%=urlBack%>'; return false;"/>
   <input type="submit" name="guardar" value="Guardar" />
  </div>
 </form>
