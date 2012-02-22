@@ -27,8 +27,8 @@ public abstract class PersonaBase extends org.semanticwb.model.SWBClass
     public static final org.semanticwb.platform.SemanticProperty intranet_hasFamilia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasFamilia");
     public static final org.semanticwb.platform.SemanticClass intranet_Domicilio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Domicilio");
     public static final org.semanticwb.platform.SemanticProperty intranet_domicilio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#domicilio");
-    public static final org.semanticwb.platform.SemanticProperty intranet_linkedin=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#linkedin");
     public static final org.semanticwb.platform.SemanticProperty intranet_nacimiento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nacimiento");
+    public static final org.semanticwb.platform.SemanticProperty intranet_linkedin=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#linkedin");
     public static final org.semanticwb.platform.SemanticProperty intranet_genero=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#genero");
     public static final org.semanticwb.platform.SemanticProperty intranet_FM2=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#FM2");
     public static final org.semanticwb.platform.SemanticProperty intranet_skype=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#skype");
@@ -647,24 +647,6 @@ public abstract class PersonaBase extends org.semanticwb.model.SWBClass
     }
 
 /**
-* Gets the Linkedin property
-* @return String with the Linkedin
-*/
-    public String getLinkedin()
-    {
-        return getSemanticObject().getProperty(intranet_linkedin);
-    }
-
-/**
-* Sets the Linkedin property
-* @param value long with the Linkedin
-*/
-    public void setLinkedin(String value)
-    {
-        getSemanticObject().setProperty(intranet_linkedin, value);
-    }
-
-/**
 * Gets the Nacimiento property
 * @return java.util.Date with the Nacimiento
 */
@@ -680,6 +662,24 @@ public abstract class PersonaBase extends org.semanticwb.model.SWBClass
     public void setNacimiento(java.util.Date value)
     {
         getSemanticObject().setDateProperty(intranet_nacimiento, value);
+    }
+
+/**
+* Gets the Linkedin property
+* @return String with the Linkedin
+*/
+    public String getLinkedin()
+    {
+        return getSemanticObject().getProperty(intranet_linkedin);
+    }
+
+/**
+* Sets the Linkedin property
+* @param value long with the Linkedin
+*/
+    public void setLinkedin(String value)
+    {
+        getSemanticObject().setProperty(intranet_linkedin, value);
     }
 
 /**
