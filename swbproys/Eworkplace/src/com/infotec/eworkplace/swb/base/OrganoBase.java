@@ -1,7 +1,7 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class OrganoBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Mision,com.infotec.eworkplace.swb.Vision,com.infotec.eworkplace.swb.Extensible,org.semanticwb.model.Descriptiveable
+public abstract class OrganoBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Extensible,com.infotec.eworkplace.swb.Vision,org.semanticwb.model.Descriptiveable,com.infotec.eworkplace.swb.Mision
 {
     public static final org.semanticwb.platform.SemanticClass intranet_Organo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Organo");
    /**
@@ -90,6 +90,39 @@ public abstract class OrganoBase extends org.semanticwb.model.SWBClass implement
     }
 
 /**
+* Gets the Description property
+* @return String with the Description
+*/
+    public String getDescription()
+    {
+        return getSemanticObject().getProperty(swb_description);
+    }
+
+/**
+* Sets the Description property
+* @param value long with the Description
+*/
+    public void setDescription(String value)
+    {
+        getSemanticObject().setProperty(swb_description, value);
+    }
+
+    public String getDescription(String lang)
+    {
+        return getSemanticObject().getProperty(swb_description, null, lang);
+    }
+
+    public String getDisplayDescription(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_description, lang);
+    }
+
+    public void setDescription(String description, String lang)
+    {
+        getSemanticObject().setProperty(swb_description, description, lang);
+    }
+
+/**
 * Gets the Mision property
 * @return String with the Mision
 */
@@ -138,39 +171,6 @@ public abstract class OrganoBase extends org.semanticwb.model.SWBClass implement
     public void setTitle(String title, String lang)
     {
         getSemanticObject().setProperty(swb_title, title, lang);
-    }
-
-/**
-* Gets the Description property
-* @return String with the Description
-*/
-    public String getDescription()
-    {
-        return getSemanticObject().getProperty(swb_description);
-    }
-
-/**
-* Sets the Description property
-* @param value long with the Description
-*/
-    public void setDescription(String value)
-    {
-        getSemanticObject().setProperty(swb_description, value);
-    }
-
-    public String getDescription(String lang)
-    {
-        return getSemanticObject().getProperty(swb_description, null, lang);
-    }
-
-    public String getDisplayDescription(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_description, lang);
-    }
-
-    public void setDescription(String description, String lang)
-    {
-        getSemanticObject().setProperty(swb_description, description, lang);
     }
 
 /**

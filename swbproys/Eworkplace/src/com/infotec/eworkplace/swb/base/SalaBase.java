@@ -1,14 +1,14 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class SalaBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,com.infotec.eworkplace.swb.Placeable
+public abstract class SalaBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Placeable,org.semanticwb.model.Descriptiveable
 {
+    public static final org.semanticwb.platform.SemanticProperty intranet_tieneProyector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#tieneProyector");
    /**
    * Indica si la sala está reservada
    */
     public static final org.semanticwb.platform.SemanticProperty intranet_reservada=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#reservada");
     public static final org.semanticwb.platform.SemanticProperty intranet_capacidad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#capacidad");
-    public static final org.semanticwb.platform.SemanticProperty intranet_tieneProyector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#tieneProyector");
     public static final org.semanticwb.platform.SemanticClass intranet_Sala=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Sala");
    /**
    * The semantic class that represents the currentObject
@@ -90,6 +90,57 @@ public abstract class SalaBase extends org.semanticwb.model.SWBClass implements 
     }
 
 /**
+* Gets the Description property
+* @return String with the Description
+*/
+    public String getDescription()
+    {
+        return getSemanticObject().getProperty(swb_description);
+    }
+
+/**
+* Sets the Description property
+* @param value long with the Description
+*/
+    public void setDescription(String value)
+    {
+        getSemanticObject().setProperty(swb_description, value);
+    }
+
+    public String getDescription(String lang)
+    {
+        return getSemanticObject().getProperty(swb_description, null, lang);
+    }
+
+    public String getDisplayDescription(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_description, lang);
+    }
+
+    public void setDescription(String description, String lang)
+    {
+        getSemanticObject().setProperty(swb_description, description, lang);
+    }
+
+/**
+* Gets the TieneProyector property
+* @return boolean with the TieneProyector
+*/
+    public boolean isTieneProyector()
+    {
+        return getSemanticObject().getBooleanProperty(intranet_tieneProyector);
+    }
+
+/**
+* Sets the TieneProyector property
+* @param value long with the TieneProyector
+*/
+    public void setTieneProyector(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(intranet_tieneProyector, value);
+    }
+
+/**
 * Gets the Title property
 * @return String with the Title
 */
@@ -141,57 +192,6 @@ public abstract class SalaBase extends org.semanticwb.model.SWBClass implements 
     }
 
 /**
-* Gets the Description property
-* @return String with the Description
-*/
-    public String getDescription()
-    {
-        return getSemanticObject().getProperty(swb_description);
-    }
-
-/**
-* Sets the Description property
-* @param value long with the Description
-*/
-    public void setDescription(String value)
-    {
-        getSemanticObject().setProperty(swb_description, value);
-    }
-
-    public String getDescription(String lang)
-    {
-        return getSemanticObject().getProperty(swb_description, null, lang);
-    }
-
-    public String getDisplayDescription(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_description, lang);
-    }
-
-    public void setDescription(String description, String lang)
-    {
-        getSemanticObject().setProperty(swb_description, description, lang);
-    }
-
-/**
-* Gets the Capacidad property
-* @return int with the Capacidad
-*/
-    public int getCapacidad()
-    {
-        return getSemanticObject().getIntProperty(intranet_capacidad);
-    }
-
-/**
-* Sets the Capacidad property
-* @param value long with the Capacidad
-*/
-    public void setCapacidad(int value)
-    {
-        getSemanticObject().setIntProperty(intranet_capacidad, value);
-    }
-
-/**
 * Gets the Ubicacion property
 * @return String with the Ubicacion
 */
@@ -210,20 +210,20 @@ public abstract class SalaBase extends org.semanticwb.model.SWBClass implements 
     }
 
 /**
-* Gets the TieneProyector property
-* @return boolean with the TieneProyector
+* Gets the Capacidad property
+* @return int with the Capacidad
 */
-    public boolean isTieneProyector()
+    public int getCapacidad()
     {
-        return getSemanticObject().getBooleanProperty(intranet_tieneProyector);
+        return getSemanticObject().getIntProperty(intranet_capacidad);
     }
 
 /**
-* Sets the TieneProyector property
-* @param value long with the TieneProyector
+* Sets the Capacidad property
+* @param value long with the Capacidad
 */
-    public void setTieneProyector(boolean value)
+    public void setCapacidad(int value)
     {
-        getSemanticObject().setBooleanProperty(intranet_tieneProyector, value);
+        getSemanticObject().setIntProperty(intranet_capacidad, value);
     }
 }
