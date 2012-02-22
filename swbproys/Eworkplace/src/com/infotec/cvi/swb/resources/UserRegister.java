@@ -13,6 +13,10 @@ import org.semanticwb.model.*;
 import org.semanticwb.portal.api.*;
 import org.semanticwb.base.util.SFBase64;
 
+/**
+ *
+ * @author rene.jara
+ */
 public class UserRegister extends GenericAdmResource {
     private static Logger log = SWBUtils.getLogger(UserRegister.class);
     private static String PassPhrase="f:,+#u4w=EkJ0R[";
@@ -291,7 +295,7 @@ public class UserRegister extends GenericAdmResource {
         String basePath = "/work/models/" + paramRequest.getWebPage().getWebSite().getId() + "/jsp/" + this.getClass().getSimpleName() + "/";
         User user = paramRequest.getUser();
         String servidor = request.getScheme() + "://" + request.getServerName() + ((request.getServerPort() != 80)? (":" + request.getServerPort()) : "");
-        String url=servidor+"/swb/cvi/datos_personales/";
+        String url=servidor+"/swb/eworkplace/datos_personales/";
         RequestDispatcher dis = request.getRequestDispatcher(basePath+"finalUser.jsp");
         try {
             request.setAttribute("paramRequest", paramRequest);
