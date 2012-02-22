@@ -5,6 +5,7 @@ import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import org.semanticwb.*;
@@ -239,8 +240,6 @@ public class UserRegister extends GenericAdmResource {
 
     }
 
-
-
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         PrintWriter out = response.getWriter();
@@ -308,7 +307,103 @@ public class UserRegister extends GenericAdmResource {
 
     }
 
+    @Override
+    public void doAdmin(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        PrintWriter out = response.getWriter();
+        Resource base = getResourceBase();
+        //SWBResourceURL url = paramRequest.getActionUrl();
+        User user = paramRequest.getUser();
 
+        String resourceUpdatedMessage = paramRequest.getLocaleString("usrmsg_Admin_msgRecursoActualizado");
+        String legend = paramRequest.getLocaleString("usrmsg_Admin_Data");
+        String userGroupMessage = paramRequest.getLocaleString("usrmsg_Admin_RollGroup");
+        String listMessage = paramRequest.getLocaleString("usrmsg_Admin_ListMessage");
+        String saveButtonText = paramRequest.getLocaleString("usrmsg_Admin_btnGuardar");
+        String resetButtonText = paramRequest.getLocaleString("usrmsg_Admin_btnReset");
+
+        String action = paramRequest.getAction();
+        if(paramRequest.Action_ADD.equals(action)) {
+            out.println("<script type=\"text/javascript\">");
+            out.println("   alert('"+resourceUpdatedMessage+" "+base.getId()+"');");
+            out.println("   location='"+paramRequest.getRenderUrl().setAction(paramRequest.Action_EDIT).toString()+"';");
+            out.println("</script>");
+        }
+        WebPage wpage = paramRequest.getWebPage();
+        WebSite wsite = wpage.getWebSite();
+
+        String str_role = base.getAttribute("editRole", "0");
+
+        SWBResourceURL urlAction = paramRequest.getActionUrl();
+        urlAction.setAction(paramRequest.Action_EDIT);
+
+        out.println("<div class=\"swbform\">");
+        out.println("<form id=ilta_\""+base.getId()+"\" name=\"ilta_"+base.getId()+"\" action=\""+urlAction+"\" method=\"post\" >");
+        out.println("<fieldset><legend>"+ legend+ "</legend>");
+
+        String strTemp = "<option value=\"-1\">" + "No se encontaron roles" + "</option>";
+        Iterator<Role> iRoles = wsite.getUserRepository().listRoles();
+        StringBuilder strRules = new StringBuilder();
+        String selected = "";
+        if (str_role.equals("0")) {
+            selected = " selected=\"selected\"";
+        }
+        strRules.append("\n<option value=\"0\" ");
+        strRules.append(selected);
+        strRules.append(">");
+        strRules.append(listMessage);
+        strRules.append("</option>");
+        strRules.append("\n<optgroup label=\"Roles\">");
+        while (iRoles.hasNext()) {
+            Role oRole = iRoles.next();
+            selected = "";
+            if(str_role.trim().equals(oRole.getURI())) {
+                selected = " selected=\"selected\"";
+            }
+            strRules.append("\n<option value=\"");
+            strRules.append(oRole.getURI());
+            strRules.append("\"");
+            strRules.append(selected);
+            strRules.append(">");
+            strRules.append(oRole.getDisplayTitle(user.getLanguage()));
+            strRules.append("</option>");
+            //strRules.append("\n<option value=\"" + oRole.getURI() + "\" " + selected + ">" + oRole.getDisplayTitle(user.getLanguage()) + "</option>");
+        }
+        strRules.append("\n</optgroup>");
+        strRules.append("\n<optgroup label=\"User Groups\">");
+        Iterator<UserGroup> iugroups = wsite.getUserRepository().listUserGroups();
+        while (iugroups.hasNext()) {
+            UserGroup oUG = iugroups.next();
+            selected = "";
+            if (str_role.trim().equals(oUG.getURI())) {
+                selected = " selected=\"selected\"";
+            }
+            strRules.append("\n<option value=\"");
+            strRules.append(oUG.getURI());
+            strRules.append("\"");
+            strRules.append(selected);
+            strRules.append(">");
+            strRules.append(oUG.getDisplayTitle(user.getLanguage()));
+            strRules.append("</option>");
+        }
+        strRules.append("\n</optgroup>");
+        if(strRules.toString().length() > 0) {
+            strTemp = strRules.toString();
+        }
+        out.println("<ul class=\"swbform-ul\">");
+        out.println("<li class=\"swbform-li\">");
+        out.println("   <label for=\"editar\" class=\"swbform-label\">"+userGroupMessage+"</label>");
+        out.print("     <select id=\"editar\" name=\"editar\">"+strTemp+"</select>");
+        out.println("</li>");
+        out.println("</ul>");
+        out.println("</fieldset>");
+
+        out.println("<fieldset>");
+        out.println("<button id=\"botonEnviar\" dojoType=\"dijit.form.Button\"  onClick=\"setCookie();\" type=\"submit\">" + saveButtonText + "</button>");
+        out.println("<button id=\"botonReset\" dojoType=\"dijit.form.Button\" type=\"reset\" >" + resetButtonText + "</button>");
+        out.println("</fieldset>");
+        out.println("</form>");
+        out.println("</div>");
+    }
 
     /*public String replaceTags(String str, HttpServletRequest request, SWBActionResponse paramRequest, User newUser, String siteName, String page2Confirm) {
         if (str == null || str.trim().length() == 0) {
