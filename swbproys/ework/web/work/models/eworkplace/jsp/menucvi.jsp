@@ -3,7 +3,6 @@
     Created on : 9/02/2012, 12:07:39 PM
     Author     : juan.fernandez
 --%>
-
 <%
     WebPage _wpage = paramRequest.getWebPage(); 
     WebSite _wsite = _wpage.getWebSite();
@@ -20,7 +19,7 @@
 <div id="icv-menu">
    <ul>
 <%
-         Iterator<WebPage> itwp=wpbase.listChilds();
+         Iterator<WebPage> itwp=wpbase.listChilds(_usr.getLanguage(), true, false, false, true);
          while(itwp.hasNext()){
              WebPage wp = itwp.next();
              String strSelect = "";
@@ -38,7 +37,7 @@
 <%
 if(wpparent.isParentof(_wpage)){
          boolean writeBottom = false;
-         Iterator<WebPage> itsmwp=wpparent.listChilds();
+         Iterator<WebPage> itsmwp=wpparent.listChilds(_usr.getLanguage(), true, false, false, true);
          if(itsmwp.hasNext())
          {
             writeBottom = true;         
