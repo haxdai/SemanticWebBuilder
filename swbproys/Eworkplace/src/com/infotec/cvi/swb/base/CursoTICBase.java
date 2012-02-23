@@ -1,7 +1,7 @@
 package com.infotec.cvi.swb.base;
 
 
-public abstract class CursoTICBase extends org.semanticwb.model.SWBClass implements com.infotec.cvi.swb.Institucion,com.infotec.cvi.swb.Curso,org.semanticwb.model.Descriptiveable
+public abstract class CursoTICBase extends org.semanticwb.model.SWBClass implements com.infotec.cvi.swb.Curso,com.infotec.cvi.swb.Institucion,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticClass intranet_CursoTIC=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#CursoTIC");
    /**
