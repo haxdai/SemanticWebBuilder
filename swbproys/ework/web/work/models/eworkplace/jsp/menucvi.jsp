@@ -10,9 +10,11 @@
 
     WebPage wpbase = _wsite.getWebPage("CVI");
     WebPage wpparent = null;
-    if(!_wpage.getParent().equals(wpbase)){
+    if(!_wpage.getParent().equals(wpbase)) {
         wpparent = _wpage;
-    } else { wpparent = _wpage.getParent(); }
+    }else {
+        wpparent = _wpage.getParent();
+    }
 
     StringBuffer strsubmenu = new StringBuffer("");
 %>
@@ -22,6 +24,8 @@
          Iterator<WebPage> itwp=wpbase.listChilds(_usr.getLanguage(), true, false, false, true);
          while(itwp.hasNext()){
              WebPage wp = itwp.next();
+             if(!_usr.haveAccess(wp))
+                 continue;
              String strSelect = "";
              if(wp.equals(_wpage)||wp.isParentof(_wpage)){
                  strSelect = "class=\"icv-menu-select\"";
