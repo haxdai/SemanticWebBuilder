@@ -272,6 +272,7 @@
     dojo.require("dijit.form.ValidationTextBox");
     dojo.require("dijit.form.Button");
     dojo.require("dijit.form.FilteringSelect");
+    dojo.require("dojo.data.ItemFileReadStore");    
 
     function enviar() {
         var objd=dijit.byId('form1ga');
@@ -305,21 +306,6 @@
 %>
     </select>
   </p>
-    <p class="icv-3col">
-    <label for="idcarrera"><b>*</b>Carrera o Especialidad</label>
-    <select name="idcarrera" id="idcarrera" dojoType="dijit.form.FilteringSelect" required="true">
-      <option value="" selected="selected">Seleccione...</option>
-<%
-    Iterator<Carrera> itcarrera = Carrera.ClassMgr.listCarreras(wsite); 
-        while (itcarrera.hasNext()) {
-            Carrera carrera = itcarrera.next();
-            %>
-            <option value="<%=carrera.getId()%>"><%=carrera.getDisplayTitle(usr.getLanguage())%></option>
-            <%
-        }
-%>
-    </select>
-  </p>
   <p class="icv-3col">
     <label for="txtInstitucion"><b>*</b>Institución</label>
     <input type="text" name="txtInstitucion" id="txtInstitucion" maxlength="150" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese institución" />
@@ -339,6 +325,49 @@
 %>
     </select>
   </p>
+  <div class="clearer">&nbsp;</div>
+</div>
+  <div class="icv-div-grupo">
+<%          
+            SWBResourceURL url = paramRequest.getRenderUrl();
+            url.setCallMethod(SWBResourceURL.Call_DIRECT);
+%>
+            <div dojoType="dojo.data.ItemFileReadStore" jsId="tipoCarreraStore<%=base.getId()%>" url="<%=url.setMode("mod_tipo")%>"></div>
+            <div dojoType="dojo.data.ItemFileReadStore" jsId="areaCarreraStore<%=base.getId()%>" url="<%=url.setMode("mod_area")%>"></div>
+            <div dojoType="dojo.data.ItemFileReadStore" jsId="carreraStore<%=base.getId()%>" url="<%=url.setMode("mod_carrera")%>"></div>
+<p class="icv-3col">           
+            <label for="sel_Tipo"><b>*</b>Disciplina</label>             
+            <input dojoType="dijit.form.FilteringSelect" value="" autoComplete="true" store="tipoCarreraStore<%=base.getId()%>" name="sel_Tipo" id="sel_Tipo<%=base.getId()%>" onChange="dijit.byId('sel_Area<%=base.getId()%>').query.tipo = this.value || '*';" />        
+</p>
+<p class="icv-3col">
+            <label for="sel_Area"><b>*</b>Area</label>
+            <input dojoType="dijit.form.FilteringSelect" value="" autoComplete="true" store="areaCarreraStore<%=base.getId()%>" name="sel_Area" id="sel_Area<%=base.getId()%>" onChange="dijit.byId('sel_Carrera<%=base.getId()%>').query.area = this.value || '*'; dijit.byId('sel_Tipo<%=base.getId()%>').attr('value', (dijit.byId('sel_Area<%=base.getId()%>').item || {tipo: ''}).tipo);" />          <!-- dijit.byId('sel_Carrera<%//=base.getId()%>').attr('value',''); -->
+</p>
+<p class="icv-3col">
+            <label for="sel_Carrera"><b>*</b>Carrera</label>
+            <input dojoType="dijit.form.FilteringSelect" value="" autoComplete="true" store="carreraStore<%=base.getId()%>" name="sel_Carrera" id="sel_Carrera<%=base.getId()%>" onChange="dijit.byId('sel_Area<%=base.getId()%>').attr('value', (dijit.byId('sel_Carrera<%=base.getId()%>').item || {area: ''}).area);" />       
+</p>
+  
+  <div class="clearer">&nbsp;</div>
+</div>
+  <div class="icv-div-grupo">  
+  
+    <!-- p class="icv-3col">
+    <label for="idcarrera"><b>*</b>Carrera o Especialidad</label>
+    <select name="idcarrera" id="idcarrera" dojoType="dijit.form.FilteringSelect" required="true">
+      <option value="" selected="selected">Seleccione...</option>
+<%
+    //Iterator<Carrera> itcarrera = Carrera.ClassMgr.listCarreras(wsite); 
+    //    while (itcarrera.hasNext()) {
+    //        Carrera carrera = itcarrera.next();
+            %>
+            <option value="<%//=carrera.getId()%>"><%//=carrera.getDisplayTitle(usr.getLanguage())%></option>
+            <%
+   //     }
+%>
+    </select>
+  </p>
+  -->
  
  
   <p class="icv-3col">
@@ -374,6 +403,7 @@
     dojo.require("dijit.form.ValidationTextBox");
     dojo.require("dijit.form.Button");
     dojo.require("dijit.form.FilteringSelect");
+    dojo.require("dojo.data.ItemFileReadStore"); 
 
     function enviar() {
         var objd=dijit.byId('form2ga');
@@ -408,31 +438,11 @@
 %>
     </select>
   </p>
-    <p class="icv-3col">
-    <label for="idcarrera"><b>*</b>Carrera o Especialidad</label>
-    <select name="idcarrera" id="idcarrera" dojoType="dijit.form.FilteringSelect" required="true">
-      <option value="" selected="selected">Seleccione...</option>
-<%
-    Iterator<Carrera> itcarrera = Carrera.ClassMgr.listCarreras(wsite); 
-        while (itcarrera.hasNext()) {
-            Carrera carrera = itcarrera.next();
-            String strSelected = "";
-            if(carrera.equals(gradoAca.getCarrera())) strSelected="selected";
-            %>
-            <option value="<%=carrera.getId()%>" <%=strSelected%> ><%=carrera.getDisplayTitle(usr.getLanguage())%></option>
-            <%
-        }
-%>
-    </select>
-  </p>
   <p class="icv-3col">
     <label for="txtInstitucion"><b>*</b>Institución</label>
     <input type="text" name="txtInstitucion" id="txtInstitucion" maxlength="150" value="<%=gradoAca.getNombreInstitucion()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese institución"  />
   </p>
-  <div class="clearer">&nbsp;</div>
-</div>
-  <div class="icv-div-grupo">
-    <p class="icv-3col">
+  <p class="icv-3col">
     <label for="idsituacion"><b>*</b>Situación Académica</label>
     <select name="idsituacion" id="idsituacion" dojoType="dijit.form.FilteringSelect" required="true">
       <option value="" selected="selected">Seleccione...</option>
@@ -449,7 +459,36 @@
 %>
     </select>
   </p>
- 
+    <div class="clearer">&nbsp;</div>
+</div>
+  
+  <div class="icv-div-grupo">
+<%          
+            SWBResourceURL url = paramRequest.getRenderUrl();
+            url.setCallMethod(SWBResourceURL.Call_DIRECT);
+            String idCarrera = gradoAca.getCarrera().getId();
+            String idArea = gradoAca.getCarrera().getAreaCarrera().getId();
+            String idTipo = gradoAca.getCarrera().getAreaCarrera().getTipoCarreraInv().getId();
+%>
+            <div dojoType="dojo.data.ItemFileReadStore" jsId="tipoCarreraStore<%=base.getId()%>" url="<%=url.setMode("mod_tipo")%>"></div>
+            <div dojoType="dojo.data.ItemFileReadStore" jsId="areaCarreraStore<%=base.getId()%>" url="<%=url.setMode("mod_area")%>"></div>
+            <div dojoType="dojo.data.ItemFileReadStore" jsId="carreraStore<%=base.getId()%>" url="<%=url.setMode("mod_carrera")%>"></div>
+<p class="icv-3col">           
+            <label for="sel_Tipo"><b>*</b>Disciplina</label>             
+            <input dojoType="dijit.form.FilteringSelect" value="<%=idTipo%>" autoComplete="true" store="tipoCarreraStore<%=base.getId()%>" name="sel_Tipo" id="sel_Tipo<%=base.getId()%>" onChange="dijit.byId('sel_Area<%=base.getId()%>').query.tipo = this.value || '*';" />        
+</p>
+<p class="icv-3col">
+            <label for="sel_Area"><b>*</b>Area</label>
+            <input dojoType="dijit.form.FilteringSelect" value="<%=idArea%>" autoComplete="true" store="areaCarreraStore<%=base.getId()%>" name="sel_Area" id="sel_Area<%=base.getId()%>" onChange="dijit.byId('sel_Carrera<%=base.getId()%>').query.area = this.value || '*'; dijit.byId('sel_Tipo<%=base.getId()%>').attr('value', (dijit.byId('sel_Area<%=base.getId()%>').item || {tipo: ''}).tipo);" />          <!-- dijit.byId('sel_Carrera<%//=base.getId()%>').attr('value',''); -->
+</p>
+<p class="icv-3col">
+            <label for="sel_Carrera"><b>*</b>Carrera</label>
+            <input dojoType="dijit.form.FilteringSelect" value="<%=idCarrera%>" autoComplete="true" store="carreraStore<%=base.getId()%>" name="sel_Carrera" id="sel_Carrera<%=base.getId()%>" onChange="dijit.byId('sel_Area<%=base.getId()%>').attr('value', (dijit.byId('sel_Carrera<%=base.getId()%>').item || {area: ''}).area);" />       
+</p>
+  
+  <div class="clearer">&nbsp;</div>
+</div>
+  <div class="icv-div-grupo">
  
   <p class="icv-3col">
     <label for="periodo"><b>*</b>Periodo en años</label>
