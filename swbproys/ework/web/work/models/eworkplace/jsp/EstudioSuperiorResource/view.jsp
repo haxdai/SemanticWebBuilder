@@ -4,13 +4,14 @@
     Author     : juan.fernandez
 --%>
 
+<%@page import="java.util.Collections"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.Iterator"%>
 <%@page import="com.infotec.cvi.swb.Estudios"%>
 <%@page import="com.infotec.cvi.swb.Avance"%>
 <%@page import="com.infotec.cvi.swb.EstudioSuperior"%>
 <%@page import="com.infotec.cvi.swb.SituacionAcademica"%>
-<%@page import="com.infotec.cvi.swb.Carrera"%>
-<%@page import="com.infotec.cvi.swb.Grado"%>
-
 <%@page import="org.semanticwb.model.WebPage"%>
 <%@page import="com.infotec.cvi.swb.GradoAcademico"%>
 <%@page import="com.infotec.cvi.swb.Academia"%>
@@ -21,10 +22,7 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.List"%>
 <%@page import="org.semanticwb.model.WebSite"%>
-<%@page import="java.util.Collections"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.util.HashMap"%>
-<%@page import="java.util.Iterator"%>
+
 <%@page import="org.semanticwb.model.User"%>
 <%@page import="org.semanticwb.model.Role"%>
 <%@page import="org.semanticwb.model.Resource"%> 
@@ -266,6 +264,7 @@
     dojo.require("dijit.form.ValidationTextBox");
     dojo.require("dijit.form.Button");
     dojo.require("dijit.form.FilteringSelect");
+    dojo.require("dojo.data.ItemFileReadStore"); 
 
     function enviar() {
         var objd=dijit.byId('form1es');
@@ -293,24 +292,42 @@
 </script>
           <form id="form1es" name="form1es" method="post"  action="<%=urladd%>" dojoType="dijit.form.Form">
     <!-- input type="hidden" name="" value="" / --> 
-<div class="icv-div-grupo">
-  
-    <p class="icv-3col">
-    <label for="idestudio"><b>*</b>Estudios Superiores</label>
-    <select name="idestudio" id="idestudio" dojoType="dijit.form.FilteringSelect" required="true">
-      <option value="" selected="selected">Seleccione...</option>
-<%
-    Iterator<Estudios> itestudio = Estudios.ClassMgr.listEstudioses(wsite); 
-        while (itestudio.hasNext()) {
-            Estudios estudio = itestudio.next();
-            %>
-            <option value="<%=estudio.getId()%>"><%=estudio.getDisplayTitle(usr.getLanguage())%></option>
-            <%
-        }
-%>
-    </select>
-  </p>
 
+    <div class="icv-div-grupo">
+<%          
+            SWBResourceURL url = paramRequest.getRenderUrl();
+            url.setCallMethod(SWBResourceURL.Call_DIRECT);
+%>
+            <div dojoType="dojo.data.ItemFileReadStore" jsId="tipoStore<%=base.getId()%>" url="<%=url.setMode("mod_tipo")%>"></div>
+            <div dojoType="dojo.data.ItemFileReadStore" jsId="disciplinaStore<%=base.getId()%>" url="<%=url.setMode("mod_disciplina")%>"></div>
+            <div dojoType="dojo.data.ItemFileReadStore" jsId="areaStore<%=base.getId()%>" url="<%=url.setMode("mod_area")%>"></div>
+            <div dojoType="dojo.data.ItemFileReadStore" jsId="estudioStore<%=base.getId()%>" url="<%=url.setMode("mod_posgrado")%>"></div>
+
+<p class="icv-3col">           
+            <label for="sel_Tipo"><b>*</b>Tipo</label>             
+            <input dojoType="dijit.form.FilteringSelect" value="" autoComplete="true" store="tipoStore<%=base.getId()%>" name="sel_Tipo" id="sel_Tipo<%=base.getId()%>" onChange="dijit.byId('sel_Disciplina<%=base.getId()%>').query.tipo = this.value || '*';" />        
+</p>
+<p class="icv-3col">           
+            <label for="sel_Disciplina"><b>*</b>Disciplina</label>             
+            <input dojoType="dijit.form.FilteringSelect" value="" autoComplete="true" store="disciplinaStore<%=base.getId()%>" name="sel_Disciplina" id="sel_Disciplina<%=base.getId()%>" onChange="dijit.byId('sel_Area<%=base.getId()%>').query.disciplina = this.value || '*'; dijit.byId('sel_Tipo<%=base.getId()%>').attr('value', (dijit.byId('sel_Disciplina<%=base.getId()%>').item || {tipo: ''}).tipo);"/>        
+</p>
+            
+<p class="icv-3col">
+            <label for="sel_Area"><b>*</b>Area</label>
+            <input dojoType="dijit.form.FilteringSelect" value="" autoComplete="true" store="areaStore<%=base.getId()%>" name="sel_Area" id="sel_Area<%=base.getId()%>" onChange="dijit.byId('sel_Estudio<%=base.getId()%>').query.area = this.value || '*'; dijit.byId('sel_Disciplina<%=base.getId()%>').attr('value', (dijit.byId('sel_Area<%=base.getId()%>').item || {disciplina: ''}).disciplina);" />          <!-- dijit.byId('sel_Carrera<%//=base.getId()%>').attr('value',''); -->
+</p>
+
+<div class="clearer">&nbsp;</div>
+</div>
+  
+<div class="icv-div-grupo">
+
+<p class="icv-3col">
+            <label for="sel_Estudio"><b>*</b>Estudio Superior</label>
+            <input dojoType="dijit.form.FilteringSelect" value="" autoComplete="true" store="estudioStore<%=base.getId()%>" name="sel_Estudio" id="sel_Estudio<%=base.getId()%>" onChange="dijit.byId('sel_Area<%=base.getId()%>').attr('value', (dijit.byId('sel_Estudio<%=base.getId()%>').item || {area: ''}).area);" />       
+</p>
+  
+  
     <p class="icv-3col">
     <label for="idgavance"><b>*</b>Grado de avance</label>
     <select name="idgavance" id="idgavance" dojoType="dijit.form.FilteringSelect" required="true">
@@ -361,6 +378,7 @@
     dojo.require("dijit.form.ValidationTextBox");
     dojo.require("dijit.form.Button");
     dojo.require("dijit.form.FilteringSelect");
+    dojo.require("dojo.data.ItemFileReadStore"); 
 
     function enviar() {
         var objd=dijit.byId('form2es');
@@ -388,26 +406,47 @@
 </script>
           <form id="form2es" name="form2es" method="post" action="<%=urladd%>"  dojoType="dijit.form.Form">
     <input type="hidden" name="id" value="<%=id%>" /> 
-<div class="icv-div-grupo">
-  
-    <p class="icv-3col">
-    <label for="idestudio"><b>*</b>Estudios Superiores</label>
-    <select name="idestudio" id="idestudio" dojoType="dijit.form.FilteringSelect" required="true">
-      <option value="" selected="selected">Seleccione...</option>
-<%
-    Iterator<Estudios> itestudio = Estudios.ClassMgr.listEstudioses(wsite); 
-        while (itestudio.hasNext()) {
-            Estudios estudio = itestudio.next();
-            String strSelected = "";
-            if(estudio.equals(estudioSup.getEstudiosSuperiores())) strSelected="selected";
-            %>
-            <option value="<%=estudio.getId()%>" <%=strSelected%> ><%=estudio.getDisplayTitle(usr.getLanguage())%></option>
-            <%
-        }
+    
+    <div class="icv-div-grupo">
+<%          
+            SWBResourceURL url = paramRequest.getRenderUrl();
+            url.setCallMethod(SWBResourceURL.Call_DIRECT);
+            String idEstudio = estudioSup.getEstudiosSuperiores().getId();
+            String idArea = estudioSup.getEstudiosSuperiores().getAreaEstudio().getId();
+            String idDisciplina = estudioSup.getEstudiosSuperiores().getAreaEstudio().getDisciplinaInv().getId();
+            String idTipo = estudioSup.getEstudiosSuperiores().getAreaEstudio().getDisciplinaInv().getTipoEstudioInv().getId();
 %>
-    </select>
-  </p>
+            <div dojoType="dojo.data.ItemFileReadStore" jsId="tipoStore<%=base.getId()%>" url="<%=url.setMode("mod_tipo")%>"></div>
+            <div dojoType="dojo.data.ItemFileReadStore" jsId="disciplinaStore<%=base.getId()%>" url="<%=url.setMode("mod_disciplina")%>"></div>
+            <div dojoType="dojo.data.ItemFileReadStore" jsId="areaStore<%=base.getId()%>" url="<%=url.setMode("mod_area")%>"></div>
+            <div dojoType="dojo.data.ItemFileReadStore" jsId="estudioStore<%=base.getId()%>" url="<%=url.setMode("mod_posgrado")%>"></div>
 
+<p class="icv-3col">           
+            <label for="sel_Tipo"><b>*</b>Disciplina</label>             
+            <input dojoType="dijit.form.FilteringSelect" value="<%=idTipo%>" autoComplete="true" store="tipoStore<%=base.getId()%>" name="sel_Tipo" id="sel_Tipo<%=base.getId()%>" onChange="dijit.byId('sel_Disciplina<%=base.getId()%>').query.tipo = this.value || '*';" />        
+</p>
+<p class="icv-3col">           
+            <label for="sel_Disciplina"><b>*</b>Disciplina</label>             
+            <input dojoType="dijit.form.FilteringSelect" value="<%=idDisciplina%>" autoComplete="true" store="disciplinaStore<%=base.getId()%>" name="sel_Disciplina" id="sel_Disciplina<%=base.getId()%>" onChange="dijit.byId('sel_Area<%=base.getId()%>').query.disciplina = this.value || '*'; dijit.byId('sel_Tipo<%=base.getId()%>').attr('value', (dijit.byId('sel_Disciplina<%=base.getId()%>').item || {tipo: ''}).tipo);" />        
+</p>
+            
+<p class="icv-3col">
+            <label for="sel_Area"><b>*</b>Area</label>
+            <input dojoType="dijit.form.FilteringSelect" value="<%=idArea%>" autoComplete="true" store="areaStore<%=base.getId()%>" name="sel_Area" id="sel_Area<%=base.getId()%>" onChange="dijit.byId('sel_Estudio<%=base.getId()%>').query.area = this.value || '*'; dijit.byId('sel_Disciplina<%=base.getId()%>').attr('value', (dijit.byId('sel_Area<%=base.getId()%>').item || {disciplina: ''}).disciplina);" />          <!-- dijit.byId('sel_Carrera<%//=base.getId()%>').attr('value',''); -->
+</p>
+<div class="clearer">&nbsp;</div>
+</div>
+    
+    
+    
+<div class="icv-div-grupo">
+<p class="icv-3col">
+            <label for="sel_Estudio"><b>*</b>Estudio Superior</label>
+            <input dojoType="dijit.form.FilteringSelect" value="<%=idEstudio%>" autoComplete="true" store="estudioStore<%=base.getId()%>" name="sel_Estudio" id="sel_Estudio<%=base.getId()%>" onChange="dijit.byId('sel_Area<%=base.getId()%>').attr('value', (dijit.byId('sel_Estudio<%=base.getId()%>').item || {area: ''}).area);" />       
+</p>
+  
+  
+  
     <p class="icv-3col">
     <label for="idgavance"><b>*</b>Grado de avance</label>
     <select name="idgavance" id="idgavance" dojoType="dijit.form.FilteringSelect" required="true">
