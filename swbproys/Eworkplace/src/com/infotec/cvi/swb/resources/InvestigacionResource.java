@@ -90,7 +90,7 @@ public class InvestigacionResource extends GenericResource
             
             SNIConacyt snic = SNIConacyt.ClassMgr.getSNIConacyt(idsniconacyt,wsite); 
             
-            if(txtareainv!=null&&txtempresa!=null&&txtnomjefe!=null&&txtnompuesto!=null&&snic!=null&&fechafin>0&&numtel>0)
+            if(txtareainv!=null&&txtempresa!=null&&txtnomjefe!=null&&txtnompuesto!=null&&fechafin>0&&numtel>0)
             {
                 Investigacion inves = null;
                 if(id!=null) inves = Investigacion.ClassMgr.getInvestigacion(id,wsite);
@@ -105,7 +105,7 @@ public class InvestigacionResource extends GenericResource
                 inves.setNombrePuesto(txtnompuesto);
                 inves.setFechaTermino(fechafin);
                 inves.setNumTelefono(numtel);
-                inves.setSniConacyt(snic);
+                if(snic!=null) inves.setSniConacyt(snic);
                 
                 response.setAction("");
                 
