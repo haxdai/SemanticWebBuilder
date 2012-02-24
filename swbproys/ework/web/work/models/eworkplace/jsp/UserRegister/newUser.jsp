@@ -40,6 +40,9 @@
             //String url = paramRequest.getActionUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setAction(paramRequest.Action_ADD).setMode(SWBResourceURL.Mode_EDIT).toString();
             String url = paramRequest.getActionUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setAction(paramRequest.Action_ADD).toString();
             String repositoryId = wpage.getWebSite().getUserRepository().getId();
+            
+            
+            
 %>
 <script type="text/javascript">
     <!--
@@ -186,7 +189,7 @@
                 <div class="clearer">&nbsp;</div>
             </div>
             <div class="centro">
-                <input type="reset" onclick="history.back()" value="<%=paramRequest.getLocaleString("lblReset")%>"/>
+                <input type="reset" value="<%=paramRequest.getLocaleString("lblReset")%>"/>
                 <input type="submit" onclick="return enviar()" value="<%=paramRequest.getLocaleString("lblSubmit")%>"/>
             </div>
 
