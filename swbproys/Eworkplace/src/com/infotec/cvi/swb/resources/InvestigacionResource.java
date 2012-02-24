@@ -89,14 +89,18 @@ public class InvestigacionResource extends GenericResource
             }
             
             SNIConacyt snic = SNIConacyt.ClassMgr.getSNIConacyt(idsniconacyt,wsite); 
-            
+            String msg ="";
             if(txtareainv!=null&&txtempresa!=null&&txtnomjefe!=null&&txtnompuesto!=null&&fechafin>0&&numtel>0)
             {
                 Investigacion inves = null;
-                if(id!=null) inves = Investigacion.ClassMgr.getInvestigacion(id,wsite);
-                if(inves!=null){
+                if(id!=null){
+                    inves = Investigacion.ClassMgr.getInvestigacion(id,wsite);
+                    msg="Se actualizó correctamente la Investigación";
+                }
+                if(inves==null){
                     inves = Investigacion.ClassMgr.createInvestigacion(wsite);
                     cv.addInvestigacion(inves);
+                    msg="Se agregó correctamente la Investigación";
                 }
 
                 inves.setAreaInvestigacion(txtareainv);
@@ -110,9 +114,9 @@ public class InvestigacionResource extends GenericResource
                 response.setAction("");
                 
                 response.setRenderParameter("act", "");
-                response.setRenderParameter("alertmsg", "Se agregó correctamente la Investigación");
+                response.setRenderParameter("alertmsg", msg);
             } else {
-                response.setRenderParameter("alertmsg", "Datos inválidos, no se pudo agregar Investigación");
+                response.setRenderParameter("alertmsg", "Datos inválidos, no se pudo procesar Investigación");
             }
 
         } else if (SWBResourceURL.Action_REMOVE.equals(action)) {

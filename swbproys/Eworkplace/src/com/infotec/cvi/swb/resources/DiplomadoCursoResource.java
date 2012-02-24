@@ -87,15 +87,19 @@ public class DiplomadoCursoResource extends GenericResource
                 intfechafin = Integer.parseInt(fechafin);
             } catch (Exception e) {
             }
-            
+            String msg ="";
             if(nomcurso!=null&&nominstitucion!=null&&fechaini!=null&&fechafin!=null&&docobtenido!=null)
             {
                 Diplomado ctic = null;
-                if(id!=null) ctic= Diplomado.ClassMgr.getDiplomado(id,wsite);
+                if(id!=null){
+                    ctic= Diplomado.ClassMgr.getDiplomado(id,wsite);
+                    msg="Se actualizó correctamente el Diplomado / Curso";
+                }
 
                 if(ctic==null){
                     ctic = Diplomado.ClassMgr.createDiplomado(wsite);
                     cv.addDiplomado(ctic);
+                    msg="Se agregó correctamente el Diplomado / Curso";
                 }
                 
                 ctic.setNombreInstitucion(nominstitucion);
@@ -107,9 +111,9 @@ public class DiplomadoCursoResource extends GenericResource
                 response.setAction("");
                 
                 response.setRenderParameter("act", "");
-                response.setRenderParameter("alertmsg", "Se agregó correctamente el Diplomado / Curso");
+                response.setRenderParameter("alertmsg", msg);
             } else {
-                response.setRenderParameter("alertmsg", "Datos inválidos, no se pudo agregar Diplomado / Curso");
+                response.setRenderParameter("alertmsg", "Datos inválidos, no se pudo procesar Diplomado / Curso");
             }
 
         } else if (SWBResourceURL.Action_REMOVE.equals(action)) {

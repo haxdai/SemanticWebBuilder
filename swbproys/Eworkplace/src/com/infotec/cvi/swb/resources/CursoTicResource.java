@@ -88,16 +88,20 @@ public class CursoTicResource extends GenericResource
                 intfechafin = Integer.parseInt(fechafin);
             } catch (Exception e) {
             }
-            
+            String msg ="";
             if(nomcurso!=null&&nominstitucion!=null&&fechaini!=null&&fechafin!=null&&docobtenido!=null)
             {
                 CursoTIC ctic = null;
                 
-                if(id!=null) ctic = CursoTIC.ClassMgr.getCursoTIC(id,wsite);
+                if(id!=null){
+                    ctic = CursoTIC.ClassMgr.getCursoTIC(id,wsite);
+                    msg="Se actualizó correctamente el Curso TIC";
+                }
 
                 if(ctic==null){
                     ctic = CursoTIC.ClassMgr.createCursoTIC(wsite);
                     cv.addCursosTIC(ctic);
+                    msg="Se agregó correctamente el Curso TIC";
                 }
                 
                 
@@ -112,9 +116,9 @@ public class CursoTicResource extends GenericResource
                 response.setAction("");
                 
                 response.setRenderParameter("act", "");
-                response.setRenderParameter("alertmsg", "Se agregó correctamente el Curso");
+                response.setRenderParameter("alertmsg", msg);
             } else {
-                response.setRenderParameter("alertmsg", "Datos inválidos, no se pudo agregar Curso");
+                response.setRenderParameter("alertmsg", "Datos inválidos, no se pudo procesar Curso TIC");
             }
 
         } else if (SWBResourceURL.Action_REMOVE.equals(action)) {
