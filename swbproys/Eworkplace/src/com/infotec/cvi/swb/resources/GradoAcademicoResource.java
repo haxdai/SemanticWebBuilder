@@ -96,10 +96,10 @@ public class GradoAcademicoResource extends GenericResource {
             int intPeriodo = request.getParameter("periodo") != null ? Integer.parseInt(request.getParameter("periodo")) : 0;
             String idgrado = request.getParameter("idgrado");
 
-            System.out.println("Carrera: "+idcarrera+" situación: "+idsituacion+" institución: "+nomInstitucion+" periodo: "+intPeriodo+" Grado: "+idgrado);
+            //System.out.println("Carrera: "+idcarrera+" situación: "+idsituacion+" institución: "+nomInstitucion+" periodo: "+intPeriodo+" Grado: "+idgrado);
             
             Carrera carrera = Carrera.ClassMgr.getCarrera(idcarrera, wsite);
-            System.out.println("carrera: "+carrera);
+            //System.out.println("carrera: "+carrera);
             SituacionAcademica situacion = SituacionAcademica.ClassMgr.getSituacionAcademica(idsituacion, wsite);
             Grado grado = Grado.ClassMgr.getGrado(idgrado, wsite);
 
