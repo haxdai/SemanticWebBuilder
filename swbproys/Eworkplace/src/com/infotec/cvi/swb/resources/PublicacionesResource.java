@@ -78,14 +78,19 @@ public class PublicacionesResource extends GenericResource
                 intfecha = Integer.parseInt(request.getParameter("intfecha"));
             } catch (Exception e) {
             }
+            String msg = "";
             
             if(txttitulo!=null&&txtpublicado!=null&&intfecha>0)
             {
                 Publicacion publi = null;
-                if(id!=null) publi = Publicacion.ClassMgr.getPublicacion(id,wsite);
+                if(id!=null){
+                    publi = Publicacion.ClassMgr.getPublicacion(id,wsite);
+                    msg="Se actualizó correctamente Publicación";
+                }
                 if(publi==null){
                     publi = Publicacion.ClassMgr.createPublicacion(wsite);
                     cv.addPublicacion(publi);
+                    msg="Se agregó correctamente Publicación";
                 }
 
                 publi.setTitle(txttitulo);
@@ -97,9 +102,9 @@ public class PublicacionesResource extends GenericResource
                 response.setAction("");
                 
                 response.setRenderParameter("act", "");
-                response.setRenderParameter("alertmsg", "Se agregó correctamente la Publicación");
+                response.setRenderParameter("alertmsg", msg);
             } else {
-                response.setRenderParameter("alertmsg", "Datos inválidos, no se pudo agregar Publicación");
+                response.setRenderParameter("alertmsg", "Datos inválidos, no se pudo procesar Publicación");
             }
 
         } else if (SWBResourceURL.Action_REMOVE.equals(action)) {

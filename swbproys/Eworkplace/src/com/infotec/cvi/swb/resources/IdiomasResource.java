@@ -85,13 +85,18 @@ public class IdiomasResource extends GenericResource
             Lectura lectura = Lectura.ClassMgr.getLectura(idlectura, wsite);
             Escritura escritura = Escritura.ClassMgr.getEscritura(idescritura, wsite); 
             
+            String msg="";
             if(idiomas!=null&&conv!=null&&lectura!=null&&escritura!=null)
             {
                 Idioma idioma = null;
-                if(id!=null) idioma=Idioma.ClassMgr.getIdioma(id,wsite);
+                if(id!=null) {
+                    idioma=Idioma.ClassMgr.getIdioma(id,wsite);
+                    msg="Se actualizó correctamente el Idioma";
+                }
                 if(idioma==null){
                     idioma = Idioma.ClassMgr.createIdioma(wsite);
                     cv.addIdioma(idioma);
+                    msg="Se agregó correctamente el Idioma";
                 }
 
                 idioma.setConversacion(conv);
@@ -102,9 +107,9 @@ public class IdiomasResource extends GenericResource
                 response.setAction("");
                 
                 response.setRenderParameter("act", "");
-                response.setRenderParameter("alertmsg", "Se agregó correctamente el Idioma");
+                response.setRenderParameter("alertmsg", msg);
             } else {
-                response.setRenderParameter("alertmsg", "Datos inválidos, no se pudo agregar Idioma");
+                response.setRenderParameter("alertmsg", "Datos inválidos, no se pudo procesar Idioma");
             }
 
         } else if (SWBResourceURL.Action_REMOVE.equals(action)) {

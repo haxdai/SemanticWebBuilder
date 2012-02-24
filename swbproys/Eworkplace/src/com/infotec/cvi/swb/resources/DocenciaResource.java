@@ -84,14 +84,18 @@ public class DocenciaResource extends GenericResource
             }
             
             NivelDocencia nivel = NivelDocencia.ClassMgr.getNivelDocencia(idnivel,wsite); 
-            
+            String msg ="";
             if(txtasignatura!=null&&txtinstitucion!=null&&nivel!=null&&intyears>0)
             {
                 Docencia docencia = null;
-                if(id!=null) docencia = Docencia.ClassMgr.getDocencia(id,wsite);
+                if(id!=null){
+                    docencia = Docencia.ClassMgr.getDocencia(id,wsite);
+                    msg="Se actualizó correctamente Docencia";
+                }
                 if(docencia==null){
                     docencia = Docencia.ClassMgr.createDocencia(wsite);
                     cv.addDocencia(docencia);
+                    msg="Se agregó correctamente Docencia";
                 }
 
                 docencia.setAsignatura(txtasignatura);
@@ -102,7 +106,7 @@ public class DocenciaResource extends GenericResource
                 response.setAction("");
                 
                 response.setRenderParameter("act", "");
-                response.setRenderParameter("alertmsg", "Se agregó correctamente Docencia");
+                response.setRenderParameter("alertmsg", msg);
             } else {
                 response.setRenderParameter("alertmsg", "Datos inválidos, no se pudo agregar Docencia");
             }
