@@ -101,7 +101,7 @@ public class EstudioSuperiorResource extends GenericResource
             Estudios estudio = Estudios.ClassMgr.getEstudios(idestudio, wsite);
             Avance gavance = Avance.ClassMgr.getAvance(idgavance, wsite);
             
-            System.out.println("estudio: "+idestudio+", Avance: "+idgavance+", periodo: "+intPeriodo);
+            //System.out.println("estudio: "+idestudio+", Avance: "+idgavance+", periodo: "+intPeriodo);
             
             if(estudio!=null&&gavance!=null&&intPeriodo>=0)
             {
