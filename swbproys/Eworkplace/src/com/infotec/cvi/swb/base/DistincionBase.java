@@ -1,7 +1,7 @@
 package com.infotec.cvi.swb.base;
 
 
-public abstract class DistincionBase extends com.infotec.cvi.swb.ExperienciaProfesional implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+public abstract class DistincionBase extends com.infotec.cvi.swb.ExperienciaProfesional implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaDistincion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaDistincion");
     public static final org.semanticwb.platform.SemanticProperty intranet_otorgante=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#otorgante");

@@ -1,7 +1,7 @@
 package com.infotec.cvi.swb.base;
 
 
-public abstract class ComprobanteCursosBase extends com.infotec.cvi.swb.DocumentoProbatorio implements org.semanticwb.model.Iconable,com.infotec.cvi.swb.Documento,org.semanticwb.model.Traceable
+public abstract class ComprobanteCursosBase extends com.infotec.cvi.swb.DocumentoProbatorio implements org.semanticwb.model.Iconable,org.semanticwb.model.Traceable,com.infotec.cvi.swb.Documento
 {
     public static final org.semanticwb.platform.SemanticClass intranet_ComprobanteCursos=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#ComprobanteCursos");
    /**
