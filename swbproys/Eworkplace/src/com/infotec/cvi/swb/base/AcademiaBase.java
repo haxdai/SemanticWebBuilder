@@ -7,6 +7,7 @@ public abstract class AcademiaBase extends org.semanticwb.model.SWBClass
     public static final org.semanticwb.platform.SemanticProperty intranet_hasGradoAcademico=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasGradoAcademico");
     public static final org.semanticwb.platform.SemanticClass intranet_EstudioSuperior=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#EstudioSuperior");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasEstudioSuperior=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasEstudioSuperior");
+    public static final org.semanticwb.platform.SemanticProperty intranet_noAplicaEstudioSuperior=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#noAplicaEstudioSuperior");
     public static final org.semanticwb.platform.SemanticClass intranet_Academia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Academia");
    /**
    * The semantic class that represents the currentObject
@@ -267,5 +268,23 @@ public abstract class AcademiaBase extends org.semanticwb.model.SWBClass
              ret=(com.infotec.cvi.swb.EstudioSuperior)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the NoAplicaEstudioSuperior property
+* @return boolean with the NoAplicaEstudioSuperior
+*/
+    public boolean isNoAplicaEstudioSuperior()
+    {
+        return getSemanticObject().getBooleanProperty(intranet_noAplicaEstudioSuperior);
+    }
+
+/**
+* Sets the NoAplicaEstudioSuperior property
+* @param value long with the NoAplicaEstudioSuperior
+*/
+    public void setNoAplicaEstudioSuperior(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(intranet_noAplicaEstudioSuperior, value);
     }
 }
