@@ -5,14 +5,19 @@ public abstract class EmpleadoBase extends org.semanticwb.model.UserTypeDef impl
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_noe=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#noe");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaIngreso=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaIngreso");
+    public static final org.semanticwb.platform.SemanticClass intranet_TipoContratacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#TipoContratacion");
+    public static final org.semanticwb.platform.SemanticProperty intranet_tipoContratacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#tipoContratacion");
     public static final org.semanticwb.platform.SemanticProperty intranet_nss=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nss");
     public static final org.semanticwb.platform.SemanticClass intranet_Organo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Organo");
     public static final org.semanticwb.platform.SemanticProperty intranet_adscripcion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#adscripcion");
+    public static final org.semanticwb.platform.SemanticProperty intranet_rfc=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#rfc");
    /**
    * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
    */
     public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
     public static final org.semanticwb.platform.SemanticProperty intranet_jefeInmediato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#jefeInmediato");
+    public static final org.semanticwb.platform.SemanticClass intranet_Puesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Puesto");
+    public static final org.semanticwb.platform.SemanticProperty intranet_puestoContratacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#puestoContratacion");
     public static final org.semanticwb.platform.SemanticClass intranet_Empleado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Empleado");
    /**
    * The semantic class that represents the currentObject
@@ -83,6 +88,29 @@ public abstract class EmpleadoBase extends org.semanticwb.model.UserTypeDef impl
             return (getEmpleado(id, model)!=null);
         }
        /**
+       * Gets all com.infotec.eworkplace.swb.Empleado with a determined TipoContratacion
+       * @param value TipoContratacion of the type com.infotec.cvi.swb.TipoContratacion
+       * @param model Model of the com.infotec.eworkplace.swb.Empleado
+       * @return Iterator with all the com.infotec.eworkplace.swb.Empleado
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Empleado> listEmpleadoByTipoContratacion(com.infotec.cvi.swb.TipoContratacion value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Empleado> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_tipoContratacion, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.Empleado with a determined TipoContratacion
+       * @param value TipoContratacion of the type com.infotec.cvi.swb.TipoContratacion
+       * @return Iterator with all the com.infotec.eworkplace.swb.Empleado
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Empleado> listEmpleadoByTipoContratacion(com.infotec.cvi.swb.TipoContratacion value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Empleado> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_tipoContratacion,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all com.infotec.eworkplace.swb.Empleado with a determined Adscripcion
        * @param value Adscripcion of the type com.infotec.eworkplace.swb.Organo
        * @param model Model of the com.infotec.eworkplace.swb.Empleado
@@ -126,6 +154,29 @@ public abstract class EmpleadoBase extends org.semanticwb.model.UserTypeDef impl
         public static java.util.Iterator<com.infotec.eworkplace.swb.Empleado> listEmpleadoByJefeInmediato(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Empleado> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_jefeInmediato,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.Empleado with a determined PuestoContratacion
+       * @param value PuestoContratacion of the type com.infotec.cvi.swb.Puesto
+       * @param model Model of the com.infotec.eworkplace.swb.Empleado
+       * @return Iterator with all the com.infotec.eworkplace.swb.Empleado
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Empleado> listEmpleadoByPuestoContratacion(com.infotec.cvi.swb.Puesto value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Empleado> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_puestoContratacion, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.Empleado with a determined PuestoContratacion
+       * @param value PuestoContratacion of the type com.infotec.cvi.swb.Puesto
+       * @return Iterator with all the com.infotec.eworkplace.swb.Empleado
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Empleado> listEmpleadoByPuestoContratacion(com.infotec.cvi.swb.Puesto value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Empleado> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_puestoContratacion,value.getSemanticObject(),sclass));
             return it;
         }
     }
@@ -173,6 +224,44 @@ public abstract class EmpleadoBase extends org.semanticwb.model.UserTypeDef impl
     public void setFechaIngreso(java.util.Date value)
     {
         getSemanticObject().setDateProperty(intranet_fechaIngreso, value);
+    }
+   /**
+   * Sets the value for the property TipoContratacion
+   * @param value TipoContratacion to set
+   */
+
+    public void setTipoContratacion(com.infotec.cvi.swb.TipoContratacion value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_tipoContratacion, value.getSemanticObject());
+        }else
+        {
+            removeTipoContratacion();
+        }
+    }
+   /**
+   * Remove the value for TipoContratacion property
+   */
+
+    public void removeTipoContratacion()
+    {
+        getSemanticObject().removeProperty(intranet_tipoContratacion);
+    }
+
+   /**
+   * Gets the TipoContratacion
+   * @return a com.infotec.cvi.swb.TipoContratacion
+   */
+    public com.infotec.cvi.swb.TipoContratacion getTipoContratacion()
+    {
+         com.infotec.cvi.swb.TipoContratacion ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_tipoContratacion);
+         if(obj!=null)
+         {
+             ret=(com.infotec.cvi.swb.TipoContratacion)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
@@ -230,6 +319,24 @@ public abstract class EmpleadoBase extends org.semanticwb.model.UserTypeDef impl
          }
          return ret;
     }
+
+/**
+* Gets the Rfc property
+* @return String with the Rfc
+*/
+    public String getRfc()
+    {
+        return getSemanticObject().getProperty(intranet_rfc);
+    }
+
+/**
+* Sets the Rfc property
+* @param value long with the Rfc
+*/
+    public void setRfc(String value)
+    {
+        getSemanticObject().setProperty(intranet_rfc, value);
+    }
    /**
    * Sets the value for the property JefeInmediato
    * @param value JefeInmediato to set
@@ -285,5 +392,43 @@ public abstract class EmpleadoBase extends org.semanticwb.model.UserTypeDef impl
     public void setExtension(int value)
     {
         getSemanticObject().setIntProperty(intranet_extension, value);
+    }
+   /**
+   * Sets the value for the property PuestoContratacion
+   * @param value PuestoContratacion to set
+   */
+
+    public void setPuestoContratacion(com.infotec.cvi.swb.Puesto value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_puestoContratacion, value.getSemanticObject());
+        }else
+        {
+            removePuestoContratacion();
+        }
+    }
+   /**
+   * Remove the value for PuestoContratacion property
+   */
+
+    public void removePuestoContratacion()
+    {
+        getSemanticObject().removeProperty(intranet_puestoContratacion);
+    }
+
+   /**
+   * Gets the PuestoContratacion
+   * @return a com.infotec.cvi.swb.Puesto
+   */
+    public com.infotec.cvi.swb.Puesto getPuestoContratacion()
+    {
+         com.infotec.cvi.swb.Puesto ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_puestoContratacion);
+         if(obj!=null)
+         {
+             ret=(com.infotec.cvi.swb.Puesto)obj.createGenericInstance();
+         }
+         return ret;
     }
 }
