@@ -277,11 +277,11 @@
 <div class="icv-div-grupo">
   <p class="icv-3col">
     <label for="txtasignatura"><b>*</b>Asignatura</label>
-    <input type="text" name="txtasignatura" id="txtasignatura" maxlength="150" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese la asignatura" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
+    <input type="text" name="txtasignatura" id="txtasignatura" maxlength="150" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese la asignatura" regExp="[a-zA-Z0-9\u00C0-\u00FF',. /_-]+"/>
   </p>
         <p class="icv-3col">
     <label for="txtinstitucion"><b>*</b>Institución</label>
-    <input type="text" name="txtinstitucion" id="txtinstitucion" maxlength="150" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese la institución" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
+    <input type="text" name="txtinstitucion" id="txtinstitucion" maxlength="150" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese la institución" regExp="[a-zA-Z0-9\u00C0-\u00FF',. /_-]+"/>
   </p>
   
     <p class="icv-3col">
@@ -355,11 +355,11 @@
 <div class="icv-div-grupo">
   <p class="icv-3col">
     <label for="txtasignatura"><b>*</b>Asignatura</label>
-    <input type="text" name="txtasignatura" id="txtasignatura" maxlength="150" value="<%=docencia.getAsignatura()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese la asignatura" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
+    <input type="text" name="txtasignatura" id="txtasignatura" maxlength="150" value="<%=docencia.getAsignatura()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese la asignatura" regExp="[a-zA-Z0-9\u00C0-\u00FF',. /_-]+"/>
   </p>
         <p class="icv-3col">
     <label for="txtinstitucion"><b>*</b>Institución</label>
-    <input type="text" name="txtinstitucion" id="txtinstitucion" maxlength="150" value="<%=docencia.getInstitucion()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese la institución" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
+    <input type="text" name="txtinstitucion" id="txtinstitucion" maxlength="150" value="<%=docencia.getInstitucion()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese la institución" regExp="[a-zA-Z0-9\u00C0-\u00FF',. /_-]+"/>
   </p>
   
     <p class="icv-3col">

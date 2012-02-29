@@ -292,15 +292,15 @@
 <div class="icv-div-grupo">
       <p class="icv-3col">
     <label for="txtempresa"><b>*</b>Empresa o Institución</label>
-    <input type="text" name="txtempresa" id="txtempresa" maxlength="150" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese la empresa o institución" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
+    <input type="text" name="txtempresa" id="txtempresa" maxlength="150" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese la empresa o institución" regExp="[a-zA-Z0-9\u00C0-\u00FF',. /_-]+"/>
   </p>
     <p class="icv-3col">
     <label for="txtareainv"><b>*</b>Area de Investigación</label>
-    <input type="text" name="txtareainv" id="txtareainv" maxlength="100" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese el área de investigación" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
+    <input type="text" name="txtareainv" id="txtareainv" maxlength="100" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese el área de investigación" regExp="[a-zA-Z0-9\u00C0-\u00FF',. /_-]+"/>
   </p>
     <p class="icv-3col">
     <label for="txtnompuesto"><b>*</b>Puesto</label>
-    <input type="text" name="txtnompuesto" id="txtnompuesto" maxlength="100" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese el puesto" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
+    <input type="text" name="txtnompuesto" id="txtnompuesto" maxlength="100" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese el puesto" regExp="[a-zA-Z0-9\u00C0-\u00FF',. /_-]+"/>
   </p>
   <div class="clearer">&nbsp;</div>
 </div>
@@ -316,7 +316,7 @@
   </p>
     <p class="icv-3col">
     <label for="txtnomjefe">Nombre y puesto del jefe inmediato</label>
-    <input type="text" name="txtnomjefe" id="txtnomjefe" maxlength="150" dojoType="dijit.form.ValidationTextBox" promptMessage="Ingrese el nombre y puesto del jefe inmediato" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
+    <input type="text" name="txtnomjefe" id="txtnomjefe" maxlength="150" dojoType="dijit.form.ValidationTextBox" promptMessage="Ingrese el nombre y puesto del jefe inmediato" regExp="[a-zA-Z0-9\u00C0-\u00FF',. /_-]+"/>
   </p>
   <div class="clearer">&nbsp;</div>
 </div>
@@ -387,15 +387,15 @@
 <div class="icv-div-grupo">
       <p class="icv-3col">
     <label for="txtempresa"><b>*</b>Empresa o Institución</label>
-    <input type="text" name="txtempresa" id="txtempresa" maxlength="150" value="<%=inves.getNombreEmpresa()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese la empresa o institución" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
+    <input type="text" name="txtempresa" id="txtempresa" maxlength="150" value="<%=inves.getNombreEmpresa()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese la empresa o institución" regExp="[a-zA-Z0-9\u00C0-\u00FF',. /_-]+"/>
   </p>
     <p class="icv-3col">
     <label for="txtareainv"><b>*</b>Area de Investigación</label>
-    <input type="text" name="txtareainv" id="txtareainv" maxlength="100" value="<%=inves.getAreaInvestigacion()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese el área de investigación" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
+    <input type="text" name="txtareainv" id="txtareainv" maxlength="100" value="<%=inves.getAreaInvestigacion()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese el área de investigación" regExp="[a-zA-Z0-9\u00C0-\u00FF',. /_-]+"/>
   </p>
     <p class="icv-3col">
     <label for="txtnompuesto"><b>*</b>Puesto</label>
-    <input type="text" name="txtnompuesto" id="txtnompuesto" maxlength="100" value="<%=inves.getNombrePuesto()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese el puesto" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
+    <input type="text" name="txtnompuesto" id="txtnompuesto" maxlength="100" value="<%=inves.getNombrePuesto()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese el puesto" regExp="[a-zA-Z0-9\u00C0-\u00FF',. /_-]+"/>
   </p>
     <div class="clearer">&nbsp;</div>
 </div>
@@ -411,7 +411,7 @@
   </p>
     <p class="icv-3col">
     <label for="txtnomjefe">Nombre y puesto del jefe inmediato</label>
-    <input type="text" name="txtnomjefe" id="txtnomjefe" maxlength="150" value="<%=inves.getNombreJefePuesto()%>" dojoType="dijit.form.ValidationTextBox" promptMessage="Ingrese el nombre y puesto del jefe inmediato" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
+    <input type="text" name="txtnomjefe" id="txtnomjefe" maxlength="150" value="<%=inves.getNombreJefePuesto()%>" dojoType="dijit.form.ValidationTextBox" promptMessage="Ingrese el nombre y puesto del jefe inmediato" regExp="[a-zA-Z0-9\u00C0-\u00FF',. /_-]+"/>
   </p>
     <div class="clearer">&nbsp;</div>
 </div>

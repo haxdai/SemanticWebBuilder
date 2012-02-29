@@ -269,11 +269,11 @@
 <div class="icv-div-grupo">
   <p class="icv-3col">
     <label for="txttitulo"><b>*</b>Título</label>
-    <input type="text" name="txttitulo" id="txttitulo" maxlength="100"  dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese el título de la publicación" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
+    <input type="text" name="txttitulo" id="txttitulo" maxlength="100"  dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese el título de la publicación" regExp="[a-zA-Z0-9\u00C0-\u00FF',. /_-]+"/>
   </p>
         <p class="icv-3col">
     <label for="txtpublicado"><b>*</b>Publicado en</label>
-    <input type="text" name="txtpublicado" id="txtpublicado" maxlength="100"  dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese el nombre de la publicación" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
+    <input type="text" name="txtpublicado" id="txtpublicado" maxlength="100"  dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese el nombre de la publicación" regExp="[a-zA-Z0-9\u00C0-\u00FF',. /_-]+"/>
   </p>
   <p class="icv-3col">
     <label for="intfecha"><b>*</b>Año</label>
@@ -328,11 +328,11 @@
 <div class="icv-div-grupo">
   <p class="icv-3col">
     <label for="txttitulo"><b>*</b>Título</label>
-    <input type="text" name="txttitulo" id="txttitulo" maxlength="100" value="<%=publi.getTitle()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese el título de la publicación" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
+    <input type="text" name="txttitulo" id="txttitulo" maxlength="100" value="<%=publi.getTitle()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese el título de la publicación" regExp="[a-zA-Z0-9\u00C0-\u00FF',. /_-]+"/>
   </p>
         <p class="icv-3col">
     <label for="txtpublicado"><b>*</b>Publicado en</label>
-    <input type="text" name="txtpublicado" id="txtpublicado" maxlength="100" value="<%=publi.getPublicado()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese el nombre de la publicación" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
+    <input type="text" name="txtpublicado" id="txtpublicado" maxlength="100" value="<%=publi.getPublicado()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese el nombre de la publicación" regExp="[a-zA-Z0-9\u00C0-\u00FF',. /_-]+"/>
   </p>
   <p class="icv-3col">
     <label for="intfecha"><b>*</b>Año</label>
