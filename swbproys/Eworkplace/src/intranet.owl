@@ -2383,9 +2383,10 @@
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="sinExperiencia">
-    <rdfs:domain rdf:resource="#CV"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >No aplica experiencia</rdfs:label>
+    >Sin Experiencia</rdfs:label>
+    <rdfs:domain rdf:resource="#CV"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="fechaTermino">
     <swb:displayProperty>
