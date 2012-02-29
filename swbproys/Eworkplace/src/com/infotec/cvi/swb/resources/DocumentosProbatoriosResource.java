@@ -31,8 +31,7 @@ import org.semanticwb.portal.api.SWBResourceException;
  *
  * @author juan.fernandez
  */
-public class DocumentosProbatoriosResource extends GenericResource
-{
+public class DocumentosProbatoriosResource extends GenericResource {
 
     private Logger log = SWBUtils.getLogger(DocumentosProbatoriosResource.class);
     private static final String DEFAULT_MIME_TYPE = "application/octet-stream";
@@ -55,7 +54,7 @@ public class DocumentosProbatoriosResource extends GenericResource
             }
         }
     }
-    
+
     public void doGetFile(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
 
         response.setHeader("Cache-Control", "no-cache");
@@ -63,24 +62,24 @@ public class DocumentosProbatoriosResource extends GenericResource
 
         String fileName = request.getParameter("fileid");
         String propURI = request.getParameter("propURI");
-        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy-hhmmaaa", new Locale("es"));     
+        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy-hhmmaaa", new Locale("es"));
 
         User usr = paramRequest.getUser();
         WebSite wsite = paramRequest.getWebPage().getWebSite();
-        
+
         CV cv = CV.ClassMgr.getCV(usr.getId(), wsite);
-        if(cv==null) {
-            cv = CV.ClassMgr.createCV(usr.getId(),wsite);
+        if (cv == null) {
+            cv = CV.ClassMgr.createCV(usr.getId(), wsite);
             cv.setPropietario(usr);
         }
-        
+
         DocumentoProbatorio docto = cv.getDocumentoProbatorio();
-        if(docto==null){
-            docto =DocumentoProbatorio.ClassMgr.createDocumentoProbatorio(wsite);
+        if (docto == null) {
+            docto = DocumentoProbatorio.ClassMgr.createDocumentoProbatorio(wsite);
             cv.setDocumentoProbatorio(docto);
         }
-        
-        
+
+
         String action = paramRequest.getAction();
         try {
             String mime = null;
@@ -89,7 +88,7 @@ public class DocumentosProbatoriosResource extends GenericResource
             InputStream fin = null;
             String file_read = null;
 
-            if (null != fileName ) {
+            if (null != fileName) {
 
                 String fileext = "pdf";
 
@@ -123,31 +122,29 @@ public class DocumentosProbatoriosResource extends GenericResource
 
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
-    
+
         User usr = response.getUser();
         WebPage wpage = response.getWebPage();
         WebSite wsite = wpage.getWebSite();
-         CV cv = CV.ClassMgr.getCV(usr.getId(), wsite);
-        if(cv==null) {
-            cv = CV.ClassMgr.createCV(usr.getId(),wsite);
+        CV cv = CV.ClassMgr.getCV(usr.getId(), wsite);
+        if (cv == null) {
+            cv = CV.ClassMgr.createCV(usr.getId(), wsite);
             cv.setPropietario(usr);
         }
-        
+
         DocumentoProbatorio docto = cv.getDocumentoProbatorio();
-        if(docto==null){
-            docto =DocumentoProbatorio.ClassMgr.createDocumentoProbatorio(wsite);
+        if (docto == null) {
+            docto = DocumentoProbatorio.ClassMgr.createDocumentoProbatorio(wsite);
             cv.setDocumentoProbatorio(docto);
         }
         try {
-                        SWBFormMgr fmgr = null;
-                        fmgr = new SWBFormMgr(docto.getSemanticObject(), SWBFormMgr.MODE_EDIT, SWBFormMgr.MODE_EDIT);
-                        fmgr.processForm(request);
+            SWBFormMgr fmgr = null;
+            fmgr = new SWBFormMgr(docto.getSemanticObject(), SWBFormMgr.MODE_EDIT, SWBFormMgr.MODE_EDIT);
+            fmgr.processForm(request);
 
-                    } catch (Exception exfiles) {
-                        log.error("Error al procesar la forma - UploadFiles FormatoValidacionDocs.processAction()", exfiles);
-                    }
-        
+        } catch (Exception exfiles) {
+            log.error("Error al procesar la forma - UploadFiles FormatoValidacionDocs.processAction()", exfiles);
+        }
+
     }
-    
-    
 }
