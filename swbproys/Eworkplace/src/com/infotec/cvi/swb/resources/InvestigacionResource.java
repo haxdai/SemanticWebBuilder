@@ -6,7 +6,6 @@ package com.infotec.cvi.swb.resources;
 
 import com.infotec.cvi.swb.CV;
 import com.infotec.cvi.swb.Investigacion;
-import com.infotec.cvi.swb.SNIConacyt;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
@@ -88,7 +87,7 @@ public class InvestigacionResource extends GenericResource
             } catch (Exception e) {
             }
             
-            SNIConacyt snic = SNIConacyt.ClassMgr.getSNIConacyt(idsniconacyt,wsite); 
+            //SNIConacyt snic = SNIConacyt.ClassMgr.getSNIConacyt(idsniconacyt,wsite); 
             String msg ="";
             if(txtareainv!=null&&txtempresa!=null&&txtnomjefe!=null&&txtnompuesto!=null&&fechafin>0&&numtel>0)
             {
@@ -109,7 +108,7 @@ public class InvestigacionResource extends GenericResource
                 inves.setNombrePuesto(txtnompuesto);
                 inves.setFechaTermino(fechafin);
                 inves.setNumTelefono(numtel);
-                if(snic!=null) inves.setSniConacyt(snic);
+                if(idsniconacyt!=null) inves.setSniConacyt(idsniconacyt);
                 
                 response.setAction("");
                 
