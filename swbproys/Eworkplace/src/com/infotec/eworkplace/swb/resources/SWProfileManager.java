@@ -1,6 +1,10 @@
 package com.infotec.eworkplace.swb.resources;
 
+import com.infotec.cvi.swb.CP;
 import com.infotec.cvi.swb.CV;
+import com.infotec.cvi.swb.Colonia;
+import com.infotec.cvi.swb.EntidadFederativa;
+import com.infotec.cvi.swb.Municipio;
 import com.infotec.eworkplace.swb.Domicilio;
 import com.infotec.eworkplace.swb.Familia;
 import com.infotec.eworkplace.swb.Persona;
@@ -409,11 +413,76 @@ System.out.println("paramRequest.getAction()="+paramRequest.getAction());
             htm.append("   <h3>Contacto externo</h3>");
             htm.append("   <p>Esta informaci&oacute;n es para uso exclusivo de la instituci&oacute;n, no aparecer&aacute; en tu perfil</p>");
             htm.append("   <p class=\"tercio\"><label for=\"cn\">Calle y n&uacute;mero</label><input type=\"text\" name=\"cn\" id=\"cn\" value=\""+(d.getCalle()==null?"":d.getCalle())+"\" /></p>");
-            htm.append("   <p class=\"tercio\"><label for=\"col\">Colonia</label><input type=\"text\" name=\"col\" id=\"col\" value=\""+(d.getColonia()==null?"":d.getColonia())+"\" /></p>");
-            htm.append("   <p class=\"tercio\"><label for=\"cd\">Ciudad/Poblaci&oacute;n</label><input type=\"text\" name=\"cd\" id=\"cd\" value=\""+(d.getCiudad()==null?"":d.getCiudad())+"\" /></p>");
-            htm.append("   <p class=\"tercio\"><label for=\"mun\">Municipio/Delegaci&oacute;n</label><input type=\"text\" name=\"mun\" id=\"mun\" value=\""+(d.getMunicipio()==null?"":d.getMunicipio())+"\" /></p>");
-            htm.append("   <p class=\"tercio\"><label for=\"edo\">Estado</label><input type=\"text\" name=\"edo\" id=\"edo\" value=\""+(d.getEntidad()==null?"":d.getEntidad())+"\" /></p>");
-            htm.append("   <p class=\"tercio\"><label for=\"cp\">C&oacute;digo postal</label><input type=\"text\" name=\"cp\" id=\"cp\" value=\""+(d.getCp()==null?"":d.getCp())+"\" /></p>");
+                                
+                    //TODO: cambiar colonia, municipio, estado, CP a objetos, ya son catálogos
+            
+            htm.append("   <p class=\"tercio\"><label for=\"col\">Colonia</label>");
+            //htm.append("     <input type=\"text\" name=\"col\" id=\"col\" value=\""+(d.getColonia()==null?"":d.getColonia())+"\" />");
+            htm.append("   <select name=\"col\" id=\"col\">");
+            Iterator<Colonia> colonias = Colonia.ClassMgr.listColonias(wsite);
+            if(colonias.hasNext()) {
+                Colonia c;
+                while(colonias.hasNext()) {
+                    c = colonias.next();
+                    if(c.equals(d.getColonia()))
+                        htm.append("<option value=\""+c.getId()+"\" selected=\"selected\">"+c.getDisplayTitle(lang)+"</option>");
+                    else
+                        htm.append("<option value=\""+c.getId()+"\">"+c.getDisplayTitle(lang)+"</option>");
+                }
+            }
+            htm.append("   </select>");
+            htm.append("   </p>");
+            htm.append("   <p class=\"tercio\"><label for=\"cd\">Ciudad/Poblaci&oacute;n</label>");
+            htm.append("     <input type=\"text\" name=\"cd\" id=\"cd\" value=\""+(d.getCiudad()==null?"":d.getCiudad())+"\" />");
+            htm.append(   "</p>");
+            htm.append("   <p class=\"tercio\"><label for=\"mun\">Municipio/Delegaci&oacute;n</label>");
+            //htm.append("     <input type=\"text\" name=\"mun\" id=\"mun\" value=\""+(d.getMunicipio()==null?"":d.getMunicipio())+"\" />");
+            htm.append("   <select name=\"mun\" id=\"mun\">");
+            Iterator<Municipio> municipios = Municipio.ClassMgr.listMunicipios(wsite);
+            if(municipios.hasNext()) {
+                Municipio c;
+                while(municipios.hasNext()) {
+                    c = municipios.next();
+                    if(c.equals(d.getMunicipio()))
+                        htm.append("<option value=\""+c.getId()+"\" selected=\"selected\">"+c.getDisplayTitle(lang)+"</option>");
+                    else
+                        htm.append("<option value=\""+c.getId()+"\">"+c.getDisplayTitle(lang)+"</option>");
+                }
+            }
+            htm.append("   </select>");
+            htm.append("   </p>");
+            htm.append("   <p class=\"tercio\"><label for=\"edo\">Estado</label>");
+            //htm.append(     "<input type=\"text\" name=\"edo\" id=\"edo\" value=\""+(d.getEntidad()==null?"":d.getEntidad())+"\" />");
+            htm.append("   <select name=\"edo\" id=\"edo\">");
+            Iterator<EntidadFederativa> entidades = EntidadFederativa.ClassMgr.listEntidadFederativas(wsite);
+            if(entidades.hasNext()) {
+                EntidadFederativa c;
+                while(entidades.hasNext()) {
+                    c = entidades.next();
+                    if(c.equals(d.getEntidad()))
+                        htm.append("<option value=\""+c.getId()+"\" selected=\"selected\">"+c.getDisplayTitle(lang)+"</option>");
+                    else
+                        htm.append("<option value=\""+c.getId()+"\">"+c.getDisplayTitle(lang)+"</option>");
+                }
+            }
+            htm.append("   </select>");
+            htm.append("   </p>");
+            htm.append("   <p class=\"tercio\"><label for=\"cp\">C&oacute;digo postal</label>");
+            //htm.append("     <input type=\"text\" name=\"cp\" id=\"cp\" value=\""+(d.getCp()==null?"":d.getCp())+"\" />");
+            htm.append("   <select name=\"cp\" id=\"cp\">");
+            Iterator<CP> cps = CP.ClassMgr.listCPs(wsite);
+            if(cps.hasNext()) {
+                CP c;
+                while(cps.hasNext()) {
+                    c = cps.next();
+                    if(c.equals(d.getCp()))
+                        htm.append("<option value=\""+c.getId()+"\" selected=\"selected\">"+c.getDisplayTitle(lang)+"</option>");
+                    else
+                        htm.append("<option value=\""+c.getId()+"\">"+c.getDisplayTitle(lang)+"</option>");
+                }
+            }
+            htm.append("   </select>");
+            htm.append("   </p>");
             htm.append("   <p class=\"medio\"><label for=\"ctry\">Pa&iacute;s</label>");
             htm.append("   <select name=\"ctry\" id=\"ctry\">");
             Iterator<Country> countries = Country.ClassMgr.listCountries(wsite);
@@ -615,14 +684,33 @@ System.out.println("paramRequest.getAction()="+paramRequest.getAction());
                     Persona persona = cv.getPersona();
                     Domicilio domicilio = persona.getDomicilio();
                     domicilio.setCalle(SWBUtils.XML.replaceXMLChars(request.getParameter("cn")));
-                    domicilio.setColonia(SWBUtils.XML.replaceXMLChars(request.getParameter("col")));
-                    domicilio.setCiudad(SWBUtils.XML.replaceXMLChars(request.getParameter("cd")));
-                    domicilio.setMunicipio(SWBUtils.XML.replaceXMLChars(request.getParameter("mun")));
-                    domicilio.setEntidad(SWBUtils.XML.replaceXMLChars(request.getParameter("edo")));
-                    try {
-                        domicilio.setCp(Integer.toString(Integer.parseInt(SWBUtils.XML.replaceXMLChars(request.getParameter("cp")))));
-                    }catch(Exception nfe) {
+
+                    Colonia colonia = null;
+                    if(request.getParameter("col")!=null){
+                        colonia = Colonia.ClassMgr.getColonia(request.getParameter("col"), wsite); 
                     }
+                    if(colonia!=null) domicilio.setColonia(colonia);
+                    domicilio.setCiudad(SWBUtils.XML.replaceXMLChars(request.getParameter("cd")));
+                    
+                    Municipio municipio = null;
+                    if(request.getParameter("mun")!=null){
+                        municipio = Municipio.ClassMgr.getMunicipio(request.getParameter("mun"), wsite); 
+                    }
+                    if(municipio!=null) domicilio.setMunicipio(municipio);
+                    
+                    EntidadFederativa entidad = null;
+                    if(request.getParameter("edo")!=null){
+                        entidad = EntidadFederativa.ClassMgr.getEntidadFederativa(request.getParameter("edo"), wsite); 
+                    }
+                    if(entidad!=null) domicilio.setEntidad(entidad);
+                    
+                    CP cp = null;
+                    if(request.getParameter("cp")!=null){
+                        cp = CP.ClassMgr.getCP(request.getParameter("cp"), wsite); 
+                    }
+                    if(cp!=null) domicilio.setCp(cp);
+                    
+
                     String countryId = SWBUtils.XML.replaceXMLChars(request.getParameter("ctry"));
                     if(Country.ClassMgr.hasCountry(countryId, wsite)) {
                         domicilio.setPais(Country.ClassMgr.getCountry(countryId, wsite));
