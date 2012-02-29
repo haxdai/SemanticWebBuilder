@@ -3,8 +3,12 @@ package com.infotec.eworkplace.swb.base;
 
 public abstract class DomicilioBase extends org.semanticwb.model.SWBClass 
 {
+    public static final org.semanticwb.platform.SemanticProperty intranet_numExterior=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#numExterior");
     public static final org.semanticwb.platform.SemanticProperty intranet_ciudad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#ciudad");
+    public static final org.semanticwb.platform.SemanticProperty intranet_numInterior=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#numInterior");
+    public static final org.semanticwb.platform.SemanticClass intranet_CP=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#CP");
     public static final org.semanticwb.platform.SemanticProperty intranet_cp=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#cp");
+    public static final org.semanticwb.platform.SemanticClass intranet_EntidadFederativa=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#EntidadFederativa");
     public static final org.semanticwb.platform.SemanticProperty intranet_entidad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#entidad");
     public static final org.semanticwb.platform.SemanticProperty intranet_calle=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#calle");
    /**
@@ -12,7 +16,9 @@ public abstract class DomicilioBase extends org.semanticwb.model.SWBClass
    */
     public static final org.semanticwb.platform.SemanticClass swb_Country=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#Country");
     public static final org.semanticwb.platform.SemanticProperty intranet_pais=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#pais");
+    public static final org.semanticwb.platform.SemanticClass intranet_Colonia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Colonia");
     public static final org.semanticwb.platform.SemanticProperty intranet_colonia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#colonia");
+    public static final org.semanticwb.platform.SemanticClass intranet_Municipio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Municipio");
     public static final org.semanticwb.platform.SemanticProperty intranet_municipio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#municipio");
     public static final org.semanticwb.platform.SemanticClass intranet_Domicilio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Domicilio");
    /**
@@ -90,6 +96,52 @@ public abstract class DomicilioBase extends org.semanticwb.model.SWBClass
             return (getDomicilio(id, model)!=null);
         }
        /**
+       * Gets all com.infotec.eworkplace.swb.Domicilio with a determined Cp
+       * @param value Cp of the type com.infotec.cvi.swb.CP
+       * @param model Model of the com.infotec.eworkplace.swb.Domicilio
+       * @return Iterator with all the com.infotec.eworkplace.swb.Domicilio
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Domicilio> listDomicilioByCp(com.infotec.cvi.swb.CP value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Domicilio> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_cp, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.Domicilio with a determined Cp
+       * @param value Cp of the type com.infotec.cvi.swb.CP
+       * @return Iterator with all the com.infotec.eworkplace.swb.Domicilio
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Domicilio> listDomicilioByCp(com.infotec.cvi.swb.CP value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Domicilio> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_cp,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.Domicilio with a determined Entidad
+       * @param value Entidad of the type com.infotec.cvi.swb.EntidadFederativa
+       * @param model Model of the com.infotec.eworkplace.swb.Domicilio
+       * @return Iterator with all the com.infotec.eworkplace.swb.Domicilio
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Domicilio> listDomicilioByEntidad(com.infotec.cvi.swb.EntidadFederativa value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Domicilio> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_entidad, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.Domicilio with a determined Entidad
+       * @param value Entidad of the type com.infotec.cvi.swb.EntidadFederativa
+       * @return Iterator with all the com.infotec.eworkplace.swb.Domicilio
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Domicilio> listDomicilioByEntidad(com.infotec.cvi.swb.EntidadFederativa value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Domicilio> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_entidad,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all com.infotec.eworkplace.swb.Domicilio with a determined Pais
        * @param value Pais of the type org.semanticwb.model.Country
        * @param model Model of the com.infotec.eworkplace.swb.Domicilio
@@ -112,6 +164,52 @@ public abstract class DomicilioBase extends org.semanticwb.model.SWBClass
             org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Domicilio> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_pais,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all com.infotec.eworkplace.swb.Domicilio with a determined Colonia
+       * @param value Colonia of the type com.infotec.cvi.swb.Colonia
+       * @param model Model of the com.infotec.eworkplace.swb.Domicilio
+       * @return Iterator with all the com.infotec.eworkplace.swb.Domicilio
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Domicilio> listDomicilioByColonia(com.infotec.cvi.swb.Colonia value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Domicilio> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_colonia, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.Domicilio with a determined Colonia
+       * @param value Colonia of the type com.infotec.cvi.swb.Colonia
+       * @return Iterator with all the com.infotec.eworkplace.swb.Domicilio
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Domicilio> listDomicilioByColonia(com.infotec.cvi.swb.Colonia value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Domicilio> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_colonia,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.Domicilio with a determined Municipio
+       * @param value Municipio of the type com.infotec.cvi.swb.Municipio
+       * @param model Model of the com.infotec.eworkplace.swb.Domicilio
+       * @return Iterator with all the com.infotec.eworkplace.swb.Domicilio
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Domicilio> listDomicilioByMunicipio(com.infotec.cvi.swb.Municipio value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Domicilio> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_municipio, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.Domicilio with a determined Municipio
+       * @param value Municipio of the type com.infotec.cvi.swb.Municipio
+       * @return Iterator with all the com.infotec.eworkplace.swb.Domicilio
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Domicilio> listDomicilioByMunicipio(com.infotec.cvi.swb.Municipio value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Domicilio> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_municipio,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
    /**
@@ -121,6 +219,24 @@ public abstract class DomicilioBase extends org.semanticwb.model.SWBClass
     public DomicilioBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+/**
+* Gets the NumExterior property
+* @return String with the NumExterior
+*/
+    public String getNumExterior()
+    {
+        return getSemanticObject().getProperty(intranet_numExterior);
+    }
+
+/**
+* Sets the NumExterior property
+* @param value long with the NumExterior
+*/
+    public void setNumExterior(String value)
+    {
+        getSemanticObject().setProperty(intranet_numExterior, value);
     }
 
 /**
@@ -142,39 +258,97 @@ public abstract class DomicilioBase extends org.semanticwb.model.SWBClass
     }
 
 /**
-* Gets the Cp property
-* @return String with the Cp
+* Gets the NumInterior property
+* @return String with the NumInterior
 */
-    public String getCp()
+    public String getNumInterior()
     {
-        return getSemanticObject().getProperty(intranet_cp);
+        return getSemanticObject().getProperty(intranet_numInterior);
     }
 
 /**
-* Sets the Cp property
-* @param value long with the Cp
+* Sets the NumInterior property
+* @param value long with the NumInterior
 */
-    public void setCp(String value)
+    public void setNumInterior(String value)
     {
-        getSemanticObject().setProperty(intranet_cp, value);
+        getSemanticObject().setProperty(intranet_numInterior, value);
+    }
+   /**
+   * Sets the value for the property Cp
+   * @param value Cp to set
+   */
+
+    public void setCp(com.infotec.cvi.swb.CP value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_cp, value.getSemanticObject());
+        }else
+        {
+            removeCp();
+        }
+    }
+   /**
+   * Remove the value for Cp property
+   */
+
+    public void removeCp()
+    {
+        getSemanticObject().removeProperty(intranet_cp);
     }
 
-/**
-* Gets the Entidad property
-* @return String with the Entidad
-*/
-    public String getEntidad()
+   /**
+   * Gets the Cp
+   * @return a com.infotec.cvi.swb.CP
+   */
+    public com.infotec.cvi.swb.CP getCp()
     {
-        return getSemanticObject().getProperty(intranet_entidad);
+         com.infotec.cvi.swb.CP ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_cp);
+         if(obj!=null)
+         {
+             ret=(com.infotec.cvi.swb.CP)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Sets the value for the property Entidad
+   * @param value Entidad to set
+   */
+
+    public void setEntidad(com.infotec.cvi.swb.EntidadFederativa value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_entidad, value.getSemanticObject());
+        }else
+        {
+            removeEntidad();
+        }
+    }
+   /**
+   * Remove the value for Entidad property
+   */
+
+    public void removeEntidad()
+    {
+        getSemanticObject().removeProperty(intranet_entidad);
     }
 
-/**
-* Sets the Entidad property
-* @param value long with the Entidad
-*/
-    public void setEntidad(String value)
+   /**
+   * Gets the Entidad
+   * @return a com.infotec.cvi.swb.EntidadFederativa
+   */
+    public com.infotec.cvi.swb.EntidadFederativa getEntidad()
     {
-        getSemanticObject().setProperty(intranet_entidad, value);
+         com.infotec.cvi.swb.EntidadFederativa ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_entidad);
+         if(obj!=null)
+         {
+             ret=(com.infotec.cvi.swb.EntidadFederativa)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
@@ -232,40 +406,80 @@ public abstract class DomicilioBase extends org.semanticwb.model.SWBClass
          }
          return ret;
     }
+   /**
+   * Sets the value for the property Colonia
+   * @param value Colonia to set
+   */
 
-/**
-* Gets the Colonia property
-* @return String with the Colonia
-*/
-    public String getColonia()
+    public void setColonia(com.infotec.cvi.swb.Colonia value)
     {
-        return getSemanticObject().getProperty(intranet_colonia);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_colonia, value.getSemanticObject());
+        }else
+        {
+            removeColonia();
+        }
+    }
+   /**
+   * Remove the value for Colonia property
+   */
+
+    public void removeColonia()
+    {
+        getSemanticObject().removeProperty(intranet_colonia);
     }
 
-/**
-* Sets the Colonia property
-* @param value long with the Colonia
-*/
-    public void setColonia(String value)
+   /**
+   * Gets the Colonia
+   * @return a com.infotec.cvi.swb.Colonia
+   */
+    public com.infotec.cvi.swb.Colonia getColonia()
     {
-        getSemanticObject().setProperty(intranet_colonia, value);
+         com.infotec.cvi.swb.Colonia ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_colonia);
+         if(obj!=null)
+         {
+             ret=(com.infotec.cvi.swb.Colonia)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Sets the value for the property Municipio
+   * @param value Municipio to set
+   */
+
+    public void setMunicipio(com.infotec.cvi.swb.Municipio value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_municipio, value.getSemanticObject());
+        }else
+        {
+            removeMunicipio();
+        }
+    }
+   /**
+   * Remove the value for Municipio property
+   */
+
+    public void removeMunicipio()
+    {
+        getSemanticObject().removeProperty(intranet_municipio);
     }
 
-/**
-* Gets the Municipio property
-* @return String with the Municipio
-*/
-    public String getMunicipio()
+   /**
+   * Gets the Municipio
+   * @return a com.infotec.cvi.swb.Municipio
+   */
+    public com.infotec.cvi.swb.Municipio getMunicipio()
     {
-        return getSemanticObject().getProperty(intranet_municipio);
-    }
-
-/**
-* Sets the Municipio property
-* @param value long with the Municipio
-*/
-    public void setMunicipio(String value)
-    {
-        getSemanticObject().setProperty(intranet_municipio, value);
+         com.infotec.cvi.swb.Municipio ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_municipio);
+         if(obj!=null)
+         {
+             ret=(com.infotec.cvi.swb.Municipio)obj.createGenericInstance();
+         }
+         return ret;
     }
 }
