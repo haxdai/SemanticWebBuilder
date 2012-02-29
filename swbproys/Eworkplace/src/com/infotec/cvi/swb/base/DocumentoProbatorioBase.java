@@ -1,8 +1,21 @@
 package com.infotec.cvi.swb.base;
 
 
-public abstract class DocumentoProbatorioBase extends org.semanticwb.model.SWBClass implements com.infotec.cvi.swb.Documento,org.semanticwb.model.Iconable,org.semanticwb.model.Traceable
+public abstract class DocumentoProbatorioBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Iconable
 {
+    public static final org.semanticwb.platform.SemanticProperty intranet_fileJustificacionTecnica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fileJustificacionTecnica");
+    public static final org.semanticwb.platform.SemanticProperty intranet_hasFilesIdentificacionOficial=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasFilesIdentificacionOficial");
+    public static final org.semanticwb.platform.SemanticProperty intranet_fileActaMatrimonio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fileActaMatrimonio");
+    public static final org.semanticwb.platform.SemanticProperty intranet_fileNumeroSeguridadSocial=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fileNumeroSeguridadSocial");
+    public static final org.semanticwb.platform.SemanticProperty intranet_hasFilesComprobanteEstudio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasFilesComprobanteEstudio");
+    public static final org.semanticwb.platform.SemanticProperty intranet_fileCartaDepositoBancario=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fileCartaDepositoBancario");
+    public static final org.semanticwb.platform.SemanticProperty intranet_hasActasNacimientoFamiliares=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasActasNacimientoFamiliares");
+    public static final org.semanticwb.platform.SemanticProperty intranet_fileActaNacimiento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fileActaNacimiento");
+    public static final org.semanticwb.platform.SemanticProperty intranet_fileCopiaRFC=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fileCopiaRFC");
+    public static final org.semanticwb.platform.SemanticProperty intranet_fileComprobanteDomicilio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fileComprobanteDomicilio");
+    public static final org.semanticwb.platform.SemanticProperty intranet_fileCartaProtesta=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fileCartaProtesta");
+    public static final org.semanticwb.platform.SemanticProperty intranet_fileFotoTamInfantil=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fileFotoTamInfantil");
+    public static final org.semanticwb.platform.SemanticProperty intranet_fileCURP=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fileCURP");
     public static final org.semanticwb.platform.SemanticClass intranet_DocumentoProbatorio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#DocumentoProbatorio");
    /**
    * The semantic class that represents the currentObject
@@ -174,21 +187,48 @@ public abstract class DocumentoProbatorioBase extends org.semanticwb.model.SWBCl
     }
 
 /**
-* Gets the Updated property
-* @return java.util.Date with the Updated
+* Gets the FileJustificacionTecnica property
+* @return String with the FileJustificacionTecnica
 */
-    public java.util.Date getUpdated()
+    public String getFileJustificacionTecnica()
     {
-        return getSemanticObject().getDateProperty(swb_updated);
+        return getSemanticObject().getProperty(intranet_fileJustificacionTecnica);
     }
 
 /**
-* Sets the Updated property
-* @param value long with the Updated
+* Sets the FileJustificacionTecnica property
+* @param value long with the FileJustificacionTecnica
 */
-    public void setUpdated(java.util.Date value)
+    public void setFileJustificacionTecnica(String value)
     {
-        getSemanticObject().setDateProperty(swb_updated, value);
+        getSemanticObject().setProperty(intranet_fileJustificacionTecnica, value);
+    }
+
+    public java.util.Iterator<String> listFilesIdentificacionOficials()
+    {
+        java.util.ArrayList<String> values=new java.util.ArrayList<String>();
+        java.util.Iterator<org.semanticwb.platform.SemanticLiteral> it=getSemanticObject().listLiteralProperties(intranet_hasFilesIdentificacionOficial);
+        while(it.hasNext())
+        {
+                org.semanticwb.platform.SemanticLiteral literal=it.next();
+                values.add(literal.getString());
+        }
+        return values.iterator();
+    }
+
+    public void addFilesIdentificacionOficial(String value)
+    {
+        getSemanticObject().addLiteralProperty(intranet_hasFilesIdentificacionOficial, new org.semanticwb.platform.SemanticLiteral(value));
+    }
+
+    public void removeAllFilesIdentificacionOficial()
+    {
+        getSemanticObject().removeProperty(intranet_hasFilesIdentificacionOficial);
+    }
+
+    public void removeFilesIdentificacionOficial(String value)
+    {
+        getSemanticObject().removeLiteralProperty(intranet_hasFilesIdentificacionOficial,new org.semanticwb.platform.SemanticLiteral(value));
     }
 
 /**
@@ -207,6 +247,168 @@ public abstract class DocumentoProbatorioBase extends org.semanticwb.model.SWBCl
     public void setCreated(java.util.Date value)
     {
         getSemanticObject().setDateProperty(swb_created, value);
+    }
+
+/**
+* Gets the Updated property
+* @return java.util.Date with the Updated
+*/
+    public java.util.Date getUpdated()
+    {
+        return getSemanticObject().getDateProperty(swb_updated);
+    }
+
+/**
+* Sets the Updated property
+* @param value long with the Updated
+*/
+    public void setUpdated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_updated, value);
+    }
+
+/**
+* Gets the FileActaMatrimonio property
+* @return String with the FileActaMatrimonio
+*/
+    public String getFileActaMatrimonio()
+    {
+        return getSemanticObject().getProperty(intranet_fileActaMatrimonio);
+    }
+
+/**
+* Sets the FileActaMatrimonio property
+* @param value long with the FileActaMatrimonio
+*/
+    public void setFileActaMatrimonio(String value)
+    {
+        getSemanticObject().setProperty(intranet_fileActaMatrimonio, value);
+    }
+
+/**
+* Gets the FileNumeroSeguridadSocial property
+* @return String with the FileNumeroSeguridadSocial
+*/
+    public String getFileNumeroSeguridadSocial()
+    {
+        return getSemanticObject().getProperty(intranet_fileNumeroSeguridadSocial);
+    }
+
+/**
+* Sets the FileNumeroSeguridadSocial property
+* @param value long with the FileNumeroSeguridadSocial
+*/
+    public void setFileNumeroSeguridadSocial(String value)
+    {
+        getSemanticObject().setProperty(intranet_fileNumeroSeguridadSocial, value);
+    }
+
+    public java.util.Iterator<String> listFilesComprobanteEstudios()
+    {
+        java.util.ArrayList<String> values=new java.util.ArrayList<String>();
+        java.util.Iterator<org.semanticwb.platform.SemanticLiteral> it=getSemanticObject().listLiteralProperties(intranet_hasFilesComprobanteEstudio);
+        while(it.hasNext())
+        {
+                org.semanticwb.platform.SemanticLiteral literal=it.next();
+                values.add(literal.getString());
+        }
+        return values.iterator();
+    }
+
+    public void addFilesComprobanteEstudio(String value)
+    {
+        getSemanticObject().addLiteralProperty(intranet_hasFilesComprobanteEstudio, new org.semanticwb.platform.SemanticLiteral(value));
+    }
+
+    public void removeAllFilesComprobanteEstudio()
+    {
+        getSemanticObject().removeProperty(intranet_hasFilesComprobanteEstudio);
+    }
+
+    public void removeFilesComprobanteEstudio(String value)
+    {
+        getSemanticObject().removeLiteralProperty(intranet_hasFilesComprobanteEstudio,new org.semanticwb.platform.SemanticLiteral(value));
+    }
+
+/**
+* Gets the FileCartaDepositoBancario property
+* @return String with the FileCartaDepositoBancario
+*/
+    public String getFileCartaDepositoBancario()
+    {
+        return getSemanticObject().getProperty(intranet_fileCartaDepositoBancario);
+    }
+
+/**
+* Sets the FileCartaDepositoBancario property
+* @param value long with the FileCartaDepositoBancario
+*/
+    public void setFileCartaDepositoBancario(String value)
+    {
+        getSemanticObject().setProperty(intranet_fileCartaDepositoBancario, value);
+    }
+
+    public java.util.Iterator<String> listActasNacimientoFamiliareses()
+    {
+        java.util.ArrayList<String> values=new java.util.ArrayList<String>();
+        java.util.Iterator<org.semanticwb.platform.SemanticLiteral> it=getSemanticObject().listLiteralProperties(intranet_hasActasNacimientoFamiliares);
+        while(it.hasNext())
+        {
+                org.semanticwb.platform.SemanticLiteral literal=it.next();
+                values.add(literal.getString());
+        }
+        return values.iterator();
+    }
+
+    public void addActasNacimientoFamiliares(String value)
+    {
+        getSemanticObject().addLiteralProperty(intranet_hasActasNacimientoFamiliares, new org.semanticwb.platform.SemanticLiteral(value));
+    }
+
+    public void removeAllActasNacimientoFamiliares()
+    {
+        getSemanticObject().removeProperty(intranet_hasActasNacimientoFamiliares);
+    }
+
+    public void removeActasNacimientoFamiliares(String value)
+    {
+        getSemanticObject().removeLiteralProperty(intranet_hasActasNacimientoFamiliares,new org.semanticwb.platform.SemanticLiteral(value));
+    }
+
+/**
+* Gets the FileActaNacimiento property
+* @return String with the FileActaNacimiento
+*/
+    public String getFileActaNacimiento()
+    {
+        return getSemanticObject().getProperty(intranet_fileActaNacimiento);
+    }
+
+/**
+* Sets the FileActaNacimiento property
+* @param value long with the FileActaNacimiento
+*/
+    public void setFileActaNacimiento(String value)
+    {
+        getSemanticObject().setProperty(intranet_fileActaNacimiento, value);
+    }
+
+/**
+* Gets the FileCopiaRFC property
+* @return String with the FileCopiaRFC
+*/
+    public String getFileCopiaRFC()
+    {
+        return getSemanticObject().getProperty(intranet_fileCopiaRFC);
+    }
+
+/**
+* Sets the FileCopiaRFC property
+* @param value long with the FileCopiaRFC
+*/
+    public void setFileCopiaRFC(String value)
+    {
+        getSemanticObject().setProperty(intranet_fileCopiaRFC, value);
     }
 
 /**
@@ -266,20 +468,74 @@ public abstract class DocumentoProbatorioBase extends org.semanticwb.model.SWBCl
     }
 
 /**
-* Gets the Filename property
-* @return String with the Filename
+* Gets the FileComprobanteDomicilio property
+* @return String with the FileComprobanteDomicilio
 */
-    public String getFilename()
+    public String getFileComprobanteDomicilio()
     {
-        return getSemanticObject().getProperty(intranet_filename);
+        return getSemanticObject().getProperty(intranet_fileComprobanteDomicilio);
     }
 
 /**
-* Sets the Filename property
-* @param value long with the Filename
+* Sets the FileComprobanteDomicilio property
+* @param value long with the FileComprobanteDomicilio
 */
-    public void setFilename(String value)
+    public void setFileComprobanteDomicilio(String value)
     {
-        getSemanticObject().setProperty(intranet_filename, value);
+        getSemanticObject().setProperty(intranet_fileComprobanteDomicilio, value);
+    }
+
+/**
+* Gets the FileCartaProtesta property
+* @return String with the FileCartaProtesta
+*/
+    public String getFileCartaProtesta()
+    {
+        return getSemanticObject().getProperty(intranet_fileCartaProtesta);
+    }
+
+/**
+* Sets the FileCartaProtesta property
+* @param value long with the FileCartaProtesta
+*/
+    public void setFileCartaProtesta(String value)
+    {
+        getSemanticObject().setProperty(intranet_fileCartaProtesta, value);
+    }
+
+/**
+* Gets the FileFotoTamInfantil property
+* @return String with the FileFotoTamInfantil
+*/
+    public String getFileFotoTamInfantil()
+    {
+        return getSemanticObject().getProperty(intranet_fileFotoTamInfantil);
+    }
+
+/**
+* Sets the FileFotoTamInfantil property
+* @param value long with the FileFotoTamInfantil
+*/
+    public void setFileFotoTamInfantil(String value)
+    {
+        getSemanticObject().setProperty(intranet_fileFotoTamInfantil, value);
+    }
+
+/**
+* Gets the FileCURP property
+* @return String with the FileCURP
+*/
+    public String getFileCURP()
+    {
+        return getSemanticObject().getProperty(intranet_fileCURP);
+    }
+
+/**
+* Sets the FileCURP property
+* @param value long with the FileCURP
+*/
+    public void setFileCURP(String value)
+    {
+        getSemanticObject().setProperty(intranet_fileCURP, value);
     }
 }

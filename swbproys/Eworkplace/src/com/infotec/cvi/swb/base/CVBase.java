@@ -22,8 +22,6 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
     public static final org.semanticwb.platform.SemanticProperty intranet_hasAreaTalento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasAreaTalento");
     public static final org.semanticwb.platform.SemanticClass intranet_Competencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Competencia");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasCompetencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasCompetencia");
-    public static final org.semanticwb.platform.SemanticClass intranet_DocumentoProbatorio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#DocumentoProbatorio");
-    public static final org.semanticwb.platform.SemanticProperty intranet_hasDocumentoProbatorio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasDocumentoProbatorio");
     public static final org.semanticwb.platform.SemanticClass intranet_ExperienciaLaboral=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#ExperienciaLaboral");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasExperienciaLaboral=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasExperienciaLaboral");
     public static final org.semanticwb.platform.SemanticClass intranet_Diplomado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Diplomado");
@@ -33,6 +31,8 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
    */
     public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
     public static final org.semanticwb.platform.SemanticProperty intranet_propietario=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#propietario");
+    public static final org.semanticwb.platform.SemanticClass intranet_DocumentoProbatorio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#DocumentoProbatorio");
+    public static final org.semanticwb.platform.SemanticProperty intranet_documentoProbatorio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#documentoProbatorio");
     public static final org.semanticwb.platform.SemanticClass intranet_Persona=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Persona");
     public static final org.semanticwb.platform.SemanticProperty intranet_persona=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#persona");
     public static final org.semanticwb.platform.SemanticClass intranet_CV=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#CV");
@@ -364,29 +364,6 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
             return it;
         }
        /**
-       * Gets all com.infotec.cvi.swb.CV with a determined DocumentoProbatorio
-       * @param value DocumentoProbatorio of the type com.infotec.cvi.swb.DocumentoProbatorio
-       * @param model Model of the com.infotec.cvi.swb.CV
-       * @return Iterator with all the com.infotec.cvi.swb.CV
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.CV> listCVByDocumentoProbatorio(com.infotec.cvi.swb.DocumentoProbatorio value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.CV> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasDocumentoProbatorio, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.cvi.swb.CV with a determined DocumentoProbatorio
-       * @param value DocumentoProbatorio of the type com.infotec.cvi.swb.DocumentoProbatorio
-       * @return Iterator with all the com.infotec.cvi.swb.CV
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.CV> listCVByDocumentoProbatorio(com.infotec.cvi.swb.DocumentoProbatorio value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.CV> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasDocumentoProbatorio,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all com.infotec.cvi.swb.CV with a determined ExperienciaLaboral
        * @param value ExperienciaLaboral of the type com.infotec.cvi.swb.ExperienciaLaboral
        * @param model Model of the com.infotec.cvi.swb.CV
@@ -453,6 +430,29 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
         public static java.util.Iterator<com.infotec.cvi.swb.CV> listCVByPropietario(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.CV> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_propietario,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.CV with a determined DocumentoProbatorio
+       * @param value DocumentoProbatorio of the type com.infotec.cvi.swb.DocumentoProbatorio
+       * @param model Model of the com.infotec.cvi.swb.CV
+       * @return Iterator with all the com.infotec.cvi.swb.CV
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.CV> listCVByDocumentoProbatorio(com.infotec.cvi.swb.DocumentoProbatorio value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.CV> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_documentoProbatorio, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.CV with a determined DocumentoProbatorio
+       * @param value DocumentoProbatorio of the type com.infotec.cvi.swb.DocumentoProbatorio
+       * @return Iterator with all the com.infotec.cvi.swb.CV
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.CV> listCVByDocumentoProbatorio(com.infotec.cvi.swb.DocumentoProbatorio value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.CV> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_documentoProbatorio,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -1177,71 +1177,6 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
          return ret;
     }
    /**
-   * Gets all the com.infotec.cvi.swb.DocumentoProbatorio
-   * @return A GenericIterator with all the com.infotec.cvi.swb.DocumentoProbatorio
-   */
-
-    public org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.DocumentoProbatorio> listDocumentoProbatorios()
-    {
-        return new org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.DocumentoProbatorio>(getSemanticObject().listObjectProperties(intranet_hasDocumentoProbatorio));
-    }
-
-   /**
-   * Gets true if has a DocumentoProbatorio
-   * @param value com.infotec.cvi.swb.DocumentoProbatorio to verify
-   * @return true if the com.infotec.cvi.swb.DocumentoProbatorio exists, false otherwise
-   */
-    public boolean hasDocumentoProbatorio(com.infotec.cvi.swb.DocumentoProbatorio value)
-    {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(intranet_hasDocumentoProbatorio,value.getSemanticObject());
-        }
-        return ret;
-    }
-   /**
-   * Adds a DocumentoProbatorio
-   * @param value com.infotec.cvi.swb.DocumentoProbatorio to add
-   */
-
-    public void addDocumentoProbatorio(com.infotec.cvi.swb.DocumentoProbatorio value)
-    {
-        getSemanticObject().addObjectProperty(intranet_hasDocumentoProbatorio, value.getSemanticObject());
-    }
-   /**
-   * Removes all the DocumentoProbatorio
-   */
-
-    public void removeAllDocumentoProbatorio()
-    {
-        getSemanticObject().removeProperty(intranet_hasDocumentoProbatorio);
-    }
-   /**
-   * Removes a DocumentoProbatorio
-   * @param value com.infotec.cvi.swb.DocumentoProbatorio to remove
-   */
-
-    public void removeDocumentoProbatorio(com.infotec.cvi.swb.DocumentoProbatorio value)
-    {
-        getSemanticObject().removeObjectProperty(intranet_hasDocumentoProbatorio,value.getSemanticObject());
-    }
-
-   /**
-   * Gets the DocumentoProbatorio
-   * @return a com.infotec.cvi.swb.DocumentoProbatorio
-   */
-    public com.infotec.cvi.swb.DocumentoProbatorio getDocumentoProbatorio()
-    {
-         com.infotec.cvi.swb.DocumentoProbatorio ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasDocumentoProbatorio);
-         if(obj!=null)
-         {
-             ret=(com.infotec.cvi.swb.DocumentoProbatorio)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
    * Gets all the com.infotec.cvi.swb.ExperienciaLaboral
    * @return A GenericIterator with all the com.infotec.cvi.swb.ExperienciaLaboral
    */
@@ -1406,6 +1341,44 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
          if(obj!=null)
          {
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Sets the value for the property DocumentoProbatorio
+   * @param value DocumentoProbatorio to set
+   */
+
+    public void setDocumentoProbatorio(com.infotec.cvi.swb.DocumentoProbatorio value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_documentoProbatorio, value.getSemanticObject());
+        }else
+        {
+            removeDocumentoProbatorio();
+        }
+    }
+   /**
+   * Remove the value for DocumentoProbatorio property
+   */
+
+    public void removeDocumentoProbatorio()
+    {
+        getSemanticObject().removeProperty(intranet_documentoProbatorio);
+    }
+
+   /**
+   * Gets the DocumentoProbatorio
+   * @return a com.infotec.cvi.swb.DocumentoProbatorio
+   */
+    public com.infotec.cvi.swb.DocumentoProbatorio getDocumentoProbatorio()
+    {
+         com.infotec.cvi.swb.DocumentoProbatorio ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_documentoProbatorio);
+         if(obj!=null)
+         {
+             ret=(com.infotec.cvi.swb.DocumentoProbatorio)obj.createGenericInstance();
          }
          return ret;
     }
