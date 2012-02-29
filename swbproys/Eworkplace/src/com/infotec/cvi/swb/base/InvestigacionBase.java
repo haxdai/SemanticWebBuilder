@@ -3,7 +3,6 @@ package com.infotec.cvi.swb.base;
 
 public abstract class InvestigacionBase extends com.infotec.cvi.swb.InvestigacionDocencia 
 {
-    public static final org.semanticwb.platform.SemanticClass intranet_SNIConacyt=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#SNIConacyt");
     public static final org.semanticwb.platform.SemanticProperty intranet_sniConacyt=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sniConacyt");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaTermino=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaTermino");
     public static final org.semanticwb.platform.SemanticProperty intranet_nombreJefePuesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nombreJefePuesto");
@@ -86,29 +85,6 @@ public abstract class InvestigacionBase extends com.infotec.cvi.swb.Investigacio
         {
             return (getInvestigacion(id, model)!=null);
         }
-       /**
-       * Gets all com.infotec.cvi.swb.Investigacion with a determined SniConacyt
-       * @param value SniConacyt of the type com.infotec.cvi.swb.SNIConacyt
-       * @param model Model of the com.infotec.cvi.swb.Investigacion
-       * @return Iterator with all the com.infotec.cvi.swb.Investigacion
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.Investigacion> listInvestigacionBySniConacyt(com.infotec.cvi.swb.SNIConacyt value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Investigacion> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_sniConacyt, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.cvi.swb.Investigacion with a determined SniConacyt
-       * @param value SniConacyt of the type com.infotec.cvi.swb.SNIConacyt
-       * @return Iterator with all the com.infotec.cvi.swb.Investigacion
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.Investigacion> listInvestigacionBySniConacyt(com.infotec.cvi.swb.SNIConacyt value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Investigacion> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_sniConacyt,value.getSemanticObject(),sclass));
-            return it;
-        }
     }
 
    /**
@@ -119,43 +95,23 @@ public abstract class InvestigacionBase extends com.infotec.cvi.swb.Investigacio
     {
         super(base);
     }
-   /**
-   * Sets the value for the property SniConacyt
-   * @param value SniConacyt to set
-   */
 
-    public void setSniConacyt(com.infotec.cvi.swb.SNIConacyt value)
+/**
+* Gets the SniConacyt property
+* @return String with the SniConacyt
+*/
+    public String getSniConacyt()
     {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(intranet_sniConacyt, value.getSemanticObject());
-        }else
-        {
-            removeSniConacyt();
-        }
-    }
-   /**
-   * Remove the value for SniConacyt property
-   */
-
-    public void removeSniConacyt()
-    {
-        getSemanticObject().removeProperty(intranet_sniConacyt);
+        return getSemanticObject().getProperty(intranet_sniConacyt);
     }
 
-   /**
-   * Gets the SniConacyt
-   * @return a com.infotec.cvi.swb.SNIConacyt
-   */
-    public com.infotec.cvi.swb.SNIConacyt getSniConacyt()
+/**
+* Sets the SniConacyt property
+* @param value long with the SniConacyt
+*/
+    public void setSniConacyt(String value)
     {
-         com.infotec.cvi.swb.SNIConacyt ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_sniConacyt);
-         if(obj!=null)
-         {
-             ret=(com.infotec.cvi.swb.SNIConacyt)obj.createGenericInstance();
-         }
-         return ret;
+        getSemanticObject().setProperty(intranet_sniConacyt, value);
     }
 
 /**
