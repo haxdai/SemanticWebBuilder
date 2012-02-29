@@ -21,6 +21,8 @@ public abstract class PersonaBase extends org.semanticwb.model.SWBClass
     public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
     public static final org.semanticwb.platform.SemanticProperty intranet_owner=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#owner");
     public static final org.semanticwb.platform.SemanticProperty intranet_cedula=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#cedula");
+    public static final org.semanticwb.platform.SemanticClass intranet_EntidadFederativa=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#EntidadFederativa");
+    public static final org.semanticwb.platform.SemanticProperty intranet_estadoNacimiento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#estadoNacimiento");
     public static final org.semanticwb.platform.SemanticClass intranet_Telefono=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Telefono");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasTelefono=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasTelefono");
     public static final org.semanticwb.platform.SemanticClass intranet_Familia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Familia");
@@ -174,6 +176,29 @@ public abstract class PersonaBase extends org.semanticwb.model.SWBClass
         public static java.util.Iterator<com.infotec.eworkplace.swb.Persona> listPersonaByOwner(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Persona> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_owner,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.Persona with a determined EstadoNacimiento
+       * @param value EstadoNacimiento of the type com.infotec.cvi.swb.EntidadFederativa
+       * @param model Model of the com.infotec.eworkplace.swb.Persona
+       * @return Iterator with all the com.infotec.eworkplace.swb.Persona
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Persona> listPersonaByEstadoNacimiento(com.infotec.cvi.swb.EntidadFederativa value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Persona> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_estadoNacimiento, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.Persona with a determined EstadoNacimiento
+       * @param value EstadoNacimiento of the type com.infotec.cvi.swb.EntidadFederativa
+       * @return Iterator with all the com.infotec.eworkplace.swb.Persona
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Persona> listPersonaByEstadoNacimiento(com.infotec.cvi.swb.EntidadFederativa value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Persona> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_estadoNacimiento,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -476,6 +501,44 @@ public abstract class PersonaBase extends org.semanticwb.model.SWBClass
     public void setCedula(String value)
     {
         getSemanticObject().setProperty(intranet_cedula, value);
+    }
+   /**
+   * Sets the value for the property EstadoNacimiento
+   * @param value EstadoNacimiento to set
+   */
+
+    public void setEstadoNacimiento(com.infotec.cvi.swb.EntidadFederativa value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_estadoNacimiento, value.getSemanticObject());
+        }else
+        {
+            removeEstadoNacimiento();
+        }
+    }
+   /**
+   * Remove the value for EstadoNacimiento property
+   */
+
+    public void removeEstadoNacimiento()
+    {
+        getSemanticObject().removeProperty(intranet_estadoNacimiento);
+    }
+
+   /**
+   * Gets the EstadoNacimiento
+   * @return a com.infotec.cvi.swb.EntidadFederativa
+   */
+    public com.infotec.cvi.swb.EntidadFederativa getEstadoNacimiento()
+    {
+         com.infotec.cvi.swb.EntidadFederativa ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_estadoNacimiento);
+         if(obj!=null)
+         {
+             ret=(com.infotec.cvi.swb.EntidadFederativa)obj.createGenericInstance();
+         }
+         return ret;
     }
    /**
    * Gets all the com.infotec.eworkplace.swb.Telefono
