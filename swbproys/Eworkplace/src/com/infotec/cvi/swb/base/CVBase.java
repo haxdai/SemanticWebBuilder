@@ -7,6 +7,7 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
     public static final org.semanticwb.platform.SemanticProperty intranet_hasDistincion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasDistincion");
     public static final org.semanticwb.platform.SemanticClass intranet_Investigacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Investigacion");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasInvestigacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasInvestigacion");
+    public static final org.semanticwb.platform.SemanticProperty intranet_sinInvestigacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sinInvestigacion");
     public static final org.semanticwb.platform.SemanticClass intranet_Academia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Academia");
     public static final org.semanticwb.platform.SemanticProperty intranet_academia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#academia");
     public static final org.semanticwb.platform.SemanticProperty intranet_actualizacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#actualizacion");
@@ -18,12 +19,18 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
     public static final org.semanticwb.platform.SemanticProperty intranet_hasCursosTIC=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasCursosTIC");
     public static final org.semanticwb.platform.SemanticClass intranet_Idioma=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Idioma");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasIdioma=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasIdioma");
+    public static final org.semanticwb.platform.SemanticProperty intranet_sinDiplomado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sinDiplomado");
     public static final org.semanticwb.platform.SemanticClass intranet_AreaTalento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#AreaTalento");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasAreaTalento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasAreaTalento");
     public static final org.semanticwb.platform.SemanticClass intranet_Competencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Competencia");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasCompetencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasCompetencia");
+    public static final org.semanticwb.platform.SemanticProperty intranet_sinIdioma=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sinIdioma");
+    public static final org.semanticwb.platform.SemanticProperty intranet_sinCurso=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sinCurso");
+    public static final org.semanticwb.platform.SemanticProperty intranet_sinPublicacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sinPublicacion");
     public static final org.semanticwb.platform.SemanticClass intranet_ExperienciaLaboral=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#ExperienciaLaboral");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasExperienciaLaboral=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasExperienciaLaboral");
+    public static final org.semanticwb.platform.SemanticProperty intranet_sinDocencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sinDocencia");
+    public static final org.semanticwb.platform.SemanticProperty intranet_sinDistincion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sinDistincion");
     public static final org.semanticwb.platform.SemanticClass intranet_Diplomado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Diplomado");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasDiplomado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasDiplomado");
    /**
@@ -31,6 +38,7 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
    */
     public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
     public static final org.semanticwb.platform.SemanticProperty intranet_propietario=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#propietario");
+    public static final org.semanticwb.platform.SemanticProperty intranet_sinExperiencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sinExperiencia");
     public static final org.semanticwb.platform.SemanticClass intranet_DocumentoProbatorio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#DocumentoProbatorio");
     public static final org.semanticwb.platform.SemanticProperty intranet_documentoProbatorio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#documentoProbatorio");
     public static final org.semanticwb.platform.SemanticClass intranet_Persona=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Persona");
@@ -618,6 +626,24 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
          }
          return ret;
     }
+
+/**
+* Gets the SinInvestigacion property
+* @return boolean with the SinInvestigacion
+*/
+    public boolean isSinInvestigacion()
+    {
+        return getSemanticObject().getBooleanProperty(intranet_sinInvestigacion);
+    }
+
+/**
+* Sets the SinInvestigacion property
+* @param value long with the SinInvestigacion
+*/
+    public void setSinInvestigacion(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(intranet_sinInvestigacion, value);
+    }
    /**
    * Sets the value for the property ModifiedBy
    * @param value ModifiedBy to set
@@ -1008,6 +1034,24 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
          }
          return ret;
     }
+
+/**
+* Gets the SinDiplomado property
+* @return boolean with the SinDiplomado
+*/
+    public boolean isSinDiplomado()
+    {
+        return getSemanticObject().getBooleanProperty(intranet_sinDiplomado);
+    }
+
+/**
+* Sets the SinDiplomado property
+* @param value long with the SinDiplomado
+*/
+    public void setSinDiplomado(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(intranet_sinDiplomado, value);
+    }
    /**
    * Gets all the com.infotec.cvi.swb.AreaTalento
    * @return A GenericIterator with all the com.infotec.cvi.swb.AreaTalento
@@ -1138,6 +1182,60 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
          }
          return ret;
     }
+
+/**
+* Gets the SinIdioma property
+* @return boolean with the SinIdioma
+*/
+    public boolean isSinIdioma()
+    {
+        return getSemanticObject().getBooleanProperty(intranet_sinIdioma);
+    }
+
+/**
+* Sets the SinIdioma property
+* @param value long with the SinIdioma
+*/
+    public void setSinIdioma(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(intranet_sinIdioma, value);
+    }
+
+/**
+* Gets the SinCurso property
+* @return boolean with the SinCurso
+*/
+    public boolean isSinCurso()
+    {
+        return getSemanticObject().getBooleanProperty(intranet_sinCurso);
+    }
+
+/**
+* Sets the SinCurso property
+* @param value long with the SinCurso
+*/
+    public void setSinCurso(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(intranet_sinCurso, value);
+    }
+
+/**
+* Gets the SinPublicacion property
+* @return boolean with the SinPublicacion
+*/
+    public boolean isSinPublicacion()
+    {
+        return getSemanticObject().getBooleanProperty(intranet_sinPublicacion);
+    }
+
+/**
+* Sets the SinPublicacion property
+* @param value long with the SinPublicacion
+*/
+    public void setSinPublicacion(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(intranet_sinPublicacion, value);
+    }
    /**
    * Sets the value for the property Creator
    * @param value Creator to set
@@ -1241,6 +1339,42 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
          }
          return ret;
     }
+
+/**
+* Gets the SinDocencia property
+* @return boolean with the SinDocencia
+*/
+    public boolean isSinDocencia()
+    {
+        return getSemanticObject().getBooleanProperty(intranet_sinDocencia);
+    }
+
+/**
+* Sets the SinDocencia property
+* @param value long with the SinDocencia
+*/
+    public void setSinDocencia(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(intranet_sinDocencia, value);
+    }
+
+/**
+* Gets the SinDistincion property
+* @return boolean with the SinDistincion
+*/
+    public boolean isSinDistincion()
+    {
+        return getSemanticObject().getBooleanProperty(intranet_sinDistincion);
+    }
+
+/**
+* Sets the SinDistincion property
+* @param value long with the SinDistincion
+*/
+    public void setSinDistincion(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(intranet_sinDistincion, value);
+    }
    /**
    * Gets all the com.infotec.cvi.swb.Diplomado
    * @return A GenericIterator with all the com.infotec.cvi.swb.Diplomado
@@ -1343,6 +1477,24 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the SinExperiencia property
+* @return boolean with the SinExperiencia
+*/
+    public boolean isSinExperiencia()
+    {
+        return getSemanticObject().getBooleanProperty(intranet_sinExperiencia);
+    }
+
+/**
+* Sets the SinExperiencia property
+* @param value long with the SinExperiencia
+*/
+    public void setSinExperiencia(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(intranet_sinExperiencia, value);
     }
    /**
    * Sets the value for the property DocumentoProbatorio
