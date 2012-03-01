@@ -4,7 +4,6 @@
     Author     : juan.fernandez
 --%>
 
-<%@page import="com.infotec.cvi.swb.SNIConacyt"%>
 <%@page import="com.infotec.cvi.swb.Investigacion"%>
 <%@page import="com.infotec.cvi.swb.CV"%>
 <%@page import="com.infotec.cvi.swb.Idioma"%>
@@ -162,8 +161,8 @@
                         strNomJefe = inves.getNombreJefePuesto();  
                     if(inves.getNombrePuesto()!=null)
                         strPuesto = inves.getNombrePuesto();
-                    if(inves.getSniConacyt()!=null&&inves.getSniConacyt().getDisplayTitle(usr.getLanguage())!=null)
-                        strSNIC = inves.getSniConacyt().getDisplayTitle(usr.getLanguage());
+                    if(inves.getSniConacyt()!=null)
+                        strSNIC = inves.getSniConacyt();
                     
                     
                     SWBResourceURL urldel = paramRequest.getActionUrl();
@@ -323,18 +322,7 @@
   <div class="icv-div-grupo">
   <p class="icv-3col">
     <label for="idsniconacyt">S.N.I. Conacyt</label>
-    <select name="idsniconacyt" id="idsniconacyt" dojoType="dijit.form.FilteringSelect" required="false">
-      <option selected="selected">Seleccione...</option>
-<%
-    Iterator<SNIConacyt> itsni = SNIConacyt.ClassMgr.listSNIConacyts(wsite); 
-        while (itsni.hasNext()) {
-            SNIConacyt sni = itsni.next();
-            %>
-            <option value="<%=sni.getId()%>"><%=sni.getDisplayTitle(usr.getLanguage())%></option>
-            <%
-        }
-%>
-    </select>
+    <input type="text" name="idsniconacyt" id="txtnomjefe" maxlength="150" dojoType="dijit.form.ValidationTextBox" promptMessage="Ingrese el nombre del S.N.I. CONACYT" required="false"/>
   </p>
     
 <div class="clearer">&nbsp;</div>
@@ -419,20 +407,7 @@
   <div class="icv-div-grupo">
   <p class="icv-3col">
     <label for="idsniconacyt">S.N.I. Conacyt</label>
-    <select name="idsniconacyt" id="idsniconacyt" dojoType="dijit.form.FilteringSelect" required="false">
-      <option selected="selected">Seleccione...</option>
-<%
-    Iterator<SNIConacyt> itsni = SNIConacyt.ClassMgr.listSNIConacyts(wsite); 
-    while (itsni.hasNext()) {
-        SNIConacyt sni = itsni.next();
-        String strSelected = "";
-        if(sni.equals(inves.getSniConacyt())) strSelected="selected";
-        %>
-        <option value="<%=sni.getId()%>" <%=strSelected%> ><%=sni.getDisplayTitle(usr.getLanguage())%></option>
-        <%
-    }
-%>
-    </select>
+    <input type="text" name="idsniconacyt" id="txtnomjefe" maxlength="150" value="<%=inves.getSniConacyt()%>" dojoType="dijit.form.ValidationTextBox" promptMessage="Ingrese el nombre del S.N.I. CONACYT" required="false"/>
   </p>
     
 <div class="clearer">&nbsp;</div>
