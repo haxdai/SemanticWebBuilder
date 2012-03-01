@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
+import javax.security.auth.Subject;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import org.semanticwb.*;
@@ -27,9 +28,10 @@ public class UserRegister extends GenericAdmResource {
 
     @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        if(paramRequest.getMode().equals(Mode_THANKS))
+        final String mode = paramRequest.getMode();
+        if(Mode_THANKS.equals(mode))
             doThanks(request,response,paramRequest);
-        else if(paramRequest.getMode().equals(Mode_FINAL))
+        else if(Mode_FINAL.equals(mode))
             doFinal(request,response,paramRequest);
         else
             super.processRequest(request, response, paramRequest);
@@ -37,15 +39,17 @@ public class UserRegister extends GenericAdmResource {
 
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
+System.out.println("\n\n processAction....");
         final String action = response.getAction();
-        User user = response.getUser();
-        WebPage wp=response.getWebPage();
-        WebSite ws = wp.getWebSite();
-        UserRepository ur = ws.getUserRepository();        
         Resource base = getResourceBase();
+        User user = response.getUser();
+System.out.println("action="+action);
         if(response.Action_ADD.equals(action)) {
-            try{
+            WebPage wp = response.getWebPage();
+            WebSite wsite = base.getWebSite();
+            UserRepository ur = wsite.getUserRepository();       
                 response.setCallMethod(response.Call_CONTENT);
+                String login = SWBUtils.XML.replaceXMLChars(request.getParameter("login"));
                 String email = SWBUtils.XML.replaceXMLChars(request.getParameter("email"));
                 Date birthday=new Date();
                 String pwd = request.getParameter("passwd");
@@ -53,22 +57,21 @@ public class UserRegister extends GenericAdmResource {
                 String securCodeSent = request.getParameter("cmnt_seccode");
                 String securCodeCreated = (String) request.getSession(true).getAttribute("cdlog");
                 StringBuilder msg = new StringBuilder();
-                if( request.getParameter("firstName")==null || "".equals(request.getParameter("firstName")) ) {
+                if( request.getParameter("firstName").isEmpty() ) {
                     msg.append(response.getLocaleString("msgErrFirstNameRequired")).append(",");
                 }
-                if( request.getParameter("lastName")==null || "".equals(request.getParameter("lastName")) ) {
+                if( request.getParameter("lastName").isEmpty() ) {
                     msg.append(response.getLocaleString("msgErrLastNameRequired")).append(",");
                 }
-                if( request.getParameter("birthday")==null || "".equals(request.getParameter("birthday")) ) {
+                if( request.getParameter("birthday").isEmpty() ) {
                     msg.append(response.getLocaleString("msgErrBirthdayRequired")).append(",");
-                }else{
-                try{
-                        SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
-
-                        birthday=sdf.parse(request.getParameter("birthday"));
-                         }catch(ParseException ex){
-                             msg.append(response.getLocaleString("lblBirthdayFault")).append(",");
-                         }
+                }else {
+                    try {
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                        birthday = sdf.parse(request.getParameter("birthday"));
+                     }catch(ParseException ex){
+                         msg.append(response.getLocaleString("lblBirthdayFault")).append(",");
+                     }
                 }
                 if( !SWBUtils.EMAIL.isValidEmailAddress(email) ) {
                     msg.append(response.getLocaleString("msgErrInvalidEmail")).append(",");
@@ -76,43 +79,54 @@ public class UserRegister extends GenericAdmResource {
                 if( pwd==null || cpwd==null || pwd.isEmpty() || cpwd.isEmpty() || !pwd.equals(cpwd) ) {
                     msg.append(response.getLocaleString("msgErrPasswordRequired")).append(",");
                 }
-                if(ur.getUserByLogin(email)!=null) {
-                    msg.append(response.getLocaleString("msgErrUserAlreadyExists")).append(",");
-                }
+//                if(ur.getUserByLogin(login)!=null || ur.getUserByEmail(email)!=null) {
+//                    msg.append(response.getLocaleString("msgErrUserAlreadyExists")).append(",");
+//                }
                 if(securCodeCreated!=null && !securCodeCreated.equalsIgnoreCase(securCodeSent)) {
                     msg.append(response.getLocaleString("msgErrSecureCodeRequired")).append(",");
                 }
-                if( securCodeCreated!=null && securCodeCreated.equalsIgnoreCase(securCodeSent) && ur.getUserByLogin(email)==null && msg.length()==0) {
+                if( securCodeCreated!=null && securCodeCreated.equalsIgnoreCase(securCodeSent) && msg.length()==0 ) {
                     request.getSession(true).removeAttribute("cdlog");
-                    User newUser = ur.createUser();
-                    newUser.setLogin(email);
-                    newUser.setActive(false);
-                    newUser.setLanguage(user.getLanguage());
-                    newUser.setIp(user.getIp());
-                    newUser.setDevice(user.getDevice());
-                    newUser.setFirstName(SWBUtils.XML.replaceXMLChars(request.getParameter("firstName")));
-                    newUser.setLastName(SWBUtils.XML.replaceXMLChars(request.getParameter("lastName")));
-                    newUser.setSecondLastName(SWBUtils.XML.replaceXMLChars(request.getParameter("secondLastName")));
-                    newUser.setEmail(email);
-                    newUser.setPassword(pwd);
-                    newUser.checkCredential(pwd.toCharArray());
-                    
-                    Persona persona = Persona.ClassMgr.createPersona(newUser.getId(), ws);
-                    persona.setOwner(newUser);
-                    persona.setNacimiento(birthday);
+                    try {
+                        User newUser = ur.createUser();
+                        String strCode = SFBase64.encodeBytes(SWBUtils.CryptoWrapper.PBEAES128Cipher(PassPhrase, newUser.getId().getBytes()));
+                        newUser.setActive(false);
+                        newUser.setLogin(login);
+                        Subject subject = SWBPortal.getUserMgr().getSubject(request, wsite.getId());
+                        subject.getPrincipals().clear();
+                        subject.getPrincipals().add(newUser);
+                        newUser.setPassword(pwd);
+                        newUser.setLanguage(user.getLanguage());
+                        newUser.setIp(user.getIp());
+                        newUser.setDevice(user.getDevice());
+                        newUser.setFirstName(SWBUtils.XML.replaceXMLChars(request.getParameter("firstName")));
+                        newUser.setLastName(SWBUtils.XML.replaceXMLChars(request.getParameter("lastName")));
+                        newUser.setSecondLastName(SWBUtils.XML.replaceXMLChars(request.getParameter("secondLastName")));
+                        newUser.setEmail(email);
 
-                    String servidor = request.getScheme() + "://" + request.getServerName() + ((request.getServerPort() != 80)? (":" + request.getServerPort()) : "");
-                    SWBResourceURLImp urlAcc = new SWBResourceURLImp(request, base, wp, SWBResourceURL.UrlType_ACTION);
-                    urlAcc.setAction(Action_ACTIVATE);
-                    String strCode=SFBase64.encodeBytes(SWBUtils.CryptoWrapper.PBEAES128Cipher(PassPhrase,newUser.getId().getBytes()));
-                    urlAcc.setParameter("id",strCode);
+                        Persona persona = Persona.ClassMgr.createPersona(newUser.getId(), wsite);
+                        persona.setOwner(newUser);
+                        persona.setNacimiento(birthday);
 
-                    String sitename = ws.getDisplayTitle(response.getUser().getLanguage());
-                    String emailMsg = base.getAttribute("emailMsg","No Message");
-                    emailMsg+="\n"+servidor+urlAcc.toString();
-                    
-                    SWBUtils.EMAIL.sendMail("gsixtos@infotec.com.mx", sitename+" - "+response.getLocaleString("msgSubject"), emailMsg);
-                    response.setMode(Mode_THANKS);
+                        final String servidor = request.getScheme() + "://" + request.getServerName() + ((request.getServerPort() != 80)? (":" + request.getServerPort()) : "");
+                        
+                        final SWBResourceURLImp urlAcc = new SWBResourceURLImp(request, base, wp, SWBResourceURL.UrlType_ACTION);
+                        urlAcc.setAction(Action_ACTIVATE).setParameter("id", strCode);
+                        final String link = servidor+urlAcc.toString();
+
+                        String sitename = wsite.getDisplayTitle(user.getLanguage());
+                        String emailMsg = base.getAttribute("instructions");
+                        emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{link}", link);
+                        emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{firstname}", newUser.getFirstName());
+                        emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{fullname}", newUser.getFullName());
+                        emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{user.login}", newUser.getLogin());
+                        emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{user.email}", newUser.getEmail());
+                        SWBUtils.EMAIL.sendMail(email, sitename+" - "+response.getLocaleString("msgSubject"), emailMsg);
+                        response.setMode(Mode_THANKS);
+                    }catch(Exception ne) {
+                        ne.printStackTrace(System.out);
+                        log.error(ne);
+                    }
                 }else {
                     response.setRenderParameter("firstName", SWBUtils.XML.replaceXMLChars(request.getParameter("firstName")));
                     response.setRenderParameter("lastName", SWBUtils.XML.replaceXMLChars(request.getParameter("lastName")));
@@ -122,23 +136,36 @@ public class UserRegister extends GenericAdmResource {
                     response.setRenderParameter("msg", msg.toString());
                     response.setMode(response.Mode_VIEW);
                 }
-            }catch(Exception ne) {
-                 log.error(ne);
+        }else if(SWBResourceURL.Action_EDIT.equals(action)) {
+            String editaccess = request.getParameter("editar");
+            if(editaccess!=null) {
+                base.setAttribute("editRole", editaccess);
+            }
+            base.setAttribute("instructions", request.getParameter("instructions"));
+            base.setAttribute("gratefulness", request.getParameter("gratefulness"));
+            base.setAttribute("congratulations", request.getParameter("congratulations"));
+            response.setAction(response.Action_ADD);
+            try {
+                base.updateAttributesToDB();
+            } catch (Exception e) {
+                log.error(e);
             }
         }else if(Action_ACTIVATE.equals(action)) {
-            String code= request.getParameter("id");
-            try{
+            WebSite wsite = base.getWebSite();
+            UserRepository ur = wsite.getUserRepository();  
+            
+            final String code= request.getParameter("id");
+            try {
                 String decCode = new String(SWBUtils.CryptoWrapper.PBEAES128Decipher(PassPhrase, SFBase64.decode(code)));
                 User usrAct = ur.getUser(decCode);
-                setCandidate(usrAct);
+                setAspirante(usrAct);
                 user = usrAct;
                 user.setActive(true);
                 response.setMode(Mode_FINAL);
             }catch(Exception ne) {
-                 log.error(ne);
+                ne.printStackTrace(System.out);
+                log.error(ne);
             }
-
-            
         }
     }
 
@@ -162,24 +189,24 @@ public class UserRegister extends GenericAdmResource {
                 log.error(e);
             }
         }else {
-//            RequestDispatcher dis = request.getRequestDispatcher("/work/models/"+model+"/jsp/messages.jsp");
-//            request.setAttribute("msg","ok");
-//            try {
-//                request.setAttribute("paramRequest", paramRequest);
-//                dis.include(request, response);
-//            }catch (Exception e) {
-//                log.error(e);
-//            }
+            doThanks(request, response, paramRequest);
         }
     }
 
     public void doThanks(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        PrintWriter out = response.getWriter();
         String basePath = "/work/models/" + paramRequest.getWebPage().getWebSite().getId() + "/jsp/" + this.getClass().getSimpleName() + "/";
+        
         User user = paramRequest.getUser();
+        String msg = getResourceBase().getAttribute("gratefulness");
+        msg = SWBUtils.TEXT.replaceAll(msg, "{firstname}", user.getFirstName());
+        msg = SWBUtils.TEXT.replaceAll(msg, "{fullname}", user.getFullName());
+        msg = SWBUtils.TEXT.replaceAll(msg, "{user.login}", user.getLogin());
+        msg = SWBUtils.TEXT.replaceAll(msg, "{user.email}", user.getEmail());
+        
         RequestDispatcher dis = request.getRequestDispatcher(basePath+"thanksUser.jsp");
         try {
             request.setAttribute("paramRequest", paramRequest);
+            request.setAttribute("msg", msg);
             dis.include(request, response);
         }catch (Exception e) {
             log.error(e);
@@ -187,15 +214,21 @@ public class UserRegister extends GenericAdmResource {
     }
 
     public void doFinal(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        PrintWriter out = response.getWriter();
         String basePath = "/work/models/" + paramRequest.getWebPage().getWebSite().getId() + "/jsp/" + this.getClass().getSimpleName() + "/";
+        
         User user = paramRequest.getUser();
-        String servidor = request.getScheme() + "://" + request.getServerName() + ((request.getServerPort() != 80)? (":" + request.getServerPort()) : "");
-        String url=servidor+"/swb/eworkplace/datos_personales/";
+        String msg = getResourceBase().getAttribute("congratulations");
+        msg = SWBUtils.TEXT.replaceAll(msg, "{firstname}", user.getFirstName());
+        msg = SWBUtils.TEXT.replaceAll(msg, "{fullname}", user.getFullName());
+        msg = SWBUtils.TEXT.replaceAll(msg, "{user.login}", user.getLogin());
+        msg = SWBUtils.TEXT.replaceAll(msg, "{user.email}", user.getEmail());
+
+        String url = SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+getResourceBase().getWebSite().getId()+"/Datos_Personales/"+"/_lang/"+user.getLanguage();
         RequestDispatcher dis = request.getRequestDispatcher(basePath+"finalUser.jsp");
         try {
             request.setAttribute("paramRequest", paramRequest);
             request.setAttribute("url", url);
+            request.setAttribute("msg", msg);
             dis.include(request, response);
         }catch (Exception e) {
             log.error(e);
@@ -213,12 +246,13 @@ public class UserRegister extends GenericAdmResource {
         Resource base = getResourceBase();
         User user = paramRequest.getUser();
 
-        String resourceUpdatedMessage = paramRequest.getLocaleString("usrmsg_Admin_msgRecursoActualizado");
-        String legend = paramRequest.getLocaleString("usrmsg_Admin_Data");
-        String userGroupMessage = paramRequest.getLocaleString("usrmsg_Admin_RollGroup");
-        String listMessage = paramRequest.getLocaleString("usrmsg_Admin_ListMessage");
-        String saveButtonText = paramRequest.getLocaleString("usrmsg_Admin_btnGuardar");
-        String resetButtonText = paramRequest.getLocaleString("usrmsg_Admin_btnReset");
+        final String resourceUpdatedMessage = paramRequest.getLocaleString("msgRecursoActualizado");
+        final String legend = paramRequest.getLocaleString("lblData");
+        final String userGroupMessage = paramRequest.getLocaleString("lblRollGroup");
+        final String listMessage = paramRequest.getLocaleString("lblListMessage");
+        final String saveButtonText = paramRequest.getLocaleString("lblGuardar");
+        final String resetButtonText = paramRequest.getLocaleString("lblReset");
+        final String noMsg = paramRequest.getLocaleString("msgNoMsg");
 
         String action = paramRequest.getAction();
         if(paramRequest.Action_ADD.equals(action)) {
@@ -292,6 +326,35 @@ public class UserRegister extends GenericAdmResource {
         out.println("   <label for=\"editar\" class=\"swbform-label\">"+userGroupMessage+"</label>");
         out.print("     <select id=\"editar\" name=\"editar\">"+strTemp+"</select>");
         out.println("</li>");
+        
+        out.println("<li class=\"swbform-li\">");
+        out.println("   <label for=\"instructions\" class=\"swbform-label\">"+paramRequest.getLocaleString("lblInsToActivate")+"</label>");
+        out.println("   <textarea name=\"instructions\" id=\"instructions\" cols=\"25\" rows=\"5\">"+base.getAttribute("instructions",noMsg)+"</textarea>");
+        out.println("</li>");
+        
+        out.println("<li class=\"swbform-li\">");
+        out.println("   <label for=\"gratefulness\" class=\"swbform-label\">"+paramRequest.getLocaleString("lblGratefulness")+"</label>");
+        out.println("   <textarea name=\"gratefulness\" id=\"gratefulness\" cols=\"25\" rows=\"5\">"+base.getAttribute("gratefulness",noMsg)+"</textarea>");
+        out.println("</li>");
+        
+        out.println("<li class=\"swbform-li\">");
+        out.println("   <label for=\"congratulations\" class=\"swbform-label\">"+paramRequest.getLocaleString("lblCongratulations")+"</label>");
+        out.println("   <textarea name=\"congratulations\" id=\"congratulations\" cols=\"25\" rows=\"5\">"+base.getAttribute("congratulations",noMsg)+"</textarea>");
+        out.println("</li>");
+        
+        out.println("<li>");
+        out.println("<font style=\"color: #428AD4; font-family: Verdana; font-size: 10px;\">{firstname} Nombre de la persona </font>");
+        out.println("</li>");
+        out.println("<li>");
+        out.println("<font style=\"color: #428AD4; font-family: Verdana; font-size: 10px;\">{fullname} Nombre completo de la persona</font>");
+        out.println("</li>");
+        out.println("<li>");
+        out.println("<font style=\"color: #428AD4; font-family: Verdana; font-size: 10px;\">{user.login} Nombre de usuario</font>");
+        out.println("</li>");
+        out.println("<li>");
+        out.println("<font style=\"color: #428AD4; font-family: Verdana; font-size: 10px;\">{user.email} Correo de la persona</font>");
+        out.println("</li>");
+        
         out.println("</ul>");
         out.println("</fieldset>");
 
@@ -303,20 +366,18 @@ public class UserRegister extends GenericAdmResource {
         out.println("</div>");
     }
     
-    private void setCandidate(final User user) throws Exception {
+    private void setAspirante(final User user) throws Exception {
         final String grantPrivilegesId = getResourceBase().getAttribute("editRole");
-        if( user!=null && user.isSigned() ) {
-            SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
-            GenericObject gobj;
-            gobj = ont.getGenericObject(grantPrivilegesId);
-            if( gobj!=null ) {
-                if(gobj instanceof UserGroup) {
-                    UserGroup ugrp = (UserGroup) gobj;
-                    user.addUserGroup(ugrp);
-                }else if(gobj instanceof Role) {
-                    Role urole = (Role) gobj;
-                    user.addRole(urole);
-                }
+        SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
+        GenericObject gobj;
+        gobj = ont.getGenericObject(grantPrivilegesId);
+        if( gobj!=null ) {
+            if(gobj instanceof UserGroup) {
+                UserGroup ugrp = (UserGroup) gobj;
+                user.addUserGroup(ugrp);
+            }else if(gobj instanceof Role) {
+                Role urole = (Role) gobj;
+                user.addRole(urole);
             }
         }
     }
