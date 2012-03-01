@@ -52,6 +52,8 @@ if(wpparent.isParentof(_wpage)){
          }
          while(itsmwp.hasNext()){
              WebPage wp = itsmwp.next();
+             if(!_usr.haveAccess(wp))
+                 continue;
              String strSelect = "";
              if(wp.equals(_wpage)){
                  strSelect = "class=\"icv-submenu-select\"";
