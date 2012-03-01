@@ -164,11 +164,11 @@ public class UserPersonalData extends GenericAdmResource {
                 }else{
                     complete=false;
                 }
-                if (fm2!=null&&!fm2.equals("")&&fm2.matches("\\d+")){
-                    persona.setFM2(fm2);
-                }else{
-                    complete=false;
-                }
+//                if (fm2!=null&&!fm2.equals("")&&fm2.matches("\\d+")){
+//                    persona.setFM2(fm2);
+//                }else{
+//                    complete=false;
+//                }
 
                 Domicilio domicilio=persona.getDomicilio();
                 if(domicilio==null){
