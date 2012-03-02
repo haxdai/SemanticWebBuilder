@@ -104,10 +104,26 @@
             if(action.equals(""))
             {
             
-            //SWBResourceURL urlorder = paramRequest.getRenderUrl();
+            SWBResourceURL urlnoaplica = paramRequest.getActionUrl();
+            urlnoaplica.setAction("updateNoAplica");
+            boolean booNoAplica = aca.isNoAplicaEstudioSuperior();
+            String strChecked ="";
+            if(booNoAplica)  strChecked ="checked";
 
 %>
-
+<script type="text/javascript">
+    function updNoAplica(forma)
+    {
+        forma.action='<%=urlnoaplica%>?noAplica='+forma.noAplica.checked;
+        forma.submit();       
+    }
+</script>
+<div id="icv-noaplica">
+<form action="" method="post">
+<label for="noAplica">No cuento con Estudios Superiores</label>
+<input type="checkbox" id="noAplica" name="noAplica" onclick="updNoAplica(this.form)" value="1" <%=strChecked%>/>
+</form>
+</div>
 <table class="icv-table">
 
     <thead>
@@ -285,9 +301,6 @@
             return false;
         }
     }
-
-
-
     -->
 </script>
           <form id="form1es" name="form1es" method="post"  action="<%=urladd%>" dojoType="dijit.form.Form">
@@ -329,7 +342,7 @@
   
   
     <p class="icv-3col">
-    <label for="idgavance"><b>*</b>Grado de avance</label>
+    <label for="idgavance"><b>*</b>% avance</label>
     <select name="idgavance" id="idgavance" dojoType="dijit.form.FilteringSelect" required="true">
       <option value="" selected="selected">Seleccione...</option>
 <%
@@ -448,7 +461,7 @@
   
   
     <p class="icv-3col">
-    <label for="idgavance"><b>*</b>Grado de avance</label>
+    <label for="idgavance"><b>*</b>% avance</label>
     <select name="idgavance" id="idgavance" dojoType="dijit.form.FilteringSelect" required="true">
       <option value="" selected="selected">Seleccione...</option>
 <%

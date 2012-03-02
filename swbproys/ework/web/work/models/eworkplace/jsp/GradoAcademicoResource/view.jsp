@@ -292,7 +292,7 @@
     <!-- input type="hidden" name="" value="" / --> 
 <div class="icv-div-grupo">
   <p class="icv-3col">
-    <label for="idgrado"><b>*</b>Grado</label>
+    <label for="idgrado"><b>*</b>Grado Académico</label>
     <select name="idgrado" id="idgrado" dojoType="dijit.form.FilteringSelect" required="true">
       <option value="" selected="selected">Seleccione...</option>
 <%
@@ -422,7 +422,7 @@
     <input type="hidden" name="id" value="<%=id%>" /> 
 <div class="icv-div-grupo">
   <p class="icv-3col">
-    <label for="idgrado"><b>*</b>Grado</label>
+    <label for="idgrado"><b>*</b>Grado Académico</label>
     <select name="idgrado" id="idgrado" dojoType="dijit.form.FilteringSelect" required="true">
       <option value="" selected="selected">Seleccione...</option>
 <%

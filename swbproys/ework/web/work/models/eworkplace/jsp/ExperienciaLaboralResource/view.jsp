@@ -74,7 +74,27 @@
 <%
     if(action.equals(""))
     {
+            SWBResourceURL urlnoaplica = paramRequest.getActionUrl();
+            urlnoaplica.setAction("updateNoAplica");
+            boolean booNoAplica = cv.isSinExperiencia();
+            String strChecked ="";
+            if(booNoAplica)  strChecked ="checked";
+
 %>
+<script type="text/javascript">
+    function updNoAplica(forma)
+    {
+        forma.action='<%=urlnoaplica%>?noAplica='+forma.noAplica.checked;
+        forma.submit();       
+    }
+</script>
+<div id="icv-noaplica">
+<form action="" method="post">
+<label for="noAplica">No cuento con Experiencia Laboral</label>
+<input type="checkbox" id="noAplica" name="noAplica" onclick="updNoAplica(this.form)" value="1" <%=strChecked%>/>
+</form>
+</div>
+
 <table class="icv-table">
     <thead>
         <tr>
