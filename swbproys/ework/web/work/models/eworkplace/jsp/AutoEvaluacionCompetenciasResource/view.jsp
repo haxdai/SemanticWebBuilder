@@ -68,12 +68,13 @@
 <%@include file="../menucvi.jsp"%>
 <div id="icv-data">
 <%
-System.out.println("...........action="+action);
+//System.out.println("...........action="+action);
     /*if(action.equals(""))
     {*/
         if(competencias.hasNext()) {
             SWBResourceURL urladd = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_EDIT);
 %>
+<h3>Identifica tús 5 principales competencias</h3>
 <form id="form1ga" method="post" action="<%=urladd%>">
  <div class="icv-div-grupo">
   <table class="icv-table">
