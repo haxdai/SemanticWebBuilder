@@ -91,7 +91,7 @@ public class EstudioSuperiorResource extends GenericResource
             cv.setAcademia(aca);
         }
         
-        
+        String msg = "";
         if (SWBResourceURL.Action_ADD.equals(action)||SWBResourceURL.Action_EDIT.equals(action)) {
             
             String idestudio = request.getParameter("sel_Estudio");
@@ -105,7 +105,7 @@ public class EstudioSuperiorResource extends GenericResource
             
             if(estudio!=null&&gavance!=null&&intPeriodo>=0)
             {
-                String msg = "";
+                
                 EstudioSuperior estSuperior = null;
                 if(id!=null){
                     estSuperior = EstudioSuperior.ClassMgr.getEstudioSuperior(id,wsite);
@@ -121,6 +121,8 @@ public class EstudioSuperiorResource extends GenericResource
                 estSuperior.setEstudiosSuperiores(estudio);
                 estSuperior.setPeriodoYears(intPeriodo);
 
+                aca.setNoAplicaEstudioSuperior(Boolean.FALSE);
+                
                 response.setAction("");
                 
                 response.setRenderParameter("act", "");
@@ -141,6 +143,20 @@ public class EstudioSuperiorResource extends GenericResource
                     }                    
                 }                
             }
+        } else if (action.equals("updateNoAplica")){
+            //System.out.println("NoAplica: "+request.getParameter("noAplica"));
+            String noAplica = request.getParameter("noAplica");
+            msg="Se actualizó No aplican Estudio Superior";
+            if(noAplica!=null&&noAplica.equals("true"))
+            {
+                aca.setNoAplicaEstudioSuperior(Boolean.TRUE);
+            } else {
+                aca.setNoAplicaEstudioSuperior(Boolean.FALSE);
+            }
+
+            response.setRenderParameter("act", "");
+            response.setRenderParameter("alertmsg", msg);
+            
         }
         if (eventid != null) {
             response.setRenderParameter("id", eventid);

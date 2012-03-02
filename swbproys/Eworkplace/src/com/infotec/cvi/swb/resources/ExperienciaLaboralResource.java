@@ -171,7 +171,7 @@ js.append("});\n");
         if(cv==null) {
             log.error("Objeto semantico cv del usuario es nulo");
         }
-        
+        String msg = "";
         if(SWBResourceURL.Action_ADD.equals(action)) {
             if(!validate(request, response))
                 return;
@@ -214,6 +214,8 @@ js.append("});\n");
                 }
                 experiencia.setTelefono(telefono);
                 cv.addExperienciaLaboral(experiencia);
+                cv.setSinExperiencia(Boolean.FALSE);
+                
                 response.setRenderParameter("alertmsg", "experiencia agregada");
             }catch(Exception e){
                 experiencia.remove();
@@ -289,6 +291,20 @@ js.append("});\n");
                 response.setRenderParameter("alertmsg", "experiencia no se pudo eliminar");
                 log.error(e);
             }
+        } else if (action.equals("updateNoAplica")){
+            //System.out.println("NoAplica: "+request.getParameter("noAplica"));
+            String noAplica = request.getParameter("noAplica");
+            msg="Se actualizó No aplica Experiencia";
+            if(noAplica!=null&&noAplica.equals("true"))
+            {
+                cv.setSinExperiencia(Boolean.TRUE);
+            } else {
+                cv.setSinExperiencia(Boolean.FALSE);
+            }
+
+            response.setRenderParameter("act", "");
+            response.setRenderParameter("alertmsg", msg);
+            
         }
     }
     
