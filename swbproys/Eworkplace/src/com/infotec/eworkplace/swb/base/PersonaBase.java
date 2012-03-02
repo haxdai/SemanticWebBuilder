@@ -8,13 +8,13 @@ public abstract class PersonaBase extends org.semanticwb.model.SWBClass
     public static final org.semanticwb.platform.SemanticProperty intranet_twitter=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#twitter");
     public static final org.semanticwb.platform.SemanticProperty intranet_facebook=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#facebook");
     public static final org.semanticwb.platform.SemanticProperty intranet_curp=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#curp");
+    public static final org.semanticwb.platform.SemanticProperty intranet_hasPEmail=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasPEmail");
    /**
    * Catalogo de paises
    */
     public static final org.semanticwb.platform.SemanticClass swb_Country=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#Country");
     public static final org.semanticwb.platform.SemanticProperty intranet_nacionalidad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nacionalidad");
     public static final org.semanticwb.platform.SemanticProperty intranet_msn=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#msn");
-    public static final org.semanticwb.platform.SemanticProperty intranet_pEmail=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#pEmail");
    /**
    * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
    */
@@ -372,6 +372,33 @@ public abstract class PersonaBase extends org.semanticwb.model.SWBClass
     {
         getSemanticObject().setProperty(intranet_curp, value);
     }
+
+    public java.util.Iterator<String> listPEmails()
+    {
+        java.util.ArrayList<String> values=new java.util.ArrayList<String>();
+        java.util.Iterator<org.semanticwb.platform.SemanticLiteral> it=getSemanticObject().listLiteralProperties(intranet_hasPEmail);
+        while(it.hasNext())
+        {
+                org.semanticwb.platform.SemanticLiteral literal=it.next();
+                values.add(literal.getString());
+        }
+        return values.iterator();
+    }
+
+    public void addPEmail(String value)
+    {
+        getSemanticObject().addLiteralProperty(intranet_hasPEmail, new org.semanticwb.platform.SemanticLiteral(value));
+    }
+
+    public void removeAllPEmail()
+    {
+        getSemanticObject().removeProperty(intranet_hasPEmail);
+    }
+
+    public void removePEmail(String value)
+    {
+        getSemanticObject().removeLiteralProperty(intranet_hasPEmail,new org.semanticwb.platform.SemanticLiteral(value));
+    }
    /**
    * Sets the value for the property Nacionalidad
    * @param value Nacionalidad to set
@@ -427,24 +454,6 @@ public abstract class PersonaBase extends org.semanticwb.model.SWBClass
     public void setMsn(String value)
     {
         getSemanticObject().setProperty(intranet_msn, value);
-    }
-
-/**
-* Gets the PEmail property
-* @return String with the PEmail
-*/
-    public String getPEmail()
-    {
-        return getSemanticObject().getProperty(intranet_pEmail);
-    }
-
-/**
-* Sets the PEmail property
-* @param value long with the PEmail
-*/
-    public void setPEmail(String value)
-    {
-        getSemanticObject().setProperty(intranet_pEmail, value);
     }
    /**
    * Sets the value for the property Owner
@@ -765,20 +774,20 @@ public abstract class PersonaBase extends org.semanticwb.model.SWBClass
 
 /**
 * Gets the FM2 property
-* @return String with the FM2
+* @return boolean with the FM2
 */
-    public String getFM2()
+    public boolean isFM2()
     {
-        return getSemanticObject().getProperty(intranet_FM2);
+        return getSemanticObject().getBooleanProperty(intranet_FM2);
     }
 
 /**
 * Sets the FM2 property
 * @param value long with the FM2
 */
-    public void setFM2(String value)
+    public void setFM2(boolean value)
     {
-        getSemanticObject().setProperty(intranet_FM2, value);
+        getSemanticObject().setBooleanProperty(intranet_FM2, value);
     }
 
 /**
