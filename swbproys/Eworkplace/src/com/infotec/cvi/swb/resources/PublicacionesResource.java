@@ -68,7 +68,7 @@ public class PublicacionesResource extends GenericResource
             cv = CV.ClassMgr.createCV(usr.getId(),wsite);
             cv.setPropietario(usr);
         }
-        
+        String msg = "";
         if (SWBResourceURL.Action_ADD.equals(action)||SWBResourceURL.Action_EDIT.equals(action)) {
             
             String txttitulo = request.getParameter("txttitulo");
@@ -78,7 +78,7 @@ public class PublicacionesResource extends GenericResource
                 intfecha = Integer.parseInt(request.getParameter("intfecha"));
             } catch (Exception e) {
             }
-            String msg = "";
+            
             
             if(txttitulo!=null&&txtpublicado!=null&&intfecha>0)
             {
@@ -91,6 +91,7 @@ public class PublicacionesResource extends GenericResource
                     publi = Publicacion.ClassMgr.createPublicacion(wsite);
                     cv.addPublicacion(publi);
                     msg="Se agregó correctamente Publicación";
+                    cv.setSinPublicacion(Boolean.FALSE);
                 }
 
                 publi.setTitle(txttitulo);
@@ -119,6 +120,20 @@ public class PublicacionesResource extends GenericResource
                     }                    
                 }                
             }
+        } else if (action.equals("updateNoAplica")){
+            //System.out.println("NoAplica: "+request.getParameter("noAplica"));
+            String noAplica = request.getParameter("noAplica");
+            msg="Se actualizó No aplican Publicaciones";
+            if(noAplica!=null&&noAplica.equals("true"))
+            {
+                cv.setSinPublicacion(Boolean.TRUE);
+            } else {
+                cv.setSinPublicacion(Boolean.FALSE);
+            }
+
+            response.setRenderParameter("act", "");
+            response.setRenderParameter("alertmsg", msg);
+            
         }
         if (eventid != null) {
             response.setRenderParameter("id", eventid);

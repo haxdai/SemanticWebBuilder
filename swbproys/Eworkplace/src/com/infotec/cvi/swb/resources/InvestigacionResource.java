@@ -68,7 +68,7 @@ public class InvestigacionResource extends GenericResource
             cv = CV.ClassMgr.createCV(usr.getId(),wsite);
             cv.setPropietario(usr);
         }
-        
+        String msg = "";
         if (SWBResourceURL.Action_ADD.equals(action)||SWBResourceURL.Action_EDIT.equals(action)) {
             
             String txtareainv = request.getParameter("txtareainv");
@@ -86,9 +86,7 @@ public class InvestigacionResource extends GenericResource
                 numtel = Integer.parseInt(request.getParameter("numtel"));
             } catch (Exception e) {
             }
-            
-            //SNIConacyt snic = SNIConacyt.ClassMgr.getSNIConacyt(idsniconacyt,wsite); 
-            String msg ="";
+
             if(txtareainv!=null&&txtempresa!=null&&txtnomjefe!=null&&txtnompuesto!=null&&fechafin>0&&numtel>0)
             {
                 Investigacion inves = null;
@@ -100,6 +98,7 @@ public class InvestigacionResource extends GenericResource
                     inves = Investigacion.ClassMgr.createInvestigacion(wsite);
                     cv.addInvestigacion(inves);
                     msg="Se agregó correctamente la Investigación";
+                    cv.setSinInvestigacion(Boolean.FALSE);
                 }
 
                 inves.setAreaInvestigacion(txtareainv);
@@ -130,6 +129,20 @@ public class InvestigacionResource extends GenericResource
                     }                    
                 }                
             }
+        } else if (action.equals("updateNoAplica")){
+            //System.out.println("NoAplica: "+request.getParameter("noAplica"));
+            String noAplica = request.getParameter("noAplica");
+            msg="Se actualizó No aplica Investigación";
+            if(noAplica!=null&&noAplica.equals("true"))
+            {
+                cv.setSinInvestigacion(Boolean.TRUE);
+            } else {
+                cv.setSinInvestigacion(Boolean.FALSE);
+            }
+
+            response.setRenderParameter("act", "");
+            response.setRenderParameter("alertmsg", msg);
+            
         }
         if (eventid != null) {
             response.setRenderParameter("id", eventid);

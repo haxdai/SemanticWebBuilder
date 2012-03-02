@@ -72,7 +72,7 @@ public class IdiomasResource extends GenericResource
             cv = CV.ClassMgr.createCV(usr.getId(),wsite);
             cv.setPropietario(usr);
         }
-        
+        String msg = "";
         if (SWBResourceURL.Action_ADD.equals(action)||SWBResourceURL.Action_EDIT.equals(action)) {
             
             String ididioma = request.getParameter("ididoma");
@@ -85,7 +85,7 @@ public class IdiomasResource extends GenericResource
             Lectura lectura = Lectura.ClassMgr.getLectura(idlectura, wsite);
             Escritura escritura = Escritura.ClassMgr.getEscritura(idescritura, wsite); 
             
-            String msg="";
+            
             if(idiomas!=null&&conv!=null&&lectura!=null&&escritura!=null)
             {
                 Idioma idioma = null;
@@ -97,12 +97,15 @@ public class IdiomasResource extends GenericResource
                     idioma = Idioma.ClassMgr.createIdioma(wsite);
                     cv.addIdioma(idioma);
                     msg="Se agregó correctamente el Idioma";
+                    cv.setSinIdioma(Boolean.FALSE);
                 }
 
                 idioma.setConversacion(conv);
                 idioma.setEscritura(escritura);
                 idioma.setIdiomas(idiomas);
                 idioma.setLectura(lectura);
+                
+                
 
                 response.setAction("");
                 
@@ -124,7 +127,22 @@ public class IdiomasResource extends GenericResource
                     }                    
                 }                
             }
+        } else if (action.equals("updateNoAplica")){
+            //System.out.println("NoAplica: "+request.getParameter("noAplica"));
+            String noAplica = request.getParameter("noAplica");
+            msg="Se actualizó No aplican Idiomas";
+            if(noAplica!=null&&noAplica.equals("true"))
+            {
+                cv.setSinIdioma(Boolean.TRUE);
+            } else {
+                cv.setSinIdioma(Boolean.FALSE);
+            }
+
+            response.setRenderParameter("act", "");
+            response.setRenderParameter("alertmsg", msg);
+            
         }
+        
         if (eventid != null) {
             response.setRenderParameter("id", eventid);
         }
