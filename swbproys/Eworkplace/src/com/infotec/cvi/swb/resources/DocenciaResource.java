@@ -70,7 +70,7 @@ public class DocenciaResource extends GenericResource
             cv = CV.ClassMgr.createCV(usr.getId(),wsite);
             cv.setPropietario(usr);
         }
-        
+        String msg = "";
         if (SWBResourceURL.Action_ADD.equals(action)||SWBResourceURL.Action_EDIT.equals(action)) {
             
             String txtasignatura = request.getParameter("txtasignatura");
@@ -84,7 +84,7 @@ public class DocenciaResource extends GenericResource
             }
             
             NivelDocencia nivel = NivelDocencia.ClassMgr.getNivelDocencia(idnivel,wsite); 
-            String msg ="";
+            
             if(txtasignatura!=null&&txtinstitucion!=null&&nivel!=null&&intyears>0)
             {
                 Docencia docencia = null;
@@ -96,6 +96,7 @@ public class DocenciaResource extends GenericResource
                     docencia = Docencia.ClassMgr.createDocencia(wsite);
                     cv.addDocencia(docencia);
                     msg="Se agregó correctamente Docencia";
+                    cv.setSinDocencia(Boolean.FALSE);
                 }
 
                 docencia.setAsignatura(txtasignatura);
@@ -103,6 +104,8 @@ public class DocenciaResource extends GenericResource
                 docencia.setNivelDocencia(nivel); 
                 docencia.setAniosDocencia(intyears);
 
+                
+                
                 response.setAction("");
                 
                 response.setRenderParameter("act", "");
@@ -123,6 +126,20 @@ public class DocenciaResource extends GenericResource
                     }                    
                 }                
             }
+        } else if (action.equals("updateNoAplica")){
+            //System.out.println("NoAplica: "+request.getParameter("noAplica"));
+            String noAplica = request.getParameter("noAplica");
+            msg="Se actualizó No aplica Docencia";
+            if(noAplica!=null&&noAplica.equals("true"))
+            {
+                cv.setSinDocencia(Boolean.TRUE);
+            } else {
+                cv.setSinDocencia(Boolean.FALSE);
+            }
+
+            response.setRenderParameter("act", "");
+            response.setRenderParameter("alertmsg", msg);
+            
         }
         if (eventid != null) {
             response.setRenderParameter("id", eventid);

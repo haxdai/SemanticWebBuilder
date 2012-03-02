@@ -56,7 +56,7 @@ public class DistincionesResource extends GenericResource {
         if(cv==null) {
             log.error("Objeto semantico cv del usuario es nulo");
         }
-        
+        String msg = "";
         if(SWBResourceURL.Action_ADD.equals(action)) {
             if(!validate(request, response))
                 return;
@@ -72,6 +72,8 @@ public class DistincionesResource extends GenericResource {
                 return;
             }
             cv.addDistincion(distincion);
+            cv.setSinDistincion(Boolean.FALSE);
+            
         }else if(SWBResourceURL.Action_EDIT.equals(action)) {
             final String distincionId = request.getParameter("id");
             Distincion distincion;
@@ -114,6 +116,20 @@ public class DistincionesResource extends GenericResource {
                 response.setRenderParameter("alertmsg", "distincion no se pudo eliminar");
                 log.error(e);
             }
+        } else if (action.equals("updateNoAplica")){
+            //System.out.println("NoAplica: "+request.getParameter("noAplica"));
+            String noAplica = request.getParameter("noAplica");
+            msg="Se actualizó No aplican Distinciones";
+            if(noAplica!=null&&noAplica.equals("true"))
+            {
+                cv.setSinDistincion(Boolean.TRUE);
+            } else {
+                cv.setSinDistincion(Boolean.FALSE);
+            }
+
+            response.setRenderParameter("act", "");
+            response.setRenderParameter("alertmsg", msg);
+            
         }
     }
     
