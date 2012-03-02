@@ -116,7 +116,7 @@ public class DocenciaResource extends GenericResource
 
         } else if (SWBResourceURL.Action_REMOVE.equals(action)) {
             if(id!=null){
-                Investigacion invest = Investigacion.ClassMgr.getInvestigacion(id, wsite);
+                Docencia invest = Docencia.ClassMgr.getDocencia(id, wsite);
                 if(invest!=null){
                     try {
                         invest.remove();
