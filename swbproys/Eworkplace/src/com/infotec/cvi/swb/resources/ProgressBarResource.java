@@ -27,7 +27,6 @@ public class ProgressBarResource extends GenericResource {
     public void doView(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         User user = paramRequest.getUser();
         if(user.isSigned()) {
-//            PrintWriter out = response.getWriter();
             Resource base = getResourceBase();
             WebSite wsite = base.getWebSite();
             CV cv = CV.ClassMgr.getCV(user.getId(), wsite);
@@ -56,6 +55,7 @@ public class ProgressBarResource extends GenericResource {
             }catch(Exception e) {
                 log.error(e);
             }
-        }
+        }else
+            response.getWriter().println("usuario no logeado");
     }
 }
