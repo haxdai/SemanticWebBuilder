@@ -6,6 +6,7 @@
 <%@page import="javax.servlet.RequestDispatcher"%>
 <%@page import="org.semanticwb.Logger"%>
 <%@page import="org.semanticwb.SWBUtils"%>
+<%@page import="org.semanticwb.SWBPlatform"%>
 <%@page import="org.semanticwb.model.Resource"%>
 <%@page import="org.semanticwb.model.User"%>
 <%@page import="org.semanticwb.model.WebSite"%>
@@ -17,7 +18,8 @@
 <%
     User user = paramRequest.getUser();
     if(user.isSigned()) {
-        CV cv = CV.ClassMgr.getCV(user.getId(), paramRequest.getWebPage().getWebSite());
+        WebSite wsite = paramRequest.getWebPage().getWebSite();
+        CV cv = CV.ClassMgr.getCV(user.getId(), wsite);
         Academia aca = cv.getAcademia();
         
         out.println("<div class=\"indice\">");
@@ -27,26 +29,30 @@
         out.println("</h3>");
         out.println("<p class=\"intro_line\">&nbsp;</p>");
         out.println("</div>");
+        
+        final String url = SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+wsite.getId()+"/";/////// + "/Conocimiento_Formal"+"/_lang/"+user.getLanguage();
+        final String lang = "/_lang/"+user.getLanguage();
 
         out.println("<div class=\"cvi-sf-opcion\">");
         out.println("  <ul>");
         if(aca.listGradoAcademicos().hasNext())
-            out.println("    <li><h4><a href=\"#\" class=\"cvi-semaforo-verde\">"+paramRequest.getLocaleString("lblDegrees")+"</a></h4></li>");
+            out.println("    <li><h4><a href=\""+url+"Escolaridad"+lang+"\" class=\"cvi-semaforo-verde\">"+paramRequest.getLocaleString("lblDegrees")+"</a></h4></li>");
         else
-            out.println("    <li><h4><a href=\"#\" class=\"cvi-semaforo-rojo\">"+paramRequest.getLocaleString("lblDegrees")+"</a></h4></li>");
+            out.println("    <li><h4><a href=\""+url+"Escolaridad"+lang+"\" class=\"cvi-semaforo-rojo\">"+paramRequest.getLocaleString("lblDegrees")+"</a></h4></li>");
         if(aca.isNoAplicaEstudioSuperior() || aca.listEstudioSuperiors().hasNext())
-            out.println("    <li><h4><a href=\"#\" class=\"cvi-semaforo-verde\">"+paramRequest.getLocaleString("lblHigherEducation")+"</a></h4></li>");
+            out.println("    <li><h4><a href=\""+url+"Estudios_Superiores"+lang+"\" class=\"cvi-semaforo-verde\">"+paramRequest.getLocaleString("lblHigherEducation")+"</a></h4></li>");
         else
-            out.println("    <li><h4><a href=\"#\" class=\"cvi-semaforo-rojo\">"+paramRequest.getLocaleString("lblHigherEducation")+"</a></h4></li>");
+            out.println("    <li><h4><a href=\""+url+"Estudios_Superiores"+lang+"\" class=\"cvi-semaforo-rojo\">"+paramRequest.getLocaleString("lblHigherEducation")+"</a></h4></li>");      
         if(cv.isSinCurso() || cv.listDiplomados().hasNext() || cv.listCursosTICs().hasNext())
-            out.println("    <li><h4><a href=\"#\" class=\"cvi-semaforo-verde\">"+paramRequest.getLocaleString("lblCourses")+"</a></h4></li>");
+            out.println("    <li><h4><a href=\""+url+"Diplomados_cursos_y_certificaciones"+lang+"\" class=\"cvi-semaforo-verde\">"+paramRequest.getLocaleString("lblCourses")+"</a></h4></li>");
         else
-            out.println("    <li><h4><a href=\"#\" class=\"cvi-semaforo-rojo\">"+paramRequest.getLocaleString("lblCourses")+"</a></h4></li>");
-        out.println("    <li><h4><a href=\"#\" class=\"cvi-semaforo-rojo\">"+paramRequest.getLocaleString("lblSpecializationICT")+"</a></h4></li>");
+            out.println("    <li><h4><a href=\""+url+"Diplomados_cursos_y_certificaciones"+lang+"\" class=\"cvi-semaforo-rojo\">"+paramRequest.getLocaleString("lblCourses")+"</a></h4></li>");
+        out.println("    <li><h4><a href=\""+url+"Escolaridad"+lang+"\" class=\"cvi-semaforo-rojo\">"+paramRequest.getLocaleString("lblSpecializationICT")+"</a></h4></li>");
+        
         if(cv.isSinIdioma() || cv.listIdiomas().hasNext())
-            out.println("    <li><h4><a href=\"#\" class=\"cvi-semaforo-verde\">"+paramRequest.getLocaleString("lblLanguages")+"</a></h4></li>");
+            out.println("    <li><h4><a href=\""+url+"Idiomas"+lang+"\" class=\"cvi-semaforo-verde\">"+paramRequest.getLocaleString("lblLanguages")+"</a></h4></li>");
         else
-            out.println("    <li><h4><a href=\"#\" class=\"cvi-semaforo-rojo\">"+paramRequest.getLocaleString("lblLanguages")+"</a></h4></li>");
+            out.println("    <li><h4><a href=\""+url+"Idiomas"+lang+"\" class=\"cvi-semaforo-rojo\">"+paramRequest.getLocaleString("lblLanguages")+"</a></h4></li>");
         out.println("  </ul>");
         out.println("</div>");
         out.println("</div>");
@@ -61,18 +67,18 @@
         out.println("    <ul>");
         out.println("      <li>");
         if(cv.isSinExperiencia() || cv.listExperienciaLaborals().hasNext())
-            out.println("        <h4><a href=\"#\" class=\"cvi-semaforo-verde\">"+paramRequest.getLocaleString("lblJobExperience")+"</a></h4>");
+            out.println("        <h4><a href=\""+url+"Experiencia_Laboral"+lang+"\" class=\"cvi-semaforo-verde\">"+paramRequest.getLocaleString("lblJobExperience")+"</a></h4>");
         else
-            out.println("        <h4><a href=\"#\" class=\"cvi-semaforo-rojo\">"+paramRequest.getLocaleString("lblJobExperience")+"</a></h4>");
+            out.println("        <h4><a href=\""+url+"Experiencia_Laboral"+lang+"\" class=\"cvi-semaforo-rojo\">"+paramRequest.getLocaleString("lblJobExperience")+"</a></h4>");
         out.println("      </li>");
         out.println("      <li>");
-        out.println("        <h4><a href=\"#\" class=\"cvi-semaforo-verde\">"+paramRequest.getLocaleString("lblExpertise")+"</a></h4>");
+        out.println("        <h4><a href=\""+url+"Areas_de_talento_o_Expertise"+lang+"\" class=\"cvi-semaforo-verde\">"+paramRequest.getLocaleString("lblExpertise")+"</a></h4>");
         out.println("      </li>");
-        out.println("      <li>");
+        out.println("      <li>");    
         if(cv.isSinDistincion() || cv.listDistincions().hasNext())
-            out.println("        <h4><a href=\"#\" class=\"cvi-semaforo-verde\">"+paramRequest.getLocaleString("lblAwards")+"</a></h4>");
+            out.println("        <h4><a href=\""+url+"Distinciones"+lang+"\" class=\"cvi-semaforo-verde\">"+paramRequest.getLocaleString("lblAwards")+"</a></h4>");
         else
-            out.println("        <h4><a href=\"#\" class=\"cvi-semaforo-rojo\">"+paramRequest.getLocaleString("lblAwards")+"</a></h4>");
+            out.println("        <h4><a href=\""+url+"Distinciones"+lang+"\" class=\"cvi-semaforo-rojo\">"+paramRequest.getLocaleString("lblAwards")+"</a></h4>");
         out.println("      </li>");
         out.println("    </ul>");
         out.println("  </div>");
@@ -88,9 +94,9 @@
         out.println("    <ul>");
         out.println("      <li>");
         if(cv.listCompetencias().hasNext())
-            out.println("        <h4><a href=\"#\" class=\"cvi-semaforo-verde\">"+paramRequest.getLocaleString("lblSelfAssessmentOfSkills")+"</a></h4>");
+            out.println("        <h4><a href=\""+url+"Auto_evaluacion_de_competencias"+lang+"\" class=\"cvi-semaforo-verde\">"+paramRequest.getLocaleString("lblSelfAssessmentOfSkills")+"</a></h4>");
         else
-            out.println("        <h4><a href=\"#\" class=\"cvi-semaforo-rojo\">"+paramRequest.getLocaleString("lblSelfAssessmentOfSkills")+"</a></h4>");
+            out.println("        <h4><a href=\""+url+"Auto_evaluacion_de_competencias"+lang+"\" class=\"cvi-semaforo-rojo\">"+paramRequest.getLocaleString("lblSelfAssessmentOfSkills")+"</a></h4>");
         out.println("      </li>");
         //        out.println("      <li>");
         //        out.println("        <h4><a href=\"#\" class=\"cvi-semaforo-rojo\">Competencias por perfiles de TI</a></h4></li><li>");
@@ -109,21 +115,21 @@
         out.println("    <ul>");
         out.println("      <li>");
         if(cv.isSinInvestigacion() || cv.listInvestigacions().hasNext())
-            out.println("        <h4><a href=\"#\" class=\"cvi-semaforo-verde\">"+paramRequest.getLocaleString("lblResearch")+"</a></h4>");
+            out.println("        <h4><a href=\""+url+"Investigacion"+lang+"\" class=\"cvi-semaforo-verde\">"+paramRequest.getLocaleString("lblResearch")+"</a></h4>");
         else
-            out.println("        <h4><a href=\"#\" class=\"cvi-semaforo-rojo\">"+paramRequest.getLocaleString("lblResearch")+"</a></h4>");
+            out.println("        <h4><a href=\""+url+"Investigacion"+lang+"\" class=\"cvi-semaforo-rojo\">"+paramRequest.getLocaleString("lblResearch")+"</a></h4>");
         out.println("      </li>");
         out.println("      <li>");
         if(cv.isSinDocencia() || cv.listDocencias().hasNext())
-            out.println("        <h4><a href=\"#\" class=\"cvi-semaforo-verde\">"+paramRequest.getLocaleString("lblTeaching")+"</a></h4>");
+            out.println("        <h4><a href=\""+url+"Docencia"+lang+"\" class=\"cvi-semaforo-verde\">"+paramRequest.getLocaleString("lblTeaching")+"</a></h4>");
         else
-            out.println("        <h4><a href=\"#\" class=\"cvi-semaforo-rojo\">"+paramRequest.getLocaleString("lblTeaching")+"</a></h4>");
+            out.println("        <h4><a href=\""+url+"Docencia"+lang+"\" class=\"cvi-semaforo-rojo\">"+paramRequest.getLocaleString("lblTeaching")+"</a></h4>");
         out.println("      </li>");
         out.println("      <li>");
         if(cv.isSinPublicacion() || cv.listPublicacions().hasNext())
-            out.println("        <h4><a href=\"#\" class=\"cvi-semaforo-verde\">"+paramRequest.getLocaleString("lblPublications")+"</a></h4>");
+            out.println("        <h4><a href=\""+url+"Publicaciones"+lang+"\" class=\"cvi-semaforo-verde\">"+paramRequest.getLocaleString("lblPublications")+"</a></h4>");
         else
-            out.println("        <h4><a href=\"#\" class=\"cvi-semaforo-rojo\">"+paramRequest.getLocaleString("lblPublications")+"</a></h4>");
+            out.println("        <h4><a href=\""+url+"Publicaciones"+lang+"\" class=\"cvi-semaforo-rojo\">"+paramRequest.getLocaleString("lblPublications")+"</a></h4>");
         out.println("      </li>");
         out.println("    </ul>");
         out.println("  </div>");
