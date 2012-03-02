@@ -1,6 +1,7 @@
 <%@page import="org.semanticwb.portal.api.SWBParamRequest"%>
 <%@page import="org.semanticwb.model.WebSite"%>
 <%@page import="org.semanticwb.model.User"%>
+<jsp:useBean id="msg" scope="request" type="java.lang.String"/>
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/>
 <%
             /*    String msg = request.getParameter("msg");
@@ -8,12 +9,12 @@
             msg = (String)request.getAttribute("msg");
             if(msg!=null) {
             if(msg.equalsIgnoreCase("ok")){
-             */%>
+             */
+%>
 
 <div id="icv">
-    <%//@include file="../menucvi.jsp" %>
     <div id="icv-data">
-        <pre><strong>Gracias por registrarse. El personal calificado ya nos indicará que poner aquí de mensaje</strong></pre>
+        <p><strong><%=msg%></strong></p>
     </div>
 </div>
 <%/*
