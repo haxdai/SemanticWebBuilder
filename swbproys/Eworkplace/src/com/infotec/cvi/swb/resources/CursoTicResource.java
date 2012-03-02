@@ -69,7 +69,7 @@ public class CursoTicResource extends GenericResource
             cv = CV.ClassMgr.createCV(usr.getId(),wsite);
             cv.setPropietario(usr);
         }
-        
+        String msg ="";
         if (SWBResourceURL.Action_ADD.equals(action)||SWBResourceURL.Action_EDIT.equals(action)) {
             
             String nomcurso = request.getParameter("nomcurso");
@@ -88,7 +88,7 @@ public class CursoTicResource extends GenericResource
                 intfechafin = Integer.parseInt(fechafin);
             } catch (Exception e) {
             }
-            String msg ="";
+            
             if(nomcurso!=null&&nominstitucion!=null&&fechaini!=null&&fechafin!=null&&docobtenido!=null)
             {
                 CursoTIC ctic = null;
@@ -102,6 +102,7 @@ public class CursoTicResource extends GenericResource
                     ctic = CursoTIC.ClassMgr.createCursoTIC(wsite);
                     cv.addCursosTIC(ctic);
                     msg="Se agregó correctamente el Curso TIC";
+                    cv.setSinCurso(Boolean.FALSE);
                 }
                 
                 
@@ -133,7 +134,22 @@ public class CursoTicResource extends GenericResource
                     }                    
                 }                
             }
+        } else if (action.equals("updateNoAplica")){
+            //System.out.println("NoAplica: "+request.getParameter("noAplica"));
+            String noAplica = request.getParameter("noAplica");
+            msg="Se actualizó No aplican Cursos";
+            if(noAplica!=null&&noAplica.equals("true"))
+            {
+                cv.setSinCurso(Boolean.TRUE);
+            } else {
+                cv.setSinCurso(Boolean.FALSE);
+            }
+
+            response.setRenderParameter("act", "");
+            response.setRenderParameter("alertmsg", msg);
+            
         }
+        
         if (eventid != null) {
             response.setRenderParameter("id", eventid);
         }
