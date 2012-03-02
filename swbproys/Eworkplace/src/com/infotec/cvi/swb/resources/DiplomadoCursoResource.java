@@ -68,7 +68,7 @@ public class DiplomadoCursoResource extends GenericResource
             cv = CV.ClassMgr.createCV(usr.getId(),wsite);
             cv.setPropietario(usr);
         }
-        
+        String msg ="";
         if (SWBResourceURL.Action_ADD.equals(action)||SWBResourceURL.Action_EDIT.equals(action)) {
             
             String nomcurso = request.getParameter("nomcurso");
@@ -87,7 +87,7 @@ public class DiplomadoCursoResource extends GenericResource
                 intfechafin = Integer.parseInt(fechafin);
             } catch (Exception e) {
             }
-            String msg ="";
+            
             if(nomcurso!=null&&nominstitucion!=null&&fechaini!=null&&fechafin!=null&&docobtenido!=null)
             {
                 Diplomado ctic = null;
@@ -100,6 +100,7 @@ public class DiplomadoCursoResource extends GenericResource
                     ctic = Diplomado.ClassMgr.createDiplomado(wsite);
                     cv.addDiplomado(ctic);
                     msg="Se agregó correctamente el Diplomado / Curso";
+                    cv.setSinDiplomado(Boolean.FALSE);
                 }
                 
                 ctic.setNombreInstitucion(nominstitucion);
@@ -108,6 +109,8 @@ public class DiplomadoCursoResource extends GenericResource
                 ctic.setInicio(intfechaini);
                 ctic.setFin(intfechafin);
 
+                
+                
                 response.setAction("");
                 
                 response.setRenderParameter("act", "");
@@ -128,7 +131,22 @@ public class DiplomadoCursoResource extends GenericResource
                     }                    
                 }                
             }
+        } else if (action.equals("updateNoAplica")){
+            //System.out.println("NoAplica: "+request.getParameter("noAplica"));
+            String noAplica = request.getParameter("noAplica");
+            msg="Se actualizó No aplican Diplomado";
+            if(noAplica!=null&&noAplica.equals("true"))
+            {
+                cv.setSinDiplomado(Boolean.TRUE);
+            } else {
+                cv.setSinDiplomado(Boolean.FALSE);
+            }
+
+            response.setRenderParameter("act", "");
+            response.setRenderParameter("alertmsg", msg);
+            
         }
+        
         if (eventid != null) {
             response.setRenderParameter("id", eventid);
         }
