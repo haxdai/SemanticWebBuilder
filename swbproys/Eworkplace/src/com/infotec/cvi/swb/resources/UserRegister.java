@@ -39,11 +39,10 @@ public class UserRegister extends GenericAdmResource {
 
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
-System.out.println("\n\n processAction....");
         final String action = response.getAction();
         Resource base = getResourceBase();
         User user = response.getUser();
-System.out.println("action="+action);
+        
         if(response.Action_ADD.equals(action)) {
             WebPage wp = response.getWebPage();
             WebSite wsite = base.getWebSite();
@@ -148,7 +147,7 @@ System.out.println("action="+action);
             try {
                 base.updateAttributesToDB();
             } catch (Exception e) {
-                log.error(e);
+                log.error("Error al guardar atributos del InlineTextArea. ", e);
             }
         }else if(Action_ACTIVATE.equals(action)) {
             WebSite wsite = base.getWebSite();
@@ -158,7 +157,7 @@ System.out.println("action="+action);
             try {
                 String decCode = new String(SWBUtils.CryptoWrapper.PBEAES128Decipher(PassPhrase, SFBase64.decode(code)));
                 User usrAct = ur.getUser(decCode);
-                setAspirante(usrAct);
+                setCandidate(usrAct);
                 user = usrAct;
                 user.setActive(true);
                 response.setMode(Mode_FINAL);
@@ -223,7 +222,7 @@ System.out.println("action="+action);
         msg = SWBUtils.TEXT.replaceAll(msg, "{user.login}", user.getLogin());
         msg = SWBUtils.TEXT.replaceAll(msg, "{user.email}", user.getEmail());
 
-        String url = SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+getResourceBase().getWebSite().getId()+"/Datos_Personales/"+"/_lang/"+user.getLanguage();
+        String url = SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+getResourceBase().getWebSite().getId()+"/datos_personales/"+"/_lang/"+user.getLanguage();
         RequestDispatcher dis = request.getRequestDispatcher(basePath+"finalUser.jsp");
         try {
             request.setAttribute("paramRequest", paramRequest);
@@ -366,19 +365,22 @@ System.out.println("action="+action);
         out.println("</div>");
     }
     
-    private void setAspirante(final User user) throws Exception {
+    private void setCandidate(final User user) throws Exception {
         final String grantPrivilegesId = getResourceBase().getAttribute("editRole");
-        SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
-        GenericObject gobj;
-        gobj = ont.getGenericObject(grantPrivilegesId);
-        if( gobj!=null ) {
-            if(gobj instanceof UserGroup) {
-                UserGroup ugrp = (UserGroup) gobj;
-                user.addUserGroup(ugrp);
-            }else if(gobj instanceof Role) {
-                Role urole = (Role) gobj;
-                user.addRole(urole);
+        if( user!=null && user.isSigned() ) {
+            SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
+            GenericObject gobj;
+            gobj = ont.getGenericObject(grantPrivilegesId);
+            if( gobj!=null ) {
+                if(gobj instanceof UserGroup) {
+                    UserGroup ugrp = (UserGroup) gobj;
+                    user.addUserGroup(ugrp);
+                }else if(gobj instanceof Role) {
+                    Role urole = (Role) gobj;
+                    user.addRole(urole);
+                }
             }
         }
     }
 }
+
