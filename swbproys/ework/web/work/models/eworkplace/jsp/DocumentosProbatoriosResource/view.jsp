@@ -88,6 +88,20 @@
                 SWBFormMgr fmgr = null;
                 fmgr = new SWBFormMgr(obj, null, SWBFormMgr.MODE_EDIT);
 
+                fmgr.clearProperties();
+                
+                fmgr.addProperty(DocumentoProbatorio.intranet_fileActaNacimiento);
+                fmgr.addProperty(DocumentoProbatorio.intranet_fileActaMatrimonio);
+                fmgr.addProperty(DocumentoProbatorio.intranet_hasActasNacimientoFamiliares);
+                fmgr.addProperty(DocumentoProbatorio.intranet_fileFotoTamInfantil);
+                fmgr.addProperty(DocumentoProbatorio.intranet_fileCopiaRFC);
+                fmgr.addProperty(DocumentoProbatorio.intranet_fileCURP);
+                fmgr.addProperty(DocumentoProbatorio.intranet_hasFilesComprobanteEstudio);
+                fmgr.addProperty(DocumentoProbatorio.intranet_hasFilesIdentificacionOficial);
+                fmgr.addProperty(DocumentoProbatorio.intranet_fileComprobanteDomicilio);
+                fmgr.addProperty(DocumentoProbatorio.intranet_fileNumeroSeguridadSocial);
+                
+                
                 fmgr.setFilterHTMLTags(false);
                 fmgr.setType(SWBFormMgr.TYPE_DOJO);
 
