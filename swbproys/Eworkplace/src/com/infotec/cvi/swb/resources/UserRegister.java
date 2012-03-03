@@ -222,7 +222,7 @@ public class UserRegister extends GenericAdmResource {
         msg = SWBUtils.TEXT.replaceAll(msg, "{user.login}", user.getLogin());
         msg = SWBUtils.TEXT.replaceAll(msg, "{user.email}", user.getEmail());
 
-        String url = SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+getResourceBase().getWebSite().getId()+"/datos_personales/"+"/_lang/"+user.getLanguage();
+        String url = SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+getResourceBase().getWebSite().getId()+"/Identificacion/"+"/_lang/"+user.getLanguage();
         RequestDispatcher dis = request.getRequestDispatcher(basePath+"finalUser.jsp");
         try {
             request.setAttribute("paramRequest", paramRequest);
