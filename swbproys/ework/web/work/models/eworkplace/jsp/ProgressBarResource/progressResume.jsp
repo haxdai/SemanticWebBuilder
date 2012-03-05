@@ -30,16 +30,16 @@
         out.println(" <div class=\"intro_indice\">");
         done = aca.listGradoAcademicos().hasNext()&&(aca.isNoAplicaEstudioSuperior() || aca.listEstudioSuperiors().hasNext())&&(cv.isSinCurso() || cv.listDiplomados().hasNext() || cv.listCursosTICs().hasNext())&&cv.isSinIdioma() || cv.listIdiomas().hasNext();
         out.println("  <h3 class=\""+(done?"icv-semaforo-paloma":"icv-semaforo-tache")+"\">");
-        out.println("   <a href=\""+url+"Conocimiento_Formal"+lang+"\">"+paramRequest.getLocaleString("lblSchooling")+"</a>");
+        out.println("   <a href=\""+url+"Escolaridad"+lang+"\">"+paramRequest.getLocaleString("lblSchooling")+"</a>");
         out.println("  </h3>");
         out.println("  <p class=\"intro_line\">&nbsp;</p>");
         out.println(" </div>");     
         out.println(" <div class=\"cvi-sf-opcion\">");
         out.println("  <ul>");
         if(aca.listGradoAcademicos().hasNext())
-            out.println("<li><h4><a href=\""+url+"Grados_Academicos"+lang+"\" class=\"cvi-semaforo-verde\">"+paramRequest.getLocaleString("lblDegrees")+"</a></h4></li>");
+            out.println("<li><h4><a href=\""+url+"Escolaridad"+lang+"\" class=\"cvi-semaforo-verde\">"+paramRequest.getLocaleString("lblDegrees")+"</a></h4></li>");
         else
-            out.println("<li><h4><a href=\""+url+"Grados_Academicos"+lang+"\" class=\"cvi-semaforo-rojo\">"+paramRequest.getLocaleString("lblDegrees")+"</a></h4></li>");
+            out.println("<li><h4><a href=\""+url+"Escolaridad"+lang+"\" class=\"cvi-semaforo-rojo\">"+paramRequest.getLocaleString("lblDegrees")+"</a></h4></li>");
         
         if(aca.isNoAplicaEstudioSuperior() || aca.listEstudioSuperiors().hasNext())
             out.println("<li><h4><a href=\""+url+"Estudios_Superiores"+lang+"\" class=\"cvi-semaforo-verde\">"+paramRequest.getLocaleString("lblHigherEducation")+"</a></h4></li>");
