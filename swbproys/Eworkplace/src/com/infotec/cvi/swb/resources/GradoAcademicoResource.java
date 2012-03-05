@@ -103,7 +103,7 @@ public class GradoAcademicoResource extends GenericResource {
             SituacionAcademica situacion = SituacionAcademica.ClassMgr.getSituacionAcademica(idsituacion, wsite);
             Grado grado = Grado.ClassMgr.getGrado(idgrado, wsite);
 
-            if (grado != null && situacion != null && carrera != null && intPeriodo > 0) {
+            if (grado != null && situacion != null  && intPeriodo > 0) { //&& carrera != null
                 GradoAcademico ga = null;
                 if (id != null) {
                     ga = GradoAcademico.ClassMgr.getGradoAcademico(id, wsite);
@@ -116,7 +116,7 @@ public class GradoAcademicoResource extends GenericResource {
                 }
 
                 ga.setNombreInstitucion(nomInstitucion);
-                ga.setCarrera(carrera);
+                if(carrera!=null) ga.setCarrera(carrera);
                 ga.setSituacionAcademica(situacion);
                 ga.setPeriodoYears(intPeriodo);
                 ga.setGrado(grado);
