@@ -222,7 +222,7 @@ public class UserRegister extends GenericAdmResource {
         msg = SWBUtils.TEXT.replaceAll(msg, "{user.login}", user.getLogin());
         msg = SWBUtils.TEXT.replaceAll(msg, "{user.email}", user.getEmail());
 
-        String url = SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+getResourceBase().getWebSite().getId()+"/Datos_Personales"+"/_lang/"+user.getLanguage();
+        String url = SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+getResourceBase().getWebSite().getId()+"/Identificacion"+"/_lang/"+user.getLanguage();
         RequestDispatcher dis = request.getRequestDispatcher(basePath+"finalUser.jsp");
         try {
             request.setAttribute("paramRequest", paramRequest);
@@ -367,7 +367,7 @@ public class UserRegister extends GenericAdmResource {
     
     private void setAspirante(final User user) throws Exception {
         final String grantPrivilegesId = getResourceBase().getAttribute("editRole");
-System.out.println("grantPrivilegesId="+grantPrivilegesId);        
+System.out.println("\n------------grantPrivilegesId="+grantPrivilegesId);        
         SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
         GenericObject gobj;
         gobj = ont.getGenericObject(grantPrivilegesId);
