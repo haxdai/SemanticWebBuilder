@@ -336,16 +336,16 @@
             <div dojoType="dojo.data.ItemFileReadStore" jsId="areaCarreraStore<%=base.getId()%>" url="<%=url.setMode("mod_area")%>"></div>
             <div dojoType="dojo.data.ItemFileReadStore" jsId="carreraStore<%=base.getId()%>" url="<%=url.setMode("mod_carrera")%>"></div>
 <p class="icv-3col">           
-            <label for="sel_Tipo"><b>*</b>Disciplina</label>             
-            <input dojoType="dijit.form.FilteringSelect" value="" autoComplete="true" store="tipoCarreraStore<%=base.getId()%>" name="sel_Tipo" id="sel_Tipo<%=base.getId()%>" onChange="dijit.byId('sel_Area<%=base.getId()%>').query.tipo = this.value || '*';" />        
+            <label for="sel_Tipo">Disciplina</label>             
+            <input dojoType="dijit.form.FilteringSelect" value="" autoComplete="true" required="false" store="tipoCarreraStore<%=base.getId()%>" name="sel_Tipo" id="sel_Tipo<%=base.getId()%>" onChange="dijit.byId('sel_Area<%=base.getId()%>').query.tipo = this.value || '*';" />        
 </p>
 <p class="icv-3col">
-            <label for="sel_Area"><b>*</b>Area</label>
-            <input dojoType="dijit.form.FilteringSelect" value="" autoComplete="true" store="areaCarreraStore<%=base.getId()%>" name="sel_Area" id="sel_Area<%=base.getId()%>" onChange="dijit.byId('sel_Carrera<%=base.getId()%>').query.area = this.value || '*'; dijit.byId('sel_Tipo<%=base.getId()%>').attr('value', (dijit.byId('sel_Area<%=base.getId()%>').item || {tipo: ''}).tipo);" />          <!-- dijit.byId('sel_Carrera<%//=base.getId()%>').attr('value',''); -->
+            <label for="sel_Area">Area</label>
+            <input dojoType="dijit.form.FilteringSelect" value="" autoComplete="true" required="false" store="areaCarreraStore<%=base.getId()%>" name="sel_Area" id="sel_Area<%=base.getId()%>" onChange="dijit.byId('sel_Carrera<%=base.getId()%>').query.area = this.value || '*'; dijit.byId('sel_Tipo<%=base.getId()%>').attr('value', (dijit.byId('sel_Area<%=base.getId()%>').item || {tipo: ''}).tipo);" />          <!-- dijit.byId('sel_Carrera<%//=base.getId()%>').attr('value',''); -->
 </p>
 <p class="icv-3col">
-            <label for="sel_Carrera"><b>*</b>Carrera</label>
-            <input dojoType="dijit.form.FilteringSelect" value="" autoComplete="true" store="carreraStore<%=base.getId()%>" name="sel_Carrera" id="sel_Carrera<%=base.getId()%>" onChange="dijit.byId('sel_Area<%=base.getId()%>').attr('value', (dijit.byId('sel_Carrera<%=base.getId()%>').item || {area: ''}).area);" />       
+            <label for="sel_Carrera">Carrera</label>
+            <input dojoType="dijit.form.FilteringSelect" value="" autoComplete="true" required="false" store="carreraStore<%=base.getId()%>" name="sel_Carrera" id="sel_Carrera<%=base.getId()%>" onChange="dijit.byId('sel_Area<%=base.getId()%>').attr('value', (dijit.byId('sel_Carrera<%=base.getId()%>').item || {area: ''}).area);" />       
 </p>
   
   <div class="clearer">&nbsp;</div>
@@ -474,16 +474,16 @@
             <div dojoType="dojo.data.ItemFileReadStore" jsId="areaCarreraStore<%=base.getId()%>" url="<%=url.setMode("mod_area")%>"></div>
             <div dojoType="dojo.data.ItemFileReadStore" jsId="carreraStore<%=base.getId()%>" url="<%=url.setMode("mod_carrera")%>"></div>
 <p class="icv-3col">           
-            <label for="sel_Tipo"><b>*</b>Disciplina</label>             
-            <input dojoType="dijit.form.FilteringSelect" value="<%=idTipo%>" autoComplete="true" store="tipoCarreraStore<%=base.getId()%>" name="sel_Tipo" id="sel_Tipo<%=base.getId()%>" onChange="dijit.byId('sel_Area<%=base.getId()%>').query.tipo = this.value || '*';" />        
+            <label for="sel_Tipo">Disciplina</label>             
+            <input dojoType="dijit.form.FilteringSelect" value="<%=idTipo%>" autoComplete="true" required="false" store="tipoCarreraStore<%=base.getId()%>" name="sel_Tipo" id="sel_Tipo<%=base.getId()%>" onChange="dijit.byId('sel_Area<%=base.getId()%>').query.tipo = this.value || '*';" />        
 </p>
 <p class="icv-3col">
-            <label for="sel_Area"><b>*</b>Area</label>
-            <input dojoType="dijit.form.FilteringSelect" value="<%=idArea%>" autoComplete="true" store="areaCarreraStore<%=base.getId()%>" name="sel_Area" id="sel_Area<%=base.getId()%>" onChange="dijit.byId('sel_Carrera<%=base.getId()%>').query.area = this.value || '*'; dijit.byId('sel_Tipo<%=base.getId()%>').attr('value', (dijit.byId('sel_Area<%=base.getId()%>').item || {tipo: ''}).tipo);" />          <!-- dijit.byId('sel_Carrera<%//=base.getId()%>').attr('value',''); -->
+            <label for="sel_Area">Area</label>
+            <input dojoType="dijit.form.FilteringSelect" value="<%=idArea%>" autoComplete="true" required="false" store="areaCarreraStore<%=base.getId()%>" name="sel_Area" id="sel_Area<%=base.getId()%>" onChange="dijit.byId('sel_Carrera<%=base.getId()%>').query.area = this.value || '*'; dijit.byId('sel_Tipo<%=base.getId()%>').attr('value', (dijit.byId('sel_Area<%=base.getId()%>').item || {tipo: ''}).tipo);" />          <!-- dijit.byId('sel_Carrera<%//=base.getId()%>').attr('value',''); -->
 </p>
 <p class="icv-3col">
-            <label for="sel_Carrera"><b>*</b>Carrera</label>
-            <input dojoType="dijit.form.FilteringSelect" value="<%=idCarrera%>" autoComplete="true" store="carreraStore<%=base.getId()%>" name="sel_Carrera" id="sel_Carrera<%=base.getId()%>" onChange="dijit.byId('sel_Area<%=base.getId()%>').attr('value', (dijit.byId('sel_Carrera<%=base.getId()%>').item || {area: ''}).area);" />       
+            <label for="sel_Carrera">Carrera</label>
+            <input dojoType="dijit.form.FilteringSelect" value="<%=idCarrera%>" autoComplete="true" required="false" store="carreraStore<%=base.getId()%>" name="sel_Carrera" id="sel_Carrera<%=base.getId()%>" onChange="dijit.byId('sel_Area<%=base.getId()%>').attr('value', (dijit.byId('sel_Carrera<%=base.getId()%>').item || {area: ''}).area);" />       
 </p>
   
   <div class="clearer">&nbsp;</div>
