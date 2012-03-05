@@ -147,7 +147,7 @@ public class UserRegister extends GenericAdmResource {
             try {
                 base.updateAttributesToDB();
             } catch (Exception e) {
-                log.error("Error al guardar atributos del InlineTextArea. ", e);
+                log.error("Error al guardar atributos del UserRegister. ", e);
             }
         }else if(Action_ACTIVATE.equals(action)) {
             WebSite wsite = base.getWebSite();
@@ -157,7 +157,7 @@ public class UserRegister extends GenericAdmResource {
             try {
                 String decCode = new String(SWBUtils.CryptoWrapper.PBEAES128Decipher(PassPhrase, SFBase64.decode(code)));
                 User usrAct = ur.getUser(decCode);
-                setCandidate(usrAct);
+                setAspirante(usrAct);
                 user = usrAct;
                 user.setActive(true);
                 response.setMode(Mode_FINAL);
@@ -222,7 +222,7 @@ public class UserRegister extends GenericAdmResource {
         msg = SWBUtils.TEXT.replaceAll(msg, "{user.login}", user.getLogin());
         msg = SWBUtils.TEXT.replaceAll(msg, "{user.email}", user.getEmail());
 
-        String url = SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+getResourceBase().getWebSite().getId()+"/Identificacion/"+"/_lang/"+user.getLanguage();
+        String url = SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+getResourceBase().getWebSite().getId()+"/Datos_Personales"+"/_lang/"+user.getLanguage();
         RequestDispatcher dis = request.getRequestDispatcher(basePath+"finalUser.jsp");
         try {
             request.setAttribute("paramRequest", paramRequest);
@@ -365,20 +365,20 @@ public class UserRegister extends GenericAdmResource {
         out.println("</div>");
     }
     
-    private void setCandidate(final User user) throws Exception {
+    private void setAspirante(final User user) throws Exception {
         final String grantPrivilegesId = getResourceBase().getAttribute("editRole");
-        if( user!=null && user.isSigned() ) {
-            SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
-            GenericObject gobj;
-            gobj = ont.getGenericObject(grantPrivilegesId);
-            if( gobj!=null ) {
-                if(gobj instanceof UserGroup) {
-                    UserGroup ugrp = (UserGroup) gobj;
-                    user.addUserGroup(ugrp);
-                }else if(gobj instanceof Role) {
-                    Role urole = (Role) gobj;
-                    user.addRole(urole);
-                }
+System.out.println("grantPrivilegesId="+grantPrivilegesId);        
+        SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
+        GenericObject gobj;
+        gobj = ont.getGenericObject(grantPrivilegesId);
+        if( gobj!=null ) {
+            if(gobj instanceof UserGroup) {
+                UserGroup ugrp = (UserGroup) gobj;
+                user.addUserGroup(ugrp);
+System.out.println("ugrp="+ugrp);
+            }else if(gobj instanceof Role) {
+                Role urole = (Role) gobj;
+                user.addRole(urole);
             }
         }
     }
