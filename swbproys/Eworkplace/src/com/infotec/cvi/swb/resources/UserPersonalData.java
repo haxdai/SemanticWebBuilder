@@ -164,12 +164,11 @@ public class UserPersonalData extends GenericAdmResource {
                 }else{
                     complete=false;
                 }
-//                if (fm2!=null&&!fm2.equals("")&&fm2.matches("\\d+")){
-//                    persona.setFM2(fm2);
-//                }else{
-//                    complete=false;
-//                }
-
+                if (fm2!=null&&!fm2.equals("")&&fm2.equals("true")){
+                    persona.setFM2(true);
+                }else{
+                    persona.setFM2(false);
+                }
                 Domicilio domicilio=persona.getDomicilio();
                 if(domicilio==null){
                     domicilio = Domicilio.ClassMgr.createDomicilio(ws);
@@ -215,7 +214,11 @@ public class UserPersonalData extends GenericAdmResource {
                 }else{
                     complete=false;
                 }
-
+                Iterator<String> item=persona.listPEmails();
+                while(item.hasNext()){
+                    String pEmail=item.next();
+                    persona.removePEmail(pEmail);
+                }
                 Enumeration<String> params=request.getParameterNames();
                 while(params.hasMoreElements()){
                     String param=params.nextElement();
@@ -234,9 +237,6 @@ public class UserPersonalData extends GenericAdmResource {
                             phoneExt=Integer.parseInt(request.getParameter("phoneExt"+phoneId));
                         }catch(NumberFormatException ignoredException){
                         }
-
-//System.out.println("phoneId:"+phoneId);
-//System.out.println("phonenum"+request.getParameter("phoneNum"+phoneId));
                         if(phoneId.startsWith("_")&&phoneNum>0){
                             Telefono telefono=Telefono.ClassMgr.createTelefono(ws);
                             telefono.setLada(phoneLada);
@@ -248,28 +248,27 @@ public class UserPersonalData extends GenericAdmResource {
                             Iterator<Telefono>  itt=persona.listTelefonos();
                             while(itt.hasNext()){
                                 Telefono telefono=itt.next();
-//System.out.println("telefonoId:"+telefono.getId());
-//System.out.println("phonenum:"+phoneNum);
-//System.out.println("phoneId:"+phoneId);
                                 if(telefono.getId().equals(phoneId)){
                                     if(phoneNum>0){
-//System.out.println("actualizar:");
                                         telefono.setLada(phoneLada);
                                         telefono.setNumero(phoneNum);
                                         telefono.setExtension(phoneExt);
                                         telefono.setTipo(phoneType);
                                     }else{
-//System.out.println("borrar:"+phoneId);
                                         persona.removeTelefono(telefono);
                                     }
                                 }
                             }
                         }
+                    }else if (param.startsWith("pEmail")){
+                        String pEmail=request.getParameter(param);
+                        if(pEmail!=null&&!pEmail.equals("")){
+                            persona.addPEmail(pEmail);
+                        }
                     }
                 }
 
-
-                //sLabor = request.getParameter("sLabor");
+                 //sLabor = request.getParameter("sLabor");
                  //avalibility = request.getParameter("avalibility");
 
                 if (facebook!=null&&!facebook.equals("")&&facebook.matches(".+")){
@@ -311,7 +310,9 @@ public class UserPersonalData extends GenericAdmResource {
                 }catch(NumberFormatException ignoredException){
                     complete=false;
                 }
+//para pruebas de carlos
 complete = true;
+//
                 if(complete) {
                     setCandidate(user);
                 }
