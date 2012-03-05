@@ -46,12 +46,15 @@
         else
             out.println("<li><h4><a href=\""+url+"Estudios_Superiores"+lang+"\" class=\"cvi-semaforo-rojo\">"+paramRequest.getLocaleString("lblHigherEducation")+"</a></h4></li>");
         
-        if(cv.isSinCurso() || cv.listDiplomados().hasNext() || cv.listCursosTICs().hasNext())
+        if(cv.isSinDiplomado() || cv.listDiplomados().hasNext())
             out.println("<li><h4><a href=\""+url+"Diplomados_cursos_y_certificaciones"+lang+"\" class=\"cvi-semaforo-verde\">"+paramRequest.getLocaleString("lblCourses")+"</a></h4></li>");
         else
             out.println("<li><h4><a href=\""+url+"Diplomados_cursos_y_certificaciones"+lang+"\" class=\"cvi-semaforo-rojo\">"+paramRequest.getLocaleString("lblCourses")+"</a></h4></li>");
         
-        out.println("<li><h4><a href=\""+url+"Escolaridad"+lang+"\" class=\"cvi-semaforo-rojo\">"+paramRequest.getLocaleString("lblSpecializationICT")+"</a></h4></li>");
+        if(cv.isSinCurso() || cv.listCursosTICs().hasNext())
+            out.println("<li><h4><a href=\""+url+"Cursos_especiaizados_en_TIC"+lang+"\" class=\"cvi-semaforo-verde\">"+paramRequest.getLocaleString("lblSpecializationICT")+"</a></h4></li>");
+        else
+            out.println("<li><h4><a href=\""+url+"Cursos_especiaizados_en_TIC"+lang+"\" class=\"cvi-semaforo-rojo\">"+paramRequest.getLocaleString("lblSpecializationICT")+"</a></h4></li>");
         
         if(cv.isSinIdioma() || cv.listIdiomas().hasNext())
             out.println("<li><h4><a href=\""+url+"Idiomas"+lang+"\" class=\"cvi-semaforo-verde\">"+paramRequest.getLocaleString("lblLanguages")+"</a></h4></li>");

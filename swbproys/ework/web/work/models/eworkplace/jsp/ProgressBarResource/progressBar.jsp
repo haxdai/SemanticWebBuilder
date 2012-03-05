@@ -43,7 +43,7 @@
 <div class="cuerpo-sem">
  <div id="cvi-semaforo-gral">
   <div id="cvi-semaforo-crece" style="padding-left:<%=df.format(817*progress)%>px;">&nbsp;</div> <!-- 100% = 817px -->
-  <div id="cvi-semaforo-flecha"><span><%=df.format(progress)%> %</span></div>
+  <div id="cvi-semaforo-flecha"><span><%=df.format(100*progress)%> &#37;</span></div>
   <div class="clearer">&nbsp;</div>
   <div id="cvi-semaforo-pends">
 <%
