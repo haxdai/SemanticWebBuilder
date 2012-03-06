@@ -56,7 +56,15 @@
             missing.append(paramRequest.getLocaleString("lblCompetencies")+" - ");
         if(!doneResearchAndTeaching)
             missing.append(paramRequest.getLocaleString("lblResearchAndTeaching"));
-        out.print(missing.substring(0, missing.toString().lastIndexOf(" - ")));
+        
+        try {
+            if(missing.toString().endsWith(" - "))
+                out.print(missing.substring(0, missing.toString().lastIndexOf(" - ")));
+            else
+                out.print(missing.toString());
+        }catch(StringIndexOutOfBoundsException e) {
+            out.print(missing.toString());
+        }
 %>
   </div>
  </div>
