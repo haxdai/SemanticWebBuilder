@@ -1,14 +1,9 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class SolicitudMantenimientoBase extends org.semanticwb.model.SWBClass 
+public abstract class SolicitudMantenimientoBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Solicitable
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_terceros=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#terceros");
-    public static final org.semanticwb.platform.SemanticProperty intranet_fechaSolicita=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaSolicita");
-    public static final org.semanticwb.platform.SemanticProperty intranet_cargoSolicitante=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#cargoSolicitante");
-    public static final org.semanticwb.platform.SemanticProperty intranet_adscripcionSolicitante=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#adscripcionSolicitante");
-    public static final org.semanticwb.platform.SemanticProperty intranet_extensionSolicitante=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#extensionSolicitante");
-    public static final org.semanticwb.platform.SemanticProperty intranet_nombreSolicitante=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nombreSolicitante");
     public static final org.semanticwb.platform.SemanticProperty intranet_descripcionServicio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#descripcionServicio");
     public static final org.semanticwb.platform.SemanticProperty intranet_autoriza=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#autoriza");
     public static final org.semanticwb.platform.SemanticClass intranet_SolicitudMantenimiento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#SolicitudMantenimiento");
@@ -86,6 +81,29 @@ public abstract class SolicitudMantenimientoBase extends org.semanticwb.model.SW
         {
             return (getSolicitudMantenimiento(id, model)!=null);
         }
+       /**
+       * Gets all com.infotec.eworkplace.swb.SolicitudMantenimiento with a determined Solicitante
+       * @param value Solicitante of the type org.semanticwb.model.User
+       * @param model Model of the com.infotec.eworkplace.swb.SolicitudMantenimiento
+       * @return Iterator with all the com.infotec.eworkplace.swb.SolicitudMantenimiento
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.SolicitudMantenimiento> listSolicitudMantenimientoBySolicitante(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SolicitudMantenimiento> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_solicitante, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.SolicitudMantenimiento with a determined Solicitante
+       * @param value Solicitante of the type org.semanticwb.model.User
+       * @return Iterator with all the com.infotec.eworkplace.swb.SolicitudMantenimiento
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.SolicitudMantenimiento> listSolicitudMantenimientoBySolicitante(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SolicitudMantenimiento> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_solicitante,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
    /**
@@ -95,6 +113,44 @@ public abstract class SolicitudMantenimientoBase extends org.semanticwb.model.SW
     public SolicitudMantenimientoBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+   /**
+   * Sets the value for the property Solicitante
+   * @param value Solicitante to set
+   */
+
+    public void setSolicitante(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_solicitante, value.getSemanticObject());
+        }else
+        {
+            removeSolicitante();
+        }
+    }
+   /**
+   * Remove the value for Solicitante property
+   */
+
+    public void removeSolicitante()
+    {
+        getSemanticObject().removeProperty(intranet_solicitante);
+    }
+
+   /**
+   * Gets the Solicitante
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getSolicitante()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_solicitante);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
