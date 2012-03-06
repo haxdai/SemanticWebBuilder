@@ -74,7 +74,7 @@ public class AutoEvaluacionCompetenciasResource extends GenericResource {
                     }
                 }
             }
-            response.setRenderParameter("alertmsg", "competencias agregadas bien");
+            response.setRenderParameter("alertmsg", response.getLocaleString("msgOkUpdateResource"));
         }
     }
     
