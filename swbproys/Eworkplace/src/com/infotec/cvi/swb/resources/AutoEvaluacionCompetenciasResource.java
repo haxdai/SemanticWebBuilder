@@ -61,24 +61,16 @@ public class AutoEvaluacionCompetenciasResource extends GenericResource {
             if(!validate(request, response)) {
                 return;
             }
-            
-            cv.removeAllCompetencia();
-            
-//            Iterator<Competencia> competencias = cv.listCompetencias();
-//            while(competencias.hasNext()) {
-//                Competencia competencia = competencias.next();
-//                if(competencia!=null)
-//                    competencia.remove();
-//            }
             String[] cmptncs = request.getParameterValues("cmptc");
             if(cmptncs!=null) {
+                cv.removeAllCompetencia();
                 for(String cmptncId:cmptncs) {
                     try {
-System.out.println("cmptncId="+cmptncId);
                         Competencia cmptnc = Competencia.ClassMgr.getCompetencia(cmptncId, wsite);
                         cv.addCompetencia(cmptnc);
                     }catch(Exception e){
-                        e.printStackTrace();
+                        e.printStackTrace(System.out);
+                        log.error(e);
                     }
                 }
             }
@@ -88,7 +80,7 @@ System.out.println("cmptncId="+cmptncId);
     
     private boolean validate(HttpServletRequest request, SWBActionResponse response) {
         boolean validate = true;
-        CV cv = CV.ClassMgr.getCV(response.getUser().getId(), getResourceBase().getWebSite());
+//        CV cv = CV.ClassMgr.getCV(response.getUser().getId(), getResourceBase().getWebSite());
 //        if(request.getParameterValues("cmptc")==null) {
 //            response.setRenderParameter("alertmsg", "Marca al menos una competencia");
 //            return false;
@@ -98,16 +90,17 @@ System.out.println("cmptncId="+cmptncId);
 //            return false;
 //        }
         try {
-            if(request.getParameterValues("cmptc").length>5) {
+            if(request.getParameterValues("cmptc").length!=5) {
                 response.setRenderParameter("alertmsg", "marca hasta 5 competencias");
                 validate = false;
             }
         }catch(Exception e) {
-        }
-        if(SWBUtils.Collections.sizeOf(cv.listCompetencias())>=5 && request.getParameterValues("cmptc").length>0) {
             validate = false;
-            response.setRenderParameter("alertmsg", "valor maximo alcanzado");
         }
+//        if(SWBUtils.Collections.sizeOf(cv.listCompetencias())!=5 && request.getParameterValues("cmptc").length>0) {
+//            validate = false;
+//            response.setRenderParameter("alertmsg", "valor maximo alcanzado");
+//        }
             
         return validate;
     }
