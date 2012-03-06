@@ -33,8 +33,6 @@
     final String lang = usr.getLanguage();
     Locale locale = new Locale(lang,(usr.getCountry()==null?"MX":usr.getCountry()));
 
-    Role role=null;
-
     CV cv = CV.ClassMgr.getCV(usr.getId(), wsite);
     
     Iterator<Competencia> competencias = Competencia.ClassMgr.listCompetencias(wsite);
@@ -56,9 +54,23 @@
 %>
 <script type="text/javascript">
 <!--
-
     function enviar() {
-      return true;  
+        //var list = dojo.query('[checked$=\"checked\"]');
+        var c = 0;
+        var list = dojo.query('[name$=\"cmptc\"]');
+        list.forEach(
+            function(node, index, arr) {
+                if(node.type=='checkbox' && node.checked) {
+                    c++;
+                }
+            }
+        );
+        if(c==5) {            
+            return true;
+        }else {
+            alert('<%=paramRequest.getLocaleString("msgIncompleteSkills")%>');
+        }
+      return false;  
     }
 -->
 </script>
@@ -67,19 +79,16 @@
 <%@include file="../menucvi.jsp"%>
 <div id="icv-data">
 <%
-//System.out.println("...........action="+action);
-    /*if(action.equals(""))
-    {*/
-        if(competencias.hasNext()) {
-            SWBResourceURL urladd = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_EDIT);
+    if(competencias.hasNext()) {
+        SWBResourceURL urladd = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_EDIT);
 %>
-<h3>Identifica tus 5 principales competencias</h3>
+<h3><%=paramRequest.getLocaleString("msgInstructions")%></h3>
 <form id="form1ga" method="post" action="<%=urladd%>">
  <div class="icv-div-grupo">
   <table class="icv-table">
 <%
-            while(competencias.hasNext()) {
-                Competencia competencia = competencias.next();
+        while(competencias.hasNext()) {
+            Competencia competencia = competencias.next();
 %>
     <tr>
         <td><%=competencia.getTitle()%></td>
@@ -87,18 +96,17 @@
         <td><label><input type="checkbox" name="cmptc" value="<%=competencia.getId()%>" <%=(cv.hasCompetencia(competencia)?"checked=\"checked\"":"")%> /></label></td>
     </tr>
 <%
-            }
+        }
 %>
   </table>
   <div class="clearer">&nbsp;</div>
  </div>
  <div class="centro">
-  <input type="submit" name="guardar" value="Guardar" />
+  <input type="submit" value="<%=paramRequest.getLocaleString("lblSave")%>" onclick="return enviar()" />
  </div>
 </form>
 <%
-        }
-    //}
+    }
 %>
 </div>
 </div><!-- icv-data -->  
