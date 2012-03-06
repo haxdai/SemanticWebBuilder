@@ -6,43 +6,33 @@
         ,org.semanticwb.portal.api.SWBResourceURL" %>
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/>
 <%
-            //try {
-            String context = SWBPortal.getContextPath();
-            //def login="";if(request.getParameter("login")!=null) login=request.getParameter("login");
-            //def pwd="";if(request.getParameter("pwd")!=null) pwd=request.getParameter("pwd");
-            //String msgWrnPsw = "";
-            //if(request.getParameter("msgWrnPsw")!=null)
-            //    msgWrnPsw="<p>"+request.getParameter("msgWrnPsw")+"</p>";
-            String firstName = "";
-            if (request.getParameter("firstName") != null) {
-                firstName = request.getParameter("firstName");
-            }
-            String lastName = "";
-            if (request.getParameter("lastName") != null) {
-                lastName = request.getParameter("lastName");
-            }
-            String secondLastName = "";
-            if (request.getParameter("secondLastName") != null) {
-                secondLastName = request.getParameter("secondLastName");
-            }
-            String email = "";
-            if (request.getParameter("email") != null) {
-                email = request.getParameter("email");
-            }
-            String birthday = "";
-            if (request.getParameter("birthday") != null) {
-                birthday = request.getParameter("birthday");
-            }
+    String context = SWBPortal.getContextPath();
+    String firstName = "";
+    if (request.getParameter("firstName") != null) {
+        firstName = request.getParameter("firstName");
+    }
+    String lastName = "";
+    if (request.getParameter("lastName") != null) {
+        lastName = request.getParameter("lastName");
+    }
+    String secondLastName = "";
+    if (request.getParameter("secondLastName") != null) {
+        secondLastName = request.getParameter("secondLastName");
+    }
+    String email = "";
+    if (request.getParameter("email") != null) {
+        email = request.getParameter("email");
+    }
+    String birthday = "";
+    if (request.getParameter("birthday") != null) {
+        birthday = request.getParameter("birthday");
+    }
 
-            User user = paramRequest.getUser();
-            WebPage wpage = paramRequest.getWebPage();
-            String contextPath = SWBPlatform.getContextPath();
-            //String url = paramRequest.getActionUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setAction(paramRequest.Action_ADD).setMode(SWBResourceURL.Mode_EDIT).toString();
-            String url = paramRequest.getActionUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setAction(paramRequest.Action_ADD).toString();
-            String repositoryId = wpage.getWebSite().getUserRepository().getId();
-            
-            
-            
+    User user = paramRequest.getUser();
+    WebPage wpage = paramRequest.getWebPage();
+    String contextPath = SWBPlatform.getContextPath();
+    String url = paramRequest.getActionUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setAction(paramRequest.Action_ADD).toString();
+    String repositoryId = wpage.getWebSite().getUserRepository().getId();     
 %>
 <script type="text/javascript">
     <!--
@@ -52,7 +42,7 @@
     dojo.require("dijit.form.Button");
     
     function enviar() {
-        var objd=dijit.byId('org.semanticwb.community.User/com/create');
+        var objd=dijit.byId('form1ru');
 
         if(objd.validate())
         {
@@ -75,17 +65,54 @@
         }
     }
 
-    function isValidThisEmail() {
+   /* function isValidThisEmail() {
         var valid = false;
         var email = dijit.byId("email");
-        if( isValidEmail(email.getValue()) && canAddEmail('<%=repositoryId%>',email.getValue()) ) {
+        if( isValidEmail(email.getValue()) && canAddEmail('<%//=repositoryId%>',email.getValue()) ) {
             valid = true;
         }
         else {
-            email.displayMessage( "<%=paramRequest.getLocaleString("lblEmailFault")%>" );
+            email.displayMessage( "<%//=paramRequest.getLocaleString("lblEmailFault")%>" );
+        }
+        return valid;
+    }*/
+    function isValidThisEmail(){
+        var valid=false;
+        var email = dijit.byId( "email" );
+        var strEmail = email.getValue();
+        if(strEmail!=""){
+            //alert(strEmail);
+            if(isValidEmail(strEmail)){
+                if(canAddEmail('<%=repositoryId%>',strEmail)){
+                    valid=true;
+                }else{
+                    email.displayMessage( "<%=paramRequest.getLocaleString("lblEmailDupl")%>" );
+                }
+            }else{
+                email.displayMessage( "<%=paramRequest.getLocaleString("lblEmailFault")%>" );
+            }
         }
         return valid;
     }
+    function isValidLogin(){
+        var valid=false;
+        var login = dijit.byId( "login" );
+        var filter = /^[a-zA-Z0-9.@]+$/;
+        var strLogin = login.getValue();
+        if(strLogin!=""){
+            if(filter.test(strLogin)){
+                if(canAddLogin('<%=repositoryId%>',strLogin)){
+                    valid=true;
+                }else{
+                    login.displayMessage( "<%=paramRequest.getLocaleString("lblLoginDupl")%>" );
+                }
+            }else{
+                login.displayMessage( "<%=paramRequest.getLocaleString("lblLoginFault")%>" );
+            }
+        }
+        return valid;
+    }
+
     function isSamePass() {
         var valid = false;
         var passwd = dijit.byId("passwd").getValue();
@@ -98,14 +125,20 @@
     }
     function isValidDate() {
         var valid=false;
-        if(dijit.byId("birthday") && !isEmpty(dijit.byId( "birthday" ).getValue())) {
+        if(dijit.byId("birthday")!=null && !isEmpty(dijit.byId( "birthday" ).getValue())) {
             var birth = dijit.byId( "birthday" ).getValue().split("/");
-            var dayField = birth.split("/")[0]
-            var monthField = birth.split("/")[1]
-            var yearField = birth.split("/")[2]
-            if(isInteger(dayField) && isInteger(monthField) && isInteger(yearField)) {
+            var dayField = birth[0]
+            var monthField = birth[1]
+            var yearField = birth[2]
+            /*if(isInteger(dayField) && isInteger(monthField) && isInteger(yearField)) {
                 if(!isNaN(Date.UTC(yearField, monthField-1, dayField)))
                     valid = true;
+            }*/
+            var dayobj = new Date(yearField, monthField-1, dayField)
+            if ((dayobj.getMonth()+1==monthField)&&
+                (dayobj.getDate()==dayField)&&
+                (dayobj.getFullYear()==yearField)){
+                valid=true;
             }
         }
         return valid;
@@ -114,7 +147,7 @@
 </script>
 <div id="icv">
     <div id="icv-data">
-        <form id="org.semanticwb.community.User/com/create" dojoType="dijit.form.Form" class="swbform" action="<%=url%>" method="post">
+        <form id="form1ru" dojoType="dijit.form.Form" class="swbform" action="<%=url%>" method="post">
             <div class="icv-div-grupo">
                 <p class="icv-3col">
                     <label for="firstName"><b>*</b><%=paramRequest.getLocaleString("lblFirstName")%></label>
@@ -133,18 +166,18 @@
             <div class="icv-div-grupo">
                 <p class="icv-3col">
                     <label for="email"><b>*</b><%=paramRequest.getLocaleString("lblEmail")%></label>
-                    <input type="text" name="email" id="email" dojoType="dijit.form.ValidationTextBox" value="<%=email%>" maxlength="60" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgEmail")%>" invalidMessage="<%=paramRequest.getLocaleString("lblEmailFault")%>"  trim="true"/>
+                    <input type="text" name="email" id="email" dojoType="dijit.form.ValidationTextBox" value="<%=email%>" maxlength="60" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgEmail")%>" invalidMessage="<%=paramRequest.getLocaleString("lblEmailFault")%>" isValid="return isValidThisEmail()" trim="true"/>
                 </p>
                 <p class="icv-3col">
                     <label for="birthday"><b>*</b><%=paramRequest.getLocaleString("lblBirthday")%></label>
-                    <input type="text" name="birthday" id="birthday" dojoType="dijit.form.ValidationTextBox" value="<%=birthday%>" maxlength="14" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgBirthday")%>" invalidMessage="<%=paramRequest.getLocaleString("lblBirthdayFault")%>" regExp="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" trim="true"/>
+                    <input type="text" name="birthday" id="birthday" dojoType="dijit.form.ValidationTextBox" value="<%=birthday%>" maxlength="14" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgBirthday")%>" invalidMessage="<%=paramRequest.getLocaleString("lblBirthdayFault")%>" regExp="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" isValid="return isValidDate()" trim="true"/>
                 </p>
                 <div class="clearer">&nbsp;</div>
             </div>
             <div class="icv-div-grupo">
                 <p class="icv-3col">
                     <label for="login"><b>*</b><%=paramRequest.getLocaleString("lblLogin")%></label>
-                    <input type="text" name="login" id="login" dojoType="dijit.form.ValidationTextBox" value="" maxlength="18" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgLogin")%>" invalidMessage="<%=paramRequest.getLocaleString("lblLoginFault")%>"  trim="true" />
+                    <input type="text" name="login" id="login" dojoType="dijit.form.ValidationTextBox" value="" maxlength="18" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgLogin")%>" invalidMessage="<%=paramRequest.getLocaleString("lblLoginFault")%>"  isValid="return isValidLogin()" trim="true" />
                 </p>
                 <p class="icv-3col">
                     <label for="passwd"><b>*</b><%=paramRequest.getLocaleString("lblPassword")%></label>
@@ -152,7 +185,7 @@
                 </p>
                 <p class="icv-3col">
                     <label for="cpasswd"><b>*</b><%=paramRequest.getLocaleString("lblPasswordConfirm")%></label>
-                    <input type="password" name="cpasswd" id="cpasswd" dojoType="dijit.form.ValidationTextBox" value="" maxlength="12" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgPasswordConfirm")%>" invalidMessage="<%=paramRequest.getLocaleString("lblPasswordConfirmFault")%>"   ="return isSamePass();" trim="true" />
+                    <input type="password" name="cpasswd" id="cpasswd" dojoType="dijit.form.ValidationTextBox" value="" maxlength="12" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgPasswordConfirm")%>" invalidMessage="<%=paramRequest.getLocaleString("lblPasswordConfirmFault")%>"   isValid="return isSamePass();" trim="true" />
                 </p>
                 <div class="clearer">&nbsp;</div>
             </div>
@@ -172,12 +205,6 @@
                 <input type="reset" value="<%=paramRequest.getLocaleString("lblReset")%>"/>
                 <input type="submit" onclick="return enviar()" value="<%=paramRequest.getLocaleString("lblSubmit")%>"/>
             </div>
-
         </form>
-        <%
-                    /*        } catch (Exception e) {
-                    e.printStackTrace(System.out);
-                    }*/
-        %>
     </div>
 </div>
