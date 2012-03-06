@@ -5,36 +5,36 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
 {
     public static final org.semanticwb.platform.SemanticClass intranet_Avance=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Avance");
     public static final org.semanticwb.platform.SemanticProperty intranet_avance=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#avance");
-    public static final org.semanticwb.platform.SemanticProperty intranet_salarioMax=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#salarioMax");
     public static final org.semanticwb.platform.SemanticClass intranet_Carrera=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Carrera");
     public static final org.semanticwb.platform.SemanticProperty intranet_especialidad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#especialidad");
+    public static final org.semanticwb.platform.SemanticProperty intranet_personalIndirecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#personalIndirecto");
+    public static final org.semanticwb.platform.SemanticClass intranet_SectorExpertise=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#SectorExpertise");
+    public static final org.semanticwb.platform.SemanticProperty intranet_sectorExpertise=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sectorExpertise");
+    public static final org.semanticwb.platform.SemanticProperty intranet_contratacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#contratacion");
+    public static final org.semanticwb.platform.SemanticProperty intranet_fechaSolicitud=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaSolicitud");
+    public static final org.semanticwb.platform.SemanticProperty intranet_funcionPrincipal=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#funcionPrincipal");
+   /**
+   * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
+   */
+    public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
+    public static final org.semanticwb.platform.SemanticProperty intranet_sustituyeA=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sustituyeA");
+    public static final org.semanticwb.platform.SemanticClass intranet_Expertise=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Expertise");
+    public static final org.semanticwb.platform.SemanticProperty intranet_expertise=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#expertise");
+    public static final org.semanticwb.platform.SemanticProperty intranet_salarioMax=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#salarioMax");
     public static final org.semanticwb.platform.SemanticClass intranet_Candidato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Candidato");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasCandidato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasCandidato");
     public static final org.semanticwb.platform.SemanticClass intranet_Proyecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Proyecto");
     public static final org.semanticwb.platform.SemanticProperty intranet_proyectoAsignado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#proyectoAsignado");
     public static final org.semanticwb.platform.SemanticProperty intranet_conocimientoTecnico=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#conocimientoTecnico");
-    public static final org.semanticwb.platform.SemanticProperty intranet_personalIndirecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#personalIndirecto");
-    public static final org.semanticwb.platform.SemanticProperty intranet_salarioMin=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#salarioMin");
-   /**
-   * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
-   */
-    public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
     public static final org.semanticwb.platform.SemanticProperty intranet_solicitanteRecurso=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#solicitanteRecurso");
+    public static final org.semanticwb.platform.SemanticProperty intranet_salarioMin=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#salarioMin");
     public static final org.semanticwb.platform.SemanticProperty intranet_entrevistador=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#entrevistador");
-    public static final org.semanticwb.platform.SemanticClass intranet_SectorExpertise=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#SectorExpertise");
-    public static final org.semanticwb.platform.SemanticProperty intranet_sectorExpertise=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sectorExpertise");
-    public static final org.semanticwb.platform.SemanticProperty intranet_contratacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#contratacion");
     public static final org.semanticwb.platform.SemanticProperty intranet_motivoContratacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#motivoContratacion");
     public static final org.semanticwb.platform.SemanticClass intranet_Competencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Competencia");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasCompetenciaReq=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasCompetenciaReq");
-    public static final org.semanticwb.platform.SemanticProperty intranet_fechaSolicitud=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaSolicitud");
     public static final org.semanticwb.platform.SemanticProperty intranet_numVacantes=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#numVacantes");
-    public static final org.semanticwb.platform.SemanticProperty intranet_certificaciones=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#certificaciones");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaBaja=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaBaja");
-    public static final org.semanticwb.platform.SemanticProperty intranet_funcionPrincipal=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#funcionPrincipal");
-    public static final org.semanticwb.platform.SemanticProperty intranet_sustituyeA=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sustituyeA");
-    public static final org.semanticwb.platform.SemanticClass intranet_Expertise=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Expertise");
-    public static final org.semanticwb.platform.SemanticProperty intranet_expertise=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#expertise");
+    public static final org.semanticwb.platform.SemanticProperty intranet_certificaciones=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#certificaciones");
     public static final org.semanticwb.platform.SemanticProperty intranet_personalDirecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#personalDirecto");
     public static final org.semanticwb.platform.SemanticProperty intranet_motivoSustitucion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#motivoSustitucion");
     public static final org.semanticwb.platform.SemanticProperty intranet_aniosExpertise=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#aniosExpertise");
@@ -160,6 +160,75 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
             return it;
         }
        /**
+       * Gets all com.infotec.cvi.swb.SolicitudRecurso with a determined SectorExpertise
+       * @param value SectorExpertise of the type com.infotec.cvi.swb.SectorExpertise
+       * @param model Model of the com.infotec.cvi.swb.SolicitudRecurso
+       * @return Iterator with all the com.infotec.cvi.swb.SolicitudRecurso
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.SolicitudRecurso> listSolicitudRecursoBySectorExpertise(com.infotec.cvi.swb.SectorExpertise value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.SolicitudRecurso> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_sectorExpertise, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.SolicitudRecurso with a determined SectorExpertise
+       * @param value SectorExpertise of the type com.infotec.cvi.swb.SectorExpertise
+       * @return Iterator with all the com.infotec.cvi.swb.SolicitudRecurso
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.SolicitudRecurso> listSolicitudRecursoBySectorExpertise(com.infotec.cvi.swb.SectorExpertise value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.SolicitudRecurso> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_sectorExpertise,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.SolicitudRecurso with a determined SustituyeA
+       * @param value SustituyeA of the type org.semanticwb.model.User
+       * @param model Model of the com.infotec.cvi.swb.SolicitudRecurso
+       * @return Iterator with all the com.infotec.cvi.swb.SolicitudRecurso
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.SolicitudRecurso> listSolicitudRecursoBySustituyeA(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.SolicitudRecurso> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_sustituyeA, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.SolicitudRecurso with a determined SustituyeA
+       * @param value SustituyeA of the type org.semanticwb.model.User
+       * @return Iterator with all the com.infotec.cvi.swb.SolicitudRecurso
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.SolicitudRecurso> listSolicitudRecursoBySustituyeA(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.SolicitudRecurso> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_sustituyeA,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.SolicitudRecurso with a determined Expertise
+       * @param value Expertise of the type com.infotec.cvi.swb.Expertise
+       * @param model Model of the com.infotec.cvi.swb.SolicitudRecurso
+       * @return Iterator with all the com.infotec.cvi.swb.SolicitudRecurso
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.SolicitudRecurso> listSolicitudRecursoByExpertise(com.infotec.cvi.swb.Expertise value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.SolicitudRecurso> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_expertise, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.SolicitudRecurso with a determined Expertise
+       * @param value Expertise of the type com.infotec.cvi.swb.Expertise
+       * @return Iterator with all the com.infotec.cvi.swb.SolicitudRecurso
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.SolicitudRecurso> listSolicitudRecursoByExpertise(com.infotec.cvi.swb.Expertise value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.SolicitudRecurso> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_expertise,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all com.infotec.cvi.swb.SolicitudRecurso with a determined Candidato
        * @param value Candidato of the type com.infotec.cvi.swb.Candidato
        * @param model Model of the com.infotec.cvi.swb.SolicitudRecurso
@@ -252,29 +321,6 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
             return it;
         }
        /**
-       * Gets all com.infotec.cvi.swb.SolicitudRecurso with a determined SectorExpertise
-       * @param value SectorExpertise of the type com.infotec.cvi.swb.SectorExpertise
-       * @param model Model of the com.infotec.cvi.swb.SolicitudRecurso
-       * @return Iterator with all the com.infotec.cvi.swb.SolicitudRecurso
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.SolicitudRecurso> listSolicitudRecursoBySectorExpertise(com.infotec.cvi.swb.SectorExpertise value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.SolicitudRecurso> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_sectorExpertise, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.cvi.swb.SolicitudRecurso with a determined SectorExpertise
-       * @param value SectorExpertise of the type com.infotec.cvi.swb.SectorExpertise
-       * @return Iterator with all the com.infotec.cvi.swb.SolicitudRecurso
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.SolicitudRecurso> listSolicitudRecursoBySectorExpertise(com.infotec.cvi.swb.SectorExpertise value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.SolicitudRecurso> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_sectorExpertise,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all com.infotec.cvi.swb.SolicitudRecurso with a determined CompetenciaReq
        * @param value CompetenciaReq of the type com.infotec.cvi.swb.Competencia
        * @param model Model of the com.infotec.cvi.swb.SolicitudRecurso
@@ -295,52 +341,6 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
         public static java.util.Iterator<com.infotec.cvi.swb.SolicitudRecurso> listSolicitudRecursoByCompetenciaReq(com.infotec.cvi.swb.Competencia value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.SolicitudRecurso> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasCompetenciaReq,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.cvi.swb.SolicitudRecurso with a determined SustituyeA
-       * @param value SustituyeA of the type org.semanticwb.model.User
-       * @param model Model of the com.infotec.cvi.swb.SolicitudRecurso
-       * @return Iterator with all the com.infotec.cvi.swb.SolicitudRecurso
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.SolicitudRecurso> listSolicitudRecursoBySustituyeA(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.SolicitudRecurso> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_sustituyeA, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.cvi.swb.SolicitudRecurso with a determined SustituyeA
-       * @param value SustituyeA of the type org.semanticwb.model.User
-       * @return Iterator with all the com.infotec.cvi.swb.SolicitudRecurso
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.SolicitudRecurso> listSolicitudRecursoBySustituyeA(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.SolicitudRecurso> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_sustituyeA,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.cvi.swb.SolicitudRecurso with a determined Expertise
-       * @param value Expertise of the type com.infotec.cvi.swb.Expertise
-       * @param model Model of the com.infotec.cvi.swb.SolicitudRecurso
-       * @return Iterator with all the com.infotec.cvi.swb.SolicitudRecurso
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.SolicitudRecurso> listSolicitudRecursoByExpertise(com.infotec.cvi.swb.Expertise value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.SolicitudRecurso> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_expertise, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.cvi.swb.SolicitudRecurso with a determined Expertise
-       * @param value Expertise of the type com.infotec.cvi.swb.Expertise
-       * @return Iterator with all the com.infotec.cvi.swb.SolicitudRecurso
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.SolicitudRecurso> listSolicitudRecursoByExpertise(com.infotec.cvi.swb.Expertise value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.SolicitudRecurso> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_expertise,value.getSemanticObject(),sclass));
             return it;
         }
     }
@@ -391,24 +391,6 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
          }
          return ret;
     }
-
-/**
-* Gets the SalarioMax property
-* @return int with the SalarioMax
-*/
-    public int getSalarioMax()
-    {
-        return getSemanticObject().getIntProperty(intranet_salarioMax);
-    }
-
-/**
-* Sets the SalarioMax property
-* @param value long with the SalarioMax
-*/
-    public void setSalarioMax(int value)
-    {
-        getSemanticObject().setIntProperty(intranet_salarioMax, value);
-    }
    /**
    * Sets the value for the property Especialidad
    * @param value Especialidad to set
@@ -446,6 +428,210 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
              ret=(com.infotec.cvi.swb.Carrera)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the PersonalIndirecto property
+* @return int with the PersonalIndirecto
+*/
+    public int getPersonalIndirecto()
+    {
+        return getSemanticObject().getIntProperty(intranet_personalIndirecto);
+    }
+
+/**
+* Sets the PersonalIndirecto property
+* @param value long with the PersonalIndirecto
+*/
+    public void setPersonalIndirecto(int value)
+    {
+        getSemanticObject().setIntProperty(intranet_personalIndirecto, value);
+    }
+   /**
+   * Sets the value for the property SectorExpertise
+   * @param value SectorExpertise to set
+   */
+
+    public void setSectorExpertise(com.infotec.cvi.swb.SectorExpertise value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_sectorExpertise, value.getSemanticObject());
+        }else
+        {
+            removeSectorExpertise();
+        }
+    }
+   /**
+   * Remove the value for SectorExpertise property
+   */
+
+    public void removeSectorExpertise()
+    {
+        getSemanticObject().removeProperty(intranet_sectorExpertise);
+    }
+
+   /**
+   * Gets the SectorExpertise
+   * @return a com.infotec.cvi.swb.SectorExpertise
+   */
+    public com.infotec.cvi.swb.SectorExpertise getSectorExpertise()
+    {
+         com.infotec.cvi.swb.SectorExpertise ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_sectorExpertise);
+         if(obj!=null)
+         {
+             ret=(com.infotec.cvi.swb.SectorExpertise)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+/**
+* Gets the Contratacion property
+* @return String with the Contratacion
+*/
+    public String getContratacion()
+    {
+        return getSemanticObject().getProperty(intranet_contratacion);
+    }
+
+/**
+* Sets the Contratacion property
+* @param value long with the Contratacion
+*/
+    public void setContratacion(String value)
+    {
+        getSemanticObject().setProperty(intranet_contratacion, value);
+    }
+
+/**
+* Gets the FechaSolicitud property
+* @return java.util.Date with the FechaSolicitud
+*/
+    public java.util.Date getFechaSolicitud()
+    {
+        return getSemanticObject().getDateProperty(intranet_fechaSolicitud);
+    }
+
+/**
+* Sets the FechaSolicitud property
+* @param value long with the FechaSolicitud
+*/
+    public void setFechaSolicitud(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(intranet_fechaSolicitud, value);
+    }
+
+/**
+* Gets the FuncionPrincipal property
+* @return String with the FuncionPrincipal
+*/
+    public String getFuncionPrincipal()
+    {
+        return getSemanticObject().getProperty(intranet_funcionPrincipal);
+    }
+
+/**
+* Sets the FuncionPrincipal property
+* @param value long with the FuncionPrincipal
+*/
+    public void setFuncionPrincipal(String value)
+    {
+        getSemanticObject().setProperty(intranet_funcionPrincipal, value);
+    }
+   /**
+   * Sets the value for the property SustituyeA
+   * @param value SustituyeA to set
+   */
+
+    public void setSustituyeA(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_sustituyeA, value.getSemanticObject());
+        }else
+        {
+            removeSustituyeA();
+        }
+    }
+   /**
+   * Remove the value for SustituyeA property
+   */
+
+    public void removeSustituyeA()
+    {
+        getSemanticObject().removeProperty(intranet_sustituyeA);
+    }
+
+   /**
+   * Gets the SustituyeA
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getSustituyeA()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_sustituyeA);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Sets the value for the property Expertise
+   * @param value Expertise to set
+   */
+
+    public void setExpertise(com.infotec.cvi.swb.Expertise value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_expertise, value.getSemanticObject());
+        }else
+        {
+            removeExpertise();
+        }
+    }
+   /**
+   * Remove the value for Expertise property
+   */
+
+    public void removeExpertise()
+    {
+        getSemanticObject().removeProperty(intranet_expertise);
+    }
+
+   /**
+   * Gets the Expertise
+   * @return a com.infotec.cvi.swb.Expertise
+   */
+    public com.infotec.cvi.swb.Expertise getExpertise()
+    {
+         com.infotec.cvi.swb.Expertise ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_expertise);
+         if(obj!=null)
+         {
+             ret=(com.infotec.cvi.swb.Expertise)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+/**
+* Gets the SalarioMax property
+* @return int with the SalarioMax
+*/
+    public int getSalarioMax()
+    {
+        return getSemanticObject().getIntProperty(intranet_salarioMax);
+    }
+
+/**
+* Sets the SalarioMax property
+* @param value long with the SalarioMax
+*/
+    public void setSalarioMax(int value)
+    {
+        getSemanticObject().setIntProperty(intranet_salarioMax, value);
     }
    /**
    * Gets all the com.infotec.cvi.swb.Candidato
@@ -568,42 +754,6 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
     {
         getSemanticObject().setProperty(intranet_conocimientoTecnico, value);
     }
-
-/**
-* Gets the PersonalIndirecto property
-* @return int with the PersonalIndirecto
-*/
-    public int getPersonalIndirecto()
-    {
-        return getSemanticObject().getIntProperty(intranet_personalIndirecto);
-    }
-
-/**
-* Sets the PersonalIndirecto property
-* @param value long with the PersonalIndirecto
-*/
-    public void setPersonalIndirecto(int value)
-    {
-        getSemanticObject().setIntProperty(intranet_personalIndirecto, value);
-    }
-
-/**
-* Gets the SalarioMin property
-* @return int with the SalarioMin
-*/
-    public int getSalarioMin()
-    {
-        return getSemanticObject().getIntProperty(intranet_salarioMin);
-    }
-
-/**
-* Sets the SalarioMin property
-* @param value long with the SalarioMin
-*/
-    public void setSalarioMin(int value)
-    {
-        getSemanticObject().setIntProperty(intranet_salarioMin, value);
-    }
    /**
    * Sets the value for the property SolicitanteRecurso
    * @param value SolicitanteRecurso to set
@@ -642,6 +792,24 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
          }
          return ret;
     }
+
+/**
+* Gets the SalarioMin property
+* @return int with the SalarioMin
+*/
+    public int getSalarioMin()
+    {
+        return getSemanticObject().getIntProperty(intranet_salarioMin);
+    }
+
+/**
+* Sets the SalarioMin property
+* @param value long with the SalarioMin
+*/
+    public void setSalarioMin(int value)
+    {
+        getSemanticObject().setIntProperty(intranet_salarioMin, value);
+    }
    /**
    * Sets the value for the property Entrevistador
    * @param value Entrevistador to set
@@ -679,62 +847,6 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
          }
          return ret;
-    }
-   /**
-   * Sets the value for the property SectorExpertise
-   * @param value SectorExpertise to set
-   */
-
-    public void setSectorExpertise(com.infotec.cvi.swb.SectorExpertise value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(intranet_sectorExpertise, value.getSemanticObject());
-        }else
-        {
-            removeSectorExpertise();
-        }
-    }
-   /**
-   * Remove the value for SectorExpertise property
-   */
-
-    public void removeSectorExpertise()
-    {
-        getSemanticObject().removeProperty(intranet_sectorExpertise);
-    }
-
-   /**
-   * Gets the SectorExpertise
-   * @return a com.infotec.cvi.swb.SectorExpertise
-   */
-    public com.infotec.cvi.swb.SectorExpertise getSectorExpertise()
-    {
-         com.infotec.cvi.swb.SectorExpertise ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_sectorExpertise);
-         if(obj!=null)
-         {
-             ret=(com.infotec.cvi.swb.SectorExpertise)obj.createGenericInstance();
-         }
-         return ret;
-    }
-
-/**
-* Gets the Contratacion property
-* @return String with the Contratacion
-*/
-    public String getContratacion()
-    {
-        return getSemanticObject().getProperty(intranet_contratacion);
-    }
-
-/**
-* Sets the Contratacion property
-* @param value long with the Contratacion
-*/
-    public void setContratacion(String value)
-    {
-        getSemanticObject().setProperty(intranet_contratacion, value);
     }
 
 /**
@@ -821,24 +933,6 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
     }
 
 /**
-* Gets the FechaSolicitud property
-* @return java.util.Date with the FechaSolicitud
-*/
-    public java.util.Date getFechaSolicitud()
-    {
-        return getSemanticObject().getDateProperty(intranet_fechaSolicitud);
-    }
-
-/**
-* Sets the FechaSolicitud property
-* @param value long with the FechaSolicitud
-*/
-    public void setFechaSolicitud(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(intranet_fechaSolicitud, value);
-    }
-
-/**
 * Gets the NumVacantes property
 * @return int with the NumVacantes
 */
@@ -854,24 +948,6 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
     public void setNumVacantes(int value)
     {
         getSemanticObject().setIntProperty(intranet_numVacantes, value);
-    }
-
-/**
-* Gets the Certificaciones property
-* @return String with the Certificaciones
-*/
-    public String getCertificaciones()
-    {
-        return getSemanticObject().getProperty(intranet_certificaciones);
-    }
-
-/**
-* Sets the Certificaciones property
-* @param value long with the Certificaciones
-*/
-    public void setCertificaciones(String value)
-    {
-        getSemanticObject().setProperty(intranet_certificaciones, value);
     }
 
 /**
@@ -893,97 +969,21 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
     }
 
 /**
-* Gets the FuncionPrincipal property
-* @return String with the FuncionPrincipal
+* Gets the Certificaciones property
+* @return String with the Certificaciones
 */
-    public String getFuncionPrincipal()
+    public String getCertificaciones()
     {
-        return getSemanticObject().getProperty(intranet_funcionPrincipal);
+        return getSemanticObject().getProperty(intranet_certificaciones);
     }
 
 /**
-* Sets the FuncionPrincipal property
-* @param value long with the FuncionPrincipal
+* Sets the Certificaciones property
+* @param value long with the Certificaciones
 */
-    public void setFuncionPrincipal(String value)
+    public void setCertificaciones(String value)
     {
-        getSemanticObject().setProperty(intranet_funcionPrincipal, value);
-    }
-   /**
-   * Sets the value for the property SustituyeA
-   * @param value SustituyeA to set
-   */
-
-    public void setSustituyeA(org.semanticwb.model.User value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(intranet_sustituyeA, value.getSemanticObject());
-        }else
-        {
-            removeSustituyeA();
-        }
-    }
-   /**
-   * Remove the value for SustituyeA property
-   */
-
-    public void removeSustituyeA()
-    {
-        getSemanticObject().removeProperty(intranet_sustituyeA);
-    }
-
-   /**
-   * Gets the SustituyeA
-   * @return a org.semanticwb.model.User
-   */
-    public org.semanticwb.model.User getSustituyeA()
-    {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_sustituyeA);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Sets the value for the property Expertise
-   * @param value Expertise to set
-   */
-
-    public void setExpertise(com.infotec.cvi.swb.Expertise value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(intranet_expertise, value.getSemanticObject());
-        }else
-        {
-            removeExpertise();
-        }
-    }
-   /**
-   * Remove the value for Expertise property
-   */
-
-    public void removeExpertise()
-    {
-        getSemanticObject().removeProperty(intranet_expertise);
-    }
-
-   /**
-   * Gets the Expertise
-   * @return a com.infotec.cvi.swb.Expertise
-   */
-    public com.infotec.cvi.swb.Expertise getExpertise()
-    {
-         com.infotec.cvi.swb.Expertise ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_expertise);
-         if(obj!=null)
-         {
-             ret=(com.infotec.cvi.swb.Expertise)obj.createGenericInstance();
-         }
-         return ret;
+        getSemanticObject().setProperty(intranet_certificaciones, value);
     }
 
 /**

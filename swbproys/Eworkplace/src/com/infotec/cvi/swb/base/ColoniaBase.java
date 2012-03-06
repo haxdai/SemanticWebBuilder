@@ -1,11 +1,12 @@
 package com.infotec.cvi.swb.base;
 
 
-public abstract class ColoniaBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class ColoniaBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
     public static final org.semanticwb.platform.SemanticClass intranet_Municipio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Municipio");
     public static final org.semanticwb.platform.SemanticProperty intranet_municipioColoniasInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#municipioColoniasInv");
-    public static final org.semanticwb.platform.SemanticProperty intranet_municipioColonia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#municipioColonia");
+    public static final org.semanticwb.platform.SemanticClass intranet_CP=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#CP");
+    public static final org.semanticwb.platform.SemanticProperty intranet_cpInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#cpInv");
     public static final org.semanticwb.platform.SemanticClass intranet_Colonia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Colonia");
    /**
    * The semantic class that represents the currentObject
@@ -128,6 +129,29 @@ public abstract class ColoniaBase extends com.infotec.cvi.swb.Catalogo implement
             return it;
         }
        /**
+       * Gets all com.infotec.cvi.swb.Colonia with a determined CpInv
+       * @param value CpInv of the type com.infotec.cvi.swb.CP
+       * @param model Model of the com.infotec.cvi.swb.Colonia
+       * @return Iterator with all the com.infotec.cvi.swb.Colonia
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.Colonia> listColoniaByCpInv(com.infotec.cvi.swb.CP value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Colonia> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_cpInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.Colonia with a determined CpInv
+       * @param value CpInv of the type com.infotec.cvi.swb.CP
+       * @return Iterator with all the com.infotec.cvi.swb.Colonia
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.Colonia> listColoniaByCpInv(com.infotec.cvi.swb.CP value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Colonia> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_cpInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all com.infotec.cvi.swb.Colonia with a determined Creator
        * @param value Creator of the type org.semanticwb.model.User
        * @param model Model of the com.infotec.cvi.swb.Colonia
@@ -148,29 +172,6 @@ public abstract class ColoniaBase extends com.infotec.cvi.swb.Catalogo implement
         public static java.util.Iterator<com.infotec.cvi.swb.Colonia> listColoniaByCreator(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Colonia> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.cvi.swb.Colonia with a determined MunicipioColonia
-       * @param value MunicipioColonia of the type com.infotec.cvi.swb.Municipio
-       * @param model Model of the com.infotec.cvi.swb.Colonia
-       * @return Iterator with all the com.infotec.cvi.swb.Colonia
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.Colonia> listColoniaByMunicipioColonia(com.infotec.cvi.swb.Municipio value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Colonia> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_municipioColonia, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.cvi.swb.Colonia with a determined MunicipioColonia
-       * @param value MunicipioColonia of the type com.infotec.cvi.swb.Municipio
-       * @return Iterator with all the com.infotec.cvi.swb.Colonia
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.Colonia> listColoniaByMunicipioColonia(com.infotec.cvi.swb.Municipio value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Colonia> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_municipioColonia,value.getSemanticObject(),sclass));
             return it;
         }
     }
@@ -222,40 +223,40 @@ public abstract class ColoniaBase extends com.infotec.cvi.swb.Catalogo implement
          return ret;
     }
    /**
-   * Sets the value for the property MunicipioColonia
-   * @param value MunicipioColonia to set
+   * Sets the value for the property CpInv
+   * @param value CpInv to set
    */
 
-    public void setMunicipioColonia(com.infotec.cvi.swb.Municipio value)
+    public void setCpInv(com.infotec.cvi.swb.CP value)
     {
         if(value!=null)
         {
-            getSemanticObject().setObjectProperty(intranet_municipioColonia, value.getSemanticObject());
+            getSemanticObject().setObjectProperty(intranet_cpInv, value.getSemanticObject());
         }else
         {
-            removeMunicipioColonia();
+            removeCpInv();
         }
     }
    /**
-   * Remove the value for MunicipioColonia property
+   * Remove the value for CpInv property
    */
 
-    public void removeMunicipioColonia()
+    public void removeCpInv()
     {
-        getSemanticObject().removeProperty(intranet_municipioColonia);
+        getSemanticObject().removeProperty(intranet_cpInv);
     }
 
    /**
-   * Gets the MunicipioColonia
-   * @return a com.infotec.cvi.swb.Municipio
+   * Gets the CpInv
+   * @return a com.infotec.cvi.swb.CP
    */
-    public com.infotec.cvi.swb.Municipio getMunicipioColonia()
+    public com.infotec.cvi.swb.CP getCpInv()
     {
-         com.infotec.cvi.swb.Municipio ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_municipioColonia);
+         com.infotec.cvi.swb.CP ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_cpInv);
          if(obj!=null)
          {
-             ret=(com.infotec.cvi.swb.Municipio)obj.createGenericInstance();
+             ret=(com.infotec.cvi.swb.CP)obj.createGenericInstance();
          }
          return ret;
     }
