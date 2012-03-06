@@ -24,7 +24,7 @@
         <title>append UG</title>
     </head>
     <body>
-<h3>iniciando appendUG....</h3>
+<h3>iniciando appendLang....</h3>
 <%!
     public enum CAMPOS
     {
@@ -38,25 +38,15 @@
     WebSite site = WebSite.ClassMgr.getWebSite(siteid);
     if (site != null)
     {
-        UserGroup group = site.getUserRepository().getUserGroup("Empleado_exsitu");
-        if (group == null)
-        {
-%>
-<h3>Grupo Empleado_exsitu no existe</h3>
-<%                                
-        }
-        else
-        {
-            Iterator<User> users = site.getUserRepository().listUsers();
-            while(users.hasNext()) {
-                User user = users.next();
-                if(!user.hasUserGroup(group))
-                {
+        Iterator<User> users = site.getUserRepository().listUsers();
+        while(users.hasNext()) {
+            User user = users.next();
+            if(user!=null)
+            {
 %>
 <p>usuario <%=(user.getFullName())%></p>
 <%
-                    user.addUserGroup(group);
-                }
+                user.setLanguage("es");
             }
         }
     }
