@@ -2,7 +2,11 @@
     Document   : userData
     Created on : 31/01/2012, 06:54:51 PM
     Author     : rene.jara
---%><%@page import="com.infotec.cvi.swb.Candidato"%>
+--%><%@page import="com.infotec.cvi.swb.EntidadFederativa"%>
+<%@page import="com.infotec.cvi.swb.Municipio"%>
+<%@page import="com.infotec.cvi.swb.Colonia"%>
+<%@page import="com.infotec.cvi.swb.CP"%>
+<%@page import="com.infotec.cvi.swb.Candidato"%>
 <%@page import="com.infotec.eworkplace.swb.Telefono"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="org.semanticwb.model.WebSite"%>
@@ -17,11 +21,9 @@
 <%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/>
 <%
-            // try {
-            //Persona persona = (Persona) request.getAttribute("persona");
-            String repositoryId = paramRequest.getWebPage().getWebSite().getUserRepository().getId();
             WebSite ws = paramRequest.getWebPage().getWebSite();
             User user = paramRequest.getUser();
+            String repositoryId = ws.getUserRepository().getId();
             Persona persona = Persona.ClassMgr.getPersona(user.getId(), ws);
             Candidato candidato = Candidato.ClassMgr.getCandidato(user.getId(), ws);
             Domicilio domicilio;
@@ -37,7 +39,7 @@
             String state = "";
 
             String nationality = "";
-            String fm2 = "";
+            boolean fm2 = false;
 
             String addrStreet="";
             String addrNumE="";
@@ -72,7 +74,6 @@
             if (user.getEmail() != null) {
                 email = user.getEmail();
             }
-
             if (persona != null) {
                 if (persona.getCurp() != null) {
                     curp = persona.getCurp();
@@ -92,9 +93,9 @@
                 if (persona.getNacionalidad() != null) {
                     nationality = persona.getNacionalidad().getId();
                 }
-                if (persona.getFM2() != null) {
-                    fm2 = persona.getFM2();
-                }
+                //if (persona.isFM2() != null) {
+                    fm2 = persona.isFM2();
+                //}
                 if(persona.getDomicilio()!=null){
                     domicilio=persona.getDomicilio();
                     if(domicilio.getCalle()!=null){
@@ -166,14 +167,14 @@
         }
         return false;
     }
-    function isEmpty(objid) {
+    /*function isEmpty(objid) {
         var obj = dojo.byId(objid);
         if (obj==null || obj.value=='' || !isNaN(obj.value) || obj.value.charAt(0) == ' ') {
             return true;
         }else {
             return false;
         }
-    }
+    }*/
     function isValidDate(){
         var valid=false;
         var birth = dijit.byId( "birthday" ).getValue();
@@ -188,6 +189,26 @@
         }
         return valid;
     }
+        function isValidDate() {
+        var valid=false;
+        if(dijit.byId("birthday")!=null && !isEmpty(dijit.byId( "birthday" ).getValue())) {
+            var birth = dijit.byId( "birthday" ).getValue().split("/");
+            var dayField = birth[0]
+            var monthField = birth[1]
+            var yearField = birth[2]
+            /*if(isInteger(dayField) && isInteger(monthField) && isInteger(yearField)) {
+                if(!isNaN(Date.UTC(yearField, monthField-1, dayField)))
+                    valid = true;
+            }*/
+            var dayobj = new Date(yearField, monthField-1, dayField)
+            if ((dayobj.getMonth()+1==monthField)&&
+                (dayobj.getDate()==dayField)&&
+                (dayobj.getFullYear()==yearField)){
+                valid=true;
+            }
+        }
+        return valid;
+    }
     var pc=1;
     function appendPhone() {
         var s = '';
@@ -197,7 +218,7 @@
             "<p class=\"icv-3col\">"+
             "<label for=\"phoneType_"+pc+"\"><%=paramRequest.getLocaleString("lblPhoneType")%></label>"+
             "<select name=\"phoneType_"+pc+"\" id=\"phoneType_"+pc+"\"  dojoType=\"dijit.form.FilteringSelect\" required=\"false\" promptMessage=\"<%=paramRequest.getLocaleString("promptMsgPhoneType")%>\">"+
-            "<option value=\"Casaa\">Casa</option>"+
+            "<option value=\"Fijo\">Fijo</option>"+
             "<option value=\"Movil\">Movil</option>"+
             "<option value=\"Trabajo\">Trabajo</option>"+
             "<option value=\"Recados\">Recados</option>"+
@@ -232,6 +253,59 @@
         s="<input type=\"hidden\" name=\"phoneNum"+id+"\" id=\"phoneNum"+id+"\" value=\"\" />";//+
         dojo.place(s, "phoneId"+id, 'replace');
     }
+    function appendEmail() {
+        var s = '';
+        var parentId='pEmailList';
+        s="<div id=\"pEmailId_"+pc+"\">"+
+            "<div class=\"icv-div-grupo\">"+
+            "<p class=\"icv-3col\">"+
+            "<label for=\"pEmail_"+pc+"\"><%=paramRequest.getLocaleString("lblEmail")%></label>"+
+            "<input type=\"text\" name=\"pEmail_"+pc+"\" id=\"pEmail_"+pc+"\" dojoType=\"dijit.form.ValidationTextBox\" value=\"\" maxlength=\"14\"  promptMessage=\"<%=paramRequest.getLocaleString("promptMsgEmail")%>\" invalidMessage=\"<%=paramRequest.getLocaleString("lblEmailFault")%>\"  trim=\"true\"/>"+
+            "</p>"+
+            "<p class=\"icv-txt\">"+
+            "<a href=\"#\" onclick=\"deleteEmail('_"+pc+"');return false;\">Eliminar</a>"+
+            "</p>"+
+            "<div class=\"clearer borde\">&nbsp;</div>"+
+            "</div>"+
+            "</div>";
+        dojo.place(s, parentId, 'last');
+        pc++;
+    }
+    function deleteEmail(id) {
+        s="<div/>";
+        dojo.place(s, "pEmailId"+id, 'replace');
+    }
+    function validateFM2(){
+        var objd=dijit.byId('nationality').getValue();
+        var objf=dijit.byId('fm2');
+        if(objd=="mx"){
+            objf.attr('value',false);
+            //dojo.setAttr("fm2", "disabled", "disabled");
+            objf.disabled=true;
+        }else{
+            //dojo.removeAttr("fm2", "disabled");
+            objf.disabled=false;
+        }
+
+    }
+    function isValidThisEmail(){
+        var valid=false;
+        var email = dijit.byId( "email" );
+        var strEmail = email.getValue();
+        if(strEmail!=""){
+            if(isValidEmail(strEmail)){
+                if(canAddEmail('<%=repositoryId%>',strEmail)){
+                    valid=true;
+                }else{
+                    email.displayMessage( "<%=paramRequest.getLocaleString("lblEmailDupl")%>" );
+                }
+            }else{
+                email.displayMessage( "<%=paramRequest.getLocaleString("lblEmailFault")%>" );
+            }
+        }
+        return valid;
+    }
+    dojo.addOnLoad(validateFM2);
     -->
 </script>
 <div id="icv">
@@ -292,7 +366,7 @@
             <div class="icv-div-grupo">
                 <p class="icv-3col">
                     <label for="nationality"><%=paramRequest.getLocaleString("lblNationality")%></label>
-                    <select name="nationality" id="nationality" dojoType="dijit.form.FilteringSelect" required="false">
+                    <select name="nationality" id="nationality" dojoType="dijit.form.FilteringSelect" required="false" onchange="validateFM2()">
                         <option value="" ><%=paramRequest.getLocaleString("promptMsgNationality")%></option>
                         <% Iterator<Country> itc = Country.ClassMgr.listCountries(ws);
                                     while (itc.hasNext()) {
@@ -305,7 +379,7 @@
                 </p>
                 <p class="icv-3col">
                     <label for="fm2"><%=paramRequest.getLocaleString("lblFm2")%></label>
-                    <input type="text" name="fm2" id="fm2" dojoType="dijit.form.ValidationTextBox" value="<%=fm2%>" maxlength="25"  promptMessage="<%=paramRequest.getLocaleString("promptMsgFm2")%>" invalidMessage="<%=paramRequest.getLocaleString("lblFm2Fault")%>" trim="true" regExp="\d+"/>
+                    <input type="checkbox" name="fm2" id="fm2" dojoType="dijit.form.CheckBox" value="true" checked="<%=fm2?"true":"false"%>" maxlength="25"  promptMessage="<%=paramRequest.getLocaleString("promptMsgFm2")%>" invalidMessage="<%=paramRequest.getLocaleString("lblFm2Fault")%>"/>
                 </p>
                 <div class="clearer">&nbsp;</div>
             </div>
@@ -322,16 +396,7 @@
                 </p>
                 <p class="icv-2col">
                     <label for="availability"><%=paramRequest.getLocaleString("lblAvailability")%></label>
-                    <select name="availability" id="availability"  dojoType="dijit.form.FilteringSelect" required="false">
-                        <option value="" ><%=paramRequest.getLocaleString("promptMsgAvailability")%></option>
-                        <option value="1" <%=availability == 1 ? "selected" : ""%>>1</option>
-                        <option value="2" <%=availability == 2 ? "selected" : ""%>>2</option>
-                        <option value="3" <%=availability == 3 ? "selected" : ""%>>3</option>
-                        <option value="4" <%=availability == 4 ? "selected" : ""%>>4</option>
-                        <option value="5" <%=availability == 5 ? "selected" : ""%>>5</option>
-                        <option value="6" <%=availability == 6 ? "selected" : ""%>>6</option>
-                        <option value="7" <%=availability == 7 ? "selected" : ""%>>7</option>
-                    </select>
+                    <input type="text" name="availability" id="availability" dojoType="dijit.form.ValidationTextBox" value="<%=availability%>" maxlength="60" promptMessage="<%=paramRequest.getLocaleString("promptMsgAvailability")%>" invalidMessage="<%=paramRequest.getLocaleString("lblAvailabilityFault")%>" regExp="[0-9]+"  trim="true"/>
                 </p>
                 <div class="clearer">&nbsp;</div>
             </div>
@@ -354,36 +419,36 @@
                 <p class="icv-3col">
                     <label for="addrZip">Código Postal</label>
                     <select name="addrZip" id="addrZip" dojoType="dijit.form.FilteringSelect" required="false" promptMessage=<%=paramRequest.getLocaleString("promptMsgNationality")%>">
-                        <% //Iterator<Country> itc = Country.ClassMgr.listCountries(ws);
-                                    //while (itc.hasNext()) {
-                                        //Country country = itc.next();%>
-                        <option value="<%//=country.getId()%>" <%//=country.getId().equals(nationality) ? "selected" : ""%>><%//=country.getTitle()%></option>
+                            <% Iterator<CP> itcp = CP.ClassMgr.listCPs(ws);
+                                    while (itcp.hasNext()) {
+                                        CP cp = itcp.next();%>
+                        <option value="<%=cp.getId()%>" <%=cp.getId().equals(addrZip) ? "selected" : ""%>><%=cp.getTitle()%></option>
                         <%
-                                   // }
+                                    }
                         %>
                     </select>
                 </p>
                 <p class="icv-3col">
                     <label for="addrCol">Colonia</label>
                     <select name="addrCol" id="addrCol" dojoType="dijit.form.FilteringSelect" required="false" promptMessage=<%=paramRequest.getLocaleString("promptMsgNationality")%>">
-                        <% //Iterator<Country> itc = Country.ClassMgr.listCountries(ws);
-                                    //while (itc.hasNext()) {
-                                        //Country country = itc.next();%>
-                        <option value="<%//=country.getId()%>" <%//=country.getId().equals(nationality) ? "selected" : ""%>><%//=country.getTitle()%></option>
+                            <% Iterator<Colonia> itcl = Colonia.ClassMgr.listColonias(ws);
+                                    while (itcl.hasNext()) {
+                                        Colonia colonia= itcl.next();%>
+                        <option value="<%=colonia.getId()%>" <%=colonia.getId().equals(addrCol) ? "selected" : ""%>><%=colonia.getTitle()%></option>
                         <%
-                                   // }
+                                    }
                         %>
                     </select>
                 </p>
                 <p class="icv-3col">
                     <label for="addrMun">Municipio/Delegación</label>
                     <select name="addrMun" id="addrMun" dojoType="dijit.form.FilteringSelect" required="false" promptMessage=<%=paramRequest.getLocaleString("promptMsgNationality")%>">
-                        <% //Iterator<Country> itc = Country.ClassMgr.listCountries(ws);
-                                    //while (itc.hasNext()) {
-                                        //Country country = itc.next();%>
-                        <option value="<%//=country.getId()%>" <%//=country.getId().equals(nationality) ? "selected" : ""%>><%//=country.getTitle()%></option>
+                        <% Iterator<Municipio> itmu = Municipio.ClassMgr.listMunicipios(ws);
+                                    while (itc.hasNext()) {
+                                      Municipio municipio = itmu.next();%>
+                        <option value="<%=municipio.getId()%>" <%=municipio.getId().equals(addrMun) ? "selected" : ""%>><%=municipio.getTitle()%></option>
                         <%
-                                   // }
+                                    }
                         %>
                     </select>
                 </p>
@@ -393,12 +458,12 @@
                 <p class="icv-3col">
                     <label for="addrState">Estado</label>
                     <select name="addrState" id="addrState" dojoType="dijit.form.FilteringSelect" required="false" promptMessage=<%=paramRequest.getLocaleString("promptMsgNationality")%>">
-                        <% //Iterator<Country> itc = Country.ClassMgr.listCountries(ws);
-                                    //while (itc.hasNext()) {
-                                        //Country country = itc.next();%>
-                        <option value="<%//=country.getId()%>" <%//=country.getId().equals(nationality) ? "selected" : ""%>><%//=country.getTitle()%></option>
+                        <% Iterator<EntidadFederativa> iten = EntidadFederativa.ClassMgr.listEntidadFederativas(ws);
+                                    while (iten.hasNext()) {
+                                         EntidadFederativa entidadFederativa = iten.next();%>
+                        <option value="<%=entidadFederativa.getId()%>" <%=entidadFederativa.getId().equals(addrState) ? "selected" : ""%>><%=entidadFederativa.getTitle()%></option>
                         <%
-                                   // }
+                                    }
                         %>
                     </select>
                 </p>
@@ -436,7 +501,7 @@
                             <label for="phoneType<%=phoneId%>"><%=paramRequest.getLocaleString("lblPhoneType")%></label>
                             <select name="phoneType<%=phoneId%>" id="phoneType<%=phoneId%>"  dojoType="dijit.form.FilteringSelect" promptMessage="<%=paramRequest.getLocaleString("promptMsgPhoneType")%>">
                                     <!--option value=""><%//=paramRequest.getLocaleString("promptMsgPhoneType")%></option-->
-                                <option value="Casa" <%=phoneType.equals("Casa") ? "selected" : ""%>>Casa</option>
+                                <option value="Fijo" <%=phoneType.equals("Fijo") ? "selected" : ""%>>Fijo</option>
                                 <option value="Movil" <%=phoneType.equals("Movil") ? "selected" : ""%>>Movil</option>
                                 <option value="Trabajo" <%=phoneType.equals("Trabajo") ? "selected" : ""%>>Trabajo</option>
                                 <option value="Recados" <%=phoneType.equals("Recados") ? "selected" : ""%>>Recados</option>
@@ -476,30 +541,64 @@
             <div class="icv-div-grupo">
                 <p class="icv-2col">
                     <label for="emailro"><%=paramRequest.getLocaleString("lblEmail")%></label>
-                    <input type="text" name="emailro" id="emailro" dojoType="dijit.form.ValidationTextBox" value="<%=email%>" maxlength="60" readonly="true" />
+                    <input type="text" name="emailro" id="emailro" dojoType="dijit.form.ValidationTextBox" value="<%=email%>" readonly="true" maxlength="60"  _required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgEmail")%>" invalidMessage="<%=paramRequest.getLocaleString("lblEmailFault")%>" _isValid="return isValidThisEmail()" trim="true" />
                 </p>
+                <div class="clearer borde">&nbsp;</div>
+            </div>
+            <div id="pEmailList">
+
+                <%
+                if(persona!=null){
+                            Iterator<String> item = persona.listPEmails();
+                            int emailId=0;
+                            while (item.hasNext()) {
+                                String pEmail = item.next();
+                %>
+                <div  id="pEmailId<%=emailId%>">
+                    <div class="icv-div-grupo">
+                        <p class="icv-3col">
+                            <label for="pEmail<%=emailId%>"><%=paramRequest.getLocaleString("lblEmail")%></label>
+                            <input type="text" name="pEmail<%=emailId%>" id="pEmail<%=emailId%>" dojoType="dijit.form.ValidationTextBox" value="<%=pEmail%>" maxlength="60" promptMessage="<%=paramRequest.getLocaleString("promptMsgEmail")%>" invalidMessage="<%=paramRequest.getLocaleString("lblEmailFault")%>" isValid="return isValidEmail(this.textbox.value)" trim="true"/>
+                        </p>
+                        <p class="icv-txt">
+                            <a href="#" onclick="deleteEmail('<%=emailId%>');return false;">Eliminar</a>
+                        </p>
+                        <div class="clearer borde">&nbsp;</div>
+                    </div>
+                </div>
+                <%
+                            emailId++;
+                            }
+            }
+            %>
+            </div>
+            <div class="icv-div-grupo">
+                <p class="icv-txt"><a href="#" onclick="appendEmail();return false;">Agregar otro Correo eletrónico</a></p>
+                <div class="clearer borde">&nbsp;</div>
+            </div>
+            <div class="icv-div-grupo">
                 <p class="icv-2col">
                     <label for="facebook"><%=paramRequest.getLocaleString("lblFacebook")%></label>
                     <input type="text" name="facebook" id="facebook" dojoType="dijit.form.ValidationTextBox" value="<%=facebook%>" maxlength="25"  promptMessage="<%=paramRequest.getLocaleString("promptMsgFacebook")%>" invalidMessage="<%=paramRequest.getLocaleString("lblFacebookFault")%>"  trim="true" regExp="[a-zA-Z\u00C0-\u00FF' ]+"/>
                 </p>
-                <div class="clearer borde">&nbsp;</div>
-            </div>
-            <div class="icv-div-grupo">
                 <p class="icv-2col">
                     <label for="skype"><%=paramRequest.getLocaleString("lblSkype")%></label>
                     <input type="text" name="skype" id="skype" dojoType="dijit.form.ValidationTextBox" value="<%=skype%>" maxlength="25"  promptMessage="<%=paramRequest.getLocaleString("promptMsgSkype")%>" invalidMessage="<%=paramRequest.getLocaleString("lblSkypeFault")%>" trim="true" regExp="[a-zA-Z\u00C0-\u00FF' ]+"/>
                 </p>
-                <p class="icv-2col">
-                    <label for="msn"><%=paramRequest.getLocaleString("lblMsn")%></label>
-                    <input type="text" name="msn" id="msn" dojoType="dijit.form.ValidationTextBox" value="<%=msn%>" maxlength="25"  promptMessage="<%=paramRequest.getLocaleString("promptMsgMsn")%>" invalidMessage="<%=paramRequest.getLocaleString("lblMsnFault")%>" trim="true" regExp="[a-zA-Z\u00C0-\u00FF' ]+"/>
-                </p>
                 <div class="clearer borde">&nbsp;</div>
             </div>
             <div class="icv-div-grupo">
                 <p class="icv-2col">
+                    <label for="msn"><%=paramRequest.getLocaleString("lblMsn")%></label>
+                    <input type="text" name="msn" id="msn" dojoType="dijit.form.ValidationTextBox" value="<%=msn%>" maxlength="25"  promptMessage="<%=paramRequest.getLocaleString("promptMsgMsn")%>" invalidMessage="<%=paramRequest.getLocaleString("lblMsnFault")%>" trim="true" regExp="[a-zA-Z\u00C0-\u00FF' ]+"/>
+                </p>
+                <p class="icv-2col">
                     <label for="linkedin"><%=paramRequest.getLocaleString("lblLinkedin")%></label>
                     <input type="text" name="linkedin" id="linkedin" dojoType="dijit.form.ValidationTextBox" value="<%=linkedin%>" maxlength="25"  promptMessage="<%=paramRequest.getLocaleString("promptMsgLinkedin")%>" invalidMessage="<%=paramRequest.getLocaleString("lblLinkedinFault")%>" trim="true" regExp="[a-zA-Z\u00C0-\u00FF' ]+"/>
                 </p>
+                <div class="clearer borde">&nbsp;</div>
+            </div>
+            <div class="icv-div-grupo">
                 <p class="icv-2col">
                     <label for="twitter"><%=paramRequest.getLocaleString("lblTwitter")%></label>
                     <input type="text" name="twitter" id="twitter" dojoType="dijit.form.ValidationTextBox" value="<%=twitter%>" maxlength="25"  promptMessage="<%=paramRequest.getLocaleString("promptMsgTwitter")%>" invalidMessage="<%=paramRequest.getLocaleString("lblTwitterFault")%>" trim="true" regExp="[a-zA-Z\u00C0-\u00FF' ]+"/>
@@ -516,9 +615,3 @@
         </form>
     </div>
 </div>
-<%
-            //} catch (Exception e) {
-            // e.printStackTrace(System.out);
-            //out.println(e.getMessage());
-            //}
-%>
