@@ -49,11 +49,8 @@
         RFC, CURP, PRIMER_APELLIDO, SEGUNDO_APELLIDO, NOMBRE, EMAIL, ADSCRIPCION, TIPO_CONTRATACION, PERFIL, NUM_EMPLEADO
     };
 %>
+<h3>iniciando appendUG....</h3>
 <%
-            ArrayList<User> toDelete = new ArrayList<User>();
-            ArrayList<User> agreados = new ArrayList<User>();
-            ArrayList<User> modificados = new ArrayList<User>();
-
             String path = SWBPortal.getWorkPath() + "/db.txt";
             String siteid = "eworkplace";
 
@@ -110,7 +107,7 @@
                        
                         if (user_toModify == null)
                         {
-                            if (group != null)
+                            /*if (group != null)
                             {
                                 user_toModify.addUserGroup(group);
                             }
@@ -133,15 +130,20 @@
                             user_toModify.setPassword(rfc);
                             user_toModify.setFirstName(toUpperCase(campos.get(CAMPOS.NOMBRE.ordinal())));
                             user_toModify.setLastName(toUpperCase(campos.get(CAMPOS.PRIMER_APELLIDO.ordinal())));
-                            user_toModify.setSecondLastName(toUpperCase(campos.get(CAMPOS.SEGUNDO_APELLIDO.ordinal())));
+                            user_toModify.setSecondLastName(toUpperCase(campos.get(CAMPOS.SEGUNDO_APELLIDO.ordinal())));*/
                             out.flush();
 %>
-<p>Usuario agregado: <%=rfc%> nombre: <%=user_toModify.getFullName()%> mail: <%=user_toModify.getEmail()%></p>
+<!--p>Usuario agregado: <%=rfc%> nombre: <%=user_toModify.getFullName()%> mail: <%=user_toModify.getEmail()%></p-->
+<p>usuario con login=<%=rfc%> no existe</p>
 <%
                         }
                         else
                         {
-                            if (user_toModify.getCreated() == null)
+                            if(group!=null && !user_toModify.hasUserGroup(group))
+                            {
+                                user_toModify.addUserGroup(group);
+                            }
+                            /*if (user_toModify.getCreated() == null)
                             {
                                 user_toModify.setCreated(new Date());
                             }
@@ -158,13 +160,12 @@
                             user_toModify.setFirstName(toUpperCase(campos.get(CAMPOS.NOMBRE.ordinal())));
                             user_toModify.setLastName(toUpperCase(campos.get(CAMPOS.PRIMER_APELLIDO.ordinal())));
                             user_toModify.setSecondLastName(toUpperCase(campos.get(CAMPOS.SEGUNDO_APELLIDO.ordinal())));
-                            modificados.add(user_toModify);
+                            modificados.add(user_toModify);*/
                             out.flush();
 %>
 <p>Usuario modificado: <%=rfc%> nombre: <%=user_toModify.getFullName()%> mail: <%=user_toModify.getEmail()%></p>
 <%
                         }
-                        
                         line = br.readLine();
                     }
 
