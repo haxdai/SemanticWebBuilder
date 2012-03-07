@@ -29,7 +29,16 @@ import org.semanticwb.portal.api.*;
 public class UserPersonalData extends GenericAdmResource {
 
     private static Logger log = SWBUtils.getLogger(UserPersonalData.class);
+    public static final String Mode_AJAX="ajax";
 
+    @Override
+    public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        final String mode = paramRequest.getMode();
+        if(Mode_AJAX.equals(mode))
+            doAjax(request,response,paramRequest);
+        else
+            super.processRequest(request, response, paramRequest);
+    }
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
 //System.out.println("processAction");
@@ -337,6 +346,14 @@ complete = true;
                 log.error(e);
             }
         }
+        if(response.getMode().equals(Mode_AJAX)){
+            Enumeration eval=request.getParameterNames();
+            while(eval.hasMoreElements()){
+                String param=(String)eval.nextElement();
+                String value = request.getParameter(param);
+                response.setRenderParameter(param, value);
+            }
+        }
     }
 
     @Override
@@ -476,7 +493,16 @@ complete = true;
         out.println("</form>");
         out.println("</div>");
     }
-    
+    public void doAjax(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        String basePath = "/work/models/" + paramRequest.getWebPage().getWebSite().getId() + "/jsp/" + this.getClass().getSimpleName() + "/";
+        RequestDispatcher dis = request.getRequestDispatcher(basePath+"ajaxData.jsp");
+        try {
+            request.setAttribute("paramRequest", paramRequest);
+            dis.include(request, response);
+        }catch (Exception e) {
+            log.error(e);
+        }
+    }
     private void setCandidate(final User user) throws Exception {
         final String grantPrivilegesId = getResourceBase().getAttribute("editRole");
         if( user!=null && user.isSigned() ) {
