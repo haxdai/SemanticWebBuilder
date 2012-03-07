@@ -1,13 +1,21 @@
 package com.infotec.cvi.swb.resources;
 
+import com.infotec.cvi.swb.AreaCarrera;
 import com.infotec.cvi.swb.CV;
 import com.infotec.cvi.swb.AreaTalento;
+import com.infotec.cvi.swb.TipoCarrera;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Iterator;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
+import org.semanticwb.model.SWBComparator;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.portal.api.GenericResource;
@@ -22,6 +30,8 @@ import org.semanticwb.portal.api.SWBResourceURL;
  */
 public class AreasTalentoResource extends GenericResource {
     private Logger log = SWBUtils.getLogger(AreasTalentoResource.class);
+    public static final String Mode_TLNT = "tlnt";
+    public static final String Mode_HBLDS = "hblds";
     
     @Override
     public void doView(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
@@ -116,5 +126,41 @@ public class AreasTalentoResource extends GenericResource {
             return false;
         }
         return true;
+    }
+    
+    public void getTipo(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("application/json; charset=ISO-8859-1");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
+        
+        PrintWriter out = response.getWriter();
+        WebSite wsite = paramRequest.getWebPage().getWebSite();
+        User usr = paramRequest.getUser();
+        String ret = "";
+        try {
+            JSONObject base = new JSONObject();
+            base.put("identifier", "id");
+            base.put("label", "name");
+            JSONArray items = new JSONArray();
+            base.put("items", items);
+            Iterator<Talento> it = SWBComparator.sortByDisplayName(Talento.ClassMgr.listTipoCarreras(wsite), usr.getLanguage());
+            while (it.hasNext()) {
+                TipoCarrera tipo = it.next();
+                JSONObject jtipo = new JSONObject();
+                items.put(jtipo);
+                jtipo.put("id", tipo.getId());
+                jtipo.put("name", tipo.getTitle());
+                Iterator<AreaCarrera> itarea = tipo.listAreas();
+                while (itarea.hasNext()) {
+                    AreaCarrera areaCarrera = itarea.next();
+                    jtipo.put("area", areaCarrera.getId());
+                }
+            }
+
+            ret = base.toString();
+        } catch (Exception e) {
+            log.error(e);
+        }
+        out.print(ret);
     }
 }
