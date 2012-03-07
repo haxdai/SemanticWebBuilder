@@ -466,9 +466,9 @@
 <%          
             SWBResourceURL url = paramRequest.getRenderUrl();
             url.setCallMethod(SWBResourceURL.Call_DIRECT);
-            String idCarrera = gradoAca.getCarrera().getId();
-            String idArea = gradoAca.getCarrera().getAreaCarrera().getId();
-            String idTipo = gradoAca.getCarrera().getAreaCarrera().getTipoCarreraInv().getId();
+            String idCarrera = gradoAca.getCarrera()!=null?gradoAca.getCarrera().getId():"";
+            String idArea = gradoAca.getCarrera()!=null?gradoAca.getCarrera().getAreaCarrera().getId():"";
+            String idTipo = gradoAca.getCarrera()!=null?gradoAca.getCarrera().getAreaCarrera().getTipoCarreraInv().getId():"";
 %>
             <div dojoType="dojo.data.ItemFileReadStore" jsId="tipoCarreraStore<%=base.getId()%>" url="<%=url.setMode("mod_tipo")%>"></div>
             <div dojoType="dojo.data.ItemFileReadStore" jsId="areaCarreraStore<%=base.getId()%>" url="<%=url.setMode("mod_area")%>"></div>
