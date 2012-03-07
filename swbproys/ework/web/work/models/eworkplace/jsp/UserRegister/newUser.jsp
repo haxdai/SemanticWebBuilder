@@ -81,7 +81,6 @@
         var email = dijit.byId( "email" );
         var strEmail = email.getValue();
         if(strEmail!=""){
-            //alert(strEmail);
             if(isValidEmail(strEmail)){
                 if(canAddEmail('<%=repositoryId%>',strEmail)){
                     valid=true;
@@ -127,9 +126,9 @@
         var valid=false;
         if(dijit.byId("birthday")!=null && !isEmpty(dijit.byId( "birthday" ).getValue())) {
             var birth = dijit.byId( "birthday" ).getValue().split("/");
-            var dayField = birth[0]
-            var monthField = birth[1]
-            var yearField = birth[2]
+            var dayField = birth[0];
+            var monthField = birth[1];
+            var yearField = birth[2];
             /*if(isInteger(dayField) && isInteger(monthField) && isInteger(yearField)) {
                 if(!isNaN(Date.UTC(yearField, monthField-1, dayField)))
                     valid = true;

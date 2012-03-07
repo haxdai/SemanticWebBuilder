@@ -11,7 +11,6 @@
             if(msg.equalsIgnoreCase("ok")){
              */
 %>
-
 <div id="icv">
     <div id="icv-data">
         <p><strong><%=msg%></strong></p>
