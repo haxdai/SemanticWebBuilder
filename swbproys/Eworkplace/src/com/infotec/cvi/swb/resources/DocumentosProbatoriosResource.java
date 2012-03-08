@@ -10,17 +10,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
+import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
+import org.semanticwb.platform.SemanticOntology;
+import org.semanticwb.platform.SemanticProperty;
 import org.semanticwb.portal.SWBFormMgr;
 import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBActionResponse;
@@ -35,7 +37,19 @@ public class DocumentosProbatoriosResource extends GenericResource {
 
     private Logger log = SWBUtils.getLogger(DocumentosProbatoriosResource.class);
     private static final String DEFAULT_MIME_TYPE = "application/octet-stream";
+    static final String MODE_GETFILE ="getFile"; 
 
+    @Override
+    public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        
+        if(paramRequest.getMode().equals(MODE_GETFILE)){
+            doGetFile(request, response, paramRequest);
+        } else {
+            super.processRequest(request, response, paramRequest);
+        }
+    }
+
+    
     @Override
     public void doView(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         String basePath = "/work/models/" + paramRequest.getWebPage().getWebSite().getId() + "/jsp/" + this.getClass().getSimpleName() + "/";
@@ -62,6 +76,11 @@ public class DocumentosProbatoriosResource extends GenericResource {
 
         String fileName = request.getParameter("fileid");
         String propURI = request.getParameter("propURI");
+        
+        SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
+        SemanticProperty sp = ont.getSemanticProperty(propURI);
+        
+        
         SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy-hhmmaaa", new Locale("es"));
 
         User usr = paramRequest.getUser();
@@ -86,24 +105,10 @@ public class DocumentosProbatoriosResource extends GenericResource {
             mime = DEFAULT_MIME_TYPE;
 
             InputStream fin = null;
-            String file_read = null;
+ 
+            fin = SWBPortal.getFileFromWorkPath(docto.getSemanticObject().getWorkPath() + "/" + fileName);
 
-            if (null != fileName) {
-
-                String fileext = "pdf";
-
-
-                fileName = DocumentoProbatorio.intranet_fileCartaProtesta.getName() + "_" + docto.getSemanticObject().getId() + "_" + "Reporte." + sdf.format(new Date(System.currentTimeMillis())) + "." + fileext;
-
-                //////////////////////////////////////////////
-                fin = SWBUtils.IO.getStreamFromString(file_read);
-
-            } else {
-                //file_read = SWBPortal.readFileFromWorkPath(fv.getSemanticObject().getWorkPath() + "/" + fileName);
-                fin = SWBPortal.getFileFromWorkPath(docto.getSemanticObject().getWorkPath() + "/" + fileName);
-            }
-
-            String inicio_nombre = DocumentoProbatorio.intranet_fileCartaProtesta.getName() + "_" + docto.getSemanticObject().getId();
+            String inicio_nombre = sp.getName() + "_" + docto.getSemanticObject().getId();
             if (fileName.startsWith(inicio_nombre)) {
                 fileName = fileName.substring(inicio_nombre.length() + 1);
             }
