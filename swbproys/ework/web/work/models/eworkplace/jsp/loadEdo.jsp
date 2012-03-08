@@ -244,6 +244,7 @@
                                         municipio.addCP(cp);
                                     }
                                     colonia.setMunicipioColoniasInv(municipio);
+                                    colonia.setCpInv(cp);
                                     cp.setMunicipioCPInv(municipio);
                                     if(!cp.hasColonia(colonia)){
                                         cp.addColonia(colonia);
