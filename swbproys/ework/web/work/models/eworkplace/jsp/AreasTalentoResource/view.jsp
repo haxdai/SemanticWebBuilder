@@ -82,8 +82,9 @@
         <tr>
             <th>&nbsp;</th>
             <th>Area de talento o interes</th>
-            <th>Areas de experiencia o destreza TI</th>
+            <th>Habilidad</th>
             <th>Años de experiencia</th>
+            <th>Otro</th>
         </tr>
     </thead>
     <tbody>
@@ -128,10 +129,10 @@
             <span class="icv-borrar"><a href="javascript:if(confirm('¿Deseas eliminar este registro?')){window.location.href='<%=urldel%>';}" title="eliminar registro">borrar</a></span>
             <span class="icv-editar"><a href="javascript:window.location.href='<%=urledit%>'" title="editar registro">editar</a></span>
         </td>
-        <td>uno</td>
-        <td>dos</td>
-        <td>tres</td>
-        <td>cuatro</td>
+        <td><%=talento.getTipoAreaTalento().getTitle()%></td>
+        <td><%=talento.getHabilidad().getTitle()%></td>
+        <td><%=talento.getYearExperienceTalento()%></td>
+        <td><%=talento.getOtraHabilidad()%></td>
     </tr>
 <%
             }
@@ -242,8 +243,8 @@
   
   <p class="icv-3col"><label><em>*</em>Área de talento</label><input dojoType="dijit.form.FilteringSelect" value="" required="true" store="talentos_<%=base.getId()%>" name="tlnt" id="tlnt_<%=base.getId()%>" onChange="dijit.byId('hbld_<%=base.getId()%>').attr('value','');dijit.byId('hbld_<%=base.getId()%>').query.tipo = this.value || '*';" promptMessage="Talento" invalidMessage="El talento requerido" /></p>
   <p class="icv-3col"><label><em>*</em>Habilidad</label><input dojoType="dijit.form.FilteringSelect" value="" required="true" store="habilidades_<%=base.getId()%>" name="hbld" id="hbld_<%=base.getId()%>" promptMessage="Habilidad" invalidMessage="La habilidad es requerida" /></p>
-  <p class="icv-3col"><label><em>*</em>Años de experiencia</label><input type="text" name="ydstrz" value="" size="3" maxlength="2" dojoType="dijit.form.ValidationTextBox" promptMessage="Registrar el tiempo en años de la experiencia" invalidMessage="Años de experiencia incorrecto" regExp="\d{1,2}" /></p>
-  <p class="icv-3col"><label><em>*</em>En caso de otro, especificar</label><input type="text" name="othr" value="" dojoType="dijit.form.ValidationTextBox" promptMessage="En caso de elegir otra habilidad, especifcar" />
+  <p class="icv-3col"><label><em>*</em>Años de experiencia</label><input type="text" name="ytlnt" value="" size="3" maxlength="2" dojoType="dijit.form.ValidationTextBox" promptMessage="Registrar el tiempo en años de la experiencia" invalidMessage="Años de experiencia incorrecto" regExp="\d{1,2}" /></p>
+  <p class="icv-3col"><label>En caso de otro, especificar</label><input type="text" name="othr" value="" dojoType="dijit.form.ValidationTextBox" promptMessage="En caso de elegir otra habilidad, especifcar" />
   
   <div class="clearer">&nbsp;</div>
  </div>
@@ -273,8 +274,7 @@
     dojo.require("dijit.form.ValidationTextBox");
     dojo.require("dijit.form.Button");
     dojo.require("dijit.form.FilteringSelect");
-    dojo.require('dijit.form.Textarea');
-    dojo.require('dijit.form.DateTextBox');
+    dojo.require('dojo.data.ItemFileReadStore');
 
     function enviar() {
         var objd=dijit.byId('form2ga');
@@ -298,14 +298,20 @@
 </script>
 <form id="form2ga" method="post" dojoType="dijit.form.Form" action="<%=urladd%>">
  <div class="icv-div-grupo">
-  <p class="icv-3col"><label><em>*</em>Área de talento o interés</label><input type="text" name="tlnt" value="" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Registrar área de talento o interés" invalidMessage="El área de talento o interés es requerido"/></p>
-  <p class="icv-3col"><label><em>*</em>Años de experiencia</label><input type="text" name="ytlnt" value="" size="3" maxlength="2" dojoType="dijit.form.ValidationTextBox" promptMessage="Registrar el tiempo en años de la experiencia" invalidMessage="Años de experiencia incorrecto" regExp="\d{1,2}" /></p>
-  <p class="icv-3col"><label><em>*</em>Áreas de experiencia o destreza TI</label><input type="text" name="dstrz" value="" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Registrar  áreas de experiencia o destreza TI" invalidMessage="El áreas de experiencia o destreza TI es requerido"/></p>
-  <p class="icv-3col"><label><em>*</em>Años de experiencia</label><input type="text" name="ydstrz" value="" size="3" maxlength="2" dojoType="dijit.form.ValidationTextBox" promptMessage="Registrar el tiempo en años de la experiencia" invalidMessage="Años de experiencia incorrecto" regExp="\d{1,2}" /></p>
+<%
+    SWBResourceURL urlMS = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT);
+%>
+   <div dojoType="dojo.data.ItemFileReadStore" jsId="talentos_<%=base.getId()%>" url="<%=urlMS.setMode(Mode_TLNT)%>"></div>
+   <div dojoType="dojo.data.ItemFileReadStore" jsId="habilidades_<%=base.getId()%>" url="<%=urlMS.setMode(Mode_HBLDS)%>"></div>
+  
+   <p class="icv-3col"><label><em>*</em>Área de talento</label><input dojoType="dijit.form.FilteringSelect" value="<%=talento.getTipoAreaTalento().getId()%>" required="true" store="talentos_<%=base.getId()%>" name="tlnt" id="tlnt_<%=base.getId()%>" onChange="dijit.byId('hbld_<%=base.getId()%>').attr('value','');dijit.byId('hbld_<%=base.getId()%>').query.tipo = this.value || '*';" promptMessage="Talento" invalidMessage="El talento requerido" /></p>
+   <p class="icv-3col"><label><em>*</em>Habilidad</label><input dojoType="dijit.form.FilteringSelect" value="<%=talento.getHabilidad().getId()%>" required="true" store="habilidades_<%=base.getId()%>" name="hbld" id="hbld_<%=base.getId()%>" promptMessage="Habilidad" invalidMessage="La habilidad es requerida" /></p>
+   <p class="icv-3col"><label><em>*</em>Años de experiencia</label><input type="text" name="ytlnt" value="<%=talento.getYearExperienceTalento()%>" size="3" maxlength="2" dojoType="dijit.form.ValidationTextBox" promptMessage="Registrar el tiempo en años de la experiencia" invalidMessage="Años de experiencia incorrecto" regExp="\d{1,2}" /></p>
+   <p class="icv-3col"><label><em>*</em>En caso de otro, especificar</label><input type="text" name="othr" value="<%=talento.getOtraHabilidad()%>" dojoType="dijit.form.ValidationTextBox" promptMessage="En caso de elegir otra habilidad, especifcar" />
   <div class="clearer">&nbsp;</div>
  </div>
  <div class="centro">
-     <%
+<%
     SWBResourceURL urlBack = paramRequest.getRenderUrl();
     urlBack.setParameter("act", "");
 %>
