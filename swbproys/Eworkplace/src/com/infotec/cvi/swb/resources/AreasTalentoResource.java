@@ -197,6 +197,7 @@ public class AreasTalentoResource extends GenericResource {
                 items.put(jtipo);
                 jtipo.put("id", hbld.getId());
                 jtipo.put("name", hbld.getTitle());
+                jtipo.put("tipo", hbld.getTipoTalento().getId()); 
 //                Iterator<AreaCarrera> itarea = tipo.listAreas();
 //                while (itarea.hasNext()) {
 //                    AreaCarrera areaCarrera = itarea.next();
