@@ -66,36 +66,50 @@ public class AreasTalentoResource extends GenericResource {
         }
         
         if(SWBResourceURL.Action_ADD.equals(action)) {
-//            if(!validate(request, response))
-//                return;
-//            AreaTalento talento = AreaTalento.ClassMgr.createAreaTalento(wsite);
-//            talento.setAreaTalento(SWBUtils.XML.replaceXMLChars(request.getParameter("tlnt")));
-//            talento.setYearExperienceTalento(Integer.parseInt(request.getParameter("ytlnt")));
-//            talento.setAreaDestrezaTI(SWBUtils.XML.replaceXMLChars(request.getParameter("dstrz")));
-//            talento.setYearExpirienceTI(Integer.parseInt(request.getParameter("ydstrz")));
-//            cv.addAreaTalento(talento);
-        }else if(SWBResourceURL.Action_EDIT.equals(action)) {
-//            final String distincionId = request.getParameter("id");
-//            AreaTalento talento;
+            if(!validate(request, response))
+                return;
+            TipoTalento talent = null;
+            Habilidad skills = null;
+            final String tipoTalentoId = request.getParameter("tlnt");
+            final String habilidadId = request.getParameter("hbld");
+            int years = 0;
 //            try {
-//                talento = AreaTalento.ClassMgr.getAreaTalento(distincionId, wsite);
+                talent = TipoTalento.ClassMgr.getTipoTalento(tipoTalentoId, wsite);
+                skills = Habilidad.ClassMgr.getHabilidad(habilidadId, wsite);
+                years = Integer.parseInt(request.getParameter("ytlnt"));
 //            }catch(Exception e) {
-//                response.setRenderParameter("alertmsg", "distincion no existe");
+//                response.setRenderParameter("alertmsg", "algo salio mal");
+//                log.error(e);
 //                return;
 //            }
-//            if(!validate(request, response))
-//                return;
-//            
-//            if(!cv.hasAreaTalento(talento)) {
-//                response.setRenderParameter("alertmsg", "Tu cv no contiene esta distincion");
-//                return;
-//            }
-            
-//            talento.setAreaTalento(SWBUtils.XML.replaceXMLChars(request.getParameter("tlnt")));
-//            talento.setYearExperienceTalento(Integer.parseInt(request.getParameter("ytlnt")));
-//            talento.setAreaDestrezaTI(SWBUtils.XML.replaceXMLChars(request.getParameter("dstrz")));
-//            talento.setYearExpirienceTI(Integer.parseInt(request.getParameter("ydstrz")));
-//            response.setRenderParameter("alertmsg", "talento modifcado bien");
+            AreaTalento  at = AreaTalento.ClassMgr.createAreaTalento(wsite);
+            at.setTipoAreaTalento(talent);
+            at.setHabilidad(skills);
+            at.setYearExperienceTalento(years);
+            at.setOtraHabilidad(SWBUtils.XML.replaceXMLChars(request.getParameter("othr")));
+            cv.addAreaTalento(at);
+        }else if(SWBResourceURL.Action_EDIT.equals(action)) {
+            final String atId = request.getParameter("id");
+            AreaTalento at;
+            try {
+                at = AreaTalento.ClassMgr.getAreaTalento(atId, wsite);
+            }catch(Exception e) {
+                response.setRenderParameter("alertmsg", "distincion no existe");
+                return;
+            }
+            if(!validate(request, response))
+                return;     
+            if(!cv.hasAreaTalento(at)) {
+                response.setRenderParameter("alertmsg", "Tu cv no contiene esta distincion");
+                return;
+            }
+            final String tipoTalentoId = request.getParameter("tlnt");
+            final String habilidadId = request.getParameter("hbld");
+            at.setTipoAreaTalento(TipoTalento.ClassMgr.getTipoTalento(tipoTalentoId, wsite));
+            at.setHabilidad(Habilidad.ClassMgr.getHabilidad(habilidadId, wsite));
+            at.setYearExperienceTalento(Integer.parseInt(request.getParameter("ytlnt")));
+            at.setOtraHabilidad(SWBUtils.XML.replaceXMLChars(request.getParameter("othr")));
+            response.setRenderParameter("alertmsg", "talento modifcado bien");
         }else if(SWBResourceURL.Action_REMOVE.equals(action)) {
             final String talentoId = request.getParameter("id");
             try {
@@ -114,13 +128,21 @@ public class AreasTalentoResource extends GenericResource {
     }
     
     private boolean validate(HttpServletRequest request, SWBActionResponse response) {
-        if(request.getParameter("tlnt").isEmpty() || request.getParameter("dstrz").isEmpty()) {
+        if(request.getParameter("tlnt").isEmpty() || request.getParameter("hbld").isEmpty()) {
             response.setRenderParameter("alertmsg", "faltan datos");
             return false;
         }
         try {
+            TipoTalento.ClassMgr.getTipoTalento(request.getParameter("tlnt"), response.getWebPage().getWebSite());
+            Habilidad.ClassMgr.getHabilidad(request.getParameter("hbld"), response.getWebPage().getWebSite());
             Integer.parseInt(request.getParameter("ytlnt"));
-            Integer.parseInt(request.getParameter("ydstrz"));
+        }catch(Exception e) {
+            response.setRenderParameter("alertmsg", "algo salio mal");
+            log.error(e);
+            return false;
+        }
+        try {
+            Integer.parseInt(request.getParameter("ytlnt"));
         }catch(Exception e) {
             response.setRenderParameter("alertmsg", "Los años de experiencia esta mal");
             return false;
