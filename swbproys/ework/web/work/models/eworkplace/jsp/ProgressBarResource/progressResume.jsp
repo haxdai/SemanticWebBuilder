@@ -28,7 +28,7 @@
         
         out.println("<div class=\"indice\">");
         out.println(" <div class=\"intro_indice\">");
-        done = aca.listGradoAcademicos().hasNext()&&(aca.isNoAplicaEstudioSuperior() || aca.listEstudioSuperiors().hasNext())&&(cv.isSinCurso() || cv.listDiplomados().hasNext() || cv.listCursosTICs().hasNext())&&cv.isSinIdioma() || cv.listIdiomas().hasNext();
+        done = aca.listGradoAcademicos().hasNext()&&(aca.isNoAplicaEstudioSuperior() || aca.listEstudioSuperiors().hasNext())&&(cv.isSinDiplomado() || cv.listDiplomados().hasNext())&&(cv.isSinCurso() || cv.listCursosTICs().hasNext())&&(cv.isSinIdioma() || cv.listIdiomas().hasNext());
         out.println("  <h3 class=\""+(done?"icv-semaforo-paloma":"icv-semaforo-tache")+"\">");
         out.println("   <a href=\""+url+"Escolaridad"+lang+"\">"+paramRequest.getLocaleString("lblSchooling")+"</a>");
         out.println("  </h3>");
