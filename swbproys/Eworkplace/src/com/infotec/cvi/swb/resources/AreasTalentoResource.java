@@ -1,9 +1,9 @@
 package com.infotec.cvi.swb.resources;
 
-import com.infotec.cvi.swb.AreaCarrera;
 import com.infotec.cvi.swb.CV;
 import com.infotec.cvi.swb.AreaTalento;
-import com.infotec.cvi.swb.TipoCarrera;
+import com.infotec.cvi.swb.Habilidad;
+import com.infotec.cvi.swb.TipoTalento;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -66,36 +66,36 @@ public class AreasTalentoResource extends GenericResource {
         }
         
         if(SWBResourceURL.Action_ADD.equals(action)) {
-            if(!validate(request, response))
-                return;
-            AreaTalento talento = AreaTalento.ClassMgr.createAreaTalento(wsite);
-            talento.setAreaTalento(SWBUtils.XML.replaceXMLChars(request.getParameter("tlnt")));
-            talento.setYearExperienceTalento(Integer.parseInt(request.getParameter("ytlnt")));
-            talento.setAreaDestrezaTI(SWBUtils.XML.replaceXMLChars(request.getParameter("dstrz")));
-            talento.setYearExpirienceTI(Integer.parseInt(request.getParameter("ydstrz")));
-            cv.addAreaTalento(talento);
+//            if(!validate(request, response))
+//                return;
+//            AreaTalento talento = AreaTalento.ClassMgr.createAreaTalento(wsite);
+//            talento.setAreaTalento(SWBUtils.XML.replaceXMLChars(request.getParameter("tlnt")));
+//            talento.setYearExperienceTalento(Integer.parseInt(request.getParameter("ytlnt")));
+//            talento.setAreaDestrezaTI(SWBUtils.XML.replaceXMLChars(request.getParameter("dstrz")));
+//            talento.setYearExpirienceTI(Integer.parseInt(request.getParameter("ydstrz")));
+//            cv.addAreaTalento(talento);
         }else if(SWBResourceURL.Action_EDIT.equals(action)) {
-            final String distincionId = request.getParameter("id");
-            AreaTalento talento;
-            try {
-                talento = AreaTalento.ClassMgr.getAreaTalento(distincionId, wsite);
-            }catch(Exception e) {
-                response.setRenderParameter("alertmsg", "distincion no existe");
-                return;
-            }
-            if(!validate(request, response))
-                return;
+//            final String distincionId = request.getParameter("id");
+//            AreaTalento talento;
+//            try {
+//                talento = AreaTalento.ClassMgr.getAreaTalento(distincionId, wsite);
+//            }catch(Exception e) {
+//                response.setRenderParameter("alertmsg", "distincion no existe");
+//                return;
+//            }
+//            if(!validate(request, response))
+//                return;
+//            
+//            if(!cv.hasAreaTalento(talento)) {
+//                response.setRenderParameter("alertmsg", "Tu cv no contiene esta distincion");
+//                return;
+//            }
             
-            if(!cv.hasAreaTalento(talento)) {
-                response.setRenderParameter("alertmsg", "Tu cv no contiene esta distincion");
-                return;
-            }
-            
-            talento.setAreaTalento(SWBUtils.XML.replaceXMLChars(request.getParameter("tlnt")));
-            talento.setYearExperienceTalento(Integer.parseInt(request.getParameter("ytlnt")));
-            talento.setAreaDestrezaTI(SWBUtils.XML.replaceXMLChars(request.getParameter("dstrz")));
-            talento.setYearExpirienceTI(Integer.parseInt(request.getParameter("ydstrz")));
-            response.setRenderParameter("alertmsg", "talento modifcado bien");
+//            talento.setAreaTalento(SWBUtils.XML.replaceXMLChars(request.getParameter("tlnt")));
+//            talento.setYearExperienceTalento(Integer.parseInt(request.getParameter("ytlnt")));
+//            talento.setAreaDestrezaTI(SWBUtils.XML.replaceXMLChars(request.getParameter("dstrz")));
+//            talento.setYearExpirienceTI(Integer.parseInt(request.getParameter("ydstrz")));
+//            response.setRenderParameter("alertmsg", "talento modifcado bien");
         }else if(SWBResourceURL.Action_REMOVE.equals(action)) {
             final String talentoId = request.getParameter("id");
             try {
@@ -127,15 +127,27 @@ public class AreasTalentoResource extends GenericResource {
         }
         return true;
     }
+
+    @Override
+    public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        final String mode = paramRequest.getMode();
+        if(Mode_TLNT.equals(mode))
+            doTalentType(request, response, paramRequest);
+        else if(Mode_HBLDS.equals(mode))
+            doSkillsType(request, response, paramRequest);
+        else
+            super.processRequest(request, response, paramRequest);
+    }
+
     
-    public void getTipo(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+    public void doTalentType(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setContentType("application/json; charset=ISO-8859-1");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
         
         PrintWriter out = response.getWriter();
         WebSite wsite = paramRequest.getWebPage().getWebSite();
-        User usr = paramRequest.getUser();
+        User user = paramRequest.getUser();
         String ret = "";
         try {
             JSONObject base = new JSONObject();
@@ -143,20 +155,54 @@ public class AreasTalentoResource extends GenericResource {
             base.put("label", "name");
             JSONArray items = new JSONArray();
             base.put("items", items);
-            Iterator<Talento> it = SWBComparator.sortByDisplayName(Talento.ClassMgr.listTipoCarreras(wsite), usr.getLanguage());
-            while (it.hasNext()) {
-                TipoCarrera tipo = it.next();
+            Iterator<TipoTalento> talentos = SWBComparator.sortByDisplayName(TipoTalento.ClassMgr.listTipoTalentos(wsite), user.getLanguage());
+            while (talentos.hasNext()) {
+                TipoTalento tipo = talentos.next();
                 JSONObject jtipo = new JSONObject();
                 items.put(jtipo);
                 jtipo.put("id", tipo.getId());
                 jtipo.put("name", tipo.getTitle());
-                Iterator<AreaCarrera> itarea = tipo.listAreas();
-                while (itarea.hasNext()) {
-                    AreaCarrera areaCarrera = itarea.next();
-                    jtipo.put("area", areaCarrera.getId());
-                }
+//                Iterator<AreaCarrera> itarea = tipo.listAreas();
+//                while (itarea.hasNext()) {
+//                    AreaCarrera areaCarrera = itarea.next();
+//                    jtipo.put("area", areaCarrera.getId());
+//                }
             }
-
+            ret = base.toString();
+        } catch (Exception e) {
+            log.error(e);
+        }
+        out.print(ret);
+    }
+    
+    public void doSkillsType(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("application/json; charset=ISO-8859-1");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
+        
+        PrintWriter out = response.getWriter();
+        WebSite wsite = paramRequest.getWebPage().getWebSite();
+        User user = paramRequest.getUser();
+        String ret = "";
+        try {
+            JSONObject base = new JSONObject();
+            base.put("identifier", "id");
+            base.put("label", "name");
+            JSONArray items = new JSONArray();
+            base.put("items", items);
+            Iterator<Habilidad> habilidades = SWBComparator.sortByDisplayName(Habilidad.ClassMgr.listHabilidads(wsite), user.getLanguage());
+            while (habilidades.hasNext()) {
+                Habilidad hbld = habilidades.next();
+                JSONObject jtipo = new JSONObject();
+                items.put(jtipo);
+                jtipo.put("id", hbld.getId());
+                jtipo.put("name", hbld.getTitle());
+//                Iterator<AreaCarrera> itarea = tipo.listAreas();
+//                while (itarea.hasNext()) {
+//                    AreaCarrera areaCarrera = itarea.next();
+//                    jtipo.put("area", areaCarrera.getId());
+//                }
+            }
             ret = base.toString();
         } catch (Exception e) {
             log.error(e);
