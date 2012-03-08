@@ -294,6 +294,12 @@
             return false;
         }
     }
+    
+    /*dojo.addOnLoad(
+        function() {
+            dijit.byId('hbld_<%=base.getId()%>').query.tipo = <%=(talento.getTipoAreaTalento().getId())%>;
+        }
+    );*/
 -->
 </script>
 <form id="form2ga" method="post" dojoType="dijit.form.Form" action="<%=urladd%>">
@@ -318,7 +324,16 @@
         <input type="button" name="regresar" id="regresar" value="Regresar" onclick="window.location='<%=urlBack%>'; return false;"/>
   <input type="submit" name="guardar" id="guardar" value="Guardar" onclick="return enviar()"/>
  </div>
-</form>   
+</form>
+<script type="text/javascript">
+<!--
+    dojo.addOnLoad(
+        function() {
+            dijit.byId('hbld_<%=base.getId()%>').query.tipo = <%=(talento.getTipoAreaTalento().getId())%>;
+        }
+    );
+-->
+</script>
 <%         
           }
 %>
