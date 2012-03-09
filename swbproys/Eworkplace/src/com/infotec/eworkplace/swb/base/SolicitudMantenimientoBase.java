@@ -5,7 +5,6 @@ public abstract class SolicitudMantenimientoBase extends org.semanticwb.model.SW
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_terceros=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#terceros");
     public static final org.semanticwb.platform.SemanticProperty intranet_descripcionServicio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#descripcionServicio");
-    public static final org.semanticwb.platform.SemanticProperty intranet_autoriza=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#autoriza");
     public static final org.semanticwb.platform.SemanticClass intranet_SolicitudMantenimiento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#SolicitudMantenimiento");
    /**
    * The semantic class that represents the currentObject
@@ -113,6 +112,24 @@ public abstract class SolicitudMantenimientoBase extends org.semanticwb.model.SW
     public SolicitudMantenimientoBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+/**
+* Gets the NumeroEmpleado property
+* @return int with the NumeroEmpleado
+*/
+    public int getNumeroEmpleado()
+    {
+        return getSemanticObject().getIntProperty(intranet_numeroEmpleado);
+    }
+
+/**
+* Sets the NumeroEmpleado property
+* @param value long with the NumeroEmpleado
+*/
+    public void setNumeroEmpleado(int value)
+    {
+        getSemanticObject().setIntProperty(intranet_numeroEmpleado, value);
     }
    /**
    * Sets the value for the property Solicitante
