@@ -3,19 +3,19 @@ package com.infotec.cvi.swb.resources.reports;
 import com.infotec.cvi.swb.Academia;
 import com.infotec.cvi.swb.CV;
 import com.infotec.cvi.swb.Candidato;
+import com.infotec.cvi.swb.GradoAcademico;
 import com.infotec.eworkplace.swb.Persona;
 import com.infotec.eworkplace.swb.SWProfile;
-import com.infotec.eworkplace.swb.Telefono;
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
 import com.lowagie.text.Image;
+import com.lowagie.text.List;
+import com.lowagie.text.ListItem;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 import java.awt.Color;
 import java.io.IOException;
@@ -303,6 +303,37 @@ public class ImprimirCV extends GenericResource {
     document.add(paragraph);
 }*/
             
+            
+            phrase = new Phrase();
+            chnk = new Chunk("Formación escolar",FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD, Color.DARK_GRAY));
+            phrase.add(chnk);
+            phrase.add(Chunk.NEWLINE);
+            paragraph = new Paragraph(phrase);
+            document.add(paragraph);
+            if (academia != null) {
+                Iterator<GradoAcademico> itga = academia.listGradoAcademicos();
+                if(itga.hasNext()) {
+                    List list = new List(List.UNORDERED);
+                    while (itga.hasNext()) {
+                        GradoAcademico ga = itga.next();
+                        String grado = ga.getGrado().getTitle();
+                        String carrera = "";
+                        if (ga.getCarrera() != null) {
+                            carrera = ga.getCarrera().getTitle();
+                        }
+                        String institucion = ga.getNombreInstitucion();
+                        String situacion = ga.getSituacionAcademica().getTitle();
+                        String periodo = "" + ga.getPeriodoYears();
+                        if (ga.getPeriodoYears() == 1) {
+                            periodo += " año";
+                        } else {
+                            periodo += " años";
+                        }
+                        list.add(new ListItem(new Chunk(grado+", "+carrera+", "+institucion+", "+situacion+", "+periodo, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, Color.DARK_GRAY))));
+                    }
+                    document.add(list);
+                }
+            }
 
             
             document.close();
