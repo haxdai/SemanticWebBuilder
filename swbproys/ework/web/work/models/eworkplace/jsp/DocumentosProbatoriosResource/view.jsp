@@ -195,7 +195,7 @@
                             if (strfile.startsWith(iniName)) {
                                 strfile = strfile.substring(iniName.length() + 1);
                             }
-                            if(strfile.length()>10) strfile = strfile.substring(0,9)+"...";
+                            if(strfile.length()>25) strfile = strfile.substring(0,24)+"...";
                        %>     
                             <div id="icv-ver" ><a href="#" onclick="window.location='<%=urlgetfile1%>';return false;"><%=strfile%></a></div> 
                        <%
@@ -221,7 +221,7 @@
                             if (strfile.startsWith(iniName)) {
                                 strfile = strfile.substring(iniName.length() + 1);
                             }
-                            if(strfile.length()>10) strfile = strfile.substring(0,9)+"...";
+                            if(strfile.length()>25) strfile = strfile.substring(0,24)+"...";
                        %>     
                             <div id="icv-ver" ><a href="#" onclick="window.location='<%=urlgetfile1%>';return false;"><%=strfile%></a></div> 
                        <%
@@ -258,7 +258,7 @@
                                     strfile = strfile.substring(iniName.length() + 1);
                                 }
 
-                                if(strfile.length()>10) strfile = strfile.substring(0,9)+"...";
+                                if(strfile.length()>25) strfile = strfile.substring(0,24)+"...";
                                 %>     
                             <div id="icv-ver" ><a href="#" onclick="window.location='<%=urlgetfile%>';return false;"><%=strfile%></a></div> 
                        <%
@@ -293,7 +293,7 @@
                             if (strfile.startsWith(iniName)) {
                                 strfile = strfile.substring(iniName.length() + 1);
                             }
-                            if(strfile.length()>10) strfile = strfile.substring(0,9)+"...";
+                            if(strfile.length()>25) strfile = strfile.substring(0,24)+"...";
                        %>     
                             <div id="icv-ver" ><a href="#" onclick="window.location='<%=urlgetfile1%>';return false;"><%=strfile%></a></div> 
                        <%
@@ -318,7 +318,7 @@
                             if (strfile.startsWith(iniName)) {
                                 strfile = strfile.substring(iniName.length() + 1);
                             }
-                            if(strfile.length()>10) strfile = strfile.substring(0,9)+"...";
+                            if(strfile.length()>25) strfile = strfile.substring(0,24)+"...";
                        %>     
                             <div id="icv-ver" ><a href="#" onclick="window.location='<%=urlgetfile1%>';return false;"><%=strfile%></a></div> 
                        <%
@@ -343,7 +343,7 @@
                             if (strfile.startsWith(iniName)) {
                                 strfile = strfile.substring(iniName.length() + 1);
                             }
-                            if(strfile.length()>10) strfile = strfile.substring(0,9)+"...";
+                            if(strfile.length()>25) strfile = strfile.substring(0,24)+"...";
                        %>     
                             <div id="icv-ver" ><a href="#" onclick="window.location='<%=urlgetfile1%>';return false;"><%=strfile%></a></div> 
                        <%
@@ -381,7 +381,7 @@
                                 if (strfile.startsWith(iniName)) {
                                     strfile = strfile.substring(iniName.length() + 1);
                                 }
-                                if(strfile.length()>10) strfile = strfile.substring(0,9)+"...";
+                                if(strfile.length()>25) strfile = strfile.substring(0,24)+"...";
                                 //out.println("<option value=\"" + urlgetfile + "\">" + strfile + "</option>");
                                 %>     
                             <div id="icv-ver" ><a href="#" onclick="window.location='<%=urlgetfile%>';return false;"><%=strfile%></a></div> 
@@ -426,7 +426,7 @@
                                 if (strfile.startsWith(iniName)) {
                                     strfile = strfile.substring(iniName.length() + 1);
                                 }
-                                if(strfile.length()>10) strfile = strfile.substring(0,9)+"...";
+                                if(strfile.length()>25) strfile = strfile.substring(0,24)+"...";
                                 //out.println("<option value=\"" + urlgetfile + "\">" + strfile + "</option>");
                                 %>     
                             <div id="icv-ver" ><a href="#" onclick="window.location='<%=urlgetfile%>';return false;"><%=strfile%></a></div> 
@@ -461,7 +461,7 @@
                             if (strfile.startsWith(iniName)) {
                                 strfile = strfile.substring(iniName.length() + 1);
                             }
-                            if(strfile.length()>10) strfile = strfile.substring(0,9)+"...";
+                            if(strfile.length()>25) strfile = strfile.substring(0,24)+"...";
                        %>     
                             <div id="icv-ver" ><a href="#" onclick="window.location='<%=urlgetfile1%>';return false;"><%=strfile%></a></div> 
                        <%
@@ -486,7 +486,7 @@
                             if (strfile.startsWith(iniName)) {
                                 strfile = strfile.substring(iniName.length() + 1);
                             }
-                            if(strfile.length()>10) strfile = strfile.substring(0,9)+"...";
+                            if(strfile.length()>25) strfile = strfile.substring(0,24)+"...";
                        %>     
                             <div id="icv-ver" ><a href="#" onclick="window.location='<%=urlgetfile1%>';return false;"><%=strfile%></a></div> 
                        <%
