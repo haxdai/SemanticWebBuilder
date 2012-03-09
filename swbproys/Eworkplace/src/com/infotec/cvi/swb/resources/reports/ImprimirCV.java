@@ -14,6 +14,7 @@ import com.lowagie.text.Image;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
+import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 import java.awt.Color;
@@ -185,7 +186,7 @@ public class ImprimirCV extends GenericResource {
             phrase.setLeading(25f);
             phrase.add(chnk);
             phrase.add(Chunk.NEWLINE);
-            Paragraph paragraph = new Paragraph(chnk);
+            Paragraph paragraph = new Paragraph(phrase);
             document.add(paragraph);
             
             final String pimg;
@@ -231,10 +232,8 @@ public class ImprimirCV extends GenericResource {
             paragraph.add(phrase);
             document.add(paragraph);
             
-            
-                        
-            
-if (persona != null) {
+                       
+/*if (persona != null) {
     paragraph = new Paragraph();
     PdfPTable table = new PdfPTable(2);
     
@@ -246,66 +245,65 @@ if (persona != null) {
         String exten = te.getExtension() > 0 ? "Ext:" + te.getExtension() : "";
         String tipo = te.getTipo() != null ? te.getTipo() : "";
         
-        phrase = new Phrase();
-        phrase.add(getImage(SWBPortal.getWorkPath()+"/models/"+ws.getId()+"/css/ico-telreca.jpg"));
-        chnk = new Chunk(lada+numero+exten, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, Color.DARK_GRAY));
-        phrase.add(chnk);
-        table.addCell(phrase);
-
+        PdfPCell cell = new PdfPCell();
+        cell.setBorder(0);
+        Image img = getImage(SWBPortal.getWorkPath()+"/models/"+ws.getId()+"/css/ico-telreca.jpg");
+        img.scalePercent(40f);
+        cell.addElement(img);
+        chnk = new Chunk(lada+numero+exten, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, Color.DARK_GRAY));
+        cell.addElement(chnk);
+//        phrase = new Phrase();
+//        chnk = new Chunk(lada+numero+exten, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, Color.DARK_GRAY));
+//        phrase.add(chnk);
+//        cell.addElement(phrase);
+        table.addCell(cell);
     }
     if(!email.isEmpty()) {
+        PdfPCell cell = new PdfPCell(getImage(SWBPortal.getWorkPath()+"/models/"+ws.getId()+"/css/ico-mail.jpg"));
         phrase = new Phrase();
-        phrase.add(getImage(SWBPortal.getWorkPath()+"/models/"+ws.getId()+"/css/ico-mail.jpg"));
         chnk = new Chunk(email, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, Color.DARK_GRAY));
         phrase.add(chnk);
-        table.addCell(phrase);
+        cell.addElement(phrase);
+        table.addCell(cell);
     }
     if(!facebook.isEmpty()) {
+        PdfPCell cell = new PdfPCell(getImage(SWBPortal.getWorkPath()+"/models/"+ws.getId()+"/css/ico-fb.jpg"));
         phrase = new Phrase();
-        phrase.add(getImage(SWBPortal.getWorkPath()+"/models/"+ws.getId()+"/css/ico-fb.jpg"));
         chnk = new Chunk(facebook, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, Color.DARK_GRAY));
         phrase.add(chnk);
-        table.addCell(phrase);
+        cell.addElement(phrase);
+        table.addCell(cell);
     }
     if(!twitter.isEmpty()) {
+        PdfPCell cell = new PdfPCell(getImage(SWBPortal.getWorkPath()+"/models/"+ws.getId()+"/css/ico-twit.jpg"));
         phrase = new Phrase();
-        phrase.add(getImage(SWBPortal.getWorkPath()+"/models/"+ws.getId()+"/css/ico-twit.jpg"));
         chnk = new Chunk(twitter, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, Color.DARK_GRAY));
         phrase.add(chnk);
-        table.addCell(phrase);
+        cell.addElement(phrase);
+        table.addCell(cell);
     }
     if(!skype.isEmpty()) {
+        PdfPCell cell = new PdfPCell(getImage(SWBPortal.getWorkPath()+"/models/"+ws.getId()+"/css/ico-sky.jpg"));
         phrase = new Phrase();
-        phrase.add(getImage(SWBPortal.getWorkPath()+"/models/"+ws.getId()+"/css/ico-sky.jpg"));
         chnk = new Chunk(skype, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, Color.DARK_GRAY));
         phrase.add(chnk);
-        table.addCell(phrase);
+        cell.addElement(phrase);
+        table.addCell(cell);
     }
     if(!linkedin.isEmpty()) {
+        PdfPCell cell = new PdfPCell(getImage(SWBPortal.getWorkPath()+"/models/"+ws.getId()+"/css/ico-in.jpg"));
         phrase = new Phrase();
-        phrase.add(getImage(SWBPortal.getWorkPath()+"/models/"+ws.getId()+"/css/ico-in.jpg"));
         chnk = new Chunk(linkedin, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, Color.DARK_GRAY));
         phrase.add(chnk);
-        table.addCell(phrase);
+        cell.addElement(phrase);
+        table.addCell(cell);
     }
-    
+    paragraph.add(Chunk.NEWLINE);
     paragraph.add(table);
     document.add(paragraph);
-}
+}*/
             
-            
-            //new Chunk(, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, Color.DARK_GRAY))
-//            chnk = new Chunk(, FontFactory.getFont(FontFactory.HELVETICA, 12, Font.BOLD, Color.DARK_GRAY));
-//            chnk = new Chunk(, FontFactory.getFont(FontFactory.HELVETICA, 12, Font.BOLD, Color.DARK_GRAY));
-//            
-            
-            
-//            phrs = new Phrase(state, FontFactory.getFont(FontFactory.HELVETICA, 12, Font.BOLD, Color.DARK_GRAY));
-//            
-//            phrs = new Phrase(nationality, FontFactory.getFont(FontFactory.HELVETICA, 12, Font.BOLD, Color.DARK_GRAY));
-//            
-//            phrs = new Phrase(, FontFactory.getFont(FontFactory.HELVETICA, 12, Font.BOLD, Color.DARK_GRAY));
-            
+
             
             document.close();
         }catch(Exception e) {
