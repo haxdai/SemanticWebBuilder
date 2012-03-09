@@ -26,8 +26,10 @@ Author     : rene.jara
 <%@page import="org.semanticwb.SWBPortal
         ,org.semanticwb.model.User
         ,org.semanticwb.model.WebSite
-        ,org.semanticwb.model.WebPage" %>
+        ,org.semanticwb.model.WebPage
+        ,org.semanticwb.portal.api.SWBResourceURL" %>
 <%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
+<%@page import="static com.infotec.cvi.swb.resources.reports.ImprimirCV.Mode_PDF" %>%>
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/>
 <%
 //String repositoryId = paramRequest.getWebPage().getWebSite().getUserRepository().getId();
@@ -600,4 +602,5 @@ Author     : rene.jara
                     }
                 }
     %>
+    <a href="<%=(paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(Mode_PDF))%>" title="ver en pdf" target="_blank">ver en pdf</a>
 </div>
