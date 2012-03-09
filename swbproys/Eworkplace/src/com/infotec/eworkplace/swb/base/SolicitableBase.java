@@ -2,6 +2,7 @@ package com.infotec.eworkplace.swb.base;
 
 public interface SolicitableBase extends org.semanticwb.model.GenericObject
 {
+    public static final org.semanticwb.platform.SemanticProperty intranet_numeroEmpleado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#numeroEmpleado");
    /**
    * Un usuario es una persona que tiene relación con el portal a través de un método de acceso. 
    */
@@ -12,7 +13,12 @@ public interface SolicitableBase extends org.semanticwb.model.GenericObject
     public static final org.semanticwb.platform.SemanticProperty intranet_adscripcionSolicitante=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#adscripcionSolicitante");
     public static final org.semanticwb.platform.SemanticProperty intranet_extensionSolicitante=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#extensionSolicitante");
     public static final org.semanticwb.platform.SemanticProperty intranet_nombreSolicitante=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nombreSolicitante");
+    public static final org.semanticwb.platform.SemanticProperty intranet_autoriza=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#autoriza");
     public static final org.semanticwb.platform.SemanticClass intranet_Solicitable=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Solicitable");
+
+    public int getNumeroEmpleado();
+
+    public void setNumeroEmpleado(int value);
 
    /**
    * Sets a value from the property Solicitante
@@ -46,4 +52,8 @@ public interface SolicitableBase extends org.semanticwb.model.GenericObject
     public String getNombreSolicitante();
 
     public void setNombreSolicitante(String value);
+
+    public String getAutoriza();
+
+    public void setAutoriza(String value);
 }
