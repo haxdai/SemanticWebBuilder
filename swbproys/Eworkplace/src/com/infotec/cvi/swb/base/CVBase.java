@@ -3,6 +3,7 @@ package com.infotec.cvi.swb.base;
 
 public abstract class CVBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable
 {
+    public static final org.semanticwb.platform.SemanticProperty intranet_documentoCV=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#documentoCV");
     public static final org.semanticwb.platform.SemanticClass intranet_Academia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Academia");
     public static final org.semanticwb.platform.SemanticProperty intranet_academia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#academia");
     public static final org.semanticwb.platform.SemanticProperty intranet_actualizacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#actualizacion");
@@ -495,6 +496,24 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
     public CVBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+/**
+* Gets the DocumentoCV property
+* @return String with the DocumentoCV
+*/
+    public String getDocumentoCV()
+    {
+        return getSemanticObject().getProperty(intranet_documentoCV);
+    }
+
+/**
+* Sets the DocumentoCV property
+* @param value long with the DocumentoCV
+*/
+    public void setDocumentoCV(String value)
+    {
+        getSemanticObject().setProperty(intranet_documentoCV, value);
     }
    /**
    * Sets the value for the property ModifiedBy
