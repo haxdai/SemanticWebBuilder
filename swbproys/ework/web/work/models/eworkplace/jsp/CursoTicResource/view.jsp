@@ -188,8 +188,8 @@
         %>
         <tr>
             <td>
-                <span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">borrar</a></span>
-                <span class="icv-editar"><a href="#" onclick="window.location='<%=urledit%>';">editar</a></span></td>
+                <span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">&nbsp;</a></span>
+                <span class="icv-editar"><a href="#" onclick="window.location='<%=urledit%>';">&nbsp;</a></span></td>
             <td><%=strCurso%></td>
             <td><%=strInstitucion%></td>
             <td><%=strPeriodoINI%></td>
