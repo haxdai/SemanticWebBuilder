@@ -2,7 +2,9 @@
 Document   : viewCV
 Created on : 21/02/2012, 06:18:56 PM
 Author     : rene.jara
---%><%@page import="com.infotec.cvi.swb.Publicacion"%>
+--%><%@page import="com.infotec.eworkplace.swb.SWProfile"%>
+<%@page import="org.semanticwb.SWBUtils"%>
+<%@page import="com.infotec.cvi.swb.Publicacion"%>
 <%@page import="com.infotec.cvi.swb.Docencia"%>
 <%@page import="com.infotec.cvi.swb.Investigacion"%>
 <%@page import="com.infotec.cvi.swb.Competencia"%>
@@ -34,6 +36,8 @@ Author     : rene.jara
             Persona persona = Persona.ClassMgr.getPersona(user.getId(), ws);
             Candidato candidato = Candidato.ClassMgr.getCandidato(user.getId(), ws);
             CV cv = CV.ClassMgr.getCV(user.getId(), ws);
+            SWProfile profile = SWProfile.ClassMgr.getSWProfile(user.getId(), ws);
+
             Academia academia = null;
             if (cv != null) {
                 academia = cv.getAcademia();
@@ -44,7 +48,7 @@ Author     : rene.jara
             String gender = "";
             String state = "";
             String nationality = "";
-            String fm2 = "";
+            boolean fm2 = false;
             String sLabor = "";
             String availability = "";
             String email = "";
@@ -60,6 +64,7 @@ Author     : rene.jara
             if (user.getEmail() != null) {
                 email = user.getEmail();
             }
+
             if (persona != null) {
                 if (persona.getCurp() != null) {
                     curp = persona.getCurp();
@@ -75,9 +80,9 @@ Author     : rene.jara
                 if (persona.getNacionalidad() != null) {
                     nationality = persona.getNacionalidad().getTitle();
                 }
-                if (persona.getFM2() != null) {
-                    fm2 = persona.getFM2();
-                }
+//                if (persona.isFM2() != null) {
+                fm2 = persona.isFM2();
+//                }
                 if (persona.getFacebook() != null) {
                     facebook = persona.getFacebook();
                 }
@@ -94,6 +99,7 @@ Author     : rene.jara
                     twitter = persona.getTwitter();
                 }
             }
+
             if (candidato != null) {
                 switch (candidato.getSituacionLaboral()) {
                     case 1:
@@ -117,17 +123,39 @@ Author     : rene.jara
                 }
             }
 %>
+<%@include file="../menucvi.jsp" %>
 <div id="icv-print-content">
     <h1>Curriculum Vitae Infotec</h1>
-    <!--div id="icv-foto"><img src="x" /></div-->
+    <%
+                String pimg = "";
+                if (profile != null) {
+                    if (user.getPhoto() != null) {
+                        pimg = SWBPortal.getWebWorkPath() + profile.getWorkPath() + "/" + user.getPhoto();
+    %>
+    <div id="icv-foto"><img src="<%=pimg%>" alt="<%=user.getLogin()%>" style="width:100px;height:130px"/></div>
+        <%
+                        }
+                    }
+        %>
     <h2><%=fullName%></h2>
     <ul>
         <li><%=curp%></li>
-        <li><%=birthday%>, <%=state%>, <%=nationality%>, <%=gender%></li>
-        <li><%=sLabor%>, <%=availability%> habiles disponibles</li>
+        <li><%=birthday.equals("") ? "" : birthday + ", "%>
+            <%=state.equals("") ? "" : state + ", "%>
+            <%=nationality%>
+            <%=fm2 ? " (FM2 vigente)" : ""%>
+            <%=nationality.equals("") ? "" : ", "%>
+            <%=gender%></li>
+        <li><%=sLabor.equals("") ? "" : sLabor + ", "%>
+            <%=availability.equals("") ? "" : "Disponibilidad en: " + availability%></li>
     </ul>
     <div class="icv-print-contacto">
+        <%
+                    if (persona != null || !email.equals("")) {
+        %>
         <h3>Medio de Contacto</h3>
+        <%            }
+        %>
         <ul>
             <%
                         if (persona != null) {
@@ -145,10 +173,21 @@ Author     : rene.jara
                         }
             %>
             <%
-                        if (!email.equals("")) {
+                        if (email != null && !email.equals("")) {
             %>
             <li class="icv-mail"><strong>Correo:</strong><a href="mail"><%=email%></a></li>
             <%
+                        }
+                        if (persona != null) {
+                            Iterator<String> item = persona.listPEmails();
+                            if (item != null) {
+                                while (item.hasNext()) {
+                                    String pEmail = item.next();
+            %>
+            <li class="icv-mail"><strong>Correo:</strong><a href="mail"><%=pEmail%></a></li>
+            <%
+                                }
+                            }
                         }
                         if (!facebook.equals("")) {
             %>
@@ -180,7 +219,8 @@ Author     : rene.jara
             <%
                         if (academia != null) {
                             Iterator<GradoAcademico> itga = academia.listGradoAcademicos();
-                            if (itga != null) {
+                            if (itga != null && SWBUtils.Collections.sizeOf(itga) > 0) {
+                                itga = academia.listGradoAcademicos();
             %>
             <li>
                 <h4>Grados Académicos</h4>
@@ -189,7 +229,10 @@ Author     : rene.jara
                         while (itga.hasNext()) {
                             GradoAcademico ga = itga.next();
                             String grado = ga.getGrado().getTitle();
-                            String carrera = ga.getCarrera().getTitle();
+                            String carrera = "";
+                            if (ga.getCarrera() != null) {
+                                carrera = ga.getCarrera().getTitle();
+                            }
                             String institucion = ga.getNombreInstitucion();
                             String situacion = ga.getSituacionAcademica().getTitle();
                             String periodo = "" + ga.getPeriodoYears();
@@ -209,7 +252,8 @@ Author     : rene.jara
                 }
 
                 Iterator<EstudioSuperior> ites = academia.listEstudioSuperiors();
-                if (ites != null) {
+                if (ites != null && SWBUtils.Collections.sizeOf(ites) > 0) {
+                    ites = academia.listEstudioSuperiors();
             %>
             <li>
                 <h4>Estudios Superiores</h4>
@@ -237,7 +281,8 @@ Author     : rene.jara
                         }
                         if (cv != null) {
                             Iterator<Diplomado> itdi = cv.listDiplomados();
-                            if (itdi != null) {
+                            if (itdi != null && SWBUtils.Collections.sizeOf(itdi) > 0) {
+                                itdi = cv.listDiplomados();
             %>
             <li>
                 <h4>Dilomados, cursos y certificaciones</h4>
@@ -261,7 +306,8 @@ Author     : rene.jara
             <%
                 }
                 Iterator<CursoTIC> itct = cv.listCursosTICs();
-                if (itct != null) {
+                if (itct != null && SWBUtils.Collections.sizeOf(itct) > 0) {
+                    itct = cv.listCursosTICs();
             %>
             <li>
                 <h4>Especialización en TIC</h4>
@@ -285,7 +331,8 @@ Author     : rene.jara
             <%
                 }
                 Iterator<Idioma> itid = cv.listIdiomas();
-                if (itid != null) {
+                if (itid != null && SWBUtils.Collections.sizeOf(itid) > 0) {
+                    itid = cv.listIdiomas();
             %>
             <li>
                 <h4>Idiomas</h4>
@@ -310,13 +357,20 @@ Author     : rene.jara
             %>
         </ul>
     </div>
+    <%
+                if (cv != null) {
+                    Iterator<Distincion> itdi = cv.listDistincions();
+                    Iterator<AreaTalento> itat = cv.listAreaTalentos();
+                    Iterator<ExperienciaLaboral> itel = cv.listExperienciaLaborals();
+                    if (SWBUtils.Collections.sizeOf(itel) > 0 || SWBUtils.Collections.sizeOf(itat) > 0 || SWBUtils.Collections.sizeOf(itdi) > 0) {
+    %>
     <div class="icv-print-experiencia">
         <h3>Experiencia</h3>
         <ul>
             <%
-                        if (cv != null) {
-                            Iterator<ExperienciaLaboral> itel = cv.listExperienciaLaborals();
-                            if (itel != null) {
+                itel = cv.listExperienciaLaborals();
+                if (itel != null && SWBUtils.Collections.sizeOf(itel) > 0) {
+                    itel = cv.listExperienciaLaborals();
             %>
             <li>
                 <h4>Experiencia laboral</h4>
@@ -344,8 +398,9 @@ Author     : rene.jara
             </li>
             <%
                 }
-                Iterator<AreaTalento> itat = cv.listAreaTalentos();
-                if (itat != null) {
+                itat = cv.listAreaTalentos();
+                if (itat != null && SWBUtils.Collections.sizeOf(itat) > 0) {
+                    itat = cv.listAreaTalentos();
             %>
             <li>
                 <h4>Areas de talento o expertise</h4>
@@ -353,9 +408,10 @@ Author     : rene.jara
                     <%
                         while (itat.hasNext()) {
                             AreaTalento at = itat.next();
-                            String talento = at.getAreaTalento();
-                            String destreza = at.getAreaDestrezaTI();
+                            String area = at.getTipoAreaTalento().getTitle();
+                            String habilidad = at.getHabilidad().getTitle();
                             String tiempo = "";
+                            String otro = at.getOtraHabilidad();
                             if (at.getYearExperienceTalento() > 0) {
                                 if (at.getYearExperienceTalento() == 1) {
                                     tiempo += at.getYearExperienceTalento() + " año";
@@ -363,16 +419,8 @@ Author     : rene.jara
                                     tiempo += at.getYearExperienceTalento() + " años";
                                 }
                             }
-                            String tiempoti = "";
-                            if (at.getYearExpirienceTI() > 0) {
-                                if (at.getYearExpirienceTI() == 1) {
-                                    tiempoti += at.getYearExpirienceTI() + " año";
-                                } else {
-                                    tiempoti += at.getYearExpirienceTI() + " años";
-                                }
-                            }
                     %>
-                    <li><strong><%=talento%><%=destreza%></strong> (<%=tiempo%><%=tiempoti%>)</li>
+                    <li><strong><%=area%></strong><%=habilidad%> <%=otro.equals("") ? "" : ", " + otro%>(<%=tiempo%>)</li>
                     <%
                         }
                     %>
@@ -380,8 +428,9 @@ Author     : rene.jara
             </li>
             <%
                 }
-                Iterator<Distincion> itdi = cv.listDistincions();
-                if (itdi != null) {
+                itdi = cv.listDistincions();
+                if (itdi != null && SWBUtils.Collections.sizeOf(itdi) > 0) {
+                    itdi = cv.listDistincions();
             %>
             <li>
                 <h4>Distinciones y reconocimientos</h4>
@@ -400,19 +449,23 @@ Author     : rene.jara
                 </ul>
             </li>
             <%
-                            }
-                        }
+                }
             %>
         </ul>
     </div>
+    <%
+                    }
+                }
+    %>
+    <%
+                if (cv != null) {
+                    Iterator<Competencia> itco = cv.listCompetencias();
+                    if (itco != null && SWBUtils.Collections.sizeOf(itco) > 0) {
+                        itco = cv.listCompetencias();
+    %>
     <div class="icv-print-competencias">
         <h3>Competencias</h3>
         <ul>
-            <%
-                        if (cv != null) {
-                            Iterator<Competencia> itco = cv.listCompetencias();
-                            if (itco != null) {
-            %>
             <li>
                 <h4>Auto evaluación de competencias</h4>
                 <ul>
@@ -427,29 +480,26 @@ Author     : rene.jara
                     %>
                 </ul>
             </li>
-            <%
-                }
-            %>
-            <!--li>
-            <h4>Competencias por perfiles de TI</h4>
-            <ul>
-            <li><strong>Certificación en la competencia</strong>, Nivel	Avanzado (5 años)</li>
-            <li><strong>Certificación en la competencia</strong>, Nivel	Avanzado (5 años)</li>
-            <li><strong>Certificación en la competencia</strong>, Nivel	Avanzado (5 años)</li>
-            </ul>
-            </li-->
-            <%
-                        }
-            %>
         </ul>
     </div>
+    <%
+                    }
+                }
+    %>
+    <%
+                if (cv != null) {
+                    Iterator<Investigacion> itin = cv.listInvestigacions();
+                    Iterator<Docencia> itdo = cv.listDocencias();
+                    Iterator<Publicacion> itpu = cv.listPublicacions();
+                    if (SWBUtils.Collections.sizeOf(itin) > 0 || SWBUtils.Collections.sizeOf(itdo) > 0 || SWBUtils.Collections.sizeOf(itpu) > 0) {
+    %>
     <div class="icv-print-investigacion">
         <h3>Investigación y docencia</h3>
         <ul>
             <%
-                        if (cv != null) {
-                            Iterator<Investigacion> itin = cv.listInvestigacions();
-                            if (itin != null) {
+                itin = cv.listInvestigacions();
+                if (itin != null && SWBUtils.Collections.sizeOf(itin) > 0) {
+                    itin = cv.listInvestigacions();
             %>
             <li>
                 <h4>Investigación</h4>
@@ -478,7 +528,7 @@ Author     : rene.jara
                             }
                             String sni = "";
                             if (in.getSniConacyt() != null) {
-                                sni = in.getSniConacyt().getTitle();
+                                sni = in.getSniConacyt();
                             }
                     %>
                     <li><strong><%=empresa%>, 	<%=area%></strong> <br />
@@ -496,8 +546,9 @@ Author     : rene.jara
             </li>
             <%
                 }
-                Iterator<Docencia> itdo = cv.listDocencias();
-                if (itdo != null) {
+                itdo = cv.listDocencias();
+                if (itdo != null && SWBUtils.Collections.sizeOf(itdo) > 0) {
+                    itdo = cv.listDocencias();
             %>
             <li>
                 <h4>Docencia</h4>
@@ -520,8 +571,9 @@ Author     : rene.jara
             </li>
             <%
                 }
-                Iterator<Publicacion> itpu = cv.listPublicacions();
-                if (itpu != null) {
+                itpu = cv.listPublicacions();
+                if (itpu != null && SWBUtils.Collections.sizeOf(itpu) > 0) {
+                    itpu = cv.listPublicacions();
             %>
             <li>
                 <h4>Publicaciones</h4>
@@ -540,9 +592,12 @@ Author     : rene.jara
                 </ul>
             </li>
             <%
-                            }
-                        }
+                }
             %>
         </ul>
     </div>
+    <%
+                    }
+                }
+    %>
 </div>
