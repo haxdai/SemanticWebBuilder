@@ -25,7 +25,7 @@
         
         boolean done = false;
         float progress = 0;
-        boolean doneSchooling = aca.listGradoAcademicos().hasNext()&&(aca.isNoAplicaEstudioSuperior() || aca.listEstudioSuperiors().hasNext())&&(cv.isSinCurso() || cv.listDiplomados().hasNext() || cv.listCursosTICs().hasNext())&&cv.isSinIdioma() || cv.listIdiomas().hasNext();
+        boolean doneSchooling = aca.listGradoAcademicos().hasNext()&&(aca.isNoAplicaEstudioSuperior() || aca.listEstudioSuperiors().hasNext())&&(cv.isSinDiplomado() || cv.listDiplomados().hasNext())&&(cv.isSinCurso() || cv.listCursosTICs().hasNext())&&(cv.isSinIdioma() || cv.listIdiomas().hasNext());
         if(doneSchooling)
             progress+=0.25;
         boolean doneExperience = (cv.isSinExperiencia() || cv.listExperienciaLaborals().hasNext())&&cv.listAreaTalentos().hasNext()&&(cv.isSinDistincion() || cv.listDistincions().hasNext());
