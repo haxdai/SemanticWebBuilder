@@ -150,8 +150,8 @@
         %>
     <tr>
         <td>
-            <span class="icv-borrar"><a href="javascript:if(confirm('¿Deseas eliminar este registro?')){window.location.href='<%=urldel%>';}" title="eliminar registro">borrar</a></span>
-            <span class="icv-editar"><a href="javascript:window.location.href='<%=urledit%>'" title="editar registro">editar</a></span>
+            <span class="icv-borrar"><a href="javascript:if(confirm('¿Deseas eliminar este registro?')){window.location.href='<%=urldel%>';}" title="eliminar registro">&nbsp;</a></span>
+            <span class="icv-editar"><a href="javascript:window.location.href='<%=urledit%>'" title="editar registro">&nbsp;</a></span>
         </td>
         <td><%=(ga.isActual()?"x":"")%></td>
         <td><%=ga.getEmpresa()%></td>

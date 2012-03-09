@@ -41,10 +41,33 @@
 
     long intSize = SWBUtils.Collections.sizeOf(cv.listAreaTalentos());
     Iterator<AreaTalento> itga = cv.listAreaTalentos();
+    
+    itga = SWBComparator.sortByDisplayName(cv.listAreaTalentos(),usr.getLanguage());  
+    
     Resource base = paramRequest.getResourceBase();
     String strNumItems = base.getAttribute("numPageItems", "10");
     String npage = request.getParameter("page");
-    String orderby = request.getParameter("order");
+    String orderby = "areaTalento";//request.getParameter("order");
+    String strOrder ="";
+    HashMap<String,AreaTalento> hm = new HashMap<String, AreaTalento>();
+    while (itga.hasNext()) {
+                    AreaTalento cec = itga.next();
+                    
+                    if (cec == null ) {
+                        continue;
+                    }
+
+                    if ("areaTalento".equals(orderby)) {
+                        strOrder = (cec.getTipoAreaTalento()!=null&&cec.getTipoAreaTalento().getTitle()!=null?cec.getTipoAreaTalento().getTitle():"") +"_" + (cec.getHabilidad()!=null&&cec.getHabilidad().getTitle()!=null?cec.getHabilidad().getTitle():"")+"_"+(cec.getCreated() != null ? cec.getCreated().getTime() : " ");
+                    } else {
+                        strOrder = cec.getId();
+                    }
+
+                    hm.put(strOrder, cec);
+                }
+    List<String> list = SWBUtils.Collections.copyIterator(hm.keySet().iterator());;
+    Collections.sort(list);
+    
     String action = request.getParameter("act");
 
     int numPages = 10;
@@ -108,8 +131,11 @@
         }else {
             SWBResourceURL urldel = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_REMOVE);
             SWBResourceURL urledit = paramRequest.getRenderUrl().setParameter("act",SWBResourceURL.Action_EDIT);
-            while (itga.hasNext()) {
-                AreaTalento talento = itga.next();
+            //while (itga.hasNext()) {
+            Iterator<String> itstr = list.iterator();
+            while (itstr.hasNext()) {
+                String key = itstr.next();
+                AreaTalento talento = hm.get(key); //itga.next();
 
                 //PAGINACION ////////////////////
                 if (x < p * ps) {
@@ -125,9 +151,9 @@
                 urledit.setParameter("id", talento.getId());                     
         %>
     <tr>
-        <td>
-            <span class="icv-borrar"><a href="javascript:if(confirm('¿Deseas eliminar este registro?')){window.location.href='<%=urldel%>';}" title="eliminar registro">borrar</a></span>
-            <span class="icv-editar"><a href="javascript:window.location.href='<%=urledit%>'" title="editar registro">editar</a></span>
+        <td><span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">&nbsp;</a></span>
+            <span class="icv-editar"><a href="#" onclick="window.location='<%=urledit%>';">&nbsp;</a></span>
+            
         </td>
         <td><%=talento.getTipoAreaTalento().getTitle()%></td>
         <td><%=talento.getHabilidad().getTitle()%></td>
@@ -244,6 +270,9 @@
   <p class="icv-3col"><label><em>*</em>Área de talento</label><input dojoType="dijit.form.FilteringSelect" value="" required="true" store="talentos_<%=base.getId()%>" name="tlnt" id="tlnt_<%=base.getId()%>" onChange="dijit.byId('hbld_<%=base.getId()%>').attr('value','');dijit.byId('hbld_<%=base.getId()%>').query.tipo = this.value || '*';" promptMessage="Talento" invalidMessage="El talento requerido" /></p>
   <p class="icv-3col"><label><em>*</em>Habilidad</label><input dojoType="dijit.form.FilteringSelect" value="" required="true" store="habilidades_<%=base.getId()%>" name="hbld" id="hbld_<%=base.getId()%>" promptMessage="Habilidad" invalidMessage="La habilidad es requerida" /></p>
   <p class="icv-3col"><label><em>*</em>Años de experiencia</label><input type="text" name="ytlnt" value="" size="3" maxlength="2" dojoType="dijit.form.ValidationTextBox" promptMessage="Registrar el tiempo en años de la experiencia" invalidMessage="Años de experiencia incorrecto" regExp="\d{1,2}" /></p>
+  <div class="clearer">&nbsp;</div>
+ </div>
+  <div class="icv-div-grupo">
   <p class="icv-3col"><label>En caso de otro, especificar</label><input type="text" name="othr" value="" dojoType="dijit.form.ValidationTextBox" promptMessage="En caso de elegir otra habilidad, especifcar" />
   
   <div class="clearer">&nbsp;</div>
@@ -313,6 +342,9 @@
    <p class="icv-3col"><label><em>*</em>Área de talento</label><input dojoType="dijit.form.FilteringSelect" value="<%=talento.getTipoAreaTalento().getId()%>" required="true" store="talentos_<%=base.getId()%>" name="tlnt" id="tlnt_<%=base.getId()%>" onChange="dijit.byId('hbld_<%=base.getId()%>').attr('value','');dijit.byId('hbld_<%=base.getId()%>').query.tipo = this.value || '*';" promptMessage="Talento" invalidMessage="El talento requerido" /></p>
    <p class="icv-3col"><label><em>*</em>Habilidad</label><input dojoType="dijit.form.FilteringSelect" value="<%=talento.getHabilidad().getId()%>" required="true" store="habilidades_<%=base.getId()%>" name="hbld" id="hbld_<%=base.getId()%>" promptMessage="Habilidad" invalidMessage="La habilidad es requerida" /></p>
    <p class="icv-3col"><label><em>*</em>Años de experiencia</label><input type="text" name="ytlnt" value="<%=talento.getYearExperienceTalento()%>" size="3" maxlength="2" dojoType="dijit.form.ValidationTextBox" promptMessage="Registrar el tiempo en años de la experiencia" invalidMessage="Años de experiencia incorrecto" regExp="\d{1,2}" /></p>
+     <div class="clearer">&nbsp;</div>
+ </div>
+  <div class="icv-div-grupo">
    <p class="icv-3col"><label><em>*</em>En caso de otro, especificar</label><input type="text" name="othr" value="<%=talento.getOtraHabilidad()%>" dojoType="dijit.form.ValidationTextBox" promptMessage="En caso de elegir otra habilidad, especifcar" />
   <div class="clearer">&nbsp;</div>
  </div>
