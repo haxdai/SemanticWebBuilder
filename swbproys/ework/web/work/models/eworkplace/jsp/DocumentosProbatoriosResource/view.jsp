@@ -331,7 +331,7 @@
                     <td>
                       <%
                       iniName = DocumentoProbatorio.intranet_fileCURP.getName() + "_" + doc.getSemanticObject().getId();
-                       strfile = doc.getFileActaNacimiento();
+                       strfile = doc.getFileCURP();
                        if(null!=strfile){
                             SWBResourceURL urlgetfile1 = paramRequest.getRenderUrl();
                             urlgetfile1.setMode(MODE_GETFILE);
