@@ -352,29 +352,29 @@ System.out.println("paramRequest.getAction()="+paramRequest.getAction());
             htm.append("     <a href=\"javascript:collapse('acercade_mi')\">Cerrar</a>");
             htm.append("    </div>");
             
-            htm.append("    <p class=\"tercio\"><label>Direcci&oacute;n de adscripci&oacute;n</label>");
-            htm.append("     <select name=\"da\">");
-            htm.append("      <option>Competitividad</option>");
-            htm.append("     </select></p>");
-            htm.append("    <p class=\"tercio\"><label>Gerencia</label>");
-            htm.append("     <select name=\"mngt\">");
-            htm.append("      <option>Modelado de portales</option>");
-            htm.append("     </select></p>");
-            htm.append("    <p class=\"tercio\"><label>Cargo o nombre del puesto designado</label>");
-            htm.append("     <select name=\"pto\">");
-            htm.append("      <option>Consultor en portales</option>");
-            htm.append("     </select></p>");
-            htm.append("    <p class=\"status entero\"><label>&iquest;Qu&eacute; haces o piensas?</label><br/>");
-            htm.append("    <textarea name=\"ideas\" id=\"ideas\" rows=\"2\" cols=\"70\">");
-            //SemanticProperty ideas = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#ideas");
-            //htm.append(user.getExtendedAttribute(ideas)==null?"":user.getExtendedAttribute(ideas));
-            htm.append(profile.getMisIdeas()==null?"":profile.getMisIdeas());
-            htm.append("    </textarea></p>");
-            htm.append("   </div>");
-            htm.append("   <div class=\"clearer\">&nbsp;</div>");
-            htm.append("  </div>");
-            /////////////////////htm.append("    </div>");
-            /////////////////////htm.append("</div>"); 
+            //adscripción
+//            htm.append("    <p class=\"tercio\"><label>Direcci&oacute;n de adscripci&oacute;n</label>");
+//            htm.append("     <select name=\"da\">");
+//            htm.append("      <option>Competitividad</option>");
+//            htm.append("     </select></p>");
+//            htm.append("    <p class=\"tercio\"><label>Gerencia</label>");
+//            htm.append("     <select name=\"mngt\">");
+//            htm.append("      <option>Modelado de portales</option>");
+//            htm.append("     </select></p>");
+//            htm.append("    <p class=\"tercio\"><label>Cargo o nombre del puesto designado</label>");
+//            htm.append("     <select name=\"pto\">");
+//            htm.append("      <option>Consultor en portales</option>");
+//            htm.append("     </select></p>");
+//            htm.append("    <p class=\"status entero\"><label>&iquest;Qu&eacute; haces o piensas?</label><br/>");
+//            htm.append("    <textarea name=\"ideas\" id=\"ideas\" rows=\"2\" cols=\"70\">");
+//            //SemanticProperty ideas = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#ideas");
+//            //htm.append(user.getExtendedAttribute(ideas)==null?"":user.getExtendedAttribute(ideas));
+//            htm.append(profile.getMisIdeas()==null?"":profile.getMisIdeas());
+//            htm.append("    </textarea></p>");
+//            htm.append("   </div>");
+//            htm.append("   <div class=\"clearer\">&nbsp;</div>");
+//            htm.append("  </div>");
+
             //contacto interno
             htm.append("  <div class=\"contacto_interno divisor\">");
             htm.append("   <h3>Contacto interno</h3>");
@@ -390,154 +390,155 @@ System.out.println("paramRequest.getAction()="+paramRequest.getAction());
             htm.append(profile.getUbicacion()==null?"":profile.getUbicacion());
             htm.append("   </textarea></p>");
             htm.append("   <div class=\"clearer\">&nbsp;</div>");
-            htm.append("  </div>");   
-            //contacto externo
-            CV cv = CV.ClassMgr.getCV(user.getId(), wsite);
-            if(cv==null) {
-                cv = CV.ClassMgr.createCV(user.getId(), wsite);
-                log.info("Creado objeto CV para usuario "+user.getFullName()+" con id="+user.getId());
-            }
-            Persona persona = cv.getPersona();
-            if(persona==null) {
-                persona = Persona.ClassMgr.createPersona(user.getId(), wsite);
-                cv.setPersona(persona);
-                log.info("Creado y asignado objeto Persona para usuario "+user.getFullName()+" con id="+user.getId());
-            }
-            Domicilio d = persona.getDomicilio();
-            if(d==null) {
-                d = Domicilio.ClassMgr.createDomicilio(user.getId(), wsite);
-                persona.setDomicilio(d);
-                log.info("Creado y asignado objeto Domicilio para usuario "+user.getFullName()+" con id="+user.getId());
-            }
-            htm.append("  <div class=\"contacto_externo divisor\">");
-            htm.append("   <h3>Contacto externo</h3>");
-            htm.append("   <p>Esta informaci&oacute;n es para uso exclusivo de la instituci&oacute;n, no aparecer&aacute; en tu perfil</p>");
-            htm.append("   <p class=\"tercio\"><label for=\"cn\">Calle y n&uacute;mero</label><input type=\"text\" name=\"cn\" id=\"cn\" value=\""+(d.getCalle()==null?"":d.getCalle())+"\" /></p>");
-                                
-                    //TODO: cambiar colonia, municipio, estado, CP a objetos, ya son catálogos
+            htm.append("  </div>"); 
             
-            htm.append("   <p class=\"tercio\"><label for=\"col\">Colonia</label>");
-            //htm.append("     <input type=\"text\" name=\"col\" id=\"col\" value=\""+(d.getColonia()==null?"":d.getColonia())+"\" />");
-            htm.append("   <select name=\"col\" id=\"col\">");
-            Iterator<Colonia> colonias = Colonia.ClassMgr.listColonias(wsite);
-            if(colonias.hasNext()) {
-                Colonia c;
-                while(colonias.hasNext()) {
-                    c = colonias.next();
-                    if(c.equals(d.getColonia()))
-                        htm.append("<option value=\""+c.getId()+"\" selected=\"selected\">"+c.getDisplayTitle(lang)+"</option>");
-                    else
-                        htm.append("<option value=\""+c.getId()+"\">"+c.getDisplayTitle(lang)+"</option>");
-                }
-            }
-            htm.append("   </select>");
-            htm.append("   </p>");
-            htm.append("   <p class=\"tercio\"><label for=\"cd\">Ciudad/Poblaci&oacute;n</label>");
-            htm.append("     <input type=\"text\" name=\"cd\" id=\"cd\" value=\""+(d.getCiudad()==null?"":d.getCiudad())+"\" />");
-            htm.append(   "</p>");
-            htm.append("   <p class=\"tercio\"><label for=\"mun\">Municipio/Delegaci&oacute;n</label>");
-            //htm.append("     <input type=\"text\" name=\"mun\" id=\"mun\" value=\""+(d.getMunicipio()==null?"":d.getMunicipio())+"\" />");
-            htm.append("   <select name=\"mun\" id=\"mun\">");
-            Iterator<Municipio> municipios = Municipio.ClassMgr.listMunicipios(wsite);
-            if(municipios.hasNext()) {
-                Municipio c;
-                while(municipios.hasNext()) {
-                    c = municipios.next();
-                    if(c.equals(d.getMunicipio()))
-                        htm.append("<option value=\""+c.getId()+"\" selected=\"selected\">"+c.getDisplayTitle(lang)+"</option>");
-                    else
-                        htm.append("<option value=\""+c.getId()+"\">"+c.getDisplayTitle(lang)+"</option>");
-                }
-            }
-            htm.append("   </select>");
-            htm.append("   </p>");
-            htm.append("   <p class=\"tercio\"><label for=\"edo\">Estado</label>");
-            //htm.append(     "<input type=\"text\" name=\"edo\" id=\"edo\" value=\""+(d.getEntidad()==null?"":d.getEntidad())+"\" />");
-            htm.append("   <select name=\"edo\" id=\"edo\">");
-            Iterator<EntidadFederativa> entidades = EntidadFederativa.ClassMgr.listEntidadFederativas(wsite);
-            if(entidades.hasNext()) {
-                EntidadFederativa c;
-                while(entidades.hasNext()) {
-                    c = entidades.next();
-                    if(c.equals(d.getEntidad()))
-                        htm.append("<option value=\""+c.getId()+"\" selected=\"selected\">"+c.getDisplayTitle(lang)+"</option>");
-                    else
-                        htm.append("<option value=\""+c.getId()+"\">"+c.getDisplayTitle(lang)+"</option>");
-                }
-            }
-            htm.append("   </select>");
-            htm.append("   </p>");
-            htm.append("   <p class=\"tercio\"><label for=\"cp\">C&oacute;digo postal</label>");
-            //htm.append("     <input type=\"text\" name=\"cp\" id=\"cp\" value=\""+(d.getCp()==null?"":d.getCp())+"\" />");
-            htm.append("   <select name=\"cp\" id=\"cp\">");
-            Iterator<CP> cps = CP.ClassMgr.listCPs(wsite);
-            if(cps.hasNext()) {
-                CP c;
-                while(cps.hasNext()) {
-                    c = cps.next();
-                    if(c.equals(d.getCp()))
-                        htm.append("<option value=\""+c.getId()+"\" selected=\"selected\">"+c.getDisplayTitle(lang)+"</option>");
-                    else
-                        htm.append("<option value=\""+c.getId()+"\">"+c.getDisplayTitle(lang)+"</option>");
-                }
-            }
-            htm.append("   </select>");
-            htm.append("   </p>");
-            htm.append("   <p class=\"medio\"><label for=\"ctry\">Pa&iacute;s</label>");
-            htm.append("   <select name=\"ctry\" id=\"ctry\">");
-            Iterator<Country> countries = Country.ClassMgr.listCountries(wsite);
-            if(countries.hasNext()) {
-                Country c;
-                while(countries.hasNext()) {
-                    c = countries.next();
-                    if(c.equals(d.getPais()))
-                        htm.append("<option value=\""+c.getId()+"\" selected=\"selected\">"+c.getDisplayTitle(lang)+"</option>");
-                    else
-                        htm.append("<option value=\""+c.getId()+"\">"+c.getDisplayTitle(lang)+"</option>");
-                }
-            }
-            htm.append("   </select></p>");
-            htm.append("   <div class=\"clearer\">&nbsp;</div>");
-            htm.append("  </div>");
+            //contacto externo
+//            CV cv = CV.ClassMgr.getCV(user.getId(), wsite);
+//            if(cv==null) {
+//                cv = CV.ClassMgr.createCV(user.getId(), wsite);
+//                log.info("Creado objeto CV para usuario "+user.getFullName()+" con id="+user.getId());
+//            }
+//            Persona persona = cv.getPersona();
+//            if(persona==null) {
+//                persona = Persona.ClassMgr.createPersona(user.getId(), wsite);
+//                cv.setPersona(persona);
+//                log.info("Creado y asignado objeto Persona para usuario "+user.getFullName()+" con id="+user.getId());
+//            }
+//            Domicilio d = persona.getDomicilio();
+//            if(d==null) {
+//                d = Domicilio.ClassMgr.createDomicilio(user.getId(), wsite);
+//                persona.setDomicilio(d);
+//                log.info("Creado y asignado objeto Domicilio para usuario "+user.getFullName()+" con id="+user.getId());
+//            }
+//            htm.append("  <div class=\"contacto_externo divisor\">");
+//            htm.append("   <h3>Contacto externo</h3>");
+//            htm.append("   <p>Esta informaci&oacute;n es para uso exclusivo de la instituci&oacute;n, no aparecer&aacute; en tu perfil</p>");
+//            htm.append("   <p class=\"tercio\"><label for=\"cn\">Calle y n&uacute;mero</label><input type=\"text\" name=\"cn\" id=\"cn\" value=\""+(d.getCalle()==null?"":d.getCalle())+"\" /></p>");
+//                                
+//            //TODO: cambiar colonia, municipio, estado, CP a objetos, ya son catálogos
+//            htm.append("   <p class=\"tercio\"><label for=\"col\">Colonia</label>");
+//            //htm.append("     <input type=\"text\" name=\"col\" id=\"col\" value=\""+(d.getColonia()==null?"":d.getColonia())+"\" />");
+//            htm.append("   <select name=\"col\" id=\"col\">");
+//            Iterator<Colonia> colonias = Colonia.ClassMgr.listColonias(wsite);
+//            if(colonias.hasNext()) {
+//                Colonia c;
+//                while(colonias.hasNext()) {
+//                    c = colonias.next();
+//                    if(c.equals(d.getColonia()))
+//                        htm.append("<option value=\""+c.getId()+"\" selected=\"selected\">"+c.getDisplayTitle(lang)+"</option>");
+//                    else
+//                        htm.append("<option value=\""+c.getId()+"\">"+c.getDisplayTitle(lang)+"</option>");
+//                }
+//            }
+//            htm.append("   </select>");
+//            htm.append("   </p>");
+//            htm.append("   <p class=\"tercio\"><label for=\"cd\">Ciudad/Poblaci&oacute;n</label>");
+//            htm.append("     <input type=\"text\" name=\"cd\" id=\"cd\" value=\""+(d.getCiudad()==null?"":d.getCiudad())+"\" />");
+//            htm.append(   "</p>");
+//            htm.append("   <p class=\"tercio\"><label for=\"mun\">Municipio/Delegaci&oacute;n</label>");
+//            //htm.append("     <input type=\"text\" name=\"mun\" id=\"mun\" value=\""+(d.getMunicipio()==null?"":d.getMunicipio())+"\" />");
+//            htm.append("   <select name=\"mun\" id=\"mun\">");
+//            Iterator<Municipio> municipios = Municipio.ClassMgr.listMunicipios(wsite);
+//            if(municipios.hasNext()) {
+//                Municipio c;
+//                while(municipios.hasNext()) {
+//                    c = municipios.next();
+//                    if(c.equals(d.getMunicipio()))
+//                        htm.append("<option value=\""+c.getId()+"\" selected=\"selected\">"+c.getDisplayTitle(lang)+"</option>");
+//                    else
+//                        htm.append("<option value=\""+c.getId()+"\">"+c.getDisplayTitle(lang)+"</option>");
+//                }
+//            }
+//            htm.append("   </select>");
+//            htm.append("   </p>");
+//            htm.append("   <p class=\"tercio\"><label for=\"edo\">Estado</label>");
+//            //htm.append(     "<input type=\"text\" name=\"edo\" id=\"edo\" value=\""+(d.getEntidad()==null?"":d.getEntidad())+"\" />");
+//            htm.append("   <select name=\"edo\" id=\"edo\">");
+//            Iterator<EntidadFederativa> entidades = EntidadFederativa.ClassMgr.listEntidadFederativas(wsite);
+//            if(entidades.hasNext()) {
+//                EntidadFederativa c;
+//                while(entidades.hasNext()) {
+//                    c = entidades.next();
+//                    if(c.equals(d.getEntidad()))
+//                        htm.append("<option value=\""+c.getId()+"\" selected=\"selected\">"+c.getDisplayTitle(lang)+"</option>");
+//                    else
+//                        htm.append("<option value=\""+c.getId()+"\">"+c.getDisplayTitle(lang)+"</option>");
+//                }
+//            }
+//            htm.append("   </select>");
+//            htm.append("   </p>");
+//            htm.append("   <p class=\"tercio\"><label for=\"cp\">C&oacute;digo postal</label>");
+//            //htm.append("     <input type=\"text\" name=\"cp\" id=\"cp\" value=\""+(d.getCp()==null?"":d.getCp())+"\" />");
+//            htm.append("   <select name=\"cp\" id=\"cp\">");
+//            Iterator<CP> cps = CP.ClassMgr.listCPs(wsite);
+//            if(cps.hasNext()) {
+//                CP c;
+//                while(cps.hasNext()) {
+//                    c = cps.next();
+//                    if(c.equals(d.getCp()))
+//                        htm.append("<option value=\""+c.getId()+"\" selected=\"selected\">"+c.getDisplayTitle(lang)+"</option>");
+//                    else
+//                        htm.append("<option value=\""+c.getId()+"\">"+c.getDisplayTitle(lang)+"</option>");
+//                }
+//            }
+//            htm.append("   </select>");
+//            htm.append("   </p>");
+//            htm.append("   <p class=\"medio\"><label for=\"ctry\">Pa&iacute;s</label>");
+//            htm.append("   <select name=\"ctry\" id=\"ctry\">");
+//            Iterator<Country> countries = Country.ClassMgr.listCountries(wsite);
+//            if(countries.hasNext()) {
+//                Country c;
+//                while(countries.hasNext()) {
+//                    c = countries.next();
+//                    if(c.equals(d.getPais()))
+//                        htm.append("<option value=\""+c.getId()+"\" selected=\"selected\">"+c.getDisplayTitle(lang)+"</option>");
+//                    else
+//                        htm.append("<option value=\""+c.getId()+"\">"+c.getDisplayTitle(lang)+"</option>");
+//                }
+//            }
+//            htm.append("   </select></p>");
+//            htm.append("   <div class=\"clearer\">&nbsp;</div>");
+//            htm.append("  </div>");
+            
             //datos familiares
-            htm.append("  <div class=\"contacto_externo divisor\">");
-            htm.append("   <h3>Datos familiares</h3>");
-            //htm.append("        <p>Esta informaci&oacute;n es para uso exclusivo de la instituci&oacute;n, no aparecer&aacute; en tu perfil</p>");
-            Iterator<Familia> familiares = persona.listFamilias();
-            htm.append("   <ol id=\"fms\">");
-            if(familiares.hasNext()) {
-                SWBResourceURL rem = paramRequest.getActionUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setAction(SWBResourceURL.Action_REMOVE);
-                Familia f;
-                while(familiares.hasNext()) {
-                    f = familiares.next();
-                    rem.setParameter("fid", f.getId());
-                    htm.append("<li class=\"aaaa\">");
-                    htm.append("  <p class=\"entero\"><label>Nombre completo</label><br/><input type=\"text\" name=\"ncf\" value=\""+f.getNombre()+"\" /></p>");
-                    htm.append("  <p class=\"tercio\"><label>Parentesco</label><br/><input type=\"text\" name=\"p\" value=\""+f.getParentesco()+"\" /></p>");
-                    htm.append("  <p class=\"tercio\"><label>Direcci&oacute;n</label><br/><input type=\"text\" name=\"df\" value=\""+f.getDireccion()+"\" /></p>");
-                    if(f.getTelefono()!=null)
-                        htm.append("  <p class=\"tercio\"><label>Tel&eacute;fono</label><br/><label>Clave</label>:<input type=\"text\" name=\"cve\" value=\""+f.getTelefono().getLada()+"\" />&nbsp;<label>Tel&eacute;fono</label>:<input type=\"text\" name=\"tf\" value=\""+f.getTelefono().getNumero()+"\" /></p>");
-                    else
-                        htm.append("  <p class=\"tercio\"><label>Tel&eacute;fono</label><br/><label>Clave</label>:<input type=\"text\" name=\"cve\" value=\"\" />&nbsp;<label>Tel&eacute;fono</label>:<input type=\"text\" name=\"tf\" value=\"\" /></p>");
-                    htm.append("  <p><input type=\"button\" onclick=\"postHtml('"+rem+"','fms')\" value=\"Eliminar\" /></p>");
-                    htm.append("  <br clear=\"all\" />");
-                    htm.append("</li>");
-                }
-            }else {
-                htm.append("<li class=\"aaaa\">");
-                htm.append("  <p class=\"entero\"><label>Nombre completo</label><br/><input type=\"text\" name=\"ncf\" value=\"\" /></p>");
-                htm.append("  <p class=\"tercio\"><label>Parentesco</label><br/><input type=\"text\" name=\"p\" value=\"\" /></p>");
-                htm.append("  <p class=\"tercio\"><label>Direcci&oacute;n</label><br/><input type=\"text\" name=\"df\" value=\"\" /></p>");
-                htm.append("  <p class=\"tercio\"><label>Tel&eacute;fono</label><br/>");
-                htm.append("   <label>Clave</label>:<input type=\"text\" name=\"cve\" value=\"\" />");
-                htm.append("   <label>Tel&eacute;fono</label>:<input type=\"text\" name=\"tf\" value=\"\" />");
-                htm.append("  </p>");
-                htm.append("  <br clear=\"all\" />");
-                htm.append("</li>");
-            }
-            htm.append("   </ol>");
-            htm.append("   <p><a href=\"javascript:appendChild('_"+base.getId()+"_'+(idx++),'fms')\">Agregar</a></p>");          
-            htm.append("  </div>");
+//            htm.append("  <div class=\"contacto_externo divisor\">");
+//            htm.append("   <h3>Datos familiares</h3>");
+//            //htm.append("        <p>Esta informaci&oacute;n es para uso exclusivo de la instituci&oacute;n, no aparecer&aacute; en tu perfil</p>");
+//            Iterator<Familia> familiares = persona.listFamilias();
+//            htm.append("   <ol id=\"fms\">");
+//            if(familiares.hasNext()) {
+//                SWBResourceURL rem = paramRequest.getActionUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setAction(SWBResourceURL.Action_REMOVE);
+//                Familia f;
+//                while(familiares.hasNext()) {
+//                    f = familiares.next();
+//                    rem.setParameter("fid", f.getId());
+//                    htm.append("<li class=\"aaaa\">");
+//                    htm.append("  <p class=\"entero\"><label>Nombre completo</label><br/><input type=\"text\" name=\"ncf\" value=\""+f.getNombre()+"\" /></p>");
+//                    htm.append("  <p class=\"tercio\"><label>Parentesco</label><br/><input type=\"text\" name=\"p\" value=\""+f.getParentesco()+"\" /></p>");
+//                    htm.append("  <p class=\"tercio\"><label>Direcci&oacute;n</label><br/><input type=\"text\" name=\"df\" value=\""+f.getDireccion()+"\" /></p>");
+//                    if(f.getTelefono()!=null)
+//                        htm.append("  <p class=\"tercio\"><label>Tel&eacute;fono</label><br/><label>Clave</label>:<input type=\"text\" name=\"cve\" value=\""+f.getTelefono().getLada()+"\" />&nbsp;<label>Tel&eacute;fono</label>:<input type=\"text\" name=\"tf\" value=\""+f.getTelefono().getNumero()+"\" /></p>");
+//                    else
+//                        htm.append("  <p class=\"tercio\"><label>Tel&eacute;fono</label><br/><label>Clave</label>:<input type=\"text\" name=\"cve\" value=\"\" />&nbsp;<label>Tel&eacute;fono</label>:<input type=\"text\" name=\"tf\" value=\"\" /></p>");
+//                    htm.append("  <p><input type=\"button\" onclick=\"postHtml('"+rem+"','fms')\" value=\"Eliminar\" /></p>");
+//                    htm.append("  <br clear=\"all\" />");
+//                    htm.append("</li>");
+//                }
+//            }else {
+//                htm.append("<li class=\"aaaa\">");
+//                htm.append("  <p class=\"entero\"><label>Nombre completo</label><br/><input type=\"text\" name=\"ncf\" value=\"\" /></p>");
+//                htm.append("  <p class=\"tercio\"><label>Parentesco</label><br/><input type=\"text\" name=\"p\" value=\"\" /></p>");
+//                htm.append("  <p class=\"tercio\"><label>Direcci&oacute;n</label><br/><input type=\"text\" name=\"df\" value=\"\" /></p>");
+//                htm.append("  <p class=\"tercio\"><label>Tel&eacute;fono</label><br/>");
+//                htm.append("   <label>Clave</label>:<input type=\"text\" name=\"cve\" value=\"\" />");
+//                htm.append("   <label>Tel&eacute;fono</label>:<input type=\"text\" name=\"tf\" value=\"\" />");
+//                htm.append("  </p>");
+//                htm.append("  <br clear=\"all\" />");
+//                htm.append("</li>");
+//            }
+//            htm.append("   </ol>");
+//            htm.append("   <p><a href=\"javascript:appendChild('_"+base.getId()+"_'+(idx++),'fms')\">Agregar</a></p>");          
+//            htm.append("  </div>");
             
 //            //experiencia laboral
 //            htm.append("    <div class=\"experiencia divisor\">");
@@ -588,6 +589,7 @@ System.out.println("paramRequest.getAction()="+paramRequest.getAction());
 //            htm.append("        </ol>");
 //            htm.append("        <p><a href=\"#\">Agregar</a></p>");
 //            htm.append("    </div>");
+            
             // temas de interes
             htm.append("  <div class=\"de_interes divisor\">");
             htm.append("   <h3>Temas de tu inter&eacute;s</h3>");
