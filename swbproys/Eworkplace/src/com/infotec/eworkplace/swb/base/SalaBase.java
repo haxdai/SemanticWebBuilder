@@ -192,24 +192,6 @@ public abstract class SalaBase extends org.semanticwb.model.SWBClass implements 
     }
 
 /**
-* Gets the Ubicacion property
-* @return String with the Ubicacion
-*/
-    public String getUbicacion()
-    {
-        return getSemanticObject().getProperty(intranet_ubicacion);
-    }
-
-/**
-* Sets the Ubicacion property
-* @param value long with the Ubicacion
-*/
-    public void setUbicacion(String value)
-    {
-        getSemanticObject().setProperty(intranet_ubicacion, value);
-    }
-
-/**
 * Gets the Capacidad property
 * @return int with the Capacidad
 */
@@ -225,5 +207,23 @@ public abstract class SalaBase extends org.semanticwb.model.SWBClass implements 
     public void setCapacidad(int value)
     {
         getSemanticObject().setIntProperty(intranet_capacidad, value);
+    }
+
+/**
+* Gets the Ubicacion property
+* @return String with the Ubicacion
+*/
+    public String getUbicacion()
+    {
+        return getSemanticObject().getProperty(intranet_ubicacion);
+    }
+
+/**
+* Sets the Ubicacion property
+* @param value long with the Ubicacion
+*/
+    public void setUbicacion(String value)
+    {
+        getSemanticObject().setProperty(intranet_ubicacion, value);
     }
 }
