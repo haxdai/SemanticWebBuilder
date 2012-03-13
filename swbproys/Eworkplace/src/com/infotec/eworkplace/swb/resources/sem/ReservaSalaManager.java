@@ -169,11 +169,11 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         out.println("    dojo.query(\".sltc\").connect(\"onclick\", function() {");
         out.println("                      if(dojo.hasClass(this, 'x'))");
         out.println("                          return;");
-        out.println("                      if(dojo.colorFromString(dojo.style(dojo.attr(this, 'id'),'backgroundColor')).toHex()=='#ffffff') {");
-        out.println("                          dojo.style(dojo.attr(this, 'id'),'backgroundColor','#1d75b9');");
+        out.println("                      if(dojo.colorFromString(dojo.style(dojo.attr(this, 'id'),'backgroundColor')).toHex()=='#1d75b9') {");//ffffff
+        out.println("                          dojo.style(dojo.attr(this, 'id'),'backgroundColor','#ffffff');");//1d75b9
         out.println("                          hrs.push(dojo.attr(this, 'id'));");
         out.println("                      }else {");
-        out.println("                          dojo.style(dojo.attr(this, 'id'),'backgroundColor','#ffffff');");
+        out.println("                          dojo.style(dojo.attr(this, 'id'),'backgroundColor','#1d75b9');");
         out.println("                          var i = dojo.indexOf(hrs, dojo.attr(this, 'id'));");
         out.println("                          if(i>=0)");
         out.println("                              hrs.splice(i,1);");
@@ -716,31 +716,34 @@ if(!salas.isEmpty()) {
         out.println("</form>");
         
         
-//out.println("<script type=\"text/javascript\">");
-//out.println("<!--");
-//out.println(" function showContactDialog(divId, bgcolor, opacity) {");
-//out.println("  createCoverDiv(divId, bgcolor, opacity);");
-//out.println("  var contactHolder = document.createElement('div');");
-//out.println("  var cwidth = 360;");
-//out.println("  var cheight = 550;");
-//
-//out.println("  contactHolder.id='s_'+divId;");
-//out.println("  contactHolder.style.zIndex=1001;");
-//out.println("  contactHolder.style.position='absolute';");
-//out.println("  contactHolder.style.top='50%';");
-//out.println("  contactHolder.style.left='50%';");
-//out.println("  contactHolder.style.marginLeft=-cwidth/2+'px';");
-//out.println("  contactHolder.style.marginTop=-cheight/2+'px';");
-//out.println("  contactHolder.style.width=cwidth+'px';");
-//out.println("  contactHolder.style.height=cheight+'px';");
-//out.println("  document.body.appendChild(contactHolder);");
-//        
-//        
-//out.println("contactHolder.innerHTML = s;");        
-//        
-//out.println("  }");
-//out.println("-->");
-//out.println("</script>");
+out.println("<script type=\"text/javascript\">");
+out.println("<!--");
+out.println(" function showFormDialog(divId, bgcolor, opacity) {");
+out.println("  createCoverDiv(divId, bgcolor, opacity);");
+out.println("  var frmHolder = document.createElement('div');");
+out.println("  var cwidth = 360;");
+out.println("  var cheight = 550;");
+
+out.println("  frmHolder.id='s_'+divId;");
+out.println("  frmHolder.style.zIndex=1001;");
+out.println("  frmHolder.style.position='absolute';");
+out.println("  frmHolder.style.top='50%';");
+out.println("  frmHolder.style.left='50%';");
+out.println("  frmHolder.style.marginLeft=-cwidth/2+'px';");
+out.println("  frmHolder.style.marginTop=-cheight/2+'px';");
+out.println("  frmHolder.style.width=cwidth+'px';");
+out.println("  frmHolder.style.height=cheight+'px';");
+out.println("  var s = new String('');");
+out.println("  s = s.concat('');");
+out.println("  s = s.concat('');");
+out.println("  s = s.concat('');");
+out.println("  s = s.concat('');");
+out.println("  s = s.concat('');");
+out.println("  frmHolder.innerHTML = s;");    
+out.println("  document.body.appendChild(frmHolder);");        
+out.println(" }");
+out.println("-->");
+out.println("</script>");
     }
     
     public void doRoll(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
