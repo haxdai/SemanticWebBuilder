@@ -91,7 +91,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         final String dateId = dwid.format(current.getTime());
         
         if(userCanEdit(user)) {
-            out.println("<div><a href=\"#\" title=\"\">Rreservar una sala</a></div>");
+            out.println("<div><a href=\"#\" title=\"\">Reservar una sala</a></div>");
             com.infotec.eworkplace.swb.Date date = com.infotec.eworkplace.swb.Date.ClassMgr.getDate(dateId, base.getWebSite());
             Iterator<ReservacionSala> reservations = ReservacionSala.ClassMgr.listReservacionSalaByFecha(date, base.getWebSite());
             if(reservations.hasNext()) {
@@ -430,7 +430,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         
         
 if(!salas.isEmpty()) {
-    out.println("<div id=\"dayselectorCal\">");
+    out.println("<div id=\"roomselectorCal\">");
     out.println(" <p>Salas</p>");
     out.println(" <ul>");
     for(Sala sala:salas) {
@@ -879,7 +879,23 @@ if(!salas.isEmpty()) {
         out.println(" <p><a href=\"javascript:location.href='"+url+"'\" class=\"salasAdelante\">adelante</a></p>");
         out.println("</div>");
         
+ Iterator<Sala> isalas = Sala.ClassMgr.listSalas(base.getWebSite());        
+        isalas = SWBComparator.sortByDisplayName(isalas, lang);
+        List<Sala> salas = SWBUtils.Collections.copyIterator(isalas);
         
+        
+if(!salas.isEmpty()) {
+    out.println("<div id=\"roomselectorCal\">");
+    out.println(" <p>Salas</p>");
+    out.println(" <ul>");
+    for(Sala sala:salas) {
+        out.println("<li><a href=\""+paramRequest.getRenderUrl().setMode(Mode_SALA).setParameter("sl", sala.getEncodedURI()) +"\" title=\"ver sala\">");
+        out.println(sala.getDisplayTitle(lang));
+        out.println("</a></li>");
+    }
+    out.println(" </ul>");
+    out.println("</div>");
+}        
         
         out.println("<br class=\"clear\"/>");   
         
@@ -887,9 +903,9 @@ if(!salas.isEmpty()) {
         out.println("<table id=\"mainTableCal\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
         out.println("<tr class=\"trCalSalas\">");
         out.println("  <td height=\"30\">Hora</td>");
-        Iterator<Sala> isalas = Sala.ClassMgr.listSalas(base.getWebSite());        
+        isalas = Sala.ClassMgr.listSalas(base.getWebSite());        
         isalas = SWBComparator.sortByDisplayName(isalas, lang);
-        List<Sala> salas = SWBUtils.Collections.copyIterator(isalas);
+        //List<Sala> salas = SWBUtils.Collections.copyIterator(isalas);
         isalas = salas.iterator();
         while(isalas.hasNext()) {
             out.println("  <td height=\"30\">"+isalas.next().getDisplayTitle(lang) +"</td>");
