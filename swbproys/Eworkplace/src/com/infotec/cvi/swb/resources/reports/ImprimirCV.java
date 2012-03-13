@@ -3,6 +3,7 @@ package com.infotec.cvi.swb.resources.reports;
 import com.infotec.cvi.swb.Academia;
 import com.infotec.cvi.swb.CV;
 import com.infotec.cvi.swb.Candidato;
+import com.infotec.cvi.swb.EstudioSuperior;
 import com.infotec.cvi.swb.GradoAcademico;
 import com.infotec.eworkplace.swb.Persona;
 import com.infotec.eworkplace.swb.SWProfile;
@@ -304,15 +305,23 @@ public class ImprimirCV extends GenericResource {
 }*/
             
             
-            phrase = new Phrase();
-            chnk = new Chunk("Formación escolar",FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD, Color.DARK_GRAY));
-            phrase.add(chnk);
-            phrase.add(Chunk.NEWLINE);
-            paragraph = new Paragraph(phrase);
-            document.add(paragraph);
             if (academia != null) {
+                phrase = new Phrase();
+                chnk = new Chunk("Formación escolar",FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD, Color.DARK_GRAY));
+                phrase.add(chnk);
+                phrase.add(Chunk.NEWLINE);
+                paragraph = new Paragraph(phrase);
+                document.add(paragraph);
+            
                 Iterator<GradoAcademico> itga = academia.listGradoAcademicos();
                 if(itga.hasNext()) {
+                    phrase = new Phrase();
+                    chnk = new Chunk("Escolaridad",FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD, Color.LIGHT_GRAY));
+                    phrase.add(chnk);
+                    phrase.add(Chunk.NEWLINE);
+                    paragraph = new Paragraph(phrase);
+                    document.add(paragraph);                    
+                    
                     List list = new List(List.UNORDERED);
                     while (itga.hasNext()) {
                         GradoAcademico ga = itga.next();
@@ -329,9 +338,14 @@ public class ImprimirCV extends GenericResource {
                         } else {
                             periodo += " años";
                         }
-                        list.add(new ListItem(new Chunk(grado+", "+carrera+", "+institucion+", "+situacion+", "+periodo, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, Color.DARK_GRAY))));
+                        list.add(new ListItem(new Chunk(grado+", "+carrera+", "+institucion+", "+situacion+", "+periodo, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, Color.BLACK))));
                     }
                     document.add(list);
+                }
+                
+                Iterator<EstudioSuperior> ites = academia.listEstudioSuperiors();
+                if(ites.hasNext()) {
+                    
                 }
             }
 
