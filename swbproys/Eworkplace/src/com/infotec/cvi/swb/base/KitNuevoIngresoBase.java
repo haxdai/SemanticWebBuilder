@@ -21,6 +21,7 @@ public abstract class KitNuevoIngresoBase extends org.semanticwb.model.SWBClass 
     public static final org.semanticwb.platform.SemanticProperty intranet_solicitaCorreoElectronico=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#solicitaCorreoElectronico");
     public static final org.semanticwb.platform.SemanticProperty intranet_otrosServicios=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#otrosServicios");
     public static final org.semanticwb.platform.SemanticProperty intranet_equipoDiadema=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#equipoDiadema");
+    public static final org.semanticwb.platform.SemanticProperty intranet_FechaSolicitud=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#FechaSolicitud");
     public static final org.semanticwb.platform.SemanticProperty intranet_equipoLaptop=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#equipoLaptop");
     public static final org.semanticwb.platform.SemanticProperty intranet_solicitaClaveTelefono=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#solicitaClaveTelefono");
     public static final org.semanticwb.platform.SemanticProperty intranet_solicitaListaCorreoExterno=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#solicitaListaCorreoExterno");
@@ -590,6 +591,24 @@ public abstract class KitNuevoIngresoBase extends org.semanticwb.model.SWBClass 
     public void setEquipoDiadema(boolean value)
     {
         getSemanticObject().setBooleanProperty(intranet_equipoDiadema, value);
+    }
+
+/**
+* Gets the FechaSolicitud property
+* @return java.util.Date with the FechaSolicitud
+*/
+    public java.util.Date getFechaSolicitud()
+    {
+        return getSemanticObject().getDateProperty(intranet_FechaSolicitud);
+    }
+
+/**
+* Sets the FechaSolicitud property
+* @param value long with the FechaSolicitud
+*/
+    public void setFechaSolicitud(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(intranet_FechaSolicitud, value);
     }
 
 /**
