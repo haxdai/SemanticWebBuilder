@@ -3,8 +3,10 @@ package com.infotec.eworkplace.swb.base;
 
 public abstract class ReservacionAutoBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Solicitable
 {
+    public static final org.semanticwb.platform.SemanticProperty intranet_horaSalida=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#horaSalida");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaSalida=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaSalida");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaDeRegreso=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaDeRegreso");
+    public static final org.semanticwb.platform.SemanticProperty intranet_horaRegreso=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#horaRegreso");
     public static final org.semanticwb.platform.SemanticProperty intranet_destino=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#destino");
     public static final org.semanticwb.platform.SemanticProperty intranet_marcaAsignado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#marcaAsignado");
     public static final org.semanticwb.platform.SemanticProperty intranet_actividadARealizar=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#actividadARealizar");
@@ -193,6 +195,24 @@ public abstract class ReservacionAutoBase extends org.semanticwb.model.SWBClass 
     }
 
 /**
+* Gets the HoraSalida property
+* @return java.util.Date with the HoraSalida
+*/
+    public java.util.Date getHoraSalida()
+    {
+        return getSemanticObject().getDateProperty(intranet_horaSalida);
+    }
+
+/**
+* Sets the HoraSalida property
+* @param value long with the HoraSalida
+*/
+    public void setHoraSalida(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(intranet_horaSalida, value);
+    }
+
+/**
 * Gets the CargoSolicitante property
 * @return String with the CargoSolicitante
 */
@@ -262,6 +282,24 @@ public abstract class ReservacionAutoBase extends org.semanticwb.model.SWBClass 
     public void setFechaDeRegreso(java.util.Date value)
     {
         getSemanticObject().setDateProperty(intranet_fechaDeRegreso, value);
+    }
+
+/**
+* Gets the HoraRegreso property
+* @return java.util.Date with the HoraRegreso
+*/
+    public java.util.Date getHoraRegreso()
+    {
+        return getSemanticObject().getDateProperty(intranet_horaRegreso);
+    }
+
+/**
+* Sets the HoraRegreso property
+* @param value long with the HoraRegreso
+*/
+    public void setHoraRegreso(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(intranet_horaRegreso, value);
     }
 
 /**
