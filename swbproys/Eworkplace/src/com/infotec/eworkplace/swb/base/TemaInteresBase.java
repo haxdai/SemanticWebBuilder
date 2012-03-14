@@ -32,6 +32,12 @@ public abstract class TemaInteresBase extends org.semanticwb.model.SWBClass impl
             java.util.Iterator it=sclass.listInstances();
             return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.TemaInteres>(it, true);
         }
+
+        public static com.infotec.eworkplace.swb.TemaInteres createTemaInteres(org.semanticwb.model.SWBModel model)
+        {
+            long id=model.getSemanticObject().getModel().getCounter(sclass);
+            return com.infotec.eworkplace.swb.TemaInteres.ClassMgr.createTemaInteres(String.valueOf(id), model);
+        }
        /**
        * Gets a com.infotec.eworkplace.swb.TemaInteres
        * @param id Identifier for com.infotec.eworkplace.swb.TemaInteres
