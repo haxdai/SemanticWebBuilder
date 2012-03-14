@@ -314,12 +314,145 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         User user = paramRequest.getUser();
         String lang = user.getLanguage();
         PrintWriter out = response.getWriter();
+        
+out.println("<script type=\"text/javascript\">");
+out.println("<!--");
+out.println(" function showFormDialog(divId, bgcolor, opacity) {");
+out.println("  createCoverDiv(divId, bgcolor, opacity);");
+out.println("  var frmHolder = document.createElement('div');");
+out.println("  var cwidth = 360;");
+out.println("  var cheight = 650;");
+
+out.println("  frmHolder.id='s_'+divId;");
+out.println("  frmHolder.style.zIndex=1001;");
+out.println("  frmHolder.style.position='absolute';");
+out.println("  frmHolder.style.top='50%';");
+out.println("  frmHolder.style.left='50%';");
+out.println("  frmHolder.style.marginLeft=-cwidth/2+'px';");
+out.println("  frmHolder.style.marginTop=-cheight/2+'px';");
+out.println("  frmHolder.style.backgroundColor='#cccccc';");
+out.println("  frmHolder.style.width=cwidth+'px';");
+out.println("  frmHolder.style.height=cheight+'px';");
+out.println("  var s = new String('');");
+out.println("  s = s.concat('<form id=\"_rs_\" method=\"post\" action=\""+paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD)+"\">');");
+//out.println("  s = s.concat('<input type=\"hidden\" name=\"hi\" value=\""+ihrs[0]+"\"/>');");
+//out.println("  s = s.concat('<input type=\"hidden\" name=\"hf\" value=\""+(ihrs[ihrs.length-1]+59)+"\"/>');");
+//out.println("  s = s.concat('<input type=\"hidden\" name=\"sl\" value=\""+sala.getURI()+"\"/>');");
+out.println("  s = s.concat('<div id=\"mainPop\">');");
+out.println("  s = s.concat(' <div id=\"popMiddle\">');");
+out.println("  s = s.concat('  <p>Fecha de reservaci&oacute;n:<br />');");
+out.println("  s = s.concat('   <span class=\"blueCal\">3 de Noviembre de 2011 10:00 AM </span><br />');");
+out.println("  s = s.concat('   <span class=\"blueCal\">3 de Noviembre de 2011 12:00 PM</span>');");
+out.println("  s = s.concat('  </p>');");
+out.println("  s = s.concat('  <div id=\"usuarioCal\">');");
+out.println("  s = s.concat('   <p><img src=\"images/placeholderCal.png\" width=\"80\" height=\"80\" alt=\"placeholder\" /></p>');");
+out.println("  s = s.concat('   <p><span class=\"nombreCal\">Fulano de tal</span></p>');");
+out.println("  s = s.concat('   <p>Consultor de arquitectura</p>');");
+out.println("  s = s.concat('  </div>');");
+
+out.println("  s = s.concat('  <p>');");
+out.println("  s = s.concat('   <span class=\"blueCalTit\">Motivo de la reuni&oacute;n:</span><br />');");
+out.println("  s = s.concat('   <span class=\"enfasisCal\">(140 caracteres m&aacute;ximo)</span><br />');");
+out.println("  s = s.concat('   <label for=\"motive\"></label><textarea id=\"motive\" name=\"motive\" class=\"datosCal\"></textarea>');");
+out.println("  s = s.concat('  </p>');");
+out.println("  s = s.concat('  <div class=\"twinsCal\">');");
+out.println("  s = s.concat('   <p><span class=\"blueCalTit\">Tipo de reuni&oacute;n</span>:</p>');");
+out.println("  s = s.concat('   <ul>');");
+out.println("  s = s.concat('    <li><label for=\"mtSng\">Interna <input type=\"radio\" name=\"typeMeet\" id=\"mtSng\" value=\"0\" onchange=\"collapse(\\'_tpcf_\\')\" checked=\"checked\" /></label></li>');");
+out.println("  s = s.concat('    <li><label for=\"mtSpl\">Externa <input type=\"radio\" name=\"typeMeet\" id=\"mtSpl\" value=\"1\" onchange=\"expande(\\'_tpcf_\\')\" /></label></li>');");
+out.println("  s = s.concat('   </ul>');");
+out.println("  s = s.concat('  </div>');");
+out.println("  s = s.concat('   <div id=\"_tpcf_\">');");
+out.println("  s= s.concat('      <p>Cafeteria: </p>');");
+out.println("  s = s.concat('     <ul>');");
+out.println("  s = s.concat('      <li><label for=\"sngCf\">Sencilla <input type=\"radio\" name=\"typeCafe\" id=\"sngCf\" value=\"0\" checked=\"checked\" /></label></li>');");
+out.println("  s = s.concat('      <li><label for=\"spcCf\">Especial <input type=\"radio\" name=\"typeCafe\" id=\"spcCf\" value=\"1\" /></label></li>');");
+out.println("  s = s.concat('     </ul>');");
+out.println("  s= s.concat('      <p>Cafe: </p>');");
+out.println("  s = s.concat('     <ul>');");
+out.println("  s = s.concat('      <li><label for=\"cfsrvct\">Si <input type=\"radio\" name=\"cfSrvc\" id=\"cfsrvct\" value=\"1\" checked=\"checked\" /></label></li>');");
+out.println("  s = s.concat('      <li><label for=\"cfsrvcf\">No <input type=\"radio\" name=\"cfSrvc\" id=\"cfsrvcf\" value=\"0\" /></label></li>');");
+out.println("  s = s.concat('     </ul>');");
+out.println("  s= s.concat('      <p>Refrescos: </p>');");
+out.println("  s = s.concat('     <ul>');");
+out.println("  s = s.concat('      <li><label for=\"sdsrvct\">Si <input type=\"radio\" name=\"sdSrvc\" id=\"sdsrvct\" value=\"1\" checked=\"checked\" /></label></li>');");
+out.println("  s = s.concat('      <li><label for=\"sdsrvcf\">No <input type=\"radio\" name=\"sdSrvc\" id=\"sdsrvcf\" value=\"0\" /></label></li>');");
+out.println("  s = s.concat('     </ul>');");
+out.println("  s= s.concat('      <p>Agua: </p>');");
+out.println("  s = s.concat('     <ul>');");
+out.println("  s = s.concat('      <li><label for=\"h2osrvct\">Si <input type=\"radio\" name=\"h2oSrvc\" id=\"h2osrvct\" value=\"1\" checked=\"checked\" /></label></li>');");
+out.println("  s = s.concat('      <li><label for=\"h2osrvcf\">No <input type=\"radio\" name=\"h2oSrvc\" id=\"h2osrvcf\" value=\"0\" /></label></li>');");
+out.println("  s = s.concat('     </ul>');");
+out.println("  s= s.concat('      <p>Horario del servicio: </p>');");
+out.println("  s = s.concat('     <ul>');");
+out.println("  s = s.concat('      <li><label for=\"allsrvc\">Durante <input type=\"radio\" name=\"tmSrvc\" id=\"allsrvc\" value=\"1\" onchange=\"collapse(\\'_tmsrvc_\\')\" checked=\"checked\" /></label></li>');");
+out.println("  s = s.concat('      <li><label for=\"brksrvc\">Receso <input type=\"radio\" name=\"tmSrvc\" id=\"brksrvc\" value=\"0\" onchange=\"expande(\\'_tmsrvc_\\')\" /></label></li>');");
+out.println("  s = s.concat('     </ul>');");
+out.println("  s = s.concat('   </div>');");
+out.println("  s = s.concat('   <div id=\"_tmsrvc_\">');");
+out.println("  s= s.concat('      <p><label for=\"tmSrvc\">Horario del servicio: <input type=\"text\" name=\"tmSrvc\" id=\"tmSrvc\" value=\"\" /></label></p>');");
+out.println("  s = s.concat('   </div>');");
+out.println("  s = s.concat('  <div class=\"twinsCal1\">');");
+out.println("  s = s.concat('   <p><span class=\"blueCalTit\">N&uacute;mero de asistentes</span></p>');");
+out.println("  s = s.concat('    <input type=\"text\" name=\"turnout\" id=\"turnout\" value=\"\" size=\"10\" maxlength=\"2\" />');");
+out.println("  s = s.concat('  </div>');");
+out.println("  s = s.concat('  <p>&nbsp;</p>');");
+out.println("  s = s.concat('  <p class=\"blueCalTit\">Selecciona los servicios que solicitas </p>');");
+out.println("  s = s.concat('  <ul>');");
+out.println("  s = s.concat('   <li>');");
+out.println("  s = s.concat('    <input type=\"checkbox\" name=\"equipment\" id=\"projector\" value=\"projector\" />');");
+out.println("  s = s.concat('    <label for=\"interna2\"></label>');");
+out.println("  s = s.concat('    Proyector');");
+out.println("  s = s.concat('   </li>');");
+out.println("  s = s.concat('   <li>');");
+out.println("  s = s.concat('    <input type=\"checkbox\" name=\"equipment\" id=\"pcs\" value=\"pcs\" />');");
+out.println("  s = s.concat('    Computadora');");
+out.println("  s = s.concat('   </li>');");
+out.println("  s = s.concat('  </ul>');");
+out.println("  s = s.concat('  <p>');");
+out.println("  s = s.concat('   <span class=\"blueCalTit\">Otros servicios necesarios</span><br />');");
+out.println("  s = s.concat('   <label for=\"motivo\"></label><textarea id=\"services\" name=\"services\" class=\"datosCal\"></textarea>');");
+out.println("  s = s.concat('  </p>');");
+out.println("  s = s.concat('  <p><a href=\"javascript:removeCoverDiv(\\'');");
+out.println("  s = s.concat(divId);");
+out.println("  s = s.concat('\\')\" title=\"Cancelar\">Cancelar</a>');");
+out.println("  s = s.concat('  <a href=\"javascript:dojo.byId(\\'_rs_\\').reset()\" title=\"Limpiar formulario\">Limpiar</a>');");
+out.println("  s = s.concat('  <a href=\"#\" class=\"soliCal\">Solicitar</a></p>');");
+out.println("  s = s.concat('  <p class=\"finePrint\">*Se te enviar&aacute; un e-mail con la confirmaci&oacute;n</p>');");
+out.println("  s = s.concat(' </div>');");
+out.println("  s = s.concat(' <p id=\"popBottom\"></p>');");
+out.println("  s = s.concat('</div>');");
+out.println("  s = s.concat('</form>');");
+out.println("  frmHolder.innerHTML = s;");
+out.println("  document.body.appendChild(frmHolder);");
+out.println("  collapse('_tpcf_');");
+out.println("  collapse('_tmsrvc_');");
+out.println(" }");
+out.println("-->");
+out.println("</script>");
+        
+        
                 
         out.println("<script type=\"text/javascript\">");
-        out.println("dojo.require(\"dijit.Dialog\");");
-        out.println("dojo.require(\"dojox.layout.ContentPane\");");
-        out.println("dojo.require(\"dojo.parser\");");
-  
+        out.println("dojo.require('dojo.parser');");
+        out.println("dojo.require('dijit.Dialog');");
+        out.println("dojo.require('dojox.layout.ContentPane');");
+out.println("dojo.require('dojo.fx');");
+out.println("dojo.require('dijit.dijit');");
+        
+        
+out.println("function expande(domId) {");
+out.println(" var anim1 = dojo.fx.wipeIn( {node:domId, duration:200 });");
+out.println(" var anim2 = dojo.fadeIn({node:domId, duration:250});");
+out.println(" dojo.fx.combine([anim1,anim2]).play();");
+out.println("}");
+
+out.println("function collapse(domId) {");
+out.println(" var anim1 = dojo.fx.wipeOut( {node:domId, duration:200 });");
+out.println(" var anim2 = dojo.fadeOut({node:domId, duration:250});");
+out.println(" dojo.fx.combine([anim1, anim2]).play();");
+out.println("}");
+        
         out.println("var hrs = [];");
         out.println("var f1=function(item,i,pfx) {");
         out.println("    var s = new String(pfx);");
@@ -331,7 +464,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         out.println("        hrs.sort();");
         out.println("        if(dojo.every(hrs, f1)) {");
         //out.println("            showDialog2('"+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_EDIT).setCallMethod(SWBResourceURL.Call_DIRECT)+"'+'?hrs='+hrs.join(),'"+paramRequest.getLocaleString("usrmsg_doView_titleLbl")+"');");
-        out.println("location.href='"+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_EDIT)+"'+'?hrs='+hrs.join();");
+        out.println("location.href='"+paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD) +"'+'?hrs='+hrs.join();");
         out.println("        }else {");
         out.println("            alert('no juegas');");
         out.println("            dojo.every(hrs, function(item){dojo.style(dojo.byId(item),'backgroundColor','#ffffff');return true;});");
@@ -347,7 +480,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         out.println("    dojo.query(\".sltc\").connect(\"onclick\", function() {");
         out.println("                      if(dojo.hasClass(this, 'x'))");
         out.println("                          return;");
-        out.println("                      if(dojo.colorFromString(dojo.style(dojo.attr(this, 'id'),'backgroundColor')).toHex()=='#ffffff') {");
+        out.println("                      if(dojo.colorFromString(dojo.style(dojo.attr(this, 'id'),'backgroundColor')).toHex()!='#1d75b9') {");
         out.println("                          dojo.style(dojo.attr(this, 'id'),'backgroundColor','#1d75b9');");
         out.println("                          hrs.push(dojo.attr(this, 'id'));");
         out.println("                      }else {");
@@ -362,10 +495,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         out.println(");");
         out.println("</script>");
         
-        
         out.println("<div id=\"apartadoSalas\">");
-        
-        
         out.println("<div id=\"salasCal\">");
         SWBResourceURL url = paramRequest.getRenderUrl().setMode(Mode_ROLL);
         url.setParameter(Rel, Roll_MONTH);
@@ -444,7 +574,7 @@ if(!salas.isEmpty()) {
         
         
         out.println("<br class=\"clear\"/>");
-        
+        out.println("<a href=\"javascript:showFormDialog('_cvr_','#000000',80)\" class=\"soliCal\">Solicitar</a>");
         
         sdf = new SimpleDateFormat("HH:mm");
         out.println("<table id=\"mainTableCal\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
@@ -481,8 +611,9 @@ if(!salas.isEmpty()) {
             hourOfDay.add(Calendar.HOUR_OF_DAY, 1);
         }
         out.println("</table>");
-        out.println("<p><input type=\"button\" value=\"reservar\" onclick=\"validate()\" /></p>");
-        out.println("<p><a href=\""+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_HELP) +"\">borrar reservaciones</a></p>");
+        //out.println("<p><input type=\"button\" value=\"reservar\" onclick=\"showFormDialog('_cvr_','#000000',80)\" /></p>");
+        out.println("<a href=\"javascript:showFormDialog('_cvr_','#000000',80)\" class=\"soliCal\">Solicitar</a>");
+        /*out.println("<p><a href=\""+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_HELP) +"\">borrar reservaciones</a></p>");*/
         out.println("</div>");
     }
     
@@ -491,9 +622,57 @@ if(!salas.isEmpty()) {
         Resource base = getResourceBase();
         WebSite model = base.getWebSite();
         String action = response.getAction();
-        
+System.out.println("\n\n * processAction ******");
+System.out.println("action="+action);
+
         if(SWBResourceURL.Action_ADD.equals(action)) {
-            response.setMode(SWBResourceURL.Mode_VIEW);
+System.out.println("add.........");
+
+            String[] hrs = (request.getParameter("hrs")==null||request.getParameter("hrs").isEmpty())?null:request.getParameter("hrs").split(",");
+            if(hrs==null || hrs.length==0) {
+                return;
+            }
+            for(int i=0; i<hrs.length-1; i++) {
+                if(!hrs[i].startsWith(hrs[i+1].substring(0, hrs[i+1].lastIndexOf("_")))) {
+System.out.println("error 1");
+                    return;
+                }
+            }
+            int[] ihrs = new int[hrs.length];
+            for(int i=0; i<hrs.length; i++) {
+                try {
+                    ihrs[i] = Integer.parseInt(hrs[i].substring(hrs[i].lastIndexOf("_")+1));
+                }catch(NumberFormatException nfe) {
+System.out.println("error 2");
+                    return;
+                }
+            }
+            Arrays.sort(ihrs);
+            if(ihrs[0]==0 || ihrs[ihrs.length-1]==0) {
+System.out.println("error 3");
+                return;
+            }
+            final String id = hrs[0].substring(0, hrs[0].lastIndexOf("_"));
+            final Sala sala = Sala.ClassMgr.getSala(id, base.getWebSite());
+            if(sala==null) {
+System.out.println("error 4");
+                return;
+            }
+            try {
+                HttpSession session = request.getSession(true);
+                GregorianCalendar current = (GregorianCalendar)session.getAttribute("cur");
+                GregorianCalendar cur = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
+                if(sala.isReservada(cur, ihrs[0], ihrs[ihrs.length-1])) {
+System.out.println("error 5");
+                    return;
+                }
+            }catch(Exception nfe) {
+                log.error(nfe);
+System.out.println("error 6");
+nfe.printStackTrace(System.out);
+                return;
+            }
+
             
             User user = response.getUser();
             
@@ -505,14 +684,14 @@ if(!salas.isEmpty()) {
             String typeCafe = SWBUtils.XML.replaceXMLChars(request.getParameter("typeCafe"));
             String hoursService = SWBUtils.XML.replaceXMLChars(request.getParameter("hoursService"));
 
-            final String uri = SWBUtils.XML.replaceXMLChars(request.getParameter("sl"));
+            /*final String uri = SWBUtils.XML.replaceXMLChars(request.getParameter("sl"));
             Sala sala = null;
             try {
                 sala = (Sala)SemanticObject.createSemanticObject(uri).createGenericInstance();
             }catch(Exception e) {
                 log.error(e);
                 e.printStackTrace(System.out);
-            }
+            }*/
                 
             int hi=0, hf=0;
             try {
@@ -537,8 +716,9 @@ if(!salas.isEmpty()) {
             date.setDate(cur.getTime());
             
             
-            if(sala!=null && date!=null && sala.isValid() && !sala.isReservada(date, hi, hf)) {
+            /*if(sala!=null && date!=null && sala.isValid() && !sala.isReservada(date, hi, hf)) {
                 ReservacionSala reservation = ReservacionSala.ClassMgr.createReservacionSala(model);
+                //ReservacionSala reservation = getProcessReservation();
                 sala.setReservada(true);
                 reservation.setSala(sala);
                 reservation.setResponsable(user);
@@ -546,21 +726,8 @@ if(!salas.isEmpty()) {
                 reservation.setFecha(date);
                 reservation.setDe(hi);
                 reservation.setA(hf);
-            }
+            }*/
         }
-        /*else if(SWBResourceURL.Action_EDIT.equals(action)) {
-            String editAccessURI = request.getParameter("editAccess");
-            if(editAccessURI!=null) {
-                base.setAttribute("editAccess", editAccessURI);
-                try {
-                    base.updateAttributesToDB();
-                }catch(Exception e) {
-                    log.error("Error al guardar Role/UserGroup para acceso al InlineEdit.",e);
-                }finally {
-                    response.setAction(response.Action_ADD);
-                }
-            }
-        }*/
     }
 
     @Override
@@ -715,92 +882,92 @@ if(!salas.isEmpty()) {
         out.println("</form>");
         
         
-out.println("<script type=\"text/javascript\">");
-out.println("<!--");
-out.println(" function showFormDialog(divId, bgcolor, opacity) {");
-out.println("  createCoverDiv(divId, bgcolor, opacity);");
-out.println("  var frmHolder = document.createElement('div');");
-out.println("  var cwidth = 360;");
-out.println("  var cheight = 550;");
-
-out.println("  frmHolder.id='s_'+divId;");
-out.println("  frmHolder.style.zIndex=1001;");
-out.println("  frmHolder.style.position='absolute';");
-out.println("  frmHolder.style.top='50%';");
-out.println("  frmHolder.style.left='50%';");
-out.println("  frmHolder.style.marginLeft=-cwidth/2+'px';");
-out.println("  frmHolder.style.marginTop=-cheight/2+'px';");
-out.println("  frmHolder.style.width=cwidth+'px';");
-out.println("  frmHolder.style.height=cheight+'px';");
-out.println("  var s = new String('');");
-out.println("  s = s.concat('<form id=\"rs\" method=\"post\" action=\""+paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD)+"\">');");
-out.println("  s = s.concat('<input type=\"hidden\" name=\"hi\" value=\""+ihrs[0]+"\"/>');");
-out.println("  s = s.concat('<input type=\"hidden\" name=\"hf\" value=\""+(ihrs[ihrs.length-1]+59)+"\"/>');");
-out.println("  s = s.concat('<input type=\"hidden\" name=\"sl\" value=\""+sala.getURI()+"\"/>');");
-out.println("  s = s.concat('<div id=\"mainPop\">');");
-out.println("  s = s.concat(' <div id=\"popMiddle\">');");
-out.println("  s = s.concat('  <p>Fecha de reservaci&oacute;n:<br />');");
-out.println("  s = s.concat('   <span class=\"blueCal\">3 de Noviembre de 2011 10:00 AM </span><br />');");
-out.println("  s = s.concat('   <span class=\"blueCal\">3 de Noviembre de 2011 12:00 PM</span>');");
-out.println("  s = s.concat('  </p>');");
-out.println("  s = s.concat('  <div id=\"usuarioCal\">');");
-out.println("  s = s.concat('   <p><img src=\"images/placeholderCal.png\" width=\"80\" height=\"80\" alt=\"placeholder\" /></p>');");
-out.println("  s = s.concat('   <p><span class=\"nombreCal\">Fulano de tal</span></p>');");
-out.println("  s = s.concat('   <p>Consultor de arquitectura</p>');");
-out.println("  s = s.concat('  </div>');");
-
-out.println("  s = s.concat('  <p>');");
-out.println("  s = s.concat('   <span class=\"blueCalTit\">Motivo de la reuni&oacute;n:</span><br />');");
-out.println("  s = s.concat('   <span class=\"enfasisCal\">(140 caracteres m&aacute;ximo)</span><br />');");
-out.println("  s = s.concat('   <label for=\"motive\"></label><textarea id=\"motive\" name=\"motive\" class=\"datosCal\"></textarea>');");
-out.println("  s = s.concat('  </p>');");
-out.println("  s = s.concat('  <div class=\"twinsCal\">');");
-out.println("  s = s.concat('   <p><span class=\"blueCalTit\">Tipo de reuni&oacute;n</span>:</p>');");
-out.println("  s = s.concat('   <ul>');");
-out.println("  s = s.concat('    <li>');");
-out.println("  s = s.concat('     <input type=\"radio\" name=\"typeMeet\" id=\"interna\" value=\"interna\" />');");
-out.println("  s = s.concat('      <label for=\"interna\"></label>');");
-out.println("  s = s.concat('      Interna');");
-out.println("  s = s.concat('    </li>');");
-out.println("  s = s.concat('    <li>');");
-out.println("  s = s.concat('     <input type=\"radio\" name=\"typeMeet\" id=\"externa\" value=\"externa\" />');");
-out.println("  s = s.concat('      <label for=\"externa\"></label>');");
-out.println("  s = s.concat('      Externa');");
-out.println("  s = s.concat('    </li>');");
-out.println("  s = s.concat('   </ul>');");
-out.println("  s = s.concat('  </div>');");
-out.println("  s = s.concat('  <div class=\"twinsCal1\">');");
-out.println("  s = s.concat('   <p><span class=\"blueCalTit\">N&uacute;mero de asistentes</span></p>');");
-out.println("  s = s.concat('    <input type=\"text\" name=\"turnout\" id=\"turnout\" value=\"\" size=\"10\" maxlength=\"2\" />');");
-out.println("  s = s.concat('  </div>');");
-out.println("  s = s.concat('  <p>&nbsp;</p>');");
-out.println("  s = s.concat('  <p class=\"blueCalTit\">Selecciona los servicios que solicitas </p>');");
-out.println("  s = s.concat('  <ul>');");
-out.println("  s = s.concat('   <li>');");
-out.println("  s = s.concat('    <input type=\"checkbox\" name=\"equipment\" id=\"projector\" value=\"projector\" />');");
-out.println("  s = s.concat('    <label for=\"interna2\"></label>');");
-out.println("  s = s.concat('    Proyector');");
-out.println("  s = s.concat('   </li>');");
-out.println("  s = s.concat('   <li>');");
-out.println("  s = s.concat('    <input type=\"checkbox\" name=\"equipment\" id=\"pcs\" value=\"pcs\" />');");
-out.println("  s = s.concat('    Computadora');");
-out.println("  s = s.concat('   </li>');");
-out.println("  s = s.concat('  </ul>');");
-out.println("  s = s.concat('  <p>');");
-out.println("  s = s.concat('   <span class=\"blueCalTit\">Otros servicios necesarios</span><br />');");
-out.println("  s = s.concat('   <label for=\"motivo\"></label><textarea id=\"services\" name=\"services\" class=\"datosCal\"></textarea>');");
-out.println("  s = s.concat('  </p>');");
-out.println("  s = s.concat('  <p><input type=\"submit\" class=\"soliCal\">Solicitar</a></p>');");
-out.println("  s = s.concat('  <p class=\"finePrint\">*Se te enviar&aacute; un e-mail con la confirmaci&oacute;n</p>');");
-out.println("  s = s.concat(' </div>');");
-out.println("  s = s.concat(' <p id=\"popBottom\"></p>');");
-out.println("  s = s.concat('</div>');");
-out.println("  s = s.concat('</form>');");
-out.println("  frmHolder.innerHTML = s;");    
-out.println("  document.body.appendChild(frmHolder);");        
-out.println(" }");
-out.println("-->");
-out.println("</script>");
+//out.println("<script type=\"text/javascript\">");
+//out.println("<!--");
+//out.println(" function showFormDialog(divId, bgcolor, opacity) {");
+//out.println("  createCoverDiv(divId, bgcolor, opacity);");
+//out.println("  var frmHolder = document.createElement('div');");
+//out.println("  var cwidth = 360;");
+//out.println("  var cheight = 550;");
+//
+//out.println("  frmHolder.id='s_'+divId;");
+//out.println("  frmHolder.style.zIndex=1001;");
+//out.println("  frmHolder.style.position='absolute';");
+//out.println("  frmHolder.style.top='50%';");
+//out.println("  frmHolder.style.left='50%';");
+//out.println("  frmHolder.style.marginLeft=-cwidth/2+'px';");
+//out.println("  frmHolder.style.marginTop=-cheight/2+'px';");
+//out.println("  frmHolder.style.width=cwidth+'px';");
+//out.println("  frmHolder.style.height=cheight+'px';");
+//out.println("  var s = new String('');");
+//out.println("  s = s.concat('<form id=\"rs\" method=\"post\" action=\""+paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD)+"\">');");
+//out.println("  s = s.concat('<input type=\"hidden\" name=\"hi\" value=\""+ihrs[0]+"\"/>');");
+//out.println("  s = s.concat('<input type=\"hidden\" name=\"hf\" value=\""+(ihrs[ihrs.length-1]+59)+"\"/>');");
+//out.println("  s = s.concat('<input type=\"hidden\" name=\"sl\" value=\""+sala.getURI()+"\"/>');");
+//out.println("  s = s.concat('<div id=\"mainPop\">');");
+//out.println("  s = s.concat(' <div id=\"popMiddle\">');");
+//out.println("  s = s.concat('  <p>Fecha de reservaci&oacute;n:<br />');");
+//out.println("  s = s.concat('   <span class=\"blueCal\">3 de Noviembre de 2011 10:00 AM </span><br />');");
+//out.println("  s = s.concat('   <span class=\"blueCal\">3 de Noviembre de 2011 12:00 PM</span>');");
+//out.println("  s = s.concat('  </p>');");
+//out.println("  s = s.concat('  <div id=\"usuarioCal\">');");
+//out.println("  s = s.concat('   <p><img src=\"images/placeholderCal.png\" width=\"80\" height=\"80\" alt=\"placeholder\" /></p>');");
+//out.println("  s = s.concat('   <p><span class=\"nombreCal\">Fulano de tal</span></p>');");
+//out.println("  s = s.concat('   <p>Consultor de arquitectura</p>');");
+//out.println("  s = s.concat('  </div>');");
+//
+//out.println("  s = s.concat('  <p>');");
+//out.println("  s = s.concat('   <span class=\"blueCalTit\">Motivo de la reuni&oacute;n:</span><br />');");
+//out.println("  s = s.concat('   <span class=\"enfasisCal\">(140 caracteres m&aacute;ximo)</span><br />');");
+//out.println("  s = s.concat('   <label for=\"motive\"></label><textarea id=\"motive\" name=\"motive\" class=\"datosCal\"></textarea>');");
+//out.println("  s = s.concat('  </p>');");
+//out.println("  s = s.concat('  <div class=\"twinsCal\">');");
+//out.println("  s = s.concat('   <p><span class=\"blueCalTit\">Tipo de reuni&oacute;n</span>:</p>');");
+//out.println("  s = s.concat('   <ul>');");
+//out.println("  s = s.concat('    <li>');");
+//out.println("  s = s.concat('     <input type=\"radio\" name=\"typeMeet\" id=\"interna\" value=\"interna\" />');");
+//out.println("  s = s.concat('      <label for=\"interna\"></label>');");
+//out.println("  s = s.concat('      Interna');");
+//out.println("  s = s.concat('    </li>');");
+//out.println("  s = s.concat('    <li>');");
+//out.println("  s = s.concat('     <input type=\"radio\" name=\"typeMeet\" id=\"externa\" value=\"externa\" />');");
+//out.println("  s = s.concat('      <label for=\"externa\"></label>');");
+//out.println("  s = s.concat('      Externa');");
+//out.println("  s = s.concat('    </li>');");
+//out.println("  s = s.concat('   </ul>');");
+//out.println("  s = s.concat('  </div>');");
+//out.println("  s = s.concat('  <div class=\"twinsCal1\">');");
+//out.println("  s = s.concat('   <p><span class=\"blueCalTit\">N&uacute;mero de asistentes</span></p>');");
+//out.println("  s = s.concat('    <input type=\"text\" name=\"turnout\" id=\"turnout\" value=\"\" size=\"10\" maxlength=\"2\" />');");
+//out.println("  s = s.concat('  </div>');");
+//out.println("  s = s.concat('  <p>&nbsp;</p>');");
+//out.println("  s = s.concat('  <p class=\"blueCalTit\">Selecciona los servicios que solicitas </p>');");
+//out.println("  s = s.concat('  <ul>');");
+//out.println("  s = s.concat('   <li>');");
+//out.println("  s = s.concat('    <input type=\"checkbox\" name=\"equipment\" id=\"projector\" value=\"projector\" />');");
+//out.println("  s = s.concat('    <label for=\"interna2\"></label>');");
+//out.println("  s = s.concat('    Proyector');");
+//out.println("  s = s.concat('   </li>');");
+//out.println("  s = s.concat('   <li>');");
+//out.println("  s = s.concat('    <input type=\"checkbox\" name=\"equipment\" id=\"pcs\" value=\"pcs\" />');");
+//out.println("  s = s.concat('    Computadora');");
+//out.println("  s = s.concat('   </li>');");
+//out.println("  s = s.concat('  </ul>');");
+//out.println("  s = s.concat('  <p>');");
+//out.println("  s = s.concat('   <span class=\"blueCalTit\">Otros servicios necesarios</span><br />');");
+//out.println("  s = s.concat('   <label for=\"motivo\"></label><textarea id=\"services\" name=\"services\" class=\"datosCal\"></textarea>');");
+//out.println("  s = s.concat('  </p>');");
+//out.println("  s = s.concat('  <p><input type=\"submit\" class=\"soliCal\">Solicitar</a></p>');");
+//out.println("  s = s.concat('  <p class=\"finePrint\">*Se te enviar&aacute; un e-mail con la confirmaci&oacute;n</p>');");
+//out.println("  s = s.concat(' </div>');");
+//out.println("  s = s.concat(' <p id=\"popBottom\"></p>');");
+//out.println("  s = s.concat('</div>');");
+//out.println("  s = s.concat('</form>');");
+//out.println("  frmHolder.innerHTML = s;");    
+//out.println("  document.body.appendChild(frmHolder);");        
+//out.println(" }");
+//out.println("-->");
+//out.println("</script>");
     }
     
     public void doRoll(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
@@ -946,9 +1113,9 @@ out.println("</script>");
         out.println(" <p><a href=\"javascript:location.href='"+url+"'\" class=\"salasAdelante\">adelante</a></p>");
         out.println("</div>");
         
- Iterator<Sala> isalas = Sala.ClassMgr.listSalas(base.getWebSite());        
-        isalas = SWBComparator.sortByDisplayName(isalas, lang);
-        List<Sala> salas = SWBUtils.Collections.copyIterator(isalas);
+Iterator<Sala> isalas = Sala.ClassMgr.listSalas(base.getWebSite());        
+isalas = SWBComparator.sortByDisplayName(isalas, lang);
+List<Sala> salas = SWBUtils.Collections.copyIterator(isalas);
         
         
 if(!salas.isEmpty()) {
