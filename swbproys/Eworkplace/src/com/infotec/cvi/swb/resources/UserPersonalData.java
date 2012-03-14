@@ -41,7 +41,6 @@ public class UserPersonalData extends GenericAdmResource {
     }
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
-//System.out.println("processAction");
         final String action = response.getAction();
 //TODO  si se planea usarlo para que alguin mas vea  y cambie los datos ajustar aqui tal ves enviando el id usario encriptado
         User user = response.getUser();
@@ -49,12 +48,8 @@ public class UserPersonalData extends GenericAdmResource {
         WebSite ws = wp.getWebSite();
         UserRepository ur = ws.getUserRepository();
         Resource base = getResourceBase();
-//System.out.println("action:" + action);
         if(response.Action_ADD.equals(action) && user.isSigned()) {
             try {
-               /* if (request.getParameter("usrPassword") != null && !"{MD5}tq5RXfs6DGIXD6dlHUgeQA==".equalsIgnoreCase(request.getParameter("usrPassword"))) {
-                    user.setPassword(request.getParameter("usrPassword"));
-                }*/
                 boolean complete=true;
                 String curp=request.getParameter("curp");
                 String firstName=request.getParameter("firstName");
@@ -82,7 +77,6 @@ public class UserPersonalData extends GenericAdmResource {
                 }
                 String fm2=request.getParameter("fm2");
                 String email = request.getParameter("email");
-                //String phoneUser = request.getParameter("phoneUser");
                 String sLabor = request.getParameter("sLabor");
                 String availability = request.getParameter("availability");
 
@@ -121,7 +115,6 @@ public class UserPersonalData extends GenericAdmResource {
                 String linkedin = request.getParameter("linkedin");
                 String twitter = request.getParameter("twitter");
 
-//System.out.println(firstName.matches("[a-zA-Z\u00C0-\u00FF' ]+"));
                 if (firstName!=null&&!firstName.equals("")&&firstName.matches("[a-zA-Z\u00C0-\u00FF' ]+")){
                     user.setFirstName(SWBUtils.XML.replaceXMLChars(firstName));
                 }else{
@@ -137,11 +130,11 @@ public class UserPersonalData extends GenericAdmResource {
                 }else{
                     complete=false;
                 }
-                if (email!=null&&!email.equals("")){
+                /*if (email!=null&&!email.equals("")){
                     user.setEmail(email);
                 }else{
                     complete=false;
-                }
+                }*/
 
                 Persona persona = Persona.ClassMgr.getPersona(user.getId(), ws);
                 if (persona == null) {
@@ -164,21 +157,22 @@ public class UserPersonalData extends GenericAdmResource {
                 }else{
                     complete=false;
                 }
-
                 if (birthday!=null){
                     persona.setNacimiento(birthday);
                 }else{
                     complete=false;
                 }
-
-                persona.setLugarNacimiento(null);
-
+                if (state!=null){
+                    persona.setEstadoNacimiento(state);
+                }else{
+                    complete=false;
+                }
                 if (nationality!=null){
                     persona.setNacionalidad(nationality);
                 }else{
                     complete=false;
                 }
-                if (fm2!=null&&!fm2.equals("")&&fm2.equals("true")){
+                if (fm2!=null&&fm2.equals("true")){
                     persona.setFM2(true);
                 }else{
                     persona.setFM2(false);
@@ -201,7 +195,7 @@ public class UserPersonalData extends GenericAdmResource {
                 if (addrNumI!=null){
                     domicilio.setNumInterior(addrNumI);
                 }else{
-                    complete=false;
+//                    complete=false;
                 }
                 if (addrZip!=null){
                     domicilio.setCp(addrZip);
@@ -282,30 +276,27 @@ public class UserPersonalData extends GenericAdmResource {
                     }
                 }
 
-                 //sLabor = request.getParameter("sLabor");
-                 //avalibility = request.getParameter("avalibility");
-
-                if (facebook!=null&&!facebook.equals("")&&facebook.matches(".+")){
+                if (facebook!=null){
                     persona.setFacebook(facebook);
                 }else{
                     //complete=false;
                 }
-                if (skype!=null&&!skype.equals("")&&skype.matches(".+")){
+                if (skype!=null){
                     persona.setSkype(skype);
                 }else{
                     //complete=false;
                 }
-                if (msn!=null&&!msn.equals("")&&msn.matches(".+")){
+                if (msn!=null){
                     persona.setMsn(msn);
                 }else{
                     //complete=false;
                 }
-                if (linkedin!=null&&!linkedin.equals("")&&linkedin.matches(".+")){
+                if (linkedin!=null){
                     persona.setLinkedin(linkedin);
                 }else{
                     //complete=false;
                 }
-                if (twitter!=null&&!twitter.equals("")&&twitter.matches(".+")){
+                if (twitter!=null){
                     persona.setTwitter(twitter);
                 }else{
                     //complete=false;
@@ -325,7 +316,7 @@ public class UserPersonalData extends GenericAdmResource {
                     complete=false;
                 }
 //para pruebas de carlos
-complete = true;
+//complete = true;
 //
                 if(complete) {
                     setCandidate(user);
@@ -506,16 +497,22 @@ complete = true;
     private void setCandidate(final User user) throws Exception {
         final String grantPrivilegesId = getResourceBase().getAttribute("editRole");
         if( user!=null && user.isSigned() ) {
-            SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
-            GenericObject gobj;
-            gobj = ont.getGenericObject(grantPrivilegesId);
-            if( gobj!=null ) {
-                if(gobj instanceof UserGroup) {
-                    UserGroup ugrp = (UserGroup) gobj;
-                    user.addUserGroup(ugrp);
-                }else if(gobj instanceof Role) {
-                    Role urole = (Role) gobj;
-                    user.addRole(urole);
+            if(SWBUtils.Collections.sizeOf(user.listUserGroups())==0&&SWBUtils.Collections.sizeOf(user.listRoles())==0){
+                SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
+                GenericObject gobj;
+                gobj = ont.getGenericObject(grantPrivilegesId);
+                if( gobj!=null ) {
+                    if(gobj instanceof UserGroup) {
+                        UserGroup ugrp = (UserGroup) gobj;
+                        if(!user.hasUserGroup(ugrp)){
+                            user.addUserGroup(ugrp);
+                        }
+                    }else if(gobj instanceof Role) {
+                        Role urole = (Role) gobj;
+                        if(!user.hasRole(urole)){
+                            user.addRole(urole);
+                        }
+                    }
                 }
             }
         }
