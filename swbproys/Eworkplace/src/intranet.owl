@@ -1611,13 +1611,10 @@
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="reservada">
-    <rdfs:domain rdf:resource="#Sala"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
     <swb:defaultValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >true</swb:defaultValue>
-    <swb:displayProperty>
-      <swbxf:DisplayProperty rdf:ID="dp_reservada"/>
-    </swb:displayProperty>
+    <rdfs:domain rdf:resource="#Sala"/>
     <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</swb:required>
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -3169,6 +3166,7 @@
     <rdfs:label xml:lang="es">Área de talento o interés</rdfs:label>
     <rdfs:label xml:lang="en">Talent or interest area</rdfs:label>
   </swbxf:DisplayProperty>
+  <swbxf:DisplayProperty rdf:ID="dp_reservada"/>
   <swbxf:DisplayProperty rdf:ID="dp_documentoProbatorio">
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Documento probatorio</rdfs:label>
