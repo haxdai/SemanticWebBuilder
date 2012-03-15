@@ -558,12 +558,13 @@ out.println("}");
         isalas = SWBComparator.sortByDisplayName(isalas, lang);
         List<Sala> salas = SWBUtils.Collections.copyIterator(isalas);
         
-        
 if(!salas.isEmpty()) {
     out.println("<div id=\"roomselectorCal\">");
     out.println(" <p>Salas</p>");
     out.println(" <ul>");
     for(Sala sala:salas) {
+        if(!sala.isActive())
+            continue;
         out.println("<li><a href=\""+paramRequest.getRenderUrl().setMode(Mode_SALA).setParameter("sl", sala.getEncodedURI()) +"\" title=\"ver sala\">");
         out.println(sala.getDisplayTitle(lang));
         out.println("</a></li>");
@@ -580,9 +581,12 @@ if(!salas.isEmpty()) {
         out.println("<table id=\"mainTableCal\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
         out.println("<tr class=\"trCalSalas\">");
         out.println("  <td height=\"30\">Hora</td>");
-        isalas = salas.iterator();
-        while(isalas.hasNext()) {
-            out.println("  <td height=\"30\">"+isalas.next().getDisplayTitle(lang)+"</td>");
+        //isalas = salas.iterator();
+        //while(isalas.hasNext()) {
+        for(Sala sala:salas) {
+            if(!sala.isActive())
+                continue;
+            out.println("  <td height=\"30\">"+sala.getDisplayTitle(lang)+"</td>");
         }
         out.println("</tr>");
         
@@ -1123,6 +1127,8 @@ if(!salas.isEmpty()) {
     out.println(" <p>Salas</p>");
     out.println(" <ul>");
     for(Sala sala:salas) {
+        if(!sala.isActive())
+            continue;
         out.println("<li><a href=\""+paramRequest.getRenderUrl().setMode(Mode_SALA).setParameter("sl", sala.getEncodedURI()) +"\" title=\"ver sala\">");
         out.println(sala.getDisplayTitle(lang));
         out.println("</a></li>");
@@ -1131,7 +1137,7 @@ if(!salas.isEmpty()) {
     out.println("</div>");
 }        
         
-        out.println("<br class=\"clear\"/>");   
+        out.println("<br class=\"clear\"/>");
         
         sdf = new SimpleDateFormat("HH:mm");
         out.println("<table id=\"mainTableCal\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
@@ -1140,9 +1146,12 @@ if(!salas.isEmpty()) {
         isalas = Sala.ClassMgr.listSalas(base.getWebSite());        
         isalas = SWBComparator.sortByDisplayName(isalas, lang);
         //List<Sala> salas = SWBUtils.Collections.copyIterator(isalas);
-        isalas = salas.iterator();
-        while(isalas.hasNext()) {
-            out.println("  <td height=\"30\">"+isalas.next().getDisplayTitle(lang) +"</td>");
+//        isalas = salas.iterator();
+//        while(isalas.hasNext()) {
+        for(Sala sala:salas) {
+            if(!sala.isActive())
+                continue;
+            out.println("  <td height=\"30\">"+sala.getDisplayTitle(lang) +"</td>");
         }
         out.println("</tr>");
         

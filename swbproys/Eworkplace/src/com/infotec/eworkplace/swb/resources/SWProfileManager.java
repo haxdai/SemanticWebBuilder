@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
+import java.util.ListIterator;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -76,9 +77,7 @@ public class SWProfileManager extends GenericAdmResource {
         PrintWriter out =  response.getWriter();
 
 System.out.println("\n\n SWProfileManager.............");
-System.out.println("paramRequest.getMode()="+paramRequest.getMode());
-System.out.println("paramRequest.getCallMethod()="+paramRequest.getCallMethod());
-System.out.println("paramRequest.getAction()="+paramRequest.getAction());
+System.out.println("Action = "+paramRequest.getAction());
         
         if(paramRequest.getCallMethod()==paramRequest.Call_STRATEGY) {
 //                SemanticProperty sp = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#miPerfilSL");
@@ -212,7 +211,20 @@ System.out.println("paramRequest.getAction()="+paramRequest.getAction());
     }
     
     public void doResume(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        response.setContentType("text/html; charset=UTF-8");
+        User user = paramRequest.getUser();
+        if(!user.isSigned())
+            return;
+        
+        final String path = "/work/models/" + paramRequest.getWebPage().getWebSite().getId() + "/jsp/" + this.getClass().getSimpleName() + "/viewProfile.jsp";
+        RequestDispatcher dis = request.getRequestDispatcher(path);
+        try {
+            request.setAttribute("paramRequest", paramRequest);
+            request.setAttribute("this", this);
+            dis.include(request, response);
+        }catch(Exception e) {
+            log.error(e);
+        }
+        /*response.setContentType("text/html; charset=UTF-8");
         
         User user = paramRequest.getUser();
         if(!user.isSigned())
@@ -312,7 +324,7 @@ System.out.println("paramRequest.getAction()="+paramRequest.getAction());
             out.println("  </div>");
             out.println(" </div>");
             out.println("</div>");
-        }
+        }*/
     }
 
     @Override
@@ -710,7 +722,6 @@ htm.append("</form>");
         }
         
         else if(SWBResourceURL.Action_EDIT.equals(action)) {
-            response.setMode(Mode_VIEWPRFL);
             SWProfile profile = SWProfile.ClassMgr.getSWProfile(user.getId(), wsite);
             if( user.equals(profile.getCreator()) ) {
 //            SemanticProperty sp = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#miPerfilSL");
@@ -735,18 +746,30 @@ htm.append("</form>");
                     profile.setMiPersonalidad(SWBUtils.XML.replaceXMLChars(request.getParameter("prsnld")));
                     profile.setMisGustos(SWBUtils.XML.replaceXMLChars(request.getParameter("gsts")));
                     profile.setMisIdeas(SWBUtils.XML.replaceXMLChars(request.getParameter("ideas")));
+                    
                     try {
-                        int tfo = Integer.parseInt(request.getParameter("tfo"));
-                        int ld = Integer.parseInt(request.getParameter("ld"));
-                        int xtn = Integer.parseInt(request.getParameter("ext"));
-                        SemanticProperty ext = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#extension");
-                        
-                        user.setExtendedAttribute(ext, xtn);
+                        int ld, xtn, tfo = Integer.parseInt(request.getParameter("tfo"));
+                        try {
+                            ld = Integer.parseInt(request.getParameter("ld"));
+                        }catch(Exception e) {
+                            ld = 0;
+                        }
+                        try {
+                            xtn = Integer.parseInt(request.getParameter("ext"));
+                        }catch(Exception e) {
+                            xtn = 0;
+                        }
+                        Iterator<Telefono> telefonos = persona.listTelefonoByTipo(Telefono.TipoTelefono.job);
+                        while(telefonos.hasNext()) {
+                            telefonos.next().remove();
+                        }
                         Telefono tel = Telefono.ClassMgr.createTelefono(wsite);
                         tel.setLada(ld);
                         tel.setNumero(tfo);
                         tel.setExtension(xtn);
-                        tel.setTipo("job");
+                        SemanticProperty ext = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#extension");
+                        user.setExtendedAttribute(ext, xtn);
+                        tel.setTipo(Telefono.TipoTelefono.job.name());
                         persona.addTelefono(tel);
                     }catch(Exception nfe) {
                         log.error(nfe);
@@ -755,7 +778,7 @@ htm.append("</form>");
                         user.setEmail(request.getParameter("email"));
                     profile.setUbicacion(SWBUtils.XML.replaceXMLChars(request.getParameter("loc")));
                     
-                    if(request.getParameterValues("mti").length>0) {
+                    if(request.getParameterValues("mti")!=null && request.getParameterValues("mti").length>0) {
                         profile.removeAllTemaInteres();
                         String[] mtis = request.getParameterValues("mti");
                         for(String mti:mtis)
@@ -765,6 +788,7 @@ htm.append("</form>");
                                 log.error(e);
                             }
                     }
+                    response.setAction(SWBResourceURL.Action_ADD);
                     
 //                    Domicilio domicilio = persona.getDomicilio();
 //                    domicilio.setCalle(SWBUtils.XML.replaceXMLChars(request.getParameter("cn")));
