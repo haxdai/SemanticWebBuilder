@@ -4,6 +4,7 @@
     Author     : juan.fernandez
 --%>
 
+<%@page import="org.semanticwb.SWBUtils"%>
 <%@page import="com.infotec.cvi.swb.Estudios"%>
 <%@page import="com.infotec.cvi.swb.AreaEstudio"%>
 <%@page import="com.infotec.cvi.swb.DisciplinaEstudio"%>
@@ -26,6 +27,9 @@
             wsid="eworkplace";
             WebSite wsite = WebSite.ClassMgr.getWebSite(wsid);
             if(request.getParameter("del")!=null&&request.getParameter("del").equals("true")){
+                wsite.getSemanticObject().getModel().setTraceable(false);
+                wsite.begin();
+                System.out.println("Eliminando catalogo estudios");
                 Iterator<Estudios> itest = Estudios.ClassMgr.listEstudioses(wsite);
                 while(itest.hasNext()){
                     Estudios t_est = itest.next();
@@ -45,7 +49,10 @@
                 while(ittest.hasNext()){
                     TipoEstudio t_est = ittest.next();
                     t_est.remove();
-                }     
+                }  
+                wsite.commit();
+                wsite.getSemanticObject().getModel().setTraceable(true);
+                System.out.println("Catalogo Eliminado");
             }                   
             
 %>
@@ -68,7 +75,7 @@
                             <option value="0"> --- </option>
                             <%
                                         String wsSelected = "";
-                                        Iterator<WebSite> it = WebSite.ClassMgr.listWebSites();
+                                        Iterator<WebSite> it = SWBContext.listWebSites();
                                         while (it.hasNext()) {
                                             WebSite ws = it.next();
                                             wsSelected = "";
@@ -115,8 +122,9 @@
 
         <%
 
-        fileid = "C:\\data_jafa\\Java\\tomcatCVI\\apache-tomcat-7.0.25\\webapps\\ROOT\\work\\models\\eworkplace\\data\\posgrado.csv";
+        //fileid = "C:\\data_jafa\\Java\\tomcatCVI\\apache-tomcat-7.0.25\\webapps\\ROOT\\work\\models\\eworkplace\\data\\posgrado.csv";
                     //fileid = "/opt/tomcat/webapps/ROOT/work/models/eworkplace/data/posgrado.csv";
+                    fileid = SWBUtils.getApplicationPath()+"work/models/eworkplace/data/posgrado.csv";
         
                     //WebSite wsite = WebSite.ClassMgr.getWebSite(wsid);
 
@@ -133,6 +141,8 @@
                             DisciplinaEstudio disest = null;
                             AreaEstudio areaest = null;
                             Estudios est = null;
+                            wsite.getSemanticObject().getModel().setTraceable(false);
+                            wsite.begin();
                             while ((thisLine = myInput.readLine()) != null) {
                                 out.print("<tr>");
                                 StringTokenizer strar = new StringTokenizer(thisLine,"|");
@@ -196,6 +206,8 @@
                                 out.println("</tr>");
                                 i++;
                             }
+                            wsite.commit();
+                            wsite.getSemanticObject().getModel().setTraceable(true);
 %>
 <tr><td colspan="4">Se generaron <%=i%> registros al catalogo de posgrado</td></tr>
 <%

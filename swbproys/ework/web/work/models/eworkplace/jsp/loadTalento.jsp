@@ -28,6 +28,7 @@
             wsid="eworkplace";
             WebSite wsite = WebSite.ClassMgr.getWebSite(wsid);
             if(request.getParameter("del")!=null&&request.getParameter("del").equals("true")){
+                wsite.getSemanticObject().getModel().setTraceable(false);
                 Iterator<Habilidad> itdest = Habilidad.ClassMgr.listHabilidads(wsite);
                 wsite.begin(); 
                 while(itdest.hasNext()){
@@ -43,7 +44,8 @@
                 } 
                 System.out.println("Se eliminaron Tipo Talento");
                 wsite.commit();
-                System.out.println("Catalogo Eliminado");                                 
+                System.out.println("Catalogo Eliminado");     
+                wsite.getSemanticObject().getModel().setTraceable(true);                                           
             }                   
 
 %>
@@ -113,8 +115,11 @@
         <%
 
                     //fileid = "C:\\data_jafa\\Java\\tomcatCVI\\apache-tomcat-7.0.25\\webapps\\ROOT\\work\\models\\eworkplace\\data\\talento.csv";
-                    fileid = "/opt/tomcat/webapps/ROOT/work/models/eworkplace/data/talento.csv";
+                    //fileid = "/opt/tomcat/webapps/ROOT/work/models/eworkplace/data/talento.csv";
+                    fileid = SWBUtils.getApplicationPath()+"work/models/eworkplace/data/talento.csv";
         
+                    //System.out.println("Aplication path....========="+SWBUtils.getApplicationPath()+"===========");
+                    
                     //fileid=null;
                     //WebSite wsite = WebSite.ClassMgr.getWebSite(wsid);
 
@@ -137,6 +142,8 @@
                             String strHabil = null; //2a. Habilidad
                             String idHabil = null;
 
+                            wsite.getSemanticObject().getModel().setTraceable(false);
+                            wsite.begin(); 
                             int num=0;
                             while ((thisLine = myInput.readLine()) != null) {
                                 num++;
@@ -177,6 +184,8 @@
                                 out.println("</tr>");
                                 i++;
                             }
+                            wsite.commit();
+                            wsite.getSemanticObject().getModel().setTraceable(true);
 %>
 <tr><td colspan="4">Se generaron <%=i%> registros al catalogo de Tipo Talento - Habilidad  </td></tr>
 <%
