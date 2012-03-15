@@ -26,6 +26,7 @@
             wsid="eworkplace";
             WebSite wsite = WebSite.ClassMgr.getWebSite(wsid);
             if(request.getParameter("del")!=null&&request.getParameter("del").equals("true")){
+                wsite.getSemanticObject().getModel().setTraceable(false); 
                 Iterator<Colonia> itdest = Colonia.ClassMgr.listColonias(wsite);
                 wsite.begin(); 
                 while(itdest.hasNext()){
@@ -56,6 +57,7 @@
                     t_est.remove();
                 } 
                 wsite.commit();
+                wsite.getSemanticObject().getModel().setTraceable(true);
                 System.out.println("Se eliminaron Estados"); 
                 System.out.println("Catalogo Eliminado");                                 
             }                   
@@ -130,8 +132,9 @@
                     if(request.getParameter("edo")!=null) estado = request.getParameter("edo");
 
                     //fileid = "C:\\data_jafa\\Java\\tomcatCVI\\apache-tomcat-7.0.25\\webapps\\ROOT\\work\\models\\eworkplace\\data\\aguascalientesCP.csv";
-                    fileid = "/opt/tomcat/webapps/ROOT/work/models/eworkplace/data/"+estado+"CP.csv";
+                    //fileid = "/opt/tomcat/webapps/ROOT/work/models/eworkplace/data/"+estado+"CP.csv";
         
+                    fileid = SWBUtils.getApplicationPath()+"work/models/eworkplace/data/"+estado+"CP.csv";
                     //fileid=null;
                     //WebSite wsite = WebSite.ClassMgr.getWebSite(wsid);
 
@@ -220,6 +223,8 @@
                                         municipio.setEntidadInv(entidad);
                                     }
                                 }
+                                
+                                idCol = idEdo.substring(0,2)+"_"+idMuni.substring(0,2)+"_"+idCol;
                                 
                                 if(colonia!=null&&!idCol.equals(colonia.getId())) colonia = null; 
                                 if(colonia==null) colonia = Colonia.ClassMgr.getColonia(idCol, wsite);

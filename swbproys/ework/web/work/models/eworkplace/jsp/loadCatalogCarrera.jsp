@@ -4,6 +4,7 @@
     Author     : juan.fernandez
 --%>
 
+<%@page import="org.semanticwb.SWBUtils"%>
 <%@page import="java.util.StringTokenizer"%>
 <%@page import="com.infotec.cvi.swb.Carrera"%>
 <%@page import="com.infotec.cvi.swb.AreaCarrera"%>
@@ -26,11 +27,14 @@
             WebSite wsite = WebSite.ClassMgr.getWebSite(wsid);
             
             if(request.getParameter("del")!=null&&request.getParameter("del").equals("true")){
+                wsite.getSemanticObject().getModel().setTraceable(false);
+                wsite.begin();
+                System.out.println("Eliminando catalogo Carreras");
                 Iterator<Carrera> itc = Carrera.ClassMgr.listCarreras(wsite);
                 while(itc.hasNext()){
                     Carrera this_c = itc.next();
                     this_c.remove();
-                }  
+                }               
                 Iterator<AreaCarrera> itac = AreaCarrera.ClassMgr.listAreaCarreras(wsite);
                 while(itac.hasNext()){
                     AreaCarrera this_ac = itac.next();
@@ -41,6 +45,9 @@
                     TipoCarrera this_tc = ittc.next();
                     this_tc.remove();
                 }
+                wsite.commit();
+                wsite.getSemanticObject().getModel().setTraceable(true);
+                System.out.println("Se termino de eliminar catalogo");
              }
             
             
@@ -115,8 +122,9 @@
         <%
 
         //fileid = "C:\\data_jafa\\Java\\tomcatCVI\\apache-tomcat-7.0.25\\webapps\\ROOT\\work\\models\\eworkplace\\data\\licenciaturas.csv"; /opt/tomcat/webapps/ROOT/work/models/eworkplace/data
-                    fileid = "/opt/tomcat/webapps/ROOT/work/models/eworkplace/data/licenciaturas.csv";
+                    //fileid = "/opt/tomcat/webapps/ROOT/work/models/eworkplace/data/licenciaturas.csv";
         
+                    fileid = SWBUtils.getApplicationPath()+"work/models/eworkplace/data/licenciaturas.csv";
                     //WebSite wsite = WebSite.ClassMgr.getWebSite(wsid);
 
                     if (wsite != null && fileid != null) {
@@ -131,6 +139,8 @@
                             TipoCarrera tcarr = null;
                             AreaCarrera acarr = null;
                             Carrera carr = null;
+                            wsite.getSemanticObject().getModel().setTraceable(false);
+                            wsite.begin(); 
                             while ((thisLine = myInput.readLine()) != null) {
 
                                 out.print("<tr>");
@@ -186,6 +196,8 @@
                                 out.println("</tr>");
                                 i++;
                             }
+                            wsite.commit(); 
+                            wsite.getSemanticObject().getModel().setTraceable(true);
 %>
 <tr><td colspan="4">Se generaron <%=i%> registros al catalogo de carreras</td></tr>
 <%
