@@ -367,7 +367,7 @@ public class UserRegister extends GenericAdmResource {
     
     private void setAspirante(final User user) throws Exception {
         final String grantPrivilegesId = getResourceBase().getAttribute("editRole");
-System.out.println("\n------------grantPrivilegesId="+grantPrivilegesId);        
+//System.out.println("\n------------grantPrivilegesId="+grantPrivilegesId);
         SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
         GenericObject gobj;
         gobj = ont.getGenericObject(grantPrivilegesId);
@@ -375,7 +375,7 @@ System.out.println("\n------------grantPrivilegesId="+grantPrivilegesId);
             if(gobj instanceof UserGroup) {
                 UserGroup ugrp = (UserGroup) gobj;
                 user.addUserGroup(ugrp);
-System.out.println("ugrp="+ugrp);
+//System.out.println("ugrp="+ugrp);
             }else if(gobj instanceof Role) {
                 Role urole = (Role) gobj;
                 user.addRole(urole);
