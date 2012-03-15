@@ -29,16 +29,18 @@ import org.semanticwb.portal.api.*;
 public class UserPersonalData extends GenericAdmResource {
 
     private static Logger log = SWBUtils.getLogger(UserPersonalData.class);
-    public static final String Mode_AJAX="ajax";
+    public static final String Mode_AJAX = "ajax";
 
     @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         final String mode = paramRequest.getMode();
-        if(Mode_AJAX.equals(mode))
-            doAjax(request,response,paramRequest);
-        else
+        if (Mode_AJAX.equals(mode)) {
+            doAjax(request, response, paramRequest);
+        } else {
             super.processRequest(request, response, paramRequest);
+        }
     }
+
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         final String action = response.getAction();
@@ -48,65 +50,65 @@ public class UserPersonalData extends GenericAdmResource {
         WebSite ws = wp.getWebSite();
         UserRepository ur = ws.getUserRepository();
         Resource base = getResourceBase();
-        if(response.Action_ADD.equals(action) && user.isSigned()) {
+        if (response.Action_ADD.equals(action) && user.isSigned()) {
             try {
-                boolean complete=true;
-                String curp=request.getParameter("curp");
-                String firstName=request.getParameter("firstName");
-                String lastName=request.getParameter("lastName");
-                String secondLastName=request.getParameter("secondLastName");
-                String gender=request.getParameter("gender");
-                Date birthday=null;
-                String strBirthday=request.getParameter("birthday");
-                if(strBirthday!=null && !strBirthday.equals("")) {
-                    try{
-                        SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
-                        birthday=sdf.parse(strBirthday);
-                     }catch(ParseException ignoredException){
-                     }
+                boolean complete = true;
+                String curp = request.getParameter("curp");
+                String firstName = request.getParameter("firstName");
+                String lastName = request.getParameter("lastName");
+                String secondLastName = request.getParameter("secondLastName");
+                String gender = request.getParameter("gender");
+                Date birthday = null;
+                String strBirthday = request.getParameter("birthday");
+                if (strBirthday != null && !strBirthday.equals("")) {
+                    try {
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                        birthday = sdf.parse(strBirthday);
+                    } catch (ParseException ignoredException) {
+                    }
                 }
-                EntidadFederativa state=null;
-                String strState=request.getParameter("state");
-                if(strState!=null && !strState.equals("")){
-                    state=EntidadFederativa.ClassMgr.getEntidadFederativa(strState, ws);
+                EntidadFederativa state = null;
+                String strState = request.getParameter("state");
+                if (strState != null && !strState.equals("")) {
+                    state = EntidadFederativa.ClassMgr.getEntidadFederativa(strState, ws);
                 }
-                Country nationality=null;
-                String strNationality=request.getParameter("nationality");
-                if(strNationality!=null && !strNationality.equals("")){
-                    nationality =Country.ClassMgr.getCountry(strNationality, ws);
+                Country nationality = null;
+                String strNationality = request.getParameter("nationality");
+                if (strNationality != null && !strNationality.equals("")) {
+                    nationality = Country.ClassMgr.getCountry(strNationality, ws);
                 }
-                String fm2=request.getParameter("fm2");
+                String fm2 = request.getParameter("fm2");
                 String email = request.getParameter("email");
                 String sLabor = request.getParameter("sLabor");
                 String availability = request.getParameter("availability");
 
-                String addrStreet=request.getParameter("addrStreet");
-                String addrNumI=request.getParameter("addrNumI");
-                String addrNumE=request.getParameter("addrNumE");
-                CP addrZip=null;
-                String strAddrZip=request.getParameter("addrZip");
-                if(strAddrZip!=null && !strAddrZip.equals("")){
-                    addrZip =CP.ClassMgr.getCP(strAddrZip, ws);
+                String addrStreet = request.getParameter("addrStreet");
+                String addrNumI = request.getParameter("addrNumI");
+                String addrNumE = request.getParameter("addrNumE");
+                CP addrZip = null;
+                String strAddrZip = request.getParameter("addrZip");
+                if (strAddrZip != null && !strAddrZip.equals("")) {
+                    addrZip = CP.ClassMgr.getCP(strAddrZip, ws);
                 }
-                Colonia addrCol=null;
-                String strAddrCol=request.getParameter("addrCol");
-                if(strAddrCol!=null && !strAddrCol.equals("")){
-                    addrCol =Colonia.ClassMgr.getColonia(strAddrCol, ws);
+                Colonia addrCol = null;
+                String strAddrCol = request.getParameter("addrCol");
+                if (strAddrCol != null && !strAddrCol.equals("")) {
+                    addrCol = Colonia.ClassMgr.getColonia(strAddrCol, ws);
                 }
-                Municipio addrMun=null;
-                String strAddrMun=request.getParameter("addrMun");
-                if(strAddrMun!=null && !strAddrMun.equals("")){
-                    addrMun =Municipio.ClassMgr.getMunicipio(strAddrMun, ws);
+                Municipio addrMun = null;
+                String strAddrMun = request.getParameter("addrMun");
+                if (strAddrMun != null && !strAddrMun.equals("")) {
+                    addrMun = Municipio.ClassMgr.getMunicipio(strAddrMun, ws);
                 }
-                EntidadFederativa addrState=null;
-                String strAddrState=request.getParameter("addrState");
-                if(strAddrState!=null && !strAddrState.equals("")){
-                    addrState =EntidadFederativa.ClassMgr.getEntidadFederativa(strAddrState, ws);
+                EntidadFederativa addrState = null;
+                String strAddrState = request.getParameter("addrState");
+                if (strAddrState != null && !strAddrState.equals("")) {
+                    addrState = EntidadFederativa.ClassMgr.getEntidadFederativa(strAddrState, ws);
                 }
-                Country addrCountry=null;
-                String strAddrCountry=request.getParameter("addrCountry");
-                if(strAddrCountry!=null && !strAddrCountry.equals("")){
-                    addrCountry =Country.ClassMgr.getCountry(strAddrCountry, ws);
+                Country addrCountry = null;
+                String strAddrCountry = request.getParameter("addrCountry");
+                if (strAddrCountry != null && !strAddrCountry.equals("")) {
+                    addrCountry = Country.ClassMgr.getCountry(strAddrCountry, ws);
                 }
 
                 String facebook = request.getParameter("facebook");
@@ -115,220 +117,224 @@ public class UserPersonalData extends GenericAdmResource {
                 String linkedin = request.getParameter("linkedin");
                 String twitter = request.getParameter("twitter");
 
-                if (firstName!=null&&!firstName.equals("")&&firstName.matches("[a-zA-Z\u00C0-\u00FF' ]+")){
+                if (firstName != null && !firstName.equals("") && firstName.matches("[a-zA-Z\u00C0-\u00FF' ]+")) {
                     user.setFirstName(SWBUtils.XML.replaceXMLChars(firstName));
-                }else{
-                    complete=false;
+                } else {
+                    complete = false;
                 }
-                if (lastName!=null&&!lastName.equals("")&&lastName.matches("[a-zA-Z\u00C0-\u00FF' ]+")){
+                if (lastName != null && !lastName.equals("") && lastName.matches("[a-zA-Z\u00C0-\u00FF' ]+")) {
                     user.setLastName(SWBUtils.XML.replaceXMLChars(lastName));
-                }else{
-                    complete=false;
+                } else {
+                    complete = false;
                 }
-                if (secondLastName!=null&&!secondLastName.equals("")&&secondLastName.matches("[a-zA-Z\u00C0-\u00FF' ]+")){
+                if (secondLastName != null && !secondLastName.equals("") && secondLastName.matches("[a-zA-Z\u00C0-\u00FF' ]+")) {
                     user.setSecondLastName(SWBUtils.XML.replaceXMLChars(secondLastName));
-                }else{
-                    complete=false;
+                } else {
+//                    complete = false;
                 }
                 /*if (email!=null&&!email.equals("")){
-                    user.setEmail(email);
+                user.setEmail(email);
                 }else{
-                    complete=false;
+                complete=false;
                 }*/
 
                 Persona persona = Persona.ClassMgr.getPersona(user.getId(), ws);
                 if (persona == null) {
                     persona = Persona.ClassMgr.createPersona(user.getId(), ws);
                     persona.setOwner(user);
-                }else if(persona.getOwner()==null){
+                } else if (persona.getOwner() == null) {
                     persona.setOwner(user);
                 }
 
-                if (curp!=null&&!curp.equals("")&&curp.matches("[a-zA-Z]{4}\\d{6}[a-zA-Z]{6}\\d{2}")){
+                if (curp != null && !curp.equals("") && curp.matches("[a-zA-Z]{4}\\d{6}[a-zA-Z]{6}\\d{2}")) {
                     persona.setCurp(curp);
-                }else{
-                    complete=false;
+                } else {
+                    complete = false;
                 }
 
-                if (gender.equals("f")){
+                if (gender.equals("f")) {
                     persona.setGenero(true);
-                }else if(gender.equals("m")){
+                } else if (gender.equals("m")) {
                     persona.setGenero(false);
-                }else{
-                    complete=false;
+                } else {
+                    complete = false;
                 }
-                if (birthday!=null){
+                if (birthday != null) {
                     persona.setNacimiento(birthday);
-                }else{
-                    complete=false;
+                } else {
+                    complete = false;
                 }
-                if (state!=null){
+                if (state != null) {
                     persona.setEstadoNacimiento(state);
-                }else{
-                    complete=false;
+                } else {
+                    complete = false;
                 }
-                if (nationality!=null){
+                if (nationality != null) {
                     persona.setNacionalidad(nationality);
-                }else{
-                    complete=false;
+                } else {
+                    complete = false;
                 }
-                if (fm2!=null&&fm2.equals("true")){
+                if (fm2 != null && fm2.equals("true")) {
                     persona.setFM2(true);
-                }else{
+                } else {
                     persona.setFM2(false);
                 }
-                Domicilio domicilio=persona.getDomicilio();
-                if(domicilio==null){
+                Domicilio domicilio = persona.getDomicilio();
+                if (domicilio == null) {
                     domicilio = Domicilio.ClassMgr.createDomicilio(ws);
                     persona.setDomicilio(domicilio);
                 }
-                if (addrStreet!=null){
+                if (addrStreet != null&& !addrStreet.equals("")) {
                     domicilio.setCalle(addrStreet);
-                }else{
-                    complete=false;
+                } else {
+                    complete = false;
                 }
-                if (addrNumE!=null){
+                if (addrNumE != null&& !addrNumE.equals("")) {
                     domicilio.setNumExterior(addrNumE);
-                }else{
-                    complete=false;
+                } else {
+                    complete = false;
                 }
-                if (addrNumI!=null){
+                if (addrNumI != null) {
                     domicilio.setNumInterior(addrNumI);
-                }else{
+                } else {
 //                    complete=false;
                 }
-                if (addrZip!=null){
+                if (addrZip != null) {
                     domicilio.setCp(addrZip);
-                }else{
-                    complete=false;
+                } else {
+                    complete = false;
                 }
-                if (addrCol!=null){
+                if (addrCol != null) {
                     domicilio.setColonia(addrCol);
-                }else{
-                    complete=false;
+                } else {
+                    complete = false;
                 }
-                if (addrMun!=null){
+                if (addrMun != null) {
                     domicilio.setMunicipio(addrMun);
-                }else{
-                    complete=false;
+                } else {
+                    complete = false;
                 }
-                if (addrState!=null){
+                if (addrState != null) {
                     domicilio.setEntidad(addrState);
-                }else{
-                    complete=false;
+                } else {
+                    complete = false;
                 }
-                if (addrCountry!=null){
+                if (addrCountry != null) {
                     domicilio.setPais(addrCountry);
-                }else{
-                    complete=false;
+                } else {
+                    complete = false;
                 }
-                Iterator<String> item=persona.listPEmails();
-                while(item.hasNext()){
-                    String pEmail=item.next();
+                Iterator<String> item = persona.listPEmails();
+                while (item.hasNext()) {
+                    String pEmail = item.next();
                     persona.removePEmail(pEmail);
                 }
-                Enumeration<String> params=request.getParameterNames();
-                while(params.hasMoreElements()){
-                    String param=params.nextElement();
-                    if (param.startsWith("phoneNum")){
-                        String phoneId=param.substring(8);
-                        int phoneNum=0;
-                        int phoneLada=0;
-                        int phoneExt=0;
-                        String phoneType=request.getParameter("phoneType"+phoneId);
-                        try{
-                            phoneNum=Integer.parseInt(request.getParameter("phoneNum"+phoneId));
-                            try{
-                                phoneLada=Integer.parseInt(request.getParameter("phoneLada"+phoneId));
-                            }catch(NumberFormatException ignoredException){
+                Enumeration<String> params = request.getParameterNames();
+                int phoneCount=0;
+                while (params.hasMoreElements()) {
+                    String param = params.nextElement();
+                    if (param.startsWith("phoneNum")) {
+                        String phoneId = param.substring(8);
+                        int phoneNum = 0;
+                        int phoneLada = 0;
+                        int phoneExt = 0;
+                        String phoneType = request.getParameter("phoneType" + phoneId);
+                        try {
+                            phoneNum = Integer.parseInt(request.getParameter("phoneNum" + phoneId));
+                            try {
+                                phoneLada = Integer.parseInt(request.getParameter("phoneLada" + phoneId));
+                            } catch (NumberFormatException ignoredException) {
                             }
-                            phoneExt=Integer.parseInt(request.getParameter("phoneExt"+phoneId));
-                        }catch(NumberFormatException ignoredException){
+                            phoneExt = Integer.parseInt(request.getParameter("phoneExt" + phoneId));
+                        } catch (NumberFormatException ignoredException) {
                         }
-                        if(phoneId.startsWith("_")&&phoneNum>0){
-                            Telefono telefono=Telefono.ClassMgr.createTelefono(ws);
+                        if (phoneId.startsWith("_") && phoneNum > 0) {
+                            Telefono telefono = Telefono.ClassMgr.createTelefono(ws);
                             telefono.setLada(phoneLada);
                             telefono.setNumero(phoneNum);
                             telefono.setExtension(phoneExt);
                             telefono.setTipo(phoneType);
                             persona.addTelefono(telefono);
-                        }else if(!phoneId.startsWith("_")){
-                            Iterator<Telefono>  itt=persona.listTelefonos();
-                            while(itt.hasNext()){
-                                Telefono telefono=itt.next();
-                                if(telefono.getId().equals(phoneId)){
-                                    if(phoneNum>0){
+                        } else if (!phoneId.startsWith("_")) {
+                            Iterator<Telefono> itt = persona.listTelefonos();
+                            while (itt.hasNext()) {
+                                Telefono telefono = itt.next();
+                                if (telefono.getId().equals(phoneId)) {
+                                    if (phoneNum > 0) {
                                         telefono.setLada(phoneLada);
                                         telefono.setNumero(phoneNum);
                                         telefono.setExtension(phoneExt);
                                         telefono.setTipo(phoneType);
-                                    }else{
+                                    } else {
                                         persona.removeTelefono(telefono);
                                     }
                                 }
                             }
                         }
-                    }else if (param.startsWith("pEmail")){
-                        String pEmail=request.getParameter(param);
-                        if(pEmail!=null&&!pEmail.equals("")){
+                    } else if (param.startsWith("pEmail")) {
+                        String pEmail = request.getParameter(param);
+                        if (pEmail != null && !pEmail.equals("")) {
                             persona.addPEmail(pEmail);
                         }
                     }
                 }
-
-                if (facebook!=null){
+                if (facebook != null) {
                     persona.setFacebook(facebook);
-                }else{
+                } else {
                     //complete=false;
                 }
-                if (skype!=null){
+                if (skype != null) {
                     persona.setSkype(skype);
-                }else{
+                } else {
                     //complete=false;
                 }
-                if (msn!=null){
+                if (msn != null) {
                     persona.setMsn(msn);
-                }else{
+                } else {
                     //complete=false;
                 }
-                if (linkedin!=null){
+                if (linkedin != null) {
                     persona.setLinkedin(linkedin);
-                }else{
+                } else {
                     //complete=false;
                 }
-                if (twitter!=null){
+                if (twitter != null) {
                     persona.setTwitter(twitter);
-                }else{
+                } else {
                     //complete=false;
                 }
                 Candidato candidato = Candidato.ClassMgr.getCandidato(user.getId(), ws);
                 if (candidato == null) {
                     candidato = Candidato.ClassMgr.createCandidato(user.getId(), ws);
                 }
-                try{
+                try {
                     candidato.setSituacionLaboral(Integer.parseInt(sLabor));
-                }catch(NumberFormatException ignoredException){
-                    complete=false;
+                } catch (NumberFormatException ignoredException) {
+                    complete = false;
                 }
-                try{
+                try {
                     candidato.setDisponibilidad(Integer.parseInt(availability));
-                }catch(NumberFormatException ignoredException){
-                    complete=false;
+                } catch (NumberFormatException ignoredException) {
+                    complete = false;
                 }
 //para pruebas de carlos
 //complete = true;
 //
-                if(complete) {
+                if (complete) {
                     setCandidate(user);
                 }
 
             } catch (Exception ex) {
                 log.error(ex);
             }
-        }else if(SWBResourceURL.Action_EDIT.equals(action)) {
-            String editaccess = request.getParameter("editar");
-            if(editaccess!=null) {
-                base.setAttribute("editRole", editaccess);
+        } else if (SWBResourceURL.Action_EDIT.equals(action)) {
+            String editRole = request.getParameter("editRole");
+            String completeRole = request.getParameter("completeRole");
+            if (editRole != null) {
+                base.setAttribute("editRole", editRole);
+            }
+            if (completeRole != null) {
+                base.setAttribute("completeRole", completeRole);
             }
             response.setAction(response.Action_ADD);
             try {
@@ -337,10 +343,10 @@ public class UserPersonalData extends GenericAdmResource {
                 log.error(e);
             }
         }
-        if(response.getMode().equals(Mode_AJAX)){
-            Enumeration eval=request.getParameterNames();
-            while(eval.hasMoreElements()){
-                String param=(String)eval.nextElement();
+        if (response.getMode().equals(Mode_AJAX)) {
+            Enumeration eval = request.getParameterNames();
+            while (eval.hasMoreElements()) {
+                String param = (String) eval.nextElement();
                 String value = request.getParameter(param);
                 response.setRenderParameter(param, value);
             }
@@ -369,14 +375,14 @@ public class UserPersonalData extends GenericAdmResource {
         //if(!user.isSigned()) {
 /*        Persona persona = Persona.ClassMgr.getPersona(user.getId(), ws);
         if (persona == null) {
-            persona = Persona.ClassMgr.createPersona(user.getId(), ws);
-            persona.setOwner(user);
+        persona = Persona.ClassMgr.createPersona(user.getId(), ws);
+        persona.setOwner(user);
         }else if(persona.getOwner()==null){
-            persona.setOwner(user);
+        persona.setOwner(user);
         }
         Persona capersona = Persona.ClassMgr.getPersona(user.getId(), ws);
         if(){}
-*/        RequestDispatcher dis = request.getRequestDispatcher(basePath+"userData.jsp");
+         */ RequestDispatcher dis = request.getRequestDispatcher(basePath + "userData.jsp");
         try {
             request.setAttribute("paramRequest", paramsRequest);
 //            request.setAttribute("persona", persona);
@@ -386,8 +392,7 @@ public class UserPersonalData extends GenericAdmResource {
         }
 
     }
-    
-    
+
     @Override
     public void doAdmin(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         PrintWriter out = response.getWriter();
@@ -396,54 +401,56 @@ public class UserPersonalData extends GenericAdmResource {
 
         final String resourceUpdatedMessage = paramRequest.getLocaleString("msgRecursoActualizado");
         final String legend = paramRequest.getLocaleString("lblData");
-        final String userGroupMessage = paramRequest.getLocaleString("lblRollGroup");
+        final String completeRoleGroupMessage = paramRequest.getLocaleString("lblCompleteRoleGroup");
+        final String editRoleGroupMessage = paramRequest.getLocaleString("lblEditRoleGroup");
         final String listMessage = paramRequest.getLocaleString("lblListMessage");
         final String saveButtonText = paramRequest.getLocaleString("lblGuardar");
         final String resetButtonText = paramRequest.getLocaleString("lblReset");
         final String noMsg = paramRequest.getLocaleString("msgNoMsg");
 
         final String action = paramRequest.getAction();
-        if(paramRequest.Action_ADD.equals(action)) {
+        if (paramRequest.Action_ADD.equals(action)) {
             out.println("<script type=\"text/javascript\">");
-            out.println("   alert('"+resourceUpdatedMessage+" "+base.getId()+"');");
-            out.println("   location='"+paramRequest.getRenderUrl().setAction(paramRequest.Action_EDIT).toString()+"';");
+            out.println("   alert('" + resourceUpdatedMessage + " " + base.getId() + "');");
+            out.println("   location='" + paramRequest.getRenderUrl().setAction(paramRequest.Action_EDIT).toString() + "';");
             out.println("</script>");
         }
         WebPage wpage = paramRequest.getWebPage();
         WebSite wsite = wpage.getWebSite();
 
-        String str_role = base.getAttribute("editRole", "0");
+        String strEditRoleGroup = base.getAttribute("editRole", "0");
+        String strCompleteRoleGroup = base.getAttribute("completeRole", "0");
 
         SWBResourceURL urlAction = paramRequest.getActionUrl();
         urlAction.setAction(paramRequest.Action_EDIT);
 
         out.println("<div class=\"swbform\">");
-        out.println("<form id=ilta_\""+base.getId()+"\" name=\"ilta_"+base.getId()+"\" action=\""+urlAction+"\" method=\"post\" >");
-        out.println("<fieldset><legend>"+ legend+ "</legend>");
+        out.println("<form id=ilta_\"" + base.getId() + "\" name=\"ilta_" + base.getId() + "\" action=\"" + urlAction + "\" method=\"post\" >");
+        out.println("<fieldset><legend>" + legend + "</legend>");
 
-        String strTemp = "<option value=\"-1\">" + "No se encontaron roles" + "</option>";
+        String strTempEdit = "<option value=\"-1\">" + "No se encontaron roles" + "</option>";
         Iterator<Role> iRoles = wsite.getUserRepository().listRoles();
         StringBuilder strRules = new StringBuilder();
-        String selected = "";
-        if (str_role.equals("0")) {
-            selected = " selected=\"selected\"";
+        String selectedEdit = "";
+        if (strEditRoleGroup.equals("0")) {
+            selectedEdit = " selected=\"selected\"";
         }
         strRules.append("\n<option value=\"0\" ");
-        strRules.append(selected);
+        strRules.append(selectedEdit);
         strRules.append(">");
         strRules.append(listMessage);
         strRules.append("</option>");
         strRules.append("\n<optgroup label=\"Roles\">");
         while (iRoles.hasNext()) {
             Role oRole = iRoles.next();
-            selected = "";
-            if(str_role.trim().equals(oRole.getURI())) {
-                selected = " selected=\"selected\"";
+            selectedEdit = "";
+            if (strEditRoleGroup.trim().equals(oRole.getURI())) {
+                selectedEdit = " selected=\"selected\"";
             }
             strRules.append("\n<option value=\"");
             strRules.append(oRole.getURI());
             strRules.append("\"");
-            strRules.append(selected);
+            strRules.append(selectedEdit);
             strRules.append(">");
             strRules.append(oRole.getDisplayTitle(user.getLanguage()));
             strRules.append("</option>");
@@ -453,26 +460,78 @@ public class UserPersonalData extends GenericAdmResource {
         Iterator<UserGroup> iugroups = wsite.getUserRepository().listUserGroups();
         while (iugroups.hasNext()) {
             UserGroup oUG = iugroups.next();
-            selected = "";
-            if (str_role.trim().equals(oUG.getURI())) {
-                selected = " selected=\"selected\"";
+            selectedEdit = "";
+            if (strEditRoleGroup.trim().equals(oUG.getURI())) {
+                selectedEdit = " selected=\"selected\"";
             }
             strRules.append("\n<option value=\"");
             strRules.append(oUG.getURI());
             strRules.append("\"");
-            strRules.append(selected);
+            strRules.append(selectedEdit);
             strRules.append(">");
             strRules.append(oUG.getDisplayTitle(user.getLanguage()));
             strRules.append("</option>");
         }
         strRules.append("\n</optgroup>");
-        if(strRules.toString().length() > 0) {
-            strTemp = strRules.toString();
+        if (strRules.toString().length() > 0) {
+            strTempEdit = strRules.toString();
+        }
+        String strTempComplete = "<option value=\"-1\">" + "No se encontaron roles" + "</option>";
+        iRoles = wsite.getUserRepository().listRoles();
+        strRules = new StringBuilder();
+        String selectedComplete = "";
+        if (strCompleteRoleGroup.equals("0")) {
+            selectedComplete = " selected=\"selected\"";
+        }
+        strRules.append("\n<option value=\"0\" ");
+        strRules.append(selectedComplete);
+        strRules.append(">");
+        strRules.append(listMessage);
+        strRules.append("</option>");
+        strRules.append("\n<optgroup label=\"Roles\">");
+        while (iRoles.hasNext()) {
+            Role oRole = iRoles.next();
+            selectedComplete = "";
+            if (strCompleteRoleGroup.trim().equals(oRole.getURI())) {
+                selectedComplete = " selected=\"selected\"";
+            }
+            strRules.append("\n<option value=\"");
+            strRules.append(oRole.getURI());
+            strRules.append("\"");
+            strRules.append(selectedComplete);
+            strRules.append(">");
+            strRules.append(oRole.getDisplayTitle(user.getLanguage()));
+            strRules.append("</option>");
+        }
+        strRules.append("\n</optgroup>");
+        strRules.append("\n<optgroup label=\"User Groups\">");
+        iugroups = wsite.getUserRepository().listUserGroups();
+        while (iugroups.hasNext()) {
+            UserGroup oUG = iugroups.next();
+            selectedComplete = "";
+            if (strCompleteRoleGroup.trim().equals(oUG.getURI())) {
+                selectedComplete = " selected=\"selected\"";
+            }
+            strRules.append("\n<option value=\"");
+            strRules.append(oUG.getURI());
+            strRules.append("\"");
+            strRules.append(selectedComplete);
+            strRules.append(">");
+            strRules.append(oUG.getDisplayTitle(user.getLanguage()));
+            strRules.append("</option>");
+        }
+        strRules.append("\n</optgroup>");
+        if (strRules.toString().length() > 0) {
+            strTempComplete = strRules.toString();
         }
         out.println("<ul class=\"swbform-ul\">");
         out.println("<li class=\"swbform-li\">");
-        out.println("   <label for=\"editar\" class=\"swbform-label\">"+userGroupMessage+"</label>");
-        out.print("     <select id=\"editar\" name=\"editar\">"+strTemp+"</select>");
+        out.println("   <label for=\"editar\" class=\"swbform-label\">" + editRoleGroupMessage + "</label>");
+        out.print("     <select id=\"editar\" name=\"editRole\">" + strTempEdit + "</select>");
+        out.println("</li>");
+        out.println("<li class=\"swbform-li\">");
+        out.println("   <label for=\"completeRole\" class=\"swbform-label\">" + completeRoleGroupMessage + "</label>");
+        out.print("     <select id=\"completeRole\" name=\"completeRole\">" + strTempComplete + "</select>");
         out.println("</li>");
         out.println("</ul>");
         out.println("</fieldset>");
@@ -484,37 +543,62 @@ public class UserPersonalData extends GenericAdmResource {
         out.println("</form>");
         out.println("</div>");
     }
+
     public void doAjax(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         String basePath = "/work/models/" + paramRequest.getWebPage().getWebSite().getId() + "/jsp/" + this.getClass().getSimpleName() + "/";
-        RequestDispatcher dis = request.getRequestDispatcher(basePath+"ajaxData.jsp");
+        RequestDispatcher dis = request.getRequestDispatcher(basePath + "ajaxData.jsp");
         try {
             request.setAttribute("paramRequest", paramRequest);
             dis.include(request, response);
-        }catch (Exception e) {
+        } catch (Exception e) {
             log.error(e);
         }
     }
+
     private void setCandidate(final User user) throws Exception {
-        final String grantPrivilegesId = getResourceBase().getAttribute("editRole");
-        if( user!=null && user.isSigned() ) {
-            if(SWBUtils.Collections.sizeOf(user.listUserGroups())==0&&SWBUtils.Collections.sizeOf(user.listRoles())==0){
-                SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
-                GenericObject gobj;
-                gobj = ont.getGenericObject(grantPrivilegesId);
-                if( gobj!=null ) {
-                    if(gobj instanceof UserGroup) {
-                        UserGroup ugrp = (UserGroup) gobj;
-                        if(!user.hasUserGroup(ugrp)){
+        final String editPrivilegesId = getResourceBase().getAttribute("editRole");
+        final String completePrivilegesId = getResourceBase().getAttribute("completeRole");
+        if (user != null && user.isSigned()) {
+            SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
+            GenericObject eobj, cobj;
+            eobj = ont.getGenericObject(editPrivilegesId);
+            cobj = ont.getGenericObject(completePrivilegesId);
+            if (editPrivilegesId.equals("0")||(hasRoleGroup(user, eobj) && !hasRoleGroup(user, cobj))) {
+                if (cobj != null) {
+                    if (cobj instanceof UserGroup) {
+                        UserGroup ugrp = (UserGroup) cobj;
+                        if (!user.hasUserGroup(ugrp)) {
                             user.addUserGroup(ugrp);
                         }
-                    }else if(gobj instanceof Role) {
-                        Role urole = (Role) gobj;
-                        if(!user.hasRole(urole)){
+                    } else if (cobj instanceof Role) {
+                        Role urole = (Role) cobj;
+                        if (!user.hasRole(urole)) {
                             user.addRole(urole);
                         }
                     }
                 }
             }
         }
+    }
+
+    private boolean hasRoleGroup(final User user, GenericObject roleGroupObj) throws Exception {
+        boolean hasIt = false;
+        if (user != null) {
+            SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
+            if (roleGroupObj != null) {
+                if (roleGroupObj instanceof UserGroup) {
+                    UserGroup ugrp = (UserGroup) roleGroupObj;
+                    if (user.hasUserGroup(ugrp)) {
+                        hasIt = true;
+                    }
+                } else if (roleGroupObj instanceof Role) {
+                    Role urole = (Role) roleGroupObj;
+                    if (user.hasRole(urole)) {
+                        hasIt = true;
+                    }
+                }
+            }
+        }
+        return hasIt;
     }
 }
