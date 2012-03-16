@@ -232,29 +232,34 @@ objf.setAttribute('displayed', 'on');
 }*/
     var cpValue='<%=addrZip%>';
     function validateCP(){
+console.log("validateCP");
         var valid=false;
         var cpv=dijit.byId('addrZip').getValue();
-//console.log("validate:old:"+cpValue+" new:"+cpv);
         var filter = /^\d{5}$/;
-        if(cpv!=null&&cpv!=''&&filter.test(cpv)){
-            if(isCPValid(cpv)){
-                valid = true;
-                if(cpv!=cpValue){
-                    loadCPData();
+        if(cpv!=null&&cpv!=''){
+            if(filter.test(cpv)){
+                if(isCPValid(cpv)){
+                    valid = true;
+                    if(cpv!=cpValue){
+                        loadCPData();
+                    }
                 }
             }
+        }else{
+            valid = true;
         }
         cpValue=cpv;
 //console.log("valid:"+valid);
         return valid;
     }
     function isCPValid(val){
+console.log("isCPValid");
         var valid=false;
         valid=getJSON("<%=ajaxUrl%>?zip="+val);
         return valid;
     }
     function loadCPData(){
-//console.log("load;"+cpValue);
+console.log("loadCPData");
         var cpv=dijit.byId('addrZip').getValue();
         var idcol="";
         var objcol=dijit.byId('addrCol');
@@ -265,24 +270,51 @@ objf.setAttribute('displayed', 'on');
         }else{
             idcol="<%=addrCol%>";
         }
-//        var filter = /^\d{5}$/;
-//        if(cpv!=null&&cpv!=''&&filter.test(cp)){
-            //if(cpValid){
-                if(typeof objcol != "undefined"){
-                    objcol.destroy();
-                }
-                getHtml("<%=ajaxUrl%>?col="+cpv+"&amp;id="+idcol, "spAddrCol", true, false);
-                if(typeof objmun != "undefined"){
-                    objmun.destroy();
-                }
-                getHtml("<%=ajaxUrl%>?mun="+cpv, "spAddrMun", true, false);
-                if(typeof objstate != "undefined"){
-                    objsta.destroy();
-                }
-                getHtml("<%=ajaxUrl%>?sta="+cpv, "spAddrState", true, false);
-           // }
-//        }
+        getHtmlData("<%=ajaxUrl%>?col="+cpv+"&amp;id="+idcol, "spAddrCol","spAddrMun","spAddrState");
     }
+    
+
+      function getHtmlData(url, tagCol, tagMun, tagSta){
+console.log("getHtmlData");
+          var objCol=dojo.byId(tagCol);
+          var objMun=dojo.byId(tagMun);
+          var objSta=dojo.byId(tagSta);
+//          if(!parse)parse=false;
+          var sync=false;
+          dojo.xhrGet({
+              url: url,
+              sync: sync,
+              load: function(response, ioArgs)
+              {
+                destroyChilds(objCol);
+                destroyChilds(objMun);
+                destroyChilds(objSta);
+                var strResponse=response;
+                var arrResponse = strResponse.split("|");
+
+                var strCol = arrResponse[0];
+                objCol.innerHTML=strCol;
+                dojo.parser.parse(objCol,true);
+
+                var strMun = arrResponse[1];
+                objMun.innerHTML=strMun;
+                dojo.parser.parse(objMun,true);
+
+                var strSta = arrResponse[2];
+                objSta.innerHTML=strSta;
+                dojo.parser.parse(objSta,true);
+
+                return response;
+              },
+              error: function(response, ioArgs)
+              {
+                  alert("Ocurrió un error con respuesta:"+response);
+                  return response;
+              },
+              handleAs: "text"
+          });
+      }
+    
     var pc=1;
     function appendPhone() {
         var s = '';
@@ -504,11 +536,17 @@ objf.setAttribute('displayed', 'on');
                 </p>
                 <p class="icv-3col" >
                     <label for="addrColro">Colonia</label>
-                    <span id="spAddrCol"><input type="text" name="addrColro" id="addrColro" value="<%=addrColLab%>" readonly="true" dojoType="dijit.form.ValidationTextBox"  /></span>
+                    <span id="spAddrCol">
+                        <input type="hidden" name="addrCol" id="addrCol" value="<%=addrCol%>" />
+                        <input type="text" name="addrColro" id="addrColro" value="<%=addrColLab%>" readonly="true" dojoType="dijit.form.ValidationTextBox"  />
+                    </span>
                 </p>
                 <p class="icv-3col">
                     <label for="addrMun">Municipio/Delegación</label>
-                    <span id="spAddrMun"><input type="text" name="addrMunro" id="addrMunro" value="<%=addrMunLab%>" readonly="true"  dojoType="dijit.form.ValidationTextBox" /></span>
+                    <span id="spAddrMun">
+                        <input type="hidden" name="addrMun" id="addrMun" value="<%=addrMun%>" />
+                        <input type="text" name="addrMunro" id="addrMunro" value="<%=addrMunLab%>" readonly="true"  dojoType="dijit.form.ValidationTextBox" />
+                    </span>
                 </p>
                 <div class="clearer">&nbsp;</div>
             </div>
@@ -516,7 +554,10 @@ objf.setAttribute('displayed', 'on');
             <div class="icv-div-grupo">
                 <p class="icv-3col">
                     <label for="addrState">Estado</label>
-                    <span id="spAddrState"><input type="text" name="addrStatero" id="addrStatero" value="<%=addrStateLab%>" readonly="true" dojoType="dijit.form.ValidationTextBox"/></span>
+                    <span id="spAddrState">
+                        <input type="hidden" name="addrState" id="addrCol" value="<%=addrState%>" />
+                        <input type="text" name="addrStatero" id="addrStatero" value="<%=addrStateLab%>" readonly="true" dojoType="dijit.form.ValidationTextBox"/>
+                    </span>
                 </p>
                 <p class="icv-3col">
                     <label for="addrCountry">País</label>
@@ -626,29 +667,29 @@ objf.setAttribute('displayed', 'on');
             <div class="icv-div-grupo">
                 <p class="icv-2col">
                     <label for="facebook"><%=paramRequest.getLocaleString("lblFacebook")%></label>
-                    <input type="text" name="facebook" id="facebook" dojoType="dijit.form.ValidationTextBox" value="<%=facebook%>" maxlength="35"  promptMessage="<%=paramRequest.getLocaleString("promptMsgFacebook")%>" invalidMessage="<%=paramRequest.getLocaleString("lblFacebookFault")%>"  trim="true" regExp="[a-zA-Z0-9\u00C0-\u00FF'_\-./ ]+"/>
+                    <input type="text" name="facebook" id="facebook" dojoType="dijit.form.ValidationTextBox" value="<%=facebook%>" maxlength="35"  promptMessage="<%=paramRequest.getLocaleString("promptMsgFacebook")%>" invalidMessage="<%=paramRequest.getLocaleString("lblFacebookFault")%>"  trim="true" regExp="[a-zA-Z0-9.]{5,}"/>
                 </p>
                 <p class="icv-2col">
                     <label for="skype"><%=paramRequest.getLocaleString("lblSkype")%></label>
-                    <input type="text" name="skype" id="skype" dojoType="dijit.form.ValidationTextBox" value="<%=skype%>" maxlength="35"  promptMessage="<%=paramRequest.getLocaleString("promptMsgSkype")%>" invalidMessage="<%=paramRequest.getLocaleString("lblSkypeFault")%>" trim="true" regExp="[a-zA-Z0-9\u00C0-\u00FF'_\- ]+"/>
+                    <input type="text" name="skype" id="skype" dojoType="dijit.form.ValidationTextBox" value="<%=skype%>" maxlength="35"  promptMessage="<%=paramRequest.getLocaleString("promptMsgSkype")%>" invalidMessage="<%=paramRequest.getLocaleString("lblSkypeFault")%>" trim="true" regExp="[a-zA-Z0-9._\-]+"/>
                 </p>
                 <div class="clearer borde">&nbsp;</div>
             </div>
             <div class="icv-div-grupo">
                 <p class="icv-2col">
                     <label for="msn"><%=paramRequest.getLocaleString("lblMsn")%></label>
-                    <input type="text" name="msn" id="msn" dojoType="dijit.form.ValidationTextBox" value="<%=msn%>" maxlength="35"  promptMessage="<%=paramRequest.getLocaleString("promptMsgMsn")%>" invalidMessage="<%=paramRequest.getLocaleString("lblMsnFault")%>" trim="true" regExp="[a-zA-Z0-9\u00C0-\u00FF'_\- ]+"/>
+                    <input type="text" name="msn" id="msn" dojoType="dijit.form.ValidationTextBox" value="<%=msn%>" maxlength="35"  promptMessage="<%=paramRequest.getLocaleString("promptMsgMsn")%>" invalidMessage="<%=paramRequest.getLocaleString("lblMsnFault")%>" trim="true" regExp="[a-zA-Z0-9@._\-]+"/>
                 </p>
                 <p class="icv-2col">
                     <label for="linkedin"><%=paramRequest.getLocaleString("lblLinkedin")%></label>
-                    <input type="text" name="linkedin" id="linkedin" dojoType="dijit.form.ValidationTextBox" value="<%=linkedin%>" maxlength="35"  promptMessage="<%=paramRequest.getLocaleString("promptMsgLinkedin")%>" invalidMessage="<%=paramRequest.getLocaleString("lblLinkedinFault")%>" trim="true" regExp="[a-zA-Z0-9\u00C0-\u00FF'_\- ]+"/>
+                    <input type="text" name="linkedin" id="linkedin" dojoType="dijit.form.ValidationTextBox" value="<%=linkedin%>" maxlength="35"  promptMessage="<%=paramRequest.getLocaleString("promptMsgLinkedin")%>" invalidMessage="<%=paramRequest.getLocaleString("lblLinkedinFault")%>" trim="true" regExp="[a-zA-Z0-9._\-]+"/>
                 </p>
                 <div class="clearer borde">&nbsp;</div>
             </div>
             <div class="icv-div-grupo">
                 <p class="icv-2col">
                     <label for="twitter"><%=paramRequest.getLocaleString("lblTwitter")%></label>
-                    <input type="text" name="twitter" id="twitter" dojoType="dijit.form.ValidationTextBox" value="<%=twitter%>" maxlength="35"  promptMessage="<%=paramRequest.getLocaleString("promptMsgTwitter")%>" invalidMessage="<%=paramRequest.getLocaleString("lblTwitterFault")%>" trim="true" regExp="[a-zA-Z0-9\u00C0-\u00FF'@_\- ]+"/>
+                    <input type="text" name="twitter" id="twitter" dojoType="dijit.form.ValidationTextBox" value="<%=twitter%>" maxlength="35"  promptMessage="<%=paramRequest.getLocaleString("promptMsgTwitter")%>" invalidMessage="<%=paramRequest.getLocaleString("lblTwitterFault")%>" trim="true" regExp="@([A-Za-z0-9_]+)"/>
                 </p>
                 <div class="clearer borde">&nbsp;</div>
             </div>
