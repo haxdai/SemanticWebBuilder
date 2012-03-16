@@ -38,18 +38,34 @@
         return false;
     }
     
-    /*function isValidThisEmail(){
-        var valid=false;
-        var email = dijit.byId('email');
-        var strEmail = email.getValue();
-console.log('objId=email, value='+strEmail);
-        if(isValidEmail(strEmail)) {
-            return true;
-        }else {
-            email.displayMessage( "<%=paramRequest.getLocaleString("promptMsgFaultEmail")%>" );
+dojo.provide("ValidationTextarea");
+dojo.require("dijit.form.SimpleTextarea");
+dojo.require("dijit.form.ValidationTextBox");
+dojo.declare(
+    "ValidationTextarea",
+    [dijit.form.ValidationTextBox, dijit.form.SimpleTextarea],
+    {
+        invalidMessage: "Este dato es requerido",
+        promptMessage: "Ingresa",
+        postCreate: function() {
+            this.inherited(arguments);
+        },
+        validate: function() {
+            if(arguments.length==0)
+                return this.validate(false);
+            return this.inherited(arguments);
+        },
+        onFocus: function() {
+            if(!this.isValid()) {
+                this.displayMessage(this.getErrorMessage());
+            }
+        },
+        onBlur: function() {
+            this.validate(false);
         }
-        return valid;
-    }*/
+     }
+);
+
 
     function expande(domId) {
        var anim1 = dojo.fx.wipeIn( {node:domId, duration:500 });
@@ -79,7 +95,7 @@ console.log('objId=email, value='+strEmail);
         <div id="formPerfil">
         <!-- //datos empleado -->
          <div class="perfil divisor">
-          <h3>Mi perfil | Datos personales | C Vitae</h3>
+          <h3>Mi perfil | Datos personales | CVI</h3>
 <%
         final String pimg;
         if(user.getPhoto()==null)
@@ -103,30 +119,23 @@ console.log('objId=email, value='+strEmail);
             <div class="text_editor">
              <p class="status entero">
               <label for="prsnld">Mi personalidad</label>
-              <textarea name="prsnld" id="prsnld" rows="4" cols="70">
-                  <%=profile.getMiPersonalidad()==null?"":profile.getMiPersonalidad()%>
-              </TextArea>
+              <textarea name="prsnld" id="prsnld" rows="4" cols="70" dojoType="ValidationTextarea" promptMessage="<%=paramRequest.getLocaleString("promptMsgPersonality")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultPersonality")%>" required="true" trim="true"><%=profile.getMiPersonalidad()==null?"":profile.getMiPersonalidad()%></textarea>
              </p>
             </div>
 
             <div class="text_editor">
              <p class="status entero">
               <label for="gsts">Mis gustos e intereses</label>
-              <textarea name="gsts" id="gsts" rows="4" cols="70">
-                  <%=profile.getMisGustos()==null?"":profile.getMisGustos()%>
-              </textarea>
+              <textarea name="gsts" id="gsts" rows="4" cols="70" dojoType="ValidationTextarea" promptMessage="<%=paramRequest.getLocaleString("promptMsgLikes")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultLikes")%>" required="true" trim="true"><%=profile.getMisGustos()==null?"":profile.getMisGustos()%></textarea>
              </p>
             </div>
 
             <div class="status entero">
              <p class="status entero">
               <label for="ideas">Mis ideas para mejorar M&eacute;xico y el mundo</label>
-              <textarea name="ideas" id="ideas" rows="4" cols="70">
-                  <%=profile.getMisIdeas()==null?"":profile.getMisIdeas()%>
-              </textarea>
+              <textarea name="ideas" id="ideas" rows="4" cols="70" dojoType="ValidationTextarea" promptMessage="<%=paramRequest.getLocaleString("promptMsgIdeas")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultIdeas")%>" required="true" trim="true"><%=profile.getMisIdeas()==null?"":profile.getMisIdeas()%></textarea>
              </p>
             </div>
-
             <a href="javascript:collapse('acercade_mi')">Cerrar</a>
            </div>
 
@@ -182,7 +191,7 @@ console.log('objId=email, value='+strEmail);
           </p>
           
 <%
-    SemanticProperty ext = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#extension");
+    SemanticProperty ext = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#noe");
     
 %>
           <p class="medio">
@@ -197,9 +206,10 @@ console.log('objId=email, value='+strEmail);
           
           <p class="entero">
            <label for="loc">Ubicaci&oacute;n f&iacute;sica de tu lugar u oficina</label>
-           <textarea id="loc" name="loc" rows="2" cols="70">
+           <!--textarea id="loc" name="loc" rows="2" cols="70">
                <%=profile.getUbicacion()==null?"":profile.getUbicacion()%>
-           </textarea>
+           </textarea-->
+           <textarea name="loc" rows="2" cols="70" dojoType="ValidationTextarea" promptMessage="<%=paramRequest.getLocaleString("promptMsgLocation")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultLocation")%>" required="true" trim="true"><%=profile.getUbicacion()==null?"":profile.getUbicacion()%></textarea>
           </p>
           <div class="clearer">&nbsp;</div>
          </div>
@@ -430,7 +440,7 @@ console.log('objId=email, value='+strEmail);
 
          <div class="guardar">
           <input type="reset" value="Restablecer" />
-          <input type="submit" value="Guardar..." onclick="return enviar(this.form.id)" />
+          <input type="submit" value="Guardar" onclick="return enviar(this.form.id)" />
          </div>
         </div>
         </form>

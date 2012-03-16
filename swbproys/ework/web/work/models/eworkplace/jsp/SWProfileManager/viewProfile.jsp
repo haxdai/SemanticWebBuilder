@@ -99,27 +99,21 @@
             <div class="text_editor">
              <p class="status entero">
               <label for="prsnld">Mi personalidad</label>
-              <textarea name="prsnld" id="prsnld" rows="4" cols="70" readonly="readonly">
-                  <%=profile.getMiPersonalidad()==null?"":profile.getMiPersonalidad()%>
-              </textarea>
+              <textarea name="prsnld" id="prsnld" rows="4" cols="70" readonly="readonly"><%=profile.getMiPersonalidad()==null?"":profile.getMiPersonalidad()%></textarea>
              </p>
             </div>
 
             <div class="text_editor">
              <p class="status entero">
               <label for="gsts">Mis gustos e intereses</label>
-              <textarea name="gsts" id="gsts" rows="4" cols="70">
-                  <%=profile.getMisGustos()==null?"":profile.getMisGustos()%>
-              </textarea>
+              <textarea name="gsts" id="gsts" rows="4" cols="70" readonly="readonly"><%=profile.getMisGustos()==null?"":profile.getMisGustos()%></textarea>
              </p>
             </div>
 
             <div class="status entero">
              <p class="status entero">
               <label for="ideas">Mis ideas para mejorar M&eacute;xico y el mundo</label>
-              <textarea name="ideas" id="ideas" rows="4" cols="70">
-                  <%=profile.getMisIdeas()==null?"":profile.getMisIdeas()%>
-              </textarea>
+              <textarea name="ideas" id="ideas" rows="4" cols="70" readonly="readonly"><%=profile.getMisIdeas()==null?"":profile.getMisIdeas()%></textarea>
              </p>
             </div>
 
@@ -178,11 +172,11 @@
           </p>
           
 <%
-    SemanticProperty ext = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#extension");  
+    SemanticProperty ext = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#noe");
 %>
           <p class="medio">
            <label for="extdr">Extensi&oacute;n de tu Direcci&oacute;n</label>
-           <input type="text" name="extdr" id="extdr" dojoType="dijit.form.ValidationTextBox" value="<%=user.getExtendedAttribute(ext)==null?"":user.getExtendedAttribute(ext)%>" maxlength="6" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgPhoneExtDr")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultExt")%>" regExp="\d{1,6}" trim="true" style="width:280px" readonly="readonly" />
+           <input type="text" name="extdr" id="extdr" dojoType="dijit.form.ValidationTextBox" value="<%=user.getExtendedAttribute(ext)==null?"nulo":user.getExtendedAttribute(ext)%>" maxlength="6" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgPhoneExtDr")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultExt")%>" regExp="\d{1,6}" trim="true" style="width:280px" readonly="readonly" />
           </p>
 
           <p class="medio">
@@ -192,9 +186,7 @@
           
           <p class="entero">
            <label for="loc">Ubicaci&oacute;n f&iacute;sica de tu lugar u oficina</label>
-           <textarea id="loc" name="loc" rows="2" cols="70" readonly="readonly">
-               <%=profile.getUbicacion()==null?"":profile.getUbicacion()%>
-           </textarea>
+           <textarea id="loc" name="loc" rows="2" cols="70" readonly="readonly"><%=profile.getUbicacion()==null?"":profile.getUbicacion()%></textarea>
           </p>
           <div class="clearer">&nbsp;</div>
          </div>
@@ -397,31 +389,43 @@
 //            htm.append("        </ol>");
 //            htm.append("        <p><a href=\"#\">Agregar</a></p>");
 //            htm.append("    </div>");
+
+        Iterator<TemaInteres> tis = TemaInteres.ClassMgr.listTemaIntereses(wsite);
+        if(tis.hasNext()) {
 %>
         <!-- // temas de interes -->
          <div class="de_interes divisor">
           <h3>Temas de mi inter&eacute;s</h3>
               <!--em>El sistema te ofrecer&aacute; contenidos acordes con tus temas de inter&eacute;s</em-->
 <%
-        Iterator<TemaInteres> tis = TemaInteres.ClassMgr.listTemaIntereses(wsite);
-        if(tis.hasNext()) {
+            if(profile.listTemaIntereses().hasNext()) {
 %>
               <ul>
 <%
             TemaInteres ti;
             while(tis.hasNext()) {
                 ti = tis.next();
+                if(profile.hasTemaInteres(ti)) {
 %>
-                   <li class="tercio"><label for="<%=ti.getId()%>"><input type="checkbox" name="mti" id="<%=ti.getId()%>" value="<%=ti.getId()%>" <%=profile.hasTemaInteres(ti)?"checked=\"checked\"":""%> /><%=ti.getDisplayTitle(lang)%></label></li>
+                   <li class="tercio"><%=ti.getDisplayTitle(lang)%></li>
 <%
+               }
             }
 %>
               </ul>
 <%
-        }
+            }else {
+%>
+              <p><%=(user.getFirstName())%> no ha agregado temas de inter&eacute;s</p> 
+<%
+            }
 %>
           <div class="clearer">&nbsp;</div>
          </div>
+<%
+       }
+%>
+
         </div>
         </form>
         <script type="text/javascript">
