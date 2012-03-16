@@ -563,7 +563,7 @@ public class UserPersonalData extends GenericAdmResource {
             GenericObject eobj, cobj;
             eobj = ont.getGenericObject(editPrivilegesId);
             cobj = ont.getGenericObject(completePrivilegesId);
-            if (editPrivilegesId.equals("0")||(hasRoleGroup(user, eobj) && !hasRoleGroup(user, cobj))) {
+            if ((editPrivilegesId.equals("0")||(hasRoleGroup(user, eobj))) && !hasRoleGroup(user, cobj)) {
                 if (cobj != null) {
                     if (cobj instanceof UserGroup) {
                         UserGroup ugrp = (UserGroup) cobj;
@@ -577,28 +577,37 @@ public class UserPersonalData extends GenericAdmResource {
                         }
                     }
                 }
+                if (eobj != null) {
+                    if (eobj instanceof UserGroup) {
+                        UserGroup ugrp = (UserGroup) eobj;
+                        user.removeUserGroup(ugrp);
+                    } else if (eobj instanceof Role) {
+                        Role urole = (Role) eobj;
+                        user.removeRole(urole);
+                    }
+                }
             }
         }
     }
 
     private boolean hasRoleGroup(final User user, GenericObject roleGroupObj) throws Exception {
-        boolean hasIt = false;
+        boolean has = false;
         if (user != null) {
             SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
             if (roleGroupObj != null) {
                 if (roleGroupObj instanceof UserGroup) {
                     UserGroup ugrp = (UserGroup) roleGroupObj;
                     if (user.hasUserGroup(ugrp)) {
-                        hasIt = true;
+                        has = true;
                     }
                 } else if (roleGroupObj instanceof Role) {
                     Role urole = (Role) roleGroupObj;
                     if (user.hasRole(urole)) {
-                        hasIt = true;
+                        has = true;
                     }
                 }
             }
         }
-        return hasIt;
+        return has;
     }
 }
