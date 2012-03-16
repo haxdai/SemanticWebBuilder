@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
-import java.util.ListIterator;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -51,6 +50,19 @@ public class SWProfileManager extends GenericAdmResource {
     
     public static final String RH_Role = "RH";
     
+    /*public String contentURL;
+    @Override
+    public void setResourceBase(Resource base) {
+        Iterator<Resourceable> res = base.listResourceables();
+        while(res.hasNext()) {
+            Resourceable re = res.next();
+            if( re instanceof WebPage ) {
+                contentURL = ((WebPage)re).getUrl();
+                break;
+            }
+        }
+    }*/
+    
     @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         String mode = paramRequest.getMode();
@@ -80,7 +92,7 @@ System.out.println("\n\n SWProfileManager.............");
 System.out.println("Action = "+paramRequest.getAction());
         
         if(paramRequest.getCallMethod()==paramRequest.Call_STRATEGY) {
-//                SemanticProperty sp = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#miPerfilSL");
+//                SemanticProperty sp = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#miPerfilSL");
 //                SWProfile profile = (SWProfile)user.getExtendedAttribute(sp);
 //                if(profile==null) {
 //                    profile = SWProfile.ClassMgr.createSWProfile(user.getId(), wsite);
@@ -215,11 +227,22 @@ System.out.println("Action = "+paramRequest.getAction());
         if(!user.isSigned())
             return;
         
+        String surl = paramRequest.getWebPage().getUrl();
+        Iterator<Resourceable> res = getResourceBase().listResourceables();
+        while(res.hasNext()) {
+            Resourceable re = res.next();
+            if( re instanceof WebPage ) {
+                surl = ((WebPage)re).getUrl();
+                break;
+            }
+        }
+        final String contentURL = surl;
+        
         final String path = "/work/models/" + paramRequest.getWebPage().getWebSite().getId() + "/jsp/" + this.getClass().getSimpleName() + "/viewProfile.jsp";
         RequestDispatcher dis = request.getRequestDispatcher(path);
         try {
             request.setAttribute("paramRequest", paramRequest);
-            request.setAttribute("this", this);
+            request.setAttribute("contentURL", contentURL);
             dis.include(request, response);
         }catch(Exception e) {
             log.error(e);
@@ -272,7 +295,7 @@ System.out.println("Action = "+paramRequest.getAction());
             out.println("    <div class=\"pColumnsx\">");
             out.println("     <p class=\"pOcupacion\">Contacto Interno</p>");
             out.println("     <p>&nbsp;</p>");
-            SemanticProperty ext = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#extension");
+            SemanticProperty ext = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#extension");
             out.println("     <p>Ext. "+(user.getExtendedAttribute(ext)==null?"":user.getExtendedAttribute(ext))+"</p>");
             out.println("     <p>e-mail: <a href=\"#\">"+user.getEmail()+"</a></p>");
             out.println("     <p>&nbsp;</p>");
@@ -337,7 +360,6 @@ System.out.println("Action = "+paramRequest.getAction());
         RequestDispatcher dis = request.getRequestDispatcher(path);
         try {
             request.setAttribute("paramRequest", paramRequest);
-            request.setAttribute("this", this);
             dis.include(request, response);
         }catch(Exception e) {
             log.error(e);
@@ -348,7 +370,7 @@ System.out.println("Action = "+paramRequest.getAction());
         WebSite wsite = base.getWebSite();
         PrintWriter out =  response.getWriter();
         
-//        SemanticProperty sp = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#miPerfilSL");
+//        SemanticProperty sp = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#miPerfilSL");
 //        SWProfile profile = (SWProfile)user.getExtendedAttribute(sp);
         SWProfile profile = SWProfile.ClassMgr.getSWProfile(user.getId(), wsite);
         if(user.equals(profile.getCreator())) {
@@ -410,7 +432,7 @@ System.out.println("Action = "+paramRequest.getAction());
 
 //            htm.append("   <p class=\"status entero\"><label>&iquest;Qu&eacute; haces o piensas?</label>");
 //            htm.append("    <textarea name=\"ideas\" id=\"ideas\" rows=\"2\" cols=\"70\">");
-            //SemanticProperty ideas = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#ideas");
+            //SemanticProperty ideas = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#ideas");
             //htm.append(user.getExtendedAttribute(ideas)==null?"":user.getExtendedAttribute(ideas));
 //            htm.append(profile.getMisIdeas()==null?"":profile.getMisIdeas());
 //            htm.append("    </textarea></p>");
@@ -442,7 +464,7 @@ System.out.println("Action = "+paramRequest.getAction());
             htm.append("    <input type=\"text\" name=\"tfo\" value=\""+(tel!=null&&tel.getNumero()>0?Integer.toString(tel.getNumero()):"")+"\"/></p>");
             htm.append("  <p class=\"tercio\"><label>Extension</label>");
             htm.append("    <input type=\"text\" name=\"ext\" value=\""+(tel!=null&&tel.getExtension()>0?Integer.toString(tel.getExtension()):"")+"\"/></p>");
-//            SemanticProperty ext = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#extension");
+//            SemanticProperty ext = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#extension");
 //            htm.append("  <p class=\"medio\"><label>Extensi&oacute;n</label>");
 //            htm.append("    <input type=\"text\" name=\"ext\" id=\"ext\" value=\""+(user.getExtendedAttribute(ext)==null?"":user.getExtendedAttribute(ext))+"\"/></p>");
 //            htm.append("  <p class\"medio\"><label>Extensi&oacute;n de tu Direcci&oacute;n Adjunta</label>");
@@ -709,7 +731,7 @@ htm.append("</form>");
             final String url = SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+wsite.getId()+"/editar_datos"+"/_lang/"+user.getLanguage();
             request.getSession(true).setAttribute(Send, Send_EDIT);
             response.sendRedirect(url);
-        }else if(this.Mode_CHGPHTO.equals(action)) {
+        }else if(Mode_CHGPHTO.equals(action)) {
             final String url = SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+wsite.getId()+"/editar_foto"+"/_lang/"+user.getLanguage();
             request.getSession(true).setAttribute(Send, Mode_CHGPHTO);
             response.sendRedirect(url);
@@ -724,7 +746,7 @@ htm.append("</form>");
         else if(SWBResourceURL.Action_EDIT.equals(action)) {
             SWProfile profile = SWProfile.ClassMgr.getSWProfile(user.getId(), wsite);
             if( user.equals(profile.getCreator()) ) {
-//            SemanticProperty sp = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#miPerfilSL");
+//            SemanticProperty sp = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#miPerfilSL");
 //            SWProfile profile = (SWProfile)user.getExtendedAttribute(sp);
 //            profile.setMisIdeas(request.getParameter("ideas"));
 //            profile.setUbicacion(request.getParameter("loc"));
@@ -740,15 +762,51 @@ htm.append("</form>");
                     }
                 }
                 else {
+                    StringBuilder alertmsg = new StringBuilder();
+                    String prsnld = SWBUtils.XML.replaceXMLChars(request.getParameter("prsnld")).trim();
+                    if(prsnld.isEmpty()) {
+                        alertmsg.append(response.getLocaleString("")).append("\n");
+                    }
+                    String gsts = SWBUtils.XML.replaceXMLChars(request.getParameter("gsts")).trim();
+                    if(gsts.isEmpty()) {
+                        alertmsg.append(response.getLocaleString("")).append("\n");
+                    }
+                    String ideas = SWBUtils.XML.replaceXMLChars(request.getParameter("ideas")).trim();
+                    if(ideas.isEmpty()) {
+                        alertmsg.append(response.getLocaleString("")).append("\n");
+                    }
+                    int tfo = 0;
+                    try {
+                        tfo = Integer.parseInt(request.getParameter("tfo"));
+                    }catch(Exception e) {
+                        alertmsg.append(response.getLocaleString("")).append("\n");
+                    }
+                    int xtdr = 0;
+                    try {
+                        xtdr = Integer.parseInt(request.getParameter("extdr"));
+                    }catch(Exception e) {
+                        alertmsg.append(response.getLocaleString("")).append("\n");
+                    }
+                    String email = request.getParameter("email");
+                    if(!SWBUtils.EMAIL.isValidEmailAddress(email)) {
+                        alertmsg.append(response.getLocaleString("")).append("\n");
+                    }
+                    String loc = SWBUtils.XML.replaceXMLChars(request.getParameter("loc")).trim();
+                    if(loc.isEmpty()) {
+                        alertmsg.append(response.getLocaleString("")).append("\n");
+                    }
+                    
+response.setRenderParameter("alertmsg", response.getLocaleString(""));
+                    
+                    
                     CV cv = CV.ClassMgr.getCV(user.getId(), wsite);
                     Persona persona = cv.getPersona();
                     
                     profile.setMiPersonalidad(SWBUtils.XML.replaceXMLChars(request.getParameter("prsnld")));
                     profile.setMisGustos(SWBUtils.XML.replaceXMLChars(request.getParameter("gsts")));
                     profile.setMisIdeas(SWBUtils.XML.replaceXMLChars(request.getParameter("ideas")));
-                    
                     try {
-                        int ld, xtn, tfo = Integer.parseInt(request.getParameter("tfo"));
+                        int ld, xtn;
                         try {
                             ld = Integer.parseInt(request.getParameter("ld"));
                         }catch(Exception e) {
@@ -767,13 +825,21 @@ htm.append("</form>");
                         tel.setLada(ld);
                         tel.setNumero(tfo);
                         tel.setExtension(xtn);
-                        SemanticProperty ext = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://infotec.com.mx/eworkplace#extension");
-                        user.setExtendedAttribute(ext, xtn);
                         tel.setTipo(Telefono.TipoTelefono.job.name());
                         persona.addTelefono(tel);
                     }catch(Exception nfe) {
                         log.error(nfe);
                     }
+                    
+                    try {
+                        xtdr = Integer.parseInt(request.getParameter("extdr"));
+                        //SemanticProperty ext = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#extension");
+                        SemanticProperty ext = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#noe");
+                        user.setExtendedAttribute(ext, new Integer(xtdr));
+                    }catch(Exception e) {
+e.printStackTrace(System.out);
+                    }
+                        
                     if(SWBUtils.EMAIL.isValidEmailAddress(request.getParameter("email")))
                         user.setEmail(request.getParameter("email"));
                     profile.setUbicacion(SWBUtils.XML.replaceXMLChars(request.getParameter("loc")));
