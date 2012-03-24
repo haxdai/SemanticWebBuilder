@@ -29,7 +29,7 @@ Author     : rene.jara
         ,org.semanticwb.model.WebPage
         ,org.semanticwb.portal.api.SWBResourceURL" %>
 <%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
-<%@page import="static com.infotec.cvi.swb.resources.reports.ImprimirCV.Mode_PDF" %>%>
+<%@page import="static com.infotec.cvi.swb.resources.reports.ImprimirCV.Mode_PDF" %>
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/>
 <%
 //String repositoryId = paramRequest.getWebPage().getWebSite().getUserRepository().getId();
@@ -70,6 +70,9 @@ Author     : rene.jara
             if (persona != null) {
                 if (persona.getCurp() != null) {
                     curp = persona.getCurp();
+                }
+                if (persona.getEstadoNacimiento() != null) {
+                    state = persona.getEstadoNacimiento().getTitle();
                 }
                 if (persona.isGenero() == true) {
                     gender = "Femenino";
@@ -168,8 +171,18 @@ Author     : rene.jara
                                 String numero = te.getNumero() > 0 ? "" + te.getNumero() : "";
                                 String exten = te.getExtension() > 0 ? "Ext:" + te.getExtension() : "";
                                 String tipo = te.getTipo() != null ? te.getTipo() : "";
+                                String classTipo="";
+                                if (tipo.equals("Fijo")){
+                                    classTipo="icv-telcasa";
+                                }else if (tipo.equals("Movil")){
+                                    classTipo="icv-cel";
+                                }else if (tipo.equals("Trabajo")){
+                                    classTipo="icv-telofic";
+                                }else if (tipo.equals("Recados")){
+                                    classTipo="icv-telreca";
+                                }
             %>
-            <li class="icv-cel"><strong><%=tipo%>:</strong><%=lada%> <%=numero%> <%=exten%></li>
+            <li class="<%=classTipo%>"><!--strong><%=tipo%>:</strong--><%=lada%> <%=numero%> <%=exten%></li>
             <%
                             }
                         }
@@ -294,8 +307,8 @@ Author     : rene.jara
                             Diplomado di = itdi.next();
                             String nombre = di.getTitle();
                             String institucion = di.getNombreInstitucion();
-                            String inicio = sdf.format(di.getInicio());
-                            String fin = sdf.format(di.getFin());
+                            String inicio = ""+di.getInicio();
+                            String fin = ""+di.getFin();
                             String documento = di.getDocumentoObtenido();
                     %>
                     <li><strong><%=nombre%></strong>, <%=institucion%><br />
@@ -319,8 +332,8 @@ Author     : rene.jara
                             CursoTIC ct = itct.next();
                             String nombre = ct.getTitle();
                             String institucion = ct.getNombreInstitucion();
-                            String inicio = sdf.format(ct.getInicio());
-                            String fin = sdf.format(ct.getFin());
+                            String inicio = ""+ct.getInicio();
+                            String fin = ""+ct.getFin();
                             String documento = ct.getDocumentoObtenido();
                     %>
                     <li><strong><%=nombre%></strong>, <%=institucion%><br />
@@ -422,7 +435,7 @@ Author     : rene.jara
                                 }
                             }
                     %>
-                    <li><strong><%=area%></strong><%=habilidad%> <%=otro.equals("") ? "" : ", " + otro%>(<%=tiempo%>)</li>
+                    <li><strong><%=area%>:</strong> <%=habilidad%> <%=otro.equals("") ? "" : ", " + otro%>(<%=tiempo%>)</li>
                     <%
                         }
                     %>
