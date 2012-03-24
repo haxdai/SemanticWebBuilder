@@ -25,6 +25,7 @@ public abstract class PersonaBase extends org.semanticwb.model.SWBClass
     public static final org.semanticwb.platform.SemanticProperty intranet_estadoNacimiento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#estadoNacimiento");
     public static final org.semanticwb.platform.SemanticClass intranet_Telefono=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Telefono");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasTelefono=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasTelefono");
+    public static final org.semanticwb.platform.SemanticProperty intranet_aceptacionTerminos=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#aceptacionTerminos");
     public static final org.semanticwb.platform.SemanticClass intranet_Familia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Familia");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasFamilia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasFamilia");
     public static final org.semanticwb.platform.SemanticClass intranet_Domicilio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Domicilio");
@@ -613,6 +614,24 @@ public abstract class PersonaBase extends org.semanticwb.model.SWBClass
              ret=(com.infotec.eworkplace.swb.Telefono)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the AceptacionTerminos property
+* @return String with the AceptacionTerminos
+*/
+    public String getAceptacionTerminos()
+    {
+        return getSemanticObject().getProperty(intranet_aceptacionTerminos);
+    }
+
+/**
+* Sets the AceptacionTerminos property
+* @param value long with the AceptacionTerminos
+*/
+    public void setAceptacionTerminos(String value)
+    {
+        getSemanticObject().setProperty(intranet_aceptacionTerminos, value);
     }
    /**
    * Gets all the com.infotec.eworkplace.swb.Familia
