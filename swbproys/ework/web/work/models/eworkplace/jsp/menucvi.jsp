@@ -73,3 +73,16 @@ if(wpparent.isParentof(_wpage)){
 }         
 %>        
 <div class="clearer">&nbsp;</div>
+<%
+     if(_wpage!=null&&_wpage.getDescription()!=null&&_wpage.getDescription().trim().length()>0)
+     {                 
+%> 
+<div class="clearer">&nbsp;</div>
+<div>
+<h2><%=_wpage.getDescription()%></h2>
+</div>
+<div class="clearer">&nbsp;</div>
+<%
+     }          
+         
+%>  
