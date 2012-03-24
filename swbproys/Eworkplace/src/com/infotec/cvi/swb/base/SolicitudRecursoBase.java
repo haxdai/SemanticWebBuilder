@@ -40,6 +40,7 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
     public static final org.semanticwb.platform.SemanticProperty intranet_personalDirecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#personalDirecto");
     public static final org.semanticwb.platform.SemanticProperty intranet_motivoSustitucion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#motivoSustitucion");
     public static final org.semanticwb.platform.SemanticProperty intranet_aniosExpertise=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#aniosExpertise");
+    public static final org.semanticwb.platform.SemanticProperty intranet_nombreVacante=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nombreVacante");
     public static final org.semanticwb.platform.SemanticClass intranet_SolicitudRecurso=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#SolicitudRecurso");
    /**
    * The semantic class that represents the currentObject
@@ -1089,19 +1090,37 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
 
 /**
 * Gets the AniosExpertise property
-* @return int with the AniosExpertise
+* @return String with the AniosExpertise
 */
-    public int getAniosExpertise()
+    public String getAniosExpertise()
     {
-        return getSemanticObject().getIntProperty(intranet_aniosExpertise);
+        return getSemanticObject().getProperty(intranet_aniosExpertise);
     }
 
 /**
 * Sets the AniosExpertise property
 * @param value long with the AniosExpertise
 */
-    public void setAniosExpertise(int value)
+    public void setAniosExpertise(String value)
     {
-        getSemanticObject().setIntProperty(intranet_aniosExpertise, value);
+        getSemanticObject().setProperty(intranet_aniosExpertise, value);
+    }
+
+/**
+* Gets the NombreVacante property
+* @return String with the NombreVacante
+*/
+    public String getNombreVacante()
+    {
+        return getSemanticObject().getProperty(intranet_nombreVacante);
+    }
+
+/**
+* Sets the NombreVacante property
+* @param value long with the NombreVacante
+*/
+    public void setNombreVacante(String value)
+    {
+        getSemanticObject().setProperty(intranet_nombreVacante, value);
     }
 }
