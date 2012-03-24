@@ -37,6 +37,9 @@
 
     String MODE_GETFILE ="getFile";  
     WebPage wpage = paramRequest.getWebPage();
+    
+    
+    
     WebSite wsite = wpage.getWebSite();
     User usr = paramRequest.getUser();
     Role role = null;
@@ -80,7 +83,7 @@
             <div>
             <%
 
-                String wptitle = wpage.getDisplayName(usr.getLanguage());
+                //String wptitle = wpage.getDisplayName(usr.getLanguage());
                 SWBFormMgr fmgr = null;
                 fmgr = new SWBFormMgr(obj, null, SWBFormMgr.MODE_EDIT);
 
@@ -98,13 +101,13 @@
                 fmgr.addProperty(DocumentoProbatorio.intranet_fileNumeroSeguridadSocial);
                 
                 
-                fmgr.setFilterHTMLTags(false);
-                fmgr.setType(SWBFormMgr.TYPE_DOJO);              
+                //fmgr.setFilterHTMLTags(false);
+                //fmgr.setType(SWBFormMgr.TYPE_DOJO);              
 
                 SWBResourceURL urlupdtf = paramRequest.getActionUrl();
                 urlupdtf.setAction(SWBResourceURL.Action_ADD);
 
-                fmgr.setAction(urlupdtf.toString());
+                //fmgr.setAction(urlupdtf.toString());
                 //fmgr.addButton(SWBFormButton.newSaveButton());
                 //out.println(fmgr.renderForm(request));
             %>
@@ -130,48 +133,49 @@
       dojo.require("dijit.form.NumberSpinner");
       dojo.require("dijit.form.Slider");
       dojo.require("dojox.form.BusyButton");
-      dojo.require("dojox.form.TimeSpinner");
-      
-      function getDownloadFile(val)
-       {  
-           var sel = document.getElementById(val);
-    //       alert(sel.value)
-           if(sel.value=='')
-               { 
-                   alert('Selecciona un archivo de la lista.')
-               } 
-           else 
-               { 
-                   window.location=sel.value;
-               }
-           return false;
-
-      }
-      
-      function enviar() {
-        var objd=dijit.byId('<%=doc.getURI()%>/form');
-//alert(objd);
-        if(objd.validate())//isValid()&&!isEmpty('idgavance')&&!isEmpty('idestudio'))
-        {
-                return true;
-        }else {
-            alert("Datos incompletos o erroneos");
-        }
-        return false;
-    }
-    function isEmpty(objid) {
-        var obj = dojo.byId(objid);
-        if (obj==null || obj.value=='' || !isNaN(obj.value) || obj.value.charAt(0) == ' ') {
+      dojo.require("dojox.form.TimeSpinner");    
+   
+    var valid_extensions = /(.PDF|.pdf)$/i;
+    function CheckExtension(fld)
+    {
+        if(fld.value!=null) {
+            if (valid_extensions.test(fld.value)){
+                    return true;
+            } else {
+                alert('Archivo inválido, sólo se aceptan PDF.\n\rSelecciona otro archivo');
+                fld.value='';
+                fld.focus();
+                return false;
+            }
+        } else {
             return true;
-        }else {
-            return false;
         }
+    }
+    
+    
+    function valida(formaid) {
+        var forma = document.getElementById(formaid);
+        var ret = true;
+        
+        if(forma.actaNacimiento.value!=null&&forma.actaNacimiento.value!='') ret = CheckExtension(forma.actaNacimiento);
+        if(ret && forma.actaMatrimonio.value!=null && forma.actaMatrimonio.value!='') ret = CheckExtension(forma.actaMatrimonio);
+        if(ret && forma.hasActaNacimiento.value!=null && forma.hasActaNacimiento.value!='') ret = CheckExtension(forma.hasActaNacimiento);
+        if(ret && forma.fotoInfantil.value!=null && forma.fotoInfantil.value!='') ret = CheckExtension(forma.fotoInfantil);
+        if(ret && forma.copiaRFC.value!=null && forma.copiaRFC.value!='') ret = CheckExtension(forma.copiaRFC);
+        if(ret && forma.CURP.value!=null && forma.CURP.value!='') ret = CheckExtension(forma.CURP);
+        if(ret && forma.hasComprobantesEstudio.value!=null && forma.hasComprobantesEstudio.value!='') ret = CheckExtension(forma.hasComprobantesEstudio);
+        if(ret && forma.hasIdentificacion.value!=null && forma.hasIdentificacion.value!='') ret = CheckExtension(forma.hasIdentificacion);
+        if(ret && forma.comprobanteDomicilio.value!=null && forma.comprobanteDomicilio.value!='') ret = CheckExtension(forma.comprobanteDomicilio);
+        if(ret && forma.numeroSegSocial.value!=null && forma.numeroSegSocial.value!='') ret = CheckExtension(forma.numeroSegSocial);
+        
+        return ret;
+        
     }
     </script>
 <script type="text/javascript">
                              
                             </script>
-            <form  id="<%=doc.getURI()%>/form" dojoType="dijit.form.Form" class="swbform" action="<%=urlupdtf%>" method="post">
+            <form  id="<%=doc.getURI()%>/form" dojoType="dijit.form.Form" class="swbform" action="<%=urlupdtf%>" method="post" enctype="multipart/form-data" >
                 <input type="hidden" name="act" value="edit" />
                 <input type="hidden" name="suri" value="<%=doc.getURI()%>" />
                 <input type="hidden" name="scls" value="<%=DocumentoProbatorio.intranet_DocumentoProbatorio.getURI()%>" />
@@ -179,11 +183,12 @@
 	<fieldset >
 	    <table>
                 <tr><td width="300px" align="right"><%=fmgr.renderLabel(request, DocumentoProbatorio.intranet_fileActaNacimiento, SWBFormMgr.MODE_EDIT)%></td>
-                    <td><%=fmgr.renderElement(request, DocumentoProbatorio.intranet_fileActaNacimiento, SWBFormMgr.MODE_EDIT)%></td>
+                    <td><input type="file" name="actaNacimiento"  id="actaNacimiento" size="30" /></td>
                     <td>
                        <%
                        String iniName = DocumentoProbatorio.intranet_fileActaNacimiento.getName() + "_" + doc.getSemanticObject().getId();
                        String strfile = doc.getFileActaNacimiento();
+                       //System.out.println("jsp acta nacimiento: "+strfile);
                        if(null!=strfile){
                             SWBResourceURL urlgetfile1 = paramRequest.getRenderUrl();
                             urlgetfile1.setMode(MODE_GETFILE);
@@ -192,11 +197,19 @@
                             urlgetfile1.setWindowState(SWBResourceURL.WinState_MAXIMIZED);
                             urlgetfile1.setParameter("fileid", strfile);
                             urlgetfile1.setParameter("propURI", DocumentoProbatorio.intranet_fileActaNacimiento.getURI());
+                            
+                            SWBResourceURL urldel = paramRequest.getActionUrl();
+                            urldel.setAction(SWBResourceURL.Action_REMOVE);
+                            urldel.setParameter("fileid", strfile);
+                            urldel.setParameter("propURI", DocumentoProbatorio.intranet_fileActaNacimiento.getURI());
+                            
+                            
                             if (strfile.startsWith(iniName)) {
                                 strfile = strfile.substring(iniName.length() + 1);
                             }
                             if(strfile.length()>25) strfile = strfile.substring(0,24)+"...";
                        %>     
+                       <span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este archivo?')){window.location='<%=urldel%>';}">&nbsp;</a></span>
                             <div id="icv-ver" ><a href="#" onclick="window.location='<%=urlgetfile1%>';return false;"><%=strfile%></a></div> 
                        <%
                           }
@@ -205,11 +218,12 @@
                     </td>
                 </tr>
                 <tr><td width="300px" align="right"><%=fmgr.renderLabel(request, DocumentoProbatorio.intranet_fileActaMatrimonio, SWBFormMgr.MODE_EDIT)%></td>
-                    <td><%=fmgr.renderElement(request, DocumentoProbatorio.intranet_fileActaMatrimonio, SWBFormMgr.MODE_EDIT)%></td>
+                    <td><input type="file" name="actaMatrimonio" id="actaMatrimonio" size="30"/></td>
                     <td>
                       <%
                        iniName = DocumentoProbatorio.intranet_fileActaMatrimonio.getName() + "_" + doc.getSemanticObject().getId();
                        strfile = doc.getFileActaMatrimonio();
+                       //System.out.println("jsp acta matrimonio: "+strfile);
                        if(null!=strfile){
                             SWBResourceURL urlgetfile1 = paramRequest.getRenderUrl();
                             urlgetfile1.setMode(MODE_GETFILE);
@@ -218,11 +232,18 @@
                             urlgetfile1.setWindowState(SWBResourceURL.WinState_MAXIMIZED);
                             urlgetfile1.setParameter("fileid", strfile);
                             urlgetfile1.setParameter("propURI", DocumentoProbatorio.intranet_fileActaMatrimonio.getURI());
+                            
+                            SWBResourceURL urldel = paramRequest.getActionUrl();
+                            urldel.setAction(SWBResourceURL.Action_REMOVE);
+                            urldel.setParameter("fileid", strfile);
+                            urldel.setParameter("propURI", DocumentoProbatorio.intranet_fileActaMatrimonio.getURI());
+                            
                             if (strfile.startsWith(iniName)) {
                                 strfile = strfile.substring(iniName.length() + 1);
                             }
                             if(strfile.length()>25) strfile = strfile.substring(0,24)+"...";
                        %>     
+                       <span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este archivo?')){window.location='<%=urldel%>';}">&nbsp;</a></span>
                             <div id="icv-ver" ><a href="#" onclick="window.location='<%=urlgetfile1%>';return false;"><%=strfile%></a></div> 
                        <%
                           }
@@ -230,7 +251,7 @@
                     </td>
                 </tr>
                 <tr><td width="300px" align="right"><%=fmgr.renderLabel(request, DocumentoProbatorio.intranet_hasActasNacimientoFamiliares, SWBFormMgr.MODE_EDIT)%></td>
-                    <td><%=fmgr.renderElement(request, DocumentoProbatorio.intranet_hasActasNacimientoFamiliares, SWBFormMgr.MODE_EDIT)%></td>
+                    <td><input type="file" name="hasActaNacimiento" id="hasActaNacimiento" size="30" /></td>
                     <td>
                         <%
                             iniName = DocumentoProbatorio.intranet_hasActasNacimientoFamiliares.getName() + "_" + doc.getSemanticObject().getId();
@@ -253,13 +274,19 @@
                                 urlgetfile.setWindowState(SWBResourceURL.WinState_MAXIMIZED);
                                 urlgetfile.setParameter("fileid", strfile);
                                 urlgetfile.setParameter("propURI", DocumentoProbatorio.intranet_hasActasNacimientoFamiliares.getURI());
+                                
+                                SWBResourceURL urldel = paramRequest.getActionUrl();
+                            urldel.setAction(SWBResourceURL.Action_REMOVE);
+                            urldel.setParameter("fileid", strfile);
+                            urldel.setParameter("propURI", DocumentoProbatorio.intranet_hasActasNacimientoFamiliares.getURI());
 
                                 if (strfile.startsWith(iniName)) {
                                     strfile = strfile.substring(iniName.length() + 1);
                                 }
 
                                 if(strfile.length()>25) strfile = strfile.substring(0,24)+"...";
-                                %>     
+                                %>   
+                                <span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este archivo?')){window.location='<%=urldel%>';}">&nbsp;</a></span>
                             <div id="icv-ver" ><a href="#" onclick="window.location='<%=urlgetfile%>';return false;"><%=strfile%></a></div> 
                        <%
                             }
@@ -277,7 +304,7 @@
                     </td>
                 </tr>
                 <tr><td width="300px" align="right"><%=fmgr.renderLabel(request, DocumentoProbatorio.intranet_fileFotoTamInfantil, SWBFormMgr.MODE_EDIT)%></td>
-                    <td><%=fmgr.renderElement(request, DocumentoProbatorio.intranet_fileFotoTamInfantil, SWBFormMgr.MODE_EDIT)%></td>
+                    <td><input type="file" name="fotoInfantil" id="fotoInfantil" size="30" /></td>
                     <td>
                       <%
                        iniName = DocumentoProbatorio.intranet_fileFotoTamInfantil.getName() + "_" + doc.getSemanticObject().getId();
@@ -290,11 +317,19 @@
                             urlgetfile1.setWindowState(SWBResourceURL.WinState_MAXIMIZED);
                             urlgetfile1.setParameter("fileid", strfile);
                             urlgetfile1.setParameter("propURI", DocumentoProbatorio.intranet_fileFotoTamInfantil.getURI());
+                            
+                            SWBResourceURL urldel = paramRequest.getActionUrl();
+                            urldel.setAction(SWBResourceURL.Action_REMOVE);
+                            urldel.setParameter("fileid", strfile);
+                            urldel.setParameter("propURI", DocumentoProbatorio.intranet_fileFotoTamInfantil.getURI());
                             if (strfile.startsWith(iniName)) {
                                 strfile = strfile.substring(iniName.length() + 1);
                             }
                             if(strfile.length()>25) strfile = strfile.substring(0,24)+"...";
-                       %>     
+                            
+                            
+                       %>   
+                            <span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este archivo?')){window.location='<%=urldel%>';}">&nbsp;</a></span>
                             <div id="icv-ver" ><a href="#" onclick="window.location='<%=urlgetfile1%>';return false;"><%=strfile%></a></div> 
                        <%
                           }
@@ -302,7 +337,7 @@
                     </td>
                 </tr>
                 <tr><td width="300px" align="right"><%=fmgr.renderLabel(request, DocumentoProbatorio.intranet_fileCopiaRFC, SWBFormMgr.MODE_EDIT)%></td>
-                    <td><%=fmgr.renderElement(request, DocumentoProbatorio.intranet_fileCopiaRFC, SWBFormMgr.MODE_EDIT)%></td>
+                    <td><input type="file" name="copiaRFC" id="copiaRFC" size="30"/></td>
                     <td>
                       <%
                       iniName = DocumentoProbatorio.intranet_fileCopiaRFC.getName() + "_" + doc.getSemanticObject().getId();
@@ -315,11 +350,18 @@
                             urlgetfile1.setWindowState(SWBResourceURL.WinState_MAXIMIZED);
                             urlgetfile1.setParameter("fileid", strfile);
                             urlgetfile1.setParameter("propURI", DocumentoProbatorio.intranet_fileCopiaRFC.getURI());
+                            
+                            SWBResourceURL urldel = paramRequest.getActionUrl();
+                            urldel.setAction(SWBResourceURL.Action_REMOVE);
+                            urldel.setParameter("fileid", strfile);
+                            urldel.setParameter("propURI", DocumentoProbatorio.intranet_fileCopiaRFC.getURI());
+                            
                             if (strfile.startsWith(iniName)) {
                                 strfile = strfile.substring(iniName.length() + 1);
                             }
                             if(strfile.length()>25) strfile = strfile.substring(0,24)+"...";
                        %>     
+                       <span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este archivo?')){window.location='<%=urldel%>';}">&nbsp;</a></span>
                             <div id="icv-ver" ><a href="#" onclick="window.location='<%=urlgetfile1%>';return false;"><%=strfile%></a></div> 
                        <%
                           }
@@ -327,7 +369,7 @@
                     </td>
                 </tr>
                 <tr><td width="300px" align="right"><%=fmgr.renderLabel(request, DocumentoProbatorio.intranet_fileCURP, SWBFormMgr.MODE_EDIT)%></td>
-                    <td><%=fmgr.renderElement(request, DocumentoProbatorio.intranet_fileCURP, SWBFormMgr.MODE_EDIT)%></td>
+                    <td><input type="file" name="CURP" id="CURP" size="30" /></td>
                     <td>
                       <%
                       iniName = DocumentoProbatorio.intranet_fileCURP.getName() + "_" + doc.getSemanticObject().getId();
@@ -340,11 +382,18 @@
                             urlgetfile1.setWindowState(SWBResourceURL.WinState_MAXIMIZED);
                             urlgetfile1.setParameter("fileid", strfile);
                             urlgetfile1.setParameter("propURI", DocumentoProbatorio.intranet_fileCURP.getURI());
+                            
+                            SWBResourceURL urldel = paramRequest.getActionUrl();
+                            urldel.setAction(SWBResourceURL.Action_REMOVE);
+                            urldel.setParameter("fileid", strfile);
+                            urldel.setParameter("propURI", DocumentoProbatorio.intranet_fileCURP.getURI());
+                            
                             if (strfile.startsWith(iniName)) {
                                 strfile = strfile.substring(iniName.length() + 1);
                             }
                             if(strfile.length()>25) strfile = strfile.substring(0,24)+"...";
                        %>     
+                       <span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este archivo?')){window.location='<%=urldel%>';}">&nbsp;</a></span>
                             <div id="icv-ver" ><a href="#" onclick="window.location='<%=urlgetfile1%>';return false;"><%=strfile%></a></div> 
                        <%
                           }
@@ -352,7 +401,7 @@
                     </td>
                 </tr>
                 <tr><td width="300px" align="right"><%=fmgr.renderLabel(request, DocumentoProbatorio.intranet_hasFilesComprobanteEstudio, SWBFormMgr.MODE_EDIT)%></td>
-                    <td><%=fmgr.renderElement(request, DocumentoProbatorio.intranet_hasFilesComprobanteEstudio, SWBFormMgr.MODE_EDIT)%></td>
+                    <td><input type="file" name="hasComprobantesEstudio" id="hasComprobantesEstudio" size="30" /><%//=fmgr.renderElement(request, DocumentoProbatorio.intranet_hasFilesComprobanteEstudio, SWBFormMgr.MODE_EDIT)%></td>
                     <td>
                         <%
                             iniName = DocumentoProbatorio.intranet_hasFilesComprobanteEstudio.getName() + "_" + doc.getSemanticObject().getId();
@@ -377,13 +426,19 @@
                                 urlgetfile.setWindowState(SWBResourceURL.WinState_MAXIMIZED);
                                 urlgetfile.setParameter("fileid", strfile);
                                 urlgetfile.setParameter("propURI", DocumentoProbatorio.intranet_hasFilesComprobanteEstudio.getURI());
+                                
+                                SWBResourceURL urldel = paramRequest.getActionUrl();
+                            urldel.setAction(SWBResourceURL.Action_REMOVE);
+                            urldel.setParameter("fileid", strfile);
+                            urldel.setParameter("propURI", DocumentoProbatorio.intranet_hasFilesComprobanteEstudio.getURI());
 
                                 if (strfile.startsWith(iniName)) {
                                     strfile = strfile.substring(iniName.length() + 1);
                                 }
                                 if(strfile.length()>25) strfile = strfile.substring(0,24)+"...";
                                 //out.println("<option value=\"" + urlgetfile + "\">" + strfile + "</option>");
-                                %>     
+                                %>    
+                                <span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este archivo?')){window.location='<%=urldel%>';}">&nbsp;</a></span>
                             <div id="icv-ver" ><a href="#" onclick="window.location='<%=urlgetfile%>';return false;"><%=strfile%></a></div> 
                        <%
                             }
@@ -399,7 +454,7 @@
                     </td>
                 </tr>
                 <tr><td width="300px" align="right"><%=fmgr.renderLabel(request, DocumentoProbatorio.intranet_hasFilesIdentificacionOficial, SWBFormMgr.MODE_EDIT)%></td>
-                    <td><%=fmgr.renderElement(request, DocumentoProbatorio.intranet_hasFilesIdentificacionOficial, SWBFormMgr.MODE_EDIT)%></td>
+                    <td><input type="file" name="hasIdentificacion" id="hasIdentificacion"  size="30" /><%//=fmgr.renderElement(request, DocumentoProbatorio.intranet_hasFilesIdentificacionOficial, SWBFormMgr.MODE_EDIT)%></td>
                     <td>
                         <%
                             iniName = DocumentoProbatorio.intranet_hasFilesIdentificacionOficial.getName() + "_" + doc.getSemanticObject().getId();
@@ -422,13 +477,19 @@
                                 urlgetfile.setWindowState(SWBResourceURL.WinState_MAXIMIZED);
                                 urlgetfile.setParameter("fileid", strfile);
                                 urlgetfile.setParameter("propURI", DocumentoProbatorio.intranet_hasFilesIdentificacionOficial.getURI());
+                                
+                                SWBResourceURL urldel = paramRequest.getActionUrl();
+                            urldel.setAction(SWBResourceURL.Action_REMOVE);
+                            urldel.setParameter("fileid", strfile);
+                            urldel.setParameter("propURI", DocumentoProbatorio.intranet_hasFilesIdentificacionOficial.getURI());
 
                                 if (strfile.startsWith(iniName)) {
                                     strfile = strfile.substring(iniName.length() + 1);
                                 }
                                 if(strfile.length()>25) strfile = strfile.substring(0,24)+"...";
                                 //out.println("<option value=\"" + urlgetfile + "\">" + strfile + "</option>");
-                                %>     
+                                %>    
+                                <span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este archivo?')){window.location='<%=urldel%>';}">&nbsp;</a></span>
                             <div id="icv-ver" ><a href="#" onclick="window.location='<%=urlgetfile%>';return false;"><%=strfile%></a></div> 
                        <%
                             }
@@ -445,7 +506,7 @@
                     </td>
                 </tr>
                 <tr><td width="300px" align="right"><%=fmgr.renderLabel(request, DocumentoProbatorio.intranet_fileComprobanteDomicilio, SWBFormMgr.MODE_EDIT)%></td>
-                    <td><%=fmgr.renderElement(request, DocumentoProbatorio.intranet_fileComprobanteDomicilio, SWBFormMgr.MODE_EDIT)%></td>
+                    <td><input type="file" name="comprobanteDomicilio" id="comprobanteDomicilio" size="30" /></td>
                     <td>
                       <%
                       iniName = DocumentoProbatorio.intranet_fileComprobanteDomicilio.getName() + "_" + doc.getSemanticObject().getId();
@@ -458,11 +519,18 @@
                             urlgetfile1.setWindowState(SWBResourceURL.WinState_MAXIMIZED);
                             urlgetfile1.setParameter("fileid", strfile);
                             urlgetfile1.setParameter("propURI", DocumentoProbatorio.intranet_fileComprobanteDomicilio.getURI());
+                            
+                            SWBResourceURL urldel = paramRequest.getActionUrl();
+                            urldel.setAction(SWBResourceURL.Action_REMOVE);
+                            urldel.setParameter("fileid", strfile);
+                            urldel.setParameter("propURI", DocumentoProbatorio.intranet_fileComprobanteDomicilio.getURI());
+                            
                             if (strfile.startsWith(iniName)) {
                                 strfile = strfile.substring(iniName.length() + 1);
                             }
                             if(strfile.length()>25) strfile = strfile.substring(0,24)+"...";
                        %>     
+                       <span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este archivo?')){window.location='<%=urldel%>';}">&nbsp;</a></span>
                             <div id="icv-ver" ><a href="#" onclick="window.location='<%=urlgetfile1%>';return false;"><%=strfile%></a></div> 
                        <%
                           }
@@ -470,7 +538,7 @@
                     </td>
                 </tr>
                 <tr><td width="300px" align="right"><%=fmgr.renderLabel(request, DocumentoProbatorio.intranet_fileNumeroSeguridadSocial, SWBFormMgr.MODE_EDIT)%></td>
-                    <td><%=fmgr.renderElement(request, DocumentoProbatorio.intranet_fileNumeroSeguridadSocial, SWBFormMgr.MODE_EDIT)%></td>
+                    <td><input type="file" name="numeroSegSocial" id="numeroSegSocial" size="30" /></td>
                     <td>
                       <%
                       iniName = DocumentoProbatorio.intranet_fileNumeroSeguridadSocial.getName() + "_" + doc.getSemanticObject().getId();
@@ -483,11 +551,18 @@
                             urlgetfile1.setWindowState(SWBResourceURL.WinState_MAXIMIZED);
                             urlgetfile1.setParameter("fileid", strfile);
                             urlgetfile1.setParameter("propURI", DocumentoProbatorio.intranet_fileNumeroSeguridadSocial.getURI());
+                            
+                            SWBResourceURL urldel = paramRequest.getActionUrl();
+                            urldel.setAction(SWBResourceURL.Action_REMOVE);
+                            urldel.setParameter("fileid", strfile);
+                            urldel.setParameter("propURI", DocumentoProbatorio.intranet_fileNumeroSeguridadSocial.getURI());
+                            
                             if (strfile.startsWith(iniName)) {
                                 strfile = strfile.substring(iniName.length() + 1);
                             }
                             if(strfile.length()>25) strfile = strfile.substring(0,24)+"...";
                        %>     
+                       <span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este archivo?')){window.location='<%=urldel%>';}">&nbsp;</a></span>
                             <div id="icv-ver" ><a href="#" onclick="window.location='<%=urlgetfile1%>';return false;"><%=strfile%></a></div> 
                        <%
                           }
@@ -504,8 +579,8 @@
                         
         %>
         <!-- button dojoType="dijit.form.Button" type="button" onclick="window.location='<%//=urlBack%>'; return false;">Regresar</button -->
-        <input type="button" value="Enviar Archivos" />
-        <input  type="submit" onclick="return enviar()" value="Guardar" />
+        <!-- input type="button" value="Enviar Archivos" / -->
+        <input  type="submit" onclick="return valida('<%=doc.getURI()%>/form')" value="Guardar" />
 </span></fieldset>
 </form>
 
