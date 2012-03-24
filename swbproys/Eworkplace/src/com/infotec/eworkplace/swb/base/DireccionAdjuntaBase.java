@@ -1,7 +1,7 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class DireccionAdjuntaBase extends com.infotec.eworkplace.swb.Organo implements org.semanticwb.model.Descriptiveable,com.infotec.eworkplace.swb.Vision,com.infotec.eworkplace.swb.Extensible,com.infotec.eworkplace.swb.Mision
+public abstract class DireccionAdjuntaBase extends com.infotec.eworkplace.swb.Organo implements com.infotec.eworkplace.swb.Vision,com.infotec.eworkplace.swb.Extensible,com.infotec.eworkplace.swb.Orden,org.semanticwb.model.Descriptiveable,com.infotec.eworkplace.swb.Mision
 {
     public static final org.semanticwb.platform.SemanticClass intranet_Gerencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Gerencia");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasGerencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasGerencia");
@@ -103,6 +103,29 @@ public abstract class DireccionAdjuntaBase extends com.infotec.eworkplace.swb.Or
             org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.DireccionAdjunta> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasGerencia,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all com.infotec.eworkplace.swb.DireccionAdjunta with a determined PerteneceA
+       * @param value PerteneceA of the type com.infotec.eworkplace.swb.Organo
+       * @param model Model of the com.infotec.eworkplace.swb.DireccionAdjunta
+       * @return Iterator with all the com.infotec.eworkplace.swb.DireccionAdjunta
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.DireccionAdjunta> listDireccionAdjuntaByPerteneceA(com.infotec.eworkplace.swb.Organo value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.DireccionAdjunta> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_perteneceA, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.DireccionAdjunta with a determined PerteneceA
+       * @param value PerteneceA of the type com.infotec.eworkplace.swb.Organo
+       * @return Iterator with all the com.infotec.eworkplace.swb.DireccionAdjunta
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.DireccionAdjunta> listDireccionAdjuntaByPerteneceA(com.infotec.eworkplace.swb.Organo value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.DireccionAdjunta> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_perteneceA,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
    /**
@@ -175,6 +198,44 @@ public abstract class DireccionAdjuntaBase extends com.infotec.eworkplace.swb.Or
          if(obj!=null)
          {
              ret=(com.infotec.eworkplace.swb.Gerencia)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Sets the value for the property PerteneceA
+   * @param value PerteneceA to set
+   */
+
+    public void setPerteneceA(com.infotec.eworkplace.swb.Organo value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_perteneceA, value.getSemanticObject());
+        }else
+        {
+            removePerteneceA();
+        }
+    }
+   /**
+   * Remove the value for PerteneceA property
+   */
+
+    public void removePerteneceA()
+    {
+        getSemanticObject().removeProperty(intranet_perteneceA);
+    }
+
+   /**
+   * Gets the PerteneceA
+   * @return a com.infotec.eworkplace.swb.Organo
+   */
+    public com.infotec.eworkplace.swb.Organo getPerteneceA()
+    {
+         com.infotec.eworkplace.swb.Organo ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_perteneceA);
+         if(obj!=null)
+         {
+             ret=(com.infotec.eworkplace.swb.Organo)obj.createGenericInstance();
          }
          return ret;
     }
