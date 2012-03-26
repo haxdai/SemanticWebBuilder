@@ -78,9 +78,7 @@ if(wpparent.isParentof(_wpage)){
      {                 
 %> 
 <div class="clearer">&nbsp;</div>
-<div>
-<h2><%=_wpage.getDescription()%></h2>
-</div>
+<div id="icv-ayuda"><p><%=_wpage.getDescription()%></p></div>
 <div class="clearer">&nbsp;</div>
 <%
      }          
