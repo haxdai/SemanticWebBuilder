@@ -5,6 +5,7 @@ public abstract class EstudioSuperiorBase extends org.semanticwb.model.SWBClass 
 {
     public static final org.semanticwb.platform.SemanticClass intranet_Avance=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Avance");
     public static final org.semanticwb.platform.SemanticProperty intranet_gradoAvance=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#gradoAvance");
+    public static final org.semanticwb.platform.SemanticProperty intranet_otroEstudio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#otroEstudio");
     public static final org.semanticwb.platform.SemanticClass intranet_Estudios=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Estudios");
     public static final org.semanticwb.platform.SemanticProperty intranet_estudiosSuperiores=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#estudiosSuperiores");
     public static final org.semanticwb.platform.SemanticClass intranet_EstudioSuperior=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#EstudioSuperior");
@@ -175,6 +176,24 @@ public abstract class EstudioSuperiorBase extends org.semanticwb.model.SWBClass 
              ret=(com.infotec.cvi.swb.Avance)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the OtroEstudio property
+* @return String with the OtroEstudio
+*/
+    public String getOtroEstudio()
+    {
+        return getSemanticObject().getProperty(intranet_otroEstudio);
+    }
+
+/**
+* Sets the OtroEstudio property
+* @param value long with the OtroEstudio
+*/
+    public void setOtroEstudio(String value)
+    {
+        getSemanticObject().setProperty(intranet_otroEstudio, value);
     }
    /**
    * Sets the value for the property EstudiosSuperiores

@@ -1,7 +1,7 @@
 package com.infotec.cvi.swb.base;
 
 
-public abstract class KitNuevoIngresoBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,com.infotec.eworkplace.swb.KitSolicitable
+public abstract class KitNuevoIngresoBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.KitSolicitable,org.semanticwb.model.Traceable
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_nivelPrivilegioLlamadas=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nivelPrivilegioLlamadas");
     public static final org.semanticwb.platform.SemanticProperty intranet_requiereMSI=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#requiereMSI");
