@@ -9,6 +9,7 @@
         ,java.io.IOException
         ,java.util.Iterator
         ,java.util.Locale
+        ,java.util.Date
         ,java.text.SimpleDateFormat
         ,com.infotec.cvi.swb.*
         ,org.semanticwb.*
@@ -127,8 +128,14 @@
         PdfWriter.getInstance(document, response.getOutputStream());
         document.open();
         
-        Paragraph paragraph = new Paragraph("Curriculum Vitae Infotec",FontFactory.getFont(FontFactory.HELVETICA, 16, Font.BOLD, ImprimirCV.h1));
+        Paragraph paragraph = new Paragraph("Curriculum Vitae Infotec",FontFactory.getFont(FontFactory.HELVETICA, 16, Font.BOLD, BaseColor.DARK_GRAY));
         paragraph.setAlignment(com.itextpdf.text.Element.ALIGN_CENTER);
+        paragraph.setSpacingBefore(2);
+        paragraph.setSpacingAfter(12);
+        document.add(paragraph);
+        
+        paragraph = new Paragraph("México, D.F. A "+sdf.format(new Date()),FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, BaseColor.DARK_GRAY));
+        paragraph.setAlignment(com.itextpdf.text.Element.ALIGN_RIGHT);
         paragraph.setSpacingBefore(2);
         paragraph.setSpacingAfter(12);
         document.add(paragraph);
@@ -156,13 +163,15 @@
         cell = new PdfPCell();
         cell.setBorder(PdfPCell.NO_BORDER);
         paragraph = new Paragraph(fullName, FontFactory.getFont(FontFactory.HELVETICA, 12, Font.BOLD, b));
+        paragraph.setIndentationLeft(10);
         cell.addElement(paragraph);
         cell.setColspan(2);
         table.addCell(cell);
         
         cell = new PdfPCell();
         cell.setBorder(PdfPCell.NO_BORDER);
-        paragraph = new Paragraph("RFC: "+curp.toUpperCase(locale), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, BaseColor.GRAY));
+        paragraph = new Paragraph("RFC: "+rfc.toUpperCase(locale), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, BaseColor.GRAY));
+        paragraph.setIndentationLeft(10);
         cell.addElement(paragraph);
         cell.setColspan(2);
         table.addCell(cell);
@@ -170,6 +179,7 @@
         cell = new PdfPCell();
         cell.setBorder(PdfPCell.NO_BORDER);
         paragraph = new Paragraph("CURP: "+curp.toUpperCase(locale), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, BaseColor.GRAY));
+        paragraph.setIndentationLeft(10);
         cell.addElement(paragraph);
         cell.setColspan(2);
         table.addCell(cell);
@@ -177,6 +187,7 @@
         cell = new PdfPCell();
         cell.setBorder(PdfPCell.NO_BORDER);
         paragraph = new Paragraph();
+        paragraph.setIndentationLeft(10);
         Chunk chnk;
         chnk = new Chunk("Fecha de nacimiento: "+birthday, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, BaseColor.GRAY));
         paragraph.add(chnk);
@@ -196,6 +207,7 @@
         cell = new PdfPCell();
         cell.setBorder(PdfPCell.NO_BORDER);
         paragraph = new Paragraph();
+        paragraph.setIndentationLeft(10);
         chnk = new Chunk("Situación: "+sLabor, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, BaseColor.GRAY));
         paragraph.add(chnk);
         if(availability!=null) {
