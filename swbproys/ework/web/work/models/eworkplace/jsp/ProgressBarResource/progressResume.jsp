@@ -18,6 +18,7 @@
 <%
     User user = paramRequest.getUser();
     if(user.isSigned()) {
+        boolean resume = true;
         boolean done;
         WebSite wsite = paramRequest.getWebPage().getWebSite();
         CV cv = CV.ClassMgr.getCV(user.getId(), wsite);
@@ -29,6 +30,7 @@
         out.println("<div class=\"indice\">");
         out.println(" <div class=\"intro_indice\">");
         done = aca.listGradoAcademicos().hasNext()&&(aca.isNoAplicaEstudioSuperior() || aca.listEstudioSuperiors().hasNext())&&(cv.isSinDiplomado() || cv.listDiplomados().hasNext())&&(cv.isSinCurso() || cv.listCursosTICs().hasNext())&&(cv.isSinIdioma() || cv.listIdiomas().hasNext());
+        resume = resume && done;
         out.println("  <h3 class=\""+(done?"icv-semaforo-paloma":"icv-semaforo-tache")+"\">");
         out.println("   <a href=\""+url+"Escolaridad"+lang+"\">"+paramRequest.getLocaleString("lblSchooling")+"</a>");
         out.println("  </h3>");
@@ -68,6 +70,7 @@
         out.println("<div class=\"indice\">");
         out.println(" <div class=\"intro_indice\">");
         done = (cv.isSinExperiencia() || cv.listExperienciaLaborals().hasNext())&&cv.listAreaTalentos().hasNext()&&(cv.isSinDistincion() || cv.listDistincions().hasNext());
+        resume = resume && done;
         out.println("  <h3 class=\""+(done?"icv-semaforo-paloma":"icv-semaforo-tache")+"\">");
         out.println("   <a href=\""+url+"Experiencia_Profesional"+lang+"\">"+paramRequest.getLocaleString("lblExperience")+"</a>");
         out.println("  </h3>");
@@ -97,6 +100,7 @@
         out.println("<div class=\"indice\">");
         out.println(" <div class=\"intro_indice\">");
         done = cv.listCompetencias().hasNext();
+        resume = resume && done;
         out.println("  <h3 class=\""+(done?"icv-semaforo-paloma":"icv-semaforo-tache")+"\">");
         out.println("   <a href=\""+url+"Competencias"+lang+"\">"+paramRequest.getLocaleString("lblCompetencies")+"</a>");
         out.println("  </h3>");
@@ -116,6 +120,7 @@
         out.println("<div class=\"indice\">");
         out.println(" <div class=\"intro_indice\">");
         done = (cv.isSinInvestigacion() || cv.listInvestigacions().hasNext())&&(cv.isSinDocencia() || cv.listDocencias().hasNext())&&(cv.isSinPublicacion() || cv.listPublicacions().hasNext());
+        resume = resume && done;
         out.println("  <h3 class=\""+(done?"icv-semaforo-paloma":"icv-semaforo-tache")+"\">");
         out.println("   <a href=\""+url+"Investigacion_y_docencia"+lang+"\">"+paramRequest.getLocaleString("lblResearchAndTeaching")+"</a>");
         out.println("  </h3>");
@@ -137,9 +142,13 @@
             out.println("<li><h4><a href=\""+url+"Publicaciones"+lang+"\" class=\"cvi-semaforo-verde\">"+paramRequest.getLocaleString("lblPublications")+"</a></h4></li>");
         else
             out.println("<li><h4><a href=\""+url+"Publicaciones"+lang+"\" class=\"cvi-semaforo-rojo\">"+paramRequest.getLocaleString("lblPublications")+"</a></h4></li>");
-        out.println("  </ul>");
+        out.println("  </ul>");        
         out.println(" </div>");
         out.println("</div>");
         out.println("<div style=\"clear: both;\"></div>");
+if(resume)
+    out.println("<p>Infotec agradece tu inter&eacute;s y participaci&oacute;n</p>");
+else
+    out.println("<p>Por favor complementa tu informaci&oacute;n</p>");
     }
 %>
