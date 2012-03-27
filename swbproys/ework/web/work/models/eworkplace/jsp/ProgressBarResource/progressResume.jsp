@@ -147,8 +147,8 @@
         out.println("</div>");
         out.println("<div style=\"clear: both;\"></div>");
 if(resume)
-    out.println("<p>Infotec agradece tu inter&eacute;s y participaci&oacute;n</p>");
+    out.println("<p id=\"cvi-msg-resume\">Infotec agradece tu inter&eacute;s y participaci&oacute;n</p>");
 else
-    out.println("<p>Por favor complementa tu informaci&oacute;n</p>");
+    out.println("<p id=\"cvi-msg-resume\">Por favor complementa tu informaci&oacute;n</p>");
     }
 %>
