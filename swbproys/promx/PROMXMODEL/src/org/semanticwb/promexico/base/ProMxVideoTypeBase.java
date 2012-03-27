@@ -3,6 +3,10 @@ package org.semanticwb.promexico.base;
 
 public abstract class ProMxVideoTypeBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
+   /**
+   * Define el orden de despliegue de estos objetos
+   */
+    public static final org.semanticwb.platform.SemanticProperty promx_displayOrder=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#displayOrder");
     public static final org.semanticwb.platform.SemanticClass promx_ProMxVideoType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#ProMxVideoType");
    /**
    * The semantic class that represents the currentObject
@@ -305,5 +309,23 @@ public abstract class ProMxVideoTypeBase extends org.semanticwb.model.SWBClass i
     public void setTitle(String title, String lang)
     {
         getSemanticObject().setProperty(swb_title, title, lang);
+    }
+
+/**
+* Gets the DisplayOrder property
+* @return int with the DisplayOrder
+*/
+    public int getDisplayOrder()
+    {
+        return getSemanticObject().getIntProperty(promx_displayOrder);
+    }
+
+/**
+* Sets the DisplayOrder property
+* @param value long with the DisplayOrder
+*/
+    public void setDisplayOrder(int value)
+    {
+        getSemanticObject().setIntProperty(promx_displayOrder, value);
     }
 }
