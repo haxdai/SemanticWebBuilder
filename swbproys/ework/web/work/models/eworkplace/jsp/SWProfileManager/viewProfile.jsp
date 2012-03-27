@@ -13,7 +13,6 @@
 <%@page import="org.semanticwb.platform.SemanticProperty"%>
 <%@page import="org.semanticwb.portal.api.*"%>
 <%@page import="java.util.Iterator"%>
-<%@page import="static com.infotec.eworkplace.swb.resources.SWProfileManager.Mode_CHGPHTO"  %>
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/>
 <jsp:useBean id="contentURL" scope="request" type="java.lang.String"/>
 <script type="text/javascript">
@@ -85,7 +84,6 @@
 %>
           <div class="foto">
               <img src="<%=pimg%>" alt="<%=user.getFullName()%>" />
-              <a href="<%=paramRequest.getRenderUrl().setMode(Mode_CHGPHTO)%>">Cambiar foto</a>
           </div>
           <div class="usuario">
            <p class="name"><%=user.getFullName()%></p>
