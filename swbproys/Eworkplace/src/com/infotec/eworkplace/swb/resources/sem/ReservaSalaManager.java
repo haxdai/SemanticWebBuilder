@@ -318,10 +318,11 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
 out.println("<script type=\"text/javascript\">");
 out.println("<!--");
 out.println(" function showFormDialog(divId, bgcolor, opacity) {");
+out.println("  if(!validate()) return;");
 out.println("  createCoverDiv(divId, bgcolor, opacity);");
 out.println("  var frmHolder = document.createElement('div');");
 out.println("  var cwidth = 360;");
-out.println("  var cheight = 650;");
+out.println("  var cheight = 500;");
 
 out.println("  frmHolder.id='s_'+divId;");
 out.println("  frmHolder.style.zIndex=1001;");
@@ -334,7 +335,9 @@ out.println("  frmHolder.style.backgroundColor='#cccccc';");
 out.println("  frmHolder.style.width=cwidth+'px';");
 out.println("  frmHolder.style.height=cheight+'px';");
 out.println("  var s = new String('');");
-out.println("  s = s.concat('<form id=\"_rs_\" method=\"post\" action=\""+paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD)+"\">');");
+out.println("  s = s.concat('<form id=\"_rs_\" method=\"post\" action=\""+paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD)+"');");
+out.println("  s = s.concat('?hrs='+hrs);   ");
+out.println("  s = s.concat('\">')  ");
 //out.println("  s = s.concat('<input type=\"hidden\" name=\"hi\" value=\""+ihrs[0]+"\"/>');");
 //out.println("  s = s.concat('<input type=\"hidden\" name=\"hf\" value=\""+(ihrs[ihrs.length-1]+59)+"\"/>');");
 //out.println("  s = s.concat('<input type=\"hidden\" name=\"sl\" value=\""+sala.getURI()+"\"/>');");
@@ -417,7 +420,7 @@ out.println("  s = s.concat('  <p><a href=\"javascript:removeCoverDiv(\\'');");
 out.println("  s = s.concat(divId);");
 out.println("  s = s.concat('\\')\" title=\"Cancelar\">Cancelar</a>');");
 out.println("  s = s.concat('  <a href=\"javascript:dojo.byId(\\'_rs_\\').reset()\" title=\"Limpiar formulario\">Limpiar</a>');");
-out.println("  s = s.concat('  <a href=\"#\" class=\"soliCal\">Solicitar</a></p>');");
+out.println("  s = s.concat('  <a href=\"javascript:dojo.byId(\\'_rs_\\').submit()\" class=\"soliCal\">Solicitar</a></p>');");
 out.println("  s = s.concat('  <p class=\"finePrint\">*Se te enviar&aacute; un e-mail con la confirmaci&oacute;n</p>');");
 out.println("  s = s.concat(' </div>');");
 out.println("  s = s.concat(' <p id=\"popBottom\"></p>');");
@@ -454,25 +457,31 @@ out.println(" dojo.fx.combine([anim1, anim2]).play();");
 out.println("}");
         
         out.println("var hrs = [];");
-        out.println("var f1=function(item,i,pfx) {");
-        out.println("    var s = new String(pfx);");
-        out.println("    return item.substring(0,2)==s.substring(0,2);");
+        out.println("var f1=function(item,i,arr) {");    
+        out.println("    if( i==arr.length-1 )");
+        out.println("        return item.substring(0,6)==arr[0].substring(0,6);");
+        out.println("    else    ");
+        out.println("        return item.substring(0,6)==arr[i+1].substring(0,6);");
         out.println("}");
 
         out.println("function validate() {");
-        out.println("    if(hrs.length>0) {");
-        out.println("        hrs.sort();");
-        out.println("        if(dojo.every(hrs, f1)) {");
-        //out.println("            showDialog2('"+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_EDIT).setCallMethod(SWBResourceURL.Call_DIRECT)+"'+'?hrs='+hrs.join(),'"+paramRequest.getLocaleString("usrmsg_doView_titleLbl")+"');");
-        out.println("location.href='"+paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD) +"'+'?hrs='+hrs.join();");
-        out.println("        }else {");
-        out.println("            alert('no juegas');");
-        out.println("            dojo.every(hrs, function(item){dojo.style(dojo.byId(item),'backgroundColor','#ffffff');return true;});");
-        out.println("            hrs=[];");
-        out.println("        }");
+        out.println("  if(hrs.length==0) {");
+        out.println("    alert('para jugar hay que  seleccionar');");
+        out.println("  }else if(hrs.length==1) {");
+        out.println("    alert('las reservaciones son de al menos 1 hora');");
+        out.println("  }else {");
+        out.println("    hrs.sort();");
+        out.println("    if(dojo.every(hrs, f1)) {");
+        //out.println("    showDialog2('"+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_EDIT).setCallMethod(SWBResourceURL.Call_DIRECT)+"'+'?hrs='+hrs.join(),'"+paramRequest.getLocaleString("usrmsg_doView_titleLbl")+"');");
+        //out.println("location.href='"+paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD) +"'+'?hrs='+hrs.join();");
+        out.println("      return true;  ");
         out.println("    }else {");
-        out.println("        alert('para jugar hay que  seleccionar');");
+        out.println("      alert('las reservaciones son sobre la misma sala');");
+        out.println("      dojo.every(hrs, function(item){dojo.style(dojo.byId(item),'backgroundColor','#ffffff');return true;});");
+        out.println("      hrs=[];");
         out.println("    }");
+        out.println("  }");
+        out.println("  return false;  ");
         out.println("}");
 
         out.println("dojo.addOnLoad (");
@@ -563,8 +572,10 @@ if(!salas.isEmpty()) {
     out.println(" <p>Salas</p>");
     out.println(" <ul>");
     for(Sala sala:salas) {
-        if(!sala.isActive())
+        if(!sala.isActive()) {
+            salas.remove(sala);
             continue;
+        }
         out.println("<li><a href=\""+paramRequest.getRenderUrl().setMode(Mode_SALA).setParameter("sl", sala.getEncodedURI()) +"\" title=\"ver sala\">");
         out.println(sala.getDisplayTitle(lang));
         out.println("</a></li>");
@@ -581,11 +592,7 @@ if(!salas.isEmpty()) {
         out.println("<table id=\"mainTableCal\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
         out.println("<tr class=\"trCalSalas\">");
         out.println("  <td height=\"30\">Hora</td>");
-        //isalas = salas.iterator();
-        //while(isalas.hasNext()) {
         for(Sala sala:salas) {
-            if(!sala.isActive())
-                continue;
             out.println("  <td height=\"30\">"+sala.getDisplayTitle(lang)+"</td>");
         }
         out.println("</tr>");
@@ -615,8 +622,7 @@ if(!salas.isEmpty()) {
             hourOfDay.add(Calendar.HOUR_OF_DAY, 1);
         }
         out.println("</table>");
-        //out.println("<p><input type=\"button\" value=\"reservar\" onclick=\"showFormDialog('_cvr_','#000000',80)\" /></p>");
-        out.println("<a href=\"javascript:showFormDialog('_cvr_','#000000',80)\" class=\"soliCal\">Solicitar</a>");
+//        out.println("<a href=\"javascript:showFormDialog('_cvr_','#000000',80)\" class=\"soliCal\">Solicitar</a>");
         /*out.println("<p><a href=\""+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_HELP) +"\">borrar reservaciones</a></p>");*/
         out.println("</div>");
     }
@@ -631,62 +637,64 @@ System.out.println("action="+action);
 
         if(SWBResourceURL.Action_ADD.equals(action)) {
 System.out.println("add.........");
+if(request.getParameter("hrs")==null)
+System.out.println("hrs es nulo");
+else
+System.out.println("hrs="+request.getParameter("hrs"));
 
-            String[] hrs = (request.getParameter("hrs")==null||request.getParameter("hrs").isEmpty())?null:request.getParameter("hrs").split(",");
-            if(hrs==null || hrs.length==0) {
-                return;
-            }
-            for(int i=0; i<hrs.length-1; i++) {
-                if(!hrs[i].startsWith(hrs[i+1].substring(0, hrs[i+1].lastIndexOf("_")))) {
-System.out.println("error 1");
-                    return;
-                }
-            }
-            int[] ihrs = new int[hrs.length];
-            for(int i=0; i<hrs.length; i++) {
-                try {
-                    ihrs[i] = Integer.parseInt(hrs[i].substring(hrs[i].lastIndexOf("_")+1));
-                }catch(NumberFormatException nfe) {
-System.out.println("error 2");
-                    return;
-                }
-            }
-            Arrays.sort(ihrs);
-            if(ihrs[0]==0 || ihrs[ihrs.length-1]==0) {
-System.out.println("error 3");
-                return;
-            }
-            final String id = hrs[0].substring(0, hrs[0].lastIndexOf("_"));
-            final Sala sala = Sala.ClassMgr.getSala(id, base.getWebSite());
-            if(sala==null) {
-System.out.println("error 4");
-                return;
-            }
-            try {
-                HttpSession session = request.getSession(true);
-                GregorianCalendar current = (GregorianCalendar)session.getAttribute("cur");
-                GregorianCalendar cur = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
-                if(sala.isReservada(cur, ihrs[0], ihrs[ihrs.length-1])) {
-System.out.println("error 5");
-                    return;
-                }
-            }catch(Exception nfe) {
-                log.error(nfe);
-System.out.println("error 6");
-nfe.printStackTrace(System.out);
-                return;
-            }
-
-            
-            User user = response.getUser();
-            
-            String motive = SWBUtils.XML.replaceXMLChars(request.getParameter("motive"));
-            String typeMeet = request.getParameter("typeMeet");
-            String turnout = SWBUtils.XML.replaceXMLChars(request.getParameter("turnout"));
-            String[] equipment = request.getParameterValues("equipment");
-            String services = SWBUtils.XML.replaceXMLChars(request.getParameter("services")); 
-            String typeCafe = SWBUtils.XML.replaceXMLChars(request.getParameter("typeCafe"));
-            String hoursService = SWBUtils.XML.replaceXMLChars(request.getParameter("hoursService"));
+//            String[] hrs = (request.getParameter("hrs")==null||request.getParameter("hrs").isEmpty())?null:request.getParameter("hrs").split(",");
+//            if(hrs==null || hrs.length==0) {
+//                return;
+//            }
+//            for(int i=0; i<hrs.length-1; i++) {
+//                if(!hrs[i].startsWith(hrs[i+1].substring(0, hrs[i+1].lastIndexOf("_")))) {
+//System.out.println("error 1");
+//                    return;
+//                }
+//            }
+//            int[] ihrs = new int[hrs.length];
+//            for(int i=0; i<hrs.length; i++) {
+//                try {
+//                    ihrs[i] = Integer.parseInt(hrs[i].substring(hrs[i].lastIndexOf("_")+1));
+//                }catch(NumberFormatException nfe) {
+//System.out.println("error 2");
+//                    return;
+//                }
+//            }
+//            Arrays.sort(ihrs);
+//            if(ihrs[0]==0 || ihrs[ihrs.length-1]==0) {
+//System.out.println("error 3");
+//                return;
+//            }
+//            final String id = hrs[0].substring(0, hrs[0].lastIndexOf("_"));
+//            final Sala sala = Sala.ClassMgr.getSala(id, base.getWebSite());
+//            if(sala==null) {
+//System.out.println("error 4");
+//                return;
+//            }
+//            try {
+//                HttpSession session = request.getSession(true);
+//                GregorianCalendar current = (GregorianCalendar)session.getAttribute("cur");
+//                GregorianCalendar cur = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
+//                if(sala.isReservada(cur, ihrs[0], ihrs[ihrs.length-1])) {
+//System.out.println("error 5");
+//                    return;
+//                }
+//            }catch(Exception nfe) {
+//                log.error(nfe);
+//System.out.println("error 6");
+//nfe.printStackTrace(System.out);
+//                return;
+//            }            
+//            User user = response.getUser();
+//            
+//            String motive = SWBUtils.XML.replaceXMLChars(request.getParameter("motive"));
+//            String typeMeet = request.getParameter("typeMeet");
+//            String turnout = SWBUtils.XML.replaceXMLChars(request.getParameter("turnout"));
+//            String[] equipment = request.getParameterValues("equipment");
+//            String services = SWBUtils.XML.replaceXMLChars(request.getParameter("services")); 
+//            String typeCafe = SWBUtils.XML.replaceXMLChars(request.getParameter("typeCafe"));
+//            String hoursService = SWBUtils.XML.replaceXMLChars(request.getParameter("hoursService"));
 
             /*final String uri = SWBUtils.XML.replaceXMLChars(request.getParameter("sl"));
             Sala sala = null;
@@ -697,27 +705,27 @@ nfe.printStackTrace(System.out);
                 e.printStackTrace(System.out);
             }*/
                 
-            int hi=0, hf=0;
-            try {
-                hi = Integer.parseInt(request.getParameter("hi"));
-                hf = Integer.parseInt(request.getParameter("hf"));
-            }catch(NumberFormatException nfe) {
-                log.error(nfe);
-                nfe.printStackTrace(System.out);
-                response.setMode(SWBResourceURL.Mode_EDIT);
-                return;
-            }
-            
-            HttpSession session = request.getSession(true);
-            GregorianCalendar current = (GregorianCalendar)session.getAttribute("cur");
-            GregorianCalendar cur = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
-            
-            
-            String dateId = dwid.format(current.getTime());
-            com.infotec.eworkplace.swb.Date date = com.infotec.eworkplace.swb.Date.ClassMgr.getDate(dateId, model);
-            if(date==null)
-                date = com.infotec.eworkplace.swb.Date.ClassMgr.createDate(dateId, model);
-            date.setDate(cur.getTime());
+//            int hi=0, hf=0;
+//            try {
+//                hi = Integer.parseInt(request.getParameter("hi"));
+//                hf = Integer.parseInt(request.getParameter("hf"));
+//            }catch(NumberFormatException nfe) {
+//                log.error(nfe);
+//                nfe.printStackTrace(System.out);
+//                response.setMode(SWBResourceURL.Mode_EDIT);
+//                return;
+//            }
+//            
+//            HttpSession session = request.getSession(true);
+//            GregorianCalendar current = (GregorianCalendar)session.getAttribute("cur");
+//            GregorianCalendar cur = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
+//            
+//            
+//            String dateId = dwid.format(current.getTime());
+//            com.infotec.eworkplace.swb.Date date = com.infotec.eworkplace.swb.Date.ClassMgr.getDate(dateId, model);
+//            if(date==null)
+//                date = com.infotec.eworkplace.swb.Date.ClassMgr.createDate(dateId, model);
+//            date.setDate(cur.getTime());
             
             
             /*if(sala!=null && date!=null && sala.isValid() && !sala.isReservada(date, hi, hf)) {
@@ -1127,8 +1135,10 @@ if(!salas.isEmpty()) {
     out.println(" <p>Salas</p>");
     out.println(" <ul>");
     for(Sala sala:salas) {
-        if(!sala.isActive())
+        if(!sala.isActive()) {
+            salas.remove(sala);
             continue;
+        }
         out.println("<li><a href=\""+paramRequest.getRenderUrl().setMode(Mode_SALA).setParameter("sl", sala.getEncodedURI()) +"\" title=\"ver sala\">");
         out.println(sala.getDisplayTitle(lang));
         out.println("</a></li>");
@@ -1145,9 +1155,6 @@ if(!salas.isEmpty()) {
         out.println("  <td height=\"30\">Hora</td>");
         isalas = Sala.ClassMgr.listSalas(base.getWebSite());        
         isalas = SWBComparator.sortByDisplayName(isalas, lang);
-        //List<Sala> salas = SWBUtils.Collections.copyIterator(isalas);
-//        isalas = salas.iterator();
-//        while(isalas.hasNext()) {
         for(Sala sala:salas) {
             if(!sala.isActive())
                 continue;
