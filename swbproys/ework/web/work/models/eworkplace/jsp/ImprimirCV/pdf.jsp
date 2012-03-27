@@ -22,33 +22,16 @@
     WebSite wsite = paramRequest.getWebPage().getWebSite();
     CV cv = CV.ClassMgr.getCV(user.getId(), wsite) ;
     org.w3c.dom.Document dom = cv.toDom(user);
-      
-    /*WebSite ws = paramRequest.getWebPage().getWebSite();
-    Persona persona = Persona.ClassMgr.getPersona(user.getId(), ws);
-    Candidato candidato = Candidato.ClassMgr.getCandidato(user.getId(), ws);
-    CV cv = CV.ClassMgr.getCV(user.getId(), ws);*/
+    
     SWProfile profile = SWProfile.ClassMgr.getSWProfile(user.getId(), wsite);
-
-    /*Academia academia = null;
-    if (cv != null) {
-        academia = cv.getAcademia();
-    }*/
     Node nNode = dom.getElementsByTagName("persona").item(0);
     org.w3c.dom.Element person = (org.w3c.dom.Element)nNode;
     
-    /*try {
-        System.out.println("person.getElementsByTagName(fm2)="+person.getElementsByTagName("fm2"));
-        System.out.println("person.getElementsByTagName(fm2).item(0)="+person.getElementsByTagName("fm2").item(0));
-        System.out.println("person.getElementsByTagName(fm2).item(0).getChildNodes().item(0).getNodeValue()="+person.getElementsByTagName("fm2").item(0).getChildNodes().item(0).getNodeValue());
-    }catch(Exception e) {
-        System.out.println("--------");
-        e.printStackTrace(System.out);
-        System.out.println("--------");
-    }*/
-    
     String fullName = person.getElementsByTagName("nombre").item(0).getChildNodes().item(0).getNodeValue();
-    String curp = person.getElementsByTagName("curp").item(0).getChildNodes().item(0).getNodeValue();
-    String rfc = "";
+    String curp = "";
+    if(person.getElementsByTagName("curp").item(0)!=null)
+        person.getElementsByTagName("curp").item(0).getChildNodes().item(0).getNodeValue();
+    String rfc = user.getLogin();
     String birthday = person.getElementsByTagName("nacimiento").item(0).getChildNodes().item(0).getNodeValue();
     String gender = person.getElementsByTagName("genero").item(0).getChildNodes().item(0).getNodeValue();
     String state = person.getElementsByTagName("estado").item(0).getChildNodes().item(0).getNodeValue();
@@ -121,7 +104,7 @@
                 }
             }
         }
-System.out.println("----telefonos.");
+//System.out.println("----telefonos.");
         
         if(contact.getElementsByTagName("facebook").item(0)!=null && contact.getElementsByTagName("facebook").item(0).getChildNodes().item(0)!=null)
             facebook = contact.getElementsByTagName("facebook").item(0).getChildNodes().item(0).getNodeValue();
@@ -135,72 +118,8 @@ System.out.println("----telefonos.");
             msn = contact.getElementsByTagName("msn").item(0).getChildNodes().item(0).getNodeValue();
     }
     
-    
-    
     Locale locale = new Locale(user.getLanguage());
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MMM/yyyy", locale);
-    /*if (user.getFullName()!=null) {
-        fullName = user.getFullName();
-    }
-    if (user.getEmail()!=null) {
-        email = user.getEmail();
-    }
-
-    if (persona != null) {
-        if(persona.getCurp()!=null) {
-            curp = persona.getCurp();
-        }
-        if(persona.isGenero()==true) {
-            gender = "Femenino";
-        }else {
-            gender = "Masculino";
-        }
-        if(persona.getNacimiento()!=null) {
-            birthday = sdf.format(persona.getNacimiento());
-        }
-        if(persona.getNacionalidad()!=null) {
-            nationality = persona.getNacionalidad().getTitle();
-        }
-        fm2 = persona.isFM2();
-        if(persona.getFacebook()!=null && !persona.getFacebook().isEmpty()) {
-            facebook = persona.getFacebook();
-        }
-        if(persona.getSkype()!=null && !persona.getSkype().isEmpty()) {
-            skype = persona.getSkype();
-        }
-        if(persona.getMsn()!=null && !persona.getMsn().isEmpty()) {
-            msn = persona.getMsn();
-        }
-        if(persona.getLinkedin()!=null && !persona.getLinkedin().isEmpty()) {
-            linkedin = persona.getLinkedin();
-        }
-        if(persona.getTwitter()!=null && !persona.getTwitter().isEmpty()) {
-            twitter = persona.getTwitter();
-        }
-    }
-
-    if (candidato != null) {
-        switch (candidato.getSituacionLaboral()) {
-            case 1:
-                sLabor = "Empleado";
-                break;
-            case 2:
-                sLabor = "Desempleado";
-                break;
-            case 3:
-                sLabor = "Estudiante";
-                break;
-            case 4:
-                sLabor = "Jubilado";
-                break;
-        }
-        availability = Integer.toString(candidato.getDisponibilidad());
-        if (candidato.getDisponibilidad() == 1) {
-            availability += " día habil disponible";
-        } else {
-            availability += " dias hábiles disponibles";
-        }
-    }*/
     
     com.itextpdf.text.Document document = new com.itextpdf.text.Document(PageSize.LETTER);
     document.setMargins(70, 50, 34, 24);
@@ -926,7 +845,6 @@ System.out.println("----telefonos.");
             }
         }
     }catch(Exception e) {
-        System.out.println("\n\n---------------------\n");
         e.printStackTrace(System.out);
         log.error(e);
     }finally {
