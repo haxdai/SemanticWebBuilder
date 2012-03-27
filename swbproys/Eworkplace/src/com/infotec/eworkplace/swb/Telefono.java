@@ -6,10 +6,10 @@ import java.util.Iterator;
 public class Telefono extends com.infotec.eworkplace.swb.base.TelefonoBase 
 {
     public enum TipoTelefono {
-        home("lblHomePhone"),
-        job("lblJobPhone"),
-        mobile("lblMobilePhone"),
-        other("lblOtherPhone");
+        Fijo("lblHomePhone"),
+        Trabajo("lblJobPhone"),
+        Movil("lblMobilePhone"),
+        Recados("lblOtherPhone");
         private String description;
         TipoTelefono(String description) {
             this.description = description;
