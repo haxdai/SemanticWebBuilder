@@ -157,7 +157,8 @@
         
         cell = new PdfPCell(Image.getInstance(path), true);
         cell.setBorder(PdfPCell.NO_BORDER);
-        cell.setRowspan(5);
+        //cell.setRowspan(5);
+        cell.setRowspan(6);
         table.addCell(cell);
         
         cell = new PdfPCell();
@@ -197,12 +198,25 @@
         paragraph.add(new Chunk(", ", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, BaseColor.GRAY)));
         chnk = new Chunk("Nacionalidad: "+nationality, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, BaseColor.GRAY));
         paragraph.add(chnk);
-        paragraph.add(new Chunk(", ", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, BaseColor.GRAY)));
+        /*paragraph.add(new Chunk(", ", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, BaseColor.GRAY)));
+        chnk = new Chunk("Género: "+gender, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, BaseColor.GRAY));
+        paragraph.add(chnk);*/
+        cell.addElement(paragraph);
+        cell.setColspan(2);
+        table.addCell(cell);
+          
+        cell = new PdfPCell();
+        cell.setBorder(PdfPCell.NO_BORDER);
+        paragraph = new Paragraph();
+        paragraph.setIndentationLeft(10);
+        /*chnk = new Chunk("Nacionalidad: "+nationality, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, BaseColor.GRAY));
+        paragraph.add(chnk);
+        paragraph.add(new Chunk(", ", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, BaseColor.GRAY)));*/
         chnk = new Chunk("Género: "+gender, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, BaseColor.GRAY));
         paragraph.add(chnk);
         cell.addElement(paragraph);
         cell.setColspan(2);
-        table.addCell(cell);
+        table.addCell(cell);      
         
         cell = new PdfPCell();
         cell.setBorder(PdfPCell.NO_BORDER);
