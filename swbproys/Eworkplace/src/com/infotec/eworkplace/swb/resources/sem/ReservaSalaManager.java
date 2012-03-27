@@ -307,6 +307,186 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         out.println("</table>");
     }
     
+    private String getScript(SWBParamRequest paramRequest) {
+        StringBuilder js = new StringBuilder();
+        js.append("\n<script type=\"text/javascript\">");
+        js.append("\n<!--");
+        
+js.append("\ndojo.require('dojox.layout.ContentPane');");
+js.append("\ndojo.require('dojo.fx');");
+js.append("\ndojo.require('dijit.dijit');");
+
+js.append("\nfunction expande(domId) {");
+js.append("\n var anim1 = dojo.fx.wipeIn( {node:domId, duration:200 });");
+js.append("\n var anim2 = dojo.fadeIn({node:domId, duration:250});");
+js.append("\n dojo.fx.combine([anim1,anim2]).play();");
+js.append("\n}");
+
+js.append("\nfunction collapse(domId) {");
+js.append("\n var anim1 = dojo.fx.wipeOut( {node:domId, duration:200 });");
+js.append("\n var anim2 = dojo.fadeOut({node:domId, duration:250});");
+js.append("\n dojo.fx.combine([anim1, anim2]).play();");
+js.append("\n}");
+
+js.append("\nvar hrs = [];");
+js.append("\nvar f1=function(item,i,arr) {");    
+js.append("\n    if( i==arr.length-1 )");
+js.append("\n        return item.substring(0,6)==arr[0].substring(0,6);");
+js.append("\n    else    ");
+js.append("\n        return item.substring(0,6)==arr[i+1].substring(0,6);");
+js.append("\n}");
+
+js.append("\nfunction validate() {");
+js.append("\n  if(hrs.length==0) {");
+js.append("\n    alert('para jugar hay que  seleccionar');");
+js.append("\n  }else if(hrs.length==1) {");
+js.append("\n    alert('las reservaciones son de al menos 1 hora');");
+js.append("\n  }else {");
+js.append("\n    hrs.sort();");
+js.append("\n    if(dojo.every(hrs, f1)) {");
+js.append("\n      return true;  ");
+js.append("\n    }else {");
+js.append("\n      alert('las reservaciones son sobre la misma sala');");
+js.append("\n      dojo.every(hrs, function(item){dojo.style(dojo.byId(item),'backgroundColor','#ffffff');return true;});");
+js.append("\n      hrs=[];");
+js.append("\n    }");
+js.append("\n  }");
+js.append("\n  return false;  ");
+js.append("\n}");
+
+js.append("\ndojo.addOnLoad (");
+js.append("\n  function() {");
+js.append("\n    dojo.query(\".sltc\").connect(\"onclick\", function() {");
+js.append("\n                      if(dojo.hasClass(this, 'x'))");
+js.append("\n                          return;");
+js.append("\n                      if(dojo.colorFromString(dojo.style(dojo.attr(this, 'id'),'backgroundColor')).toHex()!='#1d75b9') {");
+js.append("\n                          dojo.style(dojo.attr(this, 'id'),'backgroundColor','#1d75b9');");
+js.append("\n                          hrs.push(dojo.attr(this, 'id'));");
+js.append("\n                      }else {");
+js.append("\n                          dojo.style(dojo.attr(this, 'id'),'backgroundColor','#ffffff');");
+js.append("\n                          var i = dojo.indexOf(hrs, dojo.attr(this, 'id'));");
+js.append("\n                          if(i>=0)");
+js.append("\n                              hrs.splice(i,1);");
+js.append("\n                      }");
+js.append("\n                    }");
+js.append("\n    );");
+js.append("\n  }");
+js.append("\n);");
+        
+        js.append("\n function showFormDialog(divId, bgcolor, opacity) {");
+        js.append("\n  if(!validate()) return;");
+        js.append("\n  createCoverDiv(divId, bgcolor, opacity);");
+        js.append("\n  var frmHolder = document.createElement('div');");
+        js.append("\n  var cwidth = 360;");
+        js.append("\n  var cheight = 500;");
+        js.append("\n  frmHolder.id='s_'+divId;");
+        js.append("\n  frmHolder.style.zIndex=1001;");
+        js.append("\n  frmHolder.style.position='absolute';");
+        js.append("\n  frmHolder.style.top='50%';");
+        js.append("\n  frmHolder.style.left='50%';");
+        js.append("\n  frmHolder.style.marginLeft=-cwidth/2+'px';");
+        js.append("\n  frmHolder.style.marginTop=-cheight/2+'px';");
+        js.append("\n  frmHolder.style.backgroundColor='#cccccc';");
+        js.append("\n  frmHolder.style.width=cwidth+'px';");
+        js.append("\n  frmHolder.style.height=cheight+'px';");
+        js.append("\n  var s = new String('');");
+        js.append("\n  s = s.concat('<form id=\"_rs_\" method=\"post\" action=\""+paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD)+"');");
+        js.append("\n  s = s.concat('?hrs='+hrs);   ");
+        js.append("\n  s = s.concat('\">')  ");
+        js.append("\n  s = s.concat('<div id=\"mainPop\">');");
+        js.append("\n  s = s.concat(' <div id=\"popMiddle\">');");
+        js.append("\n  s = s.concat('  <p>Fecha de reservaci&oacute;n:<br />');");
+        js.append("\n  s = s.concat('   <span class=\"blueCal\">3 de Noviembre de 2011 10:00 AM </span><br />');");
+        js.append("\n  s = s.concat('   <span class=\"blueCal\">3 de Noviembre de 2011 12:00 PM</span>');");
+        js.append("\n  s = s.concat('  </p>');");
+        js.append("\n  s = s.concat('  <div id=\"usuarioCal\">');");
+        //js.append("\n  s = s.concat('   <p><img src=\"images/placeholderCal.png\" width=\"80\" height=\"80\" alt=\"placeholder\" /></p>');");
+        js.append("\n  s = s.concat('   <p><span class=\"nombreCal\">Fulano de tal</span></p>');");
+        js.append("\n  s = s.concat('   <p>Consultor de arquitectura</p>');");
+        js.append("\n  s = s.concat('  </div>');");
+        js.append("\n  s = s.concat('  <p>');");
+        js.append("\n  s = s.concat('   <span class=\"blueCalTit\">Motivo de la reuni&oacute;n:</span><br />');");
+        js.append("\n  s = s.concat('   <span class=\"enfasisCal\">(140 caracteres m&aacute;ximo)</span><br />');");
+        js.append("\n  s = s.concat('   <label for=\"motive\"></label><textarea id=\"motive\" name=\"motive\" class=\"datosCal\"></textarea>');");
+        js.append("\n  s = s.concat('  </p>');");
+        js.append("\n  s = s.concat('  <div class=\"twinsCal\">');");
+        js.append("\n  s = s.concat('   <p><span class=\"blueCalTit\">Tipo de reuni&oacute;n</span>:</p>');");
+        js.append("\n  s = s.concat('   <ul>');");
+        js.append("\n  s = s.concat('    <li><label for=\"mtSng\">Interna <input type=\"radio\" name=\"typeMeet\" id=\"mtSng\" value=\"0\" onchange=\"collapse(\\'_tpcf_\\')\" checked=\"checked\" /></label></li>');");
+        js.append("\n  s = s.concat('    <li><label for=\"mtSpl\">Externa <input type=\"radio\" name=\"typeMeet\" id=\"mtSpl\" value=\"1\" onchange=\"expande(\\'_tpcf_\\')\" /></label></li>');");
+        js.append("\n  s = s.concat('   </ul>');");
+        js.append("\n  s = s.concat('  </div>');");
+        js.append("\n  s = s.concat('   <div id=\"_tpcf_\">');");
+        js.append("\n  s= s.concat('      <p>Cafeteria: </p>');");
+        js.append("\n  s = s.concat('     <ul>');");
+        js.append("\n  s = s.concat('      <li><label for=\"sngCf\">Sencilla <input type=\"radio\" name=\"typeCafe\" id=\"sngCf\" value=\"0\" checked=\"checked\" /></label></li>');");
+        js.append("\n  s = s.concat('      <li><label for=\"spcCf\">Especial <input type=\"radio\" name=\"typeCafe\" id=\"spcCf\" value=\"1\" /></label></li>');");
+        js.append("\n  s = s.concat('     </ul>');");
+        js.append("\n  s= s.concat('      <p>Cafe: </p>');");
+        js.append("\n  s = s.concat('     <ul>');");
+        js.append("\n  s = s.concat('      <li><label for=\"cfsrvct\">Si <input type=\"radio\" name=\"cfSrvc\" id=\"cfsrvct\" value=\"1\" checked=\"checked\" /></label></li>');");
+        js.append("\n  s = s.concat('      <li><label for=\"cfsrvcf\">No <input type=\"radio\" name=\"cfSrvc\" id=\"cfsrvcf\" value=\"0\" /></label></li>');");
+        js.append("\n  s = s.concat('     </ul>');");
+        js.append("\n  s= s.concat('      <p>Refrescos: </p>');");
+        js.append("\n  s = s.concat('     <ul>');");
+        js.append("\n  s = s.concat('      <li><label for=\"sdsrvct\">Si <input type=\"radio\" name=\"sdSrvc\" id=\"sdsrvct\" value=\"1\" checked=\"checked\" /></label></li>');");
+        js.append("\n  s = s.concat('      <li><label for=\"sdsrvcf\">No <input type=\"radio\" name=\"sdSrvc\" id=\"sdsrvcf\" value=\"0\" /></label></li>');");
+        js.append("\n  s = s.concat('     </ul>');");
+        js.append("\n  s= s.concat('      <p>Agua: </p>');");
+        js.append("\n  s = s.concat('     <ul>');");
+        js.append("\n  s = s.concat('      <li><label for=\"h2osrvct\">Si <input type=\"radio\" name=\"h2oSrvc\" id=\"h2osrvct\" value=\"1\" checked=\"checked\" /></label></li>');");
+        js.append("\n  s = s.concat('      <li><label for=\"h2osrvcf\">No <input type=\"radio\" name=\"h2oSrvc\" id=\"h2osrvcf\" value=\"0\" /></label></li>');");
+        js.append("\n  s = s.concat('     </ul>');");
+        js.append("\n  s= s.concat('      <p>Horario del servicio: </p>');");
+        js.append("\n  s = s.concat('     <ul>');");
+        js.append("\n  s = s.concat('      <li><label for=\"allsrvc\">Durante <input type=\"radio\" name=\"tmSrvc\" id=\"allsrvc\" value=\"1\" onchange=\"collapse(\\'_tmsrvc_\\')\" checked=\"checked\" /></label></li>');");
+        js.append("\n  s = s.concat('      <li><label for=\"brksrvc\">Receso <input type=\"radio\" name=\"tmSrvc\" id=\"brksrvc\" value=\"0\" onchange=\"expande(\\'_tmsrvc_\\')\" /></label></li>');");
+        js.append("\n  s = s.concat('     </ul>');");
+        js.append("\n  s = s.concat('   </div>');");
+        js.append("\n  s = s.concat('   <div id=\"_tmsrvc_\">');");
+        js.append("\n  s= s.concat('      <p><label for=\"tmSrvc\">Horario del servicio: <input type=\"text\" name=\"tmSrvc\" id=\"tmSrvc\" value=\"\" /></label></p>');");
+        js.append("\n  s = s.concat('   </div>');");
+        js.append("\n  s = s.concat('  <div class=\"twinsCal1\">');");
+        js.append("\n  s = s.concat('   <p><span class=\"blueCalTit\">N&uacute;mero de asistentes</span></p>');");
+        js.append("\n  s = s.concat('    <input type=\"text\" name=\"turnout\" id=\"turnout\" value=\"\" size=\"10\" maxlength=\"2\" />');");
+        js.append("\n  s = s.concat('  </div>');");
+        js.append("\n  s = s.concat('  <p>&nbsp;</p>');");
+        js.append("\n  s = s.concat('  <p class=\"blueCalTit\">Selecciona los servicios que solicitas </p>');");
+        js.append("\n  s = s.concat('  <ul>');");
+        js.append("\n  s = s.concat('   <li>');");
+        js.append("\n  s = s.concat('    <input type=\"checkbox\" name=\"equipment\" id=\"projector\" value=\"projector\" />');");
+        js.append("\n  s = s.concat('    <label for=\"interna2\"></label>');");
+        js.append("\n  s = s.concat('    Proyector');");
+        js.append("\n  s = s.concat('   </li>');");
+        js.append("\n  s = s.concat('   <li>');");
+        js.append("\n  s = s.concat('    <input type=\"checkbox\" name=\"equipment\" id=\"pcs\" value=\"pcs\" />');");
+        js.append("\n  s = s.concat('    Computadora');");
+        js.append("\n  s = s.concat('   </li>');");
+        js.append("\n  s = s.concat('  </ul>');");
+        js.append("\n  s = s.concat('  <p>');");
+        js.append("\n  s = s.concat('   <span class=\"blueCalTit\">Otros servicios necesarios</span><br />');");
+        js.append("\n  s = s.concat('   <label for=\"motivo\"></label><textarea id=\"services\" name=\"services\" class=\"datosCal\"></textarea>');");
+        js.append("\n  s = s.concat('  </p>');");
+        js.append("\n  s = s.concat('  <p><a href=\"javascript:removeCoverDiv(\\'');");
+        js.append("\n  s = s.concat(divId);");
+        js.append("\n  s = s.concat('\\')\" title=\"Cancelar\">Cancelar</a>');");
+        js.append("\n  s = s.concat('  <a href=\"javascript:dojo.byId(\\'_rs_\\').reset()\" title=\"Limpiar formulario\">Limpiar</a>');");
+        js.append("\n  s = s.concat('  <a href=\"javascript:dojo.byId(\\'_rs_\\').submit()\" class=\"soliCal\">Solicitar</a></p>');");
+        js.append("\n  s = s.concat('  <p class=\"finePrint\">*Se te enviar&aacute; un e-mail con la confirmaci&oacute;n</p>');");
+        js.append("\n  s = s.concat(' </div>');");
+        js.append("\n  s = s.concat(' <p id=\"popBottom\"></p>');");
+        js.append("\n  s = s.concat('</div>');");
+        js.append("\n  s = s.concat('</form>');");
+        js.append("\n  frmHolder.innerHTML = s;");
+        js.append("\n  document.body.appendChild(frmHolder);");
+        js.append("\n  collapse('_tpcf_');");
+        js.append("\n  collapse('_tmsrvc_');");
+        js.append("\n }");
+        js.append("\n-->");
+        js.append("\n</script>");
+        return js.toString();
+    }
+    
     private void renderReservations(HttpServletResponse response, SWBParamRequest paramRequest, GregorianCalendar current, final String dateId, Locale locale) throws SWBResourceException, IOException {
         response.setContentType("text/html; charset=utf-8");
         
@@ -315,7 +495,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         String lang = user.getLanguage();
         PrintWriter out = response.getWriter();
         
-out.println("<script type=\"text/javascript\">");
+/*out.println("<script type=\"text/javascript\">");
 out.println("<!--");
 out.println(" function showFormDialog(divId, bgcolor, opacity) {");
 out.println("  if(!validate()) return;");
@@ -338,9 +518,6 @@ out.println("  var s = new String('');");
 out.println("  s = s.concat('<form id=\"_rs_\" method=\"post\" action=\""+paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD)+"');");
 out.println("  s = s.concat('?hrs='+hrs);   ");
 out.println("  s = s.concat('\">')  ");
-//out.println("  s = s.concat('<input type=\"hidden\" name=\"hi\" value=\""+ihrs[0]+"\"/>');");
-//out.println("  s = s.concat('<input type=\"hidden\" name=\"hf\" value=\""+(ihrs[ihrs.length-1]+59)+"\"/>');");
-//out.println("  s = s.concat('<input type=\"hidden\" name=\"sl\" value=\""+sala.getURI()+"\"/>');");
 out.println("  s = s.concat('<div id=\"mainPop\">');");
 out.println("  s = s.concat(' <div id=\"popMiddle\">');");
 out.println("  s = s.concat('  <p>Fecha de reservaci&oacute;n:<br />');");
@@ -433,28 +610,23 @@ out.println("  collapse('_tmsrvc_');");
 out.println(" }");
 out.println("-->");
 out.println("</script>");
-        
-        
-                
+                        
         out.println("<script type=\"text/javascript\">");
-        out.println("dojo.require('dojo.parser');");
-        out.println("dojo.require('dijit.Dialog');");
         out.println("dojo.require('dojox.layout.ContentPane');");
-out.println("dojo.require('dojo.fx');");
-out.println("dojo.require('dijit.dijit');");
-        
-        
-out.println("function expande(domId) {");
-out.println(" var anim1 = dojo.fx.wipeIn( {node:domId, duration:200 });");
-out.println(" var anim2 = dojo.fadeIn({node:domId, duration:250});");
-out.println(" dojo.fx.combine([anim1,anim2]).play();");
-out.println("}");
+        out.println("dojo.require('dojo.fx');");
+        out.println("dojo.require('dijit.dijit');");
 
-out.println("function collapse(domId) {");
-out.println(" var anim1 = dojo.fx.wipeOut( {node:domId, duration:200 });");
-out.println(" var anim2 = dojo.fadeOut({node:domId, duration:250});");
-out.println(" dojo.fx.combine([anim1, anim2]).play();");
-out.println("}");
+        out.println("function expande(domId) {");
+        out.println(" var anim1 = dojo.fx.wipeIn( {node:domId, duration:200 });");
+        out.println(" var anim2 = dojo.fadeIn({node:domId, duration:250});");
+        out.println(" dojo.fx.combine([anim1,anim2]).play();");
+        out.println("}");
+
+        out.println("function collapse(domId) {");
+        out.println(" var anim1 = dojo.fx.wipeOut( {node:domId, duration:200 });");
+        out.println(" var anim2 = dojo.fadeOut({node:domId, duration:250});");
+        out.println(" dojo.fx.combine([anim1, anim2]).play();");
+        out.println("}");
         
         out.println("var hrs = [];");
         out.println("var f1=function(item,i,arr) {");    
@@ -472,8 +644,6 @@ out.println("}");
         out.println("  }else {");
         out.println("    hrs.sort();");
         out.println("    if(dojo.every(hrs, f1)) {");
-        //out.println("    showDialog2('"+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_EDIT).setCallMethod(SWBResourceURL.Call_DIRECT)+"'+'?hrs='+hrs.join(),'"+paramRequest.getLocaleString("usrmsg_doView_titleLbl")+"');");
-        //out.println("location.href='"+paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD) +"'+'?hrs='+hrs.join();");
         out.println("      return true;  ");
         out.println("    }else {");
         out.println("      alert('las reservaciones son sobre la misma sala');");
@@ -502,7 +672,9 @@ out.println("}");
         out.println("    );");
         out.println("  }");
         out.println(");");
-        out.println("</script>");
+        out.println("</script>");*/
+        
+        out.println(getScript(paramRequest));
         
         out.println("<div id=\"apartadoSalas\">");
         out.println("<div id=\"salasCal\">");
@@ -586,7 +758,7 @@ if(!salas.isEmpty()) {
         
         
         out.println("<br class=\"clear\"/>");
-        out.println("<a href=\"javascript:showFormDialog('_cvr_','#000000',80)\" class=\"soliCal\">Solicitar</a>");
+        out.println("<a href=\"#\" onclick=\"javascript:showFormDialog('_cvr_','#000000',80)\" class=\"_soliCal\">Solicitar</a>");
         
         sdf = new SimpleDateFormat("HH:mm");
         out.println("<table id=\"mainTableCal\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
@@ -641,6 +813,48 @@ if(request.getParameter("hrs")==null)
 System.out.println("hrs es nulo");
 else
 System.out.println("hrs="+request.getParameter("hrs"));
+
+
+            StringBuilder alertmsg = new StringBuilder();
+            String[] hrs = (request.getParameter("hrs")==null||request.getParameter("hrs").isEmpty())?null:request.getParameter("hrs").split(",");
+            if(hrs==null || hrs.length==0) {
+                alertmsg.append(response.getLocaleString("msgErrHourRequired"));
+            }
+            for(int i=0; i<hrs.length-1; i++) {
+                if(!hrs[i].startsWith(hrs[i+1].substring(0, hrs[i+1].lastIndexOf("_")))) {
+                    alertmsg.append(response.getLocaleString("msgErrHourMismatch"));
+                }
+            }
+            int[] ihrs = new int[hrs.length];
+            for(int i=0; i<hrs.length; i++) {
+                try {
+                    ihrs[i] = Integer.parseInt(hrs[i].substring(hrs[i].lastIndexOf("_")+1));
+                }catch(NumberFormatException nfe) {
+                    alertmsg.append(response.getLocaleString("msgErrHourMismatch"));
+                }
+            }
+            Arrays.sort(ihrs);
+            if(ihrs[0]==0 || ihrs[ihrs.length-1]==0) {
+                alertmsg.append(response.getLocaleString("msgErrRoomMismatch"));
+            }
+            final String id = hrs[0].substring(0, hrs[0].lastIndexOf("_"));
+            Sala sala = null;
+            try {
+                sala = Sala.ClassMgr.getSala(id, base.getWebSite());
+            }catch(Exception e) {
+                alertmsg.append(response.getLocaleString("msgErrNoRoom"));
+            }
+            if(sala==null || (sala!=null && !sala.isActive())) {
+                alertmsg.append(response.getLocaleString("msgErrNoRoom"));
+            }
+            
+            if(alertmsg.length()>0) {
+                response.setRenderParameter("alertmsg", alertmsg.toString());
+                return;
+            }
+System.out.println("sala="+sala.getId());
+System.out.println("horario="+Arrays.toString(ihrs));
+
 
 //            String[] hrs = (request.getParameter("hrs")==null||request.getParameter("hrs").isEmpty())?null:request.getParameter("hrs").split(",");
 //            if(hrs==null || hrs.length==0) {
@@ -993,22 +1207,37 @@ System.out.println("hrs="+request.getParameter("hrs"));
         Locale locale = new Locale(user.getLanguage(),(user.getCountry()==null?"MX":user.getCountry()));
         PrintWriter out = response.getWriter();
         
-        out.println("<script type=\"text/javascript\">");
-        out.println("dojo.require(\"dijit.Dialog\");");
-        out.println("dojo.require(\"dojox.layout.ContentPane\");");
-        out.println("dojo.require(\"dojo.parser\");");
+        out.println(getScript(paramRequest));
+        
+        /*out.println("<script type=\"text/javascript\">");
+out.println("dojo.require('dojox.layout.ContentPane');");
+out.println("dojo.require('dojo.fx');");
+out.println("dojo.require('dijit.dijit');");
+          
+out.println("function expande(domId) {");
+out.println(" var anim1 = dojo.fx.wipeIn( {node:domId, duration:200 });");
+out.println(" var anim2 = dojo.fadeIn({node:domId, duration:250});");
+out.println(" dojo.fx.combine([anim1,anim2]).play();");
+out.println("}");
+
+out.println("function collapse(domId) {");
+out.println(" var anim1 = dojo.fx.wipeOut( {node:domId, duration:200 });");
+out.println(" var anim2 = dojo.fadeOut({node:domId, duration:250});");
+out.println(" dojo.fx.combine([anim1, anim2]).play();");
+out.println("}");
   
         out.println("var hrs = [];");
-        out.println("var f1=function(item,i,pfx) {");
-        out.println("    var s = new String(pfx);");
-        out.println("    return item.substring(0,2)==s.substring(0,2);");
+        out.println("var f1=function(item,i,arr) {");    
+        out.println("    if( i==arr.length-1 )");
+        out.println("        return item.substring(0,6)==arr[0].substring(0,6);");
+        out.println("    else    ");
+        out.println("        return item.substring(0,6)==arr[i+1].substring(0,6);");
         out.println("}");
 
         out.println("function validate() {");
         out.println("    if(hrs.length>0) {");
         out.println("        hrs.sort();");
         out.println("        if(dojo.every(hrs, f1)) {");
-        //out.println("            showDialog2('"+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_EDIT).setCallMethod(SWBResourceURL.Call_DIRECT)+"'+'?hrs='+hrs.join(), '"+paramRequest.getLocaleString("usrmsg_doView_titleLbl")+"');");
         out.println("location.href='"+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_EDIT)+"'+'?hrs='+hrs.join();");
         out.println("        }else {");
         out.println("            alert('no juegas');");
@@ -1038,7 +1267,7 @@ System.out.println("hrs="+request.getParameter("hrs"));
         out.println("    );");
         out.println("  }");
         out.println(");");
-        out.println("</script>");
+        out.println("</script>");*/
         
         GregorianCalendar current;
         HttpSession session = request.getSession(true);
@@ -1148,6 +1377,8 @@ if(!salas.isEmpty()) {
 }        
         
         out.println("<br class=\"clear\"/>");
+        //out.println("<a href=\"#\" onclick=\"javascript:showFormDialog('_cvr_','#000000',80)\" class=\"_soliCal\">Solicitar</a>");
+        out.println("<input type=\"button\" value=\"Solicitar\" onclick=\"javascript:showFormDialog('_cvr_','#000000',80)\" class=\"_soliCal\" />");
         
         sdf = new SimpleDateFormat("HH:mm");
         out.println("<table id=\"mainTableCal\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
@@ -1186,8 +1417,8 @@ if(!salas.isEmpty()) {
             gc.add(Calendar.HOUR_OF_DAY, 1);
         }
         out.println("</table>");
-        out.println("<p><input type=\"button\" value=\"reservar\" onclick=\"validate()\" /></p>");
-        out.println("<p><a href=\""+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_HELP) +"\">borrar reservaciones</a></p>");
+        //out.println("<p><input type=\"button\" value=\"reservar\" onclick=\"validate()\" /></p>");
+        /*out.println("<p><a href=\""+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_HELP) +"\">borrar reservaciones</a></p>");*/
         out.println("</div>");
     }
     
