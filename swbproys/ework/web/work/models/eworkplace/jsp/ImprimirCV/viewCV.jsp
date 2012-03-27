@@ -615,5 +615,6 @@ Author     : rene.jara
                     }
                 }
     %>
-    <a href="<%=(paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(Mode_PDF))%>" title="ver en pdf" target="_blank">ver en pdf</a>
+    <p><a href="<%=(paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(Mode_PDF))%>" title="ver en pdf" target="_blank">ver en pdf</a></p>
+    <p><a href="<%=(paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(SWBResourceURL.Mode_XML))%>" title="ver en xml" target="_blank">ver en xml</a></p>
 </div>
