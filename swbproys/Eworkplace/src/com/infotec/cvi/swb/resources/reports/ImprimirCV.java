@@ -1,24 +1,13 @@
 package com.infotec.cvi.swb.resources.reports;
 
-import com.infotec.cvi.swb.Academia;
 import com.infotec.cvi.swb.CV;
-import com.infotec.cvi.swb.Candidato;
-import com.infotec.cvi.swb.EstudioSuperior;
-import com.infotec.cvi.swb.GradoAcademico;
-import com.infotec.eworkplace.swb.Persona;
-import com.infotec.eworkplace.swb.SWProfile;
 import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.*;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.Iterator;
-import java.util.Locale;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
-import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebSite;
