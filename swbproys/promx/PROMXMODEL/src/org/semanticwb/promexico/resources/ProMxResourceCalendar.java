@@ -374,10 +374,16 @@ public class ProMxResourceCalendar extends org.semanticwb.promexico.resources.ba
         while(it.hasNext()) {
             Event event = (Event)it.next();
             try {
-                objJSONEvents.put(SWBUtils.TEXT.encode(event.getTitle(paramRequest.getUser().getLanguage())==null?event.getTitle():event.getTitle(paramRequest.getUser().getLanguage()), SWBUtils.TEXT.CHARSET_UTF8), getData(event, paramRequest, cal)); //SWBUtils.TEXT.encode(event.getTitle(),SWBUtils.TEXT.CHARSET_UTF8)
+                objJSONEvents.put(event.getTitle(paramRequest.getUser().getLanguage())==null?event.getTitle():event.getTitle(paramRequest.getUser().getLanguage()), getData(event, paramRequest, cal)); //SWBUtils.TEXT.encode(event.getTitle(),SWBUtils.TEXT.CHARSET_UTF8)
+//                objJSONEvents.put(SWBUtils.TEXT.encode(event.getTitle(paramRequest.getUser().getLanguage())==null?event.getTitle():event.getTitle(paramRequest.getUser().getLanguage()), SWBUtils.TEXT.CHARSET_UTF8), getData(event, paramRequest, cal)); //SWBUtils.TEXT.encode(event.getTitle(),SWBUtils.TEXT.CHARSET_UTF8)
             }catch(Exception e) {
-                log.error("Error while build properties in Events: "+e);
+                log.error("Error while build properties in Events: " + e);
             }
+        }
+        try {
+            objJSONEvents.put("color", "event");
+        }  catch (Exception e) {
+            log.error("Error while build properties in Events: " + e);
         }
         return objJSONEvents;
     }
@@ -481,22 +487,25 @@ public class ProMxResourceCalendar extends org.semanticwb.promexico.resources.ba
             Sector sec = itSec.next();
             String nameSec = sec.getDisplayName(user.getLanguage()) == null ? (sec.getDisplayName() == null ? "" : sec.getDisplayName()) : sec.getDisplayName(user.getLanguage());
             String n = sector.trim().length() > 1 ? ", ": "";
-            try {
+            /*try {
                 nameSec = SWBUtils.TEXT.encode(nameSec, SWBUtils.TEXT.CHARSET_UTF8);
             } catch(Exception e) {
-            }
+            }*/
             sector = sector + n + nameSec;
         }
         try {
             objJSONData.put("target", target);
             objJSONData.put("url", url);
-            objJSONData.put("title", SWBUtils.TEXT.encode(event.getTitle(user.getLanguage()) == null ? event.getTitle() : event.getTitle(user.getLanguage()), SWBUtils.TEXT.CHARSET_UTF8));
+            objJSONData.put("title", event.getTitle(user.getLanguage()) == null ? event.getTitle() : event.getTitle(user.getLanguage()));
+//            objJSONData.put("title", SWBUtils.TEXT.encode(event.getTitle(user.getLanguage()) == null ? event.getTitle() : event.getTitle(user.getLanguage()), SWBUtils.TEXT.CHARSET_UTF8));
             objJSONData.put("image", photo);
             String descr = "";
             if(event.getDescription(user.getLanguage()) != null) {
-                descr = SWBUtils.TEXT.encode(event.getDescription(user.getLanguage()),SWBUtils.TEXT.CHARSET_UTF8);
+                descr = event.getDescription(user.getLanguage());
+ //               descr = SWBUtils.TEXT.encode(event.getDescription(user.getLanguage()),SWBUtils.TEXT.CHARSET_UTF8);
             } else if(event.getDescription() != null) {
-                descr = SWBUtils.TEXT.encode(event.getDescription(),SWBUtils.TEXT.CHARSET_UTF8);
+                descr = event.getDescription();
+//                descr = SWBUtils.TEXT.encode(event.getDescription(),SWBUtils.TEXT.CHARSET_UTF8);
             }
             objJSONData.put("description", descr);
             objJSONData.put("rdates", dates);
@@ -510,17 +519,25 @@ public class ProMxResourceCalendar extends org.semanticwb.promexico.resources.ba
 
     private JSONObject getTraining(ArrayList traing,SWBParamRequest paramRequest, ResourceCalendar cal, JSONObject getAllEvts)
     {
+        String color = "both";
         if(getAllEvts == null) {
             getAllEvts = new JSONObject();
+            color = "training";
         }
         Iterator<Training> it = traing.iterator();
         while(it.hasNext()) {
             Training tr = it.next();
             try {
-                getAllEvts.put(SWBUtils.TEXT.encode(tr.getTitle(paramRequest.getUser().getLanguage()) == null ? tr.getTitle() : tr.getTitle(paramRequest.getUser().getLanguage()), SWBUtils.TEXT.CHARSET_UTF8), getDataTrai(tr, paramRequest, cal)); //SWBUtils.TEXT.encode(event.getTitle(),SWBUtils.TEXT.CHARSET_UTF8)
+                getAllEvts.put(tr.getTitle(paramRequest.getUser().getLanguage()) == null ? tr.getTitle() : tr.getTitle(paramRequest.getUser().getLanguage()), getDataTrai(tr, paramRequest, cal)); //SWBUtils.TEXT.encode(event.getTitle(),SWBUtils.TEXT.CHARSET_UTF8)
+//                getAllEvts.put(SWBUtils.TEXT.encode(tr.getTitle(paramRequest.getUser().getLanguage()) == null ? tr.getTitle() : tr.getTitle(paramRequest.getUser().getLanguage()), SWBUtils.TEXT.CHARSET_UTF8), getDataTrai(tr, paramRequest, cal)); //SWBUtils.TEXT.encode(event.getTitle(),SWBUtils.TEXT.CHARSET_UTF8)
             }catch(Exception e) {
                 log.error("Error while build properties in Events: "+e);
             }
+        }
+        try {
+            getAllEvts.put("color", color);
+        }catch(Exception e) {
+            log.error("Error while build properties in Events: "+e);
         }
         return getAllEvts;
     }
@@ -579,22 +596,25 @@ public class ProMxResourceCalendar extends org.semanticwb.promexico.resources.ba
             Sector sec = itSec.next();
             String nameSec = sec.getDisplayName(user.getLanguage()) == null ? (sec.getDisplayName() == null ? "" : sec.getDisplayName()) : sec.getDisplayName(user.getLanguage());
             String n = sector.trim().length() > 1 ? ", ": "";
-            try {
+            /*try {
                 nameSec = SWBUtils.TEXT.encode(nameSec, SWBUtils.TEXT.CHARSET_UTF8);
             } catch(Exception e) {
-            }
+            }*/
             sector = sector + n + nameSec;
         }
         try {
             objJSONData.put("target", target);
             objJSONData.put("url", url);
-            objJSONData.put("title", SWBUtils.TEXT.encode(train.getTitle(user.getLanguage()) == null ? train.getTitle() : train.getTitle(user.getLanguage()), SWBUtils.TEXT.CHARSET_UTF8));
+            objJSONData.put("title", train.getTitle(user.getLanguage()) == null ? train.getTitle() : train.getTitle(user.getLanguage()));
+//            objJSONData.put("title", SWBUtils.TEXT.encode(train.getTitle(user.getLanguage()) == null ? train.getTitle() : train.getTitle(user.getLanguage()), SWBUtils.TEXT.CHARSET_UTF8));
             objJSONData.put("image", photo);
             String descr = "";
             if(train.getDescription(user.getLanguage()) != null) {
-                descr = SWBUtils.TEXT.encode(train.getDescription(user.getLanguage()),SWBUtils.TEXT.CHARSET_UTF8);
+                descr = train.getDescription(user.getLanguage());
+//                descr = SWBUtils.TEXT.encode(train.getDescription(user.getLanguage()),SWBUtils.TEXT.CHARSET_UTF8);
             } else if(train.getDescription() != null) {
-                descr = SWBUtils.TEXT.encode(train.getDescription(),SWBUtils.TEXT.CHARSET_UTF8);
+                descr = train.getDescription();
+//                descr = SWBUtils.TEXT.encode(train.getDescription(),SWBUtils.TEXT.CHARSET_UTF8);
             }
             objJSONData.put("description", descr);
             objJSONData.put("rdates", dates);
