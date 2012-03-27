@@ -295,7 +295,7 @@ public class CV extends com.infotec.cvi.swb.base.CVBase
                     eleDiplomados.appendChild(dom.createTextNode(""));
                     while (itdi.hasNext()) {
                         Diplomado di = itdi.next();
-                        org.w3c.dom.Element eleDiplomado = dom.createElement("grado");
+                        org.w3c.dom.Element eleDiplomado = dom.createElement("diplomado");
                         eleDiplomado.appendChild(dom.createTextNode(""));
 
                         element = dom.createElement("nombre");
