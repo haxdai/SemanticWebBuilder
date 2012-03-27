@@ -21,9 +21,12 @@ import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
+import org.semanticwb.base.util.ImageResizer;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.Resourceable;
 import org.semanticwb.model.User;
+import org.semanticwb.model.UserGroup;
+import org.semanticwb.model.UserRepository;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.platform.SemanticProperty;
@@ -78,7 +81,7 @@ public class SWProfileManager extends GenericAdmResource {
     
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        response.setContentType("text/html; charset=UTF-8");
+        response.setContentType("text/html; charset=ISO-8859-1");
         
         User user = paramRequest.getUser();
         if(!user.isSigned())
@@ -750,6 +753,8 @@ htm.append("</form>");
 //            SWProfile profile = (SWProfile)user.getExtendedAttribute(sp);
 //            profile.setMisIdeas(request.getParameter("ideas"));
 //            profile.setUbicacion(request.getParameter("loc"));
+                response.setAction(SWBResourceURL.Action_ADD);
+                response.setMode(SWBResourceURL.Mode_VIEW);
                 boolean isMultipart = ServletFileUpload.isMultipartContent(request);
                 if(isMultipart) {
                     try {
@@ -795,6 +800,10 @@ htm.append("</form>");
                     if(loc.isEmpty()) {
                         alertmsg.append(response.getLocaleString("")).append("\n");
                     }
+                    String ugId = request.getParameter("ads");
+                    if(ugId==null) {
+                        alertmsg.append(response.getLocaleString("")).append("\n");
+                    }
                     
 response.setRenderParameter("alertmsg", response.getLocaleString(""));
                     
@@ -805,6 +814,19 @@ response.setRenderParameter("alertmsg", response.getLocaleString(""));
                     profile.setMiPersonalidad(SWBUtils.XML.replaceXMLChars(request.getParameter("prsnld")));
                     profile.setMisGustos(SWBUtils.XML.replaceXMLChars(request.getParameter("gsts")));
                     profile.setMisIdeas(SWBUtils.XML.replaceXMLChars(request.getParameter("ideas")));
+                    
+                    try {
+                        UserRepository ur = wsite.getUserRepository();
+System.out.println("ugId="+ugId);
+                        UserGroup ug = ur.getUserGroup(ugId);
+System.out.println("ug="+ug);
+System.out.println("user.hasUserGroup(ug)="+user.hasUserGroup(ug));
+                        if(!user.hasUserGroup(ug))
+                            user.addUserGroup(ug);
+                    }catch(Exception e) {
+e.printStackTrace(System.out);
+                    }
+                    
                     try {
                         int ld, xtn;
                         try {
@@ -817,7 +839,7 @@ response.setRenderParameter("alertmsg", response.getLocaleString(""));
                         }catch(Exception e) {
                             xtn = 0;
                         }
-                        Iterator<Telefono> telefonos = persona.listTelefonoByTipo(Telefono.TipoTelefono.job);
+                        Iterator<Telefono> telefonos = persona.listTelefonoByTipo(Telefono.TipoTelefono.Trabajo);
                         while(telefonos.hasNext()) {
                             telefonos.next().remove();
                         }
@@ -825,7 +847,7 @@ response.setRenderParameter("alertmsg", response.getLocaleString(""));
                         tel.setLada(ld);
                         tel.setNumero(tfo);
                         tel.setExtension(xtn);
-                        tel.setTipo(Telefono.TipoTelefono.job.name());
+                        tel.setTipo(Telefono.TipoTelefono.Trabajo.name());
                         persona.addTelefono(tel);
                     }catch(Exception nfe) {
                         log.error(nfe);
@@ -833,8 +855,7 @@ response.setRenderParameter("alertmsg", response.getLocaleString(""));
                     
                     try {
                         xtdr = Integer.parseInt(request.getParameter("extdr"));
-                        //SemanticProperty ext = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#extension");
-                        SemanticProperty ext = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#noe");
+                        SemanticProperty ext = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#extension");
                         user.setExtendedAttribute(ext, new Integer(xtdr));
                     }catch(Exception e) {
 e.printStackTrace(System.out);
@@ -987,42 +1008,48 @@ e.printStackTrace(System.out);
     }
     
     public void doChangePhoto(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        response.setContentType("text/html; charset=UTF-8");
+        response.setContentType("text/html; charset=ISO-8859-1");
+        
+        User user = paramRequest.getUser();
+        if(!user.isSigned())
+            return;
+        
         Resource base = getResourceBase();
         WebSite wsite = base.getWebSite();
-        User user = paramRequest.getUser();
-        
         PrintWriter out =  response.getWriter();
         
         SWProfile profile = SWProfile.ClassMgr.getSWProfile(user.getId(), wsite);
-        if( user.isSigned() && user.equals(profile.getCreator()) ) {
-            final String lang = user.getLanguage();
-            final String axn = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_EDIT).toString();
-            StringBuilder htm = new StringBuilder();
-            htm.append(script());
-            htm.append("<form id=\"profile/user\" method=\"post\" enctype=\"multipart/form-data\" action=\""+axn+"\">");
-            htm.append("<div id=\"perfil_usuario\">");
-            htm.append("    <div id=\"formPerfil\">");
-            htm.append("        <div class=\"perfil divisor\">");
-            htm.append("            <h3>Mi perfil</h3>");
-            final String pimg;
-            if(user.getPhoto()==null)
-                pimg = SWBPortal.getWebWorkPath()+"/models/"+wsite.getId()+"/css/user.jpg";
-            else
-                pimg = SWBPortal.getWebWorkPath()+profile.getWorkPath()+"/"+user.getPhoto();
-            htm.append("            <div class=\"foto\"><img src=\""+pimg+"\" alt=\"\" /></div>");
-            htm.append("            <div class=\"user\">");
-            htm.append("                <p class=\"name\">"+user.getFullName()+"</p>");
-            //htm.append("                <p class=\"tercio\"><a href=\"#\">M&aacute;s acerca de m&iacute;</a></p>");
-            htm.append("                <p class=\"tercio\"><label for=\"foto\">Cambiar mi foto</label><input type=\"file\" name=\"foto\" id=\"foto\" value=\"\" /></p>");
-            htm.append("            </div>");
-            htm.append("            <div class=\"clearer\">&nbsp;</div>");
-            htm.append("        </div>");
-            htm.append("    </div>");
-            htm.append("    <div class=\"guardar\"><input type=\"submit\" value=\"Guardar\" /></div>");
-            htm.append("</div>");
-            htm.append("</form>");
-            out.println(htm.toString());
+        if( user.equals(profile.getCreator()) ) {
+            if(paramRequest.getCallMethod()==paramRequest.Call_STRATEGY) {
+                doView(request, response, paramRequest);
+            }else {
+                final String lang = user.getLanguage();
+                final String axn = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_EDIT).toString();
+                StringBuilder htm = new StringBuilder();
+                htm.append(script());
+                htm.append("<form id=\"profile/user\" method=\"post\" enctype=\"multipart/form-data\" action=\""+axn+"\">");
+                htm.append("<div id=\"perfil_usuario\">");
+                htm.append("    <div id=\"formPerfil\">");
+                htm.append("        <div class=\"perfil divisor\">");
+                htm.append("            <h3>Mi perfil</h3>");
+                final String pimg;
+                if(user.getPhoto()==null)
+                    pimg = SWBPortal.getWebWorkPath()+"/models/"+wsite.getId()+"/css/user.jpg";
+                else
+                    pimg = SWBPortal.getWebWorkPath()+profile.getWorkPath()+"/"+user.getPhoto();
+                htm.append("            <div class=\"foto\"><img src=\""+pimg+"\" alt=\"\" /></div>");
+                htm.append("            <div class=\"user\">");
+                htm.append("                <p class=\"name\">"+user.getFullName()+"</p>");
+                htm.append("                <p class=\"tercio\"><label for=\"foto\">Cambiar mi foto</label><input type=\"file\" name=\"foto\" id=\"foto\" value=\"\" /></p>");
+                htm.append("            </div>");
+                htm.append("            <div class=\"clearer\">&nbsp;</div>");
+                htm.append("        </div>");
+                htm.append("    </div>");
+                htm.append("    <div class=\"guardar\"><input type=\"submit\" value=\"Guardar\" /></div>");
+                htm.append("</div>");
+                htm.append("</form>");
+                out.println(htm.toString());
+            }
         }
     }
     
@@ -1092,6 +1119,8 @@ e.printStackTrace(System.out);
                     if(!filename.isEmpty() && (filename.endsWith(".jpg")||filename.endsWith(".jpeg")||filename.endsWith(".gif")||filename.endsWith(".png"))) {
                         file = new File(path+"/"+filename);
                         item.write(file);
+ImageResizer.shrinkTo(file, 135, 166, file, "png");
+ImageResizer.resize(file, 135, 166, true, file, "png");
                         user.setPhoto(filename);
                     }
                     break;
