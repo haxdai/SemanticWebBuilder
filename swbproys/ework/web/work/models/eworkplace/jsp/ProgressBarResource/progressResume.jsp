@@ -32,16 +32,16 @@
         done = aca.listGradoAcademicos().hasNext()&&(aca.isNoAplicaEstudioSuperior() || aca.listEstudioSuperiors().hasNext())&&(cv.isSinDiplomado() || cv.listDiplomados().hasNext())&&(cv.isSinCurso() || cv.listCursosTICs().hasNext())&&(cv.isSinIdioma() || cv.listIdiomas().hasNext());
         resume = resume && done;
         out.println("  <h3 class=\""+(done?"icv-semaforo-paloma":"icv-semaforo-tache")+"\">");
-        out.println("   <a href=\""+url+"Escolaridad"+lang+"\">"+paramRequest.getLocaleString("lblSchooling")+"</a>");
+        out.println("   <a name=\"Conocimiento_Formal\" href=\""+url+"Escolaridad"+lang+"\">"+paramRequest.getLocaleString("lblSchooling")+"</a>");
         out.println("  </h3>");
         out.println("  <p class=\"intro_line\">&nbsp;</p>");
         out.println(" </div>");     
         out.println(" <div class=\"cvi-sf-opcion\">");
         out.println("  <ul>");
         if(aca.listGradoAcademicos().hasNext())
-            out.println("<li><h4><a href=\""+url+"Escolaridad"+lang+"\" class=\"cvi-semaforo-verde\">"+paramRequest.getLocaleString("lblDegrees")+"</a></h4></li>");
+            out.println("<li><h4><a name=\"Escolaridad\" href=\""+url+"Escolaridad"+lang+"\" class=\"cvi-semaforo-verde\">"+paramRequest.getLocaleString("lblDegrees")+"</a></h4></li>");
         else
-            out.println("<li><h4><a href=\""+url+"Escolaridad"+lang+"\" class=\"cvi-semaforo-rojo\">"+paramRequest.getLocaleString("lblDegrees")+"</a></h4></li>");
+            out.println("<li><h4><a name=\"Escolaridad\" href=\""+url+"Escolaridad"+lang+"\" class=\"cvi-semaforo-rojo\">"+paramRequest.getLocaleString("lblDegrees")+"</a></h4></li>");
         
         if(aca.isNoAplicaEstudioSuperior() || aca.listEstudioSuperiors().hasNext())
             out.println("<li><h4><a href=\""+url+"Estudios_Superiores"+lang+"\" class=\"cvi-semaforo-verde\">"+paramRequest.getLocaleString("lblHigherEducation")+"</a></h4></li>");
@@ -72,7 +72,7 @@
         done = (cv.isSinExperiencia() || cv.listExperienciaLaborals().hasNext())&&cv.listAreaTalentos().hasNext()&&(cv.isSinDistincion() || cv.listDistincions().hasNext());
         resume = resume && done;
         out.println("  <h3 class=\""+(done?"icv-semaforo-paloma":"icv-semaforo-tache")+"\">");
-        out.println("   <a href=\""+url+"Experiencia_Profesional"+lang+"\">"+paramRequest.getLocaleString("lblExperience")+"</a>");
+        out.println("   <a name=\"Experiencia_Profesional\" href=\""+url+"Experiencia_Profesional"+lang+"\">"+paramRequest.getLocaleString("lblExperience")+"</a>");
         out.println("  </h3>");
         out.println("  <p class=\"intro_line\">&nbsp;</p>");
         out.println(" </div>");
@@ -102,7 +102,7 @@
         done = cv.listCompetencias().hasNext();
         resume = resume && done;
         out.println("  <h3 class=\""+(done?"icv-semaforo-paloma":"icv-semaforo-tache")+"\">");
-        out.println("   <a href=\""+url+"Competencias"+lang+"\">"+paramRequest.getLocaleString("lblCompetencies")+"</a>");
+        out.println("   <a name=\"Competencias\" href=\""+url+"Competencias"+lang+"\">"+paramRequest.getLocaleString("lblCompetencies")+"</a>");
         out.println("  </h3>");
         out.println("  <p class=\"intro_line\">&nbsp;</p>");
         out.println(" </div>");
@@ -122,7 +122,7 @@
         done = (cv.isSinInvestigacion() || cv.listInvestigacions().hasNext())&&(cv.isSinDocencia() || cv.listDocencias().hasNext())&&(cv.isSinPublicacion() || cv.listPublicacions().hasNext());
         resume = resume && done;
         out.println("  <h3 class=\""+(done?"icv-semaforo-paloma":"icv-semaforo-tache")+"\">");
-        out.println("   <a href=\""+url+"Investigacion_y_docencia"+lang+"\">"+paramRequest.getLocaleString("lblResearchAndTeaching")+"</a>");
+        out.println("   <a name=\"Investigacion_y_docencia\" href=\""+url+"Investigacion_y_docencia"+lang+"\">"+paramRequest.getLocaleString("lblResearchAndTeaching")+"</a>");
         out.println("  </h3>");
         out.println("  <p class=\"intro_line\">&nbsp;</p>");
         out.println(" </div>");
