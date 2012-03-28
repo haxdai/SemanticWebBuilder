@@ -90,7 +90,7 @@ public class EstudioSuperiorResource extends GenericResource
             aca = Academia.ClassMgr.createAcademia(wsite);
             cv.setAcademia(aca);
         }
-        System.out.println("ProcessAction..."+action);
+        //System.out.println("ProcessAction..."+action);
         String msg = "";
         if (SWBResourceURL.Action_ADD.equals(action)||SWBResourceURL.Action_EDIT.equals(action)) {
             
@@ -116,9 +116,9 @@ public class EstudioSuperiorResource extends GenericResource
                 }
             }
             
-            System.out.println("estudio: "+idestudio+", Avance: "+idgavance+", periodo: "+intPeriodo);
-            System.out.println("chkOtro:"+chkOtro+", txtOtro: "+txtOtro);
-            System.out.println("id estudio new: "+estudio.getId());
+            //System.out.println("estudio: "+idestudio+", Avance: "+idgavance+", periodo: "+intPeriodo);
+            //System.out.println("chkOtro:"+chkOtro+", txtOtro: "+txtOtro);
+            //System.out.println("id estudio new: "+estudio.getId());
             
             if(estudio!=null&&gavance!=null&&intPeriodo>=0)
             {
