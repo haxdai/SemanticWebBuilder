@@ -130,8 +130,9 @@
         <tr>
             <th width="7%" >&nbsp;</th>
             <th width="35%" >Estudios Superiores</th>
-            <th width="35%" >Periodo en Años</th>
-            <th width="23%" >% avance</th>
+            <th width="25%" >Tipo</th>
+            <th width="12%" >Periodo en Años</th>
+            <th width="11%" >% avance</th>
         </tr>
     </thead>
 
@@ -170,7 +171,8 @@
                     /////////////////////////////////
 
                     String strAvance = "<center>---</center>"; 
-                    String strEstudio = "<center>---</center>";                   
+                    String strEstudio = "<center>---</center>";   
+                    String strTipo = "<center>---</center>";                                    
                     int strPeriodo = ga.getPeriodoYears();
 
                     if(ga.getGradoAvance() !=null&&ga.getGradoAvance().getTitle()!=null)
@@ -181,6 +183,12 @@
                         if(estudio.getId().endsWith("_otro")&&estudio.getTitle().equals("Otro")){
                             strEstudio = "Otro / "+ga.getOtroEstudio();
                         } else strEstudio = ga.getEstudiosSuperiores().getTitle();
+                    }
+                    
+                    if(ga.getEstudiosSuperiores()!=null&&ga.getEstudiosSuperiores().getAreaEstudio()!=null&&ga.getEstudiosSuperiores().getAreaEstudio().getDisciplinaInv()!=null&&ga.getEstudiosSuperiores().getAreaEstudio().getDisciplinaInv().getTipoEstudioInv()!=null){
+                        if(ga.getEstudiosSuperiores().getAreaEstudio().getDisciplinaInv().getTipoEstudioInv().getTitle()!=null){
+                           strTipo = ga.getEstudiosSuperiores().getAreaEstudio().getDisciplinaInv().getTipoEstudioInv().getTitle();
+                        }
                     }
                           
                     
@@ -196,6 +204,7 @@
             <td><span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">&nbsp;</a></span>
                 <span class="icv-editar"><a href="#" onclick="window.location='<%=urledit%>';">&nbsp;</a></span></td>
             <td><%=strEstudio%></td>
+            <td><%=strTipo%></td>
             <td><%=strPeriodo%></td>
             <td><%=strAvance%></td>
         </tr>
