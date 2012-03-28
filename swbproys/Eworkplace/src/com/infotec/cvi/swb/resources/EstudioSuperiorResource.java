@@ -90,18 +90,35 @@ public class EstudioSuperiorResource extends GenericResource
             aca = Academia.ClassMgr.createAcademia(wsite);
             cv.setAcademia(aca);
         }
-        
+        System.out.println("ProcessAction..."+action);
         String msg = "";
         if (SWBResourceURL.Action_ADD.equals(action)||SWBResourceURL.Action_EDIT.equals(action)) {
             
-            String idestudio = request.getParameter("sel_Estudio");
+            String idestudio = request.getParameter("sel_Estudio");//sel_Tipo, sel_Disciplina, sel_Area
+            String idarea = request.getParameter("sel_Area");
             String idgavance = request.getParameter("idgavance");
+            String txtOtro = request.getParameter("txtOtro");
+            String chkOtro = request.getParameter("chkOtro");//
             int intPeriodo = request.getParameter("periodo")!=null?Integer.parseInt(request.getParameter("periodo")):0;
             
-            Estudios estudio = Estudios.ClassMgr.getEstudios(idestudio, wsite);
+            Estudios estudio = null;
+            if(idestudio!=null) estudio = Estudios.ClassMgr.getEstudios(idestudio, wsite);
             Avance gavance = Avance.ClassMgr.getAvance(idgavance, wsite);
             
-            //System.out.println("estudio: "+idestudio+", Avance: "+idgavance+", periodo: "+intPeriodo);
+            AreaEstudio area = null;
+            if(idarea!=null) area = AreaEstudio.ClassMgr.getAreaEstudio(idarea, wsite);
+            if(chkOtro!=null&&area!=null&&txtOtro!=null){
+                estudio = Estudios.ClassMgr.getEstudios(idarea+"_otro", wsite);
+                if(null==estudio) {
+                    estudio = Estudios.ClassMgr.createEstudios(idarea+"_otro", wsite);
+                    estudio.setTitle("Otro");
+                    estudio.setAreaEstudio(area);
+                }
+            }
+            
+            System.out.println("estudio: "+idestudio+", Avance: "+idgavance+", periodo: "+intPeriodo);
+            System.out.println("chkOtro:"+chkOtro+", txtOtro: "+txtOtro);
+            System.out.println("id estudio new: "+estudio.getId());
             
             if(estudio!=null&&gavance!=null&&intPeriodo>=0)
             {
@@ -120,6 +137,7 @@ public class EstudioSuperiorResource extends GenericResource
                 estSuperior.setGradoAvance(gavance);
                 estSuperior.setEstudiosSuperiores(estudio);
                 estSuperior.setPeriodoYears(intPeriodo);
+                if(estudio.getId().equals(idarea+"_otro")&&txtOtro!=null&&txtOtro.trim().length()>0) estSuperior.setOtroEstudio(txtOtro);
 
                 aca.setNoAplicaEstudioSuperior(Boolean.FALSE);
                 
