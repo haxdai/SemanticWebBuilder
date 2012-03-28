@@ -31,7 +31,7 @@
     String fullName = person.getElementsByTagName("nombre").item(0).getChildNodes().item(0).getNodeValue();
     String curp = "";
     if(person.getElementsByTagName("curp").item(0)!=null)
-        person.getElementsByTagName("curp").item(0).getChildNodes().item(0).getNodeValue();
+        curp = person.getElementsByTagName("curp").item(0).getChildNodes().item(0).getNodeValue();
     String rfc = user.getLogin();
     String birthday = person.getElementsByTagName("nacimiento").item(0).getChildNodes().item(0).getNodeValue();
     String gender = person.getElementsByTagName("genero").item(0).getChildNodes().item(0).getNodeValue();
