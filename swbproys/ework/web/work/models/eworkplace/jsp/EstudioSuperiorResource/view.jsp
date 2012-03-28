@@ -175,8 +175,14 @@
 
                     if(ga.getGradoAvance() !=null&&ga.getGradoAvance().getTitle()!=null)
                         strAvance = ga.getGradoAvance().getTitle();
-                    if(ga.getEstudiosSuperiores()!=null&&ga.getEstudiosSuperiores().getTitle()!=null)
-                        strEstudio = ga.getEstudiosSuperiores().getTitle();  
+                    if(ga.getEstudiosSuperiores()!=null&&ga.getEstudiosSuperiores().getTitle()!=null){
+                        Estudios estudio = ga.getEstudiosSuperiores();
+                        String idarea = estudio.getAreaEstudio().getId();
+                        if(estudio.getId().endsWith("_otro")&&estudio.getTitle().equals("Otro")){
+                            strEstudio = "Otro / "+ga.getOtroEstudio();
+                        } else strEstudio = ga.getEstudiosSuperiores().getTitle();
+                    }
+                          
                     
                     SWBResourceURL urldel = paramRequest.getActionUrl();
                     urldel.setAction(SWBResourceURL.Action_REMOVE);
@@ -301,6 +307,19 @@
             return false;
         }
     }
+    
+   function revisa(chk,sel,otro){
+     var fltr = dijit.byId(sel);
+     if(chk.checked){
+         otro.disabled=false;
+         otro.focus();
+         fltr.setDisabled(true);
+     } else {
+         otro.disabled=true;
+         fltr.setDisabled(false);
+         fltr.domNode.focus();
+     };
+  }
     -->
 </script>
           <form id="form1es" name="form1es" method="post"  action="<%=urladd%>" dojoType="dijit.form.Form">
@@ -339,7 +358,16 @@
             <label for="sel_Estudio"><b>*</b>Estudio Superior</label>
             <input dojoType="dijit.form.FilteringSelect" value="" autoComplete="true" store="estudioStore<%=base.getId()%>" name="sel_Estudio" id="sel_Estudio<%=base.getId()%>" onChange="dijit.byId('sel_Area<%=base.getId()%>').attr('value', (dijit.byId('sel_Estudio<%=base.getId()%>').item || {area: ''}).area);" />       
 </p>
+<p class="icv-3col">
+    <label for="chkOtro">Otro Estudio Superior</label>
+    <input type="checkbox" value="1" name="chkOtro" onclick="revisa(this,'sel_Estudio<%=base.getId()%>',txtOtro)"/>
+    </p>
+<p class="icv-3col"><input type="text" value="" name="txtOtro" id="txtOtro" disabled="true" />
+</p>
+  <div class="clearer">&nbsp;</div>
+</div>
   
+<div class="icv-div-grupo">
   
     <p class="icv-3col">
     <label for="idgavance"><b>*</b>% avance</label>
@@ -412,8 +440,19 @@
             return false;
         }
     }
-
-
+    
+   function revisa(chk,sel,otro){
+     var fltr = dijit.byId(sel);
+     if(chk.checked){
+         otro.disabled=false;
+         otro.focus();
+         fltr.setDisabled(true);
+     } else {
+         otro.disabled=true;
+         fltr.setDisabled(false);
+         fltr.domNode.focus();
+     };
+  }
 
     -->
 </script>
@@ -435,7 +474,7 @@
             <div dojoType="dojo.data.ItemFileReadStore" jsId="estudioStore<%=base.getId()%>" url="<%=url.setMode("mod_posgrado")%>"></div>
 
 <p class="icv-3col">           
-            <label for="sel_Tipo"><b>*</b>Disciplina</label>             
+            <label for="sel_Tipo"><b>*</b>Tipo</label>             
             <input dojoType="dijit.form.FilteringSelect" value="<%=idTipo%>" autoComplete="true" store="tipoStore<%=base.getId()%>" name="sel_Tipo" id="sel_Tipo<%=base.getId()%>" onChange="dijit.byId('sel_Disciplina<%=base.getId()%>').query.tipo = this.value || '*';" />        
 </p>
 <p class="icv-3col">           
@@ -457,9 +496,27 @@
             <label for="sel_Estudio"><b>*</b>Estudio Superior</label>
             <input dojoType="dijit.form.FilteringSelect" value="<%=idEstudio%>" autoComplete="true" store="estudioStore<%=base.getId()%>" name="sel_Estudio" id="sel_Estudio<%=base.getId()%>" onChange="dijit.byId('sel_Area<%=base.getId()%>').attr('value', (dijit.byId('sel_Estudio<%=base.getId()%>').item || {area: ''}).area);" />       
 </p>
-  
-  
-  
+<%
+    String strDisabled = "disable=\"true\"";
+    String strChecked = "";
+    String strOtro = "";
+    if(idEstudio.endsWith("_otro")&&estudioSup.getEstudiosSuperiores().getTitle().equals("Otro"))
+    {
+        strChecked = "checked";
+        strOtro = estudioSup.getOtroEstudio(); 
+        strDisabled =""; 
+    }
+
+%>
+<p class="icv-3col">
+    <label for="chkOtro">Otro Estudio Superior</label>
+    <input type="checkbox" value="1" name="chkOtro" onclick="revisa(this,'sel_Estudio<%=base.getId()%>',txtOtro)" <%=strChecked%>/>
+    </p>
+<p class="icv-3col"><input type="text" name="txtOtro" id="txtOtro" <%=strDisabled%> value="<%=strOtro%>"/>
+</p>  
+  <div class="clearer">&nbsp;</div>
+</div>
+ <div class="icv-div-grupo"> 
     <p class="icv-3col">
     <label for="idgavance"><b>*</b>% avance</label>
     <select name="idgavance" id="idgavance" dojoType="dijit.form.FilteringSelect" required="true">
