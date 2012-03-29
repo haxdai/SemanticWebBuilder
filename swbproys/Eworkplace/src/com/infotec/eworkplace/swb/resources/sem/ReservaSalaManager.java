@@ -529,42 +529,42 @@ if(sala!=null && date!=null && sala.isValid() && !sala.isReservada(date, hi, hf)
         js.append("\n<script type=\"text/javascript\">");
         js.append("\n<!--");
         
-js.append("\ndojo.require('dojox.layout.ContentPane');");
-js.append("\ndojo.require('dijit.form.Form');");
-js.append("\ndojo.require('dijit.form.ValidationTextBox');");
-js.append("\ndojo.require('dijit.form.DateTextBox');");
-js.append("\ndojo.require('dijit.form.CheckBox');");
-js.append("\ndojo.require('dojo.fx');");
-js.append("\ndojo.require('dijit.dijit');");
+js.append("\n dojo.require('dojox.layout.ContentPane');");
+js.append("\n dojo.require('dijit.form.Form');");
+js.append("\n dojo.require('dijit.form.ValidationTextBox');");
+js.append("\n dojo.require('dijit.form.DateTextBox');");
+js.append("\n dojo.require('dijit.form.CheckBox');");
+js.append("\n dojo.require('dojo.fx');");
+js.append("\n dojo.require('dijit.dijit');");
 
-js.append("\nfunction expande(domId) {");
-js.append("\n var anim1 = dojo.fx.wipeIn( {node:domId, duration:200 });");
-js.append("\n var anim2 = dojo.fadeIn({node:domId, duration:250});");
-js.append("\n dojo.fx.combine([anim1,anim2]).play();");
-js.append("\n}");
+js.append("\n function expande(domId) {");
+js.append("\n  var anim1 = dojo.fx.wipeIn( {node:domId, duration:200 });");
+js.append("\n  var anim2 = dojo.fadeIn({node:domId, duration:250});");
+js.append("\n  dojo.fx.combine([anim1,anim2]).play();");
+js.append("\n }");
 
-js.append("\nfunction collapse(domId) {");
-js.append("\n var anim1 = dojo.fx.wipeOut( {node:domId, duration:200 });");
-js.append("\n var anim2 = dojo.fadeOut({node:domId, duration:250});");
-js.append("\n dojo.fx.combine([anim1, anim2]).play();");
-js.append("\n}");
+js.append("\n function collapse(domId) {");
+js.append("\n  var anim1 = dojo.fx.wipeOut( {node:domId, duration:200 });");
+js.append("\n  var anim2 = dojo.fadeOut({node:domId, duration:250});");
+js.append("\n  dojo.fx.combine([anim1, anim2]).play();");
+js.append("\n }");
 
-js.append("\nvar hrs = [];");
-js.append("\nvar f1=function(item,i,arr) {");    
+js.append("\n var hrs = [];");
+js.append("\n var f1=function(item,i,arr) {");    
 js.append("\n    if( i==arr.length-1 )");
 js.append("\n        return item.substring(0,6)==arr[0].substring(0,6);");
 js.append("\n    else    ");
 js.append("\n        return item.substring(0,6)==arr[i+1].substring(0,6);");
-js.append("\n}");
+js.append("\n }");
 
-js.append("\nfunction validateFrm() {");
+js.append("\n function validateFrm() {");
 js.append("\n  if(dojo.byId('brksrvc').checked==true && isEmpty(dojo.byId('hrSrvc').value))");
 js.append("\n    console.log('no pasa');");
 js.append("\n  else");
 js.append("\n    console.log('si pasa');");
-js.append("\n}");
+js.append("\n }");
 
-js.append("\nfunction validate() {");
+js.append("\n function validate() {");
 js.append("\n  if(hrs.length==0) {");
 js.append("\n    alert('para jugar hay que  seleccionar');");
 js.append("\n  }else if(hrs.length==1) {");
@@ -580,9 +580,9 @@ js.append("\n      hrs=[];");
 js.append("\n    }");
 js.append("\n  }");
 js.append("\n  return false;  ");
-js.append("\n}");
+js.append("\n }");
 
-js.append("\ndojo.addOnLoad (");
+js.append("\n dojo.addOnLoad (");
 js.append("\n  function() {");
 js.append("\n    dojo.query(\".sltc\").connect(\"onclick\", function() {");
 js.append("\n                      if(dojo.hasClass(this, 'x'))");
@@ -599,158 +599,8 @@ js.append("\n                      }");
 js.append("\n                    }");
 js.append("\n    );");
 js.append("\n  }");
-js.append("\n);");
-        
-        js.append("\n function showFormDialog(divId, bgcolor, opacity) {");
-        js.append("\n  if(!validate()) return;");
-        js.append("\n  createCoverDiv(divId, bgcolor, opacity);");
-        js.append("\n  var frmHolder = document.createElement('div');");
-        js.append("\n  var cwidth = 360;");
-        js.append("\n  var cheight = 500;");
-        js.append("\n  frmHolder.id='s_'+divId;");
-        js.append("\n  frmHolder.style.zIndex=1001;");
-        js.append("\n  frmHolder.style.position='absolute';");
-        js.append("\n  frmHolder.style.top='50%';");
-        js.append("\n  frmHolder.style.left='50%';");
-        js.append("\n  frmHolder.style.marginLeft=-cwidth/2+'px';");
-        js.append("\n  frmHolder.style.marginTop=-cheight/2+'px';");
-        js.append("\n  frmHolder.style.backgroundColor='#cccccc';");
-        js.append("\n  frmHolder.style.width=cwidth+'px';");
-        js.append("\n  frmHolder.style.height=cheight+'px';");
-        
-//js.append("\nvar arr = [];");
-//js.append("\ndojo.forEach(hrs, function(item,idx) {");
-//js.append("\n        arr[idx] = item.substring(item.lastIndexOf('_')+1)-0;");
-//js.append("\n    });");
-//js.append("\narr.sort(function(a,b){return a-b});");
-//js.append("\nvar dti = new Date();");
-//js.append("\ndti.setHours(0);dti.setMinutes(0);dti.setSeconds(0);");
-//js.append("\ndti.setMinutes(arr[0]);");
-//js.append("\nvar dtf = new Date();");
-//js.append("\ndtf.setHours(0);dtf.setMinutes(0);dtf.setSeconds(0);");
-//js.append("\nvar dlt = arr[arr.length-1]+29;");
-//js.append("\ndtf.setMinutes(dlt);");
+js.append("\n );");
 
-        
-        js.append("\n  var s = new String('');");
-        js.append("\n  s = s.concat('<form id=\"_rs_\" method=\"post\" action=\""+paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD)+"');");
-        js.append("\n  s = s.concat('?hrs='+hrs.join(','));   ");
-        js.append("\n  s = s.concat('\">')  ");
-        js.append("\n  s = s.concat('<div id=\"mainPop\">');");
-        js.append("\n  s = s.concat(' <div id=\"popMiddle\">');");
-        js.append("\n  s = s.concat('  <p>Fecha de reservaci&oacute;n:<br />');");
-        js.append("\n  s= s.concat('      <label for=\"tmSrvc\">Del: </label><input type=\"text\" name=\"id\" id=\"id\" value=\"20/03/2012\" maxlength=\"10\" style=\"width:110px;\" readonly=\"readonly\" />');");
-        js.append("\n  s= s.concat('      <label for=\"tmSrvc\">Al: </label><input type=\"text\" name=\"fd\" id=\"fd\" dojoType=\"dijit.form.DateTextBox\" style=\"width:110px;\" />');");
-        js.append("\n  s = s.concat('  </p>');");
-        js.append("\n  s = s.concat('  <p>Horario de reservaci&oacute;n:<br />');");
-        js.append("\n  s= s.concat('      <label for=\"tmSrvc\">Desde: </label><select name=\"hi\"><option value=\"08:00\">08:00</option><option value=\"08:30\">08:29</option><option value=\"09:00\">09:00</option><option value=\"09:29\">09:29</option><option value=\"10:00\">10:00</option><option value=\"10:29\">10:29</option></select>');");
-        js.append("\n  s= s.concat('      <label for=\"tmSrvc\">Hasta: </label><select name=\"hf\"><option value=\"08:00\">08:00</option><option value=\"08:30\">08:29</option><option value=\"09:00\">09:00</option><option value=\"09:29\">09:29</option><option value=\"10:00\">10:00</option><option value=\"10:29\">10:29</option></select>');");
-//        js.append("\n  s = s.concat('   <span class=\"blueCal\">"+df.format(current.getTime())+" '+dti.getHours()+':'+dti.getMinutes()+'</span><br />');");
-//        js.append("\n  s = s.concat('   <span class=\"blueCal\">"+df.format(current.getTime())+" '+dtf.getHours()+':'+dtf.getMinutes()+'</span>');");
-        js.append("\n  s = s.concat('  </p>');");
-        //js.append("\n  s = s.concat('  <div id=\"usuarioCal\">');");
-        //js.append("\n  s = s.concat('   <p><img src=\"images/placeholderCal.png\" width=\"80\" height=\"80\" alt=\"placeholder\" /></p>');");
-        //js.append("\n  s = s.concat('   <p><span class=\"nombreCal\">"+paramRequest.getUser().getFullName()+"</span></p>');");
-        //js.append("\n  s = s.concat('   <p>Consultor de arquitectura</p>');");
-        //js.append("\n  s = s.concat('  </div>');");
-        js.append("\n  s = s.concat('  <p>');");
-        js.append("\n  s = s.concat('   <span class=\"blueCalTit\">Motivo de la reuni&oacute;n:</span><br />');");
-        //js.append("\n  s = s.concat('   <span class=\"enfasisCal\">(140 caracteres m&aacute;ximo)</span><br />');");
-        js.append("\n  s = s.concat('   <label for=\"motive\"></label><textarea id=\"motive\" name=\"motive\" class=\"datosCal\"></textarea>');");
-        js.append("\n  s = s.concat('  </p>');");
-        js.append("\n  s = s.concat('  <div class=\"twinsCal\">');");
-        js.append("\n  s = s.concat('   <p><span class=\"blueCalTit\">Tipo de reuni&oacute;n</span>:</p>');");
-        js.append("\n  s = s.concat('   <ul>');");
-        js.append("\n  s = s.concat('    <li><label for=\"mtSng\">Interna <input type=\"radio\" name=\"typeMeet\" id=\"mtSng\" value=\"0\" onclick=\"collapse(\\'_tpcf_\\')\" checked=\"checked\" /></label></li>');");
-        js.append("\n  s = s.concat('    <li><label for=\"mtSpl\">Externa <input type=\"radio\" name=\"typeMeet\" id=\"mtSpl\" value=\"1\" onclick=\"expande(\\'_tpcf_\\')\" /></label></li>');");
-        js.append("\n  s = s.concat('   </ul>');");
-        js.append("\n  s = s.concat('  </div>');");
-        js.append("\n  s = s.concat('   <div id=\"_tpcf_\">');");
-        js.append("\n  s= s.concat('      <p>Cafeteria: </p>');");
-        js.append("\n  s = s.concat('     <ul>');");
-        js.append("\n  s = s.concat('      <li><label for=\"sngCf\">Sencilla <input type=\"radio\" name=\"typeCafe\" id=\"sngCf\" value=\"0\" checked=\"checked\" /></label></li>');");
-        js.append("\n  s = s.concat('      <li><label for=\"spcCf\">Especial <input type=\"radio\" name=\"typeCafe\" id=\"spcCf\" value=\"1\" /></label></li>');");
-        js.append("\n  s = s.concat('     </ul>');");
-        js.append("\n  s= s.concat('      <p><label for=\"cfgrn\"><input type=\"checkbox\" name=\"cfgrn\" id=\"cfgrn\" value=\"true\" /> Café de grano</label></p>');");
-        js.append("\n  s= s.concat('      <p><label for=\"cfsbl\"> <input type=\"checkbox\" name=\"cfsbl\" id=\"cfsbl\" value=\"true\" checked=\"checked\" /> Café soluble</label></p>');");
-        js.append("\n  s= s.concat('      <p><label for=\"sd\"><input type=\"checkbox\" name=\"sd\" id=\"sd\" value=\"true\" /> Refrescos</label></p>');");
-        js.append("\n  s= s.concat('      <p><label for=\"h2o\"><input type=\"checkbox\" name=\"h2o\" id=\"h2o\" value=\"true\" checked=\"checked\" /> Agua</label></p>');");
-        js.append("\n  s= s.concat('      <p><label for=\"cks\"><input type=\"checkbox\" name=\"cks\" id=\"cks\" value=\"true\" /> Galletas</label></p>');");
-        /*js.append("\n  s = s.concat('     <ul>');");
-        js.append("\n  s = s.concat('      <li><label for=\"cfsrvct\">Si <input type=\"radio\" name=\"cfSrvc\" id=\"cfsrvct\" value=\"1\" checked=\"checked\" /></label></li>');");
-        js.append("\n  s = s.concat('      <li><label for=\"cfsrvcf\">No <input type=\"radio\" name=\"cfSrvc\" id=\"cfsrvcf\" value=\"0\" /></label></li>');");
-        js.append("\n  s = s.concat('     </ul>');");
-        js.append("\n  s= s.concat('      <p>Refrescos: </p>');");
-        js.append("\n  s = s.concat('     <ul>');");
-        js.append("\n  s = s.concat('      <li><label for=\"sdsrvct\">Si <input type=\"radio\" name=\"sdSrvc\" id=\"sdsrvct\" value=\"1\" checked=\"checked\" /></label></li>');");
-        js.append("\n  s = s.concat('      <li><label for=\"sdsrvcf\">No <input type=\"radio\" name=\"sdSrvc\" id=\"sdsrvcf\" value=\"0\" /></label></li>');");
-        js.append("\n  s = s.concat('     </ul>');");
-        js.append("\n  s= s.concat('      <p>Agua: </p>');");
-        js.append("\n  s = s.concat('     <ul>');");
-        js.append("\n  s = s.concat('      <li><label for=\"h2osrvct\">Si <input type=\"radio\" name=\"h2oSrvc\" id=\"h2osrvct\" value=\"1\" checked=\"checked\" /></label></li>');");
-        js.append("\n  s = s.concat('      <li><label for=\"h2osrvcf\">No <input type=\"radio\" name=\"h2oSrvc\" id=\"h2osrvcf\" value=\"0\" /></label></li>');");
-        js.append("\n  s = s.concat('     </ul>');");*/
-        js.append("\n  s= s.concat('      <p>Horario del servicio: </p>');");
-        js.append("\n  s = s.concat('     <ul>');");
-        js.append("\n  s = s.concat('      <li><label for=\"allsrvc\">Durante <input type=\"radio\" name=\"tmSrvc\" id=\"allsrvc\" value=\"1\" onclick=\"collapse(\\'_tmsrvc_\\')\" checked=\"checked\" /></label></li>');");
-        js.append("\n  s = s.concat('      <li><label for=\"brksrvc\">Receso <input type=\"radio\" name=\"tmSrvc\" id=\"brksrvc\" value=\"0\" onclick=\"expande(\\'_tmsrvc_\\')\" /></label></li>');");
-        js.append("\n  s = s.concat('     </ul>');");
-        js.append("\n  s = s.concat('   </div>');");
-        js.append("\n  s = s.concat('   <div id=\"_tmsrvc_\">');");
-        js.append("\n  s= s.concat('      <p><label for=\"tmSrvc\">Horario del servicio: <input type=\"text\" name=\"hrSrvc\" id=\"hrSrvc\" value=\"\" /></label></p>');");
-        js.append("\n  s = s.concat('   </div>');");
-        js.append("\n  s = s.concat('  <div class=\"twinsCal1\">');");
-        js.append("\n  s = s.concat('   <p><span class=\"blueCalTit\">N&uacute;mero de asistentes</span></p>');");
-        js.append("\n  s = s.concat('    <input type=\"text\" name=\"turnout\" id=\"turnout\" value=\"\" size=\"10\" maxlength=\"2\" />');");
-        js.append("\n  s = s.concat('  </div>');");
-        js.append("\n  s = s.concat('  <p>&nbsp;</p>');");
-        js.append("\n  s = s.concat('  <p class=\"blueCalTit\">Selecciona los servicios que solicitas </p>');");
-        js.append("\n  s = s.concat('  <ul>');");
-        js.append("\n  s = s.concat('   <li>');");
-        js.append("\n  s = s.concat('    <input type=\"checkbox\" name=\"equipment\" id=\"projector\" value=\"projector\" />');");
-        js.append("\n  s = s.concat('    <label for=\"interna2\"></label>');");
-        js.append("\n  s = s.concat('    Proyector');");
-        js.append("\n  s = s.concat('   </li>');");
-        js.append("\n  s = s.concat('   <li>');");
-        js.append("\n  s = s.concat('    <input type=\"checkbox\" name=\"equipment\" id=\"pcs\" value=\"pcs\" />');");
-        js.append("\n  s = s.concat('    Computadora');");
-        js.append("\n  s = s.concat('   </li>');");
-        js.append("\n  s = s.concat('  </ul>');");
-        js.append("\n  s = s.concat('  <p>');");
-        js.append("\n  s = s.concat('   <span class=\"blueCalTit\">Otros servicios necesarios</span><br />');");
-        js.append("\n  s = s.concat('   <label for=\"motivo\"></label><textarea id=\"services\" name=\"services\" class=\"datosCal\"></textarea>');");
-        js.append("\n  s = s.concat('  </p>');");
-        js.append("\n  s = s.concat('  <p><a href=\"javascript:removeCoverDiv(\\'');");
-        js.append("\n  s = s.concat(divId);");
-        js.append("\n  s = s.concat('\\')\" title=\"Cancelar\">Cancelar</a>');");
-        js.append("\n  s = s.concat('  <a href=\"javascript:dojo.byId(\\'_rs_\\').reset()\" title=\"Limpiar formulario\">Limpiar</a>');");
-        //js.append("\n  s = s.concat('  <a href=\"javascript:dojo.byId(\\'_rs_\\').submit()\" class=\"soliCal\">Solicitar</a></p>');");
-        js.append("\n  s = s.concat('  <a href=\"javascript:validateFrm()\" class=\"soliCal\">Solicitar</a></p>');");
-        js.append("\n  s = s.concat('  <p class=\"finePrint\">*Se te enviar&aacute; un e-mail con la confirmaci&oacute;n</p>');");
-        js.append("\n  s = s.concat(' </div>');");
-        js.append("\n  s = s.concat(' <p id=\"popBottom\"></p>');");
-        js.append("\n  s = s.concat('</div>');");
-        js.append("\n  s = s.concat('</form>');");
-        js.append("\n  frmHolder.innerHTML = s;");
-        js.append("\n  document.body.appendChild(frmHolder);");
-        //js.append("\n  dojo.place(s, frmHolder.id, 'last');");
-        js.append("\n  collapse('_tpcf_');");
-        js.append("\n  collapse('_tmsrvc_');");
-        
-/*js.append("\ndojo.addOnLoad(function() {");
-js.append("\n  var datefin = new dijit.form.DateTextBox(");
-js.append("\n                   {");
-js.append("\n                   id:'miDate',");
-js.append("\n                   name:'miDate'");
-//js.append("                   required:true,");
-//js.append("                   constraints:{datePattern:'dd/MM/yyyy'},");
-//js.append("                   hasDownArrow:true");
-js.append("\n                   }, 'fd'");
-js.append("\n                 );");
-js.append("\n});");*/
-
-        
-        js.append("\n }");
         js.append("\n-->");
         js.append("\n</script>");
         return js.toString();
@@ -824,26 +674,80 @@ js.append("\n});");*/
 //        out.println("</div>");
         
         
-        Iterator<Sala> isalas = Sala.ClassMgr.listSalas(base.getWebSite());        
-        isalas = SWBComparator.sortByDisplayName(isalas, lang);
-        List<Sala> salas = SWBUtils.Collections.copyIterator(isalas);
-        
-/*if(!salas.isEmpty()) {
-    out.println("<div id=\"roomselectorCal\">");
-    out.println(" <p>Salas</p>");
-    out.println(" <ul>");
-    for(Sala sala:salas) {
-        if(!sala.isActive()) {
-            salas.remove(sala);
-            continue;
-        }
-        out.println("<li><a href=\""+paramRequest.getRenderUrl().setMode(Mode_SALA).setParameter("sl", sala.getEncodedURI()) +"\" title=\"ver sala\">");
-        out.println(sala.getDisplayTitle(lang));
-        out.println("</a></li>");
-    }
-    out.println(" </ul>");
-    out.println("</div>");
-}*/
+out.println("<form id=\"_rs_\" method=\"post\" action=\""+paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD)+"?hrs=+hrs.join(','));\">");
+out.println("<div id=\"mainPop\">");
+out.println(" <div id=\"popMiddle\">");
+out.println("  <p>Fecha de reservaci&oacute;n:<br />");
+out.println("     <label for=\"tmSrvc\">Del: </label><input type=\"text\" name=\"id\" id=\"id\" value=\"20/03/2012\" maxlength=\"10\" style=\"width:110px;\" readonly=\"readonly\" />");
+out.println("     <label for=\"tmSrvc\">Al: </label><input type=\"text\" name=\"fd\" id=\"fd\" dojoType=\"dijit.form.DateTextBox\" style=\"width:110px;\" />");
+out.println("  </p>");
+out.println("  <p>Horario de reservaci&oacute;n:<br />");
+out.println("     <label for=\"tmSrvc\">Desde: </label><select name=\"hi\"><option value=\"08:00\">08:00</option><option value=\"08:30\">08:29</option><option value=\"09:00\">09:00</option><option value=\"09:29\">09:29</option><option value=\"10:00\">10:00</option><option value=\"10:29\">10:29</option></select>");
+out.println("     <label for=\"tmSrvc\">Hasta: </label><select name=\"hf\"><option value=\"08:00\">08:00</option><option value=\"08:30\">08:29</option><option value=\"09:00\">09:00</option><option value=\"09:29\">09:29</option><option value=\"10:00\">10:00</option><option value=\"10:29\">10:29</option></select>");
+out.println("  </p>");
+out.println("  <div>");
+out.println("   <p>");
+out.println("    <span class=\"blueCalTit\">Motivo de la reuni&oacute;n:</span><br />");
+out.println("    <label for=\"motive\"></label><textarea id=\"motive\" name=\"motive\" class=\"datosCal\"></textarea>");
+out.println("   </p>");
+out.println("  </div>");
+out.println("  <div class=\"twinsCal\">");
+out.println("   <p><span class=\"blueCalTit\">Tipo de reuni&oacute;n</span>:</p>");
+out.println("   <ul>");
+out.println("    <li><label for=\"mtSng\">Interna <input type=\"radio\" name=\"typeMeet\" id=\"mtSng\" value=\"0\" onclick=\"collapse('_tpcf_')\" checked=\"checked\" /></label></li>");
+out.println("    <li><label for=\"mtSpl\">Externa <input type=\"radio\" name=\"typeMeet\" id=\"mtSpl\" value=\"1\" onclick=\"expande('_tpcf_')\" /></label></li>");
+out.println("   </ul>");
+out.println("  </div>");
+out.println("  <div id=\"_tpcf_\">");
+out.println("   <p>Cafeteria: </p>");
+out.println("   <ul>");
+out.println("    <li><label for=\"sngCf\">Sencilla <input type=\"radio\" name=\"typeCafe\" id=\"sngCf\" value=\"0\" checked=\"checked\" /></label></li>");
+out.println("    <li><label for=\"spcCf\">Especial <input type=\"radio\" name=\"typeCafe\" id=\"spcCf\" value=\"1\" /></label></li>");
+out.println("   </ul>");
+out.println("   <p><label for=\"cfgrn\"><input type=\"checkbox\" name=\"cfgrn\" id=\"cfgrn\" value=\"true\" /> Café de grano</label></p>");
+out.println("   <p><label for=\"cfsbl\"> <input type=\"checkbox\" name=\"cfsbl\" id=\"cfsbl\" value=\"true\" checked=\"checked\" /> Café soluble</label></p>");
+out.println("   <p><label for=\"sd\"><input type=\"checkbox\" name=\"sd\" id=\"sd\" value=\"true\" /> Refrescos</label></p>");
+out.println("   <p><label for=\"h2o\"><input type=\"checkbox\" name=\"h2o\" id=\"h2o\" value=\"true\" checked=\"checked\" /> Agua</label></p>");
+out.println("   <p><label for=\"cks\"><input type=\"checkbox\" name=\"cks\" id=\"cks\" value=\"true\" /> Galletas</label></p>");
+out.println("   <p>Horario del servicio: </p>");
+out.println("   <ul>");
+out.println("    <li><label for=\"allsrvc\">Durante <input type=\"radio\" name=\"tmSrvc\" id=\"allsrvc\" value=\"1\" onclick=\"collapse('_tmsrvc_')\" checked=\"checked\" /></label></li>");
+out.println("    <li><label for=\"brksrvc\">Receso <input type=\"radio\" name=\"tmSrvc\" id=\"brksrvc\" value=\"0\" onclick=\"expande('_tmsrvc_')\" /></label></li>");
+out.println("   </ul>");
+out.println("  </div>");
+out.println("  <div id=\"_tmsrvc_\">");
+out.println("   <p><label for=\"tmSrvc\">Horario del servicio: <input type=\"text\" name=\"hrSrvc\" id=\"hrSrvc\" value=\"\" /></label></p>");
+out.println("  </div>");
+out.println("  <div class=\"twinsCal1\">");
+out.println("   <p><span class=\"blueCalTit\">N&uacute;mero de asistentes</span></p>");
+out.println("   <input type=\"text\" name=\"turnout\" id=\"turnout\" value=\"\" size=\"10\" maxlength=\"2\" />");
+out.println("  </div>");
+out.println("  <p>&nbsp;</p>");
+out.println("  <p class=\"blueCalTit\">Selecciona los servicios que solicitas </p>");
+out.println("  <ul>");
+out.println("   <li>");
+out.println("    <input type=\"checkbox\" name=\"equipment\" id=\"projector\" value=\"projector\" />");
+out.println("    <label for=\"interna2\"></label>");
+out.println("    Proyector");
+out.println("   </li>");
+out.println("   <li>");
+out.println("    <input type=\"checkbox\" name=\"equipment\" id=\"pcs\" value=\"pcs\" />");
+out.println("    Computadora");
+out.println("   </li>");
+out.println("  </ul>");
+out.println("  <p>");
+out.println("   <span class=\"blueCalTit\">Otros servicios necesarios</span><br />");
+out.println("   <label for=\"motivo\"></label><textarea id=\"services\" name=\"services\" class=\"datosCal\"></textarea>");
+out.println("  </p>");
+out.println("  <p>");
+out.println("   <a href=\"javascript:dojo.byId('_rs_').reset()\" title=\"Limpiar formulario\">Limpiar</a>");
+out.println("   <a href=\"javascript:validateFrm()\" class=\"soliCal\">Solicitar</a>");
+out.println("  </p>");
+out.println("  <p class=\"finePrint\">*Se te enviar&aacute; un e-mail con la confirmaci&oacute;n</p>");
+out.println(" </div>");
+out.println(" <p id=\"popBottom\"></p>");
+out.println("</div>");
+out.println("</form>");
         
         
         out.println("<br class=\"clear\"/>");
@@ -858,14 +762,23 @@ out.println(" <p id=\"current\" class=\"dayAndMonth\">"+sdf.format(current.getTi
 url.setParameter(Roll, Roll_RIGHT);
 out.println(" <p><a href=\"javascript:location.href='"+url+"'\" class=\"salasAdelante\">adelante</a></p>");
 out.println("</div>");        
-//        out.println("<a href=\"#\" onclick=\"showFormDialog('_cvr_','#000000',80);abc()\" class=\"soliCal\">Solicitar</a>");
+        out.println("<a href=\"#\" onclick=\"showFormDialog('_cvr_','#000000',80);abc()\" class=\"soliCal\">Solicitar</a>");
+        
+        
+        Iterator<Sala> isalas = Sala.ClassMgr.listSalas(base.getWebSite());        
+        isalas = SWBComparator.sortByDisplayName(isalas, lang);
+        List<Sala> salas = SWBUtils.Collections.copyIterator(isalas);
         
         sdf = new SimpleDateFormat("HH:mm");
         out.println("<table id=\"mainTableCal\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
         out.println("<tr class=\"trCalSalas\">");
         out.println("  <td height=\"30\">Hora</td>");
         for(Sala sala:salas) {
-            out.println("  <td height=\"30\">"+sala.getDisplayTitle(lang)+"</td>");
+            if(!sala.isActive()) {
+                salas.remove(sala);
+                continue;
+            }
+            out.println("  <td height=\"30\"><a href=\""+paramRequest.getRenderUrl().setMode(Mode_SALA).setParameter("sl", sala.getEncodedURI()) +"\" title=\"ver sala\">"+sala.getDisplayTitle(lang)+"</a></td>");
         }
         out.println("</tr>");
         
@@ -896,6 +809,14 @@ out.println("</div>");
         out.println("</table>");
         /*out.println("<p><a href=\""+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_HELP) +"\">borrar reservaciones</a></p>");*/
         out.println("</div>");
+out.println("<script type=\"text/javascript\">");
+out.println("<!--");
+out.println(" dojo.addOnLoad(function() {");
+out.println("  collapse('_tpcf_');");
+out.println("  collapse('_tmsrvc_');");   
+out.println(" });");
+out.println("-->");
+out.println("</script>");
     }
     
     public void doRoll(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
@@ -1060,7 +981,7 @@ if(!salas.isEmpty()) {
         }
         out.println("</table>");
         /*out.println("<p><a href=\""+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_HELP) +"\">borrar reservaciones</a></p>");*/
-        out.println("</div>");
+        out.println("</div>");     
     }
     
     private boolean userCanEdit(User user) {
