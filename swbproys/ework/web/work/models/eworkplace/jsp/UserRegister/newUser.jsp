@@ -40,6 +40,8 @@
     dojo.require("dijit.form.Form");
     dojo.require("dijit.form.ValidationTextBox");
     dojo.require("dijit.form.Button");
+    dojo.require("dijit.form.CheckBox");
+    dojo.require("dijit.form.SimpleTextarea");
     
     function enviar() {
         var objd=dijit.byId('form1ru');
@@ -49,14 +51,24 @@
             if(isEmpty('cmnt_seccode')) {
                 alert('Para registrarte es necesario que escribas el texto de la imagen.\\nEn caso de no ser claro puedes cambiarlo haciendo clic en <<Cambiar imagen>>.');
             }else{
-                return true;
+                if (!validateReadAgree()){
+                    alert('Para registrarte es necesario que aceptar los terminos y condiciones');
+                }else{
+                   return true;
+                    //alert("enviar");
+                }
             }
         }else {
             alert("Datos incompletos");
         }
         return false;
     }
-
+    function validateReadAgree(){
+        var ret=false;
+        ret=dijit.byId("acept").checked;
+        //alert(ret);
+        return ret;
+    }
     function changeSecureCodeImage(imgid) {
         var img = dojo.byId(imgid);
         if(img) {
@@ -201,10 +213,81 @@
                 
                 <div class="clearer">&nbsp;</div>
             </div>
+            <!--div class="icv-div-grupo">
+                <p class="icv-3col">
+                    <label for="tcText"><b>*</b>Terminos y condiciones:</label>
+                    <textarea name="tcText" id="tcText" dojoType="dijit.form.SimpleTextarea" cols="80" rows="10">
+                    </textarea>
+                </p>
+                <div class="clearer">&nbsp;</div>
+            </div-->
+            <div class="icv-div-grupo">
+                <p class="icv-3col">
+                    <a href="#" onclick="openSplash();return false;">Terminos y condiciones</a>
+                </p>
+                <p class="icv-3col">
+                    <label for="acept"><b>*</b>Acepto los terminos y condiciones:</label>
+                    <input type="checkbox" name="acept" id="acept" maxlength="8" value="true" dojoType="dijit.form.CheckBox" required="true" promptMessage="promp" invalidMessage="invalid" isValid="return confirm('this.checkbox.value==true')"/>
+                </p>
+                <div class="clearer">&nbsp;</div>
+            </div>
             <div class="centro">
                 <input type="reset" value="<%=paramRequest.getLocaleString("lblReset")%>"/>
                 <input type="submit" onclick="return enviar()" value="<%=paramRequest.getLocaleString("lblSubmit")%>"/>
             </div>
         </form>
+    </div>
+</div>
+<script type="text/javascript">
+
+    function createCoverDiv() {
+        var divId='cover01';
+        var bgcolor='#101010';
+        var opacity=80;
+        var layer=document.createElement('div');
+        layer.id=divId;
+        layer.style.width='100%';
+        layer.style.height='100%';
+        layer.style.backgroundColor=bgcolor;
+        layer.style.position='fixed';
+        layer.style.top=0;
+        layer.style.left=0;
+        layer.style.zIndex=1000;
+        layer.style.filter='alpha(opacity='+opacity+')';
+        layer.style.opacity=opacity/100;
+        document.body.appendChild(layer);
+    }
+    function removeCoverDiv(){//divId) {
+        var divId='cover01';
+        var layer=document.getElementById(divId);
+        if(layer ){//&& superlayer) {
+            document.body.removeChild(layer);
+        }
+    }
+    function agreeSplash(){
+        var ret=false;
+        ret=dojo.byId("aceptSplash").checked;
+        return ret;
+    }
+    function closeSplash() {
+        dojo.byId("splash").style.display = "none";
+        removeCoverDiv();
+    }
+    function openSplash() {
+        createCoverDiv();
+        dojo.byId("splash").style.display = "block";
+    }
+</script>
+<div id="splash" class="icv-terminos" style="z-index: 1001; width: 50%; height:60%;  position:fixed; top: 20%; left:20%; background-color: #FFFFFF; display:none;">
+    <div class="splash-titulo">
+        <p>Terminos y condiciones</p>
+    </div>
+    <div class="splash-contenido" style="overflow: auto; height:80%">
+        <%=paramRequest.getResourceBase().getAttribute("agreement")%>
+    </div>
+    <div class="splash-pie">
+        <!--label for="aceptSplash"><b>*</b>Acepto los terminos y condiciones:</label>
+        <input type="checkbox" name="aceptSplash" id="aceptSplash" value="true"/-->
+        <a href="#" onclick="closeSplash();return false;">Cerrar</a>
     </div>
 </div>
