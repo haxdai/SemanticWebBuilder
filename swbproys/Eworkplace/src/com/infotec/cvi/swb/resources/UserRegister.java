@@ -151,6 +151,7 @@ public class UserRegister extends GenericAdmResource {
                                 SWBUtils.EMAIL.sendMail(SWBPortal.getEnv("af/adminEmail"), "", aTo, null, aBcc, response.getLocaleString("lblSubject"), "text/html", emailMsg, null, null, null);
                             }
                         }
+                        persona.setAceptacionTerminos(emailMsg);
                         response.setMode(Mode_THANKS);
                     }catch(Exception ne) {
                         ne.printStackTrace(System.out);
