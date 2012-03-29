@@ -147,7 +147,7 @@
         out.println("</div>");
         out.println("<div style=\"clear: both;\"></div>");
 if(resume)
-    out.println("<p class=\"cvi-msg-resume-ok\">Infotec agradece tu inter&eacute;s y participaci&oacute;n</p>");
+    out.println("<p class=\"cvi-msg-resume-ok\">INFOTEC agradece tu inter&eacute;s y participaci&oacute;n</p>");
 else
     out.println("<p class=\"cvi-msg-resume-no\">Por favor complementa tu informaci&oacute;n</p>");
     }
