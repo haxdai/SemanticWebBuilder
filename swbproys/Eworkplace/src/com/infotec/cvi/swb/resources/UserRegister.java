@@ -4,6 +4,7 @@ import com.infotec.eworkplace.swb.Persona;
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import javax.security.auth.Subject;
@@ -121,6 +122,35 @@ public class UserRegister extends GenericAdmResource {
                         emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{user.login}", newUser.getLogin());
                         emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{user.email}", newUser.getEmail());
                         SWBUtils.EMAIL.sendMail(email, sitename+" - "+response.getLocaleString("msgSubject"), emailMsg);
+
+                        emailMsg = base.getAttribute("emailAgreeMsg");
+                        if(emailMsg!=null&&!emailMsg.equals("")){
+                            ArrayList aTo = new ArrayList();
+                            javax.mail.internet.InternetAddress address = new javax.mail.internet.InternetAddress();
+                            address.setAddress(user.getEmail());
+                            aTo.add(address);
+                            ArrayList aBcc = new ArrayList();
+                            if (base.getAttribute("emailBcc") != null && !base.getAttribute("emailBcc").equals("")) {
+                                address = new javax.mail.internet.InternetAddress();
+                                address.setAddress(base.getAttribute("emailBcc"));
+                                aBcc.add(address);
+                            }else{
+                                aBcc=null;
+                            }
+                            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+                            emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{firstname}", user.getFirstName());
+                            emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{fullname}", user.getFullName());
+                            emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{user.login}", user.getLogin());
+                            emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{user.email}", user.getEmail());
+                            emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{agreement}", base.getAttribute("agreement"));
+                            emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{date}", sdf.format(new Date()));
+                            if (aBcc==null){
+                                SWBUtils.EMAIL.sendMail(email,response.getLocaleString("lblSubject"), emailMsg);
+                            }else{
+                                SWBUtils.EMAIL.sendMail(SWBPortal.getEnv("af/adminEmail"), "", aTo, null, aBcc, response.getLocaleString("lblSubject"), "text/html", emailMsg, null, null, null);
+                            }
+                        }
                         response.setMode(Mode_THANKS);
                     }catch(Exception ne) {
                         ne.printStackTrace(System.out);
@@ -137,12 +167,24 @@ public class UserRegister extends GenericAdmResource {
                 }
         }else if(SWBResourceURL.Action_EDIT.equals(action)) {
             String editaccess = request.getParameter("editar");
+            String emailAgreeMsg = request.getParameter("emailAgreeMsg");
+            String emailBcc = request.getParameter("emailBcc");
+            String agreement = request.getParameter("agreement");
             if(editaccess!=null) {
                 base.setAttribute("editRole", editaccess);
             }
             base.setAttribute("instructions", request.getParameter("instructions"));
             base.setAttribute("gratefulness", request.getParameter("gratefulness"));
             base.setAttribute("congratulations", request.getParameter("congratulations"));
+            if (emailAgreeMsg != null) {
+                base.setAttribute("emailAgreeMsg", emailAgreeMsg);
+            }
+            if (emailBcc != null) {
+                base.setAttribute("emailBcc", emailBcc);
+            }
+            if (agreement != null) {
+                base.setAttribute("agreement", agreement);
+            }
             response.setAction(response.Action_ADD);
             try {
                 base.updateAttributesToDB();
@@ -247,7 +289,7 @@ public class UserRegister extends GenericAdmResource {
 
         final String resourceUpdatedMessage = paramRequest.getLocaleString("msgRecursoActualizado");
         final String legend = paramRequest.getLocaleString("lblData");
-        final String userGroupMessage = paramRequest.getLocaleString("lblRollGroup");
+        final String userGroupMessage = paramRequest.getLocaleString("lblRoleGroup");
         final String listMessage = paramRequest.getLocaleString("lblListMessage");
         final String saveButtonText = paramRequest.getLocaleString("lblGuardar");
         final String resetButtonText = paramRequest.getLocaleString("lblReset");
@@ -340,7 +382,18 @@ public class UserRegister extends GenericAdmResource {
         out.println("   <label for=\"congratulations\" class=\"swbform-label\">"+paramRequest.getLocaleString("lblCongratulations")+"</label>");
         out.println("   <textarea name=\"congratulations\" id=\"congratulations\" cols=\"25\" rows=\"5\">"+base.getAttribute("congratulations",noMsg)+"</textarea>");
         out.println("</li>");
-        
+        out.println("<li class=\"swbform-li\">");
+        out.println("   <label for=\"emailBcc\" class=\"swbform-label\">" + paramRequest.getLocaleString("lblEmailBcc") + "</label>");
+        out.println("   <input type=\"text\" name=\"emailBcc\" id=\"emailBcc\" value=\"" + base.getAttribute("emailBcc", "") + "\" />");
+        out.println("</li>");
+        out.println("<li class=\"swbform-li\">");
+        out.println("   <label for=\"emailAgreeMsg\" class=\"swbform-label\">" + paramRequest.getLocaleString("lblEmailAgreeMsg") + "</label>");
+        out.println("   <textarea name=\"emailAgreeMsg\" id=\"emailAgreeMsg\" cols=\"25\" rows=\"5\">" + base.getAttribute("emailAgreeMsg", "") + "</textarea>");
+        out.println("</li>");
+        out.println("<li class=\"swbform-li\">");
+        out.println("   <label for=\"agreement\" class=\"swbform-label\">" + paramRequest.getLocaleString("lblAgreement") + "</label>");
+        out.println("   <textarea name=\"agreement\" id=\"agreement\" cols=\"25\" rows=\"5\">" + base.getAttribute("agreement", "") + "</textarea>");
+        out.println("</li>");
         out.println("<li>");
         out.println("<font style=\"color: #428AD4; font-family: Verdana; font-size: 10px;\">{firstname} Nombre de la persona </font>");
         out.println("</li>");
@@ -353,7 +406,12 @@ public class UserRegister extends GenericAdmResource {
         out.println("<li>");
         out.println("<font style=\"color: #428AD4; font-family: Verdana; font-size: 10px;\">{user.email} Correo de la persona</font>");
         out.println("</li>");
-        
+        out.println("<li>");
+        out.println("<font style=\"color: #428AD4; font-family: Verdana; font-size: 10px;\">{agreement} Texto de aviso de privacidad</font>");
+        out.println("</li>");
+        out.println("<li>");
+        out.println("<font style=\"color: #428AD4; font-family: Verdana; font-size: 10px;\">{date} Fecha de envio del mensaje</font>");
+        out.println("</li>");
         out.println("</ul>");
         out.println("</fieldset>");
 

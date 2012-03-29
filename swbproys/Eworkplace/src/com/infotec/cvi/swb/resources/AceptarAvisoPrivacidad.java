@@ -48,26 +48,34 @@ public class AceptarAvisoPrivacidad extends GenericAdmResource {
                 }
             }
 
-
-            ArrayList aTo = new ArrayList();
-            javax.mail.internet.InternetAddress address = new javax.mail.internet.InternetAddress();
-            address.setAddress(user.getEmail());
-            aTo.add(address);
-            ArrayList aBcc = new ArrayList();
-            if (base.getAttribute("emailBcc") != null && !base.getAttribute("emailBcc").equals("")) {
-                address = new javax.mail.internet.InternetAddress();
-                address.setAddress(base.getAttribute("emailBcc"));
-                aBcc.add(address);
-            }
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
             String emailMsg = base.getAttribute("emailAgreeMsg");
-            emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{firstname}", user.getFirstName());
-            emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{fullname}", user.getFullName());
-            emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{user.login}", user.getLogin());
-            emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{user.email}", user.getEmail());
-            emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{agreement}", base.getAttribute("agreement"));
-            emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{date}", sdf.format(new Date()));
-            SWBUtils.EMAIL.sendMail(SWBPortal.getEnv("af/adminEmail"), "", aTo, null, aBcc, response.getLocaleString("lblSubject"), "text/html", emailMsg, null, null, null);
+            if(emailMsg!=null&&!emailMsg.equals("")){
+                ArrayList aTo = new ArrayList();
+                javax.mail.internet.InternetAddress address = new javax.mail.internet.InternetAddress();
+                address.setAddress(user.getEmail());
+                aTo.add(address);
+                ArrayList aBcc = new ArrayList();
+                if (base.getAttribute("emailBcc") != null && !base.getAttribute("emailBcc").equals("")) {
+                    address = new javax.mail.internet.InternetAddress();
+                    address.setAddress(base.getAttribute("emailBcc"));
+                    aBcc.add(address);
+                }else{
+                    aBcc=null;
+                }
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+                emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{firstname}", user.getFirstName());
+                emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{fullname}", user.getFullName());
+                emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{user.login}", user.getLogin());
+                emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{user.email}", user.getEmail());
+                emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{agreement}", base.getAttribute("agreement"));
+                emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{date}", sdf.format(new Date()));
+                if (aBcc==null){
+                    SWBUtils.EMAIL.sendMail(user.getEmail(),response.getLocaleString("lblSubject"), emailMsg);
+                }else{
+                    SWBUtils.EMAIL.sendMail(SWBPortal.getEnv("af/adminEmail"), "", aTo, null, aBcc, response.getLocaleString("lblSubject"), "text/html", emailMsg, null, null, null);
+                }
+            }
             persona.setAceptacionTerminos(emailMsg);
         } else if (response.Mode_ADMIN.equals(mode) && response.Action_EDIT.equals(action)) {
             String activeRoleGroup = request.getParameter("activeRoleGroup");
