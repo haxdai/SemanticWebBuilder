@@ -72,7 +72,7 @@
         done = (cv.isSinExperiencia() || cv.listExperienciaLaborals().hasNext())&&cv.listAreaTalentos().hasNext()&&(cv.isSinDistincion() || cv.listDistincions().hasNext());
         resume = resume && done;
         out.println("  <h3 class=\""+(done?"icv-semaforo-paloma":"icv-semaforo-tache")+"\">");
-        out.println("   <a name=\"Experiencia_Profesional\" href=\""+url+"Experiencia_Profesional"+lang+"\">"+paramRequest.getLocaleString("lblExperience")+"</a>");
+        out.println("   <a name=\"Experiencia_Profesional\" href=\""+url+"Experiencia_Laboral"+lang+"\">"+paramRequest.getLocaleString("lblExperience")+"</a>");
         out.println("  </h3>");
         out.println("  <p class=\"intro_line\">&nbsp;</p>");
         out.println(" </div>");
@@ -102,7 +102,7 @@
         done = cv.listCompetencias().hasNext();
         resume = resume && done;
         out.println("  <h3 class=\""+(done?"icv-semaforo-paloma":"icv-semaforo-tache")+"\">");
-        out.println("   <a name=\"Competencias\" href=\""+url+"Competencias"+lang+"\">"+paramRequest.getLocaleString("lblCompetencies")+"</a>");
+        out.println("   <a name=\"Competencias\" href=\""+url+"Auto_evaluacion_de_competencias"+lang+"\">"+paramRequest.getLocaleString("lblCompetencies")+"</a>");
         out.println("  </h3>");
         out.println("  <p class=\"intro_line\">&nbsp;</p>");
         out.println(" </div>");
@@ -122,7 +122,7 @@
         done = (cv.isSinInvestigacion() || cv.listInvestigacions().hasNext())&&(cv.isSinDocencia() || cv.listDocencias().hasNext())&&(cv.isSinPublicacion() || cv.listPublicacions().hasNext());
         resume = resume && done;
         out.println("  <h3 class=\""+(done?"icv-semaforo-paloma":"icv-semaforo-tache")+"\">");
-        out.println("   <a name=\"Investigacion_y_docencia\" href=\""+url+"Investigacion_y_docencia"+lang+"\">"+paramRequest.getLocaleString("lblResearchAndTeaching")+"</a>");
+        out.println("   <a name=\"Investigacion_y_docencia\" href=\""+url+"Investigacion/"+lang+"\">"+paramRequest.getLocaleString("lblResearchAndTeaching")+"</a>");
         out.println("  </h3>");
         out.println("  <p class=\"intro_line\">&nbsp;</p>");
         out.println(" </div>");
