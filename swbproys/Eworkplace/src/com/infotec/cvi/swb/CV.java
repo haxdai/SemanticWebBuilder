@@ -274,8 +274,14 @@ public class CV extends com.infotec.cvi.swb.base.CVBase
                         element = dom.createElement("avance");
                         element.appendChild(dom.createTextNode(es.getGradoAvance().getTitle()));
                         eleEstudio.appendChild(element);
+                        String estudio="";
+                        if(es.getEstudiosSuperiores().getId().endsWith("_otro")&&es.getEstudiosSuperiores().getTitle().equals("Otro")){
+                                estudio = "Otro / "+es.getOtroEstudio();
+                            } else{
+                                estudio = es.getEstudiosSuperiores().getTitle();
+                        }
                         element = dom.createElement("nombre");
-                        element.appendChild(dom.createTextNode(es.getEstudiosSuperiores().getTitle()));
+                        element.appendChild(dom.createTextNode(estudio));
                         eleEstudio.appendChild(element);
                         element = dom.createElement("periodo");
                         element.appendChild(dom.createTextNode("" + es.getPeriodoYears()));
