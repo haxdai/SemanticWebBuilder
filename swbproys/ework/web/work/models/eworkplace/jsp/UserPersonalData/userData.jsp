@@ -232,7 +232,7 @@ objf.setAttribute('displayed', 'on');
 }*/
     var cpValue='<%=addrZip%>';
     function validateCP(){
-console.log("validateCP");
+//console.log("validateCP");
         var valid=false;
         var cpv=dijit.byId('addrZip').getValue();
         var filter = /^\d{5}$/;
@@ -253,13 +253,13 @@ console.log("validateCP");
         return valid;
     }
     function isCPValid(val){
-console.log("isCPValid");
+//console.log("isCPValid");
         var valid=false;
         valid=getJSON("<%=ajaxUrl%>?zip="+val);
         return valid;
     }
     function loadCPData(){
-console.log("loadCPData");
+//console.log("loadCPData");
         var cpv=dijit.byId('addrZip').getValue();
         var idcol="";
         var objcol=dijit.byId('addrCol');
@@ -275,7 +275,7 @@ console.log("loadCPData");
     
 
       function getHtmlData(url, tagCol, tagMun, tagSta){
-console.log("getHtmlData");
+//console.log("getHtmlData");
           var objCol=dojo.byId(tagCol);
           var objMun=dojo.byId(tagMun);
           var objSta=dojo.byId(tagSta);
@@ -352,6 +352,7 @@ console.log("getHtmlData");
             "</div>"+
             "</div>";
         dojo.place(s, parentId, 'last');
+        dojo.parser.parse(parentId,true);
         pc++;
     }
     function deletePhone(id) {
@@ -374,6 +375,7 @@ console.log("getHtmlData");
             "</div>"+
             "</div>";
         dojo.place(s, parentId, 'last');
+        dojo.parser.parse(parentId,true);
         pc++;
     }
     function deleteEmail(id) {
@@ -661,7 +663,7 @@ console.log("getHtmlData");
                 %>
             </div>
             <div class="icv-div-grupo">
-                <p class="icv-txt"><a href="#" onclick="appendEmail();return false;">Agregar otro Correo eletrónico</a></p>
+                <p class="icv-txt"><a href="#" onclick="appendEmail();return false;">Agregar otro Correo electrónico</a></p>
                 <div class="clearer borde">&nbsp;</div>
             </div>
             <div class="icv-div-grupo">
