@@ -47,17 +47,16 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
     public static final int Cleaning_Time = 29;
     
     public static final SimpleDateFormat dwid = new SimpleDateFormat("yyyyMMdd");
+    public static final SimpleDateFormat dateDojo = new SimpleDateFormat("yyyy-MM-dd");
         
-    public ReservaSalaManager()
-    {
+    public ReservaSalaManager() {
     }
 
    /**
    * Constructs a ReservaSalaManager with a SemanticObject
    * @param base The SemanticObject with the properties for the ReservaSalaManager
    */
-    public ReservaSalaManager(org.semanticwb.platform.SemanticObject base)
-    {
+    public ReservaSalaManager(org.semanticwb.platform.SemanticObject base) {
         super(base);
     }
 
@@ -513,17 +512,17 @@ if(sala!=null && date!=null && sala.isValid() && !sala.isReservada(date, hi, hf)
     }
     
     private String getScript(HttpServletRequest request, SWBParamRequest paramRequest) {
-        Locale locale = new Locale(paramRequest.getUser().getLanguage(),(paramRequest.getUser().getCountry()==null?"MX":paramRequest.getUser().getCountry()));
-        DateFormat df = DateFormat.getDateInstance(DateFormat.LONG, locale);
+//        Locale locale = new Locale(paramRequest.getUser().getLanguage(),(paramRequest.getUser().getCountry()==null?"MX":paramRequest.getUser().getCountry()));
+//        DateFormat df = DateFormat.getDateInstance(DateFormat.LONG, locale);
         
-        GregorianCalendar current;
-        HttpSession session = request.getSession(true);
-        if(session.getAttribute("cur")==null) {
-            current = new GregorianCalendar(locale);
-            session.setAttribute("cur", current);
-        }else {
-            current = (GregorianCalendar)session.getAttribute("cur") ;
-        }
+//        GregorianCalendar current;
+//        HttpSession session = request.getSession(true);
+//        if(session.getAttribute("cur")==null) {
+//            current = new GregorianCalendar(locale);
+//            session.setAttribute("cur", current);
+//        }else {
+//            current = (GregorianCalendar)session.getAttribute("cur") ;
+//        }
         
         StringBuilder js = new StringBuilder();
         js.append("\n<script type=\"text/javascript\">");
@@ -531,11 +530,38 @@ if(sala!=null && date!=null && sala.isValid() && !sala.isReservada(date, hi, hf)
         
 js.append("\n dojo.require('dojox.layout.ContentPane');");
 js.append("\n dojo.require('dijit.form.Form');");
-js.append("\n dojo.require('dijit.form.ValidationTextBox');");
-js.append("\n dojo.require('dijit.form.DateTextBox');");
 js.append("\n dojo.require('dijit.form.CheckBox');");
+js.append("\n dojo.require('dijit.form.DateTextBox');");
+js.append("\n dojo.require('dijit.form.SimpleTextarea');");
+js.append("\n dojo.require('dijit.form.FilteringSelect');");
+js.append("\n dojo.require('dijit.form.ValidationTextBox');");
 js.append("\n dojo.require('dojo.fx');");
 js.append("\n dojo.require('dijit.dijit');");
+
+js.append("\n dojo.declare(");
+js.append("\n     'ValidationTextarea',");
+js.append("\n     [dijit.form.ValidationTextBox, dijit.form.SimpleTextarea],");
+js.append("\n     {");
+js.append("\n         invalidMessage: 'Este dato es requerido',");
+js.append("\n         promptMessage: 'Ingresa',");
+js.append("\n         postCreate: function() {");
+js.append("\n             this.inherited(arguments);");
+js.append("\n         },");
+js.append("\n         validate: function() {");
+js.append("\n             if(arguments.length==0)");
+js.append("\n                 return this.validate(false);");
+js.append("\n             return this.inherited(arguments);");
+js.append("\n         },");
+js.append("\n         onFocus: function() {");
+js.append("\n             if(!this.isValid()) {");
+js.append("\n                 this.displayMessage(this.getErrorMessage());");
+js.append("\n             }");
+js.append("\n         },");
+js.append("\n         onBlur: function() {");
+js.append("\n             this.validate(false);");
+js.append("\n         }");
+js.append("\n      }");
+js.append("\n );");
 
 js.append("\n function expande(domId) {");
 js.append("\n  var anim1 = dojo.fx.wipeIn( {node:domId, duration:200 });");
@@ -581,25 +607,6 @@ js.append("\n    }");
 js.append("\n  }");
 js.append("\n  return false;  ");
 js.append("\n }");
-
-js.append("\n dojo.addOnLoad (");
-js.append("\n  function() {");
-js.append("\n    dojo.query(\".sltc\").connect(\"onclick\", function() {");
-js.append("\n                      if(dojo.hasClass(this, 'x'))");
-js.append("\n                          return;");
-js.append("\n                      if(dojo.colorFromString(dojo.style(dojo.attr(this, 'id'),'backgroundColor')).toHex()!='#1d75b9') {");
-js.append("\n                          dojo.style(dojo.attr(this, 'id'),'backgroundColor','#1d75b9');");
-js.append("\n                          hrs.push(dojo.attr(this, 'id'));");
-js.append("\n                      }else {");
-js.append("\n                          dojo.style(dojo.attr(this, 'id'),'backgroundColor','#ffffff');");
-js.append("\n                          var i = dojo.indexOf(hrs, dojo.attr(this, 'id'));");
-js.append("\n                          if(i>=0)");
-js.append("\n                              hrs.splice(i,1);");
-js.append("\n                      }");
-js.append("\n                    }");
-js.append("\n    );");
-js.append("\n  }");
-js.append("\n );");
 
         js.append("\n-->");
         js.append("\n</script>");
@@ -673,22 +680,38 @@ js.append("\n );");
 //        out.println(" <p><a href=\"javascript:location.href='"+url+"'\" class=\"salasAdelante\">adelante</a></p>");
 //        out.println("</div>");
         
+        Iterator<Sala> isalas = Sala.ClassMgr.listSalas(base.getWebSite());        
+        isalas = SWBComparator.sortByDisplayName(isalas, lang);
+        List<Sala> salas = SWBUtils.Collections.copyIterator(isalas);        
         
+sdf = new SimpleDateFormat("dd/MMM/yyyy", locale);
 out.println("<form id=\"_rs_\" method=\"post\" action=\""+paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD)+"?hrs=+hrs.join(','));\">");
 out.println("<div id=\"mainPop\">");
 out.println(" <div id=\"popMiddle\">");
+out.println("  <p>Sala:<br />");
+out.println("   <select name=\"sl\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\" style=\"width:220px\">");
+out.println("    <option value=\"\"></option>");
+for(Sala sala:salas) {
+    if(!sala.isActive()) {
+        salas.remove(sala);
+        continue;
+    }
+out.println("    <option value=\""+sala.getId()+"\">"+sala.getDisplayTitle(lang)+"</option>");
+}
+out.println("   </select>");
+out.println("  </p>");
 out.println("  <p>Fecha de reservaci&oacute;n:<br />");
-out.println("     <label for=\"tmSrvc\">Del: </label><input type=\"text\" name=\"id\" id=\"id\" value=\"20/03/2012\" maxlength=\"10\" style=\"width:110px;\" readonly=\"readonly\" />");
-out.println("     <label for=\"tmSrvc\">Al: </label><input type=\"text\" name=\"fd\" id=\"fd\" dojoType=\"dijit.form.DateTextBox\" style=\"width:110px;\" />");
+out.println("     <label for=\"sd\">Del: </label><input type=\"text\" name=\"sd\" id=\"sd\" value=\""+sdf.format(current.getTime())+"\" dojoType=\"dijit.form.ValidationTextBox\" style=\"width:110px;\" readonly=\"readonly\" />");
+out.println("     <label for=\"fd\">Al: </label><input type=\"text\" name=\"fd\" id=\"fd\" value=\""+dateDojo.format(current.getTime())+"\" dojoType=\"dijit.form.DateTextBox\" constraints=\"{min:'"+dateDojo.format(current.getTime())+"',max:'2013-12-31',datePattern:'dd/MMM/yyyy'}\"  required=\"true\" trim=\"true\" promptMessage=\"formato de la fecha dd/MM/yyyy\" invalidMessage=\"Invalid date\" style=\"width:110px;\" />");
 out.println("  </p>");
 out.println("  <p>Horario de reservaci&oacute;n:<br />");
-out.println("     <label for=\"tmSrvc\">Desde: </label><select name=\"hi\"><option value=\"08:00\">08:00</option><option value=\"08:30\">08:29</option><option value=\"09:00\">09:00</option><option value=\"09:29\">09:29</option><option value=\"10:00\">10:00</option><option value=\"10:29\">10:29</option></select>");
-out.println("     <label for=\"tmSrvc\">Hasta: </label><select name=\"hf\"><option value=\"08:00\">08:00</option><option value=\"08:30\">08:29</option><option value=\"09:00\">09:00</option><option value=\"09:29\">09:29</option><option value=\"10:00\">10:00</option><option value=\"10:29\">10:29</option></select>");
+out.println("     <label for=\"tmSrvc\">Desde: </label><select name=\"hi\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\" style=\"width:70px\"><option value=\"08:00\">08:00</option><option value=\"08:30\">08:29</option><option value=\"09:00\">09:00</option><option value=\"09:29\">09:29</option><option value=\"10:00\">10:00</option><option value=\"10:29\">10:29</option></select>");
+out.println("     <label for=\"tmSrvc\">Hasta: </label><select name=\"hf\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\" style=\"width:70px\"><option value=\"09:00\">09:00</option><option value=\"09:29\">09:29</option><option value=\"10:00\">10:00</option><option value=\"10:29\">10:29</option></select>");
 out.println("  </p>");
 out.println("  <div>");
 out.println("   <p>");
 out.println("    <span class=\"blueCalTit\">Motivo de la reuni&oacute;n:</span><br />");
-out.println("    <label for=\"motive\"></label><textarea id=\"motive\" name=\"motive\" class=\"datosCal\"></textarea>");
+out.println("    <label for=\"motive\"></label><textarea name=\"motive\" id=\"motive\" dojoType=\"ValidationTextarea\" class=\"datosCal\"></textarea>");
 out.println("   </p>");
 out.println("  </div>");
 out.println("  <div class=\"twinsCal\">");
@@ -719,8 +742,8 @@ out.println("  <div id=\"_tmsrvc_\">");
 out.println("   <p><label for=\"tmSrvc\">Horario del servicio: <input type=\"text\" name=\"hrSrvc\" id=\"hrSrvc\" value=\"\" /></label></p>");
 out.println("  </div>");
 out.println("  <div class=\"twinsCal1\">");
-out.println("   <p><span class=\"blueCalTit\">N&uacute;mero de asistentes</span></p>");
-out.println("   <input type=\"text\" name=\"turnout\" id=\"turnout\" value=\"\" size=\"10\" maxlength=\"2\" />");
+out.println("   <p><label for=\"turnout\">N&uacute;mero de asistentes</span></p>");
+out.println("   <input type=\"text\" name=\"turnout\" id=\"turnout\" value=\"\" dojoType=\"dijit.form.ValidationTextBox\" required=\"true\" size=\"10\" maxlength=\"2\" />");
 out.println("  </div>");
 out.println("  <p>&nbsp;</p>");
 out.println("  <p class=\"blueCalTit\">Selecciona los servicios que solicitas </p>");
@@ -737,7 +760,7 @@ out.println("   </li>");
 out.println("  </ul>");
 out.println("  <p>");
 out.println("   <span class=\"blueCalTit\">Otros servicios necesarios</span><br />");
-out.println("   <label for=\"motivo\"></label><textarea id=\"services\" name=\"services\" class=\"datosCal\"></textarea>");
+out.println("   <label for=\"motivo\"></label><textarea name=\"services\" id=\"services\" dojoType=\"ValidationTextarea\" class=\"datosCal\"></textarea>");
 out.println("  </p>");
 out.println("  <p>");
 out.println("   <a href=\"javascript:dojo.byId('_rs_').reset()\" title=\"Limpiar formulario\">Limpiar</a>");
@@ -751,6 +774,8 @@ out.println("</form>");
         
         
         out.println("<br class=\"clear\"/>");
+        
+        
 out.println("<div id=\"dayselectorCal\">");
 out.println(" <p class=\"disponibilidadSalas\">Disponibilidad de salas</p>");
 sdf = new SimpleDateFormat("yyyy,M,d", locale);
@@ -761,23 +786,20 @@ sdf = new SimpleDateFormat("EEEE d 'de' MMMM", locale);
 out.println(" <p id=\"current\" class=\"dayAndMonth\">"+sdf.format(current.getTime())+"</p>");
 url.setParameter(Roll, Roll_RIGHT);
 out.println(" <p><a href=\"javascript:location.href='"+url+"'\" class=\"salasAdelante\">adelante</a></p>");
-out.println("</div>");        
+out.println("</div>");  
+
+
+
         out.println("<a href=\"#\" onclick=\"showFormDialog('_cvr_','#000000',80);abc()\" class=\"soliCal\">Solicitar</a>");
         
         
-        Iterator<Sala> isalas = Sala.ClassMgr.listSalas(base.getWebSite());        
-        isalas = SWBComparator.sortByDisplayName(isalas, lang);
-        List<Sala> salas = SWBUtils.Collections.copyIterator(isalas);
+        
         
         sdf = new SimpleDateFormat("HH:mm");
         out.println("<table id=\"mainTableCal\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
         out.println("<tr class=\"trCalSalas\">");
         out.println("  <td height=\"30\">Hora</td>");
         for(Sala sala:salas) {
-            if(!sala.isActive()) {
-                salas.remove(sala);
-                continue;
-            }
             out.println("  <td height=\"30\"><a href=\""+paramRequest.getRenderUrl().setMode(Mode_SALA).setParameter("sl", sala.getEncodedURI()) +"\" title=\"ver sala\">"+sala.getDisplayTitle(lang)+"</a></td>");
         }
         out.println("</tr>");
