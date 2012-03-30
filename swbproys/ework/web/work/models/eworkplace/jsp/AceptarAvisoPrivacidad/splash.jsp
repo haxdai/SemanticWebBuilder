@@ -56,13 +56,13 @@ dojo.addOnLoad(showSplash);
 </script>
 <div id="splash" class="icv-terminos" style="z-index: 1001; width: 50%; height:60%;  position:absolute; top: 20%; left:20%; background-color: #FFFFFF; ">
     <div class="splash-titulo">
-        <p>Nuevos terminos y condiciones</p>
+        <!--p>Nuevos terminos y condiciones</p-->
     </div>
     <div class="splash-contenido" style="overflow: auto; height:80%">
         <%=paramRequest.getResourceBase().getAttribute("agreement")%>
     </div>
     <div class="splash-pie">
-        <label for="aceptSplash"><b>*</b>Acepto los terminos y condiciones:</label>
+        <label for="aceptSplash"><b>*</b>Acepto el aviso de privacidad:</label>
         <input type="checkbox" name="aceptSplash" id="aceptSplash" value="true"/>
         <a href="#" onclick="closeSplash();return false;">Cerrar</a>
     </div>
