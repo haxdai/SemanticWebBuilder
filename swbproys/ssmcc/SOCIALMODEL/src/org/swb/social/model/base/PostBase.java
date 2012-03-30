@@ -19,6 +19,14 @@ public abstract class PostBase extends org.semanticwb.model.SWBClass implements 
    */
     public static final org.semanticwb.platform.SemanticProperty smcc_postSourceDevice=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.owl-ontologies.com/ssmcc#postSourceDevice");
    /**
+   * Objeto Catálogo de áreas de una organización y a las cuales se dirijiran los mensajes (post)
+   */
+    public static final org.semanticwb.platform.SemanticClass smcc_Area=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.owl-ontologies.com/ssmcc#Area");
+   /**
+   * Área de la Institución a la le corresponde el mensaje
+   */
+    public static final org.semanticwb.platform.SemanticProperty smcc_postArea=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.owl-ontologies.com/ssmcc#postArea");
+   /**
    * Lenguaje en el que se encuentra el mensaje o post
    */
     public static final org.semanticwb.platform.SemanticProperty smcc_postLang=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.owl-ontologies.com/ssmcc#postLang");
@@ -132,6 +140,29 @@ public abstract class PostBase extends org.semanticwb.model.SWBClass implements 
         public static java.util.Iterator<org.swb.social.model.Post> listPostByModifiedBy(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<org.swb.social.model.Post> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.swb.social.model.Post with a determined PostArea
+       * @param value PostArea of the type org.swb.social.model.Area
+       * @param model Model of the org.swb.social.model.Post
+       * @return Iterator with all the org.swb.social.model.Post
+       */
+
+        public static java.util.Iterator<org.swb.social.model.Post> listPostByPostArea(org.swb.social.model.Area value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.swb.social.model.Post> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(smcc_postArea, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.swb.social.model.Post with a determined PostArea
+       * @param value PostArea of the type org.swb.social.model.Area
+       * @return Iterator with all the org.swb.social.model.Post
+       */
+
+        public static java.util.Iterator<org.swb.social.model.Post> listPostByPostArea(org.swb.social.model.Area value)
+        {
+            org.semanticwb.model.GenericIterator<org.swb.social.model.Post> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(smcc_postArea,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -373,6 +404,44 @@ public abstract class PostBase extends org.semanticwb.model.SWBClass implements 
     public void setPostSourceDevice(String value)
     {
         getSemanticObject().setProperty(smcc_postSourceDevice, value);
+    }
+   /**
+   * Sets the value for the property PostArea
+   * @param value PostArea to set
+   */
+
+    public void setPostArea(org.swb.social.model.Area value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(smcc_postArea, value.getSemanticObject());
+        }else
+        {
+            removePostArea();
+        }
+    }
+   /**
+   * Remove the value for PostArea property
+   */
+
+    public void removePostArea()
+    {
+        getSemanticObject().removeProperty(smcc_postArea);
+    }
+
+   /**
+   * Gets the PostArea
+   * @return a org.swb.social.model.Area
+   */
+    public org.swb.social.model.Area getPostArea()
+    {
+         org.swb.social.model.Area ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(smcc_postArea);
+         if(obj!=null)
+         {
+             ret=(org.swb.social.model.Area)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
