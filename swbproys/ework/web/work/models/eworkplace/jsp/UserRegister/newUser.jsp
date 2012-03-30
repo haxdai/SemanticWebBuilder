@@ -146,10 +146,13 @@
                 if(!isNaN(Date.UTC(yearField, monthField-1, dayField)))
                     valid = true;
             }*/
-            var dayobj = new Date(yearField, monthField-1, dayField)
+            var dayobj = new Date(yearField, monthField-1, dayField);
+            var today = new Date();
             if ((dayobj.getMonth()+1==monthField)&&
                 (dayobj.getDate()==dayField)&&
-                (dayobj.getFullYear()==yearField)){
+                (dayobj.getFullYear()==yearField)&&
+                (dayobj.getFullYear()>1900)&&
+                (dayobj.getFullYear()<today.getFullYear())){
                 valid=true;
             }
         }
