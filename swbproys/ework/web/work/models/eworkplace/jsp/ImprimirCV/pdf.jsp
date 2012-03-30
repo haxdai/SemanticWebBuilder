@@ -502,7 +502,7 @@
                             content.append("De ").append(diplomado.getElementsByTagName("inicio").item(0).getChildNodes().item(0).getNodeValue());
                         }
                         if(diplomado.getElementsByTagName("fin").item(0)!=null) {
-                            content.append("A ").append(diplomado.getElementsByTagName("fin").item(0).getChildNodes().item(0).getNodeValue());
+                            content.append(" A ").append(diplomado.getElementsByTagName("fin").item(0).getChildNodes().item(0).getNodeValue());
                         }
                         if(diplomado.getElementsByTagName("documento").item(0)!=null) {
                             content.append(" (").append(diplomado.getElementsByTagName("documento").item(0).getChildNodes().item(0).getNodeValue()).append(")");
@@ -541,7 +541,7 @@
                             content.append("De ").append(curso.getElementsByTagName("inicio").item(0).getChildNodes().item(0).getNodeValue());
                         }
                         if(curso.getElementsByTagName("fin").item(0)!=null) {
-                            content.append("A ").append(curso.getElementsByTagName("fin").item(0).getChildNodes().item(0).getNodeValue());
+                            content.append(" A ").append(curso.getElementsByTagName("fin").item(0).getChildNodes().item(0).getNodeValue());
                         }
                         if(curso.getElementsByTagName("documento").item(0)!=null) {
                             content.append(" (").append(curso.getElementsByTagName("documento").item(0).getChildNodes().item(0).getNodeValue()).append(")");
