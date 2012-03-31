@@ -658,7 +658,7 @@ out.println("  </p>");
 out.println("  <div>");
 out.println("   <p>");
 out.println("    <span class=\"blueCalTit\">Motivo de la reuni&oacute;n:</span><br />");
-out.println("    <label for=\"mtv\"></label><textarea name=\"mtv\" id=\"mtv\" dojoType=\"ValidationTextarea\" class=\"datosCal\"></textarea>");
+out.println("    <label for=\"mtv\"></label><textarea name=\"mtv\" id=\"mtv\" dojoType=\"ValidationTextarea\" required=\"true\" promptMessage=\"Motivo\" invalidMessage=\"El motivo de la junta es requerido\" class=\"datosCal\"></textarea>");
 out.println("   </p>");
 out.println("  </div>");
 out.println("  <div class=\"twinsCal\">");
@@ -676,7 +676,7 @@ out.println("    <li><label for=\"spcl\">Especial <input type=\"radio\" name=\"t
 out.println("   </ul>");
 out.println("   <p><label for=\"cfgrn\"><input type=\"checkbox\" name=\"cfgrn\" id=\"cfgrn\" value=\"true\" /> Café de grano</label></p>");
 out.println("   <p><label for=\"cfsbl\"> <input type=\"checkbox\" name=\"cfslb\" id=\"cfslb\" value=\"true\" checked=\"checked\" /> Café soluble</label></p>");
-out.println("   <p><label for=\"sd\"><input type=\"checkbox\" name=\"sd\" id=\"sd\" value=\"true\" /> Refrescos</label></p>");
+out.println("   <p><label for=\"sds\"><input type=\"checkbox\" name=\"sds\" id=\"sds\" value=\"true\" /> Refrescos</label></p>");
 out.println("   <p><label for=\"h2o\"><input type=\"checkbox\" name=\"h2o\" id=\"h2o\" value=\"true\" checked=\"checked\" /> Agua</label></p>");
 out.println("   <p><label for=\"cks\"><input type=\"checkbox\" name=\"cks\" id=\"cks\" value=\"true\" /> Galletas</label></p>");
 out.println("   <p>Horario del servicio: </p>");
