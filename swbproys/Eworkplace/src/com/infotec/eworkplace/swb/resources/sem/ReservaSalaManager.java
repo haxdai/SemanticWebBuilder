@@ -134,81 +134,27 @@ System.out.println("action="+action);
             
             
 System.out.println("add.........");
-System.out.println("hrs="+request.getParameter("hrs"));
-System.out.println("motive="+SWBUtils.XML.replaceXMLChars(request.getParameter("motive")));
-System.out.println("typeMeet="+request.getParameter("typeMeet"));
-
-        
-
+System.out.println("sala="+request.getParameter("sl"));
+System.out.println("del="+request.getParameter("sd"));
+System.out.println("al="+request.getParameter("fd"));
+System.out.println("desde="+request.getParameter("sh"));
+System.out.println("hasta="+request.getParameter("fh"));
+System.out.println("motive="+request.getParameter("mtv"));
+System.out.println("type Meet="+request.getParameter("tpmeet"));
+System.out.println("cafeteria="+request.getParameter("tpcf"));
+System.out.println("cafe de grano="+request.getParameter("cfgrn"));
+System.out.println("cafe soluble="+request.getParameter("cfslb"));
+System.out.println("refrescos="+request.getParameter("sd"));
+System.out.println("agua="+request.getParameter("h2o"));
+System.out.println("galletas="+request.getParameter("cks"));
+System.out.println("horarios de servicio="+request.getParameter("tmsrvc"));
+System.out.println("horario="+request.getParameter("hrsrvc"));
+System.out.println("asistentes="+request.getParameter("turnout"));
+System.out.println("proyector="+request.getParameter("prjctr"));
+System.out.println("pcs="+request.getParameter("pcs"));
+System.out.println("otros servicios="+request.getParameter("osrvcs"));
             
-            String[] hrs = (request.getParameter("hrs")==null||request.getParameter("hrs").isEmpty())?null:request.getParameter("hrs").split(",");
-            if(hrs==null || hrs.length==0) {
-                alertmsg.append(response.getLocaleString("msgErrHourRequired"));
-            }
-            for(int i=0; i<hrs.length-1; i++) {
-                if(!hrs[i].startsWith(hrs[i+1].substring(0, hrs[i+1].lastIndexOf("_")))) {
-                    alertmsg.append(response.getLocaleString("msgErrHourMismatch"));
-                }
-            }
-            int[] ihrs = new int[hrs.length];
-            for(int i=0; i<hrs.length; i++) {
-                try {
-                    ihrs[i] = Integer.parseInt(hrs[i].substring(hrs[i].lastIndexOf("_")+1));
-                }catch(NumberFormatException nfe) {
-                    alertmsg.append(response.getLocaleString("msgErrHourMismatch"));
-                }
-            }
-            Arrays.sort(ihrs);
-            if(ihrs[0]==0 || ihrs[ihrs.length-1]==0) {
-                alertmsg.append(response.getLocaleString("msgErrRoomMismatch"));
-            }
-            final String id = hrs[0].substring(0, hrs[0].lastIndexOf("_"));
-            Sala sala = null;
-            try {
-                sala = Sala.ClassMgr.getSala(id, base.getWebSite());
-            }catch(Exception e) {
-                alertmsg.append(response.getLocaleString("msgErrNoRoom"));
-            }
-            if(sala==null || (sala!=null && !sala.isActive())) {
-                alertmsg.append(response.getLocaleString("msgErrNoRoom"));
-            }
-            
-            if(alertmsg.length()>0) {
-                response.setRenderParameter("alertmsg", alertmsg.toString());
-                return;
-            }
-System.out.println("sala="+sala.getId());
-System.out.println("horario="+Arrays.toString(ihrs));
-
-String motive = SWBUtils.XML.replaceXMLChars(request.getParameter("motive"));
-String typeMeet = request.getParameter("typeMeet");
-String turnout = SWBUtils.XML.replaceXMLChars(request.getParameter("turnout"));
-String[] equipment = request.getParameterValues("equipment");
-String services = SWBUtils.XML.replaceXMLChars(request.getParameter("services")); 
-String typeCafe = SWBUtils.XML.replaceXMLChars(request.getParameter("typeCafe"));
-String hoursService = SWBUtils.XML.replaceXMLChars(request.getParameter("hoursService"));
-
-GregorianCalendar cur = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
-String dateId = dwid.format(current.getTime());
-com.infotec.eworkplace.swb.Date date = com.infotec.eworkplace.swb.Date.ClassMgr.getDate(dateId, model);
-if(date==null)
-    date = com.infotec.eworkplace.swb.Date.ClassMgr.createDate(dateId, model);
-date.setDate(cur.getTime());
-
-int hi = ihrs[0]; 
-int hf = ihrs[ihrs.length-1];
-
-if(sala!=null && date!=null && sala.isValid() && !sala.isReservada(date, hi, hf)) {
-    ReservacionSala reservation = ReservacionSala.ClassMgr.createReservacionSala(model);
-    //ReservacionSala reservation = getProcessReservation();
-    sala.setReservada(true);
-    reservation.setSala(sala);
-    reservation.setResponsable(user);
-
-    reservation.setFecha(date);
-    reservation.setDe(hi);
-    reservation.setA(hf);
-}
+ 
 
 
 
@@ -584,10 +530,11 @@ js.append("\n        return item.substring(0,6)==arr[i+1].substring(0,6);");
 js.append("\n }");
 
 js.append("\n function validateFrm() {");
-js.append("\n  if(dojo.byId('brksrvc').checked==true && isEmpty(dojo.byId('hrSrvc').value))");
-js.append("\n    console.log('no pasa');");
-js.append("\n  else");
-js.append("\n    console.log('si pasa');");
+js.append("\n  //if(dojo.byId('brksrvc').checked==true && isEmpty(dojo.byId('hrSrvc').value))");
+js.append("\n  //  console.log('no pasa');");
+js.append("\n  //else");
+js.append("\n  //  console.log('si pasa');");
+js.append("\n  return true;");
 js.append("\n }");
 
 js.append("\n function validate() {");
@@ -685,7 +632,7 @@ js.append("\n }");
         List<Sala> salas = SWBUtils.Collections.copyIterator(isalas);        
         
 sdf = new SimpleDateFormat("dd/MMM/yyyy", locale);
-out.println("<form id=\"_rs_\" method=\"post\" action=\""+paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD)+"?hrs=+hrs.join(','));\">");
+out.println("<form id=\"_rs_\" method=\"post\" dojoType=\"dijit.form.Form\" action=\""+paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD)+"?hrs=+hrs.join(','));\">");
 out.println("<div id=\"mainPop\">");
 out.println(" <div id=\"popMiddle\">");
 out.println("  <p>Sala:<br />");
@@ -705,66 +652,63 @@ out.println("     <label for=\"sd\">Del: </label><input type=\"text\" name=\"sd\
 out.println("     <label for=\"fd\">Al: </label><input type=\"text\" name=\"fd\" id=\"fd\" value=\""+dateDojo.format(current.getTime())+"\" dojoType=\"dijit.form.DateTextBox\" constraints=\"{min:'"+dateDojo.format(current.getTime())+"',max:'2013-12-31',datePattern:'dd/MMM/yyyy'}\"  required=\"true\" trim=\"true\" promptMessage=\"formato de la fecha dd/MM/yyyy\" invalidMessage=\"Invalid date\" style=\"width:110px;\" />");
 out.println("  </p>");
 out.println("  <p>Horario de reservaci&oacute;n:<br />");
-out.println("     <label for=\"tmSrvc\">Desde: </label><select name=\"hi\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\" style=\"width:70px\"><option value=\"08:00\">08:00</option><option value=\"08:30\">08:29</option><option value=\"09:00\">09:00</option><option value=\"09:29\">09:29</option><option value=\"10:00\">10:00</option><option value=\"10:29\">10:29</option></select>");
-out.println("     <label for=\"tmSrvc\">Hasta: </label><select name=\"hf\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\" style=\"width:70px\"><option value=\"09:00\">09:00</option><option value=\"09:29\">09:29</option><option value=\"10:00\">10:00</option><option value=\"10:29\">10:29</option></select>");
+out.println("     <label for=\"sh\">Desde: </label><select name=\"sh\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\" style=\"width:70px\"><option value=\"08:00\">08:00</option><option value=\"08:30\">08:29</option><option value=\"09:00\">09:00</option><option value=\"09:29\">09:29</option><option value=\"10:00\">10:00</option><option value=\"10:29\">10:29</option></select>");
+out.println("     <label for=\"fh\">Hasta: </label><select name=\"fh\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\" style=\"width:70px\"><option value=\"09:00\">09:00</option><option value=\"09:29\">09:29</option><option value=\"10:00\">10:00</option><option value=\"10:29\">10:29</option></select>");
 out.println("  </p>");
 out.println("  <div>");
 out.println("   <p>");
 out.println("    <span class=\"blueCalTit\">Motivo de la reuni&oacute;n:</span><br />");
-out.println("    <label for=\"motive\"></label><textarea name=\"motive\" id=\"motive\" dojoType=\"ValidationTextarea\" class=\"datosCal\"></textarea>");
+out.println("    <label for=\"mtv\"></label><textarea name=\"mtv\" id=\"mtv\" dojoType=\"ValidationTextarea\" class=\"datosCal\"></textarea>");
 out.println("   </p>");
 out.println("  </div>");
 out.println("  <div class=\"twinsCal\">");
 out.println("   <p><span class=\"blueCalTit\">Tipo de reuni&oacute;n</span>:</p>");
 out.println("   <ul>");
-out.println("    <li><label for=\"mtSng\">Interna <input type=\"radio\" name=\"typeMeet\" id=\"mtSng\" value=\"0\" onclick=\"collapse('_tpcf_')\" checked=\"checked\" /></label></li>");
-out.println("    <li><label for=\"mtSpl\">Externa <input type=\"radio\" name=\"typeMeet\" id=\"mtSpl\" value=\"1\" onclick=\"expande('_tpcf_')\" /></label></li>");
+out.println("    <li><label for=\"meetsng\">Interna <input type=\"radio\" name=\"tpmeet\" id=\"meetsng\" value=\"0\" onclick=\"collapse('_tpcf_')\" checked=\"checked\" /></label></li>");
+out.println("    <li><label for=\"meetspcl\">Externa <input type=\"radio\" name=\"tpmeet\" id=\"meetspcl\" value=\"1\" onclick=\"expande('_tpcf_')\" /></label></li>");
 out.println("   </ul>");
 out.println("  </div>");
 out.println("  <div id=\"_tpcf_\">");
 out.println("   <p>Cafeteria: </p>");
 out.println("   <ul>");
-out.println("    <li><label for=\"sngCf\">Sencilla <input type=\"radio\" name=\"typeCafe\" id=\"sngCf\" value=\"0\" checked=\"checked\" /></label></li>");
-out.println("    <li><label for=\"spcCf\">Especial <input type=\"radio\" name=\"typeCafe\" id=\"spcCf\" value=\"1\" /></label></li>");
+out.println("    <li><label for=\"sngl\">Sencilla <input type=\"radio\" name=\"tpcf\" id=\"sngl\" value=\"0\" checked=\"checked\" /></label></li>");
+out.println("    <li><label for=\"spcl\">Especial <input type=\"radio\" name=\"tpcf\" id=\"spcl\" value=\"1\" /></label></li>");
 out.println("   </ul>");
 out.println("   <p><label for=\"cfgrn\"><input type=\"checkbox\" name=\"cfgrn\" id=\"cfgrn\" value=\"true\" /> Café de grano</label></p>");
-out.println("   <p><label for=\"cfsbl\"> <input type=\"checkbox\" name=\"cfsbl\" id=\"cfsbl\" value=\"true\" checked=\"checked\" /> Café soluble</label></p>");
+out.println("   <p><label for=\"cfsbl\"> <input type=\"checkbox\" name=\"cfslb\" id=\"cfslb\" value=\"true\" checked=\"checked\" /> Café soluble</label></p>");
 out.println("   <p><label for=\"sd\"><input type=\"checkbox\" name=\"sd\" id=\"sd\" value=\"true\" /> Refrescos</label></p>");
 out.println("   <p><label for=\"h2o\"><input type=\"checkbox\" name=\"h2o\" id=\"h2o\" value=\"true\" checked=\"checked\" /> Agua</label></p>");
 out.println("   <p><label for=\"cks\"><input type=\"checkbox\" name=\"cks\" id=\"cks\" value=\"true\" /> Galletas</label></p>");
 out.println("   <p>Horario del servicio: </p>");
 out.println("   <ul>");
-out.println("    <li><label for=\"allsrvc\">Durante <input type=\"radio\" name=\"tmSrvc\" id=\"allsrvc\" value=\"1\" onclick=\"collapse('_tmsrvc_')\" checked=\"checked\" /></label></li>");
-out.println("    <li><label for=\"brksrvc\">Receso <input type=\"radio\" name=\"tmSrvc\" id=\"brksrvc\" value=\"0\" onclick=\"expande('_tmsrvc_')\" /></label></li>");
+out.println("    <li><label for=\"allsrvc\">Durante <input type=\"radio\" name=\"tmsrvc\" id=\"allsrvc\" value=\"1\" onclick=\"collapse('_tmsrvc_')\" checked=\"checked\" /></label></li>");
+out.println("    <li><label for=\"brksrvc\">Receso <input type=\"radio\" name=\"tmsrvc\" id=\"brksrvc\" value=\"0\" onclick=\"expande('_tmsrvc_')\" /></label></li>");
 out.println("   </ul>");
 out.println("  </div>");
 out.println("  <div id=\"_tmsrvc_\">");
-out.println("   <p><label for=\"tmSrvc\">Horario del servicio: <input type=\"text\" name=\"hrSrvc\" id=\"hrSrvc\" value=\"\" /></label></p>");
+out.println("   <p><label for=\"hrsrvc\">Horario del servicio: <input type=\"text\" name=\"hrsrvc\" id=\"hrsrvc\" value=\"\" /></label></p>");
 out.println("  </div>");
 out.println("  <div class=\"twinsCal1\">");
 out.println("   <p><label for=\"turnout\">N&uacute;mero de asistentes</span></p>");
-out.println("   <input type=\"text\" name=\"turnout\" id=\"turnout\" value=\"\" dojoType=\"dijit.form.ValidationTextBox\" required=\"true\" size=\"10\" maxlength=\"2\" />");
+out.println("   <input type=\"text\" name=\"turnout\" id=\"turnout\" value=\"\" size=\"10\" maxlength=\"3\" dojoType=\"dijit.form.ValidationTextBox\" required=\"true\" promptMessage=\"Asistentes\" invalidMessage=\"El valor es incorrecto\" regExp=\"\\d{1,3}\" trim=\"true\" />");
 out.println("  </div>");
 out.println("  <p>&nbsp;</p>");
 out.println("  <p class=\"blueCalTit\">Selecciona los servicios que solicitas </p>");
 out.println("  <ul>");
 out.println("   <li>");
-out.println("    <input type=\"checkbox\" name=\"equipment\" id=\"projector\" value=\"projector\" />");
-out.println("    <label for=\"interna2\"></label>");
-out.println("    Proyector");
+out.println("    <label for=\"prjctr\"><input type=\"checkbox\" name=\"prjctr\" id=\"prjctr\" value=\"projector\" /> Proyector</label>");
 out.println("   </li>");
 out.println("   <li>");
-out.println("    <input type=\"checkbox\" name=\"equipment\" id=\"pcs\" value=\"pcs\" />");
-out.println("    Computadora");
+out.println("    <label for=\"pcs\"><input type=\"checkbox\" name=\"pcs\" id=\"pcs\" value=\"pcs\" /> Computadora</label>");
 out.println("   </li>");
 out.println("  </ul>");
 out.println("  <p>");
-out.println("   <span class=\"blueCalTit\">Otros servicios necesarios</span><br />");
-out.println("   <label for=\"motivo\"></label><textarea name=\"services\" id=\"services\" dojoType=\"ValidationTextarea\" class=\"datosCal\"></textarea>");
+out.println("   <label for=\"osrvcs\"><span class=\"blueCalTit\">Otros servicios necesarios</span></label><br />");
+out.println("   <textarea name=\"osrvcs\" id=\"osrvcs\" dojoType=\"ValidationTextarea\" class=\"datosCal\"></textarea>");
 out.println("  </p>");
 out.println("  <p>");
 out.println("   <a href=\"javascript:dojo.byId('_rs_').reset()\" title=\"Limpiar formulario\">Limpiar</a>");
-out.println("   <a href=\"javascript:validateFrm()\" class=\"soliCal\">Solicitar</a>");
+out.println("   <a href=\"javascript:if(validateFrm())dojo.byId('_rs_').submit()\" class=\"soliCal\">Solicitar</a>");
 out.println("  </p>");
 out.println("  <p class=\"finePrint\">*Se te enviar&aacute; un e-mail con la confirmaci&oacute;n</p>");
 out.println(" </div>");
