@@ -26,10 +26,8 @@ import org.semanticwb.SWBUtils;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
-import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticOntology;
 import org.semanticwb.platform.SemanticProperty;
-import org.semanticwb.portal.SWBFormMgr;
 import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
@@ -37,7 +35,7 @@ import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.api.SWBResourceURL;
 
 /**
- * Recurso de contenido que permite altas, bajas y cambios del la informacion curricular asociada a un usuario de documentos provatorios
+ * Recurso de contenido que permite altas, bajas y cambios del la informacion curricular asociada a un usuario de documentos probatorios
  *
  * @author juan.fernandez
  */
@@ -78,7 +76,7 @@ public class DocumentosProbatoriosResource extends GenericResource {
     }
 
     /**
-     *
+     * Permite al usuario descargar el archivo que previamente se guardó.
      * @param request the request response
      * @param response the response paramRequest
      * @param paramRequest the params request
@@ -379,11 +377,11 @@ public class DocumentosProbatoriosResource extends GenericResource {
     }
 
     /**
-     * 
-     * @param name 
-     * @param doc
-     * @param sp 
-     * @return OutputStream
+     * Al actualizar un archivo, si existe una versión anterior la elimina, revisa y crea la ruta en donde se va almacenar el archivo.
+     * @param name, nombre del archivo 
+     * @param doc, objeto en donde se guarda el nombre del archivo
+     * @param sp, Propiedad semántica a la cual se le va asociar el archivo 
+     * @return OutputStream, Stream de salida del archivo en cuestión
      * @throws FileNotFoundException 
      */
     public OutputStream storeFile(String name, DocumentoProbatorio doc, SemanticProperty sp) throws FileNotFoundException {
@@ -407,10 +405,10 @@ public class DocumentosProbatoriosResource extends GenericResource {
      * Si no existe ninguna version crea una nueva
      * Si existe una version anterior agrega una nueva versión
      * 
-     * @param name
-     * @param in 
-     * @param doc
-     * @param semprop
+     * @param name, nombre delarchivo
+     * @param in, Stream de entrada del archivo en cuestión 
+     * @param doc, objeto en donde se almacena el nombre de los diferentes archivos
+     * @param semprop, propiedad semántica a la cual se le va asociar el archivo
      */
     public void storeFile(String name, InputStream in, DocumentoProbatorio doc, SemanticProperty semprop) {
 
@@ -424,9 +422,9 @@ public class DocumentosProbatoriosResource extends GenericResource {
     }
 
     /**
-     *
-     * @param name
-     * @return
+     * Obtiene el nombre del archivo, quitando la ruta en donde se encuentra el archivo
+     * @param name, nombre del archivo
+     * @return nombre del archivo.
      */
     public String getFileName(String name) {
         if (name.lastIndexOf('/') != -1) {
@@ -441,10 +439,10 @@ public class DocumentosProbatoriosResource extends GenericResource {
     }
 
     /**
-     *
-     * @param fname
-     * @param docto
-     * @return
+     * Elimina el archivo recibido
+     * @param fname, nombre del archivo a eliminar
+     * @param docto, objeto al cual está asociado el archivo. Se utiliza para saber la ruta en donde se encuentra el archivo.
+     * @return true, si se eliminó el archivo; false, si ocurrió un error al tratar de eliminarlo
      */
     public boolean removeFile(String fname, DocumentoProbatorio docto) {
         boolean ret = false;
