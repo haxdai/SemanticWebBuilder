@@ -1,13 +1,25 @@
 package com.infotec.cvi.swb.base;
 
 
+   /**
+   * Elemento que almacena el Estudio Superior de la persona 
+   */
 public abstract class EstudioSuperiorBase extends org.semanticwb.model.SWBClass implements com.infotec.cvi.swb.Periodo
 {
+   /**
+   * Catálogo utilizado para indicar el grado de avance del Estudio
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_Avance=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Avance");
     public static final org.semanticwb.platform.SemanticProperty intranet_gradoAvance=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#gradoAvance");
     public static final org.semanticwb.platform.SemanticProperty intranet_otroEstudio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#otroEstudio");
+   /**
+   * Catálogo utilizado para almacenar los diferentes Estudios Superiores
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_Estudios=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Estudios");
     public static final org.semanticwb.platform.SemanticProperty intranet_estudiosSuperiores=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#estudiosSuperiores");
+   /**
+   * Elemento que almacena el Estudio Superior de la persona
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_EstudioSuperior=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#EstudioSuperior");
    /**
    * The semantic class that represents the currentObject

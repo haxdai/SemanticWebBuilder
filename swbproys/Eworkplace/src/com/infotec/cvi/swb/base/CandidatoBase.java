@@ -1,11 +1,26 @@
 package com.infotec.cvi.swb.base;
 
 
+   /**
+   * Elemento para guardar información del candidato, como son lo días hábiles para estar disponible para el trabajo, su situación laboral actual y su disponibilidad 
+   */
 public abstract class CandidatoBase extends org.semanticwb.model.SWBClass implements com.infotec.cvi.swb.CVable
 {
+   /**
+   * Días hábiles para estar disponible
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_diasHabilesDisponibles=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#diasHabilesDisponibles");
+   /**
+   * Situación laboral actual del candidato
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_situacionLaboral=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#situacionLaboral");
+   /**
+   * Disponibilidad del candidato
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_disponibilidad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#disponibilidad");
+   /**
+   * Elemento para guardar información del candidato, como son lo días hábiles para estar disponible para el trabajo, su situación laboral actual y su disponibilidad
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_Candidato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Candidato");
    /**
    * The semantic class that represents the currentObject

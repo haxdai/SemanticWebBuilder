@@ -1,12 +1,18 @@
 package com.infotec.cvi.swb.base;
 
 
-public abstract class KitNuevoIngresoBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.KitSolicitable,org.semanticwb.model.Traceable
+   /**
+   * Elemento que contiene la información del Kit de nuevo ingreso de  la persona 
+   */
+public abstract class KitNuevoIngresoBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,com.infotec.eworkplace.swb.KitSolicitable
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_nivelPrivilegioLlamadas=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nivelPrivilegioLlamadas");
     public static final org.semanticwb.platform.SemanticProperty intranet_requiereMSI=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#requiereMSI");
     public static final org.semanticwb.platform.SemanticProperty intranet_accesoProjectServer=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#accesoProjectServer");
     public static final org.semanticwb.platform.SemanticProperty intranet_accesoMultifuncional=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#accesoMultifuncional");
+   /**
+   * Elemento utilizado para la Justificación de un Teléfono para la persona
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_JustificacionTelefono=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#JustificacionTelefono");
     public static final org.semanticwb.platform.SemanticProperty intranet_equipoTelefono=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#equipoTelefono");
     public static final org.semanticwb.platform.SemanticProperty intranet_equipoComputadora=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#equipoComputadora");
@@ -25,6 +31,9 @@ public abstract class KitNuevoIngresoBase extends org.semanticwb.model.SWBClass 
     public static final org.semanticwb.platform.SemanticProperty intranet_equipoLaptop=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#equipoLaptop");
     public static final org.semanticwb.platform.SemanticProperty intranet_solicitaClaveTelefono=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#solicitaClaveTelefono");
     public static final org.semanticwb.platform.SemanticProperty intranet_solicitaListaCorreoExterno=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#solicitaListaCorreoExterno");
+   /**
+   * Catálogo utilizado para indicar la ubicación física dentro del edificio
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_UbicacionFisica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#UbicacionFisica");
     public static final org.semanticwb.platform.SemanticProperty intranet_ubicacionEdificio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#ubicacionEdificio");
     public static final org.semanticwb.platform.SemanticProperty intranet_vigenciaTarjeta=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#vigenciaTarjeta");
@@ -32,6 +41,9 @@ public abstract class KitNuevoIngresoBase extends org.semanticwb.model.SWBClass 
     public static final org.semanticwb.platform.SemanticProperty intranet_solicitaExtensionTelefonica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#solicitaExtensionTelefonica");
     public static final org.semanticwb.platform.SemanticProperty intranet_accesoCentroDatos=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#accesoCentroDatos");
     public static final org.semanticwb.platform.SemanticProperty intranet_accesoOficinaCentroDatos=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#accesoOficinaCentroDatos");
+   /**
+   * Elemento utilizado para la Justificación del Celular para la persona
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_JustificacionCelular=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#JustificacionCelular");
     public static final org.semanticwb.platform.SemanticProperty intranet_equipoCelular=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#equipoCelular");
     public static final org.semanticwb.platform.SemanticProperty intranet_accesoDominio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#accesoDominio");
@@ -40,6 +52,9 @@ public abstract class KitNuevoIngresoBase extends org.semanticwb.model.SWBClass 
     public static final org.semanticwb.platform.SemanticProperty intranet_otroSW=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#otroSW");
     public static final org.semanticwb.platform.SemanticProperty intranet_requiereTarjetonEstacionamiento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#requiereTarjetonEstacionamiento");
     public static final org.semanticwb.platform.SemanticProperty intranet_accesoIntranet=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#accesoIntranet");
+   /**
+   * Elemento que contiene la información del Kit de nuevo ingreso de  la persona
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_KitNuevoIngreso=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#KitNuevoIngreso");
    /**
    * The semantic class that represents the currentObject

@@ -4,8 +4,14 @@ package com.infotec.cvi.swb.base;
 public abstract class AreaTalentoBase extends com.infotec.cvi.swb.ExperienciaProfesional implements org.semanticwb.model.Traceable
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_otraHabilidad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#otraHabilidad");
+   /**
+   * Catálogo utilizado para indicar las diferentes Habilidades
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_Habilidad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Habilidad");
     public static final org.semanticwb.platform.SemanticProperty intranet_habilidad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#habilidad");
+   /**
+   * Catálogo utilizado para almacenar los tipos de talentos utilizados en Habilidades
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_TipoTalento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#TipoTalento");
     public static final org.semanticwb.platform.SemanticProperty intranet_tipoAreaTalento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#tipoAreaTalento");
     public static final org.semanticwb.platform.SemanticProperty intranet_yearExperienceTalento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#yearExperienceTalento");

@@ -1,8 +1,14 @@
 package com.infotec.cvi.swb.base;
 
 
+   /**
+   * Elemento que almacena la Experiencia Profesional de la persona 
+   */
 public abstract class ExperienciaProfesionalBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable
 {
+   /**
+   * Elemento que almacena la Experiencia Profesional de la persona
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_ExperienciaProfesional=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#ExperienciaProfesional");
    /**
    * The semantic class that represents the currentObject

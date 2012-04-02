@@ -1,49 +1,148 @@
 package com.infotec.cvi.swb.base;
 
 
+   /**
+   * Contiene la información del Curriculum Vitae de la persona 
+   */
 public abstract class CVBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable
 {
+   /**
+   * Elemento que se utiliza para la generación del CV en un documento PDF
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_documentoCV=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#documentoCV");
+   /**
+   * Elemento para agrupar los Estudios como Grado Académico, Estudios Superiores asociados a la persona
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_Academia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Academia");
+   /**
+   * Elemento para agrupar los Estudios como Grado Académico, Estudios Superiores asociados al CV de la persona
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_academia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#academia");
+   /**
+   * Elemento que almacena la actualización del documento del CV
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_actualizacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#actualizacion");
     public static final org.semanticwb.platform.SemanticClass intranet_Publicacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Publicacion");
+   /**
+   * Lista de todas las publicaciones que ha realizado el usuario
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_hasPublicacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasPublicacion");
+   /**
+   * Elemento que almacena la información del Idioma de la persona
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_Idioma=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Idioma");
+   /**
+   * Lista de todos los idiomas capturado por el usuario
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_hasIdioma=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasIdioma");
+   /**
+   * Catálogo utilizado para la lista de las competencias, utilizadas en Autoevaluación de Competencias
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_Competencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Competencia");
+   /**
+   * Lista de las competencias seleccionadas por el usuario
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_hasCompetencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasCompetencia");
+   /**
+   * Elemento que indica si no cuenta la persona con dominio de otros idiomas
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_sinIdioma=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sinIdioma");
+   /**
+   * Elemento que indica si no tienen cursos la persona
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_sinCurso=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sinCurso");
+   /**
+   * Elemento que indica si no cuenta la persona con Publicaciones
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_sinPublicacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sinPublicacion");
     public static final org.semanticwb.platform.SemanticClass intranet_ExperienciaLaboral=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#ExperienciaLaboral");
+   /**
+   * Lista de todos los trabajos del usuario, su experiencia laboral
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_hasExperienciaLaboral=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasExperienciaLaboral");
+   /**
+   * Contiene el Diplomado que ha cursado la persona
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_Diplomado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Diplomado");
+   /**
+   * Lista de Diplomados, cursos o certificaciones que ha tomado el usuario
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_hasDiplomado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasDiplomado");
     public static final org.semanticwb.platform.SemanticClass intranet_Distincion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Distincion");
+   /**
+   * Lista de distinciones obtenidas por el usuario
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_hasDistincion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasDistincion");
     public static final org.semanticwb.platform.SemanticClass intranet_Investigacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Investigacion");
+   /**
+   * Lista de todas las investigaciones realizadas por el usuario
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_hasInvestigacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasInvestigacion");
+   /**
+   * Elemento que indica si no cuenta la persona con Investigaciones
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_sinInvestigacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sinInvestigacion");
     public static final org.semanticwb.platform.SemanticClass intranet_Docencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Docencia");
+   /**
+   * Lista de actividades de Docencia que ha impartido el usuario
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_hasDocencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasDocencia");
+   /**
+   * Cursos de TIC capturados por el usuario
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_CursoTIC=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#CursoTIC");
+   /**
+   * Lista de Cursos TIC capturados por el usuario
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_hasCursosTIC=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasCursosTIC");
+   /**
+   * Elemento que indica si no tienen diplomados la persona
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_sinDiplomado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sinDiplomado");
     public static final org.semanticwb.platform.SemanticClass intranet_AreaTalento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#AreaTalento");
+   /**
+   * Lista de las Áreas de Talento capturadas por el usuario
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_hasAreaTalento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasAreaTalento");
+   /**
+   * Elemento que indica si no se han impartido cursos la persona
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_sinDocencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sinDocencia");
+   /**
+   * Elemento que indica si no cuenta la persona con Distinciones
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_sinDistincion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sinDistincion");
    /**
    * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
    */
     public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
+   /**
+   * Elemento que indica que usuario es el propietario del CV
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_propietario=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#propietario");
+   /**
+   * Elemento que indica si no cuenta la persona con Experiencia laboral
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_sinExperiencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sinExperiencia");
+   /**
+   * Elemento utilizado para guardar los Documentos Probatorios que respalda la información del CV capturada por el usuario
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_DocumentoProbatorio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#DocumentoProbatorio");
+   /**
+   * Elemento que contiene los documentos en electrónico que respalda la información capturada en el CV
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_documentoProbatorio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#documentoProbatorio");
+   /**
+   * Elemento utilizado para almacenar toda la información del usuario
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_Persona=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Persona");
+   /**
+   * Elemento que indica la relación del CV con la persona
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_persona=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#persona");
+   /**
+   * Contiene la información del Curriculum Vitae de la persona
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_CV=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#CV");
    /**
    * The semantic class that represents the currentObject

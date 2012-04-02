@@ -1,10 +1,22 @@
 package com.infotec.cvi.swb.base;
 
 
-public abstract class EntidadFederativaBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+   /**
+   * Catálogo utilizado para almacenar las Entidades Federativas utilizadas en Domicilio de la persona 
+   */
+public abstract class EntidadFederativaBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
+   /**
+   * Catálogo utilizado para los Municipios de las Entidades Federativas
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_Municipio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Municipio");
+   /**
+   * Lista de municipios que pertenecen a una Entidad Federativa
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_hasMunicipios=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasMunicipios");
+   /**
+   * Catálogo utilizado para almacenar las Entidades Federativas utilizadas en Domicilio de la persona
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_EntidadFederativa=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#EntidadFederativa");
    /**
    * The semantic class that represents the currentObject

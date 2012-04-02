@@ -1,8 +1,14 @@
 package com.infotec.cvi.swb.base;
 
 
-public abstract class AvanceBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+   /**
+   * Catálogo utilizado para indicar el grado de avance del Estudio 
+   */
+public abstract class AvanceBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
+   /**
+   * Catálogo utilizado para indicar el grado de avance del Estudio
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_Avance=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Avance");
    /**
    * The semantic class that represents the currentObject

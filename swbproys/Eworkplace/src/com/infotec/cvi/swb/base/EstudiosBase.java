@@ -1,10 +1,22 @@
 package com.infotec.cvi.swb.base;
 
 
-public abstract class EstudiosBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+   /**
+   * Catálogo utilizado para almacenar los diferentes Estudios Superiores 
+   */
+public abstract class EstudiosBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
+   /**
+   * Catálogo utilizado para las areas que agrupan a las carreras de los Estudios Superiores
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_AreaEstudio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#AreaEstudio");
+   /**
+   * Área de Estudio a la cual pertenece el Estudio Superior
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_areaEstudio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#areaEstudio");
+   /**
+   * Catálogo utilizado para almacenar los diferentes Estudios Superiores
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_Estudios=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Estudios");
    /**
    * The semantic class that represents the currentObject

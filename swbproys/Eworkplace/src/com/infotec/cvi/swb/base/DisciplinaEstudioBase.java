@@ -1,12 +1,27 @@
 package com.infotec.cvi.swb.base;
 
 
-public abstract class DisciplinaEstudioBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+   /**
+   * Catálogo utilizado para indicar las diferentes disciplinas de los Estudios Superiores. 
+   */
+public abstract class DisciplinaEstudioBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
+   /**
+   * Catálogo utilizado para indicar los diferentes tipos de Estudios Superiores
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_TipoEstudio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#TipoEstudio");
     public static final org.semanticwb.platform.SemanticProperty intranet_tipoEstudioInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#tipoEstudioInv");
+   /**
+   * Catálogo utilizado para las areas que agrupan a las carreras de los Estudios Superiores
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_AreaEstudio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#AreaEstudio");
+   /**
+   * Lista de Áreas de estudio asociadas a una Disciplina en Estudios Superiores
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_hasAreaEstudio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasAreaEstudio");
+   /**
+   * Catálogo utilizado para indicar las diferentes disciplinas de los Estudios Superiores.
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_DisciplinaEstudio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#DisciplinaEstudio");
    /**
    * The semantic class that represents the currentObject

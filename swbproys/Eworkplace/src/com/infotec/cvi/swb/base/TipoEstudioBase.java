@@ -1,10 +1,22 @@
 package com.infotec.cvi.swb.base;
 
 
-public abstract class TipoEstudioBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+   /**
+   * Catálogo utilizado para indicar los diferentes tipos de Estudios Superiores 
+   */
+public abstract class TipoEstudioBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
+   /**
+   * Catálogo utilizado para indicar las diferentes disciplinas de los Estudios Superiores.
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_DisciplinaEstudio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#DisciplinaEstudio");
+   /**
+   * Lista de disciplinas asociadas al tipo de Estudio Superior
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_hasDisciplina=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasDisciplina");
+   /**
+   * Catálogo utilizado para indicar los diferentes tipos de Estudios Superiores
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_TipoEstudio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#TipoEstudio");
    /**
    * The semantic class that represents the currentObject

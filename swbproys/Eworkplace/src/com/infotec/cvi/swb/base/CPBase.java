@@ -1,12 +1,27 @@
 package com.infotec.cvi.swb.base;
 
 
-public abstract class CPBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+   /**
+   * Catálogo utilizado para los Códigos Postales definidos en México 
+   */
+public abstract class CPBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
+   /**
+   * Catálogo utilizado para las colonias existentes en México
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_Colonia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Colonia");
+   /**
+   * Lista de Colonias que pertenecen a un mismo Código Postal
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_hasColoniaCP=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasColoniaCP");
+   /**
+   * Catálogo utilizado para los Municipios de las Entidades Federativas
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_Municipio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Municipio");
     public static final org.semanticwb.platform.SemanticProperty intranet_municipioCPInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#municipioCPInv");
+   /**
+   * Catálogo utilizado para los Códigos Postales definidos en México
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_CP=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#CP");
    /**
    * The semantic class that represents the currentObject

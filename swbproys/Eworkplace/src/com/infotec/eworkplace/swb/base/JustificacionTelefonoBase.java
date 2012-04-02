@@ -1,9 +1,15 @@
 package com.infotec.eworkplace.swb.base;
 
 
+   /**
+   * Elemento utilizado para la Justificación de un Teléfono para la persona 
+   */
 public abstract class JustificacionTelefonoBase extends org.semanticwb.model.SWBClass implements com.infotec.cvi.swb.EquipoJustificacion
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_requiereTelefono=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#requiereTelefono");
+   /**
+   * Elemento utilizado para la Justificación de un Teléfono para la persona
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_JustificacionTelefono=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#JustificacionTelefono");
    /**
    * The semantic class that represents the currentObject

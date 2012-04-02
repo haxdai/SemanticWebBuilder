@@ -3,6 +3,9 @@ package com.infotec.cvi.swb.base;
 
 public abstract class DocenciaBase extends com.infotec.cvi.swb.InvestigacionDocencia 
 {
+   /**
+   * Catálogo utilizado para indicar el nivel en el cual se a impartido cursos en Docencia
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_NivelDocencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#NivelDocencia");
     public static final org.semanticwb.platform.SemanticProperty intranet_nivelDocencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nivelDocencia");
     public static final org.semanticwb.platform.SemanticProperty intranet_aniosDocencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#aniosDocencia");
