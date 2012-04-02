@@ -23,12 +23,14 @@ import org.semanticwb.platform.SemanticOntology;
 import org.semanticwb.portal.api.*;
 
 /**
- *
+ * Recurso de contenido que muestra la informacion de identificacion del un usuario 
+ * y asigna un rol grupo dado al completar la informacion requerida
  * @author rene.jara
  */
 public class UserPersonalData extends GenericAdmResource {
 
     private static Logger log = SWBUtils.getLogger(UserPersonalData.class);
+    /** Modo personalizado para enviar datos por ajax     */
     public static final String Mode_AJAX = "ajax";
 
     @Override
@@ -132,11 +134,6 @@ public class UserPersonalData extends GenericAdmResource {
                 } else {
 //                    complete = false;
                 }
-                /*if (email!=null&&!email.equals("")){
-                user.setEmail(email);
-                }else{
-                complete=false;
-                }*/
 
                 Persona persona = Persona.ClassMgr.getPersona(user.getId(), ws);
                 if (persona == null) {
@@ -317,9 +314,6 @@ public class UserPersonalData extends GenericAdmResource {
                 } catch (NumberFormatException ignoredException) {
                     complete = false;
                 }
-//para pruebas de carlos
-//complete = true;
-//
                 if (complete) {
                     setCandidate(user);
                 }
@@ -362,30 +356,9 @@ public class UserPersonalData extends GenericAdmResource {
         User user = paramsRequest.getUser();
         Resource base = getResourceBase();
         WebSite ws = base.getWebSite();
-        //String wsid = paramsRequest.getWebPage().getWebSiteId();
-        /*
-        String msg = request.getParameter("msg");
-        String model = paramRequest.getWebPage().getWebSiteId();
-
-        if(msg!=null) {
-        out.println("<div class=\"\"><p class=\"\">"+msg+"</p></div>");
-        }
-         */
-
-        //if(!user.isSigned()) {
-/*        Persona persona = Persona.ClassMgr.getPersona(user.getId(), ws);
-        if (persona == null) {
-        persona = Persona.ClassMgr.createPersona(user.getId(), ws);
-        persona.setOwner(user);
-        }else if(persona.getOwner()==null){
-        persona.setOwner(user);
-        }
-        Persona capersona = Persona.ClassMgr.getPersona(user.getId(), ws);
-        if(){}
-         */ RequestDispatcher dis = request.getRequestDispatcher(basePath + "userData.jsp");
+        RequestDispatcher dis = request.getRequestDispatcher(basePath + "userData.jsp");
         try {
             request.setAttribute("paramRequest", paramsRequest);
-//            request.setAttribute("persona", persona);
             dis.include(request, response);
         } catch (Exception e) {
             log.error(e);
@@ -544,6 +517,15 @@ public class UserPersonalData extends GenericAdmResource {
         out.println("</div>");
     }
 
+    /**
+     *  Modo que procesa las peticiones de las consultas ajax de la forma para CP
+     *
+     * @param request
+     * @param response
+     * @param paramRequest
+     * @throws SWBResourceException
+     * @throws IOException
+     */
     public void doAjax(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         String basePath = "/work/models/" + paramRequest.getWebPage().getWebSite().getId() + "/jsp/" + this.getClass().getSimpleName() + "/";
         RequestDispatcher dis = request.getRequestDispatcher(basePath + "ajaxData.jsp");
@@ -555,6 +537,12 @@ public class UserPersonalData extends GenericAdmResource {
         }
     }
 
+    /**
+     * Agrega un rol o grupo guardado en la configuracion del recurso a un usuario dado
+     *
+     * @param user Usuario al que se le va agregar el rol o grupo
+     * @throws Exception Exception occurred
+     */
     private void setCandidate(final User user) throws Exception {
         final String editPrivilegesId = getResourceBase().getAttribute("editRole");
         final String completePrivilegesId = getResourceBase().getAttribute("completeRole");
@@ -589,7 +577,13 @@ public class UserPersonalData extends GenericAdmResource {
             }
         }
     }
-
+    /**
+     * Devuelve true cuando un usuario dado tiene un rol o grupo asignado
+     *
+     * @param user Usuario al que se le va agregar el rol o grupo
+     * @param roleGroupObj Rol o grupo que se desea buscar
+     * @throws Exception Exception occurred
+     */
     private boolean hasRoleGroup(final User user, GenericObject roleGroupObj) throws Exception {
         boolean has = false;
         if (user != null) {

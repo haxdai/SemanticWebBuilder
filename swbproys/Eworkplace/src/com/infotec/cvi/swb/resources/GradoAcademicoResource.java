@@ -32,14 +32,17 @@ import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.api.SWBResourceURL;
 
 /**
- *
+ * Recurso de contenido que permite altas, bajas y cambios del la informacion curricular asociada a un usuario de grados academicos
  * @author juan.fernandez
  */
 public class GradoAcademicoResource extends GenericResource {
 
     private Logger log = SWBUtils.getLogger(GradoAcademicoResource.class);
+    /** Modo especial para ejecutar getTipo  */
     private final String MODE_TIPO = "mod_tipo";
+    /** Modo especial para ejecutar getArea  */
     private final String MODE_AREA = "mod_area";
+    /** Modo especial para ejecutar getCarrera  */
     private final String MODE_CARRERA = "mod_carrera";
 
     @Override
@@ -150,6 +153,15 @@ public class GradoAcademicoResource extends GenericResource {
         }
     }
 
+    /**
+     * Modo que procesa la peticiones JSON de la forma referentes al tipo de carrera
+     *
+     * @param request the request response
+     * @param response the response paramRequest
+     * @param paramRequest the params request
+     * @throws SWBResourceException the sWB resource exception
+     * @throws IOException Signals that an I/O exception has occurred
+     */
     public void getTipo(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
 
         response.setContentType("application/json; charset=ISO-8859-1");//ISO-8859-1
@@ -186,6 +198,14 @@ public class GradoAcademicoResource extends GenericResource {
         out.print(ret);
     }
 
+    /**
+     * Modo que procesa la peticiones JSON de la forma referentes al area de la carrera
+     * @param request the request response
+     * @param response the response paramRequest
+     * @param paramRequest the params request
+     * @throws SWBResourceException the sWB resource exception
+     * @throws IOException Signals that an I/O exception has occurred
+     */
     public void getArea(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setContentType("application/json; charset=ISO-8859-1");//ISO-8859-1
         response.setHeader("Cache-Control", "no-cache");
@@ -221,6 +241,15 @@ public class GradoAcademicoResource extends GenericResource {
         out.print(ret);
     }
 
+    /**
+     * Modo que procesa la peticiones JSON de la forma referentes a la carrera
+     *
+     * @param request the request response
+     * @param response the response paramRequest
+     * @param paramRequest the params request
+     * @throws SWBResourceException the sWB resource exception
+     * @throws IOException Signals that an I/O exception has occurred
+     */
     public void getCarrera(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setContentType("application/json; charset=ISO-8859-1");//ISO-8859-1
         response.setHeader("Cache-Control", "no-cache");

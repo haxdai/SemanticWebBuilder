@@ -37,6 +37,7 @@ import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.api.SWBResourceURL;
 
 /**
+ * Recurso de contenido que permite altas, bajas y cambios del la informacion curricular asociada a un usuario de documentos provatorios
  *
  * @author juan.fernandez
  */
@@ -44,6 +45,7 @@ public class DocumentosProbatoriosResource extends GenericResource {
 
     private Logger log = SWBUtils.getLogger(DocumentosProbatoriosResource.class);
     private static final String DEFAULT_MIME_TYPE = "application/octet-stream";
+    /** Modo personalizado para ejecutar getFile  */
     static final String MODE_GETFILE = "getFile";
 
     @Override
@@ -75,6 +77,14 @@ public class DocumentosProbatoriosResource extends GenericResource {
         }
     }
 
+    /**
+     *
+     * @param request the request response
+     * @param response the response paramRequest
+     * @param paramRequest the params request
+     * @throws SWBResourceException the sWB resource exception
+     * @throws IOException Signals that an I/O exception has occurred
+     */
     public void doGetFile(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
 
         response.setHeader("Cache-Control", "no-cache");
@@ -370,7 +380,9 @@ public class DocumentosProbatoriosResource extends GenericResource {
 
     /**
      * 
-     * @param name: fileName
+     * @param name 
+     * @param doc
+     * @param sp 
      * @return OutputStream
      * @throws FileNotFoundException 
      */
@@ -394,10 +406,11 @@ public class DocumentosProbatoriosResource extends GenericResource {
      * Almacena el archivo en la ruta predefinida del RepositoryFile,
      * Si no existe ninguna version crea una nueva
      * Si existe una version anterior agrega una nueva versión
+     * 
      * @param name
-     * @param out
-     * @param comment
-     * @param bigVersionInc
+     * @param in 
+     * @param doc
+     * @param semprop
      */
     public void storeFile(String name, InputStream in, DocumentoProbatorio doc, SemanticProperty semprop) {
 
@@ -410,6 +423,11 @@ public class DocumentosProbatoriosResource extends GenericResource {
         }
     }
 
+    /**
+     *
+     * @param name
+     * @return
+     */
     public String getFileName(String name) {
         if (name.lastIndexOf('/') != -1) {
             int pos = name.lastIndexOf('/');
@@ -422,6 +440,12 @@ public class DocumentosProbatoriosResource extends GenericResource {
         return name;
     }
 
+    /**
+     *
+     * @param fname
+     * @param docto
+     * @return
+     */
     public boolean removeFile(String fname, DocumentoProbatorio docto) {
         boolean ret = false;
         try {

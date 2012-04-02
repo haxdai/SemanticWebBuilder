@@ -24,7 +24,7 @@ import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.api.SWBResourceURL;
 
 /**
- *
+ * Recurso de contenido que permite altas, bajas y cambios del la informacion curricular asociada a un usuario de dominio de idiomas
  * @author juan.fernandez
  */
 public class IdiomasResource extends GenericResource
