@@ -16,12 +16,15 @@ import org.semanticwb.platform.SemanticOntology;
 import org.semanticwb.portal.api.*;
 
 /**
+ * Recurso de estrategia que muestra una ventana para que el usuario acepte los 
+ * terminos de privacidad configurados y asigne un rol o grupo dado al aceptarlos
  *
  * @author rene.jara
  */
 public class AceptarAvisoPrivacidad extends GenericAdmResource {
 
     private static Logger log = SWBUtils.getLogger(UserRegister.class);
+    /** Accion personalizada de la administracion cuando se guarda informacion     */
     public static final String Action_OK = "ok";
 
     @Override
@@ -41,10 +44,14 @@ public class AceptarAvisoPrivacidad extends GenericAdmResource {
             if (gobj != null) {
                 if (gobj instanceof UserGroup) {
                     UserGroup ugrp = (UserGroup) gobj;
-                    user.addUserGroup(ugrp);
+                    if (!user.hasUserGroup(ugrp)) {
+                        user.addUserGroup(ugrp);
+                    }
                 } else if (gobj instanceof Role) {
                     Role urole = (Role) gobj;
-                    user.addRole(urole);
+                    if (!user.hasRole(urole)) {
+                        user.addRole(urole);
+                    }
                 }
             }
 
@@ -135,7 +142,6 @@ public class AceptarAvisoPrivacidad extends GenericAdmResource {
 
     @Override
     public void doAdmin(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramsRequest) throws SWBResourceException, IOException {
-        System.out.println("***doadmin");
         PrintWriter out = response.getWriter();
         Resource base = getResourceBase();
         User user = paramsRequest.getUser();
