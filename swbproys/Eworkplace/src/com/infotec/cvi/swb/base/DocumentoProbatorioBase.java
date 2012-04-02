@@ -1,21 +1,63 @@
 package com.infotec.cvi.swb.base;
 
 
+   /**
+   * Elemento utilizado para guardar los Documentos Probatorios que respalda la información del CV capturada por el usuario 
+   */
 public abstract class DocumentoProbatorioBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Iconable
 {
+   /**
+   * Almacena el nombre del archivo electrónico PDF de la Justificación Técnica
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_fileJustificacionTecnica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fileJustificacionTecnica");
+   /**
+   * Almacena los nombres de los archivos electrónicos PDF de las Identificaciones Oficialesl
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_hasFilesIdentificacionOficial=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasFilesIdentificacionOficial");
+   /**
+   * Almacena el nombre del archivo electrónico PDF del Acta de Matrimonio
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_fileActaMatrimonio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fileActaMatrimonio");
+   /**
+   * Almacena el nombre del archivo electrónico PDF del Comprobante del Número de Seguridad Social
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_fileNumeroSeguridadSocial=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fileNumeroSeguridadSocial");
+   /**
+   * Almacena los nombres de los archivos electrónico PDF del Comprobante de los estudios
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_hasFilesComprobanteEstudio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasFilesComprobanteEstudio");
+   /**
+   * Almacena el nombre del archivo electrónico PDF de la Carta de Depósito Bancario
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_fileCartaDepositoBancario=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fileCartaDepositoBancario");
+   /**
+   * Almacena los nombres de los archivos electrónico PDF de la copia de actas de nacimiento de los hijos
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_hasActasNacimientoFamiliares=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasActasNacimientoFamiliares");
+   /**
+   * Almacena el nombre del archivo electrónico PDF del Acta de Nacimiento
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_fileActaNacimiento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fileActaNacimiento");
+   /**
+   * Almacena el nombre del archivo electrónico PDF de la copia del RFC
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_fileCopiaRFC=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fileCopiaRFC");
+   /**
+   * Almacena el nombre del archivo electrónico PDF del Comprobante de domicilio
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_fileComprobanteDomicilio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fileComprobanteDomicilio");
     public static final org.semanticwb.platform.SemanticProperty intranet_fileCartaProtesta=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fileCartaProtesta");
+   /**
+   * Almacena el nombre del archivo electrónico PDF de una foto tamaño infantil de la persona
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_fileFotoTamInfantil=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fileFotoTamInfantil");
+   /**
+   * Almacena el nombre del archivo electrónico PDF del CURP
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_fileCURP=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fileCURP");
+   /**
+   * Elemento utilizado para guardar los Documentos Probatorios que respalda la información del CV capturada por el usuario
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_DocumentoProbatorio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#DocumentoProbatorio");
    /**
    * The semantic class that represents the currentObject

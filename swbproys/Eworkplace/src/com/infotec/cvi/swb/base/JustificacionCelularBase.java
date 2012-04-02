@@ -1,9 +1,15 @@
 package com.infotec.cvi.swb.base;
 
 
+   /**
+   * Elemento utilizado para la Justificación del Celular para la persona 
+   */
 public abstract class JustificacionCelularBase extends org.semanticwb.model.SWBClass implements com.infotec.cvi.swb.EquipoJustificacion
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_requiereCelular=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#requiereCelular");
+   /**
+   * Elemento utilizado para la Justificación del Celular para la persona
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_JustificacionCelular=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#JustificacionCelular");
    /**
    * The semantic class that represents the currentObject

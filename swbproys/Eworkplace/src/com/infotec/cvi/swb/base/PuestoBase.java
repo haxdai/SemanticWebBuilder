@@ -1,10 +1,22 @@
 package com.infotec.cvi.swb.base;
 
 
-public abstract class PuestoBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+   /**
+   * Catálogo utilizado para indicar los tipos de puesto 
+   */
+public abstract class PuestoBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
+   /**
+   * Catálogo utilizado para indicar el Tipo de contratación
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_TipoContratacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#TipoContratacion");
+   /**
+   * Tipo de contratación asociado el puesto
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_tipoContrato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#tipoContrato");
+   /**
+   * Catálogo utilizado para indicar los tipos de puesto
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_Puesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Puesto");
    /**
    * The semantic class that represents the currentObject

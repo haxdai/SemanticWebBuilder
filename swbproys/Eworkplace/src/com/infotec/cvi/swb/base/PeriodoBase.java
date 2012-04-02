@@ -1,8 +1,14 @@
 package com.infotec.cvi.swb.base;
 
+   /**
+   * Interfaz utilizada para definir el periodo que se tardo la persona en sus estudios 
+   */
 public interface PeriodoBase extends org.semanticwb.model.GenericObject
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_periodoYears=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#periodoYears");
+   /**
+   * Interfaz utilizada para definir el periodo que se tardo la persona en sus estudios 
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_Periodo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Periodo");
 
     public int getPeriodoYears();

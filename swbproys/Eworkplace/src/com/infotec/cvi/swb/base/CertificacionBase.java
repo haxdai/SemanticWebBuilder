@@ -1,8 +1,14 @@
 package com.infotec.cvi.swb.base;
 
 
+   /**
+   * Elemento en el cual se almacena la certificación definida por el usuario 
+   */
 public abstract class CertificacionBase extends org.semanticwb.model.SWBClass 
 {
+   /**
+   * Elemento en el cual se almacena la certificación definida por el usuario
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_Certificacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Certificacion");
    /**
    * The semantic class that represents the currentObject
@@ -31,6 +37,12 @@ public abstract class CertificacionBase extends org.semanticwb.model.SWBClass
         {
             java.util.Iterator it=sclass.listInstances();
             return new org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Certificacion>(it, true);
+        }
+
+        public static com.infotec.cvi.swb.Certificacion createCertificacion(org.semanticwb.model.SWBModel model)
+        {
+            long id=model.getSemanticObject().getModel().getCounter(sclass);
+            return com.infotec.cvi.swb.Certificacion.ClassMgr.createCertificacion(String.valueOf(id), model);
         }
        /**
        * Gets a com.infotec.cvi.swb.Certificacion

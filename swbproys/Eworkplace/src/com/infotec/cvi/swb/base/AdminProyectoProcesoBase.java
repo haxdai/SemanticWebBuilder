@@ -1,8 +1,14 @@
 package com.infotec.cvi.swb.base;
 
 
-public abstract class AdminProyectoProcesoBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+   /**
+   * Catálogo utilizado para Administrador de procesos o proyectos 
+   */
+public abstract class AdminProyectoProcesoBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
+   /**
+   * Catálogo utilizado para Administrador de procesos o proyectos
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_AdminProyectoProceso=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#AdminProyectoProceso");
    /**
    * The semantic class that represents the currentObject

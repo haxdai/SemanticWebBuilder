@@ -1,8 +1,14 @@
 package com.infotec.cvi.swb.base;
 
 
+   /**
+   * Elemento que almacena la información del Idioma de la persona 
+   */
 public abstract class IdiomaBase extends org.semanticwb.model.SWBClass 
 {
+   /**
+   * Catálogo utilizado para indicar el porcentaje de manejo de lectura en Idiomas.
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_Lectura=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Lectura");
     public static final org.semanticwb.platform.SemanticProperty intranet_lectura=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#lectura");
    /**
@@ -10,10 +16,19 @@ public abstract class IdiomaBase extends org.semanticwb.model.SWBClass
    */
     public static final org.semanticwb.platform.SemanticClass swb_Language=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#Language");
     public static final org.semanticwb.platform.SemanticProperty intranet_idiomas=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#idiomas");
+   /**
+   * Catálogo utilizado para indicar el porcentaje del manejo de escritura en Idiomas.
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_Escritura=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Escritura");
     public static final org.semanticwb.platform.SemanticProperty intranet_escritura=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#escritura");
+   /**
+   * Catálogo utilizado para indicar el porcentaje de manejo de conversación en Idiomas.
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_Conversacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Conversacion");
     public static final org.semanticwb.platform.SemanticProperty intranet_conversacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#conversacion");
+   /**
+   * Elemento que almacena la información del Idioma de la persona
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_Idioma=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Idioma");
    /**
    * The semantic class that represents the currentObject

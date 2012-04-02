@@ -1,12 +1,24 @@
 package com.infotec.cvi.swb.base;
 
 
-public abstract class AreaCarreraBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+   /**
+   * Catálogo utilizado para las areas que agrupan a las carreras 
+   */
+public abstract class AreaCarreraBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
+   /**
+   * Catálogo utilizado para las carreras utilizadas para la captura de Grado Académico
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_Carrera=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Carrera");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasCarreraInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasCarreraInv");
+   /**
+   * Catálogo utilizado para indicar el Tipo de Carrera utilizado en Grado Académico
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_TipoCarrera=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#TipoCarrera");
     public static final org.semanticwb.platform.SemanticProperty intranet_tipoCarreraInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#tipoCarreraInv");
+   /**
+   * Catálogo utilizado para las areas que agrupan a las carreras
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_AreaCarrera=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#AreaCarrera");
    /**
    * The semantic class that represents the currentObject

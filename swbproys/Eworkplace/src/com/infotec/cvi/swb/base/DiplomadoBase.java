@@ -1,8 +1,14 @@
 package com.infotec.cvi.swb.base;
 
 
-public abstract class DiplomadoBase extends org.semanticwb.model.SWBClass implements com.infotec.cvi.swb.Curso,com.infotec.cvi.swb.Institucion,org.semanticwb.model.Descriptiveable
+   /**
+   * Contiene el Diplomado que ha cursado la persona 
+   */
+public abstract class DiplomadoBase extends org.semanticwb.model.SWBClass implements com.infotec.cvi.swb.Institucion,org.semanticwb.model.Descriptiveable,com.infotec.cvi.swb.Curso
 {
+   /**
+   * Contiene el Diplomado que ha cursado la persona
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_Diplomado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Diplomado");
    /**
    * The semantic class that represents the currentObject

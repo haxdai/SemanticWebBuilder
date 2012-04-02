@@ -1,10 +1,22 @@
 package com.infotec.cvi.swb.base;
 
 
-public abstract class TipoCarreraBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+   /**
+   * Catálogo utilizado para indicar el Tipo de Carrera utilizado en Grado Académico 
+   */
+public abstract class TipoCarreraBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
+   /**
+   * Catálogo utilizado para las areas que agrupan a las carreras
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_AreaCarrera=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#AreaCarrera");
+   /**
+   * Lista de las Áreas asociadas al tipo de Carrera.
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_hasArea=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasArea");
+   /**
+   * Catálogo utilizado para indicar el Tipo de Carrera utilizado en Grado Académico
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_TipoCarrera=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#TipoCarrera");
    /**
    * The semantic class that represents the currentObject

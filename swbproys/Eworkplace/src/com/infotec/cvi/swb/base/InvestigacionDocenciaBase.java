@@ -1,8 +1,14 @@
 package com.infotec.cvi.swb.base;
 
 
+   /**
+   * Elemento para la Investigación y Docencia del CVI 
+   */
 public abstract class InvestigacionDocenciaBase extends org.semanticwb.model.SWBClass 
 {
+   /**
+   * Elemento para la Investigación y Docencia del CVI
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_InvestigacionDocencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#InvestigacionDocencia");
    /**
    * The semantic class that represents the currentObject

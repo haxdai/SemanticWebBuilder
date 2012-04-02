@@ -1,7 +1,7 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class OrganoBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Vision,com.infotec.eworkplace.swb.Extensible,org.semanticwb.model.Descriptiveable,com.infotec.eworkplace.swb.Mision
+public abstract class OrganoBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Mision,com.infotec.eworkplace.swb.Extensible,org.semanticwb.model.Descriptiveable,com.infotec.eworkplace.swb.Vision
 {
     public static final org.semanticwb.platform.SemanticClass intranet_Organo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Organo");
    /**

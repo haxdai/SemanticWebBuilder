@@ -1,40 +1,112 @@
 package com.infotec.eworkplace.swb.base;
 
 
+   /**
+   * Elemento utilizado para almacenar toda la información del usuario 
+   */
 public abstract class PersonaBase extends org.semanticwb.model.SWBClass 
 {
+   /**
+   * Catálogo utilizado para los Municipios de las Entidades Federativas
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_Municipio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Municipio");
+   /**
+   * Elemento utilizado para almacenar el Municipio en el cual nació la persona
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_lugarNacimiento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#lugarNacimiento");
+   /**
+   * Elemento utilizado para almacenar el Id de Twitter de la persona
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_twitter=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#twitter");
+   /**
+   * Alamcena el nombre de usuario de facebook de la persona
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_facebook=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#facebook");
+   /**
+   * Almacena el CURP de la persona
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_curp=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#curp");
+   /**
+   * Elemento utilizado para almacenr la lista de correo electrónicos personales del usuario
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_hasPEmail=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasPEmail");
    /**
    * Catalogo de paises
    */
     public static final org.semanticwb.platform.SemanticClass swb_Country=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#Country");
+   /**
+   * Elemento utilizado para almacenar el país de nacimiento de la persona
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_nacionalidad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nacionalidad");
+   /**
+   * Elemento utilizado para almacenar el Id de MSN de la persona
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_msn=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#msn");
    /**
    * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
    */
     public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
+   /**
+   * Elemento utilizado para relacionar Persona con User
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_owner=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#owner");
+   /**
+   * Almacena la cédula de la persona
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_cedula=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#cedula");
+   /**
+   * Catálogo utilizado para almacenar las Entidades Federativas utilizadas en Domicilio de la persona
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_EntidadFederativa=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#EntidadFederativa");
+   /**
+   * Entidad Federativa en donde nació el usuario
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_estadoNacimiento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#estadoNacimiento");
     public static final org.semanticwb.platform.SemanticClass intranet_Telefono=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Telefono");
+   /**
+   * Elemento utilizado para almacenar lista de Telefono relaciondos a la persona
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_hasTelefono=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasTelefono");
+   /**
+   * Almacena la aceptación de términos de uso del CVI por la persona
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_aceptacionTerminos=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#aceptacionTerminos");
     public static final org.semanticwb.platform.SemanticClass intranet_Familia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Familia");
+   /**
+   * Elemento utilizado para almacenar la lista de tipo Familia del usuario
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_hasFamilia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasFamilia");
+   /**
+   * Elemento que almacena la información del domicilio de la persona
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_Domicilio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Domicilio");
+   /**
+   * Relaciona el domicilio definido por el usuario
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_domicilio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#domicilio");
+   /**
+   * Almacena la fecha de nacimiento de la persona
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_nacimiento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nacimiento");
+   /**
+   * Elemento utilizado para almacenar el nombre de usuario de LinkedIn de la persona
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_linkedin=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#linkedin");
+   /**
+   * Elemento utilizado para almacenar el género del usuario
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_genero=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#genero");
+   /**
+   * Indica si la persona tiene FM2 vigente, si es el caso
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_FM2=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#FM2");
+   /**
+   * Elemento utilizado para almacenar el Id de usuario de Skype de la persona
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_skype=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#skype");
+   /**
+   * Elemento utilizado para almacenar toda la información del usuario
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_Persona=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Persona");
    /**
    * The semantic class that represents the currentObject

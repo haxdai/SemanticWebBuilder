@@ -1,14 +1,29 @@
 package com.infotec.cvi.swb.base;
 
 
-public abstract class GradoAcademicoBase extends org.semanticwb.model.SWBClass implements com.infotec.cvi.swb.Periodo,com.infotec.cvi.swb.Institucion
+   /**
+   * Elemento que almacena la información del Grado Académico de la persona 
+   */
+public abstract class GradoAcademicoBase extends org.semanticwb.model.SWBClass implements com.infotec.cvi.swb.Institucion,com.infotec.cvi.swb.Periodo
 {
+   /**
+   * Catálogo utilizado para indicar la Situación Académica del Grado Académico
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_SituacionAcademica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#SituacionAcademica");
     public static final org.semanticwb.platform.SemanticProperty intranet_situacionAcademica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#situacionAcademica");
+   /**
+   * Catálogo utilizado para indicar el Grado Académico alcanzado.
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_Grado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Grado");
     public static final org.semanticwb.platform.SemanticProperty intranet_grado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#grado");
+   /**
+   * Catálogo utilizado para las carreras utilizadas para la captura de Grado Académico
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_Carrera=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Carrera");
     public static final org.semanticwb.platform.SemanticProperty intranet_carrera=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#carrera");
+   /**
+   * Elemento que almacena la información del Grado Académico de la persona
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_GradoAcademico=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#GradoAcademico");
    /**
    * The semantic class that represents the currentObject

@@ -1,13 +1,34 @@
 package com.infotec.cvi.swb.base;
 
 
+   /**
+   * Elemento para agrupar los Estudios como Grado Académico, Estudios Superiores asociados a la persona 
+   */
 public abstract class AcademiaBase extends org.semanticwb.model.SWBClass 
 {
+   /**
+   * Elemento que almacena la información del Grado Académico de la persona
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_GradoAcademico=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#GradoAcademico");
+   /**
+   * Lista de Grados Académicos asociados a la persona
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_hasGradoAcademico=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasGradoAcademico");
+   /**
+   * Elemento que almacena el Estudio Superior de la persona
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_EstudioSuperior=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#EstudioSuperior");
+   /**
+   * Lista de Estudios Superiores existentes de la persona
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_hasEstudioSuperior=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasEstudioSuperior");
+   /**
+   * Indicador si aplica o no Estudios Superiores
+   */
     public static final org.semanticwb.platform.SemanticProperty intranet_noAplicaEstudioSuperior=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#noAplicaEstudioSuperior");
+   /**
+   * Elemento para agrupar los Estudios como Grado Académico, Estudios Superiores asociados a la persona
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_Academia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Academia");
    /**
    * The semantic class that represents the currentObject
