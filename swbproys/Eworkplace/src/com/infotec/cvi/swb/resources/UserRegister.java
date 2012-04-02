@@ -17,14 +17,20 @@ import org.semanticwb.base.util.SFBase64;
 import org.semanticwb.platform.SemanticOntology;
 
 /**
+ * Recurso de contenido que permite a un usuario registrrse en el sitio, envia
+ * un ccrreo para validar la cuenta de correo, activa la cuenta y asignar un rol dado
  *
  * @author rene.jara
  */
 public class UserRegister extends GenericAdmResource {
     private static Logger log = SWBUtils.getLogger(UserRegister.class);
+    /** Clave para el cifrador del URL que se envia por correo  */
     private static String PassPhrase="f:,+#u4w=EkJ0R[";
+    /** Accion personalizada para activar un usuario     */
     public static final String Action_ACTIVATE="act";
+    /** Modo personalizado para ejecutar doThanks   */
     public static final String Mode_THANKS="tnk";
+    /** Modo personalizado para ejecutar doFinal          */
     public static final String Mode_FINAL="fnl";
 
     @Override
@@ -235,6 +241,15 @@ public class UserRegister extends GenericAdmResource {
         }
     }
 
+    /**
+     * Modo que muestra un mensaje de agradecimiento por registrarse
+     *
+     * @param request the request response
+     * @param response the response paramRequest
+     * @param paramRequest the params request
+     * @throws SWBResourceException the sWB resource exception
+     * @throws IOException Signals that an I/O exception has occurred
+     */
     public void doThanks(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         String basePath = "/work/models/" + paramRequest.getWebPage().getWebSite().getId() + "/jsp/" + this.getClass().getSimpleName() + "/";
         
@@ -255,6 +270,15 @@ public class UserRegister extends GenericAdmResource {
         }
     }
 
+    /**
+     * Modo que muestra un mensaje el agradecimiento al validar el correo y finalizar el registro
+     *
+     * @param request the request response
+     * @param response the response paramRequest
+     * @param paramRequest the params request
+     * @throws SWBResourceException the sWB resource exception
+     * @throws IOException Signals that an I/O exception has occurred
+     */
     public void doFinal(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         String basePath = "/work/models/" + paramRequest.getWebPage().getWebSite().getId() + "/jsp/" + this.getClass().getSimpleName() + "/";
         
@@ -277,10 +301,6 @@ public class UserRegister extends GenericAdmResource {
         }
     }
 
-    @Override
-    public void doHelp(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-
-    }
 
     @Override
     public void doAdmin(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
@@ -423,10 +443,14 @@ public class UserRegister extends GenericAdmResource {
         out.println("</form>");
         out.println("</div>");
     }
-    
+    /**
+     * Agrega un rol o grupo guardado en la configuracion del recurso a un usuario dado
+     *
+     * @param user Usuario al que se le va agregar el rol o grupo
+     * @throws Exception Exception occurred
+     */
     private void setAspirante(final User user) throws Exception {
         final String grantPrivilegesId = getResourceBase().getAttribute("editRole");
-//System.out.println("\n------------grantPrivilegesId="+grantPrivilegesId);
         SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
         GenericObject gobj;
         gobj = ont.getGenericObject(grantPrivilegesId);
@@ -434,7 +458,6 @@ public class UserRegister extends GenericAdmResource {
             if(gobj instanceof UserGroup) {
                 UserGroup ugrp = (UserGroup) gobj;
                 user.addUserGroup(ugrp);
-//System.out.println("ugrp="+ugrp);
             }else if(gobj instanceof Role) {
                 Role urole = (Role) gobj;
                 user.addRole(urole);

@@ -32,16 +32,20 @@ import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.api.SWBResourceURL;
 
 /**
- *
+ * Recurso de contenido que permite altas, bajas y cambios del la informacion curricular asociada a un usuario de estudios superiores
  * @author juan.fernandez
  */
 public class EstudioSuperiorResource extends GenericResource
 {
 
     private Logger log = SWBUtils.getLogger(EstudioSuperiorResource.class);
+    /** Modo especial para ejecutar getDisiplina  */
     private final String MODE_DISCIPLINA = "mod_disciplina";
+    /** Modo especial para ejecutar getTipo  */
     private final String MODE_TIPO = "mod_tipo";
+    /** Modo especial para ejecutar getArea  */
     private final String MODE_AREA = "mod_area";
+    /** Modo especial para ejecutar getEstudio  */
     private final String MODE_POSGRADO = "mod_posgrado";
 
     @Override
@@ -185,6 +189,15 @@ public class EstudioSuperiorResource extends GenericResource
     }
 
     
+    /**
+     * Modo que procesa la peticiones JSON de la forma referentes al tipo de estudio
+     *
+     * @param request the request response
+     * @param response the response paramRequest
+     * @param paramRequest the params request
+     * @throws SWBResourceException the sWB resource exception
+     * @throws IOException Signals that an I/O exception has occurred
+     */
     public void getTipo(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
 
         response.setContentType("application/json; charset=ISO-8859-1");//ISO-8859-1
@@ -221,6 +234,15 @@ public class EstudioSuperiorResource extends GenericResource
         out.print(ret);
     }
     
+    /**
+     * Modo que procesa la peticiones JSON de la forma referentes a la disciplina  de estudio
+     *
+     * @param request the request response
+     * @param response the response paramRequest
+     * @param paramRequest the params request
+     * @throws SWBResourceException the sWB resource exception
+     * @throws IOException Signals that an I/O exception has occurred
+     */
     public void getDisciplina(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
 
         response.setContentType("application/json; charset=ISO-8859-1");//ISO-8859-1
@@ -261,6 +283,15 @@ public class EstudioSuperiorResource extends GenericResource
         out.print(ret);
     }
 
+    /**
+     * Modo que procesa la peticiones JSON de la forma referentes al area de estudio
+     *
+     * @param request the request response
+     * @param response the response paramRequest
+     * @param paramRequest the params request
+     * @throws SWBResourceException the sWB resource exception
+     * @throws IOException Signals that an I/O exception has occurred
+     */
     public void getArea(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setContentType("application/json; charset=ISO-8859-1");//ISO-8859-1
         response.setHeader("Cache-Control", "no-cache");
@@ -301,6 +332,15 @@ public class EstudioSuperiorResource extends GenericResource
         out.print(ret);
     }
 
+    /**
+     * Modo que procesa la peticiones JSON de la forma referentes al estudio
+     *
+     * @param request the request response
+     * @param response the response paramRequest
+     * @param paramRequest the params request
+     * @throws SWBResourceException the sWB resource exception
+     * @throws IOException Signals that an I/O exception has occurred
+     */
     public void getEstudio(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setContentType("application/json; charset=ISO-8859-1");//ISO-8859-1
         response.setHeader("Cache-Control", "no-cache");
