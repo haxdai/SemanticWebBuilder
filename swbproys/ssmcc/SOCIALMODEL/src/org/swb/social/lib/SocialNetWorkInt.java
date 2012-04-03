@@ -4,8 +4,6 @@
  */
 package org.swb.social.lib;
 
-import org.semanticwb.SWBException;
-import org.swb.social.lib.Exception.SWBSocialException;
 import org.swb.social.lib.Exception.SWBSocialNetworkException;
 
 /**
@@ -14,14 +12,20 @@ import org.swb.social.lib.Exception.SWBSocialNetworkException;
  */
 public interface SocialNetWorkInt {
 
+    public void init(String className);
+
+    public String getUser();
+
+    public String getPassword();
+
     //Publica un post
     public void sendPost() throws SWBSocialNetworkException;
 
     //Obtiene permisos de conexión
-    public void connect() throws SWBSocialNetworkException;
+    public boolean connect() throws SWBSocialNetworkException;
 
     //Desconecta la conexión
-    public void disConnect() throws SWBSocialNetworkException;
+    public boolean disConnect() throws SWBSocialNetworkException;
 
     //set
 
