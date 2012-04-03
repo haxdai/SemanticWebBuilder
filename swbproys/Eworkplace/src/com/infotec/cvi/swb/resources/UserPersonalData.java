@@ -135,6 +135,12 @@ public class UserPersonalData extends GenericAdmResource {
 //                    complete = false;
                 }
 
+                if(email!=null && !email.equals("")&& SWBUtils.EMAIL.isValidEmailAddress(email) ) {
+                    user.setEmail(email);
+                }  else {
+//                    complete = false;
+                }
+
                 Persona persona = Persona.ClassMgr.getPersona(user.getId(), ws);
                 if (persona == null) {
                     persona = Persona.ClassMgr.createPersona(user.getId(), ws);
