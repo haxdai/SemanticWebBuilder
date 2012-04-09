@@ -14,7 +14,7 @@ import javax.servlet.http.*;
 import com.infotec.eworkplace.swb.ReservacionSala;
 import com.infotec.eworkplace.swb.Sala;
 import java.net.URLDecoder;
-import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Date;
 
 import org.semanticwb.Logger;
@@ -24,6 +24,7 @@ import org.semanticwb.model.GenericObject;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.Role;
 import org.semanticwb.model.SWBComparator;
+import org.semanticwb.model.SWBModel;
 import org.semanticwb.model.User;
 import org.semanticwb.model.UserGroup;
 import org.semanticwb.model.WebSite;
@@ -48,6 +49,8 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
     
     public static final SimpleDateFormat dwid = new SimpleDateFormat("yyyyMMdd");
     public static final SimpleDateFormat dateDojo = new SimpleDateFormat("yyyy-MM-dd");
+    public static final int T_MIN = 89;
+    public static final int TRNOUT_MIN = 5;
         
     public ReservaSalaManager() {
     }
@@ -82,37 +85,31 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         
         GregorianCalendar current;
         HttpSession session = request.getSession(true);
-//        if(session.getAttribute("cur")==null) {
-            current = new GregorianCalendar(locale);
-            session.setAttribute("cur", current);
-//        }else {
-//            current = (GregorianCalendar)session.getAttribute("cur");
-//        }
+        current = new GregorianCalendar(locale);
+        session.setAttribute("cur", current);
         
         final String dateId = dwid.format(current.getTime());
         
-        if(userCanEdit(user)) {
-            out.println("<div><a href=\"#\" title=\"\">Reservar una sala</a></div>");
-            com.infotec.eworkplace.swb.Date date = com.infotec.eworkplace.swb.Date.ClassMgr.getDate(dateId, base.getWebSite());
-            Iterator<ReservacionSala> reservations = ReservacionSala.ClassMgr.listReservacionSalaByFecha(date, base.getWebSite());
-            if(reservations.hasNext()) {
-                while(reservations.hasNext()) {
-                    ReservacionSala rs = reservations.next();
-                    if(rs!=null){
-                        out.println("<p>rs="+rs+"</p>");
-                    }
-                }
-            }else
-                out.println("<p>no hay reservaciones</p>");
-        }else {
+//        if(userCanEdit(user)) {
+//            out.println("<div><a href=\"#\" title=\"\">Reservar una sala</a></div>");
+//            com.infotec.eworkplace.swb.Date date = com.infotec.eworkplace.swb.Date.ClassMgr.getDate(dateId, base.getWebSite());
+//            Iterator<ReservacionSala> reservations = ReservacionSala.ClassMgr.listReservacionSalaByFecha(date, base.getWebSite());
+//            if(reservations.hasNext()) {
+//                while(reservations.hasNext()) {
+//                    ReservacionSala rs = reservations.next();
+//                    if(rs!=null){
+//                        out.println("<p>rs="+rs+"</p>");
+//                    }
+//                }
+//            }else
+//                out.println("<p>no hay reservaciones</p>");
+//        }else {
             renderReservations(request, response, paramRequest, current, dateId, locale);
-        }
+//        }
     }
     
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
-System.out.println("\n\n * processAction ******");
-
         User user = response.getUser();
         if(!user.isSigned())
             return;
@@ -120,141 +117,146 @@ System.out.println("\n\n * processAction ******");
         Resource base = getResourceBase();
         WebSite model = base.getWebSite();
         String action = response.getAction();
-System.out.println("action="+action);
 
         if(SWBResourceURL.Action_ADD.equals(action)) {
-            StringBuilder alertmsg = new StringBuilder();
-            
             HttpSession session = request.getSession(true);
             GregorianCalendar current = (GregorianCalendar)session.getAttribute("cur");
-            /*Date now = new Date();
-            if(!now.after(current.getTime())) {
-                alertmsg.append(response.getLocaleLogString("msgErrBackTime"));
-            }*/
             
-            
-System.out.println("add.........");
-System.out.println("sala="+request.getParameter("sl"));
-System.out.println("del="+request.getParameter("sd"));
-System.out.println("al="+request.getParameter("fd"));
-System.out.println("desde="+request.getParameter("sh"));
-System.out.println("hasta="+request.getParameter("fh"));
-System.out.println("motive="+request.getParameter("mtv"));
-System.out.println("type Meet="+request.getParameter("tpmeet"));
-System.out.println("cafeteria="+request.getParameter("tpcf"));
-System.out.println("cafe de grano="+request.getParameter("cfgrn"));
-System.out.println("cafe soluble="+request.getParameter("cfslb"));
-System.out.println("refrescos="+request.getParameter("sd"));
-System.out.println("agua="+request.getParameter("h2o"));
-System.out.println("galletas="+request.getParameter("cks"));
-System.out.println("horarios de servicio="+request.getParameter("tmsrvc"));
-System.out.println("horario="+request.getParameter("hrsrvc"));
-System.out.println("asistentes="+request.getParameter("turnout"));
-System.out.println("proyector="+request.getParameter("prjctr"));
-System.out.println("pcs="+request.getParameter("pcs"));
-System.out.println("otros servicios="+request.getParameter("osrvcs"));
-            
- 
+            Locale locale = new Locale(user.getLanguage(),(user.getCountry()==null?"MX":user.getCountry()));
 
-
-
-//            String[] hrs = (request.getParameter("hrs")==null||request.getParameter("hrs").isEmpty())?null:request.getParameter("hrs").split(",");
-//            if(hrs==null || hrs.length==0) {
-//                return;
-//            }
-//            for(int i=0; i<hrs.length-1; i++) {
-//                if(!hrs[i].startsWith(hrs[i+1].substring(0, hrs[i+1].lastIndexOf("_")))) {
-//System.out.println("error 1");
-//                    return;
-//                }
-//            }
-//            int[] ihrs = new int[hrs.length];
-//            for(int i=0; i<hrs.length; i++) {
-//                try {
-//                    ihrs[i] = Integer.parseInt(hrs[i].substring(hrs[i].lastIndexOf("_")+1));
-//                }catch(NumberFormatException nfe) {
-//System.out.println("error 2");
-//                    return;
-//                }
-//            }
-//            Arrays.sort(ihrs);
-//            if(ihrs[0]==0 || ihrs[ihrs.length-1]==0) {
-//System.out.println("error 3");
-//                return;
-//            }
-//            final String id = hrs[0].substring(0, hrs[0].lastIndexOf("_"));
-//            final Sala sala = Sala.ClassMgr.getSala(id, base.getWebSite());
-//            if(sala==null) {
-//System.out.println("error 4");
-//                return;
-//            }
-//            try {
-//                HttpSession session = request.getSession(true);
-//                GregorianCalendar current = (GregorianCalendar)session.getAttribute("cur");
-//                GregorianCalendar cur = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
-//                if(sala.isReservada(cur, ihrs[0], ihrs[ihrs.length-1])) {
-//System.out.println("error 5");
-//                    return;
-//                }
-//            }catch(Exception nfe) {
-//                log.error(nfe);
-//System.out.println("error 6");
-//nfe.printStackTrace(System.out);
-//                return;
-//            }            
-//            User user = response.getUser();
-//            
-//            String motive = SWBUtils.XML.replaceXMLChars(request.getParameter("motive"));
-//            String typeMeet = request.getParameter("typeMeet");
-//            String turnout = SWBUtils.XML.replaceXMLChars(request.getParameter("turnout"));
-//            String[] equipment = request.getParameterValues("equipment");
-//            String services = SWBUtils.XML.replaceXMLChars(request.getParameter("services")); 
-//            String typeCafe = SWBUtils.XML.replaceXMLChars(request.getParameter("typeCafe"));
-//            String hoursService = SWBUtils.XML.replaceXMLChars(request.getParameter("hoursService"));
-
-            /*final String uri = SWBUtils.XML.replaceXMLChars(request.getParameter("sl"));
             Sala sala = null;
             try {
-                sala = (Sala)SemanticObject.createSemanticObject(uri).createGenericInstance();
+                sala = Sala.ClassMgr.getSala(request.getParameter("sl"), model);
             }catch(Exception e) {
-                log.error(e);
-                e.printStackTrace(System.out);
-            }*/
-                
-//            int hi=0, hf=0;
-//            try {
-//                hi = Integer.parseInt(request.getParameter("hi"));
-//                hf = Integer.parseInt(request.getParameter("hf"));
-//            }catch(NumberFormatException nfe) {
-//                log.error(nfe);
-//                nfe.printStackTrace(System.out);
-//                response.setMode(SWBResourceURL.Mode_EDIT);
-//                return;
-//            }
-//            
-//            HttpSession session = request.getSession(true);
-//            GregorianCalendar current = (GregorianCalendar)session.getAttribute("cur");
-//            GregorianCalendar cur = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
-//            
-//            
-//            String dateId = dwid.format(current.getTime());
-//            com.infotec.eworkplace.swb.Date date = com.infotec.eworkplace.swb.Date.ClassMgr.getDate(dateId, model);
-//            if(date==null)
-//                date = com.infotec.eworkplace.swb.Date.ClassMgr.createDate(dateId, model);
-//            date.setDate(cur.getTime());
+                response.setRenderParameter("alertmsg", "1 ..."+response.getLocaleString("msgErrNoRoom"));
+                return;
+            }
+            if(sala==null) {
+                response.setRenderParameter("alertmsg", "1.1 ..."+response.getLocaleString("msgErrNoRoom"));
+                return;
+            }
             
+            int sh,fh;
+            try {
+                sh = Integer.parseInt(request.getParameter("sh"));
+                fh = Integer.parseInt(request.getParameter("fh"));
+            }catch(Exception e) {
+                response.setRenderParameter("alertmsg", "2 ..."+response.getLocaleString("msgErrNoRoom"));
+                return;
+            }
+            fh += 30;
+            if(fh-sh<T_MIN) {
+                response.setRenderParameter("alertmsg", "3 ..."+response.getLocaleString("msgErrNoRoom"));
+                return;
+            }
             
-            /*if(sala!=null && date!=null && sala.isValid() && !sala.isReservada(date, hi, hf)) {
-                ReservacionSala reservation = ReservacionSala.ClassMgr.createReservacionSala(model);
-                //ReservacionSala reservation = getProcessReservation();
-                sala.setReservada(true);
-                reservation.setSala(sala);
-                reservation.setResponsable(user);
+            GregorianCalendar csd = new GregorianCalendar(locale), cfd = null;
+            try {
+                csd.setTime(current.getTime());
+            }catch(Exception e) {
+                response.setRenderParameter("alertmsg", "4 ..."+response.getLocaleString("msgErrNoRoom"));
+                return;
+            }
+            csd.set(Calendar.HOUR_OF_DAY, 0);
+            csd.set(Calendar.MINUTE, sh);
+            csd.set(Calendar.SECOND, 0);
+            csd.set(Calendar.MILLISECOND, 0);
+            
+            try {
+                Date fd = dateDojo.parse(request.getParameter("fd"));
+                cfd = new GregorianCalendar(locale);
+                cfd.setTime(fd);
+                cfd.set(Calendar.HOUR_OF_DAY, 0);
+                cfd.set(Calendar.MINUTE, fh);
+                cfd.set(Calendar.SECOND, 0);
+                cfd.set(Calendar.MILLISECOND, 0);
+            }catch(ParseException e) {
+                response.setRenderParameter("alertmsg", "5 ..."+response.getLocaleString("msgErrNoRoom"));
+                return;
+            }
 
-                reservation.setFecha(date);
-                reservation.setDe(hi);
-                reservation.setA(hf);
-            }*/
+            String mtv = SWBUtils.XML.replaceXMLChars(request.getParameter("mtv"));
+            if(mtv.isEmpty()) {
+                response.setRenderParameter("alertmsg", "6 ..."+response.getLocaleString("msgErrNoRoom"));
+                return;
+            }
+
+            ReservacionSala.TipoReunion tpmeet; 
+            try {
+                tpmeet = ReservacionSala.TipoReunion.valueOf(request.getParameter("tpmeet"));
+            }catch(Exception e) {
+                response.setRenderParameter("alertmsg", "7 ..."+response.getLocaleString("msgErrNoRoom"));
+                return;
+            }
+            
+            ReservacionSala.Cafeteria tpcf = null;
+            ReservacionSala.Horario tmsrvc = null;
+            String hrsrvc = null;
+            if(ReservacionSala.TipoReunion.Externa == tpmeet) {
+                try {
+                    tpcf = ReservacionSala.Cafeteria.valueOf(request.getParameter("tpcf"));
+                }catch(Exception e) {
+                    response.setRenderParameter("alertmsg", "8 ..."+response.getLocaleString("msgErrNoRoom"));
+                    return;
+                }
+                
+                try {
+                    tmsrvc = ReservacionSala.Horario.valueOf(request.getParameter("tmsrvc"));
+                }catch(Exception e) {
+                    response.setRenderParameter("alertmsg", "9 ..."+response.getLocaleString("msgErrNoRoom"));
+                    return;
+                }
+                
+                if(ReservacionSala.Horario.Receso == tmsrvc) {
+                    hrsrvc = SWBUtils.XML.replaceXMLChars(request.getParameter("hrsrvc"));
+                    if(hrsrvc.isEmpty()) {
+                        response.setRenderParameter("alertmsg", "10 ..."+response.getLocaleString("msgErrNoRoom"));
+                        return;
+                    }
+                }
+            }
+            
+            int turnout = 0;
+            try {
+                turnout = Integer.parseInt(request.getParameter("turnout"));
+            }catch(NumberFormatException e) {
+                response.setRenderParameter("alertmsg", "11 ..."+response.getLocaleString("msgErrNoRoom"));
+                return;
+            }
+            if(turnout<TRNOUT_MIN || sala.getCapacidad()<turnout) {
+                response.setRenderParameter("alertmsg", "12 ..."+response.getLocaleString("msgErrNoRoom"));
+                return;
+            }
+            
+            if(!sala.isReservada(csd.getTime(), cfd.getTime())) {
+                ReservacionSala reservation = ReservacionSala.ClassMgr.createReservacionSala(model);
+                reservation.setSala(sala);
+                reservation.setFechaInicio(csd.getTime());
+                reservation.setFechaFinal(cfd.getTime());
+                reservation.setAsistentes(turnout);
+                reservation.setMotivo(mtv);
+                reservation.setTipoReunion(tpmeet.toString());
+                if(ReservacionSala.TipoReunion.Externa == tpmeet) {
+                    reservation.setRequiereCafeGrano(request.getParameter("cfgrn")!=null);
+                    reservation.setRequiereCafeSoluble(request.getParameter("cfslb")!=null);
+                    reservation.setRequiereRefrescos(request.getParameter("sds")!=null);
+                    reservation.setRequiereAgua(request.getParameter("h2o")!=null);
+                    reservation.setRequiereGalletas(request.getParameter("cks")!=null);
+                    if(ReservacionSala.Horario.Receso == tmsrvc) {
+                        reservation.setRequiereServicioContinuo(false);
+                        reservation.setHorarioServicio(hrsrvc);
+                    }else {
+                        reservation.setRequiereServicioContinuo(true);
+                    }
+                }
+                reservation.setRequiereProyector(request.getParameter("prjctr")!=null);
+                reservation.setRequiereComputo(request.getParameter("pcs")!=null);
+                if(!request.getParameter("osrvcs").isEmpty())
+                    reservation.setServiciosAdicionales(request.getParameter("osrvcs").trim());
+            }else {
+                response.setRenderParameter("alertmsg", "13 ... sala ya reservada en ese horario"+response.getLocaleString("msgErrNoRoom"));
+                return;
+            }
         }
     }
     
@@ -334,12 +336,6 @@ System.out.println("otros servicios="+request.getParameter("osrvcs"));
         out.println(");");
         out.println("</script>");
         
-        
-        
-        
-        
-        
-        
         Calendar cur =  Calendar.getInstance(locale);
         cur.setMinimalDaysInFirstWeek(1);
         cur.setFirstDayOfWeek(1);
@@ -397,9 +393,9 @@ System.out.println("otros servicios="+request.getParameter("osrvcs"));
             if(wk==1) {
                 for(int k=1; k<=7; k++) {
                     if(k>=dow && k<7) {
-                        if(sala.isReservada(cur, cur.get(Calendar.HOUR_OF_DAY)*60))
-                            out.println(" <td id=\""+sala.getId()+"_"+cur.getTimeInMillis()+"\" class=\"x sltc trCal1\">&nbsp;</td>");
-                        else
+//                        if(sala.isReservada(cur, cur.get(Calendar.HOUR_OF_DAY)*60))
+//                            out.println(" <td id=\""+sala.getId()+"_"+cur.getTimeInMillis()+"\" class=\"x sltc trCal1\">&nbsp;</td>");
+//                        else
                             out.println(" <td id=\""+sala.getId()+"_"+cur.getTimeInMillis()+"\" class=\"sltc trCal1\">&nbsp;</td>");
                     }else if(k>1 && k<7) {
                         out.println(" <td id=\""+sala.getId()+"_"+cur.getTimeInMillis()+"\" class=\"deactive sltc trCal1\">&nbsp;</td>");
@@ -411,9 +407,9 @@ System.out.println("otros servicios="+request.getParameter("osrvcs"));
                     if(month<cur.get(Calendar.MONTH) && k<7) {
                         out.println(" <td id=\""+sala.getId()+"_"+cur.getTimeInMillis()+"\" class=\"deactive sltc trCal1\">&nbsp;</td>");
                     }else if(k>1&&k<7) {
-                        if(sala.isReservada(cur, cur.get(Calendar.HOUR_OF_DAY)*60))
-                            out.println(" <td id=\""+sala.getId()+"_"+cur.getTimeInMillis()+"\" class=\"x sltc trCal1\">&nbsp;</td>");
-                        else
+//                        if(sala.isReservada(cur, cur.get(Calendar.HOUR_OF_DAY)*60))
+//                            out.println(" <td id=\""+sala.getId()+"_"+cur.getTimeInMillis()+"\" class=\"x sltc trCal1\">&nbsp;</td>");
+//                        else
                             out.println(" <td id=\""+sala.getId()+"_"+cur.getTimeInMillis()+"\" class=\"sltc trCal1\">&nbsp;</td>");
                     }
                     cur.add(Calendar.DATE, 1);
@@ -427,9 +423,9 @@ System.out.println("otros servicios="+request.getParameter("osrvcs"));
             if(wk==1) {
                 for(int k=1; k<=7; k++) {
                     if(k>=dow && k<7) {
-                        if(sala.isReservada(cur, cur.get(Calendar.HOUR_OF_DAY)*60))
-                            out.println(" <td id=\""+sala.getId()+"_"+cur.getTimeInMillis()+"\" class=\"x sltc trCal1\">&nbsp;</td>");
-                        else
+//                        if(sala.isReservada(cur, cur.get(Calendar.HOUR_OF_DAY)*60))
+//                            out.println(" <td id=\""+sala.getId()+"_"+cur.getTimeInMillis()+"\" class=\"x sltc trCal1\">&nbsp;</td>");
+//                        else
                             out.println(" <td id=\""+sala.getId()+"_"+cur.getTimeInMillis()+"\" class=\"sltc trCal1\">&nbsp;</td>");
                     }else if(k>1 && k<7) {
                         out.println(" <td id=\""+sala.getId()+"_"+cur.getTimeInMillis()+"\" class=\"deactive sltc trCal1\">&nbsp;</td>");
@@ -441,9 +437,9 @@ System.out.println("otros servicios="+request.getParameter("osrvcs"));
                     if(month<cur.get(Calendar.MONTH) && k<7) {
                         out.println(" <td id=\""+sala.getId()+"_"+cur.getTimeInMillis()+"\" class=\"deactive sltc trCal1\">&nbsp;</td>");
                     }else if(k>1&&k<7) {
-                        if(sala.isReservada(cur, cur.get(Calendar.HOUR_OF_DAY)*60))
-                            out.println(" <td id=\""+sala.getId()+"_"+cur.getTimeInMillis()+"\" class=\"x sltc trCal1\">&nbsp;</td>");
-                        else
+//                        if(sala.isReservada(cur, cur.get(Calendar.HOUR_OF_DAY)*60))
+//                            out.println(" <td id=\""+sala.getId()+"_"+cur.getTimeInMillis()+"\" class=\"x sltc trCal1\">&nbsp;</td>");
+//                        else
                             out.println(" <td id=\""+sala.getId()+"_"+cur.getTimeInMillis()+"\" class=\"sltc trCal1\">&nbsp;</td>");
                     }
                     cur.add(Calendar.DATE, 1);
@@ -457,7 +453,7 @@ System.out.println("otros servicios="+request.getParameter("osrvcs"));
         out.println("</table>");
     }
     
-    private String getScript(HttpServletRequest request, SWBParamRequest paramRequest) {
+    private String getScript(HttpServletRequest request, SWBParamRequest paramRequest, Locale locale) {
 //        Locale locale = new Locale(paramRequest.getUser().getLanguage(),(paramRequest.getUser().getCountry()==null?"MX":paramRequest.getUser().getCountry()));
 //        DateFormat df = DateFormat.getDateInstance(DateFormat.LONG, locale);
         
@@ -521,13 +517,13 @@ js.append("\n  var anim2 = dojo.fadeOut({node:domId, duration:250});");
 js.append("\n  dojo.fx.combine([anim1, anim2]).play();");
 js.append("\n }");
 
-js.append("\n var hrs = [];");
+/*js.append("\n var hrs = [];");
 js.append("\n var f1=function(item,i,arr) {");    
 js.append("\n    if( i==arr.length-1 )");
 js.append("\n        return item.substring(0,6)==arr[0].substring(0,6);");
 js.append("\n    else    ");
 js.append("\n        return item.substring(0,6)==arr[i+1].substring(0,6);");
-js.append("\n }");
+js.append("\n }");*/
 
 js.append("\n function validateFrm() {");
 js.append("\n  //if(dojo.byId('brksrvc').checked==true && isEmpty(dojo.byId('hrSrvc').value))");
@@ -537,7 +533,7 @@ js.append("\n  //  console.log('si pasa');");
 js.append("\n  return true;");
 js.append("\n }");
 
-js.append("\n function validate() {");
+/*js.append("\n function validate() {");
 js.append("\n  if(hrs.length==0) {");
 js.append("\n    alert('para jugar hay que  seleccionar');");
 js.append("\n  }else if(hrs.length==1) {");
@@ -553,236 +549,262 @@ js.append("\n      hrs=[];");
 js.append("\n    }");
 js.append("\n  }");
 js.append("\n  return false;  ");
-js.append("\n }");
+js.append("\n }");*/
 
         js.append("\n-->");
         js.append("\n</script>");
         return js.toString();
     }
     
+    private String getForm(HttpServletRequest request, SWBParamRequest paramRequest, List<Sala> salas, Locale locale) {
+        StringBuilder html = new StringBuilder();
+        
+        HttpSession session = request.getSession(true);
+        GregorianCalendar current = (GregorianCalendar)session.getAttribute("cur");
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MMM/yyyy", locale);
+        html.append("<form id=\"_rs_\" method=\"post\" dojoType=\"dijit.form.Form\" action=\""+paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD)+"\">");
+        html.append("<div id=\"mainPop\">");
+        html.append(" <p id=\"popTop\"></p>");
+        html.append(" <div id=\"popMiddle\">");
+        
+        html.append(" <div class=\"salas4Cols salas-cual\">");
+        html.append("  <p><span class=\"blueCalTit\">Sala:</span></p>");
+        html.append("  <select name=\"sl\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\">");
+        html.append("   <option value=\"\"></option>");
+//        Iterator<Sala> isalas = Sala.ClassMgr.listSalas(getResourceBase().getWebSite());        
+//        isalas = SWBComparator.sortByDisplayName(isalas, locale.getLanguage());
+//        while(isalas.hasNext()) {
+//            Sala sala = isalas.next();
+//            if(!sala.isActive()) {
+//                continue;
+//            }
+        for(Sala sala:salas) {
+            html.append("   <option value=\""+sala.getId()+"\">"+sala.getDisplayTitle(locale.getLanguage())+"</option>");
+        }
+        html.append("  </select>");
+        html.append(" </div>");
+        html.append(" <div class=\"salas4Cols salas-fecha\">");
+        html.append("  <p><span class=\"blueCalTit\">Fecha:</span></p>");
+        html.append("     <label for=\"sd\">Del: </label><input type=\"text\" name=\"sd\" id=\"sd\" value=\""+sdf.format(current.getTime())+"\" dojoType=\"dijit.form.ValidationTextBox\" readonly=\"readonly\" />");
+        html.append("     <label for=\"fd\">al: </label><input type=\"text\" name=\"fd\" id=\"fd\" value=\""+dateDojo.format(current.getTime())+"\" dojoType=\"dijit.form.DateTextBox\" constraints=\"{min:'"+dateDojo.format(current.getTime())+"',max:'2013-12-31',datePattern:'dd/MMM/yyyy'}\"  required=\"true\" trim=\"true\" promptMessage=\"formato de la fecha dd/MM/yyyy\" invalidMessage=\"Invalid date\" />");
+        html.append(" </div>");
+        html.append(" <div class=\"salas4Cols salas-hora\">");
+        html.append("  <p><span class=\"blueCalTit\">Horario:</span></p>");
+        html.append("  <label for=\"sh\">De: </label><select name=\"sh\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\"><option value=\"480\">08:00</option><option value=\"510\">08:30</option><option value=\"540\">09:00</option><option value=\"570\">09:30</option><option value=\"600\">10:00</option><option value=\"630\">10:30</option><option value=\"660\">11:00</option><option value=\"690\">11:30</option><option value=\"720\">12:00</option><option value=\"750\">12:30</option><option value=\"780\">13:00</option><option value=\"810\">13:30</option><option value=\"840\">14:00</option><option value=\"870\">14:30</option><option value=\"900\">15:00</option><option value=\"930\">15:30</option> <option value=\"960\">16:00</option> <option value=\"990\">16:30</option><option value=\"1020\">17:00</option><option value=\"1050\">17:30</option><option value=\"1080\">18:00</option><option value=\"1110\">18:30</option><option value=\"1140\">19:00</option><option value=\"1170\">19:30</option><option value=\"1200\">20:00</option><option value=\"1230\">20:30</option><option value=\"1260\">21:00</option></select>");
+        html.append("  <label for=\"fh\">a: </label><select  name=\"fh\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\"><option value=\"539\">08:59</option><option value=\"569\">09:29</option><option value=\"599\">09:59</option><option value=\"629\">10:29</option><option value=\"659\">10:59</option><option value=\"689\">11:29</option><option value=\"719\">11:59</option><option value=\"749\">12:29</option><option value=\"779\">12:59</option><option value=\"809\">13:29</option><option value=\"839\">13:59</option><option value=\"869\">14:29</option><option value=\"899\">14:59</option><option value=\"929\">15:29</option><option value=\"959\">15:59</option><option value=\"989\">16:29</option><option value=\"1019\">16:59</option><option value=\"1049\">17:29</option><option value=\"1079\">17:59</option><option value=\"1109\">18:29</option><option value=\"1139\">18:59</option><option value=\"1169\">19:29</option><option value=\"1199\">19:59</option><option value=\"1229\">20:29</option><option value=\"1259\">20:59</option><option value=\"1289\">21:29</option><option value=\"1319\">21:59</option></select>");
+        html.append(" </div>");
+        html.append(" <div class=\"salas4Cols salas-tipo\">");
+        html.append("  <p><span class=\"blueCalTit\">Tipo de reuni&oacute;n:</span></p>");
+        html.append("  <ul>");
+        html.append("   <li><label for=\"meetsng\">Interna <input  type=\"radio\" name=\"tpmeet\" id=\"meetsng\"  value=\""+ReservacionSala.TipoReunion.Interna+"\" onclick=\"collapse('_tpcf_')\" checked=\"checked\" /></label></li>");
+        html.append("   <li><label for=\"meetspcl\">Externa <input type=\"radio\" name=\"tpmeet\" id=\"meetspcl\" value=\""+ReservacionSala.TipoReunion.Externa+"\" onclick=\"expande('_tpcf_')\" /></label></li>");
+        html.append("  </ul>");
+        html.append(" </div>");
+        html.append(" <div class=\"clear\">&nbsp;</div>");
+        
+        html.append(" <div id=\"salas-cafeteria\">");
+        html.append("  <p><span class=\"blueCalTit\">Cafeteria:</span></p>");
+        html.append("  <div id=\"_tpcf_\">");
+        html.append("   <p><label for=\"cfsbl\"><input type=\"checkbox\" name=\"cfslb\" id=\"cfslb\" value=\"true\" checked=\"checked\" /> Café soluble</label></p>");
+        html.append("   <p><label for=\"cfgrn\"><input type=\"checkbox\" name=\"cfgrn\" id=\"cfgrn\" value=\"true\" /> Café de grano</label></p>");
+        html.append("   <p><label for=\"h2o\"><input type=\"checkbox\" name=\"h2o\" id=\"h2o\" value=\"true\" checked=\"checked\" /> Agua</label></p>");
+        html.append("   <p><label for=\"sds\"><input type=\"checkbox\" name=\"sds\" id=\"sds\" value=\"true\" /> Refrescos</label></p>");
+        html.append("   <p><label for=\"cks\"><input type=\"checkbox\" name=\"cks\" id=\"cks\" value=\"true\" /> Galletas</label></p>");
+        html.append("   <p>Horario del servicio: </p>");
+        html.append("   <ul>");
+        html.append("    <li><label for=\"allsrvc\">Durante <input type=\"radio\" name=\"tmsrvc\" id=\"allsrvc\" value=\""+ReservacionSala.Horario.Durante+"\" onclick=\"collapse('_tmsrvc_')\" checked=\"checked\" /></label></li>");
+        html.append("    <li><label for=\"brksrvc\">Receso <input type=\"radio\" name=\"tmsrvc\" id=\"brksrvc\" value=\""+ReservacionSala.Horario.Receso+"\" onclick=\"expande('_tmsrvc_')\" /></label></li>");
+        html.append("   </ul>");
+        html.append("  </div>");
+        html.append(" </div>");
+        html.append(" <div class=\"clear\">&nbsp;</div>");
+        
+        html.append(" <div id=\"salas-motivo\">");
+        html.append("  <p><span class=\"blueCalTit\">Motivo de la reuni&oacute;n:</span></p>");
+        html.append("  <label for=\"mtv\"></label><textarea name=\"mtv\" id=\"mtv\" dojoType=\"ValidationTextarea\" required=\"true\" promptMessage=\"Motivo\" invalidMessage=\"El motivo de la junta es requerido\" class=\"datosCal\"></textarea>");
+        html.append(" </div>");
+        
+        html.append(" <div id=\"salas-asistentes\">");
+        html.append("  <p><span class=\"blueCalTit\">N&uacute;mero de asistentes:</span></p>");
+        html.append("  <label for=\"turnout\"></label><input type=\"text\" name=\"turnout\" id=\"turnout\" value=\"\" size=\"10\" maxlength=\"3\" dojoType=\"dijit.form.ValidationTextBox\" required=\"true\" promptMessage=\"Asistentes\" invalidMessage=\"El valor es incorrecto\" regExp=\"\\d{1,3}\" trim=\"true\" />");
+        html.append(" </div>");
+        
+        html.append(" <div id=\"salas-material\">");
+        html.append("  <p><span class=\"blueCalTit\">Materiales y equipo:</span></p>");
+        html.append("  <ul>");
+        html.append("   <li><label for=\"airc\"><input type=\"checkbox\" name=\"airc\" id=\"airc\" value=\"1\" />Aire acondicionado</label></li>");
+        html.append("   <li><label for=\"prjctr\"><input type=\"checkbox\" name=\"prjctr\" id=\"prjctr\" value=\"1\" />Proyector</label></li>");
+        html.append("   <li><label for=\"pcs\"><input type=\"checkbox\" name=\"pcs\" id=\"pcs\" value=\"1\" />Computadoras</label></li>");
+        html.append("   <li><label for=\"rtfl\"><input type=\"checkbox\" name=\"rtfl\" id=\"rtfl\" value=\"1\" />Rotafolio</label></li>");
+        html.append("   <li><label for=\"osrvcs\"><textarea name=\"osrvcs\" id=\"osrvcs\" dojoType=\"ValidationTextarea\" trim=\"true\"></textarea></label></li>");
+        html.append("  </ul>");        
+        html.append(" </div>");
+        html.append(" <div class=\"clear\">&nbsp;</div>");
+
+        html.append("  <div id=\"_tmsrvc_\">");
+        html.append("   <p><label for=\"hrsrvc\">Horario del servicio: <input type=\"text\" name=\"hrsrvc\" id=\"hrsrvc\" value=\"\" /></label></p>");
+        html.append("  </div>");
+     
+        html.append("  <p>");
+        html.append("   <a href=\"javascript:dojo.byId('_rs_').reset()\" title=\"Limpiar formulario\">Limpiar</a>");
+        html.append("   <a href=\"javascript:if(validateFrm())dojo.byId('_rs_').submit()\" class=\"soliCal\">Solicitar</a>");
+        html.append("  </p>");
+        html.append("  <p class=\"finePrint\">*Se te enviar&aacute; un e-mail con la confirmaci&oacute;n</p>");
+        html.append(" </div>");
+        html.append(" <p id=\"popBottom\"></p>");
+        html.append("</div>");
+        html.append("</form>");
+        return html.toString();
+    }
+    
+    private String getCalendar(HttpServletRequest request, SWBParamRequest paramRequest, Locale locale) {
+        StringBuilder html = new StringBuilder();
+        
+        HttpSession session = request.getSession(true);
+        GregorianCalendar current = (GregorianCalendar)session.getAttribute("cur");
+        
+        SWBResourceURL url = paramRequest.getRenderUrl().setMode(Mode_ROLL);
+        
+        html.append("\n<div id=\"dayselectorCal\">");
+        html.append("\n <p class=\"disponibilidadSalas\">Disponibilidad de salas</p>");
+        //SimpleDateFormat sdf = new SimpleDateFormat("yyyy,M,d", locale);
+        url.setParameter(Rel, Roll_DATE);
+        url.setParameter(Roll, Roll_LEFT);
+        html.append("\n <p><a href=\"javascript:location.href='"+url+"'\" class=\"salasAtras\">atr&aacute;s</a></p>");
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE d 'de' MMMM", locale);
+        html.append("\n <p id=\"current\" class=\"dayAndMonth\">"+sdf.format(current.getTime())+"</p>");
+        url.setParameter(Roll, Roll_RIGHT);
+        html.append("\n <p><a href=\"javascript:location.href='"+url+"'\" class=\"salasAdelante\">adelante</a></p>");
+        html.append("\n</div>");
+        
+        html.append("\n<div id=\"salasCal\">");
+        url.setParameter(Rel, Roll_MONTH);
+        url.setParameter(Roll, Roll_LEFT);
+        html.append("\n <a href=\"javascript:location.href='"+url+"'\" class=\"salasAtras\">atr&aacute;s</a>");
+        sdf = new SimpleDateFormat("MMMM yyyy", locale);
+        html.append("\n <span id=\"month\" class=\"salasMonthYear\">"+sdf.format(current.getTime()) +"</span>");
+        url.setParameter(Roll, Roll_RIGHT);
+        html.append("\n <a href=\"javascript:location.href='"+url+"'\" class=\"salasAdelante\">adelante</a>");
+        html.append("\n <ul class=\"daysTop\">");
+        html.append("\n  <li>D</li>");
+        html.append("\n  <li>L</li>");
+        html.append("\n  <li>M</li>");
+        html.append("\n  <li>M</li>");
+        html.append("\n  <li>J</li>");
+        html.append("\n  <li>V</li>");
+        html.append("\n  <li>S</li>");
+        html.append("\n </ul>");
+        int daysInMonth = current.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
+        GregorianCalendar ci = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),1,0,0);
+        int dayCounter = 1;
+        int loopCounter = 1;
+        int firstDay = ci.get(GregorianCalendar.DAY_OF_WEEK);
+        html.append("\n <ul class=\"daysCal\">");
+        sdf = new SimpleDateFormat("dd");
+        url.setParameter(Rel, Set_DATE);
+        for(int i=1; i<=6; i++) {
+            for(int j=1; j<8; j++) {
+                html.append("\n<li>");
+                if( loopCounter>=firstDay && dayCounter<=daysInMonth ) {
+                    url.setParameter(Roll, sdf.format(ci.getTime()));
+                    html.append("<a href=\"javascript:location.href='"+url+"'\">");
+                    html.append(sdf.format(ci.getTime())+"</a>");
+                    
+                    ci.add(GregorianCalendar.DAY_OF_MONTH, 1);
+                    dayCounter++;
+                }
+                loopCounter++;
+                html.append("</li>");
+            }
+        }
+        html.append("\n </ul>");
+        html.append("\n</div>");        
+        return html.toString();
+    }
+    
     private void renderReservations(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest, GregorianCalendar current, final String dateId, Locale locale) throws SWBResourceException, IOException {
         response.setContentType("text/html; charset=utf-8");
+        
+//Iterator<ReservacionSala> reservations = ReservacionSala.ClassMgr.listReservacionSalas((SWBModel)getSemanticObject().getModel().getModelObject().createGenericInstance());
+//while(reservations.hasNext()) {
+// reservations.next().remove();
+//}
         
         Resource base = getResourceBase();
         User user = paramRequest.getUser();
         String lang = user.getLanguage();
         PrintWriter out = response.getWriter();
         
-        out.println(getScript(request, paramRequest));       
+        out.println(getScript(request, paramRequest, locale));       
         out.println("<div id=\"apartadoSalas\">");
-        out.println("<div id=\"salasCal\">");
-        SWBResourceURL url = paramRequest.getRenderUrl().setMode(Mode_ROLL);
-        url.setParameter(Rel, Roll_MONTH);
-        url.setParameter(Roll, Roll_LEFT);
-        out.println(" <a href=\"javascript:location.href='"+url+"'\" class=\"salasAtras\">atr&aacute;s</a>");
-        SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", locale);
-        out.println(" <span id=\"month\" class=\"salasMonthYear\">"+sdf.format(current.getTime()) +"</span>");
-        url.setParameter(Roll, Roll_RIGHT);
-        out.println(" <a href=\"javascript:location.href='"+url+"'\" class=\"salasAdelante\">adelante</a>");
-        out.println(" <ul class=\"daysTop\">");
-        out.println("  <li>D</li>");
-        out.println("  <li>L</li>");
-        out.println("  <li>M</li>");
-        out.println("  <li>M</li>");
-        out.println("  <li>J</li>");
-        out.println("  <li>V</li>");
-        out.println("  <li>S</li>");
-        out.println(" </ul>");
-        int daysInMonth = current.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
-        GregorianCalendar ci = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),1,0,0);
-        int dayCounter = 1;
-        int loopCounter = 1;
-        int firstDay = ci.get(GregorianCalendar.DAY_OF_WEEK);
-        out.println("<ul class=\"daysCal\">");
-        sdf = new SimpleDateFormat("dd");
-        url.setParameter(Rel, Set_DATE);
-        for(int i=1; i<=6; i++) {
-            for(int j=1; j<8; j++) {
-                out.println("<li>");
-                if( loopCounter>=firstDay && dayCounter<=daysInMonth ) {
-                    url.setParameter(Roll, sdf.format(ci.getTime()));
-                    out.print("<a href=\"javascript:location.href='"+url+"'\">");
-                    out.println(sdf.format(ci.getTime())+"</a>");
-                    
-                    ci.add(GregorianCalendar.DAY_OF_MONTH, 1);
-                    dayCounter++;
-                }
-                loopCounter++;
-                out.println("</li>");
-            }
+        
+        if(request.getParameter("alertmsg")!=null && !request.getParameter("alertmsg").isEmpty()) {
+            out.println("<h1>"+request.getParameter("alertmsg")+"</h1>");
         }
-        out.println(" </ul>");
-        out.println("</div>");
-        
-        
-//        out.println("<div id=\"dayselectorCal\">");
-//        out.println(" <p class=\"disponibilidadSalas\">Disponibilidad de salas</p>");
-//        sdf = new SimpleDateFormat("yyyy,M,d", locale);
-//        url.setParameter(Rel, Roll_DATE);
-//        url.setParameter(Roll, Roll_LEFT);
-//        out.println(" <p><a href=\"javascript:location.href='"+url+"'\" class=\"salasAtras\">atr&aacute;s</a></p>");
-//        sdf = new SimpleDateFormat("EEEE d 'de' MMMM", locale);
-//        out.println(" <p id=\"current\" class=\"dayAndMonth\">"+sdf.format(current.getTime())+"</p>");
-//        url.setParameter(Roll, Roll_RIGHT);
-//        out.println(" <p><a href=\"javascript:location.href='"+url+"'\" class=\"salasAdelante\">adelante</a></p>");
-//        out.println("</div>");
         
         Iterator<Sala> isalas = Sala.ClassMgr.listSalas(base.getWebSite());        
         isalas = SWBComparator.sortByDisplayName(isalas, lang);
-        List<Sala> salas = SWBUtils.Collections.copyIterator(isalas);        
-        
-sdf = new SimpleDateFormat("dd/MMM/yyyy", locale);
-out.println("<form id=\"_rs_\" method=\"post\" dojoType=\"dijit.form.Form\" action=\""+paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD)+"?hrs=+hrs.join(','));\">");
-out.println("<div id=\"mainPop\">");
-out.println(" <div id=\"popMiddle\">");
-out.println("  <p>Sala:<br />");
-out.println("   <select name=\"sl\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\" style=\"width:220px\">");
-out.println("    <option value=\"\"></option>");
-for(Sala sala:salas) {
-    if(!sala.isActive()) {
-        salas.remove(sala);
-        continue;
-    }
-out.println("    <option value=\""+sala.getId()+"\">"+sala.getDisplayTitle(lang)+"</option>");
-}
-out.println("   </select>");
-out.println("  </p>");
-out.println("  <p>Fecha de reservaci&oacute;n:<br />");
-out.println("     <label for=\"sd\">Del: </label><input type=\"text\" name=\"sd\" id=\"sd\" value=\""+sdf.format(current.getTime())+"\" dojoType=\"dijit.form.ValidationTextBox\" style=\"width:110px;\" readonly=\"readonly\" />");
-out.println("     <label for=\"fd\">Al: </label><input type=\"text\" name=\"fd\" id=\"fd\" value=\""+dateDojo.format(current.getTime())+"\" dojoType=\"dijit.form.DateTextBox\" constraints=\"{min:'"+dateDojo.format(current.getTime())+"',max:'2013-12-31',datePattern:'dd/MMM/yyyy'}\"  required=\"true\" trim=\"true\" promptMessage=\"formato de la fecha dd/MM/yyyy\" invalidMessage=\"Invalid date\" style=\"width:110px;\" />");
-out.println("  </p>");
-out.println("  <p>Horario de reservaci&oacute;n:<br />");
-out.println("     <label for=\"sh\">Desde: </label><select name=\"sh\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\" style=\"width:70px\"><option value=\"08:00\">08:00</option><option value=\"08:30\">08:29</option><option value=\"09:00\">09:00</option><option value=\"09:29\">09:29</option><option value=\"10:00\">10:00</option><option value=\"10:29\">10:29</option></select>");
-out.println("     <label for=\"fh\">Hasta: </label><select name=\"fh\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\" style=\"width:70px\"><option value=\"09:00\">09:00</option><option value=\"09:29\">09:29</option><option value=\"10:00\">10:00</option><option value=\"10:29\">10:29</option></select>");
-out.println("  </p>");
-out.println("  <div>");
-out.println("   <p>");
-out.println("    <span class=\"blueCalTit\">Motivo de la reuni&oacute;n:</span><br />");
-out.println("    <label for=\"mtv\"></label><textarea name=\"mtv\" id=\"mtv\" dojoType=\"ValidationTextarea\" required=\"true\" promptMessage=\"Motivo\" invalidMessage=\"El motivo de la junta es requerido\" class=\"datosCal\"></textarea>");
-out.println("   </p>");
-out.println("  </div>");
-out.println("  <div class=\"twinsCal\">");
-out.println("   <p><span class=\"blueCalTit\">Tipo de reuni&oacute;n</span>:</p>");
-out.println("   <ul>");
-out.println("    <li><label for=\"meetsng\">Interna <input type=\"radio\" name=\"tpmeet\" id=\"meetsng\" value=\"0\" onclick=\"collapse('_tpcf_')\" checked=\"checked\" /></label></li>");
-out.println("    <li><label for=\"meetspcl\">Externa <input type=\"radio\" name=\"tpmeet\" id=\"meetspcl\" value=\"1\" onclick=\"expande('_tpcf_')\" /></label></li>");
-out.println("   </ul>");
-out.println("  </div>");
-out.println("  <div id=\"_tpcf_\">");
-out.println("   <p>Cafeteria: </p>");
-out.println("   <ul>");
-out.println("    <li><label for=\"sngl\">Sencilla <input type=\"radio\" name=\"tpcf\" id=\"sngl\" value=\"0\" checked=\"checked\" /></label></li>");
-out.println("    <li><label for=\"spcl\">Especial <input type=\"radio\" name=\"tpcf\" id=\"spcl\" value=\"1\" /></label></li>");
-out.println("   </ul>");
-out.println("   <p><label for=\"cfgrn\"><input type=\"checkbox\" name=\"cfgrn\" id=\"cfgrn\" value=\"true\" /> Café de grano</label></p>");
-out.println("   <p><label for=\"cfsbl\"> <input type=\"checkbox\" name=\"cfslb\" id=\"cfslb\" value=\"true\" checked=\"checked\" /> Café soluble</label></p>");
-out.println("   <p><label for=\"sds\"><input type=\"checkbox\" name=\"sds\" id=\"sds\" value=\"true\" /> Refrescos</label></p>");
-out.println("   <p><label for=\"h2o\"><input type=\"checkbox\" name=\"h2o\" id=\"h2o\" value=\"true\" checked=\"checked\" /> Agua</label></p>");
-out.println("   <p><label for=\"cks\"><input type=\"checkbox\" name=\"cks\" id=\"cks\" value=\"true\" /> Galletas</label></p>");
-out.println("   <p>Horario del servicio: </p>");
-out.println("   <ul>");
-out.println("    <li><label for=\"allsrvc\">Durante <input type=\"radio\" name=\"tmsrvc\" id=\"allsrvc\" value=\"1\" onclick=\"collapse('_tmsrvc_')\" checked=\"checked\" /></label></li>");
-out.println("    <li><label for=\"brksrvc\">Receso <input type=\"radio\" name=\"tmsrvc\" id=\"brksrvc\" value=\"0\" onclick=\"expande('_tmsrvc_')\" /></label></li>");
-out.println("   </ul>");
-out.println("  </div>");
-out.println("  <div id=\"_tmsrvc_\">");
-out.println("   <p><label for=\"hrsrvc\">Horario del servicio: <input type=\"text\" name=\"hrsrvc\" id=\"hrsrvc\" value=\"\" /></label></p>");
-out.println("  </div>");
-out.println("  <div class=\"twinsCal1\">");
-out.println("   <p><label for=\"turnout\">N&uacute;mero de asistentes</span></p>");
-out.println("   <input type=\"text\" name=\"turnout\" id=\"turnout\" value=\"\" size=\"10\" maxlength=\"3\" dojoType=\"dijit.form.ValidationTextBox\" required=\"true\" promptMessage=\"Asistentes\" invalidMessage=\"El valor es incorrecto\" regExp=\"\\d{1,3}\" trim=\"true\" />");
-out.println("  </div>");
-out.println("  <p>&nbsp;</p>");
-out.println("  <p class=\"blueCalTit\">Selecciona los servicios que solicitas </p>");
-out.println("  <ul>");
-out.println("   <li>");
-out.println("    <label for=\"prjctr\"><input type=\"checkbox\" name=\"prjctr\" id=\"prjctr\" value=\"projector\" /> Proyector</label>");
-out.println("   </li>");
-out.println("   <li>");
-out.println("    <label for=\"pcs\"><input type=\"checkbox\" name=\"pcs\" id=\"pcs\" value=\"pcs\" /> Computadora</label>");
-out.println("   </li>");
-out.println("  </ul>");
-out.println("  <p>");
-out.println("   <label for=\"osrvcs\"><span class=\"blueCalTit\">Otros servicios necesarios</span></label><br />");
-out.println("   <textarea name=\"osrvcs\" id=\"osrvcs\" dojoType=\"ValidationTextarea\" class=\"datosCal\"></textarea>");
-out.println("  </p>");
-out.println("  <p>");
-out.println("   <a href=\"javascript:dojo.byId('_rs_').reset()\" title=\"Limpiar formulario\">Limpiar</a>");
-out.println("   <a href=\"javascript:if(validateFrm())dojo.byId('_rs_').submit()\" class=\"soliCal\">Solicitar</a>");
-out.println("  </p>");
-out.println("  <p class=\"finePrint\">*Se te enviar&aacute; un e-mail con la confirmaci&oacute;n</p>");
-out.println(" </div>");
-out.println(" <p id=\"popBottom\"></p>");
-out.println("</div>");
-out.println("</form>");
-        
-        
+        final List<Sala> salas = SWBUtils.Collections.copyIterator(isalas);
+        for(Sala sala:salas) {
+            if(!user.haveAccess(sala) || !sala.isActive())
+                salas.remove(sala);
+        }
+        out.println(getForm(request, paramRequest, salas, locale));
         out.println("<br class=\"clear\"/>");
-        
-        
-out.println("<div id=\"dayselectorCal\">");
-out.println(" <p class=\"disponibilidadSalas\">Disponibilidad de salas</p>");
-sdf = new SimpleDateFormat("yyyy,M,d", locale);
-url.setParameter(Rel, Roll_DATE);
-url.setParameter(Roll, Roll_LEFT);
-out.println(" <p><a href=\"javascript:location.href='"+url+"'\" class=\"salasAtras\">atr&aacute;s</a></p>");
-sdf = new SimpleDateFormat("EEEE d 'de' MMMM", locale);
-out.println(" <p id=\"current\" class=\"dayAndMonth\">"+sdf.format(current.getTime())+"</p>");
-url.setParameter(Roll, Roll_RIGHT);
-out.println(" <p><a href=\"javascript:location.href='"+url+"'\" class=\"salasAdelante\">adelante</a></p>");
-out.println("</div>");  
+        out.println(getCalendar(request, paramRequest, locale));
 
-
-
-        out.println("<a href=\"#\" onclick=\"showFormDialog('_cvr_','#000000',80);abc()\" class=\"soliCal\">Solicitar</a>");
-        
-        
-        
-        
-        sdf = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         out.println("<table id=\"mainTableCal\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
-        out.println("<tr class=\"trCalSalas\">");
+        out.println(" <tr class=\"trCalSalas\">");
         out.println("  <td height=\"30\">Hora</td>");
         for(Sala sala:salas) {
             out.println("  <td height=\"30\"><a href=\""+paramRequest.getRenderUrl().setMode(Mode_SALA).setParameter("sl", sala.getEncodedURI()) +"\" title=\"ver sala\">"+sala.getDisplayTitle(lang)+"</a></td>");
         }
-        out.println("</tr>");
-        
-        final com.infotec.eworkplace.swb.Date date = com.infotec.eworkplace.swb.Date.ClassMgr.getDate(dateId, base.getWebSite());
+        out.println(" </tr>");
         
         GregorianCalendar hourOfDay = new GregorianCalendar(2011,0,1,8,0);//auxiliar
-        for(int i=480; i<=1260; i+=30) {
-            out.println("<tr>");
+        GregorianCalendar begin = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
+        begin.set(Calendar.MINUTE, 480);
+        GregorianCalendar end = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
+        end.set(Calendar.MINUTE, 509);
+
+        //for(int i=480; i<=1260; i+=30) {
+        for(int i=480; i<=600; i+=30) {
+            out.println(" <tr>");
             out.println("  <td rowspan=\"2\" class=\"theHoursCal\"><p>"+sdf.format(hourOfDay.getTime())+"</p></td>");
             for(Sala sala:salas) {
-                if(sala.isReservada(date, i, i+29))
+                if(sala.isReservada(begin.getTime(), end.getTime()))
                     out.println("  <td id=\""+sala.getId()+"_"+i+"\" class=\"x sltc trCal1\">&nbsp;</td>");
                 else
                     out.println("  <td id=\""+sala.getId()+"_"+i+"\" class=\"sltc trCal1\">&nbsp;</td>");
             }
-            out.println("</tr>");
-            out.println("<tr>");
+            out.println(" </tr>");
+            out.println(" <tr>");
             i+=30;
+            begin.add(Calendar.MINUTE, 30);
+            end.add(Calendar.MINUTE, 30);
             for(Sala sala:salas) {
-                if(sala.isReservada(date, i, i+29))
+                if(sala.isReservada(begin.getTime(), end.getTime()))
                     out.println("  <td id=\""+sala.getId()+"_"+i+"\" class=\"x sltc trCal1\">&nbsp;</td>");
                 else
                     out.println("  <td id=\""+sala.getId()+"_"+i+"\" class=\"sltc trCal1\">&nbsp;</td>");
             }
-            out.println("</tr>");
+            out.println(" </tr>");
             hourOfDay.add(Calendar.HOUR_OF_DAY, 1);
+            begin.add(Calendar.MINUTE, 30);
+            end.add(Calendar.MINUTE, 30);
         }
         out.println("</table>");
-        /*out.println("<p><a href=\""+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_HELP) +"\">borrar reservaciones</a></p>");*/
         out.println("</div>");
-out.println("<script type=\"text/javascript\">");
-out.println("<!--");
-out.println(" dojo.addOnLoad(function() {");
-out.println("  collapse('_tpcf_');");
-out.println("  collapse('_tmsrvc_');");   
-out.println(" });");
-out.println("-->");
-out.println("</script>");
+        out.println("<script type=\"text/javascript\">");
+        out.println("<!--");
+        out.println(" dojo.addOnLoad(function() {");
+        out.println("     collapse('_tpcf_');");
+        out.println("     collapse('_tmsrvc_');");   
+        out.println(" });");
+        out.println("-->");
+        out.println("</script>");
     }
     
     public void doRoll(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
@@ -825,11 +847,15 @@ out.println("</script>");
             }
         }
         session.setAttribute("cur", current);
-        final String dateId = dwid.format(current.getTime());
+//        final String dateId = dwid.format(current.getTime());
         
-        out.println(getScript(request, paramRequest));
+        out.println(getScript(request, paramRequest, locale));
         out.println("<div id=\"apartadoSalas\">");
-        out.println("<div id=\"salasCal\">");
+        
+        if(request.getParameter("alertmsg")!=null && !request.getParameter("alertmsg").isEmpty()) {
+            out.println("<h1>"+request.getParameter("alertmsg")+"</h1>");
+        }
+        /*out.println("<div id=\"salasCal\">");
         SWBResourceURL url = paramRequest.getRenderUrl().setMode(Mode_ROLL);
         url.setParameter(Rel, Roll_MONTH);
         url.setParameter(Roll, Roll_LEFT);
@@ -882,14 +908,14 @@ out.println("</script>");
         out.println(" <p id=\"current\" class=\"dayAndMonth\">"+sdf.format(current.getTime())+"</p>");
         url.setParameter(Roll, Roll_RIGHT);
         out.println(" <p><a href=\"javascript:location.href='"+url+"'\" class=\"salasAdelante\">adelante</a></p>");
-        out.println("</div>");
+        out.println("</div>");*/
         
-Iterator<Sala> isalas = Sala.ClassMgr.listSalas(base.getWebSite());        
+/*Iterator<Sala> isalas = Sala.ClassMgr.listSalas(base.getWebSite());        
 isalas = SWBComparator.sortByDisplayName(isalas, lang);
-List<Sala> salas = SWBUtils.Collections.copyIterator(isalas);
+List<Sala> salas = SWBUtils.Collections.copyIterator(isalas);*/
         
         
-if(!salas.isEmpty()) {
+/*if(!salas.isEmpty()) {
     out.println("<div id=\"roomselectorCal\">");
     out.println(" <p>Salas</p>");
     out.println(" <ul>");
@@ -904,12 +930,23 @@ if(!salas.isEmpty()) {
     }
     out.println(" </ul>");
     out.println("</div>");
-}        
+}        */
         
+        Iterator<Sala> isalas = Sala.ClassMgr.listSalas(base.getWebSite());        
+        isalas = SWBComparator.sortByDisplayName(isalas, lang);
+        final List<Sala> salas = SWBUtils.Collections.copyIterator(isalas);
+        for(Sala sala:salas) {
+            if(!user.haveAccess(sala) || !sala.isActive())
+                salas.remove(sala);
+        }
+        out.println(getForm(request, paramRequest, salas, locale));
         out.println("<br class=\"clear\"/>");
-        out.println("<a href=\"#\" onclick=\"showFormDialog('_cvr_','#000000',80)\" class=\"soliCal\">Solicitar</a>");
+        out.println(getCalendar(request, paramRequest, locale));
         
-        sdf = new SimpleDateFormat("HH:mm");
+        /*out.println("<br class=\"clear\"/>");
+        out.println("<a href=\"#\" onclick=\"showFormDialog('_cvr_','#000000',80)\" class=\"soliCal\">Solicitar</a>");*/
+        
+        /*SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         out.println("<table id=\"mainTableCal\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
         out.println("<tr class=\"trCalSalas\">");
         out.println("  <td height=\"30\">Hora</td>");
@@ -922,32 +959,83 @@ if(!salas.isEmpty()) {
         }
         out.println("</tr>");
         
-        final com.infotec.eworkplace.swb.Date date = com.infotec.eworkplace.swb.Date.ClassMgr.getDate(dateId, base.getWebSite());
+////////////        final com.infotec.eworkplace.swb.Date date = com.infotec.eworkplace.swb.Date.ClassMgr.getDate(dateId, base.getWebSite());
         GregorianCalendar gc = new GregorianCalendar(2011,0,1,8,0);//auxiliar
         for(int i=480; i<=1260; i+=30) {
             out.println("<tr>");
             out.println("  <td rowspan=\"2\" class=\"theHoursCal\"><p>"+sdf.format(gc.getTime())+"</p></td>");
             for(Sala sala:salas) {
-                if(sala.isReservada(date, i, i+29))
-                    out.println("  <td id=\""+sala.getId()+"_"+i+"\" class=\"x sltc trCal1\">&nbsp;</td>");
-                else
+//                if(sala.isReservada(date, i, i+29))
+//                    out.println("  <td id=\""+sala.getId()+"_"+i+"\" class=\"x sltc trCal1\">&nbsp;</td>");
+//                else
                     out.println("  <td id=\""+sala.getId()+"_"+i+"\" class=\"sltc trCal1\">&nbsp;</td>");
             }
             out.println("</tr>");
             out.println("<tr>");
             i+=30;
             for(Sala sala:salas) {
-                if(sala.isReservada(date, i, i+29))
-                    out.println("  <td id=\""+sala.getId()+"_"+i+"\" class=\"x sltc trCal1\">&nbsp;</td>");
-                else
+//                if(sala.isReservada(date, i, i+29))
+//                    out.println("  <td id=\""+sala.getId()+"_"+i+"\" class=\"x sltc trCal1\">&nbsp;</td>");
+//                else
                     out.println("  <td id=\""+sala.getId()+"_"+i+"\" class=\"sltc trCal1\">&nbsp;</td>");
             }
             out.println("</tr>");
             gc.add(Calendar.HOUR_OF_DAY, 1);
         }
         out.println("</table>");
-        /*out.println("<p><a href=\""+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_HELP) +"\">borrar reservaciones</a></p>");*/
-        out.println("</div>");     
+//        out.println("<p><a href=\""+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_HELP) +"\">borrar reservaciones</a></p>");
+        out.println("</div>");     */
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        out.println("<table id=\"mainTableCal\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
+        out.println(" <tr class=\"trCalSalas\">");
+        out.println("  <td height=\"30\">Hora</td>");
+        for(Sala sala:salas) {
+            out.println("  <td height=\"30\"><a href=\""+paramRequest.getRenderUrl().setMode(Mode_SALA).setParameter("sl", sala.getEncodedURI()) +"\" title=\"ver sala\">"+sala.getDisplayTitle(lang)+"</a></td>");
+        }
+        out.println(" </tr>");
+        
+        GregorianCalendar hourOfDay = new GregorianCalendar(2011,0,1,8,0);//auxiliar
+        GregorianCalendar begin = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
+        begin.set(Calendar.MINUTE, 480);
+        GregorianCalendar end = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
+        end.set(Calendar.MINUTE, 509);
+
+        //for(int i=480; i<=1260; i+=30) {
+        for(int i=480; i<=600; i+=30) {
+            out.println(" <tr>");
+            out.println("  <td rowspan=\"2\" class=\"theHoursCal\"><p>"+sdf.format(hourOfDay.getTime())+"</p></td>");
+            for(Sala sala:salas) {
+                if(sala.isReservada(begin.getTime(), end.getTime()))
+                    out.println("  <td id=\""+sala.getId()+"_"+i+"\" class=\"x sltc trCal1\">&nbsp;</td>");
+                else
+                    out.println("  <td id=\""+sala.getId()+"_"+i+"\" class=\"sltc trCal1\">&nbsp;</td>");
+            }
+            out.println(" </tr>");
+            out.println(" <tr>");
+            i+=30;
+            begin.add(Calendar.MINUTE, 30);
+            end.add(Calendar.MINUTE, 30);
+            for(Sala sala:salas) {
+                if(sala.isReservada(begin.getTime(), end.getTime()))
+                    out.println("  <td id=\""+sala.getId()+"_"+i+"\" class=\"x sltc trCal1\">&nbsp;</td>");
+                else
+                    out.println("  <td id=\""+sala.getId()+"_"+i+"\" class=\"sltc trCal1\">&nbsp;</td>");
+            }
+            out.println(" </tr>");
+            hourOfDay.add(Calendar.HOUR_OF_DAY, 1);
+            begin.add(Calendar.MINUTE, 30);
+            end.add(Calendar.MINUTE, 30);
+        }
+        out.println("</table>");
+        out.println("</div>");
+        out.println("<script type=\"text/javascript\">");
+        out.println("<!--");
+        out.println(" dojo.addOnLoad(function() {");
+        out.println("     collapse('_tpcf_');");
+        out.println("     collapse('_tmsrvc_');");   
+        out.println(" });");
+        out.println("-->");
+        out.println("</script>");
     }
     
     private boolean userCanEdit(User user) {
@@ -983,8 +1071,8 @@ if(!salas.isEmpty()) {
             if(rs!=null){
                 System.out.println("rs="+rs);   
                 rs.getSala().setReservada(false);
-                if(rs.getFecha()!=null)
-                    rs.getFecha().remove();
+//                if(rs.getFecha()!=null)
+//                    rs.getFecha().remove();
                 rs.remove();
             }
         }
@@ -1062,12 +1150,12 @@ if(!salas.isEmpty()) {
             HttpSession session = request.getSession(true);
             GregorianCalendar current = (GregorianCalendar)session.getAttribute("cur");
             GregorianCalendar cur = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
-            if(sala.isReservada(cur, ihrs[0], ihrs[ihrs.length-1])) {
-                out.println("<p>5 la sala esta ocupada</p>");
-                out.flush();
-                out.close();
-                return;
-            }
+//            if(sala.isReservada(cur, ihrs[0], ihrs[ihrs.length-1])) {
+//                out.println("<p>5 la sala esta ocupada</p>");
+//                out.flush();
+//                out.close();
+//                return;
+//            }
         }catch(Exception nfe) {
             log.error(nfe);
             out.println("<p>6 no hay fecha para comparar reservacioens</p>");
