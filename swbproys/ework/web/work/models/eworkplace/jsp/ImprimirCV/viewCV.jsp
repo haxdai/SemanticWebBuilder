@@ -277,15 +277,25 @@ Author     : rene.jara
                         while (ites.hasNext()) {
                             EstudioSuperior es = ites.next();
                             String avance = es.getGradoAvance().getTitle();
-                            String estudio = es.getEstudiosSuperiores().getTitle();
+                            //String estudio = es.getEstudiosSuperiores().getTitle();
+                            String estudio="";
                             String periodo = "" + es.getPeriodoYears();
                             if (es.getPeriodoYears() == 1) {
                                 periodo += " año";
                             } else {
                                 periodo += " años";
                             }
+                            //es.getId().endsWith("_otro")&&es.getEstudiosSuperiores().getTitle().equals("otro");
+
+                            if(es.getEstudiosSuperiores().getId().endsWith("_otro")&&es.getEstudiosSuperiores().getTitle().equals("Otro")){
+                                estudio = "Otro / "+es.getOtroEstudio();
+                            } else{
+                                estudio = es.getEstudiosSuperiores().getTitle();
+                            }
+
+
                     %>
-                    <li><strong><%=estudio%></strong>,	<%=periodo%>, <%=avance%> </li>
+                    <li><strong><%=estudio%></strong>,	<%=periodo%>, <%=avance%>% </li>
                     <%
                         }
                     %>
