@@ -603,9 +603,9 @@ js.append("\n }");*/
         html.append(" </div>");
         html.append(" <div class=\"clear\">&nbsp;</div>");
         
-        html.append(" <div id=\"salas-cafeteria\">");
+        html.append(" <div id=\"_tpcf_\" class=\"salas-cafeteria\">");
         html.append("  <p><span class=\"blueCalTit\">Cafeteria:</span></p>");
-        html.append("  <div id=\"_tpcf_\">");
+        html.append("  <div>");
         html.append("   <p><label for=\"cfsbl\"><input type=\"checkbox\" name=\"cfslb\" id=\"cfslb\" value=\"true\" checked=\"checked\" /> Café soluble</label></p>");
         html.append("   <p><label for=\"cfgrn\"><input type=\"checkbox\" name=\"cfgrn\" id=\"cfgrn\" value=\"true\" /> Café de grano</label></p>");
         html.append("   <p><label for=\"h2o\"><input type=\"checkbox\" name=\"h2o\" id=\"h2o\" value=\"true\" checked=\"checked\" /> Agua</label></p>");
@@ -616,6 +616,9 @@ js.append("\n }");*/
         html.append("    <li><label for=\"allsrvc\">Durante <input type=\"radio\" name=\"tmsrvc\" id=\"allsrvc\" value=\""+ReservacionSala.Horario.Durante+"\" onclick=\"collapse('_tmsrvc_')\" checked=\"checked\" /></label></li>");
         html.append("    <li><label for=\"brksrvc\">Receso <input type=\"radio\" name=\"tmsrvc\" id=\"brksrvc\" value=\""+ReservacionSala.Horario.Receso+"\" onclick=\"expande('_tmsrvc_')\" /></label></li>");
         html.append("   </ul>");
+        html.append("   <div id=\"_tmsrvc_\">");
+        html.append("    <p><label for=\"hrsrvc\">Horario del servicio: <input type=\"text\" name=\"hrsrvc\" id=\"hrsrvc\" value=\"\" /></label></p>");
+        html.append("   </div>");
         html.append("  </div>");
         html.append(" </div>");
         html.append(" <div class=\"clear\">&nbsp;</div>");
@@ -641,11 +644,7 @@ js.append("\n }");*/
         html.append("  </ul>");        
         html.append(" </div>");
         html.append(" <div class=\"clear\">&nbsp;</div>");
-
-        html.append("  <div id=\"_tmsrvc_\">");
-        html.append("   <p><label for=\"hrsrvc\">Horario del servicio: <input type=\"text\" name=\"hrsrvc\" id=\"hrsrvc\" value=\"\" /></label></p>");
-        html.append("  </div>");
-     
+        
         html.append("  <p>");
         html.append("   <a href=\"javascript:dojo.byId('_rs_').reset()\" title=\"Limpiar formulario\">Limpiar</a>");
         html.append("   <a href=\"javascript:if(validateFrm())dojo.byId('_rs_').submit()\" class=\"soliCal\">Solicitar</a>");
