@@ -304,11 +304,12 @@ Author     : rene.jara
                                 periodo += " años";
                             }
                             //es.getId().endsWith("_otro")&&es.getEstudiosSuperiores().getTitle().equals("otro");
-
-                            if(es.getEstudiosSuperiores().getId().endsWith("_otro")&&es.getEstudiosSuperiores().getTitle().equals("Otro")){
-                                estudio = "Otro / "+es.getOtroEstudio();
-                            } else{
-                                estudio = es.getEstudiosSuperiores().getTitle();
+                            if(es.getEstudiosSuperiores()!=null){
+                                if(es.getEstudiosSuperiores().getId().endsWith("_otro")&&es.getEstudiosSuperiores().getTitle().equals("Otro")){
+                                    estudio = "Otro / "+es.getOtroEstudio();
+                                } else{
+                                    estudio = es.getEstudiosSuperiores().getTitle();
+                                }
                             }
 
 
