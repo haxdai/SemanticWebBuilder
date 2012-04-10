@@ -264,7 +264,6 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         response.setContentType("text/html; charset=utf-8");
         
         PrintWriter out = response.getWriter();
-        Resource base = getResourceBase();
         User user = paramRequest.getUser();
         Locale locale = new Locale(user.getLanguage(),(user.getCountry()==null?"MX":user.getCountry()));
         
@@ -289,52 +288,6 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
             out.println("<p>no hay sala</p>");
             return;
         }
-
-        out.println("<script type=\"text/javascript\">");
-        out.println("dojo.require(\"dijit.Dialog\");");
-        out.println("dojo.require(\"dojox.layout.ContentPane\");");
-        out.println("dojo.require(\"dojo.parser\");");
-  
-        out.println("var hrs = [];");
-        out.println("var f1=function(item,i,pfx) {");
-        out.println("    var s = new String(pfx);");
-        out.println("    return item.substring(0,2)==s.substring(0,2);");
-        out.println("}");
-
-        out.println("function validate() {");
-        out.println("    if(hrs.length>0) {");
-        out.println("        hrs.sort();");
-        out.println("        if(dojo.every(hrs, f1)) {");
-        out.println("            location.href='"+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_EDIT)+"'+'?hrs='+hrs.join();");
-        out.println("        }else {");
-        out.println("            alert('no juegas');");
-        out.println("            dojo.every(hrs, function(item){dojo.style(dojo.byId(item),'backgroundColor','#ffffff');return true;});");
-        out.println("            hrs=[];");
-        out.println("        }");
-        out.println("    }else {");
-        out.println("        alert('para jugar hay que  seleccionar');");
-        out.println("    }");
-        out.println("}");
-
-        out.println("dojo.addOnLoad (");
-        out.println("  function() {");
-        out.println("    dojo.query(\".sltc\").connect(\"onclick\", function() {");
-        out.println("                      if(dojo.hasClass(this, 'x'))");
-        out.println("                          return;");
-        out.println("                      if(dojo.colorFromString(dojo.style(dojo.attr(this, 'id'),'backgroundColor')).toHex()=='#1d75b9') {");//ffffff
-        out.println("                          dojo.style(dojo.attr(this, 'id'),'backgroundColor','#ffffff');");//1d75b9
-        out.println("                          hrs.push(dojo.attr(this, 'id'));");
-        out.println("                      }else {");
-        out.println("                          dojo.style(dojo.attr(this, 'id'),'backgroundColor','#1d75b9');");
-        out.println("                          var i = dojo.indexOf(hrs, dojo.attr(this, 'id'));");
-        out.println("                          if(i>=0)");
-        out.println("                              hrs.splice(i,1);");
-        out.println("                      }");
-        out.println("                    }");
-        out.println("    );");
-        out.println("  }");
-        out.println(");");
-        out.println("</script>");
         
         Calendar cur =  Calendar.getInstance(locale);
         cur.setMinimalDaysInFirstWeek(1);
@@ -351,8 +304,9 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
             wk = cur.get(Calendar.WEEK_OF_MONTH);
         }
         out.println("<div>");
-        out.println("<h3>Semana "+wk+"</h3>");
-        out.println("<h3>"+sala.getDisplayTitle(locale.getLanguage())+"</h3>");
+        out.println(" <h3>"+sala.getDisplayTitle(locale.getLanguage())+"</h3>");
+        out.println(" <h3>Semana "+wk+"</h3>");
+        
         if(wk>1)
             out.println("<a href=\"#\" title=\"\">anterior</a>");
         if(wk<wom)
@@ -360,95 +314,106 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         out.println("<div>");
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd", locale);
         out.println("<table id=\"mainTableCal\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
-        out.println("<tr class=\"trCalSalas\">");
-        out.println(" <td height=\"30\">Hora</td>");       
+        out.println(" <tr class=\"trCalSalas\">");
+        out.println("  <td height=\"30\">Hora</td>");       
         final int fdcw = cur.get(Calendar.DAY_OF_MONTH);
         if(wk==1) {
             for(int k=1; k<=7; k++) {
                 if(k>=dow && k<7)
-                    out.println("<td height=\"30\">"+sdf.format(cur.getTime())+"</td>");
+                    out.println("  <td height=\"30\">"+sdf.format(cur.getTime())+"</td>");
                 else if(k>1 && k<7)
-                    out.println("<td height=\"30\" class=\"deactive\">"+sdf.format(cur.getTime())+"</td>");
+                    out.println("  <td height=\"30\" class=\"deactive\">"+sdf.format(cur.getTime())+"</td>");
                 cur.add(Calendar.DATE, 1);
             }
         }else {
             for(int k=1; k<=7; k++) {
                 if(month<cur.get(Calendar.MONTH) && k<7)
-                    out.println("<td height=\"30\" class=\"deactive\">"+sdf.format(cur.getTime())+"</td>");
-                else if(k>1&&k<7)
-                    out.println("<td height=\"30\">"+sdf.format(cur.getTime())+"</td>"); 
+                    out.println("  <td height=\"30\" class=\"deactive\">"+sdf.format(cur.getTime())+"</td>");
+                else if(k>1 && k<7)
+                    out.println("  <td height=\"30\">"+sdf.format(cur.getTime())+"</td>"); 
                 cur.add(Calendar.DATE, 1);
             }
         }
-        out.println("</tr>");
+        out.println(" </tr>");
+//        cur.set(Calendar.DAY_OF_MONTH, fdcw);
+        
         
         sdf = new SimpleDateFormat("HH:mm");
-        cur.set(Calendar.DAY_OF_MONTH, fdcw);
-        cur.set(Calendar.HOUR_OF_DAY, 8);
-        cur.set(Calendar.MINUTE, 0);
-        cur.set(Calendar.SECOND, 0);
+        //GregorianCalendar begin = new GregorianCalendar(cur.get(Calendar.YEAR),cur.get(Calendar.MONTH),cur.get(Calendar.DATE),0,0,0);
+        GregorianCalendar begin = new GregorianCalendar(cur.get(Calendar.YEAR),cur.get(Calendar.MONTH),fdcw,0,0,0);
+        begin.set(Calendar.MINUTE, 480);
+        //GregorianCalendar end = new GregorianCalendar(cur.get(Calendar.YEAR),cur.get(Calendar.MONTH),cur.get(Calendar.DATE),0,0,0);
+        GregorianCalendar end = new GregorianCalendar(cur.get(Calendar.YEAR),cur.get(Calendar.MONTH),fdcw,0,0,0);
+        end.set(Calendar.MINUTE, 509);
+        
         for(int i=1; i<=14; i++) {
-            out.println("<tr>");
-            out.println(" <td rowspan=\"2\" class=\"theHoursCal\"><p>"+sdf.format(cur.getTime())+"</p></td>");
+            out.println(" <tr>");
+            out.println("  <td rowspan=\"2\" class=\"theHoursCal\"><p>"+sdf.format(begin.getTime())+"</p></td>");
             if(wk==1) {
                 for(int k=1; k<=7; k++) {
                     if(k>=dow && k<7) {
-//                        if(sala.isReservada(cur, cur.get(Calendar.HOUR_OF_DAY)*60))
-//                            out.println(" <td id=\""+sala.getId()+"_"+cur.getTimeInMillis()+"\" class=\"x sltc trCal1\">&nbsp;</td>");
-//                        else
-                            out.println(" <td id=\""+sala.getId()+"_"+cur.getTimeInMillis()+"\" class=\"sltc trCal1\">&nbsp;</td>");
+                        if(sala.isReservada(begin.getTime(), end.getTime()))
+                            out.println("  <td class=\"x sltc trCal1\">&nbsp;</td>");
+                        else
+                            out.println("  <td class=\"sltc trCal1\">&nbsp;</td>");
                     }else if(k>1 && k<7) {
-                        out.println(" <td id=\""+sala.getId()+"_"+cur.getTimeInMillis()+"\" class=\"deactive sltc trCal1\">&nbsp;</td>");
+                        out.println("  <td class=\"deactive sltc trCal1\">&nbsp;</td>");
                     }
-                    cur.add(Calendar.DATE, 1);
+                    begin.add(Calendar.DATE, 1);
+                    end.add(Calendar.DATE, 1);
                 }
             }else {
                  for(int k=1; k<=7; k++) {
                     if(month<cur.get(Calendar.MONTH) && k<7) {
-                        out.println(" <td id=\""+sala.getId()+"_"+cur.getTimeInMillis()+"\" class=\"deactive sltc trCal1\">&nbsp;</td>");
+                        out.println("  <td id=\""+sala.getId()+"_"+cur.getTimeInMillis()+"\" class=\"deactive sltc trCal1\">&nbsp;</td>");
                     }else if(k>1&&k<7) {
-//                        if(sala.isReservada(cur, cur.get(Calendar.HOUR_OF_DAY)*60))
-//                            out.println(" <td id=\""+sala.getId()+"_"+cur.getTimeInMillis()+"\" class=\"x sltc trCal1\">&nbsp;</td>");
-//                        else
-                            out.println(" <td id=\""+sala.getId()+"_"+cur.getTimeInMillis()+"\" class=\"sltc trCal1\">&nbsp;</td>");
+                        if(sala.isReservada(begin.getTime(), end.getTime()))
+                            out.println("  <td class=\"x sltc trCal1\">&nbsp;</td>");
+                        else
+                            out.println("  <td class=\"sltc trCal1\">&nbsp;</td>");
                     }
-                    cur.add(Calendar.DATE, 1);
+                    begin.add(Calendar.DATE, 1);
+                    end.add(Calendar.DATE, 1);
                 }
             }
-            out.println("</tr>");
-            cur.set(Calendar.DAY_OF_MONTH, fdcw);
-            cur.add(Calendar.MINUTE, 30);
-            cur.set(Calendar.SECOND, 0);
-            out.println("<tr>");
+            out.println(" </tr>");
+            begin.set(Calendar.DAY_OF_MONTH, fdcw);
+            begin.add(Calendar.MINUTE, 30);
+            end.set(Calendar.DAY_OF_MONTH, fdcw);
+            end.add(Calendar.MINUTE, 30);
+            out.println(" <tr>");
             if(wk==1) {
                 for(int k=1; k<=7; k++) {
                     if(k>=dow && k<7) {
-//                        if(sala.isReservada(cur, cur.get(Calendar.HOUR_OF_DAY)*60))
-//                            out.println(" <td id=\""+sala.getId()+"_"+cur.getTimeInMillis()+"\" class=\"x sltc trCal1\">&nbsp;</td>");
-//                        else
-                            out.println(" <td id=\""+sala.getId()+"_"+cur.getTimeInMillis()+"\" class=\"sltc trCal1\">&nbsp;</td>");
+                        if(sala.isReservada(begin.getTime(), end.getTime()))
+                            out.println("  <td class=\"x sltc trCal1\">&nbsp;</td>");
+                        else
+                            out.println("  <td class=\"sltc trCal1\">&nbsp;</td>");
                     }else if(k>1 && k<7) {
-                        out.println(" <td id=\""+sala.getId()+"_"+cur.getTimeInMillis()+"\" class=\"deactive sltc trCal1\">&nbsp;</td>");
+                        out.println("  <td class=\"deactive sltc trCal1\">&nbsp;</td>");
                     }
-                    cur.add(Calendar.DATE, 1);
+                    begin.add(Calendar.DATE, 1);
+                    end.add(Calendar.DATE, 1);
                 }
             }else {
                  for(int k=1; k<=7; k++) {
                     if(month<cur.get(Calendar.MONTH) && k<7) {
-                        out.println(" <td id=\""+sala.getId()+"_"+cur.getTimeInMillis()+"\" class=\"deactive sltc trCal1\">&nbsp;</td>");
+                        out.println("  <td class=\"deactive sltc trCal1\">&nbsp;</td>");
                     }else if(k>1&&k<7) {
-//                        if(sala.isReservada(cur, cur.get(Calendar.HOUR_OF_DAY)*60))
-//                            out.println(" <td id=\""+sala.getId()+"_"+cur.getTimeInMillis()+"\" class=\"x sltc trCal1\">&nbsp;</td>");
-//                        else
-                            out.println(" <td id=\""+sala.getId()+"_"+cur.getTimeInMillis()+"\" class=\"sltc trCal1\">&nbsp;</td>");
+                        if(sala.isReservada(begin.getTime(), end.getTime()))
+                            out.println("  <td class=\"x sltc trCal1\">&nbsp;</td>");
+                        else
+                            out.println("  <td class=\"sltc trCal1\">&nbsp;</td>");
                     }
-                    cur.add(Calendar.DATE, 1);
+                    begin.add(Calendar.DATE, 1);
+                    end.add(Calendar.DATE, 1);
                 }
             }
-            out.println("</tr>");
-            cur.set(Calendar.DAY_OF_MONTH, fdcw);
-            cur.add(Calendar.MINUTE, 30);
-            cur.set(Calendar.SECOND, 0);
+            out.println(" </tr>");
+            begin.set(Calendar.DAY_OF_MONTH, fdcw);
+            begin.add(Calendar.MINUTE, 30);
+            end.set(Calendar.DAY_OF_MONTH, fdcw);
+            end.add(Calendar.MINUTE, 30);
         }
         out.println("</table>");
     }
