@@ -4,7 +4,6 @@
  */
 package com.infotec.cvi.swb.resources.reports;
 
-import com.infotec.cvi.swb.resources.CursoTicResource;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import org.semanticwb.Logger;
