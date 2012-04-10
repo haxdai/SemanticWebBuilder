@@ -2,7 +2,8 @@
 Document   : viewCV
 Created on : 21/02/2012, 06:18:56 PM
 Author     : rene.jara
---%><%@page import="com.infotec.eworkplace.swb.SWProfile"%>
+--%><%@page import="org.semanticwb.model.UserRepository"%>
+<%@page import="com.infotec.eworkplace.swb.SWProfile"%>
 <%@page import="org.semanticwb.SWBUtils"%>
 <%@page import="com.infotec.cvi.swb.Publicacion"%>
 <%@page import="com.infotec.cvi.swb.Docencia"%>
@@ -33,8 +34,21 @@ Author     : rene.jara
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/>
 <%
 //String repositoryId = paramRequest.getWebPage().getWebSite().getUserRepository().getId();
+//System.out.println("*****************");
             WebSite ws = paramRequest.getWebPage().getWebSite();
-            User user = paramRequest.getUser();
+            User user=null;
+            boolean showMenu=true;
+            String userId=request.getParameter("id");
+//System.out.println("userid:"+userId);
+            if (userId!=null&&!userId.equals("")){
+                UserRepository ur = ws.getUserRepository();
+                user = ur.getUser(userId);
+                showMenu=false;
+            }
+            if (user==null){
+                user = paramRequest.getUser();
+            }
+//System.out.println("user:"+user);
             Persona persona = Persona.ClassMgr.getPersona(user.getId(), ws);
             Candidato candidato = Candidato.ClassMgr.getCandidato(user.getId(), ws);
             CV cv = CV.ClassMgr.getCV(user.getId(), ws);
@@ -127,8 +141,12 @@ Author     : rene.jara
                     availability += " dias";
                 }
             }
+            if(showMenu){
 %>
 <%@include file="../menucvi.jsp" %>
+<%
+            }
+%>
 <div id="icv-print-content">
     <h1>Curriculum Vitae Infotec</h1>
     <%
@@ -624,7 +642,11 @@ Author     : rene.jara
     <%
                     }
                 }
+                if(showMenu){
     %>
     <p><a href="<%=(paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(Mode_PDF))%>" title="ver en pdf" target="_blank">ver en pdf</a></p>
     <p><a href="<%=(paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(SWBResourceURL.Mode_XML))%>" title="ver en xml" target="_blank">ver en xml</a></p>
+    <%
+                }
+    %>
 </div>
