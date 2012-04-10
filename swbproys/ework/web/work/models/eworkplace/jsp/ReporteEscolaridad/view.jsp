@@ -777,8 +777,8 @@
         WebSite wsite = paramRequest.getWebPage().getWebSite();
         ret.append("<script type=\"text/javascript\">");
         ret.append(" function newWin(url){");
-        ret.append("    window.open(url,'Curriculum Vitae INFOTEC','width=400,height=600,location=no');");
-        ret.append("    return true;");
+        ret.append("    window.open(url,'CVI','menubar=0,location=0,scrollbars=1,width=650,height=600');");
+        ret.append("    ");
         ret.append("");
         ret.append("");
         ret.append("}");
@@ -801,8 +801,8 @@
             String key = itstr.next();
 
             User usrcv = wsite.getUserRepository().getUser(key);
-            Resource resource = wsite.getResource("492");
-            WebPage wpage = wsite.getWebPage("Ver_Curriculum");
+            Resource resource = wsite.getResource("890");
+            WebPage wpage = wsite.getWebPage("ver_CV");
             SWBResourceURLImp urldet = new SWBResourceURLImp(request, resource, wpage, SWBResourceURL.UrlType_RENDER);
             //urldet.setParameter("act", "detailcv");
             urldet.setParameter("id", usrcv.getId());
@@ -811,9 +811,10 @@
             ret.append("                     <td>");
             ret.append(usrcv.getFullName());
             ret.append("                     </td><td><a href=\"#\" ");
-            ret.append("onclick=\"newWin('");
+            ret.append("onclick=\"javascript:newWin('");
             ret.append(urldet);
-            ret.append("');\" >ver</a></td>");
+            ret.append("');return false;\" target=\"_blank\">ver</a>");
+            ret.append("                   </td>");
             ret.append("                  </tr>");
 
         }
