@@ -700,10 +700,10 @@ cfd.set(Calendar.MINUTE, fh);
             if(!user.haveAccess(sala) || !sala.isActive())
                 salas.remove(sala);
         }
-        out.println(getForm(request, paramRequest, salas, locale));
-        out.println("<br class=\"clear\"/>");
+//        out.println(getForm(request, paramRequest, salas, locale));
+//        out.println("<br class=\"clear\"/>");
+//        out.println(getCalendar(request, paramRequest, locale));
         out.println(getCalendar(request, paramRequest, locale));
-
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         out.println("<table id=\"mainTableCal\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
         out.println("<thead>");
@@ -722,8 +722,7 @@ cfd.set(Calendar.MINUTE, fh);
         end.set(Calendar.MINUTE, 509);
         
         out.println("<tbody>");
-        //for(int i=480; i<=1260; i+=30) {
-        for(int i=480; i<=600; i+=30) {
+        for(int i=480; i<=1260; i+=30) {
             out.println(" <tr>");
             out.println("  <td rowspan=\"2\" class=\"theHoursCal\"><p>"+sdf.format(hourOfDay.getTime())+"</p></td>");
             for(Sala sala:salas) {
@@ -750,6 +749,9 @@ cfd.set(Calendar.MINUTE, fh);
         }
         out.println("</tbody>");
         out.println("</table>");
+        out.println("<br class=\"clear\"/>");
+        out.println(getForm(request, paramRequest, salas, locale));
+        
         out.println("</div>");
         out.println("<script type=\"text/javascript\">");
         out.println("<!--");
@@ -804,11 +806,9 @@ cfd.set(Calendar.MINUTE, fh);
         
         out.println(getScript(request, paramRequest, locale));
         out.println("<div id=\"apartadoSalas\">");
-        
         if(request.getParameter("alertmsg")!=null && !request.getParameter("alertmsg").isEmpty()) {
             out.println("<h1>"+request.getParameter("alertmsg")+"</h1>");
         }
-        
         Iterator<Sala> isalas = Sala.ClassMgr.listSalas(base.getWebSite());        
         isalas = SWBComparator.sortByDisplayName(isalas, lang);
         final List<Sala> salas = SWBUtils.Collections.copyIterator(isalas);
@@ -816,10 +816,10 @@ cfd.set(Calendar.MINUTE, fh);
             if(!user.haveAccess(sala) || !sala.isActive())
                 salas.remove(sala);
         }
-        out.println(getForm(request, paramRequest, salas, locale));
+        /*out.println(getForm(request, paramRequest, salas, locale));
         out.println("<br class=\"clear\"/>");
+        out.println(getCalendar(request, paramRequest, locale));*/  
         out.println(getCalendar(request, paramRequest, locale));
-        
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         out.println("<table id=\"mainTableCal\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
         out.println("<thead>");
@@ -838,8 +838,7 @@ cfd.set(Calendar.MINUTE, fh);
         end.set(Calendar.MINUTE, 509);
         
         out.println("<tbody>");
-        //for(int i=480; i<=1260; i+=30) {
-        for(int i=480; i<=600; i+=30) {
+        for(int i=480; i<=1260; i+=30) {
             out.println(" <tr>");
             out.println("  <td rowspan=\"2\" class=\"theHoursCal\"><p>"+sdf.format(hourOfDay.getTime())+"</p></td>");
             for(Sala sala:salas) {
@@ -865,8 +864,10 @@ cfd.set(Calendar.MINUTE, fh);
             end.add(Calendar.MINUTE, 30);
         }
         out.println("</tbody>");
-        
         out.println("</table>");
+        out.println("<br class=\"clear\"/>");
+        out.println(getForm(request, paramRequest, salas, locale));
+        
         out.println("</div>");
         out.println("<script type=\"text/javascript\">");
         out.println("<!--");
