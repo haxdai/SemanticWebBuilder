@@ -23,6 +23,7 @@ import org.semanticwb.model.GenericObject;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.Role;
 import org.semanticwb.model.SWBComparator;
+import org.semanticwb.model.SWBModel;
 import org.semanticwb.model.User;
 import org.semanticwb.model.UserGroup;
 import org.semanticwb.model.WebSite;
@@ -233,7 +234,7 @@ cfd.set(Calendar.MINUTE, fh);
                 return;
             }
             
-            if(!sala.isReservada(csd.getTime(), cfd.getTime())) {
+            if(!sala.isReservadaPA(csd.getTime(), cfd.getTime())) {
                 ReservacionSala reservation = ReservacionSala.ClassMgr.createReservacionSala(model);
                 reservation.setSala(sala);
                 reservation.setFechaInicio(csd.getTime());
@@ -721,7 +722,8 @@ cfd.set(Calendar.MINUTE, fh);
         end.set(Calendar.MINUTE, 509);
         
         out.println("<tbody>");
-        for(int i=480; i<=1260; i+=30) {
+        //for(int i=480; i<=1260; i+=30) {
+        for(int i=480; i<=600; i+=30) {
             out.println(" <tr>");
             out.println("  <td rowspan=\"2\" class=\"theHoursCal\"><p>"+sdf.format(hourOfDay.getTime())+"</p></td>");
             for(Sala sala:salas) {
@@ -836,7 +838,8 @@ cfd.set(Calendar.MINUTE, fh);
         end.set(Calendar.MINUTE, 509);
         
         out.println("<tbody>");
-        for(int i=480; i<=1260; i+=30) {
+        //for(int i=480; i<=1260; i+=30) {
+        for(int i=480; i<=600; i+=30) {
             out.println(" <tr>");
             out.println("  <td rowspan=\"2\" class=\"theHoursCal\"><p>"+sdf.format(hourOfDay.getTime())+"</p></td>");
             for(Sala sala:salas) {
