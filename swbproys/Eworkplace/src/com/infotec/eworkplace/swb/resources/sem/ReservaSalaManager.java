@@ -282,7 +282,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         }
         
         if(sala==null) {
-            out.println("<p>no hay sala</p>");
+            out.println("<p>"+paramRequest.getLocaleString("msgErrRoomMismatch")+"</p>");
             return;
         }
         
@@ -304,10 +304,10 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         out.println(" <h3>"+sala.getDisplayTitle(locale.getLanguage())+"</h3>");
         out.println(" <h3>Semana "+wk+"</h3>");
         
-        if(wk>1)
-            out.println("<a href=\"#\" title=\"\">anterior</a>");
-        if(wk<wom)
-            out.println("&nbsp;<a href=\"#\" title=\"\">siguiente</a>");
+//        if(wk>1)
+//            out.println("<a href=\"#\" title=\"\">anterior</a>");
+//        if(wk<wom)
+//            out.println("&nbsp;<a href=\"#\" title=\"\">siguiente</a>");
         out.println("<div>");
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd", locale);
         out.println("<table id=\"mainTableCal\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
