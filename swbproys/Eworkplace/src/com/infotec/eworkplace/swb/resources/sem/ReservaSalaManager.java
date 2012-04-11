@@ -154,23 +154,31 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
                 response.setRenderParameter("alertmsg", response.getLocaleString("msgErrHourMismatch"));
                 return;
             }
-            csd.set(Calendar.HOUR_OF_DAY, 0);
-            csd.set(Calendar.MINUTE, sh);
-            csd.set(Calendar.SECOND, 0);
-            csd.set(Calendar.MILLISECOND, 0);
+//            csd.set(Calendar.HOUR_OF_DAY, 0);
+//            csd.set(Calendar.MINUTE, sh);
+//            csd.set(Calendar.SECOND, 0);
+//            csd.set(Calendar.MILLISECOND, 0);
+            reset(csd);
             
             try {
                 Date fd = dateDojo.parse(request.getParameter("fd"));
                 cfd = new GregorianCalendar(locale);
-                cfd.setTime(fd);
-                cfd.set(Calendar.HOUR_OF_DAY, 0);
-                cfd.set(Calendar.MINUTE, fh);
-                cfd.set(Calendar.SECOND, 0);
-                cfd.set(Calendar.MILLISECOND, 0);
+            cfd.setTime(fd);
             }catch(ParseException e) {
                 response.setRenderParameter("alertmsg", "5 ..."+response.getLocaleString("msgErrHourMismatch"));
                 return;
             }
+//            cfd.set(Calendar.HOUR_OF_DAY, 0);
+//            cfd.set(Calendar.MINUTE, fh);
+//            cfd.set(Calendar.SECOND, 0);
+//            cfd.set(Calendar.MILLISECOND, 0);
+            reset(cfd);
+
+System.out.println("cfd="+cfd.getTime());
+System.out.println("csd="+csd.getTime());
+System.out.println("cfd.compareTo(csd)="+cfd.compareTo(csd));
+csd.set(Calendar.MINUTE, sh);
+cfd.set(Calendar.MINUTE, fh);
 
             String mtv = SWBUtils.XML.replaceXMLChars(request.getParameter("mtv"));
             if(mtv.isEmpty()) {
@@ -524,6 +532,12 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         html.append("  <label for=\"sh\">De: </label><select name=\"sh\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\" promptMessage=\"Hora inicial\" invalidMessage=\"La hora inicial es requerida\"><option value=\"480\">08:00</option><option value=\"510\">08:30</option><option value=\"540\">09:00</option><option value=\"570\">09:30</option><option value=\"600\">10:00</option><option value=\"630\">10:30</option><option value=\"660\">11:00</option><option value=\"690\">11:30</option><option value=\"720\">12:00</option><option value=\"750\">12:30</option><option value=\"780\">13:00</option><option value=\"810\">13:30</option><option value=\"840\">14:00</option><option value=\"870\">14:30</option><option value=\"900\">15:00</option><option value=\"930\">15:30</option> <option value=\"960\">16:00</option> <option value=\"990\">16:30</option><option value=\"1020\">17:00</option><option value=\"1050\">17:30</option><option value=\"1080\">18:00</option><option value=\"1110\">18:30</option><option value=\"1140\">19:00</option><option value=\"1170\">19:30</option><option value=\"1200\">20:00</option><option value=\"1230\">20:30</option><option value=\"1260\">21:00</option></select>");
         html.append("  <label for=\"fh\">a: </label><select  name=\"fh\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\" promptMessage=\"Hora final\" invalidMessage=\"La hora final es requerida\"><option value=\"539\">08:59</option><option value=\"569\">09:29</option><option value=\"599\">09:59</option><option value=\"629\">10:29</option><option value=\"659\">10:59</option><option value=\"689\">11:29</option><option value=\"719\">11:59</option><option value=\"749\">12:29</option><option value=\"779\">12:59</option><option value=\"809\">13:29</option><option value=\"839\">13:59</option><option value=\"869\">14:29</option><option value=\"899\">14:59</option><option value=\"929\">15:29</option><option value=\"959\">15:59</option><option value=\"989\">16:29</option><option value=\"1019\">16:59</option><option value=\"1049\">17:29</option><option value=\"1079\">17:59</option><option value=\"1109\">18:29</option><option value=\"1139\">18:59</option><option value=\"1169\">19:29</option><option value=\"1199\">19:59</option><option value=\"1229\">20:29</option><option value=\"1259\">20:59</option><option value=\"1289\">21:29</option><option value=\"1319\">21:59</option></select>");
         html.append(" </div>");
+        
+        html.append(" <div id=\"salas-asistentes\">");
+        html.append("  <p><span class=\"blueCalTit\">N&uacute;mero de asistentes:</span></p>");
+        html.append("  <label for=\"turnout\"></label><input type=\"text\" name=\"turnout\" id=\"turnout\" value=\"\" size=\"10\" maxlength=\"3\" dojoType=\"dijit.form.ValidationTextBox\" required=\"true\" promptMessage=\"Asistentes\" invalidMessage=\"El valor es incorrecto\" regExp=\"\\d{1,3}\" trim=\"true\" />");
+        html.append(" </div>");
+        
         html.append(" <div class=\"salas4Cols salas-tipo\">");
         html.append("  <p><span class=\"blueCalTit\">Tipo de reuni&oacute;n:</span></p>");
         html.append("  <ul>");
@@ -534,13 +548,14 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         html.append(" <div class=\"clear\">&nbsp;</div>");
         
         html.append(" <div id=\"_tpcf_\">");
+        html.append("  <p><span class=\"blueCalTit\">Cafetería:</span></p>");
         html.append("  <div id=\"_tpcf_detalle\">");
         html.append("   <ul>");
-        html.append("    <li class=\"cafe_cfsbl\"><label for=\"cfsbl\"><input type=\"checkbox\" name=\"cfslb\" id=\"cfslb\" value=\"true\" checked=\"checked\" /> Café soluble</label></li>");
-        html.append("    <li class=\"cafe_cfgrn\"><label for=\"cfgrn\"><input type=\"checkbox\" name=\"cfgrn\" id=\"cfgrn\" value=\"true\" /> Café de grano</label></li>");
-        html.append("    <li class=\"cafe_h2o\"><label for=\"h2o\"><input type=\"checkbox\" name=\"h2o\" id=\"h2o\" value=\"true\" checked=\"checked\" /> Agua</label></li>");
-        html.append("    <li class=\"cafe_sds\"><label for=\"sds\"><input type=\"checkbox\" name=\"sds\" id=\"sds\" value=\"true\" /> Refrescos</label></li>");
-        html.append("    <li class=\"cafe_cks\"><label for=\"cks\"><input type=\"checkbox\" name=\"cks\" id=\"cks\" value=\"true\" /> Galletas</label></li>");
+        html.append("    <li class=\"cafe_cfsbl\"><input type=\"checkbox\" name=\"cfslb\" id=\"cfslb\" value=\"true\" checked=\"checked\" /><label for=\"cfslb\">Café soluble</label></li>");
+        html.append("    <li class=\"cafe_cfgrn\"><input type=\"checkbox\" name=\"cfgrn\" id=\"cfgrn\" value=\"true\" /><label for=\"cfgrn\">Café de grano</label></li>");
+        html.append("    <li class=\"cafe_h2o\"><input type=\"checkbox\" name=\"h2o\" id=\"h2o\" value=\"true\" checked=\"checked\" /><label for=\"h2o\">Agua</label></li>");
+        html.append("    <li class=\"cafe_sds\"><input type=\"checkbox\" name=\"sds\" id=\"sds\" value=\"true\" /><label for=\"sds\">Refrescos</label></li>");
+        html.append("    <li class=\"cafe_cks\"><input type=\"checkbox\" name=\"cks\" id=\"cks\" value=\"true\" /><label for=\"cks\">Galletas</label></li>");
         html.append("   </ul>");
         html.append("  </div>");
         html.append("  <div id=\"_tpcf_hora\">");
@@ -560,25 +575,25 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         html.append("  <label for=\"mtv\"></label><textarea name=\"mtv\" id=\"mtv\" dojoType=\"ValidationTextarea\" required=\"true\" promptMessage=\"Motivo\" invalidMessage=\"El motivo de la junta es requerido\" class=\"datosCal\"></textarea>");
         html.append(" </div>");
         
-        html.append(" <div id=\"salas-asistentes\">");
-        html.append("  <p><span class=\"blueCalTit\">N&uacute;mero de asistentes:</span></p>");
-        html.append("  <label for=\"turnout\"></label><input type=\"text\" name=\"turnout\" id=\"turnout\" value=\"\" size=\"10\" maxlength=\"3\" dojoType=\"dijit.form.ValidationTextBox\" required=\"true\" promptMessage=\"Asistentes\" invalidMessage=\"El valor es incorrecto\" regExp=\"\\d{1,3}\" trim=\"true\" />");
-        html.append(" </div>");
+//        html.append(" <div id=\"salas-asistentes\">");
+//        html.append("  <p><span class=\"blueCalTit\">N&uacute;mero de asistentes:</span></p>");
+//        html.append("  <label for=\"turnout\"></label><input type=\"text\" name=\"turnout\" id=\"turnout\" value=\"\" size=\"10\" maxlength=\"3\" dojoType=\"dijit.form.ValidationTextBox\" required=\"true\" promptMessage=\"Asistentes\" invalidMessage=\"El valor es incorrecto\" regExp=\"\\d{1,3}\" trim=\"true\" />");
+//        html.append(" </div>");
         
         html.append(" <div id=\"salas-material\">");
         html.append("  <p><span class=\"blueCalTit\">Materiales y equipo:</span></p>");
         html.append("  <ul>");
 //        html.append("   <li><label for=\"airc\"><input type=\"checkbox\" name=\"airc\" id=\"airc\" value=\"1\" />Aire acondicionado</label></li>");
-        html.append("   <li><label for=\"prjctr\"><input type=\"checkbox\" name=\"prjctr\" id=\"prjctr\" value=\"1\" />Proyector</label></li>");
-        html.append("   <li><label for=\"pcs\"><input type=\"checkbox\" name=\"pcs\" id=\"pcs\" value=\"1\" />Computadoras</label></li>");
+        html.append("   <li class=\"prjctr\"><input type=\"checkbox\" name=\"prjctr\" id=\"prjctr\" value=\"1\" /><label for=\"prjctr\">Proyector</label></li>");
+        html.append("   <li class=\"pcs\"><input type=\"checkbox\" name=\"pcs\" id=\"pcs\" value=\"1\" /><label for=\"pcs\">Computadoras</label></li>");
 //        html.append("   <li><label for=\"rtfl\"><input type=\"checkbox\" name=\"rtfl\" id=\"rtfl\" value=\"1\" />Rotafolio</label></li>");
-        html.append("   <li><label for=\"osrvcs\"><textarea name=\"osrvcs\" id=\"osrvcs\" dojoType=\"ValidationTextarea\" trim=\"true\"></textarea></label></li>");
+        html.append("   <li class=\"osrvcs\"><label for=\"osrvcs\">Otro: </label><textarea name=\"osrvcs\" id=\"osrvcs\" dojoType=\"ValidationTextarea\" trim=\"true\"></textarea></li>");
         html.append("  </ul>");        
         html.append(" </div>");
         html.append(" <div class=\"clear\">&nbsp;</div>");
         
         html.append("  <p>");
-        html.append("   <a href=\"javascript:dojo.byId('_rs_').reset()\" title=\"Limpiar formulario\">Limpiar</a>");
+        html.append("   <a href=\"javascript:dojo.byId('_rs_').reset()\" title=\"Limpiar formulario\" class=\"resetCal\">Limpiar</a>");
         html.append("   <a href=\"javascript:if(validateFrm())dojo.byId('_rs_').submit()\" class=\"soliCal\">Solicitar</a>");
         html.append("  </p>");
         html.append("  <p class=\"finePrint\">*Se te enviar&aacute; un e-mail con la confirmaci&oacute;n</p>");
@@ -690,19 +705,22 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
 
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         out.println("<table id=\"mainTableCal\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
+        out.println("<thead>");
         out.println(" <tr class=\"trCalSalas\">");
-        out.println("  <td height=\"30\">Hora</td>");
+        out.println("  <th class=\"thCalHora\">Hora</td>");
         for(Sala sala:salas) {
-            out.println("  <td height=\"30\"><a href=\""+paramRequest.getRenderUrl().setMode(Mode_SALA).setParameter("sl", sala.getEncodedURI()) +"\" title=\"ver sala\">"+sala.getDisplayTitle(lang)+"</a></td>");
+            out.println("  <th class=\"thCalS_"+sala.getId()+"\"><a href=\""+paramRequest.getRenderUrl().setMode(Mode_SALA).setParameter("sl", sala.getEncodedURI()) +"\" title=\"ver sala\">"+sala.getDisplayTitle(lang)+"</a></td>");
         }
         out.println(" </tr>");
+        out.println("</thead>");
         
         GregorianCalendar hourOfDay = new GregorianCalendar(2011,0,1,8,0);//auxiliar
         GregorianCalendar begin = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
         begin.set(Calendar.MINUTE, 480);
         GregorianCalendar end = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
         end.set(Calendar.MINUTE, 509);
-
+        
+        out.println("<tbody>");
         for(int i=480; i<=1260; i+=30) {
             out.println(" <tr>");
             out.println("  <td rowspan=\"2\" class=\"theHoursCal\"><p>"+sdf.format(hourOfDay.getTime())+"</p></td>");
@@ -728,6 +746,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
             begin.add(Calendar.MINUTE, 30);
             end.add(Calendar.MINUTE, 30);
         }
+        out.println("</tbody>");
         out.println("</table>");
         out.println("</div>");
         out.println("<script type=\"text/javascript\">");
@@ -801,19 +820,22 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         out.println("<table id=\"mainTableCal\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
+        out.println("<thead>");
         out.println(" <tr class=\"trCalSalas\">");
-        out.println("  <td height=\"30\">Hora</td>");
+        out.println("  <th class=\"thCalHora\">Hora</td>");
         for(Sala sala:salas) {
-            out.println("  <td height=\"30\"><a href=\""+paramRequest.getRenderUrl().setMode(Mode_SALA).setParameter("sl", sala.getEncodedURI()) +"\" title=\"ver sala\">"+sala.getDisplayTitle(lang)+"</a></td>");
+            out.println("  <th class=\"thCalS_"+sala.getId()+"\"><a href=\""+paramRequest.getRenderUrl().setMode(Mode_SALA).setParameter("sl", sala.getEncodedURI()) +"\" title=\"ver sala\">"+sala.getDisplayTitle(lang)+"</a></td>");
         }
         out.println(" </tr>");
+        out.println("</thead>");
         
         GregorianCalendar hourOfDay = new GregorianCalendar(2011,0,1,8,0);//auxiliar
         GregorianCalendar begin = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
         begin.set(Calendar.MINUTE, 480);
         GregorianCalendar end = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
         end.set(Calendar.MINUTE, 509);
-
+        
+        out.println("<tbody>");
         for(int i=480; i<=1260; i+=30) {
             out.println(" <tr>");
             out.println("  <td rowspan=\"2\" class=\"theHoursCal\"><p>"+sdf.format(hourOfDay.getTime())+"</p></td>");
@@ -839,6 +861,8 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
             begin.add(Calendar.MINUTE, 30);
             end.add(Calendar.MINUTE, 30);
         }
+        out.println("</tbody>");
+        
         out.println("</table>");
         out.println("</div>");
         out.println("<script type=\"text/javascript\">");
@@ -874,5 +898,12 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
             e.printStackTrace(System.out);
         }
         return userCanEdit;
+    }
+    
+    private void reset(Calendar cal) {
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
     }
 }
