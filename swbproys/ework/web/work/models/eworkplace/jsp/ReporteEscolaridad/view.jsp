@@ -801,10 +801,9 @@
             String key = itstr.next();
 
             User usrcv = wsite.getUserRepository().getUser(key);
-            Resource resource = wsite.getResource("890");
+            Resource resource = wsite.getResource("997");
             WebPage wpage = wsite.getWebPage("ver_CV");
             SWBResourceURLImp urldet = new SWBResourceURLImp(request, resource, wpage, SWBResourceURL.UrlType_RENDER);
-            //urldet.setParameter("act", "detailcv");
             urldet.setParameter("id", usrcv.getId());
             urldet.setCallMethod(SWBResourceURL.Call_CONTENT); 
             ret.append("                 <tr>");
@@ -812,7 +811,7 @@
             ret.append(usrcv.getFullName());
             ret.append("                     </td><td><a href=\"#\" ");
             ret.append("onclick=\"javascript:newWin('");
-            ret.append(urldet);
+            ret.append(urldet.toString());
             ret.append("');return false;\" target=\"_blank\">ver</a>");
             ret.append("                   </td>");
             ret.append("                  </tr>");
