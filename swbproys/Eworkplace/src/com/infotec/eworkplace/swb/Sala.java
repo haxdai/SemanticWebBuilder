@@ -1,10 +1,7 @@
 package com.infotec.eworkplace.swb;
 
 import com.infotec.eworkplace.swb.base.ReservacionSalaBase;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Iterator;
-import org.semanticwb.SWBUtils;
 import org.semanticwb.model.SWBComparator;
 import org.semanticwb.model.SWBModel;
 
