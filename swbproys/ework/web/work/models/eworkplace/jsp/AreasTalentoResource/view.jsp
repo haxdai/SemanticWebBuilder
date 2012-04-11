@@ -269,7 +269,7 @@
   
   <p class="icv-3col"><label><em>*</em>Área de talento</label><input dojoType="dijit.form.FilteringSelect" value="" required="true" store="talentos_<%=base.getId()%>" name="tlnt" id="tlnt_<%=base.getId()%>" onChange="dijit.byId('hbld_<%=base.getId()%>').attr('value','');dijit.byId('hbld_<%=base.getId()%>').query.tipo = this.value || '*';" promptMessage="Talento" invalidMessage="El talento requerido" /></p>
   <p class="icv-3col"><label><em>*</em>Habilidad</label><input dojoType="dijit.form.FilteringSelect" value="" required="true" store="habilidades_<%=base.getId()%>" name="hbld" id="hbld_<%=base.getId()%>" promptMessage="Habilidad" invalidMessage="La habilidad es requerida" /></p>
-  <p class="icv-3col"><label><em>*</em>Años de experiencia</label><input type="text" name="ytlnt" value="" size="3" maxlength="2" dojoType="dijit.form.ValidationTextBox" promptMessage="Registrar el tiempo en años de la experiencia" invalidMessage="Años de experiencia incorrecto" regExp="\d{1,2}" /></p>
+  <p class="icv-3col"><label><em>*</em>Años de experiencia</label><input type="text" name="ytlnt" size="3" maxlength="2" dojoType="dijit.form.ValidationTextBox" value="" required="true" promptMessage="Registrar el tiempo en años de la experiencia" invalidMessage="Años de experiencia incorrecto" regExp="\d{1,2}" /></p>
   <div class="clearer">&nbsp;</div>
  </div>
   <div class="icv-div-grupo">
@@ -341,7 +341,7 @@
   
    <p class="icv-3col"><label><em>*</em>Área de talento</label><input dojoType="dijit.form.FilteringSelect" value="<%=talento.getTipoAreaTalento().getId()%>" required="true" store="talentos_<%=base.getId()%>" name="tlnt" id="tlnt_<%=base.getId()%>" onChange="dijit.byId('hbld_<%=base.getId()%>').attr('value','');dijit.byId('hbld_<%=base.getId()%>').query.tipo = this.value || '*';" promptMessage="Talento" invalidMessage="El talento requerido" /></p>
    <p class="icv-3col"><label><em>*</em>Habilidad</label><input dojoType="dijit.form.FilteringSelect" value="<%=talento.getHabilidad().getId()%>" required="true" store="habilidades_<%=base.getId()%>" name="hbld" id="hbld_<%=base.getId()%>" promptMessage="Habilidad" invalidMessage="La habilidad es requerida" /></p>
-   <p class="icv-3col"><label><em>*</em>Años de experiencia</label><input type="text" name="ytlnt" value="<%=talento.getYearExperienceTalento()%>" size="3" maxlength="2" dojoType="dijit.form.ValidationTextBox" promptMessage="Registrar el tiempo en años de la experiencia" invalidMessage="Años de experiencia incorrecto" regExp="\d{1,2}" /></p>
+   <p class="icv-3col"><label><em>*</em>Años de experiencia</label><input type="text" name="ytlnt" value="<%=talento.getYearExperienceTalento()%>" size="3" maxlength="2" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Registrar el tiempo en años de la experiencia" invalidMessage="Años de experiencia incorrecto" regExp="\d{1,2}" /></p>
      <div class="clearer">&nbsp;</div>
  </div>
   <div class="icv-div-grupo">

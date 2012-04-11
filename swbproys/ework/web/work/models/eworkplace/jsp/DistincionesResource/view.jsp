@@ -22,6 +22,9 @@
 <%@page import="org.semanticwb.SWBUtils"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest" />
+<%!
+    public static final SimpleDateFormat dateDojo = new SimpleDateFormat("yyyy-MM-dd");
+%>
 <%
     User usr = paramRequest.getUser();
     if(!usr.isSigned())
@@ -254,7 +257,7 @@
  <div class="icv-div-grupo">
   <p class="icv-3col"><label><em>*</em>Título</label><input type="text" name="ttl" value="" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Registrar titulo" invalidMessage="El nombre del titulo es requerido"/></p>
   <p class="icv-3col"><label><em>*</em>Otorgante</label><input type="text" name="trgnt" value="" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Registro de Otorgante" invalidMessage="El nombre del otorgante es requerido"/></p>
-  <p class="icv-3col"><label><em>*</em>Fecha de entrega</label><input type="text" name="fp" value="" dojoType="dijit.form.DateTextBox" required="true" constraints="{datePattern:'dd/MM/yyyy'}" maxlength="10" hasDownArrow="true" promptMessage="Registro de fecha en la  que se recibió el titulo" invalidMessage="La fecha es requerida"/></p>
+  <p class="icv-3col"><label><em>*</em>Fecha de entrega</label><input type="text" name="fp" value="" dojoType="dijit.form.DateTextBox" required="true" constraints="{max:'<%=dateDojo.format(new java.util.Date())%>',datePattern:'dd/MM/yyyy'}" maxlength="10" hasDownArrow="true" promptMessage="Registro de fecha en la  que se recibió el titulo" invalidMessage="La fecha es requerida"/></p>
   <div class="clearer">&nbsp;</div>
  </div>
  <div class="centro">
