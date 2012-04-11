@@ -191,8 +191,8 @@ js.append("});\n");
             try {
                 experiencia.setFechaFin(sdf.parse(SWBUtils.XML.replaceXMLChars(request.getParameter("ff"))));
             }catch(ParseException e) {
-                response.setRenderParameter("alertmsg", "Fecha final mal");
-                return;
+//                response.setRenderParameter("alertmsg", "Fecha final mal");
+//                return;
             }
             experiencia.setCargo(SWBUtils.XML.replaceXMLChars(request.getParameter("crg")));
             experiencia.setFuncionesPrincipales(SWBUtils.XML.replaceXMLChars(request.getParameter("mfncs")));
