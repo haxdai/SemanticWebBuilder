@@ -21,16 +21,21 @@ import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.GenericObject;
 import org.semanticwb.model.Resource;
+import org.semanticwb.model.ResourceType;
+import org.semanticwb.model.Resourceable;
 import org.semanticwb.model.Role;
 import org.semanticwb.model.SWBComparator;
-import org.semanticwb.model.SWBModel;
 import org.semanticwb.model.User;
 import org.semanticwb.model.UserGroup;
+import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticOntology;
 import org.semanticwb.portal.api.*;
 import org.semanticwb.portal.api.SWBResourceURL;
+import org.semanticwb.process.model.FlowNodeInstance;
+import org.semanticwb.process.model.Instance;
+import org.semanticwb.process.model.ItemAwareReference;
 
 public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem.base.ReservaSalaManagerBase {
     private static Logger log = SWBUtils.getLogger(ReservaSalaManager.class);
@@ -268,6 +273,20 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
                 reservation.setRequiereComputo(request.getParameter("pcs")!=null);
                 if(!request.getParameter("osrvcs").isEmpty())
                     reservation.setServiciosAdicionales(request.getParameter("osrvcs").trim());
+                
+                //Obtener la instancia de la tarea -inicia
+                FlowNodeInstance fni = getFlowNodeInstance(request.getParameter("suri"));
+                if (fni != null) {
+                    //Enviar los datos a process
+                    LinkReserva(reservation, fni);
+                    String url = getTaskInboxUrl(fni);
+                    //Cerrar la tarea
+                    fni.close(user, Instance.ACTION_ACCEPT);
+                    if (url != null) {
+                        response.sendRedirect(url);
+                    }
+                }
+                //Obtener la instancia de la tarea -fin
             }else {
                 response.setRenderParameter("alertmsg", response.getLocaleString("msgErrReservationMismatch"));
                 setRenderParameter(request, response);
@@ -905,4 +924,70 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
     }
+    
+    private void copyObjects(ReservacionSala from, ReservacionSala to) {
+        to.setSala(from.getSala());
+        to.setFechaInicio(from.getFechaInicio());
+        to.setFechaFinal(from.getFechaFinal());
+        to.setAsistentes(from.getAsistentes());
+        to.setMotivo(from.getMotivo());
+        to.setTipoReunion(from.getTipoReunion());
+        if(ReservacionSala.TipoReunion.Externa == ReservacionSala.TipoReunion.valueOf(from.getTipoReunion())) {
+            to.setRequiereCafeGrano(from.isRequiereCafeGrano());
+            to.setRequiereCafeSoluble(from.isRequiereCafeSoluble());
+            to.setRequiereRefrescos(from.isRequiereRefrescos());
+            to.setRequiereAgua(from.isRequiereAgua());
+            to.setRequiereGalletas(from.isRequiereGalletas());
+            to.setRequiereServicioContinuo(from.isRequiereServicioContinuo());
+            to.setHorarioServicio(from.getHorarioServicio());
+        }
+        to.setRequiereProyector(from.isRequiereProyector());
+        to.setRequiereComputo(from.isRequiereComputo());
+        to.setServiciosAdicionales(from.getServiciosAdicionales());
+    }
+    
+    private void LinkReserva(ReservacionSala res, FlowNodeInstance fni) {
+        if (fni != null) {
+            //Recorrer objetos de la instancia en busca de la reservación
+            Iterator<ItemAwareReference> iawrefs = fni.getProcessInstance().listAllItemAwareReferences();
+            while (iawrefs.hasNext()) {
+                ItemAwareReference iawr = iawrefs.next();
+                if (iawr != null && iawr.getProcessObject() != null && iawr.getItemAware().getItemSemanticClass().equals(ReservacionSala.intranet_ReservacionSala)) {
+                   ReservacionSala copy = (ReservacionSala) iawr.getProcessObject();
+                   //Copiar los datos de la reservación
+                    copyObjects(res, copy);
+                }
+            }
+        }
+    }
+    
+    private FlowNodeInstance getFlowNodeInstance(String uri) {
+        FlowNodeInstance ret = null;
+        if (uri != null && !uri.trim().equals("")) {
+            SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
+            ret = (FlowNodeInstance)ont.getGenericObject(uri);
+        }
+        return ret;
+    }
+    
+    private String getTaskInboxUrl(FlowNodeInstance fni) {
+        String ret = null;
+        if (fni != null) {
+            ret = fni.getProcessWebPage().getUrl();
+            Resource base = getResourceBase();
+            ResourceType rtype = ResourceType.ClassMgr.getResourceType("ProcessTaskInbox", base.getWebSite());
+
+            if (rtype != null) {
+                Resource res = rtype.getResource();
+                if(res != null) {
+                    Resourceable resable = res.getResourceable();
+                    if(resable instanceof WebPage) {
+                        ret = ((WebPage)resable).getUrl();
+                    }
+                }
+            }
+        }
+        return ret;
+    }
+
 }
