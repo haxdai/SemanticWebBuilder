@@ -155,12 +155,9 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
                 response.setRenderParameter("alertmsg", response.getLocaleString("msgErrHourMismatch"));
                 return;
             }
-//            csd.set(Calendar.HOUR_OF_DAY, 0);
-//            csd.set(Calendar.MINUTE, sh);
-//            csd.set(Calendar.SECOND, 0);
-//            csd.set(Calendar.MILLISECOND, 0);
+
             reset(csd);
-            
+            csd.set(Calendar.MINUTE, sh);            
             try {
                 Date fd = dateDojo.parse(request.getParameter("fd"));
                 cfd = new GregorianCalendar(locale);
@@ -169,18 +166,9 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
                 response.setRenderParameter("alertmsg", "5 ..."+response.getLocaleString("msgErrHourMismatch"));
                 return;
             }
-//            cfd.set(Calendar.HOUR_OF_DAY, 0);
-//            cfd.set(Calendar.MINUTE, fh);
-//            cfd.set(Calendar.SECOND, 0);
-//            cfd.set(Calendar.MILLISECOND, 0);
             reset(cfd);
-
-System.out.println("cfd="+cfd.getTime());
-System.out.println("csd="+csd.getTime());
-System.out.println("cfd.compareTo(csd)="+cfd.compareTo(csd));
-csd.set(Calendar.MINUTE, sh);
-cfd.set(Calendar.MINUTE, fh);
-
+            cfd.set(Calendar.MINUTE, fh);
+            
             String mtv = SWBUtils.XML.replaceXMLChars(request.getParameter("mtv"));
             if(mtv.isEmpty()) {
                 response.setRenderParameter("alertmsg", response.getLocaleString("msgErrMoviteMissing"));
@@ -195,17 +183,9 @@ cfd.set(Calendar.MINUTE, fh);
                 return;
             }
             
-            ReservacionSala.Cafeteria tpcf = null;
             ReservacionSala.Horario tmsrvc = null;
             String hrsrvc = null;
             if(ReservacionSala.TipoReunion.Externa == tpmeet) {
-                try {
-                    tpcf = ReservacionSala.Cafeteria.valueOf(request.getParameter("tpcf"));
-                }catch(Exception e) {
-                    response.setRenderParameter("alertmsg", response.getLocaleString("msgErrCafeteriaMissing"));
-                    return;
-                }
-                
                 try {
                     tmsrvc = ReservacionSala.Horario.valueOf(request.getParameter("tmsrvc"));
                 }catch(Exception e) {
@@ -234,7 +214,7 @@ cfd.set(Calendar.MINUTE, fh);
                 return;
             }
             
-            if(!sala.isReservadaPA(csd.getTime(), cfd.getTime())) {
+            if(!sala.isReservada(csd, cfd)) {
                 ReservacionSala reservation = ReservacionSala.ClassMgr.createReservacionSala(model);
                 reservation.setSala(sala);
                 reservation.setFechaInicio(csd.getTime());
@@ -312,7 +292,6 @@ cfd.set(Calendar.MINUTE, fh);
         out.println("<div>");
         out.println(" <h3>"+sala.getDisplayTitle(locale.getLanguage())+"</h3>");
         out.println(" <h3>Semana "+wk+"</h3>");
-        
 //        if(wk>1)
 //            out.println("<a href=\"#\" title=\"\">anterior</a>");
 //        if(wk<wom)
@@ -341,14 +320,10 @@ cfd.set(Calendar.MINUTE, fh);
             }
         }
         out.println(" </tr>");
-//        cur.set(Calendar.DAY_OF_MONTH, fdcw);
-        
         
         sdf = new SimpleDateFormat("HH:mm");
-        //GregorianCalendar begin = new GregorianCalendar(cur.get(Calendar.YEAR),cur.get(Calendar.MONTH),cur.get(Calendar.DATE),0,0,0);
         GregorianCalendar begin = new GregorianCalendar(cur.get(Calendar.YEAR),cur.get(Calendar.MONTH),fdcw,0,0,0);
         begin.set(Calendar.MINUTE, 480);
-        //GregorianCalendar end = new GregorianCalendar(cur.get(Calendar.YEAR),cur.get(Calendar.MONTH),cur.get(Calendar.DATE),0,0,0);
         GregorianCalendar end = new GregorianCalendar(cur.get(Calendar.YEAR),cur.get(Calendar.MONTH),fdcw,0,0,0);
         end.set(Calendar.MINUTE, 509);
         
@@ -480,7 +455,7 @@ cfd.set(Calendar.MINUTE, fh);
         js.append("\n ");
         js.append("\n  var objd = dijit.byId('_rs_');");
         js.append("\n  if(objd.validate()) {");
-        js.append("\n   if(dojo.byId('brksrvc').checked==true && isEmpty(dojo.byId('hrSrvc').value)) {");
+        js.append("\n   if(dojo.byId('brksrvc').checked==true && isEmpty(dojo.byId('hrsrvc').value)) {");
         js.append("\n    alert('Datos incompletos para el horario de cafetería');");
         js.append("\n    return false;");
         js.append("\n   }");
@@ -489,11 +464,6 @@ cfd.set(Calendar.MINUTE, fh);
         js.append("\n   alert('Datos incompletos o incorrectos');");
         js.append("\n   return false;");
         js.append("\n  }");
-//        
-//        js.append("\n    console.log('no pasa');");
-//        js.append("\n  else");
-//        js.append("\n    console.log('si pasa');");
-//        js.append("\n  return true;");
         js.append("\n }");
 
         js.append("\n-->");
@@ -562,8 +532,8 @@ cfd.set(Calendar.MINUTE, fh);
         html.append("  <div id=\"_tpcf_hora\">");
         html.append("   <p>Horario del servicio: </p>");
         html.append("   <ul>");
-        html.append("    <li class=\"cafe_allsrvc\"><label for=\"allsrvc\">Durante <input type=\"radio\" name=\"tmsrvc\" id=\"allsrvc\" value=\""+ReservacionSala.Horario.Durante+"\" onclick=\"collapse('_tmsrvc_')\" checked=\"checked\" /></label></li>");
-        html.append("    <li class=\"cafe_brksrvc\"><label for=\"brksrvc\">Receso <input type=\"radio\" name=\"tmsrvc\" id=\"brksrvc\" value=\""+ReservacionSala.Horario.Receso+"\" onclick=\"expande('_tmsrvc_')\" /></label></li>");
+        html.append("    <li class=\"cafe_allsrvc\"><label for=\"allsrvc\">Durante</label> <input type=\"radio\" name=\"tmsrvc\" id=\"allsrvc\" value=\""+ReservacionSala.Horario.Durante+"\" onclick=\"collapse('_tmsrvc_')\" checked=\"checked\" /></li>");
+        html.append("    <li class=\"cafe_brksrvc\"><label for=\"brksrvc\">Receso</label> <input type=\"radio\" name=\"tmsrvc\" id=\"brksrvc\" value=\""+ReservacionSala.Horario.Receso+"\" onclick=\"expande('_tmsrvc_')\" /></li>");
         html.append("   </ul>");
         html.append("   <div id=\"_tmsrvc_\">");
         html.append("    <p><label for=\"hrsrvc\">Horario del servicio: <input type=\"text\" name=\"hrsrvc\" id=\"hrsrvc\" value=\"\" /></label></p>");
@@ -575,11 +545,6 @@ cfd.set(Calendar.MINUTE, fh);
         html.append("  <p><span class=\"blueCalTit\">Motivo de la reuni&oacute;n:</span></p>");
         html.append("  <label for=\"mtv\"></label><textarea name=\"mtv\" id=\"mtv\" dojoType=\"ValidationTextarea\" required=\"true\" promptMessage=\"Motivo\" invalidMessage=\"El motivo de la junta es requerido\" class=\"datosCal\"></textarea>");
         html.append(" </div>");
-        
-//        html.append(" <div id=\"salas-asistentes\">");
-//        html.append("  <p><span class=\"blueCalTit\">N&uacute;mero de asistentes:</span></p>");
-//        html.append("  <label for=\"turnout\"></label><input type=\"text\" name=\"turnout\" id=\"turnout\" value=\"\" size=\"10\" maxlength=\"3\" dojoType=\"dijit.form.ValidationTextBox\" required=\"true\" promptMessage=\"Asistentes\" invalidMessage=\"El valor es incorrecto\" regExp=\"\\d{1,3}\" trim=\"true\" />");
-//        html.append(" </div>");
         
         html.append(" <div id=\"salas-material\">");
         html.append("  <p><span class=\"blueCalTit\">Materiales y equipo:</span></p>");
@@ -700,9 +665,6 @@ cfd.set(Calendar.MINUTE, fh);
             if(!user.haveAccess(sala) || !sala.isActive())
                 salas.remove(sala);
         }
-//        out.println(getForm(request, paramRequest, salas, locale));
-//        out.println("<br class=\"clear\"/>");
-//        out.println(getCalendar(request, paramRequest, locale));
         out.println(getCalendar(request, paramRequest, locale));
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         out.println("<table id=\"mainTableCal\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
@@ -816,9 +778,6 @@ cfd.set(Calendar.MINUTE, fh);
             if(!user.haveAccess(sala) || !sala.isActive())
                 salas.remove(sala);
         }
-        /*out.println(getForm(request, paramRequest, salas, locale));
-        out.println("<br class=\"clear\"/>");
-        out.println(getCalendar(request, paramRequest, locale));*/  
         out.println(getCalendar(request, paramRequest, locale));
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         out.println("<table id=\"mainTableCal\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
@@ -866,8 +825,8 @@ cfd.set(Calendar.MINUTE, fh);
         out.println("</tbody>");
         out.println("</table>");
         out.println("<br class=\"clear\"/>");
+        if(!current.before(new java.util.Date()))
         out.println(getForm(request, paramRequest, salas, locale));
-        
         out.println("</div>");
         out.println("<script type=\"text/javascript\">");
         out.println("<!--");
