@@ -75,9 +75,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setContentType("text/html; charset=utf-8");
-        
-        PrintWriter out = response.getWriter();
-        Resource base = getResourceBase();
+
         User user = paramRequest.getUser();
         Locale locale = new Locale(user.getLanguage(),(user.getCountry()==null?"MX":user.getCountry()));
         
@@ -85,7 +83,6 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         HttpSession session = request.getSession(true);
         current = new GregorianCalendar(locale);
         session.setAttribute("cur", current);
-        
         
 //        if(userCanEdit(user)) {
 //            out.println("<div><a href=\"#\" title=\"\">Reservar una sala</a></div>");
@@ -103,6 +100,26 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
 //        }else {
             renderReservations(request, response, paramRequest, current, locale);
 //        }
+    }
+    
+    private void setRenderParameter(HttpServletRequest request, SWBActionResponse response) {
+        response.setRenderParameter("sl", request.getParameter("sl"));
+        response.setRenderParameter("fd", request.getParameter("fd"));
+        response.setRenderParameter("sh", request.getParameter("sh"));
+        response.setRenderParameter("fh", request.getParameter("fh"));
+        response.setRenderParameter("turnout", request.getParameter("turnout"));
+        response.setRenderParameter("tpmeet", request.getParameter("tpmeet"));
+        response.setRenderParameter("cfslb", request.getParameter("cfslb"));
+        response.setRenderParameter("cfgrn", request.getParameter("cfgrn"));
+        response.setRenderParameter("h2o", request.getParameter("h2o"));
+        response.setRenderParameter("sds", request.getParameter("sds"));
+        response.setRenderParameter("cks", request.getParameter("cks"));
+        response.setRenderParameter("tmsrvc", request.getParameter("tmsrvc"));
+        response.setRenderParameter("hrsrvc", request.getParameter("hrsrvc"));
+        response.setRenderParameter("mtv", request.getParameter("mtv"));
+        response.setRenderParameter("prjctr", request.getParameter("prjctr"));
+        response.setRenderParameter("pcs", request.getParameter("pcs"));
+        response.setRenderParameter("osrvcs", request.getParameter("osrvcs"));
     }
     
     @Override
@@ -127,10 +144,12 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
                 sala = Sala.ClassMgr.getSala(request.getParameter("sl"), model);
             }catch(Exception e) {
                 response.setRenderParameter("alertmsg", response.getLocaleString("msgErrRoomMismatch"));
+                setRenderParameter(request, response);
                 return;
             }
             if(sala==null) {
                 response.setRenderParameter("alertmsg", response.getLocaleString("msgErrRoomMismatch"));
+                setRenderParameter(request, response);
                 return;
             }
             
@@ -140,11 +159,13 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
                 fh = Integer.parseInt(request.getParameter("fh"));
             }catch(Exception e) {
                 response.setRenderParameter("alertmsg", response.getLocaleString("msgErrHourMismatch"));
+                setRenderParameter(request, response);
                 return;
             }
             fh += 30;
             if(fh-sh<T_MIN) {
                 response.setRenderParameter("alertmsg", response.getLocaleString("msgErrHourMismatch"));
+                setRenderParameter(request, response);
                 return;
             }
             
@@ -153,6 +174,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
                 csd.setTime(current.getTime());
             }catch(Exception e) {
                 response.setRenderParameter("alertmsg", response.getLocaleString("msgErrHourMismatch"));
+                setRenderParameter(request, response);
                 return;
             }
 
@@ -164,6 +186,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
             cfd.setTime(fd);
             }catch(ParseException e) {
                 response.setRenderParameter("alertmsg", "5 ..."+response.getLocaleString("msgErrHourMismatch"));
+                setRenderParameter(request, response);
                 return;
             }
             reset(cfd);
@@ -172,6 +195,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
             String mtv = SWBUtils.XML.replaceXMLChars(request.getParameter("mtv"));
             if(mtv.isEmpty()) {
                 response.setRenderParameter("alertmsg", response.getLocaleString("msgErrMoviteMissing"));
+                setRenderParameter(request, response);
                 return;
             }
 
@@ -180,6 +204,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
                 tpmeet = ReservacionSala.TipoReunion.valueOf(request.getParameter("tpmeet"));
             }catch(Exception e) {
                 response.setRenderParameter("alertmsg", response.getLocaleString("msgErrMeetTypeMissing"));
+                setRenderParameter(request, response);
                 return;
             }
             
@@ -190,6 +215,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
                     tmsrvc = ReservacionSala.Horario.valueOf(request.getParameter("tmsrvc"));
                 }catch(Exception e) {
                     response.setRenderParameter("alertmsg", response.getLocaleString("msgErrCafeServiceMissing"));
+                    setRenderParameter(request, response);
                     return;
                 }
                 
@@ -197,6 +223,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
                     hrsrvc = SWBUtils.XML.replaceXMLChars(request.getParameter("hrsrvc"));
                     if(hrsrvc.isEmpty()) {
                         response.setRenderParameter("alertmsg", "10 ..."+response.getLocaleString("msgErrCafeServiceMissing"));
+                        setRenderParameter(request, response);
                         return;
                     }
                 }
@@ -207,10 +234,12 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
                 turnout = Integer.parseInt(request.getParameter("turnout"));
             }catch(NumberFormatException e) {
                 response.setRenderParameter("alertmsg", response.getLocaleString("msgErrTurnOutMissing"));
+                setRenderParameter(request, response);
                 return;
             }
             if(turnout<TRNOUT_MIN || sala.getCapacidad()<turnout) {
                 response.setRenderParameter("alertmsg", response.getLocaleString("msgErrTurnOutMismatch"));
+                setRenderParameter(request, response);
                 return;
             }
             
@@ -241,6 +270,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
                     reservation.setServiciosAdicionales(request.getParameter("osrvcs").trim());
             }else {
                 response.setRenderParameter("alertmsg", response.getLocaleString("msgErrReservationMismatch"));
+                setRenderParameter(request, response);
                 return;
             }
         }
@@ -489,14 +519,14 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         html.append("  <select name=\"sl\" id=\"sl\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\" promptMessage=\"Selecciona una sala\" invalidMessage=\"La sala es requerida\">");
         html.append("   <option value=\"\"></option>");
         for(Sala sala:salas) {
-            html.append("   <option value=\""+sala.getId()+"\">"+sala.getDisplayTitle(locale.getLanguage())+"</option>");
+            html.append("   <option value=\""+sala.getId()+"\" "+(sala.getId().equals(request.getParameter("sl"))?"selected=\"selected\"":"")+">"+sala.getDisplayTitle(locale.getLanguage())+"</option>");
         }
         html.append("  </select>");
         html.append(" </div>");
         html.append(" <div class=\"salas4Cols salas-fecha\">");
         html.append("  <p><span class=\"blueCalTit\">Fecha:</span></p>");
         html.append("     <label for=\"sd\">Del: </label><input type=\"text\" name=\"sd\" id=\"sd\" value=\""+sdf.format(current.getTime())+"\" dojoType=\"dijit.form.ValidationTextBox\" readonly=\"readonly\" />");
-        html.append("     <label for=\"fd\">al: </label><input type=\"text\" name=\"fd\" id=\"fd\" value=\""+dateDojo.format(current.getTime())+"\" dojoType=\"dijit.form.DateTextBox\" constraints=\"{min:'"+dateDojo.format(current.getTime())+"',max:'2013-12-31',datePattern:'dd/MMM/yyyy'}\"  required=\"true\" trim=\"true\" promptMessage=\"formato de la fecha dd/MM/yyyy\" invalidMessage=\"Invalid date\" />");
+        html.append("     <label for=\"fd\">al: </label><input type=\"text\" name=\"fd\" id=\"fd\" value=\""+(request.getParameter("fd")==null?dateDojo.format(current.getTime()):request.getParameter("fd"))+"\" dojoType=\"dijit.form.DateTextBox\" constraints=\"{min:'"+dateDojo.format(current.getTime())+"',max:'2013-12-31',datePattern:'dd/MMM/yyyy'}\"  required=\"true\" trim=\"true\" promptMessage=\"formato de la fecha dd/MM/yyyy\" invalidMessage=\"Invalid date\" />");
         html.append(" </div>");
         html.append(" <div class=\"salas4Cols salas-hora\">");
         html.append("  <p><span class=\"blueCalTit\">Horario:</span></p>");
@@ -506,14 +536,14 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         
         html.append(" <div id=\"salas-asistentes\">");
         html.append("  <p><span class=\"blueCalTit\">N&uacute;mero de asistentes:</span></p>");
-        html.append("  <label for=\"turnout\"></label><input type=\"text\" name=\"turnout\" id=\"turnout\" value=\"\" size=\"10\" maxlength=\"3\" dojoType=\"dijit.form.ValidationTextBox\" required=\"true\" promptMessage=\"Asistentes\" invalidMessage=\"El valor es incorrecto\" regExp=\"\\d{1,3}\" trim=\"true\" />");
+        html.append("  <label for=\"turnout\"></label><input type=\"text\" name=\"turnout\" id=\"turnout\" value=\""+(request.getParameter("turnout")==null?"":request.getParameter("turnout"))+"\" size=\"10\" maxlength=\"3\" dojoType=\"dijit.form.ValidationTextBox\" required=\"true\" promptMessage=\"Asistentes\" invalidMessage=\"El valor es incorrecto\" regExp=\"\\d{1,3}\" trim=\"true\" />");
         html.append(" </div>");
         
         html.append(" <div class=\"salas4Cols salas-tipo\">");
         html.append("  <p><span class=\"blueCalTit\">Tipo de reuni&oacute;n:</span></p>");
         html.append("  <ul>");
-        html.append("   <li><label for=\"meetsng\">Interna <input  type=\"radio\" name=\"tpmeet\" id=\"meetsng\"  value=\""+ReservacionSala.TipoReunion.Interna+"\" onclick=\"collapse('_tpcf_')\" checked=\"checked\" /></label></li>");
-        html.append("   <li><label for=\"meetspcl\">Externa <input type=\"radio\" name=\"tpmeet\" id=\"meetspcl\" value=\""+ReservacionSala.TipoReunion.Externa+"\" onclick=\"expande('_tpcf_')\" /></label></li>");
+        html.append("   <li><label for=\"meetsng\">Interna <input  type=\"radio\" name=\"tpmeet\" id=\"meetsng\"  value=\""+ReservacionSala.TipoReunion.Interna+"\" onclick=\"collapse('_tpcf_')\" "+(request.getParameter("tpmeet")==null?"checked=\"checked\"":(request.getParameter("tpmeet").equals(ReservacionSala.TipoReunion.Interna.name())?"checked=\"checked\"":""))+" /></label></li>");
+        html.append("   <li><label for=\"meetspcl\">Externa <input type=\"radio\" name=\"tpmeet\" id=\"meetspcl\" value=\""+ReservacionSala.TipoReunion.Externa+"\" onclick=\"expande('_tpcf_')\" "+(request.getParameter("tpmeet")==null?"":(request.getParameter("tpmeet").equals(ReservacionSala.TipoReunion.Externa.name())?"checked=\"checked\"":""))+" /></label></li>");
         html.append("  </ul>");
         html.append(" </div>");
         html.append(" <div class=\"clear\">&nbsp;</div>");
@@ -522,38 +552,38 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         html.append("  <p><span class=\"blueCalTit\">Cafetería:</span></p>");
         html.append("  <div id=\"_tpcf_detalle\">");
         html.append("   <ul>");
-        html.append("    <li class=\"cafe_cfsbl\"><input type=\"checkbox\" name=\"cfslb\" id=\"cfslb\" value=\"true\" checked=\"checked\" /><label for=\"cfslb\">Café soluble</label></li>");
-        html.append("    <li class=\"cafe_cfgrn\"><input type=\"checkbox\" name=\"cfgrn\" id=\"cfgrn\" value=\"true\" /><label for=\"cfgrn\">Café de grano</label></li>");
-        html.append("    <li class=\"cafe_h2o\"><input type=\"checkbox\" name=\"h2o\" id=\"h2o\" value=\"true\" checked=\"checked\" /><label for=\"h2o\">Agua</label></li>");
-        html.append("    <li class=\"cafe_sds\"><input type=\"checkbox\" name=\"sds\" id=\"sds\" value=\"true\" /><label for=\"sds\">Refrescos</label></li>");
-        html.append("    <li class=\"cafe_cks\"><input type=\"checkbox\" name=\"cks\" id=\"cks\" value=\"true\" /><label for=\"cks\">Galletas</label></li>");
+        html.append("    <li class=\"cafe_cfsbl\"><input type=\"checkbox\" name=\"cfslb\" id=\"cfslb\" value=\"true\" "+(request.getParameter("cfslb")==null?"":"checked=\"checked\"")+" /><label for=\"cfslb\">Café soluble</label></li>");
+        html.append("    <li class=\"cafe_cfgrn\"><input type=\"checkbox\" name=\"cfgrn\" id=\"cfgrn\" value=\"true\" "+(request.getParameter("cfgrn")==null?"":"checked=\"checked\"")+" /><label for=\"cfgrn\">Café de grano</label></li>");
+        html.append("    <li class=\"cafe_h2o\"><input type=\"checkbox\" name=\"h2o\" id=\"h2o\" value=\"true\" "+(request.getParameter("h2o")==null?"":"checked=\"checked\"")+" /><label for=\"h2o\">Agua</label></li>");
+        html.append("    <li class=\"cafe_sds\"><input type=\"checkbox\" name=\"sds\" id=\"sds\" value=\"true\" "+(request.getParameter("sds")==null?"":"checked=\"checked\"")+" /><label for=\"sds\">Refrescos</label></li>");
+        html.append("    <li class=\"cafe_cks\"><input type=\"checkbox\" name=\"cks\" id=\"cks\" value=\"true\" "+(request.getParameter("cks")==null?"":"checked=\"checked\"")+" /><label for=\"cks\">Galletas</label></li>");
         html.append("   </ul>");
         html.append("  </div>");
         html.append("  <div id=\"_tpcf_hora\">");
         html.append("   <p>Horario del servicio: </p>");
         html.append("   <ul>");
-        html.append("    <li class=\"cafe_allsrvc\"><label for=\"allsrvc\">Durante</label> <input type=\"radio\" name=\"tmsrvc\" id=\"allsrvc\" value=\""+ReservacionSala.Horario.Durante+"\" onclick=\"collapse('_tmsrvc_')\" checked=\"checked\" /></li>");
-        html.append("    <li class=\"cafe_brksrvc\"><label for=\"brksrvc\">Receso</label> <input type=\"radio\" name=\"tmsrvc\" id=\"brksrvc\" value=\""+ReservacionSala.Horario.Receso+"\" onclick=\"expande('_tmsrvc_')\" /></li>");
+        html.append("    <li class=\"cafe_allsrvc\"><label for=\"allsrvc\">Durante</label> <input type=\"radio\" name=\"tmsrvc\" id=\"allsrvc\" value=\""+ReservacionSala.Horario.Durante+"\" onclick=\"collapse('_tmsrvc_')\" "+(request.getParameter("tmsrvc")==null?"checked=\"checked\"":(request.getParameter("tmsrvc").equals(ReservacionSala.Horario.Durante.name())?"checked=\"checked\"":""))+" /></li>");
+        html.append("    <li class=\"cafe_brksrvc\"><label for=\"brksrvc\">Receso</label> <input type=\"radio\" name=\"tmsrvc\" id=\"brksrvc\" value=\""+ReservacionSala.Horario.Receso+"\" onclick=\"expande('_tmsrvc_')\" "+(request.getParameter("tmsrvc")==null?"":(request.getParameter("tmsrvc").equals(ReservacionSala.Horario.Receso.name())?"checked=\"checked\"":""))+" /></li>");
         html.append("   </ul>");
         html.append("   <div id=\"_tmsrvc_\">");
-        html.append("    <p><label for=\"hrsrvc\">Horario del servicio: <input type=\"text\" name=\"hrsrvc\" id=\"hrsrvc\" value=\"\" /></label></p>");
+        html.append("    <p><label for=\"hrsrvc\">Horario del servicio: <input type=\"text\" name=\"hrsrvc\" id=\"hrsrvc\" value=\""+(request.getParameter("hrsrvc")==null?"":request.getParameter("hrsrvc"))+"\" /></label></p>");
         html.append("   </div>");
         html.append("  </div>");
         html.append(" </div>");
         
         html.append(" <div id=\"salas-motivo\">");
         html.append("  <p><span class=\"blueCalTit\">Motivo de la reuni&oacute;n:</span></p>");
-        html.append("  <label for=\"mtv\"></label><textarea name=\"mtv\" id=\"mtv\" dojoType=\"ValidationTextarea\" required=\"true\" promptMessage=\"Motivo\" invalidMessage=\"El motivo de la junta es requerido\" class=\"datosCal\"></textarea>");
+        html.append("  <label for=\"mtv\"></label><textarea name=\"mtv\" id=\"mtv\" dojoType=\"ValidationTextarea\" required=\"true\" promptMessage=\"Motivo\" invalidMessage=\"El motivo de la junta es requerido\" class=\"datosCal\">"+(request.getParameter("mtv")==null?"":request.getParameter("mtv").trim())+"</textarea>");
         html.append(" </div>");
         
         html.append(" <div id=\"salas-material\">");
         html.append("  <p><span class=\"blueCalTit\">Materiales y equipo:</span></p>");
         html.append("  <ul>");
 //        html.append("   <li><label for=\"airc\"><input type=\"checkbox\" name=\"airc\" id=\"airc\" value=\"1\" />Aire acondicionado</label></li>");
-        html.append("   <li class=\"prjctr\"><input type=\"checkbox\" name=\"prjctr\" id=\"prjctr\" value=\"1\" /><label for=\"prjctr\">Proyector</label></li>");
-        html.append("   <li class=\"pcs\"><input type=\"checkbox\" name=\"pcs\" id=\"pcs\" value=\"1\" /><label for=\"pcs\">Computadoras</label></li>");
+        html.append("   <li class=\"prjctr\"><input type=\"checkbox\" name=\"prjctr\" id=\"prjctr\" value=\"1\" "+(request.getParameter("prjctr")==null?"":"checked=\"checked\"")+" /><label for=\"prjctr\">Proyector</label></li>");
+        html.append("   <li class=\"pcs\"><input type=\"checkbox\" name=\"pcs\" id=\"pcs\" value=\"1\" "+(request.getParameter("pcs")==null?"":"checked=\"checked\"")+" /><label for=\"pcs\">Computadoras</label></li>");
 //        html.append("   <li><label for=\"rtfl\"><input type=\"checkbox\" name=\"rtfl\" id=\"rtfl\" value=\"1\" />Rotafolio</label></li>");
-        html.append("   <li class=\"osrvcs\"><label for=\"osrvcs\">Otro: </label><textarea name=\"osrvcs\" id=\"osrvcs\" dojoType=\"ValidationTextarea\" trim=\"true\"></textarea></li>");
+        html.append("   <li class=\"osrvcs\"><label for=\"osrvcs\">Otro: </label><textarea name=\"osrvcs\" id=\"osrvcs\" dojoType=\"ValidationTextarea\" trim=\"true\">"+(request.getParameter("osrvcs")==null?"":request.getParameter("osrvcs").trim())+"</textarea></li>");
         html.append("  </ul>");        
         html.append(" </div>");
         html.append(" <div class=\"clear\">&nbsp;</div>");
