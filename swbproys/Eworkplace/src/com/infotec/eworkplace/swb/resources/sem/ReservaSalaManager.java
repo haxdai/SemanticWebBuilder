@@ -680,13 +680,13 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         out.println(getScript(request, paramRequest, locale));       
         out.println("<div id=\"apartadoSalas\">");
         
-        if(request.getParameter("alertmsg")!=null && !request.getParameter("alertmsg").isEmpty()) {
-            out.println("<script type=\"text/javascript\">");
-            out.println("<!--");
-            out.println( "alert('"+request.getParameter("alertmsg")+"');");
-            out.println("-->");
-            out.println("</script>");
-        }
+//        if(request.getParameter("alertmsg")!=null && !request.getParameter("alertmsg").isEmpty()) {
+//            out.println("<script type=\"text/javascript\">");
+//            out.println("<!--");
+//            out.println( "alert('"+request.getParameter("alertmsg")+"');");
+//            out.println("-->");
+//            out.println("</script>");
+//        }
         
         Iterator<Sala> isalas = Sala.ClassMgr.listSalas(base.getWebSite());        
         isalas = SWBComparator.sortByDisplayName(isalas, lang);
@@ -748,8 +748,11 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         out.println("<script type=\"text/javascript\">");
         out.println("<!--");
         out.println(" dojo.addOnLoad(function() {");
-        out.println("     collapse('_tpcf_');");
-        out.println("     collapse('_tmsrvc_');");   
+        out.println(  request.getParameter("tpmeet")==null?"collapse('_tpcf_');":(request.getParameter("tpmeet").equals(ReservacionSala.TipoReunion.Interna.name())?"collapse('_tpcf_');":"expande('_tpcf_');")   );
+        out.println(  request.getParameter("tmsrvc")==null?"collapse('_tmsrvc_');":(request.getParameter("tmsrvc").equals(ReservacionSala.Horario.Durante.name())?"collapse('_tmsrvc_');":"expande('_tmsrvc_');")   );
+        if(request.getParameter("alertmsg")!=null && !request.getParameter("alertmsg").isEmpty()) {
+            out.println( "alert('"+request.getParameter("alertmsg")+"');");
+        }        
         out.println(" });");
         out.println("-->");
         out.println("</script>");
@@ -861,8 +864,11 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         out.println("<script type=\"text/javascript\">");
         out.println("<!--");
         out.println(" dojo.addOnLoad(function() {");
-        out.println("     collapse('_tpcf_');");
-        out.println("     collapse('_tmsrvc_');");   
+        out.println(  request.getParameter("tpmeet")==null?"collapse('_tpcf_');":(request.getParameter("tpmeet").equals(ReservacionSala.TipoReunion.Interna.name())?"collapse('_tpcf_');":"expande('_tpcf_');")   );
+        out.println(  request.getParameter("tmsrvc")==null?"collapse('_tmsrvc_');":(request.getParameter("tmsrvc").equals(ReservacionSala.Horario.Durante.name())?"collapse('_tmsrvc_');":"expande('_tmsrvc_');")   );
+        if(request.getParameter("alertmsg")!=null && !request.getParameter("alertmsg").isEmpty()) {
+            out.println( "alert('"+request.getParameter("alertmsg")+"');");
+        }        
         out.println(" });");
         out.println("-->");
         out.println("</script>");
