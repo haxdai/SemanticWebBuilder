@@ -56,7 +56,7 @@ public class ReporteInvestigacionDocencia extends GenericResource {
 
     public void doExport(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setHeader("Content-Disposition", " attachment; filename=\"reportInvestigacionDocencia" + System.currentTimeMillis() + ".xls\";");
-        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"); //application/vnd.ms-excel
+        response.setContentType("application/vnd.ms-excel"); //
         String reporte = "";
         reporte = request.getParameter("reporte");
         
