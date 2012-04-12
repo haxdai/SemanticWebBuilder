@@ -5,7 +5,11 @@
 package com.infotec.cvi.swb.resources.reports;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.portal.api.GenericResource;
@@ -17,8 +21,9 @@ import org.semanticwb.portal.api.SWBResourceException;
  * @author juan.fernandez
  */
 public class ReporteInvestigacionDocencia extends GenericResource {
-    
+
     private Logger log = SWBUtils.getLogger(ReporteInvestigacionDocencia.class);
+    private static final String MODE_EXPORT = "export";
 
     @Override
     public void doView(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
@@ -37,9 +42,30 @@ public class ReporteInvestigacionDocencia extends GenericResource {
                 }
             }
         }
-        
-        
-
     }
-    
+
+    @Override
+    public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+
+        if (paramRequest.getMode().equals(MODE_EXPORT)) {
+            doExport(request, response, paramRequest);
+        } else {
+            super.processRequest(request, response, paramRequest);
+        }
+    }
+
+    public void doExport(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setHeader("Content-Disposition", " attachment; filename=\"reportInvestigacionDocencia" + System.currentTimeMillis() + ".xls\";");
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"); //application/vnd.ms-excel
+        String reporte = "";
+        reporte = request.getParameter("reporte");
+        
+        if(reporte==null) reporte = "Reporte sin datos...";
+        else reporte = SWBUtils.TEXT.decodeBase64(reporte);
+        InputStream fin = null;
+        fin = SWBUtils.IO.getStreamFromString(reporte);
+        OutputStream out = response.getOutputStream();
+        SWBUtils.IO.copyStream(fin, out);
+        out.close();
+    }
 }
