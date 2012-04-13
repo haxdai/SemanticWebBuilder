@@ -62,695 +62,860 @@
     if (action == null) {
         action = "";
     }
-System.out.println("action: "+action); 
+
     StringBuffer ret = new StringBuffer();
+%>
+<div >
+    <div id="icv">
+        <div id="icv-data"><div><span>
+                    <%
+                        if (action.equals("")) {
 
-    ret.append("\n\r<div >");
-    ret.append("\n\r<div id=\"icv\">");
-    ret.append("\n\r    <div id=\"icv-data\">");
+                            SWBResourceURL urlact = paramRequest.getRenderUrl();
+                    %>
+                    <ul>
+                        <li><a href="<%=urlact%>?act=sni">SNI Conacyt</a></li>
+                        <li><a href="<%=urlact%>?act=curso">Cursos de Posgrado Impartidos</a></li>
+                        <li><a href="<%=urlact%>?act=publicacion">Publicaciones</a></li>
+                    </ul>
+                    <%
 
-    if (action.equals("")) {
+                    } else if ("sni".equals(action)) {
+                        String wptitle = "SNI Conacyt";
 
-        SWBResourceURL urlact = paramRequest.getRenderUrl();
+                        String step = "1";
+                        if (request.getParameter("step") != null) {
+                            step = request.getParameter("step");
+                        }
+                        if ("1".equals(step)) {
 
-        ret.append("\n\r        <ul>");
-        ret.append("\n\r            <li><a href=\"" + urlact + "?act=sni\">SNI Conacyt</a></li>");
-        ret.append("\n\r            <li><a href=\"" + urlact + "?act=curso\">Cursos de Posgrado Impartidos</a></li>");
-        ret.append("\n\r            <li><a href=\"" + urlact + "?act=publicacion\">Publicaciones</a></li>");
-        ret.append("\n\r        </ul>");
+                            HashMap<String, CV> hm = new HashMap<String, CV>(); // cvs encontrados
+                            HashMap<String, CV> hmno = new HashMap<String, CV>();
+                            HashMap<String, String> hmorder = new HashMap<String, String>(); //
+                            HashMap<String, String> hmorderno = new HashMap<String, String>();
 
-        out.println(ret.toString());
-    } else if ("sni".equals(action)) {
-        String wptitle = "SNI Conacyt";
 
-        String step = "1";
-        if (request.getParameter("step") != null) {
-            step = request.getParameter("step");
-        }
-        if ("1".equals(step)) {
-
-            HashMap<String, CV> hm = new HashMap<String, CV>(); // cvs encontrados
-            HashMap<String, CV> hmno = new HashMap<String, CV>();
-            Investigacion inves = null;
-            long acum = 0, acumno = 0;
-            Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
-            while (itcv.hasNext()) {
-                CV cv = itcv.next();
-                String strSinInves = cv.getProperty(CV.intranet_sinInvestigacion.getName());
-                if (strSinInves != null && strSinInves.equals("true")) {
-                    hmno.put(cv.getId(), cv);
-                    continue;
-                }
-                if (UtilsCVI.isCVIDone(cv)) 
-                {
-                    if (cv.listInvestigacions().hasNext()) {
-                        Iterator<Investigacion> itga = cv.listInvestigacions();
-                        while (itga.hasNext()) {
-                            inves = itga.next();
-                            if (inves.getSniConacyt() != null && inves.getSniConacyt().trim().length() > 0) {
-                                hm.put(cv.getId(), cv);
-                            } else {
-                                hmno.put(cv.getId(), cv);
+                            Investigacion inves = null;
+                            long acum = 0, acumno = 0;
+                            Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
+                            while (itcv.hasNext()) {
+                                CV cv = itcv.next();
+                                String strSinInves = cv.getProperty(CV.intranet_sinInvestigacion.getName());
+                                if (strSinInves != null && strSinInves.equals("true")) {
+                                    hmno.put(cv.getId(), cv);
+                                    continue;
+                                }
+                                if (UtilsCVI.isCVIDone(cv)) {
+                                    if (cv.listInvestigacions().hasNext()) {
+                                        Iterator<Investigacion> itga = cv.listInvestigacions();
+                                        while (itga.hasNext()) {
+                                            inves = itga.next();
+                                            if (inves.getSniConacyt() != null && inves.getSniConacyt().trim().length() > 0) {
+                                                hmorder.put(cv.getPersona().getOwner().getFullName(), cv.getId());
+                                                hm.put(cv.getId(), cv);
+                                            } else {
+                                                hmno.put(cv.getId(), cv);
+                                                hmorderno.put(cv.getPersona().getOwner().getFullName(), cv.getId());
+                                            }
+                                        }
+                                    }
+                                }
                             }
-                        }
-                    }
-                }
-            }
-            acum = SWBUtils.Collections.sizeOf(hm.keySet().iterator());
-            acumno = SWBUtils.Collections.sizeOf(hmno.keySet().iterator());
+                            acum = SWBUtils.Collections.sizeOf(hm.keySet().iterator());
+                            acumno = SWBUtils.Collections.sizeOf(hmno.keySet().iterator());
 
-            if (acum == 0 && acumno == 0) {
-                ret.append("\n\r       <p>No se encontraron registros.....</p> ");
-            } else {
-                ret.append("\n\r       <div><h2>" + wptitle + "</h2><span>");
-                ret.append("\n\r               <table>");
-                ret.append("\n\r                   <thead>");
-                ret.append("\n\r                       <tr>");
-                ret.append("\n\r                           <th colspan=\"3\">Investigación</th>");
-                ret.append("\n\r                       </tr>");
-                ret.append("\n\r                       <tr>");
-                ret.append("\n\r                           <th>SNI Conacyt</th>");
-                ret.append("\n\r                           <th>Encontrados</th>");
-                ret.append("\n\r                           <th>Detalle</th>");
-                ret.append("\n\r                       </tr>");
-                ret.append("\n\r                   </thead>");
-                ret.append("\n\r                   <tbody>");
+                            if (acum == 0 && acumno == 0) {
+                    %>    
+                    <p>No se encontraron registros.....</p> 
+                    <%            } else {
+                    %>    
 
-                SWBResourceURL urldetail = paramRequest.getRenderUrl();
-                urldetail.setParameter("step", "2");
-                urldetail.setParameter("act", "sni");
-                urldetail.setParameter("reptype", "con");
+                    <table>
+                        <caption><%=wptitle%> - Investigación</caption>
+                        <thead> 
+                            <tr>
+                                <th>SNI Conacyt</th>
+                                <th>Encontrados</th>
+                                <th>Detalle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%
+                                SWBResourceURL urldetail = paramRequest.getRenderUrl();
+                                urldetail.setParameter("step", "2");
+                                urldetail.setParameter("act", "sni");
+                                urldetail.setParameter("reptype", "con");
 
-                SWBResourceURL urldetail2 = paramRequest.getRenderUrl();
-                urldetail2.setParameter("step", "2");
-                urldetail2.setParameter("act", "sni");
-                urldetail2.setParameter("reptype", "sin");
+                                SWBResourceURL urldetail2 = paramRequest.getRenderUrl();
+                                urldetail2.setParameter("step", "2");
+                                urldetail2.setParameter("act", "sni");
+                                urldetail2.setParameter("reptype", "sin");
+                            %>
+                            <tr>
+                                <td>Con SNI</td>
+                                <td><%=acum%></td>
+                                <%
+                                    if (!export.equals("excel")) {
+                                %>
+                                <td><a href="<%=urldetail.toString()%>">ver</a></td>
+                                <%
+                                } else {
+                                %>     
+                                <td>&nbsp;</td>
+                                <%                   }
+                                %>
+                            </tr>
+                            <tr>
+                                <td>Sin SNI</td>
+                                <td><%=acumno%></td>
+                                <%
+                                    if (acumno == 0) {
+                                %>
+                                <td>&nbsp;</td>
+                                <%                } else {
+                                    if (!export.equals("excel")) {
+                                %>        
+                                <td><a href="<%=urldetail2.toString()%>">ver</a></td>
+                                <%
+                                } else {
+                                %>
+                                <td>&nbsp;</td>
+                                <%                        }
+                                    }
+                                %>
+                            </tr>
+                        </tbody>
+                    </table>
 
-                ret.append("\n\r                      <tr>");
-                ret.append("\n\r                          <td>Con SNI</td>");
-                ret.append("\n\r                          <td>" + acum + "</td>");
-                ret.append("\n\r                          <td><a href=\"" + urldetail + "\">ver</a></td>");
-                ret.append("\n\r                      </tr>");
-                ret.append("\n\r                      <tr>");
-                ret.append("\n\r                          <td>Sin SNI</td>");
-                ret.append("\n\r                          <td>" + acumno + "</td>");
-                if (acumno == 0) {
-                    ret.append("\n\r                          <td>&nbsp;</td>");
-                } else {
-                    ret.append("\n\r                         <td><a href=\"" + urldetail2 + "\">ver</a></td>");
-                }
-                ret.append("\n\r                     </tr>");
-                ret.append("\n\r                 </tbody>");
-                ret.append("\n\r             </table></span>");
-                ret.append("\n\r     </div>");
-
-                if (!export.equals("excel")) {
-                    SWBResourceURL urlExport = paramRequest.getRenderUrl();
-                    urlExport.setCallMethod(SWBResourceURL.Call_DIRECT);
-                    urlExport.setMode(MODE_EXPORT);
-                    ret.append("\n\r<form action=\""+urlExport.toString()+"\" method=\"post\">");
-                    ret.append("\n\r<input type=\"hidden\" name=\"export\" value=\"excel\">");
-                    if (request.getParameter("step") != null) {
-                        ret.append("\n\r<input type=\"hidden\" name=\"step\" value=\""+request.getParameter("step")+"\">");
-                    }
-                    if (request.getParameter("act") != null) {
-                        ret.append("\n\r<input type=\"hidden\" name=\"act\" value=\""+request.getParameter("act")+"\">");
-                    }
-                    if (request.getParameter("reptype") != null) {
-                        ret.append("\n\r<input type=\"hidden\" name=\"reptype\" value=\""+request.getParameter("reptype")+"\">");
-                    }
-                    ret.append("\n\r<form action=\""+urlExport.toString()+"\">");
-                    ret.append("\n\r<button type=\"submit\" >Guardar Excel</button>"); //onclick=\"window.location='" + urlExport.toString() + "';return false;\"
-                    ret.append("\n\r</form>");
-                }
-            }
-            out.println(ret.toString());
-        } else { //step 2
-
-            HashMap<String, CV> hm = new HashMap<String, CV>(); // cvs encontrados
-            HashMap<String, CV> hmno = new HashMap<String, CV>();
-            Investigacion inves = null;
-            long acum = 0, acumno = 0;
-            Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
-            while (itcv.hasNext()) {
-                CV cv = itcv.next();
-                String strSinInves = cv.getProperty(CV.intranet_sinInvestigacion.getName());
-                if (strSinInves != null && strSinInves.equals("true")) {
-                    hmno.put(cv.getId(), cv);
-                    continue;
-                }
-
-                if (UtilsCVI.isCVIDone(cv)) 
-                {
-                    if (cv.listInvestigacions().hasNext()) {
-                        Iterator<Investigacion> itga = cv.listInvestigacions();
-                        while (itga.hasNext()) {
-                            inves = itga.next();
-                            if (inves.getSniConacyt() != null && inves.getSniConacyt().trim().length() > 0) {
-                                hm.put(cv.getId(), cv);
-                            } else {
-                                hmno.put(cv.getId(), cv);
+                    <%
+                        if (!export.equals("excel")) {
+                            SWBResourceURL urlExport = paramRequest.getRenderUrl();
+                            urlExport.setCallMethod(SWBResourceURL.Call_DIRECT);
+                            urlExport.setMode(MODE_EXPORT);
+                    %>
+                    <form action="<%=urlExport.toString()%>" method="post">
+                        <input type="hidden" name="export" value="excel">
+                        <%
+                            if (request.getParameter("step") != null) {
+                        %>
+                        <input type="hidden" name="step" value="<%=request.getParameter("step")%>">
+                        <%
                             }
-                        }
-                    }
-                }
-            }
-            acum = SWBUtils.Collections.sizeOf(hm.keySet().iterator());
-            String reptype = request.getParameter("reptype");
-            String reporte = "";
-            if (reptype.equals("con")) {
-                reporte = listReport(hm, "SNI Conacyt", "con SNI", paramRequest, request);
-            } else {
-                reporte = listReport(hm, "SNI Conacyt", "sin SNI", paramRequest, request);
-            }
+                            if (request.getParameter("act") != null) {
+                        %>
+                        <input type="hidden" name="act" value="<%=request.getParameter("act")%>">
+                        <%
+                            }
+                            if (request.getParameter("reptype") != null) {
+                        %>
+                        <input type="hidden" name="reptype" value="<%=request.getParameter("reptype")%>">
+                        <%
+                            }
+                        %>
+                        <form action="<%=urlExport.toString()%>">
+                            <button type="submit" >Guardar Excel</button> 
+                        </form>
+                        <%
+                                }
 
-            ret.append(reporte);
 
-            if (!export.equals("excel")) {
-                    SWBResourceURL urlExport = paramRequest.getRenderUrl();
-                    urlExport.setCallMethod(SWBResourceURL.Call_DIRECT);
-                    urlExport.setMode(MODE_EXPORT);
-                    ret.append("\n\r<form action=\""+urlExport.toString()+"\" method=\"post\">");
-                    ret.append("\n\r<input type=\"hidden\" name=\"export\" value=\"excel\">");
-                    if (request.getParameter("step") != null) {
-                        ret.append("\n\r<input type=\"hidden\" name=\"step\" value=\""+request.getParameter("step")+"\">");
-                    }
-                    if (request.getParameter("act") != null) {
-                        ret.append("\n\r<input type=\"hidden\" name=\"act\" value=\""+request.getParameter("act")+"\">");
-                    }
-                    if (request.getParameter("reptype") != null) {
-                        ret.append("\n\r<input type=\"hidden\" name=\"reptype\" value=\""+request.getParameter("reptype")+"\">");
-                    }
-                    ret.append("\n\r<form action=\""+urlExport.toString()+"\">");
-                    ret.append("\n\r<button type=\"submit\" >Guardar Excel</button>"); //onclick=\"window.location='" + urlExport.toString() + "';return false;\"
-                    ret.append("\n\r</form>");
-                }
-            out.println(ret.toString());
-        }
-        
-    } else if ("curso".equals(action)) {
-        String wptitle = "Cursos de Postgrado Impartidos";
-        String step = "1";
-        if (request.getParameter("step") != null) {
-            step = request.getParameter("step");
-        }
-        if ("1".equals(step)) {
+                            }
+                        } else { //step 2 
 
-            SWBResourceURL urlstep2 = paramRequest.getRenderUrl();
-%>
-<script type="text/javascript">
-    function revisa(forma){          
-        var texto = forma.numero.value;
-        texto = texto.replace(' ','');
-        if(forma.curso.checked){
-            if(texto.length == 0){
-                alert('Debes de poner el Número de cursos de posgrado impartidos.');
-                forma.numero.focus();
-                return false;
-            } else if(isNaN(texto)){
-                alert('Debes de poner números únicamente.');
-                forma.numero.focus();
-                return false;
-            } else if(eval(texto)==0){
-                alert('Debes de poner números mayores a cero.');
-                forma.numero.focus();
-                return false;
-            }
-        }
-        return true;
-    }
-</script>
-<div><h2><%=wptitle%></h2>
-    <form method="post" action="<%=urlstep2%>" method="post">
-        <input type="hidden" name="act" value="<%=action%>"/>
-        <input type="hidden" name="step" value="2"/>
-        <input type="checkbox" id="curso" name="curso" value="1" checked onclick="if(!this.checked){this.form.numero.disabled='disabled';;}else{this.form.numero.disabled='';}"/>
-        <label for="numero">Número de cursos de posgrado impartidos: </label><input type="text" id="numero" name="numero" />
-        <button type="submit" onclick="return revisa(this.form);">Buscar</button>
-    </form>
-</div>
-<%
-} else if ("2".equals(step)) { //step 2, hace la busqueda del texto en diplomados ó cursos TIC 
+                            HashMap<String, CV> hm = new HashMap<String, CV>(); // cvs encontrados
+                            HashMap<String, CV> hmno = new HashMap<String, CV>();
+                            HashMap<String, String> hmorder = new HashMap<String, String>(); //
+                            HashMap<String, String> hmorderno = new HashMap<String, String>(); //
+                            Investigacion inves = null;
+                            long acum = 0, acumno = 0;
+                            Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
+                            while (itcv.hasNext()) {
+                                CV cv = itcv.next();
+                                String strSinInves = cv.getProperty(CV.intranet_sinInvestigacion.getName());
+                                if (strSinInves != null && strSinInves.equals("true")) {
+                                    hmno.put(cv.getId(), cv);
+                                    hmorderno.put(cv.getPropietario().getFullName(), cv.getId());
+                                    continue;
+                                }
 
-    String curso = request.getParameter("curso");
-    String strNumero = request.getParameter("numero");
-    if(strNumero==null) strNumero="0";
-    int inumero = 0;
-    try{
-        inumero = Integer.parseInt(strNumero);
-    }catch(Exception e){
-        inumero = 0;
-    }    
-    if(curso==null) curso="0";
-        
-    Docencia doce = null;
-    HashMap<String,CV> hm = new HashMap<String, CV>();
-    long acum = 0;
-    Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
-    while (itcv.hasNext()) {
-        CV cv = itcv.next();
-        acum = 0;
-        if (UtilsCVI.isCVIDone(cv)) {
-            if (cv.listDocencias().hasNext()) {
-                Iterator<Docencia> itga = cv.listDocencias();
-                while (itga.hasNext()) {
-                    doce = itga.next();
-                    if(doce.getNivelDocencia()!=null){
-                        String txtTitle = doce.getNivelDocencia().getTitle()!=null?doce.getNivelDocencia().getTitle():"";
-                        if("Posgrado".equals(txtTitle)){ //&&curso.equals("1")
-                            acum++;
-                        }
-                    } else if(curso.equals("0")){acum++;} 
-                }
-                if("1".equals(curso)){ // que han impartido cursos de posgrado
-                    if(inumero<=acum){ // numero de cursos de posgrado impartidos
-                        hm.put(cv.getId(), cv);
-                    }
-                } else { // que no han impartido cursos de posgrado
-                    if(0==acum){ // ningun curso de posgrado impartido
-                        hm.put(cv.getId(), cv);
-                    }
-                }
-            }
-        }
-    }
-    acum = SWBUtils.Collections.sizeOf(hm.keySet().iterator());
-    if (acum == 0) {
-%>         
-<p>No se encontraron registros</p>
-<%  } else {
+                                if (UtilsCVI.isCVIDone(cv)) {
+                                    if (cv.listInvestigacions().hasNext()) {
+                                        Iterator<Investigacion> itga = cv.listInvestigacions();
+                                        while (itga.hasNext()) {
+                                            inves = itga.next();
+                                            if (inves.getSniConacyt() != null && inves.getSniConacyt().trim().length() > 0) {
+                                                hm.put(cv.getId(), cv);
+                                                hmorder.put(cv.getPropietario().getFullName(), cv.getId());
+                                            } else {
+                                                hmno.put(cv.getId(), cv);
+                                                hmorderno.put(cv.getPropietario().getFullName(), cv.getId());
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            acum = SWBUtils.Collections.sizeOf(hm.keySet().iterator());
+                            String reptype = request.getParameter("reptype");
+                            String reporte = "";
+                            if (reptype.equals("con")) {
+                                reporte = listReport(hm, hmorder, "SNI Conacyt", "con SNI", paramRequest, request);
+                            } else {
+                                reporte = listReport(hm, hmorderno, "SNI Conacyt", "sin SNI", paramRequest, request);
+                            }
 
-        String criteria = "";
-        if("1".equals(curso)) criteria = "que hayan impartido por lo menos "+inumero+" curso(s).";
-               else criteria = "que no hayan impartido cursos de posgrado.";
-%>
-<div><h2><%=wptitle%></h2>
-    <table>
-        <thead>
-            <tr>
-                <th colspan="3">Cursos de posgrado Impartidos - <%=criteria%></th>
-            </tr>
-        </thead>
-        <tbody>
-            <%
-                    SWBResourceURL urldetail = paramRequest.getRenderUrl();
-                    urldetail.setParameter("step", "3");
-                    urldetail.setParameter("act", action);
-                    urldetail.setParameter("curso", curso);
-                    urldetail.setParameter("numero", ""+inumero);
-            %>
-            <tr>
-                <td>Encontrados</td><td><%=acum%></td><td><a href="<%=urldetail%>">ver</a></td>
-            </tr>
-        </tbody>
-        <%
-            
-            }
-        %>
-    </table>
-</div>
-        
-<%
+                            out.println(reporte);
 
-            if (!export.equals("excel")) {
-                    SWBResourceURL urlExport = paramRequest.getRenderUrl();
-                    urlExport.setCallMethod(SWBResourceURL.Call_DIRECT);
-                    urlExport.setMode(MODE_EXPORT);
-                    ret.append("\n\r<form action=\""+urlExport.toString()+"\" method=\"post\">");
-                    ret.append("\n\r<input type=\"hidden\" name=\"export\" value=\"excel\">");
-                    if (request.getParameter("step") != null) {
-                        ret.append("\n\r<input type=\"hidden\" name=\"step\" value=\""+request.getParameter("step")+"\">");
-                    }
-                    if (request.getParameter("act") != null) {
-                        ret.append("\n\r<input type=\"hidden\" name=\"act\" value=\""+request.getParameter("act")+"\">");
-                    }
-                    if (request.getParameter("curso") != null) {
-                        ret.append("\n\r<input type=\"hidden\" name=\"curso\" value=\""+curso+"\">");
-                    }
-                    if (request.getParameter("numero") != null) {
-                        ret.append("\n\r<input type=\"hidden\" name=\"numero\" value=\""+inumero+"\">");
-                    }
-                    ret.append("\n\r<form action=\""+urlExport.toString()+"\">");
-                    ret.append("\n\r<button type=\"submit\" >Guardar Excel</button>"); //onclick=\"window.location='" + urlExport.toString() + "';return false;\"
-                    ret.append("\n\r</form>");
-                }
-    out.println(ret.toString());
+                            /////////////////////////
+                            if (!export.equals("excel") && (acum > 0 || acumno > 0)) {
+                                SWBResourceURL urlExport = paramRequest.getRenderUrl();
+                                urlExport.setCallMethod(SWBResourceURL.Call_DIRECT);
+                                urlExport.setMode(MODE_EXPORT);
+                        %>
+                        <form action="<%=urlExport.toString()%>" method="post">
+                            <input type="hidden" name="export" value="excel">
+                            <%
+                                if (request.getParameter("step") != null) {
+                            %>
+                            <input type="hidden" name="step" value="<%=request.getParameter("step")%>">
+                            <%
+                                }
+                                if (request.getParameter("act") != null) {
+                            %>
+                            <input type="hidden" name="act" value="<%=request.getParameter("act")%>">
+                            <%
+                                }
+                                if (request.getParameter("reptype") != null) {
+                            %>
+                            <input type="hidden" name="reptype" value="<%=request.getParameter("reptype")%>">
+                            <%
+                                }
+                            %>
+                            <form action="<%=urlExport.toString()%>">
+                                <button type="submit" >Guardar Excel</button>
+                            </form>
+                            <%
 
-    // termina step 2
-} else { // step 3 detalle reporte
-    String curso = request.getParameter("curso");
-    String strNumero = request.getParameter("numero");
-    if(strNumero==null) strNumero="0";
-    int inumero = 0;
-    try{
-        inumero = Integer.parseInt(strNumero);
-    }catch(Exception e){
-        inumero = 0;
-    }    
-    if(curso==null) curso="0";
-        
-    Docencia doce = null;
-    HashMap<String,CV> hm = new HashMap<String, CV>();
-    long acum = 0;
-    Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
-    while (itcv.hasNext()) {
-        CV cv = itcv.next();
-        acum = 0;
-        if (UtilsCVI.isCVIDone(cv)) {
-            if (cv.listDocencias().hasNext()) {
-                Iterator<Docencia> itga = cv.listDocencias();
-                while (itga.hasNext()) {
-                    doce = itga.next();
-                    if(doce.getNivelDocencia()!=null){
-                        String txtTitle = doce.getNivelDocencia().getTitle()!=null?doce.getNivelDocencia().getTitle():"";
-                        if("Posgrado".equals(txtTitle)&&curso.equals("1")){
-                            acum++;
-                        }
-                    } else if(curso.equals("0")){acum++;} 
-                }
-                if("1".equals(curso)){ // que han impartido cursos de posgrado
-                    if(inumero<=acum){ // numero de cursos de posgrado impartidos
-                        hm.put(cv.getId(), cv);
-                    }
-                } else { // que no han impartido cursos de posgrado
-                    hm.put(cv.getId(), cv);
-                }
-            }
-        }
-    }
-    acum = SWBUtils.Collections.sizeOf(hm.keySet().iterator());
-    if (!hm.isEmpty()) {
-        String txttype = "Cursos de posgrado Impartidos.";
-        String criteria = "";
-        if("1".equals(curso)) criteria = "que hayan impartido por lo menos "+inumero+" curso(s).";
-               else criteria = "que no hayan impartido cursos de posgrado.";
-        
-        out.println(listReport(hm, txttype, criteria, paramRequest, request));
-%>
 
-<%
-        }
-    if (!export.equals("excel")) {
-                    SWBResourceURL urlExport = paramRequest.getRenderUrl();
-                    urlExport.setCallMethod(SWBResourceURL.Call_DIRECT);
-                    urlExport.setMode(MODE_EXPORT);
-                    ret.append("\n\r<form action=\""+urlExport.toString()+"\" method=\"post\">");
-                    ret.append("\n\r<input type=\"hidden\" name=\"export\" value=\"excel\">");
-                    if (request.getParameter("step") != null) {
-                        ret.append("\n\r<input type=\"hidden\" name=\"step\" value=\""+request.getParameter("step")+"\">");
-                    }
-                    if (request.getParameter("act") != null) {
-                        ret.append("\n\r<input type=\"hidden\" name=\"act\" value=\""+request.getParameter("act")+"\">");
-                    }
-                    if (request.getParameter("curso") != null) {
-                        ret.append("\n\r<input type=\"hidden\" name=\"curso\" value=\""+curso+"\">");
-                    }
-                    if (request.getParameter("numero") != null) {
-                        ret.append("\n\r<input type=\"hidden\" name=\"numero\" value=\""+inumero+"\">");
-                    }
-                    ret.append("\n\r<form action=\""+urlExport.toString()+"\">");
-                    ret.append("\n\r<button type=\"submit\" >Guardar Excel</button>"); //onclick=\"window.location='" + urlExport.toString() + "';return false;\"
-                    ret.append("\n\r</form>");
-                }
-    out.println(ret.toString());
-    } //step 3 
-} else if ("publicacion".equals(action)) {
-    String wptitle = "Publicaciones";
-    String step = "1";
-        if (request.getParameter("step") != null) {
-            step = request.getParameter("step");
-        }
-        if ("1".equals(step)) {
+                                    }
 
-            SWBResourceURL urlstep2 = paramRequest.getRenderUrl();
-%>
-<script type="text/javascript">
-    function revisaPub(forma){          
-        var texto = forma.num.value;
-        texto = texto.replace(' ','');
-        if(forma.publi.checked){
-            if(texto.length == 0){
-                alert('Debes de poner el Número de cursos de publicaciones.');
-                forma.num.focus();
-                return false;
-            } else if(isNaN(texto)){
-                alert('Debes de poner números únicamente.');
-                forma.num.focus();
-                return false;
-            } else if(eval(texto)==0){
-                alert('Debes de poner números mayores a cero.');
-                forma.num.focus();
-                return false;
-            }
-        }
-        return true;
-    }
-</script>
-<div><h2><%=wptitle%></h2>
-    <form method="post" action="<%=urlstep2%>" >
-        <input type="hidden" name="act" value="<%=action%>"/>
-        <input type="hidden" name="step" value="2"/>
-        <input type="checkbox" id="publi" name="curso" value="1" checked onclick="if(!this.checked){this.form.num.disabled='disabled';}else{this.form.num.disabled='';}"/>
-        <label for="num">Número de publicaciones: </label><input type="text" id="num" name="numero" />
-        <button type="submit" onclick="return revisaPub(this.form);">Buscar</button>
-    </form>
-</div>
-<%
-} else if ("2".equals(step)) { //step 2, hace la busqueda del texto en diplomados ó cursos TIC 
+                                }
 
-    String curso = request.getParameter("curso");
-    String strNumero = request.getParameter("numero");
-    if(strNumero==null) strNumero="0";
-    int inumero = 0;
-    try{
-        inumero = Integer.parseInt(strNumero);
-    }catch(Exception e){
-        inumero = 0;
-    }    
-    if(curso==null) curso="0";
-        
-    Publicacion doce = null;
-    HashMap<String,CV> hm = new HashMap<String, CV>();
-    long acum = 0;
-    Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
-    while (itcv.hasNext()) {
-        CV cv = itcv.next();
-        acum = 0;
-        if (UtilsCVI.isCVIDone(cv)) {
-            if (cv.listDocencias().hasNext()) {
-                Iterator<Publicacion> itga = cv.listPublicacions();
-                while (itga.hasNext()) {
-                    doce = itga.next();
-                    acum++; 
-                }
-                if("1".equals(curso)){ // que han hecho publicaciones
-                    if(inumero<=acum){ // numero de publicaciones realizadas
-                        hm.put(cv.getId(), cv);
-                    }
-                } else { // que no han hecho publicaciones
-                    if(0==acum){ // ninguna publicacion
-                        hm.put(cv.getId(), cv);
-                    }
-                }
-            }
-        }
-    }
-    acum = SWBUtils.Collections.sizeOf(hm.keySet().iterator());
-    if (acum == 0) {
-%>         
-<p>No se encontraron registros</p>
-<%  } else {
+                            } else if ("curso".equals(action)) {
+                                String wptitle = "Cursos de Postgrado Impartidos";
+                                String step = "1";
+                                if (request.getParameter("step") != null) {
+                                    step = request.getParameter("step");
+                                }
+                                if ("1".equals(step)) {
 
-        String criteria = "";
-        if("1".equals(curso)) criteria = "que hayan realizado por lo menos "+inumero+" publicación(es).";
-               else criteria = "que no hayan realizado ninguna publicación.";
-%>
-<div><h2><%=wptitle%></h2>
-    <table>
-        <thead>
-            <tr>
-                <th colspan="3">Publicaciones - <%=criteria%></th>
-            </tr>
-        </thead>
-        <tbody>
-            <%
-                    SWBResourceURL urldetail = paramRequest.getRenderUrl();
-                    urldetail.setParameter("step", "3");
-                    urldetail.setParameter("act", action);
-                    urldetail.setParameter("curso", curso);
-                    urldetail.setParameter("numero", ""+inumero);
-            %>
-            <tr>
-                <td>Encontrados</td><td><%=acum%></td><td><a href="<%=urldetail%>">ver</a></td>
-            </tr>
-        </tbody>
-        <%
-            
-            }
-        %>
-    </table>
-</div>
-        
-<%
+                                    SWBResourceURL urlstep2 = paramRequest.getRenderUrl();
+                            %>
+                            <script type="text/javascript">
+                                function revisa(forma){          
+                                    var texto = forma.numero.value;
+                                    texto = texto.replace(' ','');
+                                    if(forma.curso.checked){
+                                        if(texto.length == 0){
+                                            alert('Debes de poner el Número de cursos de posgrado impartidos.');
+                                            forma.numero.focus();
+                                            return false;
+                                        } else if(isNaN(texto)){
+                                            alert('Debes de poner números únicamente.');
+                                            forma.numero.focus();
+                                            return false;
+                                        } else if(eval(texto)==0){
+                                            alert('Debes de poner números mayores a cero.');
+                                            forma.numero.focus();
+                                            return false;
+                                        }
+                                    }
+                                    return true;
+                                }
+                            </script>
+                            <div id="icv-rep-busca1">
+                            <form method="post" action="<%=urlstep2%>" method="post">
+                                <input type="hidden" name="act" value="<%=action%>"/>
+                                <input type="hidden" name="step" value="2"/>
+                                <h3><%=wptitle%></h3>
+                                    <input type="checkbox" id="curso" name="curso" value="1" checked onclick="if(!this.checked){this.form.numero.disabled='disabled';;}else{this.form.numero.disabled='';}"/>
+                                    <label for="numero">Número de cursos de posgrado impartidos: </label><input type="text" id="numero" name="numero" />
+                                    <button type="submit" onclick="return revisa(this.form);">Buscar</button>
+                            </form>
+                            </div>
+                            <%
+                            } else if ("2".equals(step)) { //step 2, hace la busqueda del texto en diplomados ó cursos TIC 
 
-            if (!export.equals("excel")) {
-                    SWBResourceURL urlExport = paramRequest.getRenderUrl();
-                    urlExport.setCallMethod(SWBResourceURL.Call_DIRECT);
-                    urlExport.setMode(MODE_EXPORT);
-                    ret.append("\n\r<form action=\""+urlExport.toString()+"\" method=\"post\">");
-                    ret.append("\n\r<input type=\"hidden\" name=\"export\" value=\"excel\">");
-                    if (request.getParameter("step") != null) {
-                        ret.append("\n\r<input type=\"hidden\" name=\"step\" value=\""+request.getParameter("step")+"\">");
-                    }
-                    if (request.getParameter("act") != null) {
-                        ret.append("\n\r<input type=\"hidden\" name=\"act\" value=\""+request.getParameter("act")+"\">");
-                    }
-                    if (request.getParameter("curso") != null) {
-                        ret.append("\n\r<input type=\"hidden\" name=\"curso\" value=\""+curso+"\">");
-                    }
-                    if (request.getParameter("numero") != null) {
-                        ret.append("\n\r<input type=\"hidden\" name=\"numero\" value=\""+inumero+"\">");
-                    }
-                    ret.append("\n\r<form action=\""+urlExport.toString()+"\">");
-                    ret.append("\n\r<button type=\"submit\" >Guardar Excel</button>"); //onclick=\"window.location='" + urlExport.toString() + "';return false;\"
-                    ret.append("\n\r</form>");
-                }
-    out.println(ret.toString());
+                                String curso = request.getParameter("curso");
+                                String strNumero = request.getParameter("numero");
+                                if (strNumero == null) {
+                                    strNumero = "0";
+                                }
+                                int inumero = 0;
+                                try {
+                                    inumero = Integer.parseInt(strNumero);
+                                } catch (Exception e) {
+                                    inumero = 0;
+                                }
+                                if (curso == null) {
+                                    curso = "0";
+                                }
 
-    // termina step 2
-} else { // step 3 detalle reporte
-    String curso = request.getParameter("curso");
-    String strNumero = request.getParameter("numero");
-    if(strNumero==null) strNumero="0";
-    int inumero = 0;
-    try{
-        inumero = Integer.parseInt(strNumero);
-    }catch(Exception e){
-        inumero = 0;
-    }    
-    if(curso==null) curso="0";
-        
-    Publicacion doce = null;
-    HashMap<String,CV> hm = new HashMap<String, CV>();
-    long acum = 0;
-    Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
-    while (itcv.hasNext()) {
-        CV cv = itcv.next();
-        acum = 0;
-        if (UtilsCVI.isCVIDone(cv)) {
-            if (cv.listDocencias().hasNext()) {
-                Iterator<Publicacion> itga = cv.listPublicacions();
-                while (itga.hasNext()) {
-                    doce = itga.next();
-                    acum++; 
-                }
-                if("1".equals(curso)){ // que han hecho publicaciones
-                    if(inumero<=acum){ // numero de publicaciones realizadas
-                        hm.put(cv.getId(), cv);
-                    }
-                } else { // que no han hecho publicaciones
-                    if(0==acum){ // ninguna publicacion
-                        hm.put(cv.getId(), cv);
-                    }
-                }
-            }
-        }
-    }
-    acum = SWBUtils.Collections.sizeOf(hm.keySet().iterator());
-    if (!hm.isEmpty()) {
-        String txttype = "Publicaciones";
-        String criteria = "";
-        if("1".equals(curso)) criteria = "que hayan realizado por lo menos "+inumero+" publicación(es).";
-               else criteria = "que no hayan realizado ninguna publicación.";
-        
-        out.println(listReport(hm, txttype, criteria, paramRequest, request));
-%>
+                                Docencia doce = null;
+                                HashMap<String, CV> hm = new HashMap<String, CV>();
 
-<%
-        }
-    if (!export.equals("excel")) {
-                    SWBResourceURL urlExport = paramRequest.getRenderUrl();
-                    urlExport.setCallMethod(SWBResourceURL.Call_DIRECT);
-                    urlExport.setMode(MODE_EXPORT);
-                    ret.append("\n\r<form action=\""+urlExport.toString()+"\" method=\"post\">");
-                    ret.append("\n\r<input type=\"hidden\" name=\"export\" value=\"excel\">");
-                    if (request.getParameter("step") != null) {
-                        ret.append("\n\r<input type=\"hidden\" name=\"step\" value=\""+request.getParameter("step")+"\">");
-                    }
-                    if (request.getParameter("act") != null) {
-                        ret.append("\n\r<input type=\"hidden\" name=\"act\" value=\""+request.getParameter("act")+"\">");
-                    }
-                    if (request.getParameter("curso") != null) {
-                        ret.append("\n\r<input type=\"hidden\" name=\"curso\" value=\""+curso+"\">");
-                    }
-                    if (request.getParameter("numero") != null) {
-                        ret.append("\n\r<input type=\"hidden\" name=\"numero\" value=\""+inumero+"\">");
-                    }
-                    ret.append("\n\r<form action=\""+urlExport.toString()+"\">");
-                    ret.append("\n\r<button type=\"submit\" >Guardar Excel</button>"); //onclick=\"window.location='" + urlExport.toString() + "';return false;\"
-                    ret.append("\n\r</form>");
-                }
-    out.println(ret.toString());
-    } //step 3 
-}
-%>         
-</div><!-- icv-data -->  
-</div>
-</div>
+                                long acum = 0;
+                                Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
+                                while (itcv.hasNext()) {
+                                    CV cv = itcv.next();
+                                    acum = 0;
+                                    if (UtilsCVI.isCVIDone(cv)) {
+                                        if (cv.listDocencias().hasNext()) {
+                                            Iterator<Docencia> itga = cv.listDocencias();
+                                            while (itga.hasNext()) {
+                                                doce = itga.next();
+                                                if (doce.getNivelDocencia() != null) {
+                                                    String txtTitle = doce.getNivelDocencia().getTitle() != null ? doce.getNivelDocencia().getTitle() : "";
+                                                    if ("Posgrado".equals(txtTitle)) { //&&curso.equals("1")
+                                                        acum++;
+                                                    }
+                                                } else if (curso.equals("0")) {
+                                                    acum++;
+                                                }
+                                            }
+                                            if ("1".equals(curso)) { // que han impartido cursos de posgrado
+                                                if (inumero <= acum) { // numero de cursos de posgrado impartidos
+                                                    hm.put(cv.getId(), cv);
+                                                }
+                                            } else { // que no han impartido cursos de posgrado
+                                                if (0 == acum) { // ningun curso de posgrado impartido
+                                                    hm.put(cv.getId(), cv);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                acum = SWBUtils.Collections.sizeOf(hm.keySet().iterator());
+                                if (acum == 0) {
+                            %>         
+                            <p>No se encontraron registros</p>
+                            <%  } else {
 
-<%!
-    public String listReport(HashMap<String, CV> hm, String txttype, String criteria, SWBParamRequest paramRequest, HttpServletRequest request) {
-        StringBuilder ret = new StringBuilder();
-        WebSite wsite = paramRequest.getWebPage().getWebSite();
-        ret.append("<script type=\"text/javascript\">");
-        ret.append(" function newWin(url){");
-        ret.append("    window.open(url,'CVI','menubar=0,location=0,scrollbars=1,width=650,height=600');");
-        ret.append("    ");
-        ret.append("");
-        ret.append("");
-        ret.append("}");
-        ret.append("</script>");
-        ret.append("<div><h2>");
-        ret.append(txttype);
-        ret.append("     </h2>");
-        ret.append("     <h3> que contengan: ");
-        ret.append(criteria);
-        ret.append("     </h3>");
-        ret.append("        <table>");
-        ret.append("            <thead>");
-        ret.append("                <tr>");
-        ret.append("                    <th>Usuario</th><th>Detalle</th>");
-        ret.append("                </tr>");
-        ret.append("            </thead>");
-        ret.append("            <tbody>");
-        Iterator<String> itstr = hm.keySet().iterator();
-        while (itstr.hasNext()) {
-            String key = itstr.next();
+                                String criteria = "";
+                                if ("1".equals(curso)) {
+                                    criteria = "que hayan impartido por lo menos " + inumero + " curso(s).";
+                                } else {
+                                    criteria = "que no hayan impartido cursos de posgrado.";
+                                }
+                            %>
 
-            User usrcv = wsite.getUserRepository().getUser(key);
-            Resource resource = wsite.getResource("997");
-            WebPage wpage = wsite.getWebPage("ver_CV");
-            SWBResourceURLImp urldet = new SWBResourceURLImp(request, resource, wpage, SWBResourceURL.UrlType_RENDER);
-            urldet.setParameter("id", usrcv.getId());
-            urldet.setCallMethod(SWBResourceURL.Call_CONTENT);
-            ret.append("                 <tr>");
-            ret.append("                     <td>");
-            ret.append(usrcv.getFullName());
-            ret.append("                     </td><td><a href=\"#\" ");
-            ret.append("onclick=\"javascript:newWin('");
-            ret.append(urldet.toString());
-            ret.append("');return false;\" target=\"_blank\">ver</a>");
-            ret.append("                   </td>");
-            ret.append("                  </tr>");
+                            <table>
+                                <caption><%=wptitle%> - <%=criteria%></caption>
 
-        }
+                                <tbody>
+                                    <%
+                                        SWBResourceURL urldetail = paramRequest.getRenderUrl();
+                                        urldetail.setParameter("step", "3");
+                                        urldetail.setParameter("act", action);
+                                        urldetail.setParameter("curso", curso);
+                                        urldetail.setParameter("numero", "" + inumero);
+                                    %>
+                                    <tr>
+                                        <td>Encontrados</td><td><%=acum%></td>
+                                        <%
+                                            if (!export.equals("excel")) {
+                                        %>   
+                                        <td><a href="<%=urldetail%>">ver</a></td>
+                                        <%
+                                        } else {
+                                        %>
+                                        <td>&nbsp;</td>
+                                        <%                 }
+                                        %>
+                                    </tr>
+                                </tbody>
+                                <%
 
-        ret.append("               </tbody>");
-        ret.append("          </table>");
-        ret.append("</div>");
-        return ret.toString();
-    }
+                                    }
+                                %>
+                            </table>
 
-    
+                            <%
 
-%>
+                                if (!export.equals("excel") && acum > 0) {
+                                    SWBResourceURL urlExport = paramRequest.getRenderUrl();
+                                    urlExport.setCallMethod(SWBResourceURL.Call_DIRECT);
+                                    urlExport.setMode(MODE_EXPORT);
+                            %>
+                            <form action="<%=urlExport.toString()%>" method="post">
+                                <input type="hidden" name="export" value="excel">
+                                <%
+                                    if (request.getParameter("step") != null) {
+                                %>
+                                <input type="hidden" name="step" value="<%=request.getParameter("step")%>">
+                                <%
+                                    }
+                                    if (request.getParameter("act") != null) {
+                                %>
+                                <input type="hidden" name="act" value="<%=request.getParameter("act")%>">
+                                <%
+                                    }
+                                    if (request.getParameter("curso") != null) {
+                                %>
+                                <input type="hidden" name="curso" value="<%=curso%>">
+                                <%
+                                    }
+                                    if (request.getParameter("numero") != null) {
+                                %>
+                                <input type="hidden" name="numero" value="<%=inumero%>">
+                                <%
+                                    }
+                                %>
+                                <form action="<%=urlExport.toString()%>">
+                                    <button type="submit" >Guardar Excel</button>
+                                </form>
+                                <%
+                                    }
+
+                                    // termina step 2
+                                } else { // step 3 detalle reporte
+                                    String curso = request.getParameter("curso");
+                                    String strNumero = request.getParameter("numero");
+                                    if (strNumero == null) {
+                                        strNumero = "0";
+                                    }
+                                    int inumero = 0;
+                                    try {
+                                        inumero = Integer.parseInt(strNumero);
+                                    } catch (Exception e) {
+                                        inumero = 0;
+                                    }
+                                    if (curso == null) {
+                                        curso = "0";
+                                    }
+
+                                    Docencia doce = null;
+                                    HashMap<String, CV> hm = new HashMap<String, CV>();
+                                    HashMap<String, String> hmorder = new HashMap<String, String>();
+                                    long acum = 0;
+                                    Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
+                                    while (itcv.hasNext()) {
+                                        CV cv = itcv.next();
+                                        acum = 0;
+                                        if (UtilsCVI.isCVIDone(cv)) {
+                                            if (cv.listDocencias().hasNext()) {
+                                                Iterator<Docencia> itga = cv.listDocencias();
+                                                while (itga.hasNext()) {
+                                                    doce = itga.next();
+                                                    if (doce.getNivelDocencia() != null) {
+                                                        String txtTitle = doce.getNivelDocencia().getTitle() != null ? doce.getNivelDocencia().getTitle() : "";
+                                                        if ("Posgrado".equals(txtTitle) && curso.equals("1")) {
+                                                            acum++;
+                                                        }
+                                                    } else if (curso.equals("0")) {
+                                                        acum++;
+                                                    }
+                                                }
+                                                if ("1".equals(curso)) { // que han impartido cursos de posgrado
+                                                    if (inumero <= acum) { // numero de cursos de posgrado impartidos
+                                                        hm.put(cv.getId(), cv);
+                                                        hmorder.put(cv.getPropietario().getFullName(), cv.getId());
+                                                    }
+                                                } else { // que no han impartido cursos de posgrado
+                                                    hm.put(cv.getId(), cv);
+                                                    hmorder.put(cv.getPropietario().getFullName(), cv.getId());
+                                                }
+                                            }
+                                        }
+                                    }
+                                    acum = SWBUtils.Collections.sizeOf(hm.keySet().iterator());
+                                    if (!hm.isEmpty()) {
+                                        String txttype = "Cursos de posgrado Impartidos.";
+                                        String criteria = "";
+                                        if ("1".equals(curso)) {
+                                            criteria = "que hayan impartido por lo menos " + inumero + " curso(s).";
+                                        } else {
+                                            criteria = "que no hayan impartido cursos de posgrado.";
+                                        }
+
+                                        out.println(listReport(hm, hmorder, txttype, criteria, paramRequest, request));
+                                %>
+
+                                <%
+                                    }
+                                    if (!export.equals("excel") && acum > 0) {
+                                        SWBResourceURL urlExport = paramRequest.getRenderUrl();
+                                        urlExport.setCallMethod(SWBResourceURL.Call_DIRECT);
+                                        urlExport.setMode(MODE_EXPORT);
+                                %>
+                                <form action="<%=urlExport.toString()%>" method="post">
+                                    <input type="hidden" name="export" value="excel">
+                                    <%
+                                        if (request.getParameter("step") != null) {
+                                    %>
+                                    <input type="hidden" name="step" value="<%=request.getParameter("step")%>">
+                                    <%
+                                        }
+                                        if (request.getParameter("act") != null) {
+                                    %>
+                                    <input type="hidden" name="act" value="<%=request.getParameter("act")%>">
+                                    <%
+                                        }
+                                        if (request.getParameter("curso") != null) {
+                                    %>
+                                    <input type="hidden" name="curso" value="<%=curso%>">
+                                    <%
+                                        }
+                                        if (request.getParameter("numero") != null) {
+                                    %>
+                                    <input type="hidden" name="numero" value="<%=inumero%>">
+                                    <%
+                                        }
+                                    %>
+                                    <form action="<%=urlExport.toString()%>">
+                                        <button type="submit" >Guardar Excel</button>
+                                    </form>
+                                    <%
+
+
+                                            }
+                                        } //step 3 
+                                    } else if ("publicacion".equals(action)) {
+                                        String wptitle = "Publicaciones";
+                                        String step = "1";
+                                        if (request.getParameter("step") != null) {
+                                            step = request.getParameter("step");
+                                        }
+                                        if ("1".equals(step)) {
+
+                                            SWBResourceURL urlstep2 = paramRequest.getRenderUrl();
+                                    %>
+                                    <script type="text/javascript">
+                                        function revisaPub(forma){          
+                                            var texto = forma.num.value;
+                                            texto = texto.replace(' ','');
+                                            if(forma.publi.checked){
+                                                if(texto.length == 0){
+                                                    alert('Debes de poner el Número de cursos de publicaciones.');
+                                                    forma.num.focus();
+                                                    return false;
+                                                } else if(isNaN(texto)){
+                                                    alert('Debes de poner números únicamente.');
+                                                    forma.num.focus();
+                                                    return false;
+                                                } else if(eval(texto)==0){
+                                                    alert('Debes de poner números mayores a cero.');
+                                                    forma.num.focus();
+                                                    return false;
+                                                }
+                                            }
+                                            return true;
+                                        }
+                                    </script>
+
+                                    <div id="icv-rep-busca1">
+                                    <form method="post" action="<%=urlstep2%>" >
+                                        <input type="hidden" name="act" value="<%=action%>"/>
+                                        <input type="hidden" name="step" value="2"/>
+                                       
+                                            <h3><%=wptitle%></h3>
+                                            <input type="checkbox" id="publi" name="curso" value="1" checked onclick="if(!this.checked){this.form.num.disabled='disabled';}else{this.form.num.disabled='';}"/>
+                                            <label for="num">Número de publicaciones: </label><input type="text" id="num" name="numero" />
+                                            <button type="submit" onclick="return revisaPub(this.form);">Buscar</button>
+                                            
+                                    </div>
+
+                                    <%
+                                    } else if ("2".equals(step)) { //step 2, hace la busqueda del texto en diplomados ó cursos TIC 
+
+                                        String curso = request.getParameter("curso");
+                                        String strNumero = request.getParameter("numero");
+                                        if (strNumero == null) {
+                                            strNumero = "0";
+                                        }
+                                        int inumero = 0;
+                                        try {
+                                            inumero = Integer.parseInt(strNumero);
+                                        } catch (Exception e) {
+                                            inumero = 0;
+                                        }
+                                        if (curso == null) {
+                                            curso = "0";
+                                        }
+
+                                        Publicacion doce = null;
+                                        HashMap<String, CV> hm = new HashMap<String, CV>();
+                                        long acum = 0;
+                                        Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
+                                        while (itcv.hasNext()) {
+                                            CV cv = itcv.next();
+                                            acum = 0;
+                                            if (UtilsCVI.isCVIDone(cv)) {
+                                                if (cv.listDocencias().hasNext()) {
+                                                    Iterator<Publicacion> itga = cv.listPublicacions();
+                                                    while (itga.hasNext()) {
+                                                        doce = itga.next();
+                                                        acum++;
+                                                    }
+                                                    if ("1".equals(curso)) { // que han hecho publicaciones
+                                                        if (inumero <= acum) { // numero de publicaciones realizadas
+                                                            hm.put(cv.getId(), cv);
+                                                        }
+                                                    } else { // que no han hecho publicaciones
+                                                        if (0 == acum) { // ninguna publicacion
+                                                            hm.put(cv.getId(), cv);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        acum = SWBUtils.Collections.sizeOf(hm.keySet().iterator());
+                                        if (acum == 0) {
+                                    %>         
+                                    <p>No se encontraron registros</p>
+                                    <%  } else {
+
+                                        String criteria = "";
+                                        if ("1".equals(curso)) {
+                                            criteria = "que hayan realizado por lo menos " + inumero + " publicación(es).";
+                                        } else {
+                                            criteria = "que no hayan realizado ninguna publicación.";
+                                        }
+                                    %>
+                                    <div><h2><%=wptitle%></h2>
+                                        <table>
+                                            <caption>Publicaciones - <%=criteria%></caption>
+                                            <tbody>
+                                                <%
+                                                    SWBResourceURL urldetail = paramRequest.getRenderUrl();
+                                                    urldetail.setParameter("step", "3");
+                                                    urldetail.setParameter("act", action);
+                                                    urldetail.setParameter("curso", curso);
+                                                    urldetail.setParameter("numero", "" + inumero);
+                                                %>
+                                                <tr>
+                                                    <td>Encontrados</td><td><%=acum%></td>
+                                                    <%
+                                                        if (!export.equals("excel")) {
+                                                    %>    
+
+                                                    <td><a href="<%=urldetail%>">ver</a></td>
+                                                    <%
+                                                    } else {
+                                                    %>
+                                                    <td>&nbsp;</td>
+                                                    <%                }
+                                                    %>
+                                                </tr>
+                                            </tbody>
+                                            <%
+
+                                                }
+                                            %>
+                                        </table>
+                                    </div>
+
+                                    <%
+
+                                        if (!export.equals("excel") && acum > 0) {
+                                            SWBResourceURL urlExport = paramRequest.getRenderUrl();
+                                            urlExport.setCallMethod(SWBResourceURL.Call_DIRECT);
+                                            urlExport.setMode(MODE_EXPORT);
+                                    %>
+                                    <form action="<%=urlExport.toString()%>" method="post">
+                                        <input type="hidden" name="export" value="excel">
+                                        <%
+                                            if (request.getParameter("step") != null) {
+                                        %>
+                                        <input type="hidden" name="step" value="<%=request.getParameter("step")%>">
+                                        <%
+                                            }
+                                            if (request.getParameter("act") != null) {
+                                        %>
+                                        <input type="hidden" name="act" value="<%=request.getParameter("act")%>">
+                                        <%
+                                            }
+                                            if (request.getParameter("curso") != null) {
+                                        %>
+                                        <input type="hidden" name="curso" value="<%=curso%>">
+                                        <%
+                                            }
+                                            if (request.getParameter("numero") != null) {
+                                        %>
+                                        <input type="hidden" name="numero" value="<%=inumero%>">
+                                        <%
+                                            }
+                                        %>
+                                        <form action="<%=urlExport.toString()%>">
+                                            <button type="submit" >Guardar Excel</button>
+                                        </form>
+                                        <%
+                                            }
+
+                                            // termina step 2
+                                        } else { // step 3 detalle reporte
+                                            String curso = request.getParameter("curso");
+                                            String strNumero = request.getParameter("numero");
+                                            if (strNumero == null) {
+                                                strNumero = "0";
+                                            }
+                                            int inumero = 0;
+                                            try {
+                                                inumero = Integer.parseInt(strNumero);
+                                            } catch (Exception e) {
+                                                inumero = 0;
+                                            }
+                                            if (curso == null) {
+                                                curso = "0";
+                                            }
+
+                                            Publicacion doce = null;
+                                            HashMap<String, CV> hm = new HashMap<String, CV>();
+                                            HashMap<String, String> hmorder = new HashMap<String, String>();
+                                            long acum = 0;
+                                            Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
+                                            while (itcv.hasNext()) {
+                                                CV cv = itcv.next();
+                                                acum = 0;
+                                                if (UtilsCVI.isCVIDone(cv)) {
+                                                    if (cv.listDocencias().hasNext()) {
+                                                        Iterator<Publicacion> itga = cv.listPublicacions();
+                                                        while (itga.hasNext()) {
+                                                            doce = itga.next();
+                                                            acum++;
+                                                        }
+                                                        if ("1".equals(curso)) { // que han hecho publicaciones
+                                                            if (inumero <= acum) { // numero de publicaciones realizadas
+                                                                hm.put(cv.getId(), cv);
+                                                                hmorder.put(cv.getPropietario().getFullName(), cv.getId());
+                                                            }
+                                                        } else { // que no han hecho publicaciones
+                                                            if (0 == acum) { // ninguna publicacion
+                                                                hm.put(cv.getId(), cv);
+                                                                hmorder.put(cv.getPropietario().getFullName(), cv.getId());
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            acum = SWBUtils.Collections.sizeOf(hm.keySet().iterator());
+                                            if (!hm.isEmpty()) {
+                                                String txttype = "Publicaciones";
+                                                String criteria = "";
+                                                if ("1".equals(curso)) {
+                                                    criteria = "que hayan realizado por lo menos " + inumero + " publicación(es).";
+                                                } else {
+                                                    criteria = "que no hayan realizado ninguna publicación.";
+                                                }
+
+                                                out.println(listReport(hm, hmorder, txttype, criteria, paramRequest, request));
+                                        %>
+
+                                        <%
+                                            }
+                                            if (!export.equals("excel") && acum > 0) {
+                                                SWBResourceURL urlExport = paramRequest.getRenderUrl();
+                                                urlExport.setCallMethod(SWBResourceURL.Call_DIRECT);
+                                                urlExport.setMode(MODE_EXPORT);
+                                        %>
+                                        <form action="<%=urlExport.toString()%>" method="post">
+                                            <input type="hidden" name="export" value="excel">
+                                            <%
+                                                if (request.getParameter("step") != null) {
+                                            %>
+                                            <input type="hidden" name="step" value="<%=request.getParameter("step")%>">
+                                            <%
+                                                }
+                                                if (request.getParameter("act") != null) {
+                                            %>
+                                            <input type="hidden" name="act" value="<%=request.getParameter("act")%>">
+                                            <%
+                                                }
+                                                if (request.getParameter("curso") != null) {
+                                            %>
+                                            <input type="hidden" name="curso" value="<%=curso%>">
+                                            <%
+                                                }
+                                                if (request.getParameter("numero") != null) {
+                                            %>
+                                            <input type="hidden" name="numero" value="<%=inumero%>">
+                                            <%
+                                                }
+                                            %>
+                                            <form action="<%=urlExport.toString()%>">
+                                                <button type="submit" >Guardar Excel</button>
+                                            </form>
+                                            <%
+                                                    }
+
+                                                } //step 3 
+                                            }
+                                            %>  
+                                            </span></div>
+                                            </div><!-- icv-data -->  
+                                            </div>
+                                            </div>
+
+                                            <%!
+                                                public String listReport(HashMap<String, CV> hm, HashMap<String, String> hmorder, String txttype, String criteria, SWBParamRequest paramRequest, HttpServletRequest request) {
+                                                    StringBuilder ret = new StringBuilder();
+                                                    String export = request.getParameter("export");
+                                                    if (null == export) {
+                                                        export = "";
+                                                    }
+                                                    WebSite wsite = paramRequest.getWebPage().getWebSite();
+                                                    ret.append("<script type=\"text/javascript\">");
+                                                    ret.append(" function newWin(url){");
+                                                    ret.append("    window.open(url,'CVI','menubar=0,location=0,scrollbars=1,width=650,height=600');");
+                                                    ret.append("}");
+                                                    ret.append("</script>");
+
+                                                    ret.append("        <table>");
+                                                    ret.append("        <caption>");
+                                                    ret.append(txttype);
+                                                    ret.append(" que contengan: ");
+                                                    ret.append(criteria);
+                                                    ret.append("        </caption>");
+                                                    ret.append("            <thead>");
+                                                    ret.append("                <tr>");
+                                                    ret.append("                    <th>Usuario</th><th>Detalle</th>");
+                                                    ret.append("                </tr>");
+                                                    ret.append("            </thead>");
+                                                    ret.append("            <tbody>");
+
+                                                    ArrayList<String> list = new ArrayList(hmorder.keySet());
+                                                    Collections.sort(list);
+
+                                                    Iterator<String> itstr = list.iterator();
+                                                    while (itstr.hasNext()) {
+                                                        String key = itstr.next();
+                                                        String keyorder = hmorder.get(key);
+
+                                                        User usrcv = wsite.getUserRepository().getUser(keyorder);
+                                                        Resource resource = wsite.getResource("997");
+                                                        WebPage wpage = wsite.getWebPage("ver_CV");
+                                                        SWBResourceURLImp urldet = new SWBResourceURLImp(request, resource, wpage, SWBResourceURL.UrlType_RENDER);
+                                                        urldet.setParameter("id", usrcv.getId());
+                                                        urldet.setCallMethod(SWBResourceURL.Call_CONTENT);
+                                                        ret.append("                 <tr>");
+                                                        ret.append("                     <td>");
+                                                        ret.append(usrcv.getFullName());
+                                                        ret.append("                     </td>");
+                                                        ret.append("<td>");
+                                                        if (!export.equals("excel")) {
+                                                            ret.append("<a href=\"#\" ");
+                                                            ret.append("onclick=\"javascript:newWin('");
+                                                            ret.append(urldet.toString());
+                                                            ret.append("');return false;\" target=\"_blank\">ver</a>");
+                                                        } else {
+                                                            ret.append("&nbsp;");
+                                                        }
+                                                        ret.append("                   </td>");
+                                                        ret.append("                  </tr>");
+                                                    }
+                                                    ret.append("               </tbody>");
+                                                    ret.append("          </table>");
+
+                                                    return ret.toString();
+                                                }
+
+                                            %>
