@@ -52,6 +52,8 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
     public static final int Cleaning_Time = 29;
     
     public static final SimpleDateFormat dateDojo = new SimpleDateFormat("yyyy-MM-dd");
+    public static final SimpleDateFormat HHmm = new SimpleDateFormat("HH:mm");
+    public static final SimpleDateFormat HH = new SimpleDateFormat("HH:");
     public static final int T_MIN = 89;
     public static final int TRNOUT_MIN = 5;
         
@@ -543,10 +545,24 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         html.append("  </select>");
         html.append(" </div>");
         html.append(" <div class=\"salas4Cols salas-fecha\">");
-        html.append("  <p><span class=\"blueCalTit\">Fecha:</span></p>");
+        html.append("  <p><span class=\"blueCalTit\">Fecha de reservaci&oacute;n:</span></p>");
         html.append("     <label for=\"sd\">Del: </label><input type=\"text\" name=\"sd\" id=\"sd\" value=\""+sdf.format(current.getTime())+"\" dojoType=\"dijit.form.ValidationTextBox\" readonly=\"readonly\" />");
-        html.append("     <label for=\"fd\">al: </label><input type=\"text\" name=\"fd\" id=\"fd\" value=\""+(request.getParameter("fd")==null?dateDojo.format(current.getTime()):request.getParameter("fd"))+"\" dojoType=\"dijit.form.DateTextBox\" constraints=\"{min:'"+dateDojo.format(current.getTime())+"',max:'2013-12-31',datePattern:'dd/MMM/yyyy'}\"  required=\"true\" trim=\"true\" promptMessage=\"formato de la fecha dd/MM/yyyy\" invalidMessage=\"Invalid date\" />");
+        final GregorianCalendar lastDateOfYear = new GregorianCalendar(current.get(Calendar.YEAR),11,31,22,0,0);
+        html.append("     <label for=\"fd\">al: </label><input type=\"text\" name=\"fd\" id=\"fd\" value=\""+(request.getParameter("fd")==null?dateDojo.format(current.getTime()):request.getParameter("fd"))+"\" dojoType=\"dijit.form.DateTextBox\" constraints=\"{min:'"+dateDojo.format(current.getTime())+"',max:'"+dateDojo.format(lastDateOfYear.getTime())+"',datePattern:'dd/MMM/yyyy'}\"  required=\"true\" trim=\"true\" promptMessage=\"formato de la fecha dd/MM/yyyy\" invalidMessage=\"Invalid date\" />");
         html.append(" </div>");
+        /*html.append(" <div class=\"salas4Cols salas-hora\">");
+        html.append("  <p><span class=\"blueCalTit\">Horario de reservaci&oacute;n:</span></p>");
+        html.append("  <label for=\"sh\">De: </label>");
+        html.append("  <select name=\"sh\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\" promptMessage=\"Hora inicial\" invalidMessage=\"La hora inicial de la junta es requerida\">");
+        html.append("   <option value=\"480\">08:00</option><option value=\"510\">08:30</option><option value=\"540\">09:00</option><option value=\"570\">09:30</option><option value=\"600\">10:00</option><option value=\"630\">10:30</option><option value=\"660\">11:00</option><option value=\"690\">11:30</option><option value=\"720\">12:00</option><option value=\"750\">12:30</option><option value=\"780\">13:00</option><option value=\"810\">13:30</option><option value=\"840\">14:00</option><option value=\"870\">14:30</option><option value=\"900\">15:00</option><option value=\"930\">15:30</option> <option value=\"960\">16:00</option> <option value=\"990\">16:30</option><option value=\"1020\">17:00</option><option value=\"1050\">17:30</option><option value=\"1080\">18:00</option><option value=\"1110\">18:30</option><option value=\"1140\">19:00</option><option value=\"1170\">19:30</option><option value=\"1200\">20:00</option><option value=\"1230\">20:30</option><option value=\"1260\">21:00</option>");
+//        for(int h=current.get(Calendar.HOUR_OF_DAY); h<24; h++) {
+//            html.append("<option value=\""+h*60+"\">"+HHmm.format(current.getTime())+"</option>");
+//            html.append("<option value=\""+h*60+30+"\">"+HH.format(current.getTime())+"30</option>");
+//            current.add(Calendar.MINUTE, 30);
+//        }
+        html.append("  </select>");
+        html.append("  <label for=\"fh\">a: </label><select  name=\"fh\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\" promptMessage=\"Hora final\" invalidMessage=\"La hora final de la junta es requerida\"><option value=\"539\">08:59</option><option value=\"569\">09:29</option><option value=\"599\">09:59</option><option value=\"629\">10:29</option><option value=\"659\">10:59</option><option value=\"689\">11:29</option><option value=\"719\">11:59</option><option value=\"749\">12:29</option><option value=\"779\">12:59</option><option value=\"809\">13:29</option><option value=\"839\">13:59</option><option value=\"869\">14:29</option><option value=\"899\">14:59</option><option value=\"929\">15:29</option><option value=\"959\">15:59</option><option value=\"989\">16:29</option><option value=\"1019\">16:59</option><option value=\"1049\">17:29</option><option value=\"1079\">17:59</option><option value=\"1109\">18:29</option><option value=\"1139\">18:59</option><option value=\"1169\">19:29</option><option value=\"1199\">19:59</option><option value=\"1229\">20:29</option><option value=\"1259\">20:59</option><option value=\"1289\">21:29</option><option value=\"1319\">21:59</option></select>");
+        html.append(" </div>");*/
         html.append(" <div class=\"salas4Cols salas-hora\">");
         html.append("  <p><span class=\"blueCalTit\">Horario:</span></p>");
         html.append("  <label for=\"sh\">De: </label><select name=\"sh\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\" promptMessage=\"Hora inicial\" invalidMessage=\"La hora inicial es requerida\"><option value=\"480\">08:00</option><option value=\"510\">08:30</option><option value=\"540\">09:00</option><option value=\"570\">09:30</option><option value=\"600\">10:00</option><option value=\"630\">10:30</option><option value=\"660\">11:00</option><option value=\"690\">11:30</option><option value=\"720\">12:00</option><option value=\"750\">12:30</option><option value=\"780\">13:00</option><option value=\"810\">13:30</option><option value=\"840\">14:00</option><option value=\"870\">14:30</option><option value=\"900\">15:00</option><option value=\"930\">15:30</option> <option value=\"960\">16:00</option> <option value=\"990\">16:30</option><option value=\"1020\">17:00</option><option value=\"1050\">17:30</option><option value=\"1080\">18:00</option><option value=\"1110\">18:30</option><option value=\"1140\">19:00</option><option value=\"1170\">19:30</option><option value=\"1200\">20:00</option><option value=\"1230\">20:30</option><option value=\"1260\">21:00</option></select>");
@@ -699,14 +715,6 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         out.println(getScript(request, paramRequest, locale));       
         out.println("<div id=\"apartadoSalas\">");
         
-//        if(request.getParameter("alertmsg")!=null && !request.getParameter("alertmsg").isEmpty()) {
-//            out.println("<script type=\"text/javascript\">");
-//            out.println("<!--");
-//            out.println( "alert('"+request.getParameter("alertmsg")+"');");
-//            out.println("-->");
-//            out.println("</script>");
-//        }
-        
         Iterator<Sala> isalas = Sala.ClassMgr.listSalas(base.getWebSite());        
         isalas = SWBComparator.sortByDisplayName(isalas, lang);
         final List<Sala> salas = SWBUtils.Collections.copyIterator(isalas);
@@ -715,7 +723,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
                 salas.remove(sala);
         }
         out.println(getCalendar(request, paramRequest, locale));
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+//        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         out.println("<table id=\"mainTableCal\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
         out.println("<thead>");
         out.println(" <tr class=\"trCalSalas\">");
@@ -726,7 +734,8 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         out.println(" </tr>");
         out.println("</thead>");
         
-        GregorianCalendar hourOfDay = new GregorianCalendar(2011,0,1,8,0);//auxiliar
+        Calendar today = Calendar.getInstance();//auxiliar
+        reset(today,8,0);
         GregorianCalendar begin = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
         begin.set(Calendar.MINUTE, 480);
         GregorianCalendar end = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
@@ -735,7 +744,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         out.println("<tbody>");
         for(int i=480; i<=1260; i+=30) {
             out.println(" <tr>");
-            out.println("  <td rowspan=\"2\" class=\"theHoursCal\"><p>"+sdf.format(hourOfDay.getTime())+"</p></td>");
+            out.println("  <td rowspan=\"2\" class=\"theHoursCal\"><p>"+HHmm.format(today.getTime())+"</p></td>");
             for(Sala sala:salas) {
                 if(sala.isReservada(begin.getTime(), end.getTime()))
                     out.println("  <td class=\"x sltc trCal1\">&nbsp;</td>");
@@ -754,14 +763,18 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
                     out.println("  <td class=\"sltc trCal1\">&nbsp;</td>");
             }
             out.println(" </tr>");
-            hourOfDay.add(Calendar.HOUR_OF_DAY, 1);
+            today.add(Calendar.HOUR_OF_DAY, 1);
             begin.add(Calendar.MINUTE, 30);
             end.add(Calendar.MINUTE, 30);
         }
         out.println("</tbody>");
         out.println("</table>");
         out.println("<br class=\"clear\"/>");
-        out.println(getForm(request, paramRequest, salas, locale));
+        
+        if(current.get(Calendar.DAY_OF_YEAR)>=today.get(Calendar.DAY_OF_YEAR)) {
+            out.println(getScript(request, paramRequest, locale));
+            out.println(getForm(request, paramRequest, salas, locale));
+        }
         
         out.println("</div>");
         out.println("<script type=\"text/javascript\">");
@@ -831,7 +844,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
                 salas.remove(sala);
         }
         out.println(getCalendar(request, paramRequest, locale));
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+//        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         out.println("<table id=\"mainTableCal\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
         out.println("<thead>");
         out.println(" <tr class=\"trCalSalas\">");
@@ -842,7 +855,8 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         out.println(" </tr>");
         out.println("</thead>");
         
-        GregorianCalendar hourOfDay = new GregorianCalendar(2011,0,1,8,0);//auxiliar
+        Calendar today = Calendar.getInstance();//auxiliar
+        reset(today,8,0);
         GregorianCalendar begin = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
         begin.set(Calendar.MINUTE, 480);
         GregorianCalendar end = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
@@ -851,7 +865,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         out.println("<tbody>");
         for(int i=480; i<=1260; i+=30) {
             out.println(" <tr>");
-            out.println("  <td rowspan=\"2\" class=\"theHoursCal\"><p>"+sdf.format(hourOfDay.getTime())+"</p></td>");
+            out.println("  <td rowspan=\"2\" class=\"theHoursCal\"><p>"+HHmm.format(today.getTime())+"</p></td>");
             for(Sala sala:salas) {
                 if(sala.isReservada(begin.getTime(), end.getTime()))
                     out.println("  <td id=\""+sala.getId()+"_"+i+"\" class=\"x sltc trCal1\">&nbsp;</td>");
@@ -870,15 +884,19 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
                     out.println("  <td id=\""+sala.getId()+"_"+i+"\" class=\"sltc trCal1\">&nbsp;</td>");
             }
             out.println(" </tr>");
-            hourOfDay.add(Calendar.HOUR_OF_DAY, 1);
+            today.add(Calendar.HOUR_OF_DAY, 1);
             begin.add(Calendar.MINUTE, 30);
             end.add(Calendar.MINUTE, 30);
         }
         out.println("</tbody>");
         out.println("</table>");
         out.println("<br class=\"clear\"/>");
-        if(!current.before(new java.util.Date()))
-        out.println(getForm(request, paramRequest, salas, locale));
+        
+        if(current.get(Calendar.DAY_OF_YEAR)>=today.get(Calendar.DAY_OF_YEAR)) {
+            out.println(getScript(request, paramRequest, locale));
+            out.println(getForm(request, paramRequest, salas, locale));
+        }
+        
         out.println("</div>");
         out.println("<script type=\"text/javascript\">");
         out.println("<!--");
@@ -918,11 +936,15 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         return userCanEdit;
     }
     
-    private void reset(Calendar cal) {
-        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.MINUTE, 0);
+    private void reset(Calendar cal, int hour, int minute) {
+        cal.set(Calendar.HOUR_OF_DAY, hour);
+        cal.set(Calendar.MINUTE, minute);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
+    }
+    
+    private void reset(Calendar cal) {
+        reset(cal, 0, 0);
     }
     
     private void copyObjects(ReservacionSala from, ReservacionSala to) {
