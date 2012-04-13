@@ -57,15 +57,18 @@ public class ReporteInvestigacionDocencia extends GenericResource {
     public void doExport(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setHeader("Content-Disposition", " attachment; filename=\"reportInvestigacionDocencia" + System.currentTimeMillis() + ".xls\";");
         response.setContentType("application/vnd.ms-excel"); //
-        String reporte = "";
-        reporte = request.getParameter("reporte");
         
-        if(reporte==null) reporte = "Reporte sin datos...";
-        else reporte = SWBUtils.TEXT.decodeBase64(reporte);
-        InputStream fin = null;
-        fin = SWBUtils.IO.getStreamFromString(reporte);
-        OutputStream out = response.getOutputStream();
-        SWBUtils.IO.copyStream(fin, out);
-        out.close();
+        doView(request, response, paramRequest);
+        
+//        String reporte = "";
+//        reporte = request.getParameter("reporte");
+//        
+//        if(reporte==null) reporte = "Reporte sin datos...";
+//        else reporte = SWBUtils.TEXT.decodeBase64(reporte);
+//        InputStream fin = null;
+//        fin = SWBUtils.IO.getStreamFromString(reporte);
+//        OutputStream out = response.getOutputStream();
+//        SWBUtils.IO.copyStream(fin, out);
+//        out.close();
     }
 }
