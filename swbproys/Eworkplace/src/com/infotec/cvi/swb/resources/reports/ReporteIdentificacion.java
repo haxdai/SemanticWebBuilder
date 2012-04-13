@@ -31,23 +31,26 @@ public class ReporteIdentificacion extends GenericResource {
     public static final String Action_REP_NATIONATITY="nac";
     /** Modo personalizado para ejecutar doPrint   */
     public static final String Mode_PRINT="prn";
+    public static final String Mode_EXPORT="exp";
 
     @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-System.out.println("********************************************************processRequest");
+//System.out.println("********************************************************processRequest");
         String mode = paramRequest.getMode();
-        if(Mode_PRINT.equals(mode))
+        if(Mode_PRINT.equals(mode)){
             doPrint(request, response, paramRequest);
-        else
+        }else if(Mode_EXPORT.equals(mode)){
+            doExport(request, response, paramRequest);
+        }else{
             super.processRequest(request, response, paramRequest);
+        }
     }
 
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
-System.out.println("********************************************************processAction");
+//System.out.println("********************************************************processAction");
         String repType =request.getParameter("repType");
-System.out.println("reptype:"+repType);
-
+//System.out.println("reptype:"+repType);
         if(repType!=null&&!repType.equals("")){
             if(repType.equals("gender")){
                 response.setAction(Action_REP_GENDER);
@@ -104,6 +107,10 @@ System.out.println("reptype:"+repType);
             }
         }
     }
-    
+    public void doExport(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setHeader("Content-Disposition", " attachment; filename=\"ReporteIndentificacion_"+paramRequest.getAction()+ System.currentTimeMillis() + ".xls\";");
+        response.setContentType("application/vnd.ms-excel");
+        doPrint(request, response, paramRequest);
+    }
     
 }
