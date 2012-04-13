@@ -127,6 +127,7 @@
                             if (acum == 0 && acumno == 0) {
                     %>    
                     <p>No se encontraron registros.....</p> 
+                    <button type="button" onclick="javascript:history.back(1);">Regresar</button>
                     <%            } else {
                     %>    
 
@@ -206,13 +207,10 @@
                         <input type="hidden" name="act" value="<%=request.getParameter("act")%>">
                         <%
                             }
-                            if (request.getParameter("reptype") != null) {
-                        %>
-                        <input type="hidden" name="reptype" value="<%=request.getParameter("reptype")%>">
-                        <%
-                            }
+                            
                         %>
                         <form action="<%=urlExport.toString()%>">
+                            <button onclick="javascript:history.back(1);">Regresar</button>
                             <button type="submit" >Guardar Excel</button> 
                         </form>
                         <%
@@ -291,11 +289,10 @@
                                 }
                             %>
                             <form action="<%=urlExport.toString()%>">
+                                <button onclick="javascript:history.back(1);">Regresar</button>
                                 <button type="submit" >Guardar Excel</button>
                             </form>
                             <%
-
-
                                     }
 
                                 }
@@ -333,12 +330,13 @@
                                 }
                             </script>
                             <div id="icv-rep-busca1">
+                                <h3><%=wptitle%></h3>
                             <form method="post" action="<%=urlstep2%>" method="post">
                                 <input type="hidden" name="act" value="<%=action%>"/>
                                 <input type="hidden" name="step" value="2"/>
-                                <h3><%=wptitle%></h3>
                                     <input type="checkbox" id="curso" name="curso" value="1" checked onclick="if(!this.checked){this.form.numero.disabled='disabled';;}else{this.form.numero.disabled='';}"/>
                                     <label for="numero">Número de cursos de posgrado impartidos: </label><input type="text" id="numero" name="numero" />
+                                    <button onclick="javascript:history.back(1);">Regresar</button>
                                     <button type="submit" onclick="return revisa(this.form);">Buscar</button>
                             </form>
                             </div>
@@ -398,6 +396,7 @@
                                 if (acum == 0) {
                             %>         
                             <p>No se encontraron registros</p>
+                            <button onclick="javascript:history.back(1);">Regresar</button>
                             <%  } else {
 
                                 String criteria = "";
@@ -471,6 +470,7 @@
                                     }
                                 %>
                                 <form action="<%=urlExport.toString()%>">
+                                    <button onclick="javascript:history.back(1);">Regresar</button>
                                     <button type="submit" >Guardar Excel</button>
                                 </form>
                                 <%
@@ -572,6 +572,7 @@
                                         }
                                     %>
                                     <form action="<%=urlExport.toString()%>">
+                                        <button onclick="javascript:history.back(1);">Regresar</button>
                                         <button type="submit" >Guardar Excel</button>
                                     </form>
                                     <%
@@ -613,13 +614,13 @@
                                     </script>
 
                                     <div id="icv-rep-busca1">
+                                        <h3><%=wptitle%></h3>
                                     <form method="post" action="<%=urlstep2%>" >
                                         <input type="hidden" name="act" value="<%=action%>"/>
                                         <input type="hidden" name="step" value="2"/>
-                                       
-                                            <h3><%=wptitle%></h3>
                                             <input type="checkbox" id="publi" name="curso" value="1" checked onclick="if(!this.checked){this.form.num.disabled='disabled';}else{this.form.num.disabled='';}"/>
                                             <label for="num">Número de publicaciones: </label><input type="text" id="num" name="numero" />
+                                            <button onclick="javascript:history.back(1);">Regresar</button>
                                             <button type="submit" onclick="return revisaPub(this.form);">Buscar</button>
                                             
                                     </div>
@@ -672,6 +673,7 @@
                                         if (acum == 0) {
                                     %>         
                                     <p>No se encontraron registros</p>
+                                    <button onclick="javascript:history.back(1);">Regresar</button>
                                     <%  } else {
 
                                         String criteria = "";
@@ -681,9 +683,9 @@
                                             criteria = "que no hayan realizado ninguna publicación.";
                                         }
                                     %>
-                                    <div><h2><%=wptitle%></h2>
+                                    
                                         <table>
-                                            <caption>Publicaciones - <%=criteria%></caption>
+                                            <caption><%=wptitle%> - <%=criteria%></caption>
                                             <tbody>
                                                 <%
                                                     SWBResourceURL urldetail = paramRequest.getRenderUrl();
@@ -712,7 +714,7 @@
                                                 }
                                             %>
                                         </table>
-                                    </div>
+                                    
 
                                     <%
 
@@ -746,6 +748,7 @@
                                             }
                                         %>
                                         <form action="<%=urlExport.toString()%>">
+                                            <button onclick="javascript:history.back(1);">Regresar</button>
                                             <button type="submit" >Guardar Excel</button>
                                         </form>
                                         <%
@@ -808,9 +811,6 @@
                                                 }
 
                                                 out.println(listReport(hm, hmorder, txttype, criteria, paramRequest, request));
-                                        %>
-
-                                        <%
                                             }
                                             if (!export.equals("excel") && acum > 0) {
                                                 SWBResourceURL urlExport = paramRequest.getRenderUrl();
@@ -842,6 +842,7 @@
                                                 }
                                             %>
                                             <form action="<%=urlExport.toString()%>">
+                                                <button onclick="javascript:history.back(1);">Regresar</button>
                                                 <button type="submit" >Guardar Excel</button>
                                             </form>
                                             <%
