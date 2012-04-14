@@ -25,6 +25,7 @@ import org.semanticwb.model.ResourceType;
 import org.semanticwb.model.Resourceable;
 import org.semanticwb.model.Role;
 import org.semanticwb.model.SWBComparator;
+import org.semanticwb.model.SWBModel;
 import org.semanticwb.model.User;
 import org.semanticwb.model.UserGroup;
 import org.semanticwb.model.WebPage;
@@ -275,6 +276,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
                 reservation.setRequiereComputo(request.getParameter("pcs")!=null);
                 if(!request.getParameter("osrvcs").isEmpty())
                     reservation.setServiciosAdicionales(request.getParameter("osrvcs").trim());
+                response.setRenderParameter("alertmsg", response.getLocaleString("msgReservationDoneOk"));
                 
                 //Obtener la instancia de la tarea -inicia
                 FlowNodeInstance fni = getFlowNodeInstance(request.getParameter("suri"));
@@ -550,39 +552,39 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         final GregorianCalendar lastDateOfYear = new GregorianCalendar(current.get(Calendar.YEAR),11,31,22,0,0);
         html.append("     <label for=\"fd\">al: </label><input type=\"text\" name=\"fd\" id=\"fd\" value=\""+(request.getParameter("fd")==null?dateDojo.format(current.getTime()):request.getParameter("fd"))+"\" dojoType=\"dijit.form.DateTextBox\" constraints=\"{min:'"+dateDojo.format(current.getTime())+"',max:'"+dateDojo.format(lastDateOfYear.getTime())+"',datePattern:'dd/MMM/yyyy'}\"  required=\"true\" trim=\"true\" promptMessage=\"formato de la fecha dd/MM/yyyy\" invalidMessage=\"Invalid date\" />");
         html.append(" </div>");
-        html.append(" <div class=\"salas4Cols salas-hora\">");
-        html.append("  <p><span class=\"blueCalTit\">Horario de reservaci&oacute;n:</span></p>");
-        html.append("  <label for=\"sh\">De: </label>");
-        html.append("  <select name=\"sh\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\" promptMessage=\"Hora inicial\" invalidMessage=\"La hora inicial de la junta es requerida\">");
-//        html.append("   <option value=\"480\">08:00</option><option value=\"510\">08:30</option><option value=\"540\">09:00</option><option value=\"570\">09:30</option><option value=\"600\">10:00</option><option value=\"630\">10:30</option><option value=\"660\">11:00</option><option value=\"690\">11:30</option><option value=\"720\">12:00</option><option value=\"750\">12:30</option><option value=\"780\">13:00</option><option value=\"810\">13:30</option><option value=\"840\">14:00</option><option value=\"870\">14:30</option><option value=\"900\">15:00</option><option value=\"930\">15:30</option> <option value=\"960\">16:00</option> <option value=\"990\">16:30</option><option value=\"1020\">17:00</option><option value=\"1050\">17:30</option><option value=\"1080\">18:00</option><option value=\"1110\">18:30</option><option value=\"1140\">19:00</option><option value=\"1170\">19:30</option><option value=\"1200\">20:00</option><option value=\"1230\">20:30</option><option value=\"1260\">21:00</option>");
-        StringBuilder fh = new StringBuilder();
-        Calendar today = Calendar.getInstance();
-        int h;
-        if(today.get(Calendar.HOUR_OF_DAY)<8 || current.get(Calendar.DAY_OF_YEAR)>today.get(Calendar.DAY_OF_YEAR)) {
-            h = 8;
-        }else {
-            h = current.get(Calendar.HOUR_OF_DAY);
-            if(current.get(Calendar.MINUTE)<30) {
-                html.append("<option value=\""+h*60+30+"\">"+h+":30</option>");
-            }
-            h++;
-        }
-        for(; h<22; h++) {
-            html.append("<option value=\""+h*60+"\">"+h+":00</option>");
-            fh.append("<option value=\""+h*60+59+"\">"+h+":59</option>");
-            if(h<21) {
-                html.append("<option value=\""+h*60+30+"\">"+h+":30</option>");
-                fh.append("<option value=\""+h*60+89+"\">"+(h+1)+":29</option>");
-            }
-                
-        }
-        html.append("  </select>");
-        html.append("  <label for=\"fh\">a: </label>");
-        html.append("  <select  name=\"fh\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\" promptMessage=\"Hora final\" invalidMessage=\"La hora final de la junta es requerida\">");
-        html.append(fh);
-//        html.append("  <option value=\"539\">08:59</option><option value=\"569\">09:29</option><option value=\"599\">09:59</option><option value=\"629\">10:29</option><option value=\"659\">10:59</option><option value=\"689\">11:29</option><option value=\"719\">11:59</option><option value=\"749\">12:29</option><option value=\"779\">12:59</option><option value=\"809\">13:29</option><option value=\"839\">13:59</option><option value=\"869\">14:29</option><option value=\"899\">14:59</option><option value=\"929\">15:29</option><option value=\"959\">15:59</option><option value=\"989\">16:29</option><option value=\"1019\">16:59</option><option value=\"1049\">17:29</option><option value=\"1079\">17:59</option><option value=\"1109\">18:29</option><option value=\"1139\">18:59</option><option value=\"1169\">19:29</option><option value=\"1199\">19:59</option><option value=\"1229\">20:29</option><option value=\"1259\">20:59</option><option value=\"1289\">21:29</option><option value=\"1319\">21:59</option>");
-        html.append("  </select>");
-        html.append(" </div>");
+        html.append("\n <div class=\"salas4Cols salas-hora\">");
+        html.append("\n  <p><span class=\"blueCalTit\">Horario de reservaci&oacute;n:</span></p>");
+        html.append("\n  <label for=\"sh\">De: </label>");
+        html.append("\n  <select name=\"sh\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\" promptMessage=\"Hora inicial\" invalidMessage=\"La hora inicial de la junta es requerida\">");
+        html.append("     <option value=\"480\">08:00</option><option value=\"510\">08:30</option><option value=\"540\">09:00</option><option value=\"570\">09:30</option><option value=\"600\">10:00</option><option value=\"630\">10:30</option><option value=\"660\">11:00</option><option value=\"690\">11:30</option><option value=\"720\">12:00</option><option value=\"750\">12:30</option><option value=\"780\">13:00</option><option value=\"810\">13:30</option><option value=\"840\">14:00</option><option value=\"870\">14:30</option><option value=\"900\">15:00</option><option value=\"930\">15:30</option> <option value=\"960\">16:00</option> <option value=\"990\">16:30</option><option value=\"1020\">17:00</option><option value=\"1050\">17:30</option><option value=\"1080\">18:00</option><option value=\"1110\">18:30</option><option value=\"1140\">19:00</option><option value=\"1170\">19:30</option><option value=\"1200\">20:00</option><option value=\"1230\">20:30</option><option value=\"1260\">21:00</option>");
+//        StringBuilder fh = new StringBuilder();
+//        Calendar today = Calendar.getInstance();
+//        int h;
+//        if(today.get(Calendar.HOUR_OF_DAY)<8 || current.get(Calendar.DAY_OF_YEAR)>today.get(Calendar.DAY_OF_YEAR)) {
+//            h = 8;
+//        }else {
+//            h = current.get(Calendar.HOUR_OF_DAY);
+//            if(current.get(Calendar.MINUTE)<30) {
+//                html.append("\n<option value=\""+(h*60+30)+"\">"+h+":30</option>");
+//            }
+//            h++;
+//        }
+//        for(; h<22; h++) {
+//            html.append("\n<option value=\""+(h*60)+"\">"+h+":00</option>");
+//            fh.append("\n<option value=\""+(h*60+59)+"\">"+h+":59</option>");
+//            if(h<21) {
+//                html.append("\n<option value=\""+(h*60+30)+"\">"+h+":30</option>");
+//                fh.append("\n<option value=\""+(h*60+89)+"\">"+(h+1)+":29</option>");
+//            }
+//                
+//        }
+        html.append("\n  </select>");
+        html.append("\n  <label for=\"fh\">a: </label>");
+        html.append("\n  <select  name=\"fh\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\" promptMessage=\"Hora final\" invalidMessage=\"La hora final de la junta es requerida\">");
+//        html.append(fh);
+        html.append("  <option value=\"539\">08:59</option><option value=\"569\">09:29</option><option value=\"599\">09:59</option><option value=\"629\">10:29</option><option value=\"659\">10:59</option><option value=\"689\">11:29</option><option value=\"719\">11:59</option><option value=\"749\">12:29</option><option value=\"779\">12:59</option><option value=\"809\">13:29</option><option value=\"839\">13:59</option><option value=\"869\">14:29</option><option value=\"899\">14:59</option><option value=\"929\">15:29</option><option value=\"959\">15:59</option><option value=\"989\">16:29</option><option value=\"1019\">16:59</option><option value=\"1049\">17:29</option><option value=\"1079\">17:59</option><option value=\"1109\">18:29</option><option value=\"1139\">18:59</option><option value=\"1169\">19:29</option><option value=\"1199\">19:59</option><option value=\"1229\">20:29</option><option value=\"1259\">20:59</option><option value=\"1289\">21:29</option><option value=\"1319\">21:59</option>");
+        html.append("\n  </select>");
+        html.append("\n </div>");
         /*html.append(" <div class=\"salas4Cols salas-hora\">");
         html.append("  <p><span class=\"blueCalTit\">Horario:</span></p>");
         html.append("  <label for=\"sh\">De: </label><select name=\"sh\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\" promptMessage=\"Hora inicial\" invalidMessage=\"La hora inicial es requerida\"><option value=\"480\">08:00</option><option value=\"510\">08:30</option><option value=\"540\">09:00</option><option value=\"570\">09:30</option><option value=\"600\">10:00</option><option value=\"630\">10:30</option><option value=\"660\">11:00</option><option value=\"690\">11:30</option><option value=\"720\">12:00</option><option value=\"750\">12:30</option><option value=\"780\">13:00</option><option value=\"810\">13:30</option><option value=\"840\">14:00</option><option value=\"870\">14:30</option><option value=\"900\">15:00</option><option value=\"930\">15:30</option> <option value=\"960\">16:00</option> <option value=\"990\">16:30</option><option value=\"1020\">17:00</option><option value=\"1050\">17:30</option><option value=\"1080\">18:00</option><option value=\"1110\">18:30</option><option value=\"1140\">19:00</option><option value=\"1170\">19:30</option><option value=\"1200\">20:00</option><option value=\"1230\">20:30</option><option value=\"1260\">21:00</option></select>");
@@ -632,7 +634,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         html.append(" </div>");
         
         html.append(" <div id=\"salas-material\">");
-        html.append("  <p><span class=\"blueCalTit\">Materiales y equipo:</span></p>");
+        html.append("  <p><span class=\"blueCalTit\">Servicios a solicitar:</span></p>");
         html.append("  <ul>");
 //        html.append("   <li><label for=\"airc\"><input type=\"checkbox\" name=\"airc\" id=\"airc\" value=\"1\" />Aire acondicionado</label></li>");
         html.append("   <li class=\"prjctr\"><input type=\"checkbox\" name=\"prjctr\" id=\"prjctr\" value=\"1\" "+(request.getParameter("prjctr")==null?"":"checked=\"checked\"")+" /><label for=\"prjctr\">Proyector</label></li>");
@@ -749,7 +751,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         out.println(" <tr class=\"trCalSalas\">");
         out.println("  <th class=\"thCalHora\">Hora</td>");
         for(Sala sala:salas) {
-            out.println("  <th class=\"thCalS_"+sala.getId()+"\"><a href=\""+paramRequest.getRenderUrl().setMode(Mode_SALA).setParameter("sl", sala.getEncodedURI()) +"\" title=\"ver sala\">"+sala.getDisplayTitle(lang)+"</a></td>");
+            out.println("  <th class=\"thCalS_"+sala.getId()+"\"><a href=\""+paramRequest.getRenderUrl().setMode(Mode_SALA).setParameter("sl", sala.getEncodedURI()) +"\" title=\""+sala.getDisplayTitle(lang)+" ("+sala.getCapacidad()+")\">"+sala.getDisplayTitle(lang)+"</a></td>");
         }
         out.println(" </tr>");
         out.println("</thead>");
@@ -870,7 +872,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         out.println(" <tr class=\"trCalSalas\">");
         out.println("  <th class=\"thCalHora\">Hora</td>");
         for(Sala sala:salas) {
-            out.println("  <th class=\"thCalS_"+sala.getId()+"\"><a href=\""+paramRequest.getRenderUrl().setMode(Mode_SALA).setParameter("sl", sala.getEncodedURI()) +"\" title=\"ver sala\">"+sala.getDisplayTitle(lang)+"</a></td>");
+            out.println("  <th class=\"thCalS_"+sala.getId()+"\"><a href=\""+paramRequest.getRenderUrl().setMode(Mode_SALA).setParameter("sl", sala.getEncodedURI()) +"\" title=\""+sala.getDisplayTitle(lang)+" ("+sala.getCapacidad()+")\"\">"+sala.getDisplayTitle(lang)+"</a></td>");
         }
         out.println(" </tr>");
         out.println("</thead>");
