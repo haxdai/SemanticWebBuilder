@@ -16,17 +16,6 @@ public class Sala extends com.infotec.eworkplace.swb.base.SalaBase
     
     public boolean isReservada(final Calendar begin, final Calendar end) {
         return isReservada(begin.getTime(), end.getTime(), end.getTime().getHours(), end.getTime().getMinutes());
-//        boolean isReservada = false;
-//        Iterator<ReservacionSala> reservations = ReservacionSalaBase.ClassMgr.listReservacionSalaBySala(this, (SWBModel)getSemanticObject().getModel().getModelObject().createGenericInstance());
-//        reservations = SWBComparator.sortByCreated(reservations, false);
-//        while(reservations.hasNext()) {
-//            ReservacionSala reservation = reservations.next();
-//            if( (reservation.getFechaInicio().compareTo(begin)<=0 && reservation.getFechaFinal().compareTo(end)>=0)||(reservation.getFechaInicio().compareTo(begin)<0 && reservation.getFechaFinal().compareTo(begin)>0)||(reservation.getFechaInicio().compareTo(end)<0 && reservation.getFechaFinal().compareTo(end)>0) ) {
-//                isReservada = true;
-//                break;
-//            }
-//        }
-//        return isReservada;
     }
     
     private boolean isReservada(final java.util.Date begin, final java.util.Date end, final int hours, final int minutes) {
@@ -34,7 +23,7 @@ public class Sala extends com.infotec.eworkplace.swb.base.SalaBase
         if( begin.getDate()==end.getDate() && begin.getMonth()==end.getMonth() && begin.getYear()==end.getYear() ) {
             Calendar inicio = Calendar.getInstance();
             Calendar fin = Calendar.getInstance();
-
+//System.out.println("begin="+begin+", end="+end+", h="+hours+", m="+minutes);
             Iterator<ReservacionSala> reservations = ReservacionSalaBase.ClassMgr.listReservacionSalaBySala(this, (SWBModel)getSemanticObject().getModel().getModelObject().createGenericInstance());
             reservations = SWBComparator.sortByCreated(reservations, false);
             while(reservations.hasNext()) {
@@ -43,11 +32,15 @@ public class Sala extends com.infotec.eworkplace.swb.base.SalaBase
                 fin.setTime(reservation.getFechaInicio());
                 fin.set(Calendar.HOUR, reservation.getFechaFinal().getHours());
                 fin.set(Calendar.MINUTE, reservation.getFechaFinal().getMinutes());
-                
+//System.out.println("..reservation Inicio()="+reservation.getFechaInicio()+", Final()="+reservation.getFechaFinal());
                 while(fin.getTime().compareTo(reservation.getFechaFinal())<=0) {
+//System.out.println("inicio="+inicio.getTime()+", fin="+fin.getTime());
+//System.out.println("inicio.getTime().compareTo(begin)="+inicio.getTime().compareTo(begin));
+//System.out.println("fin.getTime().compareTo(end)="+fin.getTime().compareTo(end));
                     if( (inicio.getTime().compareTo(begin)<=0 && fin.getTime().compareTo(end)>=0) ||
-                        (inicio.getTime().compareTo(begin)<0 && fin.getTime().compareTo(begin)>0) ||
-                        (inicio.getTime().compareTo(end)<0 && fin.getTime().compareTo(end)>0) ) {
+                        (inicio.getTime().compareTo(begin)>0 && fin.getTime().compareTo(end)<0) ||
+                        (begin.compareTo(inicio.getTime())<0 && end.compareTo(inicio.getTime())>0 && end.compareTo(fin.getTime())<0) ||
+                        (inicio.getTime().compareTo(begin)<0 && fin.getTime().compareTo(begin)>0 && fin.getTime().compareTo(end)<0)) {
                         return true;
                     }
                     inicio.add(Calendar.DATE, 1);
@@ -76,9 +69,10 @@ public class Sala extends com.infotec.eworkplace.swb.base.SalaBase
                 fin.set(Calendar.HOUR, reservation.getFechaFinal().getHours());
                 fin.set(Calendar.MINUTE, reservation.getFechaFinal().getMinutes());
                 while(fin.getTime().compareTo(reservation.getFechaFinal())<=0) {
-                    if( (inicio.getTime().compareTo(cbegin.getTime())<=0 && fin.getTime().compareTo(cend.getTime())>=0) ||
-                        (inicio.getTime().compareTo(cbegin.getTime())<0 && fin.getTime().compareTo(cbegin.getTime())>0) ||
-                        (inicio.getTime().compareTo(cend.getTime())<0 && fin.getTime().compareTo(cend.getTime())>0) ) {
+                    if( (inicio.getTime().compareTo(begin)<=0 && fin.getTime().compareTo(end)>=0) ||
+                        (inicio.getTime().compareTo(begin)>0 && fin.getTime().compareTo(end)<0) ||
+                        (begin.compareTo(inicio.getTime())<0 && end.compareTo(inicio.getTime())>0 && end.compareTo(fin.getTime())<0) ||
+                        (inicio.getTime().compareTo(begin)<0 && fin.getTime().compareTo(begin)>0 && fin.getTime().compareTo(end)<0)) {
                         return true;
                     }
                     cbegin.add(Calendar.DATE, 1);
