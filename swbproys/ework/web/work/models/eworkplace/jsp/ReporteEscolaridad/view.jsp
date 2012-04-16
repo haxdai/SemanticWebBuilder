@@ -536,7 +536,7 @@
                                                 txt = SWBUtils.TEXT.replaceSpecialCharacters(txt, Boolean.FALSE);
                                                 //System.out.println("TIC txt: "+txt+" "+txt.indexOf(txtbuscar));
                                                 if (txt.indexOf(txtbuscar) > -1) {
-                                                    hmtic.put(cv.getId(), cv);                                                     
+                                                    hmtic.put(cv.getId(), cv);
                                                 }
                                             }
                                         }
@@ -549,7 +549,7 @@
                                 if (acum == 0 && acumtic == 0) {
                             %>         
                             <p>No se encontraron registros</p>
-                            <button type="submit" onclick="return revisa(this.form)">Buscar</button>
+                            <button type="button" onclick="javascript:history.back(1);">Regresar</button>
                             <%  } else {
 
                             %>
@@ -621,9 +621,7 @@
                                         }
                                     %>                 
                                 </tbody>
-                                <%
-                                    }
-                                %>
+
                             </table>
 
                             <%
@@ -657,8 +655,8 @@
                                     <button type="submit" >Guardar Excel</button> 
                                 </form>
                                 <%
-                                    }
-                                    // termina step 2
+                                        }
+                                    } // termina step 2
                                 } else { // step 3 detalle reporte
                                     String txtbuscar = request.getParameter("search");
                                     String reptype = request.getParameter("type");
@@ -870,7 +868,7 @@
                                             </tbody>
                                         </table>
                                         <button onclick="javascript:history.back(1);" >Regresar</button> 
-                                        <button type="submit" onclick="return revisa(this.form)" >Buscar</button> 
+                                        <button type="submit" onclick="return revisa(this.form)" >Regresar</button> 
                                     </form>
                                     <%
                                     } else if ("2".equals(step)) { //step 2, hace la busqueda del texto en diplomados ó cursos TIC
@@ -903,7 +901,7 @@
                                         if (acum == 0) {
                                     %>         
                                     <p>No se encontraron registros</p>
-                                    <button onclick="javascript:history.back(1);" >Buscar</button> 
+                                    <button onclick="javascript:history.back(1);" >Regresar</button> 
                                     <%  } else {
 
                                     %>
