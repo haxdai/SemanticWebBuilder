@@ -38,7 +38,7 @@ public class Sala extends com.infotec.eworkplace.swb.base.SalaBase
 //System.out.println("inicio.getTime().compareTo(begin)="+inicio.getTime().compareTo(begin));
 //System.out.println("fin.getTime().compareTo(end)="+fin.getTime().compareTo(end));
                     if( (inicio.getTime().compareTo(begin)<=0 && fin.getTime().compareTo(end)>=0) ||
-                        (inicio.getTime().compareTo(begin)>0 && fin.getTime().compareTo(end)<0) ||
+                        (inicio.getTime().compareTo(begin)>=0 && fin.getTime().compareTo(end)<=0) ||
                         (begin.compareTo(inicio.getTime())<0 && end.compareTo(inicio.getTime())>0 && end.compareTo(fin.getTime())<0) ||
                         (inicio.getTime().compareTo(begin)<0 && fin.getTime().compareTo(begin)>0 && fin.getTime().compareTo(end)<0)) {
                         return true;
@@ -70,7 +70,7 @@ public class Sala extends com.infotec.eworkplace.swb.base.SalaBase
                 fin.set(Calendar.MINUTE, reservation.getFechaFinal().getMinutes());
                 while(fin.getTime().compareTo(reservation.getFechaFinal())<=0) {
                     if( (inicio.getTime().compareTo(begin)<=0 && fin.getTime().compareTo(end)>=0) ||
-                        (inicio.getTime().compareTo(begin)>0 && fin.getTime().compareTo(end)<0) ||
+                        (inicio.getTime().compareTo(begin)>=0 && fin.getTime().compareTo(end)<=0) ||
                         (begin.compareTo(inicio.getTime())<0 && end.compareTo(inicio.getTime())>0 && end.compareTo(fin.getTime())<0) ||
                         (inicio.getTime().compareTo(begin)<0 && fin.getTime().compareTo(begin)>0 && fin.getTime().compareTo(end)<0)) {
                         return true;
