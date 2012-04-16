@@ -275,10 +275,17 @@ public class CV extends com.infotec.cvi.swb.base.CVBase
                         element.appendChild(dom.createTextNode(es.getGradoAvance().getTitle()));
                         eleEstudio.appendChild(element);
                         String estudio="";
+                        String tipo="";
+                        if(es.getEstudiosSuperiores().getAreaEstudio()!=null&&
+                                es.getEstudiosSuperiores().getAreaEstudio().getDisciplinaInv()!=null&&
+                                es.getEstudiosSuperiores().getAreaEstudio().getDisciplinaInv().getTipoEstudioInv()!=null){
+                            tipo=es.getEstudiosSuperiores().getAreaEstudio().getDisciplinaInv().getTipoEstudioInv().getTitle();
+                            tipo=tipo+" - ";
+                        }
                         if(es.getEstudiosSuperiores().getId().endsWith("_otro")&&es.getEstudiosSuperiores().getTitle().equals("Otro")){
-                                estudio = "Otro / "+es.getOtroEstudio();
+                                estudio = tipo+"Otro / "+es.getOtroEstudio();
                             } else{
-                                estudio = es.getEstudiosSuperiores().getTitle();
+                                estudio = tipo+es.getEstudiosSuperiores().getTitle();
                         }
                         element = dom.createElement("nombre");
                         element.appendChild(dom.createTextNode(estudio));
