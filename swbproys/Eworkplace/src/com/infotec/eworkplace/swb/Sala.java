@@ -39,8 +39,8 @@ public class Sala extends com.infotec.eworkplace.swb.base.SalaBase
 //System.out.println("fin.getTime().compareTo(end)="+fin.getTime().compareTo(end));
                     if( (inicio.getTime().compareTo(begin)<=0 && fin.getTime().compareTo(end)>=0) ||
                         (inicio.getTime().compareTo(begin)>=0 && fin.getTime().compareTo(end)<=0) ||
-                        (begin.compareTo(inicio.getTime())<0 && end.compareTo(inicio.getTime())>0 && end.compareTo(fin.getTime())<0) ||
-                        (inicio.getTime().compareTo(begin)<0 && fin.getTime().compareTo(begin)>0 && fin.getTime().compareTo(end)<0)) {
+                        (begin.compareTo(inicio.getTime())<=0 && end.compareTo(inicio.getTime())>=0 && end.compareTo(fin.getTime())<=0) ||
+                        (inicio.getTime().compareTo(begin)<=0 && fin.getTime().compareTo(begin)>=0 && fin.getTime().compareTo(end)<=0)) {
                         return true;
                     }
                     inicio.add(Calendar.DATE, 1);
