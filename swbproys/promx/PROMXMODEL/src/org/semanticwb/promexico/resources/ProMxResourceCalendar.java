@@ -27,6 +27,7 @@ import org.semanticwb.promexico.Event;
 import org.semanticwb.promexico.Sector;
 import org.semanticwb.promexico.Training;
 import org.semanticwb.promexico.TrainingType;
+import org.semanticwb.promexico.TrainingTypeCalendar;
 
 public class ProMxResourceCalendar extends org.semanticwb.promexico.resources.base.ProMxResourceCalendarBase 
 {
@@ -82,8 +83,8 @@ public class ProMxResourceCalendar extends org.semanticwb.promexico.resources.ba
         if(monthP > 0 && yearP > 0) {
             Iterator ist = null;
             Iterator ist2 = null;
-            Iterator istEvts = EventType.ClassMgr.listEventTypes();// listEvtTypes();
-            Iterator istTraining = TrainingType.ClassMgr.listTrainingTypes();// listCalTrainingTypes();
+            Iterator istEvts = EventType.ClassMgr.listEventTypes(ws);// listEvtTypes();
+            Iterator istTraining = TrainingTypeCalendar.ClassMgr.listTrainingTypeCalendars(ws);//TrainingType.ClassMgr.listTrainingTypes();// listCalTrainingTypes();
 
             if(istEvts.hasNext() && istTraining.hasNext()) {
                 ist = getListEvtsType(istEvts, ws);
@@ -326,13 +327,20 @@ public class ProMxResourceCalendar extends org.semanticwb.promexico.resources.ba
         return allList.iterator();
     }
 
-    private Iterator getListTrainingType(Iterator<TrainingType> istTraining, WebSite site){
+    private Iterator getListTrainingType(Iterator<TrainingTypeCalendar> istTraining, WebSite site){
         ArrayList allList = new ArrayList();
         while(istTraining.hasNext()) {
-            TrainingType type =  (TrainingType)istTraining.next();
-            Iterator ist2 = Training.ClassMgr.listTrainingByTraType(type, site);
-            while(ist2.hasNext()) {
-                allList.add(ist2.next());
+            Object obj = istTraining.next();
+            if(obj instanceof TrainingTypeCalendar)
+            {
+                TrainingTypeCalendar type =  (TrainingTypeCalendar)obj;
+                Iterator ist2 = Training.ClassMgr.listTrainingByTraTypeCalendar(type, site);//listTrainingByTraType(type, site);
+                while(ist2.hasNext()) {
+                    allList.add(ist2.next());
+                }
+            } else if(obj instanceof TrainingType) {
+                TrainingType type =  (TrainingType)obj;
+                type.remove();
             }
         }
         return allList.iterator();
@@ -590,6 +598,7 @@ public class ProMxResourceCalendar extends org.semanticwb.promexico.resources.ba
             }
         }
         String trainingEvt = (train.getTraType() == null) ? "" : (train.getTraType().getTitle(user.getLanguage()) == null ? (train.getTraType().getTitle() == null ? "" : train.getTraType().getTitle()) : train.getTraType().getTitle(user.getLanguage()));
+        String trainingTypeEvt = (train.getTraTypeCalendar() == null) ? "" : (train.getTraTypeCalendar().getTitle(user.getLanguage()) == null ? (train.getTraTypeCalendar().getTitle() == null ? "" : train.getTraTypeCalendar().getTitle()) : train.getTraTypeCalendar().getTitle(user.getLanguage()));
         Iterator<Sector> itSec = train.listTraSectoreses();
         String sector = "";
         while(itSec.hasNext()) {
@@ -619,6 +628,7 @@ public class ProMxResourceCalendar extends org.semanticwb.promexico.resources.ba
             objJSONData.put("description", descr);
             objJSONData.put("rdates", dates);
             objJSONData.put("trainingEvt", trainingEvt);
+            objJSONData.put("trainingTypeEvt", trainingTypeEvt);
             objJSONData.put("sector", sector);
         } catch(Exception e) {
             log.error("Error while add the properties to Events: " + e);
