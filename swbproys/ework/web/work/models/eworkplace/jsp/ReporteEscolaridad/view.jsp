@@ -497,11 +497,13 @@
                                 //System.out.println("Step 2, "+txtbuscar);
                                 txtbuscar = txtbuscar.trim().toLowerCase();
                                 txtbuscar = SWBUtils.TEXT.replaceSpecialCharacters(txtbuscar, Boolean.FALSE);
+                                HashMap<String, CV> hm = new HashMap<String, CV>();
+                                HashMap<String, CV> hmtic = new HashMap<String, CV>();
 
                                 Diplomado diplo = null;
                                 CursoTIC ctic = null;
-                                int acum = 0;
-                                int acumtic = 0;
+                                long acum = 0;
+                                long acumtic = 0;
                                 Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
                                 while (itcv.hasNext()) {
                                     CV cv = itcv.next();
@@ -518,7 +520,7 @@
                                                 txt = SWBUtils.TEXT.replaceSpecialCharacters(txt, Boolean.FALSE);
                                                 //System.out.println("Diplomado txt: "+txt+" "+txt.indexOf(txtbuscar));
                                                 if (txt.indexOf(txtbuscar) > -1) {
-                                                    acum++;
+                                                    hm.put(cv.getId(), cv);
                                                 }
                                             }
                                         }
@@ -534,7 +536,7 @@
                                                 txt = SWBUtils.TEXT.replaceSpecialCharacters(txt, Boolean.FALSE);
                                                 //System.out.println("TIC txt: "+txt+" "+txt.indexOf(txtbuscar));
                                                 if (txt.indexOf(txtbuscar) > -1) {
-                                                    acumtic++;
+                                                    hmtic.put(cv.getId(), cv);                                                     
                                                 }
                                             }
                                         }
@@ -542,6 +544,8 @@
 
                                 }
                                 //System.out.println("diplos: "+acum+", TICs: "+acumtic);
+                                acum = SWBUtils.Collections.sizeOf(hm.keySet().iterator());
+                                acumtic = SWBUtils.Collections.sizeOf(hmtic.keySet().iterator());
                                 if (acum == 0 && acumtic == 0) {
                             %>         
                             <p>No se encontraron registros</p>
