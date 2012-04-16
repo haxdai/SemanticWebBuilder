@@ -23,7 +23,7 @@ public class Sala extends com.infotec.eworkplace.swb.base.SalaBase
         if( begin.getDate()==end.getDate() && begin.getMonth()==end.getMonth() && begin.getYear()==end.getYear() ) {
             Calendar inicio = Calendar.getInstance();
             Calendar fin = Calendar.getInstance();
-System.out.println("begin="+begin+", end="+end+", h="+hours+", m="+minutes);
+//System.out.println("begin="+begin+", end="+end+", h="+hours+", m="+minutes);
             Iterator<ReservacionSala> reservations = ReservacionSalaBase.ClassMgr.listReservacionSalaBySala(this, (SWBModel)getSemanticObject().getModel().getModelObject().createGenericInstance());
             reservations = SWBComparator.sortByCreated(reservations, false);
             while(reservations.hasNext()) {
@@ -32,12 +32,12 @@ System.out.println("begin="+begin+", end="+end+", h="+hours+", m="+minutes);
                 fin.setTime(reservation.getFechaInicio());
                 fin.set(Calendar.HOUR_OF_DAY, reservation.getFechaFinal().getHours());
                 fin.set(Calendar.MINUTE, reservation.getFechaFinal().getMinutes());
-System.out.println("..reservation Inicio()="+reservation.getFechaInicio()+", Final()="+reservation.getFechaFinal());
-System.out.println("inicio="+inicio.getTime()+", fin="+fin.getTime());
-System.out.println("fin.getTime().compareTo(reservation.getFechaFinal())="+fin.getTime().compareTo(reservation.getFechaFinal()));
+//System.out.println("..reservation Inicio()="+reservation.getFechaInicio()+", Final()="+reservation.getFechaFinal());
+//System.out.println("inicio="+inicio.getTime()+", fin="+fin.getTime());
+//System.out.println("fin.getTime().compareTo(reservation.getFechaFinal())="+fin.getTime().compareTo(reservation.getFechaFinal()));
                 while(fin.getTime().compareTo(reservation.getFechaFinal())<=0) {
-System.out.println("inicio.getTime().compareTo(begin)="+inicio.getTime().compareTo(begin));
-System.out.println("fin.getTime().compareTo(end)="+fin.getTime().compareTo(end));
+//System.out.println("inicio.getTime().compareTo(begin)="+inicio.getTime().compareTo(begin));
+//System.out.println("fin.getTime().compareTo(end)="+fin.getTime().compareTo(end));
                     if( (inicio.getTime().compareTo(begin)<=0 && fin.getTime().compareTo(end)>=0) ||
                         (inicio.getTime().compareTo(begin)>=0 && fin.getTime().compareTo(end)<=0) ||
                         (begin.compareTo(inicio.getTime())<=0 && end.compareTo(inicio.getTime())>=0 && end.compareTo(fin.getTime())<=0) ||
