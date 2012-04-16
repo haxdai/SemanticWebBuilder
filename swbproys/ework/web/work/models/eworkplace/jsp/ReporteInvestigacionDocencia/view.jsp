@@ -596,7 +596,7 @@
                                             texto = texto.replace(' ','');
                                             if(forma.publi.checked){
                                                 if(texto.length == 0){
-                                                    alert('Debes de poner el Número de cursos de publicaciones.');
+                                                    alert('Debes de poner el Número de publicaciones.');
                                                     forma.num.focus();
                                                     return false;
                                                 } else if(isNaN(texto)){
