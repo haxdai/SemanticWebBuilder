@@ -1,7 +1,7 @@
 package org.semanticwb.promexico.base;
 
 
-public abstract class TrainingBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Searchable,org.semanticwb.model.Resourceable,org.semanticwb.model.Localeable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable
+public abstract class TrainingBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Localeable,org.semanticwb.model.Tagable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Resourceable,org.semanticwb.model.Searchable
 {
     public static final org.semanticwb.platform.SemanticProperty promx_traOpenInNewWindow=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#traOpenInNewWindow");
     public static final org.semanticwb.platform.SemanticProperty promx_traShowInstitutionsContact=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#traShowInstitutionsContact");
@@ -11,6 +11,8 @@ public abstract class TrainingBase extends org.semanticwb.model.SWBClass impleme
     public static final org.semanticwb.platform.SemanticProperty promx_hasProStates=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#hasProStates");
     public static final org.semanticwb.platform.SemanticProperty promx_traPhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#traPhoto");
     public static final org.semanticwb.platform.SemanticProperty promx_traEndDate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#traEndDate");
+    public static final org.semanticwb.platform.SemanticClass promx_TrainingTypeCalendar=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/promexico#TrainingTypeCalendar");
+    public static final org.semanticwb.platform.SemanticProperty promx_traTypeCalendar=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#traTypeCalendar");
     public static final org.semanticwb.platform.SemanticProperty promx_traInitDate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#traInitDate");
     public static final org.semanticwb.platform.SemanticProperty promx_traExternalUrl=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#traExternalUrl");
     public static final org.semanticwb.platform.SemanticProperty promx_traHours=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/promexico#traHours");
@@ -164,6 +166,29 @@ public abstract class TrainingBase extends org.semanticwb.model.SWBClass impleme
         public static java.util.Iterator<org.semanticwb.promexico.Training> listTrainingByProStates(org.semanticwb.promexico.ProStates value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Training> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(promx_hasProStates,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.Training with a determined TraTypeCalendar
+       * @param value TraTypeCalendar of the type org.semanticwb.promexico.TrainingTypeCalendar
+       * @param model Model of the org.semanticwb.promexico.Training
+       * @return Iterator with all the org.semanticwb.promexico.Training
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Training> listTrainingByTraTypeCalendar(org.semanticwb.promexico.TrainingTypeCalendar value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Training> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(promx_traTypeCalendar, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.promexico.Training with a determined TraTypeCalendar
+       * @param value TraTypeCalendar of the type org.semanticwb.promexico.TrainingTypeCalendar
+       * @return Iterator with all the org.semanticwb.promexico.Training
+       */
+
+        public static java.util.Iterator<org.semanticwb.promexico.Training> listTrainingByTraTypeCalendar(org.semanticwb.promexico.TrainingTypeCalendar value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.promexico.Training> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(promx_traTypeCalendar,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -595,6 +620,44 @@ public abstract class TrainingBase extends org.semanticwb.model.SWBClass impleme
     public void setTraEndDate(String value)
     {
         getSemanticObject().setProperty(promx_traEndDate, value);
+    }
+   /**
+   * Sets the value for the property TraTypeCalendar
+   * @param value TraTypeCalendar to set
+   */
+
+    public void setTraTypeCalendar(org.semanticwb.promexico.TrainingTypeCalendar value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(promx_traTypeCalendar, value.getSemanticObject());
+        }else
+        {
+            removeTraTypeCalendar();
+        }
+    }
+   /**
+   * Remove the value for TraTypeCalendar property
+   */
+
+    public void removeTraTypeCalendar()
+    {
+        getSemanticObject().removeProperty(promx_traTypeCalendar);
+    }
+
+   /**
+   * Gets the TraTypeCalendar
+   * @return a org.semanticwb.promexico.TrainingTypeCalendar
+   */
+    public org.semanticwb.promexico.TrainingTypeCalendar getTraTypeCalendar()
+    {
+         org.semanticwb.promexico.TrainingTypeCalendar ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(promx_traTypeCalendar);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.promexico.TrainingTypeCalendar)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
