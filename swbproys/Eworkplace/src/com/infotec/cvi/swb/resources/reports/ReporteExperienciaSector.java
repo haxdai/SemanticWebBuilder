@@ -6,6 +6,7 @@ package com.infotec.cvi.swb.resources.reports;
 
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.http.*;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.portal.api.GenericResource;
@@ -19,9 +20,22 @@ import org.semanticwb.portal.api.SWBResourceException;
 public class ReporteExperienciaSector extends GenericResource {
     
     private Logger log = SWBUtils.getLogger(ReporteExperiencia.class);
+        /** Modo personalizado para ejecutar doPrint   */
+    public static final String Mode_EXPORT="exp";
+
+        @Override
+    public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+//System.out.println("********************************************************processRequest");
+        String mode = paramRequest.getMode();
+        if(Mode_EXPORT.equals(mode)){
+            doExport(request, response, paramRequest);
+        }else{
+            super.processRequest(request, response, paramRequest);
+        }
+    }
 
     @Override
-    public void doView(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         String basePath = "/work/models/" + paramRequest.getWebPage().getWebSite().getId() + "/jsp/" + this.getClass().getSimpleName() + "/";
         String path = basePath + "view.jsp";
         if (request != null) {
@@ -41,5 +55,10 @@ public class ReporteExperienciaSector extends GenericResource {
         
 
     }
-    
+    public void doExport(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setHeader("Content-Disposition", " attachment; filename=\"ReporteExperienciaSector_"+ System.currentTimeMillis() + ".xls\";");
+        response.setContentType("application/vnd.ms-excel");
+        doView(request, response, paramRequest);
+    }
+
 }
