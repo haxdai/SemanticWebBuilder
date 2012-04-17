@@ -4,6 +4,8 @@
     Author     : juan.fernandez
 --%>
 
+<%@page import="com.infotec.eworkplace.swb.Proyecto"%>
+<%@page import="com.infotec.eworkplace.swb.SWProfile"%>
 <%@page import="org.semanticwb.model.UserRepository"%>
 <%@page import="org.semanticwb.model.UserGroup"%>
 <%@page import="org.semanticwb.portal.api.SWBResourceURLImp"%>
@@ -119,16 +121,21 @@
                             HashMap<String, String> hmorder = new HashMap<String, String>(); // grado|situacion
                             HashMap<String, String> hmesorder = new HashMap<String, String>(); // tipoestudio|situacion
 
-                            Integer acum = null;
+                            long acuminfotec = 0;
+                            long acumcandidatos = 0;
+                            long acum = 0;
                             Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
                             while (itcv.hasNext()) {
                                 CV cv = itcv.next();
                                 if (UtilsCVI.isCVIDone(cv)) {
+                                    acum++;
                                     User user = cv.getPropietario();
-                                    if(user.hasUserGroup(ugempleado)){
-                                        hm.put(cv.getId(),cv);
-                                    } else if(user.hasUserGroup(ugcandidato)){
-                                        hmc.put(cv.getId(),cv);
+                                    if (user.hasUserGroup(ugempleado)) {
+                                        hm.put(cv.getId(), cv);
+                                        acuminfotec++;
+                                    } else if (user.hasUserGroup(ugcandidato)) {
+                                        hmc.put(cv.getId(), cv);
+                                        acumcandidatos++;
                                     }
                                 }
                             }
@@ -139,167 +146,64 @@
                     <%} else {
 
                     %>
-                            <table>
-                                <caption>Diplomados, cursos y Certificaciones</caption>
-                                <tbody>
-                                    <%
-                                        if (acum == 0) {
-                                            out.println("<tr><td colspan=\"3\">No se encontraron registros</td></tr>");
-                                        } else {
-
-                                            SWBResourceURL urldetail = paramRequest.getRenderUrl();
-                                            urldetail.setParameter("step", "3");
-                                            urldetail.setParameter("act", action);
-                                            urldetail.setParameter("search", txtbuscar);
-                                            urldetail.setParameter("type", "diplomado");
-
-                                    %>
-                                    <tr>
-                                        <td>Encontrados</td><td><%=acum%></td>
-                                        <%
-                                            if (!export.equals("excel")) {
-                                        %>
-                                        <td><a href="<%=urldetail%>">ver</a></td>
-                                        <%
-                                        } else {
-                                        %>
-                                        <td>&nbsp;</td>
-                                        <%                                        }
-                                        %>
-                                    </tr>
-                                </tbody>
-                                <%
-                                    }
-                                %>                 
-                            </table>
                     <table>
-                        <caption><%=wptitle%></caption>
-                        <thead>
-                            <%
-                                if (hm.isEmpty()) {
-                                    out.println("<tr><th colspan=\"3\">No se encontraron registros</th></tr></thead>");
-                                } else {
-
-                            %>
-                            <tr>
-                                <th>Grado Académico</th>
-                                <th>Situación Académica</th>
-                                <th>Encontrados</th>
-                                <th>Detalle</th>
-                            </tr>
-                        </thead>
+                        <caption>Matriz de cruces 'Dominio'</caption>
                         <tbody>
                             <%
-
-                                ArrayList<String> list = new ArrayList<String>(hmorder.keySet());
-                                Collections.sort(list);
-
-                                Iterator<String> itres = list.iterator();
-                                while (itres.hasNext()) {
-                                    String key = itres.next();
-                                    String keyorder = hmorder.get(key);
-                                    StringTokenizer stoken = new StringTokenizer(keyorder, "|");
-                                    String idgrado = stoken.nextToken();
-                                    String idsitaca = stoken.nextToken();
-                                    Grado gra = Grado.ClassMgr.getGrado(idgrado, wsite);
-
-                                    SituacionAcademica sitaca = SituacionAcademica.ClassMgr.getSituacionAcademica(idsitaca, wsite);
-                                    Integer intres = hm.get(keyorder);
+                                if (acum == 0) {
+                                    out.println("<tr><td colspan=\"3\">No se encontraron registros</td></tr>");
+                                } else {
 
                                     SWBResourceURL urldetail = paramRequest.getRenderUrl();
-                                    urldetail.setParameter("step", "2");
-                                    urldetail.setParameter("act", "grado");
-                                    urldetail.setParameter("reptype", "grado");
-                                    urldetail.setParameter("id1", idgrado);
-                                    urldetail.setParameter("id2", idsitaca);
+                                    urldetail.setParameter("step", "3");
+                                    urldetail.setParameter("act", action);
 
                             %>
                             <tr>
-                                <td><%=gra.getTitle() != null ? gra.getTitle() : "---"%></td>
-                                <td><%=sitaca.getTitle() != null ? sitaca.getTitle() : "---"%></td>
-                                <td><%=intres != null ? intres.intValue() : "---"%></td>
+                                <td>Totales en Base de Datos</td><td><%=acum%></td>
                                 <%
                                     if (!export.equals("excel")) {
                                 %>
-                                <td><a href="<%=urldetail%>">ver</a></td>
+                                <td>&nbsp;</td>
+                                <%                                    //<a href="< % = urldetail % >?reptype=totales">ver</a>
+                                } else {
+                                %>
+                                <td>&nbsp;</td>
+                                <%                                        }
+                                %>
+                            </tr>
+                            <tr>
+                                <td>CVI - Disponibles</td><td><%=acumcandidatos%></td> 
+                                <%
+                                    if (!export.equals("excel")) {
+                                %>
+                                <td><a href="<%=urldetail%>&reptype=candidatos">ver</a></td>
                                 <%
                                 } else {
                                 %>
                                 <td>&nbsp;</td>
-                                <%                                    }
+                                <%                                        }
                                 %>
                             </tr>
-                            <%              }
-
-                                }
-                            %>                 
-                        </tbody>
-                    </table>
-                    <table>
-                        <caption>Estudios Superiores</caption>
-                        <thead>
-                            <%
-                                if (hmes.isEmpty()) {
-                                    out.println("<tr><th colspan=\"3\">No se encontraron registros</th></tr></thead>");
-                                } else {
-
-                            %>
                             <tr>
-                                <th>Tipo Estudio</th>
-                                <th>% avance</th>
-                                <th>Encontrados</th>
-                                <th>Detalle</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <%
-
-                                ArrayList<String> list = new ArrayList<String>(hmesorder.keySet());
-                                Collections.sort(list);
-
-                                Iterator<String> itres = list.iterator();
-                                while (itres.hasNext()) {
-                                    String key = itres.next();
-                                    String keyorder = hmesorder.get(key);
-                                    StringTokenizer stoken = new StringTokenizer(keyorder, "|");
-                                    String idtipo = stoken.nextToken();
-                                    String idgrado = stoken.nextToken();
-                                    TipoEstudio tipo = TipoEstudio.ClassMgr.getTipoEstudio(idtipo, wsite);
-
-                                    Avance avance = Avance.ClassMgr.getAvance(idgrado, wsite);
-                                    Integer intres = hmes.get(keyorder);
-
-                                    SWBResourceURL urldetail = paramRequest.getRenderUrl();
-                                    urldetail.setParameter("step", "2");
-                                    urldetail.setParameter("act", "grado");
-                                    urldetail.setParameter("reptype", "superior");
-                                    urldetail.setParameter("id1", idtipo);
-                                    urldetail.setParameter("id2", idgrado);
-                            %>
-                            <tr>
-                                <td><%=tipo.getTitle() != null ? tipo.getTitle() : "---"%></td>
-                                <td><%=avance.getTitle() != null ? avance.getTitle() : "---"%></td>
-                                <td><%=intres != null ? intres.intValue() : "---"%></td>
+                                <td>CVI - Infotec</td><td><%=acuminfotec%></td>
                                 <%
                                     if (!export.equals("excel")) {
                                 %>
-                                <td><a href="<%=urldetail%>">ver</a></td>
+                                <td><a href="<%=urldetail%>&reptype=infotec">ver</a></td>
                                 <%
                                 } else {
                                 %>
                                 <td>&nbsp;</td>
-                                <%                                    }
+                                <%                                        }
                                 %>
                             </tr>
-                            <%              }
-
-                                }
-                            %>                 
                         </tbody>
                         <%
                             }
-                        %>
+                        %>                 
                     </table>
+
 
                     <%
                         if (!export.equals("excel")) {
@@ -320,86 +224,45 @@
                         <input type="hidden" name="act" value="<%=request.getParameter("act")%>">
                         <%
                             }
-                            if (request.getParameter("reptype") != null) {
-                        %>
-                        <input type="hidden" name="reptype" value="<%=request.getParameter("reptype")%>">
-                        <%
-                            }
+
                         %>
                         <form action="<%=urlExport.toString()%>">
                             <button type="button" onclick="javascript:history.back(1);">Regresar</button>
                             <button type="submit" >Guardar Excel</button> 
                         </form>
                         <%
+                                }
                             }
                         } else { //step 2
 
-                            String id1 = request.getParameter("id1");
-                            String id2 = request.getParameter("id2");
                             String reptype = request.getParameter("reptype");
-                            String txttype = "", criteria = "";
-                            HashMap<String, CV> hm = new HashMap<String, CV>(); // grado|situacion
-                            HashMap<String, String> hmorder = new HashMap<String, String>();
-                            Academia aca = null;
-                            GradoAcademico ga = null;
-                            EstudioSuperior est = null;
-                            Integer acum = null;
+                            String txttype = "Matriz de cruces", criteria = "";
+                            HashMap<String, CV> hm = new HashMap<String, CV>(); // 
+                            HashMap<String, String> hmorder = new HashMap<String, String>(); // 
+                            long acum = 0;
                             Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
                             while (itcv.hasNext()) {
                                 CV cv = itcv.next();
                                 if (UtilsCVI.isCVIDone(cv)) {
-                                    aca = cv.getAcademia();
-                                    if (null != aca) {
-                                        if (aca.listGradoAcademicos().hasNext() && reptype.equals("grado")) {
-                                            txttype = "Grado Académico";
-                                            Iterator<GradoAcademico> itga = aca.listGradoAcademicos();
-                                            while (itga.hasNext()) {
-                                                ga = itga.next();
-                                                String key = ga.getGrado().getId() + "|" + ga.getSituacionAcademica().getId();
-                                                String ids = id1 + "|" + id2;
-                                                if (key.equals(ids)) {
-                                                    criteria = ga.getGrado().getTitle() + " - " + ga.getSituacionAcademica().getTitle();
-                                                    hmorder.put(criteria, cv.getId());
-                                                    hm.put(cv.getId(), cv);
-                                                }
-                                            }
-                                        }
-                                        if (aca.listEstudioSuperiors().hasNext() && reptype.equals("superior")) {
-                                            txttype = "Estudios Superiores";
-                                            Iterator<EstudioSuperior> ites = aca.listEstudioSuperiors();
-                                            while (ites.hasNext()) {
-                                                est = ites.next();
-                                                if (est.getEstudiosSuperiores() == null) {
-                                                    continue;
-                                                }
-                                                Estudios estudio = est.getEstudiosSuperiores();
-                                                if (estudio.getAreaEstudio() == null) {
-                                                    continue;
-                                                }
-                                                AreaEstudio aestudio = estudio.getAreaEstudio();
-                                                if (aestudio.getDisciplinaInv() == null) {
-                                                    continue;
-                                                }
-                                                DisciplinaEstudio disc = aestudio.getDisciplinaInv();
-                                                if (disc.getTipoEstudioInv() == null) {
-                                                    continue;
-                                                }
-                                                TipoEstudio testudio = disc.getTipoEstudioInv();
-                                                String idtipo = testudio.getId();
-                                                String key = idtipo + "|" + est.getGradoAvance().getId();
-                                                String ids = id1 + "|" + id2;
-                                                if (key.equals(ids)) {
-                                                    criteria = testudio.getTitle() + " - " + est.getGradoAvance().getTitle();
-                                                    hmorder.put(criteria, cv.getId());
-                                                    hm.put(cv.getId(), cv);
-                                                }
-                                            }
-                                        }
+                                    acum++;
+                                    User user = cv.getPropietario();
+                                    if ("infotec".equals(reptype) && user.hasUserGroup(ugempleado)) {
+                                        hm.put(cv.getId(), cv);
+                                        hmorder.put(user.getFullName(), cv.getId());
+                                        criteria = "CVI - Infotec";
+                                    } else if ("candidatos".equals(reptype) && user.hasUserGroup(ugcandidato)) {
+                                        hm.put(cv.getId(), cv);
+                                        hmorder.put(user.getFullName(), cv.getId());
+                                        criteria = "CVI - Externo";
                                     }
                                 }
                             }
 
-                            out.println(listReport(hm, hmorder, txttype, criteria, paramRequest, request));
+                            if ("candidatos".equals(reptype)) {
+                                out.println(listReport(hm, hmorder, txttype, criteria, paramRequest, request));
+                            } else if ("infotec".equals(reptype)) {
+                                out.println(listReportInfo(hm, hmorder, txttype, criteria, paramRequest, request));
+                            }
 ////////////////
                             if (!export.equals("excel")) {
                                 SWBResourceURL urlExport = paramRequest.getRenderUrl();
@@ -424,16 +287,6 @@
                             <input type="hidden" name="reptype" value="<%=request.getParameter("reptype")%>">
                             <%
                                 }
-                                if (request.getParameter("id1") != null) {
-                            %>
-                            <input type="hidden" name="id1" value="<%=request.getParameter("id1")%>">
-                            <%
-                                }
-                                if (request.getParameter("id2") != null) {
-                            %>
-                            <input type="hidden" name="id2" value="<%=request.getParameter("id2")%>">
-                            <%
-                                }
                             %>
                             <form action="<%=urlExport.toString()%>">
                                 <button type="button" onclick="javascript:history.back(1);">Regresar</button>
@@ -442,735 +295,176 @@
                             <%
                                     }
                                 }
-                            } else if ("tic".equals(action)) {
-                                String wptitle = "Diplomados, cursos y certificaciones, Cursos Especializados TICs";
-                                String step = "1";
-                                if (request.getParameter("step") != null) {
-                                    step = request.getParameter("step");
-                                }
-                                if ("1".equals(step)) {
-
-                                    SWBResourceURL urlstep2 = paramRequest.getRenderUrl();
-                            %>
-                            <script type="text/javascript">
-                                function revisa(forma){
-                    
-                                    var texto = forma.search.value;
-                                    texto = texto.replace(' ','');
-                                    if(texto.length==0){
-                                        alert('Debes de poner el Diplomado, Curso, Certificación´o Curso Especializado en TIC a buscar');
-                                        return false;
-                                    }
-                                    return true;
-                                }
-                            </script>
-                            <div id="icv-rep-busca1"><h3><%=wptitle%></h3>
-                                <form method="post" action="<%=urlstep2%>">
-                                    <input type="hidden" name="act" value="<%=action%>"/>
-                                    <input type="hidden" name="step" value="2"/>
-                                    <label for="search">Poner el nombre del Curso, Diplomado, Certificación ó Curso TIC: </label><input type="text" id="search" name="search" />
-                                    <button onclick="javascript:history.back(1);" >Regresar</button>
-                                    <button type="submit" onclick="return revisa(this.form)">Buscar</button>  
-                                </form>
+                            }
+                            %> 
+                            </span></div>
+                            </div><!-- icv-data -->  
                             </div>
-                            <%
-                            } else if (step.equals("2")) { //step 2, hace la busqueda del texto en diplomados ó cursos TIC
+                            </div>
 
-                                String txtbuscar = request.getParameter("search");
-                                //System.out.println("Step 2, "+txtbuscar);
-                                txtbuscar = txtbuscar.trim().toLowerCase();
-                                txtbuscar = SWBUtils.TEXT.replaceSpecialCharacters(txtbuscar, Boolean.FALSE);
-                                HashMap<String, CV> hm = new HashMap<String, CV>();
-                                HashMap<String, CV> hmtic = new HashMap<String, CV>();
-
-                                Diplomado diplo = null;
-                                CursoTIC ctic = null;
-                                long acum = 0;
-                                long acumtic = 0;
-                                Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
-                                while (itcv.hasNext()) {
-                                    CV cv = itcv.next();
-                                    if (UtilsCVI.isCVIDone(cv)) {
-                                        if (cv.listDiplomados().hasNext()) {
-                                            Iterator<Diplomado> itga = cv.listDiplomados();
-                                            while (itga.hasNext()) {
-                                                diplo = itga.next();
-                                                String txt = diplo.getDocumentoObtenido() != null ? diplo.getDocumentoObtenido() : "";
-                                                txt = txt + (diplo.getTitle() != null ? diplo.getTitle() : "");
-                                                txt = txt + (diplo.getDescription() != null ? diplo.getDescription() : "");
-                                                txt = txt + (diplo.getNombreInstitucion() != null ? diplo.getNombreInstitucion() : "");
-                                                txt = txt.trim().toLowerCase();
-                                                txt = SWBUtils.TEXT.replaceSpecialCharacters(txt, Boolean.FALSE);
-                                                //System.out.println("Diplomado txt: "+txt+" "+txt.indexOf(txtbuscar));
-                                                if (txt.indexOf(txtbuscar) > -1) {
-                                                    hm.put(cv.getId(), cv);
-                                                }
-                                            }
-                                        }
-                                        if (cv.listCursosTICs().hasNext()) {
-                                            Iterator<CursoTIC> ites = cv.listCursosTICs();
-                                            while (ites.hasNext()) {
-                                                ctic = ites.next();
-                                                String txt = ctic.getDocumentoObtenido() != null ? ctic.getDocumentoObtenido() : "";
-                                                txt = txt + (ctic.getTitle() != null ? ctic.getTitle() : "");
-                                                txt = txt + (ctic.getDescription() != null ? ctic.getDescription() : "");
-                                                txt = txt + (ctic.getNombreInstitucion() != null ? ctic.getNombreInstitucion() : "");
-                                                txt = txt.trim().toLowerCase();
-                                                txt = SWBUtils.TEXT.replaceSpecialCharacters(txt, Boolean.FALSE);
-                                                //System.out.println("TIC txt: "+txt+" "+txt.indexOf(txtbuscar));
-                                                if (txt.indexOf(txtbuscar) > -1) {
-                                                    hmtic.put(cv.getId(), cv);
-                                                }
-                                            }
-                                        }
+                            <%!
+                                public String listReport(HashMap<String, CV> hm, HashMap<String, String> hmorder, String txttype, String criteria, SWBParamRequest paramRequest, HttpServletRequest request) {
+                                    StringBuilder ret = new StringBuilder();
+                                    WebSite wsite = paramRequest.getWebPage().getWebSite();
+                                    String export = request.getParameter("export");
+                                    if (null == export) {
+                                        export = "";
                                     }
+                                    ret.append("<script type=\"text/javascript\">");
+                                    ret.append(" function newWin(url){");
+                                    ret.append("    window.open(url,'CVI','menubar=0,location=0,scrollbars=1,width=650,height=600');");
+                                    ret.append("}");
+                                    ret.append("</script>");
+                                    ret.append(" <table>");
+                                    ret.append("   <caption>");
+                                    ret.append(txttype);
+                                    ret.append(" - que contengan: ");
+                                    ret.append(criteria);
+                                    ret.append("    </caption>");
+                                    ret.append("            <thead>");
+                                    ret.append("                <tr>");
+                                    ret.append("                    <th>Usuario</th><th>Detalle</th>");
+                                    ret.append("                </tr>");
+                                    ret.append("            </thead>");
+                                    ret.append("            <tbody>");
+                                    ArrayList<String> list = new ArrayList(hmorder.keySet());
+                                    Collections.sort(list);
 
+                                    Iterator<String> itstr = list.iterator();
+                                    while (itstr.hasNext()) {
+                                        String key = itstr.next();
+                                        String keyorder = hmorder.get(key);
+
+                                        CV cv = hm.get(keyorder);
+                                        User usrcv = cv.getPropietario();
+                                        Resource resource = wsite.getResource("997");
+                                        WebPage wpage = wsite.getWebPage("ver_CV");
+                                        SWBResourceURLImp urldet = new SWBResourceURLImp(request, resource, wpage, SWBResourceURL.UrlType_RENDER);
+                                        urldet.setParameter("id", usrcv.getId());
+                                        urldet.setCallMethod(SWBResourceURL.Call_CONTENT);
+                                        ret.append("                 <tr>");
+                                        ret.append("                     <td>");
+                                        ret.append(usrcv.getFullName());
+                                        ret.append("                     </td><td>");
+                                        if (!export.equals("excel")) {
+                                            ret.append("<a href=\"#\" ");
+                                            ret.append("onclick=\"javascript:newWin('");
+                                            ret.append(urldet.toString());
+                                            ret.append("');return false;\" target=\"_blank\">ver</a>");
+                                        } else {
+                                            ret.append("&nbsp;");
+                                        }
+                                        ret.append("                   </td>");
+                                        ret.append("                  </tr>");
+                                    }
+                                    ret.append("               </tbody>");
+                                    ret.append("          </table>");
+
+                                    return ret.toString();
                                 }
-                                //System.out.println("diplos: "+acum+", TICs: "+acumtic);
-                                acum = SWBUtils.Collections.sizeOf(hm.keySet().iterator());
-                                acumtic = SWBUtils.Collections.sizeOf(hmtic.keySet().iterator());
-                                if (acum == 0 && acumtic == 0) {
-                            %>         
-                            <p>No se encontraron registros</p>
-                            <button type="button" onclick="javascript:history.back(1);">Regresar</button>
-                            <%  } else {
+
+                                public String listReportInfo(HashMap<String, CV> hm, HashMap<String, String> hmorder, String txttype, String criteria, SWBParamRequest paramRequest, HttpServletRequest request) {
+                                    StringBuilder ret = new StringBuilder();
+                                    WebSite wsite = paramRequest.getWebPage().getWebSite();
+                                    String export = request.getParameter("export");
+                                    if (null == export) {
+                                        export = "";
+                                    }
+                                    ret.append("<script type=\"text/javascript\">");
+                                    ret.append(" function newWin(url){");
+                                    ret.append("    window.open(url,'CVI','menubar=0,location=0,scrollbars=1,width=650,height=600');");
+                                    ret.append("}");
+                                    ret.append("</script>");
+                                    ret.append(" <table>");
+                                    ret.append("   <caption>");
+                                    ret.append(txttype);
+                                    ret.append(" - que contengan: ");
+                                    ret.append(criteria);
+                                    ret.append("    </caption>");
+                                    ret.append("            <thead>");
+                                    ret.append("                <tr>");
+                                    ret.append("                    <th>Usuario</th>");
+                                    ret.append("                    <th>Puesto</th>");
+                                    ret.append("                    <th>Proyecto</th>");
+                                    ret.append("                    <th>Unidad Interna</th>");
+                                    ret.append("                    <th>Periodo</th>");
+                                    ret.append("                    <th>Detalle</th>");
+                                    ret.append("                </tr>");
+                                    ret.append("            </thead>");
+                                    ret.append("            <tbody>");
+                                    ArrayList<String> list = new ArrayList(hmorder.keySet());
+                                    Collections.sort(list);
+
+                                    Iterator<String> itstr = list.iterator();
+                                    while (itstr.hasNext()) {
+                                        String key = itstr.next();
+                                        String keyorder = hmorder.get(key);
+
+                                        CV cv = hm.get(keyorder);
+                                        User usrcv = cv.getPropietario();
+
+                                        SWProfile swpro = SWProfile.ClassMgr.getSWProfile(cv.getId(), wsite);
+                                        if (null == swpro) {
+                                            swpro = SWProfile.ClassMgr.createSWProfile(cv.getId(), wsite);
+                                        }
+
+                                        Resource resource = wsite.getResource("997");
+                                        WebPage wpage = wsite.getWebPage("ver_CV");
+                                        SWBResourceURLImp urldet = new SWBResourceURLImp(request, resource, wpage, SWBResourceURL.UrlType_RENDER);
+                                        urldet.setParameter("id", usrcv.getId());
+                                        urldet.setCallMethod(SWBResourceURL.Call_CONTENT);
+                                        ret.append("                 <tr>");
+                                        ret.append("                     <td>");
+                                        ret.append(usrcv.getFullName());
+                                        ret.append("                     </td><td>");
+                                        ret.append(swpro.getPuesto() != null ? swpro.getPuesto() : "---");
+                                        ret.append("                     </td><td>");
+
+                                        ret.append(getMostRecentProject(swpro));
+
+                                        ret.append("                     </td><td>");
+
+                                        String strDirecArea = "---";
+                                        if (swpro.getGerencia() != null && swpro.getGerencia().getPerteneceA() != null) {
+                                            strDirecArea = swpro.getGerencia().getPerteneceA().getTitle();
+                                        }
+
+                                        ret.append(strDirecArea);
+                                        ret.append("                     </td><td>");
+                                        // periodo por el momento no aplica
+                                        ret.append("---");
+                                        ret.append("                     </td><td>");
+                                        if (!export.equals("excel")) {
+                                            ret.append("<a href=\"#\" ");
+                                            ret.append("onclick=\"javascript:newWin('");
+                                            ret.append(urldet.toString());
+                                            ret.append("');return false;\" target=\"_blank\">ver</a>");
+                                        } else {
+                                            ret.append("&nbsp;");
+                                        }
+                                        ret.append("                   </td>");
+                                        ret.append("                  </tr>");
+                                    }
+                                    ret.append("               </tbody>");
+                                    ret.append("          </table>");
+
+                                    return ret.toString();
+                                }
+
+                                public String getMostRecentProject(SWProfile swpro) {
+                                    String strRet = "---";
+
+                                    long ahora = System.currentTimeMillis();
+                                    Iterator<Proyecto> itpro = swpro.listProyectos();
+                                    while (itpro.hasNext()) {
+                                        Proyecto proy = itpro.next();
+                                        long actualizado = proy.getUpdated().getTime();
+                                        if(actualizado<ahora){
+                                            ahora = actualizado;
+                                            strRet = proy.getNombreProyecto()+"("+proy.getNumeroProyecto()+")";
+                                        }
+                                    }
+                                    return strRet;
+                                }
 
                             %>
-
-                            <table>
-                                <caption>Diplomados, cursos y Certificaciones</caption>
-                                <tbody>
-                                    <%
-                                        if (acum == 0) {
-                                            out.println("<tr><td colspan=\"3\">No se encontraron registros</td></tr>");
-                                        } else {
-
-                                            SWBResourceURL urldetail = paramRequest.getRenderUrl();
-                                            urldetail.setParameter("step", "3");
-                                            urldetail.setParameter("act", action);
-                                            urldetail.setParameter("search", txtbuscar);
-                                            urldetail.setParameter("type", "diplomado");
-
-                                    %>
-                                    <tr>
-                                        <td>Encontrados</td><td><%=acum%></td>
-                                        <%
-                                            if (!export.equals("excel")) {
-                                        %>
-                                        <td><a href="<%=urldetail%>">ver</a></td>
-                                        <%
-                                        } else {
-                                        %>
-                                        <td>&nbsp;</td>
-                                        <%                                        }
-                                        %>
-                                    </tr>
-                                </tbody>
-                                <%
-                                    }
-                                %>                 
-                            </table>
-
-                            <table>
-                                <caption>Cursos Especializados en TICs</caption>
-                                <tbody>
-                                    <%
-                                        if (acumtic == 0) {
-                                            out.println("<tr><th colspan=\"3\">No se encontraron registros</th></tr>");
-                                        } else {
-
-
-                                            SWBResourceURL urldetail = paramRequest.getRenderUrl();
-                                            urldetail.setParameter("step", "3");
-                                            urldetail.setParameter("act", action);
-                                            urldetail.setParameter("search", txtbuscar);
-                                            urldetail.setParameter("type", "tic");
-
-                                    %>
-                                    <tr>
-                                        <td>Encontrados</td><td><%=acumtic%></td>
-                                        <%
-                                            if (!export.equals("excel")) {
-                                        %>
-                                        <td><a href="<%=urldetail%>">ver</a></td>
-                                        <%
-                                        } else {
-                                        %>
-                                        <td>&nbsp;</td>
-                                        <%     }
-                                        %>
-                                    </tr>
-                                    <%
-                                        }
-                                    %>                 
-                                </tbody>
-
-                            </table>
-
-                            <%
-                                if (!export.equals("excel")) {
-                                    SWBResourceURL urlExport = paramRequest.getRenderUrl();
-                                    urlExport.setCallMethod(SWBResourceURL.Call_DIRECT);
-                                    urlExport.setMode(MODE_EXPORT);
-                            %>
-                            <form action="<%=urlExport.toString()%>" method="post">
-                                <input type="hidden" name="export" value="excel">
-                                <%
-                                    if (request.getParameter("step") != null) {
-                                %>
-                                <input type="hidden" name="step" value="<%=request.getParameter("step")%>" />
-                                <%
-                                    }
-                                    if (request.getParameter("act") != null) {
-                                %>
-                                <input type="hidden" name="act" value="<%=request.getParameter("act")%>" />
-                                <%
-                                    }
-                                    if (request.getParameter("search") != null) {
-                                %>
-                                <input type="hidden" name="search" value="<%=txtbuscar%>" />
-                                <%
-                                    }
-                                %>
-
-                                <form action="<%=urlExport.toString()%>">
-                                    <button type="button" onclick="javascript:history.back(1);">Regresar</button>
-                                    <button type="submit" >Guardar Excel</button> 
-                                </form>
-                                <%
-                                        }
-                                    } // termina step 2
-                                } else { // step 3 detalle reporte
-                                    String txtbuscar = request.getParameter("search");
-                                    String reptype = request.getParameter("type");
-                                    //System.out.println("Step 2, "+txtbuscar);
-                                    txtbuscar = txtbuscar.trim().toLowerCase();
-                                    txtbuscar = SWBUtils.TEXT.replaceSpecialCharacters(txtbuscar, Boolean.FALSE);
-
-                                    HashMap<String, CV> hm = new HashMap<String, CV>();
-                                    HashMap<String, String> hmorder = new HashMap<String, String>();
-                                    Diplomado diplo = null;
-                                    CursoTIC ctic = null;
-                                    int acum = 0;
-                                    int acumtic = 0;
-                                    Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
-                                    while (itcv.hasNext()) {
-                                        CV cv = itcv.next();
-                                        if (UtilsCVI.isCVIDone(cv)) {
-                                            if (cv.listDiplomados().hasNext() && reptype.equals("diplomado")) {
-                                                Iterator<Diplomado> itga = cv.listDiplomados();
-                                                while (itga.hasNext()) {
-                                                    diplo = itga.next();
-                                                    String txt = diplo.getDocumentoObtenido() != null ? diplo.getDocumentoObtenido() : "";
-                                                    txt = txt + (diplo.getTitle() != null ? diplo.getTitle() : "");
-                                                    txt = txt + (diplo.getDescription() != null ? diplo.getDescription() : "");
-                                                    txt = txt + (diplo.getNombreInstitucion() != null ? diplo.getNombreInstitucion() : "");
-                                                    txt = txt.trim().toLowerCase();
-                                                    txt = SWBUtils.TEXT.replaceSpecialCharacters(txt, Boolean.FALSE);
-                                                    //System.out.println("Diplomado txt: "+txt+" "+txt.indexOf(txtbuscar));
-                                                    if (txt.indexOf(txtbuscar) > -1) {
-                                                        hmorder.put(cv.getPropietario().getFullName(), cv.getId());
-                                                        hm.put(cv.getId(), cv);
-                                                    }
-                                                }
-                                            }
-                                            if (cv.listCursosTICs().hasNext() && reptype.equals("tic")) {
-                                                Iterator<CursoTIC> ites = cv.listCursosTICs();
-                                                while (ites.hasNext()) {
-                                                    ctic = ites.next();
-                                                    String txt = ctic.getDocumentoObtenido() != null ? ctic.getDocumentoObtenido() : "";
-                                                    txt = txt + (ctic.getTitle() != null ? ctic.getTitle() : "");
-                                                    txt = txt + (ctic.getDescription() != null ? ctic.getDescription() : "");
-                                                    txt = txt + (ctic.getNombreInstitucion() != null ? ctic.getNombreInstitucion() : "");
-                                                    txt = txt.trim().toLowerCase();
-                                                    txt = SWBUtils.TEXT.replaceSpecialCharacters(txt, Boolean.FALSE);
-                                                    //System.out.println("TIC txt: "+txt+" "+txt.indexOf(txtbuscar));
-                                                    if (txt.indexOf(txtbuscar) > -1) {
-                                                        hmorder.put(cv.getPropietario().getFullName(), cv.getId());
-                                                        hm.put(cv.getId(), cv);
-                                                    }
-                                                }
-                                            }
-                                        }
-
-                                    }
-                                    if (!hm.isEmpty()) {
-                                        String txttype = "Diplomados, cursos y certificaciones.";
-                                        if (reptype.equals("tic")) {
-                                            txttype = "Cursos Especializados en TICs";
-                                        }
-
-                                        out.println(listReport(hm, hmorder, txttype, request.getParameter("search"), paramRequest, request));
-
-                                        if (!export.equals("excel")) {
-                                            SWBResourceURL urlExport = paramRequest.getRenderUrl();
-                                            urlExport.setCallMethod(SWBResourceURL.Call_DIRECT);
-                                            urlExport.setMode(MODE_EXPORT);
-                                %>
-                                <form action="<%=urlExport.toString()%>" method="post">
-                                    <input type="hidden" name="export" value="excel">
-                                    <%
-                                        if (request.getParameter("step") != null) {
-                                    %>
-                                    <input type="hidden" name="step" value="<%=request.getParameter("step")%>" />
-                                    <%
-                                        }
-                                        if (request.getParameter("act") != null) {
-                                    %>
-                                    <input type="hidden" name="act" value="<%=request.getParameter("act")%>" />
-                                    <%
-                                        }
-                                        if (request.getParameter("search") != null) {
-                                    %>
-                                    <input type="hidden" name="search" value="<%=txtbuscar%>" />
-                                    <%
-                                        }
-                                        if (request.getParameter("type") != null) {
-                                    %>
-                                    <input type="hidden" name="type" value="<%=reptype%>" />
-                                    <%
-                                        }
-                                    %>
-
-                                    <form action="<%=urlExport.toString()%>">
-                                        <button type="button" onclick="javascript:history.back(1);">Regresar</button>
-                                        <button type="submit" >Guardar Excel</button> 
-                                    </form>
-                                    <%
-                                                }
-
-                                            }
-                                        } //step 3 
-                                    } else if ("idioma".equals(action)) {
-                                        String wptitle = "Idiomas";
-                                        String step = "1";
-                                        if (request.getParameter("step") != null) {
-                                            step = request.getParameter("step");
-                                        }
-                                        if ("1".equals(step)) {
-
-                                            SWBResourceURL urlstep2 = paramRequest.getRenderUrl();
-                                    %>
-                                    <script type="text/javascript">
-                                        function revisa(forma){
-                    
-                                            var texto = forma.idioma.value;
-                                            if(texto=="-1"){
-                                                alert('Debes de seleccionar un idioma.');
-                                                forma.idioma.focus();
-                                                return false;
-                                            }
-                                            texto = forma.conversacion.value;
-                                            if(texto=="-1"){
-                                                alert('Debes de seleccionar % conversacion.');
-                                                forma.conversacion.focus();
-                                                return false;
-                                            }
-                                            texto = forma.lectura.value;
-                                            if(texto=="-1"){
-                                                alert('Debes de seleccionar % lectura.');
-                                                forma.lectura.focus();
-                                                return false;
-                                            }
-                                            texto = forma.escritura.value;
-                                            if(texto=="-1"){
-                                                alert('Debes de seleccionar % escritura.');
-                                                forma.escritura.focus();
-                                                return false;
-                                            }
-                                            return true;
-                                        }
-                                    </script>
-                                    <form method="post" action="<%=urlstep2%>">
-                                        <input type="hidden" name="act" value="<%=action%>"/>
-                                        <input type="hidden" name="step" value="2"/>
-                                        <table class="icv-idioma" >
-                                            <caption><%=wptitle%></caption>
-                                            <thead>
-                                                <tr><th>Idioma</th><th>% conversación</th><th>% lectura</th><th>% escritura</th></tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <select name="idioma"><option value="-1" selected></option>
-                                                            <%
-                                                                Iterator<Language> itidioma = wsite.listLanguages();
-                                                                while (itidioma.hasNext()) {
-                                                                    Language idi = itidioma.next();
-                                                                    String txtidioma = idi.getTitle();
-                                                            %>
-                                                            <option value="<%=idi.getId()%>"><%=txtidioma%></option>
-                                                            <%
-                                                                }
-                                                            %>
-                                                        </select>
-                                                    </td>
-                                                    <td>
-                                                        <select name="conversacion"><option value="-1" selected></option>
-                                                            <%
-                                                                Iterator<Conversacion> itconv = Conversacion.ClassMgr.listConversacions(wsite);
-                                                                while (itconv.hasNext()) {
-                                                                    Conversacion conv = itconv.next();
-                                                                    String txtconv = conv.getTitle();
-                                                            %>
-                                                            <option value="<%=txtconv%>"><%=txtconv%></option>
-                                                            <%
-                                                                }
-                                                            %>
-                                                        </select>    
-                                                    </td>
-                                                    <td>
-                                                        <select name="lectura"><option value="-1" selected></option>
-                                                            <%
-                                                                Iterator<Lectura> itlec = Lectura.ClassMgr.listLecturas(wsite);
-                                                                while (itlec.hasNext()) {
-                                                                    Lectura lec = itlec.next();
-                                                                    String txtlec = lec.getTitle();
-                                                            %>
-                                                            <option value="<%=txtlec%>"><%=txtlec%></option>
-                                                            <%
-                                                                }
-                                                            %>
-                                                        </select>  
-                                                    </td>
-                                                    <td>
-                                                        <select name="escritura"><option value="-1" selected></option>
-                                                            <%
-                                                                Iterator<Escritura> itesc = Escritura.ClassMgr.listEscrituras(wsite);
-                                                                while (itesc.hasNext()) {
-                                                                    Escritura esc = itesc.next();
-                                                                    String txtesc = esc.getTitle();
-                                                            %>
-                                                            <option value="<%=txtesc%>"><%=txtesc%></option>
-                                                            <%
-                                                                }
-                                                            %>
-                                                        </select> 
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <button onclick="javascript:history.back(1);" >Regresar</button> 
-                                        <button type="submit" onclick="return revisa(this.form)" >Regresar</button> 
-                                    </form>
-                                    <%
-                                    } else if ("2".equals(step)) { //step 2, hace la busqueda del texto en diplomados ó cursos TIC
-
-                                        String idioma = request.getParameter("idioma");
-                                        String conversacion = request.getParameter("conversacion");
-                                        String lectura = request.getParameter("lectura");
-                                        String escritura = request.getParameter("escritura");
-                                        int pconv = 0, plec = 0, pesc = 0;
-                                        try {
-                                            pconv = Integer.parseInt(conversacion);
-                                        } catch (Exception e) {
-                                            pconv = 0;
-                                        }
-                                        try {
-                                            plec = Integer.parseInt(lectura);
-                                        } catch (Exception e) {
-                                            plec = 0;
-                                        }
-                                        try {
-                                            pesc = Integer.parseInt(escritura);
-                                        } catch (Exception e) {
-                                            pesc = 0;
-                                        }
-
-                                        HashMap<String, CV> hm = searchIdioma(paramRequest, idioma, conversacion, lectura, escritura);
-
-                                        long acum = SWBUtils.Collections.sizeOf(hm.keySet().iterator());
-                                        //System.out.println("CV idioma: "+acum);
-                                        if (acum == 0) {
-                                    %>         
-                                    <p>No se encontraron registros</p>
-                                    <button onclick="javascript:history.back(1);" >Regresar</button> 
-                                    <%  } else {
-
-                                    %>
-                                    <table>
-                                        <caption>Idioma(<%=wsite.getLanguage(idioma).getTitle()%>,Conv.<%=pconv%>%,Lec.<%=plec%>%,Esc.<%=pesc%>%)</caption>
-                                        <tbody>
-                                            <%
-                                                if (acum == 0) {
-                                                    out.println("<tr><td colspan=\"3\">No se encontraron registros</td></tr>");
-                                                } else {
-
-                                                    SWBResourceURL urldetail = paramRequest.getRenderUrl();
-                                                    urldetail.setParameter("step", "3");
-                                                    urldetail.setParameter("act", action);
-                                                    urldetail.setParameter("idioma", idioma);
-                                                    urldetail.setParameter("conversacion", conversacion);
-                                                    urldetail.setParameter("lectura", lectura);
-                                                    urldetail.setParameter("escritura", escritura);
-
-                                                    long acum2 = SWBUtils.Collections.sizeOf(hm.keySet().iterator());
-
-                                            %>
-                                            <tr>
-                                                <td>Encontrados</td><td><%=acum%></td>
-                                                <%
-                                                    if (!export.equals("excel")) {
-                                                %>
-                                                <td><a href="<%=urldetail%>">ver</a></td>
-                                                <%
-                                                } else {
-                                                %>
-                                                <td>&nbsp;</td>
-                                                <%                                    }
-                                                %>
-                                            </tr>
-                                        </tbody>
-                                        <%
-                                            }
-                                        %>                 
-                                    </table>
-
-                                    <%
-
-                                        if (!export.equals("excel")) {
-                                            SWBResourceURL urlExport = paramRequest.getRenderUrl();
-                                            urlExport.setCallMethod(SWBResourceURL.Call_DIRECT);
-                                            urlExport.setMode(MODE_EXPORT);
-                                    %>
-                                    <form action="<%=urlExport.toString()%>" method="post">
-                                        <input type="hidden" name="export" value="excel">
-                                        <%
-                                            if (request.getParameter("step") != null) {
-                                        %>
-                                        <input type="hidden" name="step" value="<%=request.getParameter("step")%>" />
-                                        <%
-                                            }
-                                            if (request.getParameter("act") != null) {
-                                        %>
-                                        <input type="hidden" name="act" value="<%=request.getParameter("act")%>" />
-                                        <%
-                                            }
-                                            if (request.getParameter("idioma") != null) {
-                                        %>
-                                        <input type="hidden" name="idioma" value="<%=idioma%>" />
-                                        <%
-                                            }
-                                            if (request.getParameter("conversacion") != null) {
-                                        %>
-                                        <input type="hidden" name="conversacion" value="<%=conversacion%>" />
-                                        <%
-                                            }
-                                            if (request.getParameter("lectura") != null) {
-                                        %>
-                                        <input type="hidden" name="lectura" value="<%=lectura%>" />
-                                        <%
-                                            }
-                                            if (request.getParameter("escritura") != null) {
-                                        %>
-                                        <input type="hidden" name="escritura" value="<%=escritura%>" />
-                                        <%
-                                            }
-                                        %>
-
-                                        <form action="<%=urlExport.toString()%>">
-                                            <button type="button" onclick="javascript:history.back(1);">Regresar</button>
-                                            <button type="submit" >Guardar Excel</button> 
-                                        </form>
-                                        <%
-                                                }
-
-                                            }
-                                        } else { // termina step 2, step 3 detalle
-                                            String idioma = request.getParameter("idioma");
-                                            String conversacion = request.getParameter("conversacion");
-                                            String lectura = request.getParameter("lectura");
-                                            String escritura = request.getParameter("escritura");
-
-                                            HashMap<String, CV> hm = new HashMap<String, CV>(); // diplomado
-                                            hm = searchIdioma(paramRequest, idioma, conversacion, lectura, escritura);
-                                            HashMap<String, String> hmorder = new HashMap<String, String>();
-                                            Iterator<CV> itcvo = hm.values().iterator();
-                                            while (itcvo.hasNext()) {
-                                                CV tcv = itcvo.next();
-                                                hmorder.put(tcv.getPropietario().getFullName(), tcv.getId());
-                                            }
-                                            out.println(listReport(hm, hmorder, "idioma(" + wsite.getLanguage(idioma).getTitle() + ")", conversacion + "%," + lectura + "%," + escritura + "%", paramRequest, request));
-
-                                            if (!export.equals("excel")) {
-                                                SWBResourceURL urlExport = paramRequest.getRenderUrl();
-                                                urlExport.setCallMethod(SWBResourceURL.Call_DIRECT);
-                                                urlExport.setMode(MODE_EXPORT);
-                                        %>
-                                        <form action="<%=urlExport.toString()%>" method="post">
-                                            <input type="hidden" name="export" value="excel">
-                                            <%
-                                                if (request.getParameter("step") != null) {
-                                            %>
-                                            <input type="hidden" name="step" value="<%=request.getParameter("step")%>" />
-                                            <%
-                                                }
-                                                if (request.getParameter("act") != null) {
-                                            %>
-                                            <input type="hidden" name="act" value="<%=request.getParameter("act")%>" />
-                                            <%
-                                                }
-                                                if (request.getParameter("idioma") != null) {
-                                            %>
-                                            <input type="hidden" name="idioma" value="<%=idioma%>" />
-                                            <%
-                                                }
-                                                if (request.getParameter("conversacion") != null) {
-                                            %>
-                                            <input type="hidden" name="conversacion" value="<%=conversacion%>" />
-                                            <%
-                                                }
-                                                if (request.getParameter("lectura") != null) {
-                                            %>
-                                            <input type="hidden" name="lectura" value="<%=lectura%>" />
-                                            <%
-                                                }
-                                                if (request.getParameter("escritura") != null) {
-                                            %>
-                                            <input type="hidden" name="escritura" value="<%=escritura%>" />
-                                            <%
-                                                }
-                                            %>
-
-                                            <form action="<%=urlExport.toString()%>">
-                                                <button type="button" onclick="javascript:history.back(1);">Regresar</button>
-                                                <button type="submit" >Guardar Excel</button> 
-                                            </form>
-                                            <%
-                                                    }
-                                                }
-                                            }
-                                            %> 
-                                            </span></div>
-                                            </div><!-- icv-data -->  
-                                            </div>
-                                            </div>
-
-                                            <%!
-                                                public String listReport(HashMap<String, CV> hm, HashMap<String, String> hmorder, String txttype, String criteria, SWBParamRequest paramRequest, HttpServletRequest request) {
-                                                    StringBuilder ret = new StringBuilder();
-                                                    WebSite wsite = paramRequest.getWebPage().getWebSite();
-                                                    String export = request.getParameter("export");
-                                                    if (null == export) {
-                                                        export = "";
-                                                    }
-                                                    ret.append("<script type=\"text/javascript\">");
-                                                    ret.append(" function newWin(url){");
-                                                    ret.append("    window.open(url,'CVI','menubar=0,location=0,scrollbars=1,width=650,height=600');");
-                                                    ret.append("}");
-                                                    ret.append("</script>");
-                                                    ret.append(" <table>");
-                                                    ret.append("   <caption>");
-                                                    ret.append(txttype);
-                                                    ret.append(" - que contengan: ");
-                                                    ret.append(criteria);
-                                                    ret.append("    </caption>");
-                                                    ret.append("            <thead>");
-                                                    ret.append("                <tr>");
-                                                    ret.append("                    <th>Usuario</th><th>Detalle</th>");
-                                                    ret.append("                </tr>");
-                                                    ret.append("            </thead>");
-                                                    ret.append("            <tbody>");
-                                                    ArrayList<String> list = new ArrayList(hmorder.keySet());
-                                                    Collections.sort(list);
-
-                                                    Iterator<String> itstr = list.iterator();
-                                                    while (itstr.hasNext()) {
-                                                        String key = itstr.next();
-                                                        String keyorder = hmorder.get(key);
-
-                                                        User usrcv = wsite.getUserRepository().getUser(keyorder);
-                                                        Resource resource = wsite.getResource("997");
-                                                        WebPage wpage = wsite.getWebPage("ver_CV");
-                                                        SWBResourceURLImp urldet = new SWBResourceURLImp(request, resource, wpage, SWBResourceURL.UrlType_RENDER);
-                                                        urldet.setParameter("id", usrcv.getId());
-                                                        urldet.setCallMethod(SWBResourceURL.Call_CONTENT);
-                                                        ret.append("                 <tr>");
-                                                        ret.append("                     <td>");
-                                                        ret.append(usrcv.getFullName());
-                                                        ret.append("                     </td><td>");
-                                                        if (!export.equals("excel")) {
-                                                            ret.append("<a href=\"#\" ");
-                                                            ret.append("onclick=\"javascript:newWin('");
-                                                            ret.append(urldet.toString());
-                                                            ret.append("');return false;\" target=\"_blank\">ver</a>");
-                                                        } else {
-                                                            ret.append("&nbsp;");
-                                                        }
-                                                        ret.append("                   </td>");
-                                                        ret.append("                  </tr>");
-                                                    }
-                                                    ret.append("               </tbody>");
-                                                    ret.append("          </table>");
-
-                                                    return ret.toString();
-                                                }
-
-                                                public HashMap<String, CV> searchIdioma(SWBParamRequest paramRequest, String idioma, String conversacion, String lectura, String escritura) {
-                                                    HashMap<String, CV> hm = new HashMap<String, CV>();
-                                                    WebSite wsite = paramRequest.getWebPage().getWebSite();
-                                                    int pconv = 0, plec = 0, pesc = 0;
-                                                    try {
-                                                        pconv = Integer.parseInt(conversacion);
-                                                    } catch (Exception e) {
-                                                        pconv = 0;
-                                                    }
-                                                    try {
-                                                        plec = Integer.parseInt(lectura);
-                                                    } catch (Exception e) {
-                                                        plec = 0;
-                                                    }
-                                                    try {
-                                                        pesc = Integer.parseInt(escritura);
-                                                    } catch (Exception e) {
-                                                        pesc = 0;
-                                                    }
-
-                                                    Idioma idi = null;
-                                                    Conversacion oconv = null;
-                                                    Escritura oesc = null;
-                                                    Lectura olec = null;
-                                                    int iconv = 0, iesc = 0, ilec = 0;
-                                                    Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
-                                                    while (itcv.hasNext()) {
-                                                        CV cv = itcv.next();
-                                                        if (UtilsCVI.isCVIDone(cv)) {
-                                                            if (cv.listIdiomas().hasNext()) {
-                                                                Iterator<Idioma> itga = cv.listIdiomas();
-                                                                while (itga.hasNext()) {
-                                                                    idi = itga.next();
-                                                                    oconv = idi.getConversacion();
-                                                                    oesc = idi.getEscritura();
-                                                                    olec = idi.getLectura();
-
-                                                                    try {
-                                                                        iconv = Integer.parseInt(oconv.getTitle());
-                                                                    } catch (Exception e) {
-                                                                        iconv = -1;
-                                                                    }
-                                                                    try {
-                                                                        iesc = Integer.parseInt(oesc.getTitle());
-                                                                    } catch (Exception e) {
-                                                                        iesc = -1;
-                                                                    }
-                                                                    try {
-                                                                        ilec = Integer.parseInt(olec.getTitle());
-                                                                    } catch (Exception e) {
-                                                                        ilec = -1;
-                                                                    }
-                                                                    if (iconv == -1 || iesc == -1 || ilec == -1) {
-                                                                        continue;
-                                                                    }
-                                                                    if (idioma.equals(idi.getIdiomas().getId()) && iconv >= pconv && ilec >= plec && iesc >= pesc) {
-                                                                        hm.put(cv.getId(), cv);
-                                                                    }
-                                                                }
-                                                            }
-
-                                                        }
-
-                                                    }
-                                                    return hm;
-                                                }
-
-                                            %>
