@@ -52,7 +52,7 @@ public class ReporteRegistrados extends GenericResource {
     }
 
     public void doExport(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        response.setHeader("Content-Disposition", " attachment; filename=\"reportMatriz" + System.currentTimeMillis() + ".xls\";");
+        response.setHeader("Content-Disposition", " attachment; filename=\"reportRegistrados" + System.currentTimeMillis() + ".xls\";");
         response.setContentType("application/vnd.ms-excel"); //
         
         doView(request, response, paramRequest);
