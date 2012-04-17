@@ -102,8 +102,8 @@
                     %>
                     <ul>
                         <li><a href="<%=urlact%>?act=dominio">Dominio</a></li>
-                        <!-- li><a href="<%=urlact%>?act=tic">Diplomados, cursos y certificaciones, Cursos especiaizados en TICs</a></li>
-                        <li><a href="<%=urlact%>?act=idioma">Idiomas</a></li -->
+                        <!-- li><a href="<%//=urlact%>?act=tic">Diplomados, cursos y certificaciones, Cursos especiaizados en TICs</a></li>
+                        <li><a href="<%//=urlact%>?act=idioma">Idiomas</a></li -->
                     </ul>
                     <%
                     } else if ("dominio".equals(action)) {
@@ -114,8 +114,8 @@
                             step = request.getParameter("step");
                         }
                         if ("1".equals(step)) {
-                            HashMap<String, Integer> hm = new HashMap<String, Integer>(); // grado|situacion
-                            HashMap<String, Integer> hmes = new HashMap<String, Integer>(); // tipoestudio|situacion
+                            HashMap<String, CV> hm = new HashMap<String, CV>(); // grado|situacion
+                            HashMap<String, CV> hmc = new HashMap<String, CV>(); // tipoestudio|situacion
                             HashMap<String, String> hmorder = new HashMap<String, String>(); // grado|situacion
                             HashMap<String, String> hmesorder = new HashMap<String, String>(); // tipoestudio|situacion
 
@@ -125,18 +125,53 @@
                                 CV cv = itcv.next();
                                 if (UtilsCVI.isCVIDone(cv)) {
                                     User user = cv.getPropietario();
-                                    hm.put(cv.getId(), new Integer(1));
-                                    hmorder.put(user.getFullName(), cv.getId()); 
+                                    if(user.hasUserGroup(ugempleado)){
+                                        hm.put(cv.getId(),cv);
+                                    } else if(user.hasUserGroup(ugcandidato)){
+                                        hmc.put(cv.getId(),cv);
+                                    }
                                 }
                             }
-                            if (hm != null && hm.isEmpty() && hmes != null && hmes.isEmpty()) {
+                            if (hm != null && hm.isEmpty() && hmc != null && hmc.isEmpty()) {
                     %>         
                     <p>No se encontraron registros</p>
                     <button onclick="javascript:history.back(1);" >Regresar</button>
                     <%} else {
 
                     %>
+                            <table>
+                                <caption>Diplomados, cursos y Certificaciones</caption>
+                                <tbody>
+                                    <%
+                                        if (acum == 0) {
+                                            out.println("<tr><td colspan=\"3\">No se encontraron registros</td></tr>");
+                                        } else {
 
+                                            SWBResourceURL urldetail = paramRequest.getRenderUrl();
+                                            urldetail.setParameter("step", "3");
+                                            urldetail.setParameter("act", action);
+                                            urldetail.setParameter("search", txtbuscar);
+                                            urldetail.setParameter("type", "diplomado");
+
+                                    %>
+                                    <tr>
+                                        <td>Encontrados</td><td><%=acum%></td>
+                                        <%
+                                            if (!export.equals("excel")) {
+                                        %>
+                                        <td><a href="<%=urldetail%>">ver</a></td>
+                                        <%
+                                        } else {
+                                        %>
+                                        <td>&nbsp;</td>
+                                        <%                                        }
+                                        %>
+                                    </tr>
+                                </tbody>
+                                <%
+                                    }
+                                %>                 
+                            </table>
                     <table>
                         <caption><%=wptitle%></caption>
                         <thead>
