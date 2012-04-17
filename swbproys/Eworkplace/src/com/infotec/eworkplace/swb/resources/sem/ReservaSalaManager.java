@@ -56,7 +56,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
     public static final SimpleDateFormat HHmm = new SimpleDateFormat("HH:mm");
     public static final SimpleDateFormat HH = new SimpleDateFormat("HH:");
     public static final int T_MIN = 89;
-    public static final int TRNOUT_MIN = 5;
+    public static final int QUORUM = 5;
         
     public ReservaSalaManager() {
     }
@@ -245,7 +245,12 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
                 setRenderParameter(request, response);
                 return;
             }
-            if(turnout<TRNOUT_MIN || sala.getCapacidad()<turnout) {
+            if(turnout<QUORUM) {
+                response.setRenderParameter("alertmsg", response.getLocaleString("msgErrTurnOutMissingQuorum"));
+                setRenderParameter(request, response);
+                return;
+            }
+            if(sala.getCapacidad()<turnout) {
                 response.setRenderParameter("alertmsg", response.getLocaleString("msgErrTurnOutMismatch"));
                 setRenderParameter(request, response);
                 return;
