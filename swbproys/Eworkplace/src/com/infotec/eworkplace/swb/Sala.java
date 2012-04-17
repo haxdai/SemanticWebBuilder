@@ -39,9 +39,9 @@ public class Sala extends com.infotec.eworkplace.swb.base.SalaBase
 //System.out.println("inicio.getTime().compareTo(begin)="+inicio.getTime().compareTo(begin));
 //System.out.println("fin.getTime().compareTo(end)="+fin.getTime().compareTo(end));
                     if( (inicio.getTime().compareTo(begin)<=0 && fin.getTime().compareTo(end)>=0) ||
-                        (inicio.getTime().compareTo(begin)>=0 && fin.getTime().compareTo(end)<=0) ||
-                        (begin.compareTo(inicio.getTime())<=0 && end.compareTo(inicio.getTime())>=0 && end.compareTo(fin.getTime())<=0) ||
-                        (inicio.getTime().compareTo(begin)<=0 && fin.getTime().compareTo(begin)>=0 && fin.getTime().compareTo(end)<=0)) {
+                        (inicio.getTime().compareTo(begin)>0 && fin.getTime().compareTo(end)<0) ||
+                        (begin.compareTo(inicio.getTime())<=0 && end.compareTo(inicio.getTime())>0 && end.compareTo(fin.getTime())<=0) ||
+                        (inicio.getTime().compareTo(begin)<=0 && fin.getTime().compareTo(begin)>0 && fin.getTime().compareTo(end)<=0)) {
                         return true;
                     }
                     inicio.add(Calendar.DATE, 1);
@@ -53,9 +53,7 @@ public class Sala extends com.infotec.eworkplace.swb.base.SalaBase
             cbegin.setTime(begin);
             Calendar cend = Calendar.getInstance();
             cend.setTime(begin);
-//            cend.set(Calendar.HOUR, end.getHours());
             cend.set(Calendar.HOUR_OF_DAY, hours);
-//            cend.set(Calendar.MINUTE, end.getMinutes());
             cend.set(Calendar.MINUTE, minutes);
 
             Calendar inicio = Calendar.getInstance();
