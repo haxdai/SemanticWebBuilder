@@ -122,7 +122,9 @@
                             Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
                             while (itcv.hasNext()) {
                                 CV cv = itcv.next();
-                                if (UtilsCVI.isCVIDone(cv)) {
+                                User user = cv.getPropietario();
+                                if (UtilsCVI.isCVIDone(cv)&&user!=null) 
+                                {
                                     aca = cv.getAcademia();
                                     if (null != aca) {
                                         if (aca.listGradoAcademicos().hasNext()) {
@@ -364,7 +366,9 @@
                             Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
                             while (itcv.hasNext()) {
                                 CV cv = itcv.next();
-                                if (UtilsCVI.isCVIDone(cv)) {
+                                User user = cv.getPropietario();
+                                if (UtilsCVI.isCVIDone(cv)&&user!=null) 
+                                {
                                     aca = cv.getAcademia();
                                     if (null != aca) {
                                         if (aca.listGradoAcademicos().hasNext() && reptype.equals("grado")) {
@@ -376,12 +380,11 @@
                                                 String ids = id1 + "|" + id2;
                                                 if (key.equals(ids)) {
                                                     criteria = ga.getGrado().getTitle() + " - " + ga.getSituacionAcademica().getTitle();
-                                                    hmorder.put(criteria, cv.getId());
+                                                    hmorder.put(cv.getPropietario().getFullName(), cv.getId());
                                                     hm.put(cv.getId(), cv);
                                                 }
                                             }
-                                        }
-                                        if (aca.listEstudioSuperiors().hasNext() && reptype.equals("superior")) {
+                                        } else if (aca.listEstudioSuperiors().hasNext() && reptype.equals("superior")) {
                                             txttype = "Estudios Superiores";
                                             Iterator<EstudioSuperior> ites = aca.listEstudioSuperiors();
                                             while (ites.hasNext()) {
@@ -407,7 +410,8 @@
                                                 String ids = id1 + "|" + id2;
                                                 if (key.equals(ids)) {
                                                     criteria = testudio.getTitle() + " - " + est.getGradoAvance().getTitle();
-                                                    hmorder.put(criteria, cv.getId());
+                                                    System.out.println(criteria+" - "+cv.getId()+" - "+user.getLogin());
+                                                    hmorder.put(cv.getPropietario().getFullName(), cv.getId());
                                                     hm.put(cv.getId(), cv);
                                                 }
                                             }
@@ -1093,10 +1097,18 @@
 
                                                     Iterator<String> itstr = list.iterator();
                                                     while (itstr.hasNext()) {
+                                                        
+                                                        
+                                                        
                                                         String key = itstr.next();
                                                         String keyorder = hmorder.get(key);
+                                                        
+                                                        System.out.println("listReport: "+key+" - "+keyorder);
+                                                        
+                                                        CV cv = hm.get(keyorder);
 
-                                                        User usrcv = wsite.getUserRepository().getUser(keyorder);
+                                                        User usrcv = cv.getPropietario();
+                                                        String usrcvname = usrcv!=null&&usrcv.getFullName()!=null?usrcv.getFullName():usrcv.getLogin(); 
                                                         Resource resource = wsite.getResource("997");
                                                         WebPage wpage = wsite.getWebPage("ver_CV");
                                                         SWBResourceURLImp urldet = new SWBResourceURLImp(request, resource, wpage, SWBResourceURL.UrlType_RENDER);
@@ -1104,7 +1116,7 @@
                                                         urldet.setCallMethod(SWBResourceURL.Call_CONTENT);
                                                         ret.append("                 <tr>");
                                                         ret.append("                     <td>");
-                                                        ret.append(usrcv.getFullName());
+                                                        ret.append(usrcvname);
                                                         ret.append("                     </td><td>");
                                                         if (!export.equals("excel")) {
                                                             ret.append("<a href=\"#\" ");
