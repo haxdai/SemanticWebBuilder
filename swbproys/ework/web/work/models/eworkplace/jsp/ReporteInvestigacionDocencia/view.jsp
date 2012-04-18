@@ -210,7 +210,7 @@
                             
                         %>
                         <form action="<%=urlExport.toString()%>">
-                            <button onclick="javascript:history.back(1);">Regresar</button>
+                            <button type="button" onclick="javascript:history.back(1);">Regresar</button>
                             <button type="submit" >Guardar Excel</button> 
                         </form>
                         <%
@@ -289,7 +289,7 @@
                                 }
                             %>
                             <form action="<%=urlExport.toString()%>">
-                                <button onclick="javascript:history.back(1);">Regresar</button>
+                                <button type="button" onclick="javascript:history.back(1);">Regresar</button>
                                 <button type="submit" >Guardar Excel</button>
                             </form>
                             <%
@@ -336,7 +336,7 @@
                                 <input type="hidden" name="step" value="2"/>
                                     <input type="checkbox" id="curso" name="curso" value="1" checked onclick="if(!this.checked){this.form.numero.disabled='disabled';;}else{this.form.numero.disabled='';}"/>
                                     <label for="numero">Número de cursos de posgrado impartidos: </label><input type="text" id="numero" name="numero" />
-                                    <button onclick="javascript:history.back(1);">Regresar</button>
+                                    <button type="button" onclick="javascript:history.back(1);">Regresar</button>
                                     <button type="submit" onclick="return revisa(this.form);">Buscar</button>
                             </form>
                             </div>
@@ -396,7 +396,7 @@
                                 if (acum == 0) {
                             %>         
                             <p>No se encontraron registros</p>
-                            <button onclick="javascript:history.back(1);">Regresar</button>
+                            <button type="button" onclick="javascript:history.back(1);">Regresar</button>
                             <%  } else {
 
                                 String criteria = "";
@@ -470,7 +470,7 @@
                                     }
                                 %>
                                 <form action="<%=urlExport.toString()%>">
-                                    <button onclick="javascript:history.back(1);">Regresar</button>
+                                    <button type="button" onclick="javascript:history.back(1);">Regresar</button>
                                     <button type="submit" >Guardar Excel</button>
                                 </form>
                                 <%
@@ -572,7 +572,7 @@
                                         }
                                     %>
                                     <form action="<%=urlExport.toString()%>">
-                                        <button onclick="javascript:history.back(1);">Regresar</button>
+                                        <button type="button" onclick="javascript:history.back(1);">Regresar</button>
                                         <button type="submit" >Guardar Excel</button>
                                     </form>
                                     <%
@@ -620,7 +620,7 @@
                                         <input type="hidden" name="step" value="2"/>
                                             <input type="checkbox" id="publi" name="curso" value="1" checked onclick="if(!this.checked){this.form.num.disabled='disabled';}else{this.form.num.disabled='';}"/>
                                             <label for="num">Número de publicaciones: </label><input type="text" id="num" name="numero" />
-                                            <button onclick="javascript:history.back(1);">Regresar</button>
+                                            <button type="button" onclick="javascript:history.back(1);">Regresar</button>
                                             <button type="submit" onclick="return revisaPub(this.form);">Buscar</button>
                                             
                                     </div>
@@ -673,7 +673,7 @@
                                         if (acum == 0) {
                                     %>         
                                     <p>No se encontraron registros</p>
-                                    <button onclick="javascript:history.back(1);">Regresar</button>
+                                    <button type="button"  onclick="javascript:history.back(1);">Regresar</button>
                                     <%  } else {
 
                                         String criteria = "";
@@ -748,7 +748,7 @@
                                             }
                                         %>
                                         <form action="<%=urlExport.toString()%>">
-                                            <button onclick="javascript:history.back(1);">Regresar</button>
+                                            <button type="button" onclick="javascript:history.back(1);">Regresar</button>
                                             <button type="submit" >Guardar Excel</button>
                                         </form>
                                         <%
@@ -842,7 +842,7 @@
                                                 }
                                             %>
                                             <form action="<%=urlExport.toString()%>">
-                                                <button onclick="javascript:history.back(1);">Regresar</button>
+                                                <button type="button" onclick="javascript:history.back(1);">Regresar</button>
                                                 <button type="submit" >Guardar Excel</button>
                                             </form>
                                             <%
