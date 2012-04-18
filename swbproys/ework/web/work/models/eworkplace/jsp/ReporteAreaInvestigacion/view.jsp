@@ -99,7 +99,7 @@
                             SWBResourceURL urlact = paramRequest.getRenderUrl();
                     %>
                     <ul>
-                        <li><a href="<%=urlact%>?act=areainvest">Experiencia en TIC</a></li>
+                        <li><a href="<%=urlact%>?act=areainvest">Experiencia en TIC 'Área de Investigación'</a></li>
                     </ul>
                     <%
                     } else if ("areainvest".equals(action)) {
@@ -271,7 +271,7 @@
                                 }
                             }
                             if (!hm.isEmpty()) {
-                                String txttype = "Experiencia TIC - Área de Investigación.";
+                                String txttype = "Experiencia en TIC - Área de Investigación.";
 
                                 out.println(listReport(hm, hmorder, txttype, request.getParameter("search"), paramRequest, request));
 
