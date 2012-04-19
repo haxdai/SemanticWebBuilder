@@ -93,10 +93,14 @@
                             SWBResourceURL urlstep2 = paramRequest.getRenderUrl();
                     %>
                     <script type="text/javascript">
-                                
+                         
+                        dojo.require("dojo.parser");
                         dojo.require("dijit.layout.ContentPane");
                         dojo.require("dijit.form.Form");
+                        dojo.require("dijit.form.ValidationTextBox");
                         dojo.require("dijit.form.Button");
+                        dojo.require("dijit.form.FilteringSelect");
+                        dojo.require('dijit.form.Textarea');
                         dojo.require('dijit.form.DateTextBox');
                                 
                         function enviar() {
@@ -113,15 +117,24 @@
                     </script>
                     <div id="icv-rep-busca1">
                         <h3><%=wptitle%></h3>
-                        <form id="form1repcvi" dojoType="dijit.form.Form" method="post" action="<%=urlstep2%>" method="post">
+                        <form id="form1repcvi" dojoType="dijit.form.Form" method="post" action="<%=urlstep2%>" >
                             <input type="hidden" name="act" value="<%=action%>"/>
                             <input type="hidden" name="step" value="2"/>
-                            <label>Fecha inicial</label><input type="text" name="fromDate" value="" dojoType="dijit.form.DateTextBox" required="false" constraints="{datePattern:'dd/MM/yyyy'}" maxlength="10" hasDownArrow="true" proptMessage="Ingresa la Fecha inicial"/>
-                            <label>Fecha final</label><input type="text" name="toDate" value="" dojoType="dijit.form.DateTextBox" required="false" constraints="{datePattern:'dd/MM/yyyy'}" maxlength="10" hasDownArrow="true" proptMessage="Ingresa la Fecha final"/>                                  
+                            <div class="icv-div-grupo">
+                                <p class="icv-3col">
+                                    <label>Fecha inicial</label><input type="text" name="fromDate" id="fromDate" value="" dojoType="dijit.form.DateTextBox" required="false" constraints="{datePattern:'dd/MM/yyyy'}" maxlength="10" hasDownArrow="true" promptMessage="Ingresa la Fecha inicial" onchange="dijit.byId('toDate').constraints.min = arguments[0];"/>
+                                </p>
+                                <p class="icv-3col">
+                                    <label>Fecha final</label><input type="text" name="toDate" id="toDate" value="" dojoType="dijit.form.DateTextBox" required="false" constraints="{datePattern:'dd/MM/yyyy'}" maxlength="10" hasDownArrow="true" promptMessage="Ingresa la Fecha final" onchange="dijit.byId('fromDate').constraints.max = arguments[0];"/>
+                                </p>
+                                <div class="clearer">&nbsp;</div>
+                            </div>
                             <button onclick="javascript:history.back(1);">Regresar</button>
-                            <button type="submit" onclick="return enviar();">Buscar</button>
+                            <button type="submit" >Buscar</button>
                         </form>
                     </div>
+
+
                     <%
                     } else if ("2".equals(step)) { //step 2, hace la busqueda del texto en diplomados ó cursos TIC 
 
