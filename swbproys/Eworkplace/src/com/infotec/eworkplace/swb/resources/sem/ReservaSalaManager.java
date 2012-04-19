@@ -1001,14 +1001,22 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
             Iterator<ItemAwareReference> iawrefs = fni.getProcessInstance().listAllItemAwareReferences();
             while (iawrefs.hasNext()) {
                 ItemAwareReference iawr = iawrefs.next();
-                if (iawr != null && iawr.getProcessObject() != null && iawr.getItemAware().getItemSemanticClass().equals(ReservacionSala.intranet_ReservacionSala)) {
-                   ReservacionSala copy = (ReservacionSala) iawr.getProcessObject();
-                   //Copiar los datos de la reservación
-                    copyObjects(res, copy);
+                if (iawr != null && iawr.getProcessObject() != null) {
+                    org.semanticwb.process.model.ItemAware ia = iawr.getItemAware(); 
+                    if (ia.getItemSemanticClass().equals(ReservacionSala.intranet_ReservacionSala)) {
+                        ReservacionSala copy = (ReservacionSala) iawr.getProcessObject();
+                        //Copiar los datos de la reservación
+                        copyObjects(res, copy);
+                    } else if (ia.getItemSemanticClass().equals(org.semanticwb.process.schema.String.sclass) && ia.getName().equals("uri")) {
+                        //Copiar el uri de la reservación
+                        org.semanticwb.process.schema.String curi = (org.semanticwb.process.schema.String)iawr.getProcessObject();
+                        curi.setValue(res.getURI());
+                    }
                 }
             }
         }
     }
+
     
     private FlowNodeInstance getFlowNodeInstance(String uri) {
         FlowNodeInstance ret = null;

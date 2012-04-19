@@ -18,7 +18,7 @@ public class Sala extends com.infotec.eworkplace.swb.base.SalaBase
         return isReservada(begin.getTime(), end.getTime(), end.getTime().getHours(), end.getTime().getMinutes());
     }
     
-    private boolean isReservada(final java.util.Date begin, final java.util.Date end, final int hours, final int minutes) {
+    private synchronized boolean isReservada(final java.util.Date begin, final java.util.Date end, final int hours, final int minutes) {
         boolean isReservada = false;
         if( begin.getDate()==end.getDate() && begin.getMonth()==end.getMonth() && begin.getYear()==end.getYear() ) {
             Calendar inicio = Calendar.getInstance();
