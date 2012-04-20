@@ -1099,11 +1099,7 @@
                                                                 String keyorder = hmorder.get(key);
 
                                                                 User usrcv = wsite.getUserRepository().getUser(keyorder);
-                                                                Resource resource = wsite.getResource("997");
                                                                 WebPage wpage = wsite.getWebPage("ver_CV");
-                                                                SWBResourceURLImp urldet = new SWBResourceURLImp(request, resource, wpage, SWBResourceURL.UrlType_RENDER);
-                                                                urldet.setParameter("id", usrcv.getId());
-                                                                urldet.setCallMethod(SWBResourceURL.Call_CONTENT);
                                                                 ret.append("                 <tr>");
                                                                 ret.append("                     <td>");
                                                                 ret.append(usrcv.getFullName());
@@ -1112,7 +1108,7 @@
                                                                 if (!export.equals("excel")) {
                                                                     ret.append("<a href=\"#\" ");
                                                                     ret.append("onclick=\"javascript:newWin('");
-                                                                    ret.append(urldet.toString());
+                                                                    ret.append(wpage.getUrl()+"?id="+usrcv.getId());
                                                                     ret.append("');return false;\" target=\"_blank\">ver</a>");
                                                                 } else {
                                                                     ret.append("&nbsp;");

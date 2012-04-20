@@ -7,24 +7,8 @@
 <%@page import="com.infotec.cvi.swb.Investigacion"%>
 <%@page import="org.semanticwb.portal.api.SWBResourceURLImp"%>
 <%@page import="org.semanticwb.portal.api.SWBParamRequest"%>
-<%@page import="com.infotec.cvi.swb.Escritura"%>
-<%@page import="com.infotec.cvi.swb.Lectura"%>
-<%@page import="com.infotec.cvi.swb.Conversacion"%>
-<%@page import="org.semanticwb.model.Language"%>
-<%@page import="com.infotec.cvi.swb.Idioma"%>
-<%@page import="com.infotec.cvi.swb.Diplomado"%>
-<%@page import="com.infotec.cvi.swb.CursoTIC"%>
-<%@page import="com.infotec.cvi.swb.DisciplinaEstudio"%>
-<%@page import="com.infotec.cvi.swb.AreaEstudio"%>
-<%@page import="com.infotec.cvi.swb.Estudios"%>
-<%@page import="com.infotec.cvi.swb.Avance"%>
-<%@page import="com.infotec.cvi.swb.TipoEstudio"%>
-<%@page import="com.infotec.cvi.swb.EstudioSuperior"%>
 <%@page import="java.util.StringTokenizer"%>
 <%@page import="com.infotec.cvi.swb.util.UtilsCVI"%>
-<%@page import="com.infotec.cvi.swb.SituacionAcademica"%>
-<%@page import="com.infotec.cvi.swb.Carrera"%>
-<%@page import="com.infotec.cvi.swb.Grado"%>
 <%@page import="com.infotec.cvi.swb.base.GradoBase"%>
 <%@page import="org.semanticwb.model.WebPage"%>
 <%@page import="com.infotec.cvi.swb.GradoAcademico"%>
@@ -349,11 +333,7 @@
                                         String keyorder = hmorder.get(key);
 
                                         User usrcv = wsite.getUserRepository().getUser(keyorder);
-                                        Resource resource = wsite.getResource("997");
                                         WebPage wpage = wsite.getWebPage("ver_CV");
-                                        SWBResourceURLImp urldet = new SWBResourceURLImp(request, resource, wpage, SWBResourceURL.UrlType_RENDER);
-                                        urldet.setParameter("id", usrcv.getId());
-                                        urldet.setCallMethod(SWBResourceURL.Call_CONTENT);
                                         ret.append("                 <tr>");
                                         ret.append("                     <td>");
                                         ret.append(usrcv.getFullName());
@@ -361,7 +341,7 @@
                                         if (!export.equals("excel")) {
                                             ret.append("<a href=\"#\" ");
                                             ret.append("onclick=\"javascript:newWin('");
-                                            ret.append(urldet.toString());
+                                            ret.append(wpage.getUrl()+"?id="+usrcv.getId());
                                             ret.append("');return false;\" target=\"_blank\">ver</a>");
                                         } else {
                                             ret.append("&nbsp;");

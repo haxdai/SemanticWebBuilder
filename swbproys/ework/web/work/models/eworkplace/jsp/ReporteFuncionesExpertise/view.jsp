@@ -153,7 +153,7 @@
                         while (itcv.hasNext()) {
                             CV cv = itcv.next();
                             User usrcv = cv.getPropietario();
-                            if (UtilsCVI.isCVIDone(cv)&&usrcv!=null) {
+                            if (UtilsCVI.isCVIDone(cv) && usrcv != null) {
                                 if (cv.listExperienciaLaborals().hasNext()) {
                                     Iterator<ExperienciaLaboral> itga = cv.listExperienciaLaborals();
                                     while (itga.hasNext()) {
@@ -170,7 +170,7 @@
                                     Iterator<AreaTalento> itga = cv.listAreaTalentos();
                                     while (itga.hasNext()) {
                                         atalento = itga.next();
-                                        String txt = atalento.getHabilidad() != null ? atalento.getHabilidad().getTitle() : ""; 
+                                        String txt = atalento.getHabilidad() != null ? atalento.getHabilidad().getTitle() : "";
                                         txt = txt + (atalento.getOtraHabilidad() != null ? atalento.getOtraHabilidad() : "");
                                         txt = txt.trim().toLowerCase();
                                         txt = SWBUtils.TEXT.replaceSpecialCharacters(txt, Boolean.FALSE);
@@ -179,14 +179,14 @@
                                         }
                                     }
                                 }
-                                if(hm.get(cv.getId())!=null&&hmhab.get(cv.getId())!=null){
+                                if (hm.get(cv.getId()) != null && hmhab.get(cv.getId()) != null) {
                                     hmdos.put(cv.getId(), cv);
                                 }
                             }
 
                         }
                         acum = SWBUtils.Collections.sizeOf(hm.keySet().iterator());
-                        if (hm.isEmpty()&&hmhab.isEmpty()&&hmdos.isEmpty()){
+                        if (hm.isEmpty() && hmhab.isEmpty() && hmdos.isEmpty()) {
                     %>         
                     <p>No se encontraron registros</p>
                     <button type="button" onclick="javascript:history.back(1);">Regresar</button>
@@ -320,22 +320,24 @@
                             }
                         %>
 
-                        
-                            <button type="button" onclick="javascript:history.back(1);">Regresar</button>
-                            <button type="submit" >Guardar Excel</button> 
-                        </form>
-                        <%
+
+                        <button type="button" onclick="javascript:history.back(1);">Regresar</button>
+                        <button type="submit" >Guardar Excel</button> 
+                    </form>
+                    <%
                             }
                             // termina step 2
-                          }
-                        } else { // step 3 detalle reporte
-                            String reptype = request.getParameter("type");
-                            String txtbuscar = request.getParameter("search");
+                        }
+                    } else { // step 3 detalle reporte
+                        String reptype = request.getParameter("type");
+                        String txtbuscar = request.getParameter("search");
                         txtbuscar = txtbuscar.trim().toLowerCase();
                         txtbuscar = SWBUtils.TEXT.replaceSpecialCharacters(txtbuscar, Boolean.FALSE);
                         HashMap<String, CV> hm = new HashMap<String, CV>();
                         HashMap<String, CV> hmhab = new HashMap<String, CV>();
+                        HashMap<String, String> hmhabyears = new HashMap<String, String>();
                         HashMap<String, CV> hmdos = new HashMap<String, CV>();
+                        HashMap<String, String> hmdosyears = new HashMap<String, String>(); 
                         HashMap<String, String> hmorder = new HashMap<String, String>();
 
                         ExperienciaLaboral explab = null;
@@ -345,8 +347,8 @@
                         while (itcv.hasNext()) {
                             CV cv = itcv.next();
                             User usrcv = cv.getPropietario();
-                            if (UtilsCVI.isCVIDone(cv)&&usrcv!=null) {
-                                if (cv.listExperienciaLaborals().hasNext()&&(reptype.equals("funcion")||reptype.equals("ambos"))) {
+                            if (UtilsCVI.isCVIDone(cv) && usrcv != null) {
+                                if (cv.listExperienciaLaborals().hasNext() && (reptype.equals("funcion") || reptype.equals("ambos"))) {
                                     Iterator<ExperienciaLaboral> itga = cv.listExperienciaLaborals();
                                     while (itga.hasNext()) {
                                         explab = itga.next();
@@ -355,154 +357,149 @@
                                         txt = SWBUtils.TEXT.replaceSpecialCharacters(txt, Boolean.FALSE);
                                         if (txt.indexOf(txtbuscar) > -1) {
                                             hm.put(cv.getId(), cv);
-                                            hmorder.put(usrcv.getFullName()!=null?usrcv.getFullName():usrcv.getLogin(),cv.getId());
+                                            hmorder.put(usrcv.getFullName() != null ? usrcv.getFullName() : usrcv.getLogin(), cv.getId());
                                         }
                                     }
                                 }
-                                if (cv.listAreaTalentos().hasNext()&&(reptype.equals("habilidad")||reptype.equals("ambos"))) {
+                                if (cv.listAreaTalentos().hasNext() && (reptype.equals("habilidad") || reptype.equals("ambos"))) {
                                     Iterator<AreaTalento> itga = cv.listAreaTalentos();
                                     while (itga.hasNext()) {
                                         atalento = itga.next();
-                                        String txt = atalento.getHabilidad() != null ? atalento.getHabilidad().getTitle() : ""; 
+                                        String txt = atalento.getHabilidad() != null ? atalento.getHabilidad().getTitle() : "";
                                         txt = txt + (atalento.getOtraHabilidad() != null ? atalento.getOtraHabilidad() : "");
                                         txt = txt.trim().toLowerCase();
                                         txt = SWBUtils.TEXT.replaceSpecialCharacters(txt, Boolean.FALSE);
                                         if (txt.indexOf(txtbuscar) > -1) {
                                             hmhab.put(cv.getId(), cv);
-                                            hmorder.put(usrcv.getFullName()!=null?usrcv.getFullName():usrcv.getLogin(),cv.getId());
+                                            hmorder.put(usrcv.getFullName() != null ? usrcv.getFullName() : usrcv.getLogin(), cv.getId());
+                                            hmhabyears.put(cv.getId(), ""+atalento.getYearExperienceTalento());
                                         }
                                     }
                                 }
-                                if(hm.get(cv.getId())!=null&&hmhab.get(cv.getId())!=null&&reptype.equals("ambos")){
+                                if (hm.get(cv.getId()) != null && hmhab.get(cv.getId()) != null && reptype.equals("ambos")) {
                                     hmdos.put(cv.getId(), cv);
-                                    hmorder.put(usrcv.getFullName()!=null?usrcv.getFullName():usrcv.getLogin(),cv.getId());
+                                    hmorder.put(usrcv.getFullName() != null ? usrcv.getFullName() : usrcv.getLogin(), cv.getId());
                                 }
                             }
 
                         }
-                        
+
                         acum = SWBUtils.Collections.sizeOf(hm.keySet().iterator());
-                            if (!hm.isEmpty()||!hmhab.isEmpty()||!hmdos.isEmpty()) {
-                                
-                            
-                                String txttype = "Expertise, Expertise TI, Habilidades, Indistria y Funciones Principales.";
+                        if (!hm.isEmpty() || !hmhab.isEmpty() || !hmdos.isEmpty()) {
 
-                                if(reptype.equals("funcion")){
-                                    txttype = "Funciones Principales.";
-                                    out.println(listReport(hm, hmorder, txttype, request.getParameter("search"), paramRequest, request));
-                                } else if(reptype.equals("habilidad")){
-                                    txttype = "Expertise, Expertise TI, Habilidades o Indistria.";
-                                    out.println(listReport(hmhab, hmorder, txttype, request.getParameter("search"), paramRequest, request));
-                                } else if(reptype.equals("ambos")){
-                                    txttype = "Que tienen Expertise, Expertise TI, Habilidades, Indistria y Funciones Principales.";
-                                    out.println(listReport(hmdos, hmorder, txttype, request.getParameter("search"), paramRequest, request));
-                                }
 
-                                if (!export.equals("excel")) {
-                                    SWBResourceURL urlExport = paramRequest.getRenderUrl();
-                                    urlExport.setCallMethod(SWBResourceURL.Call_DIRECT);
-                                    urlExport.setMode(MODE_EXPORT);
+                            String txttype = "Expertise, Expertise TI, Habilidades, Indistria y Funciones Principales.";
+
+                            if (reptype.equals("funcion")) {
+                                txttype = "Funciones Principales.";
+                                out.println(listReport(hm, hmorder, txttype, request.getParameter("search"), paramRequest, request));
+                            } else if (reptype.equals("habilidad")) {
+                                txttype = "Expertise, Expertise TI, Habilidades o Indistria.";
+                                out.println(listReport(hmhab, hmorder, txttype, request.getParameter("search"), paramRequest, request));
+                            } else if (reptype.equals("ambos")) {
+                                txttype = "Que tienen Expertise, Expertise TI, Habilidades, Indistria y Funciones Principales.";
+                                out.println(listReport(hmdos, hmorder, txttype, request.getParameter("search"), paramRequest, request));
+                            }
+
+                            if (!export.equals("excel")) {
+                                SWBResourceURL urlExport = paramRequest.getRenderUrl();
+                                urlExport.setCallMethod(SWBResourceURL.Call_DIRECT);
+                                urlExport.setMode(MODE_EXPORT);
+                    %>
+                    <form action="<%=urlExport.toString()%>" method="post">
+                        <input type="hidden" name="export" value="excel">
+                        <%
+                            if (request.getParameter("step") != null) {
                         %>
-                        <form action="<%=urlExport.toString()%>" method="post">
-                            <input type="hidden" name="export" value="excel">
-                            <%
-                                if (request.getParameter("step") != null) {
-                            %>
-                            <input type="hidden" name="step" value="<%=request.getParameter("step")%>" />
-                            <%
+                        <input type="hidden" name="step" value="<%=request.getParameter("step")%>" />
+                        <%
+                            }
+                            if (request.getParameter("act") != null) {
+                        %>
+                        <input type="hidden" name="act" value="<%=request.getParameter("act")%>" />
+                        <%
+                            }
+                            if (request.getParameter("search") != null) {
+                        %>
+                        <input type="hidden" name="search" value="<%=txtbuscar%>" />
+                        <%
+                            }
+                            if (request.getParameter("type") != null) {
+                        %>
+                        <input type="hidden" name="type" value="<%=reptype%>" />
+                        <%
+                            }
+                        %>
+
+
+                        <button type="button" onclick="javascript:history.back(1);">Regresar</button>
+                        <button type="submit" >Guardar Excel</button> 
+                    </form>
+                    <%
                                 }
-                                if (request.getParameter("act") != null) {
-                            %>
-                            <input type="hidden" name="act" value="<%=request.getParameter("act")%>" />
-                            <%
-                                }
-                                if (request.getParameter("search") != null) {
-                            %>
-                            <input type="hidden" name="search" value="<%=txtbuscar%>" />
-                            <%
-                                }
-                                if (request.getParameter("type") != null) {
-                            %>
-                            <input type="hidden" name="type" value="<%=reptype%>" />
-                            <%
-                                }
-                            %>
+                            }
+                        } //step 3 
+                    }
+                    %> 
+                </span></div>
+        </div><!-- icv-data -->  
+    </div>
+</div>
 
-                            
-                                <button type="button" onclick="javascript:history.back(1);">Regresar</button>
-                                <button type="submit" >Guardar Excel</button> 
-                            </form>
-                            <%
-                                            }
-                                        }
-                                    } //step 3 
-                                }
-                            %> 
-                            </span></div>
-                            </div><!-- icv-data -->  
-                            </div>
-                            </div>
+<%!
+    public String listReport(HashMap<String, CV> hm, HashMap<String, String> hmorder, String txttype, String criteria, SWBParamRequest paramRequest, HttpServletRequest request) {
+        StringBuilder ret = new StringBuilder();
+        WebSite wsite = paramRequest.getWebPage().getWebSite();
+        String export = request.getParameter("export");
+        if (null == export) {
+            export = "";
+        }
+        ret.append("<script type=\"text/javascript\">");
+        ret.append(" function newWin(url){");
+        ret.append("    window.open(url,'CVI','menubar=0,location=0,scrollbars=1,width=650,height=600');");
+        ret.append("}");
+        ret.append("</script>");
+        ret.append(" <table>");
+        ret.append("   <caption>");
+        ret.append(txttype);
+        ret.append(" - que contengan: ");
+        ret.append(criteria);
+        ret.append("    </caption>");
+        ret.append("            <thead>");
+        ret.append("                <tr>");
+        ret.append("                    <th>Usuario</th><th>Detalle</th>");
+        ret.append("                </tr>");
+        ret.append("            </thead>");
+        ret.append("            <tbody>");
+        ArrayList<String> list = new ArrayList(hmorder.keySet());
+        Collections.sort(list);
 
-                            <%!
-                                public String listReport(HashMap<String, CV> hm, HashMap<String, String> hmorder, String txttype, String criteria, SWBParamRequest paramRequest, HttpServletRequest request) {
-                                    StringBuilder ret = new StringBuilder();
-                                    WebSite wsite = paramRequest.getWebPage().getWebSite();
-                                    String export = request.getParameter("export");
-                                    if (null == export) {
-                                        export = "";
-                                    }
-                                    ret.append("<script type=\"text/javascript\">");
-                                    ret.append(" function newWin(url){");
-                                    ret.append("    window.open(url,'CVI','menubar=0,location=0,scrollbars=1,width=650,height=600');");
-                                    ret.append("}");
-                                    ret.append("</script>");
-                                    ret.append(" <table>");
-                                    ret.append("   <caption>");
-                                    ret.append(txttype);
-                                    ret.append(" - que contengan: ");
-                                    ret.append(criteria);
-                                    ret.append("    </caption>");
-                                    ret.append("            <thead>");
-                                    ret.append("                <tr>");
-                                    ret.append("                    <th>Usuario</th><th>Detalle</th>");
-                                    ret.append("                </tr>");
-                                    ret.append("            </thead>");
-                                    ret.append("            <tbody>");
-                                    ArrayList<String> list = new ArrayList(hmorder.keySet());
-                                    Collections.sort(list);
+        Iterator<String> itstr = list.iterator();
+        while (itstr.hasNext()) {
+            String key = itstr.next();
+            String keyorder = hmorder.get(key);
 
-                                    Iterator<String> itstr = list.iterator();
-                                    while (itstr.hasNext()) {
-                                        String key = itstr.next();
-                                        String keyorder = hmorder.get(key);
+            User usrcv = wsite.getUserRepository().getUser(keyorder);
+            WebPage wpage = wsite.getWebPage("ver_CV");
+            ret.append("                 <tr>");
+            ret.append("                     <td>");
+            ret.append(usrcv.getFullName());
+            ret.append("                     </td><td>");
+            if (!export.equals("excel")) {
+                ret.append("<a href=\"#\" ");
+                ret.append("onclick=\"javascript:newWin('");
+                ret.append(wpage.getUrl()+"?id="+usrcv.getId());
+                ret.append("');return false;\" target=\"_blank\">ver</a>");
+            } else {
+                ret.append("&nbsp;");
+            }
+            ret.append("                   </td>");
+            ret.append("                  </tr>");
+        }
+        ret.append("               </tbody>");
+        ret.append("          </table>");
 
-                                        User usrcv = wsite.getUserRepository().getUser(keyorder);
-                                        Resource resource = wsite.getResource("997");
-                                        WebPage wpage = wsite.getWebPage("ver_CV");
-                                        SWBResourceURLImp urldet = new SWBResourceURLImp(request, resource, wpage, SWBResourceURL.UrlType_RENDER);
-                                        urldet.setParameter("id", usrcv.getId());
-                                        urldet.setCallMethod(SWBResourceURL.Call_CONTENT);
-                                        ret.append("                 <tr>");
-                                        ret.append("                     <td>");
-                                        ret.append(usrcv.getFullName());
-                                        ret.append("                     </td><td>");
-                                        if (!export.equals("excel")) {
-                                            ret.append("<a href=\"#\" ");
-                                            ret.append("onclick=\"javascript:newWin('");
-                                            ret.append(urldet.toString());
-                                            ret.append("');return false;\" target=\"_blank\">ver</a>");
-                                        } else {
-                                            ret.append("&nbsp;");
-                                        }
-                                        ret.append("                   </td>");
-                                        ret.append("                  </tr>");
-                                    }
-                                    ret.append("               </tbody>");
-                                    ret.append("          </table>");
+        return ret.toString();
+    }
 
-                                    return ret.toString();
-                                }
-
-                                
-
-                            %>
+%>
