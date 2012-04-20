@@ -1,12 +1,9 @@
 <%--   
-    Document   : view Recurso ReporteFuncionesExpertise
-    Created on : 18/04/2012
+    Document   : view Recurso ReporteCompetencias
+    Created on : 16/04/2012
     Author     : juan.fernandez
 --%>
 
-<%@page import="com.infotec.cvi.swb.AreaTalento"%>
-<%@page import="com.infotec.cvi.swb.resources.AreasTalentoResource"%>
-<%@page import="com.infotec.cvi.swb.ExperienciaLaboral"%>
 <%@page import="com.infotec.cvi.swb.Investigacion"%>
 <%@page import="org.semanticwb.portal.api.SWBResourceURLImp"%>
 <%@page import="org.semanticwb.portal.api.SWBParamRequest"%>
@@ -102,11 +99,11 @@
                             SWBResourceURL urlact = paramRequest.getRenderUrl();
                     %>
                     <ul>
-                        <li><a href="<%=urlact%>?act=expertise">Expertise - Funciones Principales</a></li>
+                        <li><a href="<%=urlact%>?act=competencias">Competencias</a></li>
                     </ul>
                     <%
-                    } else if ("expertise".equals(action)) {
-                        String wptitle = "Expertise, Expertise TI, Habilidades, Indistria y Funciones Principales";
+                    } else if ("competencias".equals(action)) {
+                        String wptitle = "Competencias";
                         String step = "1";
                         if (request.getParameter("step") != null) {
                             step = request.getParameter("step");
@@ -121,7 +118,7 @@
                             var texto = forma.search.value;
                             texto = texto.replace(' ','');
                             if(texto.length==0){
-                                alert('Debes de poner el texto a buscar');
+                                alert('Debes de poner el Área de Investigación a buscar');
                                 return false;
                             }
                             return true;
@@ -131,8 +128,8 @@
                         <form method="post" action="<%=urlstep2%>">
                             <input type="hidden" name="act" value="<%=action%>"/>
                             <input type="hidden" name="step" value="2"/>
-                            <label for="search">Poner el texto referente a la Habilida y/o funcion principal a buscar: </label><input type="text" id="search" name="search" />
-                            <button type="button" onclick="javascript:history.back(1);" >Regresar</button>
+                            <label for="search">Poner el nombre del Área de Investigación: </label><input type="text" id="search" name="search" />
+                            <button onclick="javascript:history.back(1);" >Regresar</button>
                             <button type="submit" onclick="return revisa(this.form)">Buscar</button>  
                         </form>
                     </div>
@@ -140,25 +137,23 @@
                     } else if (step.equals("2")) { //step 2, hace la busqueda del texto en Investigaciones - Area de Investigación
 
                         String txtbuscar = request.getParameter("search");
+                        //System.out.println("Step 2, "+txtbuscar);
                         txtbuscar = txtbuscar.trim().toLowerCase();
                         txtbuscar = SWBUtils.TEXT.replaceSpecialCharacters(txtbuscar, Boolean.FALSE);
                         HashMap<String, CV> hm = new HashMap<String, CV>();
-                        HashMap<String, CV> hmhab = new HashMap<String, CV>();
-                        HashMap<String, CV> hmdos = new HashMap<String, CV>();
+                        HashMap<String, CV> hmtic = new HashMap<String, CV>();
 
-                        ExperienciaLaboral explab = null;
-                        AreaTalento atalento = null;
+                        Investigacion diplo = null;
                         long acum = 0;
                         Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
                         while (itcv.hasNext()) {
                             CV cv = itcv.next();
-                            User usrcv = cv.getPropietario();
-                            if (UtilsCVI.isCVIDone(cv)&&usrcv!=null) {
-                                if (cv.listExperienciaLaborals().hasNext()) {
-                                    Iterator<ExperienciaLaboral> itga = cv.listExperienciaLaborals();
+                            if (UtilsCVI.isCVIDone(cv)) {
+                                if (cv.listInvestigacions().hasNext()) {
+                                    Iterator<Investigacion> itga = cv.listInvestigacions();
                                     while (itga.hasNext()) {
-                                        explab = itga.next();
-                                        String txt = explab.getFuncionesPrincipales() != null ? explab.getFuncionesPrincipales() : "";
+                                        diplo = itga.next();
+                                        String txt = diplo.getAreaInvestigacion() != null ? diplo.getAreaInvestigacion() : "";
                                         txt = txt.trim().toLowerCase();
                                         txt = SWBUtils.TEXT.replaceSpecialCharacters(txt, Boolean.FALSE);
                                         if (txt.indexOf(txtbuscar) > -1) {
@@ -166,27 +161,11 @@
                                         }
                                     }
                                 }
-                                if (cv.listAreaTalentos().hasNext()) {
-                                    Iterator<AreaTalento> itga = cv.listAreaTalentos();
-                                    while (itga.hasNext()) {
-                                        atalento = itga.next();
-                                        String txt = atalento.getHabilidad() != null ? atalento.getHabilidad().getTitle() : ""; 
-                                        txt = txt + (atalento.getOtraHabilidad() != null ? atalento.getOtraHabilidad() : "");
-                                        txt = txt.trim().toLowerCase();
-                                        txt = SWBUtils.TEXT.replaceSpecialCharacters(txt, Boolean.FALSE);
-                                        if (txt.indexOf(txtbuscar) > -1) {
-                                            hmhab.put(cv.getId(), cv);
-                                        }
-                                    }
-                                }
-                                if(hm.get(cv.getId())!=null&&hmhab.get(cv.getId())!=null){
-                                    hmdos.put(cv.getId(), cv);
-                                }
                             }
 
                         }
                         acum = SWBUtils.Collections.sizeOf(hm.keySet().iterator());
-                        if (hm.isEmpty()&&hmhab.isEmpty()&&hmdos.isEmpty()){
+                        if (acum == 0) {
                     %>         
                     <p>No se encontraron registros</p>
                     <button type="button" onclick="javascript:history.back(1);">Regresar</button>
@@ -195,10 +174,10 @@
                     %>
 
                     <table>
-                        <caption>Expertise, Expertise TI, Habilidad, Industria</caption>
+                        <caption>Experiencia TIC - Área de Investigación</caption>
                         <tbody>
                             <%
-                                if (hmhab.isEmpty()) {
+                                if (acum == 0) {
                                     out.println("<tr><td colspan=\"3\">No se encontraron registros</td></tr>");
                                 } else {
 
@@ -206,11 +185,11 @@
                                     urldetail.setParameter("step", "3");
                                     urldetail.setParameter("act", action);
                                     urldetail.setParameter("search", txtbuscar);
-                                    urldetail.setParameter("type", "habilidad");
+                                    urldetail.setParameter("type", "diplomado");
 
                             %>
                             <tr>
-                                <td>Encontrados</td><td><%=SWBUtils.Collections.sizeOf(hmhab.keySet().iterator())%></td>
+                                <td>Encontrados</td><td><%=acum%></td>
                                 <%
                                     if (!export.equals("excel")) {
                                 %>
@@ -228,72 +207,6 @@
                         %>                 
                     </table>
 
-                    <table>
-                        <caption>Funciones Principales</caption>
-                        <tbody>
-                            <%
-                                if (hm.isEmpty()) {
-                                    out.println("<tr><td colspan=\"3\">No se encontraron registros</td></tr>");
-                                } else {
-
-                                    SWBResourceURL urldetail = paramRequest.getRenderUrl();
-                                    urldetail.setParameter("step", "3");
-                                    urldetail.setParameter("act", action);
-                                    urldetail.setParameter("search", txtbuscar);
-                                    urldetail.setParameter("type", "funcion");
-
-                            %>
-                            <tr>
-                                <td>Encontrados</td><td><%=SWBUtils.Collections.sizeOf(hmhab.keySet().iterator())%></td>
-                                <%
-                                    if (!export.equals("excel")) {
-                                %>
-                                <td><a href="<%=urldetail%>">ver</a></td>
-                                <%
-                                } else {
-                                %>
-                                <td>&nbsp;</td>
-                                <%                                        }
-                                %>
-                            </tr>
-                        </tbody>
-                        <%
-                            }
-                        %>                 
-                    </table>
-                    <table>
-                        <caption>Expertise, Expertise TI, Habilidad, Industria y Funciones Principales</caption>
-                        <tbody>
-                            <%
-                                if (hmdos.isEmpty()) {
-                                    out.println("<tr><td colspan=\"3\">No se encontraron registros</td></tr>");
-                                } else {
-
-                                    SWBResourceURL urldetail = paramRequest.getRenderUrl();
-                                    urldetail.setParameter("step", "3");
-                                    urldetail.setParameter("act", action);
-                                    urldetail.setParameter("search", txtbuscar);
-                                    urldetail.setParameter("type", "ambos");
-
-                            %>
-                            <tr>
-                                <td>Encontrados</td><td><%=SWBUtils.Collections.sizeOf(hmhab.keySet().iterator())%></td>
-                                <%
-                                    if (!export.equals("excel")) {
-                                %>
-                                <td><a href="<%=urldetail%>">ver</a></td>
-                                <%
-                                } else {
-                                %>
-                                <td>&nbsp;</td>
-                                <%                                        }
-                                %>
-                            </tr>
-                        </tbody>
-                        <%
-                            }
-                        %>                 
-                    </table>
                     <%
                         if (!export.equals("excel")) {
                             SWBResourceURL urlExport = paramRequest.getRenderUrl();
@@ -329,74 +242,38 @@
                             // termina step 2
                           }
                         } else { // step 3 detalle reporte
-                            String reptype = request.getParameter("type");
                             String txtbuscar = request.getParameter("search");
-                        txtbuscar = txtbuscar.trim().toLowerCase();
-                        txtbuscar = SWBUtils.TEXT.replaceSpecialCharacters(txtbuscar, Boolean.FALSE);
-                        HashMap<String, CV> hm = new HashMap<String, CV>();
-                        HashMap<String, CV> hmhab = new HashMap<String, CV>();
-                        HashMap<String, CV> hmdos = new HashMap<String, CV>();
-                        HashMap<String, String> hmorder = new HashMap<String, String>();
+                            //System.out.println("Step 2, "+txtbuscar);
+                            txtbuscar = txtbuscar.trim().toLowerCase();
+                            txtbuscar = SWBUtils.TEXT.replaceSpecialCharacters(txtbuscar, Boolean.FALSE);
+                            HashMap<String, CV> hm = new HashMap<String, CV>();
+                            HashMap<String, String> hmorder = new HashMap<String, String>();
 
-                        ExperienciaLaboral explab = null;
-                        AreaTalento atalento = null;
-                        long acum = 0;
-                        Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
-                        while (itcv.hasNext()) {
-                            CV cv = itcv.next();
-                            User usrcv = cv.getPropietario();
-                            if (UtilsCVI.isCVIDone(cv)&&usrcv!=null) {
-                                if (cv.listExperienciaLaborals().hasNext()&&(reptype.equals("funcion")||reptype.equals("ambos"))) {
-                                    Iterator<ExperienciaLaboral> itga = cv.listExperienciaLaborals();
-                                    while (itga.hasNext()) {
-                                        explab = itga.next();
-                                        String txt = explab.getFuncionesPrincipales() != null ? explab.getFuncionesPrincipales() : "";
-                                        txt = txt.trim().toLowerCase();
-                                        txt = SWBUtils.TEXT.replaceSpecialCharacters(txt, Boolean.FALSE);
-                                        if (txt.indexOf(txtbuscar) > -1) {
-                                            hm.put(cv.getId(), cv);
-                                            hmorder.put(usrcv.getFullName()!=null?usrcv.getFullName():usrcv.getLogin(),cv.getId());
+                            Investigacion diplo = null;
+                            long acum = 0;
+                            Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
+                            while (itcv.hasNext()) {
+                                CV cv = itcv.next();
+                                if (UtilsCVI.isCVIDone(cv)) {
+                                    if (cv.listInvestigacions().hasNext()) {
+                                        Iterator<Investigacion> itga = cv.listInvestigacions();
+                                        while (itga.hasNext()) {
+                                            diplo = itga.next();
+                                            String txt = diplo.getAreaInvestigacion() != null ? diplo.getAreaInvestigacion() : "";
+                                            txt = txt.trim().toLowerCase();
+                                            txt = SWBUtils.TEXT.replaceSpecialCharacters(txt, Boolean.FALSE);
+                                            if (txt.indexOf(txtbuscar) > -1) {
+                                                hm.put(cv.getId(), cv);
+                                                hmorder.put(cv.getPropietario().getFullName(), cv.getId());
+                                            }
                                         }
                                     }
-                                }
-                                if (cv.listAreaTalentos().hasNext()&&(reptype.equals("habilidad")||reptype.equals("ambos"))) {
-                                    Iterator<AreaTalento> itga = cv.listAreaTalentos();
-                                    while (itga.hasNext()) {
-                                        atalento = itga.next();
-                                        String txt = atalento.getHabilidad() != null ? atalento.getHabilidad().getTitle() : ""; 
-                                        txt = txt + (atalento.getOtraHabilidad() != null ? atalento.getOtraHabilidad() : "");
-                                        txt = txt.trim().toLowerCase();
-                                        txt = SWBUtils.TEXT.replaceSpecialCharacters(txt, Boolean.FALSE);
-                                        if (txt.indexOf(txtbuscar) > -1) {
-                                            hmhab.put(cv.getId(), cv);
-                                            hmorder.put(usrcv.getFullName()!=null?usrcv.getFullName():usrcv.getLogin(),cv.getId());
-                                        }
-                                    }
-                                }
-                                if(hm.get(cv.getId())!=null&&hmhab.get(cv.getId())!=null&&reptype.equals("ambos")){
-                                    hmdos.put(cv.getId(), cv);
-                                    hmorder.put(usrcv.getFullName()!=null?usrcv.getFullName():usrcv.getLogin(),cv.getId());
                                 }
                             }
+                            if (!hm.isEmpty()) {
+                                String txttype = "Competencias";
 
-                        }
-                        
-                        acum = SWBUtils.Collections.sizeOf(hm.keySet().iterator());
-                            if (!hm.isEmpty()||!hmhab.isEmpty()||!hmdos.isEmpty()) {
-                                
-                            
-                                String txttype = "Expertise, Expertise TI, Habilidades, Indistria y Funciones Principales.";
-
-                                if(reptype.equals("funcion")){
-                                    txttype = "Funciones Principales.";
-                                    out.println(listReport(hm, hmorder, txttype, request.getParameter("search"), paramRequest, request));
-                                } else if(reptype.equals("habilidad")){
-                                    txttype = "Expertise, Expertise TI, Habilidades o Indistria.";
-                                    out.println(listReport(hmhab, hmorder, txttype, request.getParameter("search"), paramRequest, request));
-                                } else if(reptype.equals("ambos")){
-                                    txttype = "Que tienen Expertise, Expertise TI, Habilidades, Indistria y Funciones Principales.";
-                                    out.println(listReport(hmdos, hmorder, txttype, request.getParameter("search"), paramRequest, request));
-                                }
+                                out.println(listReport(hm, hmorder, txttype, request.getParameter("search"), paramRequest, request));
 
                                 if (!export.equals("excel")) {
                                     SWBResourceURL urlExport = paramRequest.getRenderUrl();
@@ -419,11 +296,6 @@
                                 if (request.getParameter("search") != null) {
                             %>
                             <input type="hidden" name="search" value="<%=txtbuscar%>" />
-                            <%
-                                }
-                                if (request.getParameter("type") != null) {
-                            %>
-                            <input type="hidden" name="type" value="<%=reptype%>" />
                             <%
                                 }
                             %>

@@ -99,7 +99,7 @@
                             SWBResourceURL urlact = paramRequest.getRenderUrl();
                     %>
                     <ul>
-                        <li><a href="<%=urlact%>?act=areainvest">Experiencia en TIC 'Área de Investigación'</a></li>
+                        <li><a href="<%=urlact%>?act=areainvest">Área de Investigación</a></li>
                     </ul>
                     <%
                     } else if ("areainvest".equals(action)) {

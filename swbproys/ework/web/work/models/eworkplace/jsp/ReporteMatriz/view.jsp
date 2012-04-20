@@ -226,7 +226,7 @@
                             }
 
                         %>
-                        <form action="<%=urlExport.toString()%>">
+                        
                             <button type="button" onclick="javascript:history.back(1);">Regresar</button>
                             <button type="submit" >Guardar Excel</button> 
                         </form>
@@ -288,7 +288,7 @@
                             <%
                                 }
                             %>
-                            <form action="<%=urlExport.toString()%>">
+                            
                                 <button type="button" onclick="javascript:history.back(1);">Regresar</button>
                                 <button type="submit" >Guardar Excel</button> 
                             </form>
