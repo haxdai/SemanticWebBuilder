@@ -2,6 +2,7 @@ package com.infotec.cvi.swb.resources.reports;
 
 import com.infotec.cvi.swb.CV;
 //import com.itextpdf.text.*;
+import com.itextpdf.text.BaseColor;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -23,9 +24,9 @@ import org.semanticwb.portal.api.SWBResourceException;
 public class ImprimirCV extends GenericResource {
     public static Logger log = SWBUtils.getLogger(ImprimirCV.class);
     public static final String Mode_PDF = "pdf";
-    //public static final BaseColor b = new BaseColor(1799611);
-    //public static final BaseColor h1 = new BaseColor(1530);
-    //public static final BaseColor h4 = new BaseColor(3381555);
+    public static final BaseColor b = new BaseColor(1799611);
+    public static final BaseColor h1 = new BaseColor(1530);
+    public static final BaseColor h4 = new BaseColor(3381555);
     
     @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
