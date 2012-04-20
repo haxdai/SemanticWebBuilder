@@ -19,9 +19,10 @@
     String strNumItems = base.getAttribute("numPageItems", "10");
     String npage = request.getParameter("page");
     String orderby = request.getParameter("order");
+    //String action = request.getParameter("act");
     String action = paramRequest.getAction();
     String MODE_EXPORT = "export";
-
+out.println("<p>action="+action+"</p>");
     String export = request.getParameter("export");
     if (null == export) {
         export = "";
@@ -44,34 +45,35 @@
 <%
     }
 %>
-<p>hola </p>
+<div >  
+ <div id="icv">
+  <div id="icv-data">
+  <div>
 <%
-/*
-final String siteid = "eworkplace3";
-WebSite wsite = WebSite.ClassMgr.getWebSite(siteid);*/
+//if(action==null) {
+if(SWBResourceURL.Action_EDIT.equals(action)) {
+    String wptitle = "Habilidades";
 
-String wptitle = "Habilidades";
-
-TreeMap<String,Integer> ggg = new TreeMap();
-Iterator<TipoTalento> types = TipoTalento.ClassMgr.listTipoTalentos(wsite);
-while(types.hasNext()) {
-    TipoTalento tipo = types.next();
-    if(tipo==null)
-        continue;
-    Iterator<AreaTalento> areas = AreaTalento.ClassMgr.listAreaTalentoByTipoAreaTalento(tipo, wsite);
-    while(areas.hasNext()) {
-        AreaTalento area = areas.next();
-        if(area==null)
+    TreeMap<String,Integer> ggg = new TreeMap();
+    Iterator<TipoTalento> types = TipoTalento.ClassMgr.listTipoTalentos(wsite);
+    while(types.hasNext()) {
+        TipoTalento tipo = types.next();
+        if(tipo==null)
             continue;
-        CV cv = CV.ClassMgr.getCV(area.getCreator().getId(), wsite);
-        if( !UtilsCVI.isCVIDone(cv) )
-            continue;
-        if(ggg.containsKey(tipo.getTitle()))
-            ggg.put(tipo.getTitle(), ggg.get(tipo.getTitle())+1);
-        else
-            ggg.put(tipo.getTitle(), 1);
+        Iterator<AreaTalento> areas = AreaTalento.ClassMgr.listAreaTalentoByTipoAreaTalento(tipo, wsite);
+        while(areas.hasNext()) {
+            AreaTalento area = areas.next();
+            if(area==null)
+                continue;
+            CV cv = CV.ClassMgr.getCV(area.getCreator().getId(), wsite);
+            if( !UtilsCVI.isCVIDone(cv) )
+                continue;
+            if(ggg.containsKey(tipo.getId()))
+                ggg.put(tipo.getId(), ggg.get(tipo.getId())+1);
+            else
+                ggg.put(tipo.getId(), 1);
+        }
     }
-}
 %>
 <table>
     <caption><%=wptitle%></caption>
@@ -88,16 +90,20 @@ while(types.hasNext()) {
     </thead>
     <tbody>
 <%
-        SWBResourceURL url = null;
+        //SWBResourceURL url = paramRequest.getRenderUrl().setParameter("act","skl");
+        SWBResourceURL url = paramRequest.getRenderUrl().setAction("skl");
         String key;
         int v;
+        TipoTalento tipoTalento;
         Iterator<String> keys = ggg.keySet().iterator();
         while(keys.hasNext()) {
             key = keys.next();
+            tipoTalento = TipoTalento.ClassMgr.getTipoTalento(key, wsite);
             v = ggg.get(key);
+            url.setParameter("eid", key);
 %>
         <tr>
-            <td><a href="" title="Ver detalle"><%=key%></a></td>
+            <td><a href="<%=url%>" title="Ver detalle"><%=tipoTalento.getTitle()%></a></td>
             <td><%=v%></td>
         </tr>
 <%
@@ -108,38 +114,35 @@ while(types.hasNext()) {
 </table>
 <%
     }
-
-System.out.println("ggg Map Contains : " + ggg.toString());
-
-
-//suponiendo que estoy en granularidad media
-TreeMap<String,Integer> mmm = new TreeMap();
-TipoTalento tipo = TipoTalento.ClassMgr.getTipoTalento("Habilidades_Tecnicas", wsite);
-if(tipo!=null) {
-    wptitle = tipo.getTitle();
-    Iterator<AreaTalento> areas = AreaTalento.ClassMgr.listAreaTalentoByTipoAreaTalento(tipo, wsite);
-    while(areas.hasNext()) {
-        AreaTalento area = areas.next();
-        if(area==null)
-            continue;
-        CV cv = CV.ClassMgr.getCV(area.getCreator().getId(), wsite);
-        if( !UtilsCVI.isCVIDone(cv) )
-            continue;
-        if(mmm.containsKey(area.getHabilidad().getTitle()))
-            mmm.put(area.getHabilidad().getTitle(), ggg.get(tipo.getTitle())+1);
-        else
-            mmm.put(area.getHabilidad().getTitle(), 1);
-    }
-System.out.println("mmm Map Contains : " + mmm.toString());
-}
+}else if("skl".equals(action)) {
+    //suponiendo que estoy en granularidad media
+    TreeMap<String,Integer> mmm = new TreeMap();
+    String tipoTalentoId = SWBUtils.TEXT.decode(request.getParameter("eid"), "UTF-8");
+out.println("<p>tipoTalentoId="+tipoTalentoId+"</p>");
+    TipoTalento tipo = TipoTalento.ClassMgr.getTipoTalento(tipoTalentoId, wsite);
+    if(tipo!=null) {
+        String wptitle = tipo.getTitle();
+        Iterator<AreaTalento> areas = AreaTalento.ClassMgr.listAreaTalentoByTipoAreaTalento(tipo, wsite);
+        while(areas.hasNext()) {
+            AreaTalento area = areas.next();
+            if(area==null)
+                continue;
+            CV cv = CV.ClassMgr.getCV(area.getCreator().getId(), wsite);
+            if( !UtilsCVI.isCVIDone(cv) )
+                continue;
+            if(mmm.containsKey(area.getHabilidad().getId()))
+                mmm.put(area.getHabilidad().getId(), mmm.get(area.getHabilidad().getId())+1);
+            else
+                mmm.put(area.getHabilidad().getId(), 1);
+        }
 %>
 <table>
     <caption><%=wptitle%></caption>
     <thead>
 <%
-    if(mmm.isEmpty()) {
-        out.println("<tr><th colspan=\"2\">No se encontraron registros</th></tr></thead>");
-    }else {
+        if(mmm.isEmpty()) {
+            out.println("<tr><th colspan=\"2\">No se encontraron registros</th></tr></thead>");
+        }else {
 %>
         <tr>
             <th>Habilidad o expertise</th>
@@ -148,16 +151,19 @@ System.out.println("mmm Map Contains : " + mmm.toString());
     </thead>
     <tbody>
 <%
-        //SWBResourceURL url = null;
+        //SWBResourceURL url = paramRequest.getRenderUrl().setParameter("act","xprts");
+        SWBResourceURL url = paramRequest.getRenderUrl().setAction("dtl");
         String key;
         int v;
+        Habilidad habilidad;
         Iterator<String> keys = mmm.keySet().iterator();
         while(keys.hasNext()) {
             key = keys.next();
             v = mmm.get(key);
+            habilidad = Habilidad.ClassMgr.getHabilidad(key, wsite);
 %>
         <tr>
-            <td><a href="" title="Ver detalle"><%=key%></a></td>
+            <td><a href="<%=url%>" title="Ver detalle"><%=key%></a></td>
             <td><%=v%></td>
         </tr>
 <%
@@ -167,54 +173,56 @@ System.out.println("mmm Map Contains : " + mmm.toString());
     <tfoot></tfoot>
 </table>
 <%
-    }
-
-
-//suponiendo que estoy en granularidad pequena
-TreeMap<String,User> ppp = new TreeMap();
-Habilidad habil = Habilidad.ClassMgr.getHabilidad("Lenguajes_de_ProgramacionC", wsite);
-if(habil!=null) {
-    wptitle = habil.getTitle();
-    Iterator<AreaTalento> areas = AreaTalento.ClassMgr.listAreaTalentoByHabilidad(habil, wsite);
-    while(areas.hasNext()) {
-        AreaTalento area = areas.next();
-        if(area==null)
-            continue;
-        CV cv = CV.ClassMgr.getCV(area.getCreator().getId(), wsite);
-        if( !UtilsCVI.isCVIDone(cv) )
-            continue;
-        ppp.put(area.getCreator().getLastName(), area.getCreator());
-    }
-System.out.println("mmm Map Contains : " + mmm.toString());
-}
+        }
+   }
+}else if("dtl".equals(action)) {
+    //suponiendo que estoy en granularidad pequena
+    TreeMap<String,User> ppp = new TreeMap();
+    Habilidad habil = Habilidad.ClassMgr.getHabilidad("Lenguajes_de_ProgramacionC", wsite);
+    if(habil!=null) {
+        String wptitle = habil.getTitle();
+        Iterator<AreaTalento> areas = AreaTalento.ClassMgr.listAreaTalentoByHabilidad(habil, wsite);
+        while(areas.hasNext()) {
+            AreaTalento area = areas.next();
+            if(area==null)
+                continue;
+            CV cv = CV.ClassMgr.getCV(area.getCreator().getId(), wsite);
+            if( !UtilsCVI.isCVIDone(cv) )
+                continue;
+            ppp.put(area.getCreator().getFullName(), area.getCreator());
+        }
+    
 %>
 <table>
     <caption>personas con la habilidad <%=wptitle%></caption>
     <thead>
 <%
-    if(ppp.isEmpty()) {
-        out.println("<tr><th colspan=\"2\">No se encontraron registros</th></tr></thead>");
-    }else {
+        if(ppp.isEmpty()) {
+            out.println("<tr><th colspan=\"2\">No se encontraron registros</th></tr></thead>");
+        }else {
 %>
         <tr>
-            <th>persona</th>
-            <th>Total</th>
+            <th>Persona</th>
+            <th>Detalle</th>
         </tr>
     </thead>
     <tbody>
 <%
-        //SWBResourceURL url = null;
+        //SWBResourceURLImp url = new SWBResourceURLImp(request, resource, wpage, SWBResourceURL.UrlType_RENDER);
+        //url.setCallMethod(SWBResourceURL.Call_CONTENT);
+        SWBResourceURL url = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setAction("cv");
         String key;
         User user;
         Iterator<String> keys = ppp.keySet().iterator();
         while(keys.hasNext()) {
             key = keys.next();
             user = ppp.get(key);
+            url.setParameter("id", user.getId());
             //AreaTalento.ClassMgr.listAreaTalentoByCreator(user, wsite);
 %>
         <tr>
-            <td><a href="" title="Ver detalle"><%=key%></a></td>
-            <td><%=(user.getFullName())%></td>
+            <td><%=key%></td>  
+            <td><a href="#" onclick="javascript:showDtl('<%=url%>');return false;" target="_blank" title="Ver detalle">ver</a></td>
         </tr>
 <%
         }
@@ -222,6 +230,25 @@ System.out.println("mmm Map Contains : " + mmm.toString());
     </tbody>
     <tfoot></tfoot>
 </table>
+<script type="text/javascript">
+<!--
+  function showDtl(url){
+    window.open(url,'CVI','menubar=0,location=0,scrollbars=1,width=650,height=600');
+  }
+-->
+</script>
 <%
+        }
     }
+}else if("cv".equals(action)) {
+    String basePath = "/work/models/" + paramRequest.getWebPage().getWebSite().getId() + "/jsp/ImprimirCV/viewCV.jsp";
+
 %>
+<jsp:include page="<%=basePath%>"/>
+<%
+}
+%>
+  </div>
+  </div><!-- icv-data -->  
+ </div>
+</div>
