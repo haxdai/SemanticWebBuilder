@@ -4,6 +4,7 @@
     Author     : juan.fernandez
 --%>
 
+<%@page import="com.infotec.cvi.swb.Competencia"%>
 <%@page import="com.infotec.cvi.swb.Investigacion"%>
 <%@page import="org.semanticwb.portal.api.SWBResourceURLImp"%>
 <%@page import="org.semanticwb.portal.api.SWBParamRequest"%>
@@ -128,7 +129,17 @@
                         <form method="post" action="<%=urlstep2%>">
                             <input type="hidden" name="act" value="<%=action%>"/>
                             <input type="hidden" name="step" value="2"/>
-                            <label for="search">Poner el nombre del Área de Investigación: </label><input type="text" id="search" name="search" />
+                            <%
+                            Iterator<Competencia> itcom = Competencia.ClassMgr.listCompetencias(wsite);
+                            while(itcom.hasNext()){
+                                Competencia comp = itcom.next();
+                                
+                            }                                    
+
+                            %>
+                            
+                            <input type="checkbox" name="conArea" value="1" checked onclick="if(!this.checked){this.form.search.disabled='disabled';;}else{this.form.search.disabled='';}"/><label for="search">Poner el Área de Investigación: </label><input type="text" id="search" name="search" />
+                            <input type="checkbox" name="conCurso" value="1" checked onclick="if(!this.checked){this.form.search.disabled='disabled';;}else{this.form.search.disabled='';}"/><label for="search">Poner el Diplomado, Curso o Curso TIC: </label><input type="text" id="search2" name="search2" />
                             <button onclick="javascript:history.back(1);" >Regresar</button>
                             <button type="submit" onclick="return revisa(this.form)">Buscar</button>  
                         </form>
