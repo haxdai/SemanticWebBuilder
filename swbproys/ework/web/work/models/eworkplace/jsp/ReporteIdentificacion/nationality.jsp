@@ -11,6 +11,7 @@ Author     : rene.jara
 <%@page import="com.infotec.cvi.swb.util.UtilsCVI"%>
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/>
 <%
+            String strDet = request.getParameter("det");
             WebSite ws = paramRequest.getWebPage().getWebSite();
             Iterator<CV> itcv = CV.ClassMgr.listCVs(ws);
             HashMap<String, Integer> hm = new HashMap<String, Integer>();
@@ -50,15 +51,25 @@ Author     : rene.jara
             }
             if (!hm.isEmpty()) {
 %>
+<script type="text/javascript">
+    function newWin(url){
+        window.open(url,'CVI','menubar=0,location=0,scrollbars=1,width=650,height=600');
+    }
+</script>
 <div id="icv">
     <div id="icv-data">
-        <h2>País de nacimiento</h2>
         <span>
+            <%
+                if (strDet == null || strDet.equals("")) {
+            %>
             <table>
+                <caption>
+                    País de nacimiento
+                </caption>
                 <thead>
                     <tr>
                         <th>Nacionalidad</th>
-                        <th>Personas</th>
+                        <th>Encontrados</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -71,20 +82,47 @@ Author     : rene.jara
                                 int count = hm.get(key);
                     %>
                     <tr>
-                        <th><%=key%></th>
+                        <td><%=key%></td>
                         <td><%=count%></td>
                     </tr>
                     <%
+                            }
+                            if (!paramRequest.getMode().equals(ReporteIdentificacion.Mode_EXPORT)) {
+                                SWBResourceURL url = paramRequest.getRenderUrl().setAction(ReporteIdentificacion.Action_REP_NATIONATITY);
+                                url.setParameter("det", "det");
+                        %>
+                        <tr>
+                            <td>Extranjeros</td>
+                            <td>
+                                <a href="<%=url.toString()%>">ver</a>
+                            </td>
+                        </tr>
+                        <%
                             }
                         }
                     %>
                 </tbody>
             </table>
+            <%
+                SWBResourceURL url = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(ReporteIdentificacion.Mode_EXPORT).setAction(ReporteIdentificacion.Action_REP_NATIONATITY);
+                if (!paramRequest.getMode().equals(ReporteIdentificacion.Mode_EXPORT)) {
+            %>
+            <button onclick="javascript:history.back(1)" >Regresar</button>
+            <button onclick="javascript:location='<%=url%>'; return false;" >Guardar Excel</button>
+            <%
+                }
+            } else {
+            %>
             <table>
                 <thead>
                     <tr>
                         <th>Usuario</th>
+                        <%
+                            if (!paramRequest.getMode().equals(ReporteIdentificacion.Mode_EXPORT)) {
+                        %>
                         <th>Detalle</th>
+                        <%    }
+                        %>
                     </tr>
                 </thead>
                 <tbody>
@@ -106,18 +144,26 @@ Author     : rene.jara
                         List<String> list = hmList.get(key);
                         for (String userId : list) {
                             User usrcv = ws.getUserRepository().getUser(userId);
-                            Resource resource = ws.getResource("997");
+                            //Resource resource = ws.getResource("997");
                             WebPage wpage = ws.getWebPage("ver_CV");
-                            SWBResourceURLImp urldet = new SWBResourceURLImp(request, resource, wpage, SWBResourceURL.UrlType_RENDER);
-                            urldet.setParameter("id", usrcv.getId());
-                            urldet.setCallMethod(SWBResourceURL.Call_CONTENT);
+                            String strUrl=wpage.getUrl()+"?id="+userId;
+                            //SWBResourceURLImp urldet = new SWBResourceURLImp(request, resource, wpage, SWBResourceURL.UrlType_RENDER);
+                            //urldet.setParameter("id", usrcv.getId());
+                            //urldet.setCallMethod(SWBResourceURL.Call_CONTENT);
                     %>
                     <tr>
                         <td>
                             <%=usrcv.getFullName()%>
                         </td>
-                        <td><a href="<%=urldet.toString()%>"  target="_blank">ver</a>
+                        <%
+                            if (!paramRequest.getMode().equals(ReporteIdentificacion.Mode_EXPORT)) {
+                        %>
+                        <td>
+                            <a href="<%=strUrl%>" onclick="javascript:newWin('<%=strUrl%>');return false;" target="_blank">ver</a>
                         </td>
+                        <%
+                            }
+                        %>
                     </tr>
                     <%
                                 }
@@ -128,11 +174,14 @@ Author     : rene.jara
             </table>
             <%
                 SWBResourceURL url = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(ReporteIdentificacion.Mode_EXPORT).setAction(ReporteIdentificacion.Action_REP_NATIONATITY);
+                url.setParameter("det", "det");
                 if (!paramRequest.getMode().equals(ReporteIdentificacion.Mode_EXPORT)) {
             %>
-            <div><a href="<%=url%>" target="_blank">exportar a Excel</a></div>
+            <button onclick="javascript:history.back(1)" >Regresar</button>
+            <button onclick="javascript:location='<%=url%>'; return false;" >Guardar Excel</button>
             <%
                 }
+            }
             %>
         </span>
     </div>
@@ -145,8 +194,7 @@ Author     : rene.jara
         <span>No se encontraron registros</span>
     </div>
 </div>
-<%
-           }
+<%            }
 %>
 <%!
     class orderByName implements Comparator<String> {

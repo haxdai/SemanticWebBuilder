@@ -29,9 +29,11 @@ Author     : rene.jara
 %>
 <div id="icv">
     <div id="icv-data">
-        <h2>Genero</h2>
         <span>
             <table>
+                <caption>
+                    Genero
+                </caption>
                 <thead>
                     <tr>
                         <th>Genero</th>
@@ -49,15 +51,16 @@ Author     : rene.jara
                     </tr>
                 </tbody>
             </table>
-        </span>
         <%
             SWBResourceURL url = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(ReporteIdentificacion.Mode_EXPORT).setAction(ReporteIdentificacion.Action_REP_GENDER);
             if (!paramRequest.getMode().equals(ReporteIdentificacion.Mode_EXPORT)) {
         %>
-        <div><a href="<%=url%>" target="_blank">exportar a Excel</a></div>
+            <button onclick="javascript:history.back(1)" >Regresar</button>
+            <button onclick="javascript:location='<%=url%>'; return false;" >Guardar Excel</button>
         <%
             }
         %>
+        </span>
     </div>
 </div>
 <%
@@ -68,6 +71,5 @@ Author     : rene.jara
         <span>No se encontraron registros</span>
     </div>
 </div>
-<%
-}
+<%            }
 %>

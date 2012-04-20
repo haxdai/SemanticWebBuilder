@@ -12,10 +12,11 @@
 <%@page import="com.infotec.cvi.swb.util.UtilsCVI"%>
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/>
 <%
-            WebSite ws=paramRequest.getWebPage().getWebSite();
-            String strSector =request.getParameter("sector");
-            //strSector ="12";
-            if (strSector==null||strSector.equals("")) {
+            WebSite ws = paramRequest.getWebPage().getWebSite();
+            String strSector = request.getParameter("sector");
+            String strDet = request.getParameter("det");
+//strSector ="12";
+            if (strSector == null || strSector.equals("")) {
 %>
 <script type="text/javascript">
     <!--
@@ -58,8 +59,9 @@
                 <div class="clearer">&nbsp;</div>
             </div>
             <div class="centro">
-                <input type="reset" value="borrar"/>
-                <input type="submit" onclick="return enviar()" value="enviar"/>
+                <input type="button" onclick="javascript:history.back(1)" value="Regresar"/>
+                <input type="reset" value="Borrar"/>
+                <input type="submit" onclick="return enviar()" value="Enviar"/>
             </div>
         </form>
     </div>
@@ -103,6 +105,9 @@
 <div id="icv">
     <div id="icv-data">
         <span>
+            <%
+                if (strDet == null || strDet.equals("")) {
+            %>
             <table>
                 <caption>
                     Experiencia en sector
@@ -110,20 +115,55 @@
                 <thead>
                     <tr>
                         <th>Sector</th>
-                        <th>Personas</th>
+                        <th>Encontrados</th>
+                        <%
+                            if (!paramRequest.getMode().equals(ReporteExperienciaSector.Mode_EXPORT)) {
+                        %>
+                        <th>Detalle</th>
+                        <%    }
+                        %>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <th><%=Sector.ClassMgr.getSector(strSector,ws).getTitle()%></th>
+                        <td><%=Sector.ClassMgr.getSector(strSector, ws).getTitle()%></td>
                         <td><%=count%></td>
+                        <%
+                            if (!paramRequest.getMode().equals(ReporteExperienciaSector.Mode_EXPORT)) {
+                                SWBResourceURL url = paramRequest.getRenderUrl();
+                                url.setParameter("sector", strSector);
+                                url.setParameter("det", "det");
+                        %>
+                        <td>
+                            <a href="<%=url.toString()%>">ver</a>
+                        </td>
+                        <%
+                            }
+                        %>
                     </tr>
-                     <tr>
-                        <th>Total</th>
+                    <tr>
+                        <td>Total</td>
                         <td><%=all%></td>
+                        <%
+                            if (!paramRequest.getMode().equals(ReporteExperienciaSector.Mode_EXPORT)) {
+                        %>
+                        <td>&nbsp;</td>
+                        <%    }
+                        %>
                     </tr>
                 </tbody>
             </table>
+            <%
+                SWBResourceURL url = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(ReporteExperienciaSector.Mode_EXPORT);
+                url.setParameter("sector", strSector);
+                if (!paramRequest.getMode().equals(ReporteExperienciaSector.Mode_EXPORT)) {
+            %>
+            <button onclick="javascript:history.back(1)" >Regresar</button>
+            <button onclick="javascript:location='<%=url%>'; return false;" >Guardar Excel</button>
+            <%
+                }
+            } else {
+            %>
             <table>
                 <thead>
                     <tr>
@@ -132,8 +172,7 @@
                             if (!paramRequest.getMode().equals(ReporteExperienciaSector.Mode_EXPORT)) {
                         %>
                         <th>Detalle</th>
-                        <%
-                        }
+                        <%    }
                         %>
                     </tr>
                 </thead>
@@ -143,11 +182,12 @@
                         for (String userId : list) {
                             User usrcv = ws.getUserRepository().getUser(userId);
                             Persona persona = Persona.ClassMgr.getPersona(userId, ws);
-                            Resource resource = ws.getResource("997");
+                            //Resource resource = ws.getResource("997");
                             WebPage wpage = ws.getWebPage("ver_CV");
-                            SWBResourceURLImp urldet = new SWBResourceURLImp(request, resource, wpage, SWBResourceURL.UrlType_RENDER);
-                            urldet.setParameter("id", userId);
-                            urldet.setCallMethod(SWBResourceURL.Call_CONTENT);
+                            String strUrl=wpage.getUrl()+"?id="+userId;
+                            //SWBResourceURLImp urldet = new SWBResourceURLImp(request, resource, wpage, SWBResourceURL.UrlType_RENDER);
+                            //urldet.setParameter("id", userId);
+                            //urldet.setCallMethod(SWBResourceURL.Call_CONTENT);
                     %>
                     <tr>
                         <td>
@@ -157,7 +197,7 @@
                             if (!paramRequest.getMode().equals(ReporteExperienciaSector.Mode_EXPORT)) {
                         %>
                         <td>
-                            <a href="<%=urldet.toString()%>" onclick="javascript:newWin('<%=urldet.toString()%>');return false;" target="_blank">ver</a>
+                            <a href="<%=strUrl%>" onclick="javascript:newWin('<%=strUrl%>');return false;" target="_blank">ver</a>
                         </td>
                         <%
                             }
@@ -171,11 +211,13 @@
             <%
                 SWBResourceURL url = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(ReporteExperienciaSector.Mode_EXPORT);
                 url.setParameter("sector", strSector);
+                url.setParameter("det", "det");
                 if (!paramRequest.getMode().equals(ReporteExperienciaSector.Mode_EXPORT)) {
             %>
             <button onclick="javascript:history.back(1)" >Regresar</button>
             <button onclick="javascript:location='<%=url%>'; return false;" >Guardar Excel</button>
             <%
+                    }
                 }
             %>
         </span>
@@ -189,8 +231,7 @@
         <span>No se encontraron registros</span>
     </div>
 </div>
-<%
-   }
+<%                }
             }
 %>
 <%!

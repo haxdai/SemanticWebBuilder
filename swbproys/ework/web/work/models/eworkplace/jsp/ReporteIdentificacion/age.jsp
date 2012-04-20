@@ -12,9 +12,6 @@ Author     : rene.jara
 <%@page import="com.infotec.cvi.swb.util.UtilsCVI"%>
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/>
 <%
-    if(paramRequest.getMode().equals(ReporteIdentificacion.Mode_EXPORT)){
-        response.setHeader("Content-Disposition", " attachment; filename=\"ReporteIdentificacionEdad_"+ System.currentTimeMillis() + ".xls\";");
-    }
             int ageFrom = 0;
             int ageTo = 999;
             try {
@@ -25,6 +22,7 @@ Author     : rene.jara
                 ageTo = Integer.parseInt(request.getParameter("ageTo"));
             } catch (Exception ignoredException) {
             }
+            String strDet = request.getParameter("det");
             if (ageFrom == 0 && ageTo == 999) {
 %>
 <script type="text/javascript">
@@ -50,9 +48,14 @@ Author     : rene.jara
         if(ageFrom==isNaN()&&ageTo==isNaN()){
             return false;
         }else{
-            return true;
+            if(ageTo>ageFrom){
+                return true;
+            }else{
+                return false;
+            }
         }
     }
+    -->
 </script>
 <div id="icv">
     <div id="icv-data">
@@ -69,78 +72,123 @@ Author     : rene.jara
                 <div class="clearer">&nbsp;</div>
             </div>
             <div class="centro">
-                <input type="reset" value="borrar"/>
-                <input type="submit" onclick="return enviar()" value="enviar"/>
+                <input type="button" onclick="javascript:history.back(1)" value="Regresar"/>
+                <input type="reset" value="Borrar"/>
+                <input type="submit" onclick="return enviar()" value="Enviar"/>
             </div>
         </form>
     </div>
 </div>
-<%} else {
-                WebSite ws = paramRequest.getWebPage().getWebSite();
-                List<String> list = new ArrayList<String>();
-                int count = 0;
-                Iterator<CV> itcv = CV.ClassMgr.listCVs(ws);
-                while (itcv.hasNext()) {
-                    CV cv = itcv.next();
+<%
+            } else {
+    WebSite ws = paramRequest.getWebPage().getWebSite();
+    List<String> list = new ArrayList<String>();
+    int count = 0;
+    Iterator<CV> itcv = CV.ClassMgr.listCVs(ws);
+    while (itcv.hasNext()) {
+        CV cv = itcv.next();
 //if (UtilsCVI.isCVIDone(cv)) {
-                    if (cv.getPersona() != null) {
-                        Date nacimiento = cv.getPersona().getNacimiento();
-                        if (nacimiento != null) {
-                            int age = calculateAge(nacimiento);
-                            if (age >= ageFrom && age <= ageTo) {
-                                if (cv.getPersona().getOwner() != null) {
-                                    list.add(cv.getPersona().getOwner().getId());
-                                }
-                                count++;
-                            }
-                        }
+        if (cv.getPersona() != null) {
+            Date nacimiento = cv.getPersona().getNacimiento();
+            if (nacimiento != null) {
+                int age = calculateAge(nacimiento);
+                if (age >= ageFrom && age <= ageTo) {
+                    if (cv.getPersona().getOwner() != null) {
+                        list.add(cv.getPersona().getOwner().getId());
                     }
-//}
+                    count++;
                 }
-                if (count > 0) {
+            }
+        }
+//}
+    }
+    if (count > 0) {
 %>
+<script type="text/javascript">
+    function newWin(url){
+        window.open(url,'CVI','menubar=0,location=0,scrollbars=1,width=650,height=600');
+    }
+</script>
 <div id="icv">
     <div id="icv-data">
-        <h2>Edad</h2>
         <span>
+            <%
+                if (strDet == null || strDet.equals("")) {
+            %>
             <table>
+                <caption>
+                    Edad
+                </caption>
                 <thead>
                     <tr>
                         <th>Edad</th>
-                        <th>Personas</th>
+                        <th>Encontradas</th>
+                        <%
+                            if (!paramRequest.getMode().equals(ReporteIdentificacion.Mode_EXPORT)) {
+                        %>
+                        <th>Detalle</th>
+                        <%    }
+                        %>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <th><%=ageFrom > 0 ? "Desde:" + ageFrom : ""%> <%=ageTo < 999 ? "Hasta:" + ageTo : ""%></th>
+                        <td><%=ageFrom > 0 ? "Desde:" + ageFrom + " años" : ""%> <%=ageTo < 999 ? "Hasta:" + ageTo + " años" : ""%></td>
                         <td><%=count%></td>
+                        <%
+                            if (!paramRequest.getMode().equals(ReporteIdentificacion.Mode_EXPORT)) {
+                                SWBResourceURL url = paramRequest.getRenderUrl().setAction(ReporteIdentificacion.Action_REP_AGE);
+                                url.setParameter("ageFrom", ageFrom + "");
+                                url.setParameter("ageTo", ageTo + "");
+                                url.setParameter("det", "det");
+                        %>
+                        <td>
+                            <a href="<%=url.toString()%>">ver</a>
+                        </td>
+                        <%
+                            }
+                        %>
                     </tr>
                 </tbody>
             </table>
-            <script type="text/javascript">
-                function newWin(url){
-                    window.open(url,'CVI','menubar=0,location=0,scrollbars=1,width=650,height=600');
+            <%
+                SWBResourceURL url = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(ReporteIdentificacion.Mode_EXPORT).setAction(ReporteIdentificacion.Action_REP_AGE);
+                url.setParameter("ageFrom", ageFrom + "");
+                url.setParameter("ageTo", ageTo + "");
+                if (!paramRequest.getMode().equals(ReporteIdentificacion.Mode_EXPORT)) {
+            %>
+            <button onclick="javascript:history.back(1)" >Regresar</button>
+            <button onclick="javascript:location='<%=url%>'; return false;" >Guardar Excel</button>
+            <%
                 }
-            </script>
+            } else {
+            %>
             <table>
                 <thead>
                     <tr>
                         <th>Usuario</th>
                         <th>Edad</th>
+                        <%
+                            if (!paramRequest.getMode().equals(ReporteIdentificacion.Mode_EXPORT)) {
+                        %>
                         <th>Detalle</th>
+                        <%    }
+                        %>
                     </tr>
                 </thead>
                 <tbody>
                     <%
-                            Collections.sort(list, new orderByName(ws));
-                            for (String userId : list) {
-                                User usrcv = ws.getUserRepository().getUser(userId);
-                                Persona persona = Persona.ClassMgr.getPersona(userId, ws);
-                                Resource resource = ws.getResource("997");
-                                WebPage wpage = ws.getWebPage("ver_CV");
-                                SWBResourceURLImp urldet = new SWBResourceURLImp(request, resource, wpage, SWBResourceURL.UrlType_RENDER);
-                                urldet.setParameter("id", userId);
-                                urldet.setCallMethod(SWBResourceURL.Call_CONTENT);
+                        Collections.sort(list, new orderByName(ws));
+                        for (String userId : list) {
+                            User usrcv = ws.getUserRepository().getUser(userId);
+                            Persona persona = Persona.ClassMgr.getPersona(userId, ws);
+                            //Resource resource = ws.getResource("997");
+                            WebPage wpage = ws.getWebPage("ver_CV");
+                            String strUrl=wpage.getUrl()+"?id="+userId;
+                            //SWBResourceURLImp urldet = wpage.get//new SWBResourceURLImp(request, resource, wpage, SWBResourceURL.UrlType_RENDER);
+                            //urldet.setParameter("id", userId);
+                            //urldet.setCallMethod(SWBResourceURL.Call_CONTENT);
+
                     %>
                     <tr>
                         <td>
@@ -149,37 +197,46 @@ Author     : rene.jara
                         <td>
                             <%=calculateAge(persona.getNacimiento())%>
                         </td>
-                        <td><a href="<%=urldet.toString()%>" onclick="javascript:newWin('<%=urldet.toString()%>');return false;" target="_blank">ver</a>
+                        <%
+                            if (!paramRequest.getMode().equals(ReporteIdentificacion.Mode_EXPORT)) {
+                        %>
+                        <td>
+                            <a href="<%=strUrl%>" onclick="javascript:newWin('<%=strUrl%>');return false;" target="_blank">ver</a>
                         </td>
+                        <%
+                            }
+                        %>
                     </tr>
                     <%
-                            }
+                        }
                     %>
                 </tbody>
             </table>
             <%
-                    SWBResourceURL url = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(ReporteIdentificacion.Mode_EXPORT).setAction(ReporteIdentificacion.Action_REP_AGE);
-                    url.setParameter("ageFrom", ageFrom + "");
-                    url.setParameter("ageTo", ageTo + "");
-                    if (!paramRequest.getMode().equals(ReporteIdentificacion.Mode_EXPORT)) {
+                SWBResourceURL url = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(ReporteIdentificacion.Mode_EXPORT).setAction(ReporteIdentificacion.Action_REP_AGE);
+                url.setParameter("ageFrom", ageFrom + "");
+                url.setParameter("ageTo", ageTo + "");
+                url.setParameter("det", "det");
+                if (!paramRequest.getMode().equals(ReporteIdentificacion.Mode_EXPORT)) {
             %>
-            <div><a href="<%=url%>" target="_blank">exportar a Excel</a></div>
+            <button onclick="javascript:history.back(1)" >Regresar</button>
+            <button onclick="javascript:location='<%=url%>'; return false;" >Guardar Excel</button>
             <%
-                    }
+                }
+            }
             %>
         </span>
     </div>
 </div>
 <%
-    } else {
+} else {
 %>
 <div id="icv">
     <div id="icv-data">
         <span>No se encontraron registros</span>
     </div>
 </div>
-<%
-              }
+<%                }
             }
 %>
 <%!
