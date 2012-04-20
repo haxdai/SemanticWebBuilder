@@ -14,6 +14,7 @@ import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 
 /**
+ * Recurso de contenido que permite a imprimir el reporte de experiencia laboral por sector
  *
  * @author rene.jara
  */

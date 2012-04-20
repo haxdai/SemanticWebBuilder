@@ -16,7 +16,7 @@ import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 
 /**
- * * Recurso de contenido que permite a inprimir el reporte de identificacion
+ * * Recurso de contenido que permite a imprimir el reporte de identificacion por edad genero y pais de nacimiento
  * 
  * @author rene.jara
  */

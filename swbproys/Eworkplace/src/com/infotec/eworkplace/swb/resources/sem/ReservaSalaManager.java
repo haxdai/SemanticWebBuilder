@@ -34,9 +34,9 @@ import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticOntology;
 import org.semanticwb.portal.api.*;
 import org.semanticwb.portal.api.SWBResourceURL;
-import org.semanticwb.process.model.FlowNodeInstance;
-import org.semanticwb.process.model.Instance;
-import org.semanticwb.process.model.ItemAwareReference;
+//import org.semanticwb.process.model.FlowNodeInstance;
+//import org.semanticwb.process.model.Instance;
+//import org.semanticwb.process.model.ItemAwareReference;
 
 public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem.base.ReservaSalaManagerBase {
     private static Logger log = SWBUtils.getLogger(ReservaSalaManager.class);
@@ -284,16 +284,17 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
                 response.setRenderParameter("alertmsg", response.getLocaleString("msgReservationDoneOk"));
                 
                 //Obtener la instancia de la tarea -inicia
-                FlowNodeInstance fni = getFlowNodeInstance(request.getParameter("suri"));
-                if (fni != null) {
+                //FlowNodeInstance fni = getFlowNodeInstance(request.getParameter("suri"));
+                //if (fni != null)
+                {
                     //Enviar los datos a process
-                    LinkReserva(reservation, fni);
-                    String url = getTaskInboxUrl(fni);
+                    //LinkReserva(reservation, fni);
+                    //String url = getTaskInboxUrl(fni);
                     //Cerrar la tarea
-                    fni.close(user, Instance.ACTION_ACCEPT);
-                    if (url != null) {
-                        response.sendRedirect(url);
-                    }
+                    //fni.close(user, Instance.ACTION_ACCEPT);
+                    //if (url != null) {
+                     //   response.sendRedirect(url);
+                    //}
                 }
                 //Obtener la instancia de la tarea -fin
             }else {
@@ -994,7 +995,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         to.setRequiereComputo(from.isRequiereComputo());
         to.setServiciosAdicionales(from.getServiciosAdicionales());
     }
-    
+    /*
     private void LinkReserva(ReservacionSala res, FlowNodeInstance fni) {
         if (fni != null) {
             //Recorrer objetos de la instancia en busca de la reservación
@@ -1046,5 +1047,5 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         }
         return ret;
     }
-
+*/
 }
