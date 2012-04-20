@@ -296,6 +296,7 @@ Author     : rene.jara
                             EstudioSuperior es = ites.next();
                             String avance = es.getGradoAvance().getTitle();
                             //String estudio = es.getEstudiosSuperiores().getTitle();
+                            String tipo="";
                             String estudio="";
                             String periodo = "" + es.getPeriodoYears();
                             if (es.getPeriodoYears() == 1) {
@@ -305,6 +306,11 @@ Author     : rene.jara
                             }
                             //es.getId().endsWith("_otro")&&es.getEstudiosSuperiores().getTitle().equals("otro");
                             if(es.getEstudiosSuperiores()!=null){
+                                if(es.getEstudiosSuperiores().getAreaEstudio()!=null&&
+                                        es.getEstudiosSuperiores().getAreaEstudio().getDisciplinaInv()!=null&&
+                                        es.getEstudiosSuperiores().getAreaEstudio().getDisciplinaInv().getTipoEstudioInv()!=null){
+                                    tipo=es.getEstudiosSuperiores().getAreaEstudio().getDisciplinaInv().getTipoEstudioInv().getTitle();
+                                }
                                 if(es.getEstudiosSuperiores().getId().endsWith("_otro")&&es.getEstudiosSuperiores().getTitle().equals("Otro")){
                                     estudio = "Otro / "+es.getOtroEstudio();
                                 } else{
@@ -314,7 +320,7 @@ Author     : rene.jara
 
 
                     %>
-                    <li><strong><%=estudio%></strong>,	<%=periodo%>, <%=avance%>% </li>
+                    <li><strong><%=tipo%> - <%=estudio%></strong>, <%=periodo%>, <%=avance%>% </li>
                     <%
                         }
                     %>
@@ -329,7 +335,7 @@ Author     : rene.jara
                                 itdi = cv.listDiplomados();
             %>
             <li>
-                <h4>Dilomados, cursos y certificaciones</h4>
+                <h4>Diplomados, cursos y certificaciones</h4>
                 <ul>
                     <%
                         while (itdi.hasNext()) {

@@ -445,7 +445,7 @@ objf.setAttribute('displayed', 'on');
                     <label for="radioTwo" class="icv-label-negro"><%=paramRequest.getLocaleString("lblGenderMas")%></label>
                 </p>
                 <p class="icv-3col">
-                    <label for="birthday"><b>*</b><%=paramRequest.getLocaleString("lblBirthday")%></label>
+                    <label for="birthday"><b>*</b><%=paramRequest.getLocaleString("lblBirthday")%> (dd/mm/aaaa)</label>
                     <input type="text" name="birthday" id="birthday" class="icv-calendario" dojoType="dijit.form.ValidationTextBox" value="<%=birthday%>" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgBirthday")%>" invalidMessage="<%=paramRequest.getLocaleString("lblBirthdayFault")%>" regExp="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" trim="true"/>
                 </p>
                 <p class="icv-3col">
