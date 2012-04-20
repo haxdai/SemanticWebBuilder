@@ -426,6 +426,12 @@ public class CV extends com.infotec.cvi.swb.base.CVBase
                         element = dom.createElement("jefe");
                         element.appendChild(dom.createTextNode(el.getJefe()));
                         eleLaboral.appendChild(element);
+                        element = dom.createElement("funciones");
+                        element.appendChild(dom.createTextNode(el.getFuncionesPrincipales()));
+                        eleLaboral.appendChild(element);
+                        element = dom.createElement("sector");
+                        element.appendChild(dom.createTextNode(el.getSector().getTitle()));
+                        eleLaboral.appendChild(element);
 
                         Telefono te = el.getTelefono();
                         org.w3c.dom.Element eleTelefono = dom.createElement("telefono");
