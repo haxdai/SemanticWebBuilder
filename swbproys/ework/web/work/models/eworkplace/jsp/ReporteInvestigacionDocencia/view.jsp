@@ -887,7 +887,7 @@
                                                 String txtbuscar = request.getParameter("search");
                                                 //System.out.println("Step 2, "+txtbuscar);
                                                 txtbuscar = txtbuscar.trim().toLowerCase();
-                                                txtbuscar = SWBUtils.TEXT.replaceSpecialCharacters(txtbuscar, Boolean.FALSE);
+                                                txtbuscar = UtilsCVI.replaceSpecialCharacters(txtbuscar, Boolean.FALSE);
                                                 HashMap<String, CV> hm = new HashMap<String, CV>();
                                                 HashMap<String, CV> hmtic = new HashMap<String, CV>();
 
@@ -903,7 +903,7 @@
                                                                 diplo = itga.next();
                                                                 String txt = diplo.getAreaInvestigacion() != null ? diplo.getAreaInvestigacion() : "";
                                                                 txt = txt.trim().toLowerCase();
-                                                                txt = SWBUtils.TEXT.replaceSpecialCharacters(txt, Boolean.FALSE);
+                                                                txt = UtilsCVI.replaceSpecialCharacters(txt, Boolean.FALSE);
                                                                 if (txt.indexOf(txtbuscar) > -1) {
                                                                     hm.put(cv.getId(), cv);
                                                                 }
@@ -993,7 +993,7 @@
                                                     String txtbuscar = request.getParameter("search");
                                                     //System.out.println("Step 2, "+txtbuscar);
                                                     txtbuscar = txtbuscar.trim().toLowerCase();
-                                                    txtbuscar = SWBUtils.TEXT.replaceSpecialCharacters(txtbuscar, Boolean.FALSE);
+                                                    txtbuscar = UtilsCVI.replaceSpecialCharacters(txtbuscar, Boolean.FALSE);
                                                     HashMap<String, CV> hm = new HashMap<String, CV>();
                                                     HashMap<String, String> hmorder = new HashMap<String, String>();
 
@@ -1009,7 +1009,7 @@
                                                                     diplo = itga.next();
                                                                     String txt = diplo.getAreaInvestigacion() != null ? diplo.getAreaInvestigacion() : "";
                                                                     txt = txt.trim().toLowerCase();
-                                                                    txt = SWBUtils.TEXT.replaceSpecialCharacters(txt, Boolean.FALSE);
+                                                                    txt = UtilsCVI.replaceSpecialCharacters(txt, Boolean.FALSE);
                                                                     if (txt.indexOf(txtbuscar) > -1) {
                                                                         hm.put(cv.getId(), cv);
                                                                         hmorder.put(cv.getPropietario().getFullName(), cv.getId());

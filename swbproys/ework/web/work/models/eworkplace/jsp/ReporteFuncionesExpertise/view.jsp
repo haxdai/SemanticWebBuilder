@@ -141,7 +141,7 @@
 
                         String txtbuscar = request.getParameter("search");
                         txtbuscar = txtbuscar.trim().toLowerCase();
-                        txtbuscar = SWBUtils.TEXT.replaceSpecialCharacters(txtbuscar, Boolean.FALSE);
+                        txtbuscar = UtilsCVI.replaceSpecialCharacters(txtbuscar, Boolean.FALSE);
                         HashMap<String, CV> hm = new HashMap<String, CV>();
                         HashMap<String, CV> hmhab = new HashMap<String, CV>();
                         HashMap<String, CV> hmdos = new HashMap<String, CV>();
@@ -160,7 +160,7 @@
                                         explab = itga.next();
                                         String txt = explab.getFuncionesPrincipales() != null ? explab.getFuncionesPrincipales() : "";
                                         txt = txt.trim().toLowerCase();
-                                        txt = SWBUtils.TEXT.replaceSpecialCharacters(txt, Boolean.FALSE);
+                                        txt = UtilsCVI.replaceSpecialCharacters(txt, Boolean.FALSE);
                                         if (txt.indexOf(txtbuscar) > -1) {
                                             hm.put(cv.getId(), cv);
                                         }
@@ -173,7 +173,7 @@
                                         String txt = atalento.getHabilidad() != null ? atalento.getHabilidad().getTitle() : "";
                                         txt = txt + (atalento.getOtraHabilidad() != null ? atalento.getOtraHabilidad() : "");
                                         txt = txt.trim().toLowerCase();
-                                        txt = SWBUtils.TEXT.replaceSpecialCharacters(txt, Boolean.FALSE);
+                                        txt = UtilsCVI.replaceSpecialCharacters(txt, Boolean.FALSE);
                                         if (txt.indexOf(txtbuscar) > -1) {
                                             hmhab.put(cv.getId(), cv);
                                         }
@@ -332,7 +332,7 @@
                         String reptype = request.getParameter("type");
                         String txtbuscar = request.getParameter("search");
                         txtbuscar = txtbuscar.trim().toLowerCase();
-                        txtbuscar = SWBUtils.TEXT.replaceSpecialCharacters(txtbuscar, Boolean.FALSE);
+                        txtbuscar = UtilsCVI.replaceSpecialCharacters(txtbuscar, Boolean.FALSE);
                         HashMap<String, CV> hm = new HashMap<String, CV>();
                         HashMap<String, CV> hmhab = new HashMap<String, CV>();
                         HashMap<String, String> hmhabyears = new HashMap<String, String>();
@@ -354,7 +354,7 @@
                                         explab = itga.next();
                                         String txt = explab.getFuncionesPrincipales() != null ? explab.getFuncionesPrincipales() : "";
                                         txt = txt.trim().toLowerCase();
-                                        txt = SWBUtils.TEXT.replaceSpecialCharacters(txt, Boolean.FALSE);
+                                        txt = UtilsCVI.replaceSpecialCharacters(txt, Boolean.FALSE);
                                         if (txt.indexOf(txtbuscar) > -1) {
                                             hm.put(cv.getId(), cv);
                                             hmorder.put(usrcv.getFullName() != null ? usrcv.getFullName() : usrcv.getLogin(), cv.getId());
@@ -368,7 +368,7 @@
                                         String txt = atalento.getHabilidad() != null ? atalento.getHabilidad().getTitle() : "";
                                         txt = txt + (atalento.getOtraHabilidad() != null ? atalento.getOtraHabilidad() : "");
                                         txt = txt.trim().toLowerCase();
-                                        txt = SWBUtils.TEXT.replaceSpecialCharacters(txt, Boolean.FALSE);
+                                        txt = UtilsCVI.replaceSpecialCharacters(txt, Boolean.FALSE);
                                         if (txt.indexOf(txtbuscar) > -1) {
                                             hmhab.put(cv.getId(), cv);
                                             hmorder.put(usrcv.getFullName() != null ? usrcv.getFullName() : usrcv.getLogin(), cv.getId());

@@ -500,7 +500,7 @@
                                 String txtbuscar = request.getParameter("search");
                                 //System.out.println("Step 2, "+txtbuscar);
                                 txtbuscar = txtbuscar.trim().toLowerCase();
-                                txtbuscar = SWBUtils.TEXT.replaceSpecialCharacters(txtbuscar, Boolean.FALSE);
+                                txtbuscar = UtilsCVI.replaceSpecialCharacters(txtbuscar, Boolean.FALSE);
                                 HashMap<String, CV> hm = new HashMap<String, CV>();
                                 HashMap<String, CV> hmtic = new HashMap<String, CV>();
 
@@ -521,7 +521,7 @@
                                                 txt = txt + (diplo.getDescription() != null ? diplo.getDescription() : "");
                                                 txt = txt + (diplo.getNombreInstitucion() != null ? diplo.getNombreInstitucion() : "");
                                                 txt = txt.trim().toLowerCase();
-                                                txt = SWBUtils.TEXT.replaceSpecialCharacters(txt, Boolean.FALSE);
+                                                txt = UtilsCVI.replaceSpecialCharacters(txt, Boolean.FALSE);
                                                 //System.out.println("Diplomado txt: "+txt+" "+txt.indexOf(txtbuscar));
                                                 if (txt.indexOf(txtbuscar) > -1) {
                                                     hm.put(cv.getId(), cv);
@@ -537,7 +537,7 @@
                                                 txt = txt + (ctic.getDescription() != null ? ctic.getDescription() : "");
                                                 txt = txt + (ctic.getNombreInstitucion() != null ? ctic.getNombreInstitucion() : "");
                                                 txt = txt.trim().toLowerCase();
-                                                txt = SWBUtils.TEXT.replaceSpecialCharacters(txt, Boolean.FALSE);
+                                                txt = UtilsCVI.replaceSpecialCharacters(txt, Boolean.FALSE);
                                                 //System.out.println("TIC txt: "+txt+" "+txt.indexOf(txtbuscar));
                                                 if (txt.indexOf(txtbuscar) > -1) {
                                                     hmtic.put(cv.getId(), cv);
@@ -666,7 +666,7 @@
                                     String reptype = request.getParameter("type");
                                     //System.out.println("Step 2, "+txtbuscar);
                                     txtbuscar = txtbuscar.trim().toLowerCase();
-                                    txtbuscar = SWBUtils.TEXT.replaceSpecialCharacters(txtbuscar, Boolean.FALSE);
+                                    txtbuscar = UtilsCVI.replaceSpecialCharacters(txtbuscar, Boolean.FALSE);
 
                                     HashMap<String, CV> hm = new HashMap<String, CV>();
                                     HashMap<String, String> hmorder = new HashMap<String, String>();
@@ -687,7 +687,7 @@
                                                     txt = txt + (diplo.getDescription() != null ? diplo.getDescription() : "");
                                                     txt = txt + (diplo.getNombreInstitucion() != null ? diplo.getNombreInstitucion() : "");
                                                     txt = txt.trim().toLowerCase();
-                                                    txt = SWBUtils.TEXT.replaceSpecialCharacters(txt, Boolean.FALSE);
+                                                    txt = UtilsCVI.replaceSpecialCharacters(txt, Boolean.FALSE);
                                                     //System.out.println("Diplomado txt: "+txt+" "+txt.indexOf(txtbuscar));
                                                     if (txt.indexOf(txtbuscar) > -1) {
                                                         hmorder.put(cv.getPropietario().getFullName(), cv.getId());
@@ -704,7 +704,7 @@
                                                     txt = txt + (ctic.getDescription() != null ? ctic.getDescription() : "");
                                                     txt = txt + (ctic.getNombreInstitucion() != null ? ctic.getNombreInstitucion() : "");
                                                     txt = txt.trim().toLowerCase();
-                                                    txt = SWBUtils.TEXT.replaceSpecialCharacters(txt, Boolean.FALSE);
+                                                    txt = UtilsCVI.replaceSpecialCharacters(txt, Boolean.FALSE);
                                                     //System.out.println("TIC txt: "+txt+" "+txt.indexOf(txtbuscar));
                                                     if (txt.indexOf(txtbuscar) > -1) {
                                                         hmorder.put(cv.getPropietario().getFullName(), cv.getId());
