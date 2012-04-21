@@ -282,10 +282,10 @@ public class CV extends com.infotec.cvi.swb.base.CVBase
                             tipo=es.getEstudiosSuperiores().getAreaEstudio().getDisciplinaInv().getTipoEstudioInv().getTitle();
                             tipo=tipo+" - ";
                         }
-                        if(es.getEstudiosSuperiores().getId().endsWith("_otro")&&es.getEstudiosSuperiores().getTitle().equals("Otro")){
+                        if(es.getEstudiosSuperiores()!=null && es.getEstudiosSuperiores().getId().endsWith("_otro")&&es.getEstudiosSuperiores().getTitle().equals("Otro")){
                                 estudio = tipo+"Otro / "+es.getOtroEstudio();
-                            } else{
-                                estudio = tipo+es.getEstudiosSuperiores().getTitle();
+                        } else{
+                                estudio = tipo + (es.getEstudiosSuperiores()!=null?es.getEstudiosSuperiores().getTitle():"");
                         }
                         element = dom.createElement("nombre");
                         element.appendChild(dom.createTextNode(estudio));
