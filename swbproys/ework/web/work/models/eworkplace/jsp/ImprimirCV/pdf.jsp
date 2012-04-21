@@ -1,8 +1,4 @@
-<%-- 
-    Document   : pdf
-    Created on : 20-mar-2012, 15:42:45
-    Author     : carlos.ramos
---%><%@page import="com.infotec.cvi.swb.resources.reports.ImprimirCV"%><%@page contentType="application/pdf" pageEncoding="ISO-8859-1"%><%@page import="com.infotec.eworkplace.swb.*
+<%@page import="com.infotec.cvi.swb.resources.reports.ImprimirCV"%><%@page contentType="application/pdf" pageEncoding="ISO-8859-1"%><%@page import="com.infotec.eworkplace.swb.*
         ,com.infotec.eworkplace.swb.Telefono.TipoTelefono
         ,com.itextpdf.text.*
         ,com.itextpdf.text.pdf.*
@@ -15,7 +11,7 @@
         ,org.semanticwb.*
         ,org.semanticwb.model.*
         ,org.semanticwb.portal.api.*
-        ,org.w3c.dom.*" %><%@page import="static com.infotec.cvi.swb.resources.reports.ImprimirCV.*"%><jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/><%
+        ,org.w3c.dom.*" %><%@page import="static com.infotec.cvi.swb.resources.reports.ImprimirCV.*"%><jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/><%  
     User user = paramRequest.getUser();
     if(!user.isSigned())
         return;
@@ -613,24 +609,37 @@
                     if(laboral!=null) {
                         StringBuilder content = new StringBuilder();
                         if(laboral.getElementsByTagName("empresa").item(0)!=null) {
-                            content.append(laboral.getElementsByTagName("empresa").item(0).getChildNodes().item(0).getNodeValue()).append(". ");
+                            content.append(laboral.getElementsByTagName("empresa").item(0).getChildNodes().item(0).getNodeValue()).append("");
                         }
+                        
+if(laboral.getElementsByTagName("sector").item(0)!=null) {
+    content.append(" (").append(laboral.getElementsByTagName("sector").item(0).getChildNodes().item(0).getNodeValue()).append("). ");
+}
+    
+
+                        
                         if(laboral.getElementsByTagName("inicio").item(0)!=null) {
-                            content.append("Desde ").append(laboral.getElementsByTagName("inicio").item(0).getChildNodes().item(0).getNodeValue());
+                            content.append(". Desde ").append(laboral.getElementsByTagName("inicio").item(0).getChildNodes().item(0).getNodeValue());
                         }
                         if(laboral.getElementsByTagName("fin").item(0)!=null) {
                             content.append(" hasta ").append(laboral.getElementsByTagName("fin").item(0).getChildNodes().item(0).getNodeValue()).append(". ");
                         }
                         if(laboral.getElementsByTagName("cargo").item(0)!=null) {
-                            content.append("Funciones: ").append(laboral.getElementsByTagName("cargo").item(0).getChildNodes().item(0).getNodeValue());
+                            content.append(". Encargo: ").append(laboral.getElementsByTagName("cargo").item(0).getChildNodes().item(0).getNodeValue());
                         }
                         if(laboral.getElementsByTagName("jefe").item(0)!=null) {
-                            content.append("Jefe inmediato: ").append(laboral.getElementsByTagName("jefe").item(0).getChildNodes().item(0).getNodeValue()).append(" ");
+                            content.append(". Jefe inmediato: ").append(laboral.getElementsByTagName("jefe").item(0).getChildNodes().item(0).getNodeValue()).append(" ");
                         }
+                        
+if(laboral.getElementsByTagName("funciones").item(0)!=null) {
+    content.append(". Funciones: ");
+    content.append(laboral.getElementsByTagName("funciones").item(0).getChildNodes().item(0).getNodeValue()).append(". ");
+}                        
+                        
                         if(laboral.getElementsByTagName("telefono").item(0)!=null) {
                             org.w3c.dom.Element telefono = (org.w3c.dom.Element)nList.item(0);
                             if(telefono!=null) {
-                                String num = telefono.getElementsByTagName("numero").item(0).getChildNodes().item(0).getNodeValue();
+                                String num = ". Tels: " + telefono.getElementsByTagName("numero").item(0).getChildNodes().item(0).getNodeValue();
                                 try {
                                     String lada = telefono.getElementsByTagName("lada").item(0).getChildNodes().item(0).getNodeValue();
                                     num = "("+lada+") "+num;
@@ -877,5 +886,4 @@
         if(document!=null && document.isOpen())
             document.close();
     }
-    
 %>
