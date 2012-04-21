@@ -276,7 +276,7 @@ public class CV extends com.infotec.cvi.swb.base.CVBase
                         eleEstudio.appendChild(element);
                         String estudio="";
                         String tipo="";
-                        if(es.getEstudiosSuperiores().getAreaEstudio()!=null&&
+                        if(es.getEstudiosSuperiores()!=null && es.getEstudiosSuperiores().getAreaEstudio()!=null&&
                                 es.getEstudiosSuperiores().getAreaEstudio().getDisciplinaInv()!=null&&
                                 es.getEstudiosSuperiores().getAreaEstudio().getDisciplinaInv().getTipoEstudioInv()!=null){
                             tipo=es.getEstudiosSuperiores().getAreaEstudio().getDisciplinaInv().getTipoEstudioInv().getTitle();
