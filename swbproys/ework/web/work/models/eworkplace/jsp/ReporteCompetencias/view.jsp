@@ -165,32 +165,44 @@
                     <%
                     } else if (step.equals("2")) { //step 2, hace la busqueda del texto en Investigaciones - Area de Investigación 
 
+                        boolean conArea = Boolean.FALSE;
+                        boolean conCurso = Boolean.FALSE;
+                        boolean okArea = Boolean.FALSE;
+                        boolean okCurso = Boolean.FALSE;
+
                         String txtbuscar = request.getParameter("search");
                         if (txtbuscar != null) {
                             txtbuscar = txtbuscar.trim().toLowerCase();
                             txtbuscar = UtilsCVI.replaceSpecialCharacters(txtbuscar, Boolean.FALSE);
+                            conArea = Boolean.TRUE;
                         }
                         String txtbuscar2 = request.getParameter("search2");
                         if (txtbuscar2 != null) {
                             txtbuscar2 = txtbuscar2.trim().toLowerCase();
                             txtbuscar2 = UtilsCVI.replaceSpecialCharacters(txtbuscar2, Boolean.FALSE);
+                            conCurso = Boolean.TRUE;
                         }
                         String[] arrcomp = request.getParameterValues("competencia");
                         String compsearch = "";
+                        String paramCompetencia = "";
+                        String compNames = "";
 
                         int maxcomp = arrcomp.length;
 
                         for (int i = 0; i < arrcomp.length; i++) {
                             compsearch = compsearch + "|" + arrcomp[i] + "|";
+                            paramCompetencia = paramCompetencia + arrcomp[i];
+                            Competencia competencia = Competencia.ClassMgr.getCompetencia(arrcomp[i], wsite);
+                            if(competencia!=null) compNames = compNames + " "+competencia.getTitle(); 
+                            if ((i + 1) < arrcomp.length) {
+                                paramCompetencia = paramCompetencia + ",";
+                                compNames = compNames + ",";
+                            }
                         }
 
-                        out.println("competencias: " + arrcomp.length + " [" + compsearch + "], area: " + txtbuscar + ", diplomado: " + txtbuscar2);
+                        //out.println("competencias: " + arrcomp.length + " [" + compsearch + "], " + paramCompetencia + ", area: " + txtbuscar + ", diplomado: " + txtbuscar2);
 
                         HashMap<String, CV> hm = new HashMap<String, CV>();
-                        HashMap<String, CV> hmtodos = new HashMap<String, CV>();
-                        HashMap<String, CV> hmarea = new HashMap<String, CV>();
-                        HashMap<String, CV> hmdiplo = new HashMap<String, CV>();
-                        HashMap<String, CV> hmctic = new HashMap<String, CV>();
 
                         Competencia compet = null;
 
@@ -217,57 +229,72 @@
 
                                     }
                                     if (numcompencontradas == maxcomp) {  // se revisa que estén todas las competencias en el cv
-                                        hm.put(cv.getId(), cv);
-                                    }
-                                }
 
-                                if (cv.listInvestigacions().hasNext() && txtbuscar != null) {
-                                    Iterator<Investigacion> itga = cv.listInvestigacions();
-                                    while (itga.hasNext()) {
-                                        inves = itga.next();
-                                        String txt = inves.getAreaInvestigacion() != null ? inves.getAreaInvestigacion() : "";
-                                        txt = txt.trim().toLowerCase();
-                                        txt = UtilsCVI.replaceSpecialCharacters(txt, Boolean.FALSE);
-                                        if (txt.indexOf(txtbuscar) > -1) { //
-                                            hmarea.put(cv.getId(), cv);
+                                        if (cv.listInvestigacions().hasNext() && conArea) {
+                                            Iterator<Investigacion> itga = cv.listInvestigacions();
+                                            while (itga.hasNext()) {
+                                                inves = itga.next();
+                                                String txt = inves.getAreaInvestigacion() != null ? inves.getAreaInvestigacion() : "";
+                                                txt = txt.trim().toLowerCase();
+                                                txt = UtilsCVI.replaceSpecialCharacters(txt, Boolean.FALSE);
+                                                if (txt.indexOf(txtbuscar) > -1) { //
+                                                    okArea = Boolean.TRUE;
+                                                    break;
+                                                }
+                                            }
                                         }
-                                    }
-                                }
 
-                                if (cv.listDiplomados().hasNext() && txtbuscar2 != null) {
-                                    Iterator<Diplomado> itga = cv.listDiplomados();
-                                    while (itga.hasNext()) {
-                                        diplo = itga.next();
-                                        String txt = diplo.getDocumentoObtenido() != null ? diplo.getDocumentoObtenido() : "";
-                                        txt = txt + (diplo.getTitle() != null ? diplo.getTitle() : "");
-                                        txt = txt + (diplo.getDescription() != null ? diplo.getDescription() : "");
-                                        txt = txt + (diplo.getNombreInstitucion() != null ? diplo.getNombreInstitucion() : "");
-                                        txt = txt.trim().toLowerCase();
-                                        txt = UtilsCVI.replaceSpecialCharacters(txt, Boolean.FALSE);
-                                        //System.out.println("Diplomado txt: "+txt+" "+txt.indexOf(txtbuscar));
-                                        if (txt.indexOf(txtbuscar) > -1) {
-                                            hmdiplo.put(cv.getId(), cv);
-                                        }
-                                    }
-                                }
-                                if (cv.listCursosTICs().hasNext() && txtbuscar2 != null) {
-                                    Iterator<CursoTIC> ites = cv.listCursosTICs();
-                                    while (ites.hasNext()) {
-                                        ctic = ites.next();
-                                        String txt = ctic.getDocumentoObtenido() != null ? ctic.getDocumentoObtenido() : "";
-                                        txt = txt + (ctic.getTitle() != null ? ctic.getTitle() : "");
-                                        txt = txt + (ctic.getDescription() != null ? ctic.getDescription() : "");
-                                        txt = txt + (ctic.getNombreInstitucion() != null ? ctic.getNombreInstitucion() : "");
-                                        txt = txt.trim().toLowerCase();
-                                        txt = UtilsCVI.replaceSpecialCharacters(txt, Boolean.FALSE);
-                                        //System.out.println("TIC txt: "+txt+" "+txt.indexOf(txtbuscar));
-                                        if (txt.indexOf(txtbuscar) > -1) {
-                                            hmctic.put(cv.getId(), cv);
-                                        }
-                                    }
-                                }
+                                        if (conCurso) {
+                                            if (cv.listDiplomados().hasNext()) {
+                                                Iterator<Diplomado> itga = cv.listDiplomados();
+                                                while (itga.hasNext()) {
+                                                    diplo = itga.next();
+                                                    String txt = diplo.getDocumentoObtenido() != null ? diplo.getDocumentoObtenido() : "";
+                                                    txt = txt + (diplo.getTitle() != null ? diplo.getTitle() : "");
+                                                    txt = txt + (diplo.getDescription() != null ? diplo.getDescription() : "");
+                                                    txt = txt + (diplo.getNombreInstitucion() != null ? diplo.getNombreInstitucion() : "");
+                                                    txt = txt.trim().toLowerCase();
+                                                    txt = UtilsCVI.replaceSpecialCharacters(txt, Boolean.FALSE);
+                                                    //System.out.println("Diplomado txt: "+txt+" "+txt.indexOf(txtbuscar));
+                                                    if (txt.indexOf(txtbuscar2) > -1) {
+                                                        okCurso = Boolean.TRUE;
+                                                        //break;
+                                                    }
+                                                }
+                                            }
 
-                                //t56if(hm.get(cv.getId())!=null)
+                                            if (cv.listCursosTICs().hasNext() && !okCurso) {
+                                                Iterator<CursoTIC> ites = cv.listCursosTICs();
+                                                while (ites.hasNext()) {
+                                                    ctic = ites.next();
+                                                    String txt = ctic.getDocumentoObtenido() != null ? ctic.getDocumentoObtenido() : "";
+                                                    txt = txt + (ctic.getTitle() != null ? ctic.getTitle() : "");
+                                                    txt = txt + (ctic.getDescription() != null ? ctic.getDescription() : "");
+                                                    txt = txt + (ctic.getNombreInstitucion() != null ? ctic.getNombreInstitucion() : "");
+                                                    txt = txt.trim().toLowerCase();
+                                                    txt = UtilsCVI.replaceSpecialCharacters(txt, Boolean.FALSE);
+                                                    //System.out.println("TIC txt: "+txt+" "+txt.indexOf(txtbuscar));
+                                                    if (txt.indexOf(txtbuscar2) > -1) {
+                                                        okCurso = Boolean.TRUE;
+                                                        //break;
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        if (conArea && okArea && !conCurso && !okCurso) {
+                                            hm.put(cv.getId(), cv);
+                                        } else if (!conArea && !okArea && conCurso && okCurso) {
+                                            hm.put(cv.getId(), cv);
+                                        } else if (conArea && okArea && conCurso && okCurso) {
+                                            hm.put(cv.getId(), cv);
+                                        } else if (!conArea && !okArea && !conCurso && !okCurso) {
+                                            hm.put(cv.getId(), cv);
+                                        }
+                                        okArea = Boolean.FALSE;
+                                        okCurso = Boolean.FALSE;
+                                    }
+                                }
                             }
                         }
                         acum = SWBUtils.Collections.sizeOf(hm.keySet().iterator());
@@ -280,7 +307,7 @@
                     %>
 
                     <table>
-                        <caption>Experiencia TIC - Área de Investigación</caption>
+                        <caption>Competencias (<%=compNames%>) con/sin Área de Investigación y con/sin Diplomados, Cursos, Certificaciones y Cursos TIC</caption>
                         <tbody>
                             <%
                                 if (acum == 0) {
@@ -291,7 +318,10 @@
                                     urldetail.setParameter("step", "3");
                                     urldetail.setParameter("act", action);
                                     urldetail.setParameter("search", txtbuscar);
-                                    urldetail.setParameter("type", "diplomado");
+                                    urldetail.setParameter("search2", txtbuscar2);
+                                    if (paramCompetencia.length() > 0) {
+                                        urldetail.setParameter("competencia", paramCompetencia);
+                                    }
 
                             %>
                             <tr>
@@ -337,6 +367,19 @@
                         <input type="hidden" name="search" value="<%=txtbuscar%>" />
                         <%
                             }
+                            if (request.getParameter("search2") != null) {
+                        %>
+                        <input type="hidden" name="search2" value="<%=txtbuscar2%>" />
+                        <%
+                            }
+
+                            if (request.getParameter("competencia") != null && paramCompetencia.length() > 0) {
+                                for (int i = 0; i < arrcomp.length; i++) {
+                        %>
+                        <input type="hidden" name="competencia" value="<%=arrcomp[i]%>" />
+                        <%
+                                }
+                            }
                         %>
 
 
@@ -348,38 +391,166 @@
                             // termina step 2
                         }
                     } else { // step 3 detalle reporte
+                        boolean conArea = Boolean.FALSE;
+                        boolean conCurso = Boolean.FALSE;
+                        boolean okArea = Boolean.FALSE;
+                        boolean okCurso = Boolean.FALSE;
+
+                        String txttype = "Competencias";
+                        String criteria = "";
                         String txtbuscar = request.getParameter("search");
-                        //System.out.println("Step 2, "+txtbuscar);
-                        txtbuscar = txtbuscar.trim().toLowerCase();
-                        txtbuscar = UtilsCVI.replaceSpecialCharacters(txtbuscar, Boolean.FALSE);
+                        if (txtbuscar != null) {
+                            txtbuscar = txtbuscar.trim().toLowerCase();
+                            txtbuscar = UtilsCVI.replaceSpecialCharacters(txtbuscar, Boolean.FALSE);
+                            conArea = Boolean.TRUE;
+                        }
+                        String txtbuscar2 = request.getParameter("search2");
+                        if (txtbuscar2 != null) {
+                            txtbuscar2 = txtbuscar2.trim().toLowerCase();
+                            txtbuscar2 = UtilsCVI.replaceSpecialCharacters(txtbuscar2, Boolean.FALSE);
+                            conCurso = Boolean.TRUE;
+                        }
+
+                        String strCompetencia = request.getParameter("competencia");
+                        
+                        
+                        String[] arrcomp = strCompetencia.split(",");
+                        String compsearch = "";
+                        String paramCompetencia = "";
+
+                        String compNames = "";
+
+                        int maxcomp = arrcomp.length;
+
+                        for (int i = 0; i < arrcomp.length; i++) {
+                            compsearch = compsearch + "|" + arrcomp[i] + "|";
+                            paramCompetencia = paramCompetencia + arrcomp[i];
+                            Competencia competencia = Competencia.ClassMgr.getCompetencia(arrcomp[i], wsite);
+                            if(competencia!=null) compNames = compNames + " "+competencia.getTitle(); 
+                            if ((i + 1) < arrcomp.length) {
+                                paramCompetencia = paramCompetencia + ",";
+                                compNames = compNames + ",";
+                            }
+                        }
+
+                        txttype = txttype +"("+compNames +")";
+                        
+                        //out.println("Step #3....competencias: " + arrcomp.length + " [" + compsearch + "], " + paramCompetencia + ", area: " + txtbuscar + ", diplomado: " + txtbuscar2);
+
                         HashMap<String, CV> hm = new HashMap<String, CV>();
                         HashMap<String, String> hmorder = new HashMap<String, String>();
 
-                        Investigacion diplo = null;
+                        Competencia compet = null;
+
+                        Investigacion inves = null;
+                        Diplomado diplo = null;
+                        CursoTIC ctic = null;
                         long acum = 0;
+                        int numcompencontradas = 0;
+                        String scompid = "";
                         Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
                         while (itcv.hasNext()) {
+
                             CV cv = itcv.next();
-                            if (UtilsCVI.isCVIDone(cv)) {
-                                if (cv.listInvestigacions().hasNext()) {
-                                    Iterator<Investigacion> itga = cv.listInvestigacions();
-                                    while (itga.hasNext()) {
-                                        diplo = itga.next();
-                                        String txt = diplo.getAreaInvestigacion() != null ? diplo.getAreaInvestigacion() : "";
-                                        txt = txt.trim().toLowerCase();
-                                        txt = UtilsCVI.replaceSpecialCharacters(txt, Boolean.FALSE);
-                                        if (txt.indexOf(txtbuscar) > -1) {
-                                            hm.put(cv.getId(), cv);
-                                            hmorder.put(cv.getPropietario().getFullName(), cv.getId());
+                            User usercv = cv.getPropietario();
+                            //out.println("<br/>" + cv.getId());
+                            if (UtilsCVI.isCVIDone(cv) && usercv != null) {
+                                String usercvname = usercv.getFullName() != null ? usercv.getFullName() : usercv.getLogin();
+                                if (cv.listCompetencias().hasNext()) {
+                                    numcompencontradas = 0;
+                                    Iterator<Competencia> itcomp = cv.listCompetencias();
+                                    while (itcomp.hasNext()) {
+                                        compet = itcomp.next();
+                                        scompid = "|" + compet.getId() + "|";
+                                        if (compsearch.indexOf(scompid) > -1) {
+                                            numcompencontradas++;
                                         }
+                                    }
+                                    if (numcompencontradas == maxcomp) {  // se revisa que estén todas las competencias en el cv
+
+                                        //out.println("se encontró cv con competencias.... ");
+                                        if (cv.listInvestigacions().hasNext() && conArea) {
+                                            Iterator<Investigacion> itga = cv.listInvestigacions();
+                                            while (itga.hasNext()) {
+                                                inves = itga.next();
+                                                String txt = inves.getAreaInvestigacion() != null ? inves.getAreaInvestigacion() : "";
+                                                txt = txt.trim().toLowerCase();
+                                                txt = UtilsCVI.replaceSpecialCharacters(txt, Boolean.FALSE);
+                                                if (txt.indexOf(txtbuscar) > -1) { //
+                                                    okArea = Boolean.TRUE;
+                                                    break;
+                                                }
+                                            }
+                                        }
+
+                                        if (conCurso) {
+                                            if (cv.listDiplomados().hasNext()) {
+                                                Iterator<Diplomado> itga = cv.listDiplomados();
+                                                while (itga.hasNext()) {
+                                                    diplo = itga.next();
+                                                    String txt = diplo.getDocumentoObtenido() != null ? diplo.getDocumentoObtenido() : "";
+                                                    txt = txt + (diplo.getTitle() != null ? diplo.getTitle() : "");
+                                                    txt = txt + (diplo.getDescription() != null ? diplo.getDescription() : "");
+                                                    txt = txt + (diplo.getNombreInstitucion() != null ? diplo.getNombreInstitucion() : "");
+                                                    txt = txt.trim().toLowerCase();
+                                                    txt = UtilsCVI.replaceSpecialCharacters(txt, Boolean.FALSE);
+                                                    //System.out.println("Diplomado txt: "+txt+" "+txt.indexOf(txtbuscar));
+                                                    if (txt.indexOf(txtbuscar2) > -1) {
+                                                        okCurso = Boolean.TRUE;
+                                                        break;
+                                                    }
+                                                }
+                                            }
+
+                                            if (cv.listCursosTICs().hasNext() && !okCurso) {
+                                                Iterator<CursoTIC> ites = cv.listCursosTICs();
+                                                while (ites.hasNext()) {
+                                                    ctic = ites.next();
+                                                    String txt = ctic.getDocumentoObtenido() != null ? ctic.getDocumentoObtenido() : "";
+                                                    txt = txt + (ctic.getTitle() != null ? ctic.getTitle() : "");
+                                                    txt = txt + (ctic.getDescription() != null ? ctic.getDescription() : "");
+                                                    txt = txt + (ctic.getNombreInstitucion() != null ? ctic.getNombreInstitucion() : "");
+                                                    txt = txt.trim().toLowerCase();
+                                                    txt = UtilsCVI.replaceSpecialCharacters(txt, Boolean.FALSE);
+                                                    //System.out.println("TIC txt: "+txt+" "+txt.indexOf(txtbuscar));
+                                                    if (txt.indexOf(txtbuscar2) > -1) {
+                                                        okCurso = Boolean.TRUE;
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        if (conArea && okArea && !conCurso && !okCurso) {
+                                            hm.put(cv.getId(), cv);
+                                            hmorder.put(usercvname, cv.getId());
+                                            txttype = txttype + " con Área de Investigación";
+                                            criteria = " Área de investigación igual a " + txtbuscar;
+                                        } else if (!conArea && !okArea && conCurso && okCurso) {
+                                            hm.put(cv.getId(), cv);
+                                            hmorder.put(usercvname, cv.getId());
+                                            txttype = txttype + " con Diplomado, curso, certificación o Curso TIC";
+                                            criteria = " Diplomado, curso, certificación o Curso TIC igual a " + txtbuscar2;
+                                        } else if (conArea && okArea && conCurso && okCurso) {
+                                            hm.put(cv.getId(), cv);
+                                            hmorder.put(usercvname, cv.getId());
+                                            txttype = txttype + " con Área de Investigación y con Diplomado, curso, certificación o Curso TIC";
+                                            criteria = " Área de investigación igual a " + txtbuscar + " y Diplomado, curso, certificación o Curso TIC igual a " + txtbuscar2;
+                                        } else if (!conArea && !okArea && !conCurso && !okCurso) {
+                                            hm.put(cv.getId(), cv);
+                                            hmorder.put(usercvname, cv.getId());
+                                            criteria = " las competencias ";
+                                        }
+                                        okArea = Boolean.FALSE;
+                                        okCurso = Boolean.FALSE;
                                     }
                                 }
                             }
                         }
+                        acum = SWBUtils.Collections.sizeOf(hm.keySet().iterator());
                         if (!hm.isEmpty()) {
-                            String txttype = "Competencias";
 
-                            out.println(listReport(hm, hmorder, txttype, request.getParameter("search"), paramRequest, request));
+                            out.println(listReport(hm, hmorder, txttype, criteria, paramRequest, request));
 
                             if (!export.equals("excel")) {
                                 SWBResourceURL urlExport = paramRequest.getRenderUrl();
@@ -402,6 +573,16 @@
                             if (request.getParameter("search") != null) {
                         %>
                         <input type="hidden" name="search" value="<%=txtbuscar%>" />
+                        <%
+                            }
+                            if (request.getParameter("search2") != null) {
+                        %>
+                        <input type="hidden" name="search2" value="<%=txtbuscar2%>" />
+                        <%
+                            }
+                            if (request.getParameter("competencia") != null && paramCompetencia.length() > 0) {
+                        %>
+                        <input type="hidden" name="competencia" value="<%=paramCompetencia%>" />
                         <%
                             }
                         %>
