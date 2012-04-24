@@ -437,10 +437,12 @@ Author     : rene.jara
                             String lada = te.getLada() > 0 ? "(" + te.getLada() + ")" : "";
                             String numero = te.getNumero() > 0 ? "" + te.getNumero() : "";
                             String exten = te.getExtension() > 0 ? "Ext:" + te.getExtension() : "";
-                    %>
-                    <li><strong><%=empresa%></strong> <br />
+                            String sector= el.getSector().getTitle();
+                            String funciones=el.getFuncionesPrincipales();
+                                               %>
+                    <li><strong><%=empresa%> (<%=sector%>)</strong> <br />
                         <%=inicio%> / <%=fin%>, <%=cargo%>,	(<%=lada%>) <%=numero%> <%=exten%><br />
-                        Jefe inmediato: <%=jefe%></li>
+                        Jefe inmediato: <%=jefe%> (<%=funciones%>)</li>
                         <%
                             }
                         %>
