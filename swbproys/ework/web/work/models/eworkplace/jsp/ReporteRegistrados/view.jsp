@@ -14,7 +14,6 @@
 <%@page import="org.semanticwb.portal.api.SWBResourceURLImp"%>
 <%@page import="org.semanticwb.portal.api.SWBParamRequest"%>
 <%@page import="java.util.StringTokenizer"%>
-<%@page import="com.infotec.cvi.swb.util.UtilsCVI"%>
 <%@page import="org.semanticwb.model.WebPage"%>
 <%@page import="com.infotec.cvi.swb.CV"%>
 <%@page import="java.util.Set"%>

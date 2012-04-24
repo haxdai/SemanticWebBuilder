@@ -123,7 +123,7 @@
                             while (itcv.hasNext()) {
                                 CV cv = itcv.next();
                                 User user = cv.getPropietario();
-                                if (UtilsCVI.isCVIDone(cv)&&user!=null) 
+                                if (UtilsCVI.isCVIDone(cv) && user!=null) 
                                 {
                                     aca = cv.getAcademia();
                                     if (null != aca) {
@@ -367,7 +367,7 @@
                             while (itcv.hasNext()) {
                                 CV cv = itcv.next();
                                 User user = cv.getPropietario();
-                                if (UtilsCVI.isCVIDone(cv)&&user!=null) 
+                                if (UtilsCVI.isCVIDone(cv) && user!=null) 
                                 {
                                     aca = cv.getAcademia();
                                     if (null != aca) {
@@ -511,7 +511,8 @@
                                 Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
                                 while (itcv.hasNext()) {
                                     CV cv = itcv.next();
-                                    if (UtilsCVI.isCVIDone(cv)) {
+                                    User user = cv.getPropietario();
+                                    if (UtilsCVI.isCVIDone(cv) && user!=null) { 
                                         if (cv.listDiplomados().hasNext()) {
                                             Iterator<Diplomado> itga = cv.listDiplomados();
                                             while (itga.hasNext()) {
@@ -677,7 +678,8 @@
                                     Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
                                     while (itcv.hasNext()) {
                                         CV cv = itcv.next();
-                                        if (UtilsCVI.isCVIDone(cv)) {
+                                        User user = cv.getPropietario();
+                                        if (UtilsCVI.isCVIDone(cv) && user != null) { 
                                             if (cv.listDiplomados().hasNext() && reptype.equals("diplomado")) {
                                                 Iterator<Diplomado> itga = cv.listDiplomados();
                                                 while (itga.hasNext()) {
@@ -1155,7 +1157,8 @@
                                                     Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
                                                     while (itcv.hasNext()) {
                                                         CV cv = itcv.next();
-                                                        if (UtilsCVI.isCVIDone(cv)) {
+                                                        User user = cv.getPropietario();
+                                                        if (UtilsCVI.isCVIDone(cv) && user != null ) {
                                                             if (cv.listIdiomas().hasNext()) {
                                                                 Iterator<Idioma> itga = cv.listIdiomas();
                                                                 while (itga.hasNext()) {
