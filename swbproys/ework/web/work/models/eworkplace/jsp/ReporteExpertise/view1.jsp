@@ -19,10 +19,8 @@
     String strNumItems = base.getAttribute("numPageItems", "10");
     String npage = request.getParameter("page");
     String orderby = request.getParameter("order");
-    //String action = request.getParameter("act");
     String action = paramRequest.getAction();
     String MODE_EXPORT = "export";
-//out.println("<p>action="+action+"</p>");
     String export = request.getParameter("export");
     if (null == export) {
         export = "";
@@ -107,7 +105,17 @@
                                     url.setParameter("eid", key);
                             %>
                             <tr>
-                                <td><a href="<%=url%>" title="Ver detalle"><%=tipoTalento.getTitle()%></a></td>
+                                <td>
+                                    <%
+                                        if (!export.equals("excel")) {
+                                    %>
+                                    <a href="<%=url%>" title="Ver detalle"><%=tipoTalento.getTitle()%></a>
+                                    <%
+                                        } else {
+                                            out.print(tipoTalento.getTitle());
+                                        }
+                                    %>    
+                                </td>
                                 <td><%=v%></td>
                             </tr>
                             <%
@@ -135,7 +143,6 @@
                         //suponiendo que estoy en granularidad media
                         TreeMap<String, Integer> mmm = new TreeMap();
                         String tipoTalentoId = SWBUtils.TEXT.decode(request.getParameter("eid"), "UTF-8");
-                        //out.println("<p>tipoTalentoId=" + tipoTalentoId + "</p>");
                         TipoTalento tipo = TipoTalento.ClassMgr.getTipoTalento(tipoTalentoId, wsite);
                         if (tipo != null) {
                             String wptitle = tipo.getTitle();
@@ -171,7 +178,6 @@
                         </thead>
                         <tbody>
                             <%
-                                //SWBResourceURL url = paramRequest.getRenderUrl().setParameter("act","xprts");
                                 SWBResourceURL url = paramRequest.getRenderUrl().setAction("dtl");
                                 String key;
                                 int v;
@@ -184,7 +190,17 @@
                                     url.setParameter("sid", key);
                             %>
                             <tr>
-                                <td><a href="<%=url%>" title="Ver detalle"><%=habilidad.getTitle()%></a></td>
+                                <td>
+                                    <%
+                                        if (!export.equals("excel")) {
+                                    %>
+                                    <a href="<%=url%>" title="Ver detalle"><%=habilidad.getTitle()%></a>
+                                    <%
+                                        } else {
+                                            out.print(habilidad.getTitle());
+                                        }
+                                    %>   
+                                </td>    
                                 <td><%=v%></td>
                             </tr>
                             <%
@@ -247,21 +263,27 @@
                         </thead>
                         <tbody>
                             <%
-                                //SWBResourceURLImp url = new SWBResourceURLImp(request, resource, wpage, SWBResourceURL.UrlType_RENDER);
-                                //url.setCallMethod(SWBResourceURL.Call_CONTENT);
-                                SWBResourceURL url = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setAction("cv");
+                                String urlcv = wsite.getWebPage("ver_CV").getUrl()+"?id=";
                                 String key;
                                 User user;
                                 Iterator<String> keys = ppp.keySet().iterator();
                                 while (keys.hasNext()) {
                                     key = keys.next();
                                     user = ppp.get(key);
-                                    url.setParameter("id", user.getId());
-                                    //AreaTalento.ClassMgr.listAreaTalentoByCreator(user, wsite);
-%>
+                            %>
                             <tr>
                                 <td><%=key%></td>  
-                                <td><a href="#" onclick="javascript:showDtl('<%=url%>');return false;" target="_blank" title="Ver detalle">ver</a></td>
+                                <td>
+                                    <%
+                                        if (!export.equals("excel")) {
+                                    %>
+                                    <a href="#" onclick="javascript:showDtl('<%=urlcv+user.getId()%>');return false;" target="_blank" title="Ver detalle">ver</a>
+                                    <%
+                                        } else {
+                                            out.print("---");
+                                        }
+                                    %> 
+                                    </td>
                             </tr>
                             <%
                                 }
@@ -270,7 +292,7 @@
                         <tfoot></tfoot>
                     </table>
                     <%
-                        if (!export.equals("excel")) { //&& (acum > 0 || acumno > 0)
+                        if (!export.equals("excel")) { 
                             SWBResourceURL urlExport = paramRequest.getRenderUrl();
                             urlExport.setCallMethod(SWBResourceURL.Call_DIRECT);
                             urlExport.setMode(MODE_EXPORT);
