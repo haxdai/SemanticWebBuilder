@@ -48,7 +48,7 @@ public class ReporteExpertise extends GenericResource {
     }
 
     public void doExport(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        response.setHeader("Content-Disposition", " attachment; filename=\"reporteDistinciones" + System.currentTimeMillis() + ".xls\";");
+        response.setHeader("Content-Disposition", " attachment; filename=\"reporteExpertise" + System.currentTimeMillis() + ".xls\";");
         response.setContentType("application/vnd.ms-excel"); //
         
         doView(request, response, paramRequest);
