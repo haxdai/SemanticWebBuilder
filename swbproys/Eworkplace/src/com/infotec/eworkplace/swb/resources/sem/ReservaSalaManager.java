@@ -1,5 +1,6 @@
 package com.infotec.eworkplace.swb.resources.sem;
 
+import com.infotec.cvi.swb.Carrera;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
@@ -25,7 +26,6 @@ import org.semanticwb.model.ResourceType;
 import org.semanticwb.model.Resourceable;
 import org.semanticwb.model.Role;
 import org.semanticwb.model.SWBComparator;
-import org.semanticwb.model.SWBModel;
 import org.semanticwb.model.User;
 import org.semanticwb.model.UserGroup;
 import org.semanticwb.model.WebPage;
