@@ -7,31 +7,11 @@
 <%@page import="com.infotec.cvi.swb.AreaTalento"%>
 <%@page import="com.infotec.cvi.swb.resources.AreasTalentoResource"%>
 <%@page import="com.infotec.cvi.swb.ExperienciaLaboral"%>
-<%@page import="com.infotec.cvi.swb.Investigacion"%>
 <%@page import="org.semanticwb.portal.api.SWBResourceURLImp"%>
 <%@page import="org.semanticwb.portal.api.SWBParamRequest"%>
-<%@page import="com.infotec.cvi.swb.Escritura"%>
-<%@page import="com.infotec.cvi.swb.Lectura"%>
-<%@page import="com.infotec.cvi.swb.Conversacion"%>
-<%@page import="org.semanticwb.model.Language"%>
-<%@page import="com.infotec.cvi.swb.Idioma"%>
-<%@page import="com.infotec.cvi.swb.Diplomado"%>
-<%@page import="com.infotec.cvi.swb.CursoTIC"%>
-<%@page import="com.infotec.cvi.swb.DisciplinaEstudio"%>
-<%@page import="com.infotec.cvi.swb.AreaEstudio"%>
-<%@page import="com.infotec.cvi.swb.Estudios"%>
-<%@page import="com.infotec.cvi.swb.Avance"%>
-<%@page import="com.infotec.cvi.swb.TipoEstudio"%>
-<%@page import="com.infotec.cvi.swb.EstudioSuperior"%>
 <%@page import="java.util.StringTokenizer"%>
 <%@page import="com.infotec.cvi.swb.util.UtilsCVI"%>
-<%@page import="com.infotec.cvi.swb.SituacionAcademica"%>
-<%@page import="com.infotec.cvi.swb.Carrera"%>
-<%@page import="com.infotec.cvi.swb.Grado"%>
-<%@page import="com.infotec.cvi.swb.base.GradoBase"%>
 <%@page import="org.semanticwb.model.WebPage"%>
-<%@page import="com.infotec.cvi.swb.GradoAcademico"%>
-<%@page import="com.infotec.cvi.swb.Academia"%>
 <%@page import="com.infotec.cvi.swb.CV"%>
 <%@page import="java.util.Set"%>
 <%@page import="org.semanticwb.model.SWBComparator"%>
@@ -244,7 +224,7 @@
 
                             %>
                             <tr>
-                                <td>Encontrados</td><td><%=SWBUtils.Collections.sizeOf(hmhab.keySet().iterator())%></td>
+                                <td>Encontrados</td><td><%=SWBUtils.Collections.sizeOf(hm.keySet().iterator())%></td>
                                 <%
                                     if (!export.equals("excel")) {
                                 %>
@@ -277,7 +257,7 @@
 
                             %>
                             <tr>
-                                <td>Encontrados</td><td><%=SWBUtils.Collections.sizeOf(hmhab.keySet().iterator())%></td>
+                                <td>Encontrados</td><td><%=SWBUtils.Collections.sizeOf(hmdos.keySet().iterator())%></td>
                                 <%
                                     if (!export.equals("excel")) {
                                 %>
@@ -320,7 +300,6 @@
                             }
                         %>
 
-
                         <button type="button" onclick="javascript:history.back(1);">Regresar</button>
                         <button type="submit" >Guardar Excel</button> 
                     </form>
@@ -335,9 +314,8 @@
                         txtbuscar = UtilsCVI.replaceSpecialCharacters(txtbuscar, Boolean.FALSE);
                         HashMap<String, CV> hm = new HashMap<String, CV>();
                         HashMap<String, CV> hmhab = new HashMap<String, CV>();
-                        HashMap<String, String> hmhabyears = new HashMap<String, String>();
+                        HashMap<String, String> hmyears = new HashMap<String, String>();
                         HashMap<String, CV> hmdos = new HashMap<String, CV>();
-                        HashMap<String, String> hmdosyears = new HashMap<String, String>(); 
                         HashMap<String, String> hmorder = new HashMap<String, String>();
 
                         ExperienciaLaboral explab = null;
@@ -372,7 +350,7 @@
                                         if (txt.indexOf(txtbuscar) > -1) {
                                             hmhab.put(cv.getId(), cv);
                                             hmorder.put(usrcv.getFullName() != null ? usrcv.getFullName() : usrcv.getLogin(), cv.getId());
-                                            hmhabyears.put(cv.getId(), ""+atalento.getYearExperienceTalento());
+                                            hmyears.put(cv.getId(), ""+atalento.getYearExperienceTalento());
                                         }
                                     }
                                 }
@@ -395,10 +373,10 @@
                                 out.println(listReport(hm, hmorder, txttype, request.getParameter("search"), paramRequest, request));
                             } else if (reptype.equals("habilidad")) {
                                 txttype = "Expertise, Expertise TI, Habilidades o Indistria.";
-                                out.println(listReport(hmhab, hmorder, txttype, request.getParameter("search"), paramRequest, request));
+                                out.println(listReportYears(hmhab, hmorder, hmyears, txttype, request.getParameter("search"), paramRequest, request)); 
                             } else if (reptype.equals("ambos")) {
                                 txttype = "Que tienen Expertise, Expertise TI, Habilidades, Indistria y Funciones Principales.";
-                                out.println(listReport(hmdos, hmorder, txttype, request.getParameter("search"), paramRequest, request));
+                                out.println(listReportYears(hmdos, hmorder, hmyears, txttype, request.getParameter("search"), paramRequest, request)); 
                             }
 
                             if (!export.equals("excel")) {
@@ -502,4 +480,60 @@
         return ret.toString();
     }
 
+    public String listReportYears(HashMap<String, CV> hm, HashMap<String, String> hmorder, HashMap<String,String> hmyears, String txttype, String criteria, SWBParamRequest paramRequest, HttpServletRequest request) {
+        StringBuilder ret = new StringBuilder();
+        WebSite wsite = paramRequest.getWebPage().getWebSite();
+        String export = request.getParameter("export"); 
+        if (null == export) {
+            export = "";
+        }
+        ret.append("<script type=\"text/javascript\">");
+        ret.append(" function newWin(url){");
+        ret.append("    window.open(url,'CVI','menubar=0,location=0,scrollbars=1,width=650,height=600');");
+        ret.append("}");
+        ret.append("</script>");
+        ret.append(" <table>");
+        ret.append("   <caption>");
+        ret.append(txttype);
+        ret.append(" - que contengan: ");
+        ret.append(criteria);
+        ret.append("    </caption>");
+        ret.append("            <thead>");
+        ret.append("                <tr>");
+        ret.append("                    <th>Usuario</th><th>Años de Experiencia</th><th>Detalle</th>");
+        ret.append("                </tr>");
+        ret.append("            </thead>");
+        ret.append("            <tbody>");
+        ArrayList<String> list = new ArrayList(hmorder.keySet());
+        Collections.sort(list);
+
+        Iterator<String> itstr = list.iterator();
+        while (itstr.hasNext()) {
+            String key = itstr.next();
+            String keyorder = hmorder.get(key);
+
+            User usrcv = wsite.getUserRepository().getUser(keyorder);
+            WebPage wpage = wsite.getWebPage("ver_CV");
+            ret.append("                 <tr>");
+            ret.append("                     <td>");
+            ret.append(usrcv.getFullName());
+            ret.append("                     </td><td>");
+            ret.append(hmyears.get(keyorder)!=null?hmyears.get(keyorder):"---");
+            ret.append("                     </td><td>");
+            if (!export.equals("excel")) {
+                ret.append("<a href=\"#\" ");
+                ret.append("onclick=\"javascript:newWin('");
+                ret.append(wpage.getUrl()+"?id="+usrcv.getId());
+                ret.append("');return false;\" target=\"_blank\">ver</a>");
+            } else {
+                ret.append("&nbsp;");
+            }
+            ret.append("                   </td>");
+            ret.append("                  </tr>");
+        }
+        ret.append("               </tbody>");
+        ret.append("          </table>");
+
+        return ret.toString();
+    }
 %>
