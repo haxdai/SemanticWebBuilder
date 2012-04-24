@@ -101,12 +101,14 @@
                             Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
                             while (itcv.hasNext()) {
                                 CV cv = itcv.next();
-                                String strSinInves = cv.getProperty(CV.intranet_sinInvestigacion.getName());
-                                if (strSinInves != null && strSinInves.equals("true")) {
-                                    hmno.put(cv.getId(), cv);
-                                    continue;
-                                }
-                                if (UtilsCVI.isCVIDone(cv)) {
+                                User user = cv.getPropietario();
+                                
+                                if (UtilsCVI.isCVIDone(cv) && user!=null) {
+                                    String strSinInves = cv.getProperty(CV.intranet_sinInvestigacion.getName());
+                                    if (strSinInves != null && strSinInves.equals("true")) {
+                                        hmno.put(cv.getId(), cv);
+                                        continue;
+                                    }
                                     if (cv.listInvestigacions().hasNext()) {
                                         Iterator<Investigacion> itga = cv.listInvestigacions();
                                         while (itga.hasNext()) {
@@ -230,14 +232,16 @@
                             Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
                             while (itcv.hasNext()) {
                                 CV cv = itcv.next();
-                                String strSinInves = cv.getProperty(CV.intranet_sinInvestigacion.getName());
-                                if (strSinInves != null && strSinInves.equals("true")) {
-                                    hmno.put(cv.getId(), cv);
-                                    hmorderno.put(cv.getPropietario().getFullName(), cv.getId());
-                                    continue;
-                                }
+                                User user = cv.getPropietario();
+                                
 
-                                if (UtilsCVI.isCVIDone(cv)) {
+                                if (UtilsCVI.isCVIDone(cv) && user!=null) {
+                                    String strSinInves = cv.getProperty(CV.intranet_sinInvestigacion.getName());
+                                    if (strSinInves != null && strSinInves.equals("true")) {
+                                        hmno.put(cv.getId(), cv);
+                                        hmorderno.put(cv.getPropietario().getFullName(), cv.getId());
+                                        continue;
+                                    }
                                     if (cv.listInvestigacions().hasNext()) {
                                         Iterator<Investigacion> itga = cv.listInvestigacions();
                                         while (itga.hasNext()) {
@@ -366,8 +370,9 @@
                                 Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
                                 while (itcv.hasNext()) {
                                     CV cv = itcv.next();
+                                    User user = cv.getPropietario();
                                     acum = 0;
-                                    if (UtilsCVI.isCVIDone(cv)) {
+                                    if (UtilsCVI.isCVIDone(cv) && user != null) {
                                         if (cv.listDocencias().hasNext()) {
                                             Iterator<Docencia> itga = cv.listDocencias();
                                             while (itga.hasNext()) {
@@ -501,8 +506,9 @@
                                     Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
                                     while (itcv.hasNext()) {
                                         CV cv = itcv.next();
+                                        User user = cv.getPropietario();
                                         acum = 0;
-                                        if (UtilsCVI.isCVIDone(cv)) {
+                                        if (UtilsCVI.isCVIDone(cv) && user!=null) {
                                             if (cv.listDocencias().hasNext()) {
                                                 Iterator<Docencia> itga = cv.listDocencias();
                                                 while (itga.hasNext()) {
@@ -650,8 +656,9 @@
                                         Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
                                         while (itcv.hasNext()) {
                                             CV cv = itcv.next();
+                                            User user = cv.getPropietario();
                                             acum = 0;
-                                            if (UtilsCVI.isCVIDone(cv)) {
+                                            if (UtilsCVI.isCVIDone(cv)&&user!=null) { 
                                                 if (cv.listDocencias().hasNext()) {
                                                     Iterator<Publicacion> itga = cv.listPublicacions();
                                                     while (itga.hasNext()) {
@@ -779,8 +786,9 @@
                                             Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
                                             while (itcv.hasNext()) {
                                                 CV cv = itcv.next();
+                                                User user = cv.getPropietario();
                                                 acum = 0;
-                                                if (UtilsCVI.isCVIDone(cv)) {
+                                                if (UtilsCVI.isCVIDone(cv) && user!=null) {
                                                     if (cv.listDocencias().hasNext()) {
                                                         Iterator<Publicacion> itga = cv.listPublicacions();
                                                         while (itga.hasNext()) {
@@ -896,7 +904,8 @@
                                                 Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
                                                 while (itcv.hasNext()) {
                                                     CV cv = itcv.next();
-                                                    if (UtilsCVI.isCVIDone(cv)) {
+                                                    User user = cv.getPropietario();
+                                                    if (UtilsCVI.isCVIDone(cv)&& user!=null) {
                                                         if (cv.listInvestigacions().hasNext()) {
                                                             Iterator<Investigacion> itga = cv.listInvestigacions();
                                                             while (itga.hasNext()) {
@@ -1002,7 +1011,8 @@
                                                     Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
                                                     while (itcv.hasNext()) {
                                                         CV cv = itcv.next();
-                                                        if (UtilsCVI.isCVIDone(cv)) {
+                                                        User user = cv.getPropietario();
+                                                        if (UtilsCVI.isCVIDone(cv) && user!=null) {
                                                             if (cv.listInvestigacions().hasNext()) {
                                                                 Iterator<Investigacion> itga = cv.listInvestigacions();
                                                                 while (itga.hasNext()) {

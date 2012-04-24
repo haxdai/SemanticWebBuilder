@@ -112,13 +112,14 @@
                             Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
                             while (itcv.hasNext()) {
                                 CV cv = itcv.next();
-                                if (UtilsCVI.isCVIDone(cv)) {
+                                User user = cv.getPropietario();
+                                if (UtilsCVI.isCVIDone(cv)&&user!=null) {
                                     acum++;
-                                    User user = cv.getPropietario();
-                                    if (user!=null&&user.hasUserGroup(ugempleado)) {
+                                    
+                                    if (user.hasUserGroup(ugempleado)) {
                                         hm.put(cv.getId(), cv);
                                         acuminfotec++;
-                                    } else if (user!=null&&user.hasUserGroup(ugcandidato)) {
+                                    } else if (user.hasUserGroup(ugcandidato)) {
                                         hmc.put(cv.getId(), cv);
                                         acumcandidatos++;
                                     }
@@ -228,9 +229,10 @@
                             Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
                             while (itcv.hasNext()) {
                                 CV cv = itcv.next();
-                                if (UtilsCVI.isCVIDone(cv)) {
+                                User user = cv.getPropietario();
+                                if (UtilsCVI.isCVIDone(cv) && user!=null) {
                                     acum++;
-                                    User user = cv.getPropietario();
+                                    
                                     if ("infotec".equals(reptype) && user!=null && user.hasUserGroup(ugempleado)) {
                                         hm.put(cv.getId(), cv);
                                         hmorder.put(user.getFullName(), cv.getId());
