@@ -115,10 +115,10 @@
                                 if (UtilsCVI.isCVIDone(cv)) {
                                     acum++;
                                     User user = cv.getPropietario();
-                                    if (user.hasUserGroup(ugempleado)) {
+                                    if (user!=null&&user.hasUserGroup(ugempleado)) {
                                         hm.put(cv.getId(), cv);
                                         acuminfotec++;
-                                    } else if (user.hasUserGroup(ugcandidato)) {
+                                    } else if (user!=null&&user.hasUserGroup(ugcandidato)) {
                                         hmc.put(cv.getId(), cv);
                                         acumcandidatos++;
                                     }
@@ -231,11 +231,11 @@
                                 if (UtilsCVI.isCVIDone(cv)) {
                                     acum++;
                                     User user = cv.getPropietario();
-                                    if ("infotec".equals(reptype) && user.hasUserGroup(ugempleado)) {
+                                    if ("infotec".equals(reptype) && user!=null && user.hasUserGroup(ugempleado)) {
                                         hm.put(cv.getId(), cv);
                                         hmorder.put(user.getFullName(), cv.getId());
                                         criteria = "CVI - Infotec";
-                                    } else if ("candidatos".equals(reptype) && user.hasUserGroup(ugcandidato)) {
+                                    } else if ("candidatos".equals(reptype) &&  user!=null && user.hasUserGroup(ugcandidato)) {
                                         hm.put(cv.getId(), cv);
                                         hmorder.put(user.getFullName(), cv.getId());
                                         criteria = "CVI - Externo";
