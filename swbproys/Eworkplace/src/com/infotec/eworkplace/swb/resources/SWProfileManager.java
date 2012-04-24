@@ -864,7 +864,7 @@ e.printStackTrace(System.out);
                     if(SWBUtils.EMAIL.isValidEmailAddress(request.getParameter("email")))
                         user.setEmail(request.getParameter("email"));
                     profile.setUbicacion(SWBUtils.XML.replaceXMLChars(request.getParameter("loc")));
-                    
+System.out.println("mti="+request.getParameterValues("mti"));
                     if(request.getParameterValues("mti")!=null && request.getParameterValues("mti").length>0) {
                         profile.removeAllTemaInteres();
                         String[] mtis = request.getParameterValues("mti");
@@ -874,6 +874,8 @@ e.printStackTrace(System.out);
                             }catch(Exception e) {
                                 log.error(e);
                             }
+                    }else {
+                        profile.removeAllTemaInteres();
                     }
                     response.setAction(SWBResourceURL.Action_ADD);
                     
