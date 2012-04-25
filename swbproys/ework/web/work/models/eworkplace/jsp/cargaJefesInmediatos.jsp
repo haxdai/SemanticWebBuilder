@@ -17,7 +17,7 @@
 <body>
 <%
     out.println("<p><br/><br/><hr/></p>");
-    final String siteid = "eworkplace3";
+    final String siteid = "eworkplace";
 try{
     final WebSite wsite = WebSite.ClassMgr.getWebSite(siteid);
     if(wsite != null)
