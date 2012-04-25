@@ -91,7 +91,6 @@ dojo.declare(
     if(user.equals(profile.getCreator())) {
         final String lang = user.getLanguage();
         final String axn = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_EDIT).toString();
-        //StringBuilder htm = new StringBuilder();
 %>
         <form id="form1ep" dojoType="dijit.form.Form" class="swbform" method="post" action="<%=axn%>">
         <div id="formPerfil">
@@ -190,6 +189,7 @@ while(it.hasNext()) {
                 else
                     tel = null;
             }catch(Exception e) {
+e.printStackTrace(System.out);
             }
         }
 %>
@@ -200,7 +200,7 @@ while(it.hasNext()) {
           
           <p class="tercio">
            <label for="ld">Clave Lada</label>
-           <input type="text" name="ld" id="ld" dojoType="dijit.form.ValidationTextBox" value="<%=tel!=null&&tel.getLada()>0?Integer.toString(tel.getLada()):""%>" maxlength="3" promptMessage="<%=paramRequest.getLocaleString("promptMsgPhoneLada")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultPhoneLada")%>" regExp="\d{2,3}" trim="true" />
+           <input type="text" name="ld" id="ld" dojoType="dijit.form.ValidationTextBox" value="<%=tel!=null&&tel.getLada()>0?Integer.toString(tel.getLada()):"nada"%>" maxlength="3" promptMessage="<%=paramRequest.getLocaleString("promptMsgPhoneLada")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultPhoneLada")%>" regExp="\d{2,3}" trim="true" />
           </p>
           <p class="tercio">
            <label for="tfo">Telefono</label>
@@ -212,7 +212,7 @@ while(it.hasNext()) {
           </p>
           
           <p class="entero">
-              <label for="loc">Ubicaci&oacute;n <a href="#" title="Ver mapa de ubicación">Ver mapa</a></label>
+           <label for="loc">Ubicaci&oacute;n <a href="#" title="Ver mapa de ubicación">Ver mapa</a></label>
            <textarea name="loc" id="loc" rows="2" dojoType="ValidationTextarea" promptMessage="<%=paramRequest.getLocaleString("promptMsgLocation")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultLocation")%>" required="true" trim="true"><%=profile.getUbicacion()==null?"":profile.getUbicacion()%></textarea>
           </p>
           
@@ -220,29 +220,39 @@ while(it.hasNext()) {
     SemanticProperty ext = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#noe");
     
 %>
-          <p class="entero">
+          <p class="tercio">
            <label for="ads">Adscripci&oacute;n</label>
-           <select name="ads" id="ads"  dojoType="dijit.form.FilteringSelect" required="true" promptMessage="Adscripción" invalidMessage="La adscripción es requerida" style="width:350px">
+           <select name="ads" id="ads"  dojoType="dijit.form.FilteringSelect" required="true" promptMessage="Adscripción" invalidMessage="La adscripción es requerida" >
                <option value=""></option>
 <%
         UserRepository ur = wsite.getUserRepository();
-System.out.println("ur="+ur.getTitle()+","+ur.getId());
-        UserGroup infotec = ur.getUserGroup("Infotec");
+        UserGroup infotec = ur.getUserGroup("Empleado_exsitu");
         UserGroup ug;
-        Iterator<UserGroup> it = infotec.listAllChilds();
-        it = SWBComparator.sortByDisplayName(it, user.getLanguage());
+        Iterator<UserGroup> it = infotec.listChilds();
+        it = SWBComparator.sortByDisplayName(it, lang);
         while(it.hasNext()) {
             ug = it.next();
-System.out.println("... ug="+ug);
-System.out.println("... user.getUserGroup()="+user.getUserGroup());
-System.out.println("......ug.equals(user.getUserGroup())="+ug.equals(user.getUserGroup()));
-            if(ug.equals(infotec))
+System.out.println("ug="+ug);
+            if(ug==null)
                 continue;
+            if(user.hasUserGroup(ug)) {
 %>
-            <option <%=(ug.equals(user.getUserGroup())?"selected=\"selected\"":"")%> value="<%=(ug.getId())%>"><%=(ug.getDescription())%></option>
-<%
+                <option value="<%=(ug.getId())%>" selected="selected"><%=(ug.getDescription())%></option>
+<%            
+            }else {
+%>
+                <option value="<%=(ug.getId())%>"><%=(ug.getDescription())%></option>
+<%            
+            }
         }
 %>
+           </select>
+          </p>
+          
+          <p class="tercio">
+           <label for="iboss">Jefe inmediato</label>
+           <select name="iboss" id="iboss"  dojoType="dijit.form.FilteringSelect" required="false" promptMessage="Jefe inmediato" invalidMessage="es requerida" >
+               <option value=""></option>
            </select>
           </p>
           
