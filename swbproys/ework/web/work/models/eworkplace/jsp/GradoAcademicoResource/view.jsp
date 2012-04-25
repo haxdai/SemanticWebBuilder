@@ -47,14 +47,6 @@
 
     }
 
-    if (cv.getPersona() == null) {
-        Persona persona = Persona.ClassMgr.getPersona(usr.getId(), wsite);
-        if (persona == null) {
-            persona = Persona.ClassMgr.createPersona(usr.getId(), wsite);
-        }
-        cv.setPersona(persona);
-    }
-
     Academia aca = cv.getAcademia();
     if (aca == null) {
         aca = Academia.ClassMgr.createAcademia(wsite);
