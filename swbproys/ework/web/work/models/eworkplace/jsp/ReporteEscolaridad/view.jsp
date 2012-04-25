@@ -874,7 +874,7 @@
                                             </tbody>
                                         </table>
                                         <button onclick="javascript:history.back(1);" >Regresar</button> 
-                                        <button type="submit" onclick="return revisa(this.form)" >Regresar</button> 
+                                        <button type="submit" onclick="return revisa(this.form)" >Buscar</button> 
                                     </form>
                                     <%
                                     } else if ("2".equals(step)) { //step 2, hace la busqueda del texto en diplomados ó cursos TIC
