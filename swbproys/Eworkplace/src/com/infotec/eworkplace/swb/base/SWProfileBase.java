@@ -1,16 +1,20 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,com.infotec.eworkplace.swb.Placeable
+public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Placeable,org.semanticwb.model.Traceable
 {
+    public static final org.semanticwb.platform.SemanticProperty intranet_contrato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#contrato");
     public static final org.semanticwb.platform.SemanticProperty intranet_misIdeas=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#misIdeas");
     public static final org.semanticwb.platform.SemanticProperty intranet_misGustos=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#misGustos");
-    public static final org.semanticwb.platform.SemanticClass intranet_Gerencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Gerencia");
-    public static final org.semanticwb.platform.SemanticProperty intranet_gerencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#gerencia");
     public static final org.semanticwb.platform.SemanticProperty intranet_puesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#puesto");
     public static final org.semanticwb.platform.SemanticProperty intranet_miPersonalidad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#miPersonalidad");
     public static final org.semanticwb.platform.SemanticClass intranet_Proyecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Proyecto");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasProyecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasProyecto");
+   /**
+   * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
+   */
+    public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
+    public static final org.semanticwb.platform.SemanticProperty intranet_jefeInmediato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#jefeInmediato");
     public static final org.semanticwb.platform.SemanticClass intranet_TemaInteres=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#TemaInteres");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasTemaInteres=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasTemaInteres");
     public static final org.semanticwb.platform.SemanticClass intranet_SWProfile=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#SWProfile");
@@ -106,29 +110,6 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
             return it;
         }
        /**
-       * Gets all com.infotec.eworkplace.swb.SWProfile with a determined Gerencia
-       * @param value Gerencia of the type com.infotec.eworkplace.swb.Gerencia
-       * @param model Model of the com.infotec.eworkplace.swb.SWProfile
-       * @return Iterator with all the com.infotec.eworkplace.swb.SWProfile
-       */
-
-        public static java.util.Iterator<com.infotec.eworkplace.swb.SWProfile> listSWProfileByGerencia(com.infotec.eworkplace.swb.Gerencia value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SWProfile> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_gerencia, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.eworkplace.swb.SWProfile with a determined Gerencia
-       * @param value Gerencia of the type com.infotec.eworkplace.swb.Gerencia
-       * @return Iterator with all the com.infotec.eworkplace.swb.SWProfile
-       */
-
-        public static java.util.Iterator<com.infotec.eworkplace.swb.SWProfile> listSWProfileByGerencia(com.infotec.eworkplace.swb.Gerencia value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SWProfile> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_gerencia,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all com.infotec.eworkplace.swb.SWProfile with a determined Creator
        * @param value Creator of the type org.semanticwb.model.User
        * @param model Model of the com.infotec.eworkplace.swb.SWProfile
@@ -172,6 +153,29 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
         public static java.util.Iterator<com.infotec.eworkplace.swb.SWProfile> listSWProfileByProyecto(com.infotec.eworkplace.swb.Proyecto value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SWProfile> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasProyecto,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.SWProfile with a determined JefeInmediato
+       * @param value JefeInmediato of the type org.semanticwb.model.User
+       * @param model Model of the com.infotec.eworkplace.swb.SWProfile
+       * @return Iterator with all the com.infotec.eworkplace.swb.SWProfile
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.SWProfile> listSWProfileByJefeInmediato(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SWProfile> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_jefeInmediato, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.SWProfile with a determined JefeInmediato
+       * @param value JefeInmediato of the type org.semanticwb.model.User
+       * @return Iterator with all the com.infotec.eworkplace.swb.SWProfile
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.SWProfile> listSWProfileByJefeInmediato(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SWProfile> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_jefeInmediato,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -247,6 +251,24 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
     }
 
 /**
+* Gets the Contrato property
+* @return String with the Contrato
+*/
+    public String getContrato()
+    {
+        return getSemanticObject().getProperty(intranet_contrato);
+    }
+
+/**
+* Sets the Contrato property
+* @param value long with the Contrato
+*/
+    public void setContrato(String value)
+    {
+        getSemanticObject().setProperty(intranet_contrato, value);
+    }
+
+/**
 * Gets the Created property
 * @return java.util.Date with the Created
 */
@@ -316,44 +338,6 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
     public void setMisGustos(String value)
     {
         getSemanticObject().setProperty(intranet_misGustos, value);
-    }
-   /**
-   * Sets the value for the property Gerencia
-   * @param value Gerencia to set
-   */
-
-    public void setGerencia(com.infotec.eworkplace.swb.Gerencia value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(intranet_gerencia, value.getSemanticObject());
-        }else
-        {
-            removeGerencia();
-        }
-    }
-   /**
-   * Remove the value for Gerencia property
-   */
-
-    public void removeGerencia()
-    {
-        getSemanticObject().removeProperty(intranet_gerencia);
-    }
-
-   /**
-   * Gets the Gerencia
-   * @return a com.infotec.eworkplace.swb.Gerencia
-   */
-    public com.infotec.eworkplace.swb.Gerencia getGerencia()
-    {
-         com.infotec.eworkplace.swb.Gerencia ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_gerencia);
-         if(obj!=null)
-         {
-             ret=(com.infotec.eworkplace.swb.Gerencia)obj.createGenericInstance();
-         }
-         return ret;
     }
 
 /**
@@ -511,6 +495,44 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
     public void setUbicacion(String value)
     {
         getSemanticObject().setProperty(intranet_ubicacion, value);
+    }
+   /**
+   * Sets the value for the property JefeInmediato
+   * @param value JefeInmediato to set
+   */
+
+    public void setJefeInmediato(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_jefeInmediato, value.getSemanticObject());
+        }else
+        {
+            removeJefeInmediato();
+        }
+    }
+   /**
+   * Remove the value for JefeInmediato property
+   */
+
+    public void removeJefeInmediato()
+    {
+        getSemanticObject().removeProperty(intranet_jefeInmediato);
+    }
+
+   /**
+   * Gets the JefeInmediato
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getJefeInmediato()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_jefeInmediato);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
     }
    /**
    * Gets all the com.infotec.eworkplace.swb.TemaInteres
