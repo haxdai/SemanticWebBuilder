@@ -25,4 +25,11 @@ public class Persona extends com.infotec.eworkplace.swb.base.PersonaBase
         }
         return telefonos.iterator();
     }
+
+    public void removeAllTelefonoByTipo(TipoTelefono tipo) {
+        java.util.Iterator<Telefono> telefonos = listTelefonoByTipo(tipo);
+        while(telefonos.hasNext()) {
+            telefonos.next().remove();
+        }
+    }
 }
