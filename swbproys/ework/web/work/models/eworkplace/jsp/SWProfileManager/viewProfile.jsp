@@ -148,7 +148,7 @@
             tel = tels.next();
             try {
                 Telefono.TipoTelefono.valueOf(tel.getTipo());
-                if(Telefono.TipoTelefono.job.name().equals(tel.getTipo()))
+                if(Telefono.TipoTelefono.Trabajo.name().equals(tel.getTipo()))
                     break;
                 else
                     tel = null;
@@ -156,36 +156,66 @@
             }
         }
 %>
+          <p class="entero">
+           <label for="email">Correo electr&oacute;nico institucional</label>
+           <input type="text" name="email" id="email"  dojoType="dijit.form.ValidationTextBox" value="<%=user.getEmail()%>" trim="true" readonly="readonly" />
+          </p>
+          
           <p class="tercio">
            <label for="ld">Clave Lada</label>
-           <input type="text" name="ld" id="ld" dojoType="dijit.form.ValidationTextBox" value="<%=tel!=null&&tel.getLada()>0?Integer.toString(tel.getLada()):""%>" maxlength="3" promptMessage="<%=paramRequest.getLocaleString("promptMsgPhoneLada")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultPhoneLada")%>" regExp="\d{2,3}" trim="true" readonly="readonly" />
+           <input type="text" name="ld" id="ld" dojoType="dijit.form.ValidationTextBox" value="<%=tel!=null&&tel.getLada()>0?Integer.toString(tel.getLada()):""%>" trim="true" readonly="readonly" />
           </p>
           <p class="tercio">
            <label for="tfo">Telefono</label>
-           <input type="text" name="tfo" id="tfo" dojoType="dijit.form.ValidationTextBox" value="<%=tel!=null&&tel.getNumero()>0?Integer.toString(tel.getNumero()):""%>" maxlength="8" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgPhone")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultPhone")%>" regExp="\d{7,8}" trim="true" readonly="readonly"/>
+           <input type="text" name="tfo" id="tfo" dojoType="dijit.form.ValidationTextBox" value="<%=tel!=null&&tel.getNumero()>0?Integer.toString(tel.getNumero()):""%>" trim="true" readonly="readonly"/>
           </p>
           <p class="tercio">
            <label for="ext">Extension</label>
-           <input type="text" name="ext" id="ext" dojoType="dijit.form.ValidationTextBox" value="<%=tel!=null&&tel.getExtension()>0?Integer.toString(tel.getExtension()):""%>" maxlength="6" promptMessage="<%=paramRequest.getLocaleString("promptMsgPhoneExt")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultExt")%>" regExp="\d{1,6}" trim="true" readonly="readonly" />
-          </p>
-          
-<%
-    SemanticProperty ext = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#noe");
-%>
-          <p class="medio">
-           <label for="extdr">Extensi&oacute;n de tu Direcci&oacute;n</label>
-           <input type="text" name="extdr" id="extdr" dojoType="dijit.form.ValidationTextBox" value="<%=user.getExtendedAttribute(ext)==null?"nulo":user.getExtendedAttribute(ext)%>" maxlength="6" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgPhoneExtDr")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultExt")%>" regExp="\d{1,6}" trim="true" style="width:280px" readonly="readonly" />
-          </p>
-
-          <p class="medio">
-           <label for="email">Correo electr&oacute;nico institucional</label>
-           <input type="text" name="email" id="email"  dojoType="dijit.form.ValidationTextBox" required="true" value="<%=user.getEmail()%>" maxlength="60" promptMessage="<%=paramRequest.getLocaleString("promptMsgEmail")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultEmail")%>" isValid="return isValidEmail(this.textbox.value)" trim="true" style="width:280px" readonly="readonly" />
+           <input type="text" name="ext" id="ext" dojoType="dijit.form.ValidationTextBox" value="<%=tel!=null&&tel.getExtension()>0?Integer.toString(tel.getExtension()):""%>" trim="true" readonly="readonly" />
           </p>
           
           <p class="entero">
            <label for="loc">Ubicaci&oacute;n f&iacute;sica de tu lugar u oficina</label>
-           <textarea id="loc" name="loc" rows="2" cols="70" readonly="readonly"><%=profile.getUbicacion()==null?"":profile.getUbicacion()%></textarea>
+           <textarea name="loc" id="loc" rows="2" dojoType="ValidationTextarea" trim="true"><%=profile.getUbicacion()==null?"":profile.getUbicacion()%></textarea>
           </p>
+          
+          <p class="tercio">
+           <label for="ads">Adscripci&oacute;n</label>
+           <select name="ads" id="ads"  dojoType="dijit.form.FilteringSelect">
+               <option value=""></option>
+<%
+        UserRepository ur = wsite.getUserRepository();
+        UserGroup infotec = ur.getUserGroup("Empleado_exsitu");
+        UserGroup ug;
+        Iterator<UserGroup> it = infotec.listChilds();
+        while(it.hasNext()) {
+            ug = it.next();
+            if(ug==null)
+                continue;
+            if(user.hasUserGroup(ug)) {
+%>
+                <option value="<%=(ug.getId())%>" selected="selected"><%=(ug.getDescription())%></option>
+<%            
+                break;
+            }
+        }
+%>
+           </select>
+          </p>
+<%
+%>          
+          <p class="tercio">
+           <label for="iboss">Jefe inmediato</label>
+           <input type="text" name="iboss" id="iboss"  dojoType="dijit.form.ValidationTextBox" value="" trim="true" readonly="readonly" />
+          </p>
+ <%
+    SemanticProperty ext = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#noe");
+%>         
+          <p class="tercio">
+           <label for="extdr">Extensi&oacute;n de tu adscripci&oacute;n</label>
+           <input type="text" name="extdr" id="extdr" dojoType="dijit.form.ValidationTextBox" value="<%=user.getExtendedAttribute(ext)==null?"":user.getExtendedAttribute(ext)%>" trim="true" />
+          </p>
+          
           <div class="clearer">&nbsp;</div>
          </div>
 
@@ -387,43 +417,35 @@
 //            htm.append("        </ol>");
 //            htm.append("        <p><a href=\"#\">Agregar</a></p>");
 //            htm.append("    </div>");
-
-        Iterator<TemaInteres> tis = TemaInteres.ClassMgr.listTemaIntereses(wsite);
-        if(tis.hasNext()) {
 %>
-        <!-- // temas de interes -->
          <div class="de_interes divisor">
           <h3>Temas de mi inter&eacute;s</h3>
-              <!--em>El sistema te ofrecer&aacute; contenidos acordes con tus temas de inter&eacute;s</em-->
 <%
-            if(profile.listTemaIntereses().hasNext()) {
-%>
-              <ul>
+        Iterator<TemaInteres> tis = profile.listTemaIntereses();
+        if(tis.hasNext()) {
+%>          
+          <ul>
 <%
             TemaInteres ti;
             while(tis.hasNext()) {
                 ti = tis.next();
                 if(profile.hasTemaInteres(ti)) {
 %>
-                   <li class="tercio"><%=ti.getDisplayTitle(lang)%></li>
+               <li class="tercio"><%=ti.getDisplayTitle(lang)%></li>
 <%
                }
             }
 %>
-              </ul>
+          </ul>
 <%
-            }else {
+       }else {
 %>
-              <p><%=(user.getFirstName())%> no ha agregado temas de inter&eacute;s</p> 
-<%
-            }
-%>
-          <div class="clearer">&nbsp;</div>
-         </div>
+          <p><%=(user.getFirstName())%> no ha agregado temas de inter&eacute;s</p> 
 <%
        }
 %>
-
+          <div class="clearer">&nbsp;</div>
+         </div>
         </div>
         </form>
         <script type="text/javascript">
@@ -434,7 +456,7 @@
 <%
     }else {
 %>
-        <p>usuario distinto al dueño del perfil</p>
+        <p>&excl;usuario distinto al dueño del perfil¡</p>
 <%
     }
 %>
