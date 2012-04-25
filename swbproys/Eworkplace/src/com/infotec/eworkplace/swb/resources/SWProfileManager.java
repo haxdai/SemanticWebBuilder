@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBPortal;
@@ -24,8 +26,11 @@ import org.semanticwb.SWBUtils;
 import org.semanticwb.base.util.ImageResizer;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.Resourceable;
+import org.semanticwb.model.Role;
+import org.semanticwb.model.SWBComparator;
 import org.semanticwb.model.User;
 import org.semanticwb.model.UserGroup;
+import org.semanticwb.model.UserGroupable;
 import org.semanticwb.model.UserRepository;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
@@ -53,24 +58,29 @@ public class SWProfileManager extends GenericAdmResource {
     
     public static final String RH_Role = "RH";
     
-    /*public String contentURL;
-    @Override
-    public void setResourceBase(Resource base) {
-        Iterator<Resourceable> res = base.listResourceables();
-        while(res.hasNext()) {
-            Resourceable re = res.next();
-            if( re instanceof WebPage ) {
-                contentURL = ((WebPage)re).getUrl();
-                break;
-            }
-        }
-    }*/
+    public static final String Mode_ADS = "ads";
+    public static final String Mode_IBSS = "ibss";
+    private Role subgerente, gerente, director;
     
     @Override
+    public void setResourceBase(Resource base) throws SWBResourceException {
+        super.setResourceBase(base);
+        
+        UserRepository ur = base.getWebSite().getUserRepository();
+        subgerente = ur.getRole("Subgerente");
+        gerente = ur.getRole("Gerente");
+        director = ur.getRole("Director");
+    }
+        
+    @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        String mode = paramRequest.getMode();
-        if("fam".equals(mode))
-            doFam(request, response, paramRequest);
+        final String mode = paramRequest.getMode();
+        if(Mode_ADS.equals(mode))
+            doAds(request, response, paramRequest);
+        else if(Mode_IBSS.equals(mode))
+            doInmediateBoss(request, response, paramRequest);
+//        else if("fam".equals(mode))
+//            doFam(request, response, paramRequest);
         else if(Mode_CHGPHTO.equals(mode))
             doChangePhoto(request, response, paramRequest);
         else if(Mode_VIEWPRFL.equals(mode))
@@ -90,9 +100,6 @@ public class SWProfileManager extends GenericAdmResource {
         Resource base = getResourceBase();
         WebSite wsite = base.getWebSite();
         PrintWriter out =  response.getWriter();
-
-System.out.println("\n\n SWProfileManager.............");
-System.out.println("Action = "+paramRequest.getAction());
         
         if(paramRequest.getCallMethod()==paramRequest.Call_STRATEGY) {
 //                SemanticProperty sp = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#miPerfilSL");
@@ -161,13 +168,6 @@ System.out.println("Action = "+paramRequest.getAction());
             }else {
                 doResume(request, response, paramRequest);
             }
-            
-            
-            
-            
-            
-            
-            
             
             
 //            if(user.isSigned()) {
@@ -767,6 +767,15 @@ htm.append("</form>");
                     }
                 }
                 else {
+                    CV cv = CV.ClassMgr.getCV(user.getId(), wsite);
+                    Persona persona = cv.getPersona();
+                    if(user.equals(persona.getOwner())) {
+                        response.setRenderParameter("alertmsg", "este usuario y el de persona no son el mismo");
+System.out.println("\n\n este usuario y el de persona no son el mismo");
+return;
+                    }                    
+                    
+                    
                     StringBuilder alertmsg = new StringBuilder();
                     String prsnld = SWBUtils.XML.replaceXMLChars(request.getParameter("prsnld")).trim();
                     if(prsnld.isEmpty()) {
@@ -804,28 +813,18 @@ htm.append("</form>");
                     if(ugId==null) {
                         alertmsg.append(response.getLocaleString("")).append("\n");
                     }
-                    
-response.setRenderParameter("alertmsg", response.getLocaleString(""));
-                    
-                    
-                    CV cv = CV.ClassMgr.getCV(user.getId(), wsite);
-                    Persona persona = cv.getPersona();
-                    
-                    profile.setMiPersonalidad(SWBUtils.XML.replaceXMLChars(request.getParameter("prsnld")));
-                    profile.setMisGustos(SWBUtils.XML.replaceXMLChars(request.getParameter("gsts")));
-                    profile.setMisIdeas(SWBUtils.XML.replaceXMLChars(request.getParameter("ideas")));
-                    
                     try {
                         UserRepository ur = wsite.getUserRepository();
-System.out.println("ugId="+ugId);
                         UserGroup ug = ur.getUserGroup(ugId);
-System.out.println("ug="+ug);
-System.out.println("user.hasUserGroup(ug)="+user.hasUserGroup(ug));
                         if(!user.hasUserGroup(ug))
                             user.addUserGroup(ug);
                     }catch(Exception e) {
 e.printStackTrace(System.out);
                     }
+                    
+                    profile.setMiPersonalidad(SWBUtils.XML.replaceXMLChars(request.getParameter("prsnld")));
+                    profile.setMisGustos(SWBUtils.XML.replaceXMLChars(request.getParameter("gsts")));
+                    profile.setMisIdeas(SWBUtils.XML.replaceXMLChars(request.getParameter("ideas")));
                     
                     try {
                         int ld, xtn;
@@ -864,7 +863,6 @@ e.printStackTrace(System.out);
                     if(SWBUtils.EMAIL.isValidEmailAddress(request.getParameter("email")))
                         user.setEmail(request.getParameter("email"));
                     profile.setUbicacion(SWBUtils.XML.replaceXMLChars(request.getParameter("loc")));
-System.out.println("mti="+request.getParameterValues("mti"));
                     if(request.getParameterValues("mti")!=null && request.getParameterValues("mti").length>0) {
                         profile.removeAllTemaInteres();
                         String[] mtis = request.getParameterValues("mti");
@@ -958,6 +956,87 @@ System.out.println("mti="+request.getParameterValues("mti"));
                 }
             }
         }
+    }
+    
+    public void doAds(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("application/json; charset=ISO-8859-1");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
+        
+        PrintWriter out = response.getWriter();
+        WebSite wsite = paramRequest.getWebPage().getWebSite();
+        User user = paramRequest.getUser();
+        String ret = "";
+        try {
+            JSONObject base = new JSONObject();
+            base.put("identifier", "id");
+            base.put("label", "name");
+            JSONArray items = new JSONArray();
+            base.put("items", items);
+            UserRepository ur = wsite.getUserRepository();
+            UserGroup infotec = ur.getUserGroup("Empleado_exsitu");
+            UserGroup ug;
+            Iterator<UserGroup> it = infotec.listChilds();
+            it = SWBComparator.sortByDisplayName(it, user.getLanguage());
+            while(it.hasNext()) {
+                ug = it.next();
+                JSONObject jtipo = new JSONObject();
+                items.put(jtipo);
+                jtipo.put("id", ug.getId());
+                jtipo.put("name", ug.getTitle());
+            }
+            ret = base.toString();
+        } catch (Exception e) {
+            log.error(e);
+        }
+        out.print(ret);
+    }
+    
+    public void doInmediateBoss(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("application/json; charset=ISO-8859-1");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
+        
+        PrintWriter out = response.getWriter();
+        WebSite wsite = paramRequest.getWebPage().getWebSite();
+                
+        String ret = "";
+        try {
+            JSONObject base = new JSONObject();
+            base.put("identifier", "id");
+            base.put("label", "name");
+            JSONArray items = new JSONArray();
+            base.put("items", items);
+            
+            User user;
+            UserGroup ug;
+            UserRepository ur = wsite.getUserRepository();
+            UserGroup infotec = ur.getUserGroup("Empleado_exsitu");
+            Iterator<UserGroup> it = infotec.listChilds();
+            while(it.hasNext()) {
+                ug = it.next();
+                if(ug==null)
+                    continue;
+                Iterator<UserGroupable> ugbles = ug.listUsers();
+                while(ugbles.hasNext()) {
+                    UserGroupable ugble = ugbles.next();
+                    if(ugble instanceof User) {
+                        user = (User)ugble;
+                        if(user.hasRole(subgerente)||user.hasRole(gerente)||user.hasRole(director)) {
+                            JSONObject jtipo = new JSONObject();
+                            items.put(jtipo);
+                            jtipo.put("id", user.getId());
+                            jtipo.put("name", user.getFullName());
+                            jtipo.put("dir", ug.getId());
+                        }
+                    }
+                }
+            }      
+            ret = base.toString();
+        } catch (Exception e) {
+            log.error(e);
+        }
+        out.print(ret);
     }
     
     public void doFam(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
