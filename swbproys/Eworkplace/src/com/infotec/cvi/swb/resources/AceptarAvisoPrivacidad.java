@@ -4,6 +4,7 @@
  */
 package com.infotec.cvi.swb.resources;
 
+import com.infotec.cvi.swb.CV;
 import com.infotec.eworkplace.swb.Persona;
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -37,6 +38,19 @@ public class AceptarAvisoPrivacidad extends GenericAdmResource {
         if (response.Action_ADD.equals(action)) {
             WebSite ws = getResourceBase().getWebSite();
             Persona persona = Persona.ClassMgr.getPersona(user.getId(), ws);
+            if(persona==null){
+                persona = Persona.ClassMgr.createPersona(user.getId(), ws);
+                persona.setOwner(user);
+            }
+            CV cv = CV.ClassMgr.getCV(user.getId(), ws);
+            if(cv==null){
+               cv = CV.ClassMgr.createCV(user.getId(), ws); 
+               cv.setPropietario(user);
+               cv.setPersona(persona);
+            }
+            if(cv.getPersona()==null){
+                cv.setPersona(persona);
+            }
             String activeRoleGroup = getResourceBase().getAttribute("activeRoleGroup");
             SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
             GenericObject gobj;
