@@ -5,10 +5,12 @@
 package com.infotec.cvi.swb.resources;
 
 import com.infotec.cvi.swb.CP;
+import com.infotec.cvi.swb.CV;
 import com.infotec.cvi.swb.Candidato;
 import com.infotec.cvi.swb.Colonia;
 import com.infotec.cvi.swb.EntidadFederativa;
 import com.infotec.cvi.swb.Municipio;
+import com.infotec.cvi.swb.base.CVBase;
 import com.infotec.eworkplace.swb.Domicilio;
 import com.infotec.eworkplace.swb.Persona;
 import com.infotec.eworkplace.swb.Telefono;
@@ -135,9 +137,9 @@ public class UserPersonalData extends GenericAdmResource {
 //                    complete = false;
                 }
 
-                if(email!=null && !email.equals("")&& SWBUtils.EMAIL.isValidEmailAddress(email) ) {
+                if (email != null && !email.equals("") && SWBUtils.EMAIL.isValidEmailAddress(email)) {
                     user.setEmail(email);
-                }  else {
+                } else {
 //                    complete = false;
                 }
 
@@ -148,6 +150,23 @@ public class UserPersonalData extends GenericAdmResource {
                 } else if (persona.getOwner() == null) {
                     persona.setOwner(user);
                 }
+
+                CV cv = CV.ClassMgr.getCV(user.getId(), ws);
+                if (cv == null) {
+                    cv = CV.ClassMgr.createCV(user.getId(), ws);
+                    cv.setPropietario(user);
+                    cv.setPersona(persona);
+                } else {
+                    if (cv.getPersona() == null ) {
+                        cv.setPersona(persona);
+                    }
+                    if (cv.getPropietario() == null) {
+                        cv.setPropietario(user);
+                    }
+                }
+
+
+
 
                 if (curp != null && !curp.equals("") && curp.matches("[a-zA-Z]{4}\\d{6}[a-zA-Z]{6}\\d{2}")) {
                     persona.setCurp(curp);
@@ -187,12 +206,12 @@ public class UserPersonalData extends GenericAdmResource {
                     domicilio = Domicilio.ClassMgr.createDomicilio(ws);
                     persona.setDomicilio(domicilio);
                 }
-                if (addrStreet != null&& !addrStreet.equals("")) {
+                if (addrStreet != null && !addrStreet.equals("")) {
                     domicilio.setCalle(addrStreet);
                 } else {
                     complete = false;
                 }
-                if (addrNumE != null&& !addrNumE.equals("")) {
+                if (addrNumE != null && !addrNumE.equals("")) {
                     domicilio.setNumExterior(addrNumE);
                 } else {
                     complete = false;
@@ -233,7 +252,7 @@ public class UserPersonalData extends GenericAdmResource {
                     persona.removePEmail(pEmail);
                 }
                 Enumeration<String> params = request.getParameterNames();
-                int phoneCount=0;
+                int phoneCount = 0;
                 while (params.hasMoreElements()) {
                     String param = params.nextElement();
                     if (param.startsWith("phoneNum")) {
@@ -557,7 +576,7 @@ public class UserPersonalData extends GenericAdmResource {
             GenericObject eobj, cobj;
             eobj = ont.getGenericObject(editPrivilegesId);
             cobj = ont.getGenericObject(completePrivilegesId);
-            if ((editPrivilegesId.equals("0")||(hasRoleGroup(user, eobj))) && !hasRoleGroup(user, cobj)) {
+            if ((editPrivilegesId.equals("0") || (hasRoleGroup(user, eobj))) && !hasRoleGroup(user, cobj)) {
                 if (cobj != null) {
                     if (cobj instanceof UserGroup) {
                         UserGroup ugrp = (UserGroup) cobj;
@@ -583,6 +602,7 @@ public class UserPersonalData extends GenericAdmResource {
             }
         }
     }
+
     /**
      * Devuelve true cuando un usuario dado tiene un rol o grupo asignado
      *
