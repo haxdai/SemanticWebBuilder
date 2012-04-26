@@ -21,11 +21,10 @@ public class Persona extends com.infotec.eworkplace.swb.base.PersonaBase
         while(it.hasNext()) {
             tel = it.next();
             try {
-                if(TipoTelefono.valueOf(tel.getTipo()) != tipo) {
+                if(TipoTelefono.valueOf(tel.getTipo())==tipo) {
                     telefonos.add(tel);
                 }
             }catch(IllegalArgumentException iae) {
-                telefonos.remove(tel);
             }
         }        
         return telefonos.iterator();
