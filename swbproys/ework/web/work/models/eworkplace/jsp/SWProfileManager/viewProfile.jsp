@@ -4,7 +4,6 @@
     Author     : carlos.ramos
 --%>
 <%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
-<%@page import="com.infotec.cvi.swb.*"%>
 <%@page import="com.infotec.eworkplace.swb.*"%>
 <%@page import="org.semanticwb.SWBPlatform"%>
 <%@page import="org.semanticwb.SWBPortal"%>
@@ -125,8 +124,7 @@
          <div class="contacto_interno divisor">
           <h3><%=paramRequest.getLocaleString("titleIContact")%></h3>
 <%
-        CV cv = CV.ClassMgr.getCV(user.getId(), wsite);
-        Persona persona = cv.getPersona();
+        Persona persona = Persona.ClassMgr.getPersona(user.getId(), wsite);
         Telefono tel = persona.getTelefonoByTipo(Telefono.TipoTelefono.Trabajo);
 %>
           <p class="entero">
@@ -180,7 +178,7 @@
 %>         
           <p class="tercio">
            <label for="extdr"><%=paramRequest.getLocaleString("lblPhoneExtDr")%></label>
-           <input type="text" name="extdr" id="extdr" dojoType="dijit.form.ValidationTextBox" value="<%=user.getExtendedAttribute(ext)==null?"":user.getExtendedAttribute(ext)%>" trim="true" />
+           <input type="text" name="extdr" id="extdr" dojoType="dijit.form.ValidationTextBox" value="<%=user.getExtendedAttribute(ext)==null?"10":user.getExtendedAttribute(ext)%>" trim="true" />
           </p>
           
           <div class="clearer">&nbsp;</div>

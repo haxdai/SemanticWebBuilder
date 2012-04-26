@@ -4,7 +4,6 @@
     Author     : carlos.ramos
 --%>
 <%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
-<%@page import="com.infotec.cvi.swb.*"%>
 <%@page import="com.infotec.eworkplace.swb.*"%>
 <%@page import="org.semanticwb.SWBPlatform"%>
 <%@page import="org.semanticwb.SWBPortal"%>
@@ -149,8 +148,7 @@ dojo.declare(
          <div class="contacto_interno divisor">
           <h3><%=paramRequest.getLocaleString("titleIContact")%></h3>
 <%
-        CV cv = CV.ClassMgr.getCV(user.getId(), wsite);
-        Persona persona = cv.getPersona();
+        Persona persona = Persona.ClassMgr.getPersona(user.getId(), wsite);
         Telefono tel = persona.getTelefonoByTipo(Telefono.TipoTelefono.Trabajo);
 %>
           <p class="entero">
