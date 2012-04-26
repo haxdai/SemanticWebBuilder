@@ -61,6 +61,7 @@ public class SWProfileManager extends GenericAdmResource {
     public static final String Mode_ADS = "ads";
     public static final String Mode_IBSS = "ibss";
     private Role subgerente, gerente, director;
+    private UserGroup infotec;
     
     @Override
     public void setResourceBase(Resource base) throws SWBResourceException {
@@ -70,6 +71,7 @@ public class SWProfileManager extends GenericAdmResource {
         subgerente = ur.getRole("Subgerente");
         gerente = ur.getRole("Gerente");
         director = ur.getRole("Director");
+        infotec = ur.getUserGroup("Empleado_exsitu");
     }
         
     @Override
@@ -767,179 +769,131 @@ htm.append("</form>");
                     }
                 }
                 else {
+                    UserRepository ur = wsite.getUserRepository();
                     CV cv = CV.ClassMgr.getCV(user.getId(), wsite);
                     Persona persona = cv.getPersona();
-                    if(user.equals(persona.getOwner())) {
-                        response.setRenderParameter("alertmsg", "este usuario y el de persona no son el mismo");
-System.out.println("\n\n este usuario y el de persona no son el mismo");
-return;
-                    }                    
-                    
-                    
+                    if(!user.equals(persona.getOwner())) {
+                        response.setRenderParameter("alertmsg", response.getLocaleString("promptMsgErrSurrogacy"));
+                        return;
+                    }
                     StringBuilder alertmsg = new StringBuilder();
+                    String email = request.getParameter("email");
+                    if(!SWBUtils.EMAIL.isValidEmailAddress(email)) {
+                        response.setRenderParameter("alertmsg", response.getLocaleString("promptMsgFaultEmail"));
+                        return;
+                    }
+                    if(ur.getUserByEmail(email)!=null && !user.equals(ur.getUserByEmail(email))) {
+                        response.setRenderParameter("alertmsg", response.getLocaleString("promptMsgErrSurrogacy"));
+                        return;
+                    }
                     String prsnld = SWBUtils.XML.replaceXMLChars(request.getParameter("prsnld")).trim();
                     if(prsnld.isEmpty()) {
-                        alertmsg.append(response.getLocaleString("")).append("\n");
+                        alertmsg.append(response.getLocaleString("promptMsgFaultPersonality")).append("\n");
                     }
                     String gsts = SWBUtils.XML.replaceXMLChars(request.getParameter("gsts")).trim();
                     if(gsts.isEmpty()) {
-                        alertmsg.append(response.getLocaleString("")).append("\n");
+                        alertmsg.append(response.getLocaleString("promptMsgFaultLikes")).append("\n");
                     }
                     String ideas = SWBUtils.XML.replaceXMLChars(request.getParameter("ideas")).trim();
                     if(ideas.isEmpty()) {
-                        alertmsg.append(response.getLocaleString("")).append("\n");
+                        alertmsg.append(response.getLocaleString("promptMsgFaultIdeas")).append("\n");
                     }
                     int tfo = 0;
                     try {
                         tfo = Integer.parseInt(request.getParameter("tfo"));
                     }catch(Exception e) {
-                        alertmsg.append(response.getLocaleString("")).append("\n");
-                    }
-                    int xtdr = 0;
-                    try {
-                        xtdr = Integer.parseInt(request.getParameter("extdr"));
-                    }catch(Exception e) {
-                        alertmsg.append(response.getLocaleString("")).append("\n");
-                    }
-                    String email = request.getParameter("email");
-                    if(!SWBUtils.EMAIL.isValidEmailAddress(email)) {
-                        alertmsg.append(response.getLocaleString("")).append("\n");
+                        alertmsg.append(response.getLocaleString("promptMsgFaultPhone")).append("\n");
                     }
                     String loc = SWBUtils.XML.replaceXMLChars(request.getParameter("loc")).trim();
                     if(loc.isEmpty()) {
                         alertmsg.append(response.getLocaleString("")).append("\n");
                     }
-                    String ugId = request.getParameter("ads");
-                    if(ugId==null) {
-                        alertmsg.append(response.getLocaleString("")).append("\n");
-                    }
+                    String adsId = request.getParameter("ads");
+//                    if(adsId==null) {
+//                        alertmsg.append(response.getLocaleString("promptMsgFaultgDr")).append("\n");
+//                    }
+                    UserGroup adscription = null;
                     try {
-                        UserRepository ur = wsite.getUserRepository();
-                        UserGroup ug = ur.getUserGroup(ugId);
-                        if(!user.hasUserGroup(ug))
-                            user.addUserGroup(ug);
+                        adscription = ur.getUserGroup(adsId);
                     }catch(Exception e) {
 e.printStackTrace(System.out);
+                        response.setRenderParameter("alertmsg", response.getLocaleString("promptMsgFaultgDr"));
+                        return;
                     }
-                    
-                    profile.setMiPersonalidad(SWBUtils.XML.replaceXMLChars(request.getParameter("prsnld")));
-                    profile.setMisGustos(SWBUtils.XML.replaceXMLChars(request.getParameter("gsts")));
-                    profile.setMisIdeas(SWBUtils.XML.replaceXMLChars(request.getParameter("ideas")));
-                    
-                    try {
-                        int ld, xtn;
-                        try {
-                            ld = Integer.parseInt(request.getParameter("ld"));
-                        }catch(Exception e) {
-                            ld = 0;
-                        }
-                        try {
-                            xtn = Integer.parseInt(request.getParameter("ext"));
-                        }catch(Exception e) {
-                            xtn = 0;
-                        }
-                        Iterator<Telefono> telefonos = persona.listTelefonoByTipo(Telefono.TipoTelefono.Trabajo);
-                        while(telefonos.hasNext()) {
-                            telefonos.next().remove();
-                        }
-                        Telefono tel = Telefono.ClassMgr.createTelefono(wsite);
-                        tel.setLada(ld);
-                        tel.setNumero(tfo);
-                        tel.setExtension(xtn);
-                        tel.setTipo(Telefono.TipoTelefono.Trabajo.name());
-                        persona.addTelefono(tel);
-                    }catch(Exception nfe) {
-                        log.error(nfe);
+                    if(!infotec.hasChild(adscription)) {
+                        response.setRenderParameter("alertmsg", response.getLocaleString("promptMsgFaultgDr"));
+                        return;
                     }
-                    
+//                    if(adscription==null) {
+//                        alertmsg.append(response.getLocaleString("promptMsgFaultgDr")).append("\n");
+//                    }
+                    String ichiefId = request.getParameter("chief");
+                    if(ichiefId==null) {
+                        alertmsg.append(response.getLocaleString("promptMsgFaultIBoss")).append("\n");
+                    }
+                    if(ur.getUser(ichiefId)==null) {
+                        response.setRenderParameter("alertmsg", response.getLocaleString("promptMsgErrNoUser"));
+                        return;
+                    }
+                    if(user.equals(ur.getUser(ichiefId))) {
+                        response.setRenderParameter("alertmsg", response.getLocaleString("promptMsgErrLoopRef"));
+                        return;
+                    }                        
+                    int xtdr=0;
                     try {
                         xtdr = Integer.parseInt(request.getParameter("extdr"));
-                        SemanticProperty ext = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#extension");
-                        user.setExtendedAttribute(ext, new Integer(xtdr));
                     }catch(Exception e) {
-e.printStackTrace(System.out);
+                        alertmsg.append(response.getLocaleString("promptMsgFaultPhoneExtDr")).append("\n");
                     }
-                        
-                    if(SWBUtils.EMAIL.isValidEmailAddress(request.getParameter("email")))
-                        user.setEmail(request.getParameter("email"));
-                    profile.setUbicacion(SWBUtils.XML.replaceXMLChars(request.getParameter("loc")));
-                    if(request.getParameterValues("mti")!=null && request.getParameterValues("mti").length>0) {
-                        profile.removeAllTemaInteres();
-                        String[] mtis = request.getParameterValues("mti");
-                        for(String mti:mtis)
+                    if(alertmsg.toString().isEmpty()) {
+                        profile.setMiPersonalidad(SWBUtils.XML.replaceXMLChars(request.getParameter("prsnld")));
+                        profile.setMisGustos(SWBUtils.XML.replaceXMLChars(request.getParameter("gsts")));
+                        profile.setMisIdeas(SWBUtils.XML.replaceXMLChars(request.getParameter("ideas")));
+                        user.setEmail(email);
+                        try {
+                            int ld, xtn;
                             try {
-                                profile.addTemaInteres(TemaInteres.ClassMgr.getTemaInteres(mti, wsite));
+                                ld = Integer.parseInt(request.getParameter("ld"));
                             }catch(Exception e) {
-                                log.error(e);
+                                ld = 0;
                             }
+                            try {
+                                xtn = Integer.parseInt(request.getParameter("ext"));
+                            }catch(Exception e) {
+                                xtn = 0;
+                            }
+                            persona.removeAllTelefonoByTipo(Telefono.TipoTelefono.Trabajo);
+                            Telefono tel = Telefono.ClassMgr.createTelefono(wsite);
+                            tel.setLada(ld);
+                            tel.setNumero(tfo);
+                            tel.setExtension(xtn);
+                            tel.setTipo(Telefono.TipoTelefono.Trabajo.name());
+                            persona.addTelefono(tel);
+                        }catch(Exception nfe) {
+                        }
+                        profile.setUbicacion(loc);
+                        profile.setJefeInmediato(ur.getUser(ichiefId));
+                        if(!user.hasUserGroup(adscription)) {
+                            user.removeAllUserGroup();
+                            user.addUserGroup(infotec);
+                            user.addUserGroup(adscription);
+                        }
+                        if(request.getParameterValues("mti")!=null && request.getParameterValues("mti").length>0) {
+                            profile.removeAllTemaInteres();
+                            String[] mtis = request.getParameterValues("mti");
+                            for(String mti:mtis)
+                                try {
+                                    profile.addTemaInteres(TemaInteres.ClassMgr.getTemaInteres(mti, wsite));
+                                }catch(Exception e) {
+                                    log.error(e);
+                                }
+                        }else {
+                            profile.removeAllTemaInteres();
+                        }
+                        response.setAction(SWBResourceURL.Action_ADD);
                     }else {
-                        profile.removeAllTemaInteres();
+                    
                     }
-                    response.setAction(SWBResourceURL.Action_ADD);
-                    
-//                    Domicilio domicilio = persona.getDomicilio();
-//                    domicilio.setCalle(SWBUtils.XML.replaceXMLChars(request.getParameter("cn")));
-//                    Colonia colonia = null;
-//                    if(request.getParameter("col")!=null){
-//                        colonia = Colonia.ClassMgr.getColonia(request.getParameter("col"), wsite); 
-//                    }
-//                    if(colonia!=null) domicilio.setColonia(colonia);
-//                    domicilio.setCiudad(SWBUtils.XML.replaceXMLChars(request.getParameter("cd")));
-//                    Municipio municipio = null;
-//                    if(request.getParameter("mun")!=null){
-//                        municipio = Municipio.ClassMgr.getMunicipio(request.getParameter("mun"), wsite); 
-//                    }
-//                    if(municipio!=null) domicilio.setMunicipio(municipio);      
-//                    EntidadFederativa entidad = null;
-//                    if(request.getParameter("edo")!=null){
-//                        entidad = EntidadFederativa.ClassMgr.getEntidadFederativa(request.getParameter("edo"), wsite); 
-//                    }
-//                    if(entidad!=null) domicilio.setEntidad(entidad);
-//                    CP cp = null;
-//                    if(request.getParameter("cp")!=null){
-//                        cp = CP.ClassMgr.getCP(request.getParameter("cp"), wsite); 
-//                    }
-//                    if(cp!=null) domicilio.setCp(cp);
-//                    String countryId = SWBUtils.XML.replaceXMLChars(request.getParameter("ctry"));
-//                    if(Country.ClassMgr.hasCountry(countryId, wsite)) {
-//                        domicilio.setPais(Country.ClassMgr.getCountry(countryId, wsite));
-//                    }
-                    
-//                    //persona.removeAllFamilia();
-//                    Iterator<Familia> familiares = persona.listFamilias();
-//                    while(familiares.hasNext()) {
-//                        Familia familiar = familiares.next();
-//                        if(familiar.getTelefono()!=null)
-//                            familiar.getTelefono().remove();
-//                        familiar.remove();
-//                    }
-//                    String[] ncf = request.getParameterValues("ncf");
-//                    String[] p = request.getParameterValues("p");
-//                    String[] df = request.getParameterValues("df");
-//                    String[] cve = request.getParameterValues("cve");
-//                    String[] tf = request.getParameterValues("tf");
-//                    for(int i=0; i<ncf.length; i++) {
-//                        if(ncf[i].isEmpty() || p[i].isEmpty() || df[i].isEmpty() || tf[i].isEmpty())
-//                            continue;
-//                        Familia fam = Familia.ClassMgr.createFamilia(wsite);
-//                        try {
-//                            fam.setNombre(SWBUtils.XML.replaceXMLChars(ncf[i]));
-//                        }catch(IndexOutOfBoundsException iobe){}
-//                        try {
-//                            fam.setParentesco(SWBUtils.XML.replaceXMLChars(p[i]));
-//                        }catch(IndexOutOfBoundsException iobe){}
-//                        try {
-//                            fam.setDireccion(SWBUtils.XML.replaceXMLChars(df[i]));
-//                        }catch(IndexOutOfBoundsException iobe){}
-//                        try {
-//                            Telefono tel = Telefono.ClassMgr.createTelefono(wsite);
-//                            tel.setLada(Integer.parseInt(SWBUtils.XML.replaceXMLChars(cve[i])));
-//                            tel.setNumero(Integer.parseInt(SWBUtils.XML.replaceXMLChars(tf[i])));
-//                            fam.setTelefono(tel);
-//                        }catch(Exception iobe){
-//                        }
-//                        persona.addFamilia(fam);
-//                    }
                 }
             }
         }else if(SWBResourceURL.Action_REMOVE.equals(action)) {
@@ -973,8 +927,6 @@ e.printStackTrace(System.out);
             base.put("label", "name");
             JSONArray items = new JSONArray();
             base.put("items", items);
-            UserRepository ur = wsite.getUserRepository();
-            UserGroup infotec = ur.getUserGroup("Empleado_exsitu");
             UserGroup ug;
             Iterator<UserGroup> it = infotec.listChilds();
             it = SWBComparator.sortByDisplayName(it, user.getLanguage());
@@ -1010,8 +962,6 @@ e.printStackTrace(System.out);
             
             User user;
             UserGroup ug;
-            UserRepository ur = wsite.getUserRepository();
-            UserGroup infotec = ur.getUserGroup("Empleado_exsitu");
             Iterator<UserGroup> it = infotec.listChilds();
             while(it.hasNext()) {
                 ug = it.next();
