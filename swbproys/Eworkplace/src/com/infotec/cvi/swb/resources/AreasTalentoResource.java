@@ -30,7 +30,9 @@ import org.semanticwb.portal.api.SWBResourceURL;
  */
 public class AreasTalentoResource extends GenericResource {
     private Logger log = SWBUtils.getLogger(AreasTalentoResource.class);
+    /** Modo pesonalizada para ejecutar doTalentTypde    */
     public static final String Mode_TLNT = "tlnt";
+    /** Modo personalizado para ejecutar  doSkillsType     */
     public static final String Mode_HBLDS = "hblds";
     
     @Override
@@ -162,6 +164,15 @@ public class AreasTalentoResource extends GenericResource {
     }
 
     
+    /**
+     * Modo que procesa la peticiones JSON relacionadas al tipo de talento
+     *
+     * @param request the request response
+     * @param response the response paramRequest
+     * @param paramRequest the params request
+     * @throws SWBResourceException the sWB resource exception
+     * @throws IOException Signals that an I/O exception has occurred
+     */
     public void doTalentType(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setContentType("application/json; charset=ISO-8859-1");
         response.setHeader("Cache-Control", "no-cache");
@@ -197,6 +208,15 @@ public class AreasTalentoResource extends GenericResource {
         out.print(ret);
     }
     
+    /**
+     * Modo que procesa la peticiones JSON relacionadas a las habilidades
+     *
+     * @param request the request response
+     * @param response the response paramRequest
+     * @param paramRequest the params request
+     * @throws SWBResourceException the sWB resource exception
+     * @throws IOException Signals that an I/O exception has occurred
+     */
     public void doSkillsType(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setContentType("application/json; charset=ISO-8859-1");
         response.setHeader("Cache-Control", "no-cache");

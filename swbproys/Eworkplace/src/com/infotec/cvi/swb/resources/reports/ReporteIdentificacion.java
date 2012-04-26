@@ -16,7 +16,7 @@ import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 
 /**
- * * Recurso de contenido que permite a imprimir el reporte de identificacion por edad genero y pais de nacimiento
+ * * Recurso de contenido que permite imprimir el reporte de identificacion por edad genero y pais de nacimiento
  * 
  * @author rene.jara
  */
@@ -31,11 +31,11 @@ public class ReporteIdentificacion extends GenericResource {
     public static final String Action_REP_NATIONATITY="nac";
     /** Modo personalizado para ejecutar doPrint   */
     public static final String Mode_PRINT="prn";
+    /** Modo personalizado para ejecutar doExport  */
     public static final String Mode_EXPORT="exp";
 
     @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-//System.out.println("********************************************************processRequest");
         String mode = paramRequest.getMode();
         if(Mode_PRINT.equals(mode)){
             doPrint(request, response, paramRequest);
@@ -48,9 +48,7 @@ public class ReporteIdentificacion extends GenericResource {
 
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
-//System.out.println("********************************************************processAction");
         String repType =request.getParameter("repType");
-//System.out.println("reptype:"+repType);
         if(repType!=null&&!repType.equals("")){
             if(repType.equals("gender")){
                 response.setAction(Action_REP_GENDER);
@@ -83,6 +81,15 @@ public class ReporteIdentificacion extends GenericResource {
             }
         }
     }
+    /**
+     * Modo que procesa la peticion doPrint para mostrar la informacion del reporte solicitado
+     *
+     * @param request the request response
+     * @param response the response paramRequest
+     * @param paramRequest the params request
+     * @throws SWBResourceException the sWB resource exception
+     * @throws IOException Signals that an I/O exception has occurred
+     */
     public void doPrint(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         String action = paramRequest.getAction();
         String basePath = "/work/models/" + paramRequest.getWebPage().getWebSite().getId() + "/jsp/" + this.getClass().getSimpleName() + "/";
@@ -107,6 +114,15 @@ public class ReporteIdentificacion extends GenericResource {
             }
         }
     }
+    /**
+     * Modo que procesa la peticion doExport para exportar la informacion. solo cambia el content-type a Excel y llama al doView
+     *
+     * @param request the request response
+     * @param response the response paramRequest
+     * @param paramRequest the params request
+     * @throws SWBResourceException the sWB resource exception
+     * @throws IOException Signals that an I/O exception has occurred
+     */
     public void doExport(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setHeader("Content-Disposition", " attachment; filename=\"ReporteIndentificacion_"+paramRequest.getAction()+ System.currentTimeMillis() + ".xls\";");
         response.setContentType("application/vnd.ms-excel");

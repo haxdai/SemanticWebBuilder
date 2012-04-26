@@ -11,6 +11,7 @@ import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 
 /**
+ * Recurso de contenido que permite imprimir el reporte por expertise
  *
  * @author carlos.ramos
  */
@@ -47,6 +48,15 @@ public class ReporteExpertise extends GenericResource {
         }
     }
 
+    /**
+     * Modo que procesa la peticion doExport para exportar la informacion. solo cambia el content-type a Excel y llama al doView
+     *
+     * @param request the request response
+     * @param response the response paramRequest
+     * @param paramRequest the params request
+     * @throws SWBResourceException the sWB resource exception
+     * @throws IOException Signals that an I/O exception has occurred
+     */
     public void doExport(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setHeader("Content-Disposition", " attachment; filename=\"reporteExpertise" + System.currentTimeMillis() + ".xls\";");
         response.setContentType("application/vnd.ms-excel"); //

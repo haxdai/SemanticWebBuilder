@@ -17,15 +17,20 @@ import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 
 /**
- * Recurso de contenido que permite a mostrar el CV de un usuario registrrse en el sitio
+ * Recurso de contenido que permite mostrar el CV de un usuario registrado en el sitio
  *
- * @author rene.jara
+ * @author rene.jara y modifaciones carlos.ramos
  */
 public class ImprimirCV extends GenericResource {
-    public static Logger log = SWBUtils.getLogger(ImprimirCV.class);
+
+    private  static Logger log = SWBUtils.getLogger(ImprimirCV.class);
+    /** Modo personalizado para ejecutar doPdf  */
     public static final String Mode_PDF = "pdf";
+    /** Color personalizado de bold     */
     public static final BaseColor b = new BaseColor(1799611);
+    /** Color personalizado de hi     */
     public static final BaseColor h1 = new BaseColor(1530);
+    /** Color personalizado de h4     */
     public static final BaseColor h4 = new BaseColor(3381555);
     
     @Override
@@ -52,6 +57,14 @@ public class ImprimirCV extends GenericResource {
         }
     }
     
+    /**
+     *
+     * @param request
+     * @param response
+     * @param paramRequest
+     * @throws SWBResourceException
+     * @throws IOException
+     */
     public void doPdf(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         User user = paramRequest.getUser();
         if(!user.isSigned())

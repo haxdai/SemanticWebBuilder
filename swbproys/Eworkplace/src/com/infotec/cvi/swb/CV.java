@@ -15,13 +15,19 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 
-public class CV extends com.infotec.cvi.swb.base.CVBase 
+public class CV extends com.infotec.cvi.swb.base.CVBase
 {
     public CV(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
     }
     
+    /**
+     * Devuelve un DOM de la informacion del CV de un usuario dado
+     *
+     * @param user Usuario
+     * @return
+     */
     public Document toDom(final User user) {
         SWBModel model = (SWBModel)getSemanticObject().getModel().getModelObject().createGenericInstance();
         

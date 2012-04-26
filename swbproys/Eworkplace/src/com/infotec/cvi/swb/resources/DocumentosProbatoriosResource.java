@@ -77,6 +77,7 @@ public class DocumentosProbatoriosResource extends GenericResource {
 
     /**
      * Permite al usuario descargar el archivo que previamente se guardó.
+     *
      * @param request the request response
      * @param response the response paramRequest
      * @param paramRequest the params request
@@ -378,9 +379,10 @@ public class DocumentosProbatoriosResource extends GenericResource {
 
     /**
      * Al actualizar un archivo, si existe una versión anterior la elimina, revisa y crea la ruta en donde se va almacenar el archivo.
-     * @param name, nombre del archivo 
-     * @param doc, objeto en donde se guarda el nombre del archivo
-     * @param sp, Propiedad semántica a la cual se le va asociar el archivo 
+     *
+     * @param name Nombre
+     * @param doc DocumentoProbatorio
+     * @param sp Propiedad semantica
      * @return OutputStream, Stream de salida del archivo en cuestión
      * @throws FileNotFoundException 
      */
@@ -405,10 +407,10 @@ public class DocumentosProbatoriosResource extends GenericResource {
      * Si no existe ninguna version crea una nueva
      * Si existe una version anterior agrega una nueva versión
      * 
-     * @param name, nombre delarchivo
-     * @param in, Stream de entrada del archivo en cuestión 
-     * @param doc, objeto en donde se almacena el nombre de los diferentes archivos
-     * @param semprop, propiedad semántica a la cual se le va asociar el archivo
+     * @param name Nombre
+     * @param doc  documentoProbatorio
+     * @param in InputStream
+     * @param semprop
      */
     public void storeFile(String name, InputStream in, DocumentoProbatorio doc, SemanticProperty semprop) {
 
@@ -423,7 +425,8 @@ public class DocumentosProbatoriosResource extends GenericResource {
 
     /**
      * Obtiene el nombre del archivo, quitando la ruta en donde se encuentra el archivo
-     * @param name, nombre del archivo
+     *
+     * @param name Cadena
      * @return nombre del archivo.
      */
     public String getFileName(String name) {
@@ -440,8 +443,9 @@ public class DocumentosProbatoriosResource extends GenericResource {
 
     /**
      * Elimina el archivo recibido
-     * @param fname, nombre del archivo a eliminar
-     * @param docto, objeto al cual está asociado el archivo. Se utiliza para saber la ruta en donde se encuentra el archivo.
+     *
+     * @param fname Nombre
+     * @param docto DocumentoProbatorio
      * @return true, si se eliminó el archivo; false, si ocurrió un error al tratar de eliminarlo
      */
     public boolean removeFile(String fname, DocumentoProbatorio docto) {
