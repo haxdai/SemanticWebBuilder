@@ -1,6 +1,8 @@
 package com.infotec.eworkplace.swb;
 
 import com.infotec.eworkplace.swb.Telefono.TipoTelefono;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import org.semanticwb.SWBUtils;
 
@@ -13,16 +15,19 @@ public class Persona extends com.infotec.eworkplace.swb.base.PersonaBase
     }
     
     public java.util.Iterator<com.infotec.eworkplace.swb.Telefono> listTelefonoByTipo(TipoTelefono tipo) {
-        List<Telefono> telefonos = SWBUtils.Collections.copyIterator(listTelefonos());
-        for(Telefono tel:telefonos) {
+        List<Telefono> telefonos = new ArrayList(5);
+        Iterator<Telefono> it = listTelefonos();
+        Telefono tel;
+        while(it.hasNext()) {
+            tel = it.next();
             try {
                 if(TipoTelefono.valueOf(tel.getTipo()) != tipo) {
-                    telefonos.remove(tel);
+                    telefonos.add(tel);
                 }
             }catch(IllegalArgumentException iae) {
                 telefonos.remove(tel);
             }
-        }
+        }        
         return telefonos.iterator();
     }
 
@@ -31,5 +36,12 @@ public class Persona extends com.infotec.eworkplace.swb.base.PersonaBase
         while(telefonos.hasNext()) {
             telefonos.next().remove();
         }
+    }
+    
+    public Telefono getTelefonoByTipo(TipoTelefono tipo) {
+        java.util.Iterator<Telefono> it = listTelefonoByTipo(tipo);
+        if(it.hasNext())
+            return it.next();
+        return null;
     }
 }
