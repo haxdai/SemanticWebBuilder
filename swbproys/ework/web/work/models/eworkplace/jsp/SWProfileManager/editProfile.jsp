@@ -152,7 +152,6 @@ dojo.declare(
         CV cv = CV.ClassMgr.getCV(user.getId(), wsite);
         Persona persona = cv.getPersona();
         Telefono tel = persona.getTelefonoByTipo(Telefono.TipoTelefono.Trabajo);
-System.out.println("tel="+tel);        
 %>
           <p class="entero">
               <label for="email"><em>*</em><%=paramRequest.getLocaleString("lblEmail")%></label>
