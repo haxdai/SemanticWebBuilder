@@ -230,7 +230,8 @@
                                     }
                                     if (numcompencontradas == maxcomp) {  // se revisa que estén todas las competencias en el cv
 
-                                        if (cv.listInvestigacions().hasNext() && conArea) {
+                                        boolean aplica = cv.isSinInvestigacion();
+                                        if (cv.listInvestigacions().hasNext() && conArea && !aplica) {
                                             Iterator<Investigacion> itga = cv.listInvestigacions();
                                             while (itga.hasNext()) {
                                                 inves = itga.next();
@@ -239,13 +240,14 @@
                                                 txt = UtilsCVI.replaceSpecialCharacters(txt, Boolean.FALSE);
                                                 if (txt.indexOf(txtbuscar) > -1) { //
                                                     okArea = Boolean.TRUE;
-                                                    break;
                                                 }
                                             }
                                         }
 
-                                        if (conCurso) {
-                                            if (cv.listDiplomados().hasNext()) {
+                                        
+                                        if (conCurso ) {
+                                            aplica = cv.isSinDiplomado();
+                                            if (cv.listDiplomados().hasNext() && !aplica) {
                                                 Iterator<Diplomado> itga = cv.listDiplomados();
                                                 while (itga.hasNext()) {
                                                     diplo = itga.next();
@@ -255,15 +257,14 @@
                                                     txt = txt + (diplo.getNombreInstitucion() != null ? diplo.getNombreInstitucion() : "");
                                                     txt = txt.trim().toLowerCase();
                                                     txt = UtilsCVI.replaceSpecialCharacters(txt, Boolean.FALSE);
-                                                    //System.out.println("Diplomado txt: "+txt+" "+txt.indexOf(txtbuscar));
                                                     if (txt.indexOf(txtbuscar2) > -1) {
                                                         okCurso = Boolean.TRUE;
-                                                        //break;
                                                     }
                                                 }
                                             }
 
-                                            if (cv.listCursosTICs().hasNext() && !okCurso) {
+                                            aplica = cv.isSinCurso();
+                                            if (cv.listCursosTICs().hasNext() && !okCurso && !aplica) {
                                                 Iterator<CursoTIC> ites = cv.listCursosTICs();
                                                 while (ites.hasNext()) {
                                                     ctic = ites.next();
@@ -273,10 +274,8 @@
                                                     txt = txt + (ctic.getNombreInstitucion() != null ? ctic.getNombreInstitucion() : "");
                                                     txt = txt.trim().toLowerCase();
                                                     txt = UtilsCVI.replaceSpecialCharacters(txt, Boolean.FALSE);
-                                                    //System.out.println("TIC txt: "+txt+" "+txt.indexOf(txtbuscar));
                                                     if (txt.indexOf(txtbuscar2) > -1) {
                                                         okCurso = Boolean.TRUE;
-                                                        //break;
                                                     }
                                                 }
                                             }
@@ -468,8 +467,7 @@
                                     }
                                     if (numcompencontradas == maxcomp) {  // se revisa que estén todas las competencias en el cv
 
-                                        //out.println("se encontró cv con competencias.... ");
-                                        if (cv.listInvestigacions().hasNext() && conArea) {
+                                        if (cv.listInvestigacions().hasNext() && conArea && !cv.isSinInvestigacion()) {
                                             Iterator<Investigacion> itga = cv.listInvestigacions();
                                             while (itga.hasNext()) {
                                                 inves = itga.next();
@@ -478,13 +476,12 @@
                                                 txt = UtilsCVI.replaceSpecialCharacters(txt, Boolean.FALSE);
                                                 if (txt.indexOf(txtbuscar) > -1) { //
                                                     okArea = Boolean.TRUE;
-                                                    break;
                                                 }
                                             }
                                         }
 
                                         if (conCurso) {
-                                            if (cv.listDiplomados().hasNext()) {
+                                            if (cv.listDiplomados().hasNext()&& !cv.isSinDiplomado()) {
                                                 Iterator<Diplomado> itga = cv.listDiplomados();
                                                 while (itga.hasNext()) {
                                                     diplo = itga.next();
@@ -494,15 +491,13 @@
                                                     txt = txt + (diplo.getNombreInstitucion() != null ? diplo.getNombreInstitucion() : "");
                                                     txt = txt.trim().toLowerCase();
                                                     txt = UtilsCVI.replaceSpecialCharacters(txt, Boolean.FALSE);
-                                                    //System.out.println("Diplomado txt: "+txt+" "+txt.indexOf(txtbuscar));
                                                     if (txt.indexOf(txtbuscar2) > -1) {
                                                         okCurso = Boolean.TRUE;
-                                                        break;
                                                     }
                                                 }
                                             }
 
-                                            if (cv.listCursosTICs().hasNext() && !okCurso) {
+                                            if (cv.listCursosTICs().hasNext() && !okCurso && !cv.isSinCurso()) {
                                                 Iterator<CursoTIC> ites = cv.listCursosTICs();
                                                 while (ites.hasNext()) {
                                                     ctic = ites.next();
