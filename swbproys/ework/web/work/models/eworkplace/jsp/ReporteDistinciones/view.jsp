@@ -95,19 +95,17 @@
                             HashMap<String, String> hmorderno = new HashMap<String, String>();
 
 
+                            boolean aplica = Boolean.FALSE;
                             Distincion distincion = null;
                             long acum = 0, acumno = 0;
                             Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
                             while (itcv.hasNext()) {
                                 CV cv = itcv.next();
                                 User usercv = cv.getPropietario();
-                                String strSinInves = cv.getProperty(CV.intranet_sinInvestigacion.getName());
-                                if (usercv != null && strSinInves != null && strSinInves.equals("true")) {
-                                    hmno.put(cv.getId(), cv);
-                                    continue;
-                                }
                                 if (UtilsCVI.isCVIDone(cv) && usercv != null) {
-                                    if (cv.listDistincions().hasNext()) {
+                                    aplica = cv.isSinDistincion();
+                                    //out.println("isSinDistinciones: "+aplica);
+                                    if (cv.listDistincions().hasNext()&&!aplica) {
                                         Iterator<Distincion> itga = cv.listDistincions();
                                         while (itga.hasNext()) {
                                             distincion = itga.next();
@@ -226,19 +224,16 @@
                         HashMap<String, String> hmdist = new HashMap<String, String>();
 
 
+                        boolean aplica = Boolean.FALSE;
                         Distincion distincion = null;
                         long acum = 0, acumno = 0;
                         Iterator<CV> itcv = CV.ClassMgr.listCVs(wsite);
                         while (itcv.hasNext()) {
                             CV cv = itcv.next();
                             User usercv = cv.getPropietario();
-                            String strSinInves = cv.getProperty(CV.intranet_sinInvestigacion.getName());
-                            if (usercv != null && strSinInves != null && strSinInves.equals("true")) {
-                                hmno.put(cv.getId(), cv);
-                                continue;
-                            }
                             if (UtilsCVI.isCVIDone(cv) && usercv != null) {
-                                if (cv.listDistincions().hasNext()) {
+                                aplica = cv.isSinDistincion();
+                                if (cv.listDistincions().hasNext()&&!aplica) {
                                     Iterator<Distincion> itga = cv.listDistincions();
                                     while (itga.hasNext()) {
                                         distincion = itga.next();

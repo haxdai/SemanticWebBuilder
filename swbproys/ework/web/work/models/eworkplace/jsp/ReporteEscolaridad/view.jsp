@@ -145,7 +145,8 @@
                                                 }
                                             }
                                         }
-                                        if (aca.listEstudioSuperiors().hasNext()) {
+                                        //out.println("no aplica esuperior: "+aca.isNoAplicaEstudioSuperior());
+                                        if (aca.listEstudioSuperiors().hasNext() && !aca.isNoAplicaEstudioSuperior()) {
                                             Iterator<EstudioSuperior> ites = aca.listEstudioSuperiors();
                                             while (ites.hasNext()) {
                                                 est = ites.next();
@@ -384,7 +385,7 @@
                                                     hm.put(cv.getId(), cv);
                                                 }
                                             }
-                                        } else if (aca.listEstudioSuperiors().hasNext() && reptype.equals("superior")) {
+                                        } else if (aca.listEstudioSuperiors().hasNext() && reptype.equals("superior") && !aca.isNoAplicaEstudioSuperior()) {
                                             txttype = "Estudios Superiores";
                                             Iterator<EstudioSuperior> ites = aca.listEstudioSuperiors();
                                             while (ites.hasNext()) {
@@ -513,7 +514,7 @@
                                     CV cv = itcv.next();
                                     User user = cv.getPropietario();
                                     if (UtilsCVI.isCVIDone(cv) && user!=null) { 
-                                        if (cv.listDiplomados().hasNext()) {
+                                        if (cv.listDiplomados().hasNext()&&!cv.isSinDiplomado()) {
                                             Iterator<Diplomado> itga = cv.listDiplomados();
                                             while (itga.hasNext()) {
                                                 diplo = itga.next();
@@ -529,7 +530,7 @@
                                                 }
                                             }
                                         }
-                                        if (cv.listCursosTICs().hasNext()) {
+                                        if (cv.listCursosTICs().hasNext()&&!cv.isSinCurso()) {
                                             Iterator<CursoTIC> ites = cv.listCursosTICs();
                                             while (ites.hasNext()) {
                                                 ctic = ites.next();
@@ -680,7 +681,7 @@
                                         CV cv = itcv.next();
                                         User user = cv.getPropietario();
                                         if (UtilsCVI.isCVIDone(cv) && user != null) { 
-                                            if (cv.listDiplomados().hasNext() && reptype.equals("diplomado")) {
+                                            if (cv.listDiplomados().hasNext() && reptype.equals("diplomado")&&!cv.isSinDiplomado()) {
                                                 Iterator<Diplomado> itga = cv.listDiplomados();
                                                 while (itga.hasNext()) {
                                                     diplo = itga.next();
@@ -697,7 +698,7 @@
                                                     }
                                                 }
                                             }
-                                            if (cv.listCursosTICs().hasNext() && reptype.equals("tic")) {
+                                            if (cv.listCursosTICs().hasNext() && reptype.equals("tic")&&!cv.isSinCurso()) {
                                                 Iterator<CursoTIC> ites = cv.listCursosTICs();
                                                 while (ites.hasNext()) {
                                                     ctic = ites.next();
@@ -1158,7 +1159,7 @@
                                                     while (itcv.hasNext()) {
                                                         CV cv = itcv.next();
                                                         User user = cv.getPropietario();
-                                                        if (UtilsCVI.isCVIDone(cv) && user != null ) {
+                                                        if (UtilsCVI.isCVIDone(cv) && user != null && !cv.isSinIdioma()) { 
                                                             if (cv.listIdiomas().hasNext()) {
                                                                 Iterator<Idioma> itga = cv.listIdiomas();
                                                                 while (itga.hasNext()) {

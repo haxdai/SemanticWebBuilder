@@ -134,7 +134,7 @@
                             CV cv = itcv.next();
                             User usrcv = cv.getPropietario();
                             if (UtilsCVI.isCVIDone(cv) && usrcv != null) {
-                                if (cv.listExperienciaLaborals().hasNext()) {
+                                if (cv.listExperienciaLaborals().hasNext()&&!cv.isSinExperiencia()) {
                                     Iterator<ExperienciaLaboral> itga = cv.listExperienciaLaborals();
                                     while (itga.hasNext()) {
                                         explab = itga.next();
@@ -326,7 +326,7 @@
                             CV cv = itcv.next();
                             User usrcv = cv.getPropietario();
                             if (UtilsCVI.isCVIDone(cv) && usrcv != null) {
-                                if (cv.listExperienciaLaborals().hasNext() && (reptype.equals("funcion") || reptype.equals("ambos"))) {
+                                if (cv.listExperienciaLaborals().hasNext() && (reptype.equals("funcion") || reptype.equals("ambos"))&&!cv.isSinExperiencia()) {
                                     Iterator<ExperienciaLaboral> itga = cv.listExperienciaLaborals();
                                     while (itga.hasNext()) {
                                         explab = itga.next();
