@@ -15,14 +15,14 @@ import org.semanticwb.model.*;
 import org.semanticwb.portal.api.*;
 
 /**
- * Recurso de contenido que permite a imprimir el reporte de Carrera  Municipio
+ * Recurso de contenido que permite imprimir el reporte por Carrera - Municipio
  *
  * @author rene.jara
  */
 public class ReporteCarreraMunicipio extends GenericResource {
     
     private Logger log = SWBUtils.getLogger(ReporteExperiencia.class);
-        /** Modo personalizado para ejecutar doPrint   */
+        /** Modo personalizado para ejecutar doExport  */
     public static final String Mode_EXPORT="exp";
         /** Modo personalizado para enviar datos por ajax     */
     public static final String Mode_AJAX = "ajax";
@@ -35,7 +35,6 @@ public class ReporteCarreraMunicipio extends GenericResource {
 
         @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-//System.out.println("********************************************************processRequest");
         String mode = paramRequest.getMode();
         if (MODE_TIPO.equals(mode)) {
             getTipo(request, response, paramRequest);
@@ -76,11 +75,11 @@ public class ReporteCarreraMunicipio extends GenericResource {
     /**
      *  Modo que procesa las peticiones de las consultas ajax de la forma para CP
      *
-     * @param request
-     * @param response
-     * @param paramRequest
-     * @throws SWBResourceException
-     * @throws IOException
+     * @param request the request response
+     * @param response the response paramRequest
+     * @param paramRequest the params request
+     * @throws SWBResourceException the sWB resource exception
+     * @throws IOException Signals that an I/O exception has occurred
      */
     public void doAjax(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         String basePath = "/work/models/" + paramRequest.getWebPage().getWebSite().getId() + "/jsp/" + this.getClass().getSimpleName() + "/";
@@ -94,6 +93,15 @@ public class ReporteCarreraMunicipio extends GenericResource {
     }
 
 
+    /**
+     * Modo que procesa la peticion doExport para exportar la informacion. solo cambia el content-type a Excel y llama al doView
+     *
+     * @param request the request response
+     * @param response the response paramRequest
+     * @param paramRequest the params request
+     * @throws SWBResourceException the sWB resource exception
+     * @throws IOException Signals that an I/O exception has occurred
+     */
     public void doExport(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setHeader("Content-Disposition", " attachment; filename=\"ReporteExperienciaSector_"+ System.currentTimeMillis() + ".xls\";");
         response.setContentType("application/vnd.ms-excel");
@@ -101,7 +109,7 @@ public class ReporteCarreraMunicipio extends GenericResource {
     }
 
     /**
-     * Modo que procesa la peticiones JSON de la forma referentes al tipo de carrera
+     * Modo que procesa la peticiones JSON relacionadas al tipo de carrera
      *
      * @param request the request response
      * @param response the response paramRequest
@@ -146,7 +154,8 @@ public class ReporteCarreraMunicipio extends GenericResource {
     }
 
     /**
-     * Modo que procesa la peticiones JSON de la forma referentes al area de la carrera
+     * Modo que procesa la peticiones JSON relacionadas al area de la carrera
+     *
      * @param request the request response
      * @param response the response paramRequest
      * @param paramRequest the params request
@@ -189,7 +198,7 @@ public class ReporteCarreraMunicipio extends GenericResource {
     }
 
     /**
-     * Modo que procesa la peticiones JSON de la forma referentes a la carrera
+     * Modo que procesa la peticiones JSON relacionadas a la carrera
      *
      * @param request the request response
      * @param response the response paramRequest

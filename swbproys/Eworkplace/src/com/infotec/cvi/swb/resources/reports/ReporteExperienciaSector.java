@@ -14,7 +14,7 @@ import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 
 /**
- * Recurso de contenido que permite a imprimir el reporte de experiencia laboral por sector
+ * Recurso de contenido que permite imprimir el reporte de experiencia laboral por sector
  *
  * @author rene.jara
  */
@@ -26,7 +26,6 @@ public class ReporteExperienciaSector extends GenericResource {
 
         @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-//System.out.println("********************************************************processRequest");
         String mode = paramRequest.getMode();
         if(Mode_EXPORT.equals(mode)){
             doExport(request, response, paramRequest);
@@ -56,6 +55,15 @@ public class ReporteExperienciaSector extends GenericResource {
         
 
     }
+    /**
+     * Modo que procesa la peticion doExport para exportar la informacion. solo cambia el content-type a Excel y llama al doView
+     *
+     * @param request the request response
+     * @param response the response paramRequest
+     * @param paramRequest the params request
+     * @throws SWBResourceException the sWB resource exception
+     * @throws IOException Signals that an I/O exception has occurred
+     */
     public void doExport(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setHeader("Content-Disposition", " attachment; filename=\"ReporteExperienciaSector_"+ System.currentTimeMillis() + ".xls\";");
         response.setContentType("application/vnd.ms-excel");

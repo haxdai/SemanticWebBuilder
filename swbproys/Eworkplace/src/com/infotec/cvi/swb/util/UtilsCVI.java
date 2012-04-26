@@ -8,6 +8,7 @@ import com.infotec.cvi.swb.Academia;
 import com.infotec.cvi.swb.CV;
 
 /**
+ * Utilerias para la operacion del modulo CVI
  *
  * @author juan.fernandez
  */

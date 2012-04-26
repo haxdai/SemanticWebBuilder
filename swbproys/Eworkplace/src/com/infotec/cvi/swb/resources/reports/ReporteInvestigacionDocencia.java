@@ -17,7 +17,8 @@ import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 
 /**
- *
+ * Recurso de contenido que permite imprimir el reporte por investigacion docencia
+ * 
  * @author juan.fernandez
  */
 public class ReporteInvestigacionDocencia extends GenericResource {
@@ -53,22 +54,20 @@ public class ReporteInvestigacionDocencia extends GenericResource {
             super.processRequest(request, response, paramRequest);
         }
     }
-
+    /**
+     * Modo que procesa la peticion doExport para exportar la informacion. solo cambia el content-type a Excel y llama al doView
+     *
+     * @param request the request response
+     * @param response the response paramRequest
+     * @param paramRequest the params request
+     * @throws SWBResourceException the sWB resource exception
+     * @throws IOException Signals that an I/O exception has occurred
+     */
     public void doExport(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setHeader("Content-Disposition", " attachment; filename=\"reportInvestigacionDocencia" + System.currentTimeMillis() + ".xls\";");
         response.setContentType("application/vnd.ms-excel"); //
         
         doView(request, response, paramRequest);
         
-//        String reporte = "";
-//        reporte = request.getParameter("reporte");
-//        
-//        if(reporte==null) reporte = "Reporte sin datos...";
-//        else reporte = SWBUtils.TEXT.decodeBase64(reporte);
-//        InputStream fin = null;
-//        fin = SWBUtils.IO.getStreamFromString(reporte);
-//        OutputStream out = response.getOutputStream();
-//        SWBUtils.IO.copyStream(fin, out);
-//        out.close();
     }
 }
