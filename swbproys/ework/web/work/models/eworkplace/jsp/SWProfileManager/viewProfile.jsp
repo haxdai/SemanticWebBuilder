@@ -67,7 +67,7 @@
           <li><a href="<%=contentURL+"?action="+SWBResourceURL.Action_EDIT%>">Editar mi perfil</a></li>
           <li><a href="#">Mis favoritos</a></li>
           <li><a href="#">Mis solicitudes</a></li>
-          <li><a href="#">Mi perfil</a></li>
+          <!--li><a href="#">Mi perfil</a></li-->
          </ul>
         </div>
         <!-- //datos empleado -->
@@ -84,11 +84,22 @@
               <img src="<%=pimg%>" alt="<%=user.getFullName()%>" />
           </div>
           <div class="usuario">
-           <p class="name"><%=user.getFullName()%></p>
+           <p class="name">
+            <a href="javascript:expande('acercade_mi')" title="<%=paramRequest.getLocaleString("lblAboutMe")%>"><%=paramRequest.getLocaleString("lblAboutMe")%></a><br/>
+            <%=user.getFullName()%>
+           </p>
+<p>
+ <label for="pos"><%=paramRequest.getLocaleString("lblPosition")%></label>
+ <input type="text" name="pos" id="pos" dojoType="dijit.form.ValidationTextBox" required="true" value="<%=profile.getPuesto()==null?"":profile.getPuesto()%>" promptMessage="<%=paramRequest.getLocaleString("promptMsgPosition")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultPosition")%>" trim="true" />
+</p>
+<p>
+ <label for="postit"><%=paramRequest.getLocaleString("lblPostit")%></label>
+ <input type="text" name="postit" id="postit" dojoType="dijit.form.ValidationTextBox" value="<%=profile.getPostit()==null?"":profile.getPostit()%>" promptMessage="<%=paramRequest.getLocaleString("promptMsgPostit")%>" trim="true" />
+</p>
           </div>
-          <p class="mas_deMi">
+          <!--p class="mas_deMi">
               <a href="javascript:expande('acercade_mi')" title="<%=paramRequest.getLocaleString("lblAboutMe")%>"><%=paramRequest.getLocaleString("lblAboutMe")%></a>
-          </p>
+          </p-->
           <div class="datos">
            <div id="acercade_mi" class="divisor">
             <h3><%=paramRequest.getLocaleString("titleAboutMe")%></h3>
