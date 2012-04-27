@@ -442,6 +442,11 @@ public class SWProfileManager extends GenericAdmResource {
                         response.setRenderParameter("alertmsg", response.getLocaleString("promptMsgErrSurrogacy"));
                         return;
                     }
+                    String pos = SWBUtils.XML.replaceXMLChars(request.getParameter("pos")).trim();
+                    if(pos.isEmpty()) {
+                        alertmsg.append(response.getLocaleString("promptMsgFaultPosition")).append("\n");
+                    }
+                    String postit = SWBUtils.XML.replaceXMLChars(request.getParameter("postit"));
                     String prsnld = SWBUtils.XML.replaceXMLChars(request.getParameter("prsnld")).trim();
                     if(prsnld.isEmpty()) {
                         alertmsg.append(response.getLocaleString("promptMsgFaultPersonality")).append("\n");
@@ -505,6 +510,8 @@ System.out.println("extension="+ext);
                         alertmsg.append(response.getLocaleString("promptMsgFaultPhoneExtDr")).append("\n");
                     }
                     if(alertmsg.toString().isEmpty()) {
+                        profile.setPuesto(pos);
+                        profile.setPostit(postit);
                         profile.setMiPersonalidad(SWBUtils.XML.replaceXMLChars(request.getParameter("prsnld")));
                         profile.setMisGustos(SWBUtils.XML.replaceXMLChars(request.getParameter("gsts")));
                         profile.setMisIdeas(SWBUtils.XML.replaceXMLChars(request.getParameter("ideas")));
