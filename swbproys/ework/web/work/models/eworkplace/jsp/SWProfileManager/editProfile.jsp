@@ -114,16 +114,13 @@ dojo.declare(
             <a href="javascript:expande('acercade_mi')" title="<%=paramRequest.getLocaleString("lblAboutMe")%>"><%=paramRequest.getLocaleString("lblAboutMe")%></a><br/>
             <%=user.getFullName()%>
            </p>
-<!--p class="mas_deMi">
-  <a href="javascript:expande('acercade_mi')" title="<%=paramRequest.getLocaleString("lblAboutMe")%>"><%=paramRequest.getLocaleString("lblAboutMe")%></a>
-</p-->
 <p>
  <label for="pos"><%=paramRequest.getLocaleString("lblPosition")%></label>
- <input type="text" name="pos" id="pos" dojoType="dijit.form.ValidationTextBox" required="true" value="<%=profile.getPuesto()==null?"":profile.getPuesto()%>" promptMessage="<%=paramRequest.getLocaleString("promptMsgPosition")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultPosition")%>" trim="true" />
+ <input type="text" name="pos" id="pos" dojoType="dijit.form.ValidationTextBox" required="true" value="<%=(request.getParameter("pos")!=null?request.getParameter("pos"):profile.getPuesto()==null?"":profile.getPuesto())%>" promptMessage="<%=paramRequest.getLocaleString("promptMsgPosition")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultPosition")%>" trim="true" />
 </p>
 <p>
  <label for="postit"><%=paramRequest.getLocaleString("lblPostit")%></label>
- <input type="text" name="postit" id="postit" dojoType="dijit.form.ValidationTextBox" value="<%=profile.getPostit()==null?"":profile.getPostit()%>" promptMessage="<%=paramRequest.getLocaleString("promptMsgPostit")%>" trim="true" />
+ <input type="text" name="postit" id="postit" dojoType="dijit.form.ValidationTextBox" value="<%=(request.getParameter("postit")!=null?request.getParameter("postit"):profile.getPostit()==null?"":profile.getPostit())%>" promptMessage="<%=paramRequest.getLocaleString("promptMsgPostit")%>" trim="true" />
 </p>
           </div>
           <!--p class="mas_deMi">
@@ -135,21 +132,21 @@ dojo.declare(
             <div class="text_editor">
              <p class="status entero">
               <label for="prsnld"><em>*</em><%=paramRequest.getLocaleString("lblPersonality")%></label>
-              <textarea name="prsnld" id="prsnld" rows="2" cols="70" dojoType="ValidationTextarea" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgPersonality")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultPersonality")%>" trim="true"><%=profile.getMiPersonalidad()==null?"":profile.getMiPersonalidad()%></textarea>
+              <textarea name="prsnld" id="prsnld" rows="2" cols="70" dojoType="ValidationTextarea" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgPersonality")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultPersonality")%>" trim="true"><%=(request.getParameter("prsnld")!=null?request.getParameter("prsnld"):profile.getMiPersonalidad()==null?"":profile.getMiPersonalidad())%></textarea>
              </p>
             </div>
 
             <div class="text_editor">
              <p class="status entero">
               <label for="gsts"><em>*</em><%=paramRequest.getLocaleString("lblLikes")%></label>
-              <textarea name="gsts" id="gsts" rows="2" cols="70" dojoType="ValidationTextarea" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgLikes")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultLikes")%>" trim="true"><%=profile.getMisGustos()==null?"":profile.getMisGustos()%></textarea>
+              <textarea name="gsts" id="gsts" rows="2" cols="70" dojoType="ValidationTextarea" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgLikes")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultLikes")%>" trim="true"><%=(request.getParameter("gsts")!=null?request.getParameter("gsts"):profile.getMisGustos()==null?"":profile.getMisGustos())%></textarea>
              </p>
             </div>
 
             <div class="status entero">
              <p class="status entero">
               <label for="ideas"><em>*</em><%=paramRequest.getLocaleString("lblIdeas")%></label>
-              <textarea name="ideas" id="ideas" rows="2" cols="70" dojoType="ValidationTextarea" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgIdeas")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultIdeas")%>" trim="true"><%=profile.getMisIdeas()==null?"":profile.getMisIdeas()%></textarea>
+              <textarea name="ideas" id="ideas" rows="2" cols="70" dojoType="ValidationTextarea" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgIdeas")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultIdeas")%>" trim="true"><%=(request.getParameter("ideas")!=null?request.getParameter("ideas"):profile.getMisIdeas()==null?"":profile.getMisIdeas())%></textarea>
              </p>
             </div>
             <a href="javascript:collapse('acercade_mi')"><%=paramRequest.getLocaleString("lblClose")%></a>
@@ -167,25 +164,25 @@ dojo.declare(
 %>
           <p class="entero">
               <label for="email"><em>*</em><%=paramRequest.getLocaleString("lblEmail")%></label>
-           <input type="text" name="email" id="email"  dojoType="dijit.form.ValidationTextBox" required="true" value="<%=user.getEmail()%>" maxlength="60" promptMessage="<%=paramRequest.getLocaleString("promptMsgEmail")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultEmail")%>" isValid="return isValidEmail(this.textbox.value)" trim="true" style="width:280px" />
+           <input type="text" name="email" id="email"  dojoType="dijit.form.ValidationTextBox" required="true" value="<%=(request.getParameter("email")!=null?request.getParameter("email"):user.getEmail())%>" maxlength="60" promptMessage="<%=paramRequest.getLocaleString("promptMsgEmail")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultEmail")%>" isValid="return isValidEmail(this.textbox.value)" trim="true" style="width:280px" />
           </p>
           
           <p class="tercio">
            <label for="ld"><%=paramRequest.getLocaleString("lblPhoneLada")%></label>
-           <input type="text" name="ld" id="ld" dojoType="dijit.form.ValidationTextBox" value="<%=tel!=null&&tel.getLada()>0?Integer.toString(tel.getLada()):""%>" maxlength="3" promptMessage="<%=paramRequest.getLocaleString("promptMsgPhoneLada")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultPhoneLada")%>" regExp="\d{2,3}" trim="true" />
+           <input type="text" name="ld" id="ld" dojoType="dijit.form.ValidationTextBox" value="<%=(request.getParameter("ld")!=null?request.getParameter("ld"):tel!=null&&tel.getLada()>0?Integer.toString(tel.getLada()):"")%>" maxlength="3" promptMessage="<%=paramRequest.getLocaleString("promptMsgPhoneLada")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultPhoneLada")%>" regExp="\d{2,3}" trim="true" />
           </p>
           <p class="tercio">
               <label for="tfo"><em>*</em><%=paramRequest.getLocaleString("lblPhoneNum")%></label>
-           <input type="text" name="tfo" id="tfo" dojoType="dijit.form.ValidationTextBox" required="true" value="<%=tel!=null&&tel.getNumero()>0?Integer.toString(tel.getNumero()):""%>" maxlength="8" promptMessage="<%=paramRequest.getLocaleString("promptMsgPhone")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultPhone")%>" regExp="\d{7,8}" trim="true"/>
+           <input type="text" name="tfo" id="tfo" dojoType="dijit.form.ValidationTextBox" required="true" value="<%=(request.getParameter("tfo")!=null?request.getParameter("tfo"):tel!=null&&tel.getNumero()>0?Integer.toString(tel.getNumero()):"")%>" maxlength="8" promptMessage="<%=paramRequest.getLocaleString("promptMsgPhone")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultPhone")%>" regExp="\d{7,8}" trim="true"/>
           </p>
           <p class="tercio">
            <label for="ext"><%=paramRequest.getLocaleString("lblPhoneExt")%></label>
-           <input type="text" name="ext" id="ext" dojoType="dijit.form.ValidationTextBox" value="<%=tel!=null&&tel.getExtension()>0?Integer.toString(tel.getExtension()):""%>" maxlength="6" promptMessage="<%=paramRequest.getLocaleString("promptMsgPhoneExt")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultExt")%>" regExp="\d{1,6}" trim="true"/>
+           <input type="text" name="ext" id="ext" dojoType="dijit.form.ValidationTextBox" value="<%=(request.getParameter("ext")!=null?request.getParameter("ext"):tel!=null&&tel.getExtension()>0?Integer.toString(tel.getExtension()):"")%>" maxlength="6" promptMessage="<%=paramRequest.getLocaleString("promptMsgPhoneExt")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultExt")%>" regExp="\d{1,6}" trim="true"/>
           </p>
           
           <p class="entero">
               <label for="loc"><em>*</em><%=paramRequest.getLocaleString("lblLoc")%>&nbsp;<a href="#" title="<%=paramRequest.getLocaleString("lblSeeMap")%>"><%=paramRequest.getLocaleString("lblSeeMap")%></a></label>
-           <textarea name="loc" id="loc" rows="2" dojoType="ValidationTextarea" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgLoc")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultLoc")%>" trim="true"><%=profile.getUbicacion()==null?"":profile.getUbicacion()%></textarea>
+           <textarea name="loc" id="loc" rows="2" dojoType="ValidationTextarea" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgLoc")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultLoc")%>" trim="true"><%=(request.getParameter("loc")!=null?request.getParameter("loc"):profile.getUbicacion()==null?"":profile.getUbicacion())%></textarea>
           </p>         
 <%
         UserRepository ur = wsite.getUserRepository();
@@ -206,16 +203,16 @@ dojo.declare(
           <div dojoType="dojo.data.ItemFileReadStore" jsId="strichief" url="<%=urlMando.setMode(Mode_IBSS)%>"></div>
           <p class="tercio">
               <label for="ads"><em>*</em><%=paramRequest.getLocaleString("lblDr")%></label>
-              <input name="ads" id="ads" dojoType="dijit.form.FilteringSelect" required="true" value="<%=adscription==null?"":adscription.getId()%>" store="strads" onChange="dijit.byId('chief').attr('value','');dijit.byId('chief').query.dir = this.value || '*';" promptMessage="<%=paramRequest.getLocaleString("promptMsgDr")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultDr")%>" />
+              <input name="ads" id="ads" dojoType="dijit.form.FilteringSelect" required="true" value="<%=(request.getParameter("ads")!=null?request.getParameter("ads"):adscription==null?"":adscription.getId())%>" store="strads" onChange="dijit.byId('chief').attr('value','');dijit.byId('chief').query.dir = this.value || '*';" promptMessage="<%=paramRequest.getLocaleString("promptMsgDr")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultDr")%>" />
           </p>
           <p class="tercio">
               <label for="chief"><em>*</em><%=paramRequest.getLocaleString("lblIBoss")%></label>
-              <input name="chief" id="chief" dojoType="dijit.form.FilteringSelect" required="true" value="<%=profile.getJefeInmediato()==null?"":profile.getJefeInmediato().getId()%>" store="strichief" promptMessage="<%=paramRequest.getLocaleString("promptMsgIBoss")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultIBoss")%>" />
+              <input name="chief" id="chief" dojoType="dijit.form.FilteringSelect" required="true" value="<%=(request.getParameter("chief")!=null?request.getParameter("chief"):profile.getJefeInmediato()==null?"":profile.getJefeInmediato().getId())%>" store="strichief" promptMessage="<%=paramRequest.getLocaleString("promptMsgIBoss")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultIBoss")%>" />
           </p>
           
           <p class="tercio">
               <label for="extdr"><em>*</em><%=paramRequest.getLocaleString("lblPhoneExtDr")%></label>
-           <input type="text" name="extdr" id="extdr" dojoType="dijit.form.ValidationTextBox" required="true" value="<%=user.getExtendedAttribute(ext)==null?"":user.getExtendedAttribute(ext)%>" maxlength="6" promptMessage="<%=paramRequest.getLocaleString("promptMsgPhoneExtDr")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultPhoneExtDr")%>" regExp="\d{1,6}" trim="true" />
+           <input type="text" name="extdr" id="extdr" dojoType="dijit.form.ValidationTextBox" required="true" value="<%=(request.getParameter("extdr")!=null?request.getParameter("extdr"):user.getExtendedAttribute(ext)==null?"":user.getExtendedAttribute(ext))%>" maxlength="6" promptMessage="<%=paramRequest.getLocaleString("promptMsgPhoneExtDr")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultPhoneExtDr")%>" regExp="\d{1,6}" trim="true" />
           </p>
           
           
@@ -254,7 +251,14 @@ dojo.declare(
         </form>
         <script type="text/javascript">
         <!--
-          dojo.addOnLoad(collapse('acercade_mi'));
+          dojo.addOnLoad(function(){
+              collapse('acercade_mi');         
+<%
+        if(request.getParameter("alertmsg")!=null) {
+            out.println("alert('"+request.getParameter("alertmsg")+"');");
+        }
+%>       
+          });
         -->
         </script>
 <%
