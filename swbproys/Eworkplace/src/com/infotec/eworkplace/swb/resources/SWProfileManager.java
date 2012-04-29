@@ -48,12 +48,12 @@ import org.semanticwb.portal.api.SWBResourceURL;
 
 public class SWProfileManager extends GenericAdmResource {
     private static Logger log = SWBUtils.getLogger(SWProfileManager.class);
-    private static final String Send = "send";
-    private static final String Send_VIEW = "sview";
-    private static final String Send_EDIT = "sedit";
+//    private static final String Send = "send";
+//    private static final String Send_VIEW = "sview";
+//    private static final String Send_EDIT = "sedit";
     public static final String Mode_CHGPHTO = "foto";
     public static final String Mode_VIEWPRFL = "prfl";
-    private static final String Send_REQ = "req";
+//    private static final String Send_REQ = "req";
     public static final String Mode_FAV = "fav";
     
     public static final String RH_Role = "RH";
@@ -146,10 +146,10 @@ public class SWProfileManager extends GenericAdmResource {
                 out.println("      </div>");
                 out.println("    </li>");
                 out.println("    <li class=\"perfil\">");
-                out.println("      <p><a href=\""+contentURL+"?action="+SWBResourceURL.Action_EDIT+"\" title=\"Editar mi perfil\">Editar mi perfil</a></p>");
+                out.println("      <p><a href=\""+contentURL+"?act="+SWBResourceURL.Action_EDIT+"\" title=\"Editar mi perfil\">Editar mi perfil</a></p>");
                 out.println("      <p><a href=\""+SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+wsite.getId()+"/"+wsite.getWebPage("Favoritos").getId()+"/_lang/"+user.getLanguage()+"\" title=\"Editar mis favoritos\">Mis favoritos</a></p>");
                 out.println("      <p><a href=\""+contentURL+"\" title=\"\">Mis solicitudes</a></p>");
-                out.println("      <p><a href=\""+contentURL+"?action="+SWBResourceURL.Action_ADD+"\" title=\"\">Ver mi perfil</a></p>");
+                out.println("      <p><a href=\""+contentURL+"?act="+SWBResourceURL.Action_ADD+"\" title=\"\">Ver mi perfil</a></p>");
                 out.println("      <p class=\"salir\"><a href=\""+SWBPlatform.getContextPath()+"/login?wb_logout=true&wb_goto="+urlLogout+"\" title=\"Salir\">Salir</a></p>");
                 out.println("    </li>");
                 out.println("    <li style=\"clear:both; height:1px;\"></li>");
@@ -160,7 +160,7 @@ public class SWProfileManager extends GenericAdmResource {
                 log.info("Acceso no autorizado");
             }
         }else {
-            final String action = request.getParameter("action");
+            final String action = request.getParameter("act");
             if(SWBResourceURL.Action_EDIT.equals(action)) {
                 SWProfile profile = SWProfile.ClassMgr.getSWProfile(user.getId(), wsite);
                 if( user.equals(profile.getCreator()) ) {
@@ -377,6 +377,24 @@ public class SWProfileManager extends GenericAdmResource {
         }
     }
 
+    private void setRenderParameter(HttpServletRequest request, SWBActionResponse response) {
+        response.setRenderParameter("email", request.getParameter("email"));
+        response.setRenderParameter("pos", request.getParameter("pos"));
+        response.setRenderParameter("postit", request.getParameter("postit"));
+        response.setRenderParameter("prsnld", request.getParameter("prsnld"));
+        response.setRenderParameter("gsts", request.getParameter("gsts"));
+        response.setRenderParameter("ideas", request.getParameter("ideas"));
+        if(!request.getParameter("ld").isEmpty())
+            response.setRenderParameter("ld", request.getParameter("ld"));
+        response.setRenderParameter("tfo", request.getParameter("tfo"));
+        if(!request.getParameter("ext").isEmpty())
+            response.setRenderParameter("ext", request.getParameter("ext"));
+        response.setRenderParameter("loc", request.getParameter("loc"));
+        response.setRenderParameter("ads", request.getParameter("ads"));
+        response.setRenderParameter("chief", request.getParameter("chief"));
+        response.setRenderParameter("extdr", request.getParameter("extdr"));
+    }
+    
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         final User user = response.getUser();        
@@ -412,7 +430,7 @@ public class SWProfileManager extends GenericAdmResource {
 //            SWProfile profile = (SWProfile)user.getExtendedAttribute(sp);
 //            profile.setMisIdeas(request.getParameter("ideas"));
 //            profile.setUbicacion(request.getParameter("loc"));
-                response.setAction(SWBResourceURL.Action_ADD);
+                
                 response.setMode(SWBResourceURL.Mode_VIEW);
                 boolean isMultipart = ServletFileUpload.isMultipartContent(request);
                 if(isMultipart) {
@@ -423,142 +441,138 @@ public class SWProfileManager extends GenericAdmResource {
                         response.sendRedirect(url);*/
                     }catch(Exception e) {
                         e.printStackTrace(System.out);
+                        response.setRenderParameter("act",SWBResourceURL.Action_EDIT);
                     }
                 }
                 else {
+                    try {
                     UserRepository ur = wsite.getUserRepository();
                     Persona persona = Persona.ClassMgr.getPersona(user.getId(), wsite);
                     /*if(!user.equals(persona.getOwner())) {
                         response.setRenderParameter("alertmsg", response.getLocaleString("promptMsgErrSurrogacy"));
                         return;
                     }*/
-                    StringBuilder alertmsg = new StringBuilder();
                     String email = request.getParameter("email");
+System.out.println("email="+email);
                     if(!SWBUtils.EMAIL.isValidEmailAddress(email)) {
-                        response.setRenderParameter("alertmsg", response.getLocaleString("promptMsgFaultEmail"));
-                        return;
+                        throw new Exception(response.getLocaleString("promptMsgFaultEmail"));
+                    }
+System.out.println("ur.getUserByEmail(email)="+ur.getUserByEmail(email));
+                    if(ur.getUserByEmail(email)==null) {
+                        throw new Exception(response.getLocaleString("promptMsgErrNoUser"));
                     }
                     if(ur.getUserByEmail(email)!=null && !user.equals(ur.getUserByEmail(email))) {
-                        response.setRenderParameter("alertmsg", response.getLocaleString("promptMsgErrSurrogacy"));
-                        return;
+                        throw new Exception(response.getLocaleString("promptMsgErrSurrogacy"));
                     }
                     String pos = SWBUtils.XML.replaceXMLChars(request.getParameter("pos")).trim();
                     if(pos.isEmpty()) {
-                        alertmsg.append(response.getLocaleString("promptMsgFaultPosition")).append("\n");
+                        throw new Exception(response.getLocaleString("promptMsgFaultPosition"));
                     }
                     String postit = SWBUtils.XML.replaceXMLChars(request.getParameter("postit"));
                     String prsnld = SWBUtils.XML.replaceXMLChars(request.getParameter("prsnld")).trim();
                     if(prsnld.isEmpty()) {
-                        alertmsg.append(response.getLocaleString("promptMsgFaultPersonality")).append("\n");
+                        throw new Exception(response.getLocaleString("promptMsgFaultPersonality"));
                     }
                     String gsts = SWBUtils.XML.replaceXMLChars(request.getParameter("gsts")).trim();
                     if(gsts.isEmpty()) {
-                        alertmsg.append(response.getLocaleString("promptMsgFaultLikes")).append("\n");
+                        throw new Exception(response.getLocaleString("promptMsgFaultLikes"));
                     }
                     String ideas = SWBUtils.XML.replaceXMLChars(request.getParameter("ideas")).trim();
                     if(ideas.isEmpty()) {
-                        alertmsg.append(response.getLocaleString("promptMsgFaultIdeas")).append("\n");
+                        throw new Exception(response.getLocaleString("promptMsgFaultIdeas"));
                     }
                     int tfo = 0;
-                    try {
+//                    try {
                         tfo = Integer.parseInt(request.getParameter("tfo"));
-                    }catch(Exception e) {
-                        alertmsg.append(response.getLocaleString("promptMsgFaultPhone")).append("\n");
-                    }
+//                    }catch(Exception e) {
+//                        alertmsg.append(response.getLocaleString("promptMsgFaultPhone")).append("\n");
+//                    }
                     String loc = SWBUtils.XML.replaceXMLChars(request.getParameter("loc")).trim();
                     if(loc.isEmpty()) {
-                        alertmsg.append(response.getLocaleString("")).append("\n");
+                        throw new Exception(response.getLocaleString("promptMsgFaultLoc"));
                     }
                     String adsId = request.getParameter("ads");
-//                    if(adsId==null) {
-//                        alertmsg.append(response.getLocaleString("promptMsgFaultgDr")).append("\n");
-//                    }
                     UserGroup adscription = null;
-                    try {
+//                    try {
                         adscription = ur.getUserGroup(adsId);
-                    }catch(Exception e) {
-e.printStackTrace(System.out);
-                        response.setRenderParameter("alertmsg", response.getLocaleString("promptMsgFaultgDr"));
-                        return;
-                    }
-                    if(!infotec.hasChild(adscription)) {
-                        response.setRenderParameter("alertmsg", response.getLocaleString("promptMsgFaultgDr"));
-                        return;
-                    }
-//                    if(adscription==null) {
-//                        alertmsg.append(response.getLocaleString("promptMsgFaultgDr")).append("\n");
+//                    }catch(Exception e) {
+//                        response.setRenderParameter("alertmsg", response.getLocaleString("promptMsgFaultgDr"));
+//                        return;
 //                    }
+                    if(!infotec.hasChild(adscription)) {
+                        throw new Exception(response.getLocaleString("promptMsgFaultgDr"));
+                    }
                     String ichiefId = request.getParameter("chief");
                     if(ichiefId==null) {
-                        alertmsg.append(response.getLocaleString("promptMsgFaultIBoss")).append("\n");
+                        throw new Exception(response.getLocaleString("promptMsgFaultIBoss"));
                     }
                     if(ur.getUser(ichiefId)==null) {
-                        response.setRenderParameter("alertmsg", response.getLocaleString("promptMsgErrNoUser"));
-                        return;
+                        throw new Exception(response.getLocaleString("promptMsgErrNoUser"));
                     }
                     if(user.equals(ur.getUser(ichiefId))) {
-                        response.setRenderParameter("alertmsg", response.getLocaleString("promptMsgErrLoopRef"));
-                        return;
+                        throw new Exception(response.getLocaleString("promptMsgErrLoopRef"));
                     }
                     int xtdr=0;
-                    try {
+//                    try {
                         SemanticProperty ext = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#noe");
-System.out.println("extension="+ext);
                         xtdr = Integer.parseInt(request.getParameter("extdr"));
                         user.setExtendedAttribute(ext, xtdr);
-                    }catch(Exception e) {
-                        alertmsg.append(response.getLocaleString("promptMsgFaultPhoneExtDr")).append("\n");
-                    }
-                    if(alertmsg.toString().isEmpty()) {
-                        profile.setPuesto(pos);
-                        profile.setPostit(postit);
-                        profile.setMiPersonalidad(SWBUtils.XML.replaceXMLChars(request.getParameter("prsnld")));
-                        profile.setMisGustos(SWBUtils.XML.replaceXMLChars(request.getParameter("gsts")));
-                        profile.setMisIdeas(SWBUtils.XML.replaceXMLChars(request.getParameter("ideas")));
-                        user.setEmail(email);
+//                    }catch(Exception e) {
+//                        alertmsg.append(response.getLocaleString("promptMsgFaultPhoneExtDr")).append("\n");
+//                    }
+//                    if(alertmsg.toString().isEmpty()) {
+                    profile.setPuesto(pos);
+                    profile.setPostit(postit);
+                    profile.setMiPersonalidad(SWBUtils.XML.replaceXMLChars(request.getParameter("prsnld")));
+                    profile.setMisGustos(SWBUtils.XML.replaceXMLChars(request.getParameter("gsts")));
+                    profile.setMisIdeas(SWBUtils.XML.replaceXMLChars(request.getParameter("ideas")));
+                    user.setEmail(email);
+//                    try {
+                        int ld, xtn;
                         try {
-                            int ld, xtn;
+                            ld = Integer.parseInt(request.getParameter("ld"));
+                        }catch(NumberFormatException e) {
+                            ld = 0;
+                        }
+                        try {
+                            xtn = Integer.parseInt(request.getParameter("ext"));
+                        }catch(NumberFormatException e) {
+                            xtn = 0;
+                        }
+                        persona.removeAllTelefonoByTipo(Telefono.TipoTelefono.Trabajo);
+                        Telefono tel = Telefono.ClassMgr.createTelefono(wsite);
+                        tel.setLada(ld);
+                        tel.setNumero(tfo);
+                        tel.setExtension(xtn);
+                        tel.setTipo(Telefono.TipoTelefono.Trabajo.name());
+                        persona.addTelefono(tel);
+//                    }catch(Exception nfe) {
+//                    }
+                    profile.setUbicacion(loc);
+                    profile.setJefeInmediato(ur.getUser(ichiefId));
+                    if(!user.hasUserGroup(adscription)) {
+                        user.removeAllUserGroup();
+                        user.addUserGroup(infotec);
+                        user.addUserGroup(adscription);
+                    }
+                    if(request.getParameterValues("mti")!=null && request.getParameterValues("mti").length>0) {
+                        profile.removeAllTemaInteres();
+                        String[] mtis = request.getParameterValues("mti");
+                        for(String mti:mtis)
                             try {
-                                ld = Integer.parseInt(request.getParameter("ld"));
+                                profile.addTemaInteres(TemaInteres.ClassMgr.getTemaInteres(mti, wsite));
                             }catch(Exception e) {
-                                ld = 0;
+                                log.error(e);
                             }
-                            try {
-                                xtn = Integer.parseInt(request.getParameter("ext"));
-                            }catch(Exception e) {
-                                xtn = 0;
-                            }
-                            persona.removeAllTelefonoByTipo(Telefono.TipoTelefono.Trabajo);
-                            Telefono tel = Telefono.ClassMgr.createTelefono(wsite);
-                            tel.setLada(ld);
-                            tel.setNumero(tfo);
-                            tel.setExtension(xtn);
-                            tel.setTipo(Telefono.TipoTelefono.Trabajo.name());
-                            persona.addTelefono(tel);
-                        }catch(Exception nfe) {
-                        }
-                        profile.setUbicacion(loc);
-                        profile.setJefeInmediato(ur.getUser(ichiefId));
-                        if(!user.hasUserGroup(adscription)) {
-                            user.removeAllUserGroup();
-                            user.addUserGroup(infotec);
-                            user.addUserGroup(adscription);
-                        }
-                        if(request.getParameterValues("mti")!=null && request.getParameterValues("mti").length>0) {
-                            profile.removeAllTemaInteres();
-                            String[] mtis = request.getParameterValues("mti");
-                            for(String mti:mtis)
-                                try {
-                                    profile.addTemaInteres(TemaInteres.ClassMgr.getTemaInteres(mti, wsite));
-                                }catch(Exception e) {
-                                    log.error(e);
-                                }
-                        }else {
-                            profile.removeAllTemaInteres();
-                        }
-                        response.setAction(SWBResourceURL.Action_ADD);
                     }else {
-                    
+                        profile.removeAllTemaInteres();
+                    }
+//                    }
+                    }catch(Exception e) {
+System.out.println("alertmsg="+e.getMessage());
+                        response.setRenderParameter("act",SWBResourceURL.Action_EDIT);
+                        response.setRenderParameter("alertmsg", e.getMessage());
+                        setRenderParameter(request, response);
                     }
                 }
             }
