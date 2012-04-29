@@ -64,7 +64,7 @@
         <div id="formPerfil">
         <div id="menu_perfil">
          <ul>
-          <li><a href="<%=contentURL+"?action="+SWBResourceURL.Action_EDIT%>">Editar mi perfil</a></li>
+          <li><a href="<%=contentURL+"?act="+SWBResourceURL.Action_EDIT%>">Editar mi perfil</a></li>
           <li><a href="#">Mis favoritos</a></li>
           <li><a href="#">Mis solicitudes</a></li>
           <!--li><a href="#">Mi perfil</a></li-->
