@@ -566,22 +566,28 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         Calendar today = Calendar.getInstance();
         int h;
         if(today.get(Calendar.HOUR_OF_DAY)<8 || current.get(Calendar.DAY_OF_YEAR)>today.get(Calendar.DAY_OF_YEAR)) {
+            reset(today, 8, 0);
             h = 8;
         }else {
             h = current.get(Calendar.HOUR_OF_DAY);
             if(current.get(Calendar.MINUTE)<30) {
-                html.append("\n<option value=\""+(h*60+30)+"\">"+h+":30</option>");
+                reset(today, h, 30);
+            }else {
+                h++;
+                reset(today, h, 0);
             }
-            h++;
         }
-        for(; h<22; h++) {
-            html.append("\n<option value=\""+(h*60)+"\">"+h+":00</option>");
-            fh.append("\n<option value=\""+(h*60+59)+"\">"+h+":59</option>");
-            if(h<21) {
-                html.append("\n<option value=\""+(h*60+30)+"\">"+h+":30</option>");
-                fh.append("\n<option value=\""+(h*60+89)+"\">"+(h+1)+":29</option>");
-            }
-                
+        for(; h<=22; h++) {
+            html.append("\n<option value=\""+(h*60)+"\">"+HHmm.format(today.getTime())+"</option>");
+            today.add(Calendar.MINUTE, 29);
+            fh.append("\n<option value=\""+(h*60+29)+"\">"+HHmm.format(today.getTime()) +"</option>");
+            today.add(Calendar.MINUTE, 1);
+            html.append("\n<option value=\""+(h*60+30)+"\">"+HHmm.format(today.getTime())+"</option>");
+            today.add(Calendar.MINUTE, 29);
+            fh.append("\n<option value=\""+(h*60+59)+"\">"+HHmm.format(today.getTime()) +"</option>");
+            
+            today.add(Calendar.MINUTE, 1);
+            h = today.get(Calendar.HOUR_OF_DAY);
         }
         html.append("\n  </select>");
         html.append("\n  <label for=\"fh\">a: </label>");
