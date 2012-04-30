@@ -1,6 +1,5 @@
 package com.infotec.eworkplace.swb.resources.sem;
 
-import com.infotec.cvi.swb.Carrera;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
@@ -348,8 +347,15 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
             wk = cur.get(Calendar.WEEK_OF_MONTH);
         }
         out.println("<div>");
+        
+        out.println("<div id=\"salas-regresar\">");
+        out.println(" <a href=\""+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW) +"\">regresars</a>");
+        out.println("</div>");
+        
+        out.println("<div id=\"salas-semanas\">");
         out.println(" <h3>"+sala.getDisplayTitle(locale.getLanguage())+"</h3>");
         out.println(" <h3>Semana "+wk+"</h3>");
+        out.println("</div>");
 //        if(wk>1)
 //            out.println("<a href=\"#\" title=\"\">anterior</a>");
 //        if(wk<wom)
