@@ -26,6 +26,7 @@ import org.semanticwb.portal.api.SWBResourceURL;
  * @author carlos.ramos
  */
 public class ExperienciaLaboralResource extends GenericResource {
+
     private Logger log = SWBUtils.getLogger(ExperienciaLaboralResource.class);
 
     @Override
@@ -45,13 +46,13 @@ public class ExperienciaLaboralResource extends GenericResource {
             }
         }
     }
-    
+
     private String script(final String lang) {
         StringBuilder js = new StringBuilder();
         js.append("\n");
         js.append("<script type=\"text/javascript\">\n");
         js.append("<!--\n");
-        
+
         js.append("dojo.require('dojo.parser');\n;");
         js.append("dojo.require('dojo.fx');\n");
         js.append("dojo.require('dijit.dijit');\n");
@@ -60,26 +61,26 @@ public class ExperienciaLaboralResource extends GenericResource {
         js.append("dojo.require('dijit.form.DateTextBox');\n");
         js.append("dojo.require('dijit.form.FilteringSelect');\n");
         js.append("dojo.require('dijit.form.ValidationTextBox');\n");
-        
-        js.append("function validation() {\n");
-js.append("v = true;");        
-js.append("dojo.query('[name$=\"sctr\"]').forEach(function(node, index, arr){\n");
-js.append("  if(!node.value) {\n");
-js.append("    dojo.byId(node.name+'_msg').innerHTML='falta este dato';\n");
-js.append("    v = v && false;");
-js.append("  }");
-//js.append("  console.log('node='+node.type+',node.name='+node.name+',node.value='+node.value+',index='+index+',arr='+arr);\n");
-js.append("});\n");
 
-js.append("dojo.query('[name$=\"mfncs\"]').forEach(function(node, index, arr){\n");
-js.append("  if(!node.value) {\n");
-js.append("    dojo.byId(node.name+'_msg').innerHTML='falta este dato';\n");
-js.append("    v = v && false;");
-js.append("  }");
+        js.append("function validation() {\n");
+        js.append("v = true;");
+        js.append("dojo.query('[name$=\"sctr\"]').forEach(function(node, index, arr){\n");
+        js.append("  if(!node.value) {\n");
+        js.append("    dojo.byId(node.name+'_msg').innerHTML='falta este dato';\n");
+        js.append("    v = v && false;");
+        js.append("  }");
 //js.append("  console.log('node='+node.type+',node.name='+node.name+',node.value='+node.value+',index='+index+',arr='+arr);\n");
-js.append("});\n");
-        
-        
+        js.append("});\n");
+
+        js.append("dojo.query('[name$=\"mfncs\"]').forEach(function(node, index, arr){\n");
+        js.append("  if(!node.value) {\n");
+        js.append("    dojo.byId(node.name+'_msg').innerHTML='falta este dato';\n");
+        js.append("    v = v && false;");
+        js.append("  }");
+//js.append("  console.log('node='+node.type+',node.name='+node.name+',node.value='+node.value+',index='+index+',arr='+arr);\n");
+        js.append("});\n");
+
+
         js.append("    var f = dojo.byId(\"explab_0001\");\n");
         js.append("    var s = \"\";\n");
         js.append("    for(var i = 0; i < f.elements.length; i++) {\n");
@@ -92,7 +93,7 @@ js.append("});\n");
         js.append("    }\n");
         js.append("    console.log(s);\n");
         js.append("}\n");
-        
+
         js.append("function expande(domId) {\n");
         js.append("   var anim1 = dojo.fx.wipeIn( {node:domId, duration:500 });\n");
         js.append("   var anim2 = dojo.fadeIn({node:domId, duration:650});\n");
@@ -103,8 +104,8 @@ js.append("});\n");
         js.append("   var anim1 = dojo.fx.wipeOut( {node:domId, duration:500 });\n");
         js.append("   var anim2 = dojo.fadeOut({node:domId, duration:650});\n");
         js.append("   dojo.fx.combine([anim1, anim2]).play();\n");
-        js.append(" }\n");        
-                
+        js.append(" }\n");
+
         js.append("  var idx=0;\n");
         js.append("  function appendChild(childId, dateboxId, parentId) {\n");
         js.append("    var s = new String('');\n");
@@ -116,7 +117,7 @@ js.append("});\n");
         js.append("    s = s.concat('<p class=\"tercio\"><label>Empresa</label><input type=\"text\" name=\"emp\" value=\"\" dojoType=\"dijit.form.ValidationTextBox\" required=\"true\" promptMessage=\"Nombre de la empresa\" invalidMessage=\"El nombre de la empresa es requerido\"/></p>');\n");
         js.append("    s = s.concat('<p class=\"entero\"><label>Sector</label><select name=\"sctr\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\"><option value=\"\"></option>');\n");
         /*for(Sector sector:sectors) {
-            js.append("s= s.concat('<option value=\""+sector.getId()+"\">"+sector.getDisplayTitle(lang) +"</option>');\n");
+        js.append("s= s.concat('<option value=\""+sector.getId()+"\">"+sector.getDisplayTitle(lang) +"</option>');\n");
         }*/
         js.append("    s = s.concat('</select></p>');\n");
         js.append("    s = s.concat('<p class=\"tercio\"><label>Fecha inicial</label><input type=\"text\" id=\"fi_'+dateboxId+'\" name=\"fi\" value=\"\" maxlength=\"10\" style=\"width:110px;\" /></p>');\n");
@@ -133,7 +134,7 @@ js.append("});\n");
         js.append("    s = s.concat('<br clear=\"all\"/>');\n");
         js.append("    s = s.concat('</li>');\n");
         js.append("    dojo.place(s, parentId, 'last');\n");
-        
+
         js.append("dojo.addOnLoad(function() {");
         js.append("  var datefi = new dijit.form.DateTextBox(");
         js.append("                   {");
@@ -157,146 +158,166 @@ js.append("});\n");
         js.append("</script>\n");
         return js.toString();
     }
-    
+
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         User user = response.getUser();
-        if(!user.isSigned())
+        if (!user.isSigned()) {
             return;
-        
+        }
+
         final String action = response.getAction();
         WebSite wsite = response.getWebPage().getWebSite();
 
         CV cv = CV.ClassMgr.getCV(user.getId(), wsite);
-        if(cv==null) {
-            log.error("Objeto semantico cv del usuario es nulo");
+        if (cv == null) {
+            log.error("Objeto semantico CV del usuario es nulo");
         }
         String msg = "";
-        if(SWBResourceURL.Action_ADD.equals(action)) {
-            if(!validate(request, response))
+        if (SWBResourceURL.Action_ADD.equals(action)) {
+            if (!validate(request, response)) {
                 return;
-            
+            }
+
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            
+
             ExperienciaLaboral experiencia = ExperienciaLaboral.ClassMgr.createExperienciaLaboral(wsite);
-            experiencia.setActual(request.getParameter("cur")==null?false:true);
+            experiencia.setActual(request.getParameter("cur") == null ? false : true);
             experiencia.setEmpresa(SWBUtils.XML.replaceXMLChars(request.getParameter("emp")));
             experiencia.setSector(Sector.ClassMgr.getSector(request.getParameter("sctr"), wsite));
             try {
                 experiencia.setFechaIni(sdf.parse(SWBUtils.XML.replaceXMLChars(request.getParameter("fi"))));
-            }catch(ParseException e){
-                response.setRenderParameter("alertmsg", "Fecha inicial mal");
+            } catch (ParseException e) {
+                response.setRenderParameter("alertmsg", "Falta la Fecha inicial o esta en formato inválido.");
                 return;
             }
             try {
                 experiencia.setFechaFin(sdf.parse(SWBUtils.XML.replaceXMLChars(request.getParameter("ff"))));
-            }catch(ParseException e) {
+            } catch (ParseException e) {
 //                response.setRenderParameter("alertmsg", "Fecha final mal");
 //                return;
             }
             experiencia.setCargo(SWBUtils.XML.replaceXMLChars(request.getParameter("crg")));
             experiencia.setFuncionesPrincipales(SWBUtils.XML.replaceXMLChars(request.getParameter("mfncs")));
             experiencia.setJefe(SWBUtils.XML.replaceXMLChars(request.getParameter("jf")));
-            
+
             try {
-                int num = Integer.parseInt(SWBUtils.XML.replaceXMLChars(request.getParameter("tf")));
-                Telefono telefono = Telefono.ClassMgr.createTelefono(wsite);
-                telefono.setNumero(num);
+
+                Telefono telefono = null;
                 try {
-                    int cve = Integer.parseInt(SWBUtils.XML.replaceXMLChars(request.getParameter("cve")));
-                    telefono.setLada(cve);
-                }catch(Exception e) {
+                    int num = Integer.parseInt(SWBUtils.XML.replaceXMLChars(request.getParameter("tf")));
+                    telefono = Telefono.ClassMgr.createTelefono(wsite);
+                    telefono.setNumero(num);
+                } catch (Exception e) {
                 }
-                try {
-                    int ext = Integer.parseInt(SWBUtils.XML.replaceXMLChars(request.getParameter("ext")));
-                    telefono.setExtension(ext);
-                }catch(Exception e) {
+                if (null != telefono) {
+                    try {
+                        int cve = Integer.parseInt(SWBUtils.XML.replaceXMLChars(request.getParameter("cve")));
+                        telefono.setLada(cve);
+                    } catch (Exception e) {
+                    }
+                    try {
+                        int ext = Integer.parseInt(SWBUtils.XML.replaceXMLChars(request.getParameter("ext")));
+                        telefono.setExtension(ext);
+                    } catch (Exception e) {
+                    }
+                    experiencia.setTelefono(telefono);
                 }
-                experiencia.setTelefono(telefono);
+
                 cv.addExperienciaLaboral(experiencia);
                 cv.setSinExperiencia(Boolean.FALSE);
-                
-                response.setRenderParameter("alertmsg", "experiencia agregada");
-            }catch(Exception e){
+
+                response.setRenderParameter("alertmsg", "Se agregó correctamente Experiencia");
+            } catch (Exception e) {
                 experiencia.remove();
             }
-        }else if(SWBResourceURL.Action_EDIT.equals(action)) {
+        } else if (SWBResourceURL.Action_EDIT.equals(action)) {
             final String experienciaId = request.getParameter("id");
             ExperienciaLaboral experiencia;
             try {
                 experiencia = ExperienciaLaboral.ClassMgr.getExperienciaLaboral(experienciaId, wsite);
-            }catch(Exception e) {
-                response.setRenderParameter("alertmsg", "experiencia no existe");
+            } catch (Exception e) {
+                response.setRenderParameter("alertmsg", "La Experiencia Laboral no existe");
                 return;
             }
-            if(!validate(request, response))
-                return;
-            
-            if(!cv.hasExperienciaLaboral(experiencia)) {
-                response.setRenderParameter("alertmsg", "Tu cv no contiene esta experiencia");
+            if (!validate(request, response)) {
                 return;
             }
-            
+
+            if (!cv.hasExperienciaLaboral(experiencia)) {
+                response.setRenderParameter("alertmsg", "Tu CV no contiene esta Experiencia");
+                return;
+            }
+
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            experiencia.setActual(request.getParameter("cur")==null?false:true);
+            experiencia.setActual(request.getParameter("cur") == null ? false : true);
             experiencia.setEmpresa(SWBUtils.XML.replaceXMLChars(request.getParameter("emp")));
             experiencia.setSector(Sector.ClassMgr.getSector(request.getParameter("sctr"), wsite));
             try {
                 experiencia.setFechaIni(sdf.parse(SWBUtils.XML.replaceXMLChars(request.getParameter("fi"))));
-            }catch(ParseException e){
-                response.setRenderParameter("alertmsg", "Fecha inicial mal");
+            } catch (ParseException e) {
+                response.setRenderParameter("alertmsg", "Falta la Fecha inicial o esta en formato inválido.");
                 return;
             }
-            try {
-                experiencia.setFechaFin(sdf.parse(SWBUtils.XML.replaceXMLChars(request.getParameter("ff"))));
-            }catch(ParseException e) {
-                response.setRenderParameter("alertmsg", "Fecha final mal");
-                return;
+            if(request.getParameter("ff")!=null&&request.getParameter("ff").trim().length()>0){
+                try {
+                    experiencia.setFechaFin(sdf.parse(SWBUtils.XML.replaceXMLChars(request.getParameter("ff"))));
+                } catch (ParseException e) {
+                    //response.setRenderParameter("alertmsg", "Fecha final mal");
+                    //return;
+                }
             }
             experiencia.setCargo(SWBUtils.XML.replaceXMLChars(request.getParameter("crg")));
             experiencia.setFuncionesPrincipales(SWBUtils.XML.replaceXMLChars(request.getParameter("mfncs")));
             experiencia.setJefe(SWBUtils.XML.replaceXMLChars(request.getParameter("jf")));
-            
+
             try {
-                int num = Integer.parseInt(SWBUtils.XML.replaceXMLChars(request.getParameter("tf")));
-                Telefono telefono = Telefono.ClassMgr.createTelefono(wsite);
-                telefono.setNumero(num);
+                
+                Telefono telefono = null;
+                
                 try {
-                    int cve = Integer.parseInt(SWBUtils.XML.replaceXMLChars(request.getParameter("cve")));
-                    telefono.setLada(cve);
-                }catch(Exception e) {
+                    int num = Integer.parseInt(SWBUtils.XML.replaceXMLChars(request.getParameter("tf")));
+                    telefono = experiencia.getTelefono();
+                    if(null==telefono) telefono = Telefono.ClassMgr.createTelefono(wsite);
+                    telefono.setNumero(num);
+                } catch (Exception e) {
                 }
-                try {
-                    int ext = Integer.parseInt(SWBUtils.XML.replaceXMLChars(request.getParameter("ext")));
-                    telefono.setExtension(ext);
-                }catch(Exception e) {
+                if (null != telefono) {
+                    try {
+                        int cve = Integer.parseInt(SWBUtils.XML.replaceXMLChars(request.getParameter("cve")));
+                        telefono.setLada(cve);
+                    } catch (Exception e) {
+                    }
+                    try {
+                        int ext = Integer.parseInt(SWBUtils.XML.replaceXMLChars(request.getParameter("ext")));
+                        telefono.setExtension(ext);
+                    } catch (Exception e) {
+                    }
+                    experiencia.setTelefono(telefono);
                 }
-                experiencia.setTelefono(telefono);
-                response.setRenderParameter("alertmsg", "experiencia agregada");
-            }catch(Exception e){
+                                
+            } catch (Exception e) {
                 experiencia.remove();
             }
-            response.setRenderParameter("alertmsg", "experiencia modifcada bien");
-        }else if(SWBResourceURL.Action_REMOVE.equals(action)) {
+            response.setRenderParameter("alertmsg", "Experiencia Laboral modificada correctamente");
+        } else if (SWBResourceURL.Action_REMOVE.equals(action)) {
             final String experienciaId = request.getParameter("id");
             try {
                 ExperienciaLaboral experiencia = ExperienciaLaboral.ClassMgr.getExperienciaLaboral(experienciaId, wsite);
-                if(cv.hasExperienciaLaboral(experiencia)) {
+                if (cv.hasExperienciaLaboral(experiencia)) {
                     experiencia.remove();
-                    response.setRenderParameter("alertmsg", "experiencia eliminada");
-                }else {
-                    response.setRenderParameter("alertmsg", "Tu cv no contiene esta experiencia");
+                    response.setRenderParameter("alertmsg", "Experiencia Laboral eliminada");
+                } else {
+                    response.setRenderParameter("alertmsg", "Tu CV no contiene esta Experiencia Laboral");
                 }
-            }catch(Exception e) {
-                response.setRenderParameter("alertmsg", "experiencia no se pudo eliminar");
+            } catch (Exception e) {
+                response.setRenderParameter("alertmsg", "La Experiencia Laboral no se pudo eliminar");
                 log.error(e);
             }
-        } else if (action.equals("updateNoAplica")){
-            //System.out.println("NoAplica: "+request.getParameter("noAplica"));
+        } else if (action.equals("updateNoAplica")) {
             String noAplica = request.getParameter("noAplica");
-            msg="Se actualizó No aplica Experiencia";
-            if(noAplica!=null&&noAplica.equals("true"))
-            {
+            msg = "Se actualizó No aplica Experiencia";
+            if (noAplica != null && noAplica.equals("true")) {
                 cv.setSinExperiencia(Boolean.TRUE);
             } else {
                 cv.setSinExperiencia(Boolean.FALSE);
@@ -304,37 +325,38 @@ js.append("});\n");
 
             response.setRenderParameter("act", "");
             response.setRenderParameter("alertmsg", msg);
-            
+
         }
     }
-    
+
     private boolean validate(HttpServletRequest request, SWBActionResponse response) {
-        if(request.getParameter("emp").isEmpty() || request.getParameter("sctr")==null || request.getParameter("fi").isEmpty() || request.getParameter("crg").isEmpty() || request.getParameter("mfncs")==null) {
+        if (request.getParameter("emp").isEmpty() || request.getParameter("sctr") == null || request.getParameter("fi").isEmpty() || request.getParameter("crg").isEmpty() || request.getParameter("mfncs") == null) {
             response.setRenderParameter("alertmsg", "faltan datos");
             return false;
         }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date fi=null, ff=null;
+        Date fi = null, ff = null;
         try {
             Sector.ClassMgr.getSector(request.getParameter("sctr"), response.getWebPage().getWebSite());
-        }catch(Exception e) {
-            response.setRenderParameter("alertmsg", "Sector no existe");
+        } catch (Exception e) {
+            response.setRenderParameter("alertmsg", "El Sector no existe");
             return false;
         }
         try {
             fi = sdf.parse(SWBUtils.XML.replaceXMLChars(request.getParameter("fi")));
-        }catch(Exception e){
-            response.setRenderParameter("alertmsg", "Fecha inicial mal");
+        } catch (Exception e) {
+            response.setRenderParameter("alertmsg", "Falta la Fecha inicial o esta en formato inválido.");
             return false;
         }
         try {
             ff = sdf.parse(SWBUtils.XML.replaceXMLChars(request.getParameter("ff")));
             Date now = new Date();
-            if(fi.after(now) || ff.after(now) || fi.after(ff))
-                throw new Exception("Fecha mal");
-        }catch(Exception e) {
-            response.setRenderParameter("alertmsg", "Fecha mal");
-            return false;
+            if (fi.after(now) || ff.after(now) || fi.after(ff)) {
+                throw new Exception("Falta Fecha final o esta en formato inválido");
+            }
+        } catch (Exception e) {
+            //response.setRenderParameter("alertmsg", "Falta Fecha final o esta en formato inválido");
+            //return false;
         }
         return true;
     }
