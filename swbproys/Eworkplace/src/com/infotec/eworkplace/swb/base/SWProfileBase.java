@@ -1,12 +1,16 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Placeable,org.semanticwb.model.Traceable
+public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,com.infotec.eworkplace.swb.Placeable
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_contrato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#contrato");
     public static final org.semanticwb.platform.SemanticProperty intranet_misIdeas=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#misIdeas");
     public static final org.semanticwb.platform.SemanticProperty intranet_misGustos=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#misGustos");
     public static final org.semanticwb.platform.SemanticProperty intranet_puesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#puesto");
+   /**
+   * Breve descripción de hacienda o mensaje para recordar
+   */
+    public static final org.semanticwb.platform.SemanticProperty intranet_postit=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#postit");
     public static final org.semanticwb.platform.SemanticProperty intranet_miPersonalidad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#miPersonalidad");
     public static final org.semanticwb.platform.SemanticClass intranet_Proyecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Proyecto");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasProyecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasProyecto");
@@ -356,6 +360,24 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
     public void setPuesto(String value)
     {
         getSemanticObject().setProperty(intranet_puesto, value);
+    }
+
+/**
+* Gets the Postit property
+* @return String with the Postit
+*/
+    public String getPostit()
+    {
+        return getSemanticObject().getProperty(intranet_postit);
+    }
+
+/**
+* Sets the Postit property
+* @param value long with the Postit
+*/
+    public void setPostit(String value)
+    {
+        getSemanticObject().setProperty(intranet_postit, value);
     }
 
 /**
