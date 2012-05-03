@@ -107,7 +107,7 @@
             <th>Puesto</th>
             <th>Funciones principales</th>
             <th>Nombre y puesto del jefe inmediato</th>
-            <th>telefono</th>
+            <th>Teléfono</th>
         </tr>
     </thead>
     <tbody>
@@ -157,7 +157,7 @@
         <td><%=ga.getEmpresa()%></td>
         <td><%=(ga.getSector()==null?"---":(ga.getSector().getTitle()==null?"---":ga.getSector().getTitle()))%></td>
         <td><%=sdf.format(ga.getFechaIni())%></td>
-        <td><%=sdf.format(ga.getFechaFin())%></td>
+        <td><%=(ga.getFechaFin()!=null?sdf.format(ga.getFechaFin()):"")%></td>
         <td><%=ga.getCargo()%></td>
         <td><%=ga.getFuncionesPrincipales()%></td>
         <td><%=(ga.getJefe()==null?"---":ga.getJefe())%></td>
@@ -374,7 +374,7 @@
    </select>
   </p>
   <p class="icv-3col"><label><em>*</em>Fecha inicial</label><input type="text" name="fi" value="<%=sdf.format(gradoAca.getFechaIni())%>" dojoType="dijit.form.DateTextBox" required="true" constraints="{datePattern:'dd/MM/yyyy'}" maxlength="10" hasDownArrow="true"/></p>
-  <p class="icv-3col"><label>Fecha final</label><input type="text" name="ff" value="<%=sdf.format(gradoAca.getFechaFin())%>" dojoType="dijit.form.DateTextBox" required="false" constraints="{datePattern:'dd/MM/yyyy'}" maxlength="10" hasDownArrow="true"/></p>
+  <p class="icv-3col"><label>Fecha final</label><input type="text" name="ff" value="<%=(gradoAca.getFechaFin()!=null?sdf.format(gradoAca.getFechaFin()):"")%>" dojoType="dijit.form.DateTextBox" required="false" constraints="{datePattern:'dd/MM/yyyy'}" maxlength="10" hasDownArrow="true"/></p>
   <p class="icv-3col"><label><em>*</em>Puesto</label><input type="text" name="crg" value="<%=gradoAca.getCargo()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Puesto ocupado" invalidMessage="El nombre del puesto es requerido"/></p>
   <p class="icv-3col"><label><em>*</em>Funciones principales</label><textarea name="mfncs" id="mfncs" cols="28" rows="1"><%=gradoAca.getFuncionesPrincipales()%></textarea></p>
   <p class="icv-3col"><label>Nombre y puesto del jefe inmediato</label><input type="text" name="jf" value="<%=gradoAca.getJefe()%>" /></p>
