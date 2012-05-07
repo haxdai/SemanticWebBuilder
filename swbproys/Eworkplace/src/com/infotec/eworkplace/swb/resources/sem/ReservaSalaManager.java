@@ -570,6 +570,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
 //        html.append("     <option value=\"480\">08:00</option><option value=\"510\">08:30</option><option value=\"540\">09:00</option><option value=\"570\">09:30</option><option value=\"600\">10:00</option><option value=\"630\">10:30</option><option value=\"660\">11:00</option><option value=\"690\">11:30</option><option value=\"720\">12:00</option><option value=\"750\">12:30</option><option value=\"780\">13:00</option><option value=\"810\">13:30</option><option value=\"840\">14:00</option><option value=\"870\">14:30</option><option value=\"900\">15:00</option><option value=\"930\">15:30</option> <option value=\"960\">16:00</option> <option value=\"990\">16:30</option><option value=\"1020\">17:00</option><option value=\"1050\">17:30</option><option value=\"1080\">18:00</option><option value=\"1110\">18:30</option><option value=\"1140\">19:00</option><option value=\"1170\">19:30</option><option value=\"1200\">20:00</option><option value=\"1230\">20:30</option><option value=\"1260\">21:00</option>");
         StringBuilder fh = new StringBuilder();
         Calendar today = Calendar.getInstance();
+        Calendar next = Calendar.getInstance();
         int h;
         if(today.get(Calendar.HOUR_OF_DAY)<8 || current.get(Calendar.DAY_OF_YEAR)>today.get(Calendar.DAY_OF_YEAR)) {
             reset(today, 8, 0);
@@ -583,16 +584,16 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
                 reset(today, h, 0);
             }
         }
-        for(; h<=22; h++) {
+        reset(next, today.get(Calendar.HOUR_OF_DAY), 59);
+         for(; h<22; h++) {
             html.append("\n<option value=\""+(h*60)+"\">"+HHmm.format(today.getTime())+"</option>");
-            today.add(Calendar.MINUTE, 29);
-            fh.append("\n<option value=\""+(h*60+29)+"\">"+HHmm.format(today.getTime()) +"</option>");
-            today.add(Calendar.MINUTE, 1);
-            html.append("\n<option value=\""+(h*60+30)+"\">"+HHmm.format(today.getTime())+"</option>");
-            today.add(Calendar.MINUTE, 29);
-            fh.append("\n<option value=\""+(h*60+59)+"\">"+HHmm.format(today.getTime()) +"</option>");
-            
-            today.add(Calendar.MINUTE, 1);
+            today.add(Calendar.MINUTE, 30);
+//            html.append("\n<option value=\""+(h*60+30)+"\">"+HHmm.format(today.getTime())+"</option>");
+            fh.append("\n<option value=\""+(h*60+59)+"\">"+HHmm.format(next.getTime()) +"</option>");
+            next.add(Calendar.MINUTE, 30);
+//            fh.append("\n<option value=\""+(h*60+59)+"\">"+HHmm.format(next.getTime()) +"</option>");
+//            today.add(Calendar.MINUTE, 30);
+//            next.add(Calendar.MINUTE, 30);
             h = today.get(Calendar.HOUR_OF_DAY);
         }
         html.append("\n  </select>");
