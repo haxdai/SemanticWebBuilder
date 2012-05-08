@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -16,6 +17,8 @@ import org.semanticwb.Logger;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.Resource;
+import org.semanticwb.model.SWBComparator;
+import org.semanticwb.model.User;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.api.GenericResource;
@@ -36,6 +39,8 @@ public class AudioPromotion extends GenericResource {
     private static final String Action_UPDATE = "update";
     public static final String Mode_PLAY = "play";
     
+    private final DecimalFormat df = new DecimalFormat("#.00");
+    
     @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         final String mode = paramRequest.getMode();
@@ -46,8 +51,7 @@ public class AudioPromotion extends GenericResource {
     }
     
     @Override
-    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
-    {
+    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setContentType("text/html; charset=UTF-8");
         Resource base = getResourceBase();
         try {
@@ -62,29 +66,33 @@ public class AudioPromotion extends GenericResource {
         Resource base = getResourceBase();
         PrintWriter out =  response.getWriter();
         
-        String lang = paramRequest.getUser().getLanguage();
-        WebPage page = (WebPage)SemanticObject.createSemanticObject(base.getAttribute("page")).createGenericInstance();
+        final User user = paramRequest.getUser();
+        final String lang = user.getLanguage();
+        final WebPage page = (WebPage)SemanticObject.createSemanticObject(base.getAttribute("page")).createGenericInstance();
         
         Iterator<AudioFile> iresources = AudioFile.ClassMgr.listAudioFiles(base.getWebSite());
         List resources = SWBUtils.Collections.copyIterator(iresources);
         Collections.sort(resources, new AudioFile.SortByReviews());
         iresources = resources.iterator();
         if(iresources.hasNext()) {
-            SWBResourceURL directURL = paramRequest.getRenderUrl().setMode(Mode_PLAY).setCallMethod(paramRequest.Call_DIRECT);
-            
+            final SWBResourceURL directURL = paramRequest.getRenderUrl().setMode(Mode_PLAY).setCallMethod(paramRequest.Call_DIRECT);
+            File f;
             out.println("<div id=\"masPodcasts\">");
             out.println("<h3>"+paramRequest.getLocaleString("msgDoViewMorePodcasts")+"</h3>");
             out.println("<ul>");
             for(int i=0; i<MIN_LIST && iresources.hasNext(); i++) {
                 AudioFile audiofile = iresources.next();
-                out.println("<li>");
-                out.println(" <p class=\"podName\">"+(audiofile.getDisplayTitle(lang)==null?audiofile.getTitle():audiofile.getDisplayTitle(lang))+"</p>");
-                out.println(" <p class=\"podAutor\">"+paramRequest.getLocaleString("lblDoViewBy")+"&nbsp;"+audiofile.getAuthor()+"</p>");
-                out.println(" <p class=\"escuchar_mp3\"><a href=\""+page.getRealUrl(lang)+"?uri="+audiofile.getEncodedURI()+"\" title=\""+paramRequest.getLocaleString("lblDoViewListen")+"\">"+paramRequest.getLocaleString("lblDoViewListen")+"</a></p>");
-                out.println(" <p class=\"descargar_mp3\"><a href=\""+directURL.setParameter("uri", audiofile.getEncodedURI())+"\" title=\""+(audiofile.getDisplayTitle(lang)==null?audiofile.getTitle():audiofile.getDisplayTitle(lang))+"\">"+paramRequest.getLocaleString("lblDoViewDownload")+"</a><span>"+paramRequest.getLocaleString("lblDoViewFormat")+"&nbsp;"+audiofile.getFilename().substring(audiofile.getFilename().lastIndexOf(".")+1)+"</span></p>");
-//                out.println("<a href=\""+page.getRealUrl(lang)+"?uri="+audiofile.getEncodedURI()+"\" title=\""+paramRequest.getLocaleString("msgDoViewSeeMore")+"\">"+audiofile.getDisplayTitle(lang)+"</a>");
-//                out.println(audiofile.getDisplayDescription(lang));
-                out.println("</li>");
+                if(!audiofile.isValid() || !user.haveAccess(audiofile))
+                    continue;
+                f = audiofile.getFile();
+                if(f!=null && f.isFile()) {
+                    out.println("<li>");
+                    out.println(" <p class=\"podName\">"+(audiofile.getDisplayTitle(lang)==null?audiofile.getTitle():audiofile.getDisplayTitle(lang))+"</p>");
+                    out.println(" <p class=\"podAutor\">"+paramRequest.getLocaleString("lblDoViewBy")+"&nbsp;"+audiofile.getAuthor()+"</p>");
+                    out.println(" <p class=\"escuchar_mp3\"><a href=\""+page.getRealUrl(lang)+"?uri="+audiofile.getEncodedURI()+"\" title=\""+paramRequest.getLocaleString("lblDoViewListen")+"\">"+paramRequest.getLocaleString("lblDoViewListen")+"</a></p>");
+                    out.println(" <p class=\"descargar_mp3\"><a href=\""+directURL.setParameter("uri", audiofile.getEncodedURI())+"\" title=\""+(audiofile.getDisplayTitle(lang)==null?audiofile.getTitle():audiofile.getDisplayTitle(lang))+"\">"+paramRequest.getLocaleString("lblDoViewDownload")+"</a><span>"+paramRequest.getLocaleString("lblDoViewFormat")+"&nbsp;"+audiofile.getExtension()+" - "+paramRequest.getLocaleString("lblDoViewFileLength")+"&nbsp;"+df.format(f.length()/1048576.0)+" Mb</span></p>");
+                    out.println("</li>");
+                }
             }
             out.println("</ul>");
             out.println("</div>");
@@ -141,12 +149,24 @@ public class AudioPromotion extends GenericResource {
         PrintWriter out =  response.getWriter();
         String lang = paramRequest.getUser().getLanguage();
         SWBResourceURL url = paramRequest.getActionUrl().setAction(paramRequest.Action_EDIT);
-        out.println("<script type=\"text/javascript\">\n");
-        out.println("<!--\n");
+        out.println("<script type=\"text/javascript\">");
+        out.println("<!--");
         out.println("  dojo.require('dijit.layout.ContentPane');");
         out.println("  dojo.require('dijit.form.Form');");
         out.println("  dojo.require('dijit.form.ValidationTextBox');");
+        out.println("  dojo.require('dijit.form.FilteringSelect');");
         out.println("  dojo.require('dijit.form.Button');");
+        
+        out.println("function validate() {");
+        out.println("    var objd=dijit.byId('form1ud');");
+        out.println("    if(objd.validate())");
+        out.println("    {");
+        out.println("        return true;");
+        out.println("    }else {");
+        out.println("        alert('Datos incompletos o incorrectos');");
+        out.println("    }");
+        out.println("    return false;");
+        out.println("}");
         
         out.println("-->");
         out.println("</script>");
@@ -164,7 +184,7 @@ public class AudioPromotion extends GenericResource {
             selected = " selected=\"selected\"";
         }
         StringBuilder strTemp = new StringBuilder();
-        strTemp.append("<select id=\"uri\" name=\"uri\">\n");
+        strTemp.append("<select name=\"uri\" dojoType=\"dijit.form.FilteringSelect\" autocomplete=\"true\" required=\"true\" value=\"\">");
         strTemp.append("<option value=\"0\" ");
         strTemp.append(selected);
         strTemp.append(">");
@@ -172,6 +192,7 @@ public class AudioPromotion extends GenericResource {
         strTemp.append("</option>\n");
         out.println(strTemp.toString());
         Iterator<WebPage> pages = base.getWebSite().listWebPages();
+        pages = SWBComparator.sortByDisplayName(pages, lang);
         while (pages.hasNext()) {
             WebPage page = pages.next();
             if(!page.isValid())
@@ -197,7 +218,7 @@ public class AudioPromotion extends GenericResource {
         out.println("   <legend></legend>\n");
         out.println("   <ul class=\"swbform-ul\">\n");
         out.println("      <li>\n");
-        out.println("         <button type=\"submit\" dojoType=\"dijit.form.Button\"\">"+paramRequest.getLocaleString("lblDoAdminSave")+"</button>\n");
+        out.println("         <button type=\"submit\" dojoType=\"dijit.form.Button\" onclick=\"return validate()\">"+paramRequest.getLocaleString("lblDoAdminSave")+"</button>\n");
         out.println("         <button type=\"reset\" dojoType=\"dijit.form.Button\">"+paramRequest.getLocaleString("lblDoAdminReset")+"</button>\n");
         out.println("      </li>\n");
         out.println("   </ul>\n");
@@ -208,6 +229,7 @@ public class AudioPromotion extends GenericResource {
     
     public void doPlay(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         String uri = request.getParameter("uri");
+        uri = URLDecoder.decode(uri, "UTF-8");
         AudioFile audiofile = null;
         try {
             audiofile = (AudioFile)SemanticObject.createSemanticObject(uri).createGenericInstance();
@@ -275,7 +297,8 @@ public class AudioPromotion extends GenericResource {
 
             response.setHeader("Content-Disposition", "attachment; filename=" + filename);
             String resourceURL = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+SWBPortal.getContextPath()+SWBPortal.getWebWorkPath()+audiofile.getWorkPath()+"/"+URLDecoder.decode(audiofile.getFilename(), "UTF-8");
-            URL url = new URL(resourceURL);File f=new File(url.getFile());
+            URL url = new URL(resourceURL);
+            //File f=new File(url.getFile());
             BufferedInputStream  bis = new BufferedInputStream(url.openStream());
             BufferedOutputStream bos = new BufferedOutputStream(response.getOutputStream());
             byte[] buff = new byte[DEFAULT_BUFFER_SIZE];
