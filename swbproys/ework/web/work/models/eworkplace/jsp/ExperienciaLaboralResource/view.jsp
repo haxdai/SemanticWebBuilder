@@ -286,12 +286,18 @@
 %>
    </select>
   </p>
+  <div class="clearer">&nbsp;</div>
+ </div>
+  <div class="icv-div-grupo">
   <p class="icv-3col"><label><em>*</em>Fecha inicial</label><input type="text" name="fi" value="" dojoType="dijit.form.DateTextBox" required="true" constraints="{datePattern:'dd/MM/yyyy'}" maxlength="10" hasDownArrow="true"/></p>
   <p class="icv-3col"><label>Fecha final</label><input type="text" name="ff" value="" dojoType="dijit.form.DateTextBox" required="false" constraints="{datePattern:'dd/MM/yyyy'}" maxlength="10" hasDownArrow="true"/></p>
   <p class="icv-3col"><label><em>*</em>Puesto</label><input type="text" name="crg" value="" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Puesto ocupado" invalidMessage="El nombre del puesto es requerido"/></p>
-  <p class="icv-3col"><label><em>*</em>Funciones principales</label><textarea name="mfncs" id="mfncs" cols="34" rows="1"></textarea></p>
+  <div class="clearer">&nbsp;</div>
+ </div>
+  <div class="icv-div-grupo">
+  <p class="icv-3col"><label><em>*</em>Funciones principales</label><textarea name="mfncs" id="mfncs" cols="34" rows="3"></textarea></p>
   <p class="icv-3col"><label>Nombre y puesto del jefe inmediato</label><input type="text" name="jf" value="" dojoType="dijit.form.ValidationTextBox" promptMessage="Nombre y puesto del jefe inmediato" /></p>
-  <p class="icv-3col"><label style="display:block;">Tel&eacute;fono (clave lada, n&uacute;mero, extensi&oacute;n)</label>
+  <p class="icv-3col"><label>Tel&eacute;fono (clave lada, n&uacute;mero, extensi&oacute;n)</label>
    <input type="text" name="cve" value="" size="3" maxlength="3" style="width:50px;float:left" dojoType="dijit.form.ValidationTextBox" promptMessage="Clave lada" invalidMessage="Clave lada incorrecta" regExp="\d{2,3}" />&nbsp;
    <input type="text" name="tf" value="" size="8" maxlength="8" style="width:80px;float:left" dojoType="dijit.form.ValidationTextBox" promptMessage="Numero telefonico" invalidMessage="Numero telefonico incorrecto" regExp="\d{7,8}" />&nbsp;
    <input type="text" name="ext" value="" size="5" maxlength="5" style="width:60px;float:left" dojoType="dijit.form.ValidationTextBox" promptMessage="Extension telefonica" invalidMessage="Extension telefonica incorrecta" regExp="\d{1,5}" />
@@ -373,12 +379,18 @@
 %>
    </select>
   </p>
+  <div class="clearer">&nbsp;</div>
+ </div>
+  <div class="icv-div-grupo">
   <p class="icv-3col"><label><em>*</em>Fecha inicial</label><input type="text" name="fi" value="<%=sdf.format(gradoAca.getFechaIni())%>" dojoType="dijit.form.DateTextBox" required="true" constraints="{datePattern:'dd/MM/yyyy'}" maxlength="10" hasDownArrow="true"/></p>
   <p class="icv-3col"><label>Fecha final</label><input type="text" name="ff" value="<%=(gradoAca.getFechaFin()!=null?sdf.format(gradoAca.getFechaFin()):"")%>" dojoType="dijit.form.DateTextBox" required="false" constraints="{datePattern:'dd/MM/yyyy'}" maxlength="10" hasDownArrow="true"/></p>
   <p class="icv-3col"><label><em>*</em>Puesto</label><input type="text" name="crg" value="<%=gradoAca.getCargo()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Puesto ocupado" invalidMessage="El nombre del puesto es requerido"/></p>
-  <p class="icv-3col"><label><em>*</em>Funciones principales</label><textarea name="mfncs" id="mfncs" cols="28" rows="1"><%=gradoAca.getFuncionesPrincipales()%></textarea></p>
+  <div class="clearer">&nbsp;</div>
+ </div>
+  <div class="icv-div-grupo">
+  <p class="icv-3col"><label><em>*</em>Funciones principales</label><textarea name="mfncs" id="mfncs" cols="34" rows="3"><%=gradoAca.getFuncionesPrincipales()%></textarea></p>
   <p class="icv-3col"><label>Nombre y puesto del jefe inmediato</label><input type="text" name="jf" value="<%=gradoAca.getJefe()%>" /></p>
-  <p class="icv-3col"><label style="display:block;">Tel&eacute;fono (clave lada, n&uacute;mero, extensi&oacute;n)</label>
+  <p class="icv-3col"><label>Tel&eacute;fono (clave lada, n&uacute;mero, extensi&oacute;n)</label>
    <input type="text" name="cve" size="3" maxlength="3" style="width:50px;float:left" value="<%=(gradoAca.getTelefono()==null?"":(gradoAca.getTelefono().getLada()==0?"":gradoAca.getTelefono().getLada()))%>" dojoType="dijit.form.ValidationTextBox" promptMessage="Clave lada" invalidMessage="Clave lada incorrecta" regExp="\d{2,3}" />&nbsp;
    <input type="text" name="tf" size="8" maxlength="8" style="width:80px;float:left" value="<%=(gradoAca.getTelefono()==null?"":(gradoAca.getTelefono().getNumero()==0?"":gradoAca.getTelefono().getNumero()))%>" dojoType="dijit.form.ValidationTextBox" promptMessage="Numero telefonico" invalidMessage="Numero telefonico incorrecto" regExp="\d{7,8}" />&nbsp;
    <input type="text" name="ext" size="5" maxlength="5" style="width:60px;float:left" value="<%=(gradoAca.getTelefono()==null?"":(gradoAca.getTelefono().getExtension()==0?"":gradoAca.getTelefono().getExtension()))%>" dojoType="dijit.form.ValidationTextBox" promptMessage="Extension telefonica" invalidMessage="Extension telefonica incorrecta" regExp="\d{1,5}" />
