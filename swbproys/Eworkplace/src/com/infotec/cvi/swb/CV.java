@@ -440,6 +440,7 @@ public class CV extends com.infotec.cvi.swb.base.CVBase
                         eleLaboral.appendChild(element);
 
                         Telefono te = el.getTelefono();
+                        if(te!=null){
                         org.w3c.dom.Element eleTelefono = dom.createElement("telefono");
                         eleTelefono.appendChild(dom.createTextNode(""));
                         if(te.getLada()>0){
@@ -456,7 +457,7 @@ public class CV extends com.infotec.cvi.swb.base.CVBase
                             eleTelefono.appendChild(element);
                         }
                         eleLaboral.appendChild(eleTelefono);
-
+                        }
                         eleLaborales.appendChild(eleLaboral);
                     }
                     eleExperiencia.appendChild(eleLaborales);
