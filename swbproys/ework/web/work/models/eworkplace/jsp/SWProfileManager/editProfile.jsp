@@ -97,7 +97,6 @@ dojo.declare(
         <div id="formPerfil">
         <!-- //datos empleado -->
          <div class="perfil divisor">
-          <h3>Mi perfil | Datos personales | CVI</h3>
 <%
         final String pimg;
         if(user.getPhoto()==null)
@@ -181,7 +180,7 @@ dojo.declare(
           </p>
           
           <p class="entero">
-              <label for="loc"><em>*</em><%=paramRequest.getLocaleString("lblLoc")%>&nbsp;<a href="#" title="<%=paramRequest.getLocaleString("lblSeeMap")%>"><%=paramRequest.getLocaleString("lblSeeMap")%></a></label>
+              <label for="loc"><em>*</em><%=paramRequest.getLocaleString("lblLoc")%></label>
            <textarea name="loc" id="loc" rows="2" dojoType="ValidationTextarea" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgLoc")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultLoc")%>" trim="true"><%=(request.getParameter("loc")!=null?request.getParameter("loc"):profile.getUbicacion()==null?"":profile.getUbicacion())%></textarea>
           </p>         
 <%
