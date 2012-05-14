@@ -881,7 +881,7 @@ if(laboral.getElementsByTagName("funciones").item(0)!=null) {
         }
     }catch(Exception e) {
         e.printStackTrace(System.out);
-        log.error(e);
+        //log.error(e);
     }finally {
         if(document!=null && document.isOpen())
             document.close();

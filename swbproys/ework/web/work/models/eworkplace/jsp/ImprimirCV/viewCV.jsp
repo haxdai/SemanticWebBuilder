@@ -434,9 +434,10 @@ Author     : rene.jara
                             String cargo = el.getCargo();
                             String jefe = el.getJefe();
                             Telefono te = el.getTelefono();
-                            String lada = te.getLada() > 0 ? "(" + te.getLada() + ")" : "";
-                            String numero = te.getNumero() > 0 ? "" + te.getNumero() : "";
-                            String exten = te.getExtension() > 0 ? "Ext:" + te.getExtension() : "";
+                            
+                            String lada = te!=null&&te.getLada() > 0 ? "(" + te.getLada() + ")" : "";
+                            String numero = te!=null&&te.getNumero() > 0 ? "" + te.getNumero() : "";
+                            String exten = te!=null&&te.getExtension() > 0 ? "Ext:" + te.getExtension() : "";
                             String sector= el.getSector().getTitle();
                             String funciones=el.getFuncionesPrincipales();
                                                %>
