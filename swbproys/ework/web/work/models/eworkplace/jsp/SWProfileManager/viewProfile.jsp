@@ -72,7 +72,6 @@
         </div>
         <!-- //datos empleado -->
          <div class="perfil divisor">
-          <h3>Mi perfil | Datos personales | CVI</h3>
 <%
         final String pimg;
         if(user.getPhoto()==null)
