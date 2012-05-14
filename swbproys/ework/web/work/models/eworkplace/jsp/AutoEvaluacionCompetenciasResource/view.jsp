@@ -67,7 +67,9 @@
         );
         if(c==5) {            
             return true;
-        }else {
+        }else if(c<5) {
+            alert('<%=paramRequest.getLocaleString("msgIncompleteSkillsLess")%>');
+        } else {
             alert('<%=paramRequest.getLocaleString("msgIncompleteSkills")%>');
         }
       return false;  
