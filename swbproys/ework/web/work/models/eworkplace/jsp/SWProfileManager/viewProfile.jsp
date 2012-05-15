@@ -64,10 +64,10 @@
         <div id="formPerfil">
         <div id="menu_perfil">
          <ul>
-          <li><a href="<%=contentURL+"?act="+SWBResourceURL.Action_EDIT%>">Editar mi perfil</a></li>
-          <li><a href="#">Mis favoritos</a></li>
+          <li><a href="<%=(contentURL+"?act="+SWBResourceURL.Action_EDIT)%>" title="Editar mi perfil">Editar mi perfil</a></li>
+          <li><a href="<%=(SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+wsite.getId()+"/"+wsite.getWebPage("Favoritos").getId()+"/_lang/"+lang)%>" title="Mis favoritos">Mis favoritos</a></li>
           <li><a href="#">Mis solicitudes</a></li>
-          <!--li><a href="#">Mi perfil</a></li-->
+          <li>Mi perfil</li>
          </ul>
         </div>
         <!-- //datos empleado -->
@@ -91,10 +91,11 @@
  <label for="pos"><%=paramRequest.getLocaleString("lblPosition")%></label>
  <input type="text" name="pos" id="pos" dojoType="dijit.form.ValidationTextBox" required="true" value="<%=profile.getPuesto()==null?"":profile.getPuesto()%>" promptMessage="<%=paramRequest.getLocaleString("promptMsgPosition")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultPosition")%>" trim="true" />
 </p>
-<p>
+<div class="postit">
  <label for="postit"><%=paramRequest.getLocaleString("lblPostit")%></label>
+ <div class="dialogo_postit"></div>
  <input type="text" name="postit" id="postit" dojoType="dijit.form.ValidationTextBox" value="<%=profile.getPostit()==null?"":profile.getPostit()%>" promptMessage="<%=paramRequest.getLocaleString("promptMsgPostit")%>" trim="true" />
-</p>
+</div>
           </div>
           <!--p class="mas_deMi">
               <a href="javascript:expande('acercade_mi')" title="<%=paramRequest.getLocaleString("lblAboutMe")%>"><%=paramRequest.getLocaleString("lblAboutMe")%></a>
