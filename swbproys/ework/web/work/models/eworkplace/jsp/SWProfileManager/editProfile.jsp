@@ -14,6 +14,7 @@
 <%@page import="java.util.Iterator"%>
 <%@page import="static com.infotec.eworkplace.swb.resources.SWProfileManager.*"  %>
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/>
+<jsp:useBean id="contentURL" scope="request" type="java.lang.String"/>
 <%
     User user = paramRequest.getUser();
     if(!user.isSigned())
@@ -95,6 +96,14 @@ dojo.declare(
 %>
         <form id="form1ep" dojoType="dijit.form.Form" class="swbform" method="post" action="<%=axn%>">
         <div id="formPerfil">
+        <div id="menu_perfil">
+         <ul>
+          <li>Editar mi perfil</li>
+          <li><a href="<%=(SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+wsite.getId()+"/"+wsite.getWebPage("Favoritos").getId()+"/_lang/"+lang)%>" title="Mis favoritos">Mis favoritos</a></li>
+          <li><a href="#">Mis solicitudes</a></li>
+          <li><a href="<%=(contentURL+"?act="+SWBResourceURL.Action_ADD)%>" title="Ver mi perfil">Mi perfil</a></li>
+         </ul>
+        </div>
         <!-- //datos empleado -->
          <div class="perfil divisor">
 <%
@@ -105,10 +114,12 @@ dojo.declare(
             pimg = SWBPortal.getWebWorkPath()+profile.getWorkPath()+"/"+user.getPhoto();
 %>
           <div class="foto">
-              <img src="<%=pimg%>" alt="<%=user.getFullName()%>" />
-              <a href="<%=paramRequest.getRenderUrl().setMode(Mode_CHGPHTO)%>" title="<%=paramRequest.getLocaleString("lblChangePhoto")%>"><%=paramRequest.getLocaleString("lblChangePhoto")%></a>
+              <a href="<%=paramRequest.getRenderUrl().setMode(Mode_CHGPHTO)%>" title="<%=paramRequest.getLocaleString("lblChangePhoto")%>">
+                  <img src="<%=pimg%>" alt="<%=user.getFullName()%>" />
+                  <span><%=paramRequest.getLocaleString("lblChangePhoto")%></span>
+              </a>
           </div>
-          <div class="usuario">
+          <div class="usuario">     
            <p class="name">
             <a href="javascript:expande('acercade_mi')" title="<%=paramRequest.getLocaleString("lblAboutMe")%>"><%=paramRequest.getLocaleString("lblAboutMe")%></a><br/>
             <%=user.getFullName()%>
@@ -117,10 +128,11 @@ dojo.declare(
  <label for="pos"><%=paramRequest.getLocaleString("lblPosition")%></label>
  <input type="text" name="pos" id="pos" dojoType="dijit.form.ValidationTextBox" required="true" value="<%=(request.getParameter("pos")!=null?request.getParameter("pos"):profile.getPuesto()==null?"":profile.getPuesto())%>" promptMessage="<%=paramRequest.getLocaleString("promptMsgPosition")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultPosition")%>" trim="true" />
 </p>
-<p>
+<div class="postit">
  <label for="postit"><%=paramRequest.getLocaleString("lblPostit")%></label>
+ <div class="dialogo_postit"></div>
  <input type="text" name="postit" id="postit" dojoType="dijit.form.ValidationTextBox" value="<%=(request.getParameter("postit")!=null?request.getParameter("postit"):profile.getPostit()==null?"":profile.getPostit())%>" promptMessage="<%=paramRequest.getLocaleString("promptMsgPostit")%>" trim="true" />
-</p>
+</div>
           </div>
           <!--p class="mas_deMi">
               <a href="javascript:expande('acercade_mi')" title="<%=paramRequest.getLocaleString("lblAboutMe")%>"><%=paramRequest.getLocaleString("lblAboutMe")%></a>
