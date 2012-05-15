@@ -63,6 +63,8 @@ public class SWProfileManager extends GenericAdmResource {
     private Role subgerente, gerente, director;
     private UserGroup infotec;
     
+    private String contentURL;
+    
     @Override
     public void setResourceBase(Resource base) throws SWBResourceException {
         super.setResourceBase(base);
@@ -72,6 +74,16 @@ public class SWProfileManager extends GenericAdmResource {
         gerente = ur.getRole("Gerente");
         director = ur.getRole("Director");
         infotec = ur.getUserGroup("Empleado_exsitu");
+        
+        //String surl = null;
+        Iterator<Resourceable> res = getResourceBase().listResourceables();
+        while(res.hasNext()) {
+            Resourceable re = res.next();
+            if( re instanceof WebPage ) {
+                contentURL = ((WebPage)re).getUrl();
+                break;
+            }
+        }        
     }
         
     @Override
@@ -125,16 +137,16 @@ public class SWProfileManager extends GenericAdmResource {
                 else
                     pimg = SWBPortal.getWebWorkPath()+profile.getWorkPath()+"/"+user.getPhoto();
 
-                String surl = paramRequest.getWebPage().getUrl();
-                Iterator<Resourceable> res = base.listResourceables();
-                while(res.hasNext()) {
-                    Resourceable re = res.next();
-                    if( re instanceof WebPage ) {
-                        surl = ((WebPage)re).getUrl();
-                        break;
-                    }
-                }
-                final String contentURL = surl;
+//                String surl = paramRequest.getWebPage().getUrl();
+//                Iterator<Resourceable> res = base.listResourceables();
+//                while(res.hasNext()) {
+//                    Resourceable re = res.next();
+//                    if( re instanceof WebPage ) {
+//                        surl = ((WebPage)re).getUrl();
+//                        break;
+//                    }
+//                }
+//                final String contentURL = surl;
 
                 out.println("<li class=\"herr2\">");
                 out.println("  <a class=\"MenuBarItemSubmenu\" href=\""+SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+wsite.getId()+"/espacio_personal\" title=\"\">Entrar a mi espacio</a>");
@@ -147,9 +159,9 @@ public class SWProfileManager extends GenericAdmResource {
                 out.println("    </li>");
                 out.println("    <li class=\"perfil\">");
                 out.println("      <p><a href=\""+contentURL+"?act="+SWBResourceURL.Action_EDIT+"\" title=\"Editar mi perfil\">Editar mi perfil</a></p>");
-                out.println("      <p><a href=\""+SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+wsite.getId()+"/"+wsite.getWebPage("Favoritos").getId()+"/_lang/"+user.getLanguage()+"\" title=\"Editar mis favoritos\">Mis favoritos</a></p>");
+                out.println("      <p><a href=\""+SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+wsite.getId()+"/"+wsite.getWebPage("Favoritos").getId()+"/_lang/"+user.getLanguage()+"\" title=\"Mis favoritos\">Mis favoritos</a></p>");
                 out.println("      <p><a href=\""+contentURL+"\" title=\"\">Mis solicitudes</a></p>");
-                out.println("      <p><a href=\""+contentURL+"?act="+SWBResourceURL.Action_ADD+"\" title=\"\">Ver mi perfil</a></p>");
+                out.println("      <p><a href=\""+contentURL+"?act="+SWBResourceURL.Action_ADD+"\" title=\"Ver mi perfil\">Ver mi perfil</a></p>");
                 out.println("      <p class=\"salir\"><a href=\""+SWBPlatform.getContextPath()+"/login?wb_logout=true&wb_goto="+urlLogout+"\" title=\"Salir\">Salir</a></p>");
                 out.println("    </li>");
                 out.println("    <li style=\"clear:both; height:1px;\"></li>");
@@ -231,16 +243,16 @@ public class SWProfileManager extends GenericAdmResource {
         if(!user.isSigned())
             return;
         
-        String surl = paramRequest.getWebPage().getUrl();
-        Iterator<Resourceable> res = getResourceBase().listResourceables();
-        while(res.hasNext()) {
-            Resourceable re = res.next();
-            if( re instanceof WebPage ) {
-                surl = ((WebPage)re).getUrl();
-                break;
-            }
-        }
-        final String contentURL = surl;
+//        String surl = paramRequest.getWebPage().getUrl();
+//        Iterator<Resourceable> res = getResourceBase().listResourceables();
+//        while(res.hasNext()) {
+//            Resourceable re = res.next();
+//            if( re instanceof WebPage ) {
+//                surl = ((WebPage)re).getUrl();
+//                break;
+//            }
+//        }
+//        final String contentURL = surl;
         
         final String path = "/work/models/" + paramRequest.getWebPage().getWebSite().getId() + "/jsp/" + this.getClass().getSimpleName() + "/viewProfile.jsp";
         RequestDispatcher dis = request.getRequestDispatcher(path);
@@ -371,6 +383,7 @@ public class SWProfileManager extends GenericAdmResource {
         RequestDispatcher dis = request.getRequestDispatcher(path);
         try {
             request.setAttribute("paramRequest", paramRequest);
+            request.setAttribute("contentURL", contentURL);
             dis.include(request, response);
         }catch(Exception e) {
             log.error(e);
