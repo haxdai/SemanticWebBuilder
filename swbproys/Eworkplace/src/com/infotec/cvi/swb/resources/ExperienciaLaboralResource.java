@@ -191,11 +191,16 @@ public class ExperienciaLaboralResource extends GenericResource {
                 response.setRenderParameter("alertmsg", "Falta la Fecha inicial o esta en formato inválido.");
                 return;
             }
-            try {
-                experiencia.setFechaFin(sdf.parse(SWBUtils.XML.replaceXMLChars(request.getParameter("ff"))));
-            } catch (ParseException e) {
+            //System.out.println("Fecha fin: " + request.getParameter("ff"));
+            if (request.getParameter("ff") != null && request.getParameter("ff").trim().length() > 0) {
+                try {
+                    experiencia.setFechaFin(sdf.parse(SWBUtils.XML.replaceXMLChars(request.getParameter("ff"))));
+                } catch (ParseException e) {
 //                response.setRenderParameter("alertmsg", "Fecha final mal");
 //                return;
+                }
+            } else {
+                experiencia.setFechaFin(null);
             }
             experiencia.setCargo(SWBUtils.XML.replaceXMLChars(request.getParameter("crg")));
             experiencia.setFuncionesPrincipales(SWBUtils.XML.replaceXMLChars(request.getParameter("mfncs")));
@@ -259,26 +264,31 @@ public class ExperienciaLaboralResource extends GenericResource {
                 response.setRenderParameter("alertmsg", "Falta la Fecha inicial o esta en formato inválido.");
                 return;
             }
-            if(request.getParameter("ff")!=null&&request.getParameter("ff").trim().length()>0){
+            //System.out.println("Fecha fin: " + request.getParameter("ff"));
+            if (request.getParameter("ff") != null && request.getParameter("ff").trim().length() > 0) {
                 try {
                     experiencia.setFechaFin(sdf.parse(SWBUtils.XML.replaceXMLChars(request.getParameter("ff"))));
                 } catch (ParseException e) {
                     //response.setRenderParameter("alertmsg", "Fecha final mal");
                     //return;
                 }
+            } else {
+                experiencia.setFechaFin(null);
             }
             experiencia.setCargo(SWBUtils.XML.replaceXMLChars(request.getParameter("crg")));
             experiencia.setFuncionesPrincipales(SWBUtils.XML.replaceXMLChars(request.getParameter("mfncs")));
             experiencia.setJefe(SWBUtils.XML.replaceXMLChars(request.getParameter("jf")));
 
             try {
-                
+
                 Telefono telefono = null;
-                
+
                 try {
                     int num = Integer.parseInt(SWBUtils.XML.replaceXMLChars(request.getParameter("tf")));
                     telefono = experiencia.getTelefono();
-                    if(null==telefono) telefono = Telefono.ClassMgr.createTelefono(wsite);
+                    if (null == telefono) {
+                        telefono = Telefono.ClassMgr.createTelefono(wsite);
+                    }
                     telefono.setNumero(num);
                 } catch (Exception e) {
                 }
@@ -295,7 +305,7 @@ public class ExperienciaLaboralResource extends GenericResource {
                     }
                     experiencia.setTelefono(telefono);
                 }
-                                
+
             } catch (Exception e) {
                 experiencia.remove();
             }
