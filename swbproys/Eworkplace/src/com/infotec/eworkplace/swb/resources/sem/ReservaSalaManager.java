@@ -55,8 +55,10 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
     public static final SimpleDateFormat dateDojo = new SimpleDateFormat("yyyy-MM-dd");
     public static final SimpleDateFormat HHmm = new SimpleDateFormat("HH:mm");
     public static final SimpleDateFormat HH = new SimpleDateFormat("HH:");
-    public static final int T_MIN = 89;
+    public static final int MIN_TIME = 89;
     public static final int QUORUM = 5;
+    public static final int START_HOUR = 7; // 07:00 hrs
+    public static final int START_MIN = 420; // 07:00 hrs en minutos
         
     public ReservaSalaManager() {
     }
@@ -162,7 +164,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
                 return;
             }
             fh += 30;
-            if(fh-sh<T_MIN) {
+            if(fh-sh<MIN_TIME) {
                 response.setRenderParameter("alertmsg", response.getLocaleString("msgErrHourMismatch"));
                 setRenderParameter(request, response);
                 return;
@@ -383,9 +385,9 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         
         sdf = new SimpleDateFormat("HH:mm");
         GregorianCalendar begin = new GregorianCalendar(cur.get(Calendar.YEAR),cur.get(Calendar.MONTH),fdcw,0,0,0);
-        begin.set(Calendar.MINUTE, 480);
+        begin.set(Calendar.MINUTE, START_MIN);
         GregorianCalendar end = new GregorianCalendar(cur.get(Calendar.YEAR),cur.get(Calendar.MONTH),fdcw,0,0,0);
-        end.set(Calendar.MINUTE, 509);
+        end.set(Calendar.MINUTE, 449);
         
         for(int i=1; i<=14; i++) {
             out.println(" <tr>");
@@ -567,14 +569,13 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         html.append("\n  <p><span class=\"blueCalTit\">Horario de reservaci&oacute;n:</span></p>");
         html.append("\n  <label for=\"sh\">De: </label>");
         html.append("\n  <select name=\"sh\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\" promptMessage=\"Hora inicial\" invalidMessage=\"La hora inicial de la junta es requerida\">");
-//        html.append("     <option value=\"480\">08:00</option><option value=\"510\">08:30</option><option value=\"540\">09:00</option><option value=\"570\">09:30</option><option value=\"600\">10:00</option><option value=\"630\">10:30</option><option value=\"660\">11:00</option><option value=\"690\">11:30</option><option value=\"720\">12:00</option><option value=\"750\">12:30</option><option value=\"780\">13:00</option><option value=\"810\">13:30</option><option value=\"840\">14:00</option><option value=\"870\">14:30</option><option value=\"900\">15:00</option><option value=\"930\">15:30</option> <option value=\"960\">16:00</option> <option value=\"990\">16:30</option><option value=\"1020\">17:00</option><option value=\"1050\">17:30</option><option value=\"1080\">18:00</option><option value=\"1110\">18:30</option><option value=\"1140\">19:00</option><option value=\"1170\">19:30</option><option value=\"1200\">20:00</option><option value=\"1230\">20:30</option><option value=\"1260\">21:00</option>");
         StringBuilder fh = new StringBuilder();
         Calendar today = Calendar.getInstance();
         Calendar next = Calendar.getInstance();
         int h;
-        if(today.get(Calendar.HOUR_OF_DAY)<8 || current.get(Calendar.DAY_OF_YEAR)>today.get(Calendar.DAY_OF_YEAR)) {
-            reset(today, 8, 0);
-            h = 8;
+        if(today.get(Calendar.HOUR_OF_DAY)<START_HOUR || current.get(Calendar.DAY_OF_YEAR)>today.get(Calendar.DAY_OF_YEAR)) {
+            reset(today, START_HOUR, 0);
+            h = START_HOUR;
         }else {
             h = current.get(Calendar.HOUR_OF_DAY);
             if(current.get(Calendar.MINUTE)<30) {
@@ -600,14 +601,8 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         html.append("\n  <label for=\"fh\">a: </label>");
         html.append("\n  <select  name=\"fh\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\" promptMessage=\"Hora final\" invalidMessage=\"La hora final de la junta es requerida\">");
         html.append(fh);
-//        html.append("  <option value=\"539\">08:59</option><option value=\"569\">09:29</option><option value=\"599\">09:59</option><option value=\"629\">10:29</option><option value=\"659\">10:59</option><option value=\"689\">11:29</option><option value=\"719\">11:59</option><option value=\"749\">12:29</option><option value=\"779\">12:59</option><option value=\"809\">13:29</option><option value=\"839\">13:59</option><option value=\"869\">14:29</option><option value=\"899\">14:59</option><option value=\"929\">15:29</option><option value=\"959\">15:59</option><option value=\"989\">16:29</option><option value=\"1019\">16:59</option><option value=\"1049\">17:29</option><option value=\"1079\">17:59</option><option value=\"1109\">18:29</option><option value=\"1139\">18:59</option><option value=\"1169\">19:29</option><option value=\"1199\">19:59</option><option value=\"1229\">20:29</option><option value=\"1259\">20:59</option><option value=\"1289\">21:29</option><option value=\"1319\">21:59</option>");
         html.append("\n  </select>");
         html.append("\n </div>");
-        /*html.append(" <div class=\"salas4Cols salas-hora\">");
-        html.append("  <p><span class=\"blueCalTit\">Horario:</span></p>");
-        html.append("  <label for=\"sh\">De: </label><select name=\"sh\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\" promptMessage=\"Hora inicial\" invalidMessage=\"La hora inicial es requerida\"><option value=\"480\">08:00</option><option value=\"510\">08:30</option><option value=\"540\">09:00</option><option value=\"570\">09:30</option><option value=\"600\">10:00</option><option value=\"630\">10:30</option><option value=\"660\">11:00</option><option value=\"690\">11:30</option><option value=\"720\">12:00</option><option value=\"750\">12:30</option><option value=\"780\">13:00</option><option value=\"810\">13:30</option><option value=\"840\">14:00</option><option value=\"870\">14:30</option><option value=\"900\">15:00</option><option value=\"930\">15:30</option> <option value=\"960\">16:00</option> <option value=\"990\">16:30</option><option value=\"1020\">17:00</option><option value=\"1050\">17:30</option><option value=\"1080\">18:00</option><option value=\"1110\">18:30</option><option value=\"1140\">19:00</option><option value=\"1170\">19:30</option><option value=\"1200\">20:00</option><option value=\"1230\">20:30</option><option value=\"1260\">21:00</option></select>");
-        html.append("  <label for=\"fh\">a: </label><select  name=\"fh\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\" promptMessage=\"Hora final\" invalidMessage=\"La hora final es requerida\"><option value=\"539\">08:59</option><option value=\"569\">09:29</option><option value=\"599\">09:59</option><option value=\"629\">10:29</option><option value=\"659\">10:59</option><option value=\"689\">11:29</option><option value=\"719\">11:59</option><option value=\"749\">12:29</option><option value=\"779\">12:59</option><option value=\"809\">13:29</option><option value=\"839\">13:59</option><option value=\"869\">14:29</option><option value=\"899\">14:59</option><option value=\"929\">15:29</option><option value=\"959\">15:59</option><option value=\"989\">16:29</option><option value=\"1019\">16:59</option><option value=\"1049\">17:29</option><option value=\"1079\">17:59</option><option value=\"1109\">18:29</option><option value=\"1139\">18:59</option><option value=\"1169\">19:29</option><option value=\"1199\">19:59</option><option value=\"1229\">20:29</option><option value=\"1259\">20:59</option><option value=\"1289\">21:29</option><option value=\"1319\">21:59</option></select>");
-        html.append(" </div>");*/
         
         html.append(" <div id=\"salas-asistentes\">");
         html.append("  <p><span class=\"blueCalTit\">N&uacute;mero de asistentes:</span></p>");
@@ -785,14 +780,14 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         out.println("</thead>");
         
         Calendar today = Calendar.getInstance();//auxiliar
-        reset(today,8,0);
+        reset(today,START_HOUR,0);
         GregorianCalendar begin = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
-        begin.set(Calendar.MINUTE, 480);
+        begin.set(Calendar.MINUTE, START_MIN);
         GregorianCalendar end = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
-        end.set(Calendar.MINUTE, 509);
+        end.set(Calendar.MINUTE, 449);
         
         out.println("<tbody>");
-        for(int i=480; i<=1260; i+=30) {
+        for(int i=START_MIN; i<=1260; i+=30) {
             out.println(" <tr>");
             out.println("  <td rowspan=\"2\" class=\"theHoursCal\"><p>"+HHmm.format(today.getTime())+"</p></td>");
             for(Sala sala:salas) {
@@ -905,14 +900,14 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         out.println("</thead>");
         
         Calendar today = Calendar.getInstance();//auxiliar
-        reset(today,8,0);
+        reset(today,START_HOUR,0);
         GregorianCalendar begin = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
-        begin.set(Calendar.MINUTE, 480);
+        begin.set(Calendar.MINUTE, START_MIN);
         GregorianCalendar end = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
-        end.set(Calendar.MINUTE, 509);
+        end.set(Calendar.MINUTE, 449);
         
         out.println("<tbody>");
-        for(int i=480; i<=1260; i+=30) {
+        for(int i=START_MIN; i<=1260; i+=30) {
             out.println(" <tr>");
             out.println("  <td rowspan=\"2\" class=\"theHoursCal\"><p>"+HHmm.format(today.getTime())+"</p></td>");
             for(Sala sala:salas) {
