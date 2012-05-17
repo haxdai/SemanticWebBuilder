@@ -956,6 +956,7 @@ try{
             out.print("<p style=\"color:red\">el email "+email+" no es válido</p>");        
         }
         //---------------
+        out.println("<p>fin de carga..............</p>");
     }else {
         out.print("<p>sitio nulo</p>");
     }
