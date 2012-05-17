@@ -159,8 +159,8 @@ public class SWProfileManager extends GenericAdmResource {
                 out.println("    </li>");
                 out.println("    <li class=\"perfil\">");
                 out.println("      <p><a href=\""+contentURL+"?act="+SWBResourceURL.Action_EDIT+"\" title=\"Editar mi perfil\">Editar mi perfil</a></p>");
-                out.println("      <p><a href=\""+SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+wsite.getId()+"/"+wsite.getWebPage("Favoritos").getId()+"/_lang/"+user.getLanguage()+"\" title=\"Mis favoritos\">Mis favoritos</a></p>");
-                out.println("      <p><a href=\""+contentURL+"\" title=\"\">Mis solicitudes</a></p>");
+                out.println("      <p><a href=\""+SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+wsite.getId()+"/"+wsite.getWebPage("Favoritos").getId()+"/_lang/"+user.getLanguage()+"\" title=\"Ir a mis favoritos\">Mis favoritos</a></p>");
+                out.println("      <p><a href=\""+SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+wsite.getId()+"/Mis_tareas"+"/_lang/"+user.getLanguage()+"\" title=\"Ir a mis solicitudes\">Mis solicitudes</a></p>");
                 out.println("      <p><a href=\""+contentURL+"?act="+SWBResourceURL.Action_ADD+"\" title=\"Ver mi perfil\">Ver mi perfil</a></p>");
                 out.println("      <p class=\"salir\"><a href=\""+SWBPlatform.getContextPath()+"/login?wb_logout=true&wb_goto="+urlLogout+"\" title=\"Salir\">Salir</a></p>");
                 out.println("    </li>");
