@@ -5,19 +5,16 @@
 --%>
 <%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <%@page import="java.util.Arrays"%>
-<%@page import="org.semanticwb.model.UserGroup"%>
-<%@page import="org.semanticwb.SWBPortal"%>
-<%@page import="org.semanticwb.portal.SWBUserMgr"%>
+<%@page import="org.semanticwb.model.*"%>
+<%@page import="org.semanticwb.*"%>
+<%@page import="org.semanticwb.portal.*"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.io.BufferedReader"%>
 <%@page import="java.io.StringReader"%>
+<%@page import="java.io.File"%>
 <%@page import="java.util.Iterator"%>
-<%@page import="org.semanticwb.model.User"%>
-<%@page import="org.semanticwb.model.WebSite"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.StringTokenizer"%>
-<%@page import="org.semanticwb.SWBUtils"%>
-<%@page import="java.io.File"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -70,6 +67,7 @@
             ArrayList<User> modificados = new ArrayList<User>();
 
             final String path = SWBPortal.getWorkPath() + "/exportacionReservSalasInspyra.csv";
+out.println("path="+path);
             final String siteid = "eworkplace3";
 
             WebSite site = WebSite.ClassMgr.getWebSite(siteid);
@@ -101,7 +99,8 @@
 %>
 <p style=" font-size:small; font-style:italic;">email = <%=email%></p>
 <%
-                        User user_toModify = site.getUserRepository().getUserByEmail(email);  
+                        final UserRepository ur = site.getUserRepository();
+                        User user_toModify = ur.getUserByEmail(email);
                         if (user_toModify == null)
                         {
                             /*if (group != null)
@@ -180,10 +179,8 @@
             }
 %>
 
-Fin de carga de usuarios<br>
-Usuarios agregados: <%=agregados.size()%><br>
-Usuarios modificados <%=modificados.size()%><br>
-Usuarios removidos: <%=toDelete.size()%>
+Fin de carga de reservaciones de sala<br/>
+Usuarios agregados: <%=agregados.size()%><br/>
 
 <%
             out.flush();

@@ -18,6 +18,14 @@
 <%@page import="java.util.StringTokenizer"%>
 <%@page import="org.semanticwb.SWBUtils"%>
 <%@page import="java.io.File"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>importUsers</title>
+    </head>
+    <body>
+        <h3>importUsers....</h3>
 <%!
     public String toUpperCase(String data)
     {
@@ -84,20 +92,6 @@
 <p style="background-color:beige; font-size:small;">line: <%=line%></p>
 <%
                         String[] rec = line.split(";",-1);
-                        /*line=line.replace(",,", ",_,");
-                        line=line.replace(",,", ",_,");
-                        ArrayList<String> campos = new ArrayList<String>();
-                        StringTokenizer st = new StringTokenizer(line, ";");
-                        while (st.hasMoreTokens())
-                        {
-                            String token = st.nextToken().trim();
-                            if (token.isEmpty())
-                            {
-                                token = "";
-                            }
-                            campos.add(token.trim().toLowerCase());
-                        }
-                        String rfc = campos.get(CAMPOS.RFC.ordinal());*/
                         String rfc = rec[CAMPOS.RFC.ordinal()];
 %>
 <p style=" font-size:small; font-style:italic;">rfc = <%=rfc%></p>
@@ -105,16 +99,14 @@
                         User user_toModify = site.getUserRepository().getUserByLogin(rfc);  
                         if (user_toModify == null)
                         {
-                            /*if (group != null)
-                            {
-                                user_toModify.addUserGroup(group);
-                            }
-
                             user_toModify = site.getUserRepository().createUser();
-                            String email = campos.get(CAMPOS.EMAIL.ordinal());
-                            String fname = toUpperCase(campos.get(CAMPOS.NOMBRE.ordinal()));
-                            String lname = toUpperCase(campos.get(CAMPOS.PRIMER_APELLIDO.ordinal()));
-                            user_toModify.setEmail(createmail(email,fname, lname));
+                            String email = rec[CAMPOS.EMAIL.ordinal()];
+                            String fname = toUpperCase(rec[CAMPOS.NOMBRE.ordinal()]);
+                            String lname = toUpperCase(rec[CAMPOS.PRIMER_APELLIDO.ordinal()]);
+                            if(email.isEmpty())
+                                user_toModify.setEmail("usuario.desconocido@infotec.com.mx");
+                            else
+                                user_toModify.setEmail(email);
                             user_toModify.setValid(true);
                             user_toModify.setLanguage("es");
                             user_toModify.setRequestChangePassword(true);
@@ -124,13 +116,16 @@
                             {
                                 user_toModify.setCreated(new Date());
                             }
-
+                            if (group != null)
+                            {
+                                user_toModify.addUserGroup(group);
+                            }
                             user_toModify.setUpdated(new Date());
                             user_toModify.setActive(true);
                             user_toModify.setPassword(rfc);
                             user_toModify.setFirstName(fname);
                             user_toModify.setLastName(lname);
-                            user_toModify.setSecondLastName(toUpperCase(campos.get(CAMPOS.SEGUNDO_APELLIDO.ordinal())));*/
+                            user_toModify.setSecondLastName(toUpperCase(rec[CAMPOS.SEGUNDO_APELLIDO.ordinal()]));
 %>
 <p style="color: blue;">Usuario agregado: <%=rfc%></p>
 <%
@@ -138,14 +133,17 @@
                         }
                         else
                         {
-                            /*if (user_toModify.getCreated() == null)
+                            if (user_toModify.getCreated() == null)
                             {
                                 user_toModify.setCreated(new Date());
                             }
-                            String email = campos.get(CAMPOS.EMAIL.ordinal());
-                            String fname = toUpperCase(campos.get(CAMPOS.NOMBRE.ordinal()));
-                            String lname = toUpperCase(campos.get(CAMPOS.PRIMER_APELLIDO.ordinal()));
-                            user_toModify.setEmail(createmail(email, fname, lname));
+                            String email = rec[CAMPOS.EMAIL.ordinal()];
+                            String fname = toUpperCase(rec[CAMPOS.NOMBRE.ordinal()]);
+                            String lname = toUpperCase(rec[CAMPOS.PRIMER_APELLIDO.ordinal()]);
+                            if(email.isEmpty())
+                                user_toModify.setEmail("usuario.desconocido@infotec.com.mx");
+                            else
+                                user_toModify.setEmail(email);
                             user_toModify.setUpdated(new Date());
                             if (group != null)
                             {
@@ -156,7 +154,7 @@
                             }
                             user_toModify.setFirstName(fname);
                             user_toModify.setLastName(lname);
-                            user_toModify.setSecondLastName(toUpperCase(campos.get(CAMPOS.SEGUNDO_APELLIDO.ordinal())));*/
+                            user_toModify.setSecondLastName(toUpperCase(rec[CAMPOS.SEGUNDO_APELLIDO.ordinal()]));
                             modificados.add(user_toModify);
 %>
 <p style="color:brown;">Usuario modificado: <%=rfc%> nombre: <%=user_toModify.getFullName()%> mail: <%=user_toModify.getEmail()%></p>
@@ -193,11 +191,13 @@ Usuario removido: <%=user.getLogin()%><br>
             }
 %>
 
-Fin de carga de usuarios<br>
-Usuarios agregados: <%=agregados.size()%><br>
-Usuarios modificados <%=modificados.size()%><br>
+Fin de carga de usuarios<br/>
+Usuarios agregados: <%=agregados.size()%><br/>
+Usuarios modificados <%=modificados.size()%><br/>
 Usuarios removidos: <%=toDelete.size()%>
 
 <%
             out.flush();
 %>
+    </body>
+</html>
