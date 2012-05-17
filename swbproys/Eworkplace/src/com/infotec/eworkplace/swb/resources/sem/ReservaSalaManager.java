@@ -351,8 +351,8 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         out.println("</div>");
         
         out.println("<div id=\"salas-semanas\">");
-        out.println(" <h3>"+sala.getDisplayTitle(locale.getLanguage())+"</h3>");
-        out.println(" <h3>Semana "+wk+"</h3>");
+        out.println(" <h3 class=\"sala-h3sala\">"+sala.getDisplayTitle(locale.getLanguage())+"</h3>");
+        out.println(" <h3 class=\"sala-h3semana\">Semana "+wk+"</h3>");
         out.println("</div>");
 //        if(wk>1)
 //            out.println("<a href=\"#\" title=\"\">anterior</a>");
@@ -360,24 +360,24 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
 //            out.println("&nbsp;<a href=\"#\" title=\"\">siguiente</a>");
         out.println("<div>");
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd", locale);
-        out.println("<table id=\"mainTableCal\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
+        out.println("<table id=\"mainTableCalSemana\">");
         out.println(" <tr class=\"trCalSalas\">");
-        out.println("  <td height=\"30\">Hora</td>");       
+        out.println("  <td>Hora</td>");       
         final int fdcw = cur.get(Calendar.DAY_OF_MONTH);
         if(wk==1) {
             for(int k=1; k<=7; k++) {
                 if(k>=dow && k<7)
-                    out.println("  <td height=\"30\">"+sdf.format(cur.getTime())+"</td>");
+                    out.println("  <td>"+sdf.format(cur.getTime())+"</td>");
                 else if(k>1 && k<7)
-                    out.println("  <td height=\"30\" class=\"deactive\">"+sdf.format(cur.getTime())+"</td>");
+                    out.println("  <td class=\"deactive\">"+sdf.format(cur.getTime())+"</td>");
                 cur.add(Calendar.DATE, 1);
             }
         }else {
             for(int k=1; k<=7; k++) {
                 if(month<cur.get(Calendar.MONTH) && k<7)
-                    out.println("  <td height=\"30\" class=\"deactive\">"+sdf.format(cur.getTime())+"</td>");
+                    out.println("  <td class=\"deactive\">"+sdf.format(cur.getTime())+"</td>");
                 else if(k>1 && k<7)
-                    out.println("  <td height=\"30\">"+sdf.format(cur.getTime())+"</td>"); 
+                    out.println("  <td>"+sdf.format(cur.getTime())+"</td>"); 
                 cur.add(Calendar.DATE, 1);
             }
         }
@@ -1033,7 +1033,6 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
             }
         }
     }
-
     
     private FlowNodeInstance getFlowNodeInstance(String uri) {
         FlowNodeInstance ret = null;
