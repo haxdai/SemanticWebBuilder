@@ -461,22 +461,20 @@ public class SWProfileManager extends GenericAdmResource {
                     try {
                     UserRepository ur = wsite.getUserRepository();
                     Persona persona = Persona.ClassMgr.getPersona(user.getId(), wsite);
-                    /*if(!user.equals(persona.getOwner())) {
-                        response.setRenderParameter("alertmsg", response.getLocaleString("promptMsgErrSurrogacy"));
-                        return;
-                    }*/
+                    
                     String email = request.getParameter("email");
-System.out.println("email="+email);
                     if(!SWBUtils.EMAIL.isValidEmailAddress(email)) {
                         throw new Exception(response.getLocaleString("promptMsgFaultEmail"));
                     }
-System.out.println("ur.getUserByEmail(email)="+ur.getUserByEmail(email));
-                    if(ur.getUserByEmail(email)==null) {
-                        throw new Exception(response.getLocaleString("promptMsgErrNoUser"));
+                    if(!"usuario.desconocido@infotec.com.mx".equals(user.getEmail())) { // quitar esta línea después
+                        if(ur.getUserByEmail(email)==null) {
+                            throw new Exception(response.getLocaleString("promptMsgErrNoUser"));
+                        }
+                        if(ur.getUserByEmail(email)!=null && !user.equals(ur.getUserByEmail(email))) {
+                            throw new Exception(response.getLocaleString("promptMsgErrSurrogacy"));
+                        }
                     }
-                    if(ur.getUserByEmail(email)!=null && !user.equals(ur.getUserByEmail(email))) {
-                        throw new Exception(response.getLocaleString("promptMsgErrSurrogacy"));
-                    }
+                    
                     String pos = SWBUtils.XML.replaceXMLChars(request.getParameter("pos")).trim();
                     if(pos.isEmpty()) {
                         throw new Exception(response.getLocaleString("promptMsgFaultPosition"));
