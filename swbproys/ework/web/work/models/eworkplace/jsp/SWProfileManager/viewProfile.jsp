@@ -87,19 +87,16 @@
             <a href="javascript:expande('acercade_mi')" title="<%=paramRequest.getLocaleString("lblAboutMe")%>"><%=paramRequest.getLocaleString("lblAboutMe")%></a><br/>
             <%=user.getFullName()%>
            </p>
-<p>
- <label for="pos"><%=paramRequest.getLocaleString("lblPosition")%></label>
- <input type="text" name="pos" id="pos" dojoType="dijit.form.ValidationTextBox" required="true" value="<%=profile.getPuesto()==null?"":profile.getPuesto()%>" promptMessage="<%=paramRequest.getLocaleString("promptMsgPosition")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultPosition")%>" trim="true" />
-</p>
-<div class="postit">
- <label for="postit"><%=paramRequest.getLocaleString("lblPostit")%></label>
- <div class="dialogo_postit"></div>
- <input type="text" name="postit" id="postit" dojoType="dijit.form.ValidationTextBox" value="<%=profile.getPostit()==null?"":profile.getPostit()%>" promptMessage="<%=paramRequest.getLocaleString("promptMsgPostit")%>" trim="true" />
-</div>
+           <p>
+            <label for="pos"><%=paramRequest.getLocaleString("lblPosition")%></label>
+            <input type="text" name="pos" id="pos" dojoType="dijit.form.ValidationTextBox" required="true" value="<%=profile.getPuesto()==null?"":profile.getPuesto()%>" promptMessage="<%=paramRequest.getLocaleString("promptMsgPosition")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultPosition")%>" trim="true" readonly="readonly" />
+           </p>
+           <div class="postit">
+            <label for="postit"><%=paramRequest.getLocaleString("lblPostit")%></label>
+            <div class="dialogo_postit"></div>
+            <input type="text" name="postit" id="postit" dojoType="dijit.form.ValidationTextBox" value="<%=profile.getPostit()==null?"":profile.getPostit()%>" promptMessage="<%=paramRequest.getLocaleString("promptMsgPostit")%>" trim="true" />
+           </div>
           </div>
-          <!--p class="mas_deMi">
-              <a href="javascript:expande('acercade_mi')" title="<%=paramRequest.getLocaleString("lblAboutMe")%>"><%=paramRequest.getLocaleString("lblAboutMe")%></a>
-          </p-->
           <div class="datos">
            <div id="acercade_mi" class="divisor">
             <h3><%=paramRequest.getLocaleString("titleAboutMe")%></h3>
@@ -158,7 +155,7 @@
           
           <p class="entero">
            <label for="loc"><%=paramRequest.getLocaleString("lblLoc")%></label>
-           <textarea name="loc" id="loc" rows="2" dojoType="ValidationTextarea" trim="true"><%=profile.getUbicacion()==null?"":profile.getUbicacion()%></textarea>
+           <textarea name="loc" id="loc" rows="2" dojoType="ValidationTextarea" trim="true" readonly="readonly"><%=profile.getUbicacion()==null?"":profile.getUbicacion()%></textarea>
           </p>
 <%
         UserRepository ur = wsite.getUserRepository();
@@ -189,7 +186,7 @@
 %>         
           <p class="tercio">
            <label for="extdr"><%=paramRequest.getLocaleString("lblPhoneExtDr")%></label>
-           <input type="text" name="extdr" id="extdr" dojoType="dijit.form.ValidationTextBox" value="<%=user.getExtendedAttribute(ext)==null?"10":user.getExtendedAttribute(ext)%>" trim="true" />
+           <input type="text" name="extdr" id="extdr" dojoType="dijit.form.ValidationTextBox" value="<%=user.getExtendedAttribute(ext)==null?"10":user.getExtendedAttribute(ext)%>" trim="true" readonly="readonly" />
           </p>
           
           <div class="clearer">&nbsp;</div>
