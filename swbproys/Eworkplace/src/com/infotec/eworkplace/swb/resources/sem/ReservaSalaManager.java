@@ -346,9 +346,9 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         }
         out.println("<div>");
         
-        out.println("<div id=\"salas-regresar\">");
-        out.println(" <a href=\""+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW) +"\">regresars</a>");
-        out.println("</div>");
+//        out.println("<div id=\"salas-regresar\">");
+//        out.println(" <a href=\""+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW) +"\" title=\"Regresar\" class=\"backCal\">Regresar</a>");
+//        out.println("</div>");
         
         out.println("<div id=\"salas-semanas\">");
         out.println(" <h3 class=\"sala-h3sala\">"+sala.getDisplayTitle(locale.getLanguage())+"</h3>");
@@ -463,6 +463,9 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
             end.add(Calendar.MINUTE, 30);
         }
         out.println("</table>");
+        out.println("<div id=\"salas-regresar\">");
+        out.println(" <a href=\""+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW) +"\" title=\"Regresar\" class=\"backCal\">Regresar</a>");
+        out.println("</div>");
     }
     
     private String getScript(HttpServletRequest request, SWBParamRequest paramRequest, Locale locale) {
@@ -659,10 +662,13 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         html.append(" <div class=\"clear\">&nbsp;</div>");
         
         html.append("  <p>");
+        String backUrl = getTaskInboxUrl(getFlowNodeInstance(request.getParameter("suri")));
+        if(backUrl!=null)
+            html.append("   <a href=\""+backUrl+"\" title=\"Regresar\" class=\"backCal\">Regresar</a>");
         html.append("   <a href=\"javascript:dojo.byId('_rs_').reset()\" title=\"Limpiar formulario\" class=\"resetCal\">Limpiar</a>");
         html.append("   <a href=\"javascript:if(validateFrm())dojo.byId('_rs_').submit()\" class=\"soliCal\">Solicitar</a>");
         html.append("  </p>");
-        html.append("  <p class=\"finePrint\">*Se te enviar&aacute; un e-mail con la confirmaci&oacute;n</p>");
+        html.append("  <p class=\"finePrint\">*Se te enviar&aacute; un email con la respuesta</p>");
         html.append(" </div>");
         html.append(" <p id=\"popBottom\"></p>");
         html.append("</div>");
