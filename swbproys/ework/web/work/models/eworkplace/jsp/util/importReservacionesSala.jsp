@@ -3,18 +3,19 @@
     Created on : 16-may-2012, 13:18:36
     Author     : carlos.ramos
 --%>
+<%@page import="com.infotec.eworkplace.swb.base.ReservacionSalaBase"%>
+<%@page import="com.infotec.eworkplace.swb.base.SalaBase"%>
 <%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
-<%@page import="java.util.Arrays"%>
+<%@page import="com.infotec.eworkplace.swb.*"%>
 <%@page import="org.semanticwb.model.*"%>
 <%@page import="org.semanticwb.*"%>
 <%@page import="org.semanticwb.portal.*"%>
-<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.io.BufferedReader"%>
 <%@page import="java.io.StringReader"%>
 <%@page import="java.io.File"%>
-<%@page import="java.util.Iterator"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.util.StringTokenizer"%>
+<%@page import="java.util.*"%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -24,7 +25,19 @@
     <body>
         <h3>importReservacionesSala....</h3>
 <%!
-    public String toUpperCase(String data)
+    public void reset(java.util.Calendar cal, int hour, int minute) {
+        cal.set(java.util.Calendar.HOUR_OF_DAY, hour);
+        cal.set(java.util.Calendar.MINUTE, minute);
+        cal.set(java.util.Calendar.SECOND, 0);
+        cal.set(java.util.Calendar.MILLISECOND, 0);
+    }
+    
+    public void reset(java.util.Calendar cal) {
+        reset(cal, 0, 0);
+    }
+    
+
+    /*public String toUpperCase(String data)
     {
         StringBuilder sb = new StringBuilder();
         StringTokenizer st = new StringTokenizer(data, " ");
@@ -48,7 +61,7 @@
         {
             return email.toLowerCase() + "@infotec.com.mx";
         }
-    }
+    }*/
 
     public enum CAMPOS
     {
@@ -62,9 +75,9 @@
     };
 %>
 <%
-            ArrayList<User> toDelete = new ArrayList<User>();
-            ArrayList<User> agregados = new ArrayList<User>();
-            ArrayList<User> modificados = new ArrayList<User>();
+            ArrayList<String> traslapadas = new ArrayList<String>();
+            ArrayList<String> rechazados = new ArrayList<String>();
+            ArrayList<String> agregadas = new ArrayList<String>();
 
             final String path = SWBPortal.getWorkPath() + "/exportacionReservSalasInspyra.csv";
 out.println("path="+path);
@@ -84,6 +97,9 @@ out.println("path="+path);
                 File file = new File(path);
                 if (file.exists())
                 {
+                    SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                    
+                    
                     byte[] bcontent = SWBUtils.IO.readFile(file);
                     String content = new String(bcontent);
                     StringReader reader = new StringReader(content);
@@ -103,32 +119,6 @@ out.println("path="+path);
                         User user_toModify = ur.getUserByEmail(email);
                         if (user_toModify == null)
                         {
-                            /*if (group != null)
-                            {
-                                user_toModify.addUserGroup(group);
-                            }
-
-                            user_toModify = site.getUserRepository().createUser();
-                            String email = campos.get(CAMPOS.EMAIL.ordinal());
-                            String fname = toUpperCase(campos.get(CAMPOS.NOMBRE.ordinal()));
-                            String lname = toUpperCase(campos.get(CAMPOS.PRIMER_APELLIDO.ordinal()));
-                            user_toModify.setEmail(createmail(email,fname, lname));
-                            user_toModify.setValid(true);
-                            user_toModify.setLanguage("es");
-                            user_toModify.setRequestChangePassword(true);
-                            agregados.add(user_toModify);
-                            user_toModify.setLogin(rfc);
-                            if (user_toModify.getCreated() == null)
-                            {
-                                user_toModify.setCreated(new Date());
-                            }
-
-                            user_toModify.setUpdated(new Date());
-                            user_toModify.setActive(true);
-                            user_toModify.setPassword(rfc);
-                            user_toModify.setFirstName(fname);
-                            user_toModify.setLastName(lname);
-                            user_toModify.setSecondLastName(toUpperCase(campos.get(CAMPOS.SEGUNDO_APELLIDO.ordinal())));*/
 %>
 <p style="color: blue;">Usuario no existe con email: <%=email%></p>
 <%
@@ -136,26 +126,67 @@ out.println("path="+path);
                         }
                         else
                         {
-                            /*if (user_toModify.getCreated() == null)
-                            {
-                                user_toModify.setCreated(new Date());
+                            Sala sala = null;
+                            try {
+                                sala = Sala.ClassMgr.getSala(rec[CAMPOS.salaId.ordinal()], site);
+                            }catch(Exception e) {
+                                e.printStackTrace(System.out);
                             }
-                            String email = campos.get(CAMPOS.EMAIL.ordinal());
-                            String fname = toUpperCase(campos.get(CAMPOS.NOMBRE.ordinal()));
-                            String lname = toUpperCase(campos.get(CAMPOS.PRIMER_APELLIDO.ordinal()));
-                            user_toModify.setEmail(createmail(email, fname, lname));
-                            user_toModify.setUpdated(new Date());
-                            if (group != null)
-                            {
-                                if (!user_toModify.hasUserGroup(group))
-                                {
-                                    user_toModify.addUserGroup(group);
+                            if(sala==null) {
+                                rechazados.add(line);
+                                continue;
+                            }
+                            Date di = fmt.parse(rec[CAMPOS.fechaInicio.ordinal()]);
+                            Date df = fmt.parse(rec[CAMPOS.fechaFinal.ordinal()]);
+                            java.util.Calendar csd = java.util.Calendar.getInstance();
+                            csd.setTime(di);                        
+                            java.util.Calendar cfd = java.util.Calendar.getInstance();
+                            cfd.setTime(df);
+                            
+                            int turnout = 0;
+                            try {
+                                turnout = Integer.parseInt(rec[CAMPOS.asistentes.ordinal()]);
+                            }catch(NumberFormatException e) {
+                                rechazados.add(line);
+                                continue;
+                            }
+                            
+                            ReservacionSala.TipoReunion tpmeet = ReservacionSala.TipoReunion.Interna; 
+                            try {
+                                tpmeet = ReservacionSala.TipoReunion.valueOf(rec[CAMPOS.tipoReunion.ordinal()]);
+                            }catch(Exception e) {
+                                rechazados.add(line);
+                                continue;
+                            }
+                            
+                            if(!sala.isReservada(csd, cfd)) {
+                                ReservacionSala reservation = ReservacionSala.ClassMgr.createReservacionSala(model);
+                                reservation.setSala(sala);
+                                reservation.setFechaInicio(csd.getTime());
+                                reservation.setFechaFinal(cfd.getTime());
+                                reservation.setAsistentes(turnout);
+                                reservation.setMotivo(rec[CAMPOS.motivo.ordinal()]);
+                                reservation.setTipoReunion(tpmeet.toString());
+                                if(ReservacionSala.TipoReunion.Externa == tpmeet) {
+                                    reservation.setRequiereCafeGrano(Boolean.getBoolean(rec[CAMPOS.requiereCafeGrano]));
+                                    reservation.setRequiereCafeSoluble(Boolean.getBoolean(rec[CAMPOS.requiereCafeSoluble]));
+                                    reservation.setRequiereRefrescos(Boolean.getBoolean(rec[CAMPOS.requiereRefrescos]));
+                                    reservation.setRequiereAgua(Boolean.getBoolean(rec[CAMPOS.requiereAgua]));
+                                    reservation.setRequiereGalletas(Boolean.getBoolean(rec[CAMPOS.requiereGalletas]));
+                                    if(ReservacionSala.Horario.Receso == tmsrvc) {
+                                        reservation.setRequiereServicioContinuo(false);
+                                        reservation.setHorarioServicio(rec[CAMPOS.horarioServCafe]);
+                                    }else {
+                                        reservation.setRequiereServicioContinuo(true);
+                                    }
                                 }
+                                reservation.setRequiereProyector(rec[CAMPOS.requiereProyector]);
+                                reservation.setRequiereComputo(rec[CAMPOS.requiereComputo]);
+                                if(!rec[CAMPOS.serviciosAdicionales].isEmpty())
+                                    reservation.setServiciosAdicionales(rec[CAMPOS.serviciosAdicionales].trim());
+                            }else {
+                                traslapadas.add(line);
                             }
-                            user_toModify.setFirstName(fname);
-                            user_toModify.setLastName(lname);
-                            user_toModify.setSecondLastName(toUpperCase(campos.get(CAMPOS.SEGUNDO_APELLIDO.ordinal())));*/
-                            modificados.add(user_toModify);
 %>
 <p style="color:brown;">Solicitante: <%=email%> nombre: <%=user_toModify.getFullName()%></p>
 <%
@@ -180,7 +211,7 @@ out.println("path="+path);
 %>
 
 Fin de carga de reservaciones de sala<br/>
-Usuarios agregados: <%=agregados.size()%><br/>
+Reservaciones rechazadas: <%=rechazados.size()%><br/>
 
 <%
             out.flush();
