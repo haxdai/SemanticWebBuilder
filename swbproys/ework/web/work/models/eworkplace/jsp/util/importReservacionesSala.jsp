@@ -76,7 +76,7 @@
 %>
 <%
             ArrayList<String> traslapadas = new ArrayList<String>();
-            ArrayList<String> rechazados = new ArrayList<String>();
+            ArrayList<String> rechazadas = new ArrayList<String>();
             ArrayList<String> agregadas = new ArrayList<String>();
 
             final String path = SWBPortal.getWorkPath() + "/exportacionReservSalasInspyra.csv";
@@ -133,7 +133,7 @@ out.println("path="+path);
                                 e.printStackTrace(System.out);
                             }
                             if(sala==null) {
-                                rechazados.add(line);
+                                rechazadas.add(line);
                                 continue;
                             }
                             Date di = fmt.parse(rec[CAMPOS.fechaInicio.ordinal()]);
@@ -147,7 +147,7 @@ out.println("path="+path);
                             try {
                                 turnout = Integer.parseInt(rec[CAMPOS.asistentes.ordinal()]);
                             }catch(NumberFormatException e) {
-                                rechazados.add(line);
+                                rechazadas.add(line);
                                 continue;
                             }
                             
@@ -155,7 +155,7 @@ out.println("path="+path);
                             try {
                                 tpmeet = ReservacionSala.TipoReunion.valueOf(rec[CAMPOS.tipoReunion.ordinal()]);
                             }catch(Exception e) {
-                                rechazados.add(line);
+                                rechazadas.add(line);
                                 continue;
                             }
                             
@@ -184,6 +184,7 @@ out.println("path="+path);
                                 reservation.setRequiereComputo(rec[CAMPOS.requiereComputo]);
                                 if(!rec[CAMPOS.serviciosAdicionales].isEmpty())
                                     reservation.setServiciosAdicionales(rec[CAMPOS.serviciosAdicionales].trim());
+                                agregadas.add(line);
                             }else {
                                 traslapadas.add(line);
                             }
@@ -209,10 +210,12 @@ out.println("path="+path);
                 return;
             }
 %>
-
+<p>
 Fin de carga de reservaciones de sala<br/>
-Reservaciones rechazadas: <%=rechazados.size()%><br/>
-
+Reservaciones agregadas: <%=agregadas.size()%><br/>
+Reservaciones traslapadas: <%=traslapadas.size()%><br/>
+Reservaciones rechazadas: <%=rechazadas.size()%><br/>
+</p>
 <%
             out.flush();
 %>
