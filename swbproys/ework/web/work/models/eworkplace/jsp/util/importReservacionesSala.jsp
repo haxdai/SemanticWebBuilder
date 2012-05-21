@@ -3,8 +3,6 @@
     Created on : 16-may-2012, 13:18:36
     Author     : carlos.ramos
 --%>
-<%@page import="com.infotec.eworkplace.swb.base.ReservacionSalaBase"%>
-<%@page import="com.infotec.eworkplace.swb.base.SalaBase"%>
 <%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <%@page import="com.infotec.eworkplace.swb.*"%>
 <%@page import="org.semanticwb.model.*"%>
@@ -35,33 +33,6 @@
     public void reset(java.util.Calendar cal) {
         reset(cal, 0, 0);
     }
-    
-
-    /*public String toUpperCase(String data)
-    {
-        StringBuilder sb = new StringBuilder();
-        StringTokenizer st = new StringTokenizer(data, " ");
-        while (st.hasMoreTokens())
-        {
-            String token = st.nextToken();
-            token = token.substring(0, 1).toUpperCase() + token.substring(1).toLowerCase();
-            sb.append(token);
-            sb.append(" ");
-        }
-        return sb.toString().trim();
-    }
-
-    public String createmail(String email, String nombre, String apellido)
-    {
-        if (email == null || email.isEmpty())
-        {
-            return "usuario.desconocido@infotec.com.mx";
-        }
-        else
-        {
-            return email.toLowerCase() + "@infotec.com.mx";
-        }
-    }*/
 
     public enum CAMPOS
     {
@@ -104,7 +75,8 @@ out.println("path="+path);
                     String content = new String(bcontent);
                     StringReader reader = new StringReader(content);
                     BufferedReader br = new BufferedReader(reader);
-                    String line = br.readLine();
+                    String line = br.readLine(); // encabezados
+                    line = br.readLine();
                     while (line != null)
                     {
 %>
@@ -119,6 +91,7 @@ out.println("path="+path);
                         User user_toModify = ur.getUserByEmail(email);
                         if (user_toModify == null)
                         {
+                            rechazadas.add(line);
 %>
 <p style="color: blue;">Usuario no existe con email: <%=email%></p>
 <%
@@ -158,9 +131,10 @@ out.println("path="+path);
                                 rechazadas.add(line);
                                 continue;
                             }
+                            ReservacionSala.Horario tmsrvc = ReservacionSala.Horario.Durante;
                             
                             if(!sala.isReservada(csd, cfd)) {
-                                ReservacionSala reservation = ReservacionSala.ClassMgr.createReservacionSala(model);
+                                ReservacionSala reservation = ReservacionSala.ClassMgr.createReservacionSala(site);
                                 reservation.setSala(sala);
                                 reservation.setFechaInicio(csd.getTime());
                                 reservation.setFechaFinal(cfd.getTime());
@@ -168,22 +142,22 @@ out.println("path="+path);
                                 reservation.setMotivo(rec[CAMPOS.motivo.ordinal()]);
                                 reservation.setTipoReunion(tpmeet.toString());
                                 if(ReservacionSala.TipoReunion.Externa == tpmeet) {
-                                    reservation.setRequiereCafeGrano(Boolean.getBoolean(rec[CAMPOS.requiereCafeGrano]));
-                                    reservation.setRequiereCafeSoluble(Boolean.getBoolean(rec[CAMPOS.requiereCafeSoluble]));
-                                    reservation.setRequiereRefrescos(Boolean.getBoolean(rec[CAMPOS.requiereRefrescos]));
-                                    reservation.setRequiereAgua(Boolean.getBoolean(rec[CAMPOS.requiereAgua]));
-                                    reservation.setRequiereGalletas(Boolean.getBoolean(rec[CAMPOS.requiereGalletas]));
+                                    reservation.setRequiereCafeGrano(Boolean.parseBoolean(rec[CAMPOS.requiereCafeGrano.ordinal()]));
+                                    reservation.setRequiereCafeSoluble(Boolean.parseBoolean(rec[CAMPOS.requiereCafeSoluble.ordinal()]));
+                                    reservation.setRequiereRefrescos(Boolean.parseBoolean(rec[CAMPOS.requiereRefrescos.ordinal()]));
+                                    reservation.setRequiereAgua(Boolean.parseBoolean(rec[CAMPOS.requiereAgua.ordinal()]));
+                                    reservation.setRequiereGalletas(Boolean.parseBoolean(rec[CAMPOS.requiereGalletas.ordinal()]));
                                     if(ReservacionSala.Horario.Receso == tmsrvc) {
                                         reservation.setRequiereServicioContinuo(false);
-                                        reservation.setHorarioServicio(rec[CAMPOS.horarioServCafe]);
+                                        reservation.setHorarioServicio(rec[CAMPOS.horarioServCafe.ordinal()]);
                                     }else {
                                         reservation.setRequiereServicioContinuo(true);
                                     }
                                 }
-                                reservation.setRequiereProyector(rec[CAMPOS.requiereProyector]);
-                                reservation.setRequiereComputo(rec[CAMPOS.requiereComputo]);
-                                if(!rec[CAMPOS.serviciosAdicionales].isEmpty())
-                                    reservation.setServiciosAdicionales(rec[CAMPOS.serviciosAdicionales].trim());
+                                reservation.setRequiereProyector(Boolean.parseBoolean(rec[CAMPOS.requiereProyector.ordinal()]));
+                                reservation.setRequiereComputo(Boolean.parseBoolean(rec[CAMPOS.requiereComputo.ordinal()]));
+                                if(!rec[CAMPOS.serviciosAdicionales.ordinal()].isEmpty())
+                                    reservation.setServiciosAdicionales(rec[CAMPOS.serviciosAdicionales.ordinal()]);
                                 agregadas.add(line);
                             }else {
                                 traslapadas.add(line);
