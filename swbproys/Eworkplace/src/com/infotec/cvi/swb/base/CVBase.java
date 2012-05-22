@@ -43,6 +43,7 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
    * Lista de las competencias seleccionadas por el usuario
    */
     public static final org.semanticwb.platform.SemanticProperty intranet_hasCompetencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasCompetencia");
+    public static final org.semanticwb.platform.SemanticProperty intranet_postSeguimiento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#postSeguimiento");
    /**
    * Elemento que indica si no cuenta la persona con dominio de otros idiomas
    */
@@ -920,6 +921,24 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
              ret=(com.infotec.cvi.swb.Competencia)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the PostSeguimiento property
+* @return boolean with the PostSeguimiento
+*/
+    public boolean isPostSeguimiento()
+    {
+        return getSemanticObject().getBooleanProperty(intranet_postSeguimiento);
+    }
+
+/**
+* Sets the PostSeguimiento property
+* @param value long with the PostSeguimiento
+*/
+    public void setPostSeguimiento(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(intranet_postSeguimiento, value);
     }
 
 /**
