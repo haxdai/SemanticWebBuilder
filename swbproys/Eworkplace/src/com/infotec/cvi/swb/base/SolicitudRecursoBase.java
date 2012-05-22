@@ -11,10 +11,6 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
    */
     public static final org.semanticwb.platform.SemanticClass intranet_Habilidad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Habilidad");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasExpertise=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasExpertise");
-   /**
-   * Catálogo utilizado para indicar el grado de avance del Estudio
-   */
-    public static final org.semanticwb.platform.SemanticClass intranet_Avance=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Avance");
     public static final org.semanticwb.platform.SemanticProperty intranet_avance=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#avance");
    /**
    * Catálogo utilizado para las carreras utilizadas para la captura de Grado Académico
@@ -38,10 +34,7 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
     public static final org.semanticwb.platform.SemanticProperty intranet_sustituyeA=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sustituyeA");
     public static final org.semanticwb.platform.SemanticProperty intranet_autorizaSolicitante=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#autorizaSolicitante");
     public static final org.semanticwb.platform.SemanticProperty intranet_salarioMax=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#salarioMax");
-   /**
-   * Elemento para guardar información del candidato, como son lo días hábiles para estar disponible para el trabajo, su situación laboral actual y su disponibilidad
-   */
-    public static final org.semanticwb.platform.SemanticClass intranet_Candidato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Candidato");
+    public static final org.semanticwb.platform.SemanticClass intranet_Seleccion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Seleccion");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasCandidato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasCandidato");
     public static final org.semanticwb.platform.SemanticClass intranet_Proyecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Proyecto");
     public static final org.semanticwb.platform.SemanticProperty intranet_proyectoAsignado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#proyectoAsignado");
@@ -164,29 +157,6 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
             return it;
         }
        /**
-       * Gets all com.infotec.cvi.swb.SolicitudRecurso with a determined Avance
-       * @param value Avance of the type com.infotec.cvi.swb.Avance
-       * @param model Model of the com.infotec.cvi.swb.SolicitudRecurso
-       * @return Iterator with all the com.infotec.cvi.swb.SolicitudRecurso
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.SolicitudRecurso> listSolicitudRecursoByAvance(com.infotec.cvi.swb.Avance value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.SolicitudRecurso> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_avance, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.cvi.swb.SolicitudRecurso with a determined Avance
-       * @param value Avance of the type com.infotec.cvi.swb.Avance
-       * @return Iterator with all the com.infotec.cvi.swb.SolicitudRecurso
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.SolicitudRecurso> listSolicitudRecursoByAvance(com.infotec.cvi.swb.Avance value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.SolicitudRecurso> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_avance,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all com.infotec.cvi.swb.SolicitudRecurso with a determined ModifiedBy
        * @param value ModifiedBy of the type org.semanticwb.model.User
        * @param model Model of the com.infotec.cvi.swb.SolicitudRecurso
@@ -280,23 +250,23 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
         }
        /**
        * Gets all com.infotec.cvi.swb.SolicitudRecurso with a determined Candidato
-       * @param value Candidato of the type com.infotec.cvi.swb.Candidato
+       * @param value Candidato of the type com.infotec.rh.syr.swb.Seleccion
        * @param model Model of the com.infotec.cvi.swb.SolicitudRecurso
        * @return Iterator with all the com.infotec.cvi.swb.SolicitudRecurso
        */
 
-        public static java.util.Iterator<com.infotec.cvi.swb.SolicitudRecurso> listSolicitudRecursoByCandidato(com.infotec.cvi.swb.Candidato value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<com.infotec.cvi.swb.SolicitudRecurso> listSolicitudRecursoByCandidato(com.infotec.rh.syr.swb.Seleccion value,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.SolicitudRecurso> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasCandidato, value.getSemanticObject(),sclass));
             return it;
         }
        /**
        * Gets all com.infotec.cvi.swb.SolicitudRecurso with a determined Candidato
-       * @param value Candidato of the type com.infotec.cvi.swb.Candidato
+       * @param value Candidato of the type com.infotec.rh.syr.swb.Seleccion
        * @return Iterator with all the com.infotec.cvi.swb.SolicitudRecurso
        */
 
-        public static java.util.Iterator<com.infotec.cvi.swb.SolicitudRecurso> listSolicitudRecursoByCandidato(com.infotec.cvi.swb.Candidato value)
+        public static java.util.Iterator<com.infotec.cvi.swb.SolicitudRecurso> listSolicitudRecursoByCandidato(com.infotec.rh.syr.swb.Seleccion value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.SolicitudRecurso> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasCandidato,value.getSemanticObject(),sclass));
             return it;
@@ -491,43 +461,23 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
          }
          return ret;
     }
-   /**
-   * Sets the value for the property Avance
-   * @param value Avance to set
-   */
 
-    public void setAvance(com.infotec.cvi.swb.Avance value)
+/**
+* Gets the Avance property
+* @return String with the Avance
+*/
+    public String getAvance()
     {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(intranet_avance, value.getSemanticObject());
-        }else
-        {
-            removeAvance();
-        }
-    }
-   /**
-   * Remove the value for Avance property
-   */
-
-    public void removeAvance()
-    {
-        getSemanticObject().removeProperty(intranet_avance);
+        return getSemanticObject().getProperty(intranet_avance);
     }
 
-   /**
-   * Gets the Avance
-   * @return a com.infotec.cvi.swb.Avance
-   */
-    public com.infotec.cvi.swb.Avance getAvance()
+/**
+* Sets the Avance property
+* @param value long with the Avance
+*/
+    public void setAvance(String value)
     {
-         com.infotec.cvi.swb.Avance ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_avance);
-         if(obj!=null)
-         {
-             ret=(com.infotec.cvi.swb.Avance)obj.createGenericInstance();
-         }
-         return ret;
+        getSemanticObject().setProperty(intranet_avance, value);
     }
    /**
    * Sets the value for the property ModifiedBy
@@ -826,21 +776,21 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
         getSemanticObject().setIntProperty(intranet_salarioMax, value);
     }
    /**
-   * Gets all the com.infotec.cvi.swb.Candidato
-   * @return A GenericIterator with all the com.infotec.cvi.swb.Candidato
+   * Gets all the com.infotec.rh.syr.swb.Seleccion
+   * @return A GenericIterator with all the com.infotec.rh.syr.swb.Seleccion
    */
 
-    public org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Candidato> listCandidatos()
+    public org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.Seleccion> listCandidatos()
     {
-        return new org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Candidato>(getSemanticObject().listObjectProperties(intranet_hasCandidato));
+        return new org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.Seleccion>(getSemanticObject().listObjectProperties(intranet_hasCandidato));
     }
 
    /**
    * Gets true if has a Candidato
-   * @param value com.infotec.cvi.swb.Candidato to verify
-   * @return true if the com.infotec.cvi.swb.Candidato exists, false otherwise
+   * @param value com.infotec.rh.syr.swb.Seleccion to verify
+   * @return true if the com.infotec.rh.syr.swb.Seleccion exists, false otherwise
    */
-    public boolean hasCandidato(com.infotec.cvi.swb.Candidato value)
+    public boolean hasCandidato(com.infotec.rh.syr.swb.Seleccion value)
     {
         boolean ret=false;
         if(value!=null)
@@ -851,10 +801,10 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
     }
    /**
    * Adds a Candidato
-   * @param value com.infotec.cvi.swb.Candidato to add
+   * @param value com.infotec.rh.syr.swb.Seleccion to add
    */
 
-    public void addCandidato(com.infotec.cvi.swb.Candidato value)
+    public void addCandidato(com.infotec.rh.syr.swb.Seleccion value)
     {
         getSemanticObject().addObjectProperty(intranet_hasCandidato, value.getSemanticObject());
     }
@@ -868,25 +818,25 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
     }
    /**
    * Removes a Candidato
-   * @param value com.infotec.cvi.swb.Candidato to remove
+   * @param value com.infotec.rh.syr.swb.Seleccion to remove
    */
 
-    public void removeCandidato(com.infotec.cvi.swb.Candidato value)
+    public void removeCandidato(com.infotec.rh.syr.swb.Seleccion value)
     {
         getSemanticObject().removeObjectProperty(intranet_hasCandidato,value.getSemanticObject());
     }
 
    /**
    * Gets the Candidato
-   * @return a com.infotec.cvi.swb.Candidato
+   * @return a com.infotec.rh.syr.swb.Seleccion
    */
-    public com.infotec.cvi.swb.Candidato getCandidato()
+    public com.infotec.rh.syr.swb.Seleccion getCandidato()
     {
-         com.infotec.cvi.swb.Candidato ret=null;
+         com.infotec.rh.syr.swb.Seleccion ret=null;
          org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasCandidato);
          if(obj!=null)
          {
-             ret=(com.infotec.cvi.swb.Candidato)obj.createGenericInstance();
+             ret=(com.infotec.rh.syr.swb.Seleccion)obj.createGenericInstance();
          }
          return ret;
     }
