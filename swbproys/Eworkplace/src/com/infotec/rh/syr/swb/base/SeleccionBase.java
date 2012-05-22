@@ -3,6 +3,7 @@ package com.infotec.rh.syr.swb.base;
 
 public abstract class SeleccionBase extends org.semanticwb.model.SWBClass 
 {
+    public static final org.semanticwb.platform.SemanticProperty intranet_vigenciaContrato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#vigenciaContrato");
    /**
    * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
    */
@@ -12,6 +13,7 @@ public abstract class SeleccionBase extends org.semanticwb.model.SWBClass
    */
     public static final org.semanticwb.platform.SemanticProperty intranet_seleccionado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#seleccionado");
     public static final org.semanticwb.platform.SemanticProperty intranet_salario=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#salario");
+    public static final org.semanticwb.platform.SemanticProperty intranet_fechaDeIngreso=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaDeIngreso");
     public static final org.semanticwb.platform.SemanticClass intranet_Seleccion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Seleccion");
    /**
    * The semantic class that represents the currentObject
@@ -120,6 +122,24 @@ public abstract class SeleccionBase extends org.semanticwb.model.SWBClass
     {
         super(base);
     }
+
+/**
+* Gets the VigenciaContrato property
+* @return java.util.Date with the VigenciaContrato
+*/
+    public java.util.Date getVigenciaContrato()
+    {
+        return getSemanticObject().getDateProperty(intranet_vigenciaContrato);
+    }
+
+/**
+* Sets the VigenciaContrato property
+* @param value long with the VigenciaContrato
+*/
+    public void setVigenciaContrato(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(intranet_vigenciaContrato, value);
+    }
    /**
    * Sets the value for the property Seleccionado
    * @param value Seleccionado to set
@@ -175,5 +195,23 @@ public abstract class SeleccionBase extends org.semanticwb.model.SWBClass
     public void setSalario(int value)
     {
         getSemanticObject().setIntProperty(intranet_salario, value);
+    }
+
+/**
+* Gets the FechaDeIngreso property
+* @return java.util.Date with the FechaDeIngreso
+*/
+    public java.util.Date getFechaDeIngreso()
+    {
+        return getSemanticObject().getDateProperty(intranet_fechaDeIngreso);
+    }
+
+/**
+* Sets the FechaDeIngreso property
+* @param value long with the FechaDeIngreso
+*/
+    public void setFechaDeIngreso(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(intranet_fechaDeIngreso, value);
     }
 }
