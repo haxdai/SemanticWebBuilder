@@ -4,7 +4,7 @@ package com.infotec.cvi.swb.base;
    /**
    * Elemento que contiene la información del Kit de nuevo ingreso de  la persona 
    */
-public abstract class KitNuevoIngresoBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.KitSolicitable,org.semanticwb.model.Traceable
+public abstract class KitNuevoIngresoBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,com.infotec.eworkplace.swb.KitSolicitable
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_nivelPrivilegioLlamadas=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nivelPrivilegioLlamadas");
     public static final org.semanticwb.platform.SemanticProperty intranet_requiereMSI=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#requiereMSI");
@@ -31,10 +31,6 @@ public abstract class KitNuevoIngresoBase extends org.semanticwb.model.SWBClass 
     public static final org.semanticwb.platform.SemanticProperty intranet_equipoLaptop=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#equipoLaptop");
     public static final org.semanticwb.platform.SemanticProperty intranet_solicitaClaveTelefono=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#solicitaClaveTelefono");
     public static final org.semanticwb.platform.SemanticProperty intranet_solicitaListaCorreoExterno=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#solicitaListaCorreoExterno");
-   /**
-   * Catálogo utilizado para indicar la ubicación física dentro del edificio
-   */
-    public static final org.semanticwb.platform.SemanticClass intranet_UbicacionFisica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#UbicacionFisica");
     public static final org.semanticwb.platform.SemanticProperty intranet_ubicacionEdificio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#ubicacionEdificio");
     public static final org.semanticwb.platform.SemanticProperty intranet_vigenciaTarjeta=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#vigenciaTarjeta");
     public static final org.semanticwb.platform.SemanticProperty intranet_solicitaTarjetaAcceso=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#solicitaTarjetaAcceso");
@@ -197,29 +193,6 @@ public abstract class KitNuevoIngresoBase extends org.semanticwb.model.SWBClass 
         public static java.util.Iterator<com.infotec.cvi.swb.KitNuevoIngreso> listKitNuevoIngresoByNuevoRecurso(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.KitNuevoIngreso> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_nuevoRecurso,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.cvi.swb.KitNuevoIngreso with a determined UbicacionEdificio
-       * @param value UbicacionEdificio of the type com.infotec.cvi.swb.UbicacionFisica
-       * @param model Model of the com.infotec.cvi.swb.KitNuevoIngreso
-       * @return Iterator with all the com.infotec.cvi.swb.KitNuevoIngreso
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.KitNuevoIngreso> listKitNuevoIngresoByUbicacionEdificio(com.infotec.cvi.swb.UbicacionFisica value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.KitNuevoIngreso> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_ubicacionEdificio, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.cvi.swb.KitNuevoIngreso with a determined UbicacionEdificio
-       * @param value UbicacionEdificio of the type com.infotec.cvi.swb.UbicacionFisica
-       * @return Iterator with all the com.infotec.cvi.swb.KitNuevoIngreso
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.KitNuevoIngreso> listKitNuevoIngresoByUbicacionEdificio(com.infotec.cvi.swb.UbicacionFisica value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.KitNuevoIngreso> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_ubicacionEdificio,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -739,43 +712,23 @@ public abstract class KitNuevoIngresoBase extends org.semanticwb.model.SWBClass 
     {
         getSemanticObject().setBooleanProperty(intranet_solicitaListaCorreoExterno, value);
     }
-   /**
-   * Sets the value for the property UbicacionEdificio
-   * @param value UbicacionEdificio to set
-   */
 
-    public void setUbicacionEdificio(com.infotec.cvi.swb.UbicacionFisica value)
+/**
+* Gets the UbicacionEdificio property
+* @return String with the UbicacionEdificio
+*/
+    public String getUbicacionEdificio()
     {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(intranet_ubicacionEdificio, value.getSemanticObject());
-        }else
-        {
-            removeUbicacionEdificio();
-        }
-    }
-   /**
-   * Remove the value for UbicacionEdificio property
-   */
-
-    public void removeUbicacionEdificio()
-    {
-        getSemanticObject().removeProperty(intranet_ubicacionEdificio);
+        return getSemanticObject().getProperty(intranet_ubicacionEdificio);
     }
 
-   /**
-   * Gets the UbicacionEdificio
-   * @return a com.infotec.cvi.swb.UbicacionFisica
-   */
-    public com.infotec.cvi.swb.UbicacionFisica getUbicacionEdificio()
+/**
+* Sets the UbicacionEdificio property
+* @param value long with the UbicacionEdificio
+*/
+    public void setUbicacionEdificio(String value)
     {
-         com.infotec.cvi.swb.UbicacionFisica ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_ubicacionEdificio);
-         if(obj!=null)
-         {
-             ret=(com.infotec.cvi.swb.UbicacionFisica)obj.createGenericInstance();
-         }
-         return ret;
+        getSemanticObject().setProperty(intranet_ubicacionEdificio, value);
     }
 
 /**
