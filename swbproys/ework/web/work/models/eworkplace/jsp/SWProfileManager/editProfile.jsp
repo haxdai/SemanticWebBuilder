@@ -99,8 +99,8 @@ dojo.declare(
         <div id="menu_perfil">
          <ul>
           <li>Editar mi perfil</li>
-          <li><a href="<%=(SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+wsite.getId()+"/"+wsite.getWebPage("Favoritos").getId()+"/_lang/"+lang)%>" title="Mis favoritos">Mis favoritos</a></li>
-          <li><a href="#">Mis solicitudes</a></li>
+          <li><a href="<%=(SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+wsite.getId()+"/"+wsite.getWebPage("Favoritos").getId()+"/_lang/"+lang)%>" title="Ir a mis favoritos">Mis favoritos</a></li>
+          <li><a href="<%=(SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+wsite.getId()+"/Mis_tareas"+"/_lang/"+user.getLanguage())%>" title="Ir a mis solicitudes">Mis solicitudes</a></li>
           <li><a href="<%=(contentURL+"?act="+SWBResourceURL.Action_ADD)%>" title="Ver mi perfil">Mi perfil</a></li>
          </ul>
         </div>
