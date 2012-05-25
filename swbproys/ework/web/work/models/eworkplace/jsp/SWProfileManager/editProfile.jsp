@@ -142,21 +142,21 @@ dojo.declare(
             <h3><%=paramRequest.getLocaleString("titleAboutMe")%></h3>
             <div class="text_editor">
              <p class="status entero">
-              <label for="prsnld"><em>*</em><%=paramRequest.getLocaleString("lblPersonality")%></label>
+              <label for="prsnld"><%=paramRequest.getLocaleString("lblPersonality")%></label>
               <textarea name="prsnld" id="prsnld" rows="2" cols="70" dojoType="ValidationTextarea" required="false" promptMessage="<%=paramRequest.getLocaleString("promptMsgPersonality")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultPersonality")%>" trim="true"><%=(request.getParameter("prsnld")!=null?request.getParameter("prsnld"):profile.getMiPersonalidad()==null?"":profile.getMiPersonalidad())%></textarea>
              </p>
             </div>
 
             <div class="text_editor">
              <p class="status entero">
-              <label for="gsts"><em>*</em><%=paramRequest.getLocaleString("lblLikes")%></label>
+              <label for="gsts"><%=paramRequest.getLocaleString("lblLikes")%></label>
               <textarea name="gsts" id="gsts" rows="2" cols="70" dojoType="ValidationTextarea" required="false" promptMessage="<%=paramRequest.getLocaleString("promptMsgLikes")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultLikes")%>" trim="true"><%=(request.getParameter("gsts")!=null?request.getParameter("gsts"):profile.getMisGustos()==null?"":profile.getMisGustos())%></textarea>
              </p>
             </div>
 
             <div class="status entero">
              <p class="status entero">
-              <label for="ideas"><em>*</em><%=paramRequest.getLocaleString("lblIdeas")%></label>
+              <label for="ideas"><%=paramRequest.getLocaleString("lblIdeas")%></label>
               <textarea name="ideas" id="ideas" rows="2" cols="70" dojoType="ValidationTextarea" required="false" promptMessage="<%=paramRequest.getLocaleString("promptMsgIdeas")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultIdeas")%>" trim="true"><%=(request.getParameter("ideas")!=null?request.getParameter("ideas"):profile.getMisIdeas()==null?"":profile.getMisIdeas())%></textarea>
              </p>
             </div>
