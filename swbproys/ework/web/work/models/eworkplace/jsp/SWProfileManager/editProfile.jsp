@@ -143,21 +143,21 @@ dojo.declare(
             <div class="text_editor">
              <p class="status entero">
               <label for="prsnld"><em>*</em><%=paramRequest.getLocaleString("lblPersonality")%></label>
-              <textarea name="prsnld" id="prsnld" rows="2" cols="70" dojoType="ValidationTextarea" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgPersonality")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultPersonality")%>" trim="true"><%=(request.getParameter("prsnld")!=null?request.getParameter("prsnld"):profile.getMiPersonalidad()==null?"":profile.getMiPersonalidad())%></textarea>
+              <textarea name="prsnld" id="prsnld" rows="2" cols="70" dojoType="ValidationTextarea" required="false" promptMessage="<%=paramRequest.getLocaleString("promptMsgPersonality")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultPersonality")%>" trim="true"><%=(request.getParameter("prsnld")!=null?request.getParameter("prsnld"):profile.getMiPersonalidad()==null?"":profile.getMiPersonalidad())%></textarea>
              </p>
             </div>
 
             <div class="text_editor">
              <p class="status entero">
               <label for="gsts"><em>*</em><%=paramRequest.getLocaleString("lblLikes")%></label>
-              <textarea name="gsts" id="gsts" rows="2" cols="70" dojoType="ValidationTextarea" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgLikes")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultLikes")%>" trim="true"><%=(request.getParameter("gsts")!=null?request.getParameter("gsts"):profile.getMisGustos()==null?"":profile.getMisGustos())%></textarea>
+              <textarea name="gsts" id="gsts" rows="2" cols="70" dojoType="ValidationTextarea" required="false" promptMessage="<%=paramRequest.getLocaleString("promptMsgLikes")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultLikes")%>" trim="true"><%=(request.getParameter("gsts")!=null?request.getParameter("gsts"):profile.getMisGustos()==null?"":profile.getMisGustos())%></textarea>
              </p>
             </div>
 
             <div class="status entero">
              <p class="status entero">
               <label for="ideas"><em>*</em><%=paramRequest.getLocaleString("lblIdeas")%></label>
-              <textarea name="ideas" id="ideas" rows="2" cols="70" dojoType="ValidationTextarea" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgIdeas")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultIdeas")%>" trim="true"><%=(request.getParameter("ideas")!=null?request.getParameter("ideas"):profile.getMisIdeas()==null?"":profile.getMisIdeas())%></textarea>
+              <textarea name="ideas" id="ideas" rows="2" cols="70" dojoType="ValidationTextarea" required="false" promptMessage="<%=paramRequest.getLocaleString("promptMsgIdeas")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultIdeas")%>" trim="true"><%=(request.getParameter("ideas")!=null?request.getParameter("ideas"):profile.getMisIdeas()==null?"":profile.getMisIdeas())%></textarea>
              </p>
             </div>
             <a href="javascript:collapse('acercade_mi')"><%=paramRequest.getLocaleString("lblClose")%></a>
@@ -175,7 +175,7 @@ dojo.declare(
 %>
           <p class="entero">
               <label for="email"><em>*</em><%=paramRequest.getLocaleString("lblEmail")%></label>
-           <input type="text" name="email" id="email"  dojoType="dijit.form.ValidationTextBox" required="true" value="<%=(request.getParameter("email")!=null?request.getParameter("email"):user.getEmail())%>" maxlength="60" promptMessage="<%=paramRequest.getLocaleString("promptMsgEmail")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultEmail")%>" isValid="return isValidEmail(this.textbox.value)" trim="true" style="width:280px" />
+           <input type="text" name="email" id="email"  dojoType="dijit.form.ValidationTextBox" required="true" value="<%=(request.getParameter("email")!=null?request.getParameter("email"):user.getEmail())%>" maxlength="60" promptMessage="<%=paramRequest.getLocaleString("promptMsgEmail")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultEmail")%>" isValid="return isValidEmail(this.textbox.value)" trim="true" style="width:300px" />
           </p>
           
           <p class="tercio">
