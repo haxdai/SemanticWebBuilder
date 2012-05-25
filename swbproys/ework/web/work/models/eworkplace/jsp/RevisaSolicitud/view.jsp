@@ -143,7 +143,7 @@
                         String fromDate = request.getParameter("fromDate");
                         String toDate = request.getParameter("toDate");
 
-                        //System.out.println("fromDate >>>" + fromDate + "<<< toDate >>>" + toDate + "<<<");
+                        System.out.println("fromDate >>>" + fromDate + "<<< toDate >>>" + toDate + "<<<");
 
                         boolean conservar = false;
 
@@ -155,7 +155,7 @@
                         while (itcv.hasNext()) {
                             solrec = itcv.next();
                             acum = 0;
-                            long time_cv = 0; //solrec.getFechaSolicitud().getTime();
+                            long time_cv = (solrec.getFechaSolicitud()!=null?solrec.getFechaSolicitud().getTime():0);
 
                             if (!fromDate.equals("") && !toDate.equals("")) {
                                 long iniDate = getTimeDate(fromDate, 0, 0, 0);
@@ -293,7 +293,7 @@
                             while (itcv.hasNext()) {
                                 solrec = itcv.next();
                                 acum = 0;
-                                long time_cv = 0; //solrec.getFechaSolicitud().getTime();
+                                long time_cv = (solrec.getFechaSolicitud()!=null?solrec.getFechaSolicitud().getTime():0);
 
                                 if (!fromDate.equals("") && !toDate.equals("")) {
                                     long iniDate = getTimeDate(fromDate, 0, 0, 0);
