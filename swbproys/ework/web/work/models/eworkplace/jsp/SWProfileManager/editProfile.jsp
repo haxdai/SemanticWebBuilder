@@ -221,10 +221,10 @@ dojo.declare(
               <input name="chief" id="chief" dojoType="dijit.form.FilteringSelect" required="true" value="<%=(request.getParameter("chief")!=null?request.getParameter("chief"):profile.getJefeInmediato()==null?"":profile.getJefeInmediato().getId())%>" store="strichief" promptMessage="<%=paramRequest.getLocaleString("promptMsgIBoss")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultIBoss")%>" />
           </p>
           
-          <p class="tercio">
+          <!--p class="tercio">
               <label for="extdr"><em>*</em><%=paramRequest.getLocaleString("lblPhoneExtDr")%></label>
-           <input type="text" name="extdr" id="extdr" dojoType="dijit.form.ValidationTextBox" required="true" value="<%=(request.getParameter("extdr")!=null?request.getParameter("extdr"):user.getExtendedAttribute(ext)==null?"":user.getExtendedAttribute(ext))%>" maxlength="6" promptMessage="<%=paramRequest.getLocaleString("promptMsgPhoneExtDr")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultPhoneExtDr")%>" regExp="\d{1,6}" trim="true" />
-          </p>
+           <input type="text" name="extdr" id="extdr" dojoType="dijit.form.ValidationTextBox" required="false" value="<%=(request.getParameter("extdr")!=null?request.getParameter("extdr"):user.getExtendedAttribute(ext)==null?"":user.getExtendedAttribute(ext))%>" maxlength="6" promptMessage="<%=paramRequest.getLocaleString("promptMsgPhoneExtDr")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultPhoneExtDr")%>" regExp="\d{1,6}" trim="true" />
+          </p-->
           
           
           <div class="clearer">&nbsp;</div>

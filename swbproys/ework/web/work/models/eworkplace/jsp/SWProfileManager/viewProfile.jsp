@@ -186,10 +186,10 @@
     SemanticClass sc = org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Empleado");
     SemanticProperty sp = sc.getProperty("extension");
 %>         
-          <p class="tercio">
+          <!--p class="tercio">
            <label for="extdr"><%=paramRequest.getLocaleString("lblPhoneExtDr")%></label>
            <input type="text" name="extdr" id="extdr" dojoType="dijit.form.ValidationTextBox" value="<%=user.getExtendedAttribute(sp)==null?"10":user.getExtendedAttribute(sp)%>" trim="true" readonly="readonly" />
-          </p>
+          </p-->
           
           <div class="clearer">&nbsp;</div>
          </div>
