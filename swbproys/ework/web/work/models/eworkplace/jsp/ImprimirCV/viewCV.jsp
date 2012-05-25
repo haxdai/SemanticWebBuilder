@@ -430,7 +430,7 @@ Author     : rene.jara
                             ExperienciaLaboral el = itel.next();
                             String empresa = el.getEmpresa();
                             String inicio = sdf.format(el.getFechaIni());
-                            String fin = sdf.format(el.getFechaFin());
+                            String fin = el.getFechaFin()!=null?sdf.format(el.getFechaFin()):"";
                             String cargo = el.getCargo();
                             String jefe = el.getJefe();
                             Telefono te = el.getTelefono();
