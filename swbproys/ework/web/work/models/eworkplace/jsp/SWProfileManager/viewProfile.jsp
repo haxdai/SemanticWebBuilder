@@ -9,7 +9,7 @@
 <%@page import="org.semanticwb.SWBPortal"%>
 <%@page import="org.semanticwb.SWBUtils"%>
 <%@page import="org.semanticwb.model.*"%>
-<%@page import="org.semanticwb.platform.SemanticProperty"%>
+<%@page import="org.semanticwb.platform.*"%>
 <%@page import="org.semanticwb.portal.api.*"%>
 <%@page import="java.util.Iterator"%>
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/>
@@ -137,7 +137,7 @@
 %>
           <p class="entero">
            <label for="email"><%=paramRequest.getLocaleString("lblEmail")%></label>
-           <input type="text" name="email" id="email"  dojoType="dijit.form.ValidationTextBox" value="<%=user.getEmail()%>" trim="true" readonly="readonly" />
+           <input type="text" name="email" id="email"  dojoType="dijit.form.ValidationTextBox" value="<%=user.getEmail()%>" trim="true" readonly="readonly" style=" width:300px" />
           </p>
           
           <p class="tercio">
@@ -182,11 +182,13 @@
            <input type="text" name="iboss" id="iboss"  dojoType="dijit.form.ValidationTextBox" value="<%=profile.getJefeInmediato()==null?"":profile.getJefeInmediato().getFullName()%>" trim="true" readonly="readonly" />
           </p>
  <%
-    SemanticProperty ext = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#noe");
+    //SemanticProperty ext = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#noe");
+    SemanticClass sc = org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Empleado");
+    SemanticProperty sp = sc.getProperty("extension");
 %>         
           <p class="tercio">
            <label for="extdr"><%=paramRequest.getLocaleString("lblPhoneExtDr")%></label>
-           <input type="text" name="extdr" id="extdr" dojoType="dijit.form.ValidationTextBox" value="<%=user.getExtendedAttribute(ext)==null?"10":user.getExtendedAttribute(ext)%>" trim="true" readonly="readonly" />
+           <input type="text" name="extdr" id="extdr" dojoType="dijit.form.ValidationTextBox" value="<%=user.getExtendedAttribute(sp)==null?"10":user.getExtendedAttribute(sp)%>" trim="true" readonly="readonly" />
           </p>
           
           <div class="clearer">&nbsp;</div>
