@@ -98,7 +98,7 @@
                 <%
                     // aplica a detalle unicamente
                     if (isDetail && solrec != null) {
-                        String solDate = solrec.getFechaBaja() != null ? sdf.format(solrec.getFechaSolicitud()) : "---";
+                        String solDate = solrec.getFechaSolicitud() != null ? sdf.format(solrec.getFechaSolicitud()) : "---";
                 %>
                 <tr>
                     <td width="200px" align="right">
@@ -231,7 +231,7 @@
                         <%
                             if (solrec != null) {
                                 Carrera tcarrera = solrec.getEspecialidad();
-                                out.println("<input type=\"hidden\" name=\"solicitudRecurso.especialidad\" value=\"" + tcarrera.getURI() + "\" />" + tcarrera.getTitle());
+                                out.println("<input type=\"hidden\" name=\"solicitudRecurso.especialidad\" value=\"" + (tcarrera!=null?tcarrera.getURI():"") + "\" />" + (tcarrera!=null?tcarrera.getTitle():"---"));
                             } else {
                         %>
                         <select name="solicitudRecurso.especialidad" dojoType="dijit.form.FilteringSelect" autoComplete="true" invalidMessage="Carrera o Especialidad es requerido." value="" required="true" displayedvalue="" >
@@ -251,8 +251,11 @@
                 <tr><td width="200px" align="right"><label for="title"><label for="solicitudRecurso.avance">Grado de avance requerido <em>*</em></label></label></td>
                     <td>
                         <%
-                            if (solrec != null && solrec.getAvance() != null) {
-                                String avance = solrec.getAvance();
+                            String avance = "";
+                            if (solrec != null) {
+                                try{
+                                    avance = solrec.getAvance();
+                                } catch(Exception e){}
                                 out.println("<input type=\"hidden\" name=\"solicitudRecurso.avance\" value=\"" + avance + "\" />" + avance + "%");
                             } else {
                         %>
@@ -274,7 +277,7 @@
                     <td>
                         <%
                             Iterator<Habilidad> ithab = null;
-                            if (solrec != null && solrec.listExpertises().hasNext()) {
+                            if (solrec != null ) {
                                 HashMap<String, Habilidad> hmhab = new HashMap<String, Habilidad>();
                                 ithab = solrec.listExpertises();
                                 while (ithab.hasNext()) {
@@ -303,7 +306,6 @@
                     <td>
                         <%
                             if (solrec != null) {
-                                
                                 //Iterator<Sector> itsec = solrec.listSectors();
                                 //while (itsec.hasNext()) {
                                 //    Sector secexp = itsec.next();
@@ -362,7 +364,7 @@
                     <td>
                         <%
                             Iterator<Competencia> itcomp = null;
-                            if (solrec != null && solrec.listCompetenciaReqs().hasNext()) {
+                            if (solrec != null ) {
                                 itcomp = solrec.listCompetenciaReqs();
                                 while (itcomp.hasNext()) {
                                     Competencia tcomp = itcomp.next();
@@ -393,7 +395,7 @@
                 <tr><td width="200px" align="right"><label for="title"><label for="solicitudRecurso.entrevistador">Realizará entrevista técnica &nbsp;</label></label></td>
                     <td>
                         <%
-                            out.println(solrec != null && solrec.getEntrevistador() != null && solrec.getEntrevistador().getFullName() != null ? solrec.getEntrevistador().getFullName() : solrec.getEntrevistador().getLogin());
+                            out.println(solrec != null && solrec.getEntrevistador() != null && solrec.getEntrevistador().getFullName() != null ? solrec.getEntrevistador().getFullName() : "---");
                         %>
                     </td></tr>
                 <tr><td width="200px" align="right"><label for="title"><label for="solicitudRecurso.autorizaSolicitante">Autoriza área solicitante <em>*</em></label></label></td>
