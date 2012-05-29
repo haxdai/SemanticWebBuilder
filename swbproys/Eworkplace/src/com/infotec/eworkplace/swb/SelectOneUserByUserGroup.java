@@ -281,13 +281,52 @@ public class SelectOneUserByUserGroup extends com.infotec.eworkplace.swb.base.Se
     @Override
     public boolean filterObject(HttpServletRequest request, SemanticObject base_obj, SemanticObject filter_obj, SemanticProperty prop, String propName, String type, String mode, String lang) {        
         SWBModel m = (SWBModel) filter_obj.getModel().getModelObject().createGenericInstance();
-        UserGroup filterUserGroup = UserGroup.ClassMgr.getUserGroup(getFilterUserGroupId(), m);
-        if (filter_obj != null && filterUserGroup != null) {
-            User filterUser = (User) filter_obj.createGenericInstance();
-            if (filterUser.hasUserGroup(filterUserGroup)) {
-                return false;
+        User filterUser = null;
+        boolean hasUserGroup = false;
+        boolean hasRole = false;
+        boolean ret = true;
+        
+        if (filter_obj != null) {
+            filterUser = (User) filter_obj.createGenericInstance();
+        }
+        
+        //No se especificó un grupo o roles para filtrar
+        if ((getFilterRoleIds() == null || getFilterRoleIds().trim().length() == 0) && (getFilterUserGroupId() == null || getFilterUserGroupId().trim().length() == 0)) {
+            hasUserGroup = true;
+            hasRole = true;
+        } else {
+            //Revisar si tiene el grupo de usuarios especificado
+            UserGroup filterUserGroup = UserGroup.ClassMgr.getUserGroup(getFilterUserGroupId(), m);
+            if (filterUser != null && filterUserGroup != null) {
+                if (filterUser.hasUserGroup(filterUserGroup)) {
+                    hasUserGroup = true;
+                }
+            }
+            
+            //Revisar si tiene alguno de los roles definidos
+            if (getFilterRoleIds() != null && getFilterRoleIds().indexOf("|") > -1) {
+                StringTokenizer stk = new StringTokenizer(getFilterRoleIds(), "|");
+                while (stk.hasMoreTokens()) {
+                    String roleId = stk.nextToken();
+                    Role filterRole = Role.ClassMgr.getRole(roleId, m);
+                    if (filterUser != null && filterRole != null) {
+                        if (filterUser.hasRole(filterRole)) {
+                            hasRole = true;
+                            break;
+                        }
+                    }
+                }
+            } else {
+                Role filterRole = Role.ClassMgr.getRole(getFilterRoleIds(), m);
+                if (filterUser != null && filterRole != null) {
+                    if (filterUser.hasRole(filterRole)) {
+                        hasRole = true;
+                    }
+                }
             }
         }
-        return true;
+        
+        if (hasUserGroup || hasRole) ret = false;
+        return ret;
     }
 }
