@@ -50,39 +50,71 @@ import org.semanticwb.portal.api.SWBResourceURL;
 
 public class SWProfileManager extends GenericAdmResource {
     private static Logger log = SWBUtils.getLogger(SWProfileManager.class);
-//    private static final String Send = "send";
-//    private static final String Send_VIEW = "sview";
-//    private static final String Send_EDIT = "sedit";
+    
     public static final String Mode_CHGPHTO = "foto";
     public static final String Mode_VIEWPRFL = "prfl";
-//    private static final String Send_REQ = "req";
     public static final String Mode_FAV = "fav";
     
     public static final String RH_Role = "RH";
     
     public static final String Mode_ADS = "ads";
     public static final String Mode_IBSS = "ibss";
+    
     private Role subgerente, gerente, director;
     private UserGroup infotec;
     
     private String contentURL;
+    public String ibssJsonStore;
     
     @Override
-    public void setResourceBase(Resource base) throws SWBResourceException {
-        super.setResourceBase(base);
+    public void setResourceBase(Resource res) throws SWBResourceException {
+        super.setResourceBase(res);
         
-        UserRepository ur = base.getWebSite().getUserRepository();
+        UserRepository ur = res.getWebSite().getUserRepository();
         subgerente = ur.getRole("Subgerente");
         gerente = ur.getRole("Gerente");
         director = ur.getRole("Director");
         infotec = ur.getUserGroup("Empleado_exsitu");
         
-        //String surl = null;
-        Iterator<Resourceable> res = getResourceBase().listResourceables();
-        while(res.hasNext()) {
-            Resourceable re = res.next();
-            if( re instanceof WebPage ) {
-                contentURL = ((WebPage)re).getUrl();
+        try {
+            JSONObject base = new JSONObject();
+            base.put("identifier", "id");
+            base.put("label", "name");
+            JSONArray items = new JSONArray();
+            base.put("items", items);
+            
+            User user;
+            UserGroup ug;
+            Iterator<UserGroup> it = infotec.listChilds();
+            while(it.hasNext()) {
+                ug = it.next();
+                if(ug==null)
+                    continue;
+                Iterator<UserGroupable> ugbles = ug.listUsers();
+                while(ugbles.hasNext()) {
+                    UserGroupable ugble = ugbles.next();
+                    if(ugble instanceof User) {
+                        user = (User)ugble;
+                        if(user.hasRole(subgerente)||user.hasRole(gerente)||user.hasRole(director)) {
+                            JSONObject jtipo = new JSONObject();
+                            items.put(jtipo);
+                            jtipo.put("id", user.getId());
+                            jtipo.put("name", user.getFullName());
+                            jtipo.put("dir", ug.getId());
+                        }
+                    }
+                }
+            }      
+            ibssJsonStore = base.toString();
+        } catch (Exception e) {
+            log.error(e);
+        }
+        
+        Iterator<Resourceable> resourceables = getResourceBase().listResourceables();
+        while(resourceables.hasNext()) {
+            Resourceable resourceable = resourceables.next();
+            if( resourceable instanceof WebPage ) {
+                contentURL = ((WebPage)resourceable).getUrl();
                 break;
             }
         }        
@@ -646,43 +678,41 @@ while (list.hasNext()) {
         response.setHeader("Pragma", "no-cache");
         
         PrintWriter out = response.getWriter();
-        WebSite wsite = paramRequest.getWebPage().getWebSite();
-                
-        String ret = "";
-        try {
-            JSONObject base = new JSONObject();
-            base.put("identifier", "id");
-            base.put("label", "name");
-            JSONArray items = new JSONArray();
-            base.put("items", items);
-            
-            User user;
-            UserGroup ug;
-            Iterator<UserGroup> it = infotec.listChilds();
-            while(it.hasNext()) {
-                ug = it.next();
-                if(ug==null)
-                    continue;
-                Iterator<UserGroupable> ugbles = ug.listUsers();
-                while(ugbles.hasNext()) {
-                    UserGroupable ugble = ugbles.next();
-                    if(ugble instanceof User) {
-                        user = (User)ugble;
-                        if(user.hasRole(subgerente)||user.hasRole(gerente)||user.hasRole(director)) {
-                            JSONObject jtipo = new JSONObject();
-                            items.put(jtipo);
-                            jtipo.put("id", user.getId());
-                            jtipo.put("name", user.getFullName());
-                            jtipo.put("dir", ug.getId());
-                        }
-                    }
-                }
-            }      
-            ret = base.toString();
-        } catch (Exception e) {
-            log.error(e);
-        }
-        out.print(ret);
+//        String ret = "";
+//        try {
+//            JSONObject base = new JSONObject();
+//            base.put("identifier", "id");
+//            base.put("label", "name");
+//            JSONArray items = new JSONArray();
+//            base.put("items", items);
+//            
+//            User user;
+//            UserGroup ug;
+//            Iterator<UserGroup> it = infotec.listChilds();
+//            while(it.hasNext()) {
+//                ug = it.next();
+//                if(ug==null)
+//                    continue;
+//                Iterator<UserGroupable> ugbles = ug.listUsers();
+//                while(ugbles.hasNext()) {
+//                    UserGroupable ugble = ugbles.next();
+//                    if(ugble instanceof User) {
+//                        user = (User)ugble;
+//                        if(user.hasRole(subgerente)||user.hasRole(gerente)||user.hasRole(director)) {
+//                            JSONObject jtipo = new JSONObject();
+//                            items.put(jtipo);
+//                            jtipo.put("id", user.getId());
+//                            jtipo.put("name", user.getFullName());
+//                            jtipo.put("dir", ug.getId());
+//                        }
+//                    }
+//                }
+//            }      
+//            ret = base.toString();
+//        } catch (Exception e) {
+//            log.error(e);
+//        }
+        out.print(ibssJsonStore);
     }
     
     public void doFam(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
