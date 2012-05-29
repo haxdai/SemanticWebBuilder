@@ -3,6 +3,7 @@ package com.infotec.eworkplace.swb.base;
 
 public abstract class SelectOneUserByUserGroupBase extends org.semanticwb.model.SelectOne 
 {
+    public static final org.semanticwb.platform.SemanticProperty intranet_so_roleIds=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#so_roleIds");
     public static final org.semanticwb.platform.SemanticProperty intranet_so_userGroupId=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#so_userGroupId");
     public static final org.semanticwb.platform.SemanticClass intranet_SelectOneUserByUserGroup=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#SelectOneUserByUserGroup");
    /**
@@ -82,6 +83,24 @@ public abstract class SelectOneUserByUserGroupBase extends org.semanticwb.model.
     public SelectOneUserByUserGroupBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+/**
+* Gets the FilterRoleIds property
+* @return String with the FilterRoleIds
+*/
+    public String getFilterRoleIds()
+    {
+        return getSemanticObject().getProperty(intranet_so_roleIds);
+    }
+
+/**
+* Sets the FilterRoleIds property
+* @param value long with the FilterRoleIds
+*/
+    public void setFilterRoleIds(String value)
+    {
+        getSemanticObject().setProperty(intranet_so_roleIds, value);
     }
 
 /**
