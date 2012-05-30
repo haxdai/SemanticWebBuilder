@@ -7,7 +7,6 @@
 <%@page import="com.infotec.cvi.swb.Sector"%>
 <%@page import="org.semanticwb.portal.api.SWBResourceURL"%>
 <%@page import="com.infotec.cvi.swb.Habilidad"%>
-<%@page import="com.infotec.cvi.swb.SectorExpertise"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="com.infotec.cvi.swb.Competencia"%>
 <%@page import="com.infotec.cvi.swb.Avance"%>
