@@ -278,7 +278,6 @@
                         <%
                             Iterator<Habilidad> ithab = null;
                             if (solrec != null ) {
-                                HashMap<String, Habilidad> hmhab = new HashMap<String, Habilidad>();
                                 ithab = solrec.listExpertises();
                                 while (ithab.hasNext()) {
                                     Habilidad thab = ithab.next();
@@ -306,19 +305,18 @@
                     <td>
                         <%
                             if (solrec != null) {
-                                //Iterator<Sector> itsec = solrec.listSectors();
-                                //while (itsec.hasNext()) {
-                                //    Sector secexp = itsec.next();
-                                //    out.print("<input type=\"hidden\" name=\"solicitudRecurso.hasSectorExpertise\" value=\"" + secexp.getURI() + "\" />" + secexp.getTitle());
-                                //    if (itsec.hasNext()) {
-                                //        out.print(", ");
-                                //    }
-                                //}
+                                Iterator<Sector> itsec = solrec.listSectorExpertises(); 
+                                while (itsec.hasNext()) {
+                                    Sector secexp = itsec.next();
+                                    out.print("<input type=\"hidden\" name=\"solicitudRecurso.hasSectorExpertise\" value=\"" + secexp.getURI() + "\" />" + secexp.getTitle());
+                                    if (itsec.hasNext()) {
+                                        out.print(", ");
+                                    }
+                                }
                             } else {
                         %>
                         <select name="solicitudRecurso.sectorExpertise" multiple="true" style="width:300px;" >
                             <%
-                                // revisar esta parte, no debería de ser SECTOR en vez de SectorExpertise
                                 Iterator<Sector> itsec = Sector.ClassMgr.listSectors(wsite);
                                 while (itsec.hasNext()) {
                                     Sector sector = itsec.next();
@@ -385,7 +383,6 @@
                             %>
                         </select>
                         <%
-
                             }
                         %>
                     </td></tr>
