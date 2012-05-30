@@ -1,7 +1,7 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,com.infotec.eworkplace.swb.Placeable
+public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Placeable,org.semanticwb.model.Traceable
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_contrato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#contrato");
     public static final org.semanticwb.platform.SemanticProperty intranet_misIdeas=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#misIdeas");

@@ -82,31 +82,6 @@
     >Interfaz utilizada para definir las propiedades del Kit de Nuevo Ingreso</rdfs:comment>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Interface"/>
   </owl:Class>
-  <owl:Class rdf:ID="SectorExpertise">
-    <rdfs:subClassOf>
-      <swb:Class rdf:ID="Catalogo">
-        <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >com.infotec.cvi.swb</swb:classCodePackage>
-        <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-        >true</swb:autogenId>
-        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
-        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
-        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
-        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >Define las propiedades de los catálogos utilizados en el CVI</rdfs:comment>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-      </swb:Class>
-    </rdfs:subClassOf>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Sector expertise</rdfs:label>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</swb:autogenId>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >com.infotec.cvi.swb</swb:classCodePackage>
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Catálogo utilizado para indicar el Sector Expertise</rdfs:comment>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-  </owl:Class>
   <owl:Class rdf:ID="TemaInteres">
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
@@ -124,7 +99,20 @@
   <owl:Class rdf:ID="Municipio">
     <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >com.infotec.cvi.swb</swb:classCodePackage>
-    <rdfs:subClassOf rdf:resource="#Catalogo"/>
+    <rdfs:subClassOf>
+      <swb:Class rdf:ID="Catalogo">
+        <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >com.infotec.cvi.swb</swb:classCodePackage>
+        <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+        >true</swb:autogenId>
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >Define las propiedades de los catálogos utilizados en el CVI</rdfs:comment>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+      </swb:Class>
+    </rdfs:subClassOf>
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Catálogo utilizado para los Municipios de las Entidades Federativas</rdfs:comment>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
@@ -887,6 +875,14 @@
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Indica el área a la cual está relacionada.</rdfs:comment>
   </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasSectorExpertise">
+    <rdfs:range rdf:resource="#Sector"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Sector de experiencia</rdfs:label>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:required>
+    <rdfs:domain rdf:resource="#SolicitudRecurso"/>
+  </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="hasDisciplina">
     <rdfs:range>
       <swb:Class rdf:ID="DisciplinaEstudio">
@@ -979,14 +975,6 @@
         <rdfs:label xml:lang="es">Competencias institucionales o contextuales</rdfs:label>
       </swbxf:DisplayProperty>
     </swb:displayProperty>
-  </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:ID="sectorExpertise">
-    <rdfs:domain rdf:resource="#SolicitudRecurso"/>
-    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</swb:required>
-    <rdfs:range rdf:resource="#SectorExpertise"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Sector de experiencia</rdfs:label>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="vigenciaCompDesempenio">
     <swb:displayProperty>
@@ -3260,11 +3248,11 @@
     >Tipo de contratación</rdfs:label>
     <swb:displayProperty>
       <swbxf:DisplayProperty rdf:ID="dp_SRtipoContratacion">
-        <swbxf:propSelectValues rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >0: |1:Nómina|2:Eventual|3:Honorarios</swbxf:propSelectValues>
-        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
         >Tipo de contratación</rdfs:label>
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
+        <swbxf:propSelectValues rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >0: |1:Nómina|2:Eventual|3:Servicios Profesionales por Honorarios</swbxf:propSelectValues>
       </swbxf:DisplayProperty>
     </swb:displayProperty>
   </owl:DatatypeProperty>

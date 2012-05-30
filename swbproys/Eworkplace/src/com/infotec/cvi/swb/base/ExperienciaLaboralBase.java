@@ -1,7 +1,7 @@
 package com.infotec.cvi.swb.base;
 
 
-public abstract class ExperienciaLaboralBase extends com.infotec.cvi.swb.ExperienciaProfesional implements org.semanticwb.model.Traceable,com.infotec.eworkplace.swb.Telefoneable
+public abstract class ExperienciaLaboralBase extends com.infotec.cvi.swb.ExperienciaProfesional implements com.infotec.eworkplace.swb.Telefoneable,org.semanticwb.model.Traceable
 {
    /**
    * Catálogo utilizado para indicar el Sector en el cual has tenido Experiencia Laboral

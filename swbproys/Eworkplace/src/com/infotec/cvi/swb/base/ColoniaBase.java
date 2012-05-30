@@ -4,7 +4,7 @@ package com.infotec.cvi.swb.base;
    /**
    * Catálogo utilizado para las colonias existentes en México 
    */
-public abstract class ColoniaBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class ColoniaBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
    /**
    * Catálogo utilizado para los Municipios de las Entidades Federativas

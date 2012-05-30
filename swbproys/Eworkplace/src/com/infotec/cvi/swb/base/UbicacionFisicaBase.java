@@ -4,7 +4,7 @@ package com.infotec.cvi.swb.base;
    /**
    * Catálogo utilizado para indicar la ubicación física dentro del edificio 
    */
-public abstract class UbicacionFisicaBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class UbicacionFisicaBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
    /**
    * Catálogo utilizado para indicar la ubicación física dentro del edificio
