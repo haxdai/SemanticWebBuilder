@@ -131,7 +131,7 @@ dojo.declare(
 <div class="postit">
  <label for="postit"><%=paramRequest.getLocaleString("lblPostit")%></label>
  <div class="dialogo_postit"></div>
- <input type="text" name="postit" id="postit" dojoType="dijit.form.ValidationTextBox" value="<%=(request.getParameter("postit")!=null?request.getParameter("postit"):profile.getPostit()==null?"":profile.getPostit())%>" promptMessage="<%=paramRequest.getLocaleString("promptMsgPostit")%>" trim="true" />
+ <input onfocus="this.textbox.value=''" onblur="if(isEmpty(this.textbox.value))this.textbox.value='<%=paramRequest.getLocaleString("lblPostit")%>'" type="text" name="postit" id="postit" dojoType="dijit.form.ValidationTextBox" value="<%=(request.getParameter("postit")!=null?request.getParameter("postit"):profile.getPostit()==null||profile.getPostit().isEmpty()?paramRequest.getLocaleString("lblPostit"):profile.getPostit())%>" promptMessage="<%=paramRequest.getLocaleString("promptMsgPostit")%>" trim="true"  />
 </div>
           </div>
           <!--p class="mas_deMi">
@@ -206,15 +206,16 @@ dojo.declare(
                 break;
             }
         }
-
         SemanticProperty ext = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#noe");
         SWBResourceURL urlMando = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT);
+        String provisional = "http://comunidad.infotec.com.mx/work/models/eworkplace/jsp/newjsp.jsp";
 %>
           <div dojoType="dojo.data.ItemFileReadStore" jsId="strads" url="<%=urlMando.setMode(Mode_ADS)%>"></div>
-          <div dojoType="dojo.data.ItemFileReadStore" jsId="strichief" url="<%=urlMando.setMode(Mode_IBSS)%>"></div>
+          <!--div dojoType="dojo.data.ItemFileReadStore" jsId="strichief" url="<%=urlMando.setMode(Mode_IBSS)%>"></div-->
+          <div dojoType="dojo.data.ItemFileReadStore" jsId="strichief" url="<%=provisional%>"></div>
           <p class="tercio">
               <label for="ads"><em>*</em><%=paramRequest.getLocaleString("lblDr")%></label>
-              <input name="ads" id="ads" dojoType="dijit.form.FilteringSelect" required="true" value="<%=(request.getParameter("ads")!=null?request.getParameter("ads"):adscription==null?"":adscription.getId())%>" store="strads" onChange="dijit.byId('chief').attr('value','');dijit.byId('chief').query.dir = this.value || '*';" promptMessage="<%=paramRequest.getLocaleString("promptMsgDr")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultDr")%>" />
+              <input name="ads" id="ads" dojoType="dijit.form.FilteringSelect" required="true" value="<%=(request.getParameter("ads")!=null?request.getParameter("ads"):adscription==null?"":adscription.getId())%>" store="strads" onChange="dijit.byId('chief').attr('value','');dijit.byId('chief').query.dir = this.value;" promptMessage="<%=paramRequest.getLocaleString("promptMsgDr")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultDr")%>" />
           </p>
           <p class="tercio">
               <label for="chief"><em>*</em><%=paramRequest.getLocaleString("lblIBoss")%></label>
@@ -263,7 +264,7 @@ dojo.declare(
         <script type="text/javascript">
         <!--
           dojo.addOnLoad(function(){
-              collapse('acercade_mi');         
+              collapse('acercade_mi');
 <%
         if(request.getParameter("alertmsg")!=null) {
             out.println("alert('"+request.getParameter("alertmsg")+"');");
