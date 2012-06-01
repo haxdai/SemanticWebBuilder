@@ -131,7 +131,7 @@ dojo.declare(
 <div class="postit">
  <label for="postit"><%=paramRequest.getLocaleString("lblPostit")%></label>
  <div class="dialogo_postit"></div>
- <input onfocus="this.textbox.value=''" onblur="if(isEmpty(this.textbox.value))this.textbox.value='<%=paramRequest.getLocaleString("lblPostit")%>'" type="text" name="postit" id="postit" dojoType="dijit.form.ValidationTextBox" value="<%=(request.getParameter("postit")!=null?request.getParameter("postit"):profile.getPostit()==null||profile.getPostit().isEmpty()?paramRequest.getLocaleString("lblPostit"):profile.getPostit())%>" promptMessage="<%=paramRequest.getLocaleString("promptMsgPostit")%>" trim="true"  />
+ <input onfocus="if(this.textbox.value=='<%=paramRequest.getLocaleString("lblPostit")%>')this.textbox.value=''" onblur="if(isEmpty(this.textbox.value))this.textbox.value='<%=paramRequest.getLocaleString("lblPostit")%>'" type="text" name="postit" id="postit" dojoType="dijit.form.ValidationTextBox" value="<%=(request.getParameter("postit")!=null?request.getParameter("postit"):profile.getPostit()==null||profile.getPostit().isEmpty()?paramRequest.getLocaleString("lblPostit"):profile.getPostit())%>" promptMessage="<%=paramRequest.getLocaleString("promptMsgPostit")%>" trim="true"  />
 </div>
           </div>
           <!--p class="mas_deMi">
@@ -266,6 +266,14 @@ dojo.declare(
           dojo.addOnLoad(function(){
               collapse('acercade_mi');
 <%
+        if(request.getParameter("ads")!=null) {
+            out.println("dijit.byId('chief').query.dir='"+request.getParameter("ads")+"';");
+        }else if(adscription!=null) {
+            out.println("dijit.byId('chief').query.dir='"+adscription.getId()+"';");
+        }else {
+            out.println("dijit.byId('chief').query.dir='null';");
+        }
+
         if(request.getParameter("alertmsg")!=null) {
             out.println("alert('"+request.getParameter("alertmsg")+"');");
         }
