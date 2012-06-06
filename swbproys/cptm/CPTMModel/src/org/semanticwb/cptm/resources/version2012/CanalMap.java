@@ -74,7 +74,7 @@ public class CanalMap extends GenericResource {
             SWBParamRequest paramRequest) throws SWBResourceException, IOException {
 
         String path = SWBPortal.getWebWorkPath() + "/models/"
-                + paramRequest.getWebPage().getWebSiteId() + "/jsp/ShowCanalMap.jsp";
+                + paramRequest.getWebPage().getWebSiteId() + "/jsp/ShowNavigator.jsp";
         RequestDispatcher rd = request.getRequestDispatcher(path);
         try {
             request.setAttribute("paramRequest", paramRequest);
@@ -148,6 +148,17 @@ public class CanalMap extends GenericResource {
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
 
+        String path = SWBPortal.getWebWorkPath() + "/models/"
+                + paramRequest.getWebPage().getWebSiteId() + "/jsp/GetLocations.jsp";
+        RequestDispatcher rd = request.getRequestDispatcher(path);
+        try {
+            request.setAttribute("paramRequest", paramRequest);
+            rd.include(request, response);
+        } catch(Exception e) {
+            log.error(e);
+        }
+
+        /*
         String elementsToShow = request.getParameter("elements");
         String elementId = request.getParameter("locsOf");
         String lang = paramRequest.getUser().getLanguage();
@@ -188,6 +199,7 @@ public class CanalMap extends GenericResource {
                 out.print("Ocurrio un problema al escribir la respuesta.");
             }
         }
+         */
 
     }
 
