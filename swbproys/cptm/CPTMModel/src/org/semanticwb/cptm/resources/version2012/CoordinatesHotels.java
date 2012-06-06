@@ -111,7 +111,15 @@ public class CoordinatesHotels extends GenericAdmResource {
                 JSONObject coordinate = new JSONObject();
                 Map.Entry coordinateHotel = (Map.Entry) itCoordinates.next();
                 try {
-                    coordinate.putOpt(coordinateHotel.getKey().toString(), coordinateHotel.getValue());
+                    String[] coord = coordinateHotel.getValue().toString().split(",");
+                    if (coord != null && coord.length == 2) {
+                        //coordinate.putOpt(coordinateHotel.getKey().toString(), coordinateHotel.getValue());
+                        coordinate.put("name", coordinateHotel.getKey().toString());
+                        coordinate.put("latitude", coord[0]);
+                        coordinate.put("longitude", coord[1]);
+                        coordinate.put("objType", "HotelsMex");
+                        listHotels.put(coordinate);
+                    }
                 } catch(Exception e){
                     log.error(e);
                 }
