@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que se encarga de administrar parametros en general que puedan ser utilizados en el desarrollo del sistema. 
    */
-public abstract class ParameterBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Sortable
+public abstract class ParameterBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,org.semanticwb.model.Sortable
 {
    /**
    * Clase que se encarga de administrar parametros en general que puedan ser utilizados en el desarrollo del sistema.

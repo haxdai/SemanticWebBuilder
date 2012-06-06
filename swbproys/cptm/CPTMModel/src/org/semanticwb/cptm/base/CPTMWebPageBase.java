@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Páginas web para Puntos Geográficos, se agrego esta clase para que solo se pudieran agregar Puntos geográficos en un elemento de tipo "Estado/State" 
    */
-public abstract class CPTMWebPageBase extends org.semanticwb.cptm.CPTMGeneralWebPage implements org.semanticwb.model.Rankable,org.semanticwb.model.Localeable,org.semanticwb.model.Trashable,org.semanticwb.model.Referensable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Searchable,org.semanticwb.model.Traceable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Viewable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.FilterableNode,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Hiddenable,org.semanticwb.model.MetaTagable,org.semanticwb.model.Tagable,org.semanticwb.model.Resourceable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Indexable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Activeable,org.semanticwb.cptm.CptmDescriptionPage,org.semanticwb.model.Expirable,org.semanticwb.model.Countryable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RoleRefable
+public abstract class CPTMWebPageBase extends org.semanticwb.cptm.CPTMGeneralWebPage implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Filterable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Localeable,org.semanticwb.model.Hiddenable,org.semanticwb.model.RoleRefable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Viewable,org.semanticwb.model.MetaTagable,org.semanticwb.model.Trashable,org.semanticwb.model.Resourceable,org.semanticwb.cptm.Videoable,org.semanticwb.model.Expirable,org.semanticwb.model.Undeleteable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Searchable,org.semanticwb.model.RuleRefable,org.semanticwb.model.TemplateRefable,org.semanticwb.cptm.CptmDescriptionPage,org.semanticwb.model.Rankable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Traceable,org.semanticwb.model.Referensable,org.semanticwb.model.Indexable,org.semanticwb.model.Tagable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Countryable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Activeable
 {
    /**
    * Páginas web para Puntos Geográficos, se agrego esta clase para que solo se pudieran agregar Puntos geográficos en un elemento de tipo "Estado/State"
@@ -593,6 +593,24 @@ public abstract class CPTMWebPageBase extends org.semanticwb.cptm.CPTMGeneralWeb
     public CPTMWebPageBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+/**
+* Gets the Videoyoutube property
+* @return String with the Videoyoutube
+*/
+    public String getVideoyoutube()
+    {
+        return getSemanticObject().getProperty(cptm_videoyoutube);
+    }
+
+/**
+* Sets the Videoyoutube property
+* @param value long with the Videoyoutube
+*/
+    public void setVideoyoutube(String value)
+    {
+        getSemanticObject().setProperty(cptm_videoyoutube, value);
     }
 
    /**
