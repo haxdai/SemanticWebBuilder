@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Categorías para los tipos de Eventos, ej. "Turisticos", Industria de Negocio" 
    */
-public abstract class EventCategoryBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class EventCategoryBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
    /**
    * Clase que hereda de WebPage.Mediante estas se administra el catálogo de tipos de eventos.pueden ser Ej. "Carnavales", "Congresos", etc

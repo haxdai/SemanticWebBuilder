@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Experiencia en un específico "Destino", si le quisiera agregar un Directorio de empresas aqui, tendría que tener una relación además de con el Destino, con el objeto  SPType 
    */
-public abstract class ExperienceRefBase extends org.semanticwb.cptm.CPTMGeneralWebPage implements org.semanticwb.model.Rankable,org.semanticwb.model.Localeable,org.semanticwb.model.Trashable,org.semanticwb.model.Referensable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Searchable,org.semanticwb.model.Traceable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Viewable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.FilterableNode,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Hiddenable,org.semanticwb.model.MetaTagable,org.semanticwb.model.Tagable,org.semanticwb.model.Resourceable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Indexable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Activeable,org.semanticwb.cptm.CptmDescriptionPage,org.semanticwb.model.Expirable,org.semanticwb.model.Countryable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RoleRefable
+public abstract class ExperienceRefBase extends org.semanticwb.cptm.CPTMGeneralWebPage implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Filterable,org.semanticwb.model.UserGroupRefable,org.semanticwb.cptm.CptmGeo,org.semanticwb.model.Localeable,org.semanticwb.model.Hiddenable,org.semanticwb.model.RoleRefable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Viewable,org.semanticwb.model.MetaTagable,org.semanticwb.model.Trashable,org.semanticwb.model.Resourceable,org.semanticwb.cptm.Videoable,org.semanticwb.model.Expirable,org.semanticwb.model.Undeleteable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Searchable,org.semanticwb.model.RuleRefable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Rankable,org.semanticwb.cptm.CptmDescriptionPage,org.semanticwb.model.FilterableClass,org.semanticwb.model.Traceable,org.semanticwb.model.Referensable,org.semanticwb.model.Indexable,org.semanticwb.model.Tagable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Countryable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Activeable
 {
    /**
    * Clase principal del sistema de visit-méxico. Una instancia de esta clase es en donde se almacena toda la información de un proveedor de servicios especifico.
@@ -678,6 +678,42 @@ public abstract class ExperienceRefBase extends org.semanticwb.cptm.CPTMGeneralW
     {
         super(base);
     }
+
+/**
+* Gets the Videoyoutube property
+* @return String with the Videoyoutube
+*/
+    public String getVideoyoutube()
+    {
+        return getSemanticObject().getProperty(cptm_videoyoutube);
+    }
+
+/**
+* Sets the Videoyoutube property
+* @param value long with the Videoyoutube
+*/
+    public void setVideoyoutube(String value)
+    {
+        getSemanticObject().setProperty(cptm_videoyoutube, value);
+    }
+
+/**
+* Gets the Cptm_latitude property
+* @return float with the Cptm_latitude
+*/
+    public float getCptm_latitude()
+    {
+        return getSemanticObject().getFloatProperty(cptm_cptm_latitude);
+    }
+
+/**
+* Sets the Cptm_latitude property
+* @param value long with the Cptm_latitude
+*/
+    public void setCptm_latitude(float value)
+    {
+        getSemanticObject().setFloatProperty(cptm_cptm_latitude, value);
+    }
    /**
    * Gets all the org.semanticwb.cptm.Company
    * @return A GenericIterator with all the org.semanticwb.cptm.Company
@@ -754,6 +790,24 @@ public abstract class ExperienceRefBase extends org.semanticwb.cptm.CPTMGeneralW
              ret=(org.semanticwb.cptm.LocalityInt)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the Cptm_longitude property
+* @return float with the Cptm_longitude
+*/
+    public float getCptm_longitude()
+    {
+        return getSemanticObject().getFloatProperty(cptm_cptm_longitude);
+    }
+
+/**
+* Sets the Cptm_longitude property
+* @param value long with the Cptm_longitude
+*/
+    public void setCptm_longitude(float value)
+    {
+        getSemanticObject().setFloatProperty(cptm_cptm_longitude, value);
     }
    /**
    * Sets the value for the property Experience
