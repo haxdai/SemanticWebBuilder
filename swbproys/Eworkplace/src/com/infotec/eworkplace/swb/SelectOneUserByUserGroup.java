@@ -133,6 +133,10 @@ public class SelectOneUserByUserGroup extends com.infotec.eworkplace.swb.base.Se
             if (val != null) {
                 uri   = val.getURI();
                 value = val.getDisplayName(lang);
+                if (isUserRepository()) {
+                    User user = (User)val.createGenericInstance();
+                    value =  user.getFullName();
+                }
             }
 
             if (mode.equals("edit") || mode.equals("create") || mode.equals("filter")) {
