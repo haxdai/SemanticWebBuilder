@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class TileBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Calendarable,org.semanticwb.model.Traceable
+public abstract class TileBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Calendarable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable
 {
     public static final org.semanticwb.platform.SemanticClass conorg_Topic=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#Topic");
     public static final org.semanticwb.platform.SemanticProperty conorg_hasTopic=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#hasTopic");
@@ -323,6 +323,39 @@ public abstract class TileBase extends org.semanticwb.model.SWBClass implements 
          }
          return ret;
     }
+
+/**
+* Gets the Title property
+* @return String with the Title
+*/
+    public String getTitle()
+    {
+        return getSemanticObject().getProperty(swb_title);
+    }
+
+/**
+* Sets the Title property
+* @param value long with the Title
+*/
+    public void setTitle(String value)
+    {
+        getSemanticObject().setProperty(swb_title, value);
+    }
+
+    public String getTitle(String lang)
+    {
+        return getSemanticObject().getProperty(swb_title, null, lang);
+    }
+
+    public String getDisplayTitle(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_title, lang);
+    }
+
+    public void setTitle(String title, String lang)
+    {
+        getSemanticObject().setProperty(swb_title, title, lang);
+    }
    /**
    * Gets all the com.infotec.conorg.Topic
    * @return A GenericIterator with all the com.infotec.conorg.Topic
@@ -390,36 +423,21 @@ public abstract class TileBase extends org.semanticwb.model.SWBClass implements 
     }
 
 /**
-* Gets the Title property
-* @return String with the Title
+* Gets the Created property
+* @return java.util.Date with the Created
 */
-    public String getTitle()
+    public java.util.Date getCreated()
     {
-        return getSemanticObject().getProperty(swb_title);
+        return getSemanticObject().getDateProperty(swb_created);
     }
 
 /**
-* Sets the Title property
-* @param value long with the Title
+* Sets the Created property
+* @param value long with the Created
 */
-    public void setTitle(String value)
+    public void setCreated(java.util.Date value)
     {
-        getSemanticObject().setProperty(swb_title, value);
-    }
-
-    public String getTitle(String lang)
-    {
-        return getSemanticObject().getProperty(swb_title, null, lang);
-    }
-
-    public String getDisplayTitle(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_title, lang);
-    }
-
-    public void setTitle(String title, String lang)
-    {
-        getSemanticObject().setProperty(swb_title, title, lang);
+        getSemanticObject().setDateProperty(swb_created, value);
     }
 
 /**
@@ -438,24 +456,6 @@ public abstract class TileBase extends org.semanticwb.model.SWBClass implements 
     public void setUpdated(java.util.Date value)
     {
         getSemanticObject().setDateProperty(swb_updated, value);
-    }
-
-/**
-* Gets the Created property
-* @return java.util.Date with the Created
-*/
-    public java.util.Date getCreated()
-    {
-        return getSemanticObject().getDateProperty(swb_created);
-    }
-
-/**
-* Sets the Created property
-* @param value long with the Created
-*/
-    public void setCreated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_created, value);
     }
 
 /**

@@ -1,10 +1,8 @@
 package com.infotec.conorg.base;
 
 
-public abstract class PlaceBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Traceable
+public abstract class PlaceBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.OntologyDepable,org.semanticwb.model.FilterableClass,org.semanticwb.model.FilterableNode,org.semanticwb.model.Undeleteable,org.semanticwb.model.Trashable,org.semanticwb.model.Tagable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Activeable,org.semanticwb.model.Countryable,org.semanticwb.model.Filterable,org.semanticwb.model.Indexable,org.semanticwb.model.Localeable,org.semanticwb.model.Traceable
 {
-    public static final org.semanticwb.platform.SemanticClass conorg_Member=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#Member");
-    public static final org.semanticwb.platform.SemanticProperty conorg_hasMember=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#hasMember");
     public static final org.semanticwb.platform.SemanticClass conorg_WorkSpace=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#WorkSpace");
     public static final org.semanticwb.platform.SemanticProperty conorg_hasWorkSpace=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#hasWorkSpace");
     public static final org.semanticwb.platform.SemanticClass conorg_Place=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#Place");
@@ -106,49 +104,72 @@ public abstract class PlaceBase extends org.semanticwb.model.SWBClass implements
             return it;
         }
        /**
-       * Gets all com.infotec.conorg.Place with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
+       * Gets all com.infotec.conorg.Place with a determined SubModel
+       * @param value SubModel of the type org.semanticwb.model.SWBModel
        * @param model Model of the com.infotec.conorg.Place
        * @return Iterator with all the com.infotec.conorg.Place
        */
 
-        public static java.util.Iterator<com.infotec.conorg.Place> listPlaceByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<com.infotec.conorg.Place> listPlaceBySubModel(org.semanticwb.model.SWBModel value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<com.infotec.conorg.Place> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Place> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasSubModel, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all com.infotec.conorg.Place with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
+       * Gets all com.infotec.conorg.Place with a determined SubModel
+       * @param value SubModel of the type org.semanticwb.model.SWBModel
        * @return Iterator with all the com.infotec.conorg.Place
        */
 
-        public static java.util.Iterator<com.infotec.conorg.Place> listPlaceByCreator(org.semanticwb.model.User value)
+        public static java.util.Iterator<com.infotec.conorg.Place> listPlaceBySubModel(org.semanticwb.model.SWBModel value)
         {
-            org.semanticwb.model.GenericIterator<com.infotec.conorg.Place> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Place> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasSubModel,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all com.infotec.conorg.Place with a determined Member
-       * @param value Member of the type com.infotec.conorg.Member
+       * Gets all com.infotec.conorg.Place with a determined DefaultTemplate
+       * @param value DefaultTemplate of the type org.semanticwb.model.Template
        * @param model Model of the com.infotec.conorg.Place
        * @return Iterator with all the com.infotec.conorg.Place
        */
 
-        public static java.util.Iterator<com.infotec.conorg.Place> listPlaceByMember(com.infotec.conorg.Member value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<com.infotec.conorg.Place> listPlaceByDefaultTemplate(org.semanticwb.model.Template value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<com.infotec.conorg.Place> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(conorg_hasMember, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Place> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_defaultTemplate, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all com.infotec.conorg.Place with a determined Member
-       * @param value Member of the type com.infotec.conorg.Member
+       * Gets all com.infotec.conorg.Place with a determined DefaultTemplate
+       * @param value DefaultTemplate of the type org.semanticwb.model.Template
        * @return Iterator with all the com.infotec.conorg.Place
        */
 
-        public static java.util.Iterator<com.infotec.conorg.Place> listPlaceByMember(com.infotec.conorg.Member value)
+        public static java.util.Iterator<com.infotec.conorg.Place> listPlaceByDefaultTemplate(org.semanticwb.model.Template value)
         {
-            org.semanticwb.model.GenericIterator<com.infotec.conorg.Place> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(conorg_hasMember,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Place> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_defaultTemplate,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Place with a determined Country
+       * @param value Country of the type org.semanticwb.model.Country
+       * @param model Model of the com.infotec.conorg.Place
+       * @return Iterator with all the com.infotec.conorg.Place
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Place> listPlaceByCountry(org.semanticwb.model.Country value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Place> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_country, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Place with a determined Country
+       * @param value Country of the type org.semanticwb.model.Country
+       * @return Iterator with all the com.infotec.conorg.Place
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Place> listPlaceByCountry(org.semanticwb.model.Country value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Place> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_country,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -174,6 +195,167 @@ public abstract class PlaceBase extends org.semanticwb.model.SWBClass implements
             org.semanticwb.model.GenericIterator<com.infotec.conorg.Place> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(conorg_hasWorkSpace,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all com.infotec.conorg.Place with a determined Language
+       * @param value Language of the type org.semanticwb.model.Language
+       * @param model Model of the com.infotec.conorg.Place
+       * @return Iterator with all the com.infotec.conorg.Place
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Place> listPlaceByLanguage(org.semanticwb.model.Language value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Place> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_language, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Place with a determined Language
+       * @param value Language of the type org.semanticwb.model.Language
+       * @return Iterator with all the com.infotec.conorg.Place
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Place> listPlaceByLanguage(org.semanticwb.model.Language value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Place> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_language,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Place with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @param model Model of the com.infotec.conorg.Place
+       * @return Iterator with all the com.infotec.conorg.Place
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Place> listPlaceByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Place> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Place with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @return Iterator with all the com.infotec.conorg.Place
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Place> listPlaceByCreator(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Place> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Place with a determined Ontology
+       * @param value Ontology of the type org.semanticwb.model.Ontology
+       * @param model Model of the com.infotec.conorg.Place
+       * @return Iterator with all the com.infotec.conorg.Place
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Place> listPlaceByOntology(org.semanticwb.model.Ontology value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Place> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasOntology, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Place with a determined Ontology
+       * @param value Ontology of the type org.semanticwb.model.Ontology
+       * @return Iterator with all the com.infotec.conorg.Place
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Place> listPlaceByOntology(org.semanticwb.model.Ontology value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Place> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasOntology,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Place with a determined HomePage
+       * @param value HomePage of the type org.semanticwb.model.WebPage
+       * @param model Model of the com.infotec.conorg.Place
+       * @return Iterator with all the com.infotec.conorg.Place
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Place> listPlaceByHomePage(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Place> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_homePage, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Place with a determined HomePage
+       * @param value HomePage of the type org.semanticwb.model.WebPage
+       * @return Iterator with all the com.infotec.conorg.Place
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Place> listPlaceByHomePage(org.semanticwb.model.WebPage value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Place> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_homePage,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Place with a determined UserRepository
+       * @param value UserRepository of the type org.semanticwb.model.UserRepository
+       * @param model Model of the com.infotec.conorg.Place
+       * @return Iterator with all the com.infotec.conorg.Place
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Place> listPlaceByUserRepository(org.semanticwb.model.UserRepository value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Place> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_userRepository, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Place with a determined UserRepository
+       * @param value UserRepository of the type org.semanticwb.model.UserRepository
+       * @return Iterator with all the com.infotec.conorg.Place
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Place> listPlaceByUserRepository(org.semanticwb.model.UserRepository value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Place> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_userRepository,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Place with a determined ParentWebSite
+       * @param value ParentWebSite of the type org.semanticwb.model.WebSite
+       * @param model Model of the com.infotec.conorg.Place
+       * @return Iterator with all the com.infotec.conorg.Place
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Place> listPlaceByParentWebSite(org.semanticwb.model.WebSite value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Place> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_parentWebSite, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Place with a determined ParentWebSite
+       * @param value ParentWebSite of the type org.semanticwb.model.WebSite
+       * @return Iterator with all the com.infotec.conorg.Place
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Place> listPlaceByParentWebSite(org.semanticwb.model.WebSite value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Place> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_parentWebSite,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Place with a determined ModelProperty
+       * @param value ModelProperty of the type org.semanticwb.model.ModelProperty
+       * @param model Model of the com.infotec.conorg.Place
+       * @return Iterator with all the com.infotec.conorg.Place
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Place> listPlaceByModelProperty(org.semanticwb.model.ModelProperty value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Place> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasModelProperty, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Place with a determined ModelProperty
+       * @param value ModelProperty of the type org.semanticwb.model.ModelProperty
+       * @return Iterator with all the com.infotec.conorg.Place
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Place> listPlaceByModelProperty(org.semanticwb.model.ModelProperty value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Place> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasModelProperty,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
    /**
@@ -183,282 +365,6 @@ public abstract class PlaceBase extends org.semanticwb.model.SWBClass implements
     public PlaceBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
-    }
-   /**
-   * Sets the value for the property ModifiedBy
-   * @param value ModifiedBy to set
-   */
-
-    public void setModifiedBy(org.semanticwb.model.User value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(swb_modifiedBy, value.getSemanticObject());
-        }else
-        {
-            removeModifiedBy();
-        }
-    }
-   /**
-   * Remove the value for ModifiedBy property
-   */
-
-    public void removeModifiedBy()
-    {
-        getSemanticObject().removeProperty(swb_modifiedBy);
-    }
-
-   /**
-   * Gets the ModifiedBy
-   * @return a org.semanticwb.model.User
-   */
-    public org.semanticwb.model.User getModifiedBy()
-    {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_modifiedBy);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Sets the value for the property Creator
-   * @param value Creator to set
-   */
-
-    public void setCreator(org.semanticwb.model.User value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(swb_creator, value.getSemanticObject());
-        }else
-        {
-            removeCreator();
-        }
-    }
-   /**
-   * Remove the value for Creator property
-   */
-
-    public void removeCreator()
-    {
-        getSemanticObject().removeProperty(swb_creator);
-    }
-
-   /**
-   * Gets the Creator
-   * @return a org.semanticwb.model.User
-   */
-    public org.semanticwb.model.User getCreator()
-    {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_creator);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
-    }
-
-/**
-* Gets the Title property
-* @return String with the Title
-*/
-    public String getTitle()
-    {
-        return getSemanticObject().getProperty(swb_title);
-    }
-
-/**
-* Sets the Title property
-* @param value long with the Title
-*/
-    public void setTitle(String value)
-    {
-        getSemanticObject().setProperty(swb_title, value);
-    }
-
-    public String getTitle(String lang)
-    {
-        return getSemanticObject().getProperty(swb_title, null, lang);
-    }
-
-    public String getDisplayTitle(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_title, lang);
-    }
-
-    public void setTitle(String title, String lang)
-    {
-        getSemanticObject().setProperty(swb_title, title, lang);
-    }
-
-/**
-* Gets the Updated property
-* @return java.util.Date with the Updated
-*/
-    public java.util.Date getUpdated()
-    {
-        return getSemanticObject().getDateProperty(swb_updated);
-    }
-
-/**
-* Sets the Updated property
-* @param value long with the Updated
-*/
-    public void setUpdated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_updated, value);
-    }
-
-/**
-* Gets the Created property
-* @return java.util.Date with the Created
-*/
-    public java.util.Date getCreated()
-    {
-        return getSemanticObject().getDateProperty(swb_created);
-    }
-
-/**
-* Sets the Created property
-* @param value long with the Created
-*/
-    public void setCreated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_created, value);
-    }
-
-/**
-* Gets the Description property
-* @return String with the Description
-*/
-    public String getDescription()
-    {
-        return getSemanticObject().getProperty(swb_description);
-    }
-
-/**
-* Sets the Description property
-* @param value long with the Description
-*/
-    public void setDescription(String value)
-    {
-        getSemanticObject().setProperty(swb_description, value);
-    }
-
-    public String getDescription(String lang)
-    {
-        return getSemanticObject().getProperty(swb_description, null, lang);
-    }
-
-    public String getDisplayDescription(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_description, lang);
-    }
-
-    public void setDescription(String description, String lang)
-    {
-        getSemanticObject().setProperty(swb_description, description, lang);
-    }
-
-/**
-* Gets the Tags property
-* @return String with the Tags
-*/
-    public String getTags()
-    {
-        return getSemanticObject().getProperty(swb_tags);
-    }
-
-/**
-* Sets the Tags property
-* @param value long with the Tags
-*/
-    public void setTags(String value)
-    {
-        getSemanticObject().setProperty(swb_tags, value);
-    }
-
-    public String getTags(String lang)
-    {
-        return getSemanticObject().getProperty(swb_tags, null, lang);
-    }
-
-    public String getDisplayTags(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_tags, lang);
-    }
-
-    public void setTags(String tags, String lang)
-    {
-        getSemanticObject().setProperty(swb_tags, tags, lang);
-    }
-   /**
-   * Gets all the com.infotec.conorg.Member
-   * @return A GenericIterator with all the com.infotec.conorg.Member
-   */
-
-    public org.semanticwb.model.GenericIterator<com.infotec.conorg.Member> listMembers()
-    {
-        return new org.semanticwb.model.GenericIterator<com.infotec.conorg.Member>(getSemanticObject().listObjectProperties(conorg_hasMember));
-    }
-
-   /**
-   * Gets true if has a Member
-   * @param value com.infotec.conorg.Member to verify
-   * @return true if the com.infotec.conorg.Member exists, false otherwise
-   */
-    public boolean hasMember(com.infotec.conorg.Member value)
-    {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(conorg_hasMember,value.getSemanticObject());
-        }
-        return ret;
-    }
-   /**
-   * Adds a Member
-   * @param value com.infotec.conorg.Member to add
-   */
-
-    public void addMember(com.infotec.conorg.Member value)
-    {
-        getSemanticObject().addObjectProperty(conorg_hasMember, value.getSemanticObject());
-    }
-   /**
-   * Removes all the Member
-   */
-
-    public void removeAllMember()
-    {
-        getSemanticObject().removeProperty(conorg_hasMember);
-    }
-   /**
-   * Removes a Member
-   * @param value com.infotec.conorg.Member to remove
-   */
-
-    public void removeMember(com.infotec.conorg.Member value)
-    {
-        getSemanticObject().removeObjectProperty(conorg_hasMember,value.getSemanticObject());
-    }
-
-   /**
-   * Gets the Member
-   * @return a com.infotec.conorg.Member
-   */
-    public com.infotec.conorg.Member getMember()
-    {
-         com.infotec.conorg.Member ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(conorg_hasMember);
-         if(obj!=null)
-         {
-             ret=(com.infotec.conorg.Member)obj.createGenericInstance();
-         }
-         return ret;
     }
    /**
    * Gets all the com.infotec.conorg.WorkSpace
@@ -524,5 +430,38 @@ public abstract class PlaceBase extends org.semanticwb.model.SWBClass implements
              ret=(com.infotec.conorg.WorkSpace)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the Tags property
+* @return String with the Tags
+*/
+    public String getTags()
+    {
+        return getSemanticObject().getProperty(swb_tags);
+    }
+
+/**
+* Sets the Tags property
+* @param value long with the Tags
+*/
+    public void setTags(String value)
+    {
+        getSemanticObject().setProperty(swb_tags, value);
+    }
+
+    public String getTags(String lang)
+    {
+        return getSemanticObject().getProperty(swb_tags, null, lang);
+    }
+
+    public String getDisplayTags(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_tags, lang);
+    }
+
+    public void setTags(String tags, String lang)
+    {
+        getSemanticObject().setProperty(swb_tags, tags, lang);
     }
 }
