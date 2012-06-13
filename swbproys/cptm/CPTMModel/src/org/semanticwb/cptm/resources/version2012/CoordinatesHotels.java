@@ -54,14 +54,17 @@ public class CoordinatesHotels extends GenericAdmResource {
             pathFile = SWBPortal.getWorkPath() + base.getAttribute("pathFileTxt");
             File file = new File(pathFile);
             try {
+                if (!coordinates.isEmpty()) {
+                    coordinates.clear();
+                }
                 InputStreamReader streamReader = new InputStreamReader(new FileInputStream(file),"UTF-8");
                 BufferedReader buffer = new BufferedReader(streamReader);
                 String line = buffer.readLine().substring(2);
-                while(line != null) {
+                while (line != null) {
                     String[] data = line.split("\\t");
                     String title = data != null && data.length > 0 ? data[0] : null;
                     String coordinatesHotels = data != null && data.length > 0 ? data[1] : null;
-                    if(title != null && coordinatesHotels != null) {
+                    if (title != null && coordinatesHotels != null) {
                         coordinates.put(title, coordinatesHotels);
                     }
                     line = buffer.readLine();
