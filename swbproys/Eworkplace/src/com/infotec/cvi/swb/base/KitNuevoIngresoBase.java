@@ -4,7 +4,7 @@ package com.infotec.cvi.swb.base;
    /**
    * Elemento que contiene la información del Kit de nuevo ingreso de  la persona 
    */
-public abstract class KitNuevoIngresoBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,com.infotec.eworkplace.swb.KitSolicitable
+public abstract class KitNuevoIngresoBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,com.infotec.eworkplace.swb.Solicitable,com.infotec.eworkplace.swb.KitSolicitable
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_nivelPrivilegioLlamadas=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nivelPrivilegioLlamadas");
     public static final org.semanticwb.platform.SemanticProperty intranet_requiereMSI=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#requiereMSI");
@@ -193,6 +193,29 @@ public abstract class KitNuevoIngresoBase extends org.semanticwb.model.SWBClass 
         public static java.util.Iterator<com.infotec.cvi.swb.KitNuevoIngreso> listKitNuevoIngresoByNuevoRecurso(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.KitNuevoIngreso> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_nuevoRecurso,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.KitNuevoIngreso with a determined Solicitante
+       * @param value Solicitante of the type org.semanticwb.model.User
+       * @param model Model of the com.infotec.cvi.swb.KitNuevoIngreso
+       * @return Iterator with all the com.infotec.cvi.swb.KitNuevoIngreso
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.KitNuevoIngreso> listKitNuevoIngresoBySolicitante(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.KitNuevoIngreso> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_solicitante, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.KitNuevoIngreso with a determined Solicitante
+       * @param value Solicitante of the type org.semanticwb.model.User
+       * @return Iterator with all the com.infotec.cvi.swb.KitNuevoIngreso
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.KitNuevoIngreso> listKitNuevoIngresoBySolicitante(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.KitNuevoIngreso> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_solicitante,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -696,6 +719,24 @@ public abstract class KitNuevoIngresoBase extends org.semanticwb.model.SWBClass 
     }
 
 /**
+* Gets the ExtensionSolicitante property
+* @return String with the ExtensionSolicitante
+*/
+    public String getExtensionSolicitante()
+    {
+        return getSemanticObject().getProperty(intranet_extensionSolicitante);
+    }
+
+/**
+* Sets the ExtensionSolicitante property
+* @param value long with the ExtensionSolicitante
+*/
+    public void setExtensionSolicitante(String value)
+    {
+        getSemanticObject().setProperty(intranet_extensionSolicitante, value);
+    }
+
+/**
 * Gets the SolicitaListaCorreoExterno property
 * @return boolean with the SolicitaListaCorreoExterno
 */
@@ -732,6 +773,24 @@ public abstract class KitNuevoIngresoBase extends org.semanticwb.model.SWBClass 
     }
 
 /**
+* Gets the Autoriza property
+* @return String with the Autoriza
+*/
+    public String getAutoriza()
+    {
+        return getSemanticObject().getProperty(intranet_autoriza);
+    }
+
+/**
+* Sets the Autoriza property
+* @param value long with the Autoriza
+*/
+    public void setAutoriza(String value)
+    {
+        getSemanticObject().setProperty(intranet_autoriza, value);
+    }
+
+/**
 * Gets the VigenciaTarjeta property
 * @return java.util.Date with the VigenciaTarjeta
 */
@@ -750,6 +809,24 @@ public abstract class KitNuevoIngresoBase extends org.semanticwb.model.SWBClass 
     }
 
 /**
+* Gets the NumeroEmpleado property
+* @return int with the NumeroEmpleado
+*/
+    public int getNumeroEmpleado()
+    {
+        return getSemanticObject().getIntProperty(intranet_numeroEmpleado);
+    }
+
+/**
+* Sets the NumeroEmpleado property
+* @param value long with the NumeroEmpleado
+*/
+    public void setNumeroEmpleado(int value)
+    {
+        getSemanticObject().setIntProperty(intranet_numeroEmpleado, value);
+    }
+
+/**
 * Gets the SolicitaTarjetaAcceso property
 * @return boolean with the SolicitaTarjetaAcceso
 */
@@ -765,6 +842,62 @@ public abstract class KitNuevoIngresoBase extends org.semanticwb.model.SWBClass 
     public void setSolicitaTarjetaAcceso(boolean value)
     {
         getSemanticObject().setBooleanProperty(intranet_solicitaTarjetaAcceso, value);
+    }
+   /**
+   * Sets the value for the property Solicitante
+   * @param value Solicitante to set
+   */
+
+    public void setSolicitante(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_solicitante, value.getSemanticObject());
+        }else
+        {
+            removeSolicitante();
+        }
+    }
+   /**
+   * Remove the value for Solicitante property
+   */
+
+    public void removeSolicitante()
+    {
+        getSemanticObject().removeProperty(intranet_solicitante);
+    }
+
+   /**
+   * Gets the Solicitante
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getSolicitante()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_solicitante);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+/**
+* Gets the FechaSolicita property
+* @return java.util.Date with the FechaSolicita
+*/
+    public java.util.Date getFechaSolicita()
+    {
+        return getSemanticObject().getDateProperty(intranet_fechaSolicita);
+    }
+
+/**
+* Sets the FechaSolicita property
+* @param value long with the FechaSolicita
+*/
+    public void setFechaSolicita(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(intranet_fechaSolicita, value);
     }
 
 /**
@@ -912,6 +1045,24 @@ public abstract class KitNuevoIngresoBase extends org.semanticwb.model.SWBClass 
     {
         getSemanticObject().setBooleanProperty(intranet_accesoLMS, value);
     }
+
+/**
+* Gets the CargoSolicitante property
+* @return String with the CargoSolicitante
+*/
+    public String getCargoSolicitante()
+    {
+        return getSemanticObject().getProperty(intranet_cargoSolicitante);
+    }
+
+/**
+* Sets the CargoSolicitante property
+* @param value long with the CargoSolicitante
+*/
+    public void setCargoSolicitante(String value)
+    {
+        getSemanticObject().setProperty(intranet_cargoSolicitante, value);
+    }
    /**
    * Sets the value for the property RecursoKit
    * @param value RecursoKit to set
@@ -949,6 +1100,42 @@ public abstract class KitNuevoIngresoBase extends org.semanticwb.model.SWBClass 
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the AdscripcionSolicitante property
+* @return String with the AdscripcionSolicitante
+*/
+    public String getAdscripcionSolicitante()
+    {
+        return getSemanticObject().getProperty(intranet_adscripcionSolicitante);
+    }
+
+/**
+* Sets the AdscripcionSolicitante property
+* @param value long with the AdscripcionSolicitante
+*/
+    public void setAdscripcionSolicitante(String value)
+    {
+        getSemanticObject().setProperty(intranet_adscripcionSolicitante, value);
+    }
+
+/**
+* Gets the Folio property
+* @return String with the Folio
+*/
+    public String getFolio()
+    {
+        return getSemanticObject().getProperty(intranet_folio);
+    }
+
+/**
+* Sets the Folio property
+* @param value long with the Folio
+*/
+    public void setFolio(String value)
+    {
+        getSemanticObject().setProperty(intranet_folio, value);
     }
 
 /**
@@ -1113,5 +1300,23 @@ public abstract class KitNuevoIngresoBase extends org.semanticwb.model.SWBClass 
     public void setAccesoIntranet(boolean value)
     {
         getSemanticObject().setBooleanProperty(intranet_accesoIntranet, value);
+    }
+
+/**
+* Gets the NombreSolicitante property
+* @return String with the NombreSolicitante
+*/
+    public String getNombreSolicitante()
+    {
+        return getSemanticObject().getProperty(intranet_nombreSolicitante);
+    }
+
+/**
+* Sets the NombreSolicitante property
+* @param value long with the NombreSolicitante
+*/
+    public void setNombreSolicitante(String value)
+    {
+        getSemanticObject().setProperty(intranet_nombreSolicitante, value);
     }
 }
