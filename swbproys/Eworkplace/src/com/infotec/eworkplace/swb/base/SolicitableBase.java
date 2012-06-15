@@ -11,6 +11,7 @@ public interface SolicitableBase extends org.semanticwb.model.GenericObject
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaSolicita=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaSolicita");
     public static final org.semanticwb.platform.SemanticProperty intranet_cargoSolicitante=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#cargoSolicitante");
     public static final org.semanticwb.platform.SemanticProperty intranet_adscripcionSolicitante=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#adscripcionSolicitante");
+    public static final org.semanticwb.platform.SemanticProperty intranet_folio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#folio");
     public static final org.semanticwb.platform.SemanticProperty intranet_extensionSolicitante=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#extensionSolicitante");
     public static final org.semanticwb.platform.SemanticProperty intranet_nombreSolicitante=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nombreSolicitante");
     public static final org.semanticwb.platform.SemanticProperty intranet_autoriza=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#autoriza");
@@ -44,6 +45,10 @@ public interface SolicitableBase extends org.semanticwb.model.GenericObject
     public String getAdscripcionSolicitante();
 
     public void setAdscripcionSolicitante(String value);
+
+    public String getFolio();
+
+    public void setFolio(String value);
 
     public String getExtensionSolicitante();
 

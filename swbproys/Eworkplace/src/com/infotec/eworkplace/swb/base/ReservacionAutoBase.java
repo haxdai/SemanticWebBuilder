@@ -249,6 +249,24 @@ public abstract class ReservacionAutoBase extends org.semanticwb.model.SWBClass 
     }
 
 /**
+* Gets the Folio property
+* @return String with the Folio
+*/
+    public String getFolio()
+    {
+        return getSemanticObject().getProperty(intranet_folio);
+    }
+
+/**
+* Sets the Folio property
+* @param value long with the Folio
+*/
+    public void setFolio(String value)
+    {
+        getSemanticObject().setProperty(intranet_folio, value);
+    }
+
+/**
 * Gets the FechaSalida property
 * @return java.util.Date with the FechaSalida
 */
