@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class ReferenceBase extends com.infotec.conorg.Document implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Calendarable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable
+public abstract class ReferenceBase extends com.infotec.conorg.Document implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Versionable,org.semanticwb.model.Calendarable,org.semanticwb.model.Tagable,org.semanticwb.model.Traceable
 {
     public static final org.semanticwb.platform.SemanticClass conorg_Reference=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#Reference");
    /**
@@ -125,6 +125,29 @@ public abstract class ReferenceBase extends com.infotec.conorg.Document implemen
             return it;
         }
        /**
+       * Gets all com.infotec.conorg.Reference with a determined ActualVersion
+       * @param value ActualVersion of the type org.semanticwb.model.VersionInfo
+       * @param model Model of the com.infotec.conorg.Reference
+       * @return Iterator with all the com.infotec.conorg.Reference
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Reference> listReferenceByActualVersion(org.semanticwb.model.VersionInfo value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Reference> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_actualVersion, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Reference with a determined ActualVersion
+       * @param value ActualVersion of the type org.semanticwb.model.VersionInfo
+       * @return Iterator with all the com.infotec.conorg.Reference
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Reference> listReferenceByActualVersion(org.semanticwb.model.VersionInfo value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Reference> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_actualVersion,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all com.infotec.conorg.Reference with a determined Editors
        * @param value Editors of the type com.infotec.conorg.Editors
        * @param model Model of the com.infotec.conorg.Reference
@@ -214,6 +237,29 @@ public abstract class ReferenceBase extends com.infotec.conorg.Document implemen
         public static java.util.Iterator<com.infotec.conorg.Reference> listReferenceByCreator(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.conorg.Reference> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Reference with a determined LastVersion
+       * @param value LastVersion of the type org.semanticwb.model.VersionInfo
+       * @param model Model of the com.infotec.conorg.Reference
+       * @return Iterator with all the com.infotec.conorg.Reference
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Reference> listReferenceByLastVersion(org.semanticwb.model.VersionInfo value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Reference> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_lastVersion, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Reference with a determined LastVersion
+       * @param value LastVersion of the type org.semanticwb.model.VersionInfo
+       * @return Iterator with all the com.infotec.conorg.Reference
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Reference> listReferenceByLastVersion(org.semanticwb.model.VersionInfo value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Reference> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_lastVersion,value.getSemanticObject(),sclass));
             return it;
         }
     }

@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class VideoBase extends com.infotec.conorg.Document implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Calendarable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable
+public abstract class VideoBase extends com.infotec.conorg.Document implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Versionable,org.semanticwb.model.Calendarable,org.semanticwb.model.Tagable,org.semanticwb.model.Traceable
 {
     public static final org.semanticwb.platform.SemanticProperty conorg_videoRights=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#videoRights");
     public static final org.semanticwb.platform.SemanticClass conorg_Video=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#Video");
@@ -126,6 +126,29 @@ public abstract class VideoBase extends com.infotec.conorg.Document implements o
             return it;
         }
        /**
+       * Gets all com.infotec.conorg.Video with a determined ActualVersion
+       * @param value ActualVersion of the type org.semanticwb.model.VersionInfo
+       * @param model Model of the com.infotec.conorg.Video
+       * @return Iterator with all the com.infotec.conorg.Video
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Video> listVideoByActualVersion(org.semanticwb.model.VersionInfo value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Video> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_actualVersion, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Video with a determined ActualVersion
+       * @param value ActualVersion of the type org.semanticwb.model.VersionInfo
+       * @return Iterator with all the com.infotec.conorg.Video
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Video> listVideoByActualVersion(org.semanticwb.model.VersionInfo value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Video> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_actualVersion,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all com.infotec.conorg.Video with a determined Editors
        * @param value Editors of the type com.infotec.conorg.Editors
        * @param model Model of the com.infotec.conorg.Video
@@ -215,6 +238,29 @@ public abstract class VideoBase extends com.infotec.conorg.Document implements o
         public static java.util.Iterator<com.infotec.conorg.Video> listVideoByCreator(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.conorg.Video> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Video with a determined LastVersion
+       * @param value LastVersion of the type org.semanticwb.model.VersionInfo
+       * @param model Model of the com.infotec.conorg.Video
+       * @return Iterator with all the com.infotec.conorg.Video
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Video> listVideoByLastVersion(org.semanticwb.model.VersionInfo value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Video> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_lastVersion, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Video with a determined LastVersion
+       * @param value LastVersion of the type org.semanticwb.model.VersionInfo
+       * @return Iterator with all the com.infotec.conorg.Video
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Video> listVideoByLastVersion(org.semanticwb.model.VersionInfo value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Video> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_lastVersion,value.getSemanticObject(),sclass));
             return it;
         }
     }

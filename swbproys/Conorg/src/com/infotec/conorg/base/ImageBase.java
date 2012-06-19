@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class ImageBase extends com.infotec.conorg.Document implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Calendarable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable
+public abstract class ImageBase extends com.infotec.conorg.Document implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Versionable,org.semanticwb.model.Calendarable,org.semanticwb.model.Tagable,org.semanticwb.model.Traceable
 {
     public static final org.semanticwb.platform.SemanticProperty conorg_imageRights=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#imageRights");
     public static final org.semanticwb.platform.SemanticClass conorg_Image=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#Image");
@@ -126,6 +126,29 @@ public abstract class ImageBase extends com.infotec.conorg.Document implements o
             return it;
         }
        /**
+       * Gets all com.infotec.conorg.Image with a determined ActualVersion
+       * @param value ActualVersion of the type org.semanticwb.model.VersionInfo
+       * @param model Model of the com.infotec.conorg.Image
+       * @return Iterator with all the com.infotec.conorg.Image
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Image> listImageByActualVersion(org.semanticwb.model.VersionInfo value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Image> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_actualVersion, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Image with a determined ActualVersion
+       * @param value ActualVersion of the type org.semanticwb.model.VersionInfo
+       * @return Iterator with all the com.infotec.conorg.Image
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Image> listImageByActualVersion(org.semanticwb.model.VersionInfo value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Image> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_actualVersion,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all com.infotec.conorg.Image with a determined Editors
        * @param value Editors of the type com.infotec.conorg.Editors
        * @param model Model of the com.infotec.conorg.Image
@@ -215,6 +238,29 @@ public abstract class ImageBase extends com.infotec.conorg.Document implements o
         public static java.util.Iterator<com.infotec.conorg.Image> listImageByCreator(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.conorg.Image> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Image with a determined LastVersion
+       * @param value LastVersion of the type org.semanticwb.model.VersionInfo
+       * @param model Model of the com.infotec.conorg.Image
+       * @return Iterator with all the com.infotec.conorg.Image
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Image> listImageByLastVersion(org.semanticwb.model.VersionInfo value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Image> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_lastVersion, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Image with a determined LastVersion
+       * @param value LastVersion of the type org.semanticwb.model.VersionInfo
+       * @return Iterator with all the com.infotec.conorg.Image
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Image> listImageByLastVersion(org.semanticwb.model.VersionInfo value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Image> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_lastVersion,value.getSemanticObject(),sclass));
             return it;
         }
     }

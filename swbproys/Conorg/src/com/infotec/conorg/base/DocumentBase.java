@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class DocumentBase extends com.infotec.conorg.Tile implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Calendarable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable
+public abstract class DocumentBase extends com.infotec.conorg.Tile implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Versionable,org.semanticwb.model.Calendarable,org.semanticwb.model.Tagable,org.semanticwb.model.Traceable
 {
     public static final org.semanticwb.platform.SemanticProperty conorg_documentPages=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#documentPages");
     public static final org.semanticwb.platform.SemanticProperty conorg_documentCity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#documentCity");
@@ -139,6 +139,29 @@ public abstract class DocumentBase extends com.infotec.conorg.Tile implements or
             return it;
         }
        /**
+       * Gets all com.infotec.conorg.Document with a determined ActualVersion
+       * @param value ActualVersion of the type org.semanticwb.model.VersionInfo
+       * @param model Model of the com.infotec.conorg.Document
+       * @return Iterator with all the com.infotec.conorg.Document
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Document> listDocumentByActualVersion(org.semanticwb.model.VersionInfo value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Document> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_actualVersion, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Document with a determined ActualVersion
+       * @param value ActualVersion of the type org.semanticwb.model.VersionInfo
+       * @return Iterator with all the com.infotec.conorg.Document
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Document> listDocumentByActualVersion(org.semanticwb.model.VersionInfo value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Document> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_actualVersion,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all com.infotec.conorg.Document with a determined Editors
        * @param value Editors of the type com.infotec.conorg.Editors
        * @param model Model of the com.infotec.conorg.Document
@@ -230,6 +253,29 @@ public abstract class DocumentBase extends com.infotec.conorg.Tile implements or
             org.semanticwb.model.GenericIterator<com.infotec.conorg.Document> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all com.infotec.conorg.Document with a determined LastVersion
+       * @param value LastVersion of the type org.semanticwb.model.VersionInfo
+       * @param model Model of the com.infotec.conorg.Document
+       * @return Iterator with all the com.infotec.conorg.Document
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Document> listDocumentByLastVersion(org.semanticwb.model.VersionInfo value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Document> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_lastVersion, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Document with a determined LastVersion
+       * @param value LastVersion of the type org.semanticwb.model.VersionInfo
+       * @return Iterator with all the com.infotec.conorg.Document
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Document> listDocumentByLastVersion(org.semanticwb.model.VersionInfo value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Document> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_lastVersion,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
    /**
@@ -239,6 +285,44 @@ public abstract class DocumentBase extends com.infotec.conorg.Tile implements or
     public DocumentBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+   /**
+   * Sets the value for the property ActualVersion
+   * @param value ActualVersion to set
+   */
+
+    public void setActualVersion(org.semanticwb.model.VersionInfo value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(swb_actualVersion, value.getSemanticObject());
+        }else
+        {
+            removeActualVersion();
+        }
+    }
+   /**
+   * Remove the value for ActualVersion property
+   */
+
+    public void removeActualVersion()
+    {
+        getSemanticObject().removeProperty(swb_actualVersion);
+    }
+
+   /**
+   * Gets the ActualVersion
+   * @return a org.semanticwb.model.VersionInfo
+   */
+    public org.semanticwb.model.VersionInfo getActualVersion()
+    {
+         org.semanticwb.model.VersionInfo ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_actualVersion);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.VersionInfo)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
@@ -549,5 +633,43 @@ public abstract class DocumentBase extends com.infotec.conorg.Tile implements or
     public void setDocumentFormat(String value)
     {
         getSemanticObject().setProperty(conorg_documentFormat, value);
+    }
+   /**
+   * Sets the value for the property LastVersion
+   * @param value LastVersion to set
+   */
+
+    public void setLastVersion(org.semanticwb.model.VersionInfo value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(swb_lastVersion, value.getSemanticObject());
+        }else
+        {
+            removeLastVersion();
+        }
+    }
+   /**
+   * Remove the value for LastVersion property
+   */
+
+    public void removeLastVersion()
+    {
+        getSemanticObject().removeProperty(swb_lastVersion);
+    }
+
+   /**
+   * Gets the LastVersion
+   * @return a org.semanticwb.model.VersionInfo
+   */
+    public org.semanticwb.model.VersionInfo getLastVersion()
+    {
+         org.semanticwb.model.VersionInfo ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_lastVersion);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.VersionInfo)obj.createGenericInstance();
+         }
+         return ret;
     }
 }
