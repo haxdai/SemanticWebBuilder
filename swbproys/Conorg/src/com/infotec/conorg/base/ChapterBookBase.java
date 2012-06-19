@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class ChapterBookBase extends com.infotec.conorg.Document implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Calendarable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable
+public abstract class ChapterBookBase extends com.infotec.conorg.Document implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Versionable,org.semanticwb.model.Calendarable,org.semanticwb.model.Tagable,org.semanticwb.model.Traceable
 {
     public static final org.semanticwb.platform.SemanticProperty conorg_catalogIDsDOI=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#catalogIDsDOI");
     public static final org.semanticwb.platform.SemanticProperty conorg_catalogIDsISBN=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#catalogIDsISBN");
@@ -128,6 +128,29 @@ public abstract class ChapterBookBase extends com.infotec.conorg.Document implem
             return it;
         }
        /**
+       * Gets all com.infotec.conorg.ChapterBook with a determined ActualVersion
+       * @param value ActualVersion of the type org.semanticwb.model.VersionInfo
+       * @param model Model of the com.infotec.conorg.ChapterBook
+       * @return Iterator with all the com.infotec.conorg.ChapterBook
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.ChapterBook> listChapterBookByActualVersion(org.semanticwb.model.VersionInfo value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.ChapterBook> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_actualVersion, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.ChapterBook with a determined ActualVersion
+       * @param value ActualVersion of the type org.semanticwb.model.VersionInfo
+       * @return Iterator with all the com.infotec.conorg.ChapterBook
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.ChapterBook> listChapterBookByActualVersion(org.semanticwb.model.VersionInfo value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.ChapterBook> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_actualVersion,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all com.infotec.conorg.ChapterBook with a determined Editors
        * @param value Editors of the type com.infotec.conorg.Editors
        * @param model Model of the com.infotec.conorg.ChapterBook
@@ -217,6 +240,29 @@ public abstract class ChapterBookBase extends com.infotec.conorg.Document implem
         public static java.util.Iterator<com.infotec.conorg.ChapterBook> listChapterBookByCreator(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.conorg.ChapterBook> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.ChapterBook with a determined LastVersion
+       * @param value LastVersion of the type org.semanticwb.model.VersionInfo
+       * @param model Model of the com.infotec.conorg.ChapterBook
+       * @return Iterator with all the com.infotec.conorg.ChapterBook
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.ChapterBook> listChapterBookByLastVersion(org.semanticwb.model.VersionInfo value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.ChapterBook> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_lastVersion, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.ChapterBook with a determined LastVersion
+       * @param value LastVersion of the type org.semanticwb.model.VersionInfo
+       * @return Iterator with all the com.infotec.conorg.ChapterBook
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.ChapterBook> listChapterBookByLastVersion(org.semanticwb.model.VersionInfo value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.ChapterBook> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_lastVersion,value.getSemanticObject(),sclass));
             return it;
         }
     }
