@@ -4,8 +4,6 @@
     Author     : juan.fernandez
 --%>
 
-<%@page import="com.infotec.cvi.swb.CursoTIC"%>
-<%@page import="com.infotec.cvi.swb.CV"%>
 <%@page import="org.semanticwb.portal.SWBFormMgr"%>
 <%@page import="org.semanticwb.model.WebPage"%>
 <%@page import="java.util.Set"%>
@@ -34,10 +32,10 @@
             User usr = paramRequest.getUser();
             Role role=null;
             
-            CV cv = CV.ClassMgr.getCV(usr.getId(), wsite);
-            if(cv==null) {
-                cv = CV.ClassMgr.createCV(usr.getId(),wsite);
-                cv.setPropietario(usr);
+            Shelf shelf = Shelf.ClassMgr.get(usr.getId(), wsite);
+            if(shelf==null) {
+                shelf = Shelf.ClassMgr.createCV(usr.getId(),wsite);
+                shelf.setPropietario(usr);
             }
             
             long intSize = SWBUtils.Collections.sizeOf(cv.listCursosTICs());
