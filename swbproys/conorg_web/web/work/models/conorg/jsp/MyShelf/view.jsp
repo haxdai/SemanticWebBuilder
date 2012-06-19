@@ -1,4 +1,4 @@
-<%--   
+<%--
     Document   : view Recurso Shelf
     Created on : 19/06/2012
     Author     : juan.fernandez
@@ -32,7 +32,7 @@
             User usr = paramRequest.getUser();
             Role role=null;
             
-            Shelf shelf = Shelf.ClassMgr.get(usr.getId(), wsite);
+            Shelf shelf = Shelf.ClassMgr.getShelf(usr.getId(), wsite);
             if(shelf==null) {
                 shelf = Shelf.ClassMgr.createCV(usr.getId(),wsite);
                 shelf.setPropietario(usr);
