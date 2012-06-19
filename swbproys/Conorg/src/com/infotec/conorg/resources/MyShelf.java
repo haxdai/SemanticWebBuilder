@@ -60,10 +60,10 @@ public class MyShelf extends GenericResource {
         String eventid = request.getParameter("idevent");
         String page = request.getParameter("page");
 
-//        CV cv = CV.ClassMgr.getCV(usr.getId(), wsite);
-//        if(cv==null) {
-//            cv = CV.ClassMgr.createCV(usr.getId(),wsite);
-//            cv.setPropietario(usr);
+//        Shelf shelf = Shelf.ClassMgr.getCV(usr.getId(), wsite);
+//        if(shelf==null) {
+//            shelf = Shelf.ClassMgr.createCV(usr.getId(),wsite);
+//            shelf.setPropietario(usr);
 //        }
         String msg ="";
         if (SWBResourceURL.Action_ADD.equals(action)||SWBResourceURL.Action_EDIT.equals(action)) {
