@@ -4,8 +4,6 @@
     Author     : juan.fernandez
 --%>
 
-<%@page import="com.infotec.cvi.swb.CursoTIC"%>
-<%@page import="com.infotec.cvi.swb.CV"%>
 <%@page import="org.semanticwb.portal.SWBFormMgr"%>
 <%@page import="org.semanticwb.model.WebPage"%>
 <%@page import="java.util.Set"%>
@@ -89,7 +87,7 @@
 
 <div >
 <div id="icv">
-    <%@include file="../menucvi.jsp" %>
+    <!-- %@include file="../menucvi.jsp" % -->
 <div id="icv-data">
 <%
             if(action.equals(""))
