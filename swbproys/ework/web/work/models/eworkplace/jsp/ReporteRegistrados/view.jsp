@@ -4,6 +4,9 @@
     Author     : juan.fernandez
 --%>
 
+<%@page import="com.infotec.cvi.swb.Academia"%>
+<%@page import="java.text.DecimalFormat"%>
+<%@page import="com.infotec.cvi.swb.util.UtilsCVI"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="com.infotec.cvi.swb.Publicacion"%>
@@ -386,6 +389,8 @@
                                 public String listReport(HashMap<String, CV> hm, HashMap<String, String> hmorder, String txttype, String criteria, SWBParamRequest paramRequest, HttpServletRequest request) {
                                     StringBuilder ret = new StringBuilder();
                                     SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm", new Locale("es"));
+                                    DecimalFormat df = new DecimalFormat("###.##");
+                                    DecimalFormat df2 = new DecimalFormat("###");
                                     String export = request.getParameter("export");
                                     if (null == export) {
                                         export = "";
@@ -405,7 +410,7 @@
                                     ret.append("        </caption>");
                                     ret.append("            <thead>");
                                     ret.append("                <tr>");
-                                    ret.append("                    <th>Usuario</th><th>Creado</th><th>Modificado</th><th>Detalle</th>");
+                                    ret.append("                    <th>Usuario</th><th>Avance</th><th>Creado</th><th>Modificado</th><th>Detalle</th>");
                                     ret.append("                </tr>");
                                     ret.append("            </thead>");
                                     ret.append("            <tbody>");
@@ -413,6 +418,9 @@
                                     ArrayList<String> list = new ArrayList(hmorder.keySet());
                                     Collections.sort(list);
 
+                                    float total =0; 
+                                    float completos = 0; 
+                                    
                                     Iterator<String> itstr = list.iterator();
                                     while (itstr.hasNext()) {
                                         String key = itstr.next();
@@ -425,6 +433,9 @@
                                         ret.append("                     <td>");
                                         String usrname = usrcv.getFullName() != null ? usrcv.getFullName() : usrcv.getLogin();
                                         ret.append(usrname);
+                                        ret.append("                     </td>");
+                                        ret.append("                     <td>");
+                                        ret.append(getCVIProgress(cv));
                                         ret.append("                     </td>");
                                         ret.append("                     <td>");
                                         ret.append(sdf.format(cv.getCreated()));
@@ -443,8 +454,21 @@
                                         }
                                         ret.append("                   </td>");
                                         ret.append("                  </tr>");
+                                        total++;
+                                        if(UtilsCVI.isCVIDone(cv)) completos++;
                                     }
+                                    ret.append("<tr>");
+                                    ret.append("<th colspan=\"5\">CVI completados: ");
+                                    ret.append(df2.format(completos));
+                                    ret.append(" de ");
+                                    ret.append(df2.format(total));
+                                    ret.append(" registrados, equivalente al ");
+                                    ret.append(df.format(100*(completos/total))+"% completados.");
+                                    ret.append("</th>");
+                                    
+                                    ret.append("</tr>");
                                     ret.append("               </tbody>");
+                                    
                                     ret.append("          </table>");
 
                                     return ret.toString();
@@ -471,4 +495,28 @@
                                     return cal1.getTimeInMillis();
                                 }
 
+                                private String getCVIProgress(CV cv){
+        
+        Academia aca = cv.getAcademia();
+        DecimalFormat df = new DecimalFormat("###");
+        
+        float progress = 0;
+        boolean doneSchooling = aca!=null&&(aca.listGradoAcademicos().hasNext()&&(aca.isNoAplicaEstudioSuperior() || aca.listEstudioSuperiors().hasNext())&&(cv.isSinDiplomado() || cv.listDiplomados().hasNext())&&(cv.isSinCurso() || cv.listCursosTICs().hasNext())&&(cv.isSinIdioma() || cv.listIdiomas().hasNext()));
+        if(doneSchooling)
+            progress+=0.25;
+        boolean doneExperience = (cv.isSinExperiencia() || cv.listExperienciaLaborals().hasNext())&&cv.listAreaTalentos().hasNext()&&(cv.isSinDistincion() || cv.listDistincions().hasNext());
+        if(doneExperience)
+            progress+=0.25;
+        boolean doneCompetencies = cv.listCompetencias().hasNext();
+        if(doneCompetencies)
+            progress+=0.25;
+        boolean doneResearchAndTeaching = (cv.isSinInvestigacion() || cv.listInvestigacions().hasNext())&&(cv.isSinDocencia() || cv.listDocencias().hasNext())&&(cv.isSinPublicacion() || cv.listPublicacions().hasNext());
+        if(doneResearchAndTeaching)
+            progress+=0.25;
+        
+        
+        
+        return df.format(100*progress)+"%";
+    }
+                                
                             %>
