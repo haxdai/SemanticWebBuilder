@@ -369,7 +369,7 @@
                                     ret.append("                    <th>Usuario</th>");
                                     ret.append("                    <th>Puesto</th>");
                                     ret.append("                    <th>Proyecto</th>");
-                                    ret.append("                    <th>Unidad Interna</th>");
+                                    ret.append("                    <th>Ubicación</th>");
                                     ret.append("                    <th>Periodo</th>");
                                     ret.append("                    <th>Detalle</th>");
                                     ret.append("                </tr>");
@@ -402,12 +402,12 @@
 
                                         ret.append("                     </td><td>");
 
-                                        String strDirecArea = "---";
-                                        if (swpro.getGerencia() != null && swpro.getGerencia().getPerteneceA() != null) {
-                                            strDirecArea = swpro.getGerencia().getPerteneceA().getTitle();
+                                        String strUbicacion = "---";
+                                        if (swpro.getUbicacion() != null ) {
+                                            strUbicacion = swpro.getUbicacion();
                                         }
 
-                                        ret.append(strDirecArea);
+                                        ret.append(strUbicacion);
                                         ret.append("                     </td><td>");
                                         // periodo por el momento no aplica
                                         ret.append("---");
