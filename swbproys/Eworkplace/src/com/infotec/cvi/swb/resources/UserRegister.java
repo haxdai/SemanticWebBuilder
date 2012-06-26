@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import javax.mail.internet.InternetAddress;
 import javax.security.auth.Subject;
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -103,8 +104,8 @@ public class UserRegister extends GenericAdmResource {
                         subject.getPrincipals().add(newUser);
                         newUser.setPassword(pwd);
                         newUser.setLanguage(user.getLanguage());
-                        newUser.setIp(user.getIp());
-                        newUser.setDevice(user.getDevice());
+                        //newUser.setIp(user.getIp());
+                        //newUser.setDevice(user.getDevice());
                         newUser.setFirstName(SWBUtils.XML.replaceXMLChars(request.getParameter("firstName")));
                         newUser.setLastName(SWBUtils.XML.replaceXMLChars(request.getParameter("lastName")));
                         newUser.setSecondLastName(SWBUtils.XML.replaceXMLChars(request.getParameter("secondLastName")));
@@ -119,7 +120,6 @@ public class UserRegister extends GenericAdmResource {
                         final SWBResourceURLImp urlAcc = new SWBResourceURLImp(request, base, wp, SWBResourceURL.UrlType_ACTION);
                         urlAcc.setAction(Action_ACTIVATE).setParameter("id", strCode);
                         final String link = servidor+urlAcc.toString();
-
                         String sitename = wsite.getDisplayTitle(user.getLanguage());
                         String emailMsg = base.getAttribute("instructions");
                         emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{link}", link);
@@ -127,35 +127,36 @@ public class UserRegister extends GenericAdmResource {
                         emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{fullname}", newUser.getFullName());
                         emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{user.login}", newUser.getLogin());
                         emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{user.email}", newUser.getEmail());
-                        SWBUtils.EMAIL.sendMail(email, sitename+" - "+response.getLocaleString("msgSubject"), emailMsg);
-
+//                        *SWBUtils.EMAIL.sendMail(email, sitename+" - "+response.getLocaleString("msgSubject"), emailMsg);
+                        ArrayList aTo = new ArrayList();
+                        InternetAddress address = new InternetAddress();
+                        address.setAddress(email);
+                        aTo.add(address);
+                        SWBUtils.EMAIL.sendMail(SWBPortal.getEnv("af/adminEmail","recursoshumanos@infotec.com.mx"),"",aTo,
+                        null,null, sitename+" - "+response.getLocaleString("msgSubject"),"html", emailMsg,
+                        null,null,null);                               
+                        
                         emailMsg = base.getAttribute("emailAgreeMsg");
                         if(emailMsg!=null&&!emailMsg.equals("")){
-                            ArrayList aTo = new ArrayList();
-                            javax.mail.internet.InternetAddress address = new javax.mail.internet.InternetAddress();
-                            address.setAddress(user.getEmail());
-                            aTo.add(address);
-                            ArrayList aBcc = new ArrayList();
-                            if (base.getAttribute("emailBcc") != null && !base.getAttribute("emailBcc").equals("")) {
-                                address = new javax.mail.internet.InternetAddress();
+                            if (base.getAttribute("emailBcc") != null &&
+                                    !base.getAttribute("emailBcc").equals("")&&
+                                    SWBUtils.EMAIL.isValidEmailAddress(base.getAttribute("emailBcc"))) {
+                                address = new InternetAddress();
                                 address.setAddress(base.getAttribute("emailBcc"));
-                                aBcc.add(address);
-                            }else{
-                                aBcc=null;
+                                aTo.add(address);
                             }
                             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-
-                            emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{firstname}", user.getFirstName());
-                            emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{fullname}", user.getFullName());
-                            emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{user.login}", user.getLogin());
-                            emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{user.email}", user.getEmail());
+                            emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{firstname}", newUser.getFirstName());
+                            emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{fullname}", newUser.getFullName());
+                            emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{user.login}", newUser.getLogin());
+                            emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{user.email}", newUser.getEmail());
                             emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{agreement}", base.getAttribute("agreement"));
                             emailMsg = SWBUtils.TEXT.replaceAll(emailMsg, "{date}", sdf.format(new Date()));
-                            if (aBcc==null){
-                                SWBUtils.EMAIL.sendMail(email,response.getLocaleString("lblSubject"), emailMsg);
-                            }else{
-                                SWBUtils.EMAIL.sendMail(SWBPortal.getEnv("af/adminEmail"), "", aTo, null, aBcc, response.getLocaleString("lblSubject"), "text/html", emailMsg, null, null, null);
-                            }
+                            SWBUtils.EMAIL.sendMail(SWBPortal.getEnv("af/adminEmail","recursoshumanos@infotec.com.mx"),"",aTo,
+                            null,null, response.getLocaleString("lblSubject"),"html", emailMsg,
+                            null,null,null);
+                        }else{
+                            emailMsg=base.getAttribute("agreement");
                         }
                         persona.setAceptacionTerminos(emailMsg);
                         response.setMode(Mode_THANKS);
@@ -207,8 +208,8 @@ public class UserRegister extends GenericAdmResource {
                 String decCode = new String(SWBUtils.CryptoWrapper.PBEAES128Decipher(PassPhrase, SFBase64.decode(code)));
                 User usrAct = ur.getUser(decCode);
                 setAspirante(usrAct);
-                user = usrAct;
-                user.setActive(true);
+                //user = usrAct;
+                usrAct.setActive(true);
                 response.setMode(Mode_FINAL);
             }catch(Exception ne) {
                 ne.printStackTrace(System.out);
