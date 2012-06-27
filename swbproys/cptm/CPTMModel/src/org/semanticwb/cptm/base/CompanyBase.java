@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Clase principal del sistema de visit-méxico. Una instancia de esta clase es en donde se almacena toda la información de un proveedor de servicios especifico. 
    */
-public abstract class CompanyBase extends org.semanticwb.cptm.GeneralCompany implements org.semanticwb.model.Indexable,org.semanticwb.model.Searchable,org.semanticwb.model.Expirable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Resourceable,org.semanticwb.model.Tagable,org.semanticwb.model.Localeable,org.semanticwb.portal.community.Addressable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Traceable,org.semanticwb.model.Geolocalizable
+public abstract class CompanyBase extends org.semanticwb.cptm.GeneralCompany implements org.semanticwb.model.Tagable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,org.semanticwb.model.Searchable,org.semanticwb.portal.community.Addressable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Resourceable,org.semanticwb.model.Geolocalizable,org.semanticwb.model.Localeable,org.semanticwb.model.Expirable,org.semanticwb.model.Indexable
 {
    /**
    * Actividad en un específico "Destino", si le quisiera agregar un Directorio de empresas aqui, tendría que tener una relación además de con el Destino, con el objeto  SPType

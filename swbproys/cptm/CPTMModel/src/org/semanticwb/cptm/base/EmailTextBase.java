@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que se encarga de administrar textos para correos electrónicos 
    */
-public abstract class EmailTextBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Sortable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class EmailTextBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Sortable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
    /**
    * Clase que se encarga de administrar textos para correos electrónicos

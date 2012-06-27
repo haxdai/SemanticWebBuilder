@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Interface para datos generales de Cadenas, Marcas y Empresas 
    */
-public abstract class GeneralCompanyBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Resourceable,org.semanticwb.model.Indexable,org.semanticwb.model.Tagable,org.semanticwb.model.Searchable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.portal.community.Addressable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Geolocalizable
+public abstract class GeneralCompanyBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Tagable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Resourceable,org.semanticwb.model.Geolocalizable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Searchable,org.semanticwb.model.Traceable,org.semanticwb.portal.community.Addressable,org.semanticwb.model.Indexable
 {
     public static final org.semanticwb.platform.SemanticClass cptm_Promotion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/cptm#Promotion");
    /**

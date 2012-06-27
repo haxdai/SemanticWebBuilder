@@ -1,7 +1,7 @@
 package org.semanticwb.cptm.base;
 
 
-public abstract class PromotionBase extends org.semanticwb.model.SWBClass implements org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Calendarable
+public abstract class PromotionBase extends org.semanticwb.model.SWBClass implements org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Calendarable,org.semanticwb.model.Descriptiveable
 {
    /**
    * Interface para datos generales de Cadenas, Marcas y Empresas
