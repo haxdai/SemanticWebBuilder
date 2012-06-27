@@ -54,6 +54,8 @@ public class CanalMap extends GenericResource {
             doFetchLocations(request, response, paramRequest);
         } else if (paramRequest.getMode().equalsIgnoreCase("fetchDetails")) {
             doFetchDetails(request, response, paramRequest);
+        } else if (paramRequest.getMode().equalsIgnoreCase("sendMail")) {
+            doSendMail(request, response, paramRequest);
         } else {
             super.processRequest(request, response, paramRequest);
         }
@@ -225,4 +227,24 @@ public class CanalMap extends GenericResource {
         }
     }
 
+    /**
+     * Genera un correo electr&oacute;nico con el detalle del itinerario.
+     * @param request la petici&oacute;n HTTP en atenci&oacute;n
+     * @param response la respuesta HTTP generada para la petici&oacute;n atendida
+     * @param paramRequest contiene objetos generados por SWB para la atenci&oacute;n de las peticiones
+     */
+    public void doSendMail(HttpServletRequest request,
+            HttpServletResponse response, SWBParamRequest paramRequest) {
+
+        String path = SWBPortal.getWebWorkPath() + "/models/"
+                + paramRequest.getWebPage().getWebSiteId() + "/jsp/SendItineraryMail.jsp";
+        response.setContentType("text/html; charset=UTF-8");
+        RequestDispatcher rd = request.getRequestDispatcher(path);
+        try {
+            request.setAttribute("paramRequest", paramRequest);
+            rd.include(request, response);
+        } catch(Exception e) {
+            log.error(e);
+        }
+    }
 }
