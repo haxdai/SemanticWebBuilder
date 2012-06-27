@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Clase que hereda de WebPage.Mediante esta se administra el catálogo de tipos de actividades (Ej. Aventura y Ecoturismo, Cultura) 
    */
-public abstract class ActivityTypeBase extends org.semanticwb.cptm.CPTMGeneralWebPage implements org.semanticwb.model.FilterableClass,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Searchable,org.semanticwb.cptm.CptmDescriptionPage,org.semanticwb.model.Viewable,org.semanticwb.model.Countryable,org.semanticwb.model.Resourceable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Referensable,org.semanticwb.model.Traceable,org.semanticwb.model.Activeable,org.semanticwb.model.MetaTagable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Filterable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Indexable,org.semanticwb.model.Hiddenable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Expirable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Tagable,org.semanticwb.model.Localeable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.Rankable,org.semanticwb.model.Trashable
+public abstract class ActivityTypeBase extends org.semanticwb.cptm.CPTMGeneralWebPage implements org.semanticwb.model.TemplateRefable,org.semanticwb.model.Trashable,org.semanticwb.model.Traceable,org.semanticwb.model.Undeleteable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Resourceable,org.semanticwb.model.Hiddenable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Localeable,org.semanticwb.model.Filterable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Indexable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Tagable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Searchable,org.semanticwb.cptm.Videoable,org.semanticwb.model.Referensable,org.semanticwb.model.FilterableNode,org.semanticwb.model.MetaTagable,org.semanticwb.cptm.CptmgeneralData,org.semanticwb.model.RuleRefable,org.semanticwb.model.Activeable,org.semanticwb.cptm.CptmDescriptionPage,org.semanticwb.model.Expirable,org.semanticwb.model.Viewable,org.semanticwb.model.Countryable,org.semanticwb.model.Rankable,org.semanticwb.cptm.CptmGeo
 {
    /**
    * Clase que hereda de WebPage.Mediante esta se administra el catálogo de tipos de actividades (Ej. Aventura y Ecoturismo, Cultura)
@@ -593,6 +593,60 @@ public abstract class ActivityTypeBase extends org.semanticwb.cptm.CPTMGeneralWe
     public ActivityTypeBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+/**
+* Gets the Videoyoutube property
+* @return String with the Videoyoutube
+*/
+    public String getVideoyoutube()
+    {
+        return getSemanticObject().getProperty(cptm_videoyoutube);
+    }
+
+/**
+* Sets the Videoyoutube property
+* @param value long with the Videoyoutube
+*/
+    public void setVideoyoutube(String value)
+    {
+        getSemanticObject().setProperty(cptm_videoyoutube, value);
+    }
+
+/**
+* Gets the Cptm_latitude property
+* @return float with the Cptm_latitude
+*/
+    public float getCptm_latitude()
+    {
+        return getSemanticObject().getFloatProperty(cptm_cptm_latitude);
+    }
+
+/**
+* Sets the Cptm_latitude property
+* @param value long with the Cptm_latitude
+*/
+    public void setCptm_latitude(float value)
+    {
+        getSemanticObject().setFloatProperty(cptm_cptm_latitude, value);
+    }
+
+/**
+* Gets the Cptm_longitude property
+* @return float with the Cptm_longitude
+*/
+    public float getCptm_longitude()
+    {
+        return getSemanticObject().getFloatProperty(cptm_cptm_longitude);
+    }
+
+/**
+* Sets the Cptm_longitude property
+* @param value long with the Cptm_longitude
+*/
+    public void setCptm_longitude(float value)
+    {
+        getSemanticObject().setFloatProperty(cptm_cptm_longitude, value);
     }
 
    /**

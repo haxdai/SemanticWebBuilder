@@ -1,7 +1,7 @@
 package org.semanticwb.cptm.base;
 
 
-public abstract class CompanyLineBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Searchable,org.semanticwb.model.Descriptiveable
+public abstract class CompanyLineBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Searchable
 {
    /**
    * Interface para datos generales de Cadenas, Marcas y Empresas

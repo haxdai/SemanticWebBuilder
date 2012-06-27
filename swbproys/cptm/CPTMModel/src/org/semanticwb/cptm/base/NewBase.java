@@ -4,7 +4,7 @@ package org.semanticwb.cptm.base;
    /**
    * Catálogo de Noticias 
    */
-public abstract class NewBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class NewBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Resourceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
    /**
    * Interfaz que define propiedades en comun para un Punto Geografico y una Marca Regional
