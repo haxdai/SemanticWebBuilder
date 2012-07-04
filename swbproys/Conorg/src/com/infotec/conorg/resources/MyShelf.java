@@ -4,31 +4,53 @@
  */
 package com.infotec.conorg.resources;
 
-import java.io.IOException;
+import com.infotec.conorg.*;
+import java.io.*;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
+import org.semanticwb.SWBPlatform;
+import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
-import org.semanticwb.model.User;
-import org.semanticwb.model.WebSite;
-import org.semanticwb.portal.api.GenericResource;
-import org.semanticwb.portal.api.SWBActionResponse;
-import org.semanticwb.portal.api.SWBParamRequest;
-import org.semanticwb.portal.api.SWBResourceException;
-import org.semanticwb.portal.api.SWBResourceURL;
+import org.semanticwb.model.*;
+import org.semanticwb.model.Resource;
+import org.semanticwb.platform.SemanticClass;
+import org.semanticwb.platform.SemanticObject;
+import org.semanticwb.platform.SemanticOntology;
+import org.semanticwb.portal.SWBFormMgr;
+import org.semanticwb.portal.api.*;
 
 /**
  *
  * @author juan.fernandez
  */
-public class MyShelf extends GenericResource {
-    
-    private Logger log = SWBUtils.getLogger(MyShelf.class);
+public class MyShelf extends GenericAdmResource {
+
+    public static final Logger log = SWBUtils.getLogger(MyShelf.class);
+    public static final SimpleDateFormat format = new SimpleDateFormat("dd/MMM/yy hh:mm");
+    public static final String Mode_AJAX = "ajax";
+    public static final String RES_CONF = "resconf";
+    public static final String MODE_GETFILE = "getFile";
+    public static final String DEFAULT_MIME_TYPE = "application/octet-stream";
+    public static final NumberFormat numf = NumberFormat.getNumberInstance();
 
     @Override
     public void doView(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         String basePath = "/work/models/" + paramRequest.getWebPage().getWebSite().getId() + "/jsp/" + this.getClass().getSimpleName() + "/";
+        Resource base = getResourceBase();
+        String confClass = base.getAttribute(MyShelf.RES_CONF, "http://www.infotec.com/conorg.owl#Shelf");
+
         String path = basePath + "view.jsp";
+
+        if (confClass.equals(Shelf.conorg_Shelf.getURI())) {
+            path = basePath + "viewShelf.jsp";
+        } else if (confClass.equals(Shelf.conorg_Shelf.getURI())) {
+            path = basePath + "viewWS.jsp";
+        }
+
         if (request != null) {
             RequestDispatcher dis = request.getRequestDispatcher(path);
 
@@ -42,15 +64,89 @@ public class MyShelf extends GenericResource {
                 }
             }
         }
-        
-        
+    }
 
+    public void doGetFile(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
+
+        User user = paramRequest.getUser();
+        String fid = request.getParameter("fid");
+        String verNumber = request.getParameter("verNum");
+        int intVer = 1;
+        if (verNumber != null) {
+            intVer = Integer.parseInt(verNumber);
+        }
+
+        SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
+        SemanticObject obj = null;
+        GenericObject gobj = null;
+        if (null != fid) {
+            obj = ont.getSemanticObject(fid);
+        }
+        if (obj != null) {
+            gobj = obj.createGenericInstance();
+        }
+
+        Document doc = null;
+        if (gobj instanceof Document) {
+            doc = (Document) gobj;
+        }
+        if (doc != null) {
+
+
+            VersionInfo ver = null;
+            VersionInfo vl = doc.getLastVersion();
+            if (null != vl) {
+                ver = vl;
+                while (ver.getPreviousVersion() != null) { //
+                    if (ver.getVersionNumber() == intVer) {
+                        break;
+                    }
+                    ver = ver.getPreviousVersion();
+                }
+            }
+            try {
+                response.setContentType(DEFAULT_MIME_TYPE);
+                response.setHeader("Content-Disposition", "attachment; filename=\"" + ver.getVersionFile() + "\";");
+
+                OutputStream out = response.getOutputStream();
+                SWBUtils.IO.copyStream(new FileInputStream(SWBPortal.getWorkPath() + doc.getWorkPath() + "/" + verNumber + "/" + ver.getVersionFile()), out);
+            } catch (Exception e) {
+                log.error("Error al obtener el archivo del Repositorio de documentos.", e);
+            }
+        }
+    }
+
+    public void doAjax(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        String basePath = "/work/models/" + paramRequest.getWebPage().getWebSite().getId() + "/jsp/" + this.getClass().getSimpleName() + "/";
+        RequestDispatcher dis = request.getRequestDispatcher(basePath + "ajax.jsp");
+        try {
+            request.setAttribute("paramRequest", paramRequest);
+            dis.include(request, response);
+        } catch (Exception e) {
+            log.error(e);
+        }
+    }
+
+    @Override
+    public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        String mode = paramRequest.getMode();
+        if (Mode_AJAX.equals(mode)) {
+            doAjax(request, response, paramRequest);
+        } else if (paramRequest.getMode().equals(MODE_GETFILE)) {
+            doGetFile(request, response, paramRequest);
+        } else {
+            super.processRequest(request, response, paramRequest);
+        }
     }
 
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         String action = response.getAction();
         String id = request.getParameter("id");
+        String classid = request.getParameter("classid");
         if (null == action) {
             action = "";
         }
@@ -60,92 +156,126 @@ public class MyShelf extends GenericResource {
         String eventid = request.getParameter("idevent");
         String page = request.getParameter("page");
 
+        SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
+        SemanticObject obj = null;
+        if (null != id) {
+            obj = ont.getSemanticObject(id);
+        }
+        SemanticClass cls = null;
+        if (null != obj) {
+            cls = obj.getSemanticClass();
+        }
+
 //        Shelf shelf = Shelf.ClassMgr.getCV(usr.getId(), wsite);
 //        if(shelf==null) {
 //            shelf = Shelf.ClassMgr.createCV(usr.getId(),wsite);
 //            shelf.setPropietario(usr);
 //        }
-        String msg ="";
-        if (SWBResourceURL.Action_ADD.equals(action)||SWBResourceURL.Action_EDIT.equals(action)) {
-            
-            String nomcurso = request.getParameter("nomcurso");
-            String nominstitucion = request.getParameter("nominstitucion");
-            String fechaini = request.getParameter("fechaini");
-            String fechafin = request.getParameter("fechafin");
-            String docobtenido = request.getParameter("docobtenido");
-            
-            int intfechaini = 0;
-            try {
-                intfechaini = Integer.parseInt(fechaini);
-            } catch (Exception e) {
-            }
-            int intfechafin = 0;
-            try {
-                intfechafin = Integer.parseInt(fechafin);
-            } catch (Exception e) {
-            }
-            
-            if(nomcurso!=null&&nominstitucion!=null&&fechaini!=null&&fechafin!=null&&docobtenido!=null)
-            {
-//                CursoTIC ctic = null;
-//                
-//                if(id!=null){
-//                    ctic = CursoTIC.ClassMgr.getCursoTIC(id,wsite);
-//                    msg="Se actualizó correctamente el Curso TIC";
-//                }
-//
-//                if(ctic==null){
-//                    ctic = CursoTIC.ClassMgr.createCursoTIC(wsite);
-//                    cv.addCursosTIC(ctic);
-//                    msg="Se agregó correctamente el Curso TIC";
-//                    cv.setSinCurso(Boolean.FALSE);
-//                }
-                
-                
-//                ctic.setNombreInstitucion(nominstitucion);
-//                ctic.setTitle(nomcurso);
-//                ctic.setDocumentoObtenido(docobtenido);
-//                ctic.setInicio(intfechaini);
-//                ctic.setFin(intfechafin);
-                
-                
-                
+        String msg = "";
+        if (SWBResourceURL.Action_ADD.equals(action) || SWBResourceURL.Action_EDIT.equals(action)) {
+
+            SWBFormMgr frmgr = null;
+
+            if (classid != null) {
+                try {
+                    SemanticObject sobj = ont.getSemanticObject(classid);
+                    SemanticClass scls = sobj.transformToSemanticClass();
+                    frmgr = new SWBFormMgr(scls, wsite.getSemanticObject().getModel().getModelObject(), SWBFormMgr.MODE_CREATE);
+                    SemanticObject nso = frmgr.processForm(request);
+                    if (nso != null) {
+                        Shelf myshelf = Shelf.ClassMgr.getShelf(usr.getId(), wsite);
+                        if (myshelf == null) {
+                            myshelf = Shelf.ClassMgr.createShelf(usr.getId(), wsite);
+                            myshelf.setOwner(usr);
+                        }
+                        myshelf.addTile((Tile) (nso.createGenericInstance()));
+                        response.setAction(SWBActionResponse.Action_EDIT);
+                        response.setRenderParameter("act", SWBActionResponse.Action_EDIT);
+                        response.setRenderParameter("id", nso.getId());
+                        response.setRenderParameter("suri", nso.getURI());
+                    }
+                    msg = "Se creó " + classid.substring(classid.indexOf("#") + 1) + " satisfactoriamente.";
+                } catch (Exception e) {
+                    log.error("Error al agregar el elemento", e);
+                    msg = "Error al crear " + classid.substring(classid.indexOf("#") + 1);
+                }
+
+                response.setRenderParameter("alertmsg", msg);
+            } else if (id != null) {
+                try {
+                    SemanticObject sobj = ont.getSemanticObject(id);
+                    SemanticClass scls = sobj.getSemanticClass();
+                    classid = scls.getClassId();
+                    frmgr = new SWBFormMgr(sobj, SWBFormMgr.MODE_EDIT, SWBFormMgr.MODE_EDIT);
+                    SemanticObject nso = frmgr.processForm(request);
+                    msg = "Se actualizó " + classid.substring(classid.indexOf("#") + 1) + " satisfactoriamente.";
+                } catch (Exception e) {
+                    log.error("Error al actulizar el elemento", e);
+                    msg = "Error al actualizar " + classid.substring(classid.indexOf("#") + 1);
+                }
+
                 response.setAction("");
-                
                 response.setRenderParameter("act", "");
                 response.setRenderParameter("alertmsg", msg);
+
             } else {
-                response.setRenderParameter("alertmsg", "Datos inválidos, no se pudo procesar Curso TIC");
+                response.setRenderParameter("alertmsg", "Datos inválidos, no se recibieron parámetros válidos.");
             }
+            response.setMode(SWBActionResponse.Mode_VIEW);
 
         } else if (SWBResourceURL.Action_REMOVE.equals(action)) {
-            if(id!=null){
-//                CursoTIC ctic = CursoTIC.ClassMgr.getCursoTIC(id, wsite);
-//                if(ctic!=null){
-//                    try {
-//                        ctic.remove();
-//                        response.setRenderParameter("alertmsg", "Se eliminó correctamente el Curso.");
-//                    } catch (Exception e) {
-//                        response.setRenderParameter("alertmsg", "No se pudo eliminar el Curso");
-//                    }                    
-//                }                
+            String suri = request.getParameter("suri");
+            if (suri != null) {
+                try {
+                    SemanticObject sobj = ont.getSemanticObject(suri);
+                    SemanticClass sclass = sobj.getSemanticClass();
+                    classid = sclass.getClassName();
+                    sobj.remove();
+                    msg = "Se eliminó " + classid.substring(classid.indexOf("#") + 1) + " satisfactoriamente.";
+                } catch (Exception e) {
+                    log.error("Error al eliminar el elemento", e);
+                    msg = "Error al eliminar " + classid.substring(classid.indexOf("#") + 1);
+                }
             }
-        } else if (action.equals("updateNoAplica")){
-            //System.out.println("NoAplica: "+request.getParameter("noAplica"));
-            String noAplica = request.getParameter("noAplica");
-            msg="Se actualizó No aplican Cursos";
-//            if(noAplica!=null&&noAplica.equals("true"))
-//            {
-//                cv.setSinCurso(Boolean.TRUE);
-//            } else {
-//                cv.setSinCurso(Boolean.FALSE);
-//            }
-
-            response.setRenderParameter("act", "");
-            response.setRenderParameter("alertmsg", msg);
-            
         }
-        
+        if ("newfile".equals(action)) {
+            org.semanticwb.portal.util.FileUpload fup = new org.semanticwb.portal.util.FileUpload();
+            fup.getFiles(request, null);
+            String fname = fup.getFileName("ffile");
+            String fcomment = fup.getValue("fcomment");
+
+            String fid = fup.getValue("fid");
+
+            System.out.println("fid: " + fid);
+
+            byte[] bcont = fup.getFileData("ffile");
+
+            SemanticObject so = ont.getSemanticObject(fid);
+            GenericObject go = so.createGenericInstance();
+
+            WebPage wpage = response.getWebPage();
+            Document doc = null;
+            boolean incremento = Boolean.FALSE;
+            if (fid != null && go instanceof Document) {
+                doc = (Document) go;
+                incremento = Boolean.TRUE;
+            }
+
+            if (fname.lastIndexOf('/') != -1) {
+                int pos = fname.lastIndexOf('/');
+                fname = fname.substring(pos + 1);
+            }
+            if (fname.lastIndexOf('\\') != -1) {
+                int pos = fname.lastIndexOf('\\');
+                fname = fname.substring(pos + 1);
+            }
+
+            if (doc != null) {
+                storeFile(fname, new ByteArrayInputStream(bcont), fcomment, incremento, doc, wsite);
+            }
+
+        }
+
         if (eventid != null) {
             response.setRenderParameter("id", eventid);
         }
@@ -153,5 +283,186 @@ public class MyShelf extends GenericResource {
             response.setRenderParameter("page", page);
         }
     }
+
+    public OutputStream storeFile(String name, String comment, boolean bigVersionInc, Document doc, WebSite wsite) throws FileNotFoundException {
+        VersionInfo v = VersionInfo.ClassMgr.createVersionInfo(wsite);
+        v.setVersionFile(name);
+
+        numf.setMaximumFractionDigits(1);
+
+        if (comment != null) {
+            v.setVersionComment(comment);
+        }
+        VersionInfo vl = doc.getLastVersion();
+        String sver = "1.0";
+        int ver = 1;
+        if (vl != null) {
+            vl.setNextVersion(v);
+            v.setPreviousVersion(vl);
+            ver = vl.getVersionNumber();
+            sver = vl.getVersionValue();
+
+            double f = Double.parseDouble(sver);
+
+            if (bigVersionInc) {
+                f = (int) f + 1;
+                sver = "" + (float) f;
+            } else {
+                f = f + 0.10D;
+
+                String sfver = numf.format(f);
+                if (sfver.indexOf(".") == -1) {
+                    sfver = "" + (float) f;
+                }
+                sver = sfver;
+            }
+            ver++;
+        }
+        v.setVersionNumber(ver);
+        v.setVersionValue(sver);
+        doc.setActualVersion(v);
+        doc.setLastVersion(v);
+
+        File file = new File(SWBPortal.getWorkPath() + doc.getWorkPath() + "/" + ver);
+        file.mkdirs();
+        return new FileOutputStream(SWBPortal.getWorkPath() + doc.getWorkPath() + "/" + ver + "/" + name);
+    }
+
+    /**
+     * Almacena el archivo en la ruta predefinida del RepositoryFile, Si no
+     * existe ninguna version crea una nueva Si existe una version anterior
+     * agrega una nueva versión
+     *
+     * @param name
+     * @param out
+     * @param comment
+     * @param bigVersionInc
+     */
+    public void storeFile(String name, InputStream in, String comment, boolean bigVersionInc, Document doc, WebSite wsite) {
+        try {
+            OutputStream out = storeFile(name, comment, bigVersionInc, doc, wsite);
+            SWBUtils.IO.copyStream(in, out);
+        } catch (Exception e) {
+            log.error(e);
+        }
+    }
+
+    public static String getFileType(String filename) {
+        String file = "Document";
+        String type = filename.toLowerCase();
+        if (type.indexOf(".bmp") != -1) {
+            file = "Image";
+        } else if (type.indexOf(".pdf") != -1) {
+            file = "Adobe Acrobat";
+        } else if (type.indexOf(".xls") != -1 || type.indexOf(".xlsx") != -1) {
+            file = "Microsoft Excel";
+        } else if (type.indexOf(".html") != -1 || type.indexOf(".htm") != -1) {
+            file = "HTML file";
+        } else if (type.indexOf("jpg") != -1 || type.indexOf("jpeg") != -1) {
+            file = "Image";
+        } else if (type.indexOf(".ppt") != -1 || type.indexOf(".pptx") != -1) {
+            file = "Microsoft Power Point";
+        } else if (type.indexOf(".vsd") != -1) {
+            file = "Microsoft Visio";
+        } else if (type.indexOf(".mpp") != -1) {
+            file = "Microsoft Project";
+        } else if (type.indexOf(".mmap") != -1) {
+            file = "Mind Manager";
+        } else if (type.indexOf(".exe") != -1) {
+            file = "Application";
+        } else if (type.indexOf(".txt") != -1) {
+            file = "Text file";
+        } else if (type.indexOf(".properties") != -1) {
+            file = "Properties file";
+        } else if (type.indexOf(".doc") != -1 || type.indexOf(".docx") != -1) {
+            file = "Microsoft Word";
+        } else if (type.indexOf(".xml") != -1) {
+            file = "XML file";
+        } else if (type.indexOf(".gif") != -1 || type.indexOf(".png") != -1) {
+            file = "Image";
+        } else if (type.indexOf(".avi") != -1) {
+            file = "Media file";
+        } else if (type.indexOf(".mp3") != -1) {
+            file = "Audio file";
+        } else if (type.indexOf(".wav") != -1) {
+            file = "Audio file";
+        } else if (type.indexOf(".xsl") != -1) {
+            file = "XSLT file";
+        }
+        return file;
+    }
+
+    public static String getFileName(String filename) {
+        String file = "ico_default2.gif";
+        String type = filename.toLowerCase();
+        if (type.indexOf(".bmp") != -1) {
+            file = "ico_bmp.gif";
+        } else if (type.indexOf(".pdf") != -1) {
+            file = "ico_acrobat.gif";
+        } else if (type.indexOf(".xls") != -1 || type.indexOf(".xlsx") != -1) {
+            file = "ico_excel.gif";
+        } else if (type.indexOf(".html") != -1 || type.indexOf(".htm") != -1) {
+            file = "ico_html.gif";
+        } else if (type.indexOf("jpg") != -1 || type.indexOf("jpeg") != -1) {
+            file = "ico_jpeg.gif";
+        } else if (type.indexOf(".ppt") != -1 || type.indexOf(".pptx") != -1) {
+            file = "ico_powerpoint.gif";
+        } else if (type.indexOf(".exe") != -1) {
+            file = "ico_program.gif";
+        } else if (type.indexOf(".txt") != -1 || type.indexOf(".properties") != -1) {
+            file = "ico_text.gif";
+        } else if (type.indexOf(".doc") != -1 || type.indexOf(".docx") != -1) {
+            file = "ico_word.gif";
+        } else if (type.indexOf(".xml") != -1 || type.indexOf(".xsl") != -1) {
+            file = "ico_xml.gif";
+        } else if (type.indexOf(".mmap") != -1) {
+            file = "ico_mindmanager.GIF";
+        } else if (type.indexOf(".gif") != -1) {
+            file = "ico_gif.gif";
+        } else if (type.indexOf(".avi") != -1) {
+            file = "ico_video.gif";
+        } else if (type.indexOf(".mp3") != -1) {
+            file = "ico_audio.gif";
+        } else if (type.indexOf(".wav") != -1) {
+            file = "ico_audio.gif";
+        }
+        return file;
+    }
     
+    public static String getTileTypeName(Tile tile) {
+
+        String ret = "Azulejo";
+        if (tile instanceof Contact) {
+            ret = "Contacto";
+        } else if (tile instanceof Mosaic) {
+            ret = "Mosaico";
+        } else if (tile instanceof com.infotec.conorg.Resource) {
+            ret = "Recurso";
+        } else if (tile instanceof URL) {
+            ret = "URL";
+        } else if (tile instanceof Article) {
+            ret = "Articulo";
+        } else if (tile instanceof Audio) {
+            ret = "Audio";
+        } else if (tile instanceof Book) {
+            ret = "Libro";
+        } else if (tile instanceof ChapterBook) {
+            ret = "Capitulo";
+        } else if (tile instanceof Image) {
+            ret = "Imagen";
+        } else if (tile instanceof Manual) {
+            ret = "Manual";
+        } else if (tile instanceof Presentation) {
+            ret = "Presentación";
+        } else if (tile instanceof com.infotec.conorg.Reference) {
+            ret = "Referencia";
+        } else if (tile instanceof Report) {
+            ret = "Reporte";
+        } else if (tile instanceof Video) {
+            ret = "Video";
+        } else if (tile instanceof Document) {
+            ret = "Documento";
+        }
+        return ret;
+    }
 }
