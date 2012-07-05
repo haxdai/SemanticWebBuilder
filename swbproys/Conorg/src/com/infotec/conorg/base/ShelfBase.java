@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class ShelfBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+public abstract class ShelfBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
    /**
    * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
@@ -109,29 +109,6 @@ public abstract class ShelfBase extends org.semanticwb.model.SWBClass implements
             return it;
         }
        /**
-       * Gets all com.infotec.conorg.Shelf with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @param model Model of the com.infotec.conorg.Shelf
-       * @return Iterator with all the com.infotec.conorg.Shelf
-       */
-
-        public static java.util.Iterator<com.infotec.conorg.Shelf> listShelfByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.conorg.Shelf> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.conorg.Shelf with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @return Iterator with all the com.infotec.conorg.Shelf
-       */
-
-        public static java.util.Iterator<com.infotec.conorg.Shelf> listShelfByCreator(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.conorg.Shelf> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all com.infotec.conorg.Shelf with a determined Owner
        * @param value Owner of the type org.semanticwb.model.User
        * @param model Model of the com.infotec.conorg.Shelf
@@ -152,6 +129,29 @@ public abstract class ShelfBase extends org.semanticwb.model.SWBClass implements
         public static java.util.Iterator<com.infotec.conorg.Shelf> listShelfByOwner(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.conorg.Shelf> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(conorg_owner,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Shelf with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @param model Model of the com.infotec.conorg.Shelf
+       * @return Iterator with all the com.infotec.conorg.Shelf
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Shelf> listShelfByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Shelf> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Shelf with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @return Iterator with all the com.infotec.conorg.Shelf
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Shelf> listShelfByCreator(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Shelf> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -219,6 +219,113 @@ public abstract class ShelfBase extends org.semanticwb.model.SWBClass implements
     {
          org.semanticwb.model.User ret=null;
          org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_modifiedBy);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+/**
+* Gets the Updated property
+* @return java.util.Date with the Updated
+*/
+    public java.util.Date getUpdated()
+    {
+        return getSemanticObject().getDateProperty(swb_updated);
+    }
+
+/**
+* Sets the Updated property
+* @param value long with the Updated
+*/
+    public void setUpdated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_updated, value);
+    }
+
+/**
+* Gets the Created property
+* @return java.util.Date with the Created
+*/
+    public java.util.Date getCreated()
+    {
+        return getSemanticObject().getDateProperty(swb_created);
+    }
+
+/**
+* Sets the Created property
+* @param value long with the Created
+*/
+    public void setCreated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_created, value);
+    }
+
+/**
+* Gets the Description property
+* @return String with the Description
+*/
+    public String getDescription()
+    {
+        return getSemanticObject().getProperty(swb_description);
+    }
+
+/**
+* Sets the Description property
+* @param value long with the Description
+*/
+    public void setDescription(String value)
+    {
+        getSemanticObject().setProperty(swb_description, value);
+    }
+
+    public String getDescription(String lang)
+    {
+        return getSemanticObject().getProperty(swb_description, null, lang);
+    }
+
+    public String getDisplayDescription(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_description, lang);
+    }
+
+    public void setDescription(String description, String lang)
+    {
+        getSemanticObject().setProperty(swb_description, description, lang);
+    }
+   /**
+   * Sets the value for the property Owner
+   * @param value Owner to set
+   */
+
+    public void setOwner(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(conorg_owner, value.getSemanticObject());
+        }else
+        {
+            removeOwner();
+        }
+    }
+   /**
+   * Remove the value for Owner property
+   */
+
+    public void removeOwner()
+    {
+        getSemanticObject().removeProperty(conorg_owner);
+    }
+
+   /**
+   * Gets the Owner
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getOwner()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(conorg_owner);
          if(obj!=null)
          {
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
@@ -295,113 +402,6 @@ public abstract class ShelfBase extends org.semanticwb.model.SWBClass implements
     public void setTitle(String title, String lang)
     {
         getSemanticObject().setProperty(swb_title, title, lang);
-    }
-
-/**
-* Gets the Created property
-* @return java.util.Date with the Created
-*/
-    public java.util.Date getCreated()
-    {
-        return getSemanticObject().getDateProperty(swb_created);
-    }
-
-/**
-* Sets the Created property
-* @param value long with the Created
-*/
-    public void setCreated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_created, value);
-    }
-
-/**
-* Gets the Updated property
-* @return java.util.Date with the Updated
-*/
-    public java.util.Date getUpdated()
-    {
-        return getSemanticObject().getDateProperty(swb_updated);
-    }
-
-/**
-* Sets the Updated property
-* @param value long with the Updated
-*/
-    public void setUpdated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_updated, value);
-    }
-
-/**
-* Gets the Description property
-* @return String with the Description
-*/
-    public String getDescription()
-    {
-        return getSemanticObject().getProperty(swb_description);
-    }
-
-/**
-* Sets the Description property
-* @param value long with the Description
-*/
-    public void setDescription(String value)
-    {
-        getSemanticObject().setProperty(swb_description, value);
-    }
-
-    public String getDescription(String lang)
-    {
-        return getSemanticObject().getProperty(swb_description, null, lang);
-    }
-
-    public String getDisplayDescription(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_description, lang);
-    }
-
-    public void setDescription(String description, String lang)
-    {
-        getSemanticObject().setProperty(swb_description, description, lang);
-    }
-   /**
-   * Sets the value for the property Owner
-   * @param value Owner to set
-   */
-
-    public void setOwner(org.semanticwb.model.User value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(conorg_owner, value.getSemanticObject());
-        }else
-        {
-            removeOwner();
-        }
-    }
-   /**
-   * Remove the value for Owner property
-   */
-
-    public void removeOwner()
-    {
-        getSemanticObject().removeProperty(conorg_owner);
-    }
-
-   /**
-   * Gets the Owner
-   * @return a org.semanticwb.model.User
-   */
-    public org.semanticwb.model.User getOwner()
-    {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(conorg_owner);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
     }
    /**
    * Gets all the com.infotec.conorg.Tile

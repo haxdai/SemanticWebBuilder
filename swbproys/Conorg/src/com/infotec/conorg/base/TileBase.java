@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class TileBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Calendarable,org.semanticwb.model.Tagable,org.semanticwb.model.Traceable
+public abstract class TileBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Calendarable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticClass conorg_Topic=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#Topic");
     public static final org.semanticwb.platform.SemanticProperty conorg_hasTopic=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#hasTopic");
@@ -104,6 +104,29 @@ public abstract class TileBase extends org.semanticwb.model.SWBClass implements 
             return it;
         }
        /**
+       * Gets all com.infotec.conorg.Tile with a determined Topic
+       * @param value Topic of the type com.infotec.conorg.Topic
+       * @param model Model of the com.infotec.conorg.Tile
+       * @return Iterator with all the com.infotec.conorg.Tile
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Tile> listTileByTopic(com.infotec.conorg.Topic value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Tile> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(conorg_hasTopic, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Tile with a determined Topic
+       * @param value Topic of the type com.infotec.conorg.Topic
+       * @return Iterator with all the com.infotec.conorg.Tile
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Tile> listTileByTopic(com.infotec.conorg.Topic value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Tile> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(conorg_hasTopic,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all com.infotec.conorg.Tile with a determined Calendar
        * @param value Calendar of the type org.semanticwb.model.Calendar
        * @param model Model of the com.infotec.conorg.Tile
@@ -147,29 +170,6 @@ public abstract class TileBase extends org.semanticwb.model.SWBClass implements 
         public static java.util.Iterator<com.infotec.conorg.Tile> listTileByCreator(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.conorg.Tile> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.conorg.Tile with a determined Topic
-       * @param value Topic of the type com.infotec.conorg.Topic
-       * @param model Model of the com.infotec.conorg.Tile
-       * @return Iterator with all the com.infotec.conorg.Tile
-       */
-
-        public static java.util.Iterator<com.infotec.conorg.Tile> listTileByTopic(com.infotec.conorg.Topic value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.conorg.Tile> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(conorg_hasTopic, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.conorg.Tile with a determined Topic
-       * @param value Topic of the type com.infotec.conorg.Topic
-       * @return Iterator with all the com.infotec.conorg.Tile
-       */
-
-        public static java.util.Iterator<com.infotec.conorg.Tile> listTileByTopic(com.infotec.conorg.Topic value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.conorg.Tile> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(conorg_hasTopic,value.getSemanticObject(),sclass));
             return it;
         }
     }
@@ -219,6 +219,140 @@ public abstract class TileBase extends org.semanticwb.model.SWBClass implements 
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
          }
          return ret;
+    }
+   /**
+   * Gets all the com.infotec.conorg.Topic
+   * @return A GenericIterator with all the com.infotec.conorg.Topic
+   */
+
+    public org.semanticwb.model.GenericIterator<com.infotec.conorg.Topic> listTopics()
+    {
+        return new org.semanticwb.model.GenericIterator<com.infotec.conorg.Topic>(getSemanticObject().listObjectProperties(conorg_hasTopic));
+    }
+
+   /**
+   * Gets true if has a Topic
+   * @param value com.infotec.conorg.Topic to verify
+   * @return true if the com.infotec.conorg.Topic exists, false otherwise
+   */
+    public boolean hasTopic(com.infotec.conorg.Topic value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(conorg_hasTopic,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a Topic
+   * @param value com.infotec.conorg.Topic to add
+   */
+
+    public void addTopic(com.infotec.conorg.Topic value)
+    {
+        getSemanticObject().addObjectProperty(conorg_hasTopic, value.getSemanticObject());
+    }
+   /**
+   * Removes all the Topic
+   */
+
+    public void removeAllTopic()
+    {
+        getSemanticObject().removeProperty(conorg_hasTopic);
+    }
+   /**
+   * Removes a Topic
+   * @param value com.infotec.conorg.Topic to remove
+   */
+
+    public void removeTopic(com.infotec.conorg.Topic value)
+    {
+        getSemanticObject().removeObjectProperty(conorg_hasTopic,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the Topic
+   * @return a com.infotec.conorg.Topic
+   */
+    public com.infotec.conorg.Topic getTopic()
+    {
+         com.infotec.conorg.Topic ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(conorg_hasTopic);
+         if(obj!=null)
+         {
+             ret=(com.infotec.conorg.Topic)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+/**
+* Gets the Updated property
+* @return java.util.Date with the Updated
+*/
+    public java.util.Date getUpdated()
+    {
+        return getSemanticObject().getDateProperty(swb_updated);
+    }
+
+/**
+* Sets the Updated property
+* @param value long with the Updated
+*/
+    public void setUpdated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_updated, value);
+    }
+
+/**
+* Gets the Created property
+* @return java.util.Date with the Created
+*/
+    public java.util.Date getCreated()
+    {
+        return getSemanticObject().getDateProperty(swb_created);
+    }
+
+/**
+* Sets the Created property
+* @param value long with the Created
+*/
+    public void setCreated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_created, value);
+    }
+
+/**
+* Gets the Description property
+* @return String with the Description
+*/
+    public String getDescription()
+    {
+        return getSemanticObject().getProperty(swb_description);
+    }
+
+/**
+* Sets the Description property
+* @param value long with the Description
+*/
+    public void setDescription(String value)
+    {
+        getSemanticObject().setProperty(swb_description, value);
+    }
+
+    public String getDescription(String lang)
+    {
+        return getSemanticObject().getProperty(swb_description, null, lang);
+    }
+
+    public String getDisplayDescription(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_description, lang);
+    }
+
+    public void setDescription(String description, String lang)
+    {
+        getSemanticObject().setProperty(swb_description, description, lang);
     }
    /**
    * Gets all the org.semanticwb.model.Calendar
@@ -355,140 +489,6 @@ public abstract class TileBase extends org.semanticwb.model.SWBClass implements 
     public void setTitle(String title, String lang)
     {
         getSemanticObject().setProperty(swb_title, title, lang);
-    }
-   /**
-   * Gets all the com.infotec.conorg.Topic
-   * @return A GenericIterator with all the com.infotec.conorg.Topic
-   */
-
-    public org.semanticwb.model.GenericIterator<com.infotec.conorg.Topic> listTopics()
-    {
-        return new org.semanticwb.model.GenericIterator<com.infotec.conorg.Topic>(getSemanticObject().listObjectProperties(conorg_hasTopic));
-    }
-
-   /**
-   * Gets true if has a Topic
-   * @param value com.infotec.conorg.Topic to verify
-   * @return true if the com.infotec.conorg.Topic exists, false otherwise
-   */
-    public boolean hasTopic(com.infotec.conorg.Topic value)
-    {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(conorg_hasTopic,value.getSemanticObject());
-        }
-        return ret;
-    }
-   /**
-   * Adds a Topic
-   * @param value com.infotec.conorg.Topic to add
-   */
-
-    public void addTopic(com.infotec.conorg.Topic value)
-    {
-        getSemanticObject().addObjectProperty(conorg_hasTopic, value.getSemanticObject());
-    }
-   /**
-   * Removes all the Topic
-   */
-
-    public void removeAllTopic()
-    {
-        getSemanticObject().removeProperty(conorg_hasTopic);
-    }
-   /**
-   * Removes a Topic
-   * @param value com.infotec.conorg.Topic to remove
-   */
-
-    public void removeTopic(com.infotec.conorg.Topic value)
-    {
-        getSemanticObject().removeObjectProperty(conorg_hasTopic,value.getSemanticObject());
-    }
-
-   /**
-   * Gets the Topic
-   * @return a com.infotec.conorg.Topic
-   */
-    public com.infotec.conorg.Topic getTopic()
-    {
-         com.infotec.conorg.Topic ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(conorg_hasTopic);
-         if(obj!=null)
-         {
-             ret=(com.infotec.conorg.Topic)obj.createGenericInstance();
-         }
-         return ret;
-    }
-
-/**
-* Gets the Created property
-* @return java.util.Date with the Created
-*/
-    public java.util.Date getCreated()
-    {
-        return getSemanticObject().getDateProperty(swb_created);
-    }
-
-/**
-* Sets the Created property
-* @param value long with the Created
-*/
-    public void setCreated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_created, value);
-    }
-
-/**
-* Gets the Updated property
-* @return java.util.Date with the Updated
-*/
-    public java.util.Date getUpdated()
-    {
-        return getSemanticObject().getDateProperty(swb_updated);
-    }
-
-/**
-* Sets the Updated property
-* @param value long with the Updated
-*/
-    public void setUpdated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_updated, value);
-    }
-
-/**
-* Gets the Description property
-* @return String with the Description
-*/
-    public String getDescription()
-    {
-        return getSemanticObject().getProperty(swb_description);
-    }
-
-/**
-* Sets the Description property
-* @param value long with the Description
-*/
-    public void setDescription(String value)
-    {
-        getSemanticObject().setProperty(swb_description, value);
-    }
-
-    public String getDescription(String lang)
-    {
-        return getSemanticObject().getProperty(swb_description, null, lang);
-    }
-
-    public String getDisplayDescription(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_description, lang);
-    }
-
-    public void setDescription(String description, String lang)
-    {
-        getSemanticObject().setProperty(swb_description, description, lang);
     }
 
 /**
