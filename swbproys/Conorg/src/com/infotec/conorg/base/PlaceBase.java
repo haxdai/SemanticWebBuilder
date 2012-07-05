@@ -1,10 +1,11 @@
 package com.infotec.conorg.base;
 
 
-public abstract class PlaceBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.FilterableClass,org.semanticwb.model.Activeable,org.semanticwb.model.Countryable,org.semanticwb.model.Indexable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Tagable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Localeable,org.semanticwb.model.Filterable,org.semanticwb.model.OntologyDepable,org.semanticwb.model.Traceable,org.semanticwb.model.Trashable
+public abstract class PlaceBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.FilterableNode,org.semanticwb.model.Traceable,org.semanticwb.model.Trashable,org.semanticwb.model.Undeleteable,org.semanticwb.model.OntologyDepable,org.semanticwb.model.Activeable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Filterable,org.semanticwb.model.Localeable,org.semanticwb.model.Countryable,org.semanticwb.model.Indexable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticClass conorg_WorkSpace=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#WorkSpace");
     public static final org.semanticwb.platform.SemanticProperty conorg_hasWorkSpace=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#hasWorkSpace");
+    public static final org.semanticwb.platform.SemanticClass conorg_Topic=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#Topic");
     public static final org.semanticwb.platform.SemanticClass conorg_Place=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#Place");
    /**
    * The semantic class that represents the currentObject
@@ -34,51 +35,62 @@ public abstract class PlaceBase extends org.semanticwb.model.WebSite implements 
             java.util.Iterator it=sclass.listInstances();
             return new org.semanticwb.model.GenericIterator<com.infotec.conorg.Place>(it, true);
         }
-
-        public static com.infotec.conorg.Place createPlace(org.semanticwb.model.SWBModel model)
-        {
-            long id=model.getSemanticObject().getModel().getCounter(sclass);
-            return com.infotec.conorg.Place.ClassMgr.createPlace(String.valueOf(id), model);
-        }
        /**
        * Gets a com.infotec.conorg.Place
        * @param id Identifier for com.infotec.conorg.Place
-       * @param model Model of the com.infotec.conorg.Place
        * @return A com.infotec.conorg.Place
        */
-        public static com.infotec.conorg.Place getPlace(String id, org.semanticwb.model.SWBModel model)
+        public static com.infotec.conorg.Place getPlace(String id)
         {
-            return (com.infotec.conorg.Place)model.getSemanticObject().getModel().getGenericObject(model.getSemanticObject().getModel().getObjectUri(id,sclass),sclass);
+            org.semanticwb.platform.SemanticMgr mgr=org.semanticwb.SWBPlatform.getSemanticMgr();
+            com.infotec.conorg.Place ret=null;
+            org.semanticwb.platform.SemanticModel model=mgr.getModel(id);
+            if(model!=null)
+            {
+                org.semanticwb.platform.SemanticObject obj=model.getSemanticObject(model.getObjectUri(id,sclass));
+                if(obj!=null)
+                {
+                    org.semanticwb.model.GenericObject gobj=obj.createGenericInstance();
+                    if(gobj instanceof com.infotec.conorg.Place)
+                    {
+                        ret=(com.infotec.conorg.Place)gobj;
+                    }
+                }
+            }
+            return ret;
         }
        /**
        * Create a com.infotec.conorg.Place
        * @param id Identifier for com.infotec.conorg.Place
-       * @param model Model of the com.infotec.conorg.Place
        * @return A com.infotec.conorg.Place
        */
-        public static com.infotec.conorg.Place createPlace(String id, org.semanticwb.model.SWBModel model)
+        public static com.infotec.conorg.Place createPlace(String id, String namespace)
         {
-            return (com.infotec.conorg.Place)model.getSemanticObject().getModel().createGenericObject(model.getSemanticObject().getModel().getObjectUri(id,sclass),sclass);
+            org.semanticwb.platform.SemanticMgr mgr=org.semanticwb.SWBPlatform.getSemanticMgr();
+            org.semanticwb.platform.SemanticModel model=mgr.createModel(id, namespace);
+            return (com.infotec.conorg.Place)model.createGenericObject(model.getObjectUri(id,sclass),sclass);
         }
        /**
        * Remove a com.infotec.conorg.Place
        * @param id Identifier for com.infotec.conorg.Place
-       * @param model Model of the com.infotec.conorg.Place
        */
-        public static void removePlace(String id, org.semanticwb.model.SWBModel model)
+        public static void removePlace(String id)
         {
-            model.getSemanticObject().getModel().removeSemanticObject(model.getSemanticObject().getModel().getObjectUri(id,sclass));
+            com.infotec.conorg.Place obj=getPlace(id);
+            if(obj!=null)
+            {
+                obj.remove();
+            }
         }
        /**
        * Returns true if exists a com.infotec.conorg.Place
        * @param id Identifier for com.infotec.conorg.Place
-       * @param model Model of the com.infotec.conorg.Place
        * @return true if the com.infotec.conorg.Place exists, false otherwise
        */
 
-        public static boolean hasPlace(String id, org.semanticwb.model.SWBModel model)
+        public static boolean hasPlace(String id)
         {
-            return (getPlace(id, model)!=null);
+            return (getPlace(id)!=null);
         }
        /**
        * Gets all com.infotec.conorg.Place with a determined ModifiedBy
@@ -432,36 +444,33 @@ public abstract class PlaceBase extends org.semanticwb.model.WebSite implements 
          return ret;
     }
 
-/**
-* Gets the Tags property
-* @return String with the Tags
-*/
-    public String getTags()
+    public com.infotec.conorg.Topic getTopic(String id)
     {
-        return getSemanticObject().getProperty(swb_tags);
+        return com.infotec.conorg.Topic.ClassMgr.getTopic(id, this);
     }
 
-/**
-* Sets the Tags property
-* @param value long with the Tags
-*/
-    public void setTags(String value)
+    public java.util.Iterator<com.infotec.conorg.Topic> listTopics()
     {
-        getSemanticObject().setProperty(swb_tags, value);
+        return com.infotec.conorg.Topic.ClassMgr.listTopics(this);
     }
 
-    public String getTags(String lang)
+    public com.infotec.conorg.Topic createTopic(String id)
     {
-        return getSemanticObject().getProperty(swb_tags, null, lang);
+        return com.infotec.conorg.Topic.ClassMgr.createTopic(id,this);
     }
 
-    public String getDisplayTags(String lang)
+    public com.infotec.conorg.Topic createTopic()
     {
-        return getSemanticObject().getLocaleProperty(swb_tags, lang);
-    }
+        long id=getSemanticObject().getModel().getCounter(conorg_Topic);
+        return com.infotec.conorg.Topic.ClassMgr.createTopic(String.valueOf(id),this);
+    } 
 
-    public void setTags(String tags, String lang)
+    public void removeTopic(String id)
     {
-        getSemanticObject().setProperty(swb_tags, tags, lang);
+        com.infotec.conorg.Topic.ClassMgr.removeTopic(id, this);
+    }
+    public boolean hasTopic(String id)
+    {
+        return com.infotec.conorg.Topic.ClassMgr.hasTopic(id, this);
     }
 }

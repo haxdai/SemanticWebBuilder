@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class ImageBase extends com.infotec.conorg.Document implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Versionable,org.semanticwb.model.Calendarable,org.semanticwb.model.Tagable,org.semanticwb.model.Traceable
+public abstract class ImageBase extends com.infotec.conorg.Document implements org.semanticwb.model.Calendarable,org.semanticwb.model.Traceable,org.semanticwb.model.Versionable,org.semanticwb.model.Tagable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticProperty conorg_imageRights=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#imageRights");
     public static final org.semanticwb.platform.SemanticClass conorg_Image=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#Image");

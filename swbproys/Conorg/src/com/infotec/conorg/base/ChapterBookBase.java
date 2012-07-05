@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class ChapterBookBase extends com.infotec.conorg.Document implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Versionable,org.semanticwb.model.Calendarable,org.semanticwb.model.Tagable,org.semanticwb.model.Traceable
+public abstract class ChapterBookBase extends com.infotec.conorg.Document implements org.semanticwb.model.Calendarable,org.semanticwb.model.Traceable,org.semanticwb.model.Versionable,org.semanticwb.model.Tagable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticProperty conorg_catalogIDsDOI=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#catalogIDsDOI");
     public static final org.semanticwb.platform.SemanticProperty conorg_catalogIDsISBN=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#catalogIDsISBN");
