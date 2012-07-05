@@ -59,6 +59,7 @@
     WebPage wpage = paramRequest.getWebPage();
     WebSite wsite = wpage.getWebSite();
     User usr = paramRequest.getUser();
+    String wsid = request.getParameter("wsid");
     Role role = null;
     Resource base = paramRequest.getResourceBase();
 
@@ -70,7 +71,7 @@
 
     if (confClass.equals(Shelf.conorg_Shelf.getURI())) {
         isShelf = Boolean.TRUE;
-    } else if (confClass.equals(Shelf.conorg_Shelf.getURI())) {
+    } else if (confClass.equals(WorkSpace.conorg_WorkSpace.getURI())) {
         isShelf = Boolean.FALSE;
     }
 
