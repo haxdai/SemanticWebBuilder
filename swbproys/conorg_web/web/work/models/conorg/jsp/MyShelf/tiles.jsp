@@ -9,12 +9,13 @@
     <%
         if (action.equals("")) {
 
-            WebPage wpconfig = wsite.getWebPage(base.getAttribute("wpshelf",wpage.getId()));
+            WebPage wpconfig = isShelf?wsite.getWebPage(base.getAttribute("wpshelf",wpage.getId())):wsite.getWebPage(base.getAttribute("wpworkspace",wpage.getId()));
                     
             SWBResourceURLImp urladd = new SWBResourceURLImp(request,base,wpconfig,SWBResourceURLImp.UrlType_RENDER);
             
             //SWBResourceURLImp urladd = paramRequest.getRenderUrl();
             urladd.setParameter("act", SWBResourceURL.Action_ADD);
+            if(request.getParameter("wsid")!=null) urladd.setParameter("wsid", request.getParameter("wsid"));
 
     %>
 
@@ -117,12 +118,14 @@
                     urldel.setAction(SWBResourceURL.Action_REMOVE);
                     urldel.setParameter("id", tile.getId());
                     urldel.setParameter("suri", tile.getURI());
+                    if(request.getParameter("wsid")!=null) urldel.setParameter("wsid", request.getParameter("wsid"));
 
                     SWBResourceURLImp urledit = new SWBResourceURLImp(request,base,wpconfig,SWBResourceURLImp.UrlType_RENDER);
                     //SWBResourceURL urledit = paramRequest.getRenderUrl();
                     urledit.setParameter("act", SWBResourceURL.Action_EDIT);
                     urledit.setParameter("id", tile.getId());
                     urledit.setParameter("suri", tile.getURI());
+                    if(request.getParameter("wsid")!=null) urledit.setParameter("wsid", request.getParameter("wsid"));
             %>
             <tr>
                 <td>
@@ -183,12 +186,14 @@
                     if (pages > 10) {
                         SWBResourceURL urlNext = paramRequest.getRenderUrl();
                         urlNext.setParameter("page", "" + 0);
+                        if(null!=wsid)urlNext.setParameter("wsid", wsid);
                         out.println("<a href=\"#\" onclick=\"window.location='" + urlNext + "';\">Ir al inicio</a> ");
                     }
 
                     for (int z = inicia; z < finaliza; z++) {
                         SWBResourceURL urlNext = paramRequest.getRenderUrl();
                         urlNext.setParameter("page", "" + z);
+                        if(null!=wsid)urlNext.setParameter("wsid", wsid);
 
                         if (z != p) {
                             out.println("<a href=\"#\" onclick=\"window.location='" + urlNext + "';\">" + (z + 1) + "</a> ");
@@ -200,6 +205,7 @@
                     if (pages > 10) {
                         SWBResourceURL urlNext = paramRequest.getRenderUrl();
                         urlNext.setParameter("page", "" + (pages - 1));
+                        if(null!=wsid)urlNext.setParameter("wsid", wsid);
                         out.println("<a href=\"#\" onclick=\"window.location='" + urlNext + "';\">Ir al final</a> ");
                     }
 
@@ -212,7 +218,8 @@
     <%
     } else if (action.equals(SWBResourceURL.Action_ADD)) {
 
-        String ajaxUrl = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(MyShelf.Mode_AJAX).toString();
+        if(null==wsid) wsid="";
+        String ajaxUrl = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(MyShelf.Mode_AJAX).toString()+"?wsid="+wsid;
 
         String wptitle = wpage.getDisplayName(usr.getLanguage());
         SWBResourceURL urladd = paramRequest.getActionUrl();
@@ -265,7 +272,7 @@
     <h3><%=wptitle%></h3>
     <form  id="form1sc" name="form1ct" method="post" dojoType="dijit.form.Form" action="<%=urladd%>">
         <label for="">Tipo de elemento tile(azulejo) a añadir:</label>
-        <select name="sclass" onchange="loadForm('<%=ajaxUrl%>?classid='+this.value)" >
+        <select name="sclass" onchange="loadForm('<%=ajaxUrl%>&classid='+this.value)" >
             <option value="-1">Selecciona....</option>
             <optgroup title="Documento" label="Documento">
                 <%
@@ -291,7 +298,7 @@
     </form>
     <div id="classform">
         <span id="mgrform">
-            forma
+            &nbsp;
         </span>
     </div>
 
@@ -304,8 +311,9 @@
     } else if (action.equals(SWBResourceURL.Action_EDIT)) {
         String id = request.getParameter("id");
         String suri = request.getParameter("suri");
+        //wsid = request.getParameter("wsid");
 
-        System.out.println("EDIT:" + id);
+        //System.out.println("EDIT:" + id);
         String wptitle = wpage.getDisplayName(usr.getLanguage());
         SWBResourceURL urladd = paramRequest.getActionUrl();
         urladd.setAction(SWBResourceURL.Action_EDIT);
@@ -353,12 +361,13 @@
             frmgr.addProperty(VersionInfo.swb_versionFile);
 
             frmgr.addHiddenParameter("id", suri);
+            if(null!=wsid) frmgr.addHiddenParameter("wsid", wsid);
             frmgr.setType(SWBFormMgr.TYPE_DOJO);
             frmgr.setAction(urlupdate.toString());
             frmgr.setLang("es");
 
             //frmgr.setOnSubmit("enviar('" + suri + "/form');");
-            String boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + "';return false;\">Cancelar</button>";
+            String boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl()+(null!=wsid?"?wsid="+wsid:"") + "';return false;\">Cancelar</button>";
             frmgr.addButton(boton);
             //frmgr.addButton(SWBFormButton.newCancelButton());
             frmgr.addButton(SWBFormButton.newSaveButton());
@@ -480,6 +489,7 @@
                     urlnew.setAction("newfile");
                     urlnew.setParameter("id", doc.getURI());
                     urlnew.setParameter("act", "newfile");
+                    if(null!=wsid) urlnew.setParameter("wsid", wsid);
 
                     out.println("<script type=\"text/javascript\" >");
                     out.println("function valida() ");

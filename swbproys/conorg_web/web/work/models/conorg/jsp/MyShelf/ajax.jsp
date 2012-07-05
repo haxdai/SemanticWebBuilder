@@ -27,6 +27,7 @@ Author     : rene.jara
     response.setHeader("Cache-Control", "no-cache");
     response.setHeader("Pragma", "no-cache");
     String id = request.getParameter("id");
+    String wsid = request.getParameter("wsid");
     String classid = request.getParameter("classid");
     SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
 
@@ -43,10 +44,18 @@ Author     : rene.jara
             SWBFormMgr frmgr = new SWBFormMgr(sc, ws.getSemanticObject(), SWBFormMgr.MODE_CREATE);
             frmgr.setType(SWBFormMgr.TYPE_DOJO);
 
+            if(null!=wsid)frmgr.addHiddenParameter("wsid", wsid);
             frmgr.setAction(urladd.toString());
             frmgr.setLang("es");
             frmgr.setOnSubmit("enviar('" + classid + "/form');");
-            String boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW).setCallMethod(SWBResourceURL.Call_CONTENT) + "';return false;\">Cancelar</button>";
+            
+            SWBResourceURL url = paramRequest.getRenderUrl();
+            url.setMode(SWBResourceURL.Mode_VIEW);
+            url.setCallMethod(SWBResourceURL.Call_CONTENT);
+            if(null!=wsid) url.setParameter("wsid", wsid);
+            
+            
+            String boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + url + "';return false;\">Cancelar</button>";
             frmgr.addButton(boton);
             //frmgr.addButton(SWBFormButton.newCancelButton());
             frmgr.addButton(SWBFormButton.newSaveButton());
