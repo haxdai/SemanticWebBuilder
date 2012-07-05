@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class DocumentBase extends com.infotec.conorg.Tile implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Versionable,org.semanticwb.model.Calendarable,org.semanticwb.model.Tagable,org.semanticwb.model.Traceable
+public abstract class DocumentBase extends com.infotec.conorg.Tile implements org.semanticwb.model.Calendarable,org.semanticwb.model.Traceable,org.semanticwb.model.Versionable,org.semanticwb.model.Tagable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticProperty conorg_documentPages=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#documentPages");
     public static final org.semanticwb.platform.SemanticProperty conorg_documentCity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#documentCity");
@@ -15,7 +15,6 @@ public abstract class DocumentBase extends com.infotec.conorg.Tile implements or
     public static final org.semanticwb.platform.SemanticClass conorg_Author=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#Author");
     public static final org.semanticwb.platform.SemanticProperty conorg_hasAuthor=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#hasAuthor");
     public static final org.semanticwb.platform.SemanticProperty conorg_documentEdition=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#documentEdition");
-    public static final org.semanticwb.platform.SemanticProperty conorg_documentKeywords=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#documentKeywords");
     public static final org.semanticwb.platform.SemanticProperty conorg_documentFormat=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#documentFormat");
     public static final org.semanticwb.platform.SemanticClass conorg_Document=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#Document");
    /**
@@ -597,24 +596,6 @@ public abstract class DocumentBase extends com.infotec.conorg.Tile implements or
     public void setDocumentEdition(String value)
     {
         getSemanticObject().setProperty(conorg_documentEdition, value);
-    }
-
-/**
-* Gets the DocumentKeywords property
-* @return String with the DocumentKeywords
-*/
-    public String getDocumentKeywords()
-    {
-        return getSemanticObject().getProperty(conorg_documentKeywords);
-    }
-
-/**
-* Sets the DocumentKeywords property
-* @param value long with the DocumentKeywords
-*/
-    public void setDocumentKeywords(String value)
-    {
-        getSemanticObject().setProperty(conorg_documentKeywords, value);
     }
 
 /**
