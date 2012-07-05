@@ -47,7 +47,7 @@ public class MyShelf extends GenericAdmResource {
 
         if (confClass.equals(Shelf.conorg_Shelf.getURI())) {
             path = basePath + "viewShelf.jsp";
-        } else if (confClass.equals(Shelf.conorg_Shelf.getURI())) {
+        } else if (confClass.equals(WorkSpace.conorg_WorkSpace.getURI())) {
             path = basePath + "viewWS.jsp";
         }
 
@@ -146,9 +146,18 @@ public class MyShelf extends GenericAdmResource {
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         String action = response.getAction();
         String id = request.getParameter("id");
+        String wsid = request.getParameter("wsid");
         String classid = request.getParameter("classid");
         if (null == action) {
             action = "";
+        }
+
+        String confClass = getResourceBase().getAttribute(MyShelf.RES_CONF, "http://www.infotec.com/conorg.owl#Shelf");
+        boolean isShelf = Boolean.TRUE;
+        if (confClass.equals(Shelf.conorg_Shelf.getURI())) {
+            isShelf = Boolean.TRUE;
+        } else if (confClass.equals(WorkSpace.conorg_WorkSpace.getURI())) {
+            isShelf = Boolean.FALSE;
         }
 
         User usr = response.getUser();
@@ -166,11 +175,6 @@ public class MyShelf extends GenericAdmResource {
             cls = obj.getSemanticClass();
         }
 
-//        Shelf shelf = Shelf.ClassMgr.getCV(usr.getId(), wsite);
-//        if(shelf==null) {
-//            shelf = Shelf.ClassMgr.createCV(usr.getId(),wsite);
-//            shelf.setPropietario(usr);
-//        }
         String msg = "";
         if (SWBResourceURL.Action_ADD.equals(action) || SWBResourceURL.Action_EDIT.equals(action)) {
 
@@ -183,16 +187,29 @@ public class MyShelf extends GenericAdmResource {
                     frmgr = new SWBFormMgr(scls, wsite.getSemanticObject().getModel().getModelObject(), SWBFormMgr.MODE_CREATE);
                     SemanticObject nso = frmgr.processForm(request);
                     if (nso != null) {
-                        Shelf myshelf = Shelf.ClassMgr.getShelf(usr.getId(), wsite);
-                        if (myshelf == null) {
-                            myshelf = Shelf.ClassMgr.createShelf(usr.getId(), wsite);
-                            myshelf.setOwner(usr);
+                        if (isShelf) {
+                            Shelf myshelf = Shelf.ClassMgr.getShelf(usr.getId(), wsite);
+                            if (myshelf == null) {
+                                myshelf = Shelf.ClassMgr.createShelf(usr.getId(), wsite);
+                                myshelf.setOwner(usr);
+                            }
+                            myshelf.addTile((Tile) (nso.createGenericInstance()));
+                        } else {
+                            // agregar el tile al workspace
+                            WorkSpace workSpace = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
+                            if (null != workSpace) {
+                                workSpace.addTile((Tile) (nso.createGenericInstance()));
+                            }
                         }
-                        myshelf.addTile((Tile) (nso.createGenericInstance()));
+
                         response.setAction(SWBActionResponse.Action_EDIT);
                         response.setRenderParameter("act", SWBActionResponse.Action_EDIT);
                         response.setRenderParameter("id", nso.getId());
                         response.setRenderParameter("suri", nso.getURI());
+                        if (null != wsid) {
+                            response.setRenderParameter("wsid", wsid);
+                        }
+
                     }
                     msg = "Se creó " + classid.substring(classid.indexOf("#") + 1) + " satisfactoriamente.";
                 } catch (Exception e) {
@@ -214,9 +231,16 @@ public class MyShelf extends GenericAdmResource {
                     msg = "Error al actualizar " + classid.substring(classid.indexOf("#") + 1);
                 }
 
-                response.setAction("");
-                response.setRenderParameter("act", "");
+                response.setRenderParameter("act", SWBActionResponse.Action_EDIT);
+                response.setAction(SWBActionResponse.Action_EDIT);
+                //response.setRenderParameter("act", "");
                 response.setRenderParameter("alertmsg", msg);
+                
+                response.setRenderParameter("id", id);
+                response.setRenderParameter("suri", id);
+                if (null != wsid) {
+                    response.setRenderParameter("wsid", wsid);
+                }
 
             } else {
                 response.setRenderParameter("alertmsg", "Datos inválidos, no se recibieron parámetros válidos.");
@@ -245,8 +269,10 @@ public class MyShelf extends GenericAdmResource {
             String fcomment = fup.getValue("fcomment");
 
             String fid = fup.getValue("fid");
+            wsid = request.getParameter("wsid");
 
-            System.out.println("fid: " + fid);
+//            System.out.println("fid: " + fid);
+//            System.out.println("wsid: " + wsid);
 
             byte[] bcont = fup.getFileData("ffile");
 
@@ -274,14 +300,21 @@ public class MyShelf extends GenericAdmResource {
                 storeFile(fname, new ByteArrayInputStream(bcont), fcomment, incremento, doc, wsite);
             }
 
+            response.setRenderParameter("wsid", wsid);
+            response.setRenderParameter("fid", fid);
+            response.setAction(SWBActionResponse.Action_EDIT);
+                        response.setRenderParameter("act", SWBActionResponse.Action_EDIT);
+                        response.setRenderParameter("id", fid);
+                        response.setRenderParameter("suri", fid);
         }
 
-        if (eventid != null) {
-            response.setRenderParameter("id", eventid);
+        if (id != null) {
+            response.setRenderParameter("id", id);
         }
         if (page != null) {
             response.setRenderParameter("page", page);
         }
+       
     }
 
     public OutputStream storeFile(String name, String comment, boolean bigVersionInc, Document doc, WebSite wsite) throws FileNotFoundException {
@@ -428,7 +461,7 @@ public class MyShelf extends GenericAdmResource {
         }
         return file;
     }
-    
+
     public static String getTileTypeName(Tile tile) {
 
         String ret = "Azulejo";
