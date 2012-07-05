@@ -3,9 +3,9 @@ package com.infotec.conorg.base;
 
 public abstract class MemberBase extends org.semanticwb.model.SWBClass 
 {
+    public static final org.semanticwb.platform.SemanticClass conorg_WorkSpace=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#WorkSpace");
+    public static final org.semanticwb.platform.SemanticProperty conorg_workspace=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#workspace");
     public static final org.semanticwb.platform.SemanticProperty conorg_memberType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#memberType");
-    public static final org.semanticwb.platform.SemanticClass conorg_MemberPermission=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#MemberPermission");
-    public static final org.semanticwb.platform.SemanticProperty conorg_hasMemberPermission=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#hasMemberPermission");
    /**
    * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
    */
@@ -87,26 +87,26 @@ public abstract class MemberBase extends org.semanticwb.model.SWBClass
             return (getMember(id, model)!=null);
         }
        /**
-       * Gets all com.infotec.conorg.Member with a determined MemberPermission
-       * @param value MemberPermission of the type com.infotec.conorg.MemberPermission
+       * Gets all com.infotec.conorg.Member with a determined Workspace
+       * @param value Workspace of the type com.infotec.conorg.WorkSpace
        * @param model Model of the com.infotec.conorg.Member
        * @return Iterator with all the com.infotec.conorg.Member
        */
 
-        public static java.util.Iterator<com.infotec.conorg.Member> listMemberByMemberPermission(com.infotec.conorg.MemberPermission value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<com.infotec.conorg.Member> listMemberByWorkspace(com.infotec.conorg.WorkSpace value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<com.infotec.conorg.Member> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(conorg_hasMemberPermission, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Member> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(conorg_workspace, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all com.infotec.conorg.Member with a determined MemberPermission
-       * @param value MemberPermission of the type com.infotec.conorg.MemberPermission
+       * Gets all com.infotec.conorg.Member with a determined Workspace
+       * @param value Workspace of the type com.infotec.conorg.WorkSpace
        * @return Iterator with all the com.infotec.conorg.Member
        */
 
-        public static java.util.Iterator<com.infotec.conorg.Member> listMemberByMemberPermission(com.infotec.conorg.MemberPermission value)
+        public static java.util.Iterator<com.infotec.conorg.Member> listMemberByWorkspace(com.infotec.conorg.WorkSpace value)
         {
-            org.semanticwb.model.GenericIterator<com.infotec.conorg.Member> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(conorg_hasMemberPermission,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Member> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(conorg_workspace,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -142,6 +142,44 @@ public abstract class MemberBase extends org.semanticwb.model.SWBClass
     {
         super(base);
     }
+   /**
+   * Sets the value for the property Workspace
+   * @param value Workspace to set
+   */
+
+    public void setWorkspace(com.infotec.conorg.WorkSpace value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(conorg_workspace, value.getSemanticObject());
+        }else
+        {
+            removeWorkspace();
+        }
+    }
+   /**
+   * Remove the value for Workspace property
+   */
+
+    public void removeWorkspace()
+    {
+        getSemanticObject().removeProperty(conorg_workspace);
+    }
+
+   /**
+   * Gets the Workspace
+   * @return a com.infotec.conorg.WorkSpace
+   */
+    public com.infotec.conorg.WorkSpace getWorkspace()
+    {
+         com.infotec.conorg.WorkSpace ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(conorg_workspace);
+         if(obj!=null)
+         {
+             ret=(com.infotec.conorg.WorkSpace)obj.createGenericInstance();
+         }
+         return ret;
+    }
 
 /**
 * Gets the MemberType property
@@ -159,71 +197,6 @@ public abstract class MemberBase extends org.semanticwb.model.SWBClass
     public void setMemberType(String value)
     {
         getSemanticObject().setProperty(conorg_memberType, value);
-    }
-   /**
-   * Gets all the com.infotec.conorg.MemberPermission
-   * @return A GenericIterator with all the com.infotec.conorg.MemberPermission
-   */
-
-    public org.semanticwb.model.GenericIterator<com.infotec.conorg.MemberPermission> listMemberPermissions()
-    {
-        return new org.semanticwb.model.GenericIterator<com.infotec.conorg.MemberPermission>(getSemanticObject().listObjectProperties(conorg_hasMemberPermission));
-    }
-
-   /**
-   * Gets true if has a MemberPermission
-   * @param value com.infotec.conorg.MemberPermission to verify
-   * @return true if the com.infotec.conorg.MemberPermission exists, false otherwise
-   */
-    public boolean hasMemberPermission(com.infotec.conorg.MemberPermission value)
-    {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(conorg_hasMemberPermission,value.getSemanticObject());
-        }
-        return ret;
-    }
-   /**
-   * Adds a MemberPermission
-   * @param value com.infotec.conorg.MemberPermission to add
-   */
-
-    public void addMemberPermission(com.infotec.conorg.MemberPermission value)
-    {
-        getSemanticObject().addObjectProperty(conorg_hasMemberPermission, value.getSemanticObject());
-    }
-   /**
-   * Removes all the MemberPermission
-   */
-
-    public void removeAllMemberPermission()
-    {
-        getSemanticObject().removeProperty(conorg_hasMemberPermission);
-    }
-   /**
-   * Removes a MemberPermission
-   * @param value com.infotec.conorg.MemberPermission to remove
-   */
-
-    public void removeMemberPermission(com.infotec.conorg.MemberPermission value)
-    {
-        getSemanticObject().removeObjectProperty(conorg_hasMemberPermission,value.getSemanticObject());
-    }
-
-   /**
-   * Gets the MemberPermission
-   * @return a com.infotec.conorg.MemberPermission
-   */
-    public com.infotec.conorg.MemberPermission getMemberPermission()
-    {
-         com.infotec.conorg.MemberPermission ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(conorg_hasMemberPermission);
-         if(obj!=null)
-         {
-             ret=(com.infotec.conorg.MemberPermission)obj.createGenericInstance();
-         }
-         return ret;
     }
    /**
    * Sets the value for the property User

@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class ContactBase extends com.infotec.conorg.Tile implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Calendarable,org.semanticwb.model.Tagable,org.semanticwb.model.Traceable
+public abstract class ContactBase extends com.infotec.conorg.Tile implements org.semanticwb.model.Calendarable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticProperty conorg_contactOfficePhone=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#contactOfficePhone");
     public static final org.semanticwb.platform.SemanticProperty conorg_contactExperienceArea=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#contactExperienceArea");
@@ -9,8 +9,8 @@ public abstract class ContactBase extends com.infotec.conorg.Tile implements org
     public static final org.semanticwb.platform.SemanticProperty conorg_contactAddress=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#contactAddress");
     public static final org.semanticwb.platform.SemanticProperty conorg_contactDegree=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#contactDegree");
     public static final org.semanticwb.platform.SemanticProperty conorg_contactOrganization=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#contactOrganization");
-    public static final org.semanticwb.platform.SemanticProperty conorg_contactMobilePhone=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#contactMobilePhone");
     public static final org.semanticwb.platform.SemanticProperty conorg_contactOrganizationPosition=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#contactOrganizationPosition");
+    public static final org.semanticwb.platform.SemanticProperty conorg_contactMobilePhone=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#contactMobilePhone");
     public static final org.semanticwb.platform.SemanticProperty conorg_contactLastName=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#contactLastName");
     public static final org.semanticwb.platform.SemanticProperty conorg_contactEmail=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#contactEmail");
     public static final org.semanticwb.platform.SemanticProperty conorg_contactFirstName=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#contactFirstName");
@@ -304,24 +304,6 @@ public abstract class ContactBase extends com.infotec.conorg.Tile implements org
     }
 
 /**
-* Gets the ContactMobilePhone property
-* @return String with the ContactMobilePhone
-*/
-    public String getContactMobilePhone()
-    {
-        return getSemanticObject().getProperty(conorg_contactMobilePhone);
-    }
-
-/**
-* Sets the ContactMobilePhone property
-* @param value long with the ContactMobilePhone
-*/
-    public void setContactMobilePhone(String value)
-    {
-        getSemanticObject().setProperty(conorg_contactMobilePhone, value);
-    }
-
-/**
 * Gets the ContactOrganizationPosition property
 * @return String with the ContactOrganizationPosition
 */
@@ -337,6 +319,24 @@ public abstract class ContactBase extends com.infotec.conorg.Tile implements org
     public void setContactOrganizationPosition(String value)
     {
         getSemanticObject().setProperty(conorg_contactOrganizationPosition, value);
+    }
+
+/**
+* Gets the ContactMobilePhone property
+* @return String with the ContactMobilePhone
+*/
+    public String getContactMobilePhone()
+    {
+        return getSemanticObject().getProperty(conorg_contactMobilePhone);
+    }
+
+/**
+* Sets the ContactMobilePhone property
+* @param value long with the ContactMobilePhone
+*/
+    public void setContactMobilePhone(String value)
+    {
+        getSemanticObject().setProperty(conorg_contactMobilePhone, value);
     }
 
 /**
