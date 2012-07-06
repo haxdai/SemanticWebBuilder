@@ -4,24 +4,20 @@
  */
 package com.infotec.conorg.resources;
 
-import java.io.IOException;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.http.HttpServletRequest;
+import java.io.*;
+import java.util.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
-import org.semanticwb.model.User;
-import org.semanticwb.model.WebSite;
-import org.semanticwb.portal.api.GenericResource;
-import org.semanticwb.portal.api.SWBActionResponse;
-import org.semanticwb.portal.api.SWBParamRequest;
-import org.semanticwb.portal.api.SWBResourceException;
-import org.semanticwb.portal.api.SWBResourceURL;
+import org.semanticwb.model.*;
+import org.semanticwb.portal.api.*;
 
 /**
  *
  * @author rene.jara
  */
-public class Temas extends GenericResource {
+public class Temas extends GenericAdmResource {
     private Logger log = SWBUtils.getLogger(Temas.class);
 
     @Override
