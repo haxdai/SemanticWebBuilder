@@ -13,6 +13,9 @@ Author     : rene.jara
             WebPage wpage = paramRequest.getWebPage();
             WebSite wsite = wpage.getWebSite();
             User user = paramRequest.getUser();
+            org.semanticwb.model.Resource base = paramRequest.getResourceBase();
+            WebPage wpwscontent = wsite.getWebPage(base.getAttribute("idwpws",wpage.getId()));
+
             String wsid = request.getParameter("wsid");
             Member member = Member.ClassMgr.getMember(user.getId(), wsite);
             if (member == null) {
@@ -31,7 +34,7 @@ Author     : rene.jara
                 alwsp.add(workSpace);
         %>
         <li>
-            <div><a href="/swb/conorg/workspace?wsid=<%=workSpace.getId()%>"><%=workSpace.getTitle()%></a></div>
+            <div><a href="<%=wpwscontent.getUrl()%>?wsid=<%=workSpace.getId()%>"><%=workSpace.getTitle()%></a></div>
             <div>
                 <div>Descripción:<%=workSpace.getDescription()%></div>
                 <div>Temas:
@@ -97,7 +100,7 @@ Author     : rene.jara
                 if (!alwsp.contains(workSpace)) {
         %>
         <li>
-            <div><a href="/swb/conorg/workspace?wsid=<%=workSpace.getId()%>"><%=workSpace.getTitle()%></a></div>
+            <div><a href="<%=wpwscontent.getUrl()%>?wsid=<%=workSpace.getId()%>"><%=workSpace.getTitle()%></a></div>
             <div>Descripción:<%=workSpace.getDescription()%></div>
         </li>
         <%

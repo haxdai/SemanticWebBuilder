@@ -10,12 +10,14 @@ Author     : rene.jara
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest" />
 <%
-            WebPage wp = paramRequest.getWebPage();
-            WebSite ws = wp.getWebSite();
+            WebPage wpage = paramRequest.getWebPage();
+            WebSite wsite = wpage.getWebSite();
             User user = paramRequest.getUser();
-            Member member = Member.ClassMgr.getMember(user.getId(), ws);
+            org.semanticwb.model.Resource base = paramRequest.getResourceBase();
+            WebPage wpwscontent = wsite.getWebPage(base.getAttribute("idwpws",wpage.getId()));
+            Member member = Member.ClassMgr.getMember(user.getId(), wsite);
             if (member == null) {
-                member = Member.ClassMgr.createMember(user.getId(), ws);
+                member = Member.ClassMgr.createMember(user.getId(), wsite);
                 member.setUser(user);
             }
             ArrayList alwsp = new ArrayList();
@@ -29,7 +31,7 @@ Author     : rene.jara
                         alwsp.add(workSpace);
         %>
         <li>
-            <div><a href="/swb/conorg/workspace?wsid=<%=workSpace.getId()%>"><%=workSpace.getTitle()%></a></div>
+            <div><a href="<%=wpwscontent.getUrl()%>?wsid=<%=workSpace.getId()%>"><%=workSpace.getTitle()%></a></div>
             <div>Descripción:<%=workSpace.getDescription()%></div>
         </li>
         <%
@@ -38,7 +40,7 @@ Author     : rene.jara
     </ul>
 </div>
 <%
-            Iterator<WorkSpace> itpubws = WorkSpace.ClassMgr.listWorkSpaces(ws);
+            Iterator<WorkSpace> itpubws = WorkSpace.ClassMgr.listWorkSpaces(wsite);
 %>
 <div style="float: left">
     <ul>
@@ -48,7 +50,7 @@ Author     : rene.jara
                         if (!alwsp.contains(workSpace)) {
         %>
         <li>
-            <div><a href="/swb/conorg/workspace?wsid=<%=workSpace.getId()%>"><%=workSpace.getTitle()%></a></div>
+            <div><a href="<%=wpwscontent.getUrl()%>?wsid=<%=workSpace.getId()%>"><%=workSpace.getTitle()%></a></div>
             <div>Descripción:<%=workSpace.getDescription()%></div>
         </li>
         <%
