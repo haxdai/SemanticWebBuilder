@@ -35,6 +35,12 @@ public class MyShelf extends GenericAdmResource {
     public static final String RES_CONF = "resconf";
     public static final String MODE_GETFILE = "getFile";
     public static final String DEFAULT_MIME_TYPE = "application/octet-stream";
+    public static final String USRLEVEL_NO_MIEMBRO = "No miembro";
+    public static final String USRLEVEL_INVITADO = "Invitado";
+    public static final String USRLEVEL_MIEMBRO = "Miembro";
+    public static final String USRLEVEL_COORDINADOR = "Coordinador";
+    public static final String USRLEVEL_ADMINISTRADOR = "Administrador";
+    public static final String ROL_ADMIN_ATRIBUTTE = "rolworkspace";
     public static final NumberFormat numf = NumberFormat.getNumberInstance();
 
     @Override
@@ -235,7 +241,7 @@ public class MyShelf extends GenericAdmResource {
                 response.setAction(SWBActionResponse.Action_EDIT);
                 //response.setRenderParameter("act", "");
                 response.setRenderParameter("alertmsg", msg);
-                
+
                 response.setRenderParameter("id", id);
                 response.setRenderParameter("suri", id);
                 if (null != wsid) {
@@ -303,9 +309,9 @@ public class MyShelf extends GenericAdmResource {
             response.setRenderParameter("wsid", wsid);
             response.setRenderParameter("fid", fid);
             response.setAction(SWBActionResponse.Action_EDIT);
-                        response.setRenderParameter("act", SWBActionResponse.Action_EDIT);
-                        response.setRenderParameter("id", fid);
-                        response.setRenderParameter("suri", fid);
+            response.setRenderParameter("act", SWBActionResponse.Action_EDIT);
+            response.setRenderParameter("id", fid);
+            response.setRenderParameter("suri", fid);
         }
 
         if (id != null) {
@@ -314,7 +320,7 @@ public class MyShelf extends GenericAdmResource {
         if (page != null) {
             response.setRenderParameter("page", page);
         }
-       
+
     }
 
     public OutputStream storeFile(String name, String comment, boolean bigVersionInc, Document doc, WebSite wsite) throws FileNotFoundException {
@@ -497,5 +503,23 @@ public class MyShelf extends GenericAdmResource {
             ret = "Documento";
         }
         return ret;
+    }
+
+    public static int getLevelMember(Member member) {
+        int usrlvl = 0;
+
+        if (member.getMemberType().equals(USRLEVEL_NO_MIEMBRO)) {
+            usrlvl = 0;
+        } else if (member.getMemberType().equals(USRLEVEL_INVITADO)) {
+            usrlvl = 1;
+        } else if (member.getMemberType().equals(USRLEVEL_MIEMBRO)) {
+            usrlvl = 2;
+        } else if (member.getMemberType().equals(USRLEVEL_COORDINADOR)) {
+            usrlvl = 3;
+        } else if (member.getMemberType().equals(USRLEVEL_ADMINISTRADOR)) {
+            usrlvl = 4;
+        } 
+        
+        return usrlvl;
     }
 }
