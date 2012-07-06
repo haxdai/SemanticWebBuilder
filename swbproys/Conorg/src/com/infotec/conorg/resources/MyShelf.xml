@@ -9,7 +9,14 @@
                 <input type="radio" id="usedas1" name="resconf" label="Utilizar para Espacio de Trabajo (WorkSpace):" value="http://www.infotec.com/conorg.owl#WorkSpace" checked="true" />
                 <input type="TEXT" name="numele" label="Número de elementos a mostrar como estrategia:" size="5" jsrequired="true"/>
                 <input type="TEXT" name="numpag" label="Número de elementos a mostrar por paginación:" size="5" jsrequired="true"/>
+            </fieldset>
+            <fieldset >
+                <statictext name="used">Configuración Funcionamiento como estante</statictext>
                 <input type="TEXT" name="wpshelf" label="Id de la sección del estante(Shelf):" size="20" jsrequired="true"/>
+            </fieldset>
+            <fieldset >
+                <statictext name="used">Configuración Funcionamiento como espacio de trabajo</statictext>
+                <input type="TEXT" name="rolworkspace" label="Id del rol para crear espacios de trabajo:" size="5" jsrequired="true"/>
                 <input type="TEXT" name="wpworkspace" label="Id de la sección del Espacio de Trabajo(WorkSpace):" size="20" jsrequired="true"/>
             </fieldset>
 
