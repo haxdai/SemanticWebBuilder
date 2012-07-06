@@ -18,7 +18,7 @@ import org.semanticwb.portal.api.*;
  *
  * @author rene.jara
  */
-public class WorkSpaces extends GenericResource {
+public class WorkSpaces extends GenericAdmResource {
     private Logger log = SWBUtils.getLogger(WorkSpaces.class);
 
     @Override
