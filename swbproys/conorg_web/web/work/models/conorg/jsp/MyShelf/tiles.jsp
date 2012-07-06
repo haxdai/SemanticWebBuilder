@@ -9,7 +9,7 @@
     <%
         if (action.equals("")) {
 
-            WebPage wpconfig = isShelf?wsite.getWebPage(base.getAttribute("wpshelf",wpage.getId())):wsite.getWebPage(base.getAttribute("wpworkspace",wpage.getId()));
+            wpconfig = isShelf?wsite.getWebPage(base.getAttribute("wpshelf",wpage.getId())):wsite.getWebPage(base.getAttribute("wpworkspace",wpage.getId()));
                     
             SWBResourceURLImp urladd = new SWBResourceURLImp(request,base,wpconfig,SWBResourceURLImp.UrlType_RENDER);
             

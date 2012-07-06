@@ -3,51 +3,20 @@ Document   : view Recurso WorkSpaces
 Created on : 19/06/2012
 Author     : rene.jara
 --%>
-<%@page import="org.semanticwb.portal.api.SWBResourceURLImp"%>
-<%@page import="org.semanticwb.portal.api.SWBParamRequest"%>
-<%@page import="org.semanticwb.model.GenericObject"%>
-<%@page import="org.semanticwb.model.Versionable"%>
-<%@page import="org.semanticwb.model.VersionInfo"%>
-<%@page import="com.infotec.conorg.WorkSpace"%>
+<%@page import="org.semanticwb.portal.api.*"%>
 <%@page import="org.semanticwb.platform.SemanticOntology"%>
 <%@page import="org.semanticwb.portal.SWBFormButton"%>
 <%@page import="org.semanticwb.platform.SemanticObject"%>
 <%@page import="com.infotec.conorg.resources.MyShelf"%>
 <%@page import="org.semanticwb.platform.SemanticClass"%>
 <%@page import="org.semanticwb.SWBPlatform"%>
+<%@page import="com.infotec.conorg.*"%>
 <%@page import="com.infotec.conorg.Topic"%>
-<%@page import="com.infotec.conorg.Video"%>
-<%@page import="com.infotec.conorg.Report"%>
-<%@page import="com.infotec.conorg.Reference"%>
-<%@page import="com.infotec.conorg.Presentation"%>
-<%@page import="com.infotec.conorg.Document"%>
-<%@page import="com.infotec.conorg.Manual"%>
-<%@page import="com.infotec.conorg.Image"%>
-<%@page import="com.infotec.conorg.Book"%>
-<%@page import="com.infotec.conorg.ChapterBook"%>
-<%@page import="com.infotec.conorg.Audio"%>
-<%@page import="com.infotec.conorg.Article"%>
-<%@page import="com.infotec.conorg.URL"%>
-<%@page import="com.infotec.conorg.Mosaic"%>
-<%@page import="com.infotec.conorg.Contact"%>
-<%@page import="com.infotec.conorg.Tile"%>
-<%@page import="com.infotec.conorg.Shelf"%>
 <%@page import="org.semanticwb.portal.SWBFormMgr"%>
-<%@page import="org.semanticwb.model.WebPage"%>
-<%@page import="java.util.Set"%>
-<%@page import="org.semanticwb.model.SWBComparator"%>
-<%@page import="java.util.Locale"%>
+<%@page import="org.semanticwb.model.*"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.List"%>
-<%@page import="org.semanticwb.model.WebSite"%>
-<%@page import="java.util.Collections"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.util.HashMap"%>
-<%@page import="java.util.Iterator"%>
-<%@page import="org.semanticwb.model.User"%>
-<%@page import="org.semanticwb.model.Role"%>
-<%@page import="org.semanticwb.model.Resource"%> 
-<%@page import="org.semanticwb.portal.api.SWBResourceURL"%>
+<%@page import="java.util.*"%>
 <%@page import="org.semanticwb.SWBUtils"%>
 <%@page contentType="text/html" pageEncoding="ISO8859-1"%>
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest" />
@@ -57,7 +26,7 @@ Author     : rene.jara
     User usr = paramRequest.getUser();
     String wsid = request.getParameter("wsid");
 
-    Resource base = paramRequest.getResourceBase();
+    org.semanticwb.model.Resource base = paramRequest.getResourceBase();
 
     Member member = Member.ClassMgr.getMember(usr.getId(), wsite);
     if (member == null) {
@@ -122,6 +91,9 @@ Author     : rene.jara
     }
 
 
+    ArrayList alwsp = null;
+    Iterator<WorkSpace> itperws = null;
+    Iterator<WorkSpace> itpubws = null;
 
 
     if (paramRequest.getCallMethod() == org.semanticwb.portal.api.SWBParamRequest.Call_STRATEGY) {
@@ -132,9 +104,26 @@ Author     : rene.jara
     }
 
 
+    Role rol = wsite.getUserRepository().getRole(base.getAttribute(MyShelf.ROL_ADMIN_ATRIBUTTE, "0"));
+    WebPage wpconfig = wsite.getWebPage(base.getAttribute("wpworkspace", wpage.getId()));
+    if (usr.hasRole(rol)) {
+
+        SWBResourceURLImp urladd = new SWBResourceURLImp(request, base, wpconfig, SWBResourceURLImp.UrlType_RENDER);
+        urladd.setParameter("act", SWBResourceURL.Action_ADD);
+        if (request.getParameter("wsid") != null) {
+            urladd.setParameter("wsid", request.getParameter("wsid"));
+        }
+%>
+<div id="conorg-add">
+    <form action="<%=urladd%>" method="post">
+        <input type="submit" id="addButton" name="addButton" value="Añadir workspace" />
+    </form>
+</div>
+<%
+    }
     if (wsid == null || wsid.equals("")) {
-        ArrayList alwsp = new ArrayList();
-        Iterator<WorkSpace> itperws = WorkSpace.ClassMgr.listWorkSpaceByMember(member);
+        alwsp = new ArrayList();
+        itperws = WorkSpace.ClassMgr.listWorkSpaceByMember(member);
 %>
 <div>
     <ul>
@@ -200,7 +189,7 @@ Author     : rene.jara
     </ul>
 </div>
 <%
-    Iterator<WorkSpace> itpubws = WorkSpace.ClassMgr.listWorkSpaces(wsite);
+    itpubws = WorkSpace.ClassMgr.listWorkSpaces(wsite);
 %>
 <div >
     <ul>
@@ -249,13 +238,13 @@ Author     : rene.jara
             //usr.haveAccess(workSpace.getSemanticObject().createGenericInstance());
             while (itme.hasNext()) {
                 Member mem = itme.next();
-                
+
                 if (mem.getUser().equals(usr)) {
                     isMember = true;
                     break;
                 }
             }
-            if (isMember|| usr.equals(workSpace.getCreator())) {
+            if (isMember || usr.equals(workSpace.getCreator())) {
                 itme = workSpace.listMembers();
         %>
         <div>Participante:

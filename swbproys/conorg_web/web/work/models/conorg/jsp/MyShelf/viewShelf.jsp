@@ -75,6 +75,9 @@
         isShelf = Boolean.FALSE;
     }
 
+    WebPage wpconfig = isShelf?wsite.getWebPage(base.getAttribute("wpshelf",wpage.getId())):wsite.getWebPage(base.getAttribute("wpworkspace",wpage.getId()));
+    
+    
     Shelf shelf = null;
     WorkSpace workSpace = null;
     long intSize = 0;
@@ -85,9 +88,7 @@
             shelf.setOwner(usr);
         }
         intSize = SWBUtils.Collections.sizeOf(shelf.listTiles());
-    } else {
-        //intSize = WorkSpace.ClassMgr.l
-    }
+    } 
 
     Iterator<Tile> ittil = shelf.listTiles();
 

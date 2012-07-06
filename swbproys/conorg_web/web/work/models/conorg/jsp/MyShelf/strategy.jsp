@@ -17,8 +17,8 @@ Author     : rene.jara
             //    member = Member.ClassMgr.createMember(user.getId(), ws);
             //    member.setUser(user);
             //}
-            ArrayList alwsp = new ArrayList();
-            Iterator<WorkSpace> itperws = WorkSpace.ClassMgr.listWorkSpaceByMember(member);
+            alwsp = new ArrayList();
+            itperws = WorkSpace.ClassMgr.listWorkSpaceByMember(member);
 %>
 <div style="float: left">
     <ul>
@@ -37,7 +37,7 @@ Author     : rene.jara
     </ul>
 </div>
 <%
-            Iterator<WorkSpace> itpubws = WorkSpace.ClassMgr.listWorkSpaces(wsite);
+            itpubws = WorkSpace.ClassMgr.listWorkSpaces(wsite);
 %>
 <div style="float: left">
     <ul>
