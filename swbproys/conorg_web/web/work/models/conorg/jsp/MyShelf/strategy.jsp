@@ -18,7 +18,7 @@ Author     : rene.jara
             //    member.setUser(user);
             //}
             alwsp = new ArrayList();
-            itperws = WorkSpace.ClassMgr.listWorkSpaceByMember(member);
+            itperws = WorkSpace.ClassMgr.listWorkSpaces(wsite);
 %>
 <div style="float: left">
     <ul>
