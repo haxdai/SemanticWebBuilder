@@ -217,6 +217,8 @@
 
     <%
     } else if (action.equals(SWBResourceURL.Action_ADD)) {
+        String actType = request.getParameter("type");
+        if(null==actType) actType="";
 
         if(null==wsid) wsid="";
         String ajaxUrl = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(MyShelf.Mode_AJAX).toString()+"?wsid="+wsid;
@@ -308,6 +310,39 @@
 
 
     <%
+    } else if (action.equals(SWBResourceURL.Action_ADD)&&actType.equals("workspace")) {
+        
+        SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
+        SemanticObject so = ont.getSemanticObject(suri);
+        out.println("<h4>" + MyShelf.getTileTypeName((Tile) (so.createGenericInstance())) + "</h4>");
+        
+            SWBResourceURL urlupdate = paramRequest.getActionUrl();
+            urlupdate.setAction(SWBResourceURL.Action_EDIT);
+            urlupdate.setMode(SWBResourceURL.Mode_VIEW);
+            urlupdate.setCallMethod(SWBResourceURL.Call_CONTENT);
+
+
+            SWBFormMgr frmgr = new SWBFormMgr(so, null, SWBFormMgr.MODE_EDIT);
+
+            frmgr.addProperty(VersionInfo.swb_versionComment);
+            frmgr.addProperty(VersionInfo.swb_versionFile);
+
+            frmgr.addHiddenParameter("id", suri);
+            if(null!=wsid) frmgr.addHiddenParameter("wsid", wsid);
+            frmgr.setType(SWBFormMgr.TYPE_DOJO);
+            frmgr.setAction(urlupdate.toString());
+            frmgr.setLang("es");
+
+            //frmgr.setOnSubmit("enviar('" + suri + "/form');");
+            String boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl()+(null!=wsid?"?wsid="+wsid:"") + "';return false;\">Cancelar</button>";
+            frmgr.addButton(boton);
+            //frmgr.addButton(SWBFormButton.newCancelButton());
+            frmgr.addButton(SWBFormButton.newSaveButton());
+    %>        
+    <%=frmgr.renderForm(request)%>  
+    <%
+               
+        
     } else if (action.equals(SWBResourceURL.Action_EDIT)) {
         String id = request.getParameter("id");
         String suri = request.getParameter("suri");

@@ -3,6 +3,7 @@ Document   : ajax
 Created on : 17/04/2012, 06:36:23 PM
 Author     : rene.jara
 --%>
+<%@page import="java.util.HashMap"%>
 <%@page import="org.semanticwb.platform.SemanticOntology"%>
 <%@page import="org.semanticwb.portal.api.SWBResourceURL"%>
 <%@page import="org.semanticwb.portal.api.SWBResource"%>
@@ -29,9 +30,10 @@ Author     : rene.jara
     String id = request.getParameter("id");
     String wsid = request.getParameter("wsid");
     String classid = request.getParameter("classid");
+    String modo = request.getParameter("mode");
     SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
 
-    if (classid != null && !classid.equals("")) {
+    if (classid != null && !classid.equals("")&&modo!=null&&modo.equals("tile")) {
         SemanticClass sc = null;
         SemanticObject so = ont.getSemanticObject(classid);
         if (so != null) {
@@ -63,29 +65,57 @@ Author     : rene.jara
 <%=frmgr.renderForm(request)%>
 <%
     }
-} 
-    /*
-    else if (id != null && !id.trim().equals("")) {
-    SemanticObject so = ont.getSemanticObject(id);
-    if (so != null) {
+}  else if (wsid!= null && !wsid.trim().equals("")&&modo!=null&&modo.equals("member")) {
+        WorkSpace wspace = WorkSpace.ClassMgr.getWorkSpace(wsid, ws);
+        
+        HashMap<User,Member> hmusrmbr = new HashMap<User,Member>();
+        Iterator<Member> itmbr = wspace.listMembers();
+        while(itmbr.hasNext()){
+            Member mbr = itmbr.next();
+            hmusrmbr.put(mbr.getUser(), mbr);
+        }
+    
         SWBResourceURL urlupdate = paramRequest.getActionUrl();
-        urlupdate.setAction(SWBResourceURL.Action_EDIT);
+        urlupdate.setAction("addmember");
         urlupdate.setMode(SWBResourceURL.Mode_VIEW);
-        urlupdate.setCallMethod(SWBResourceURL.Call_CONTENT);
-        urlupdate.setParameter("id", id);
-
-        SWBFormMgr frmgr = new SWBFormMgr(so, SWBFormMgr.MODE_EDIT, SWBFormMgr.MODE_EDIT);
-
-        frmgr.setAction(urlupdate.toString());
-        frmgr.setLang("es");
-        frmgr.setOnSubmit("enviar('" + classid + "/form');");
-        frmgr.addButton(SWBFormButton.newCancelButton());
-        frmgr.addButton(SWBFormButton.newSaveButton());
- */ 
+        urlupdate.setCallMethod(SWBResourceURL.Call_CONTENT);      
+ 
 %>
+
+            <form  id="form2mbr" name="form2mbr" method="post" action="<%=urlupdate%>">
+                <input type="hidden" name="wsid" value="<%=wsid%>"/>
+                <label for="usrid">Usuario:</label>
+                <select name="usrid" >
+                    <option value="-1">Selecciona....</option>
+                        <%
+                            Iterator<User> itusr = ws.getUserRepository().listUsers();
+                            while (itusr.hasNext()) {
+                                User usr = itusr.next();
+                                if(hmusrmbr.get(usr)!=null) continue;
+                                
+                        %>
+                        <option value="<%=usr.getId()%>"><%=usr.getFullName()%></option>
+                        <%
+                            }
+                        %>
+                </select>
+                <label for="mbrtype">Tipo:</label>
+                <select name="mbrtype" >
+                    <option value="-1">Selecciona....</option>
+                    <option value="No miembro">No miembro</option>
+                    <option value="Invitado">Invitado</option>
+                    <option value="Miembro">Miembro</option>
+                    <option value="Coordinador">Coordinador</option>
+                    <option value="Administrador">Administrador</option>
+                </select>
+                <button onclick="enviar2();return false;">Agregar</button>
+            </form>
+
+
+
 <%//=frmgr.renderForm(request)%>
 <%
-        //}
+        
 
-    //}
+    }
 %>

@@ -8,6 +8,7 @@ import com.infotec.conorg.*;
 import java.io.*;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.Iterator;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -152,6 +153,7 @@ public class MyShelf extends GenericAdmResource {
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         String action = response.getAction();
         String id = request.getParameter("id");
+        String suri = request.getParameter("suri");
         String wsid = request.getParameter("wsid");
         String classid = request.getParameter("classid");
         if (null == action) {
@@ -200,22 +202,49 @@ public class MyShelf extends GenericAdmResource {
                                 myshelf.setOwner(usr);
                             }
                             myshelf.addTile((Tile) (nso.createGenericInstance()));
+                            response.setRenderParameter("act", SWBActionResponse.Action_EDIT);
+                            response.setRenderParameter("id", nso.getURI());
+                            response.setRenderParameter("suri", nso.getURI());
+                            if (wsid != null) {
+                                response.setRenderParameter("wsid", wsid);
+                            }
                         } else {
-                            // agregar el tile al workspace
-                            WorkSpace workSpace = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
-                            if (null != workSpace) {
-                                workSpace.addTile((Tile) (nso.createGenericInstance()));
+
+                            if (nso.createGenericInstance() instanceof WorkSpace) {
+                                //System.out.println("Creando workspace");
+//                                System.out.println("Creando miembro del ws");
+                                Member member = Member.ClassMgr.createMember(wsite);
+                                member.setUser(usr);
+                                member.setMemberType(USRLEVEL_ADMINISTRADOR);
+                                member.setWorkspace((WorkSpace) nso.createGenericInstance());
+
+//                                System.out.println("Agregando Membre al workSpace ....");
+                                ((WorkSpace) nso.createGenericInstance()).addMember(member);
+                                response.setRenderParameter("wsid", ((WorkSpace) nso.createGenericInstance()).getId());
+                                response.setAction("");
+                                response.setRenderParameter("act", "");
+                                //response.setRenderParameter("id", nso.getURI());
+                                //response.setRenderParameter("suri", nso.getURI());
+//                                System.out.println(".... member agregado");
+                            } else {
+
+//                                System.out.println("Agregando azulejo al WorkSpace");
+                                // agregar el tile al workspace
+                                WorkSpace workSpace = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
+                                if (null != workSpace) {
+
+                                    workSpace.addTile((Tile) (nso.createGenericInstance()));
+//                                    System.out.println("Tile added.....");
+                                }
+                                response.setAction(SWBActionResponse.Action_EDIT);
+                                response.setRenderParameter("act", SWBActionResponse.Action_EDIT);
+                                response.setRenderParameter("id", nso.getURI());
+                                response.setRenderParameter("suri", nso.getURI());
+                                if (wsid != null) {
+                                    response.setRenderParameter("wsid", wsid);
+                                }
                             }
                         }
-
-                        response.setAction(SWBActionResponse.Action_EDIT);
-                        response.setRenderParameter("act", SWBActionResponse.Action_EDIT);
-                        response.setRenderParameter("id", nso.getId());
-                        response.setRenderParameter("suri", nso.getURI());
-                        if (null != wsid) {
-                            response.setRenderParameter("wsid", wsid);
-                        }
-
                     }
                     msg = "Se creó " + classid.substring(classid.indexOf("#") + 1) + " satisfactoriamente.";
                 } catch (Exception e) {
@@ -224,21 +253,32 @@ public class MyShelf extends GenericAdmResource {
                 }
 
                 response.setRenderParameter("alertmsg", msg);
-            } else if (id != null) {
+            } else if (id != null || suri != null) {
                 try {
+                    if (id == null) {
+                        id = suri;
+                    }
                     SemanticObject sobj = ont.getSemanticObject(id);
                     SemanticClass scls = sobj.getSemanticClass();
                     classid = scls.getClassId();
                     frmgr = new SWBFormMgr(sobj, SWBFormMgr.MODE_EDIT, SWBFormMgr.MODE_EDIT);
                     SemanticObject nso = frmgr.processForm(request);
+                    if (nso.createGenericInstance() instanceof WorkSpace) {
+                        wsid = ((WorkSpace) nso.createGenericInstance()).getId();
+                        response.setRenderParameter("act", "");
+                        response.setAction("");
+                    } else {
+                        response.setRenderParameter("act", "");
+                        response.setAction(SWBActionResponse.Action_EDIT);
+                    }
                     msg = "Se actualizó " + classid.substring(classid.indexOf("#") + 1) + " satisfactoriamente.";
                 } catch (Exception e) {
                     log.error("Error al actulizar el elemento", e);
                     msg = "Error al actualizar " + classid.substring(classid.indexOf("#") + 1);
                 }
 
-                response.setRenderParameter("act", SWBActionResponse.Action_EDIT);
-                response.setAction(SWBActionResponse.Action_EDIT);
+                //response.setRenderParameter("act", SWBActionResponse.Action_EDIT);
+                //response.setAction(SWBActionResponse.Action_EDIT);
                 //response.setRenderParameter("act", "");
                 response.setRenderParameter("alertmsg", msg);
 
@@ -254,7 +294,7 @@ public class MyShelf extends GenericAdmResource {
             response.setMode(SWBActionResponse.Mode_VIEW);
 
         } else if (SWBResourceURL.Action_REMOVE.equals(action)) {
-            String suri = request.getParameter("suri");
+            //String suri = request.getParameter("suri");
             if (suri != null) {
                 try {
                     SemanticObject sobj = ont.getSemanticObject(suri);
@@ -267,8 +307,7 @@ public class MyShelf extends GenericAdmResource {
                     msg = "Error al eliminar " + classid.substring(classid.indexOf("#") + 1);
                 }
             }
-        }
-        if ("newfile".equals(action)) {
+        } else if ("newfile".equals(action)) {
             org.semanticwb.portal.util.FileUpload fup = new org.semanticwb.portal.util.FileUpload();
             fup.getFiles(request, null);
             String fname = fup.getFileName("ffile");
@@ -312,6 +351,54 @@ public class MyShelf extends GenericAdmResource {
             response.setRenderParameter("act", SWBActionResponse.Action_EDIT);
             response.setRenderParameter("id", fid);
             response.setRenderParameter("suri", fid);
+        } else if ("addmember".equals(action)) {
+            WorkSpace ws = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
+            String usrid = request.getParameter("usrid");
+            String mbrtype = request.getParameter("mbrtype");
+            User usrparam = wsite.getUserRepository().getUser(usrid);
+            if (usrparam != null && ws != null && mbrtype != null) {
+                Member mbr = Member.ClassMgr.createMember(wsite);
+                mbr.setUser(usrparam);
+                mbr.setWorkspace(ws);
+                mbr.setMemberType(mbrtype);
+
+                ws.addMember(mbr);
+                response.setRenderParameter("alertmsg", "Se agregó correctamente participante al Espacio de trabajo.");
+                response.setRenderParameter("wsid", wsid);
+            } else {
+                response.setRenderParameter("alertmsg", "Datos inválidos y/o incompletos, no se recibieron parámetros válidos.");
+            }
+        } else if ("delmember".equals(action)) {
+            WorkSpace ws = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
+            
+            
+            String mbrid = request.getParameter("mbrid");
+            Member mbr = Member.ClassMgr.getMember(mbrid, wsite);
+            String usrid = request.getParameter("usrid");
+
+            User usrparam = wsite.getUserRepository().getUser(usrid);
+            if (usrparam != null && ws != null && mbr != null) {
+                int intadmin = 0;
+                Iterator<Member> itmbr = ws.listMembers();
+                while (itmbr.hasNext()) {
+                    Member member = itmbr.next();
+                    if (member.getMemberType() != null && getLevelMember(member) == 4) {
+                        intadmin++;
+                    }
+                }
+                if ((getLevelMember(mbr) == 4 && intadmin > 1) || getLevelMember(mbr) < 4) { // se puede eliminar el miembro 
+                    ws.removeMember(mbr);
+                    mbr.remove();
+                    response.setRenderParameter("alertmsg", "Se eliminó correctamente el participante del Espacio de trabajo.");
+                    response.setRenderParameter("wsid", wsid);
+                } else if ((getLevelMember(mbr) == 4 && intadmin == 1)) {
+                    response.setRenderParameter("alertmsg", "No se eliminó el participante del Espacio de trabajo. Debe de haber por lo menos un participante Administrador");
+                    response.setRenderParameter("wsid", wsid);
+                }
+            } else {
+                response.setRenderParameter("alertmsg", "Datos inválidos y/o incompletos, no se recibieron parámetros válidos.");
+                response.setRenderParameter("wsid", wsid);
+            }
         }
 
         if (id != null) {
@@ -518,8 +605,8 @@ public class MyShelf extends GenericAdmResource {
             usrlvl = 3;
         } else if (member.getMemberType().equals(USRLEVEL_ADMINISTRADOR)) {
             usrlvl = 4;
-        } 
-        
+        }
+
         return usrlvl;
     }
 }
