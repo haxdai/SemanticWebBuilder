@@ -370,6 +370,15 @@ Author     : rene.jara
                                 </span>
                             </td>
                             <td><%=membername%></td>
+                            <%
+                            SWBResourceURL urlupdmbr = paramRequest.getActionUrl();
+                            urlupdmbr.setAction("updmbr");
+                            urlupdmbr.setParameter("wsid", wsid);
+                            urlupdmbr.setParameter("usrid", mem.getUser().getId());
+                            urlupdmbr.setParameter("mbr", mem.getId()); 
+                            String options ="onchange=\"window.location='"+urlupdmbr.toString()+"?mbrtype='+this.value;return false;\"";
+                            //getSelecTypeMember(mbrtype, options)
+                            %>
                             <td><%=mbrtype%></td>
                         </tr>
 
@@ -1084,4 +1093,44 @@ Author     : rene.jara
             }
         }
     }
+%>
+
+<%! 
+String getSelecTypeMember(String membertype,String options) {
+StringBuffer ret  = null;
+        ret.append("<select name=\"mbrtype\" "+options+">");
+        ret.append("<option value=\""+MyShelf.USRLEVEL_MIEMBRO+"\"");
+        if (membertype.equals(MyShelf.USRLEVEL_NO_MIEMBRO)) {
+            ret.append("selected");
+        } 
+        ret.append(">"+MyShelf.USRLEVEL_NO_MIEMBRO+"</option>");
+        ret.append("<option value=\""+MyShelf.USRLEVEL_INVITADO+"\"");
+        if (membertype.equals(MyShelf.USRLEVEL_INVITADO)) {
+            ret.append("selected");
+        } 
+        ret.append(">"+MyShelf.USRLEVEL_INVITADO+"</option>");
+        ret.append("<option value=\""+MyShelf.USRLEVEL_MIEMBRO+"\"");
+        if (membertype.equals(MyShelf.USRLEVEL_MIEMBRO)) {
+            ret.append("selected");
+        } 
+        ret.append(">"+MyShelf.USRLEVEL_MIEMBRO+"</option>");
+        ret.append("<option value=\""+MyShelf.USRLEVEL_COORDINADOR+"\"");
+        if (membertype.equals(MyShelf.USRLEVEL_COORDINADOR)) {
+            ret.append("selected");
+        } 
+        ret.append(">"+MyShelf.USRLEVEL_COORDINADOR+"</option>");
+        ret.append("<option value=\""+MyShelf.USRLEVEL_ADMINISTRADOR+"\"");
+        if (membertype.equals(MyShelf.USRLEVEL_ADMINISTRADOR)) {
+            ret.append("selected");
+        }
+        ret.append(">"+MyShelf.USRLEVEL_ADMINISTRADOR+"</option>");
+        ret.append("</select>");
+        
+        System.out.print(ret.toString());
+        
+        
+        return ret.toString();
+               }
+
+
 %>
