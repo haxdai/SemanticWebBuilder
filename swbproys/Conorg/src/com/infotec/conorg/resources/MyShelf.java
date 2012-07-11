@@ -609,4 +609,40 @@ public class MyShelf extends GenericAdmResource {
 
         return usrlvl;
     }
+    
+//    public static String getSelecTypeMember(String membertype,String options) {
+//        StringBuffer ret  = null;
+//        ret.append("<select name=\"mbrtype\" "+options+">");
+//        ret.append("<option value=\""+USRLEVEL_MIEMBRO+"\"");
+//        if (membertype.equals(USRLEVEL_NO_MIEMBRO)) {
+//            ret.append("selected");
+//        } 
+//        ret.append(">"+USRLEVEL_NO_MIEMBRO+"</option>");
+//        ret.append("<option value=\""+USRLEVEL_INVITADO+"\"");
+//        if (membertype.equals(USRLEVEL_INVITADO)) {
+//            ret.append("selected");
+//        } 
+//        ret.append(">"+USRLEVEL_INVITADO+"</option>");
+//        ret.append("<option value=\""+USRLEVEL_MIEMBRO+"\"");
+//        if (membertype.equals(USRLEVEL_MIEMBRO)) {
+//            ret.append("selected");
+//        } 
+//        ret.append(">"+USRLEVEL_MIEMBRO+"</option>");
+//        ret.append("<option value=\""+USRLEVEL_COORDINADOR+"\"");
+//        if (membertype.equals(USRLEVEL_COORDINADOR)) {
+//            ret.append("selected");
+//        } 
+//        ret.append(">"+USRLEVEL_COORDINADOR+"</option>");
+//        ret.append("<option value=\""+USRLEVEL_ADMINISTRADOR+"\"");
+//        if (membertype.equals(USRLEVEL_ADMINISTRADOR)) {
+//            ret.append("selected");
+//        }
+//        ret.append(">"+USRLEVEL_ADMINISTRADOR+"</option>");
+//        ret.append("</select>");
+//        
+//        System.out.print(ret.toString());
+//        
+//        
+//        return ret.toString();
+//    }
 }
