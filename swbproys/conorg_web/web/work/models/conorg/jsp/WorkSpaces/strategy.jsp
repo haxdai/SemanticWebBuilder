@@ -14,7 +14,13 @@ Author     : rene.jara
             WebSite wsite = wpage.getWebSite();
             User user = paramRequest.getUser();
             org.semanticwb.model.Resource base = paramRequest.getResourceBase();
-            WebPage wpwscontent = wsite.getWebPage(base.getAttribute("idwpws",wpage.getId()));
+            WebPage wpwscontent = wsite.getWebPage(base.getAttribute("idwpws", wpage.getId()));
+            int numele;
+            try {
+                numele = Integer.parseInt(base.getAttribute("numele", "3"));
+            } catch (Exception ignored) {
+                numele = 3;
+            }
             Member member = Member.ClassMgr.getMember(user.getId(), wsite);
             if (member == null) {
                 member = Member.ClassMgr.createMember(user.getId(), wsite);
@@ -26,16 +32,22 @@ Author     : rene.jara
 <div style="float: left">
     <ul>
         <%
-                    while (itperws.hasNext()) {
-                        WorkSpace workSpace = itperws.next();
-                        alwsp.add(workSpace);
+            int count = 0;
+            while (itperws.hasNext()) {
+                WorkSpace workSpace = itperws.next();
+                alwsp.add(workSpace);
+                count++;
+                if (count <= numele) {
         %>
         <li>
             <div><a href="<%=wpwscontent.getUrl()%>?wsid=<%=workSpace.getId()%>"><%=workSpace.getTitle()%></a></div>
             <div>Descripción:<%=workSpace.getDescription()%></div>
         </li>
         <%
-                    }
+                } else {
+                    break;
+                }
+            }
         %>
     </ul>
 </div>
@@ -45,17 +57,23 @@ Author     : rene.jara
 <div style="float: left">
     <ul>
         <%
-                    while (itpubws.hasNext()) {
-                        WorkSpace workSpace = itpubws.next();
-                        if (!alwsp.contains(workSpace)) {
+            count = 0;
+            while (itpubws.hasNext()) {
+                WorkSpace workSpace = itpubws.next();
+                if (!alwsp.contains(workSpace)) {
+                    count++;
+                    if (count <= numele) {
         %>
         <li>
             <div><a href="<%=wpwscontent.getUrl()%>?wsid=<%=workSpace.getId()%>"><%=workSpace.getTitle()%></a></div>
             <div>Descripción:<%=workSpace.getDescription()%></div>
         </li>
         <%
-                        }
+                    } else {
+                        break;
                     }
+                }
+            }
         %>
     </ul>
 </div>

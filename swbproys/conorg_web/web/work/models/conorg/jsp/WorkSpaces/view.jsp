@@ -14,8 +14,19 @@ Author     : rene.jara
             WebSite wsite = wpage.getWebSite();
             User user = paramRequest.getUser();
             org.semanticwb.model.Resource base = paramRequest.getResourceBase();
-            WebPage wpwscontent = wsite.getWebPage(base.getAttribute("idwpws",wpage.getId()));
-
+            WebPage wpwscontent = wsite.getWebPage(base.getAttribute("idwpws", wpage.getId()));
+            int nummem;
+            try {
+                nummem = Integer.parseInt(base.getAttribute("nummem", "5"));
+            } catch (Exception ignored) {
+                nummem = 5;
+            }
+            int numtil;
+            try {
+                numtil = Integer.parseInt(base.getAttribute("numtil", "5"));
+            } catch (Exception ignored) {
+                numtil = 5;
+            }
             String wsid = request.getParameter("wsid");
             Member member = Member.ClassMgr.getMember(user.getId(), wsite);
             if (member == null) {
@@ -29,9 +40,9 @@ Author     : rene.jara
 <div>
     <ul>
         <%
-            while (itperws.hasNext()) {
-                WorkSpace workSpace = itperws.next();
-                alwsp.add(workSpace);
+                while (itperws.hasNext()) {
+                    WorkSpace workSpace = itperws.next();
+                    alwsp.add(workSpace);
         %>
         <li>
             <div><a href="<%=wpwscontent.getUrl()%>?wsid=<%=workSpace.getId()%>"><%=workSpace.getTitle()%></a></div>
@@ -39,13 +50,13 @@ Author     : rene.jara
                 <div>Descripción:<%=workSpace.getDescription()%></div>
                 <div>Temas:
                     <%
-                        Iterator<com.infotec.conorg.Topic> itto = workSpace.listTopics();
-                        while (itto.hasNext()) {
-                            com.infotec.conorg.Topic topic = itto.next();
+                    Iterator<com.infotec.conorg.Topic> itto = workSpace.listTopics();
+                    while (itto.hasNext()) {
+                        com.infotec.conorg.Topic topic = itto.next();
                     %>
                     <%=topic.getTitle()%>,
                     <%
-                        }
+                    }
                     %>
                 </div>
                 <%
@@ -54,14 +65,20 @@ Author     : rene.jara
                 <div>Participante:
                     <ul>
                         <%
-                            while (itme.hasNext()) {
-                                Member mem = itme.next();
+                    int count = 0;
+                    while (itme.hasNext()) {
+                        Member mem = itme.next();
+                        count++;
+                        if (count <= nummem) {
                         %>
                         <li>
                             <%=mem.getUser().getFullName()%>
                         </li>
                         <%
-                            }
+                        } else {
+                            break;
+                        }
+                    }
                         %>
                     </ul>
                 </div>
@@ -71,14 +88,20 @@ Author     : rene.jara
                 <div>Azulejos:
                     <ul>
                         <%
-                            while (itti.hasNext()) {
-                                Tile tile = itti.next();
+                    count = 0;
+                    while (itti.hasNext()) {
+                        Tile tile = itti.next();
+                        count++;
+                        if (count <= numtil) {
                         %>
                         <li>
                             <%=tile.getTitle()%>
                         </li>
                         <%
-                            }
+                        } else {
+                            break;
+                        }
+                    }
                         %>
                     </ul>
                 </div>

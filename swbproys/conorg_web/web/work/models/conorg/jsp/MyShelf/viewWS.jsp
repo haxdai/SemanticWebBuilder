@@ -25,10 +25,11 @@ Author     : rene.jara
     WebPage wpage = paramRequest.getWebPage();
     WebSite wsite = wpage.getWebSite();
     User usr = paramRequest.getUser();
-    String wsid = request.getParameter("wsid");
-
     org.semanticwb.model.Resource base = paramRequest.getResourceBase();
-
+    WebPage wpwscontent = wsite.getWebPage(base.getAttribute("wpworkspace", wpage.getId()));
+    int nummem;
+    int numtil;
+    String wsid = request.getParameter("wsid");
     String confClass = base.getAttribute(MyShelf.RES_CONF, "http://www.infotec.com/conorg.owl#Shelf");
     String path = SWBPlatform.getContextPath() + "/swbadmin/images/repositoryfile/";
 
@@ -176,27 +177,47 @@ Author     : rene.jara
             //System.out.println("Miembro sin WS ...");
         }
     }
-
-
     // no hay ws seleccionado, muestra lista de ws por miembro
     if ((wsid == null || wsid.equals("")) && !actType.equals("addworkspace")) {
         alwsp = new ArrayList();
-
-
-
+        String mpage = request.getParameter("mpage");
+        String ppage = request.getParameter("ppage");
+//System.out.println("mpage:"+mpage+" ppage"+ppage);
+        try {
+            nummem = Integer.parseInt(base.getAttribute("nummem", "5"));
+        } catch (Exception ignored) {
+            nummem = 5;
+        }
+        try {
+            numtil = Integer.parseInt(base.getAttribute("numtil", "5"));
+        } catch (Exception ignored) {
+            numtil = 5;
+        }
         itperws = WorkSpace.ClassMgr.listWorkSpaces(wsite);
 %>
 <div>
     <ul>
         <%
+            int ps = numPages;
+            long l = 0;// = intSize;
+            int p = 0;
+            int e=0;
+            if (mpage != null) {
+                p = Integer.parseInt(mpage);
+            }
+            int x = 0;
+//System.out.println("x:"+x+" ps:"+ps+" p:"+p);
             while (itperws.hasNext()) {
                 WorkSpace workSpace = itperws.next();
                 if (hmmem.get(workSpace) != null) { // revisando si es miembro del ws
 
                     alwsp.add(workSpace);
+                    x++;
+                    if(x>(ps*p)&&!(x>(ps*(p+1)))){
+//System.out.println("x>(ps*p):"+(x>(ps*p)));
         %>
         <li>
-            <div><a href="/swb/conorg/workspace?wsid=<%=workSpace.getId()%>"><%=workSpace.getTitle()%></a></div>
+            <div><a href="<%=wpwscontent.getUrl()%>?wsid=<%=workSpace.getId()%>"><%=workSpace.getTitle()%></a></div>
             <div>
                 <div>Descripción:<%=workSpace.getDescription()%></div>
                 <div>Temas:
@@ -216,14 +237,20 @@ Author     : rene.jara
                 <div>Participante:
                     <ul>
                         <%
-                            while (itme.hasNext()) {
-                                Member mem = itme.next();
+                    int count = 0;
+                    while (itme.hasNext()) {
+                        Member mem = itme.next();
+                        count++;
+                        if (count <= nummem) {
                         %>
                         <li>
                             <%=mem.getUser().getFullName() + " - " + mem.getMemberType()%>
                         </li>
                         <%
-                            }
+                        } else {
+                            break;
+                        }
+                    }
                         %>
                     </ul>
                 </div>
@@ -233,13 +260,19 @@ Author     : rene.jara
                 <div>Azulejos:
                     <ul>
                         <%
+                            count = 0;
                             while (itti.hasNext()) {
                                 Tile tile = itti.next();
+                                count++;
+                                if (count <= numtil) {
                         %>
                         <li>
                             <%=tile.getTitle()%>
                         </li>
                         <%
+                                } else {
+                                    break;
+                                }
                             }
                         %>
                     </ul>
@@ -247,11 +280,102 @@ Author     : rene.jara
             </div>
         </li>
         <%
+                    }else if(x>(ps*(p+1))) {
+                        e++;
+                    }
+//System.out.println("x>(ps*(p+1)):"+(x>(ps*(p+1))));
                 }
             }
+            l=x;
+            x-=e;
         %>
     </ul>
 </div>
+            <div class="paginar">
+                <p>
+                    <%
+                        if ((p > 0 || x < l))// && (paramRequest.getCallMethod() == SWBParamRequest.Call_CONTENT)) //Requiere paginacion
+                        {
+
+                            int pages = (int) (l / ps);
+                            if ((l % ps) > 0) {
+                                pages++;
+                            }
+
+                            //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+                            int inicia = 0;
+                            int finaliza = pages;
+
+
+                            int rangoinicial = p - 5;
+                            int rangofinal = p + 5;
+                            if (pages <= 10) {
+                                inicia = 0;
+                                finaliza = pages;
+                            } else {
+                                if (rangoinicial < 0) {
+                                    inicia = 0;
+                                    finaliza = Math.abs(rangoinicial) + rangofinal;
+                                } else if (rangofinal > pages) {
+                                    inicia = pages - 10;
+                                    finaliza = pages;
+                                } else {
+                                    inicia = rangoinicial;
+                                    finaliza = rangofinal;
+                                }
+                            }
+
+                            if (pages > 10) {
+                                SWBResourceURL urlNext = paramRequest.getRenderUrl();
+                                urlNext.setParameter("mpage", "" + 0);
+                                if (null != wsid) {
+                                    urlNext.setParameter("wsid", wsid);
+                                }
+                                if (null != ppage) {
+                                    urlNext.setParameter("ppage", ppage);
+                                }
+                                %>
+                                <a href="#" onclick="window.location='<%=urlNext%>';">Ir al inicio</a>
+                                <%
+                            }
+
+                            for (int z = inicia; z < finaliza; z++) {
+                                SWBResourceURL urlNext = paramRequest.getRenderUrl();
+                                urlNext.setParameter("mpage", "" + z);
+                                if (null != wsid) {
+                                    urlNext.setParameter("wsid", wsid);
+                                }
+                                if (null != ppage) {
+                                    urlNext.setParameter("ppage", ppage);
+                                }
+                                if (z != p) {
+                                    %>
+                                 <a href="#" onclick="window.location='<%=urlNext%>';"><%=(z + 1)%></a>
+                                <%
+                                } else {
+                                    %>
+                                            <%=(z + 1)+ " "%>
+                                   <%
+                               }
+                            }
+                            if (pages > 10) {
+                                SWBResourceURL urlNext = paramRequest.getRenderUrl();
+                                urlNext.setParameter("mpage", "" + (pages - 1));
+                                if (null != wsid) {
+                                    urlNext.setParameter("wsid", wsid);
+                                }
+                                if (null != ppage) {
+                                    urlNext.setParameter("ppage", ppage);
+                                }
+
+                                %>
+                                <a href="#" onclick="window.location='<%=urlNext%>';">Ir al final</a>
+                                <%
+                            }
+                        }
+                    %>
+                </p></div>
 <%
     itpubws = WorkSpace.ClassMgr.listWorkSpaces(wsite);
 %>
@@ -259,21 +383,126 @@ Author     : rene.jara
 <div >
     <ul>
         <%
+            //ps = numPages;
+            l = 0;// = intSize;
+            p = 0;
+            e=0;
+            if (ppage != null) {
+                p = Integer.parseInt(ppage);
+            }
+            x = 0;
+//System.out.println("x:"+x+" ps:"+ps+" p:"+p);
+
             // lista de workspace de la comunidad
             while (itpubws.hasNext()) {
                 WorkSpace workSpace = itpubws.next();
                 if (!alwsp.contains(workSpace)) {
+                    x++;
+                    if(x>(ps*p)&&!(x>(ps*(p+1)))){
+//System.out.println("x>(ps*p):"+(x>(ps*p)));
         %>
         <li>
-            <div><a href="/swb/conorg/workspace?wsid=<%=workSpace.getId()%>"><%=workSpace.getTitle()%></a></div>
+            <div><a href="<%=wpwscontent.getUrl()%>?wsid=<%=workSpace.getId()%>"><%=workSpace.getTitle()%></a></div>
             <div>Descripción:<%=workSpace.getDescription()%></div>
         </li>
         <%
+        }else if(x>(ps*(p+1))) {
+                        e++;
+                    }
+//System.out.println("x>(ps*(p+1)):"+(x>(ps*(p+1))));
+
                 }
             }
+            l=x;
+            x-=e;
         %>
     </ul>
 </div>
+        <div class="paginar">
+                <p>
+                    <%
+                        if ((p > 0 || x < l))// && (paramRequest.getCallMethod() == SWBParamRequest.Call_CONTENT)) //Requiere paginacion
+                        {
+
+                            int pages = (int) (l / ps);
+                            if ((l % ps) > 0) {
+                                pages++;
+                            }
+
+                            //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+                            int inicia = 0;
+                            int finaliza = pages;
+
+                            int rangoinicial = p - 5;
+                            int rangofinal = p + 5;
+                            if (pages <= 10) {
+                                inicia = 0;
+                                finaliza = pages;
+                            } else {
+                                if (rangoinicial < 0) {
+                                    inicia = 0;
+                                    finaliza = Math.abs(rangoinicial) + rangofinal;
+                                } else if (rangofinal > pages) {
+                                    inicia = pages - 10;
+                                    finaliza = pages;
+                                } else {
+                                    inicia = rangoinicial;
+                                    finaliza = rangofinal;
+                                }
+                            }
+
+                            if (pages > 10) {
+                                SWBResourceURL urlNext = paramRequest.getRenderUrl();
+                                urlNext.setParameter("ppage", "" + 0);
+                                if (null != wsid) {
+                                    urlNext.setParameter("wsid", wsid);
+                                }
+                                if (null != mpage) {
+                                    urlNext.setParameter("mpage", mpage);
+                                }
+
+                                %>
+                                <a href="#" onclick="window.location='<%=urlNext%>';">Ir al inicio</a>
+                                <%
+                            }
+
+                            for (int z = inicia; z < finaliza; z++) {
+                                SWBResourceURL urlNext = paramRequest.getRenderUrl();
+                                urlNext.setParameter("ppage", "" + z);
+                                if (null != wsid) {
+                                    urlNext.setParameter("wsid", wsid);
+                                }
+                                if (null != mpage) {
+                                    urlNext.setParameter("mpage", mpage);
+                                }
+
+                                if (z != p) {
+                                    %>
+                                 <a href="#" onclick="window.location='<%=urlNext%>';"><%=(z + 1)%></a>
+                                <%
+                                } else {
+                                    %>
+                                            <%=(z + 1)+ " "%>
+                                   <%
+                               }
+                            }
+                            if (pages > 10) {
+                                SWBResourceURL urlNext = paramRequest.getRenderUrl();
+                                urlNext.setParameter("ppage", "" + (pages - 1));
+                                if (null != wsid) {
+                                    urlNext.setParameter("wsid", wsid);
+                                }
+                                if (null != mpage) {
+                                    urlNext.setParameter("mpage", mpage);
+                                }
+                                %>
+                                <a href="#" onclick="window.location='<%=urlNext%>';">Ir al final</a>
+                                <%
+                            }
+                        }
+                    %>
+                </p></div>
 <%
 } else if (wsid != null) {
 
