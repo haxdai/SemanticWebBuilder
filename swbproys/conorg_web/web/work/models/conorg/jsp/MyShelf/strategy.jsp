@@ -23,16 +23,22 @@ Author     : rene.jara
 <div style="float: left">
     <ul>
         <%
-                    while (itperws.hasNext()) {
-                        WorkSpace workSpace = itperws.next();
-                        alwsp.add(workSpace);
+            int count = 0;
+            while (itperws.hasNext()) {
+                WorkSpace workSpace = itperws.next();
+                alwsp.add(workSpace);
+                count++;
+                if (count <= numele) {
         %>
         <li>
-            <div><a href="/swb/conorg/workspace?wsid=<%=workSpace.getId()%>"><%=workSpace.getTitle()%></a></div>
+            <div><a href="<%=wpwscontent.getUrl()%>?wsid=<%=workSpace.getId()%>"><%=workSpace.getTitle()%></a></div>
             <div>Descripción:<%=workSpace.getDescription()%></div>
         </li>
         <%
-                    }
+                } else {
+                    break;
+                }
+            }
         %>
     </ul>
 </div>
@@ -42,17 +48,23 @@ Author     : rene.jara
 <div style="float: left">
     <ul>
         <%
-                    while (itpubws.hasNext()) {
-                        WorkSpace workSpace = itpubws.next();
-                        if (!alwsp.contains(workSpace)) {
+            count = 0;
+            while (itpubws.hasNext()) {
+                WorkSpace workSpace = itpubws.next();
+                if (!alwsp.contains(workSpace)) {
+                    count++;
+                    if (count <= numele) {
         %>
         <li>
-            <div><a href="/swb/conorg/workspace?wsid=<%=workSpace.getId()%>"><%=workSpace.getTitle()%></a></div>
+            <div><a href="<%=wpwscontent.getUrl()%>?wsid=<%=workSpace.getId()%>"><%=workSpace.getTitle()%></a></div>
             <div>Descripción:<%=workSpace.getDescription()%></div>
         </li>
         <%
-                        }
+                    } else {
+                        break;
                     }
+                }
+            }
         %>
     </ul>
 </div>
