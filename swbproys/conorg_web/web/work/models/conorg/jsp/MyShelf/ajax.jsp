@@ -3,6 +3,7 @@ Document   : ajax
 Created on : 17/04/2012, 06:36:23 PM
 Author     : rene.jara
 --%>
+<%@page import="java.util.Comparator"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="org.semanticwb.platform.SemanticOntology"%>
 <%@page import="org.semanticwb.portal.api.SWBResourceURL"%>
@@ -89,6 +90,8 @@ Author     : rene.jara
                     <option value="-1">Selecciona....</option>
                         <%
                             Iterator<User> itusr = ws.getUserRepository().listUsers();
+                            itusr=SWBComparator.sortSermanticObjects(new orderByFullName(),itusr);
+
                             while (itusr.hasNext()) {
                                 User usr = itusr.next();
                                 if(hmusrmbr.get(usr)!=null) continue;
@@ -117,5 +120,14 @@ Author     : rene.jara
 <%
         
 
+    }
+%><%!
+    class orderByFullName implements Comparator<org.semanticwb.model.User>{
+        public int compare(org.semanticwb.model.User u1, org.semanticwb.model.User u2) {
+            String n1, n2;
+            n1=u1.getFullName();
+            n2=u2.getFullName();
+            return n1.compareTo(n2);
+        }
     }
 %>
