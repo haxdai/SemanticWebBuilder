@@ -399,6 +399,37 @@ public class MyShelf extends GenericAdmResource {
                 response.setRenderParameter("alertmsg", "Datos inválidos y/o incompletos, no se recibieron parámetros válidos.");
                 response.setRenderParameter("wsid", wsid);
             }
+        } else if ("updmbr".equals(action)) {
+            WorkSpace ws = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
+            //System.out.println("update member tipo-miembro "+ws.getId());
+            
+            String mbrid = request.getParameter("mbrid");
+            String mbrtype = request.getParameter("mbrtype");
+            Member mbr = Member.ClassMgr.getMember(mbrid, wsite);
+            
+            if (ws!=null&&mbr != null) {
+                //System.out.println("ws !=null y mbr!=null");
+                int intadmin = 0;
+                Iterator<Member> itmbr = ws.listMembers();
+                while (itmbr.hasNext()) {
+                    Member member = itmbr.next();
+                    if (member!=null&&member.getMemberType() != null && getLevelMember(member) == 4) {
+                        intadmin++;
+                    }
+                }
+                if ((getLevelMember(mbr) == 4 && intadmin > 1 && !mbrtype.equals(MyShelf.USRLEVEL_ADMINISTRADOR)) || (getLevelMember(mbr)<4)) { // se puede eliminar el miembro 
+                    mbr.setMemberType(mbrtype);
+                    
+                    response.setRenderParameter("alertmsg", "Se actualió correctamente el tipo de miembro.");
+                    response.setRenderParameter("wsid", wsid);
+                } else if ((getLevelMember(mbr) == 4 && intadmin == 1)) {
+                    response.setRenderParameter("alertmsg", "No se pudo actualizar el tipo de miembro. Debe de haber por lo menos un miembro Administrador");
+                    response.setRenderParameter("wsid", wsid);
+                }
+            } else {
+                response.setRenderParameter("alertmsg", "Datos inválidos y/o incompletos, no se recibieron parámetros válidos.");
+                response.setRenderParameter("wsid", wsid);
+            }
         }
 
         if (id != null) {
@@ -595,7 +626,9 @@ public class MyShelf extends GenericAdmResource {
     public static int getLevelMember(Member member) {
         int usrlvl = 0;
 
-        if (member.getMemberType().equals(USRLEVEL_NO_MIEMBRO)) {
+        if(member.getMemberType()==null) {
+            usrlvl=0;
+        } else if (member.getMemberType().equals(USRLEVEL_NO_MIEMBRO)) {
             usrlvl = 0;
         } else if (member.getMemberType().equals(USRLEVEL_INVITADO)) {
             usrlvl = 1;
@@ -610,39 +643,39 @@ public class MyShelf extends GenericAdmResource {
         return usrlvl;
     }
     
-//    public static String getSelecTypeMember(String membertype,String options) {
-//        StringBuffer ret  = null;
-//        ret.append("<select name=\"mbrtype\" "+options+">");
-//        ret.append("<option value=\""+USRLEVEL_MIEMBRO+"\"");
-//        if (membertype.equals(USRLEVEL_NO_MIEMBRO)) {
-//            ret.append("selected");
-//        } 
-//        ret.append(">"+USRLEVEL_NO_MIEMBRO+"</option>");
-//        ret.append("<option value=\""+USRLEVEL_INVITADO+"\"");
-//        if (membertype.equals(USRLEVEL_INVITADO)) {
-//            ret.append("selected");
-//        } 
-//        ret.append(">"+USRLEVEL_INVITADO+"</option>");
-//        ret.append("<option value=\""+USRLEVEL_MIEMBRO+"\"");
-//        if (membertype.equals(USRLEVEL_MIEMBRO)) {
-//            ret.append("selected");
-//        } 
-//        ret.append(">"+USRLEVEL_MIEMBRO+"</option>");
-//        ret.append("<option value=\""+USRLEVEL_COORDINADOR+"\"");
-//        if (membertype.equals(USRLEVEL_COORDINADOR)) {
-//            ret.append("selected");
-//        } 
-//        ret.append(">"+USRLEVEL_COORDINADOR+"</option>");
-//        ret.append("<option value=\""+USRLEVEL_ADMINISTRADOR+"\"");
-//        if (membertype.equals(USRLEVEL_ADMINISTRADOR)) {
-//            ret.append("selected");
-//        }
-//        ret.append(">"+USRLEVEL_ADMINISTRADOR+"</option>");
-//        ret.append("</select>");
-//        
-//        System.out.print(ret.toString());
-//        
-//        
-//        return ret.toString();
-//    }
+    public static String getSelecTypeMember(String membertype,String options) {
+        StringBuffer ret  = new StringBuffer();
+        ret.append("<select name=\"mbrtype\" "+options+">");
+        ret.append("<option value=\""+USRLEVEL_MIEMBRO+"\"");
+        if (membertype.equals(USRLEVEL_NO_MIEMBRO)) {
+            ret.append("selected");
+        } 
+        ret.append(">"+USRLEVEL_NO_MIEMBRO+"</option>");
+        ret.append("<option value=\""+USRLEVEL_INVITADO+"\"");
+        if (membertype.equals(USRLEVEL_INVITADO)) {
+            ret.append("selected");
+        } 
+        ret.append(">"+USRLEVEL_INVITADO+"</option>");
+        ret.append("<option value=\""+USRLEVEL_MIEMBRO+"\"");
+        if (membertype.equals(USRLEVEL_MIEMBRO)) {
+            ret.append("selected");
+        } 
+        ret.append(">"+USRLEVEL_MIEMBRO+"</option>");
+        ret.append("<option value=\""+USRLEVEL_COORDINADOR+"\"");
+        if (membertype.equals(USRLEVEL_COORDINADOR)) {
+            ret.append("selected");
+        } 
+        ret.append(">"+USRLEVEL_COORDINADOR+"</option>");
+        ret.append("<option value=\""+USRLEVEL_ADMINISTRADOR+"\"");
+        if (membertype.equals(USRLEVEL_ADMINISTRADOR)) {
+            ret.append("selected");
+        }
+        ret.append(">"+USRLEVEL_ADMINISTRADOR+"</option>");
+        ret.append("</select>");
+        
+        //System.out.print(ret.toString());
+        
+        
+        return ret.toString();
+    }
 }
