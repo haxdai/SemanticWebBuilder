@@ -604,11 +604,11 @@ Author     : rene.jara
                             urlupdmbr.setAction("updmbr");
                             urlupdmbr.setParameter("wsid", wsid);
                             urlupdmbr.setParameter("usrid", mem.getUser().getId());
-                            urlupdmbr.setParameter("mbr", mem.getId()); 
-                            String options ="onchange=\"window.location='"+urlupdmbr.toString()+"?mbrtype='+this.value;return false;\"";
-                            //getSelecTypeMember(mbrtype, options)
+                            urlupdmbr.setParameter("mbrid", mem.getId()); 
+                            String options ="onchange=\"window.location='"+urlupdmbr.toString()+"&mbrtype='+this.value;return false;\"";
+                            String strSelect = MyShelf.getSelecTypeMember(mbrtype, options);
                             %>
-                            <td><%=mbrtype%></td>
+                            <td><%=strSelect%></td>
                         </tr>
 
                         <%
@@ -1088,10 +1088,6 @@ Author     : rene.jara
             </script>
             <h3><%=wptitle%></h3>
             <%
-
-
-
-
                 SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
                 SemanticObject so = ont.getSemanticObject(suri);
                 out.println("<h4>" + MyShelf.getTileTypeName((Tile) (so.createGenericInstance())) + "</h4>");
@@ -1328,7 +1324,7 @@ Author     : rene.jara
 String getSelecTypeMember(String membertype,String options) {
 StringBuffer ret  = null;
         ret.append("<select name=\"mbrtype\" "+options+">");
-        ret.append("<option value=\""+MyShelf.USRLEVEL_MIEMBRO+"\"");
+        ret.append("<option value=\""+MyShelf.USRLEVEL_NO_MIEMBRO+"\"");
         if (membertype.equals(MyShelf.USRLEVEL_NO_MIEMBRO)) {
             ret.append("selected");
         } 
