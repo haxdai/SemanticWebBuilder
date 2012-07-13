@@ -14,6 +14,9 @@
             WebSite wsite = wpage.getWebSite();
             User user = paramRequest.getUser();
             Colleague colleague=Colleague.ClassMgr.getColleague(user.getId(), wsite);
+            if(colleague==null){
+                colleague=Colleague.ClassMgr.createColleague(user.getId(), wsite);
+            }
             Iterator<User> itco=colleague.listColleagueses();
             org.semanticwb.model.Resource base = paramRequest.getResourceBase();
             WebPage wpwscontent = wsite.getWebPage(base.getAttribute("idwpws",wpage.getId()));
