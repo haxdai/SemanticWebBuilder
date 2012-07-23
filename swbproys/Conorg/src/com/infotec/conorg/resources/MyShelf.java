@@ -262,6 +262,16 @@ public class MyShelf extends GenericAdmResource {
                     SemanticClass scls = sobj.getSemanticClass();
                     classid = scls.getClassId();
                     frmgr = new SWBFormMgr(sobj, SWBFormMgr.MODE_EDIT, SWBFormMgr.MODE_EDIT);
+                    frmgr.clearProperties();
+                    frmgr.addProperty(Descriptiveable.swb_title);
+                    frmgr.addProperty(Descriptiveable.swb_description);
+                    frmgr.addProperty(Tagable.swb_tags);
+                    frmgr.addProperty(Activeable.swb_active);
+                    frmgr.addProperty(Traceable.swb_created);
+                    frmgr.addProperty(Traceable.swb_creator);
+                    frmgr.addProperty(Traceable.swb_modifiedBy);
+                    frmgr.addProperty(Traceable.swb_updated);
+                    frmgr.addProperty(WorkSpace.conorg_hasTopic);
                     SemanticObject nso = frmgr.processForm(request);
                     if (nso.createGenericInstance() instanceof WorkSpace) {
                         wsid = ((WorkSpace) nso.createGenericInstance()).getId();
@@ -277,9 +287,6 @@ public class MyShelf extends GenericAdmResource {
                     msg = "Error al actualizar " + classid.substring(classid.indexOf("#") + 1);
                 }
 
-                //response.setRenderParameter("act", SWBActionResponse.Action_EDIT);
-                //response.setAction(SWBActionResponse.Action_EDIT);
-                //response.setRenderParameter("act", "");
                 response.setRenderParameter("alertmsg", msg);
 
                 response.setRenderParameter("id", id);
