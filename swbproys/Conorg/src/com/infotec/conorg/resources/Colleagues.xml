@@ -5,7 +5,7 @@
 		<admdbconnmgr defconn="true"/>
         <fieldset >
                 <statictext name="used">Configuración Funcionamiento del Recurso</statictext>
-                <input type="TEXT" name="idwpws" label="Id de la sección de workspace:" size="20" jsrequired="true"/>
+                <input type="TEXT" name="idwpco" label="Id de la sección de colegas:" size="20" jsrequired="true"/>
             </fieldset>
         <fieldset>
             <statictext name="b">
