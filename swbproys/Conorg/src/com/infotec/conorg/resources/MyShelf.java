@@ -685,4 +685,41 @@ public class MyShelf extends GenericAdmResource {
         
         return ret.toString();
     }
+    
+    
+    public static String getClassIconTile(Tile tile){
+        String ret = "doc";
+        if (tile instanceof Contact) {
+            ret = "con";
+        } else if (tile instanceof Mosaic) {
+            ret = "mos";
+        } else if (tile instanceof com.infotec.conorg.Resource) {
+            ret = "rec";
+        } else if (tile instanceof URL) {
+            ret = "url";
+        } else if (tile instanceof Article) {
+            ret = "art";
+        } else if (tile instanceof Audio) {
+            ret = "aud";
+        } else if (tile instanceof Book) {
+            ret = "lib";
+        } else if (tile instanceof ChapterBook) {
+            ret = "cap";
+        } else if (tile instanceof Image) {
+            ret = "img";
+        } else if (tile instanceof Manual) {
+            ret = "man";
+        } else if (tile instanceof Presentation) {
+            ret = "pre";
+        } else if (tile instanceof com.infotec.conorg.Reference) {
+            ret = "ref";
+        } else if (tile instanceof Report) {
+            ret = "rep";
+        } else if (tile instanceof Video) {
+            ret = "vid";
+        } else if (tile instanceof Document) {
+            ret = "doc";
+        }
+        return ret;            
+    }
 }
