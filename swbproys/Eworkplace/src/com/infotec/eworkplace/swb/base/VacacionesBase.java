@@ -5,10 +5,10 @@ public abstract class VacacionesBase extends org.semanticwb.model.SWBClass imple
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaInicioVacaciones=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaInicioVacaciones");
     public static final org.semanticwb.platform.SemanticProperty intranet_periodo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#periodo");
-    public static final org.semanticwb.platform.SemanticProperty intranet_nombreTitular=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nombreTitular");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaRegreso=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaRegreso");
     public static final org.semanticwb.platform.SemanticProperty intranet_nombreJefe=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nombreJefe");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaFinVacaciones=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaFinVacaciones");
+    public static final org.semanticwb.platform.SemanticProperty intranet_nombreTitular=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nombreTitular");
     public static final org.semanticwb.platform.SemanticClass intranet_Vacaciones=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Vacaciones");
    /**
    * The semantic class that represents the currentObject
@@ -79,6 +79,29 @@ public abstract class VacacionesBase extends org.semanticwb.model.SWBClass imple
             return (getVacaciones(id, model)!=null);
         }
        /**
+       * Gets all com.infotec.eworkplace.swb.Vacaciones with a determined UsuarioAutoriza
+       * @param value UsuarioAutoriza of the type org.semanticwb.model.User
+       * @param model Model of the com.infotec.eworkplace.swb.Vacaciones
+       * @return Iterator with all the com.infotec.eworkplace.swb.Vacaciones
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Vacaciones> listVacacionesByUsuarioAutoriza(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Vacaciones> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_usuarioAutoriza, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.Vacaciones with a determined UsuarioAutoriza
+       * @param value UsuarioAutoriza of the type org.semanticwb.model.User
+       * @return Iterator with all the com.infotec.eworkplace.swb.Vacaciones
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Vacaciones> listVacacionesByUsuarioAutoriza(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Vacaciones> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_usuarioAutoriza,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all com.infotec.eworkplace.swb.Vacaciones with a determined Solicitante
        * @param value Solicitante of the type org.semanticwb.model.User
        * @param model Model of the com.infotec.eworkplace.swb.Vacaciones
@@ -110,6 +133,170 @@ public abstract class VacacionesBase extends org.semanticwb.model.SWBClass imple
     public VacacionesBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+/**
+* Gets the FechaInicioVacaciones property
+* @return java.util.Date with the FechaInicioVacaciones
+*/
+    public java.util.Date getFechaInicioVacaciones()
+    {
+        return getSemanticObject().getDateProperty(intranet_fechaInicioVacaciones);
+    }
+
+/**
+* Sets the FechaInicioVacaciones property
+* @param value long with the FechaInicioVacaciones
+*/
+    public void setFechaInicioVacaciones(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(intranet_fechaInicioVacaciones, value);
+    }
+
+/**
+* Gets the Periodo property
+* @return int with the Periodo
+*/
+    public int getPeriodo()
+    {
+        return getSemanticObject().getIntProperty(intranet_periodo);
+    }
+
+/**
+* Sets the Periodo property
+* @param value long with the Periodo
+*/
+    public void setPeriodo(int value)
+    {
+        getSemanticObject().setIntProperty(intranet_periodo, value);
+    }
+
+/**
+* Gets the FechaRegreso property
+* @return java.util.Date with the FechaRegreso
+*/
+    public java.util.Date getFechaRegreso()
+    {
+        return getSemanticObject().getDateProperty(intranet_fechaRegreso);
+    }
+
+/**
+* Sets the FechaRegreso property
+* @param value long with the FechaRegreso
+*/
+    public void setFechaRegreso(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(intranet_fechaRegreso, value);
+    }
+
+/**
+* Gets the NombreJefe property
+* @return String with the NombreJefe
+*/
+    public String getNombreJefe()
+    {
+        return getSemanticObject().getProperty(intranet_nombreJefe);
+    }
+
+/**
+* Sets the NombreJefe property
+* @param value long with the NombreJefe
+*/
+    public void setNombreJefe(String value)
+    {
+        getSemanticObject().setProperty(intranet_nombreJefe, value);
+    }
+
+/**
+* Gets the ExtensionSolicitante property
+* @return String with the ExtensionSolicitante
+*/
+    public String getExtensionSolicitante()
+    {
+        return getSemanticObject().getProperty(intranet_extensionSolicitante);
+    }
+
+/**
+* Sets the ExtensionSolicitante property
+* @param value long with the ExtensionSolicitante
+*/
+    public void setExtensionSolicitante(String value)
+    {
+        getSemanticObject().setProperty(intranet_extensionSolicitante, value);
+    }
+   /**
+   * Sets the value for the property UsuarioAutoriza
+   * @param value UsuarioAutoriza to set
+   */
+
+    public void setUsuarioAutoriza(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_usuarioAutoriza, value.getSemanticObject());
+        }else
+        {
+            removeUsuarioAutoriza();
+        }
+    }
+   /**
+   * Remove the value for UsuarioAutoriza property
+   */
+
+    public void removeUsuarioAutoriza()
+    {
+        getSemanticObject().removeProperty(intranet_usuarioAutoriza);
+    }
+
+   /**
+   * Gets the UsuarioAutoriza
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getUsuarioAutoriza()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_usuarioAutoriza);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+/**
+* Gets the Autoriza property
+* @return String with the Autoriza
+*/
+    public String getAutoriza()
+    {
+        return getSemanticObject().getProperty(intranet_autoriza);
+    }
+
+/**
+* Sets the Autoriza property
+* @param value long with the Autoriza
+*/
+    public void setAutoriza(String value)
+    {
+        getSemanticObject().setProperty(intranet_autoriza, value);
+    }
+
+/**
+* Gets the FechaFinVacaciones property
+* @return java.util.Date with the FechaFinVacaciones
+*/
+    public java.util.Date getFechaFinVacaciones()
+    {
+        return getSemanticObject().getDateProperty(intranet_fechaFinVacaciones);
+    }
+
+/**
+* Sets the FechaFinVacaciones property
+* @param value long with the FechaFinVacaciones
+*/
+    public void setFechaFinVacaciones(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(intranet_fechaFinVacaciones, value);
     }
 
 /**
@@ -169,24 +356,6 @@ public abstract class VacacionesBase extends org.semanticwb.model.SWBClass imple
     }
 
 /**
-* Gets the FechaInicioVacaciones property
-* @return java.util.Date with the FechaInicioVacaciones
-*/
-    public java.util.Date getFechaInicioVacaciones()
-    {
-        return getSemanticObject().getDateProperty(intranet_fechaInicioVacaciones);
-    }
-
-/**
-* Sets the FechaInicioVacaciones property
-* @param value long with the FechaInicioVacaciones
-*/
-    public void setFechaInicioVacaciones(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(intranet_fechaInicioVacaciones, value);
-    }
-
-/**
 * Gets the FechaSolicita property
 * @return java.util.Date with the FechaSolicita
 */
@@ -205,24 +374,6 @@ public abstract class VacacionesBase extends org.semanticwb.model.SWBClass imple
     }
 
 /**
-* Gets the Periodo property
-* @return int with the Periodo
-*/
-    public int getPeriodo()
-    {
-        return getSemanticObject().getIntProperty(intranet_periodo);
-    }
-
-/**
-* Sets the Periodo property
-* @param value long with the Periodo
-*/
-    public void setPeriodo(int value)
-    {
-        getSemanticObject().setIntProperty(intranet_periodo, value);
-    }
-
-/**
 * Gets the NombreTitular property
 * @return String with the NombreTitular
 */
@@ -238,24 +389,6 @@ public abstract class VacacionesBase extends org.semanticwb.model.SWBClass imple
     public void setNombreTitular(String value)
     {
         getSemanticObject().setProperty(intranet_nombreTitular, value);
-    }
-
-/**
-* Gets the FechaRegreso property
-* @return java.util.Date with the FechaRegreso
-*/
-    public java.util.Date getFechaRegreso()
-    {
-        return getSemanticObject().getDateProperty(intranet_fechaRegreso);
-    }
-
-/**
-* Sets the FechaRegreso property
-* @param value long with the FechaRegreso
-*/
-    public void setFechaRegreso(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(intranet_fechaRegreso, value);
     }
 
 /**
@@ -313,42 +446,6 @@ public abstract class VacacionesBase extends org.semanticwb.model.SWBClass imple
     }
 
 /**
-* Gets the NombreJefe property
-* @return String with the NombreJefe
-*/
-    public String getNombreJefe()
-    {
-        return getSemanticObject().getProperty(intranet_nombreJefe);
-    }
-
-/**
-* Sets the NombreJefe property
-* @param value long with the NombreJefe
-*/
-    public void setNombreJefe(String value)
-    {
-        getSemanticObject().setProperty(intranet_nombreJefe, value);
-    }
-
-/**
-* Gets the ExtensionSolicitante property
-* @return String with the ExtensionSolicitante
-*/
-    public String getExtensionSolicitante()
-    {
-        return getSemanticObject().getProperty(intranet_extensionSolicitante);
-    }
-
-/**
-* Sets the ExtensionSolicitante property
-* @param value long with the ExtensionSolicitante
-*/
-    public void setExtensionSolicitante(String value)
-    {
-        getSemanticObject().setProperty(intranet_extensionSolicitante, value);
-    }
-
-/**
 * Gets the NombreSolicitante property
 * @return String with the NombreSolicitante
 */
@@ -364,41 +461,5 @@ public abstract class VacacionesBase extends org.semanticwb.model.SWBClass imple
     public void setNombreSolicitante(String value)
     {
         getSemanticObject().setProperty(intranet_nombreSolicitante, value);
-    }
-
-/**
-* Gets the Autoriza property
-* @return String with the Autoriza
-*/
-    public String getAutoriza()
-    {
-        return getSemanticObject().getProperty(intranet_autoriza);
-    }
-
-/**
-* Sets the Autoriza property
-* @param value long with the Autoriza
-*/
-    public void setAutoriza(String value)
-    {
-        getSemanticObject().setProperty(intranet_autoriza, value);
-    }
-
-/**
-* Gets the FechaFinVacaciones property
-* @return java.util.Date with the FechaFinVacaciones
-*/
-    public java.util.Date getFechaFinVacaciones()
-    {
-        return getSemanticObject().getDateProperty(intranet_fechaFinVacaciones);
-    }
-
-/**
-* Sets the FechaFinVacaciones property
-* @param value long with the FechaFinVacaciones
-*/
-    public void setFechaFinVacaciones(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(intranet_fechaFinVacaciones, value);
     }
 }
