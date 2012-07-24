@@ -120,6 +120,29 @@ public abstract class ReservacionSalaBase extends org.semanticwb.model.SWBClass 
             return it;
         }
        /**
+       * Gets all com.infotec.eworkplace.swb.ReservacionSala with a determined UsuarioAutoriza
+       * @param value UsuarioAutoriza of the type org.semanticwb.model.User
+       * @param model Model of the com.infotec.eworkplace.swb.ReservacionSala
+       * @return Iterator with all the com.infotec.eworkplace.swb.ReservacionSala
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.ReservacionSala> listReservacionSalaByUsuarioAutoriza(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.ReservacionSala> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_usuarioAutoriza, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.ReservacionSala with a determined UsuarioAutoriza
+       * @param value UsuarioAutoriza of the type org.semanticwb.model.User
+       * @return Iterator with all the com.infotec.eworkplace.swb.ReservacionSala
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.ReservacionSala> listReservacionSalaByUsuarioAutoriza(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.ReservacionSala> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_usuarioAutoriza,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all com.infotec.eworkplace.swb.ReservacionSala with a determined Solicitante
        * @param value Solicitante of the type org.semanticwb.model.User
        * @param model Model of the com.infotec.eworkplace.swb.ReservacionSala
@@ -361,6 +384,44 @@ public abstract class ReservacionSalaBase extends org.semanticwb.model.SWBClass 
     public void setExtensionSolicitante(String value)
     {
         getSemanticObject().setProperty(intranet_extensionSolicitante, value);
+    }
+   /**
+   * Sets the value for the property UsuarioAutoriza
+   * @param value UsuarioAutoriza to set
+   */
+
+    public void setUsuarioAutoriza(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_usuarioAutoriza, value.getSemanticObject());
+        }else
+        {
+            removeUsuarioAutoriza();
+        }
+    }
+   /**
+   * Remove the value for UsuarioAutoriza property
+   */
+
+    public void removeUsuarioAutoriza()
+    {
+        getSemanticObject().removeProperty(intranet_usuarioAutoriza);
+    }
+
+   /**
+   * Gets the UsuarioAutoriza
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getUsuarioAutoriza()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_usuarioAutoriza);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
