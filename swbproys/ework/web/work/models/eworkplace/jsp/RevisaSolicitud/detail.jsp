@@ -46,6 +46,8 @@
     if (solID != null) {
         solrec = SolicitudRecurso.ClassMgr.getSolicitudRecurso(solID, wsite);
     }
+    
+    
 
     String MODE_EXPORT = "export";
 
@@ -55,6 +57,8 @@
     if (action.equals("buscar")) {
         isDetail = false;
     }
+    
+    System.out.println("(DETAIL) action: "+action);
 %>
 
 <script type="text/javascript">
@@ -81,17 +85,15 @@
     dojo.require("dojox.form.TimeSpinner");
 </script>
 <%
-    SWBResourceURL urlaction = paramRequest.getRenderUrl();
-    urlaction.setMode(SWBResourceURL.Mode_VIEW);
-    urlaction.setParameter("act", "buscarcandidato");
-    urlaction.setParameter("step", "1");
-
+    SWBResourceURL urlact = paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW);
 %>
 <div id="processForm">
-    <form  dojoType="dijit.form.Form"  action="<%=urlaction.toString()%>" method="post">
+    <form dojoType="dijit.form.Form"  action="<%=urlact%>/_mod/view" method="post" id="fbusca" >
         <input type="hidden" name="suri" value="<%=solrec != null ? solrec.getURI() : ""%>"/>
-        <input type="hidden" name="smode" value="view"/>
-        <input type="hidden" name="action" value="buscar"/>
+        
+        <input type="hidden" name="action" value="findcandidato"/>
+        <input type="hidden" name="act" value="findcandidato"/>
+        <input type="hidden" name="step" value="1"/>
         <fieldset>
             <table>
                 <%
@@ -300,21 +302,25 @@
                             }
                         %>
                     </td></tr>
-                <tr><td width="200px" align="right"><label for="title"><label for="solicitudRecurso.sectorExpertise">Sector de experiencia <em>*</em></label></label></td>
+                <tr><td width="200px" align="right"><label for="title"><label for="solicitudRecurso.hasSectorExpertise">Sector de experiencia <em>*</em></label></label></td>
                     <td>
                         <%
                             if (solrec != null) {
                                 Iterator<Sector> itsec = solrec.listSectorExpertises(); 
-                                while (itsec.hasNext()) {
-                                    Sector secexp = itsec.next();
-                                    out.print("<input type=\"hidden\" name=\"solicitudRecurso.hasSectorExpertise\" value=\"" + secexp.getURI() + "\" />" + secexp.getTitle());
-                                    if (itsec.hasNext()) {
-                                        out.print(", ");
+                                if(!itsec.hasNext()){ 
+                                    out.print("<input type=\"hidden\" name=\"solicitudRecurso.hasSectorExpertise\" value=\"\" />");
+                                } else {
+                                    while (itsec.hasNext()) {
+                                        Sector secexp = itsec.next();
+                                        out.print("<input type=\"hidden\" name=\"solicitudRecurso.hasSectorExpertise\" value=\"" + secexp.getURI() + "\" />" + secexp.getTitle());
+                                        if (itsec.hasNext()) {
+                                            out.print(", ");
+                                        }
                                     }
                                 }
                             } else {
                         %>
-                        <select name="solicitudRecurso.sectorExpertise" multiple="true" style="width:300px;" >
+                        <select name="solicitudRecurso.hasSectorExpertise" multiple="true" style="width:300px;" >
                             <%
                                 Iterator<Sector> itsec = Sector.ClassMgr.listSectors(wsite);
                                 while (itsec.hasNext()) {
@@ -404,12 +410,12 @@
                         }
                     %>
                 <tr><td colspan="2" align="center"> 
-                        <button _dojoType="dijit.form.Button" name="bsearch" type="submit">Buscar Candidato</button>
+                        <button type="submit" >Buscar Candidato</button>
                         <%
                             SWBResourceURL urlback = paramRequest.getRenderUrl();
                             urlback.setMode(SWBResourceURL.Mode_VIEW);
                         %>
-                        <button _dojoType="dijit.form.Button" onclick="window.location='<%=urlback.toString()%>'; return false;">Regresar</button>
+                        <button onclick="window.location='<%=urlback.toString()%>'; return false;">Regresar</button>
                     </td></tr>
             </table>
         </fieldset>

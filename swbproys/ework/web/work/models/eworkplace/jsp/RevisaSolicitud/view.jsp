@@ -4,6 +4,7 @@
     Author     : juan.fernandez
 --%>
 
+<%@page import="java.util.Enumeration"%>
 <%@page import="org.semanticwb.portal.SWBFormMgr"%>
 <%@page import="com.infotec.cvi.swb.SolicitudRecurso"%>
 <%@page import="java.util.Date"%>
@@ -38,7 +39,7 @@
     WebSite wsite = wpage.getWebSite();
     User usr = paramRequest.getUser();
     Role role = null;
-    String MODE_DETAIL ="detail";
+    String MODE_DETAIL = "detail";
 
     Resource base = paramRequest.getResourceBase();
     String strNumItems = base.getAttribute("numPageItems", "10");
@@ -59,6 +60,8 @@
     } catch (Exception e) {
         numPages = 10;
     }
+
+    System.out.println("action: " + action);
 
     if (action == null) {
         action = "";
@@ -155,7 +158,7 @@
                         while (itcv.hasNext()) {
                             solrec = itcv.next();
                             acum = 0;
-                            long time_cv = (solrec.getFechaSolicitud()!=null?solrec.getFechaSolicitud().getTime():0);
+                            long time_cv = (solrec.getFechaSolicitud() != null ? solrec.getFechaSolicitud().getTime() : 0);
 
                             if (!fromDate.equals("") && !toDate.equals("")) {
                                 long iniDate = getTimeDate(fromDate, 0, 0, 0);
@@ -293,7 +296,7 @@
                             while (itcv.hasNext()) {
                                 solrec = itcv.next();
                                 acum = 0;
-                                long time_cv = (solrec.getFechaSolicitud()!=null?solrec.getFechaSolicitud().getTime():0);
+                                long time_cv = (solrec.getFechaSolicitud() != null ? solrec.getFechaSolicitud().getTime() : 0);
 
                                 if (!fromDate.equals("") && !toDate.equals("")) {
                                     long iniDate = getTimeDate(fromDate, 0, 0, 0);
@@ -821,7 +824,7 @@
                                             solrec = itcv.next();
                                             acum = 0;
                                             long time_cv = 0; //solrec.getFechaSolicitud().getTime();
-                                
+                                            
                                             if (!fromDate.equals("") && !toDate.equals("")) {
                                             long iniDate = getTimeDate(fromDate, 0, 0, 0);
                                             long endDate = getTimeDate(toDate, 23, 59, 59);
@@ -847,14 +850,14 @@
                                             } else {
                                             conservar = true;
                                             }
-                                
+                                            
                                             conservar=true;
-                                
+                                            
                                             if (conservar) { // si cumple con rango de fechas
-                                
+                                            
                                             hm.put(solrec.getId(), solrec);
                                             hmorder.put(solrec.getId(), solrec.getId());
-                                
+                                            
                                             }
                                             }
                                             acum = SWBUtils.Collections.sizeOf(hm.keySet().iterator());
@@ -868,9 +871,9 @@
                                             } else if (!toDate.equals("") && fromDate.equals("")) {
                                             criteria = "CVI Registrados hasta el " + sdf.format(new Date(getTimeDate(toDate, 23, 59, 59)));
                                             }
-                                
+                                            
                                             out.println(listReport(hm, hmorder, txttype, criteria, paramRequest, request));
-                                
+                                            
                                             }*/
                                             if (!export.equals("excel")) {
                                                 SWBResourceURL urlExport = paramRequest.getRenderUrl();
@@ -908,6 +911,52 @@
                                             <%
                                                     }
                                                 } //step 4                                     
+                                            } else if ("findcandidato".equals(action)) {
+                                                //suri, smode, act, action
+                                                
+                                                out.println("find candidato<br/><br/>");
+                                                String pFuncion = "", pEspecialidad = "", pAvance = "", pConocimiento = "", pCertificacion = "";
+                                                String[] pCompetencias = null, pExpertise = null, pSector = null;
+                                                Enumeration<String> enu = request.getParameterNames();
+                                                while (enu.hasMoreElements()) {
+                                                    String param = enu.nextElement();
+                                                    if (!param.startsWith("solicitudRecurso.")) {
+                                                        continue;
+                                                    }
+                                                    String[] params = null;
+                                                    out.println(param + ": <br/>");
+                                                    if (param.indexOf("has") != -1 || param.indexOf("sector") != -1) {
+                                                        if (param.indexOf("hasExpertise") != -1) {
+                                                            pExpertise = request.getParameterValues(param);
+                                                        } else if (param.indexOf("hasCompetenciaReq") != -1) {
+                                                            pCompetencias = request.getParameterValues(param);
+                                                        } else if (param.indexOf("hasSectorExpertise") != -1) {
+                                                            pSector = request.getParameterValues(param);
+                                                        }
+                                                        params = request.getParameterValues(param);
+                                                        out.println("value(s): <br/>");
+                                                        if (null != params) {
+                                                            for (int i = 0; i < params.length; i++) {
+                                                                out.println(">>>>>>>> " + params[i] + "<br/>");
+                                                            }
+                                                        } else {
+                                                            out.println(">>>>>>>> <br/>");
+                                                        }
+                                                    } else {
+                                                         if (param.indexOf("certificaciones") != -1) {
+                                                            pCertificacion = request.getParameter(param);
+                                                        } else if (param.indexOf("avance") != -1) {
+                                                            pAvance = request.getParameter(param);
+                                                        } else if (param.indexOf("funcionPrincipal") != -1) {
+                                                            pFuncion = request.getParameter(param);
+                                                        } else if (param.indexOf("conocimientoTecnico") != -1) {
+                                                            pConocimiento = request.getParameter(param);
+                                                        } else if (param.indexOf("especialidad") != -1) {
+                                                            pEspecialidad = request.getParameter(param);
+                                                        }
+                                                        out.println("value(s): <br/>>>>>>>>> " + request.getParameter(param) + "<br/>");
+                                                    }
+                                                }
                                             }
                                             %>  
                                             </span></div>
