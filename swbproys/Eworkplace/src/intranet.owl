@@ -13,18 +13,18 @@
     <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Created with TopBraid Composer</owl:versionInfo>
   </owl:Ontology>
-  <owl:Class rdf:ID="Colonia">
+  <owl:Class rdf:ID="Estudios">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Catálogo utilizado para las colonias existentes en México</rdfs:comment>
+    >Catálogo utilizado para almacenar los diferentes Estudios Superiores</rdfs:comment>
     <rdfs:subClassOf>
       <owl:Class rdf:ID="Catalogo"/>
     </rdfs:subClassOf>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Colonia</rdfs:label>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >com.infotec.cvi.swb</swb:classCodePackage>
     <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</swb:autogenId>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >com.infotec.cvi.swb</swb:classCodePackage>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Estudios Superiores</rdfs:label>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
   </owl:Class>
   <owl:Class rdf:ID="TipoCarrera">
@@ -39,6 +39,20 @@
     >true</swb:autogenId>
     <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >com.infotec.cvi.swb</swb:classCodePackage>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Colonia">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Catálogo utilizado para las colonias existentes en México</rdfs:comment>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#Catalogo"/>
+    </rdfs:subClassOf>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Colonia</rdfs:label>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >com.infotec.cvi.swb</swb:classCodePackage>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:autogenId>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
   </owl:Class>
   <owl:Class rdf:ID="JustificacionTelefono">
@@ -68,289 +82,24 @@
     >com.infotec.cvi.swb</swb:classCodePackage>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
   </owl:Class>
-  <owl:Class rdf:ID="DisciplinaEstudio">
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Catálogo utilizado para indicar las diferentes disciplinas de los Estudios Superiores.</rdfs:comment>
-    <rdfs:subClassOf>
-      <owl:Class rdf:about="#Catalogo"/>
-    </rdfs:subClassOf>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Disciplina estudio</rdfs:label>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</swb:autogenId>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >com.infotec.cvi.swb</swb:classCodePackage>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-  </owl:Class>
-  <owl:Class rdf:ID="Documento">
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Elemento utilizado para definir las propiedades del Documento</rdfs:comment>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBInterface"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Documento</rdfs:label>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >com.infotec.cvi.swb</swb:classCodePackage>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Interface"/>
-  </owl:Class>
-  <owl:Class rdf:ID="ExperienciaLaboral">
-    <rdfs:subClassOf>
-      <owl:Class rdf:ID="ExperienciaProfesional"/>
-    </rdfs:subClassOf>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</swb:autogenId>
-    <rdfs:subClassOf>
-      <owl:Class rdf:ID="Telefoneable"/>
-    </rdfs:subClassOf>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >com.infotec.cvi.swb</swb:classCodePackage>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-  </owl:Class>
-  <owl:Class rdf:ID="Avance">
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Catálogo utilizado para indicar el grado de avance del Estudio</rdfs:comment>
-    <rdfs:subClassOf>
-      <owl:Class rdf:about="#Catalogo"/>
-    </rdfs:subClassOf>
-    <rdfs:label xml:lang="es">Grado de avance o documento obtenido</rdfs:label>
-    <rdfs:label xml:lang="en">Degree of progress or document obtained</rdfs:label>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</swb:autogenId>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >com.infotec.cvi.swb</swb:classCodePackage>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-  </owl:Class>
-  <owl:Class rdf:ID="UnidadEconomica">
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Catálogo utilizado para almacenar las diferentes Unidades Económicas</rdfs:comment>
-    <rdfs:subClassOf>
-      <owl:Class rdf:about="#Catalogo"/>
-    </rdfs:subClassOf>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Unidad economica</rdfs:label>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</swb:autogenId>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >com.infotec.cvi.swb</swb:classCodePackage>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-  </owl:Class>
-  <owl:Class rdf:ID="AdminProyectoProceso">
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Catálogo utilizado para Administrador de procesos o proyectos</rdfs:comment>
-    <rdfs:subClassOf>
-      <owl:Class rdf:about="#Catalogo"/>
-    </rdfs:subClassOf>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</swb:autogenId>
-    <rdfs:label xml:lang="es">Administrador de procesos o proyectos</rdfs:label>
-    <rdfs:label xml:lang="en">Process or project manager</rdfs:label>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >com.infotec.cvi.swb</swb:classCodePackage>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-  </owl:Class>
-  <owl:Class rdf:ID="ReservacionAuto">
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</swb:autogenId>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
-    <rdfs:subClassOf>
-      <swb:Interface rdf:ID="Solicitable">
-        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBInterface"/>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-      </swb:Interface>
-    </rdfs:subClassOf>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-  </owl:Class>
-  <owl:Class rdf:ID="Periodo">
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Interfaz utilizada para definir el periodo que se tardo la persona en sus estudios</rdfs:comment>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBInterface"/>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >com.infotec.cvi.swb</swb:classCodePackage>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Interface"/>
-  </owl:Class>
-  <owl:Class rdf:ID="SolicitudRecurso">
-    <rdfs:subClassOf rdf:resource="#Solicitable"/>
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Elemento que contiene la información del perfil del usuario requerido</rdfs:comment>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</swb:autogenId>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Solicitud recurso</rdfs:label>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >com.infotec.cvi.swb</swb:classCodePackage>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-  </owl:Class>
-  <owl:Class rdf:ID="DesarrolloSW">
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Catálogo utilizado para Desarrollo de Software</rdfs:comment>
-    <rdfs:subClassOf>
-      <owl:Class rdf:about="#Catalogo"/>
-    </rdfs:subClassOf>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</swb:autogenId>
-    <rdfs:label xml:lang="es">Desarrollo de software</rdfs:label>
-    <rdfs:label xml:lang="en">Software Development</rdfs:label>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >com.infotec.cvi.swb</swb:classCodePackage>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-  </owl:Class>
-  <owl:Class rdf:ID="Investigacion">
-    <rdfs:subClassOf>
-      <swb:Class rdf:ID="InvestigacionDocencia">
-        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >Elemento para la Investigación y Docencia del CVI</rdfs:comment>
-        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
-        <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-        >true</swb:autogenId>
-        <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >com.infotec.cvi.swb</swb:classCodePackage>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-      </swb:Class>
-    </rdfs:subClassOf>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</swb:autogenId>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >com.infotec.cvi.swb</swb:classCodePackage>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-  </owl:Class>
-  <owl:Class rdf:ID="TipoContratacion">
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Catálogo utilizado para indicar el Tipo de contratación</rdfs:comment>
-    <rdfs:subClassOf>
-      <owl:Class rdf:about="#Catalogo"/>
-    </rdfs:subClassOf>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Tipo contratacion</rdfs:label>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >com.infotec.cvi.swb</swb:classCodePackage>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</swb:autogenId>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-  </owl:Class>
-  <owl:Class rdf:about="#EquipoJustificacion">
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Elemento utilizado para definir las propiedades de la Justificación del Equipo a asignar</rdfs:comment>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBInterface"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Equipo justificacion</rdfs:label>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >com.infotec.cvi.swb</swb:classCodePackage>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Interface"/>
-  </owl:Class>
-  <owl:Class rdf:ID="Lectura">
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Catálogo utilizado para indicar el porcentaje de manejo de lectura en Idiomas.</rdfs:comment>
-    <rdfs:subClassOf>
-      <owl:Class rdf:about="#Catalogo"/>
-    </rdfs:subClassOf>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</swb:autogenId>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >com.infotec.cvi.swb</swb:classCodePackage>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-  </owl:Class>
-  <owl:Class rdf:ID="Diplomado">
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</swb:autogenId>
-    <rdfs:subClassOf>
-      <swb:Interface rdf:ID="Institucion">
-        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >Interfaz que define las propiedades de la institución en donde son impartidos los Cursos, Diplomados y Grados Académicos</rdfs:comment>
-        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBInterface"/>
-        <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >com.infotec.cvi.swb</swb:classCodePackage>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-      </swb:Interface>
-    </rdfs:subClassOf>
-    <rdfs:subClassOf>
-      <owl:Class rdf:ID="Curso"/>
-    </rdfs:subClassOf>
-    <rdfs:label xml:lang="es">Diplomados, cursos y capacitaciones</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Contiene el Diplomado que ha cursado la persona</rdfs:comment>
-    <rdfs:label xml:lang="en">Degrees, courses and training</rdfs:label>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >com.infotec.cvi.swb</swb:classCodePackage>
-  </owl:Class>
-  <owl:Class rdf:ID="IngSistemas">
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Catálogo utilizado para Ingeniero en Sistemas</rdfs:comment>
-    <rdfs:subClassOf>
-      <owl:Class rdf:about="#Catalogo"/>
-    </rdfs:subClassOf>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</swb:autogenId>
-    <rdfs:label xml:lang="es">Ingeniero de sistemas</rdfs:label>
-    <rdfs:label xml:lang="en">Systems engineer</rdfs:label>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >com.infotec.cvi.swb</swb:classCodePackage>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-  </owl:Class>
-  <owl:Class rdf:ID="UbicacionFisica">
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Catálogo utilizado para indicar la ubicación física dentro del edificio</rdfs:comment>
-    <rdfs:subClassOf>
-      <owl:Class rdf:about="#Catalogo"/>
-    </rdfs:subClassOf>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Ubicación física</rdfs:label>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >com.infotec.cvi.swb</swb:classCodePackage>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</swb:autogenId>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-  </owl:Class>
-  <owl:Class rdf:ID="Puesto">
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Catálogo utilizado para indicar los tipos de puesto</rdfs:comment>
-    <rdfs:subClassOf>
-      <owl:Class rdf:about="#Catalogo"/>
-    </rdfs:subClassOf>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Puesto</rdfs:label>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >com.infotec.cvi.swb</swb:classCodePackage>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</swb:autogenId>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-  </owl:Class>
-  <owl:Class rdf:ID="Carrera">
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Catálogo utilizado para las carreras utilizadas para la captura de Grado Académico</rdfs:comment>
-    <rdfs:subClassOf>
-      <owl:Class rdf:about="#Catalogo"/>
-    </rdfs:subClassOf>
-    <rdfs:label xml:lang="es">Carrera o Especialidad</rdfs:label>
-    <rdfs:label xml:lang="en">Career or Specialty</rdfs:label>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</swb:autogenId>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >com.infotec.cvi.swb</swb:classCodePackage>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-  </owl:Class>
-  <owl:Class rdf:ID="Estudios">
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Catálogo utilizado para almacenar los diferentes Estudios Superiores</rdfs:comment>
-    <rdfs:subClassOf>
-      <owl:Class rdf:about="#Catalogo"/>
-    </rdfs:subClassOf>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</swb:autogenId>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >com.infotec.cvi.swb</swb:classCodePackage>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Estudios Superiores</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-  </owl:Class>
   <owl:Class rdf:about="#Catalogo">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Define las propiedades de los catálogos utilizados en el CVI</rdfs:comment>
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:autogenId>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >com.infotec.cvi.swb</swb:classCodePackage>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:Class rdf:ID="DisciplinaEstudio">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Catálogo utilizado para indicar las diferentes disciplinas de los Estudios Superiores.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Catalogo"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Disciplina estudio</rdfs:label>
     <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</swb:autogenId>
     <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -405,9 +154,22 @@
     >com.infotec.cvi.swb</swb:classCodePackage>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
   </owl:Class>
-  <owl:Class rdf:about="#Telefoneable">
+  <owl:Class rdf:ID="Telefoneable">
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBInterface"/>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Interface"/>
+  </owl:Class>
+  <owl:Class rdf:ID="ReservacionSala">
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:autogenId>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <rdfs:subClassOf>
+      <swb:Interface rdf:ID="Solicitable">
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBInterface"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+      </swb:Interface>
+    </rdfs:subClassOf>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
   </owl:Class>
   <owl:Class rdf:ID="Telefono">
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
@@ -419,14 +181,6 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
       </swb:Interface>
     </rdfs:subClassOf>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-  </owl:Class>
-  <owl:Class rdf:ID="ReservacionSala">
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</swb:autogenId>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
-    <rdfs:subClassOf rdf:resource="#Solicitable"/>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
   </owl:Class>
   <owl:Class rdf:ID="CP">
@@ -441,16 +195,29 @@
     >com.infotec.cvi.swb</swb:classCodePackage>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
   </owl:Class>
-  <owl:Class rdf:ID="Seleccion">
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+  <owl:Class rdf:ID="Documento">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Elemento utilizado para definir las propiedades del Documento</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBInterface"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Documento</rdfs:label>
     <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >com.infotec.rh.syr.swb</swb:classCodePackage>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</swb:autogenId>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+    >com.infotec.cvi.swb</swb:classCodePackage>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Interface"/>
   </owl:Class>
   <owl:Class rdf:ID="Publicacion">
-    <rdfs:subClassOf rdf:resource="#InvestigacionDocencia"/>
+    <rdfs:subClassOf>
+      <swb:Class rdf:ID="InvestigacionDocencia">
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >Elemento para la Investigación y Docencia del CVI</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+        <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+        >true</swb:autogenId>
+        <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >com.infotec.cvi.swb</swb:classCodePackage>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+      </swb:Class>
+    </rdfs:subClassOf>
     <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</swb:autogenId>
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
@@ -474,6 +241,15 @@
     >com.infotec.cvi.swb</swb:classCodePackage>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
   </owl:Class>
+  <owl:Class rdf:ID="Curso">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Elemento que define las propiedades que tienen los cursos.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBInterface"/>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >com.infotec.cvi.swb</swb:classCodePackage>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Interface"/>
+  </owl:Class>
   <owl:Class rdf:ID="Escritura">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Catálogo utilizado para indicar el porcentaje del manejo de escritura en Idiomas.</rdfs:comment>
@@ -484,25 +260,80 @@
     >com.infotec.cvi.swb</swb:classCodePackage>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
   </owl:Class>
-  <owl:Class rdf:about="#Curso">
+  <owl:Class rdf:ID="ExperienciaLaboral">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="ExperienciaProfesional"/>
+    </rdfs:subClassOf>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:autogenId>
+    <rdfs:subClassOf rdf:resource="#Telefoneable"/>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >com.infotec.cvi.swb</swb:classCodePackage>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:Class rdf:ID="ReservacionAuto">
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:autogenId>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <rdfs:subClassOf rdf:resource="#Solicitable"/>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:Class rdf:ID="UnidadEconomica">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Elemento que define las propiedades que tienen los cursos.</rdfs:comment>
+    >Catálogo utilizado para almacenar las diferentes Unidades Económicas</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Catalogo"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Unidad economica</rdfs:label>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:autogenId>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >com.infotec.cvi.swb</swb:classCodePackage>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:Class rdf:ID="AdminProyectoProceso">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Catálogo utilizado para Administrador de procesos o proyectos</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Catalogo"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:autogenId>
+    <rdfs:label xml:lang="es">Administrador de procesos o proyectos</rdfs:label>
+    <rdfs:label xml:lang="en">Process or project manager</rdfs:label>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >com.infotec.cvi.swb</swb:classCodePackage>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Avance">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Catálogo utilizado para indicar el grado de avance del Estudio</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Catalogo"/>
+    <rdfs:label xml:lang="es">Grado de avance o documento obtenido</rdfs:label>
+    <rdfs:label xml:lang="en">Degree of progress or document obtained</rdfs:label>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:autogenId>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >com.infotec.cvi.swb</swb:classCodePackage>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Periodo">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Interfaz utilizada para definir el periodo que se tardo la persona en sus estudios</rdfs:comment>
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBInterface"/>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
     <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >com.infotec.cvi.swb</swb:classCodePackage>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Interface"/>
   </owl:Class>
-  <owl:Class rdf:ID="TipoEstudio">
+  <owl:Class rdf:ID="SolicitudRecurso">
+    <rdfs:subClassOf rdf:resource="#Solicitable"/>
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Catálogo utilizado para indicar los diferentes tipos de Estudios Superiores</rdfs:comment>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >com.infotec.cvi.swb</swb:classCodePackage>
-    <rdfs:subClassOf rdf:resource="#Catalogo"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Tipo estudio</rdfs:label>
+    >Elemento que contiene la información del perfil del usuario requerido</rdfs:comment>
     <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</swb:autogenId>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Solicitud recurso</rdfs:label>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >com.infotec.cvi.swb</swb:classCodePackage>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
   </owl:Class>
   <owl:Class rdf:ID="Grado">
@@ -517,13 +348,47 @@
     >com.infotec.cvi.swb</swb:classCodePackage>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
   </owl:Class>
+  <owl:Class rdf:ID="DesarrolloSW">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Catálogo utilizado para Desarrollo de Software</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Catalogo"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:autogenId>
+    <rdfs:label xml:lang="es">Desarrollo de software</rdfs:label>
+    <rdfs:label xml:lang="en">Software Development</rdfs:label>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >com.infotec.cvi.swb</swb:classCodePackage>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:Class rdf:ID="TipoEstudio">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Catálogo utilizado para indicar los diferentes tipos de Estudios Superiores</rdfs:comment>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >com.infotec.cvi.swb</swb:classCodePackage>
+    <rdfs:subClassOf rdf:resource="#Catalogo"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Tipo estudio</rdfs:label>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:autogenId>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
   <owl:Class rdf:ID="JustificacionCelular">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Elemento utilizado para la Justificación del Celular para la persona</rdfs:comment>
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
-    <rdfs:subClassOf rdf:resource="#EquipoJustificacion"/>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#EquipoJustificacion"/>
+    </rdfs:subClassOf>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Justificación celular</rdfs:label>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >com.infotec.cvi.swb</swb:classCodePackage>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Investigacion">
+    <rdfs:subClassOf rdf:resource="#InvestigacionDocencia"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:autogenId>
     <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >com.infotec.cvi.swb</swb:classCodePackage>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
@@ -532,6 +397,30 @@
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Catálogo  utilizado para almacenar las diferentes vigencias de certificado.</rdfs:comment>
     <rdfs:subClassOf rdf:resource="#Catalogo"/>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >com.infotec.cvi.swb</swb:classCodePackage>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:Class rdf:ID="TipoContratacion">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Catálogo utilizado para indicar el Tipo de contratación</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Catalogo"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Tipo contratacion</rdfs:label>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >com.infotec.cvi.swb</swb:classCodePackage>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:autogenId>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:Class rdf:ID="ArqSistema">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Catálogo utilizado para Arquitecto de Sistemas</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Catalogo"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:autogenId>
+    <rdfs:label xml:lang="es">Arquitecto de sistemas</rdfs:label>
+    <rdfs:label xml:lang="en">Systems Architect</rdfs:label>
     <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >com.infotec.cvi.swb</swb:classCodePackage>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
@@ -547,23 +436,31 @@
     >com.infotec.cvi.swb</swb:classCodePackage>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
   </owl:Class>
-  <owl:Class rdf:ID="ArqSistema">
+  <owl:Class rdf:about="#EquipoJustificacion">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Catálogo utilizado para Arquitecto de Sistemas</rdfs:comment>
-    <rdfs:subClassOf rdf:resource="#Catalogo"/>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</swb:autogenId>
-    <rdfs:label xml:lang="es">Arquitecto de sistemas</rdfs:label>
-    <rdfs:label xml:lang="en">Systems Architect</rdfs:label>
+    >Elemento utilizado para definir las propiedades de la Justificación del Equipo a asignar</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBInterface"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Equipo justificacion</rdfs:label>
     <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >com.infotec.cvi.swb</swb:classCodePackage>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Interface"/>
   </owl:Class>
   <owl:Class rdf:about="#ExperienciaProfesional">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Elemento que almacena la Experiencia Profesional de la persona</rdfs:comment>
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:autogenId>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >com.infotec.cvi.swb</swb:classCodePackage>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Lectura">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Catálogo utilizado para indicar el porcentaje de manejo de lectura en Idiomas.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Catalogo"/>
     <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</swb:autogenId>
     <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -592,12 +489,83 @@
     >com.infotec.cvi.swb</swb:classCodePackage>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
   </owl:Class>
+  <owl:Class rdf:ID="IngSistemas">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Catálogo utilizado para Ingeniero en Sistemas</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Catalogo"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:autogenId>
+    <rdfs:label xml:lang="es">Ingeniero de sistemas</rdfs:label>
+    <rdfs:label xml:lang="en">Systems engineer</rdfs:label>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >com.infotec.cvi.swb</swb:classCodePackage>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:Class rdf:ID="UbicacionFisica">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Catálogo utilizado para indicar la ubicación física dentro del edificio</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Catalogo"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Ubicación física</rdfs:label>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >com.infotec.cvi.swb</swb:classCodePackage>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:autogenId>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Diplomado">
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:autogenId>
+    <rdfs:subClassOf>
+      <swb:Interface rdf:ID="Institucion">
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >Interfaz que define las propiedades de la institución en donde son impartidos los Cursos, Diplomados y Grados Académicos</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBInterface"/>
+        <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >com.infotec.cvi.swb</swb:classCodePackage>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+      </swb:Interface>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf rdf:resource="#Curso"/>
+    <rdfs:label xml:lang="es">Diplomados, cursos y capacitaciones</rdfs:label>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Contiene el Diplomado que ha cursado la persona</rdfs:comment>
+    <rdfs:label xml:lang="en">Degrees, courses and training</rdfs:label>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >com.infotec.cvi.swb</swb:classCodePackage>
+  </owl:Class>
+  <owl:Class rdf:ID="Puesto">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Catálogo utilizado para indicar los tipos de puesto</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Catalogo"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Puesto</rdfs:label>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >com.infotec.cvi.swb</swb:classCodePackage>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:autogenId>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
   <owl:Class rdf:ID="GradoAcademico">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Elemento que almacena la información del Grado Académico de la persona</rdfs:comment>
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
     <rdfs:subClassOf rdf:resource="#Periodo"/>
     <rdfs:subClassOf rdf:resource="#Institucion"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:autogenId>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >com.infotec.cvi.swb</swb:classCodePackage>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Carrera">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Catálogo utilizado para las carreras utilizadas para la captura de Grado Académico</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Catalogo"/>
+    <rdfs:label xml:lang="es">Carrera o Especialidad</rdfs:label>
+    <rdfs:label xml:lang="en">Career or Specialty</rdfs:label>
     <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</swb:autogenId>
     <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -667,17 +635,24 @@
     <rdfs:domain rdf:resource="#CV"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="proyectoAsignado">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_proyectoAsignado">
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
+        <rdfs:label xml:lang="es">Proyecto asignao</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:required>
     <rdfs:range>
       <swb:Class rdf:ID="Proyecto">
-        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+        <rdfs:subClassOf rdf:resource="#Catalogo"/>
         <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
         >true</swb:autogenId>
-        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
+        <rdfs:label xml:lang="es">Proyecto</rdfs:label>
+        <rdfs:comment xml:lang="es">Encapsula la información de los proyectos provenientes del ProjectServer</rdfs:comment>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
       </swb:Class>
     </rdfs:range>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Proyecto asignado</rdfs:label>
     <rdfs:domain rdf:resource="#SolicitudRecurso"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="emprendedor">
@@ -720,8 +695,23 @@
     <rdfs:range rdf:resource="#Investigacion"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="entrevistador">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Realizará entrevista técnica</rdfs:label>
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_entrevistador">
+        <swbxf:formElement>
+          <intranet:SelectOneUserByUserGroup rdf:ID="SelectOneUserByUserGroup_2">
+            <swbxf:so_userRepository rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+            >true</swbxf:so_userRepository>
+            <intranet:so_userGroupId rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >Empleado_exsitu</intranet:so_userGroupId>
+            <rdfs:label xml:lang="en">INFOTEC employees selector</rdfs:label>
+            <rdfs:label xml:lang="es">Selector de empleados de INFOTEC</rdfs:label>
+          </intranet:SelectOneUserByUserGroup>
+        </swbxf:formElement>
+        <rdfs:label xml:lang="es">Persona que realiza entrevista técnica</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:required>
     <rdfs:range rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#User"/>
     <rdfs:domain rdf:resource="#SolicitudRecurso"/>
   </owl:ObjectProperty>
@@ -739,10 +729,6 @@
     <rdfs:range rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Country"/>
     <rdfs:domain rdf:resource="#Persona"/>
   </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:ID="nivelCompComportamiento">
-    <rdfs:range rdf:resource="#Nivel"/>
-    <swb:displayProperty rdf:resource="#dp_nivel"/>
-  </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="hasArea">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Lista de las Áreas asociadas al tipo de Carrera.</rdfs:comment>
@@ -754,9 +740,23 @@
       <owl:ObjectProperty rdf:ID="tipoCarreraInv"/>
     </owl:inverseOf>
   </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="nivelCompComportamiento">
+    <rdfs:range rdf:resource="#Nivel"/>
+    <swb:displayProperty rdf:resource="#dp_nivel"/>
+  </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="nivelArq">
     <rdfs:range rdf:resource="#Nivel"/>
     <swb:displayProperty rdf:resource="#dp_nivel"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="gradoAcademico">
+    <rdfs:range rdf:resource="#Grado"/>
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_gradoAcademico">
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
+        <rdfs:label xml:lang="es">Grado académico</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <rdfs:domain rdf:resource="#SolicitudRecurso"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="equipoTelefono">
     <rdfs:range rdf:resource="#JustificacionTelefono"/>
@@ -804,6 +804,24 @@
       </swb:SemanticResource>
     </rdfs:domain>
   </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="usuarioAutoriza">
+    <rdfs:range rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#User"/>
+    <rdfs:domain rdf:resource="#Solicitable"/>
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_usuarioAutoriza">
+        <rdfs:label xml:lang="es">Encargado de autorizar la solicitud</rdfs:label>
+        <swbxf:formElement>
+          <intranet:SelectOneUserByUserGroup rdf:ID="SelectOneUserByUserGroup_3">
+            <rdfs:label xml:lang="es">Selector de titulares de área</rdfs:label>
+            <swbxf:so_userRepository rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+            >true</swbxf:so_userRepository>
+            <intranet:so_roleIds rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >Subgerente|Gerente|Director</intranet:so_roleIds>
+          </intranet:SelectOneUserByUserGroup>
+        </swbxf:formElement>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+  </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="nivelDesaSW">
     <rdfs:range rdf:resource="#Nivel"/>
     <swb:displayProperty rdf:resource="#dp_nivel"/>
@@ -824,6 +842,12 @@
       </swb:Class>
     </rdfs:range>
     <rdfs:domain rdf:resource="#CV"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasTelefono">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Elemento utilizado para almacenar lista de Telefono relaciondos a la persona</rdfs:comment>
+    <rdfs:domain rdf:resource="#Persona"/>
+    <rdfs:range rdf:resource="#Telefono"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="tipoTalento">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -863,12 +887,6 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
       </swb:Class>
     </rdfs:domain>
-  </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:ID="hasTelefono">
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Elemento utilizado para almacenar lista de Telefono relaciondos a la persona</rdfs:comment>
-    <rdfs:domain rdf:resource="#Persona"/>
-    <rdfs:range rdf:resource="#Telefono"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="hasExperienciaLaboral">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -948,14 +966,6 @@
       </swbxf:DisplayProperty>
     </swb:displayProperty>
   </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:ID="hasSectorExpertise">
-    <rdfs:domain rdf:resource="#SolicitudRecurso"/>
-    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</swb:required>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Sector de experiencia</rdfs:label>
-    <rdfs:range rdf:resource="#Sector"/>
-  </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="hasDisciplina">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Lista de disciplinas asociadas al tipo de Estudio Superior</rdfs:comment>
@@ -974,6 +984,38 @@
   <owl:ObjectProperty rdf:ID="solicitante">
     <rdfs:range rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#User"/>
     <rdfs:domain rdf:resource="#Solicitable"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasPartida">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_hasPartida">
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#SelectMultipleModelWithBlank"/>
+        <rdfs:label xml:lang="es">Partidas</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <rdfs:range>
+      <swb:Class rdf:ID="PartidaPresupuesto">
+        <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >com.infotec.rh.syr.swb</swb:classCodePackage>
+        <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+        >true</swb:autogenId>
+        <rdfs:comment xml:lang="es">Encapsula las propiedades correspondientes a una aprtida presupuestal</rdfs:comment>
+        <rdfs:label xml:lang="es">Partida</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Catalogo"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+      </swb:Class>
+    </rdfs:range>
+    <rdfs:domain>
+      <swb:Class rdf:ID="CapituloPresupuesto">
+        <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >com.infotec.rh.syr.swb</swb:classCodePackage>
+        <rdfs:comment xml:lang="es">Encapsula las propiedades relacionadas con un capítulo de contratación</rdfs:comment>
+        <rdfs:label xml:lang="es">Capítulo</rdfs:label>
+        <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+        >true</swb:autogenId>
+        <rdfs:subClassOf rdf:resource="#Catalogo"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+      </swb:Class>
+    </rdfs:domain>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="recursoKit">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -998,13 +1040,25 @@
     </swb:displayProperty>
     <rdfs:domain rdf:resource="#ReservaSalaManager"/>
   </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="municipioCPInv">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >municipio CPInv</rdfs:label>
+  </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="municipioColoniasInv">
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >municipio colonias inv</rdfs:label>
   </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:ID="municipioCPInv">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >municipio CPInv</rdfs:label>
+  <owl:ObjectProperty rdf:ID="sectorExpertise">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_sectorExpertise">
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
+        <rdfs:label xml:lang="es">Sector de experiencia</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <rdfs:range rdf:resource="#Sector"/>
+    <rdfs:domain rdf:resource="#SolicitudRecurso"/>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:required>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="hasAreaTalento">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -1055,8 +1109,12 @@
     >true</swb:removeDependency>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="especialidad">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Carrera o Especialidad</rdfs:label>
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_especialidad">
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
+        <rdfs:label xml:lang="es">Carrera o especialidad</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
     <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</swb:required>
     <rdfs:domain rdf:resource="#SolicitudRecurso"/>
@@ -1165,6 +1223,18 @@
     </rdfs:range>
     <rdfs:domain rdf:resource="#Persona"/>
   </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="habilidadTalento">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_habilidadTalento">
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
+        <rdfs:label xml:lang="es">Habilidad del talento</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:required>
+    <rdfs:range rdf:resource="#Habilidad"/>
+    <rdfs:domain rdf:resource="#SolicitudRecurso"/>
+  </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="situacionAcademica">
     <rdfs:domain rdf:resource="#GradoAcademico"/>
     <rdfs:range rdf:resource="#SituacionAcademica"/>
@@ -1177,21 +1247,6 @@
     </swb:displayProperty>
     <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</swb:required>
-  </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:ID="hasExpertise">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Áreas de Talento o Expertise</rdfs:label>
-    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</swb:required>
-    <rdfs:domain rdf:resource="#SolicitudRecurso"/>
-    <rdfs:range rdf:resource="#Habilidad"/>
-    <swb:displayProperty>
-      <swbxf:DisplayProperty rdf:ID="dp_hasExpertise">
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >Áreas de Talento o Expertise</rdfs:label>
-        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#SelectMultipleModel"/>
-      </swbxf:DisplayProperty>
-    </swb:displayProperty>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="lugarNacimiento">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -1260,6 +1315,30 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
       </swb:Class>
     </rdfs:domain>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="partidaSuficiencia">
+    <rdfs:range rdf:resource="#PartidaPresupuesto"/>
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_partidaSuficiencia">
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
+        <rdfs:label xml:lang="es">Partida</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:required>
+    <rdfs:domain rdf:resource="#SolicitudRecurso"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="contratacion">
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:required>
+    <rdfs:range rdf:resource="#TipoContratacion"/>
+    <rdfs:domain rdf:resource="#SolicitudRecurso"/>
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_SRtipoContratacion">
+        <rdfs:label xml:lang="es">Tipo de contratación</rdfs:label>
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="hasDistincion">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -1368,6 +1447,18 @@
       </swbxf:DisplayProperty>
     </swb:displayProperty>
   </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="capituloSuficiencia">
+    <rdfs:range rdf:resource="#CapituloPresupuesto"/>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:required>
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_capituloSuficiencia">
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
+        <rdfs:label xml:lang="es">Capítulo</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <rdfs:domain rdf:resource="#SolicitudRecurso"/>
+  </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="vigenciaCompTecnica">
     <rdfs:range rdf:resource="#VigenciaCertificado"/>
     <swb:displayProperty rdf:resource="#dp_vigencia"/>
@@ -1387,15 +1478,15 @@
       </swbxf:DisplayProperty>
     </swb:displayProperty>
   </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:ID="nivelCompTecnica">
-    <rdfs:range rdf:resource="#Nivel"/>
-    <swb:displayProperty rdf:resource="#dp_nivel"/>
-  </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="habilidad">
     <rdfs:domain rdf:resource="#AreaTalento"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Habilidad</rdfs:label>
     <rdfs:range rdf:resource="#Habilidad"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="nivelCompTecnica">
+    <rdfs:range rdf:resource="#Nivel"/>
+    <swb:displayProperty rdf:resource="#dp_nivel"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="tipoContrato">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -1404,6 +1495,18 @@
     <rdfs:domain rdf:resource="#Puesto"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Tipo Contratación</rdfs:label>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="expertise">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_hasExpertise">
+        <rdfs:label xml:lang="es">Área de talento</rdfs:label>
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <rdfs:domain rdf:resource="#SolicitudRecurso"/>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:required>
+    <rdfs:range rdf:resource="#TipoTalento"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="hasCP">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -1476,8 +1579,6 @@
     </swb:displayProperty>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="hasCompetenciaReq">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Competencias requeridas</rdfs:label>
     <rdfs:range>
       <swb:Class rdf:ID="Competencia">
         <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -1495,8 +1596,7 @@
     <rdfs:domain rdf:resource="#SolicitudRecurso"/>
     <swb:displayProperty>
       <swbxf:DisplayProperty rdf:ID="dp_competenciasReq">
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >Competencias requeridas</rdfs:label>
+        <rdfs:label xml:lang="es">Competencias requeridas</rdfs:label>
         <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#SelectMultipleModel"/>
       </swbxf:DisplayProperty>
     </swb:displayProperty>
@@ -1512,6 +1612,18 @@
     >Área</rdfs:label>
     <rdfs:range rdf:resource="#AreaEstudio"/>
   </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="avance">
+    <rdfs:range rdf:resource="#Avance"/>
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_gradoAvanceSolicitud">
+        <rdfs:label xml:lang="es">Grado de avance académico</rdfs:label>
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:required>
+    <rdfs:domain rdf:resource="#SolicitudRecurso"/>
+  </owl:ObjectProperty>
   <owl:ObjectProperty rdf:about="#tipoEstudioInv">
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >tipo estudio inv</rdfs:label>
@@ -1525,6 +1637,41 @@
       </swb:Interface>
     </rdfs:domain>
   </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="bolsaTrabajo">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_bolsaTrabajo">
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
+        <rdfs:label xml:lang="es">Bolsa de trabajo</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:required>
+    <rdfs:range>
+      <swb:Class rdf:ID="BolsaTrabajo">
+        <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >com.infotec.rh.syr.swb</swb:classCodePackage>
+        <rdfs:comment xml:lang="es">Encapsula las propiedades relacionadas con una bolsa de trabajo para publicación de vacantes de empleo</rdfs:comment>
+        <rdfs:label xml:lang="es">Bolsa de Trabajo</rdfs:label>
+        <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+        >true</swb:autogenId>
+        <rdfs:subClassOf rdf:resource="#Catalogo"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+      </swb:Class>
+    </rdfs:range>
+    <rdfs:domain>
+      <swb:Class rdf:ID="PublicacionVacante">
+        <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >com.infotec.rh.syr.swb</swb:classCodePackage>
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
+        <rdfs:comment xml:lang="es">Encapsula las propiedades de una publicación de una vacante en las bolsas de trabajo</rdfs:comment>
+        <rdfs:label xml:lang="es">Publicación de Vacante</rdfs:label>
+        <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+        >true</swb:autogenId>
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+      </swb:Class>
+    </rdfs:domain>
+  </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="colonia">
     <rdfs:domain rdf:resource="#Domicilio"/>
     <rdfs:range rdf:resource="#Colonia"/>
@@ -1536,10 +1683,16 @@
     <rdfs:range rdf:resource="#Conversacion"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="adminsitradorDelProyecto">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Nombre del administrador</rdfs:label>
-    <rdfs:range rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#User"/>
     <rdfs:domain rdf:resource="#Proyecto"/>
+    <rdfs:range rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#User"/>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:required>
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_adminsitradorDelProyecto">
+        <rdfs:label xml:lang="es">Administrador de proyecto</rdfs:label>
+        <swbxf:formElement rdf:resource="#SelectOneUserByUserGroup_2"/>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="carrera">
     <rdfs:domain rdf:resource="#GradoAcademico"/>
@@ -1553,6 +1706,33 @@
     </swb:displayProperty>
     <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</swb:required>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="solicitudRecurso">
+    <rdfs:range rdf:resource="#SolicitudRecurso"/>
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_solicitudRecurso">
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
+        <rdfs:label xml:lang="es">Solicitud de recurso</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <rdfs:domain>
+      <swb:Class rdf:ID="SeguimientoSolicitudRecurso">
+        <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+        >true</swb:autogenId>
+        <rdfs:comment xml:lang="es">Encapsula las propiedades de seguimiento asociadas a una solicitud de recursos humanos</rdfs:comment>
+        <rdfs:label xml:lang="es">Seguimiento a solicitud de recurso</rdfs:label>
+        <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >com.infotec.rh.syr.swb</swb:classCodePackage>
+        <rdfs:subClassOf>
+          <swb:Class rdf:ID="Seguimiento">
+            <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
+            <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+            <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+          </swb:Class>
+        </rdfs:subClassOf>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+      </swb:Class>
+    </rdfs:domain>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:about="#entidadInv">
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -1573,6 +1753,10 @@
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Unidad ecónomica</rdfs:label>
   </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="municipio">
+    <rdfs:domain rdf:resource="#Domicilio"/>
+    <rdfs:range rdf:resource="#Municipio"/>
+  </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="areaEstudio">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Área de Estudio a la cual pertenece el Estudio Superior</rdfs:comment>
@@ -1589,18 +1773,49 @@
       </swbxf:DisplayProperty>
     </swb:displayProperty>
   </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:ID="municipio">
-    <rdfs:domain rdf:resource="#Domicilio"/>
-    <rdfs:range rdf:resource="#Municipio"/>
+  <owl:ObjectProperty rdf:ID="hasPublicacionVacante">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_hasPublicacionVacante">
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#SelectMultipleModelWithBlank"/>
+        <rdfs:label xml:lang="es">Publicaciones de vacante</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <rdfs:range rdf:resource="#PublicacionVacante"/>
+    <rdfs:domain rdf:resource="#SeguimientoSolicitudRecurso"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="hasCandidato">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Candidato(s)</rdfs:label>
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_hasCandidato">
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#SelectMultipleModelWithBlank"/>
+        <rdfs:label xml:lang="es">Candidatos</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
     <rdfs:domain rdf:resource="#SolicitudRecurso"/>
-    <rdfs:range rdf:resource="#Seleccion"/>
+    <rdfs:range rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#User"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasPostulante">
+    <rdfs:range>
+      <swb:Class rdf:ID="Postulante">
+        <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >com.infotec.rh.syr.swb</swb:classCodePackage>
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
+        <rdfs:comment xml:lang="es">Encapsula las propiedades básicas de un postulante a una vacante de INFOTEC publicada en las bolsas de trabajo</rdfs:comment>
+        <rdfs:label xml:lang="es">Postulante</rdfs:label>
+        <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+        >true</swb:autogenId>
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+      </swb:Class>
+    </rdfs:range>
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_hasPostulante">
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#SelectMultipleModelWithBlank"/>
+        <rdfs:label xml:lang="es">Postulantes</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <rdfs:domain rdf:resource="#SolicitudRecurso"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="seleccionado">
-    <rdfs:domain rdf:resource="#Seleccion"/>
     <rdfs:range rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#User"/>
     <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</swb:required>
@@ -1621,21 +1836,11 @@
     </swb:displayProperty>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="solicitanteRecurso">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Nombre solicitante</rdfs:label>
     <rdfs:range rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#User"/>
     <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</swb:required>
-    <rdfs:domain rdf:resource="#SolicitudRecurso"/>
-  </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:ID="municipioColonia">
-    <rdfs:range rdf:resource="#Municipio"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Municipio</rdfs:label>
-  </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:about="#tipoCarreraInv">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >tipo carrera inv</rdfs:label>
+    >Nombre solicitante</rdfs:label>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="adminProyectoProceso">
     <rdfs:range rdf:resource="#AdminProyectoProceso"/>
@@ -1646,6 +1851,15 @@
         <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
       </swbxf:DisplayProperty>
     </swb:displayProperty>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#tipoCarreraInv">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >tipo carrera inv</rdfs:label>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="municipioColonia">
+    <rdfs:range rdf:resource="#Municipio"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Municipio</rdfs:label>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="nivelIngSistemas">
     <rdfs:range rdf:resource="#Nivel"/>
@@ -1658,10 +1872,9 @@
     <rdfs:range rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#User"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="sustituyeA">
+    <rdfs:range rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#User"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >En caso de sustitución, sustituye a</rdfs:label>
-    <rdfs:range rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#User"/>
-    <rdfs:domain rdf:resource="#SolicitudRecurso"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="nivelCompInstitucional">
     <swb:displayProperty rdf:resource="#dp_nivel"/>
@@ -1699,6 +1912,15 @@
       </swbxf:DisplayProperty>
     </swb:displayProperty>
   </owl:ObjectProperty>
+  <owl:DatatypeProperty rdf:ID="periodoContrato">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_periodoContrato">
+        <rdfs:label xml:lang="es">Total del periodo contratado (meses)</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+    <rdfs:domain rdf:resource="#SolicitudRecurso"/>
+  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="otraHabilidad">
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdfs:domain rdf:resource="#AreaTalento"/>
@@ -1729,9 +1951,12 @@
     </rdfs:domain>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="salarioMax">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Remuneración propuesta rango máximo</rdfs:label>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_salarioMax">
+        <rdfs:label xml:lang="es">Remuneración propuesta máxima ($)</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
     <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</swb:required>
     <rdfs:domain rdf:resource="#SolicitudRecurso"/>
@@ -1770,14 +1995,16 @@
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="fechaDeIngreso">
-    <rdfs:domain rdf:resource="#Seleccion"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Fecha de Ingreso</rdfs:label>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="personalDirecto">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >N° de personas a cargo directas (perfil solicitado) </rdfs:label>
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_personalDirecto">
+        <rdfs:label xml:lang="es">No. de personas a cargo directas (perfil solicitado)</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
     <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</swb:required>
@@ -1862,6 +2089,16 @@
       </swbxf:DisplayProperty>
     </swb:displayProperty>
   </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="fechaEnvioCorreo">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_fechaEnvioCorreo">
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DateElement_1"/>
+        <rdfs:label xml:lang="es">Fecha de envío de correo</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdfs:domain rdf:resource="#Postulante"/>
+  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="numero">
     <rdfs:domain rdf:resource="#Telefono"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
@@ -1877,9 +2114,8 @@
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="emailContacto">
     <rdfs:domain rdf:resource="#Proyecto"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Correo electrónico del contacto (sitio)</rdfs:label>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="es">Correo electrónico del contacto (sitio)</rdfs:label>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="postit">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -1971,11 +2207,32 @@
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdfs:domain rdf:resource="#Distincion"/>
   </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="folioPublicacion">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_folioPublicacion">
+        <rdfs:label xml:lang="es">Folio de publicación</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#PublicacionVacante"/>
+  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="accesoMultifuncional">
     <rdfs:domain rdf:resource="#KitNuevoIngreso"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Multifuncional</rdfs:label>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="fechaInicioContrato">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_fechaInicioContrato">
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DateElement_1"/>
+        <rdfs:label xml:lang="es">Fecha inicio</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:required>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdfs:domain rdf:resource="#SolicitudRecurso"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="requiereAgua">
     <rdfs:domain rdf:resource="#ReservacionSala"/>
@@ -2006,11 +2263,25 @@
       </swbxf:DisplayProperty>
     </swb:displayProperty>
   </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="vigenciaDelContrato">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Vigencia del contrato</rdfs:label>
+  <owl:DatatypeProperty rdf:ID="fechaRecepcionSolicitud">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_fechaRecepcionSolicitud">
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DateElement_1"/>
+        <rdfs:label xml:lang="es">Fecha de recepción de solicitud</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdfs:domain rdf:resource="#SeguimientoSolicitudRecurso"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="vigenciaDelContrato">
     <rdfs:domain rdf:resource="#Proyecto"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_vigenciaDelContrato">
+        <rdfs:label xml:lang="es">Vigencia del contrato</rdfs:label>
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DateElement_1"/>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="filename">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -2026,7 +2297,6 @@
     <rdfs:domain rdf:resource="#Documento"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="vigenciaContrato">
-    <rdfs:domain rdf:resource="#Seleccion"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Vigencia de contrato</rdfs:label>
@@ -2061,10 +2331,6 @@
     <rdfs:domain rdf:resource="#ReservacionSala"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
   </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="fechaInicio">
-    <rdfs:domain rdf:resource="#ReservacionSala"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
-  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="aniosDocencia">
     <rdfs:domain rdf:resource="#Docencia"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
@@ -2074,6 +2340,10 @@
         <rdfs:label xml:lang="en">Years</rdfs:label>
       </swbxf:DisplayProperty>
     </swb:displayProperty>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="fechaInicio">
+    <rdfs:domain rdf:resource="#ReservacionSala"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="vigencia">
     <rdfs:domain>
@@ -2097,6 +2367,15 @@
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdfs:domain rdf:resource="#Placeable"/>
   </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="archivoSuficiencia">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#SeguimientoSolicitudRecurso"/>
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_archivoSuficiencia">
+        <rdfs:label xml:lang="es">Archivo del formato de suficiencia</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="descripcionServicio">
     <swb:displayProperty>
       <swbxf:DisplayProperty rdf:ID="dp_descripcionServicio">
@@ -2117,17 +2396,17 @@
       </swb:Class>
     </rdfs:domain>
   </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="twitter">
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Elemento utilizado para almacenar el Id de Twitter de la persona</rdfs:comment>
-    <rdfs:domain rdf:resource="#Persona"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="periodoYears">
     <rdfs:domain rdf:resource="#Periodo"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
     <rdfs:label xml:lang="en">Duration in Years</rdfs:label>
     <rdfs:label xml:lang="es">Periodo en Años</rdfs:label>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="twitter">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Elemento utilizado para almacenar el Id de Twitter de la persona</rdfs:comment>
+    <rdfs:domain rdf:resource="#Persona"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="horaSalida">
     <rdfs:domain rdf:resource="#ReservacionAuto"/>
@@ -2150,6 +2429,17 @@
       </swbxf:DisplayProperty>
     </swb:displayProperty>
   </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="nombrePostulante">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_nombrePostulante">
+        <rdfs:label xml:lang="es">Nombre</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:required>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Postulante"/>
+  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="experiencia">
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdfs:domain>
@@ -2159,10 +2449,6 @@
       </swb:Interface>
     </rdfs:domain>
   </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="misGustos">
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:domain rdf:resource="#SWProfile"/>
-  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="documentoCV">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Elemento que se utiliza para la generación del CV en un documento PDF</rdfs:comment>
@@ -2170,6 +2456,10 @@
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Documento generado del CV</rdfs:label>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="misGustos">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#SWProfile"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="funcionPrincipal">
     <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
@@ -2189,17 +2479,17 @@
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdfs:domain rdf:resource="#SWProfile"/>
   </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="genero">
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Elemento utilizado para almacenar el género del usuario</rdfs:comment>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
-    <rdfs:domain rdf:resource="#Persona"/>
-  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="hasPEmail">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Elemento utilizado para almacenr la lista de correo electrónicos personales del usuario</rdfs:comment>
     <rdfs:domain rdf:resource="#Persona"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="genero">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Elemento utilizado para almacenar el género del usuario</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#Persona"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="hasFilesIdentificacionOficial">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -2237,6 +2527,17 @@
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Acceso a LMS</rdfs:label>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="validaRH">
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:required>
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_validaRH">
+        <rdfs:label xml:lang="es">Valida solicitud de recursos humanos</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#SeguimientoSolicitudRecurso"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="adscripcionSolicitante">
     <rdfs:domain rdf:resource="#Solicitable"/>
@@ -2290,6 +2591,17 @@
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
     <rdfs:domain rdf:resource="#CV"/>
   </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="cumplePerfil">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_cumplePerfil">
+        <rdfs:label xml:lang="es">Cumple curriculum VS perfil solicitado</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:required>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#Postulante"/>
+  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="justificacion">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Propiedad que sirve para almacenar el detalle de la justificación para la asignación del equipo</rdfs:comment>
@@ -2311,9 +2623,12 @@
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="certificaciones">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_certificaciones">
+        <rdfs:label xml:lang="es">Diplomas, cursos y certificaciones</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Certificaciones</rdfs:label>
     <rdfs:domain rdf:resource="#SolicitudRecurso"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="requiereGalletas">
@@ -2343,6 +2658,16 @@
       </swbxf:DisplayProperty>
     </swb:displayProperty>
   </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="archivoPublicacion">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_archivoPublicacion">
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#fe_DojoFileUpload"/>
+        <rdfs:label xml:lang="es">Archivo</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#PublicacionVacante"/>
+  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="jefe">
     <swb:displayProperty>
       <swbxf:DisplayProperty rdf:ID="dp_nombrePuestoJefe">
@@ -2353,6 +2678,17 @@
     </swb:displayProperty>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdfs:domain rdf:resource="#ExperienciaLaboral"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="inhabilitadoSFP">
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:required>
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_inhabilitadoSFP">
+        <rdfs:label xml:lang="es">Inhabilitado ante la Secretaría de la Función Pública</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#Postulante"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="jefeInmediatoKit">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -2369,8 +2705,11 @@
     >Solicita teléfono</rdfs:label>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="personalIndirecto">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >N° de personas a cargo indirectas (perfil solicitado)</rdfs:label>
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_personalIndirecto">
+        <rdfs:label xml:lang="es">No. de personas a cargo indirectas (perfil solicitado)</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
     <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</swb:required>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
@@ -2398,6 +2737,15 @@
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
     <rdfs:domain rdf:resource="#AreaTalento"/>
   </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="notaConsultaPresupuesto">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_notaValidaSuficienciaAP">
+        <rdfs:label xml:lang="es">Nota/Observación</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#SeguimientoSolicitudRecurso"/>
+  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="so_userGroupId">
     <swb:propertyCodeName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >filterUserGroupId</swb:propertyCodeName>
@@ -2413,8 +2761,11 @@
     </rdfs:domain>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="conocimientoTecnico">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Conocimientos técnicos</rdfs:label>
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_conocimientoTecnico">
+        <rdfs:label xml:lang="es">Conocimientos técnicos</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdfs:domain rdf:resource="#SolicitudRecurso"/>
   </owl:DatatypeProperty>
@@ -2446,23 +2797,68 @@
       </swbxf:DisplayProperty>
     </swb:displayProperty>
   </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="FechaSolicitud">
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Fecha de solicitud</rdfs:label>
-    <rdfs:domain rdf:resource="#KitNuevoIngreso"/>
-  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="equipoDiadema">
     <rdfs:domain rdf:resource="#KitNuevoIngreso"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Solicita Diadema</rdfs:label>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
   </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="FechaSolicitud">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Fecha de solicitud</rdfs:label>
+    <rdfs:domain rdf:resource="#KitNuevoIngreso"/>
+  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="diasHabilesDisponibles">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Días hábiles para estar disponible</rdfs:comment>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdfs:domain rdf:resource="#Candidato"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="emailPostulante">
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:required>
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_emailPostulante">
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#textEmail"/>
+        <rdfs:label xml:lang="es">Correo electrónico</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Postulante"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="fechaValidacionPresupuesto">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_fechaValidacionPresupuesto">
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DateElement_1"/>
+        <rdfs:label xml:lang="es">Fecha de validación</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdfs:domain rdf:resource="#SeguimientoSolicitudRecurso"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="fechaFinContrato">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_fechaFinContrato">
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DateElement_1"/>
+        <rdfs:label xml:lang="es">Fecha fin</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:required>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdfs:domain rdf:resource="#SolicitudRecurso"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="otraConsultaSuficiencia">
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:required>
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_otraConsultaSuficiencia">
+        <rdfs:label xml:lang="es">Desea realizar otra consulta</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#SeguimientoSolicitudRecurso"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="parentesco">
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
@@ -2500,6 +2896,12 @@
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdfs:domain rdf:resource="#Vacaciones"/>
   </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="so_roleIds">
+    <rdfs:domain rdf:resource="#SelectOneUserByUserGroup"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <swb:propertyCodeName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >filterRoleIds</swb:propertyCodeName>
+  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="fileCartaProtesta">
     <swb:displayProperty>
       <swbxf:DisplayProperty rdf:ID="dp_fileCartaProtesta">
@@ -2518,11 +2920,13 @@
     <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</swb:required>
   </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="so_roleIds">
-    <rdfs:domain rdf:resource="#SelectOneUserByUserGroup"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <swb:propertyCodeName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >filterRoleIds</swb:propertyCodeName>
+  <owl:DatatypeProperty rdf:ID="sinDistincion">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Elemento que indica si no cuenta la persona con Distinciones</rdfs:comment>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Sin distinción</rdfs:label>
+    <rdfs:domain rdf:resource="#CV"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="nombreVacante">
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -2536,14 +2940,6 @@
     <rdfs:domain rdf:resource="#Persona"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="sinDistincion">
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Elemento que indica si no cuenta la persona con Distinciones</rdfs:comment>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Sin distinción</rdfs:label>
-    <rdfs:domain rdf:resource="#CV"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
-  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="disponibilidad">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Disponibilidad del candidato</rdfs:comment>
@@ -2554,11 +2950,25 @@
     <rdfs:domain rdf:resource="#ExperienciaLaboral"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="modificarSolicitud">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_modificarSolicitud">
+        <rdfs:label xml:lang="es">Desea modificar la solicitud</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:required>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#SeguimientoSolicitudRecurso"/>
+  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="telefonoContacto">
     <rdfs:domain rdf:resource="#Proyecto"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Teléfono del contacto (sitio)</rdfs:label>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_telefonoContacto">
+        <rdfs:label xml:lang="es">Teléfono del contacto (Sitio)</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="fechaInicioVacaciones">
     <swb:displayProperty>
@@ -2570,6 +2980,15 @@
     </swb:displayProperty>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
     <rdfs:domain rdf:resource="#Vacaciones"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="nota">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_nota">
+        <rdfs:label xml:lang="es">Nota/Observación</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#SolicitudRecurso"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="hasActasNacimientoFamiliares">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -2611,6 +3030,17 @@
     </swb:displayProperty>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="autorizaDirector">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_autorizaDirector">
+        <rdfs:label xml:lang="es">Solicitud autorizada</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:required>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#SeguimientoSolicitudRecurso"/>
+  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="terceros">
     <swb:displayProperty>
       <swbxf:DisplayProperty rdf:ID="dp_terceros">
@@ -2622,6 +3052,17 @@
     </swb:displayProperty>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
     <rdfs:domain rdf:resource="#SolicitudMantenimiento"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="validaPresupuestos">
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:required>
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_validaPresupuestos">
+        <rdfs:label xml:lang="es">Proyecto cuenta con suficiencia presupuestal</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#SeguimientoSolicitudRecurso"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="sinIdioma">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -2747,6 +3188,12 @@
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Usuariio autorizado para levantar reportes a la MSI</rdfs:label>
   </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="numInterior">
+    <rdfs:domain rdf:resource="#Domicilio"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Número interior</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="fin">
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
     <rdfs:label xml:lang="en">End</rdfs:label>
@@ -2759,12 +3206,6 @@
         <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#dateTo"/>
       </swbxf:DisplayProperty>
     </swb:displayProperty>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="numInterior">
-    <rdfs:domain rdf:resource="#Domicilio"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Número interior</rdfs:label>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="aceptacionTerminos">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -2790,6 +3231,17 @@
       </swbxf:DisplayProperty>
     </swb:displayProperty>
   </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="fuenteInformacion">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_fuenteInformacion">
+        <rdfs:label xml:lang="es">Fuente de Información</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:required>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Postulante"/>
+  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="fechaFinal">
     <rdfs:domain rdf:resource="#ReservacionSala"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
@@ -2800,26 +3252,41 @@
     >Lista distribución personal en sitio</rdfs:label>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
   </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="validaAP">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_validaAP">
+        <rdfs:label xml:lang="es">Proyecto cuenta con suficiencia presupuestal</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:required>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#SeguimientoSolicitudRecurso"/>
+  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="salarioMin">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Remuneración propuesta rango mínimo</rdfs:label>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_salarioMin">
+        <rdfs:label xml:lang="es">Remuneración propuesta mínima ($)</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
     <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</swb:required>
     <rdfs:domain rdf:resource="#SolicitudRecurso"/>
   </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="notaOtraConsulta">
+    <swb:displayProperty rdf:resource="#dp_notaValidaSuficienciaAP"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#SeguimientoSolicitudRecurso"/>
+  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="motivoContratacion">
     <swb:displayProperty>
       <swbxf:DisplayProperty rdf:ID="dp_SRmotivoContratacion">
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >Motivo de contratación</rdfs:label>
-        <swbxf:propSelectValues rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >0: |1:Nueva creación|2:Sustitución</swbxf:propSelectValues>
-        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModelWithBlank"/>
+        <swbxf:propSelectValues xml:lang="es">1:Nueva creación de un rol o función|2:Sustitución de un rol o función|3:Incorporación a proyectos</swbxf:propSelectValues>
+        <rdfs:label xml:lang="es">Motivo de contratación</rdfs:label>
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
       </swbxf:DisplayProperty>
     </swb:displayProperty>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Motivo de contratación</rdfs:label>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</swb:required>
@@ -2837,9 +3304,18 @@
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="domicilioProyecto">
     <rdfs:domain rdf:resource="#Proyecto"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Domicilio proyecto</rdfs:label>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_domicilioProyecto">
+        <rdfs:label xml:lang="es">Domicilio proyecto</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="equipoLaptop">
+    <rdfs:domain rdf:resource="#KitNuevoIngreso"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Solicita Laptop</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="reservada">
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
@@ -2853,12 +3329,6 @@
     <rdfs:label xml:lang="es">Reservada</rdfs:label>
     <rdfs:label xml:lang="en">Reserved</rdfs:label>
   </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="equipoLaptop">
-    <rdfs:domain rdf:resource="#KitNuevoIngreso"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Solicita Laptop</rdfs:label>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
-  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="equipoComputadora">
     <rdfs:domain rdf:resource="#KitNuevoIngreso"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -2866,7 +3336,6 @@
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="salario">
-    <rdfs:domain rdf:resource="#Seleccion"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
     <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</swb:required>
@@ -2922,12 +3391,15 @@
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="numeroProyecto">
-    <rdfs:domain rdf:resource="#Proyecto"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Número del proyecto</rdfs:label>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</swb:required>
+    <rdfs:domain rdf:resource="#Proyecto"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_numeroProyecto">
+        <rdfs:label xml:lang="es">Número de proyecto</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="inicio">
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
@@ -2945,9 +3417,28 @@
       </swb:Interface>
     </rdfs:domain>
   </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="fechaAltaPresupuesto">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_fechaAltaPresupuesto">
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DateElement_1"/>
+        <rdfs:label xml:lang="es">Fecha de alta o modificción del presupuesto</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdfs:domain rdf:resource="#SeguimientoSolicitudRecurso"/>
+  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="extension">
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
     <rdfs:domain rdf:resource="#Extensible"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="rfcRegistro">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_rfcRegistro">
+        <rdfs:label xml:lang="es">RFC de registro</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Postulante"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="fechapublicado">
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
@@ -2993,16 +3484,11 @@
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
     <swb:displayProperty rdf:resource="#dp_numeroEmpleado"/>
   </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="empresa">
-    <rdfs:domain rdf:resource="#ExperienciaLaboral"/>
+  <owl:DatatypeProperty rdf:ID="msn">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Elemento utilizado para almacenar el Id de MSN de la persona</rdfs:comment>
+    <rdfs:domain rdf:resource="#Persona"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <swb:displayProperty>
-      <swbxf:DisplayProperty rdf:ID="dp_empresa">
-        <rdfs:label xml:lang="es">Empresa</rdfs:label>
-        <rdfs:label xml:lang="en">Company</rdfs:label>
-        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-      </swbxf:DisplayProperty>
-    </swb:displayProperty>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="autoriza">
     <swb:displayProperty>
@@ -3016,11 +3502,24 @@
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdfs:domain rdf:resource="#Solicitable"/>
   </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="msn">
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Elemento utilizado para almacenar el Id de MSN de la persona</rdfs:comment>
-    <rdfs:domain rdf:resource="#Persona"/>
+  <owl:DatatypeProperty rdf:ID="empresa">
+    <rdfs:domain rdf:resource="#ExperienciaLaboral"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_empresa">
+        <rdfs:label xml:lang="es">Empresa</rdfs:label>
+        <rdfs:label xml:lang="en">Company</rdfs:label>
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="sinInvestigacion">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Elemento que indica si no cuenta la persona con Investigaciones</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Sin Investigación</rdfs:label>
+    <rdfs:domain rdf:resource="#CV"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="extensionSolicitante">
     <rdfs:domain rdf:resource="#Solicitable"/>
@@ -3033,14 +3532,6 @@
         >40</swb:index>
       </swbxf:DisplayProperty>
     </swb:displayProperty>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="sinInvestigacion">
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Elemento que indica si no cuenta la persona con Investigaciones</rdfs:comment>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Sin Investigación</rdfs:label>
-    <rdfs:domain rdf:resource="#CV"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="nombreInstitucion">
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
@@ -3068,11 +3559,32 @@
     <rdfs:domain rdf:resource="#CV"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
   </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="fechaNotificaRegistro">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_fechaNotificaRegistro">
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DateElement_1"/>
+        <rdfs:label xml:lang="es">Fecha de notificación de registro en CVI</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdfs:domain rdf:resource="#Postulante"/>
+  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="postSeguimiento">
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Post-Seguimiento a la cartera de INFOTEC</rdfs:label>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
     <rdfs:domain rdf:resource="#CV"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="sueldoBruto">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_sueldoBruto">
+        <rdfs:label xml:lang="es">Sueldo bruto ($)</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:required>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+    <rdfs:domain rdf:resource="#SolicitudRecurso"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="accesoRedInalambrica">
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
@@ -3094,27 +3606,15 @@
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdfs:domain rdf:resource="#KitSolicitable"/>
   </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="numVacantes">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Vacantes solicitadas</rdfs:label>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
-    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</swb:required>
-    <rdfs:domain rdf:resource="#SolicitudRecurso"/>
-  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="date">
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
   </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="nombreJefe">
-    <swb:displayProperty>
-      <swbxf:DisplayProperty rdf:ID="dp_nombreJefe">
-        <swbxf:propGroup rdf:resource="#pg_Solicitud"/>
-        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
-        <rdfs:label xml:lang="es">Jefe inmediato</rdfs:label>
-      </swbxf:DisplayProperty>
-    </swb:displayProperty>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:domain rdf:resource="#Vacaciones"/>
+  <owl:DatatypeProperty rdf:ID="numVacantes">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:required>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Vacantes solicitadas</rdfs:label>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="sniConacyt">
     <rdfs:domain rdf:resource="#Investigacion"/>
@@ -3126,6 +3626,22 @@
       </swbxf:DisplayProperty>
     </swb:displayProperty>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="notaValidaRH">
+    <swb:displayProperty rdf:resource="#dp_notaValidaSuficienciaAP"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#SeguimientoSolicitudRecurso"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="nombreJefe">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_nombreJefe">
+        <swbxf:propGroup rdf:resource="#pg_Solicitud"/>
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
+        <rdfs:label xml:lang="es">Jefe inmediato</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Vacaciones"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="noe">
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
@@ -3152,16 +3668,16 @@
     <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</swb:required>
   </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="publicado">
+    <rdfs:domain rdf:resource="#Publicacion"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <swb:displayProperty rdf:resource="#dp_institucion"/>
+  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="linkedin">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Elemento utilizado para almacenar el nombre de usuario de LinkedIn de la persona</rdfs:comment>
     <rdfs:domain rdf:resource="#Persona"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="publicado">
-    <rdfs:domain rdf:resource="#Publicacion"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <swb:displayProperty rdf:resource="#dp_institucion"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="noAplicaEstudioSuperior">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -3171,13 +3687,6 @@
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >No aplica</rdfs:label>
   </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="tieneProyector">
-    <swb:displayProperty>
-      <swbxf:DisplayProperty rdf:ID="dp_tieneProyector"/>
-    </swb:displayProperty>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
-    <rdfs:domain rdf:resource="#Sala"/>
-  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="sinPublicacion">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Elemento que indica si no cuenta la persona con Publicaciones</rdfs:comment>
@@ -3185,6 +3694,13 @@
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Sin Publicación</rdfs:label>
     <rdfs:domain rdf:resource="#CV"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="tieneProyector">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_tieneProyector"/>
+    </swb:displayProperty>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#Sala"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="fechaDistincion">
     <swb:displayProperty>
@@ -3243,21 +3759,6 @@
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdfs:domain rdf:resource="#SolicitudRecurso"/>
   </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="contratacion">
-    <swb:displayProperty>
-      <swbxf:DisplayProperty rdf:ID="dp_SRtipoContratacion">
-        <swbxf:propSelectValues rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >0: |1:Nómina|2:Eventual|3:Servicios Profesionales por Honorarios</swbxf:propSelectValues>
-        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >Tipo de contratación</rdfs:label>
-      </swbxf:DisplayProperty>
-    </swb:displayProperty>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Tipo de contratación</rdfs:label>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:domain rdf:resource="#SolicitudRecurso"/>
-  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="nombrePuesto">
     <rdfs:domain rdf:resource="#Investigacion"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
@@ -3296,22 +3797,46 @@
     >true</swb:required>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="especialidadDelProyecto">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Especialidad del proyecto</rdfs:label>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdfs:domain rdf:resource="#Proyecto"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_especialidadDelProyecto">
+        <rdfs:label xml:lang="es">Nombre y número de especialidad</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:required>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="areaDelProyecto">
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Área del proyecto</rdfs:label>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdfs:domain rdf:resource="#Proyecto"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_areaDelProyecto">
+        <rdfs:label xml:lang="es">Nombre y número de área</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:required>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="montoTotal">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_montoTotal">
+        <rdfs:label xml:lang="es">Monto total por el periodo contratado ($)</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+    <rdfs:domain rdf:resource="#SolicitudRecurso"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="cerVigEmprendedor">
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <swb:defaultValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >1</swb:defaultValue>
     <swb:displayProperty rdf:resource="#dp_certificadoVigente"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="notaValidaSuficienciaAP">
+    <swb:displayProperty rdf:resource="#dp_notaValidaSuficienciaAP"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#SeguimientoSolicitudRecurso"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="numExterior">
     <rdfs:domain rdf:resource="#Domicilio"/>
@@ -3320,6 +3845,17 @@
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</swb:required>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="altaPresupuesto">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_altaPresupuesto">
+        <rdfs:label xml:lang="es">Requiere alta o modificación de presupuesto</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:required>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#SeguimientoSolicitudRecurso"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="nombreSolicitante">
     <rdfs:domain rdf:resource="#Solicitable"/>
@@ -3333,6 +3869,11 @@
       </swbxf:DisplayProperty>
     </swb:displayProperty>
   </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="notaValidaDirector">
+    <swb:displayProperty rdf:resource="#dp_notaValidaSuficienciaAP"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#SeguimientoSolicitudRecurso"/>
+  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="requiereComputo">
     <rdfs:domain rdf:resource="#ReservacionSala"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
@@ -3340,22 +3881,20 @@
   <owl:DatatypeProperty rdf:ID="nombreProyecto">
     <swb:canUsedAsName rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</swb:canUsedAsName>
-    <rdfs:domain rdf:resource="#Proyecto"/>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:required>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Nombre del proyecto</rdfs:label>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</swb:required>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="requiereCafeGrano">
     <rdfs:domain rdf:resource="#ReservacionSala"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="fechaSolicitud">
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Fecha de solicitud</rdfs:label>
-    <rdfs:domain rdf:resource="#SolicitudRecurso"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="puesto">
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
@@ -3366,6 +3905,16 @@
     >Indica si la persona tiene FM2 vigente, si es el caso</rdfs:comment>
     <rdfs:domain rdf:resource="#Persona"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="fechaPublicacion">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_fechaPublicacion">
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DateElement_1"/>
+        <rdfs:label xml:lang="es">Fecha de publicación</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdfs:domain rdf:resource="#PublicacionVacante"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="fileNumeroSeguridadSocial">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -3405,23 +3954,6 @@
       </swbxf:DisplayProperty>
     </swb:displayProperty>
   </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="avance">
-    <swb:displayProperty>
-      <swbxf:DisplayProperty rdf:ID="dp_gradoAvanceSolicitud">
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >Grado de avance requerido</rdfs:label>
-        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModelWithBlank"/>
-        <swbxf:propSelectValues rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >0: |1:Titulado|2:Pasante|3:Técnico</swbxf:propSelectValues>
-      </swbxf:DisplayProperty>
-    </swb:displayProperty>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Grado de avance requerido</rdfs:label>
-    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</swb:required>
-    <rdfs:domain rdf:resource="#SolicitudRecurso"/>
-  </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="periodo">
     <swb:displayProperty>
       <swbxf:DisplayProperty rdf:ID="dp_periodo">
@@ -3450,9 +3982,12 @@
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="nombreContacto">
     <rdfs:domain rdf:resource="#Proyecto"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Nombre del contacto (sitio)</rdfs:label>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_nombreContacto">
+        <rdfs:label xml:lang="es">Nombre del contacto (Sitio)</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="cedula">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -3488,13 +4023,24 @@
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
     <rdfs:domain rdf:resource="#Empleado"/>
   </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="horarioServicio">
-    <rdfs:domain rdf:resource="#ReservacionSala"/>
+  <owl:DatatypeProperty rdf:ID="folioFuente">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_folioFuente">
+        <rdfs:label xml:lang="es">Folio y/o clave de la fuente</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:required>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Postulante"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="requiereCafeSoluble">
     <rdfs:domain rdf:resource="#ReservacionSala"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="horarioServicio">
+    <rdfs:domain rdf:resource="#ReservacionSala"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="fechaSalida">
     <rdfs:domain rdf:resource="#ReservacionAuto"/>
@@ -3540,18 +4086,14 @@
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="ubicacionProyecto">
     <rdfs:domain rdf:resource="#Proyecto"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Ubicación del proyecto</rdfs:label>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <swb:displayProperty>
       <swbxf:DisplayProperty rdf:ID="dp_ubicacionProyecto">
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >Ubicación del proyecto</rdfs:label>
+        <swbxf:propSelectValues xml:lang="es">1:INFOTEC|2:EN SITIO</swbxf:propSelectValues>
         <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
-        <swbxf:propSelectValues rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >1:INFOTEC|2:SITIO</swbxf:propSelectValues>
+        <rdfs:label xml:lang="es">Ubicación del proyecto</rdfs:label>
       </swbxf:DisplayProperty>
     </swb:displayProperty>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="tipoReunion">
     <rdfs:domain rdf:resource="#ReservacionSala"/>
@@ -3560,22 +4102,17 @@
   <owl:DatatypeProperty rdf:ID="fechaBaja">
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Fecha de baja</rdfs:label>
-    <rdfs:domain rdf:resource="#SolicitudRecurso"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="aniosExpertise">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
     <swb:displayProperty>
       <swbxf:DisplayProperty rdf:ID="dp_añosExperiencia">
-        <swbxf:propSelectValues rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >0:Sin experiencia|1:Menos de un año|2:1 a 3 años|3:3 a 5 años|4:Más de 5 años</swbxf:propSelectValues>
-        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModelWithBlank"/>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >Años de experiencia requerida</rdfs:label>
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
+        <swbxf:propSelectValues xml:lang="es">1:Sin experiencia|2:Menos de un año|3:1 a 3 años|4:3 a 5 años|5:Más de 5 años</swbxf:propSelectValues>
+        <rdfs:label xml:lang="es">Años de experiencia</rdfs:label>
       </swbxf:DisplayProperty>
     </swb:displayProperty>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Años de experiencia</rdfs:label>
     <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</swb:required>
     <rdfs:domain rdf:resource="#SolicitudRecurso"/>
@@ -3623,13 +4160,6 @@
     >com.infotec.cvi.swb</swb:classCodePackage>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
   </swb:Class>
-  <intranet:SelectOneUserByUserGroup rdf:ID="SelectOneUserByUserGroup_3">
-    <rdfs:label xml:lang="es">Selector de titulares de área</rdfs:label>
-    <swbxf:so_userRepository rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</swbxf:so_userRepository>
-    <intranet:so_roleIds rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Subgerente|Gerente|Director</intranet:so_roleIds>
-  </intranet:SelectOneUserByUserGroup>
   <intranet:SelectOneUserByUserGroup rdf:ID="SelectOneUserByUserGroup_1">
     <swbxf:so_userRepository rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</swbxf:so_userRepository>
@@ -3647,14 +4177,6 @@
     <rdfs:label xml:lang="en">Belong to</rdfs:label>
     <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModelWithBlank"/>
   </swbxf:DisplayProperty>
-  <intranet:SelectOneUserByUserGroup rdf:ID="SelectOneUserByUserGroup_2">
-    <swbxf:so_userRepository rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >true</swbxf:so_userRepository>
-    <intranet:so_userGroupId rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Empleado_exsitu</intranet:so_userGroupId>
-    <rdfs:label xml:lang="en">INFOTEC employees selector</rdfs:label>
-    <rdfs:label xml:lang="es">Selector de empleados de INFOTEC</rdfs:label>
-  </intranet:SelectOneUserByUserGroup>
   <swb:CodePackage rdf:ID="pkg">
     <swb:prefix rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >intranet</swb:prefix>
