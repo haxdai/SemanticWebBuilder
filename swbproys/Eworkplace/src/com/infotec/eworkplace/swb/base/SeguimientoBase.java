@@ -1,8 +1,14 @@
 package com.infotec.eworkplace.swb.base;
 
 
+   /**
+   * Objeto de seguimiento para solicitudes en los servicios de INFOTEC 
+   */
 public abstract class SeguimientoBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable
 {
+   /**
+   * Objeto de seguimiento para solicitudes en los servicios de INFOTEC
+   */
     public static final org.semanticwb.platform.SemanticClass intranet_Seguimiento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Seguimiento");
    /**
    * The semantic class that represents the currentObject

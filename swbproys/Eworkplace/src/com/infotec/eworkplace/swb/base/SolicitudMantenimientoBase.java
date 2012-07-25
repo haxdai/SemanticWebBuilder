@@ -81,29 +81,6 @@ public abstract class SolicitudMantenimientoBase extends org.semanticwb.model.SW
             return (getSolicitudMantenimiento(id, model)!=null);
         }
        /**
-       * Gets all com.infotec.eworkplace.swb.SolicitudMantenimiento with a determined UsuarioAutoriza
-       * @param value UsuarioAutoriza of the type org.semanticwb.model.User
-       * @param model Model of the com.infotec.eworkplace.swb.SolicitudMantenimiento
-       * @return Iterator with all the com.infotec.eworkplace.swb.SolicitudMantenimiento
-       */
-
-        public static java.util.Iterator<com.infotec.eworkplace.swb.SolicitudMantenimiento> listSolicitudMantenimientoByUsuarioAutoriza(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SolicitudMantenimiento> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_usuarioAutoriza, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.eworkplace.swb.SolicitudMantenimiento with a determined UsuarioAutoriza
-       * @param value UsuarioAutoriza of the type org.semanticwb.model.User
-       * @return Iterator with all the com.infotec.eworkplace.swb.SolicitudMantenimiento
-       */
-
-        public static java.util.Iterator<com.infotec.eworkplace.swb.SolicitudMantenimiento> listSolicitudMantenimientoByUsuarioAutoriza(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SolicitudMantenimiento> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_usuarioAutoriza,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all com.infotec.eworkplace.swb.SolicitudMantenimiento with a determined Solicitante
        * @param value Solicitante of the type org.semanticwb.model.User
        * @param model Model of the com.infotec.eworkplace.swb.SolicitudMantenimiento
@@ -126,6 +103,29 @@ public abstract class SolicitudMantenimientoBase extends org.semanticwb.model.SW
             org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SolicitudMantenimiento> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_solicitante,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all com.infotec.eworkplace.swb.SolicitudMantenimiento with a determined UsuarioAutoriza
+       * @param value UsuarioAutoriza of the type org.semanticwb.model.User
+       * @param model Model of the com.infotec.eworkplace.swb.SolicitudMantenimiento
+       * @return Iterator with all the com.infotec.eworkplace.swb.SolicitudMantenimiento
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.SolicitudMantenimiento> listSolicitudMantenimientoByUsuarioAutoriza(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SolicitudMantenimiento> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_usuarioAutoriza, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.SolicitudMantenimiento with a determined UsuarioAutoriza
+       * @param value UsuarioAutoriza of the type org.semanticwb.model.User
+       * @return Iterator with all the com.infotec.eworkplace.swb.SolicitudMantenimiento
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.SolicitudMantenimiento> listSolicitudMantenimientoByUsuarioAutoriza(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.SolicitudMantenimiento> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_usuarioAutoriza,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
    /**
@@ -135,80 +135,6 @@ public abstract class SolicitudMantenimientoBase extends org.semanticwb.model.SW
     public SolicitudMantenimientoBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
-    }
-
-/**
-* Gets the ExtensionSolicitante property
-* @return String with the ExtensionSolicitante
-*/
-    public String getExtensionSolicitante()
-    {
-        return getSemanticObject().getProperty(intranet_extensionSolicitante);
-    }
-
-/**
-* Sets the ExtensionSolicitante property
-* @param value long with the ExtensionSolicitante
-*/
-    public void setExtensionSolicitante(String value)
-    {
-        getSemanticObject().setProperty(intranet_extensionSolicitante, value);
-    }
-   /**
-   * Sets the value for the property UsuarioAutoriza
-   * @param value UsuarioAutoriza to set
-   */
-
-    public void setUsuarioAutoriza(org.semanticwb.model.User value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(intranet_usuarioAutoriza, value.getSemanticObject());
-        }else
-        {
-            removeUsuarioAutoriza();
-        }
-    }
-   /**
-   * Remove the value for UsuarioAutoriza property
-   */
-
-    public void removeUsuarioAutoriza()
-    {
-        getSemanticObject().removeProperty(intranet_usuarioAutoriza);
-    }
-
-   /**
-   * Gets the UsuarioAutoriza
-   * @return a org.semanticwb.model.User
-   */
-    public org.semanticwb.model.User getUsuarioAutoriza()
-    {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_usuarioAutoriza);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
-    }
-
-/**
-* Gets the Autoriza property
-* @return String with the Autoriza
-*/
-    public String getAutoriza()
-    {
-        return getSemanticObject().getProperty(intranet_autoriza);
-    }
-
-/**
-* Sets the Autoriza property
-* @param value long with the Autoriza
-*/
-    public void setAutoriza(String value)
-    {
-        getSemanticObject().setProperty(intranet_autoriza, value);
     }
 
 /**
@@ -358,6 +284,62 @@ public abstract class SolicitudMantenimientoBase extends org.semanticwb.model.SW
     }
 
 /**
+* Gets the ExtensionSolicitante property
+* @return String with the ExtensionSolicitante
+*/
+    public String getExtensionSolicitante()
+    {
+        return getSemanticObject().getProperty(intranet_extensionSolicitante);
+    }
+
+/**
+* Sets the ExtensionSolicitante property
+* @param value long with the ExtensionSolicitante
+*/
+    public void setExtensionSolicitante(String value)
+    {
+        getSemanticObject().setProperty(intranet_extensionSolicitante, value);
+    }
+   /**
+   * Sets the value for the property UsuarioAutoriza
+   * @param value UsuarioAutoriza to set
+   */
+
+    public void setUsuarioAutoriza(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_usuarioAutoriza, value.getSemanticObject());
+        }else
+        {
+            removeUsuarioAutoriza();
+        }
+    }
+   /**
+   * Remove the value for UsuarioAutoriza property
+   */
+
+    public void removeUsuarioAutoriza()
+    {
+        getSemanticObject().removeProperty(intranet_usuarioAutoriza);
+    }
+
+   /**
+   * Gets the UsuarioAutoriza
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getUsuarioAutoriza()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_usuarioAutoriza);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+/**
 * Gets the NombreSolicitante property
 * @return String with the NombreSolicitante
 */
@@ -391,5 +373,23 @@ public abstract class SolicitudMantenimientoBase extends org.semanticwb.model.SW
     public void setDescripcionServicio(String value)
     {
         getSemanticObject().setProperty(intranet_descripcionServicio, value);
+    }
+
+/**
+* Gets the Autoriza property
+* @return String with the Autoriza
+*/
+    public String getAutoriza()
+    {
+        return getSemanticObject().getProperty(intranet_autoriza);
+    }
+
+/**
+* Sets the Autoriza property
+* @param value long with the Autoriza
+*/
+    public void setAutoriza(String value)
+    {
+        getSemanticObject().setProperty(intranet_autoriza, value);
     }
 }
