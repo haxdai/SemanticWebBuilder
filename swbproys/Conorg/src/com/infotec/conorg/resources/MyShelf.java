@@ -262,16 +262,22 @@ public class MyShelf extends GenericAdmResource {
                     SemanticClass scls = sobj.getSemanticClass();
                     classid = scls.getClassId();
                     frmgr = new SWBFormMgr(sobj, SWBFormMgr.MODE_EDIT, SWBFormMgr.MODE_EDIT);
-                    frmgr.clearProperties();
-                    frmgr.addProperty(Descriptiveable.swb_title);
-                    frmgr.addProperty(Descriptiveable.swb_description);
-                    frmgr.addProperty(Tagable.swb_tags);
-                    frmgr.addProperty(Activeable.swb_active);
-                    frmgr.addProperty(Traceable.swb_created);
-                    frmgr.addProperty(Traceable.swb_creator);
-                    frmgr.addProperty(Traceable.swb_modifiedBy);
-                    frmgr.addProperty(Traceable.swb_updated);
-                    frmgr.addProperty(WorkSpace.conorg_hasTopic);
+                    
+                    GenericObject gobj = sobj.createGenericInstance();
+                    
+                    if(gobj instanceof WorkSpace){
+                        frmgr.clearProperties();
+                        frmgr.addProperty(Descriptiveable.swb_title);
+                        frmgr.addProperty(Descriptiveable.swb_description);
+                        frmgr.addProperty(Tagable.swb_tags);
+                        //frmgr.addProperty(Activeable.swb_active);
+                        frmgr.addProperty(Traceable.swb_created);
+                        frmgr.addProperty(Traceable.swb_creator);
+                        frmgr.addProperty(Traceable.swb_modifiedBy);
+                        frmgr.addProperty(Traceable.swb_updated);
+                        frmgr.addProperty(WorkSpace.conorg_hasTopic);
+                    }
+                    
                     SemanticObject nso = frmgr.processForm(request);
                     if (nso.createGenericInstance() instanceof WorkSpace) {
                         wsid = ((WorkSpace) nso.createGenericInstance()).getId();
@@ -652,7 +658,7 @@ public class MyShelf extends GenericAdmResource {
     
     public static String getSelecTypeMember(String membertype,String options) {
         StringBuffer ret  = new StringBuffer();
-        ret.append("<select name=\"mbrtype\" "+options+">");
+        ret.append("<select dojoType=\"dijit.form.FilteringSelect\" name=\"mbrtype\" "+options+">");
         ret.append("<option value=\""+USRLEVEL_MIEMBRO+"\"");
         if (membertype.equals(USRLEVEL_NO_MIEMBRO)) {
             ret.append("selected");
