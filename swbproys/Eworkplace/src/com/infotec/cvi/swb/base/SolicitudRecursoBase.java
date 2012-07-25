@@ -16,7 +16,6 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
    */
     public static final org.semanticwb.platform.SemanticClass intranet_Carrera=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Carrera");
     public static final org.semanticwb.platform.SemanticProperty intranet_especialidad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#especialidad");
-    public static final org.semanticwb.platform.SemanticProperty intranet_autorizaPresupuestal=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#autorizaPresupuestal");
     public static final org.semanticwb.platform.SemanticProperty intranet_montoTotal=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#montoTotal");
     public static final org.semanticwb.platform.SemanticProperty intranet_personalIndirecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#personalIndirecto");
     public static final org.semanticwb.platform.SemanticProperty intranet_sueldoBruto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sueldoBruto");
@@ -31,7 +30,7 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
     public static final org.semanticwb.platform.SemanticClass intranet_Sector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Sector");
     public static final org.semanticwb.platform.SemanticProperty intranet_sectorExpertise=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sectorExpertise");
    /**
-   * Encapsula las propiedades correspondientes a una aprtida presupuestal
+   * Encapsula la información relacionada con una partida presupuestal
    */
     public static final org.semanticwb.platform.SemanticClass intranet_PartidaPresupuesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#PartidaPresupuesto");
     public static final org.semanticwb.platform.SemanticProperty intranet_partidaSuficiencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#partidaSuficiencia");
@@ -40,11 +39,7 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
    */
     public static final org.semanticwb.platform.SemanticClass intranet_TipoContratacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#TipoContratacion");
     public static final org.semanticwb.platform.SemanticProperty intranet_contratacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#contratacion");
-    public static final org.semanticwb.platform.SemanticProperty intranet_nota=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nota");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaFinContrato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaFinContrato");
-   /**
-   * Encapsula las propiedades básicas de un postulante a una vacante de INFOTEC publicada en las bolsas de trabajo
-   */
     public static final org.semanticwb.platform.SemanticClass intranet_Postulante=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Postulante");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasPostulante=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasPostulante");
     public static final org.semanticwb.platform.SemanticProperty intranet_funcionPrincipal=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#funcionPrincipal");
@@ -58,7 +53,6 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
    */
     public static final org.semanticwb.platform.SemanticClass intranet_TipoTalento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#TipoTalento");
     public static final org.semanticwb.platform.SemanticProperty intranet_expertise=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#expertise");
-    public static final org.semanticwb.platform.SemanticProperty intranet_autorizaSolicitante=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#autorizaSolicitante");
     public static final org.semanticwb.platform.SemanticProperty intranet_salarioMax=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#salarioMax");
    /**
    * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
@@ -66,7 +60,7 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
     public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasCandidato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasCandidato");
    /**
-   * Encapsula la información de los proyectos provenientes del ProjectServer
+   * Encapsula las propiedades relacionadas con un proyecto del ProjectServer
    */
     public static final org.semanticwb.platform.SemanticClass intranet_Proyecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Proyecto");
     public static final org.semanticwb.platform.SemanticProperty intranet_proyectoAsignado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#proyectoAsignado");
@@ -75,6 +69,7 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
     public static final org.semanticwb.platform.SemanticProperty intranet_salarioMin=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#salarioMin");
     public static final org.semanticwb.platform.SemanticProperty intranet_entrevistador=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#entrevistador");
     public static final org.semanticwb.platform.SemanticProperty intranet_periodoContrato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#periodoContrato");
+    public static final org.semanticwb.platform.SemanticProperty intranet_notaSolicitud=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#notaSolicitud");
     public static final org.semanticwb.platform.SemanticProperty intranet_motivoContratacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#motivoContratacion");
    /**
    * Catálogo utilizado para la lista de las competencias, utilizadas en Autoevaluación de Competencias
@@ -83,14 +78,12 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
     public static final org.semanticwb.platform.SemanticProperty intranet_hasCompetenciaReq=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasCompetenciaReq");
     public static final org.semanticwb.platform.SemanticProperty intranet_certificaciones=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#certificaciones");
    /**
-   * Encapsula las propiedades relacionadas con un capítulo de contratación
+   * Encapsula la información relacionada con un capítulo presupuestal
    */
     public static final org.semanticwb.platform.SemanticClass intranet_CapituloPresupuesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#CapituloPresupuesto");
     public static final org.semanticwb.platform.SemanticProperty intranet_capituloSuficiencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#capituloSuficiencia");
     public static final org.semanticwb.platform.SemanticProperty intranet_personalDirecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#personalDirecto");
-    public static final org.semanticwb.platform.SemanticProperty intranet_motivoSustitucion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#motivoSustitucion");
     public static final org.semanticwb.platform.SemanticProperty intranet_aniosExpertise=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#aniosExpertise");
-    public static final org.semanticwb.platform.SemanticProperty intranet_nombreVacante=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nombreVacante");
    /**
    * Elemento que contiene la información del perfil del usuario requerido
    */
@@ -727,24 +720,6 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
     }
 
 /**
-* Gets the AutorizaPresupuestal property
-* @return boolean with the AutorizaPresupuestal
-*/
-    public boolean isAutorizaPresupuestal()
-    {
-        return getSemanticObject().getBooleanProperty(intranet_autorizaPresupuestal);
-    }
-
-/**
-* Sets the AutorizaPresupuestal property
-* @param value long with the AutorizaPresupuestal
-*/
-    public void setAutorizaPresupuestal(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(intranet_autorizaPresupuestal, value);
-    }
-
-/**
 * Gets the MontoTotal property
 * @return float with the MontoTotal
 */
@@ -948,24 +923,6 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
              ret=(com.infotec.cvi.swb.TipoContratacion)obj.createGenericInstance();
          }
          return ret;
-    }
-
-/**
-* Gets the Nota property
-* @return String with the Nota
-*/
-    public String getNota()
-    {
-        return getSemanticObject().getProperty(intranet_nota);
-    }
-
-/**
-* Sets the Nota property
-* @param value long with the Nota
-*/
-    public void setNota(String value)
-    {
-        getSemanticObject().setProperty(intranet_nota, value);
     }
 
 /**
@@ -1217,24 +1174,6 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
     public void setAutoriza(String value)
     {
         getSemanticObject().setProperty(intranet_autoriza, value);
-    }
-
-/**
-* Gets the AutorizaSolicitante property
-* @return boolean with the AutorizaSolicitante
-*/
-    public boolean isAutorizaSolicitante()
-    {
-        return getSemanticObject().getBooleanProperty(intranet_autorizaSolicitante);
-    }
-
-/**
-* Sets the AutorizaSolicitante property
-* @param value long with the AutorizaSolicitante
-*/
-    public void setAutorizaSolicitante(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(intranet_autorizaSolicitante, value);
     }
 
 /**
@@ -1615,6 +1554,24 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
     }
 
 /**
+* Gets the NotaSolicitud property
+* @return String with the NotaSolicitud
+*/
+    public String getNotaSolicitud()
+    {
+        return getSemanticObject().getProperty(intranet_notaSolicitud);
+    }
+
+/**
+* Sets the NotaSolicitud property
+* @param value long with the NotaSolicitud
+*/
+    public void setNotaSolicitud(String value)
+    {
+        getSemanticObject().setProperty(intranet_notaSolicitud, value);
+    }
+
+/**
 * Gets the MotivoContratacion property
 * @return String with the MotivoContratacion
 */
@@ -1828,24 +1785,6 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
     }
 
 /**
-* Gets the MotivoSustitucion property
-* @return String with the MotivoSustitucion
-*/
-    public String getMotivoSustitucion()
-    {
-        return getSemanticObject().getProperty(intranet_motivoSustitucion);
-    }
-
-/**
-* Sets the MotivoSustitucion property
-* @param value long with the MotivoSustitucion
-*/
-    public void setMotivoSustitucion(String value)
-    {
-        getSemanticObject().setProperty(intranet_motivoSustitucion, value);
-    }
-
-/**
 * Gets the AniosExpertise property
 * @return int with the AniosExpertise
 */
@@ -1861,23 +1800,5 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
     public void setAniosExpertise(int value)
     {
         getSemanticObject().setIntProperty(intranet_aniosExpertise, value);
-    }
-
-/**
-* Gets the NombreVacante property
-* @return String with the NombreVacante
-*/
-    public String getNombreVacante()
-    {
-        return getSemanticObject().getProperty(intranet_nombreVacante);
-    }
-
-/**
-* Sets the NombreVacante property
-* @param value long with the NombreVacante
-*/
-    public void setNombreVacante(String value)
-    {
-        getSemanticObject().setProperty(intranet_nombreVacante, value);
     }
 }
