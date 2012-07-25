@@ -7,4 +7,8 @@ public class Proyecto extends com.infotec.eworkplace.swb.base.ProyectoBase
     {
         super(base);
     }
+    
+    public String getNombreNumero() {
+        return getNumeroProyecto() + "-" + getTitle();
+    }
 }
