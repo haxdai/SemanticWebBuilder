@@ -8,6 +8,7 @@
                 <input type="TEXT" name="numele" label="Número de elementos a mostrar como estrategia:" size="5" jsrequired="true"/>
                 <input type="TEXT" name="numpag" label="Número de elementos a mostrar por paginación:" size="5" jsrequired="true"/>
                 <input type="TEXT" name="idwpto" label="Id de la sección de temas:" size="20" jsrequired="true"/>
+                <input type="TEXT" name="idwpws" label="Id de la sección de workspace:" size="20" jsrequired="true"/>
         </fieldset>
         <fieldset>
             <statictext name="b">
