@@ -2,12 +2,12 @@ package com.infotec.rh.syr.swb.base;
 
 
    /**
-   * Encapsula las propiedades relacionadas con una bolsa de trabajo para publicación de vacantes de empleo 
+   * Encapsula las propiedades de una bolsa de trabajo para publicación de vacantes 
    */
 public abstract class BolsaTrabajoBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
    /**
-   * Encapsula las propiedades relacionadas con una bolsa de trabajo para publicación de vacantes de empleo
+   * Encapsula las propiedades de una bolsa de trabajo para publicación de vacantes
    */
     public static final org.semanticwb.platform.SemanticClass intranet_BolsaTrabajo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#BolsaTrabajo");
    /**

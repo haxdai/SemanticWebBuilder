@@ -2,12 +2,12 @@ package com.infotec.rh.syr.swb.base;
 
 
    /**
-   * Encapsula las propiedades de una publicación de una vacante en las bolsas de trabajo 
+   * Encapsula la información relacionada con una publicación de una vacante en las bolsas de trabajo 
    */
 public abstract class PublicacionVacanteBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable
 {
    /**
-   * Encapsula las propiedades relacionadas con una bolsa de trabajo para publicación de vacantes de empleo
+   * Encapsula las propiedades de una bolsa de trabajo para publicación de vacantes
    */
     public static final org.semanticwb.platform.SemanticClass intranet_BolsaTrabajo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#BolsaTrabajo");
     public static final org.semanticwb.platform.SemanticProperty intranet_bolsaTrabajo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#bolsaTrabajo");
@@ -15,7 +15,7 @@ public abstract class PublicacionVacanteBase extends org.semanticwb.model.SWBCla
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaPublicacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaPublicacion");
     public static final org.semanticwb.platform.SemanticProperty intranet_folioPublicacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#folioPublicacion");
    /**
-   * Encapsula las propiedades de una publicación de una vacante en las bolsas de trabajo
+   * Encapsula la información relacionada con una publicación de una vacante en las bolsas de trabajo
    */
     public static final org.semanticwb.platform.SemanticClass intranet_PublicacionVacante=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#PublicacionVacante");
    /**
