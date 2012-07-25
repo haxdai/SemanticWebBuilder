@@ -2,12 +2,12 @@ package com.infotec.rh.syr.swb.base;
 
 
    /**
-   * Encapsula las propiedades correspondientes a una aprtida presupuestal 
+   * Encapsula la información relacionada con una partida presupuestal 
    */
 public abstract class PartidaPresupuestoBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
    /**
-   * Encapsula las propiedades correspondientes a una aprtida presupuestal
+   * Encapsula la información relacionada con una partida presupuestal
    */
     public static final org.semanticwb.platform.SemanticClass intranet_PartidaPresupuesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#PartidaPresupuesto");
    /**

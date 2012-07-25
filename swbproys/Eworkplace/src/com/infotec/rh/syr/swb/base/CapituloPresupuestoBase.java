@@ -2,17 +2,17 @@ package com.infotec.rh.syr.swb.base;
 
 
    /**
-   * Encapsula las propiedades relacionadas con un capítulo de contratación 
+   * Encapsula la información relacionada con un capítulo presupuestal 
    */
 public abstract class CapituloPresupuestoBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
    /**
-   * Encapsula las propiedades correspondientes a una aprtida presupuestal
+   * Encapsula la información relacionada con una partida presupuestal
    */
     public static final org.semanticwb.platform.SemanticClass intranet_PartidaPresupuesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#PartidaPresupuesto");
-    public static final org.semanticwb.platform.SemanticProperty intranet_hasPartida=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasPartida");
+    public static final org.semanticwb.platform.SemanticProperty intranet_hasPartidaPresupuesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasPartidaPresupuesto");
    /**
-   * Encapsula las propiedades relacionadas con un capítulo de contratación
+   * Encapsula la información relacionada con un capítulo presupuestal
    */
     public static final org.semanticwb.platform.SemanticClass intranet_CapituloPresupuesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#CapituloPresupuesto");
    /**
@@ -113,29 +113,6 @@ public abstract class CapituloPresupuestoBase extends com.infotec.cvi.swb.Catalo
             return it;
         }
        /**
-       * Gets all com.infotec.rh.syr.swb.CapituloPresupuesto with a determined Partida
-       * @param value Partida of the type com.infotec.rh.syr.swb.PartidaPresupuesto
-       * @param model Model of the com.infotec.rh.syr.swb.CapituloPresupuesto
-       * @return Iterator with all the com.infotec.rh.syr.swb.CapituloPresupuesto
-       */
-
-        public static java.util.Iterator<com.infotec.rh.syr.swb.CapituloPresupuesto> listCapituloPresupuestoByPartida(com.infotec.rh.syr.swb.PartidaPresupuesto value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.CapituloPresupuesto> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasPartida, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.rh.syr.swb.CapituloPresupuesto with a determined Partida
-       * @param value Partida of the type com.infotec.rh.syr.swb.PartidaPresupuesto
-       * @return Iterator with all the com.infotec.rh.syr.swb.CapituloPresupuesto
-       */
-
-        public static java.util.Iterator<com.infotec.rh.syr.swb.CapituloPresupuesto> listCapituloPresupuestoByPartida(com.infotec.rh.syr.swb.PartidaPresupuesto value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.CapituloPresupuesto> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasPartida,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all com.infotec.rh.syr.swb.CapituloPresupuesto with a determined Creator
        * @param value Creator of the type org.semanticwb.model.User
        * @param model Model of the com.infotec.rh.syr.swb.CapituloPresupuesto
@@ -158,6 +135,29 @@ public abstract class CapituloPresupuestoBase extends com.infotec.cvi.swb.Catalo
             org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.CapituloPresupuesto> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all com.infotec.rh.syr.swb.CapituloPresupuesto with a determined PartidaPresupuesto
+       * @param value PartidaPresupuesto of the type com.infotec.rh.syr.swb.PartidaPresupuesto
+       * @param model Model of the com.infotec.rh.syr.swb.CapituloPresupuesto
+       * @return Iterator with all the com.infotec.rh.syr.swb.CapituloPresupuesto
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.CapituloPresupuesto> listCapituloPresupuestoByPartidaPresupuesto(com.infotec.rh.syr.swb.PartidaPresupuesto value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.CapituloPresupuesto> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasPartidaPresupuesto, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.CapituloPresupuesto with a determined PartidaPresupuesto
+       * @param value PartidaPresupuesto of the type com.infotec.rh.syr.swb.PartidaPresupuesto
+       * @return Iterator with all the com.infotec.rh.syr.swb.CapituloPresupuesto
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.CapituloPresupuesto> listCapituloPresupuestoByPartidaPresupuesto(com.infotec.rh.syr.swb.PartidaPresupuesto value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.CapituloPresupuesto> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasPartidaPresupuesto,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
    /**
@@ -173,60 +173,60 @@ public abstract class CapituloPresupuestoBase extends com.infotec.cvi.swb.Catalo
    * @return A GenericIterator with all the com.infotec.rh.syr.swb.PartidaPresupuesto
    */
 
-    public org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.PartidaPresupuesto> listPartidas()
+    public org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.PartidaPresupuesto> listPartidaPresupuestos()
     {
-        return new org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.PartidaPresupuesto>(getSemanticObject().listObjectProperties(intranet_hasPartida));
+        return new org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.PartidaPresupuesto>(getSemanticObject().listObjectProperties(intranet_hasPartidaPresupuesto));
     }
 
    /**
-   * Gets true if has a Partida
+   * Gets true if has a PartidaPresupuesto
    * @param value com.infotec.rh.syr.swb.PartidaPresupuesto to verify
    * @return true if the com.infotec.rh.syr.swb.PartidaPresupuesto exists, false otherwise
    */
-    public boolean hasPartida(com.infotec.rh.syr.swb.PartidaPresupuesto value)
+    public boolean hasPartidaPresupuesto(com.infotec.rh.syr.swb.PartidaPresupuesto value)
     {
         boolean ret=false;
         if(value!=null)
         {
-           ret=getSemanticObject().hasObjectProperty(intranet_hasPartida,value.getSemanticObject());
+           ret=getSemanticObject().hasObjectProperty(intranet_hasPartidaPresupuesto,value.getSemanticObject());
         }
         return ret;
     }
    /**
-   * Adds a Partida
+   * Adds a PartidaPresupuesto
    * @param value com.infotec.rh.syr.swb.PartidaPresupuesto to add
    */
 
-    public void addPartida(com.infotec.rh.syr.swb.PartidaPresupuesto value)
+    public void addPartidaPresupuesto(com.infotec.rh.syr.swb.PartidaPresupuesto value)
     {
-        getSemanticObject().addObjectProperty(intranet_hasPartida, value.getSemanticObject());
+        getSemanticObject().addObjectProperty(intranet_hasPartidaPresupuesto, value.getSemanticObject());
     }
    /**
-   * Removes all the Partida
+   * Removes all the PartidaPresupuesto
    */
 
-    public void removeAllPartida()
+    public void removeAllPartidaPresupuesto()
     {
-        getSemanticObject().removeProperty(intranet_hasPartida);
+        getSemanticObject().removeProperty(intranet_hasPartidaPresupuesto);
     }
    /**
-   * Removes a Partida
+   * Removes a PartidaPresupuesto
    * @param value com.infotec.rh.syr.swb.PartidaPresupuesto to remove
    */
 
-    public void removePartida(com.infotec.rh.syr.swb.PartidaPresupuesto value)
+    public void removePartidaPresupuesto(com.infotec.rh.syr.swb.PartidaPresupuesto value)
     {
-        getSemanticObject().removeObjectProperty(intranet_hasPartida,value.getSemanticObject());
+        getSemanticObject().removeObjectProperty(intranet_hasPartidaPresupuesto,value.getSemanticObject());
     }
 
    /**
-   * Gets the Partida
+   * Gets the PartidaPresupuesto
    * @return a com.infotec.rh.syr.swb.PartidaPresupuesto
    */
-    public com.infotec.rh.syr.swb.PartidaPresupuesto getPartida()
+    public com.infotec.rh.syr.swb.PartidaPresupuesto getPartidaPresupuesto()
     {
          com.infotec.rh.syr.swb.PartidaPresupuesto ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasPartida);
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasPartidaPresupuesto);
          if(obj!=null)
          {
              ret=(com.infotec.rh.syr.swb.PartidaPresupuesto)obj.createGenericInstance();
