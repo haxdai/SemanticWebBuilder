@@ -18,14 +18,14 @@ import org.semanticwb.portal.api.*;
  *
  * @author rene.jara
  */
-public class Colleagues extends GenericAdmResource {
+public class Colleagues extends GenericResource {
 
     private Logger log = SWBUtils.getLogger(Colleagues.class);
 
     @Override
     public void doView(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         int callMethod= paramRequest.getCallMethod();
-        if (callMethod==SWBActionResponse.Call_STRATEGY){
+        //if (callMethod==SWBActionResponse.Call_STRATEGY){
             String basePath = "/work/models/" + paramRequest.getWebPage().getWebSite().getId() + "/jsp/" + this.getClass().getSimpleName() + "/";
             String path = basePath + "view.jsp";
             if (request != null) {
@@ -41,9 +41,9 @@ public class Colleagues extends GenericAdmResource {
                     }
                 }
             }
-        }else{
-            doEdit(request, response, paramRequest);
-        }
+        //}else{
+        //    doEdit(request, response, paramRequest);
+        //}
     }
 
     @Override
