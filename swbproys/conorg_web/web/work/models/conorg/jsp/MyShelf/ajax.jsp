@@ -18,7 +18,6 @@ Author     : rene.jara
 <%@page import="com.infotec.conorg.*"%> 
 <%@page import="org.semanticwb.model.*"%>
 <%@page contentType="text/html" pageEncoding="ISO8859-1"%>
-<!DOCTYPE html>
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/>
 
 <%
@@ -60,6 +59,8 @@ Author     : rene.jara
             
             String boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + url + "';return false;\">Cancelar</button>";
             frmgr.addButton(boton);
+            boton = "<button dojoType=\"dijit.form.Button\" type=\"submit\" >Guardar</button>";
+            frmgr.addButton(boton);
             //frmgr.addButton(SWBFormButton.newCancelButton());
             frmgr.addButton(SWBFormButton.newSaveButton());
 %>
@@ -83,10 +84,10 @@ Author     : rene.jara
  
 %>
 
-            <form  id="form2mbr" name="form2mbr" method="post" action="<%=urlupdate%>">
+            <form  dojoType="dijit.form.Form" id="form2mbr" name="form2mbr" method="post" action="<%=urlupdate%>">
                 <input type="hidden" name="wsid" value="<%=wsid%>"/>
                 <label for="usrid">Usuario:</label>
-                <select name="usrid" >
+                <select name="usrid" dojoType="dijit.form.FilteringSelect">
                     <option value="-1">Selecciona....</option>
                         <%
                             Iterator<User> itusr = ws.getUserRepository().listUsers();
@@ -111,7 +112,7 @@ Author     : rene.jara
                     <option value="Coordinador">Coordinador</option>
                     <option value="Administrador">Administrador</option>
                 </select>
-                <button onclick="enviar2();return false;">Agregar</button>
+                <button dojoType="dijit.form.Button" onclick="enviar2();return false;">Agregar</button>
             </form>
 
 
