@@ -86,9 +86,40 @@ Author     : rene.jara
 <script type="text/javascript">
     alert('<%=strMsg%>');
 </script>
+
 <%
     }
+%>
+<script type="text/javascript">
+    // scan page for widgets and instantiate them
+    dojo.require("dojo.parser");
+    dojo.require("dijit._Calendar");
+    dojo.require("dijit.ProgressBar");
+    dojo.require("dijit.TitlePane");
 
+    // editor:
+    dojo.require("dijit.Editor");
+
+    // various Form elemetns
+    dojo.require("dijit.form.Form");
+    dojo.require("dijit.form.CheckBox");
+    dojo.require("dijit.form.Textarea");
+    dojo.require("dijit.form.FilteringSelect");
+    dojo.require("dijit.form.TextBox");
+    dojo.require("dijit.form.DateTextBox");
+    dojo.require("dijit.form.TimeTextBox");
+    dojo.require("dijit.form.Button");
+    dojo.require("dijit.form.NumberSpinner");
+    dojo.require("dijit.form.Slider");
+    dojo.require("dojox.form.BusyButton");
+    dojo.require("dojox.form.TimeSpinner");
+    dojo.require("dijit.form.ValidationTextBox");
+    dojo.require("dijit.layout.ContentPane");
+    dojo.require("dijit.form.Select");
+    dojo.require("dijit.form.NumberTextBox");
+
+</script>
+<%
 
     ArrayList alwsp = null;
     Iterator<WorkSpace> itperws = null;
@@ -108,29 +139,7 @@ Author     : rene.jara
 
 %>
 
-<script type="text/javascript">
-    // scan page for widgets and instantiate them
-    dojo.require("dojo.parser");
-    dojo.require("dijit._Calendar");
-    dojo.require("dijit.ProgressBar");
 
-    // editor:
-    dojo.require("dijit.Editor");
-
-    // various Form elemetns
-    dojo.require("dijit.form.Form");
-    dojo.require("dijit.form.CheckBox");
-    dojo.require("dijit.form.Textarea");
-    dojo.require("dijit.form.FilteringSelect");
-    dojo.require("dijit.form.TextBox");
-    dojo.require("dijit.form.DateTextBox");
-    dojo.require("dijit.form.TimeTextBox");
-    dojo.require("dijit.form.Button");
-    dojo.require("dijit.form.NumberSpinner");
-    dojo.require("dijit.form.Slider");
-    dojo.require("dojox.form.BusyButton");
-    dojo.require("dojox.form.TimeSpinner");
-</script>
 
 <div id="conorg-add">
     <form dojoType="dijit.form.Form" action="<%=urladd%>" method="post"> 
@@ -151,7 +160,9 @@ Author     : rene.jara
         frmgr.setLang("es");
         String boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Cancelar</button>";
         frmgr.addButton(boton);
-        frmgr.addButton(SWBFormButton.newSaveButton());
+        boton = "<button dojoType=\"dijit.form.Button\" type=\"submit\" >Guardar</button>";
+        frmgr.addButton(boton);
+        //frmgr.addButton(SWBFormButton.newSaveButton());
 %>        
 <%=frmgr.renderForm(request)%>  
 <%
@@ -196,437 +207,402 @@ Author     : rene.jara
         itperws = WorkSpace.ClassMgr.listWorkSpaces(wsite);
 %>
 <div>
-    <ul>
-        <%
-            int ps = numPages;
-            long l = 0;// = intSize;
-            int p = 0;
-            int e=0;
-            if (mpage != null) {
-                p = Integer.parseInt(mpage);
-            }
-            int x = 0;
-//System.out.println("x:"+x+" ps:"+ps+" p:"+p);
-            while (itperws.hasNext()) {
-                WorkSpace workSpace = itperws.next();
-                if (hmmem.get(workSpace) != null) { // revisando si es miembro del ws
 
-                    alwsp.add(workSpace);
-                    x++;
-                    if(x>(ps*p)&&!(x>(ps*(p+1)))){
+    <%
+        int ps = numPages;
+        long l = 0;// = intSize;
+        int p = 0;
+        int e = 0;
+        if (mpage != null) {
+            p = Integer.parseInt(mpage);
+        }
+        int x = 0;
+//System.out.println("x:"+x+" ps:"+ps+" p:"+p);
+        while (itperws.hasNext()) {
+            WorkSpace workSpace = itperws.next();
+            if (hmmem.get(workSpace) != null) { // revisando si es miembro del ws
+
+                alwsp.add(workSpace);
+                x++;
+                if (x > (ps * p) && !(x > (ps * (p + 1)))) {
 //System.out.println("x>(ps*p):"+(x>(ps*p)));
-        %>
-        <li>
-            <div><a href="<%=wpwscontent.getUrl()%>?wsid=<%=workSpace.getId()%>"><%=workSpace.getTitle()%></a></div>
-            <div>
-                <div>Descripción:<%=workSpace.getDescription()%></div>
-                <div>Temas:
+%>
+    <div class="workspace-prevista">
+        <h3><a href="<%=wpwscontent.getUrl()%>?wsid=<%=workSpace.getId()%>"><strong><%=workSpace.getTitle()%></strong></a></h3>
+        <p><%=workSpace.getDescription()%></p>
+        <ul>
+            <li><strong>Temas:</strong>
+                <ul>
                     <%
                         Iterator<com.infotec.conorg.Topic> itto = workSpace.listTopics();
                         while (itto.hasNext()) {
                             com.infotec.conorg.Topic topic = itto.next();
                     %>
-                    <%=topic.getTitle()%>,
+                    <li><%=topic.getTitle()%></li>
                     <%
                         }
                     %>
-                </div>
-                <%
-                    Iterator<Member> itme = workSpace.listMembers();
-                %>
-                <div>Participante:
-                    <ul>
-                        <%
-                    int count = 0;
-                    while (itme.hasNext()) {
-                        Member mem = itme.next();
-                        count++;
-                        if (count <= nummem) {
-                        %>
-                        <li>
-                            <%=mem.getUser().getFullName() + " - " + mem.getMemberType()%>
-                        </li>
-                        <%
-                        } else {
-                            break;
-                        }
-                    }
-                        %>
-                    </ul>
-                </div>
-                <%
-                    Iterator<Tile> itti = workSpace.listTiles();
-                %>
-                <div>Azulejos:
-                    <ul>
-                        <%
-                            count = 0;
-                            while (itti.hasNext()) {
-                                Tile tile = itti.next();
-                                count++;
-                                if (count <= numtil) {
-                        %>
-                        <li>
-                            <%=tile.getTitle()%>
-                        </li>
-                        <%
-                                } else {
-                                    break;
-                                }
+                </ul>
+            </li>
+            <li><strong>Participantes:</strong>
+                <ul>
+                    <%
+                        Iterator<Member> itme = workSpace.listMembers();
+                        int count = 0;
+                        while (itme.hasNext()) {
+                            Member mem = itme.next();
+                            count++;
+                            if (count <= nummem) {
+                    %>
+                    <li>
+                        <%=mem.getUser().getFullName() + " - " + mem.getMemberType()%>
+                    </li>
+                    <%
+                            } else {
+                                break;
                             }
-                        %>
-                    </ul>
-                </div>
-            </div>
-        </li>
-        <%
-                    }else if(x>(ps*(p+1))) {
-                        e++;
-                    }
+                        }
+                    %>
+                </ul>
+            </li>
+            <li><strong>Azulejos</strong>:
+                <ul>
+                    <%
+                        Iterator<Tile> itti = workSpace.listTiles();
+                        count = 0;
+                        while (itti.hasNext()) {
+                            Tile tile = itti.next();
+                            count++;
+                            if (count <= numtil) {
+                    %>
+                    <li>
+                        <%=tile.getTitle()%>
+                    </li>
+                    <%
+                            } else {
+                                break;
+                            }
+                        }
+                    %>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <%
+                } else if (x > (ps * (p + 1))) {
+                    e++;
+                }
 //System.out.println("x>(ps*(p+1)):"+(x>(ps*(p+1))));
+            }
+        }
+        l = x;
+        x -= e;
+    %>
+</div>
+<div class="paginar">
+    <p>
+        <%
+            if ((p > 0 || x < l))// && (paramRequest.getCallMethod() == SWBParamRequest.Call_CONTENT)) //Requiere paginacion
+            {
+
+                int pages = (int) (l / ps);
+                if ((l % ps) > 0) {
+                    pages++;
+                }
+
+                //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+                int inicia = 0;
+                int finaliza = pages;
+
+
+                int rangoinicial = p - 5;
+                int rangofinal = p + 5;
+                if (pages <= 10) {
+                    inicia = 0;
+                    finaliza = pages;
+                } else {
+                    if (rangoinicial < 0) {
+                        inicia = 0;
+                        finaliza = Math.abs(rangoinicial) + rangofinal;
+                    } else if (rangofinal > pages) {
+                        inicia = pages - 10;
+                        finaliza = pages;
+                    } else {
+                        inicia = rangoinicial;
+                        finaliza = rangofinal;
+                    }
+                }
+
+                if (pages > 10) {
+                    SWBResourceURL urlNext = paramRequest.getRenderUrl();
+                    urlNext.setParameter("mpage", "" + 0);
+                    if (null != wsid) {
+                        urlNext.setParameter("wsid", wsid);
+                    }
+                    if (null != ppage) {
+                        urlNext.setParameter("ppage", ppage);
+                    }
+        %>
+        <a href="#" onclick="window.location='<%=urlNext%>';">Ir al inicio</a>
+        <%
+            }
+
+            for (int z = inicia; z < finaliza; z++) {
+                SWBResourceURL urlNext = paramRequest.getRenderUrl();
+                urlNext.setParameter("mpage", "" + z);
+                if (null != wsid) {
+                    urlNext.setParameter("wsid", wsid);
+                }
+                if (null != ppage) {
+                    urlNext.setParameter("ppage", ppage);
+                }
+                if (z != p) {
+        %>
+        <a href="#" onclick="window.location='<%=urlNext%>';"><%=(z + 1)%></a>
+        <%
+        } else {
+        %>
+        <%=(z + 1) + " "%>
+        <%
                 }
             }
-            l=x;
-            x-=e;
+            if (pages > 10) {
+                SWBResourceURL urlNext = paramRequest.getRenderUrl();
+                urlNext.setParameter("mpage", "" + (pages - 1));
+                if (null != wsid) {
+                    urlNext.setParameter("wsid", wsid);
+                }
+                if (null != ppage) {
+                    urlNext.setParameter("ppage", ppage);
+                }
+
         %>
-    </ul>
-</div>
-            <div class="paginar">
-                <p>
-                    <%
-                        if ((p > 0 || x < l))// && (paramRequest.getCallMethod() == SWBParamRequest.Call_CONTENT)) //Requiere paginacion
-                        {
-
-                            int pages = (int) (l / ps);
-                            if ((l % ps) > 0) {
-                                pages++;
-                            }
-
-                            //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-                            int inicia = 0;
-                            int finaliza = pages;
-
-
-                            int rangoinicial = p - 5;
-                            int rangofinal = p + 5;
-                            if (pages <= 10) {
-                                inicia = 0;
-                                finaliza = pages;
-                            } else {
-                                if (rangoinicial < 0) {
-                                    inicia = 0;
-                                    finaliza = Math.abs(rangoinicial) + rangofinal;
-                                } else if (rangofinal > pages) {
-                                    inicia = pages - 10;
-                                    finaliza = pages;
-                                } else {
-                                    inicia = rangoinicial;
-                                    finaliza = rangofinal;
-                                }
-                            }
-
-                            if (pages > 10) {
-                                SWBResourceURL urlNext = paramRequest.getRenderUrl();
-                                urlNext.setParameter("mpage", "" + 0);
-                                if (null != wsid) {
-                                    urlNext.setParameter("wsid", wsid);
-                                }
-                                if (null != ppage) {
-                                    urlNext.setParameter("ppage", ppage);
-                                }
-                                %>
-                                <a href="#" onclick="window.location='<%=urlNext%>';">Ir al inicio</a>
-                                <%
-                            }
-
-                            for (int z = inicia; z < finaliza; z++) {
-                                SWBResourceURL urlNext = paramRequest.getRenderUrl();
-                                urlNext.setParameter("mpage", "" + z);
-                                if (null != wsid) {
-                                    urlNext.setParameter("wsid", wsid);
-                                }
-                                if (null != ppage) {
-                                    urlNext.setParameter("ppage", ppage);
-                                }
-                                if (z != p) {
-                                    %>
-                                 <a href="#" onclick="window.location='<%=urlNext%>';"><%=(z + 1)%></a>
-                                <%
-                                } else {
-                                    %>
-                                            <%=(z + 1)+ " "%>
-                                   <%
-                               }
-                            }
-                            if (pages > 10) {
-                                SWBResourceURL urlNext = paramRequest.getRenderUrl();
-                                urlNext.setParameter("mpage", "" + (pages - 1));
-                                if (null != wsid) {
-                                    urlNext.setParameter("wsid", wsid);
-                                }
-                                if (null != ppage) {
-                                    urlNext.setParameter("ppage", ppage);
-                                }
-
-                                %>
-                                <a href="#" onclick="window.location='<%=urlNext%>';">Ir al final</a>
-                                <%
-                            }
-                        }
-                    %>
-                </p></div>
-<%
-    itpubws = WorkSpace.ClassMgr.listWorkSpaces(wsite);
-%>
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-<div >
-    <ul>
+        <a href="#" onclick="window.location='<%=urlNext%>';">Ir al final</a>
         <%
-            //ps = numPages;
-            l = 0;// = intSize;
-            p = 0;
-            e=0;
-            if (ppage != null) {
-                p = Integer.parseInt(ppage);
+                }
             }
-            x = 0;
+        %>
+    </p></div>
+    <%
+        itpubws = WorkSpace.ClassMgr.listWorkSpaces(wsite);
+    %>
+
+<div >
+
+    <%
+        //ps = numPages;
+        l = 0;// = intSize;
+        p = 0;
+        e = 0;
+        if (ppage != null) {
+            p = Integer.parseInt(ppage);
+        }
+        x = 0;
 //System.out.println("x:"+x+" ps:"+ps+" p:"+p);
 
-            // lista de workspace de la comunidad
-            while (itpubws.hasNext()) {
-                WorkSpace workSpace = itpubws.next();
-                if (!alwsp.contains(workSpace)) {
-                    x++;
-                    if(x>(ps*p)&&!(x>(ps*(p+1)))){
+        // lista de workspace de la comunidad
+        while (itpubws.hasNext()) {
+            WorkSpace workSpace = itpubws.next();
+            if (!alwsp.contains(workSpace)) {
+                x++;
+                if (x > (ps * p) && !(x > (ps * (p + 1)))) {
 //System.out.println("x>(ps*p):"+(x>(ps*p)));
-        %>
-        <li>
-            <div><a href="<%=wpwscontent.getUrl()%>?wsid=<%=workSpace.getId()%>"><%=workSpace.getTitle()%></a></div>
-            <div>Descripción:<%=workSpace.getDescription()%></div>
-        </li>
-        <%
-        }else if(x>(ps*(p+1))) {
-                        e++;
-                    }
+%>
+    <div class="workspace-prevista">
+        <h3><a href="<%=wpwscontent.getUrl()%>?wsid=<%=workSpace.getId()%>"><strong><%=workSpace.getTitle()%></strong></a></h3>
+        <p><%=workSpace.getDescription()%></p>
+    </div>
+    <%
+                } else if (x > (ps * (p + 1))) {
+                    e++;
+                }
 //System.out.println("x>(ps*(p+1)):"+(x>(ps*(p+1))));
 
+            }
+        }
+        l = x;
+        x -= e;
+    %>
+</div>
+<div class="paginar">
+    <p>
+        <%
+            if ((p > 0 || x < l))// && (paramRequest.getCallMethod() == SWBParamRequest.Call_CONTENT)) //Requiere paginacion
+            {
+
+                int pages = (int) (l / ps);
+                if ((l % ps) > 0) {
+                    pages++;
+                }
+
+                //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+                int inicia = 0;
+                int finaliza = pages;
+
+                int rangoinicial = p - 5;
+                int rangofinal = p + 5;
+                if (pages <= 10) {
+                    inicia = 0;
+                    finaliza = pages;
+                } else {
+                    if (rangoinicial < 0) {
+                        inicia = 0;
+                        finaliza = Math.abs(rangoinicial) + rangofinal;
+                    } else if (rangofinal > pages) {
+                        inicia = pages - 10;
+                        finaliza = pages;
+                    } else {
+                        inicia = rangoinicial;
+                        finaliza = rangofinal;
+                    }
+                }
+
+                if (pages > 10) {
+                    SWBResourceURL urlNext = paramRequest.getRenderUrl();
+                    urlNext.setParameter("ppage", "" + 0);
+                    if (null != wsid) {
+                        urlNext.setParameter("wsid", wsid);
+                    }
+                    if (null != mpage) {
+                        urlNext.setParameter("mpage", mpage);
+                    }
+
+        %>
+        <a href="#" onclick="window.location='<%=urlNext%>';">Ir al inicio</a>
+        <%
+            }
+
+            for (int z = inicia; z < finaliza; z++) {
+                SWBResourceURL urlNext = paramRequest.getRenderUrl();
+                urlNext.setParameter("ppage", "" + z);
+                if (null != wsid) {
+                    urlNext.setParameter("wsid", wsid);
+                }
+                if (null != mpage) {
+                    urlNext.setParameter("mpage", mpage);
+                }
+
+                if (z != p) {
+        %>
+        <a href="#" onclick="window.location='<%=urlNext%>';"><%=(z + 1)%></a>
+        <%
+        } else {
+        %>
+        <%=(z + 1) + " "%>
+        <%
                 }
             }
-            l=x;
-            x-=e;
+            if (pages > 10) {
+                SWBResourceURL urlNext = paramRequest.getRenderUrl();
+                urlNext.setParameter("ppage", "" + (pages - 1));
+                if (null != wsid) {
+                    urlNext.setParameter("wsid", wsid);
+                }
+                if (null != mpage) {
+                    urlNext.setParameter("mpage", mpage);
+                }
         %>
-    </ul>
-</div>
-        <div class="paginar">
-                <p>
-                    <%
-                        if ((p > 0 || x < l))// && (paramRequest.getCallMethod() == SWBParamRequest.Call_CONTENT)) //Requiere paginacion
-                        {
+        <a href="#" onclick="window.location='<%=urlNext%>';">Ir al final</a>
+        <%
+                }
+            }
+        %>
+    </p></div>
+    <%
+    } else if (wsid != null) {
 
-                            int pages = (int) (l / ps);
-                            if ((l % ps) > 0) {
-                                pages++;
-                            }
+        // con wsid != null
 
-                            //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        //System.out.println("===================================================================");
+        WorkSpace workSpace = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
 
-                            int inicia = 0;
-                            int finaliza = pages;
+        intSize = SWBUtils.Collections.sizeOf(workSpace.listTiles());
+        Iterator<Tile> ittil = workSpace.listTiles();
 
-                            int rangoinicial = p - 5;
-                            int rangofinal = p + 5;
-                            if (pages <= 10) {
-                                inicia = 0;
-                                finaliza = pages;
-                            } else {
-                                if (rangoinicial < 0) {
-                                    inicia = 0;
-                                    finaliza = Math.abs(rangoinicial) + rangofinal;
-                                } else if (rangofinal > pages) {
-                                    inicia = pages - 10;
-                                    finaliza = pages;
-                                } else {
-                                    inicia = rangoinicial;
-                                    finaliza = rangofinal;
-                                }
-                            }
+        if (workSpace != null) {
+            int usrlevel = 0;
 
-                            if (pages > 10) {
-                                SWBResourceURL urlNext = paramRequest.getRenderUrl();
-                                urlNext.setParameter("ppage", "" + 0);
-                                if (null != wsid) {
-                                    urlNext.setParameter("wsid", wsid);
-                                }
-                                if (null != mpage) {
-                                    urlNext.setParameter("mpage", mpage);
-                                }
+            Member wsmember = hmmem.get(workSpace);
+            if (wsmember != null) {
+                usrlevel = MyShelf.getLevelMember(wsmember);
+            }
 
-                                %>
-                                <a href="#" onclick="window.location='<%=urlNext%>';">Ir al inicio</a>
-                                <%
-                            }
+            SWBResourceURL urlupdate = paramRequest.getActionUrl();
+            urlupdate.setAction(SWBResourceURL.Action_EDIT);
+            urlupdate.setMode(SWBResourceURL.Mode_VIEW);
+            urlupdate.setCallMethod(SWBResourceURL.Call_CONTENT);
 
-                            for (int z = inicia; z < finaliza; z++) {
-                                SWBResourceURL urlNext = paramRequest.getRenderUrl();
-                                urlNext.setParameter("ppage", "" + z);
-                                if (null != wsid) {
-                                    urlNext.setParameter("wsid", wsid);
-                                }
-                                if (null != mpage) {
-                                    urlNext.setParameter("mpage", mpage);
-                                }
+            boolean editMode = Boolean.FALSE;
+            String formMode = SWBFormMgr.MODE_VIEW;
 
-                                if (z != p) {
-                                    %>
-                                 <a href="#" onclick="window.location='<%=urlNext%>';"><%=(z + 1)%></a>
-                                <%
-                                } else {
-                                    %>
-                                            <%=(z + 1)+ " "%>
-                                   <%
-                               }
-                            }
-                            if (pages > 10) {
-                                SWBResourceURL urlNext = paramRequest.getRenderUrl();
-                                urlNext.setParameter("ppage", "" + (pages - 1));
-                                if (null != wsid) {
-                                    urlNext.setParameter("wsid", wsid);
-                                }
-                                if (null != mpage) {
-                                    urlNext.setParameter("mpage", mpage);
-                                }
-                                %>
-                                <a href="#" onclick="window.location='<%=urlNext%>';">Ir al final</a>
-                                <%
-                            }
-                        }
-                    %>
-                </p></div>
-<%
-} else if (wsid != null) {
+            if (usrlevel == 4) {
+                editMode = Boolean.TRUE;
+                formMode = SWBFormMgr.MODE_EDIT;
+            }
 
-    // con wsid != null
+            SWBFormMgr frmgr = new SWBFormMgr(workSpace.getSemanticObject(), formMode, formMode);
 
-    //System.out.println("===================================================================");
-    WorkSpace workSpace = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
-
-    intSize = SWBUtils.Collections.sizeOf(workSpace.listTiles());
-    Iterator<Tile> ittil = workSpace.listTiles();
-
-    if (workSpace != null) {
-        int usrlevel = 0;
-
-        Member wsmember = hmmem.get(workSpace);
-        if (wsmember != null) {
-            usrlevel = MyShelf.getLevelMember(wsmember);
-        }
-
-        SWBResourceURL urlupdate = paramRequest.getActionUrl();
-        urlupdate.setAction(SWBResourceURL.Action_EDIT);
-        urlupdate.setMode(SWBResourceURL.Mode_VIEW);
-        urlupdate.setCallMethod(SWBResourceURL.Call_CONTENT);
-
-        boolean editMode = Boolean.FALSE;
-        String formMode = SWBFormMgr.MODE_VIEW;
-
-        if (usrlevel == 4) {
-            editMode = Boolean.TRUE;
-            formMode = SWBFormMgr.MODE_EDIT;
-        }
-
-        SWBFormMgr frmgr = new SWBFormMgr(workSpace.getSemanticObject(), formMode, formMode);
-
-        frmgr.clearProperties();
-        frmgr.addProperty(Descriptiveable.swb_title);
-        frmgr.addProperty(Descriptiveable.swb_description);
-        frmgr.addProperty(Tagable.swb_tags);
-        frmgr.addProperty(Activeable.swb_active);
-        frmgr.addProperty(Traceable.swb_created);
-        frmgr.addProperty(Traceable.swb_creator);
-        frmgr.addProperty(Traceable.swb_modifiedBy);
-        frmgr.addProperty(Traceable.swb_updated);
-        frmgr.addProperty(WorkSpace.conorg_hasTopic);
-        if (null != wsid) {
-            frmgr.addHiddenParameter("wsid", wsid);
-        }
-        frmgr.setType(SWBFormMgr.TYPE_DOJO);
-        frmgr.setAction(urlupdate.toString());
-        frmgr.setLang("es");
-        String boton = "";
-        if (editMode) {
-            boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + "';return false;\">Cancelar</button>";
-            frmgr.addButton(boton);
-            frmgr.addButton(SWBFormButton.newSaveButton());
-        } else {
-            boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + "';return false;\">Regresar</button>";
-            frmgr.addButton(boton);
-        }
-%>        
-<%=frmgr.renderForm(request)%>  
-<%
-%>
+            frmgr.clearProperties();
+            frmgr.addProperty(Descriptiveable.swb_title);
+            frmgr.addProperty(Descriptiveable.swb_description);
+            frmgr.addProperty(Tagable.swb_tags);
+            //frmgr.addProperty(Activeable.swb_active);
+            frmgr.addProperty(Traceable.swb_created);
+            frmgr.addProperty(Traceable.swb_creator);
+            frmgr.addProperty(Traceable.swb_modifiedBy);
+            frmgr.addProperty(Traceable.swb_updated);
+            frmgr.addProperty(WorkSpace.conorg_hasTopic);
+            if (null != wsid) {
+                frmgr.addHiddenParameter("wsid", wsid);
+            }
+            //frmgr.setType(SWBFormMgr.TYPE_DOJO);
+            frmgr.setAction(urlupdate.toString());
+            frmgr.setLang("es");
+            String boton = "";
+            if (editMode) {
+                boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + "';return false;\">Cancelar</button>";
+                frmgr.addButton(boton);
+                boton = "<button dojoType=\"dijit.form.Button\" type=\"submit\" >Guardar</button>";
+                frmgr.addButton(boton); //SWBFormButton.newSaveButton()
+            } else {
+                boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + "';return false;\">Regresar</button>";
+                frmgr.addButton(boton);
+            }
+    %>        
+    <%=frmgr.renderForm(request)%>  
 <div>
-    <div>
 
+    <div id="participantes<%=wsid%>" dojoType="dijit.TitlePane" title="Participantes" class="admViewProperties" open="false" duration="150" minSize_="20" splitter_="true" region="bottom">
         <%
             Iterator<Member> itme = workSpace.listMembers();
 
             itme = workSpace.listMembers();
             if (usrlevel >= 3) {
         %>
-        <div><fieldset><legend>Participantes</legend>
-                <table>
-                    <tbody>
-                        <%
-                            String ajaxUrl = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(MyShelf.Mode_AJAX).toString() + "?wsid=" + wsid + "&mode=member";
-                            while (itme.hasNext()) {
-                                Member mem = itme.next();
-                                String membername = mem.getUser().getFullName();
-                                String mbrtype = mem.getMemberType();
 
-                                SWBResourceURL urldel = paramRequest.getActionUrl();
-                                urldel.setAction("delmember");
-                                urldel.setParameter("wsid", wsid);
-                                urldel.setParameter("usrid", mem.getUser().getId());
-                                urldel.setParameter("mbruri", mem.getURI());
-                                urldel.setParameter("mbrid", mem.getId());
-                        %>
-                        <tr>
-                            <td>
-                                <span class="icv-borrar">
-                                    <a href="#" onclick="if(confirm('¿Deseas eliminar este participante?')){window.location='<%=urldel%>';}">B&nbsp;</a>
-                                </span>
-                            </td>
-                            <td><%=membername%></td>
-                            <%
-                            SWBResourceURL urlupdmbr = paramRequest.getActionUrl();
-                            urlupdmbr.setAction("updmbr");
-                            urlupdmbr.setParameter("wsid", wsid);
-                            urlupdmbr.setParameter("usrid", mem.getUser().getId());
-                            urlupdmbr.setParameter("mbrid", mem.getId()); 
-                            String options ="onchange=\"window.location='"+urlupdmbr.toString()+"&mbrtype='+this.value;return false;\"";
-                            String strSelect = MyShelf.getSelecTypeMember(mbrtype, options);
-                            %>
-                            <td><%=strSelect%></td>
-                        </tr>
+        <div>
+            <%
 
-                        <%
-                            }
-                        %>
-                    </tbody>
-                </table>
-            </fieldset>
+
+                HashMap<User, Member> hmusrmbr = new HashMap<User, Member>();
+                Iterator<Member> itmbr = workSpace.listMembers();
+                while (itmbr.hasNext()) {
+                    Member mbr = itmbr.next();
+                    hmusrmbr.put(mbr.getUser(), mbr);
+                }
+
+                SWBResourceURL urlupdmbr = paramRequest.getActionUrl();
+                urlupdmbr.setAction("addmember");
+                urlupdmbr.setMode(SWBResourceURL.Mode_VIEW);
+                urlupdmbr.setCallMethod(SWBResourceURL.Call_CONTENT);
+
+            %>
             <script type="text/javascript">
                 <!--
-                dojo.require("dijit.layout.ContentPane");
-                dojo.require("dijit.form.Form");
-                dojo.require("dijit.form.Select");
-                dojo.require("dijit.form.ValidationTextBox");
-                dojo.require("dijit.form.Button");
-                dojo.require("dijit.form.NumberTextBox");
-
-                              
+  
                 function loadForm2(urlval){
                     getHtml(urlval, "mgrmbr",true, true);
                 }
@@ -656,69 +632,175 @@ Author     : rene.jara
                 }
                 -->
             </script>
-            <fieldset>
-                <form  dojoType="dijit.form.Form" id="form1mbr" name="form1mbr" method="post" dojoType="dijit.form.Form" action="">
-                    <button dojoType="dijit.for.Button" type="button" onclick="loadForm2('<%=ajaxUrl%>');">Añadir participante</button>
-                </form>
-                <div id="mgrmbr">
-                    <form  id="form2mbr" name="form2mbr" method="post" action="">
-                        <input type="hidden" name="wsid" value="<%=wsid%>"/>
-                        <input type="hidden" name="usrid" >
-                        <input type="hidden" name="mbrtype" >
-                    </form>
-                </div>
-            </fieldset>
+            <form  dojoType="dijit.form.Form" id="form2mbr" name="form2mbr" method="post" action="<%=urlupdmbr%>">
+                <input type="hidden" name="wsid" value="<%=wsid%>"/>
+                <label for="usrid">Añadir participante:</label>
+                <select name="usrid" dojoType="dijit.form.FilteringSelect">
+                    <option value="-1">Selecciona....</option>
+                    <%
+                        Iterator<User> itusr = wsite.getUserRepository().listUsers();
+                        itusr = SWBComparator.sortSermanticObjects(new orderByFullName(), itusr);
+
+                        while (itusr.hasNext()) {
+                            User user = itusr.next();
+                            if (hmusrmbr.get(user) != null) {
+                                continue;
+                            }
+
+                    %>
+                    <option value="<%=user.getId()%>"><%=user.getFullName()%></option>
+                    <%
+                        }
+                    %>
+                </select>
+                <label for="mbrtype">Tipo:</label>
+                <select dojoType="dijit.form.FilteringSelect" name="mbrtype" >
+                    <option value="-1">Selecciona....</option>
+                    <option value="No miembro">No miembro</option>
+                    <option value="Invitado">Invitado</option>
+                    <option value="Miembro">Miembro</option>
+                    <option value="Coordinador">Coordinador</option>
+                    <option value="Administrador">Administrador</option>
+                </select>
+                <button dojoType="dijit.form.Button" onclick="enviar2();return false;">Agregar</button>
+            </form>
+
+            <table class="conorg-table estante-vista">
+
+                <thead>
+                    <tr>
+
+                        <th class="titulo" >Miembro</th>
+                        <th class="tema" >Tipo membresía</th>
+                        <th class="accion">&nbsp;</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <%
+                        String ajaxUrl = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(MyShelf.Mode_AJAX).toString() + "?wsid=" + wsid + "&mode=member";
+                        while (itme.hasNext()) {
+                            Member mem = itme.next();
+                            String membername = mem.getUser().getFullName();
+                            String mbrtype = mem.getMemberType();
+
+                            SWBResourceURL urldel = paramRequest.getActionUrl();
+                            urldel.setAction("delmember");
+                            urldel.setParameter("wsid", wsid);
+                            urldel.setParameter("usrid", mem.getUser().getId());
+                            urldel.setParameter("mbruri", mem.getURI());
+                            urldel.setParameter("mbrid", mem.getId());
+                    %>
+                    <tr>
+                        
+                        <td><%=membername%></td>
+                        <%
+                            SWBResourceURL urlupdmbr2 = paramRequest.getActionUrl();
+                            urlupdmbr2.setAction("updmbr");
+                            urlupdmbr2.setParameter("wsid", wsid);
+                            urlupdmbr2.setParameter("usrid", mem.getUser().getId());
+                            urlupdmbr2.setParameter("mbrid", mem.getId());
+                            String options = "id=\"" + mem.getId() + "\" onchange=\"window.location='" + urlupdmbr2.toString() + "&mbrtype='+this.value;return false;\"";
+                            String strSelect = MyShelf.getSelecTypeMember(mbrtype, options);
+                        %>
+                        <td><%=strSelect%></td>
+                        <td>
+                            <span class="icv-borrar">
+                                <a href="#" onclick="if(confirm('¿Deseas eliminar este participante?')){window.location='<%=urldel%>';}">B&nbsp;</a>
+                            </span>
+                        </td>
+                    </tr>
+
+                    <%
+                        }
+                    %>
+                </tbody>
+            </table>
+
         </div>
         <%
 
         } else {
         %>
-        <div>Participante:
-            <ul>
-                <%
-                    while (itme.hasNext()) {
-                        Member mem = itme.next();
+        <div>
+            <table><tbody>
+                    <%
+                        while (itme.hasNext()) {
+                            Member mem = itme.next();
 
-                %>
-                <li>
-                    <%=mem.getUser().getFullName() + " - " + mem.getMemberType()%>
-                </li>
-                <%
-                    }
-                %>
-            </ul>
+                    %>
+                    <tr>
+                        <td>
+                            <%=mem.getUser().getFullName() + " - " + mem.getMemberType()%>
+                        </td>
+                    </tr>
+                    <%
+                        }
+                    %>
+                </tbody>
+            </table>
         </div>
+
         <%
             }
+        %>
+        <script type="dojo/method" event="postCreate" args="" >
+            if(!this.open){
+            this.hideNode.style.display=this.wipeNode.style.display="none";
+            }
+            this._setCss();
+            dojo.setSelectable(this.titleNode,false);
+            dijit.setWaiState(this.containerNode,"labelledby",this.titleNode.id);
+            dijit.setWaiState(this.focusNode,"haspopup","true");
+            var _1=this.hideNode,_2=this.wipeNode;
+            this._wipeIn=dojo.fx.wipeIn({
+            node:this.wipeNode,
+            duration:this.duration,
+            beforeBegin:function(){
+            _1.style.display="";
+            },
+            onEnd:function(){
+            //alert("open");
+            dijit.byId("leftSplit").layout();
+            }
+            });
+            this._wipeOut=dojo.fx.wipeOut({
+            node:this.wipeNode,
+            duration:this.duration,
+            onEnd:function(){
+            _1.style.display="none";
+            //alert("close");");
+            dijit.byId("leftSplit").layout();
+            }
+            });
+            //this.inherited(arguments);
+        </script>
+    </div>
+    <div id="azulejos<%=wsid%>" dojoType="dijit.TitlePane" title="Azulejos" class="admViewProperties" open="true" duration="150" minSize_="20" splitter_="true" region="bottom">
+        <%
             if (usrlevel < 2) {
                 Iterator<Tile> itti = workSpace.listTiles();
         %>
-        <div>Azulejos:
-            <ul>
+
+        <div>
+            <table>
                 <%
                     while (itti.hasNext()) {
                         Tile tile = itti.next();
                 %>
-                <li>
-                    <%=tile.getTitle()%>
-                </li>
+                <tr>
+                    <td class="<%=MyShelf.getClassIconTile(tile)%>">
+                        <%=tile.getTitle()%>
+                    </td>
+                </tr>
                 <%
                     }
                 %>
-            </ul>
+            </table>
         </div>
         <%
         } else if (usrlevel >= 2) {
         %>
-        <%//@include file="tiles.jsp" %>
-
-        <%--
-    Document   : view Recurso MyShelf
-    Created on : 19/06/2012
-    Author     : juan.fernandez
-        --%>
-
-        <!DOCTYPE html>
         <div id="conorg-data">
             <%
 
@@ -727,31 +809,98 @@ Author     : rene.jara
 
                     wpconfig = isShelf ? wsite.getWebPage(base.getAttribute("wpshelf", wpage.getId())) : wsite.getWebPage(base.getAttribute("wpworkspace", wpage.getId()));
 
-                    SWBResourceURLImp urladd = new SWBResourceURLImp(request, base, wpconfig, SWBResourceURLImp.UrlType_RENDER);
+                    SWBResourceURL urladd = paramRequest.getActionUrl();
+                    urladd.setAction(SWBResourceURL.Action_ADD);
 
-                    //SWBResourceURLImp urladd = paramRequest.getRenderUrl();
-                    urladd.setParameter("act", SWBResourceURL.Action_ADD);
-                    if (request.getParameter("wsid") != null) {
-                        urladd.setParameter("wsid", request.getParameter("wsid"));
+                    HashMap<String, SemanticClass> hmscdocs = new HashMap<String, SemanticClass>();
+                    HashMap<String, SemanticClass> hmsctile = new HashMap<String, SemanticClass>();
+                    Iterator<SemanticClass> itsc = Document.conorg_Document.listSubClasses();
+                    while (itsc.hasNext()) {
+                        SemanticClass sc = itsc.next();
+                        hmscdocs.put(sc.getURI(), sc);
                     }
+                    itsc = Tile.conorg_Tile.listSubClasses();
+                    while (itsc.hasNext()) {
+                        SemanticClass sc = itsc.next();
+                        if (hmscdocs.get(sc.getURI()) == null && !sc.getURI().equals(Document.conorg_Document.getURI())) {
+                            hmsctile.put(sc.getURI(), sc);
+                        }
+                    }
+            %>         
+            <script type="text/javascript">
+                <!--
 
-            %>
+                function enviar(valor) {
+                    //alert("onsubmit("+encodeURI(valor)+")");
+                    var objd=dijit.byId(encodeURI(valor));
+                    if(objd.validate())
+                    {
+                        return true;
+                    }else {
+                        alert("Datos incompletos o erroneos");
+                    }
+                    return false;
+                }
+                
+                function loadForm(urlval){
+                    getHtml(urlval, "mgrform",true, true);
+                }
+    
+                -->
+            </script>
+            <form  id="form1sc" name="form1ct" method="post" dojoType="dijit.form.Form" action="<%=urladd%>">
+                <%
+                    if (request.getParameter("wsid") != null) {
+                %>
+                <input type="hidden" name="wsid" value="<%=request.getParameter("wsid")%>"/>
+                <%
+                    }
+                %> 
 
-            <div id="conorg-add">
-                <form dojoType="dijit.form.Form" action="<%=urladd%>" method="post">
-                    <button dojoType="dijit.form.Button" type="submit" id="addButton" name="addButton">Añadir Elemento</button>
-                </form>
+                <label for="">Tipo de elemento tile(azulejo) a añadir:</label>
+                <select name="classid" _onchange="loadForm('<%//=ajaxUrl%>&classid='+this.value)" >
+                    <option value="-1">Selecciona....</option>
+                    <optgroup title="Documento" label="Documento">
+                        <%
+                            itsc = hmscdocs.values().iterator();
+                            while (itsc.hasNext()) {
+                                SemanticClass sc = itsc.next();
+                        %>
+                        <option value="<%=sc.getURI()%>"><%=sc.getDisplayName("es")%></option>
+                        <%
+                            }
+                        %>
+                    </optgroup>
+                    <%
+                        itsc = hmsctile.values().iterator();
+                        while (itsc.hasNext()) {
+                            SemanticClass sc = itsc.next();
+                    %>
+                    <option value="<%=sc.getURI()%>"><%=sc.getDisplayName("es")%></option>
+                    <%
+                        }
+                    %>
+                </select>
+                &nbsp;Título: <input type="text" name="elemTitle"/>
+                <button dojoType="dijit.form.Button" type="submit">Agregar</button>
+            </form>
+            <div id="classform">
+                <span id="mgrform">
+                    &nbsp;
+                </span>
             </div>
 
-            <table class="conorg-table">
+            <table class="conorg-table estante-vista">
 
                 <thead>
                     <tr>
-                        <th width="10%" >&nbsp;</th>
-                        <th width="25%" >Título</th>
-                        <th width="25%" >Fecha</th>
-                        <th width="20%" >Tipo</th>
-                        <th width="20%" >Tema</th>
+
+                        <th class="titulo" >Título</th>
+                        <th class="fecha" >Fecha</th>
+                        <th class="tipo" >Tipo</th>
+                        <th class="tema" >Tema</th>
+                        <th class="accion">&nbsp;</th>
+
                     </tr>
                 </thead>
 
@@ -848,28 +997,41 @@ Author     : rene.jara
                             if (request.getParameter("wsid") != null) {
                                 urledit.setParameter("wsid", request.getParameter("wsid"));
                             }
-                    %>
-                    <tr>
-                        <td>
-                            <% if (usrlevel >= 2) {
-                                    if (usrlevel == 4 || usr.equals(tile.getCreator())) {
-                            %>
-                            <span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">B&nbsp;</a></span>
-                            <%  } else {
-                                    out.println("-&nbsp;");
-                                }%>   
-                            <span class="icv-editar"><a href="#" onclick="window.location='<%=urledit%>';">E&nbsp;</a></span></td>
 
-                        <%
-
-                            } else {
-                                out.println("-&nbsp;-&nbsp;");
+                            SWBResourceURLImp urlshare = new SWBResourceURLImp(request, base, wpconfig, SWBResourceURLImp.UrlType_RENDER);
+                            //SWBResourceURL urledit = paramRequest.getRenderUrl();
+                            urlshare.setParameter("act", "share");
+                            urlshare.setParameter("id", tile.getId());
+                            urlshare.setParameter("suri", tile.getURI());
+                            if (request.getParameter("wsid") != null) {
+                                urlshare.setParameter("wsid", request.getParameter("wsid"));
                             }
-                        %>
-                        <td><%=strTitle%></td>
+                    %>
+
+                    <tr>
+
+                        <td class="<%=MyShelf.getClassIconTile(tile)%>"><%=strTitle%></td>
                         <td><%=strDate%></td>
                         <td><%=strType%></td>
                         <td><%=strTopic%></td>
+                        <td>
+                            <% if (usrlevel >= 2) {
+                            %>
+                            <span class="icv-compartir"><a href="#" title="compartir" onclick="window.location='<%=urlshare%>';">C&nbsp;</a></span>
+                            <span class="icv-editar"><a href="#" onclick="window.location='<%=urledit%>';">E&nbsp;</a></span>
+                            <%
+                                if (usrlevel == 4 || usr.equals(tile.getCreator())) {
+                            %>
+                            <span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">B&nbsp;</a></span>
+                            <%  } else {
+                                        out.println("<span class=\"icv-vacio\"></span>");
+                                    }
+
+                                } else {
+                                    out.println("<span class=\"icv-vacio\"></span><span class=\"icv-vacio\"></span><span class=\"icv-vacio\"></span>");
+                                }
+                            %>
+                        </td>
 
                     </tr>
                     <%
@@ -986,11 +1148,11 @@ Author     : rene.jara
             %>         
             <script type="text/javascript">
                 <!--
-                dojo.require("dijit.layout.ContentPane");
-                dojo.require("dijit.form.Form");
-                dojo.require("dijit.form.ValidationTextBox");
-                dojo.require("dijit.form.Button");
-                dojo.require("dijit.form.NumberTextBox");
+                //dojo.require("dijit.layout.ContentPane");
+                //dojo.require("dijit.form.Form");
+                //dojo.require("dijit.form.ValidationTextBox");
+                //dojo.require("dijit.form.Button");
+                //dojo.require("dijit.form.NumberTextBox");
 
                 //var objff=dijit.byId('fechafin');
                 // dojo.mixin(objff.constraints, {min: dijit.byId("fechaini").attr("value")});
@@ -1013,8 +1175,8 @@ Author     : rene.jara
     
                 -->
             </script>
-            <h3><%=wptitle%></h3>
-            <form  dojoType="dijit.form.Form" id="form1sc" name="form1ct" method="post" dojoType="dijit.form.Form" action="<%=urladd%>">
+            <!-- h3>< % =wptitle%></h3 -->
+            <form  dojoType="dijit.form.Form" id="form1sc" name="form1sc" method="post" dojoType="dijit.form.Form" action="<%=urladd%>">
                 <label for="">Tipo de elemento tile(azulejo) a añadir:</label>
                 <select name="sclass" onchange="loadForm('<%=ajaxUrl%>&classid='+this.value)" >
                     <option value="-1">Selecciona....</option>
@@ -1067,11 +1229,11 @@ Author     : rene.jara
             %>  
             <script type="text/javascript">
                 <!--
-                dojo.require("dijit.layout.ContentPane");
-                dojo.require("dijit.form.Form");
-                dojo.require("dijit.form.ValidationTextBox");
-                dojo.require("dijit.form.Button");
-                dojo.require("dijit.form.NumberTextBox");
+                //dojo.require("dijit.layout.ContentPane");
+                //dojo.require("dijit.form.Form");
+                //dojo.require("dijit.form.ValidationTextBox");
+                //dojo.require("dijit.form.Button");
+                //dojo.require("dijit.form.NumberTextBox");
 
                 function enviar() {
                     var objd=dijit.byId('form2ct');
@@ -1086,7 +1248,7 @@ Author     : rene.jara
                 }
                 -->
             </script>
-            <h3><%=wptitle%></h3>
+            <!-- h3>< % =wptitle%></h3 -->
             <%
                 SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
                 SemanticObject so = ont.getSemanticObject(suri);
@@ -1108,14 +1270,16 @@ Author     : rene.jara
                     if (null != wsid) {
                         frmgr.addHiddenParameter("wsid", wsid);
                     }
-                    frmgr.setType(SWBFormMgr.TYPE_DOJO);
+                    //frmgr.setType(SWBFormMgr.TYPE_DOJO);
                     frmgr.setLang("es");
 
                     if (usrlevel == 4 || usr.equals(tile.getCreator())) {
                         frmgr.setAction(urlupdate.toString());
                         boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Cancelar</button>";
                         frmgr.addButton(boton);
-                        frmgr.addButton(SWBFormButton.newSaveButton());
+                        boton = "<button dojoType=\"dijit.form.Button\" type=\"submit\">Guardar</button>";
+                        frmgr.addButton(boton);
+                        //frmgr.addButton(SWBFormButton.newSaveButton());
                     } else {
                         boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Regresar</button>";
                         frmgr.addButton(boton);
@@ -1296,66 +1460,62 @@ Author     : rene.jara
                             out.println("</form>");
                             out.println("</div>");
 
-
                         }
-
 
                     }
                 }
             %>
 
         </div>
-        /////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
+        <script type="dojo/method" event="postCreate" args="" >
+            if(!this.open){
+            this.hideNode.style.display=this.wipeNode.style.display="none";
+            }
+            this._setCss();
+            dojo.setSelectable(this.titleNode,false);
+            dijit.setWaiState(this.containerNode,"labelledby",this.titleNode.id);
+            dijit.setWaiState(this.focusNode,"haspopup","true");
+            var _1=this.hideNode,_2=this.wipeNode;
+            this._wipeIn=dojo.fx.wipeIn({
+            node:this.wipeNode,
+            duration:this.duration,
+            beforeBegin:function(){
+            _1.style.display="";
+            },
+            onEnd:function(){
+            //alert("open");
+            dijit.byId("leftSplit").layout();
+            }
+            });
+            this._wipeOut=dojo.fx.wipeOut({
+            node:this.wipeNode,
+            duration:this.duration,
+            onEnd:function(){
+            _1.style.display="none";
+            //alert("close");");
+            dijit.byId("leftSplit").layout();
+            }
+            });
+            //this.inherited(arguments);
+        </script>
     </div>
+    <%
+        }
+    %>
+
 </div>
 <%
-            }
         }
     }
 %>
+<%!
+    class orderByFullName implements Comparator<org.semanticwb.model.User> {
 
-<%! 
-String getSelecTypeMember(String membertype,String options) {
-StringBuffer ret  = null;
-        ret.append("<select name=\"mbrtype\" "+options+">");
-        ret.append("<option value=\""+MyShelf.USRLEVEL_NO_MIEMBRO+"\"");
-        if (membertype.equals(MyShelf.USRLEVEL_NO_MIEMBRO)) {
-            ret.append("selected");
-        } 
-        ret.append(">"+MyShelf.USRLEVEL_NO_MIEMBRO+"</option>");
-        ret.append("<option value=\""+MyShelf.USRLEVEL_INVITADO+"\"");
-        if (membertype.equals(MyShelf.USRLEVEL_INVITADO)) {
-            ret.append("selected");
-        } 
-        ret.append(">"+MyShelf.USRLEVEL_INVITADO+"</option>");
-        ret.append("<option value=\""+MyShelf.USRLEVEL_MIEMBRO+"\"");
-        if (membertype.equals(MyShelf.USRLEVEL_MIEMBRO)) {
-            ret.append("selected");
-        } 
-        ret.append(">"+MyShelf.USRLEVEL_MIEMBRO+"</option>");
-        ret.append("<option value=\""+MyShelf.USRLEVEL_COORDINADOR+"\"");
-        if (membertype.equals(MyShelf.USRLEVEL_COORDINADOR)) {
-            ret.append("selected");
-        } 
-        ret.append(">"+MyShelf.USRLEVEL_COORDINADOR+"</option>");
-        ret.append("<option value=\""+MyShelf.USRLEVEL_ADMINISTRADOR+"\"");
-        if (membertype.equals(MyShelf.USRLEVEL_ADMINISTRADOR)) {
-            ret.append("selected");
+        public int compare(org.semanticwb.model.User u1, org.semanticwb.model.User u2) {
+            String n1, n2;
+            n1 = u1.getFullName();
+            n2 = u2.getFullName();
+            return n1.compareTo(n2);
         }
-        ret.append(">"+MyShelf.USRLEVEL_ADMINISTRADOR+"</option>");
-        ret.append("</select>");
-        
-        System.out.print(ret.toString());
-        
-        
-        return ret.toString();
-               }
-
-
+    }
 %>
