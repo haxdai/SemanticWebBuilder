@@ -190,10 +190,22 @@ public class MyShelf extends GenericAdmResource {
 
             if (classid != null) {
                 try {
+                    SemanticObject nso = null;
                     SemanticObject sobj = ont.getSemanticObject(classid);
                     SemanticClass scls = sobj.transformToSemanticClass();
-                    frmgr = new SWBFormMgr(scls, wsite.getSemanticObject().getModel().getModelObject(), SWBFormMgr.MODE_CREATE);
-                    SemanticObject nso = frmgr.processForm(request);
+                    String strTitle = request.getParameter("elemTitle");
+                    if (strTitle != null && SWBResourceURL.Action_ADD.equals(action)) {
+                        if (scls.isAutogenId()) {
+                            long lid = wsite.getSemanticObject().getModel().getCounter(scls);
+                            String str_lid = "" + lid;
+                            nso = wsite.getSemanticObject().getModel().createSemanticObject(wsite.getSemanticObject().getModel().getObjectUri(str_lid, scls), scls);
+                            nso.setProperty(Descriptiveable.swb_title, strTitle);
+                        }
+                    } else {
+                        frmgr = new SWBFormMgr(scls, wsite.getSemanticObject().getModel().getModelObject(), SWBFormMgr.MODE_CREATE);
+                        nso = frmgr.processForm(request);
+                    }
+
                     if (nso != null) {
                         if (isShelf) {
                             Shelf myshelf = Shelf.ClassMgr.getShelf(usr.getId(), wsite);
@@ -212,29 +224,29 @@ public class MyShelf extends GenericAdmResource {
 
                             if (nso.createGenericInstance() instanceof WorkSpace) {
                                 //System.out.println("Creando workspace");
-//                                System.out.println("Creando miembro del ws");
+                                //                                System.out.println("Creando miembro del ws");
                                 Member member = Member.ClassMgr.createMember(wsite);
                                 member.setUser(usr);
                                 member.setMemberType(USRLEVEL_ADMINISTRADOR);
                                 member.setWorkspace((WorkSpace) nso.createGenericInstance());
 
-//                                System.out.println("Agregando Membre al workSpace ....");
+                                //                                System.out.println("Agregando Membre al workSpace ....");
                                 ((WorkSpace) nso.createGenericInstance()).addMember(member);
                                 response.setRenderParameter("wsid", ((WorkSpace) nso.createGenericInstance()).getId());
                                 response.setAction("");
                                 response.setRenderParameter("act", "");
                                 //response.setRenderParameter("id", nso.getURI());
                                 //response.setRenderParameter("suri", nso.getURI());
-//                                System.out.println(".... member agregado");
+                                //                                System.out.println(".... member agregado");
                             } else {
 
-//                                System.out.println("Agregando azulejo al WorkSpace");
+                                //                                System.out.println("Agregando azulejo al WorkSpace");
                                 // agregar el tile al workspace
                                 WorkSpace workSpace = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
                                 if (null != workSpace) {
 
                                     workSpace.addTile((Tile) (nso.createGenericInstance()));
-//                                    System.out.println("Tile added.....");
+                                    //                                    System.out.println("Tile added.....");
                                 }
                                 response.setAction(SWBActionResponse.Action_EDIT);
                                 response.setRenderParameter("act", SWBActionResponse.Action_EDIT);
@@ -246,6 +258,7 @@ public class MyShelf extends GenericAdmResource {
                             }
                         }
                     }
+                    //}
                     msg = "Se creó " + classid.substring(classid.indexOf("#") + 1) + " satisfactoriamente.";
                 } catch (Exception e) {
                     log.error("Error al agregar el elemento", e);
@@ -262,10 +275,10 @@ public class MyShelf extends GenericAdmResource {
                     SemanticClass scls = sobj.getSemanticClass();
                     classid = scls.getClassId();
                     frmgr = new SWBFormMgr(sobj, SWBFormMgr.MODE_EDIT, SWBFormMgr.MODE_EDIT);
-                    
+
                     GenericObject gobj = sobj.createGenericInstance();
-                    
-                    if(gobj instanceof WorkSpace){
+
+                    if (gobj instanceof WorkSpace) {
                         frmgr.clearProperties();
                         frmgr.addProperty(Descriptiveable.swb_title);
                         frmgr.addProperty(Descriptiveable.swb_description);
@@ -277,8 +290,12 @@ public class MyShelf extends GenericAdmResource {
                         frmgr.addProperty(Traceable.swb_updated);
                         frmgr.addProperty(WorkSpace.conorg_hasTopic);
                     }
-                    
+
                     SemanticObject nso = frmgr.processForm(request);
+                    
+                    System.out.println("Resumen: "+request.getParameter("documentAbstract"));
+                    
+                    
                     if (nso.createGenericInstance() instanceof WorkSpace) {
                         wsid = ((WorkSpace) nso.createGenericInstance()).getId();
                         response.setRenderParameter("act", "");
@@ -383,8 +400,8 @@ public class MyShelf extends GenericAdmResource {
             }
         } else if ("delmember".equals(action)) {
             WorkSpace ws = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
-            
-            
+
+
             String mbrid = request.getParameter("mbrid");
             Member mbr = Member.ClassMgr.getMember(mbrid, wsite);
             String usrid = request.getParameter("usrid");
@@ -415,24 +432,24 @@ public class MyShelf extends GenericAdmResource {
         } else if ("updmbr".equals(action)) {
             WorkSpace ws = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
             //System.out.println("update member tipo-miembro "+ws.getId());
-            
+
             String mbrid = request.getParameter("mbrid");
             String mbrtype = request.getParameter("mbrtype");
             Member mbr = Member.ClassMgr.getMember(mbrid, wsite);
-            
-            if (ws!=null&&mbr != null) {
+
+            if (ws != null && mbr != null) {
                 //System.out.println("ws !=null y mbr!=null");
                 int intadmin = 0;
                 Iterator<Member> itmbr = ws.listMembers();
                 while (itmbr.hasNext()) {
                     Member member = itmbr.next();
-                    if (member!=null&&member.getMemberType() != null && getLevelMember(member) == 4) {
+                    if (member != null && member.getMemberType() != null && getLevelMember(member) == 4) {
                         intadmin++;
                     }
                 }
-                if ((getLevelMember(mbr) == 4 && intadmin > 1 && !mbrtype.equals(MyShelf.USRLEVEL_ADMINISTRADOR)) || (getLevelMember(mbr)<4)) { // se puede eliminar el miembro 
+                if ((getLevelMember(mbr) == 4 && intadmin > 1 && !mbrtype.equals(MyShelf.USRLEVEL_ADMINISTRADOR)) || (getLevelMember(mbr) < 4)) { // se puede eliminar el miembro 
                     mbr.setMemberType(mbrtype);
-                    
+
                     response.setRenderParameter("alertmsg", "Se actualió correctamente el tipo de miembro.");
                     response.setRenderParameter("wsid", wsid);
                 } else if ((getLevelMember(mbr) == 4 && intadmin == 1)) {
@@ -639,8 +656,8 @@ public class MyShelf extends GenericAdmResource {
     public static int getLevelMember(Member member) {
         int usrlvl = 0;
 
-        if(member.getMemberType()==null) {
-            usrlvl=0;
+        if (member.getMemberType() == null) {
+            usrlvl = 0;
         } else if (member.getMemberType().equals(USRLEVEL_NO_MIEMBRO)) {
             usrlvl = 0;
         } else if (member.getMemberType().equals(USRLEVEL_INVITADO)) {
@@ -655,45 +672,44 @@ public class MyShelf extends GenericAdmResource {
 
         return usrlvl;
     }
-    
-    public static String getSelecTypeMember(String membertype,String options) {
-        StringBuffer ret  = new StringBuffer();
-        ret.append("<select dojoType=\"dijit.form.FilteringSelect\" name=\"mbrtype\" "+options+">");
-        ret.append("<option value=\""+USRLEVEL_MIEMBRO+"\"");
+
+    public static String getSelecTypeMember(String membertype, String options) {
+        StringBuffer ret = new StringBuffer();
+        ret.append("<select dojoType=\"dijit.form.FilteringSelect\" name=\"mbrtype\" " + options + ">");
+        ret.append("<option value=\"" + USRLEVEL_MIEMBRO + "\"");
         if (membertype.equals(USRLEVEL_NO_MIEMBRO)) {
             ret.append("selected");
-        } 
-        ret.append(">"+USRLEVEL_NO_MIEMBRO+"</option>");
-        ret.append("<option value=\""+USRLEVEL_INVITADO+"\"");
+        }
+        ret.append(">" + USRLEVEL_NO_MIEMBRO + "</option>");
+        ret.append("<option value=\"" + USRLEVEL_INVITADO + "\"");
         if (membertype.equals(USRLEVEL_INVITADO)) {
             ret.append("selected");
-        } 
-        ret.append(">"+USRLEVEL_INVITADO+"</option>");
-        ret.append("<option value=\""+USRLEVEL_MIEMBRO+"\"");
+        }
+        ret.append(">" + USRLEVEL_INVITADO + "</option>");
+        ret.append("<option value=\"" + USRLEVEL_MIEMBRO + "\"");
         if (membertype.equals(USRLEVEL_MIEMBRO)) {
             ret.append("selected");
-        } 
-        ret.append(">"+USRLEVEL_MIEMBRO+"</option>");
-        ret.append("<option value=\""+USRLEVEL_COORDINADOR+"\"");
+        }
+        ret.append(">" + USRLEVEL_MIEMBRO + "</option>");
+        ret.append("<option value=\"" + USRLEVEL_COORDINADOR + "\"");
         if (membertype.equals(USRLEVEL_COORDINADOR)) {
             ret.append("selected");
-        } 
-        ret.append(">"+USRLEVEL_COORDINADOR+"</option>");
-        ret.append("<option value=\""+USRLEVEL_ADMINISTRADOR+"\"");
+        }
+        ret.append(">" + USRLEVEL_COORDINADOR + "</option>");
+        ret.append("<option value=\"" + USRLEVEL_ADMINISTRADOR + "\"");
         if (membertype.equals(USRLEVEL_ADMINISTRADOR)) {
             ret.append("selected");
         }
-        ret.append(">"+USRLEVEL_ADMINISTRADOR+"</option>");
+        ret.append(">" + USRLEVEL_ADMINISTRADOR + "</option>");
         ret.append("</select>");
-        
+
         //System.out.print(ret.toString());
-        
-        
+
+
         return ret.toString();
     }
-    
-    
-    public static String getClassIconTile(Tile tile){
+
+    public static String getClassIconTile(Tile tile) {
         String ret = "doc";
         if (tile instanceof Contact) {
             ret = "con";
@@ -726,6 +742,6 @@ public class MyShelf extends GenericAdmResource {
         } else if (tile instanceof Document) {
             ret = "doc";
         }
-        return ret;            
+        return ret;
     }
 }
