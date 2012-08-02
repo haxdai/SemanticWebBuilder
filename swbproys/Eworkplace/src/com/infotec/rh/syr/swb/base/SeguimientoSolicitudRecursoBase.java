@@ -18,10 +18,17 @@ public abstract class SeguimientoSolicitudRecursoBase extends com.infotec.eworkp
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaValidaPresupuesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaValidaPresupuesto");
     public static final org.semanticwb.platform.SemanticProperty intranet_altaPresupuesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#altaPresupuesto");
     public static final org.semanticwb.platform.SemanticProperty intranet_notaValidaDirector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#notaValidaDirector");
+   /**
+   * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
+   */
+    public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
+    public static final org.semanticwb.platform.SemanticProperty intranet_encargadoValidaPresupuesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#encargadoValidaPresupuesto");
     public static final org.semanticwb.platform.SemanticProperty intranet_validaAP=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#validaAP");
     public static final org.semanticwb.platform.SemanticProperty intranet_autorizaDirector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#autorizaDirector");
     public static final org.semanticwb.platform.SemanticProperty intranet_archivoSuficiencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#archivoSuficiencia");
     public static final org.semanticwb.platform.SemanticProperty intranet_notaConsultaPresupuesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#notaConsultaPresupuesto");
+    public static final org.semanticwb.platform.SemanticProperty intranet_fechaAutorizaFinanzas=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaAutorizaFinanzas");
+    public static final org.semanticwb.platform.SemanticProperty intranet_encargadoAutorizaFinanzas=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#encargadoAutorizaFinanzas");
     public static final org.semanticwb.platform.SemanticProperty intranet_validaPresupuesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#validaPresupuesto");
     public static final org.semanticwb.platform.SemanticProperty intranet_modificarSolicitud=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#modificarSolicitud");
     public static final org.semanticwb.platform.SemanticProperty intranet_notaOtraConsulta=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#notaOtraConsulta");
@@ -157,6 +164,29 @@ public abstract class SeguimientoSolicitudRecursoBase extends com.infotec.eworkp
             return it;
         }
        /**
+       * Gets all com.infotec.rh.syr.swb.SeguimientoSolicitudRecurso with a determined EncargadoValidaPresupuesto
+       * @param value EncargadoValidaPresupuesto of the type org.semanticwb.model.User
+       * @param model Model of the com.infotec.rh.syr.swb.SeguimientoSolicitudRecurso
+       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoSolicitudRecurso
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoSolicitudRecurso> listSeguimientoSolicitudRecursoByEncargadoValidaPresupuesto(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoSolicitudRecurso> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_encargadoValidaPresupuesto, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.SeguimientoSolicitudRecurso with a determined EncargadoValidaPresupuesto
+       * @param value EncargadoValidaPresupuesto of the type org.semanticwb.model.User
+       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoSolicitudRecurso
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoSolicitudRecurso> listSeguimientoSolicitudRecursoByEncargadoValidaPresupuesto(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoSolicitudRecurso> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_encargadoValidaPresupuesto,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all com.infotec.rh.syr.swb.SeguimientoSolicitudRecurso with a determined Creator
        * @param value Creator of the type org.semanticwb.model.User
        * @param model Model of the com.infotec.rh.syr.swb.SeguimientoSolicitudRecurso
@@ -177,6 +207,29 @@ public abstract class SeguimientoSolicitudRecursoBase extends com.infotec.eworkp
         public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoSolicitudRecurso> listSeguimientoSolicitudRecursoByCreator(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoSolicitudRecurso> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.SeguimientoSolicitudRecurso with a determined EncargadoAutorizaFinanzas
+       * @param value EncargadoAutorizaFinanzas of the type org.semanticwb.model.User
+       * @param model Model of the com.infotec.rh.syr.swb.SeguimientoSolicitudRecurso
+       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoSolicitudRecurso
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoSolicitudRecurso> listSeguimientoSolicitudRecursoByEncargadoAutorizaFinanzas(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoSolicitudRecurso> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_encargadoAutorizaFinanzas, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.SeguimientoSolicitudRecurso with a determined EncargadoAutorizaFinanzas
+       * @param value EncargadoAutorizaFinanzas of the type org.semanticwb.model.User
+       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoSolicitudRecurso
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoSolicitudRecurso> listSeguimientoSolicitudRecursoByEncargadoAutorizaFinanzas(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoSolicitudRecurso> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_encargadoAutorizaFinanzas,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -376,6 +429,44 @@ public abstract class SeguimientoSolicitudRecursoBase extends com.infotec.eworkp
     {
         getSemanticObject().setProperty(intranet_notaValidaDirector, value);
     }
+   /**
+   * Sets the value for the property EncargadoValidaPresupuesto
+   * @param value EncargadoValidaPresupuesto to set
+   */
+
+    public void setEncargadoValidaPresupuesto(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_encargadoValidaPresupuesto, value.getSemanticObject());
+        }else
+        {
+            removeEncargadoValidaPresupuesto();
+        }
+    }
+   /**
+   * Remove the value for EncargadoValidaPresupuesto property
+   */
+
+    public void removeEncargadoValidaPresupuesto()
+    {
+        getSemanticObject().removeProperty(intranet_encargadoValidaPresupuesto);
+    }
+
+   /**
+   * Gets the EncargadoValidaPresupuesto
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getEncargadoValidaPresupuesto()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_encargadoValidaPresupuesto);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
 
 /**
 * Gets the ValidaAP property
@@ -447,6 +538,62 @@ public abstract class SeguimientoSolicitudRecursoBase extends com.infotec.eworkp
     public void setNotaConsultaPresupuesto(String value)
     {
         getSemanticObject().setProperty(intranet_notaConsultaPresupuesto, value);
+    }
+
+/**
+* Gets the FechaAutorizaFinanzas property
+* @return java.util.Date with the FechaAutorizaFinanzas
+*/
+    public java.util.Date getFechaAutorizaFinanzas()
+    {
+        return getSemanticObject().getDateProperty(intranet_fechaAutorizaFinanzas);
+    }
+
+/**
+* Sets the FechaAutorizaFinanzas property
+* @param value long with the FechaAutorizaFinanzas
+*/
+    public void setFechaAutorizaFinanzas(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(intranet_fechaAutorizaFinanzas, value);
+    }
+   /**
+   * Sets the value for the property EncargadoAutorizaFinanzas
+   * @param value EncargadoAutorizaFinanzas to set
+   */
+
+    public void setEncargadoAutorizaFinanzas(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_encargadoAutorizaFinanzas, value.getSemanticObject());
+        }else
+        {
+            removeEncargadoAutorizaFinanzas();
+        }
+    }
+   /**
+   * Remove the value for EncargadoAutorizaFinanzas property
+   */
+
+    public void removeEncargadoAutorizaFinanzas()
+    {
+        getSemanticObject().removeProperty(intranet_encargadoAutorizaFinanzas);
+    }
+
+   /**
+   * Gets the EncargadoAutorizaFinanzas
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getEncargadoAutorizaFinanzas()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_encargadoAutorizaFinanzas);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
