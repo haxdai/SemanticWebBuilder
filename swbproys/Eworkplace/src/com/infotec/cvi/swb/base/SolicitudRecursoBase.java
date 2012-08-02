@@ -4,7 +4,7 @@ package com.infotec.cvi.swb.base;
    /**
    * Elemento que contiene la información del perfil del usuario requerido 
    */
-public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,com.infotec.eworkplace.swb.Solicitable
+public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Solicitable,org.semanticwb.model.Traceable
 {
    /**
    * Catálogo utilizado para indicar el grado de avance del Estudio
@@ -82,6 +82,7 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
    */
     public static final org.semanticwb.platform.SemanticClass intranet_CapituloPresupuesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#CapituloPresupuesto");
     public static final org.semanticwb.platform.SemanticProperty intranet_capituloSuficiencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#capituloSuficiencia");
+    public static final org.semanticwb.platform.SemanticProperty intranet_validacionEspecialSolicitud=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#validacionEspecialSolicitud");
     public static final org.semanticwb.platform.SemanticProperty intranet_personalDirecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#personalDirecto");
     public static final org.semanticwb.platform.SemanticProperty intranet_aniosExpertise=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#aniosExpertise");
    /**
@@ -163,29 +164,6 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
             return (getSolicitudRecurso(id, model)!=null);
         }
        /**
-       * Gets all com.infotec.cvi.swb.SolicitudRecurso with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
-       * @param model Model of the com.infotec.cvi.swb.SolicitudRecurso
-       * @return Iterator with all the com.infotec.cvi.swb.SolicitudRecurso
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.SolicitudRecurso> listSolicitudRecursoByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.SolicitudRecurso> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.cvi.swb.SolicitudRecurso with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
-       * @return Iterator with all the com.infotec.cvi.swb.SolicitudRecurso
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.SolicitudRecurso> listSolicitudRecursoByModifiedBy(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.SolicitudRecurso> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all com.infotec.cvi.swb.SolicitudRecurso with a determined Avance
        * @param value Avance of the type com.infotec.cvi.swb.Avance
        * @param model Model of the com.infotec.cvi.swb.SolicitudRecurso
@@ -206,6 +184,29 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
         public static java.util.Iterator<com.infotec.cvi.swb.SolicitudRecurso> listSolicitudRecursoByAvance(com.infotec.cvi.swb.Avance value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.SolicitudRecurso> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_avance,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.SolicitudRecurso with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * @param model Model of the com.infotec.cvi.swb.SolicitudRecurso
+       * @return Iterator with all the com.infotec.cvi.swb.SolicitudRecurso
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.SolicitudRecurso> listSolicitudRecursoByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.SolicitudRecurso> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.SolicitudRecurso with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * @return Iterator with all the com.infotec.cvi.swb.SolicitudRecurso
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.SolicitudRecurso> listSolicitudRecursoByModifiedBy(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.SolicitudRecurso> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -587,44 +588,6 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
         super(base);
     }
    /**
-   * Sets the value for the property ModifiedBy
-   * @param value ModifiedBy to set
-   */
-
-    public void setModifiedBy(org.semanticwb.model.User value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(swb_modifiedBy, value.getSemanticObject());
-        }else
-        {
-            removeModifiedBy();
-        }
-    }
-   /**
-   * Remove the value for ModifiedBy property
-   */
-
-    public void removeModifiedBy()
-    {
-        getSemanticObject().removeProperty(swb_modifiedBy);
-    }
-
-   /**
-   * Gets the ModifiedBy
-   * @return a org.semanticwb.model.User
-   */
-    public org.semanticwb.model.User getModifiedBy()
-    {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_modifiedBy);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
    * Sets the value for the property Avance
    * @param value Avance to set
    */
@@ -659,6 +622,44 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
          if(obj!=null)
          {
              ret=(com.infotec.cvi.swb.Avance)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Sets the value for the property ModifiedBy
+   * @param value ModifiedBy to set
+   */
+
+    public void setModifiedBy(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(swb_modifiedBy, value.getSemanticObject());
+        }else
+        {
+            removeModifiedBy();
+        }
+    }
+   /**
+   * Remove the value for ModifiedBy property
+   */
+
+    public void removeModifiedBy()
+    {
+        getSemanticObject().removeProperty(swb_modifiedBy);
+    }
+
+   /**
+   * Gets the ModifiedBy
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getModifiedBy()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_modifiedBy);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
          }
          return ret;
     }
@@ -1025,6 +1026,24 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
     {
         getSemanticObject().setProperty(intranet_extensionSolicitante, value);
     }
+
+/**
+* Gets the FuncionPrincipal property
+* @return String with the FuncionPrincipal
+*/
+    public String getFuncionPrincipal()
+    {
+        return getSemanticObject().getProperty(intranet_funcionPrincipal);
+    }
+
+/**
+* Sets the FuncionPrincipal property
+* @param value long with the FuncionPrincipal
+*/
+    public void setFuncionPrincipal(String value)
+    {
+        getSemanticObject().setProperty(intranet_funcionPrincipal, value);
+    }
    /**
    * Sets the value for the property UsuarioAutoriza
    * @param value UsuarioAutoriza to set
@@ -1062,24 +1081,6 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
          }
          return ret;
-    }
-
-/**
-* Gets the FuncionPrincipal property
-* @return String with the FuncionPrincipal
-*/
-    public String getFuncionPrincipal()
-    {
-        return getSemanticObject().getProperty(intranet_funcionPrincipal);
-    }
-
-/**
-* Sets the FuncionPrincipal property
-* @param value long with the FuncionPrincipal
-*/
-    public void setFuncionPrincipal(String value)
-    {
-        getSemanticObject().setProperty(intranet_funcionPrincipal, value);
     }
    /**
    * Sets the value for the property HabilidadTalento
@@ -1332,24 +1333,6 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
     {
         getSemanticObject().setDateProperty(intranet_fechaSolicita, value);
     }
-
-/**
-* Gets the Updated property
-* @return java.util.Date with the Updated
-*/
-    public java.util.Date getUpdated()
-    {
-        return getSemanticObject().getDateProperty(swb_updated);
-    }
-
-/**
-* Sets the Updated property
-* @param value long with the Updated
-*/
-    public void setUpdated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_updated, value);
-    }
    /**
    * Sets the value for the property ProyectoAsignado
    * @param value ProyectoAsignado to set
@@ -1387,6 +1370,24 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
              ret=(com.infotec.eworkplace.swb.Proyecto)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the Updated property
+* @return java.util.Date with the Updated
+*/
+    public java.util.Date getUpdated()
+    {
+        return getSemanticObject().getDateProperty(swb_updated);
+    }
+
+/**
+* Sets the Updated property
+* @param value long with the Updated
+*/
+    public void setUpdated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_updated, value);
     }
 
 /**
@@ -1746,6 +1747,24 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
              ret=(com.infotec.rh.syr.swb.CapituloPresupuesto)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the ValidacionEspecialSolicitud property
+* @return boolean with the ValidacionEspecialSolicitud
+*/
+    public boolean isValidacionEspecialSolicitud()
+    {
+        return getSemanticObject().getBooleanProperty(intranet_validacionEspecialSolicitud);
+    }
+
+/**
+* Sets the ValidacionEspecialSolicitud property
+* @param value long with the ValidacionEspecialSolicitud
+*/
+    public void setValidacionEspecialSolicitud(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(intranet_validacionEspecialSolicitud, value);
     }
 
 /**
