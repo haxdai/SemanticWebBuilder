@@ -4,7 +4,7 @@ package com.infotec.eworkplace.swb.base;
    /**
    * Encapsula las propiedades relacionadas con un proyecto del ProjectServer 
    */
-public abstract class ProyectoBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class ProyectoBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_nombreContacto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nombreContacto");
     public static final org.semanticwb.platform.SemanticProperty intranet_telefonoContacto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#telefonoContacto");
