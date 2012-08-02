@@ -261,24 +261,6 @@ public abstract class ReservacionSalaBase extends org.semanticwb.model.SWBClass 
     }
 
 /**
-* Gets the RequiereCafeSoluble property
-* @return boolean with the RequiereCafeSoluble
-*/
-    public boolean isRequiereCafeSoluble()
-    {
-        return getSemanticObject().getBooleanProperty(intranet_requiereCafeSoluble);
-    }
-
-/**
-* Sets the RequiereCafeSoluble property
-* @param value long with the RequiereCafeSoluble
-*/
-    public void setRequiereCafeSoluble(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(intranet_requiereCafeSoluble, value);
-    }
-
-/**
 * Gets the Created property
 * @return java.util.Date with the Created
 */
@@ -294,6 +276,24 @@ public abstract class ReservacionSalaBase extends org.semanticwb.model.SWBClass 
     public void setCreated(java.util.Date value)
     {
         getSemanticObject().setDateProperty(swb_created, value);
+    }
+
+/**
+* Gets the RequiereCafeSoluble property
+* @return boolean with the RequiereCafeSoluble
+*/
+    public boolean isRequiereCafeSoluble()
+    {
+        return getSemanticObject().getBooleanProperty(intranet_requiereCafeSoluble);
+    }
+
+/**
+* Sets the RequiereCafeSoluble property
+* @param value long with the RequiereCafeSoluble
+*/
+    public void setRequiereCafeSoluble(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(intranet_requiereCafeSoluble, value);
     }
 
 /**
@@ -425,24 +425,6 @@ public abstract class ReservacionSalaBase extends org.semanticwb.model.SWBClass 
     }
 
 /**
-* Gets the Autoriza property
-* @return String with the Autoriza
-*/
-    public String getAutoriza()
-    {
-        return getSemanticObject().getProperty(intranet_autoriza);
-    }
-
-/**
-* Sets the Autoriza property
-* @param value long with the Autoriza
-*/
-    public void setAutoriza(String value)
-    {
-        getSemanticObject().setProperty(intranet_autoriza, value);
-    }
-
-/**
 * Gets the TipoCafeteria property
 * @return String with the TipoCafeteria
 */
@@ -458,6 +440,24 @@ public abstract class ReservacionSalaBase extends org.semanticwb.model.SWBClass 
     public void setTipoCafeteria(String value)
     {
         getSemanticObject().setProperty(intranet_tipoCafeteria, value);
+    }
+
+/**
+* Gets the Autoriza property
+* @return String with the Autoriza
+*/
+    public String getAutoriza()
+    {
+        return getSemanticObject().getProperty(intranet_autoriza);
+    }
+
+/**
+* Sets the Autoriza property
+* @param value long with the Autoriza
+*/
+    public void setAutoriza(String value)
+    {
+        getSemanticObject().setProperty(intranet_autoriza, value);
     }
 
 /**

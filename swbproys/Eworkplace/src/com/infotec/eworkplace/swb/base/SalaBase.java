@@ -123,24 +123,6 @@ public abstract class SalaBase extends org.semanticwb.model.SWBClass implements 
     }
 
 /**
-* Gets the TieneProyector property
-* @return boolean with the TieneProyector
-*/
-    public boolean isTieneProyector()
-    {
-        return getSemanticObject().getBooleanProperty(intranet_tieneProyector);
-    }
-
-/**
-* Sets the TieneProyector property
-* @param value long with the TieneProyector
-*/
-    public void setTieneProyector(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(intranet_tieneProyector, value);
-    }
-
-/**
 * Gets the Active property
 * @return boolean with the Active
 */
@@ -156,6 +138,24 @@ public abstract class SalaBase extends org.semanticwb.model.SWBClass implements 
     public void setActive(boolean value)
     {
         getSemanticObject().setBooleanProperty(swb_active, value);
+    }
+
+/**
+* Gets the TieneProyector property
+* @return boolean with the TieneProyector
+*/
+    public boolean isTieneProyector()
+    {
+        return getSemanticObject().getBooleanProperty(intranet_tieneProyector);
+    }
+
+/**
+* Sets the TieneProyector property
+* @param value long with the TieneProyector
+*/
+    public void setTieneProyector(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(intranet_tieneProyector, value);
     }
 
 /**
