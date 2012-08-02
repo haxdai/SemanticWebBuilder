@@ -8,12 +8,12 @@ public abstract class SeguimientoSolicitudPromocionBase extends com.infotec.ewor
     public static final org.semanticwb.platform.SemanticProperty intranet_modificaSolicitudPromocion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#modificaSolicitudPromocion");
     public static final org.semanticwb.platform.SemanticProperty intranet_notaValidaPresupuestoPromocion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#notaValidaPresupuestoPromocion");
     public static final org.semanticwb.platform.SemanticProperty intranet_validaAPPromocion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#validaAPPromocion");
-    public static final org.semanticwb.platform.SemanticProperty intranet_validaPresupuestosPromocion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#validaPresupuestosPromocion");
    /**
    * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
    */
     public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
     public static final org.semanticwb.platform.SemanticProperty intranet_encargadoValidaPresupuestoPromocion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#encargadoValidaPresupuestoPromocion");
+    public static final org.semanticwb.platform.SemanticProperty intranet_validaPresupuestosPromocion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#validaPresupuestosPromocion");
     public static final org.semanticwb.platform.SemanticProperty intranet_notaValidaSuficienciaAPPromocion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#notaValidaSuficienciaAPPromocion");
     public static final org.semanticwb.platform.SemanticProperty intranet_requiereConsultarSuficiencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#requiereConsultarSuficiencia");
     public static final org.semanticwb.platform.SemanticProperty intranet_otraConsultaSuficienciaPromocion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#otraConsultaSuficienciaPromocion");
@@ -316,24 +316,6 @@ public abstract class SeguimientoSolicitudPromocionBase extends com.infotec.ewor
     {
         getSemanticObject().setBooleanProperty(intranet_validaAPPromocion, value);
     }
-
-/**
-* Gets the ValidaPresupuestosPromocion property
-* @return boolean with the ValidaPresupuestosPromocion
-*/
-    public boolean isValidaPresupuestosPromocion()
-    {
-        return getSemanticObject().getBooleanProperty(intranet_validaPresupuestosPromocion);
-    }
-
-/**
-* Sets the ValidaPresupuestosPromocion property
-* @param value long with the ValidaPresupuestosPromocion
-*/
-    public void setValidaPresupuestosPromocion(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(intranet_validaPresupuestosPromocion, value);
-    }
    /**
    * Sets the value for the property EncargadoValidaPresupuestoPromocion
    * @param value EncargadoValidaPresupuestoPromocion to set
@@ -371,6 +353,24 @@ public abstract class SeguimientoSolicitudPromocionBase extends com.infotec.ewor
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the ValidaPresupuestosPromocion property
+* @return boolean with the ValidaPresupuestosPromocion
+*/
+    public boolean isValidaPresupuestosPromocion()
+    {
+        return getSemanticObject().getBooleanProperty(intranet_validaPresupuestosPromocion);
+    }
+
+/**
+* Sets the ValidaPresupuestosPromocion property
+* @param value long with the ValidaPresupuestosPromocion
+*/
+    public void setValidaPresupuestosPromocion(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(intranet_validaPresupuestosPromocion, value);
     }
 
 /**
