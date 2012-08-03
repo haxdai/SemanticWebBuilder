@@ -998,9 +998,9 @@ Author     : rene.jara
                                 urledit.setParameter("wsid", request.getParameter("wsid"));
                             }
 
-                            SWBResourceURLImp urlshare = new SWBResourceURLImp(request, base, wpconfig, SWBResourceURLImp.UrlType_RENDER);
+                            SWBResourceURLImp urlshare = new SWBResourceURLImp(request, base, wpconfig, SWBResourceURLImp.UrlType_ACTION);
                             //SWBResourceURL urledit = paramRequest.getRenderUrl();
-                            urlshare.setParameter("act", "share");
+                            urlshare.setAction("copy2shelf");
                             urlshare.setParameter("id", tile.getId());
                             urlshare.setParameter("suri", tile.getURI());
                             if (request.getParameter("wsid") != null) {
@@ -1017,12 +1017,12 @@ Author     : rene.jara
                         <td>
                             <% if (usrlevel >= 2) {
                             %>
-                            <span class="icv-compartir"><a href="#" title="compartir" onclick="window.location='<%=urlshare%>';">C&nbsp;</a></span>
+                            <span class="icv-compartir"><a href="#" title="copiar referencia al estante" onclick="if(confirm('¿Deseas copiarlo a tú estante?')){window.location='<%=urlshare%>';} else return false;">C&nbsp;</a></span>
                             <span class="icv-editar"><a href="#" onclick="window.location='<%=urledit%>';">E&nbsp;</a></span>
                             <%
                                 if (usrlevel == 4 || usr.equals(tile.getCreator())) {
                             %>
-                            <span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">B&nbsp;</a></span>
+                            <span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';} else return false;">B&nbsp;</a></span>
                             <%  } else {
                                         out.println("<span class=\"icv-vacio\"></span>");
                                     }
@@ -1500,7 +1500,7 @@ Author     : rene.jara
         </script>
     </div>
     <%
-        }
+        } 
     %>
 
 </div>
@@ -1509,7 +1509,7 @@ Author     : rene.jara
     }
 %>
 <%!
-    class orderByFullName implements Comparator<org.semanticwb.model.User> {
+    class orderByFullName implements Comparator<org.semanticwb.model.User> { 
 
         public int compare(org.semanticwb.model.User u1, org.semanticwb.model.User u2) {
             String n1, n2;
