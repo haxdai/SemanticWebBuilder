@@ -292,10 +292,10 @@ public class MyShelf extends GenericAdmResource {
                     }
 
                     SemanticObject nso = frmgr.processForm(request);
-                    
-                    System.out.println("Resumen: "+request.getParameter("documentAbstract"));
-                    
-                    
+
+                    System.out.println("Resumen: " + request.getParameter("documentAbstract"));
+
+
                     if (nso.createGenericInstance() instanceof WorkSpace) {
                         wsid = ((WorkSpace) nso.createGenericInstance()).getId();
                         response.setRenderParameter("act", "");
@@ -460,6 +460,68 @@ public class MyShelf extends GenericAdmResource {
                 response.setRenderParameter("alertmsg", "Datos inválidos y/o incompletos, no se recibieron parámetros válidos.");
                 response.setRenderParameter("wsid", wsid);
             }
+        } else if (action.equals("share")) {
+            //workspaceid lista de wrkspcs a los cuales se les compartirá el azulejo
+            //tileuri azulejo que se compartira
+            //contactid lista de usuarios a los cuales se les compartirá el azulejo
+            String[] listwrkspcs = request.getParameterValues("workspaceid");
+            String[] listcontact = request.getParameterValues("contactid");
+            String tileuri = request.getParameter("tileuri");
+            GenericObject go = ont.getGenericObject(tileuri);
+            GenericObject goparam = null;
+            User usrparam = null;
+            Shelf usrShelf = null;
+            WorkSpace wrkspc = null;
+            if (go != null && go instanceof Tile) {
+                Tile tile = (Tile) go;
+                if (listwrkspcs != null) {
+                    for (int i = 0; i < listwrkspcs.length; i++) {
+                        goparam = ont.getGenericObject(listwrkspcs[i]);
+                        if (goparam != null && goparam instanceof WorkSpace) {
+                            wrkspc = (WorkSpace) goparam;
+                            if(!wrkspc.hasTile(tile)) wrkspc.addTile(tile);
+                        }
+                    }
+                }
+                if (listcontact != null) {
+                    UserRepository userrep = wsite.getUserRepository();
+                    for (int i = 0; i < listcontact.length; i++) {
+                        usrparam = userrep.getUser(listcontact[i]);
+                        if (usrparam != null) {
+                            usrShelf = Shelf.ClassMgr.getShelf(usrparam.getId(), wsite);
+                            if (usrShelf == null && usrparam != null) {
+                                //crear el shelf del usuario al cual se le va a compartir el azulejo
+                                usrShelf = Shelf.ClassMgr.createShelf(usrparam.getId(), wsite);
+                                usrShelf.setOwner(usrparam);
+                            }
+                            if(!usrShelf.hasTile(tile)) usrShelf.addTile(tile);
+                        }
+                    }
+                }
+            }
+
+
+            response.setRenderParameter("act", "");
+        } else if (action.equals("copy2shelf")) {
+            // copiar azulejo del WS al Shelf
+            //workspaceid lista de wrkspcs a los cuales se les compartirá el azulejo
+            //tileuri azulejo que se compartira
+            //contactid lista de usuarios a los cuales se les compartirá el azulejo
+            GenericObject go = ont.getGenericObject(suri);
+            Shelf usrShelf = null;
+            if (go != null && go instanceof Tile) {
+                Tile tile = (Tile) go;
+                usrShelf=Shelf.ClassMgr.getShelf(usr.getId(), wsite);
+                if(usrShelf==null){
+                    usrShelf = Shelf.ClassMgr.createShelf(usr.getId(), wsite);
+                    usrShelf.setOwner(usr);
+                }
+                if(!usrShelf.hasTile(tile)) usrShelf.addTile(tile);
+            }
+
+
+            response.setRenderParameter("act", "");
+            if(wsid!=null)response.setRenderParameter("wsid", wsid);
         }
 
         if (id != null) {
