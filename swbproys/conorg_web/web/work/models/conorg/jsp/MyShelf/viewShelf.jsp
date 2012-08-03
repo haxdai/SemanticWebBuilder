@@ -3,6 +3,11 @@
     Created on : 19/06/2012
     Author     : juan.fernandez
 --%>
+
+<%@page import="com.infotec.conorg.Colleague"%>
+<%@page import="org.semanticwb.model.PropertyGroup"%>
+<%@page import="java.util.TreeSet"%>
+<%@page import="org.semanticwb.platform.SemanticProperty"%>
 <%@page import="org.semanticwb.portal.api.SWBResourceURLImp"%>
 <%@page import="org.semanticwb.portal.api.SWBParamRequest"%>
 <%@page import="org.semanticwb.model.GenericObject"%>
@@ -22,6 +27,7 @@
 <%@page import="com.infotec.conorg.Presentation"%>
 <%@page import="com.infotec.conorg.Document"%>
 <%@page import="com.infotec.conorg.Manual"%>
+<%@page import="com.infotec.conorg.Member"%>
 <%@page import="com.infotec.conorg.Image"%>
 <%@page import="com.infotec.conorg.Book"%>
 <%@page import="com.infotec.conorg.ChapterBook"%>
@@ -118,7 +124,7 @@
         action = "";
     }
 
-    SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", new Locale("es"));
+    SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy hh:mm", new Locale("es"));
 
 
     //String strOrder = "";
@@ -139,8 +145,8 @@
     }
 %>
 <script type="text/javascript">
-            <!--
-            // scan page for widgets and instantiate them
+    <!--
+    // scan page for widgets and instantiate them
     dojo.require("dojo.parser");
     dojo.require("dijit._Calendar");
     dojo.require("dijit.ProgressBar");
@@ -167,8 +173,8 @@
     dojo.require("dijit.form.Select");
     dojo.require("dijit.form.NumberTextBox");
     
-            -->
-        </script>
+    -->
+</script>
 <%
     if (paramRequest.getCallMethod() == SWBParamRequest.Call_STRATEGY) {
 %>
@@ -249,7 +255,7 @@
 
                 wpconfig = isShelf ? wsite.getWebPage(base.getAttribute("wpshelf", wpage.getId())) : wsite.getWebPage(base.getAttribute("wpworkspace", wpage.getId()));
 
-               // SWBResourceURLImp urladd = new SWBResourceURLImp(request, base, wpconfig, SWBResourceURLImp.UrlType_RENDER);
+                // SWBResourceURLImp urladd = new SWBResourceURLImp(request, base, wpconfig, SWBResourceURLImp.UrlType_RENDER);
 
                 //SWBResourceURLImp urladd = paramRequest.getRenderUrl();
                 //urladd.setParameter("act", SWBResourceURL.Action_ADD);
@@ -264,8 +270,8 @@
                 <button dojoType="dijit.form.Button" type="submit" id="addButton" name="addButton">Añadir Elemento</button>
             </form>
         </div -->
-       <%         
-                if (null == wsid) {
+        <%
+            if (null == wsid) {
                 wsid = "";
             }
             //String ajaxUrl = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(MyShelf.Mode_AJAX).toString() + "?wsid=" + wsid + "&mode=tile";
@@ -342,12 +348,12 @@
                 &nbsp;
             </span>
         </div>
-                
+
         <table class="conorg-table estante-vista">
 
             <thead>
                 <tr>
-                    
+
                     <th class="titulo" >Título</th>
                     <th class="fecha" >Fecha</th>
                     <th class="tipo" >Tipo</th>
@@ -459,7 +465,7 @@
                         }
                 %>
                 <tr>
-                    
+
                     <td class="<%=MyShelf.getClassIconTile(tile)%>"><%=strTitle%></td>
                     <td><%=strDate%></td>
                     <td><%=strType%></td>
@@ -648,8 +654,6 @@
 
             SWBFormMgr frmgr = new SWBFormMgr(so, null, SWBFormMgr.MODE_EDIT);
 
-            frmgr.addProperty(VersionInfo.swb_versionComment);
-            frmgr.addProperty(VersionInfo.swb_versionFile);
 
             frmgr.addHiddenParameter("id", suri);
             if (null != wsid) {
@@ -664,9 +668,9 @@
             frmgr.addButton(boton);
             //frmgr.addButton(SWBFormButton.newCancelButton());
             boton = "<button dojoType=\"dijit.form.Button\" type=\"submit\">Guardar</button>";
-                        frmgr.addButton(boton);
+            frmgr.addButton(boton);
             //frmgr.addButton(SWBFormButton.newSaveButton());
-        %>        
+%>        
         <%=frmgr.renderForm(request)%>  
         <%
 
@@ -701,10 +705,10 @@
             }
             -->
         </script>
-        
+
         <%
-        //<h3>< %=wptitle% ></h3>
-    
+            //<h3>< %=wptitle% ></h3>
+
             SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
             SemanticObject so = ont.getSemanticObject(suri);
             out.println("<h4>" + MyShelf.getTileTypeName((Tile) (so.createGenericInstance())) + "</h4>");
@@ -717,8 +721,14 @@
 
                 SWBFormMgr frmgr = new SWBFormMgr(so, null, SWBFormMgr.MODE_EDIT);
 
-                frmgr.addProperty(VersionInfo.swb_versionComment);
-                frmgr.addProperty(VersionInfo.swb_versionFile);
+                HashMap<PropertyGroup, TreeSet> hmgroup = frmgr.getGroups();
+                Iterator<PropertyGroup> itpg = hmgroup.keySet().iterator();
+
+                while (itpg.hasNext()) {
+                    PropertyGroup pg = itpg.next();
+                    out.println(pg.getId() + "<br/>");
+                }
+
 
                 frmgr.addHiddenParameter("id", suri);
                 if (null != wsid) {
@@ -733,193 +743,312 @@
                 frmgr.addButton(boton);
                 //frmgr.addButton(SWBFormButton.newCancelButton());
                 boton = "<button dojoType=\"dijit.form.Button\" type=\"submit\">Guardar</button>";
-                        frmgr.addButton(boton);
+                frmgr.addButton(boton);
         %>        
         <%=frmgr.renderForm(request)%>  
         <%
+
+            if (so.createGenericInstance() instanceof Versionable) {
+                out.println("<h3>Archivo asociado:</h3>");
+                Document doc = null;
+                VersionInfo vl = null;
+                VersionInfo ver = null;
+
+                GenericObject go = so.createGenericInstance();
+                if (go instanceof Document) {
+                    doc = (Document) go;
                 }
-                if (so.createGenericInstance() instanceof Versionable) {
-                    out.println("<h1>Archivo asociado:</h1>");
-                    Document doc = null;
-                    VersionInfo vl = null;
-                    VersionInfo ver = null;
 
-                    GenericObject go = so.createGenericInstance();
-                    if (go instanceof Document) {
-                        doc = (Document) go;
+                if (doc != null) {  //Es documento y versionable
+                    //revisando si existe archivo asociado                            
+                    vl = doc.getLastVersion();
+
+                    if (null != vl) {
+                        ver = vl;
+                        while (ver.getPreviousVersion() != null) { //
+                            ver = ver.getPreviousVersion();
+                        }
                     }
-
-                    if (doc != null) {  //Es documento y versionable
-                        //revisando si existe archivo asociado                            
-                        vl = doc.getLastVersion();
-
-                        if (null != vl) {
-                            ver = vl;
-                            while (ver.getPreviousVersion() != null) { //
-                                ver = ver.getPreviousVersion();
-                            }
-                        }
-                        if (ver != null) {
-                            out.println("<div id=\"ProcessFileRepository\">");
-                            out.println("<table width=\"100%\">");
-                            out.println("<thead>");
-                            out.println("<tr>");
-                            out.println("<td align=\"right\">");
-                            out.println("Archivo:");
-                            out.println("</td>");
-                            out.println("<td>");
-                            out.println(ver.getVersionFile());
-                            out.println("</td>");
-                            out.println("</tr>");
-                            out.println("<tr>");
-                            out.println("<th>");
-                            out.println("&nbsp;");// espacio para liga ver archivo
-                            out.println("</th>");
-                            out.println("<th>");
-                            out.println("Versión");
-                            out.println("</th>");
-                            out.println("<th>");
-                            out.println("Fecha versión");
-                            out.println("</th>");
-                            out.println("<th>");
-                            out.println("Actualizado por");
-                            out.println("</th>");
-                            out.println("<th>");
-                            out.println("Comentario");
-                            out.println("</th>");
-                            out.println("</tr>");
-                            out.println("</thead>");
-                            out.println("<tbody>");
-                            while (ver != null) {
-                                //lista de las versiones del archivo
-
-                                out.println("<tr>");
-                                out.println("<td align=\"center\" >");
-
-                                String file = "";
-                                String type = "";
-
-                                if (ver != null && ver.getVersionFile() != null) {
-                                    file = ver.getVersionFile();
-                                    type = MyShelf.getFileName(file);
-                                }
-
-
-                                if (luser > 0) {
-                                    SWBResourceURL urlview = paramRequest.getRenderUrl();
-                                    urlview.setCallMethod(SWBResourceURL.Call_DIRECT);
-                                    urlview.setParameter("fid", doc.getURI());
-                                    urlview.setMode(MyShelf.MODE_GETFILE);
-                                    urlview.setParameter("verNum", "" + ver.getVersionNumber());
-
-                                    out.println("<a href=\"" + urlview + "\">");
-                                    out.println("<img border=0 src='" + path + "" + type + "' alt=\"" + MyShelf.getFileType(file) + "\" />");
-                                    out.println("</a>");
-                                } else {
-                                    out.println("<img border=0 src='" + path + "" + type + "' alt=\"" + MyShelf.getFileType(file) + "\" />");
-                                }
-
-                                out.println("</td>");
-                                out.println("<td align=\"center\">");
-                                out.println(ver.getVersionValue());
-                                out.println("</td>");
-                                out.println("<td>");
-                                out.println(ver.getCreated() != null ? MyShelf.format.format(ver.getCreated()) : "--");
-                                out.println("</td>");
-                                out.println("<td>");
-                                out.println(ver.getCreator() != null ? ver.getCreator().getFullName() : "--");
-
-                                out.println("</td>");
-                                out.println("<td>");
-                                out.println(ver.getVersionComment() != null ? ver.getVersionComment() : "--");
-
-                                out.println("</td>");
-                                out.println("</tr>");
-
-                                ver = ver.getNextVersion();
-
-                            }
-                            out.println("</tbody>");
-                            out.println("</table>");
-                            out.println("</div>");
-                        }
-
-
-
-                        //No hay archivo asociado al registro; se debe de mostrar forma de captura de archivo
-
-                        SWBResourceURL urlnew = paramRequest.getActionUrl();
-                        urlnew.setAction("newfile");
-                        urlnew.setParameter("id", doc.getURI());
-                        urlnew.setParameter("act", "newfile");
-                        if (null != wsid) {
-                            urlnew.setParameter("wsid", wsid);
-                        }
-
-                        out.println("<script type=\"text/javascript\" >");
-                        out.println("function valida() ");
-                        out.println("{ ");
-                        out.println("   if(document.frmnewdoc.ffile.value=='') ");
-                        out.println("     { ");
-                        out.println("         alert('Defina un archivo'); ");
-                        out.println("         return; ");
-                        out.println("     } ");
-
-                        if (null != vl) {
-                            out.println("   var filename = document.frmnewdoc.ffile.value;");
-                            out.println("   if(filename.indexOf('" + vl.getVersionFile() + "')==-1) ");
-                            out.println("     { ");
-                            out.println("         alert('Archivo seleccionado inválido. Debe ser " + vl.getVersionFile() + "'); ");
-                            out.println("         return; ");
-                            out.println("     } ");
-                        }
-
-                        out.println("   document.frmnewdoc.submit();");
-                        out.println("} ");
-                        out.println("</script>");
-
-                        out.println("<div id=\"ProcessFile\">");
-                        out.println("<form id=\"frmnewdoc\" name=\"frmnewdoc\" method=\"post\" action=\"" + urlnew + "\"  enctype=\"multipart/form-data\" onsubmit=\"valida();return false;\">");
-                        out.println("<input type=\"hidden\" name=\"fid\" value=\"" + doc.getURI() + "\">");
-
-                        out.println("<table>");
-                        out.println("<tbody>");
+                    if (ver != null) {
+                        out.println("<div id=\"ProcessFileRepository\">");
+                        out.println("<table width=\"100%\">");
+                        out.println("<thead>");
                         out.println("<tr>");
-                        out.println("<td align=\"right\">");
-                        out.println("Comentario:");
-                        out.println("</td>");
-                        out.println("<td>");
-                        out.println("<textarea name=\"fcomment\"></textarea>");
-                        out.println("</td>");
-                        //out.println("</tr>");
-
-                        //out.println("<tr>");
                         out.println("<td align=\"right\">");
                         out.println("Archivo:");
                         out.println("</td>");
                         out.println("<td>");
-                        out.println("<input type=\"file\" name=\"ffile\">");
-                        out.println("</td>");
-                        out.println("<td colspan=\"2\" align=\"right\">");
-                        out.println("<button type=\"submit\" >Agregar</button>");
+                        out.println(ver.getVersionFile());
                         out.println("</td>");
                         out.println("</tr>");
+                        out.println("<tr>");
+                        out.println("<th>");
+                        out.println("&nbsp;");// espacio para liga ver archivo
+                        out.println("</th>");
+                        out.println("<th>");
+                        out.println("Versión");
+                        out.println("</th>");
+                        out.println("<th>");
+                        out.println("Fecha versión");
+                        out.println("</th>");
+                        out.println("<th>");
+                        out.println("Actualizado por");
+                        out.println("</th>");
+                        out.println("<th>");
+                        out.println("Comentario");
+                        out.println("</th>");
+                        out.println("</tr>");
+                        out.println("</thead>");
+                        out.println("<tbody>");
+                        while (ver != null) {
+                            //lista de las versiones del archivo
 
-                        out.println("</tbody>");
-                        //out.println("<tfoot>");
-                        //out.println("<tr>");
-                        //out.println("<td colspan=\"2\" align=\"right\">");
-                        //out.println("<button type=\"submit\" >Agregar</button>");
-                        //out.println("</td>");
-                        //out.println("</tr>");
+                            out.println("<tr>");
+                            out.println("<td align=\"center\" >");
+
+                            String file = "";
+                            String type = "";
+
+                            if (ver != null && ver.getVersionFile() != null) {
+                                file = ver.getVersionFile();
+                                type = MyShelf.getFileName(file);
+                            }
+
+
+                            if (luser > 0) {
+                                SWBResourceURL urlview = paramRequest.getRenderUrl();
+                                urlview.setCallMethod(SWBResourceURL.Call_DIRECT);
+                                urlview.setParameter("fid", doc.getURI());
+                                urlview.setMode(MyShelf.MODE_GETFILE);
+                                urlview.setParameter("verNum", "" + ver.getVersionNumber());
+
+                                out.println("<a href=\"" + urlview + "\">");
+                                out.println("<img border=0 src='" + path + "" + type + "' alt=\"" + MyShelf.getFileType(file) + "\" />");
+                                out.println("</a>");
+                            } else {
+                                out.println("<img border=0 src='" + path + "" + type + "' alt=\"" + MyShelf.getFileType(file) + "\" />");
+                            }
+
+                            out.println("</td>");
+                            out.println("<td align=\"center\">");
+                            out.println(ver.getVersionValue());
+                            out.println("</td>");
+                            out.println("<td>");
+                            out.println(ver.getCreated() != null ? MyShelf.format.format(ver.getCreated()) : "--");
+                            out.println("</td>");
+                            out.println("<td>");
+                            out.println(ver.getCreator() != null ? ver.getCreator().getFullName() : "--");
+
+                            out.println("</td>");
+                            out.println("<td>");
+                            out.println(ver.getVersionComment() != null ? ver.getVersionComment() : "--");
+
+                            out.println("</td>");
+                            out.println("</tr>");
+
+                            ver = ver.getNextVersion();
+
+                        }
                         out.println("</tbody>");
                         out.println("</table>");
-                        out.println("</form>");
                         out.println("</div>");
-
-
                     }
 
+                    //No hay archivo asociado al registro; se debe de mostrar forma de captura de archivo
+
+                    SWBResourceURL urlnew = paramRequest.getActionUrl();
+                    urlnew.setAction("newfile");
+                    urlnew.setParameter("id", doc.getURI());
+                    urlnew.setParameter("act", "newfile");
+                    if (null != wsid) {
+                        urlnew.setParameter("wsid", wsid);
+                    }
+
+                    out.println("<script type=\"text/javascript\" >");
+                    out.println("function valida() ");
+                    out.println("{ ");
+                    out.println("   if(document.frmnewdoc.ffile.value=='') ");
+                    out.println("     { ");
+                    out.println("         alert('Defina un archivo'); ");
+                    out.println("         return; ");
+                    out.println("     } ");
+
+                    if (null != vl) {
+                        out.println("   var filename = document.frmnewdoc.ffile.value;");
+                        out.println("   if(filename.indexOf('" + vl.getVersionFile() + "')==-1) ");
+                        out.println("     { ");
+                        out.println("         alert('Archivo seleccionado inválido. Debe ser " + vl.getVersionFile() + "'); ");
+                        out.println("         return; ");
+                        out.println("     } ");
+                    }
+
+                    out.println("   document.frmnewdoc.submit();");
+                    out.println("} ");
+                    out.println("</script>");
+
+                    out.println("<div id=\"ProcessFile\">");
+                    out.println("<form id=\"frmnewdoc\" name=\"frmnewdoc\" method=\"post\" action=\"" + urlnew + "\"  enctype=\"multipart/form-data\" onsubmit=\"valida();return false;\">");
+                    out.println("<input type=\"hidden\" name=\"fid\" value=\"" + doc.getURI() + "\">");
+
+                    out.println("<table>");
+                    out.println("<tbody>");
+                    out.println("<tr>");
+                    out.println("<td align=\"right\">");
+                    out.println("Comentario:");
+                    out.println("</td>");
+                    out.println("<td>");
+                    out.println("<textarea name=\"fcomment\"></textarea>");
+                    out.println("</td>");
+                    //out.println("</tr>");
+
+                    //out.println("<tr>");
+                    out.println("<td align=\"right\">");
+                    out.println("Archivo:");
+                    out.println("</td>");
+                    out.println("<td>");
+                    out.println("<input type=\"file\" name=\"ffile\">");
+                    out.println("</td>");
+                    out.println("<td colspan=\"2\" align=\"right\">");
+                    out.println("<button type=\"submit\" >Agregar</button>");
+                    out.println("</td>");
+                    out.println("</tr>");
+
+                    out.println("</tbody>");
+                    //out.println("<tfoot>");
+                    //out.println("<tr>");
+                    //out.println("<td colspan=\"2\" align=\"right\">");
+                    //out.println("<button type=\"submit\" >Agregar</button>");
+                    //out.println("</td>");
+                    //out.println("</tr>");
+                    out.println("</tbody>");
+                    out.println("</table>");
+                    out.println("</form>");
+                    out.println("</div>");
+                }
+            }
+
+            if (so.createGenericInstance() instanceof Tile) {
+
+                Tile tile = (Tile) so.createGenericInstance();
+                String fcreated = (tile.getCreated() != null ? sdf.format(tile.getCreated()) : "---");
+                String fcreator = (tile.getCreator() != null && tile.getCreator().getFullName() != null ? tile.getCreator().getFullName() : "---");
+                String fmod = (tile.getUpdated() != null ? sdf.format(tile.getUpdated()) : "---");
+                String fusrmod = (tile.getModifiedBy() != null && tile.getModifiedBy().getFullName() != null ? tile.getModifiedBy().getFullName() : "---");
+        %>
+        <p>Creado:     <%=fcreated%>  por <%=fcreator%></p>
+        <p>Modificado: <%=fmod%>  por <%=fusrmod%></p> 
+
+
+        <%
+                }
+            }
+        } else if (action.equals("share")) {
+            SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
+            SemanticObject so = ont.getSemanticObject(suri);
+            //out.println("<h4>" + MyShelf.getTileTypeName((Tile) (so.createGenericInstance())) + "</h4>");
+            Tile tile = so!=null&&so.createGenericInstance() instanceof Tile?(Tile)so.createGenericInstance():null; 
+            if (null != tile) {
+                // membresias del usuario a los diferentes ws
+                Iterator<Member> itmem = Member.ClassMgr.listMemberByUser(usr, wsite);
+                HashMap<WorkSpace, Member> hmmem = new HashMap<WorkSpace, Member>();
+
+                while (itmem.hasNext()) {
+                    Member wsmember = itmem.next();
+                    WorkSpace wspace = wsmember.getWorkspace();
+                    if (wspace != null && wsmember.getUser() != null && usr.equals(wsmember.getUser())) {
+                        //System.out.println(wsmember.getMemberType()+" de: "+wsmember.getWorkspace().getTitle());
+                        int usrlevel = MyShelf.getLevelMember(wsmember);
+                        if (usrlevel > 0) {  //MyShelf.USRLEVEL_NO_MIEMBRO 
+                            hmmem.put(wspace, wsmember);
+
+                            //if (!wspace.hasMember(wsmember)) {
+                            //    wspace.addMember(wsmember);
+                            //}
+                        }
+                    }
+                }
+                String strtitle = tile.getTitle() != null ? tile.getTitle() : "Sín título";
+                String strdesc = tile.getDescription() != null ? tile.getDescription() : "---";
+
+        %>
+        <div> <h3>Compartir azulejo</h3>
+            <div>
+                <%
+                    SWBResourceURL urlback = paramRequest.getRenderUrl();
+                    urlback.setParameter("act", "");
+
+                    Iterator<WorkSpace> itwspace = hmmem.keySet().iterator();
+                    if (itwspace.hasNext()) {
+                        SWBResourceURL urlshare = paramRequest.getActionUrl();
+                        urlshare.setAction("share");
+                        urlshare.setParameter("act", "share");
+                        
+
+                %>
+                <form method="post" action="<%=urlshare%>">
+                    <input type="hidden" name="tileuri" value="<%=suri%>">
+                    <table>
+                        <tr>
+                            <td >Título: </td>
+                            <td class="<%=MyShelf.getClassIconTile(tile)%>"><%=strtitle%></td>
+                            
+                        </tr>
+                        <tr>
+                            <td>Descripción:</td>
+                            <td><%=strdesc%></td>
+                            
+                        </tr>
+                        <tr>
+                            <td><label for="workspaceid">Espacios de trabajo:</label></td>
+                            <td>
+                                <select name="workspaceid" multiple size="5">
+                                    <%
+                                        while (itwspace.hasNext()) {
+                                            WorkSpace wrkspc = itwspace.next();
+                                    %>
+                                    <option value="<%=wrkspc.getURI()%>"><%=wrkspc.getTitle()%></option>
+                                    <%
+                                        }
+                                    %>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="contactid">Contactos:</label></td>
+                            <td>
+                                <select name="contactid" multiple size="5">
+                                    <%
+                                    Colleague colleague = Colleague.ClassMgr.getColleague(usr.getId(), wsite);
+                                    Iterator<User> itcol = colleague.listColleagueses();
+                                        while (itcol.hasNext()) {
+                                            User usrcol = itcol.next();
+                                    %>
+                                    <option value="<%=usrcol.getId()%>"><%=usrcol.getFullName()%></option> 
+                                    <%
+                                        } 
+                                    %>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <button dojoType="dijit.form.Button" type="button" onclick="window.location='<%=urlback%>';return false;">Cancelar</button>
+                                <button dojoType="dijit.form.Button" type="submit" >Compartir</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+                <%
+                } else {
+
+                %>
+                <p>No cuentas con espacios de trabajo para compartir</p>
+                <button dojoType="dijit.form.Button" type="button">Regresar</button>
+                <%                                }
+                %>
+            </div>
+        </div>    
+        <%
 
                 }
             }
