@@ -977,8 +977,12 @@
                     SWBResourceURL urlback = paramRequest.getRenderUrl();
                     urlback.setParameter("act", "");
 
+                    Colleague colleague = Colleague.ClassMgr.getColleague(usr.getId(), wsite);
+                    Iterator<User> itcol = colleague.listColleagueses();
+                    
+                    
                     Iterator<WorkSpace> itwspace = hmmem.keySet().iterator();
-                    if (itwspace.hasNext()) {
+                    if (itwspace.hasNext() || itcol.hasNext()) {
                         SWBResourceURL urlshare = paramRequest.getActionUrl();
                         urlshare.setAction("share");
                         urlshare.setParameter("act", "share");
@@ -1018,8 +1022,7 @@
                             <td>
                                 <select name="contactid" multiple size="5">
                                     <%
-                                    Colleague colleague = Colleague.ClassMgr.getColleague(usr.getId(), wsite);
-                                    Iterator<User> itcol = colleague.listColleagueses();
+                                    
                                         while (itcol.hasNext()) {
                                             User usrcol = itcol.next();
                                     %>
@@ -1042,7 +1045,7 @@
                 } else {
 
                 %>
-                <p>No cuentas con espacios de trabajo para compartir</p>
+                <p>No cuentas con espacios de trabajo para compartir y no tienes colegas en tu directorio.</p>
                 <button dojoType="dijit.form.Button" type="button">Regresar</button>
                 <%                                }
                 %>
