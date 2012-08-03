@@ -4070,6 +4070,13 @@
     <rdfs:domain rdf:resource="#Telefono"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="validacionEspecialSolicitud">
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_validacionEspecialSolicitud">
+        <rdfs:label xml:lang="es">Validación especial</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:required>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
     <rdfs:domain rdf:resource="#SolicitudRecurso"/>
   </owl:DatatypeProperty>
