@@ -471,7 +471,17 @@
                     <td><%=strType%></td>
                     <td><%=strTopic%></td>
                     <td>
+                        <%
+                        if(tile.getCreator().equals(usr)){
+                        %>
                         <span class="icv-compartir"><a href="#" title="compartir" onclick="window.location='<%=urlshare%>';">C&nbsp;</a></span>
+                        <%
+                         } else {
+                        %>
+                        <span class="icv-vacio"></span>
+                        <%
+                         }
+                        %>
                         <span class="icv-editar"><a href="#" title="editar" onclick="window.location='<%=urledit%>';">E&nbsp;</a></span>
                         <span class="icv-borrar"><a href="#" title="borrar" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">B&nbsp;</a></span></td>
 
@@ -718,8 +728,14 @@
                 urlupdate.setMode(SWBResourceURL.Mode_VIEW);
                 urlupdate.setCallMethod(SWBResourceURL.Call_CONTENT);
 
+                String editMode = SWBFormMgr.MODE_VIEW;
+                Tile tile = (Tile) (so.createGenericInstance());
+                if(tile.getCreator()!=null&&tile.getCreator().equals(usr)){
+                    editMode = SWBFormMgr.MODE_EDIT;
+                }
+                
 
-                SWBFormMgr frmgr = new SWBFormMgr(so, null, SWBFormMgr.MODE_EDIT);
+                SWBFormMgr frmgr = new SWBFormMgr(so, null, editMode);
 
                 HashMap<PropertyGroup, TreeSet> hmgroup = frmgr.getGroups();
                 Iterator<PropertyGroup> itpg = hmgroup.keySet().iterator();
@@ -740,10 +756,15 @@
 
                 //frmgr.setOnSubmit("enviar('" + suri + "/form');");
                 String boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Cancelar</button>";
+                if(editMode.equals(SWBFormMgr.MODE_VIEW)){
+                    boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Regresar</button>";
+                }
                 frmgr.addButton(boton);
                 //frmgr.addButton(SWBFormButton.newCancelButton());
+                if(editMode.equals(SWBFormMgr.MODE_EDIT)){
                 boton = "<button dojoType=\"dijit.form.Button\" type=\"submit\">Guardar</button>";
                 frmgr.addButton(boton);
+}
         %>        
         <%=frmgr.renderForm(request)%>  
         <%
@@ -929,7 +950,7 @@
 
             if (so.createGenericInstance() instanceof Tile) {
 
-                Tile tile = (Tile) so.createGenericInstance();
+                tile = (Tile) so.createGenericInstance();
                 String fcreated = (tile.getCreated() != null ? sdf.format(tile.getCreated()) : "---");
                 String fcreator = (tile.getCreator() != null && tile.getCreator().getFullName() != null ? tile.getCreator().getFullName() : "---");
                 String fmod = (tile.getUpdated() != null ? sdf.format(tile.getUpdated()) : "---");
@@ -989,7 +1010,58 @@
                         
 
                 %>
-                <form method="post" action="<%=urlshare%>">
+                <script type="text/javascript">
+                    function shareSelect(forma){
+                       
+                        var valid = false; 
+                        var valid1 = false; 
+                        var hayws = false;
+                        var valid2 = false;
+                        var haycol = false;
+                        <%
+                        // validación si existen workspaces
+                        if(itwspace.hasNext()){
+                        %>
+                            hayws = true;
+                            for(var i = 0; i < forma.workspaceid.options.length; i++) {  
+                                if(forma.workspaceid.options[i].selected) {  
+                                    valid1 = true;  
+                                    break;  
+                                }  
+                            }  
+                        <%
+                        }
+                        // validación si existen colegas
+                        if(itcol.hasNext()){
+                        %>
+                            haycol = true;
+                            for(var i = 0; i < forma.contactid.options.length; i++) {  
+                                if(forma.contactid.options[i].selected) {  
+                                    valid2 = true;  
+                                    break;  
+                                }  
+                            }
+                        <%
+                        }
+                        %>
+                        if(valid1 || valid2){
+                            valid = true;
+                        } else {
+                            if(!valid1&&hayws){
+                                alert('Debes de seleccionar por lo menos un Espacio de trabajo para poder compartir.');                                
+                            }
+                            if(!valid2&&haycol){
+                                alert('Debes de seleccionar por lo menos un colega para poder compartir.');                                
+                            }
+                            valid = false;
+                        }
+                        
+                        return valid;  
+ 
+
+                    }
+                </script>
+                <form method="post" action="<%=urlshare%>" onsubmit="shareSelect(this);">
                     <input type="hidden" name="tileuri" value="<%=suri%>">
                     <table>
                         <tr>
