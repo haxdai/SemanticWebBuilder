@@ -325,13 +325,55 @@ public class MyShelf extends GenericAdmResource {
 
         } else if (SWBResourceURL.Action_REMOVE.equals(action)) {
             //String suri = request.getParameter("suri");
+            // Revisar al momento de eliminar no existan más relaciones con otros objetos
             if (suri != null) {
                 try {
+                    Shelf myshelf = Shelf.ClassMgr.getShelf(usr.getId(), wsite);
+                    WorkSpace wspc = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
                     SemanticObject sobj = ont.getSemanticObject(suri);
+                    SemanticObject sotmp = null;
                     SemanticClass sclass = sobj.getSemanticClass();
                     classid = sclass.getClassName();
-                    sobj.remove();
-                    msg = "Se eliminó " + classid.substring(classid.indexOf("#") + 1) + " satisfactoriamente.";
+                    int relacionados = 0;
+                    Iterator<SemanticObject> itso = sobj.listRelatedObjects();
+                    while(itso.hasNext()){
+                        sotmp = itso.next();
+                        if(isShelf&&myshelf.getSemanticObject().equals(sotmp)){
+                            //System.out.println("relacionado en Mi Shelf, no se cuenta");
+                            continue;
+                        }
+                        if(!isShelf&&wspc!=null&&wspc.getSemanticObject().equals(sotmp)){
+                            //System.out.println("Relacionado en WrkSpc, no se cuenta");
+                            continue;
+                        }
+                        if(sotmp.createGenericInstance() instanceof WorkSpace || sotmp.createGenericInstance() instanceof Shelf){
+                            
+                            relacionados ++;
+                            //System.out.println("Relacionado..."+relacionados);
+                            break;
+                        } 
+                    }
+                    
+                    if(relacionados==0){
+                        sobj.remove();
+                        msg = "Se eliminó " + classid.substring(classid.indexOf("#") + 1) + " satisfactoriamente.";
+                    } else {
+                        //System.out.println("Existen adicionalmente "+relacionados+" elementos relacionados al azulejo");
+                        if(sobj.createGenericInstance() instanceof Tile){
+                            Tile tileremove = (Tile) sobj.createGenericInstance();
+                        
+                            //System.out.println("Eliminando de la lista el azulejo: "+tileremove.getTitle());
+                            if(isShelf){
+                                //System.out.println("Quitando del estante.");
+                                myshelf.removeTile(tileremove); 
+                            } else {
+                                //System.out.println("Quitando del WorkSpace");
+                                wspc.removeTile(tileremove); 
+                            }
+                        }
+                        msg = "Se eliminó " + classid.substring(classid.indexOf("#") + 1) + " de la lista satisfactoriamente.";
+                    }
+                    
                 } catch (Exception e) {
                     log.error("Error al eliminar el elemento", e);
                     msg = "Error al eliminar " + classid.substring(classid.indexOf("#") + 1);
