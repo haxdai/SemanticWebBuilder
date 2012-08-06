@@ -3,6 +3,8 @@
     Created on : 27/06/2012
     Author     : rene.jara
 --%>
+<%@page import="org.semanticwb.portal.api.SWBResourceURL"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="org.semanticwb.SWBUtils"%>
 <%@page import="java.util.Comparator"%>
 <%@page import="java.util.Iterator"%>
@@ -11,115 +13,206 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest" />
 <%
-            WebPage wp = paramRequest.getWebPage();
-            WebSite ws = wp.getWebSite();
+            WebPage wpage = paramRequest.getWebPage();
+            WebSite wsite = wpage.getWebSite();
             User user = paramRequest.getUser();
             String orderby=request.getParameter("ob");
             String url=paramRequest.getRenderUrl().toString();
             org.semanticwb.model.Resource base = paramRequest.getResourceBase();
 
-            long numpag;
+            int numpag;
             try{
-                numpag=Long.parseLong(base.getAttribute("numpag","10"));
+                numpag=Integer.parseInt(base.getAttribute("numpag","10"));
             }catch(Exception ignored){
                 numpag=10;
             }
-            long totpag;
-            long curpag;
-            long currec=0;
+            //long totpag;
+            int curpag;
+            //long currec=0;
             try{
-                curpag=Long.parseLong(request.getParameter("page"));
+                curpag=Integer.parseInt(request.getParameter("page"));
             }catch(Exception ignored){
-                curpag=1;
+                curpag = 0;
             }
-            Iterator<com.infotec.conorg.Topic> ittmp=com.infotec.conorg.Topic.ClassMgr.listTopics(ws);
-            Iterator<com.infotec.conorg.Topic> itto=com.infotec.conorg.Topic.ClassMgr.listTopics(ws);
+            String toid = request.getParameter("toid");
+            if (toid == null || toid.equals("")) {
+            Iterator<com.infotec.conorg.Topic> ittmp=com.infotec.conorg.Topic.ClassMgr.listTopics(wsite);
+            Iterator<com.infotec.conorg.Topic> itto=com.infotec.conorg.Topic.ClassMgr.listTopics(wsite);
             long totrec=SWBUtils.Collections.sizeOf(itto);
-            totpag=(long)Math.floor(totrec/numpag);
+            //totpag=(long)Math.floor(totrec/numpag);
 
-            if((totrec%numpag)>0){
+            /*if((totrec%numpag)>0){
                 totpag++;
+            }*/
+            if(orderby==null||orderby.equals("")){
+                orderby="n";
             }
-            if(orderby!=null&&!orderby.equals("")){
-                if(orderby.equals("n")){
-                    itto=SWBComparator.sortByDisplayName(ittmp,user.getLanguage());
-                }else if(orderby.equals("d")){
-                    itto=SWBComparator.sortSermanticObjects(new orderByDescription(),ittmp);
-                }else{
-                    itto=ittmp;
-                }
+            if(orderby.equals("n")){
+                itto=SWBComparator.sortByDisplayName(ittmp,user.getLanguage());
+            }else if(orderby.equals("d")){
+                itto=SWBComparator.sortSermanticObjects(new orderByDescription(),ittmp);
             }else{
-                itto=ittmp;
+                //itto=ittmp;
+                itto=SWBComparator.sortByDisplayName(ittmp,user.getLanguage());
             }
+            WebPage wptocontent = wsite.getWebPage(base.getAttribute("idwpto", wpage.getId()));
 
 %>
-<div>
+<table class="conorg-table tema-vista">
+<thead>
+    <tr>
     <%
             if(orderby!=null&&orderby.equals("n")){
 %>
-    por nombre
-    <%
+    <th><strong>Nombre</strong></th>
 
-            }else{
+    <%} else {
     %>
-    <a href="<%=url%>?ob=n">por nombre</a>
+    <th><a href="<%=url%>?ob=n">Nombre</a></th>
     <%
 
             }
     if(orderby!=null&&orderby.equals("d")){
 %>
-    por descripcion
-    <%
+    <th><strong>Descripción</strong></th>
 
-            }else{
+    <%} else {
     %>
-    <a href="<%=url%>?ob=d">por descripcion</a>
+    <th><a href="<%=url%>?ob=d">Descripción</a></th>
     <%
 
             }
     %>
-    <ul>
+    </tr>
+</thead>
+<tbody>
         <%
-
+            int ps = numpag;
+            long l = 0;// = intSize;
+            int p = curpag;
+            int e=0;
+            /*if (curpag != null) {
+                p = Integer.parseInt(curpag);
+            } */
+            int x = 0;
          while(itto.hasNext()){
             com.infotec.conorg.Topic topic=itto.next();
-            currec++;
-            if(currec>((curpag-1)*numpag)&&currec<=(curpag*numpag)){
+                    x++;
+                    if(x>(ps*p)&&!(x>(ps*(p+1)))){
             %>
-        <li>
-            <div><%=topic.getTitle()%></div>
-            <div><%=topic.getDescription()%></div>
-        </li>
+        <tr>
+            <td><a href="<%=wptocontent.getUrl()%>?toid=<%=topic.getId()%>"><%=topic.getTitle()%></a></td>
+            <td><%=topic.getDescription()%></td>
+        </tr>
         <%
-            }else if(currec>(curpag*numpag)){
-                break;
-            }
+                 }else if(x>(ps*(p+1))) {
+                        e++;
+                    }
          }
+                        l=x;
+            x-=e;
     %>
-    </ul>
-    <ul>
-<%
-        url+="?";
-        if(orderby!=null&&!orderby.equals("")){
-            url+="ob="+orderby+"&";
-        }
-        url+="page=";
+</tbody>
+</table>
+<div class="paginar">
+                <p>
+                    <%
+                        if ((p > 0 || x < l))// && (paramRequest.getCallMethod() == SWBParamRequest.Call_CONTENT)) //Requiere paginacion
+                        {
 
-    for(int i=1;i<=totpag;i++){
-        if(i==curpag){
-%>
-        <li><%=i%></li>
-<%
-}else{
-%>
-        <li><a href="<%=url+i%>"><%=i%></a></li>
-<%
-}
-}
-%>
+                            int pages = (int) (l / ps);
+                            if ((l % ps) > 0) {
+                                pages++;
+                            }
 
+                            //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+                            int inicia = 0;
+                            int finaliza = pages;
+
+
+                            int rangoinicial = p - 5;
+                            int rangofinal = p + 5;
+                            if (pages <= 10) {
+                                inicia = 0;
+                                finaliza = pages;
+                            } else {
+                                if (rangoinicial < 0) {
+                                    inicia = 0;
+                                    finaliza = Math.abs(rangoinicial) + rangofinal;
+                                } else if (rangofinal > pages) {
+                                    inicia = pages - 10;
+                                    finaliza = pages;
+                                } else {
+                                    inicia = rangoinicial;
+                                    finaliza = rangofinal;
+                                }
+                            }
+
+                            if (pages > 10) {
+                                SWBResourceURL urlNext = paramRequest.getRenderUrl();
+                                urlNext.setParameter("page", "" + 0);
+                                %>
+                                <a href="#" onclick="window.location='<%=urlNext%>';">Ir al inicio</a>
+                                <%
+                            }
+
+                            for (int z = inicia; z < finaliza; z++) {
+                                SWBResourceURL urlNext = paramRequest.getRenderUrl();
+                                urlNext.setParameter("page", "" + z);
+                                if (z != p) {
+                                    %>
+                                 <a href="#" onclick="window.location='<%=urlNext%>';"><%=(z + 1)%></a>
+                                <%
+                                } else {
+                                    %>
+                                            <%=(z + 1)+ " "%>
+                                   <%
+                               }
+                            }
+                            if (pages > 10) {
+                                SWBResourceURL urlNext = paramRequest.getRenderUrl();
+                                urlNext.setParameter("page", "" + (pages - 1));
+                                %>
+                                <a href="#" onclick="window.location='<%=urlNext%>';">Ir al final</a>
+                                <%
+                            }
+                        }
+                    %>
+                </p></div>
+<%
+    }else{
+        WebPage wpwscontent = wsite.getWebPage(base.getAttribute("idwpws", wpage.getId()));
+        com.infotec.conorg.Topic topic = com.infotec.conorg.Topic.ClassMgr.getTopic(toid, wsite);
+        if (topic != null) {
+            %>
+<div id="temas-wksp">
+    <h3><%=topic.getTitle()%></h3>
+    <p><%=topic.getDescription()%></p>
+            <ul>
+<%
+            //Member member=Member.ClassMgr.getMember(user.getId(),wsite);
+            //if(member!=null){
+            Iterator<WorkSpace> itwsto = WorkSpace.ClassMgr.listWorkSpaceByTopic(topic, wsite);
+             //ArrayList alwsp = new ArrayList();
+                while(itwsto.hasNext()){
+                WorkSpace workSpace=itwsto.next();
+//                    if(workSpace.hasMember(member)){
+%>
+        <li >
+            <a href="<%=wpwscontent.getUrl()%>?wsid=<%=workSpace.getId()%>"><%=workSpace.getTitle()%></a><br/>
+            <%=workSpace.getDescription()%>
+        </li>
+
+<%
+               }
+%>
     </ul>
 </div>
+        <%
+        }
+    }
+            %>
 <%!
     class orderByDescription implements Comparator<com.infotec.conorg.Topic>{
         public int compare(com.infotec.conorg.Topic t1, com.infotec.conorg.Topic t2) {
