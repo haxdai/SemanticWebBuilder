@@ -21,41 +21,47 @@ Author     : rene.jara
             } catch (Exception ignored) {
                 numele = 3;
             }
-            Member member = Member.ClassMgr.getMember(user.getId(), wsite);
+            Iterator<Member> itme=Member.ClassMgr.listMemberByUser(user, wsite);
+            /*Member member = Member.ClassMgr.getMember(user.getId(), wsite);
             if (member == null) {
                 member = Member.ClassMgr.createMember(user.getId(), wsite);
                 member.setUser(user);
-            }
+            }*/
             ArrayList alwsp = new ArrayList();
-            Iterator<WorkSpace> itperws = WorkSpace.ClassMgr.listWorkSpaceByMember(member);
 %>
-<div style="float: left">
+<!--div style="float: left"-->
     <ul>
         <%
             int count = 0;
-            while (itperws.hasNext()) {
-                WorkSpace workSpace = itperws.next();
-                alwsp.add(workSpace);
-                count++;
-                if (count <= numele) {
+            while(itme.hasNext()){
+                Member member=itme.next();
+                Iterator<WorkSpace> itperws = WorkSpace.ClassMgr.listWorkSpaceByMember(member);
+
+                while (itperws.hasNext()) {
+                    WorkSpace workSpace = itperws.next();
+                    alwsp.add(workSpace);
+                    count++;
+                    if (count <= numele) {
         %>
-        <li>
-            <div><a href="<%=wpwscontent.getUrl()%>?wsid=<%=workSpace.getId()%>"><%=workSpace.getTitle()%></a></div>
-            <div>Descripción:<%=workSpace.getDescription()%></div>
+        <li class="wssi">
+            <a href="<%=wpwscontent.getUrl()%>?wsid=<%=workSpace.getId()%>"><%=workSpace.getTitle()%></a><br/>
+            <%=workSpace.getDescription()%>
         </li>
         <%
-                } else {
-                    break;
+                    } else {
+                        //break;
+                    }
                 }
             }
         %>
-    </ul>
-</div>
+    <!--/ul>
+</div-->
+     <div class="tab-work-div">&nbsp;</div>
 <%
             Iterator<WorkSpace> itpubws = WorkSpace.ClassMgr.listWorkSpaces(wsite);
 %>
-<div style="float: left">
-    <ul>
+<!--div style="float: left">
+    <ul-->
         <%
             count = 0;
             while (itpubws.hasNext()) {
@@ -64,9 +70,9 @@ Author     : rene.jara
                     count++;
                     if (count <= numele) {
         %>
-        <li>
-            <div><a href="<%=wpwscontent.getUrl()%>?wsid=<%=workSpace.getId()%>"><%=workSpace.getTitle()%></a></div>
-            <div>Descripción:<%=workSpace.getDescription()%></div>
+        <li class="wsno">
+            <span><%=workSpace.getTitle()%></span><br/>
+            <%=workSpace.getDescription()%>
         </li>
         <%
                     } else {
@@ -76,4 +82,4 @@ Author     : rene.jara
             }
         %>
     </ul>
-</div>
+<!--/div-->
