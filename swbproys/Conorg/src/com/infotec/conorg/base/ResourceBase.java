@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class ResourceBase extends com.infotec.conorg.Tile implements org.semanticwb.model.Calendarable,org.semanticwb.model.Traceable,org.semanticwb.model.Resourceable,org.semanticwb.model.Tagable,org.semanticwb.model.Descriptiveable
+public abstract class ResourceBase extends com.infotec.conorg.Tile implements org.semanticwb.model.Calendarable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable
 {
     public static final org.semanticwb.platform.SemanticClass conorg_Resource=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#Resource");
    /**
