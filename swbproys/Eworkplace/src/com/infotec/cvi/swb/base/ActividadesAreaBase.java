@@ -4,7 +4,7 @@ package com.infotec.cvi.swb.base;
    /**
    * Adminsitra las actividades para CCO; DCP, ACD de RH 
    */
-public abstract class ActividadesAreaBase extends org.semanticwb.model.base.GenericObjectBase implements org.semanticwb.model.Traceable,com.infotec.eworkplace.swb.Solicitable
+public abstract class ActividadesAreaBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Solicitable,org.semanticwb.model.Traceable
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_notaAutorizacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#notaAutorizacion");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaValida=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaValida");
@@ -897,15 +897,5 @@ public abstract class ActividadesAreaBase extends org.semanticwb.model.base.Gene
     public void setNombreSolicitante(String value)
     {
         getSemanticObject().setProperty(intranet_nombreSolicitante, value);
-    }
-
-    public void remove()
-    {
-        getSemanticObject().remove();
-    }
-
-    public java.util.Iterator<org.semanticwb.model.GenericObject> listRelatedObjects()
-    {
-        return new org.semanticwb.model.GenericIterator(getSemanticObject().listRelatedObjects(),true);
     }
 }
