@@ -8,6 +8,7 @@
                 <input type="TEXT" name="numele" label="Número de elementos a mostrar como estrategia:" size="5" jsrequired="true"/>
                 <input type="TEXT" name="numpag" label="Número de elementos a mostrar por paginación:" size="5" jsrequired="true"/>
                 <input type="TEXT" name="wpavisos" label="Id de la sección de avisos:" size="20" jsrequired="true"/>
+                <input type="TEXT" name="rolid" label="Id del rol para el envio de avisos a la comunidad:" size="20" jsrequired="true"/>
             </fieldset>
             <statictext name="b">
             <![CDATA[
@@ -15,7 +16,6 @@
             <button id="btnReset" dojoType="dijit.form.Button">Reestablecer</button>
             ]]>
             </statictext>
-        </fieldset>
 	</form>
     <script type="text/javascript">
         <![CDATA[
