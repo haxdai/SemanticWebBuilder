@@ -3,20 +3,18 @@ package com.infotec.rh.syr.swb.base;
 
 public abstract class SolicitudBajaRecursoBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Solicitable
 {
-    public static final org.semanticwb.platform.SemanticProperty intranet_archivoCartaLiberacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#archivoCartaLiberacion");
     public static final org.semanticwb.platform.SemanticProperty intranet_ultimoDiaPresente=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#ultimoDiaPresente");
-    public static final org.semanticwb.platform.SemanticProperty intranet_sueldoBrutoBaja=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sueldoBrutoBaja");
     public static final org.semanticwb.platform.SemanticClass intranet_TipoBaja=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#TipoBaja");
     public static final org.semanticwb.platform.SemanticProperty intranet_motivoBaja=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#motivoBaja");
     public static final org.semanticwb.platform.SemanticProperty intranet_archivoCartaRenuncia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#archivoCartaRenuncia");
-    public static final org.semanticwb.platform.SemanticProperty intranet_fechaInicioContratoBaja=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaInicioContratoBaja");
-    public static final org.semanticwb.platform.SemanticProperty intranet_archivoConvenio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#archivoConvenio");
     public static final org.semanticwb.platform.SemanticProperty intranet_notaSolicitante=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#notaSolicitante");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaMemorándum=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaMemorándum");
     public static final org.semanticwb.platform.SemanticProperty intranet_folioMemorandum=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#folioMemorandum");
-    public static final org.semanticwb.platform.SemanticProperty intranet_fechaCartaRenuncia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaCartaRenuncia");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaEntrega=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaEntrega");
+    public static final org.semanticwb.platform.SemanticProperty intranet_fechaCartaRenuncia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaCartaRenuncia");
+    public static final org.semanticwb.platform.SemanticProperty intranet_fechaFirmaDocumentos=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaFirmaDocumentos");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaFinContratoBaja=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaFinContratoBaja");
+    public static final org.semanticwb.platform.SemanticProperty intranet_fechaRecepcionDocumentos=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaRecepcionDocumentos");
     public static final org.semanticwb.platform.SemanticProperty intranet_requiereConvenio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#requiereConvenio");
     public static final org.semanticwb.platform.SemanticProperty intranet_archivoExpediente=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#archivoExpediente");
     public static final org.semanticwb.platform.SemanticProperty intranet_responsableRealizaConvenio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#responsableRealizaConvenio");
@@ -206,24 +204,6 @@ public abstract class SolicitudBajaRecursoBase extends org.semanticwb.model.SWBC
     }
 
 /**
-* Gets the ArchivoCartaLiberacion property
-* @return String with the ArchivoCartaLiberacion
-*/
-    public String getArchivoCartaLiberacion()
-    {
-        return getSemanticObject().getProperty(intranet_archivoCartaLiberacion);
-    }
-
-/**
-* Sets the ArchivoCartaLiberacion property
-* @param value long with the ArchivoCartaLiberacion
-*/
-    public void setArchivoCartaLiberacion(String value)
-    {
-        getSemanticObject().setProperty(intranet_archivoCartaLiberacion, value);
-    }
-
-/**
 * Gets the UltimoDiaPresente property
 * @return java.util.Date with the UltimoDiaPresente
 */
@@ -239,24 +219,6 @@ public abstract class SolicitudBajaRecursoBase extends org.semanticwb.model.SWBC
     public void setUltimoDiaPresente(java.util.Date value)
     {
         getSemanticObject().setDateProperty(intranet_ultimoDiaPresente, value);
-    }
-
-/**
-* Gets the SueldoBrutoBaja property
-* @return float with the SueldoBrutoBaja
-*/
-    public float getSueldoBrutoBaja()
-    {
-        return getSemanticObject().getFloatProperty(intranet_sueldoBrutoBaja);
-    }
-
-/**
-* Sets the SueldoBrutoBaja property
-* @param value long with the SueldoBrutoBaja
-*/
-    public void setSueldoBrutoBaja(float value)
-    {
-        getSemanticObject().setFloatProperty(intranet_sueldoBrutoBaja, value);
     }
    /**
    * Sets the value for the property MotivoBaja
@@ -313,42 +275,6 @@ public abstract class SolicitudBajaRecursoBase extends org.semanticwb.model.SWBC
     public void setArchivoCartaRenuncia(String value)
     {
         getSemanticObject().setProperty(intranet_archivoCartaRenuncia, value);
-    }
-
-/**
-* Gets the FechaInicioContratoBaja property
-* @return java.util.Date with the FechaInicioContratoBaja
-*/
-    public java.util.Date getFechaInicioContratoBaja()
-    {
-        return getSemanticObject().getDateProperty(intranet_fechaInicioContratoBaja);
-    }
-
-/**
-* Sets the FechaInicioContratoBaja property
-* @param value long with the FechaInicioContratoBaja
-*/
-    public void setFechaInicioContratoBaja(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(intranet_fechaInicioContratoBaja, value);
-    }
-
-/**
-* Gets the ArchivoConvenio property
-* @return String with the ArchivoConvenio
-*/
-    public String getArchivoConvenio()
-    {
-        return getSemanticObject().getProperty(intranet_archivoConvenio);
-    }
-
-/**
-* Sets the ArchivoConvenio property
-* @param value long with the ArchivoConvenio
-*/
-    public void setArchivoConvenio(String value)
-    {
-        getSemanticObject().setProperty(intranet_archivoConvenio, value);
     }
 
 /**
@@ -462,6 +388,24 @@ public abstract class SolicitudBajaRecursoBase extends org.semanticwb.model.SWBC
     }
 
 /**
+* Gets the FechaEntrega property
+* @return java.util.Date with the FechaEntrega
+*/
+    public java.util.Date getFechaEntrega()
+    {
+        return getSemanticObject().getDateProperty(intranet_fechaEntrega);
+    }
+
+/**
+* Sets the FechaEntrega property
+* @param value long with the FechaEntrega
+*/
+    public void setFechaEntrega(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(intranet_fechaEntrega, value);
+    }
+
+/**
 * Gets the FechaCartaRenuncia property
 * @return java.util.Date with the FechaCartaRenuncia
 */
@@ -480,21 +424,21 @@ public abstract class SolicitudBajaRecursoBase extends org.semanticwb.model.SWBC
     }
 
 /**
-* Gets the FechaEntrega property
-* @return java.util.Date with the FechaEntrega
+* Gets the FechaFirmaDocumentos property
+* @return java.util.Date with the FechaFirmaDocumentos
 */
-    public java.util.Date getFechaEntrega()
+    public java.util.Date getFechaFirmaDocumentos()
     {
-        return getSemanticObject().getDateProperty(intranet_fechaEntrega);
+        return getSemanticObject().getDateProperty(intranet_fechaFirmaDocumentos);
     }
 
 /**
-* Sets the FechaEntrega property
-* @param value long with the FechaEntrega
+* Sets the FechaFirmaDocumentos property
+* @param value long with the FechaFirmaDocumentos
 */
-    public void setFechaEntrega(java.util.Date value)
+    public void setFechaFirmaDocumentos(java.util.Date value)
     {
-        getSemanticObject().setDateProperty(intranet_fechaEntrega, value);
+        getSemanticObject().setDateProperty(intranet_fechaFirmaDocumentos, value);
     }
 
 /**
@@ -605,6 +549,24 @@ public abstract class SolicitudBajaRecursoBase extends org.semanticwb.model.SWBC
     public void setFechaSolicita(java.util.Date value)
     {
         getSemanticObject().setDateProperty(intranet_fechaSolicita, value);
+    }
+
+/**
+* Gets the FechaRecepcionDocumentos property
+* @return java.util.Date with the FechaRecepcionDocumentos
+*/
+    public java.util.Date getFechaRecepcionDocumentos()
+    {
+        return getSemanticObject().getDateProperty(intranet_fechaRecepcionDocumentos);
+    }
+
+/**
+* Sets the FechaRecepcionDocumentos property
+* @param value long with the FechaRecepcionDocumentos
+*/
+    public void setFechaRecepcionDocumentos(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(intranet_fechaRecepcionDocumentos, value);
     }
 
 /**
