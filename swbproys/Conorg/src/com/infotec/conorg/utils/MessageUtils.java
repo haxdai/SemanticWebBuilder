@@ -120,16 +120,16 @@ public class MessageUtils {
      */
     public static Iterator<Aviso> getCommunityMessages(WebSite wsite) {
 
-        TreeSet<Aviso> tsavisos = new TreeSet<Aviso>();
+        HashMap<String,Aviso> hmavisos = new HashMap<String,Aviso>();
         Iterator<Aviso> itaviso = Aviso.ClassMgr.listAvisos(wsite);
         while (itaviso.hasNext()) {
             Aviso aviso = itaviso.next();
             if (!aviso.listToUsers().hasNext() && aviso.getToUser() == null && aviso.getToWorkSpace() == null) {
-                tsavisos.add(aviso);
+                hmavisos.put(aviso.getId(),aviso);
             }
         }
 
-        return tsavisos.iterator();
+        return hmavisos.values().iterator();
     }
 
     /**
@@ -156,14 +156,14 @@ public class MessageUtils {
     public static Iterator<Aviso> getAllUserMessages(User user, WebSite wsite){
         
         HashMap<String,Aviso> hmAvisos = new HashMap<String,Aviso>();
-        //System.out.println("Community msg");
+        //System.out.println("===> Community msg");
         Iterator<Aviso> itcomm = getCommunityMessages(wsite);
         while (itcomm.hasNext()) {
             Aviso aviso = itcomm.next();
             //System.out.println("aviso added (community)");
             hmAvisos.put(aviso.getId(),aviso);
         }
-        //System.out.println("user msg");
+        //System.out.println("===> user msg");
         Iterator<Aviso> itusr = getUserMessages(user,wsite);
         while (itusr.hasNext()) {
             Aviso aviso = itusr.next();
@@ -171,21 +171,21 @@ public class MessageUtils {
             hmAvisos.put(aviso.getId(),aviso);
         }
         
-        //System.out.println("ws msg");
+        //System.out.println("===> ws msg");
         Iterator<WorkSpace> itws = getUserWorkSpaces(user,wsite);
         while (itws.hasNext()) {
             WorkSpace workSpace = itws.next();
-            //System.out.println("revisando wssss");
+            //System.out.println("revisando ws: "+workSpace.getId());
             Iterator<Aviso> itaws = getWorkSpaceMessages(workSpace,wsite);
             while (itaws.hasNext()) {
-                //System.out.println("revisando avisos del ws");
+                //System.out.println(" .... revisando avisos del ws");
                 Aviso aviso = itaws.next();
                 //System.out.println("aviso added (ws)");
                 hmAvisos.put(aviso.getId(),aviso);
             }
             
         }     
-        //System.out.println("fin get all msg");
+        //System.out.println("fin get all msg <===");
 
         
         return hmAvisos.values().iterator();
