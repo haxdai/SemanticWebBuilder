@@ -95,8 +95,8 @@ public class MessageUtils {
      * @param user usuario del cual se buscaran avisos o mensajes
      * @return iterador de avisos de un usuario
      */
-    public static Iterator<Aviso> getUserMessages(User user) {
-        return Aviso.ClassMgr.listAvisoByToUser(user);
+    public static Iterator<Aviso> getUserMessages(User user, WebSite wsite) {
+        return Aviso.ClassMgr.listAvisoByToUser(user, wsite);
     }
 
     /**
@@ -106,9 +106,9 @@ public class MessageUtils {
      * @param wrkSpc Espacio de trabajo del cual se buscaran avisos o mensajes
      * @return iterador de avisos de un espacio de trabajo o workspace
      */
-    public static Iterator<Aviso> getWorkSpaceMessages(WorkSpace wrkSpc) {
-        return Aviso.ClassMgr.listAvisoByToWorkSpace(wrkSpc);
-
+    public static Iterator<Aviso> getWorkSpaceMessages(WorkSpace wrkSpc, WebSite wsite) {
+        if(wrkSpc==null) return null;
+        return Aviso.ClassMgr.listAvisoByToWorkSpace(wrkSpc, wsite);
     }
 
     /**
@@ -155,36 +155,45 @@ public class MessageUtils {
     
     public static Iterator<Aviso> getAllUserMessages(User user, WebSite wsite){
         
-        TreeSet<Aviso> tsAvisos = new TreeSet<Aviso>();
-        
+        HashMap<String,Aviso> hmAvisos = new HashMap<String,Aviso>();
+        //System.out.println("Community msg");
         Iterator<Aviso> itcomm = getCommunityMessages(wsite);
         while (itcomm.hasNext()) {
             Aviso aviso = itcomm.next();
-            tsAvisos.add(aviso);
+            //System.out.println("aviso added (community)");
+            hmAvisos.put(aviso.getId(),aviso);
         }
-        Iterator<Aviso> itusr = getUserMessages(user);
+        //System.out.println("user msg");
+        Iterator<Aviso> itusr = getUserMessages(user,wsite);
         while (itusr.hasNext()) {
             Aviso aviso = itusr.next();
-            tsAvisos.add(aviso);
+            //System.out.println("aviso added (user)");
+            hmAvisos.put(aviso.getId(),aviso);
         }
+        
+        //System.out.println("ws msg");
         Iterator<WorkSpace> itws = getUserWorkSpaces(user,wsite);
         while (itws.hasNext()) {
             WorkSpace workSpace = itws.next();
-            Iterator<Aviso> itaws = getWorkSpaceMessages(workSpace);
+            //System.out.println("revisando wssss");
+            Iterator<Aviso> itaws = getWorkSpaceMessages(workSpace,wsite);
             while (itaws.hasNext()) {
+                //System.out.println("revisando avisos del ws");
                 Aviso aviso = itaws.next();
-                tsAvisos.add(aviso);
+                //System.out.println("aviso added (ws)");
+                hmAvisos.put(aviso.getId(),aviso);
             }
             
         }     
+        //System.out.println("fin get all msg");
 
         
-        return tsAvisos.iterator();
+        return hmAvisos.values().iterator();
     }
     
     // membresias del usuario a los diferentes ws
     public static Iterator<WorkSpace> getUserWorkSpaces(User usr, WebSite wsite){
-            
+           //System.out.println("revisando miembro con wspcsss");
         Iterator<Member> itmem = Member.ClassMgr.listMemberByUser(usr, wsite);
         HashMap<WorkSpace, Member> hmmem = new HashMap<WorkSpace, Member>();
         while (itmem.hasNext()) {
@@ -194,6 +203,7 @@ public class MessageUtils {
                 //System.out.println(wsmember.getMemberType()+" de: "+wsmember.getWorkspace().getTitle());
                 int usrlevel = MyShelf.getLevelMember(wsmember);
                 if (usrlevel > 0) {  //MyShelf.USRLEVEL_NO_MIEMBRO 
+                    //System.out.println("es miembro del ws "+wspace.getId());
                     hmmem.put(wspace, wsmember);
                     if (!wspace.hasMember(wsmember)) {
                         wspace.addMember(wsmember);
