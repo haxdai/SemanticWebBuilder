@@ -15,7 +15,6 @@ public abstract class SeguimientoCandidatoBase extends com.infotec.eworkplace.sw
     public static final org.semanticwb.platform.SemanticProperty intranet_solicitudCandidato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#solicitudCandidato");
     public static final org.semanticwb.platform.SemanticProperty intranet_passBateria=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#passBateria");
     public static final org.semanticwb.platform.SemanticProperty intranet_notasTecnicoCompetencias=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#notasTecnicoCompetencias");
-    public static final org.semanticwb.platform.SemanticProperty intranet_concluyeCompetencias=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#concluyeCompetencias");
     public static final org.semanticwb.platform.SemanticProperty intranet_pasaEntrevistaTelefonica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#pasaEntrevistaTelefonica");
     public static final org.semanticwb.platform.SemanticProperty intranet_observacionesEntrevistaTelefonica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#observacionesEntrevistaTelefonica");
     public static final org.semanticwb.platform.SemanticProperty intranet_porcentajeCompetencias=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#porcentajeCompetencias");
@@ -28,9 +27,7 @@ public abstract class SeguimientoCandidatoBase extends com.infotec.eworkplace.sw
     public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
     public static final org.semanticwb.platform.SemanticProperty intranet_candidato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#candidato");
     public static final org.semanticwb.platform.SemanticProperty intranet_entrevistadorTelefonica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#entrevistadorTelefonica");
-    public static final org.semanticwb.platform.SemanticProperty intranet_terminaPostulantes=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#terminaPostulantes");
     public static final org.semanticwb.platform.SemanticProperty intranet_notasCompetencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#notasCompetencia");
-    public static final org.semanticwb.platform.SemanticProperty intranet_concluyeSeleccionSompetencias=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#concluyeSeleccionSompetencias");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaTecnica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaTecnica");
     public static final org.semanticwb.platform.SemanticProperty intranet_usuarioBateria=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#usuarioBateria");
     public static final org.semanticwb.platform.SemanticProperty intranet_realizoPsicometrico=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#realizoPsicometrico");
@@ -40,7 +37,6 @@ public abstract class SeguimientoCandidatoBase extends com.infotec.eworkplace.sw
     public static final org.semanticwb.platform.SemanticProperty intranet_porcentajeTecnica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#porcentajeTecnica");
     public static final org.semanticwb.platform.SemanticProperty intranet_existenCandidatosTecnica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#existenCandidatosTecnica");
     public static final org.semanticwb.platform.SemanticProperty intranet_porcentajePsicometrico=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#porcentajePsicometrico");
-    public static final org.semanticwb.platform.SemanticProperty intranet_concluyeSeleccionTecnica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#concluyeSeleccionTecnica");
     public static final org.semanticwb.platform.SemanticProperty intranet_entrevistadorCompetencias=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#entrevistadorCompetencias");
     public static final org.semanticwb.platform.SemanticClass intranet_SeguimientoCandidato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#SeguimientoCandidato");
    /**
@@ -431,24 +427,6 @@ public abstract class SeguimientoCandidatoBase extends com.infotec.eworkplace.sw
     }
 
 /**
-* Gets the ConcluyeCompetencias property
-* @return boolean with the ConcluyeCompetencias
-*/
-    public boolean isConcluyeCompetencias()
-    {
-        return getSemanticObject().getBooleanProperty(intranet_concluyeCompetencias);
-    }
-
-/**
-* Sets the ConcluyeCompetencias property
-* @param value long with the ConcluyeCompetencias
-*/
-    public void setConcluyeCompetencias(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(intranet_concluyeCompetencias, value);
-    }
-
-/**
 * Gets the PasaEntrevistaTelefonica property
 * @return boolean with the PasaEntrevistaTelefonica
 */
@@ -633,24 +611,6 @@ public abstract class SeguimientoCandidatoBase extends com.infotec.eworkplace.sw
     }
 
 /**
-* Gets the TerminaPostulantes property
-* @return boolean with the TerminaPostulantes
-*/
-    public boolean isTerminaPostulantes()
-    {
-        return getSemanticObject().getBooleanProperty(intranet_terminaPostulantes);
-    }
-
-/**
-* Sets the TerminaPostulantes property
-* @param value long with the TerminaPostulantes
-*/
-    public void setTerminaPostulantes(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(intranet_terminaPostulantes, value);
-    }
-
-/**
 * Gets the NotasCompetencia property
 * @return String with the NotasCompetencia
 */
@@ -666,24 +626,6 @@ public abstract class SeguimientoCandidatoBase extends com.infotec.eworkplace.sw
     public void setNotasCompetencia(String value)
     {
         getSemanticObject().setProperty(intranet_notasCompetencia, value);
-    }
-
-/**
-* Gets the ConcluyeSeleccionSompetencias property
-* @return boolean with the ConcluyeSeleccionSompetencias
-*/
-    public boolean isConcluyeSeleccionSompetencias()
-    {
-        return getSemanticObject().getBooleanProperty(intranet_concluyeSeleccionSompetencias);
-    }
-
-/**
-* Sets the ConcluyeSeleccionSompetencias property
-* @param value long with the ConcluyeSeleccionSompetencias
-*/
-    public void setConcluyeSeleccionSompetencias(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(intranet_concluyeSeleccionSompetencias, value);
     }
 
 /**
@@ -846,24 +788,6 @@ public abstract class SeguimientoCandidatoBase extends com.infotec.eworkplace.sw
     public void setPorcentajePsicometrico(float value)
     {
         getSemanticObject().setFloatProperty(intranet_porcentajePsicometrico, value);
-    }
-
-/**
-* Gets the ConcluyeSeleccionTecnica property
-* @return boolean with the ConcluyeSeleccionTecnica
-*/
-    public boolean isConcluyeSeleccionTecnica()
-    {
-        return getSemanticObject().getBooleanProperty(intranet_concluyeSeleccionTecnica);
-    }
-
-/**
-* Sets the ConcluyeSeleccionTecnica property
-* @param value long with the ConcluyeSeleccionTecnica
-*/
-    public void setConcluyeSeleccionTecnica(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(intranet_concluyeSeleccionTecnica, value);
     }
    /**
    * Sets the value for the property EntrevistadorCompetencias

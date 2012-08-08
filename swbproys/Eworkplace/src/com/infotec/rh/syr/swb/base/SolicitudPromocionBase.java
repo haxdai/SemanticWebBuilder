@@ -5,6 +5,7 @@ public abstract class SolicitudPromocionBase extends org.semanticwb.model.SWBCla
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_autorizaPromocionDirector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#autorizaPromocionDirector");
     public static final org.semanticwb.platform.SemanticProperty intranet_autorizaRH=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#autorizaRH");
+    public static final org.semanticwb.platform.SemanticProperty intranet_montoTotalPropuesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#montoTotalPropuesto");
    /**
    * Elemento que contiene la información del perfil del usuario requerido
    */
@@ -12,17 +13,28 @@ public abstract class SolicitudPromocionBase extends org.semanticwb.model.SWBCla
     public static final org.semanticwb.platform.SemanticProperty intranet_solicitudRecursoPromocion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#solicitudRecursoPromocion");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaInicioNuevoPuesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaInicioNuevoPuesto");
    /**
-   * Catálogo utilizado para indicar el Tipo de contratación
+   * Catálogo utilizado para indicar el Tipo de promoción
    */
-    public static final org.semanticwb.platform.SemanticClass intranet_TipoContratacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#TipoContratacion");
+    public static final org.semanticwb.platform.SemanticClass intranet_TipoPromocion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#TipoPromocion");
     public static final org.semanticwb.platform.SemanticProperty intranet_tipoPromocion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#tipoPromocion");
    /**
    * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
    */
     public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
     public static final org.semanticwb.platform.SemanticProperty intranet_autorizaDirectorPromocion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#autorizaDirectorPromocion");
+    public static final org.semanticwb.platform.SemanticProperty intranet_recursoPromocionar=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#recursoPromocionar");
+   /**
+   * Elemento utilizado para guardar los Documentos Probatorios que respalda la información del CV capturada por el usuario
+   */
+    public static final org.semanticwb.platform.SemanticClass intranet_DocumentoProbatorio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#DocumentoProbatorio");
+    public static final org.semanticwb.platform.SemanticProperty intranet_documentosPromocion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#documentosPromocion");
     public static final org.semanticwb.platform.SemanticProperty intranet_sueldoBrutoActual=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sueldoBrutoActual");
-    public static final org.semanticwb.platform.SemanticProperty intranet_fechaTerminoPuestoActual=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaTerminoPuestoActual");
+    public static final org.semanticwb.platform.SemanticProperty intranet_fechaTerminoNuevoPuesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaTerminoNuevoPuesto");
+   /**
+   * Catálogo utilizado para indicar los tipos de puesto
+   */
+    public static final org.semanticwb.platform.SemanticClass intranet_Puesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Puesto");
+    public static final org.semanticwb.platform.SemanticProperty intranet_puestoPropuesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#puestoPropuesto");
     public static final org.semanticwb.platform.SemanticProperty intranet_sueldoBrutoPropuesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sueldoBrutoPropuesto");
     public static final org.semanticwb.platform.SemanticProperty intranet_notaPromocion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#notaPromocion");
     public static final org.semanticwb.platform.SemanticClass intranet_SolicitudPromocion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#SolicitudPromocion");
@@ -125,23 +137,23 @@ public abstract class SolicitudPromocionBase extends org.semanticwb.model.SWBCla
         }
        /**
        * Gets all com.infotec.rh.syr.swb.SolicitudPromocion with a determined TipoPromocion
-       * @param value TipoPromocion of the type com.infotec.cvi.swb.TipoContratacion
+       * @param value TipoPromocion of the type com.infotec.cvi.swb.TipoPromocion
        * @param model Model of the com.infotec.rh.syr.swb.SolicitudPromocion
        * @return Iterator with all the com.infotec.rh.syr.swb.SolicitudPromocion
        */
 
-        public static java.util.Iterator<com.infotec.rh.syr.swb.SolicitudPromocion> listSolicitudPromocionByTipoPromocion(com.infotec.cvi.swb.TipoContratacion value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SolicitudPromocion> listSolicitudPromocionByTipoPromocion(com.infotec.cvi.swb.TipoPromocion value,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SolicitudPromocion> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_tipoPromocion, value.getSemanticObject(),sclass));
             return it;
         }
        /**
        * Gets all com.infotec.rh.syr.swb.SolicitudPromocion with a determined TipoPromocion
-       * @param value TipoPromocion of the type com.infotec.cvi.swb.TipoContratacion
+       * @param value TipoPromocion of the type com.infotec.cvi.swb.TipoPromocion
        * @return Iterator with all the com.infotec.rh.syr.swb.SolicitudPromocion
        */
 
-        public static java.util.Iterator<com.infotec.rh.syr.swb.SolicitudPromocion> listSolicitudPromocionByTipoPromocion(com.infotec.cvi.swb.TipoContratacion value)
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SolicitudPromocion> listSolicitudPromocionByTipoPromocion(com.infotec.cvi.swb.TipoPromocion value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SolicitudPromocion> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_tipoPromocion,value.getSemanticObject(),sclass));
             return it;
@@ -167,6 +179,52 @@ public abstract class SolicitudPromocionBase extends org.semanticwb.model.SWBCla
         public static java.util.Iterator<com.infotec.rh.syr.swb.SolicitudPromocion> listSolicitudPromocionByAutorizaDirectorPromocion(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SolicitudPromocion> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_autorizaDirectorPromocion,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.SolicitudPromocion with a determined RecursoPromocionar
+       * @param value RecursoPromocionar of the type org.semanticwb.model.User
+       * @param model Model of the com.infotec.rh.syr.swb.SolicitudPromocion
+       * @return Iterator with all the com.infotec.rh.syr.swb.SolicitudPromocion
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SolicitudPromocion> listSolicitudPromocionByRecursoPromocionar(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SolicitudPromocion> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_recursoPromocionar, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.SolicitudPromocion with a determined RecursoPromocionar
+       * @param value RecursoPromocionar of the type org.semanticwb.model.User
+       * @return Iterator with all the com.infotec.rh.syr.swb.SolicitudPromocion
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SolicitudPromocion> listSolicitudPromocionByRecursoPromocionar(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SolicitudPromocion> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_recursoPromocionar,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.SolicitudPromocion with a determined DocumentosPromocion
+       * @param value DocumentosPromocion of the type com.infotec.cvi.swb.DocumentoProbatorio
+       * @param model Model of the com.infotec.rh.syr.swb.SolicitudPromocion
+       * @return Iterator with all the com.infotec.rh.syr.swb.SolicitudPromocion
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SolicitudPromocion> listSolicitudPromocionByDocumentosPromocion(com.infotec.cvi.swb.DocumentoProbatorio value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SolicitudPromocion> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_documentosPromocion, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.SolicitudPromocion with a determined DocumentosPromocion
+       * @param value DocumentosPromocion of the type com.infotec.cvi.swb.DocumentoProbatorio
+       * @return Iterator with all the com.infotec.rh.syr.swb.SolicitudPromocion
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SolicitudPromocion> listSolicitudPromocionByDocumentosPromocion(com.infotec.cvi.swb.DocumentoProbatorio value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SolicitudPromocion> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_documentosPromocion,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -215,6 +273,29 @@ public abstract class SolicitudPromocionBase extends org.semanticwb.model.SWBCla
             org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SolicitudPromocion> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_solicitante,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all com.infotec.rh.syr.swb.SolicitudPromocion with a determined PuestoPropuesto
+       * @param value PuestoPropuesto of the type com.infotec.cvi.swb.Puesto
+       * @param model Model of the com.infotec.rh.syr.swb.SolicitudPromocion
+       * @return Iterator with all the com.infotec.rh.syr.swb.SolicitudPromocion
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SolicitudPromocion> listSolicitudPromocionByPuestoPropuesto(com.infotec.cvi.swb.Puesto value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SolicitudPromocion> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_puestoPropuesto, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.SolicitudPromocion with a determined PuestoPropuesto
+       * @param value PuestoPropuesto of the type com.infotec.cvi.swb.Puesto
+       * @return Iterator with all the com.infotec.rh.syr.swb.SolicitudPromocion
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SolicitudPromocion> listSolicitudPromocionByPuestoPropuesto(com.infotec.cvi.swb.Puesto value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SolicitudPromocion> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_puestoPropuesto,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
    /**
@@ -260,6 +341,24 @@ public abstract class SolicitudPromocionBase extends org.semanticwb.model.SWBCla
     public void setAutorizaRH(boolean value)
     {
         getSemanticObject().setBooleanProperty(intranet_autorizaRH, value);
+    }
+
+/**
+* Gets the MontoTotalPropuesto property
+* @return float with the MontoTotalPropuesto
+*/
+    public float getMontoTotalPropuesto()
+    {
+        return getSemanticObject().getFloatProperty(intranet_montoTotalPropuesto);
+    }
+
+/**
+* Sets the MontoTotalPropuesto property
+* @param value long with the MontoTotalPropuesto
+*/
+    public void setMontoTotalPropuesto(float value)
+    {
+        getSemanticObject().setFloatProperty(intranet_montoTotalPropuesto, value);
     }
    /**
    * Sets the value for the property SolicitudRecursoPromocion
@@ -322,7 +421,7 @@ public abstract class SolicitudPromocionBase extends org.semanticwb.model.SWBCla
    * @param value TipoPromocion to set
    */
 
-    public void setTipoPromocion(com.infotec.cvi.swb.TipoContratacion value)
+    public void setTipoPromocion(com.infotec.cvi.swb.TipoPromocion value)
     {
         if(value!=null)
         {
@@ -343,15 +442,15 @@ public abstract class SolicitudPromocionBase extends org.semanticwb.model.SWBCla
 
    /**
    * Gets the TipoPromocion
-   * @return a com.infotec.cvi.swb.TipoContratacion
+   * @return a com.infotec.cvi.swb.TipoPromocion
    */
-    public com.infotec.cvi.swb.TipoContratacion getTipoPromocion()
+    public com.infotec.cvi.swb.TipoPromocion getTipoPromocion()
     {
-         com.infotec.cvi.swb.TipoContratacion ret=null;
+         com.infotec.cvi.swb.TipoPromocion ret=null;
          org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_tipoPromocion);
          if(obj!=null)
          {
-             ret=(com.infotec.cvi.swb.TipoContratacion)obj.createGenericInstance();
+             ret=(com.infotec.cvi.swb.TipoPromocion)obj.createGenericInstance();
          }
          return ret;
     }
@@ -393,6 +492,82 @@ public abstract class SolicitudPromocionBase extends org.semanticwb.model.SWBCla
          }
          return ret;
     }
+   /**
+   * Sets the value for the property RecursoPromocionar
+   * @param value RecursoPromocionar to set
+   */
+
+    public void setRecursoPromocionar(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_recursoPromocionar, value.getSemanticObject());
+        }else
+        {
+            removeRecursoPromocionar();
+        }
+    }
+   /**
+   * Remove the value for RecursoPromocionar property
+   */
+
+    public void removeRecursoPromocionar()
+    {
+        getSemanticObject().removeProperty(intranet_recursoPromocionar);
+    }
+
+   /**
+   * Gets the RecursoPromocionar
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getRecursoPromocionar()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_recursoPromocionar);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Sets the value for the property DocumentosPromocion
+   * @param value DocumentosPromocion to set
+   */
+
+    public void setDocumentosPromocion(com.infotec.cvi.swb.DocumentoProbatorio value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_documentosPromocion, value.getSemanticObject());
+        }else
+        {
+            removeDocumentosPromocion();
+        }
+    }
+   /**
+   * Remove the value for DocumentosPromocion property
+   */
+
+    public void removeDocumentosPromocion()
+    {
+        getSemanticObject().removeProperty(intranet_documentosPromocion);
+    }
+
+   /**
+   * Gets the DocumentosPromocion
+   * @return a com.infotec.cvi.swb.DocumentoProbatorio
+   */
+    public com.infotec.cvi.swb.DocumentoProbatorio getDocumentosPromocion()
+    {
+         com.infotec.cvi.swb.DocumentoProbatorio ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_documentosPromocion);
+         if(obj!=null)
+         {
+             ret=(com.infotec.cvi.swb.DocumentoProbatorio)obj.createGenericInstance();
+         }
+         return ret;
+    }
 
 /**
 * Gets the SueldoBrutoActual property
@@ -410,6 +585,24 @@ public abstract class SolicitudPromocionBase extends org.semanticwb.model.SWBCla
     public void setSueldoBrutoActual(float value)
     {
         getSemanticObject().setFloatProperty(intranet_sueldoBrutoActual, value);
+    }
+
+/**
+* Gets the FechaTerminoNuevoPuesto property
+* @return java.util.Date with the FechaTerminoNuevoPuesto
+*/
+    public java.util.Date getFechaTerminoNuevoPuesto()
+    {
+        return getSemanticObject().getDateProperty(intranet_fechaTerminoNuevoPuesto);
+    }
+
+/**
+* Sets the FechaTerminoNuevoPuesto property
+* @param value long with the FechaTerminoNuevoPuesto
+*/
+    public void setFechaTerminoNuevoPuesto(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(intranet_fechaTerminoNuevoPuesto, value);
     }
 
 /**
@@ -559,23 +752,43 @@ public abstract class SolicitudPromocionBase extends org.semanticwb.model.SWBCla
     {
         getSemanticObject().setDateProperty(intranet_fechaSolicita, value);
     }
+   /**
+   * Sets the value for the property PuestoPropuesto
+   * @param value PuestoPropuesto to set
+   */
 
-/**
-* Gets the FechaTerminoPuestoActual property
-* @return java.util.Date with the FechaTerminoPuestoActual
-*/
-    public java.util.Date getFechaTerminoPuestoActual()
+    public void setPuestoPropuesto(com.infotec.cvi.swb.Puesto value)
     {
-        return getSemanticObject().getDateProperty(intranet_fechaTerminoPuestoActual);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_puestoPropuesto, value.getSemanticObject());
+        }else
+        {
+            removePuestoPropuesto();
+        }
+    }
+   /**
+   * Remove the value for PuestoPropuesto property
+   */
+
+    public void removePuestoPropuesto()
+    {
+        getSemanticObject().removeProperty(intranet_puestoPropuesto);
     }
 
-/**
-* Sets the FechaTerminoPuestoActual property
-* @param value long with the FechaTerminoPuestoActual
-*/
-    public void setFechaTerminoPuestoActual(java.util.Date value)
+   /**
+   * Gets the PuestoPropuesto
+   * @return a com.infotec.cvi.swb.Puesto
+   */
+    public com.infotec.cvi.swb.Puesto getPuestoPropuesto()
     {
-        getSemanticObject().setDateProperty(intranet_fechaTerminoPuestoActual, value);
+         com.infotec.cvi.swb.Puesto ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_puestoPropuesto);
+         if(obj!=null)
+         {
+             ret=(com.infotec.cvi.swb.Puesto)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
