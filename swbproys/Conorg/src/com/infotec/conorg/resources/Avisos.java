@@ -82,7 +82,7 @@ public class Avisos extends GenericAdmResource {
             //workspaceid  workspace!=null && users == null 
             //contactid  worspace==null && users!=null
 
-            String forall = request.getParameter("forall");
+            String forall = request.getParameter("tipomsg");
             if (forall == null) {
                 forall = "";
             }
@@ -91,6 +91,8 @@ public class Avisos extends GenericAdmResource {
             String listwrkspcs = request.getParameter("workspaceid");
             String[] listcontact = request.getParameterValues("contactid");
 
+            //System.out.println("listcontact: "+(listcontact!=null?listcontact.length:"null"));
+            
             GenericObject goparam = null;
             User usrparam = null;
             WorkSpace wrkspc = null;
@@ -102,8 +104,10 @@ public class Avisos extends GenericAdmResource {
                 aviso.setTitle(msgasunto);
                 aviso.setDescription(msgdescrip);
                 aviso.setFromUser(usr);
-
-                if (listwrkspcs != null && !listwrkspcs.equals("0")) {
+                
+                if(forall.equals("all")) {
+                    msg = "Se generó Aviso para la comunidad correctamente.";
+                } else  if (listwrkspcs != null && !listwrkspcs.equals("0")) {
                     goparam = ont.getGenericObject(listwrkspcs);
                     if (goparam != null && goparam instanceof WorkSpace) {
                         wrkspc = (WorkSpace) goparam;
@@ -122,9 +126,7 @@ public class Avisos extends GenericAdmResource {
                         }
                     }
                     msg = "Se generó Aviso para el colega(s) correctamente.";
-                } else {
-                    msg = "Se generó Aviso para la comunidad correctamente.";
-                }
+                } 
 
             } else {
                 msg = "Error en los datos, no se pudo generar el aviso.";
@@ -144,13 +146,13 @@ public class Avisos extends GenericAdmResource {
 
     public static String getClassIconMessage(Aviso aviso) {
 
-        String ret = "user";
+        String ret = "aviso-usr";
         if (!aviso.listToUsers().hasNext() && aviso.getToUser() == null && aviso.getToWorkSpace() == null) {
-            ret = "community";
+            ret = "avisos-all";
         } else if (aviso.listToUsers().hasNext() && aviso.getToWorkSpace() == null) {
-            ret = "user";
+            ret = "aviso-usr";
         } else if (!aviso.listToUsers().hasNext() && aviso.getToUser() == null && aviso.getToWorkSpace() != null) {
-            ret = "workspace";
+            ret = "aviso-sys";
         }
         return ret;
     }
