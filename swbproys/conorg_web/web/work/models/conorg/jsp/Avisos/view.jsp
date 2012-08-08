@@ -59,7 +59,7 @@
     Iterator<Aviso> it = MessageUtils.getAllUserMessages(usr, wsite);
     intSize = SWBUtils.Collections.sizeOf(it);
     it = MessageUtils.getAllUserMessages(usr, wsite);
-    
+
     String strNumItems = base.getAttribute("numpag", "10");
     String npage = request.getParameter("page");
     String orderby = request.getParameter("order");
@@ -96,7 +96,7 @@
     }
 
     //12 Jun 2012, 11:35
-    SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy, hh:mm", new Locale("es"));
+    SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy, h:mm a", new Locale("es"));
 
     if (request.getParameter("alertmsg") != null) {
         String strMsg = request.getParameter("alertmsg");
@@ -144,7 +144,7 @@
     if (paramRequest.getCallMethod() == SWBParamRequest.Call_STRATEGY) {
 %>
 
-<div id="avisos">
+<div id="avisos" class="avisos">
     <h3>Avisos</h3>
     <%
         WebPage wpconfig = wsite.getWebPage(base.getAttribute("wpavisos", wpage.getId()));
@@ -167,7 +167,7 @@
                 numele = Integer.parseInt(base.getAttribute("numele"));
             } catch (Exception e) {
             }
-            int numtiles = 0;
+            int numavisos = 0;
 
 
             //ittil = MessageUtils.getOrderedMessagesByCreated(MessageUtils.getAllUserMessages(usr, wsite),Boolean.FALSE);
@@ -175,7 +175,7 @@
                 Aviso aviso = ittil.next();
 
                 if (paramRequest.getCallMethod() == SWBParamRequest.Call_STRATEGY) {
-                    if (numtiles == numele) {
+                    if (numavisos == numele) {
                         break;
                     }
                 }
@@ -204,8 +204,11 @@
                     strTitle = strTitle.substring(0, 50) + "...";
                 }
                 SWBResourceURLImp urledit = new SWBResourceURLImp(request, base, wpconfig, SWBResourceURLImp.UrlType_RENDER);
-                urledit.setParameter("act", SWBResourceURL.Action_EDIT);
+                urledit.setParameter("act", SWBResourceURL.Action_ADD);
                 urledit.setParameter("id", aviso.getId());
+                if (aviso.getFromUser() != null) {
+                    urledit.setParameter("usrid", aviso.getFromUser().getId());
+                }
                 urledit.setParameter("suri", aviso.getURI());
                 if (request.getParameter("wsid") != null) {
                     urledit.setParameter("wsid", request.getParameter("wsid"));
@@ -216,6 +219,7 @@
             <a href="<%=urledit%>"><%=strTitle%></a><br />
         </li>
         <%
+                numavisos++;
             }
         %>
         <li class="avisostodos"><a href="<%=urlall%>" >Ver todos los mensajes</a></li>
@@ -235,7 +239,7 @@
 
                     SWBResourceURLImp urladd = new SWBResourceURLImp(request, base, wpconfig, SWBResourceURLImp.UrlType_RENDER);
                     urladd.setParameter("act", SWBResourceURL.Action_ADD);
-                    
+
                     SWBResourceURLImp urlorder = new SWBResourceURLImp(request, base, wpconfig, SWBResourceURLImp.UrlType_RENDER);
                     urlorder.setParameter("act", "");
 
@@ -253,13 +257,19 @@
                     <tr>
                         <th class="remite"><strong>Remitente</strong></th>
                         <th class="aunto">
-                        <% if(!orderby.equals("title")) { %>
-                        <a href="<%=urlorder%>&order=title">Asunto</a>
-                        <% } else {%>
-                        <strong>Asunto</strong>
-                        <% } %>
+                            <% if (!orderby.equals("title")) {%>
+                            <a href="<%=urlorder%>&order=title">Asunto</a>
+                            <% } else {%>
+                            <strong>Asunto</strong>
+                            <% }%>
                         </th>
-                        <th class="fecha"><a href="<%=urlorder%>&orderby=date&direction=up">Fecha</a></th>
+                        <th class="fecha">
+                            <% if (!orderby.equals("date")) {%>
+                            <strong><a href="<%=urlorder%>&order=date&direction=up">Fecha</a></strong>
+                            <% } else {%>
+                            <strong><a href="<%=urlorder%>&order=date&direction=down">Fecha</a></strong>
+                            <% }%>
+                        </th>
                     </tr>
                 </thead>
 
@@ -332,14 +342,16 @@
                             urlsnd.setAction(SWBResourceURL.Action_ADD);
                             urlsnd.setParameter("id", aviso.getId());
                             urlsnd.setParameter("suri", aviso.getURI());
-                            urlsnd.setParameter("usrid", aviso.getFromUser().getId());
+                            if (aviso.getFromUser() != null) {
+                                urlsnd.setParameter("usrid", aviso.getFromUser().getId());
+                            }
                             urlsnd.setParameter("act", SWBResourceURL.Action_ADD);
 
                     %>
                     <tr>
 
                         <td><a href="<%=urlsnd%>"><%=strFrom%></a></td>
-                        <td ><%=strTitle%> - <%=strDescrip%></td>
+                        <td class="<%=Avisos.getClassIconMessage(aviso)%>"><%=strTitle%> - <%=strDescrip%></td>
                         <td><%=strDate%></td>
                     </tr>
                     <%
@@ -418,9 +430,8 @@
 
                 String usrid = request.getParameter("usrid");
                 String suri = request.getParameter("suri");
-                
-                if(suri!=null){
-                    
+
+                if (suri != null) {
                 }
 
 
@@ -451,129 +462,147 @@
 
                     %>
                     <script type="text/javascript">
-                        function shareSelect(forma){
+                        function chkNuevoAviso(){
                        
+                            var forma = document.forms['frmAviso'];
                             var valid = false; 
-                            var valid1 = false; 
-                            var hayws = false;
-                            var valid2 = false;
-                            var haycol = false;
-                        <%
-                                // validación si existen workspaces
-                                if (itwspace.hasNext()) {
-                        %>
-                                hayws = true;
-                                for(var i = 0; i < forma.workspaceid.options.length; i++) {  
-                                    if(forma.workspaceid.options[i].selected) {  
-                                        valid1 = true;  
-                                        break;  
-                                    }  
-                                }  
-                        <%                            }
-                                // validación si existen colegas
-                                if (itcol.hasNext()) {
-                        %>
-                                haycol = true;
-                                for(var i = 0; i < forma.contactid.options.length; i++) {  
-                                    if(forma.contactid.options[i].selected) {  
-                                        valid2 = true;  
-                                        break;  
-                                    }  
-                                }
-                        <%                            }
-                        %>
-                                if(valid1 || valid2){
+                            var strtmp = new String(forma.msgasunto.value);
+                            var newtmp = strtmp.replace(/ /g, '');
+                            strtmp = new String(forma.msgdescrip.value);
+                            var newtmp2 = strtmp.replace(/ /g, '');
+                            if(newtmp.length==0){
+                                alert('Falta poner el asunto del aviso.');
+                                forma.msgasunto.value='';
+                                forma.msgasunto.focus();
+                                valid = false;
+                            } else if(newtmp2.length==0){
+                                alert('Falta poner el mensaje del aviso.');
+                                forma.msgdescrip.value='';
+                                forma.msgdescrip.focus();
+                                valid = false;
+                            } else { valid=true;}
+ 
+                            if(!valid) return valid;
+                            //var valtipo=forma.tipomsg[0].checked;
+                            //alert(valtipo);
+                            valid=false;
+                        <%if (isAdmin) {%>
+                                if(forma.tipomsg[2].checked == true){
                                     valid = true;
-                                } else {
-                                    if(!valid1&&hayws){
-                                        alert('Debes de seleccionar por lo menos un Espacio de trabajo para poder compartir.');                                
+                                } 
+                        <%}%>
+                                //alert(forma.workspaceid.selectedIndex);
+                                if(forma.tipomsg[0].checked == true){
+                                    //alert(forma.workspaceid.selectedIndex);
+                                    if(forma.workspaceid.options[forma.workspaceid.selectedIndex].value != '0') {  
+                                        valid = true;   
+                                    }  
+
+                                    if(!valid) {
+                                        alert('Selecciona un espacio de trabajo de la lista.');
+                                        forma.workspaceid.focus();
                                     }
-                                    if(!valid2&&haycol){
-                                        alert('Debes de seleccionar por lo menos un colega para poder compartir.');                                
+                                } else if(forma.tipomsg[1].checked == true){
+                                    for(var i = 0; i < forma.contactid.options.length; i++) {  
+                                        if(forma.contactid.options[i].selected) {  
+                                            valid = true;  
+                                            break;  
+                                        }  
                                     }
-                                    valid = false;
+                                    if(!valid) {
+                                        alert('Selecciona uno o varios colegas de la lista.');
+                                        forma.contactid.focus();
+                                    }
                                 }
                         
-                                return valid;  
+                                if(valid) forma.submit();
+                                else return valid;  
  
-
+                            }
+                            
+                            function chkmsgType(valor){
+                                if(valor=='wrkspc'){
+                                    document.forms['frmAviso'].workspaceid.disabled='';
+                                    document.forms['frmAviso'].contactid.disabled='true';                                    
+                                } else if(valor=='users'){
+                                    document.forms['frmAviso'].workspaceid.disabled='true';
+                                    document.forms['frmAviso'].contactid.disabled='';                                    
+                                } else if(valor=='all'){
+                                    document.forms['frmAviso'].workspaceid.disabled='true';
+                                    document.forms['frmAviso'].contactid.disabled='true';                                    
+                                }  
                             }
                     </script>
-                    <form method="post" action="<%=urlshare%>" onsubmit="shareSelect(this);">
-                        <%
-                            if (!isAdmin) {
-                        %>
-                        <input type="hidden" name="forall" value="">
-                        <%                        
-                            }
-                        %>
+                    <form name="frmAviso" method="post" action="<%=urlshare%>" >
                         <table>
                             <tbody>
-                            <tr>
-                                <td >Asunto: </td>
-                                <td ><input type="text" size="30" name="msgasunto" value="" /></td>
+                                <tr>
+                                    <td >Asunto: </td>
+                                    <td ><input type="text" size="30" name="msgasunto" value="" /></td>
 
-                            </tr>
-                            <tr>
-                                <td>Mensaje:</td>
-                                <td><textarea rows="5" cols="30" name="msgdescrip"></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td>Mensaje:</td>
+                                    <td><textarea rows="5" cols="30" name="msgdescrip"></textarea></td> 
 
-                            </tr>
-                            <%
-                                if (isAdmin) {
-                            %>
-                            <tr>
-                                <td><label for="forall">Para todos:</label></td>
-                                <td>
-                                    <input type="checkbox" name="forall" value="all"/>
-                                </td>
-                            </tr>
-                            <%  
-                                }
-                            %>
-                            <tr>
-                                <td><label for="workspaceid">Espacios de trabajo:</label></td>
-                                <td>
-                                    <select name="workspaceid" >
-                                        <option value="0">Selecciona...</option>
+                                </tr>
+                                <tr>
+                                    <td>Tipo de aviso:</td>
+                                    <td><input type="radio" name="tipomsg" id="chk1" value="wrkspc" onclick="chkmsgType('wrkspc');" checked/><label for="chk1"> Espacio trabajo</label><br/>
+                                        <input type="radio" name="tipomsg" id="chk2" value="users" onclick="chkmsgType('users');"/><label for="chk2"> Usuarios</label><br/>
                                         <%
-                                            while (itwspace.hasNext()) {
-                                                WorkSpace wrkspc = itwspace.next();
+                                            if (isAdmin) {
                                         %>
-                                        <option value="<%=wrkspc.getURI()%>"><%=wrkspc.getTitle()%></option>
-                                        <%
-                                            }
+                                        <input type="radio" name="tipomsg" id="chk3" value="all" onclick="chkmsgType('all');"/><label for="chk3"> Para todos</label>                                                                  
+                                        <%                                    }
                                         %>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><label for="contactid">Contactos:</label></td>
-                                <td>
-                                    <select name="contactid" multiple size="5">
-                                        <%
-                                            String usrselected = "";
-                                            while (itcol.hasNext()) {
-                                                User usrcol = itcol.next();
-                                                usrselected = "";
-                                                if(usrid!=null&&!usrid.equals("")){
-                                                    if(usrcol.getId().equals(usrid)) usrselected = "selected";
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label for="workspaceid">Espacios de trabajo:</label></td>
+                                    <td>
+                                        <select name="workspaceid" >
+                                            <option value="0">Selecciona...</option>
+                                            <%
+                                                while (itwspace.hasNext()) {
+                                                    WorkSpace wrkspc = itwspace.next();
+                                            %>
+                                            <option value="<%=wrkspc.getURI()%>"><%=wrkspc.getTitle()%></option>
+                                            <%
                                                 }
-                                                
-                                        %>
-                                        <option value="<%=usrcol.getId()%>" <%=usrselected%> ><%=usrcol.getFullName()%></option> 
-                                        <%
-                                            }
-                                        %>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <button dojoType="dijit.form.Button" type="button" onclick="window.location='<%=urlback%>';return false;">Cancelar</button>
-                                    <button dojoType="dijit.form.Button" type="submit" >Crear</button>
-                                </td>
-                            </tr>
+                                            %>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label for="contactid">Contactos:</label></td>
+                                    <td>
+                                        <select name="contactid" multiple size="5" disabled="disabled">
+                                            <%
+                                                String usrselected = "";
+                                                while (itcol.hasNext()) {
+                                                    User usrcol = itcol.next();
+                                                    usrselected = "";
+                                                    if (usrid != null && !usrid.equals("")) {
+                                                        if (usrcol.getId().equals(usrid)) {
+                                                            usrselected = "selected";
+                                                        }
+                                                    }
+
+                                            %>
+                                            <option value="<%=usrcol.getId()%>" <%=usrselected%> ><%=usrcol.getFullName()%></option> 
+                                            <%
+                                                }
+                                            %>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <button dojoType="dijit.form.Button" type="button" onclick="window.location='<%=urlback%>';return false;">Cancelar</button>
+                                        <button dojoType="dijit.form.Button" type="button" onclick="if(chkNuevoAviso()){this.form.submit();} else { return false;};">Crear</button>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </form>
@@ -588,10 +617,13 @@
                 </div>
             </div>
             <%
-            } 
                 }
             %>
-        </div><!-- icv-data -->  
+        </div>
     </div>
 </div>
+<%
+    }
+%>
+
 
