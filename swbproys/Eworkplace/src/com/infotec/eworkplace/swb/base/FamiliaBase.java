@@ -4,8 +4,8 @@ package com.infotec.eworkplace.swb.base;
 public abstract class FamiliaBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Telefoneable
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_direccion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#direccion");
-    public static final org.semanticwb.platform.SemanticProperty intranet_parentesco=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#parentesco");
     public static final org.semanticwb.platform.SemanticProperty intranet_nombre=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nombre");
+    public static final org.semanticwb.platform.SemanticProperty intranet_parentesco=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#parentesco");
     public static final org.semanticwb.platform.SemanticClass intranet_Familia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Familia");
    /**
    * The semantic class that represents the currentObject
@@ -134,24 +134,6 @@ public abstract class FamiliaBase extends org.semanticwb.model.SWBClass implemen
     }
 
 /**
-* Gets the Parentesco property
-* @return String with the Parentesco
-*/
-    public String getParentesco()
-    {
-        return getSemanticObject().getProperty(intranet_parentesco);
-    }
-
-/**
-* Sets the Parentesco property
-* @param value long with the Parentesco
-*/
-    public void setParentesco(String value)
-    {
-        getSemanticObject().setProperty(intranet_parentesco, value);
-    }
-
-/**
 * Gets the Nombre property
 * @return String with the Nombre
 */
@@ -205,5 +187,23 @@ public abstract class FamiliaBase extends org.semanticwb.model.SWBClass implemen
              ret=(com.infotec.eworkplace.swb.Telefono)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the Parentesco property
+* @return String with the Parentesco
+*/
+    public String getParentesco()
+    {
+        return getSemanticObject().getProperty(intranet_parentesco);
+    }
+
+/**
+* Sets the Parentesco property
+* @param value long with the Parentesco
+*/
+    public void setParentesco(String value)
+    {
+        getSemanticObject().setProperty(intranet_parentesco, value);
     }
 }
