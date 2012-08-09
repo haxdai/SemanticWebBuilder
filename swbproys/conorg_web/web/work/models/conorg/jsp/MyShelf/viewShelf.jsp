@@ -4,6 +4,9 @@
     Author     : juan.fernandez
 --%>
 
+<%@page import="com.infotec.conorg.Topicable"%>
+<%@page import="org.semanticwb.model.Tagable"%>
+<%@page import="org.semanticwb.model.Descriptiveable"%>
 <%@page import="com.infotec.conorg.Colleague"%>
 <%@page import="org.semanticwb.model.PropertyGroup"%>
 <%@page import="java.util.TreeSet"%>
@@ -736,6 +739,84 @@
 
                 SWBFormMgr frmgr = new SWBFormMgr(so, null, editMode);
 
+                GenericObject go = so.createGenericInstance();
+                
+                frmgr.clearProperties();
+                if(go instanceof Tile){
+                    frmgr.addProperty(Descriptiveable.swb_title);
+                    frmgr.addProperty(Descriptiveable.swb_description);
+                    frmgr.addProperty(Tagable.swb_tags);
+                    frmgr.addProperty(Topicable.conorg_hasTopic); 
+                }
+                
+                if(go instanceof Document){
+                    frmgr.addProperty(Document.conorg_documentAbstract);
+                    frmgr.addProperty(Document.conorg_documentCity);
+                    frmgr.addProperty(Document.conorg_documentCountry);
+                    frmgr.addProperty(Document.conorg_documentEdition);
+                    frmgr.addProperty(Document.conorg_documentFormat);
+                    frmgr.addProperty(Document.conorg_documentPages);
+                    frmgr.addProperty(Document.conorg_documentPublisher);
+                    frmgr.addProperty(Document.conorg_documentURL);
+                    frmgr.addProperty(Document.conorg_documentYear);
+                   
+                }
+                
+                if(go instanceof Contact){
+                    frmgr.addProperty(Contact.conorg_contactAddress);
+                    frmgr.addProperty(Contact.conorg_contactDegree);
+                    frmgr.addProperty(Contact.conorg_contactEmail);
+                    frmgr.addProperty(Contact.conorg_contactExperienceArea);
+                    frmgr.addProperty(Contact.conorg_contactFirstName);
+                    frmgr.addProperty(Contact.conorg_contactHomePhone);
+                    frmgr.addProperty(Contact.conorg_contactLastName);
+                    frmgr.addProperty(Contact.conorg_contactMobilePhone);
+                    frmgr.addProperty(Contact.conorg_contactOfficePhone);
+                    frmgr.addProperty(Contact.conorg_contactOrganization);
+                    frmgr.addProperty(Contact.conorg_contactOrganizationArea); 
+                    frmgr.addProperty(Contact.conorg_contactOrganizationPosition);
+                    frmgr.addProperty(Contact.conorg_contactSocialNetworkId);
+                    frmgr.addProperty(Contact.conorg_contactURL);
+                }
+                
+                if(go instanceof URL){
+                    frmgr.addProperty(URL.conorg_url);
+                }
+                
+                if(go instanceof Article){
+                    frmgr.addProperty(Article.conorg_articleISSN);
+                    frmgr.addProperty(Article.conorg_articleIssue);
+                    frmgr.addProperty(Article.conorg_articleJournal);
+                    frmgr.addProperty(Article.conorg_articleNumber );
+                    frmgr.addProperty(Article.conorg_articleVolume );
+                }
+                
+                if(go instanceof ChapterBook){
+                    frmgr.addProperty(ChapterBook.conorg_chaptherBookTitle );
+                }
+                
+                if(go instanceof Image){
+                    frmgr.addProperty(Image.conorg_imageRights );
+                }
+                
+                if(go instanceof Manual){
+                    frmgr.addProperty(Manual.conorg_manualVersion );
+                }
+                
+                if(go instanceof Presentation){
+                    frmgr.addProperty(Presentation.conorg_presentationVersion );
+                }
+                
+                if(go instanceof Report){
+                    frmgr.addProperty(Report.conorg_reportVersion );
+                }
+                
+                if(go instanceof Video){
+                    frmgr.addProperty(Video.conorg_videoRights );
+                }
+                
+                
+                
                 HashMap<PropertyGroup, TreeSet> hmgroup = frmgr.getGroups();
                 Iterator<PropertyGroup> itpg = hmgroup.keySet().iterator();
 
@@ -774,7 +855,7 @@
                 VersionInfo vl = null;
                 VersionInfo ver = null;
 
-                GenericObject go = so.createGenericInstance();
+                go = so.createGenericInstance();
                 if (go instanceof Document) {
                     doc = (Document) go;
                 }
