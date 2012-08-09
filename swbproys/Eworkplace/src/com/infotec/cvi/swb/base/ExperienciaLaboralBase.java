@@ -1,18 +1,18 @@
 package com.infotec.cvi.swb.base;
 
 
-public abstract class ExperienciaLaboralBase extends com.infotec.cvi.swb.ExperienciaProfesional implements org.semanticwb.model.Traceable,com.infotec.eworkplace.swb.Telefoneable
+public abstract class ExperienciaLaboralBase extends com.infotec.cvi.swb.ExperienciaProfesional implements com.infotec.eworkplace.swb.Telefoneable,org.semanticwb.model.Traceable
 {
+    public static final org.semanticwb.platform.SemanticProperty intranet_jefe=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#jefe");
+    public static final org.semanticwb.platform.SemanticProperty intranet_fechaFin=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaFin");
+    public static final org.semanticwb.platform.SemanticProperty intranet_cargo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#cargo");
+    public static final org.semanticwb.platform.SemanticProperty intranet_funcionesPrincipales=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#funcionesPrincipales");
    /**
    * Catálogo utilizado para indicar el Sector en el cual has tenido Experiencia Laboral
    */
     public static final org.semanticwb.platform.SemanticClass intranet_Sector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Sector");
     public static final org.semanticwb.platform.SemanticProperty intranet_sector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sector");
-    public static final org.semanticwb.platform.SemanticProperty intranet_jefe=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#jefe");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaIni=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaIni");
-    public static final org.semanticwb.platform.SemanticProperty intranet_fechaFin=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaFin");
-    public static final org.semanticwb.platform.SemanticProperty intranet_cargo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#cargo");
-    public static final org.semanticwb.platform.SemanticProperty intranet_funcionesPrincipales=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#funcionesPrincipales");
     public static final org.semanticwb.platform.SemanticProperty intranet_empresa=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#empresa");
     public static final org.semanticwb.platform.SemanticProperty intranet_actual=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#actual");
     public static final org.semanticwb.platform.SemanticClass intranet_ExperienciaLaboral=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#ExperienciaLaboral");
@@ -91,29 +91,6 @@ public abstract class ExperienciaLaboralBase extends com.infotec.cvi.swb.Experie
             return (getExperienciaLaboral(id, model)!=null);
         }
        /**
-       * Gets all com.infotec.cvi.swb.ExperienciaLaboral with a determined Sector
-       * @param value Sector of the type com.infotec.cvi.swb.Sector
-       * @param model Model of the com.infotec.cvi.swb.ExperienciaLaboral
-       * @return Iterator with all the com.infotec.cvi.swb.ExperienciaLaboral
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.ExperienciaLaboral> listExperienciaLaboralBySector(com.infotec.cvi.swb.Sector value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ExperienciaLaboral> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_sector, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.cvi.swb.ExperienciaLaboral with a determined Sector
-       * @param value Sector of the type com.infotec.cvi.swb.Sector
-       * @return Iterator with all the com.infotec.cvi.swb.ExperienciaLaboral
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.ExperienciaLaboral> listExperienciaLaboralBySector(com.infotec.cvi.swb.Sector value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ExperienciaLaboral> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_sector,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all com.infotec.cvi.swb.ExperienciaLaboral with a determined ModifiedBy
        * @param value ModifiedBy of the type org.semanticwb.model.User
        * @param model Model of the com.infotec.cvi.swb.ExperienciaLaboral
@@ -134,29 +111,6 @@ public abstract class ExperienciaLaboralBase extends com.infotec.cvi.swb.Experie
         public static java.util.Iterator<com.infotec.cvi.swb.ExperienciaLaboral> listExperienciaLaboralByModifiedBy(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ExperienciaLaboral> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.cvi.swb.ExperienciaLaboral with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @param model Model of the com.infotec.cvi.swb.ExperienciaLaboral
-       * @return Iterator with all the com.infotec.cvi.swb.ExperienciaLaboral
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.ExperienciaLaboral> listExperienciaLaboralByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ExperienciaLaboral> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.cvi.swb.ExperienciaLaboral with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @return Iterator with all the com.infotec.cvi.swb.ExperienciaLaboral
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.ExperienciaLaboral> listExperienciaLaboralByCreator(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ExperienciaLaboral> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -182,6 +136,52 @@ public abstract class ExperienciaLaboralBase extends com.infotec.cvi.swb.Experie
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ExperienciaLaboral> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_telefono,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all com.infotec.cvi.swb.ExperienciaLaboral with a determined Sector
+       * @param value Sector of the type com.infotec.cvi.swb.Sector
+       * @param model Model of the com.infotec.cvi.swb.ExperienciaLaboral
+       * @return Iterator with all the com.infotec.cvi.swb.ExperienciaLaboral
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.ExperienciaLaboral> listExperienciaLaboralBySector(com.infotec.cvi.swb.Sector value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ExperienciaLaboral> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_sector, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.ExperienciaLaboral with a determined Sector
+       * @param value Sector of the type com.infotec.cvi.swb.Sector
+       * @return Iterator with all the com.infotec.cvi.swb.ExperienciaLaboral
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.ExperienciaLaboral> listExperienciaLaboralBySector(com.infotec.cvi.swb.Sector value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ExperienciaLaboral> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_sector,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.ExperienciaLaboral with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @param model Model of the com.infotec.cvi.swb.ExperienciaLaboral
+       * @return Iterator with all the com.infotec.cvi.swb.ExperienciaLaboral
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.ExperienciaLaboral> listExperienciaLaboralByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ExperienciaLaboral> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.ExperienciaLaboral with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @return Iterator with all the com.infotec.cvi.swb.ExperienciaLaboral
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.ExperienciaLaboral> listExperienciaLaboralByCreator(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ExperienciaLaboral> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
    /**
@@ -191,44 +191,6 @@ public abstract class ExperienciaLaboralBase extends com.infotec.cvi.swb.Experie
     public ExperienciaLaboralBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
-    }
-   /**
-   * Sets the value for the property Sector
-   * @param value Sector to set
-   */
-
-    public void setSector(com.infotec.cvi.swb.Sector value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(intranet_sector, value.getSemanticObject());
-        }else
-        {
-            removeSector();
-        }
-    }
-   /**
-   * Remove the value for Sector property
-   */
-
-    public void removeSector()
-    {
-        getSemanticObject().removeProperty(intranet_sector);
-    }
-
-   /**
-   * Gets the Sector
-   * @return a com.infotec.cvi.swb.Sector
-   */
-    public com.infotec.cvi.swb.Sector getSector()
-    {
-         com.infotec.cvi.swb.Sector ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_sector);
-         if(obj!=null)
-         {
-             ret=(com.infotec.cvi.swb.Sector)obj.createGenericInstance();
-         }
-         return ret;
     }
 
 /**
@@ -247,24 +209,6 @@ public abstract class ExperienciaLaboralBase extends com.infotec.cvi.swb.Experie
     public void setJefe(String value)
     {
         getSemanticObject().setProperty(intranet_jefe, value);
-    }
-
-/**
-* Gets the FechaIni property
-* @return java.util.Date with the FechaIni
-*/
-    public java.util.Date getFechaIni()
-    {
-        return getSemanticObject().getDateProperty(intranet_fechaIni);
-    }
-
-/**
-* Sets the FechaIni property
-* @param value long with the FechaIni
-*/
-    public void setFechaIni(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(intranet_fechaIni, value);
     }
 
 /**
@@ -357,6 +301,62 @@ public abstract class ExperienciaLaboralBase extends com.infotec.cvi.swb.Experie
              ret=(com.infotec.eworkplace.swb.Telefono)obj.createGenericInstance();
          }
          return ret;
+    }
+   /**
+   * Sets the value for the property Sector
+   * @param value Sector to set
+   */
+
+    public void setSector(com.infotec.cvi.swb.Sector value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_sector, value.getSemanticObject());
+        }else
+        {
+            removeSector();
+        }
+    }
+   /**
+   * Remove the value for Sector property
+   */
+
+    public void removeSector()
+    {
+        getSemanticObject().removeProperty(intranet_sector);
+    }
+
+   /**
+   * Gets the Sector
+   * @return a com.infotec.cvi.swb.Sector
+   */
+    public com.infotec.cvi.swb.Sector getSector()
+    {
+         com.infotec.cvi.swb.Sector ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_sector);
+         if(obj!=null)
+         {
+             ret=(com.infotec.cvi.swb.Sector)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+/**
+* Gets the FechaIni property
+* @return java.util.Date with the FechaIni
+*/
+    public java.util.Date getFechaIni()
+    {
+        return getSemanticObject().getDateProperty(intranet_fechaIni);
+    }
+
+/**
+* Sets the FechaIni property
+* @param value long with the FechaIni
+*/
+    public void setFechaIni(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(intranet_fechaIni, value);
     }
 
 /**

@@ -96,6 +96,57 @@ public abstract class CursoTICBase extends org.semanticwb.model.SWBClass impleme
     }
 
 /**
+* Gets the Title property
+* @return String with the Title
+*/
+    public String getTitle()
+    {
+        return getSemanticObject().getProperty(swb_title);
+    }
+
+/**
+* Sets the Title property
+* @param value long with the Title
+*/
+    public void setTitle(String value)
+    {
+        getSemanticObject().setProperty(swb_title, value);
+    }
+
+    public String getTitle(String lang)
+    {
+        return getSemanticObject().getProperty(swb_title, null, lang);
+    }
+
+    public String getDisplayTitle(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_title, lang);
+    }
+
+    public void setTitle(String title, String lang)
+    {
+        getSemanticObject().setProperty(swb_title, title, lang);
+    }
+
+/**
+* Gets the Inicio property
+* @return int with the Inicio
+*/
+    public int getInicio()
+    {
+        return getSemanticObject().getIntProperty(intranet_inicio);
+    }
+
+/**
+* Sets the Inicio property
+* @param value long with the Inicio
+*/
+    public void setInicio(int value)
+    {
+        getSemanticObject().setIntProperty(intranet_inicio, value);
+    }
+
+/**
 * Gets the DocumentoObtenido property
 * @return String with the DocumentoObtenido
 */
@@ -180,56 +231,5 @@ public abstract class CursoTICBase extends org.semanticwb.model.SWBClass impleme
     public void setFin(int value)
     {
         getSemanticObject().setIntProperty(intranet_fin, value);
-    }
-
-/**
-* Gets the Title property
-* @return String with the Title
-*/
-    public String getTitle()
-    {
-        return getSemanticObject().getProperty(swb_title);
-    }
-
-/**
-* Sets the Title property
-* @param value long with the Title
-*/
-    public void setTitle(String value)
-    {
-        getSemanticObject().setProperty(swb_title, value);
-    }
-
-    public String getTitle(String lang)
-    {
-        return getSemanticObject().getProperty(swb_title, null, lang);
-    }
-
-    public String getDisplayTitle(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_title, lang);
-    }
-
-    public void setTitle(String title, String lang)
-    {
-        getSemanticObject().setProperty(swb_title, title, lang);
-    }
-
-/**
-* Gets the Inicio property
-* @return int with the Inicio
-*/
-    public int getInicio()
-    {
-        return getSemanticObject().getIntProperty(intranet_inicio);
-    }
-
-/**
-* Sets the Inicio property
-* @param value long with the Inicio
-*/
-    public void setInicio(int value)
-    {
-        getSemanticObject().setIntProperty(intranet_inicio, value);
     }
 }

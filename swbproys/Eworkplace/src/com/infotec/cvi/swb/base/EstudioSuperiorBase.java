@@ -6,12 +6,12 @@ package com.infotec.cvi.swb.base;
    */
 public abstract class EstudioSuperiorBase extends org.semanticwb.model.SWBClass implements com.infotec.cvi.swb.Periodo
 {
+    public static final org.semanticwb.platform.SemanticProperty intranet_otroEstudio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#otroEstudio");
    /**
    * Catálogo utilizado para indicar el grado de avance del Estudio
    */
     public static final org.semanticwb.platform.SemanticClass intranet_Avance=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Avance");
     public static final org.semanticwb.platform.SemanticProperty intranet_gradoAvance=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#gradoAvance");
-    public static final org.semanticwb.platform.SemanticProperty intranet_otroEstudio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#otroEstudio");
    /**
    * Catálogo utilizado para almacenar los diferentes Estudios Superiores
    */
@@ -151,6 +151,42 @@ public abstract class EstudioSuperiorBase extends org.semanticwb.model.SWBClass 
     {
         super(base);
     }
+
+/**
+* Gets the OtroEstudio property
+* @return String with the OtroEstudio
+*/
+    public String getOtroEstudio()
+    {
+        return getSemanticObject().getProperty(intranet_otroEstudio);
+    }
+
+/**
+* Sets the OtroEstudio property
+* @param value long with the OtroEstudio
+*/
+    public void setOtroEstudio(String value)
+    {
+        getSemanticObject().setProperty(intranet_otroEstudio, value);
+    }
+
+/**
+* Gets the PeriodoYears property
+* @return int with the PeriodoYears
+*/
+    public int getPeriodoYears()
+    {
+        return getSemanticObject().getIntProperty(intranet_periodoYears);
+    }
+
+/**
+* Sets the PeriodoYears property
+* @param value long with the PeriodoYears
+*/
+    public void setPeriodoYears(int value)
+    {
+        getSemanticObject().setIntProperty(intranet_periodoYears, value);
+    }
    /**
    * Sets the value for the property GradoAvance
    * @param value GradoAvance to set
@@ -189,24 +225,6 @@ public abstract class EstudioSuperiorBase extends org.semanticwb.model.SWBClass 
          }
          return ret;
     }
-
-/**
-* Gets the OtroEstudio property
-* @return String with the OtroEstudio
-*/
-    public String getOtroEstudio()
-    {
-        return getSemanticObject().getProperty(intranet_otroEstudio);
-    }
-
-/**
-* Sets the OtroEstudio property
-* @param value long with the OtroEstudio
-*/
-    public void setOtroEstudio(String value)
-    {
-        getSemanticObject().setProperty(intranet_otroEstudio, value);
-    }
    /**
    * Sets the value for the property EstudiosSuperiores
    * @param value EstudiosSuperiores to set
@@ -244,23 +262,5 @@ public abstract class EstudioSuperiorBase extends org.semanticwb.model.SWBClass 
              ret=(com.infotec.cvi.swb.Estudios)obj.createGenericInstance();
          }
          return ret;
-    }
-
-/**
-* Gets the PeriodoYears property
-* @return int with the PeriodoYears
-*/
-    public int getPeriodoYears()
-    {
-        return getSemanticObject().getIntProperty(intranet_periodoYears);
-    }
-
-/**
-* Sets the PeriodoYears property
-* @param value long with the PeriodoYears
-*/
-    public void setPeriodoYears(int value)
-    {
-        getSemanticObject().setIntProperty(intranet_periodoYears, value);
     }
 }
