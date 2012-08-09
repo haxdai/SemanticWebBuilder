@@ -6,12 +6,16 @@ package com.infotec.rh.syr.swb.base;
    */
 public abstract class ContratoBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable
 {
+    public static final org.semanticwb.platform.SemanticProperty intranet_referenciaContratacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#referenciaContratacion");
+    public static final org.semanticwb.platform.SemanticClass intranet_SolicitudBajaRecurso=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#SolicitudBajaRecurso");
+    public static final org.semanticwb.platform.SemanticProperty intranet_solicitudBajaContrato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#solicitudBajaContrato");
     public static final org.semanticwb.platform.SemanticProperty intranet_colaboradoAnteriormente=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#colaboradoAnteriormente");
    /**
    * Elemento utilizado para guardar los Documentos Probatorios que respalda la información del CV capturada por el usuario
    */
     public static final org.semanticwb.platform.SemanticClass intranet_DocumentoProbatorio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#DocumentoProbatorio");
     public static final org.semanticwb.platform.SemanticProperty intranet_documentosContrato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#documentosContrato");
+    public static final org.semanticwb.platform.SemanticProperty intranet_fechaEntregaRH=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaEntregaRH");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaIngresoInfotec=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaIngresoInfotec");
    /**
    * Elemento que contiene la información del perfil del usuario requerido
@@ -26,7 +30,9 @@ public abstract class ContratoBase extends org.semanticwb.model.SWBClass impleme
     public static final org.semanticwb.platform.SemanticProperty intranet_numeroPagos=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#numeroPagos");
     public static final org.semanticwb.platform.SemanticProperty intranet_presentaDeclaracion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#presentaDeclaracion");
     public static final org.semanticwb.platform.SemanticProperty intranet_folioContrato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#folioContrato");
+    public static final org.semanticwb.platform.SemanticProperty intranet_compensacionGarantizada=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#compensacionGarantizada");
     public static final org.semanticwb.platform.SemanticProperty intranet_periodoPagos=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#periodoPagos");
+    public static final org.semanticwb.platform.SemanticProperty intranet_FechaEnvioContrato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#FechaEnvioContrato");
     public static final org.semanticwb.platform.SemanticProperty intranet_numEmpleado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#numEmpleado");
     public static final org.semanticwb.platform.SemanticProperty intranet_seguridadSocial=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#seguridadSocial");
    /**
@@ -34,11 +40,18 @@ public abstract class ContratoBase extends org.semanticwb.model.SWBClass impleme
    */
     public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
     public static final org.semanticwb.platform.SemanticProperty intranet_encargadoCotejo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#encargadoCotejo");
+    public static final org.semanticwb.platform.SemanticProperty intranet_vigenciaMesesLetra=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#vigenciaMesesLetra");
+    public static final org.semanticwb.platform.SemanticProperty intranet_estatusContrato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#estatusContrato");
+    public static final org.semanticwb.platform.SemanticProperty intranet_importeMensualLetra=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#importeMensualLetra");
+    public static final org.semanticwb.platform.SemanticProperty intranet_importePagosLetra=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#importePagosLetra");
+    public static final org.semanticwb.platform.SemanticClass intranet_SolicitudPromocion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#SolicitudPromocion");
+    public static final org.semanticwb.platform.SemanticProperty intranet_solicitudPromocionContrato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#solicitudPromocionContrato");
    /**
    * Registra observaciones al contrato
    */
     public static final org.semanticwb.platform.SemanticProperty intranet_observacionesContrato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#observacionesContrato");
     public static final org.semanticwb.platform.SemanticProperty intranet_tipoDeContrato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#tipoDeContrato");
+    public static final org.semanticwb.platform.SemanticProperty intranet_cargoAutorizasolicitudContrato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#cargoAutorizasolicitudContrato");
     public static final org.semanticwb.platform.SemanticProperty intranet_requiereKit=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#requiereKit");
    /**
    * Encapsula las propiedades de la generación del contrato
@@ -139,6 +152,29 @@ public abstract class ContratoBase extends org.semanticwb.model.SWBClass impleme
         public static java.util.Iterator<com.infotec.rh.syr.swb.Contrato> listContratoByModifiedBy(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.Contrato> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.Contrato with a determined SolicitudBajaContrato
+       * @param value SolicitudBajaContrato of the type com.infotec.rh.syr.swb.SolicitudBajaRecurso
+       * @param model Model of the com.infotec.rh.syr.swb.Contrato
+       * @return Iterator with all the com.infotec.rh.syr.swb.Contrato
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.Contrato> listContratoBySolicitudBajaContrato(com.infotec.rh.syr.swb.SolicitudBajaRecurso value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.Contrato> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_solicitudBajaContrato, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.Contrato with a determined SolicitudBajaContrato
+       * @param value SolicitudBajaContrato of the type com.infotec.rh.syr.swb.SolicitudBajaRecurso
+       * @return Iterator with all the com.infotec.rh.syr.swb.Contrato
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.Contrato> listContratoBySolicitudBajaContrato(com.infotec.rh.syr.swb.SolicitudBajaRecurso value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.Contrato> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_solicitudBajaContrato,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -256,6 +292,29 @@ public abstract class ContratoBase extends org.semanticwb.model.SWBClass impleme
             org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.Contrato> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all com.infotec.rh.syr.swb.Contrato with a determined SolicitudPromocionContrato
+       * @param value SolicitudPromocionContrato of the type com.infotec.rh.syr.swb.SolicitudPromocion
+       * @param model Model of the com.infotec.rh.syr.swb.Contrato
+       * @return Iterator with all the com.infotec.rh.syr.swb.Contrato
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.Contrato> listContratoBySolicitudPromocionContrato(com.infotec.rh.syr.swb.SolicitudPromocion value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.Contrato> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_solicitudPromocionContrato, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.Contrato with a determined SolicitudPromocionContrato
+       * @param value SolicitudPromocionContrato of the type com.infotec.rh.syr.swb.SolicitudPromocion
+       * @return Iterator with all the com.infotec.rh.syr.swb.Contrato
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.Contrato> listContratoBySolicitudPromocionContrato(com.infotec.rh.syr.swb.SolicitudPromocion value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.Contrato> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_solicitudPromocionContrato,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
    /**
@@ -265,6 +324,24 @@ public abstract class ContratoBase extends org.semanticwb.model.SWBClass impleme
     public ContratoBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+/**
+* Gets the ReferenciaContratacion property
+* @return String with the ReferenciaContratacion
+*/
+    public String getReferenciaContratacion()
+    {
+        return getSemanticObject().getProperty(intranet_referenciaContratacion);
+    }
+
+/**
+* Sets the ReferenciaContratacion property
+* @param value long with the ReferenciaContratacion
+*/
+    public void setReferenciaContratacion(String value)
+    {
+        getSemanticObject().setProperty(intranet_referenciaContratacion, value);
     }
    /**
    * Sets the value for the property ModifiedBy
@@ -301,6 +378,44 @@ public abstract class ContratoBase extends org.semanticwb.model.SWBClass impleme
          if(obj!=null)
          {
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Sets the value for the property SolicitudBajaContrato
+   * @param value SolicitudBajaContrato to set
+   */
+
+    public void setSolicitudBajaContrato(com.infotec.rh.syr.swb.SolicitudBajaRecurso value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_solicitudBajaContrato, value.getSemanticObject());
+        }else
+        {
+            removeSolicitudBajaContrato();
+        }
+    }
+   /**
+   * Remove the value for SolicitudBajaContrato property
+   */
+
+    public void removeSolicitudBajaContrato()
+    {
+        getSemanticObject().removeProperty(intranet_solicitudBajaContrato);
+    }
+
+   /**
+   * Gets the SolicitudBajaContrato
+   * @return a com.infotec.rh.syr.swb.SolicitudBajaRecurso
+   */
+    public com.infotec.rh.syr.swb.SolicitudBajaRecurso getSolicitudBajaContrato()
+    {
+         com.infotec.rh.syr.swb.SolicitudBajaRecurso ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_solicitudBajaContrato);
+         if(obj!=null)
+         {
+             ret=(com.infotec.rh.syr.swb.SolicitudBajaRecurso)obj.createGenericInstance();
          }
          return ret;
     }
@@ -377,6 +492,24 @@ public abstract class ContratoBase extends org.semanticwb.model.SWBClass impleme
     public void setCreated(java.util.Date value)
     {
         getSemanticObject().setDateProperty(swb_created, value);
+    }
+
+/**
+* Gets the FechaEntregaRH property
+* @return java.util.Date with the FechaEntregaRH
+*/
+    public java.util.Date getFechaEntregaRH()
+    {
+        return getSemanticObject().getDateProperty(intranet_fechaEntregaRH);
+    }
+
+/**
+* Sets the FechaEntregaRH property
+* @param value long with the FechaEntregaRH
+*/
+    public void setFechaEntregaRH(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(intranet_fechaEntregaRH, value);
     }
 
 /**
@@ -582,6 +715,24 @@ public abstract class ContratoBase extends org.semanticwb.model.SWBClass impleme
     }
 
 /**
+* Gets the CompensacionGarantizada property
+* @return String with the CompensacionGarantizada
+*/
+    public String getCompensacionGarantizada()
+    {
+        return getSemanticObject().getProperty(intranet_compensacionGarantizada);
+    }
+
+/**
+* Sets the CompensacionGarantizada property
+* @param value long with the CompensacionGarantizada
+*/
+    public void setCompensacionGarantizada(String value)
+    {
+        getSemanticObject().setProperty(intranet_compensacionGarantizada, value);
+    }
+
+/**
 * Gets the PeriodoPagos property
 * @return String with the PeriodoPagos
 */
@@ -615,6 +766,24 @@ public abstract class ContratoBase extends org.semanticwb.model.SWBClass impleme
     public void setUpdated(java.util.Date value)
     {
         getSemanticObject().setDateProperty(swb_updated, value);
+    }
+
+/**
+* Gets the FechaEnvioContrato property
+* @return java.util.Date with the FechaEnvioContrato
+*/
+    public java.util.Date getFechaEnvioContrato()
+    {
+        return getSemanticObject().getDateProperty(intranet_FechaEnvioContrato);
+    }
+
+/**
+* Sets the FechaEnvioContrato property
+* @param value long with the FechaEnvioContrato
+*/
+    public void setFechaEnvioContrato(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(intranet_FechaEnvioContrato, value);
     }
 
 /**
@@ -690,6 +859,42 @@ public abstract class ContratoBase extends org.semanticwb.model.SWBClass impleme
          }
          return ret;
     }
+
+/**
+* Gets the VigenciaMesesLetra property
+* @return String with the VigenciaMesesLetra
+*/
+    public String getVigenciaMesesLetra()
+    {
+        return getSemanticObject().getProperty(intranet_vigenciaMesesLetra);
+    }
+
+/**
+* Sets the VigenciaMesesLetra property
+* @param value long with the VigenciaMesesLetra
+*/
+    public void setVigenciaMesesLetra(String value)
+    {
+        getSemanticObject().setProperty(intranet_vigenciaMesesLetra, value);
+    }
+
+/**
+* Gets the EstatusContrato property
+* @return String with the EstatusContrato
+*/
+    public String getEstatusContrato()
+    {
+        return getSemanticObject().getProperty(intranet_estatusContrato);
+    }
+
+/**
+* Sets the EstatusContrato property
+* @param value long with the EstatusContrato
+*/
+    public void setEstatusContrato(String value)
+    {
+        getSemanticObject().setProperty(intranet_estatusContrato, value);
+    }
    /**
    * Sets the value for the property Creator
    * @param value Creator to set
@@ -730,6 +935,80 @@ public abstract class ContratoBase extends org.semanticwb.model.SWBClass impleme
     }
 
 /**
+* Gets the ImporteMensualLetra property
+* @return String with the ImporteMensualLetra
+*/
+    public String getImporteMensualLetra()
+    {
+        return getSemanticObject().getProperty(intranet_importeMensualLetra);
+    }
+
+/**
+* Sets the ImporteMensualLetra property
+* @param value long with the ImporteMensualLetra
+*/
+    public void setImporteMensualLetra(String value)
+    {
+        getSemanticObject().setProperty(intranet_importeMensualLetra, value);
+    }
+
+/**
+* Gets the ImportePagosLetra property
+* @return String with the ImportePagosLetra
+*/
+    public String getImportePagosLetra()
+    {
+        return getSemanticObject().getProperty(intranet_importePagosLetra);
+    }
+
+/**
+* Sets the ImportePagosLetra property
+* @param value long with the ImportePagosLetra
+*/
+    public void setImportePagosLetra(String value)
+    {
+        getSemanticObject().setProperty(intranet_importePagosLetra, value);
+    }
+   /**
+   * Sets the value for the property SolicitudPromocionContrato
+   * @param value SolicitudPromocionContrato to set
+   */
+
+    public void setSolicitudPromocionContrato(com.infotec.rh.syr.swb.SolicitudPromocion value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_solicitudPromocionContrato, value.getSemanticObject());
+        }else
+        {
+            removeSolicitudPromocionContrato();
+        }
+    }
+   /**
+   * Remove the value for SolicitudPromocionContrato property
+   */
+
+    public void removeSolicitudPromocionContrato()
+    {
+        getSemanticObject().removeProperty(intranet_solicitudPromocionContrato);
+    }
+
+   /**
+   * Gets the SolicitudPromocionContrato
+   * @return a com.infotec.rh.syr.swb.SolicitudPromocion
+   */
+    public com.infotec.rh.syr.swb.SolicitudPromocion getSolicitudPromocionContrato()
+    {
+         com.infotec.rh.syr.swb.SolicitudPromocion ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_solicitudPromocionContrato);
+         if(obj!=null)
+         {
+             ret=(com.infotec.rh.syr.swb.SolicitudPromocion)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+/**
 * Gets the ObservacionesContrato property
 * @return String with the ObservacionesContrato
 */
@@ -763,6 +1042,24 @@ public abstract class ContratoBase extends org.semanticwb.model.SWBClass impleme
     public void setTipoDeContrato(int value)
     {
         getSemanticObject().setIntProperty(intranet_tipoDeContrato, value);
+    }
+
+/**
+* Gets the CargoAutorizasolicitudContrato property
+* @return String with the CargoAutorizasolicitudContrato
+*/
+    public String getCargoAutorizasolicitudContrato()
+    {
+        return getSemanticObject().getProperty(intranet_cargoAutorizasolicitudContrato);
+    }
+
+/**
+* Sets the CargoAutorizasolicitudContrato property
+* @param value long with the CargoAutorizasolicitudContrato
+*/
+    public void setCargoAutorizasolicitudContrato(String value)
+    {
+        getSemanticObject().setProperty(intranet_cargoAutorizasolicitudContrato, value);
     }
 
 /**
