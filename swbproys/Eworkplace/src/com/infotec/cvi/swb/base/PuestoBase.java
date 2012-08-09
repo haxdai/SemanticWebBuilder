@@ -116,29 +116,6 @@ public abstract class PuestoBase extends com.infotec.cvi.swb.Catalogo implements
             return it;
         }
        /**
-       * Gets all com.infotec.cvi.swb.Puesto with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @param model Model of the com.infotec.cvi.swb.Puesto
-       * @return Iterator with all the com.infotec.cvi.swb.Puesto
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.Puesto> listPuestoByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Puesto> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.cvi.swb.Puesto with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @return Iterator with all the com.infotec.cvi.swb.Puesto
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.Puesto> listPuestoByCreator(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Puesto> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all com.infotec.cvi.swb.Puesto with a determined TipoContrato
        * @param value TipoContrato of the type com.infotec.cvi.swb.TipoContratacion
        * @param model Model of the com.infotec.cvi.swb.Puesto
@@ -159,6 +136,29 @@ public abstract class PuestoBase extends com.infotec.cvi.swb.Catalogo implements
         public static java.util.Iterator<com.infotec.cvi.swb.Puesto> listPuestoByTipoContrato(com.infotec.cvi.swb.TipoContratacion value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Puesto> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_tipoContrato,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.Puesto with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @param model Model of the com.infotec.cvi.swb.Puesto
+       * @return Iterator with all the com.infotec.cvi.swb.Puesto
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.Puesto> listPuestoByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Puesto> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.Puesto with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @return Iterator with all the com.infotec.cvi.swb.Puesto
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.Puesto> listPuestoByCreator(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Puesto> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
     }

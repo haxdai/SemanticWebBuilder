@@ -7,14 +7,6 @@ package com.infotec.cvi.swb.base;
 public abstract class MunicipioBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
    /**
-   * Catálogo utilizado para los Códigos Postales definidos en México
-   */
-    public static final org.semanticwb.platform.SemanticClass intranet_CP=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#CP");
-   /**
-   * Lista de Códigos Postales asociados al Municipio
-   */
-    public static final org.semanticwb.platform.SemanticProperty intranet_hasCP=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasCP");
-   /**
    * Catálogo utilizado para almacenar las Entidades Federativas utilizadas en Domicilio de la persona
    */
     public static final org.semanticwb.platform.SemanticClass intranet_EntidadFederativa=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#EntidadFederativa");
@@ -27,6 +19,14 @@ public abstract class MunicipioBase extends com.infotec.cvi.swb.Catalogo impleme
    * Lista de colonias asociadas al Municipio
    */
     public static final org.semanticwb.platform.SemanticProperty intranet_hasColonias=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasColonias");
+   /**
+   * Catálogo utilizado para los Códigos Postales definidos en México
+   */
+    public static final org.semanticwb.platform.SemanticClass intranet_CP=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#CP");
+   /**
+   * Lista de Códigos Postales asociados al Municipio
+   */
+    public static final org.semanticwb.platform.SemanticProperty intranet_hasCP=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasCP");
    /**
    * Catálogo utilizado para los Municipios de las Entidades Federativas
    */
@@ -100,29 +100,6 @@ public abstract class MunicipioBase extends com.infotec.cvi.swb.Catalogo impleme
             return (getMunicipio(id, model)!=null);
         }
        /**
-       * Gets all com.infotec.cvi.swb.Municipio with a determined CP
-       * @param value CP of the type com.infotec.cvi.swb.CP
-       * @param model Model of the com.infotec.cvi.swb.Municipio
-       * @return Iterator with all the com.infotec.cvi.swb.Municipio
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.Municipio> listMunicipioByCP(com.infotec.cvi.swb.CP value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Municipio> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasCP, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.cvi.swb.Municipio with a determined CP
-       * @param value CP of the type com.infotec.cvi.swb.CP
-       * @return Iterator with all the com.infotec.cvi.swb.Municipio
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.Municipio> listMunicipioByCP(com.infotec.cvi.swb.CP value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Municipio> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasCP,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all com.infotec.cvi.swb.Municipio with a determined ModifiedBy
        * @param value ModifiedBy of the type org.semanticwb.model.User
        * @param model Model of the com.infotec.cvi.swb.Municipio
@@ -169,29 +146,6 @@ public abstract class MunicipioBase extends com.infotec.cvi.swb.Catalogo impleme
             return it;
         }
        /**
-       * Gets all com.infotec.cvi.swb.Municipio with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @param model Model of the com.infotec.cvi.swb.Municipio
-       * @return Iterator with all the com.infotec.cvi.swb.Municipio
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.Municipio> listMunicipioByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Municipio> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.cvi.swb.Municipio with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @return Iterator with all the com.infotec.cvi.swb.Municipio
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.Municipio> listMunicipioByCreator(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Municipio> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all com.infotec.cvi.swb.Municipio with a determined Colonias
        * @param value Colonias of the type com.infotec.cvi.swb.Colonia
        * @param model Model of the com.infotec.cvi.swb.Municipio
@@ -214,6 +168,52 @@ public abstract class MunicipioBase extends com.infotec.cvi.swb.Catalogo impleme
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Municipio> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasColonias,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all com.infotec.cvi.swb.Municipio with a determined CP
+       * @param value CP of the type com.infotec.cvi.swb.CP
+       * @param model Model of the com.infotec.cvi.swb.Municipio
+       * @return Iterator with all the com.infotec.cvi.swb.Municipio
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.Municipio> listMunicipioByCP(com.infotec.cvi.swb.CP value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Municipio> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasCP, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.Municipio with a determined CP
+       * @param value CP of the type com.infotec.cvi.swb.CP
+       * @return Iterator with all the com.infotec.cvi.swb.Municipio
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.Municipio> listMunicipioByCP(com.infotec.cvi.swb.CP value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Municipio> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasCP,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.Municipio with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @param model Model of the com.infotec.cvi.swb.Municipio
+       * @return Iterator with all the com.infotec.cvi.swb.Municipio
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.Municipio> listMunicipioByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Municipio> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.Municipio with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @return Iterator with all the com.infotec.cvi.swb.Municipio
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.Municipio> listMunicipioByCreator(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Municipio> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
    /**
@@ -223,71 +223,6 @@ public abstract class MunicipioBase extends com.infotec.cvi.swb.Catalogo impleme
     public MunicipioBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
-    }
-   /**
-   * Gets all the com.infotec.cvi.swb.CP
-   * @return A GenericIterator with all the com.infotec.cvi.swb.CP
-   */
-
-    public org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.CP> listCPs()
-    {
-        return new org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.CP>(getSemanticObject().listObjectProperties(intranet_hasCP));
-    }
-
-   /**
-   * Gets true if has a CP
-   * @param value com.infotec.cvi.swb.CP to verify
-   * @return true if the com.infotec.cvi.swb.CP exists, false otherwise
-   */
-    public boolean hasCP(com.infotec.cvi.swb.CP value)
-    {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(intranet_hasCP,value.getSemanticObject());
-        }
-        return ret;
-    }
-   /**
-   * Adds a CP
-   * @param value com.infotec.cvi.swb.CP to add
-   */
-
-    public void addCP(com.infotec.cvi.swb.CP value)
-    {
-        getSemanticObject().addObjectProperty(intranet_hasCP, value.getSemanticObject());
-    }
-   /**
-   * Removes all the CP
-   */
-
-    public void removeAllCP()
-    {
-        getSemanticObject().removeProperty(intranet_hasCP);
-    }
-   /**
-   * Removes a CP
-   * @param value com.infotec.cvi.swb.CP to remove
-   */
-
-    public void removeCP(com.infotec.cvi.swb.CP value)
-    {
-        getSemanticObject().removeObjectProperty(intranet_hasCP,value.getSemanticObject());
-    }
-
-   /**
-   * Gets the CP
-   * @return a com.infotec.cvi.swb.CP
-   */
-    public com.infotec.cvi.swb.CP getCP()
-    {
-         com.infotec.cvi.swb.CP ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasCP);
-         if(obj!=null)
-         {
-             ret=(com.infotec.cvi.swb.CP)obj.createGenericInstance();
-         }
-         return ret;
     }
    /**
    * Sets the value for the property EntidadInv
@@ -389,6 +324,71 @@ public abstract class MunicipioBase extends com.infotec.cvi.swb.Catalogo impleme
          if(obj!=null)
          {
              ret=(com.infotec.cvi.swb.Colonia)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Gets all the com.infotec.cvi.swb.CP
+   * @return A GenericIterator with all the com.infotec.cvi.swb.CP
+   */
+
+    public org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.CP> listCPs()
+    {
+        return new org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.CP>(getSemanticObject().listObjectProperties(intranet_hasCP));
+    }
+
+   /**
+   * Gets true if has a CP
+   * @param value com.infotec.cvi.swb.CP to verify
+   * @return true if the com.infotec.cvi.swb.CP exists, false otherwise
+   */
+    public boolean hasCP(com.infotec.cvi.swb.CP value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(intranet_hasCP,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a CP
+   * @param value com.infotec.cvi.swb.CP to add
+   */
+
+    public void addCP(com.infotec.cvi.swb.CP value)
+    {
+        getSemanticObject().addObjectProperty(intranet_hasCP, value.getSemanticObject());
+    }
+   /**
+   * Removes all the CP
+   */
+
+    public void removeAllCP()
+    {
+        getSemanticObject().removeProperty(intranet_hasCP);
+    }
+   /**
+   * Removes a CP
+   * @param value com.infotec.cvi.swb.CP to remove
+   */
+
+    public void removeCP(com.infotec.cvi.swb.CP value)
+    {
+        getSemanticObject().removeObjectProperty(intranet_hasCP,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the CP
+   * @return a com.infotec.cvi.swb.CP
+   */
+    public com.infotec.cvi.swb.CP getCP()
+    {
+         com.infotec.cvi.swb.CP ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasCP);
+         if(obj!=null)
+         {
+             ret=(com.infotec.cvi.swb.CP)obj.createGenericInstance();
          }
          return ret;
     }
