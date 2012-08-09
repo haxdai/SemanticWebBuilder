@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class ReferenceBase extends com.infotec.conorg.Document implements org.semanticwb.model.Calendarable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Versionable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable
+public abstract class ReferenceBase extends com.infotec.conorg.Document implements org.semanticwb.model.Calendarable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable,com.infotec.conorg.Topicable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Versionable
 {
     public static final org.semanticwb.platform.SemanticClass conorg_Reference=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#Reference");
    /**
