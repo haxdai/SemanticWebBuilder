@@ -4,7 +4,7 @@ package com.infotec.cvi.swb.base;
    /**
    * Elemento que almacena la información del Grado Académico de la persona 
    */
-public abstract class GradoAcademicoBase extends org.semanticwb.model.SWBClass implements com.infotec.cvi.swb.Institucion,com.infotec.cvi.swb.Periodo
+public abstract class GradoAcademicoBase extends org.semanticwb.model.SWBClass implements com.infotec.cvi.swb.Periodo,com.infotec.cvi.swb.Institucion
 {
    /**
    * Catálogo utilizado para indicar la Situación Académica del Grado Académico
@@ -178,60 +178,6 @@ public abstract class GradoAcademicoBase extends org.semanticwb.model.SWBClass i
     {
         super(base);
     }
-
-/**
-* Gets the DocumentoObtenido property
-* @return String with the DocumentoObtenido
-*/
-    public String getDocumentoObtenido()
-    {
-        return getSemanticObject().getProperty(intranet_documentoObtenido);
-    }
-
-/**
-* Sets the DocumentoObtenido property
-* @param value long with the DocumentoObtenido
-*/
-    public void setDocumentoObtenido(String value)
-    {
-        getSemanticObject().setProperty(intranet_documentoObtenido, value);
-    }
-
-/**
-* Gets the NombreInstitucion property
-* @return String with the NombreInstitucion
-*/
-    public String getNombreInstitucion()
-    {
-        return getSemanticObject().getProperty(intranet_nombreInstitucion);
-    }
-
-/**
-* Sets the NombreInstitucion property
-* @param value long with the NombreInstitucion
-*/
-    public void setNombreInstitucion(String value)
-    {
-        getSemanticObject().setProperty(intranet_nombreInstitucion, value);
-    }
-
-/**
-* Gets the Fin property
-* @return int with the Fin
-*/
-    public int getFin()
-    {
-        return getSemanticObject().getIntProperty(intranet_fin);
-    }
-
-/**
-* Sets the Fin property
-* @param value long with the Fin
-*/
-    public void setFin(int value)
-    {
-        getSemanticObject().setIntProperty(intranet_fin, value);
-    }
    /**
    * Sets the value for the property SituacionAcademica
    * @param value SituacionAcademica to set
@@ -381,5 +327,59 @@ public abstract class GradoAcademicoBase extends org.semanticwb.model.SWBClass i
     public void setPeriodoYears(int value)
     {
         getSemanticObject().setIntProperty(intranet_periodoYears, value);
+    }
+
+/**
+* Gets the DocumentoObtenido property
+* @return String with the DocumentoObtenido
+*/
+    public String getDocumentoObtenido()
+    {
+        return getSemanticObject().getProperty(intranet_documentoObtenido);
+    }
+
+/**
+* Sets the DocumentoObtenido property
+* @param value long with the DocumentoObtenido
+*/
+    public void setDocumentoObtenido(String value)
+    {
+        getSemanticObject().setProperty(intranet_documentoObtenido, value);
+    }
+
+/**
+* Gets the NombreInstitucion property
+* @return String with the NombreInstitucion
+*/
+    public String getNombreInstitucion()
+    {
+        return getSemanticObject().getProperty(intranet_nombreInstitucion);
+    }
+
+/**
+* Sets the NombreInstitucion property
+* @param value long with the NombreInstitucion
+*/
+    public void setNombreInstitucion(String value)
+    {
+        getSemanticObject().setProperty(intranet_nombreInstitucion, value);
+    }
+
+/**
+* Gets the Fin property
+* @return int with the Fin
+*/
+    public int getFin()
+    {
+        return getSemanticObject().getIntProperty(intranet_fin);
+    }
+
+/**
+* Sets the Fin property
+* @param value long with the Fin
+*/
+    public void setFin(int value)
+    {
+        getSemanticObject().setIntProperty(intranet_fin, value);
     }
 }
