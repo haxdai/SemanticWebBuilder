@@ -9,8 +9,8 @@ public abstract class EmpleadoBase extends org.semanticwb.model.UserTypeDef impl
     public static final org.semanticwb.platform.SemanticProperty intranet_vigencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#vigencia");
     public static final org.semanticwb.platform.SemanticProperty intranet_noe=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#noe");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaIngreso=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaIngreso");
-    public static final org.semanticwb.platform.SemanticProperty intranet_nss=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nss");
     public static final org.semanticwb.platform.SemanticProperty intranet_rfc=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#rfc");
+    public static final org.semanticwb.platform.SemanticProperty intranet_nss=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nss");
     public static final org.semanticwb.platform.SemanticClass intranet_Empleado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Empleado");
    /**
    * The semantic class that represents the currentObject
@@ -146,24 +146,6 @@ public abstract class EmpleadoBase extends org.semanticwb.model.UserTypeDef impl
     }
 
 /**
-* Gets the Nss property
-* @return int with the Nss
-*/
-    public int getNss()
-    {
-        return getSemanticObject().getIntProperty(intranet_nss);
-    }
-
-/**
-* Sets the Nss property
-* @param value long with the Nss
-*/
-    public void setNss(int value)
-    {
-        getSemanticObject().setIntProperty(intranet_nss, value);
-    }
-
-/**
 * Gets the Rfc property
 * @return String with the Rfc
 */
@@ -197,5 +179,23 @@ public abstract class EmpleadoBase extends org.semanticwb.model.UserTypeDef impl
     public void setExtension(int value)
     {
         getSemanticObject().setIntProperty(intranet_extension, value);
+    }
+
+/**
+* Gets the Nss property
+* @return int with the Nss
+*/
+    public int getNss()
+    {
+        return getSemanticObject().getIntProperty(intranet_nss);
+    }
+
+/**
+* Sets the Nss property
+* @param value long with the Nss
+*/
+    public void setNss(int value)
+    {
+        getSemanticObject().setIntProperty(intranet_nss, value);
     }
 }
