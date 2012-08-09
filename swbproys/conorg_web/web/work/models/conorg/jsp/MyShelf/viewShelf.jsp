@@ -207,11 +207,10 @@
             while (ittil.hasNext()) {
                 Tile tile = ittil.next();
 
-                if (paramRequest.getCallMethod() == SWBParamRequest.Call_STRATEGY) {
                     if (numtiles == numele) {
                         break;
                     }
-                }
+                
 
                 /////////////////////////////////
 
@@ -238,7 +237,7 @@
 
         <%
 
-
+                numtiles++;
             }
         %>
     </ul>
