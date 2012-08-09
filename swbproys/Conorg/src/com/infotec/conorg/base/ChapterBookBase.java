@@ -1,10 +1,8 @@
 package com.infotec.conorg.base;
 
 
-public abstract class ChapterBookBase extends com.infotec.conorg.Document implements org.semanticwb.model.Calendarable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Versionable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable
+public abstract class ChapterBookBase extends com.infotec.conorg.Document implements com.infotec.conorg.Catalogable,org.semanticwb.model.Calendarable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable,com.infotec.conorg.Topicable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Versionable
 {
-    public static final org.semanticwb.platform.SemanticProperty conorg_catalogIDsDOI=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#catalogIDsDOI");
-    public static final org.semanticwb.platform.SemanticProperty conorg_catalogIDsISBN=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#catalogIDsISBN");
     public static final org.semanticwb.platform.SemanticProperty conorg_chaptherBookTitle=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#chaptherBookTitle");
     public static final org.semanticwb.platform.SemanticClass conorg_ChapterBook=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#ChapterBook");
    /**
