@@ -30,6 +30,7 @@ Author     : rene.jara
             ArrayList alwsp = new ArrayList();
 %>
 <!--div style="float: left"-->
+<p class="ws-mios">Mis workspaces</p>
     <ul>
         <%
             int count = 0;
@@ -45,7 +46,7 @@ Author     : rene.jara
         %>
         <li class="wssi">
             <a href="<%=wpwscontent.getUrl()%>?wsid=<%=workSpace.getId()%>"><%=workSpace.getTitle()%></a><br/>
-            <%=workSpace.getDescription()%>
+            <%=workSpace.getDescription()!=null?workSpace.getDescription():""%>
         </li>
         <%
                     } else {
@@ -57,6 +58,7 @@ Author     : rene.jara
     <!--/ul>
 </div-->
      <div class="tab-work-div">&nbsp;</div>
+     <p class="ws-otros">Otros workspaces</p>
 <%
             Iterator<WorkSpace> itpubws = WorkSpace.ClassMgr.listWorkSpaces(wsite);
 %>
@@ -72,7 +74,7 @@ Author     : rene.jara
         %>
         <li class="wsno">
             <span><%=workSpace.getTitle()%></span><br/>
-            <%=workSpace.getDescription()%>
+            <%=workSpace.getDescription()!=null?workSpace.getDescription():""%>
         </li>
         <%
                     } else {
