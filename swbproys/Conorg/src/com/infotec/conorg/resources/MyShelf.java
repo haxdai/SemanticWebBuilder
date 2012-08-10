@@ -267,6 +267,7 @@ public class MyShelf extends GenericAdmResource {
 
                 response.setRenderParameter("alertmsg", msg);
             } else if (id != null || suri != null) {
+                String tiid=request.getParameter("tiid");
                 try {
                     if (id == null) {
                         id = suri;
@@ -290,18 +291,34 @@ public class MyShelf extends GenericAdmResource {
                         frmgr.addProperty(Traceable.swb_updated);
                         frmgr.addProperty(WorkSpace.conorg_hasTopic);
                     }
-
-                    SemanticObject nso = frmgr.processForm(request);
-
+                    SemanticObject nso=null;
+                    if(tiid==null||tiid.equals("")){//||wsid==null||wsid.equals("")){
+                        nso = frmgr.processForm(request);
+                    }else if((gobj instanceof Mosaic)){
+                        Mosaic mosaic=(Mosaic)gobj;
+                        SemanticObject tobj=ont.getSemanticObject(tiid);
+                        Tile ttile=(Tile)tobj.createGenericInstance();
+                        mosaic.addTile(ttile);
+                        if(isShelf){
+                            Shelf tms=Shelf.ClassMgr.getShelf(usr.getId(), wsite);
+                            tms.removeTile(ttile);
+                        }else if(wsid != null && !wsid.equals("")){
+                            WorkSpace tws=WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
+                            tws.removeTile(ttile);
+                        }
+                    }
                     System.out.println("Resumen: " + request.getParameter("documentAbstract"));
 
-
-                    if (nso.createGenericInstance() instanceof WorkSpace) {
+                    if (nso!=null && nso.createGenericInstance() instanceof WorkSpace) {
                         wsid = ((WorkSpace) nso.createGenericInstance()).getId();
                         response.setRenderParameter("act", "");
                         response.setAction("");
                     } else {
-                        response.setRenderParameter("act", "");
+                        if((gobj instanceof Mosaic)){
+                            response.setRenderParameter("act", SWBActionResponse.Action_EDIT);
+                        }else{
+                            response.setRenderParameter("act", "");
+                        }
                         response.setAction(SWBActionResponse.Action_EDIT);
                     }
                     msg = "Se actualizó " + classid.substring(classid.indexOf("#") + 1) + " satisfactoriamente.";
@@ -564,6 +581,33 @@ public class MyShelf extends GenericAdmResource {
 
             response.setRenderParameter("act", "");
             if(wsid!=null)response.setRenderParameter("wsid", wsid);
+        } else if (action.equals("remTile")) {
+            String tiid=request.getParameter("tiid");
+            SemanticObject sobj = ont.getSemanticObject(suri);
+            GenericObject gobj = sobj.createGenericInstance();
+            classid = sobj.getSemanticClass().getClassId();
+            if((gobj instanceof Mosaic)){
+                Mosaic mosaic=(Mosaic)gobj;
+                SemanticObject tobj=ont.getSemanticObject(tiid);
+                Tile ttile=(Tile)tobj.createGenericInstance();
+                mosaic.removeTile(ttile);
+                if(isShelf){
+                    Shelf tms=Shelf.ClassMgr.getShelf(usr.getId(), wsite);
+                    tms.addTile(ttile);
+                }else if(wsid != null && !wsid.equals("")){
+                    WorkSpace tws=WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
+                    tws.addTile(ttile);
+                }
+            }
+            response.setRenderParameter("act", SWBActionResponse.Action_EDIT);
+            response.setAction(SWBActionResponse.Action_EDIT);
+            msg = "Se removio " + classid.substring(classid.indexOf("#") + 1) + " satisfactoriamente.";
+            response.setRenderParameter("alertmsg", msg);
+            response.setRenderParameter("id", id);
+            response.setRenderParameter("suri", suri);
+            if (null != wsid) {
+               response.setRenderParameter("wsid", wsid);
+            }
         }
 
         if (id != null) {
@@ -572,7 +616,6 @@ public class MyShelf extends GenericAdmResource {
         if (page != null) {
             response.setRenderParameter("page", page);
         }
-
     }
 
     public OutputStream storeFile(String name, String comment, boolean bigVersionInc, Document doc, WebSite wsite) throws FileNotFoundException {
