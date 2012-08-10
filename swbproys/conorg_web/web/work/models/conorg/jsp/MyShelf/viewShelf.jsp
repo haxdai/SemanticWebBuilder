@@ -1,9 +1,10 @@
 <%--
-    Document   : view Recurso Shelf
+Document   : view Shelf Recurso Shelf
     Created on : 19/06/2012
     Author     : juan.fernandez
 --%>
 
+<%@page import="org.semanticwb.model.Traceable"%>
 <%@page import="com.infotec.conorg.Topicable"%>
 <%@page import="org.semanticwb.model.Tagable"%>
 <%@page import="org.semanticwb.model.Descriptiveable"%>
@@ -1038,8 +1039,115 @@
         %>
         <p>Creado:     <%=fcreated%>  por <%=fcreator%></p>
         <p>Modificado: <%=fmod%>  por <%=fusrmod%></p> 
+        <%
+            }
+            if (tile instanceof Mosaic) {
+                String addtiurl = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD).toString();
+                SWBResourceURL urlrem = paramRequest.getActionUrl();
+                urlrem.setAction("remTile");
+                urlrem.setParameter("id", tile.getId());
+                urlrem.setParameter("suri", tile.getURI());
+                if (request.getParameter("wsid") != null) {
+                    urlrem.setParameter("wsid", request.getParameter("wsid"));
+                }
+                urlrem.setParameter("msid", "");
+        %>
+        <form  id="formmos" name="formmos" method="post" dojoType="dijit.form.Form" action="<%=addtiurl%>">
+            <%
+                if (request.getParameter("wsid") != null) {
+            %>
+            <input type="hidden" name="wsid" value="<%=request.getParameter("wsid")%>"/>
+            <%
+                }
+            %>
+            <input type="hidden" name="suri" value="<%=tile.getURI()%>"/>
+            <input type="hidden" name="msid" value=""/>
 
+            <label for="">Tile(azulejo) del estante a añadir:</label>
+            <select name="tiid">
+                <option value="-1">Selecciona....</option>
+                <%
+                    Iterator<Tile> itti = shelf.listTiles();
+                    while (itti.hasNext()) {
+                        Tile ltile = itti.next();
+                        if (!ltile.equals(tile)) {
+                %>
+                <option value="<%=ltile.getURI()%>"><%=ltile.getTitle()%></option>
+                <%
+                        }
+                    }
+                %>
+            </select>
+            <button dojoType="dijit.form.Button" type="submit">Agregar</button>
+        </form>
+        <div id="classform">
+            <span id="mgrform">
+                &nbsp;
+            </span>
+        </div>
+        <table class="conorg-table estante-vista">
+            <thead>
+                <tr>
+                    <th class="titulo" >Título</th>
+                    <th class="fecha" >Fecha</th>
+                    <th class="tipo" >Tipo</th>
+                    <th class="tema" >Tema</th>
+                    <th class="accion">&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%
 
+                    Mosaic mosaic = (Mosaic) tile;
+                    if (SWBUtils.Collections.sizeOf(mosaic.listTiles()) == 0) {
+                %>
+                <tr >
+                    <td colspan="6" >No se encontraron registros</td>
+                </tr>
+                <%} else {
+                    Iterator<Tile> itmt = mosaic.listTiles();
+                    while (itmt.hasNext()) {
+                        Tile ltile = itmt.next();
+                        String strTitle = "<center>---</center>";
+                        String strDate = "<center>---</center>";
+                        String strType = "<center>---</center>";
+                        String strTopic = "<center>---</center>";
+                        if (ltile.getDisplayTitle("es") != null) {
+                            strTitle = ltile.getDisplayTitle("es");
+                        }
+                        if (ltile.getCreated() != null) {
+                            strDate = sdf.format(ltile.getCreated());
+                        }
+                        if (ltile.listTopics().hasNext()) {
+                            strTopic = "";
+                            Iterator<Topic> ittopic = ltile.listTopics();
+                            while (ittopic.hasNext()) {
+                                Topic topic = ittopic.next();
+                                if (null != topic) {
+                                    strTopic = strTopic + topic.getTitle();
+                                }
+                                if (ittopic.hasNext()) {
+                                    strTopic = strTopic + ", ";
+                                }
+                            }
+                        }
+                        urlrem.setParameter("tiid", ltile.getURI());
+                %>
+                <tr>
+                    <td class="<%=MyShelf.getClassIconTile(ltile)%>"><%=strTitle%></td>
+                    <td><%=strDate%></td>
+                    <td><%=strType%></td>
+                    <td><%=strTopic%></td>
+                    <td>
+                        <span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urlrem%>';} else return false;">B&nbsp;</a></span>
+                    </td>
+                </tr>
+                <%
+                        }
+                    }
+                %>
+            </tbody>
+        </table>
         <%
                 }
             }
