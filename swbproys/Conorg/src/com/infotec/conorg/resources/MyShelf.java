@@ -267,7 +267,7 @@ public class MyShelf extends GenericAdmResource {
 
                 response.setRenderParameter("alertmsg", msg);
             } else if (id != null || suri != null) {
-                String tiid=request.getParameter("tiid");
+                String tiid = request.getParameter("tiid");
                 try {
                     if (id == null) {
                         id = suri;
@@ -278,9 +278,9 @@ public class MyShelf extends GenericAdmResource {
                     frmgr = new SWBFormMgr(sobj, SWBFormMgr.MODE_EDIT, SWBFormMgr.MODE_EDIT);
 
                     GenericObject gobj = sobj.createGenericInstance();
-
+                    frmgr.clearProperties();
                     if (gobj instanceof WorkSpace) {
-                        frmgr.clearProperties();
+
                         frmgr.addProperty(Descriptiveable.swb_title);
                         frmgr.addProperty(Descriptiveable.swb_description);
                         frmgr.addProperty(Tagable.swb_tags);
@@ -291,32 +291,104 @@ public class MyShelf extends GenericAdmResource {
                         frmgr.addProperty(Traceable.swb_updated);
                         frmgr.addProperty(WorkSpace.conorg_hasTopic);
                     }
-                    SemanticObject nso=null;
-                    if(tiid==null||tiid.equals("")){//||wsid==null||wsid.equals("")){
+                    if (gobj instanceof Tile) {
+                        frmgr.addProperty(Descriptiveable.swb_title);
+                        frmgr.addProperty(Descriptiveable.swb_description);
+                        frmgr.addProperty(Tagable.swb_tags);
+                        frmgr.addProperty(Topicable.conorg_hasTopic);
+                    }
+
+                    if (gobj instanceof Document) {
+                        frmgr.addProperty(Document.conorg_documentAbstract);
+                        frmgr.addProperty(Document.conorg_documentCity);
+                        frmgr.addProperty(Document.conorg_documentCountry);
+                        frmgr.addProperty(Document.conorg_documentEdition);
+                        frmgr.addProperty(Document.conorg_documentFormat);
+                        frmgr.addProperty(Document.conorg_documentPages);
+                        frmgr.addProperty(Document.conorg_documentPublisher);
+                        frmgr.addProperty(Document.conorg_documentURL);
+                        frmgr.addProperty(Document.conorg_documentYear);
+
+                    }
+
+                    if (gobj instanceof Contact) {
+                        frmgr.addProperty(Contact.conorg_contactAddress);
+                        frmgr.addProperty(Contact.conorg_contactDegree);
+                        frmgr.addProperty(Contact.conorg_contactEmail);
+                        frmgr.addProperty(Contact.conorg_contactExperienceArea);
+                        frmgr.addProperty(Contact.conorg_contactFirstName);
+                        frmgr.addProperty(Contact.conorg_contactHomePhone);
+                        frmgr.addProperty(Contact.conorg_contactLastName);
+                        frmgr.addProperty(Contact.conorg_contactMobilePhone);
+                        frmgr.addProperty(Contact.conorg_contactOfficePhone);
+                        frmgr.addProperty(Contact.conorg_contactOrganization);
+                        frmgr.addProperty(Contact.conorg_contactOrganizationArea);
+                        frmgr.addProperty(Contact.conorg_contactOrganizationPosition);
+                        frmgr.addProperty(Contact.conorg_contactSocialNetworkId);
+                        frmgr.addProperty(Contact.conorg_contactURL);
+                    }
+
+                    if (gobj instanceof URL) {
+                        frmgr.addProperty(URL.conorg_url);
+                    }
+
+                    if (gobj instanceof Article) {
+                        frmgr.addProperty(Article.conorg_articleISSN);
+                        frmgr.addProperty(Article.conorg_articleIssue);
+                        frmgr.addProperty(Article.conorg_articleJournal);
+                        frmgr.addProperty(Article.conorg_articleNumber);
+                        frmgr.addProperty(Article.conorg_articleVolume);
+                    }
+
+                    if (gobj instanceof ChapterBook) {
+                        frmgr.addProperty(ChapterBook.conorg_chaptherBookTitle);
+                    }
+
+                    if (gobj instanceof Image) {
+                        frmgr.addProperty(Image.conorg_imageRights);
+                    }
+
+                    if (gobj instanceof Manual) {
+                        frmgr.addProperty(Manual.conorg_manualVersion);
+                    }
+
+                    if (gobj instanceof Presentation) {
+                        frmgr.addProperty(Presentation.conorg_presentationVersion);
+                    }
+
+                    if (gobj instanceof Report) {
+                        frmgr.addProperty(Report.conorg_reportVersion);
+                    }
+
+                    if (gobj instanceof Video) {
+                        frmgr.addProperty(Video.conorg_videoRights);
+                    }
+                    SemanticObject nso = null;
+                    if (tiid == null || tiid.equals("")) {//||wsid==null||wsid.equals("")){
                         nso = frmgr.processForm(request);
-                    }else if((gobj instanceof Mosaic)){
-                        Mosaic mosaic=(Mosaic)gobj;
-                        SemanticObject tobj=ont.getSemanticObject(tiid);
-                        Tile ttile=(Tile)tobj.createGenericInstance();
+                    } else if ((gobj instanceof Mosaic)) {
+                        Mosaic mosaic = (Mosaic) gobj;
+                        SemanticObject tobj = ont.getSemanticObject(tiid);
+                        Tile ttile = (Tile) tobj.createGenericInstance();
                         mosaic.addTile(ttile);
-                        if(isShelf){
-                            Shelf tms=Shelf.ClassMgr.getShelf(usr.getId(), wsite);
+                        if (isShelf) {
+                            Shelf tms = Shelf.ClassMgr.getShelf(usr.getId(), wsite);
                             tms.removeTile(ttile);
-                        }else if(wsid != null && !wsid.equals("")){
-                            WorkSpace tws=WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
+                        } else if (wsid != null && !wsid.equals("")) {
+                            WorkSpace tws = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
                             tws.removeTile(ttile);
                         }
                     }
                     System.out.println("Resumen: " + request.getParameter("documentAbstract"));
 
-                    if (nso!=null && nso.createGenericInstance() instanceof WorkSpace) {
+                    if (nso != null && nso.createGenericInstance() instanceof WorkSpace) {
                         wsid = ((WorkSpace) nso.createGenericInstance()).getId();
                         response.setRenderParameter("act", "");
                         response.setAction("");
                     } else {
-                        if((gobj instanceof Mosaic)){
+                        if ((gobj instanceof Mosaic)) {
                             response.setRenderParameter("act", SWBActionResponse.Action_EDIT);
-                        }else{
+                        } else {
                             response.setRenderParameter("act", "");
                         }
                         response.setAction(SWBActionResponse.Action_EDIT);
@@ -353,44 +425,44 @@ public class MyShelf extends GenericAdmResource {
                     classid = sclass.getClassName();
                     int relacionados = 0;
                     Iterator<SemanticObject> itso = sobj.listRelatedObjects();
-                    while(itso.hasNext()){
+                    while (itso.hasNext()) {
                         sotmp = itso.next();
-                        if(isShelf&&myshelf.getSemanticObject().equals(sotmp)){
+                        if (isShelf && myshelf.getSemanticObject().equals(sotmp)) {
                             //System.out.println("relacionado en Mi Shelf, no se cuenta");
                             continue;
                         }
-                        if(!isShelf&&wspc!=null&&wspc.getSemanticObject().equals(sotmp)){
+                        if (!isShelf && wspc != null && wspc.getSemanticObject().equals(sotmp)) {
                             //System.out.println("Relacionado en WrkSpc, no se cuenta");
                             continue;
                         }
-                        if(sotmp.createGenericInstance() instanceof WorkSpace || sotmp.createGenericInstance() instanceof Shelf){
-                            
-                            relacionados ++;
+                        if (sotmp.createGenericInstance() instanceof WorkSpace || sotmp.createGenericInstance() instanceof Shelf) {
+
+                            relacionados++;
                             //System.out.println("Relacionado..."+relacionados);
                             break;
-                        } 
+                        }
                     }
-                    
-                    if(relacionados==0){
+
+                    if (relacionados == 0) {
                         sobj.remove();
                         msg = "Se eliminó " + classid.substring(classid.indexOf("#") + 1) + " satisfactoriamente.";
                     } else {
                         //System.out.println("Existen adicionalmente "+relacionados+" elementos relacionados al azulejo");
-                        if(sobj.createGenericInstance() instanceof Tile){
+                        if (sobj.createGenericInstance() instanceof Tile) {
                             Tile tileremove = (Tile) sobj.createGenericInstance();
-                        
+
                             //System.out.println("Eliminando de la lista el azulejo: "+tileremove.getTitle());
-                            if(isShelf){
+                            if (isShelf) {
                                 //System.out.println("Quitando del estante.");
-                                myshelf.removeTile(tileremove); 
+                                myshelf.removeTile(tileremove);
                             } else {
                                 //System.out.println("Quitando del WorkSpace");
-                                wspc.removeTile(tileremove); 
+                                wspc.removeTile(tileremove);
                             }
                         }
                         msg = "Se eliminó " + classid.substring(classid.indexOf("#") + 1) + " de la lista satisfactoriamente.";
                     }
-                    
+
                 } catch (Exception e) {
                     log.error("Error al eliminar el elemento", e);
                     msg = "Error al eliminar " + classid.substring(classid.indexOf("#") + 1);
@@ -538,7 +610,9 @@ public class MyShelf extends GenericAdmResource {
                         goparam = ont.getGenericObject(listwrkspcs[i]);
                         if (goparam != null && goparam instanceof WorkSpace) {
                             wrkspc = (WorkSpace) goparam;
-                            if(!wrkspc.hasTile(tile)) wrkspc.addTile(tile);
+                            if (!wrkspc.hasTile(tile)) {
+                                wrkspc.addTile(tile);
+                            }
                         }
                     }
                 }
@@ -553,7 +627,9 @@ public class MyShelf extends GenericAdmResource {
                                 usrShelf = Shelf.ClassMgr.createShelf(usrparam.getId(), wsite);
                                 usrShelf.setOwner(usrparam);
                             }
-                            if(!usrShelf.hasTile(tile)) usrShelf.addTile(tile);
+                            if (!usrShelf.hasTile(tile)) {
+                                usrShelf.addTile(tile);
+                            }
                         }
                     }
                 }
@@ -570,32 +646,36 @@ public class MyShelf extends GenericAdmResource {
             Shelf usrShelf = null;
             if (go != null && go instanceof Tile) {
                 Tile tile = (Tile) go;
-                usrShelf=Shelf.ClassMgr.getShelf(usr.getId(), wsite);
-                if(usrShelf==null){
+                usrShelf = Shelf.ClassMgr.getShelf(usr.getId(), wsite);
+                if (usrShelf == null) {
                     usrShelf = Shelf.ClassMgr.createShelf(usr.getId(), wsite);
                     usrShelf.setOwner(usr);
                 }
-                if(!usrShelf.hasTile(tile)) usrShelf.addTile(tile);
+                if (!usrShelf.hasTile(tile)) {
+                    usrShelf.addTile(tile);
+                }
             }
 
 
             response.setRenderParameter("act", "");
-            if(wsid!=null)response.setRenderParameter("wsid", wsid);
+            if (wsid != null) {
+                response.setRenderParameter("wsid", wsid);
+            }
         } else if (action.equals("remTile")) {
-            String tiid=request.getParameter("tiid");
+            String tiid = request.getParameter("tiid");
             SemanticObject sobj = ont.getSemanticObject(suri);
             GenericObject gobj = sobj.createGenericInstance();
             classid = sobj.getSemanticClass().getClassId();
-            if((gobj instanceof Mosaic)){
-                Mosaic mosaic=(Mosaic)gobj;
-                SemanticObject tobj=ont.getSemanticObject(tiid);
-                Tile ttile=(Tile)tobj.createGenericInstance();
+            if ((gobj instanceof Mosaic)) {
+                Mosaic mosaic = (Mosaic) gobj;
+                SemanticObject tobj = ont.getSemanticObject(tiid);
+                Tile ttile = (Tile) tobj.createGenericInstance();
                 mosaic.removeTile(ttile);
-                if(isShelf){
-                    Shelf tms=Shelf.ClassMgr.getShelf(usr.getId(), wsite);
+                if (isShelf) {
+                    Shelf tms = Shelf.ClassMgr.getShelf(usr.getId(), wsite);
                     tms.addTile(ttile);
-                }else if(wsid != null && !wsid.equals("")){
-                    WorkSpace tws=WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
+                } else if (wsid != null && !wsid.equals("")) {
+                    WorkSpace tws = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
                     tws.addTile(ttile);
                 }
             }
@@ -606,7 +686,7 @@ public class MyShelf extends GenericAdmResource {
             response.setRenderParameter("id", id);
             response.setRenderParameter("suri", suri);
             if (null != wsid) {
-               response.setRenderParameter("wsid", wsid);
+                response.setRenderParameter("wsid", wsid);
             }
         }
 
