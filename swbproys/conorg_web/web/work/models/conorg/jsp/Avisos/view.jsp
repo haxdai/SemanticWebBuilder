@@ -116,7 +116,8 @@
     dojo.require("dijit._Calendar");
     dojo.require("dijit.ProgressBar");
     dojo.require("dijit.TitlePane");
-
+    dojo.require("dijit.TooltipDialog");
+    dojo.require("dijit.Dialog");
     // editor:
     dojo.require("dijit.Editor");
 
@@ -137,6 +138,7 @@
     dojo.require("dijit.layout.ContentPane");
     dojo.require("dijit.form.Select");
     dojo.require("dijit.form.NumberTextBox");
+    dojo.require("dijit.form.DropDownButton");
     
     -->
 </script>
@@ -196,16 +198,16 @@
                 }
                 String strDescrip = "";
                 if (aviso.getDescription() != null) {
-                    strFrom = aviso.getDescription();
+                    strDescrip = aviso.getDescription();
                 }
 
-                strTitle = strTitle + strDescrip;
-                if (strTitle.length() > 50) {
+                strTitle = strTitle +" : "+ strDescrip;
+                if (strDescrip.length() > 50) {
                     strTitle = strTitle.substring(0, 50) + "...";
                 }
                 SWBResourceURLImp urledit = new SWBResourceURLImp(request, base, wpconfig, SWBResourceURLImp.UrlType_RENDER);
                 urledit.setParameter("act", SWBResourceURL.Action_ADD);
-                urledit.setParameter("id", aviso.getId());
+                urledit.setParameter("msgid", aviso.getId());
                 if (aviso.getFromUser() != null) {
                     urledit.setParameter("usrid", aviso.getFromUser().getId());
                 }
@@ -216,7 +218,8 @@
         %>
 
         <li class="<%=Avisos.getClassIconMessage(aviso)%>"><strong><%=strDate%> - <%=strFrom%>:</strong><br />
-            <a href="<%=urledit%>"><%=strTitle%></a><br />
+            <%=strTitle%><br />
+            <a href="<%=urledit%>">Responder</a><br />
         </li>
         <%
                 numavisos++;
@@ -242,6 +245,7 @@
 
                     SWBResourceURLImp urlorder = new SWBResourceURLImp(request, base, wpconfig, SWBResourceURLImp.UrlType_RENDER);
                     urlorder.setParameter("act", "");
+                    if(npage!=null)urlorder.setParameter("page", npage); 
 
             %>
 
@@ -333,6 +337,9 @@
 
                             if (aviso.getDisplayTitle("es") != null) {
                                 strTitle = aviso.getDisplayTitle("es");
+                                if(strTitle.trim().length()>55){
+                                    strTitle = strTitle.substring(0, 55)+ "...";
+                                }
                             }
                             if (aviso.getCreated() != null) {
                                 strDate = sdf.format(aviso.getCreated());
@@ -340,7 +347,7 @@
 
                             SWBResourceURL urlsnd = paramRequest.getRenderUrl();
                             urlsnd.setAction(SWBResourceURL.Action_ADD);
-                            urlsnd.setParameter("id", aviso.getId());
+                            urlsnd.setParameter("msgid", aviso.getId());
                             urlsnd.setParameter("suri", aviso.getURI());
                             if (aviso.getFromUser() != null) {
                                 urlsnd.setParameter("usrid", aviso.getFromUser().getId());
@@ -350,8 +357,22 @@
                     %>
                     <tr>
 
-                        <td><a href="<%=urlsnd%>"><%=strFrom%></a></td>
-                        <td class="<%=Avisos.getClassIconMessage(aviso)%>"><%=strTitle%> - <%=strDescrip%></td>
+                        <td><a href="<%=urlsnd%>"  title="responder"><%=strFrom%></a></td>
+                        <td class="<%=Avisos.getClassIconMessage(aviso)%>" onclick="dijit.byId('msg<%=aviso.getId()%>').show()" title="ver mensaje">
+                                <span><%=strTitle%></span>
+                                <div  dojoType="dijit.Dialog"  id="msg<%=aviso.getId()%>" execute="" title="Asunto: <%=strTitle%> ">
+                                    <table>
+                                        <tr>
+                                        <td><label for="name">Mensaje: </label></td>
+                                        <td><textarea dojoType="dijit.form.Textarea" type="text" name="name" rows="10" cols="50" readonly><%=strDescrip%></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" align="center">
+                                            <button dojoType="dijit.form.Button" type="submit">Cerrar</button></td>
+                                        </tr>
+                                    </table>
+                                </div>                       
+                        </td>
                         <td><%=strDate%></td>
                     </tr>
                     <%
@@ -430,10 +451,26 @@
 
                 String usrid = request.getParameter("usrid");
                 String suri = request.getParameter("suri");
+                String msgid = request.getParameter("msgid");
 
-                if (suri != null) {
+                Aviso aviso = Aviso.ClassMgr.getAviso(msgid, wsite);
+
+                String strTitle = "";
+                String strDescrip = "";
+                
+                if(aviso!=null){
+                    if(aviso.getTitle()!=null&&aviso.getTitle().trim().length()>0){
+                        if(!aviso.getTitle().startsWith("RE:"))
+                            strTitle = "RE:";
+                        strTitle = strTitle+aviso.getTitle();
+                    }
+                    if(aviso.getDescription()!=null&&aviso.getDescription().trim().length()>0){
+                        strDescrip = "\n\r---------------------------\n\r"+aviso.getDescription();
+                    }
                 }
 
+                User usrTO = null;
+                if(usrid!=null) usrTO=wsite.getUserRepository().getUser(usrid);
 
                 SWBResourceURL urladd = paramRequest.getActionUrl();
                 urladd.setAction(SWBResourceURL.Action_ADD);
@@ -445,8 +482,31 @@
                         urlback.setParameter("act", "");
 
                         Colleague colleague = Colleague.ClassMgr.getColleague(usr.getId(), wsite);
+                        
+                        HashMap<String, User> hmcol = new HashMap<String, User>();
                         Iterator<User> itcol = colleague.listColleagueses();
+                        while(itcol.hasNext()){
+                            User usrcoll = itcol.next();
+                            hmcol.put(usrcoll.getId(), usrcoll);
+                        }
+                        
+                        String strChkdWS = "checked";
+                        String strDsbdWS = "";
+                        String strChkdUSR = "";
+                        String strDsbdUSR = "disabled=\"disabled\"";
+                        
+                        if(usrTO!=null){ //&&!colleague.hasColleagues(usrTO)
+                            hmcol.put(usrTO.getId(), usrTO);
+                            strChkdUSR = "checked";
+                            strDsbdUSR = "";
+                            strChkdWS = "";
+                            strDsbdWS = "disabled=\"disabled\"";
+                        }
 
+                        
+                        
+                        itcol = hmcol.values().iterator();
+                        
                         boolean isAdmin = Boolean.FALSE;
 
                         if (usr.hasRole(role)) {
@@ -538,18 +598,18 @@
                             <tbody>
                                 <tr>
                                     <td >Asunto: </td>
-                                    <td ><input type="text" size="30" name="msgasunto" value="" /></td>
+                                    <td ><input type="text" size="30" name="msgasunto" value="<%=strTitle%>" /></td>
 
                                 </tr>
                                 <tr>
                                     <td>Mensaje:</td>
-                                    <td><textarea rows="5" cols="30" name="msgdescrip"></textarea></td> 
+                                    <td><textarea rows="5" cols="30" name="msgdescrip"><%=strDescrip%></textarea></td> 
 
                                 </tr>
                                 <tr>
                                     <td>Tipo de aviso:</td>
-                                    <td><input type="radio" name="tipomsg" id="chk1" value="wrkspc" onclick="chkmsgType('wrkspc');" checked/><label for="chk1"> Espacio trabajo</label><br/>
-                                        <input type="radio" name="tipomsg" id="chk2" value="users" onclick="chkmsgType('users');"/><label for="chk2"> Usuarios</label><br/>
+                                    <td><input type="radio" name="tipomsg" id="chk1" value="wrkspc" onclick="chkmsgType('wrkspc');" <%=strChkdWS%> /><label for="chk1"> Espacio trabajo</label><br/>
+                                        <input type="radio" name="tipomsg" id="chk2" value="users" onclick="chkmsgType('users');" <%=strChkdUSR%> /><label for="chk2"> Usuarios</label><br/>
                                         <%
                                             if (isAdmin) {
                                         %>
@@ -561,7 +621,7 @@
                                 <tr>
                                     <td><label for="workspaceid">Espacios de trabajo:</label></td>
                                     <td>
-                                        <select name="workspaceid" >
+                                        <select name="workspaceid" <%=strDsbdWS%>>
                                             <option value="0">Selecciona...</option>
                                             <%
                                                 while (itwspace.hasNext()) {
@@ -577,8 +637,9 @@
                                 <tr>
                                     <td><label for="contactid">Contactos:</label></td>
                                     <td>
-                                        <select name="contactid" multiple size="5" disabled="disabled">
+                                        <select name="contactid" multiple size="5" <%=strDsbdUSR%>> 
                                             <%
+                                            
                                                 String usrselected = "";
                                                 while (itcol.hasNext()) {
                                                     User usrcol = itcol.next();
