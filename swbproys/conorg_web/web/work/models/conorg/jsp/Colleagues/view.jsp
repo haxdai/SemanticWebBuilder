@@ -3,6 +3,7 @@
     Created on : 19/06/2012
     Author     : rene.jara
 --%>
+<%@page import="org.semanticwb.portal.api.SWBResourceURLImp"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.Comparator"%>
 <%@page import="org.semanticwb.portal.api.SWBResourceURL"%>
@@ -54,11 +55,21 @@
     <tr>
       <th class="titulo"><strong>Nombre</strong></th>
       <th class="mail">Correo</th>
+      <th class="mensaje">Aviso</th>
       <th class="accion">&nbsp;</th>
     </tr>
   </thead>
   <tbody>
         <%
+        String wpidconfig = base.getAttribute("idwpavisos","Avisos"); 
+        WebPage wpavisos = wsite.getWebPage(wpidconfig);
+        
+        String urlaviso = wpavisos.getUrl()+"?act="+SWBResourceURL.Action_ADD;
+        
+        //SWBResourceURL urlaviso = new SWBResourceURLImp(request, base, wpavisos , SWBResourceURL.UrlType_RENDER);
+        //urlaviso.setParameter("act", SWBResourceURL.Action_ADD);
+        //urlaviso.setAction(SWBResourceURL.Action_ADD);
+        
         itco=colleague.listColleagueses();
          while(itco.hasNext()){
             User usrCo=itco.next();
@@ -67,6 +78,14 @@
         <tr>
       <td class="dir-foto"><%=usrCo.getFullName()%></td>
       <td><span class="icv-mail"><a href="<%=usrCo.getEmail()!=null?"mailto:"+usrCo.getEmail():""%>"><%=usrCo.getEmail()!=null?usrCo.getEmail():""%></a></span></td>
+      <td><span class="icv-mensaje">
+      <%if(null==wpavisos){%>
+      &nbsp;
+      <% } else {%>
+      <a href="<%=urlaviso%>&usrid=<%=usrCo.getId()%>">msg</a>
+      <% } %>
+      </span>
+      </td>
       <td><span class="icv-borrar"><a onclick_="" title="borrar" href="<%=remUrl%>?idco=<%=usrCo.getId()%>">Borrar</a></span></td>
       </tr>
         <%
