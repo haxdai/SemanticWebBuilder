@@ -1,7 +1,7 @@
 <%--   
-Document   : view Recurso WorkSpaces
+Document   : view WorkSpaces recurso MyShelf
 Created on : 19/06/2012
-Author     : rene.jara
+Author     : juan.fernandez y rene.jara
 --%>
 <%@page import="org.semanticwb.portal.api.*"%>
 <%@page import="org.semanticwb.platform.SemanticOntology"%>
@@ -207,7 +207,7 @@ Author     : rene.jara
         itperws = WorkSpace.ClassMgr.listWorkSpaces(wsite);
 %>
 <div>
-
+    <p class="ws-mios">Mis workspaces</p>
     <%
         int ps = numPages;
         long l = 0;// = intSize;
@@ -217,7 +217,6 @@ Author     : rene.jara
             p = Integer.parseInt(mpage);
         }
         int x = 0;
-//System.out.println("x:"+x+" ps:"+ps+" p:"+p);
         while (itperws.hasNext()) {
             WorkSpace workSpace = itperws.next();
             if (hmmem.get(workSpace) != null) { // revisando si es miembro del ws
@@ -225,7 +224,6 @@ Author     : rene.jara
                 alwsp.add(workSpace);
                 x++;
                 if (x > (ps * p) && !(x > (ps * (p + 1)))) {
-//System.out.println("x>(ps*p):"+(x>(ps*p)));
 %>
     <div class="workspace-prevista">
         <h3><a href="<%=wpwscontent.getUrl()%>?wsid=<%=workSpace.getId()%>"><strong><%=workSpace.getTitle()%></strong></a></h3>
@@ -293,7 +291,6 @@ Author     : rene.jara
                 } else if (x > (ps * (p + 1))) {
                     e++;
                 }
-//System.out.println("x>(ps*(p+1)):"+(x>(ps*(p+1))));
             }
         }
         l = x;
@@ -315,7 +312,6 @@ Author     : rene.jara
 
                 int inicia = 0;
                 int finaliza = pages;
-
 
                 int rangoinicial = p - 5;
                 int rangofinal = p + 5;
@@ -388,9 +384,8 @@ Author     : rene.jara
     <%
         itpubws = WorkSpace.ClassMgr.listWorkSpaces(wsite);
     %>
-
 <div >
-
+    <p class="ws-otros">Otros workspaces</p>
     <%
         //ps = numPages;
         l = 0;// = intSize;
@@ -400,7 +395,6 @@ Author     : rene.jara
             p = Integer.parseInt(ppage);
         }
         x = 0;
-//System.out.println("x:"+x+" ps:"+ps+" p:"+p);
 
         // lista de workspace de la comunidad
         while (itpubws.hasNext()) {
@@ -408,7 +402,7 @@ Author     : rene.jara
             if (!alwsp.contains(workSpace)) {
                 x++;
                 if (x > (ps * p) && !(x > (ps * (p + 1)))) {
-//System.out.println("x>(ps*p):"+(x>(ps*p)));
+
 %>
     <div class="workspace-prevista">
         <h3><a href="<%=wpwscontent.getUrl()%>?wsid=<%=workSpace.getId()%>"><strong><%=workSpace.getTitle()%></strong></a></h3>
@@ -418,7 +412,6 @@ Author     : rene.jara
                 } else if (x > (ps * (p + 1))) {
                     e++;
                 }
-//System.out.println("x>(ps*(p+1)):"+(x>(ps*(p+1))));
 
             }
         }
@@ -513,7 +506,6 @@ Author     : rene.jara
     </p></div>
     <%
     } else if (wsid != null) {
-
         // con wsid != null
 
         //System.out.println("===================================================================");
@@ -574,7 +566,6 @@ Author     : rene.jara
     %>        
     <%=frmgr.renderForm(request)%>  
 <div>
-
     <div id="participantes<%=wsid%>" dojoType="dijit.TitlePane" title="Participantes" class="admViewProperties" open="false" duration="150" minSize_="20" splitter_="true" region="bottom">
         <%
             Iterator<Member> itme = workSpace.listMembers();
@@ -582,7 +573,6 @@ Author     : rene.jara
             itme = workSpace.listMembers();
             if (usrlevel >= 3) {
         %>
-
         <div>
             <%
 
@@ -1266,6 +1256,15 @@ Author     : rene.jara
                     }
 
                     frmgr = new SWBFormMgr(so, null, frmMode);
+                    frmgr.clearProperties();
+                    frmgr.addProperty(Descriptiveable.swb_title);
+                    frmgr.addProperty(Descriptiveable.swb_description);
+                    frmgr.addProperty(Tagable.swb_tags);
+                    frmgr.addProperty(Traceable.swb_created);
+                    frmgr.addProperty(Traceable.swb_creator);
+                    frmgr.addProperty(Traceable.swb_modifiedBy);
+                    frmgr.addProperty(Traceable.swb_updated);
+                    frmgr.addProperty(Tile.conorg_hasTopic);
                     frmgr.addHiddenParameter("id", suri);
                     if (null != wsid) {
                         frmgr.addHiddenParameter("wsid", wsid);
@@ -1288,6 +1287,135 @@ Author     : rene.jara
             %>        
             <%=frmgr.renderForm(request)%>  
             <%
+                if (tile instanceof Mosaic) {
+                    String addtiurl = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD).toString();
+                    SWBResourceURL urlrem = paramRequest.getActionUrl();
+                    urlrem.setAction("remTile");
+                    urlrem.setParameter("id", tile.getId());
+                    urlrem.setParameter("suri", tile.getURI());
+                    if (request.getParameter("wsid") != null) {
+                        urlrem.setParameter("wsid", request.getParameter("wsid"));
+                    }
+                    if (wsid != null && !wsid.equals("")) {
+
+            %>
+            <form  id="formmos" name="formmos" method="post" dojoType="dijit.form.Form" action="<%=addtiurl%>">
+                <%
+                    if (request.getParameter("wsid") != null) {
+                %>
+                <input type="hidden" name="wsid" value="<%=request.getParameter("wsid")%>"/>
+                <%
+                    }
+                %>
+                <input type="hidden" name="suri" value="<%=tile.getURI()%>"/>
+                <label for="">Tile(azulejo) del workspace a añadir:</label>
+                <select name="tiid">
+                    <option value="-1">Selecciona....</option>
+                    <%
+
+                        Iterator<Tile> itti = workSpace.listTiles();
+                        while (itti.hasNext()) {
+                            Tile ltile = itti.next();
+                            if (!ltile.equals(tile)) {
+                    %>
+                    <option value="<%=ltile.getURI()%>"><%=ltile.getTitle()%></option>
+                    <%
+                            }
+                        }
+                    %>
+                </select>
+                <button dojoType="dijit.form.Button" type="submit">Agregar</button>
+            </form>
+            <div id="classform">
+                <span id="mgrform">
+                    &nbsp;
+                </span>
+            </div>
+            <%
+                }
+            %>
+            <table class="conorg-table estante-vista">
+                <thead>
+                    <tr>
+                        <th class="titulo" >Título</th>
+                        <th class="fecha" >Fecha</th>
+                        <th class="tipo" >Tipo</th>
+                        <th class="tema" >Tema</th>
+                        <th class="accion">&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%
+                        Mosaic mosaic = (Mosaic) tile;
+                        if (SWBUtils.Collections.sizeOf(mosaic.listTiles()) == 0) {
+                    %>
+                    <tr >
+                        <td colspan="6" >No se encontraron registros</td>
+                    </tr>
+                    <%} else {
+
+                        Iterator<Tile> itmt = mosaic.listTiles();
+                        while (itmt.hasNext()) {
+                            Tile ltile = itmt.next();
+                            String strTitle = "<center>---</center>";
+                            String strDate = "<center>---</center>";
+                            String strType = "<center>---</center>";
+                            String strTopic = "<center>---</center>";
+
+                            if (ltile.getDisplayTitle("es") != null) {
+                                strTitle = ltile.getDisplayTitle("es");
+                            }
+                            if (ltile.getCreated() != null) {
+                                strDate = sdf.format(ltile.getCreated());
+                            }
+                            if (ltile.listTopics().hasNext()) {
+                                strTopic = "";
+                                Iterator<Topic> ittopic = ltile.listTopics();
+                                while (ittopic.hasNext()) {
+                                    Topic topic = ittopic.next();
+                                    if (null != topic) {
+                                        strTopic = strTopic + topic.getTitle();
+                                    }
+                                    if (ittopic.hasNext()) {
+                                        strTopic = strTopic + ", ";
+                                    }
+                                }
+                            }
+                    %>
+                    <tr>
+                        <td class="<%=MyShelf.getClassIconTile(ltile)%>"><%=strTitle%></td>
+                        <td><%=strDate%></td>
+                        <td><%=strType%></td>
+                        <td><%=strTopic%></td>
+                        <td>
+                            <% if (usrlevel >= 2) {
+                            %>
+                            <!--span class="icv-compartir"><a href="#" title="copiar referencia al estante" onclick="if(confirm('¿Deseas copiarlo a tú estante?')){window.location='<%//=urlshare%>';} else return false;">C&nbsp;</a></span>
+                            <span class="icv-editar"><a href="#" onclick="window.location='<%//=urledit%>';">E&nbsp;</a></span-->
+                            <%
+                                 if (usrlevel == 4 || usr.equals(tile.getCreator())) {
+                                     urlrem.setParameter("tiid", ltile.getURI());
+                            %>
+                            <span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urlrem%>';} else return false;">B&nbsp;</a></span>
+                            <%  } else {
+                                        out.println("<span class=\"icv-vacio\"></span>");
+                                    }
+
+                                } else {
+                                    out.println("<span class=\"icv-vacio\"></span><span class=\"icv-vacio\"></span><span class=\"icv-vacio\"></span>");
+                                }
+                            %>
+                        </td>
+                    </tr>
+                    <%
+                            }
+                        }
+                    %>
+                </tbody>
+            </table>
+            <%
+                    }
+
                     }
                     if (so.createGenericInstance() instanceof Versionable) {
                         out.println("<h3>Archivo asociado:</h3>");
