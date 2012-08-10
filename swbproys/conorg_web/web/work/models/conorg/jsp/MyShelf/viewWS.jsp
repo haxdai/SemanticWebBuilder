@@ -1289,13 +1289,33 @@ Author     : juan.fernandez y rene.jara
             <%
                 if (tile instanceof Mosaic) {
                     String addtiurl = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD).toString();
-                    SWBResourceURL urlrem = paramRequest.getActionUrl();
+
+                    SWBResourceURL urlrem = new SWBResourceURLImp(request, base, wpconfig, SWBResourceURLImp.UrlType_ACTION);
+                    //SWBResourceURL urlrem = paramRequest.getActionUrl();
                     urlrem.setAction("remTile");
                     urlrem.setParameter("id", tile.getId());
                     urlrem.setParameter("suri", tile.getURI());
                     if (request.getParameter("wsid") != null) {
                         urlrem.setParameter("wsid", request.getParameter("wsid"));
                     }
+                    SWBResourceURLImp urledit = new SWBResourceURLImp(request, base, wpconfig, SWBResourceURLImp.UrlType_RENDER);
+                    //SWBResourceURL urledit = paramRequest.getRenderUrl();
+                    urledit.setParameter("act", SWBResourceURL.Action_EDIT);
+                    //urledit.setParameter("id", tile.getId());
+                    //urledit.setParameter("suri", tile.getURI());
+                    if (request.getParameter("wsid") != null) {
+                        urledit.setParameter("wsid", request.getParameter("wsid"));
+                    }
+
+                    SWBResourceURLImp urlshare = new SWBResourceURLImp(request, base, wpconfig, SWBResourceURLImp.UrlType_ACTION);
+                    //SWBResourceURL urledit = paramRequest.getRenderUrl();
+                    urlshare.setAction("copy2shelf");
+                    //urlshare.setParameter("id", tile.getId());
+                    //urlshare.setParameter("suri", tile.getURI());
+                    if (request.getParameter("wsid") != null) {
+                        urlshare.setParameter("wsid", request.getParameter("wsid"));
+                    }
+
                     if (wsid != null && !wsid.equals("")) {
 
             %>
@@ -1389,9 +1409,13 @@ Author     : juan.fernandez y rene.jara
                         <td><%=strTopic%></td>
                         <td>
                             <% if (usrlevel >= 2) {
+                                urlshare.setParameter("id", ltile.getId());
+                                urlshare.setParameter("suri", ltile.getURI());
+                                urledit.setParameter("id", ltile.getId());
+                                urledit.setParameter("suri", ltile.getURI());
                             %>
-                            <!--span class="icv-compartir"><a href="#" title="copiar referencia al estante" onclick="if(confirm('¿Deseas copiarlo a tú estante?')){window.location='<%//=urlshare%>';} else return false;">C&nbsp;</a></span>
-                            <span class="icv-editar"><a href="#" onclick="window.location='<%//=urledit%>';">E&nbsp;</a></span-->
+                            <span class="icv-compartir"><a href="#" title="copiar referencia al estante" onclick="if(confirm('¿Deseas copiarlo a tú estante?')){window.location='<%=urlshare%>';} else return false;">C&nbsp;</a></span>
+                            <span class="icv-editar"><a href="#" onclick="window.location='<%=urledit%>';">E&nbsp;</a></span>
                             <%
                                  if (usrlevel == 4 || usr.equals(tile.getCreator())) {
                                      urlrem.setParameter("tiid", ltile.getURI());

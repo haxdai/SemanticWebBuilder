@@ -486,8 +486,8 @@ Document   : view Shelf Recurso Shelf
                          }
                         %>
                         <span class="icv-editar"><a href="#" title="editar" onclick="window.location='<%=urledit%>';">E&nbsp;</a></span>
-                        <span class="icv-borrar"><a href="#" title="borrar" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">B&nbsp;</a></span></td>
-
+                        <span class="icv-borrar"><a href="#" title="borrar" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">B&nbsp;</a></span>
+                    </td>
                 </tr>
                 <%
                             if (paramRequest.getCallMethod() == SWBParamRequest.Call_STRATEGY) {
@@ -1043,7 +1043,8 @@ Document   : view Shelf Recurso Shelf
             }
             if (tile instanceof Mosaic) {
                 String addtiurl = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD).toString();
-                SWBResourceURL urlrem = paramRequest.getActionUrl();
+                SWBResourceURLImp urlrem = new SWBResourceURLImp(request, base, wpconfig, SWBResourceURLImp.UrlType_ACTION);
+                //SWBResourceURL urlrem = paramRequest.getActionUrl();
                 urlrem.setAction("remTile");
                 urlrem.setParameter("id", tile.getId());
                 urlrem.setParameter("suri", tile.getURI());
@@ -1051,6 +1052,26 @@ Document   : view Shelf Recurso Shelf
                     urlrem.setParameter("wsid", request.getParameter("wsid"));
                 }
                 urlrem.setParameter("msid", "");
+
+                SWBResourceURLImp urledit = new SWBResourceURLImp(request, base, wpconfig, SWBResourceURLImp.UrlType_RENDER);
+                //SWBResourceURL urledit = paramRequest.getRenderUrl();
+                urledit.setParameter("act", SWBResourceURL.Action_EDIT);
+                //urledit.setParameter("id", tile.getId());
+                //urledit.setParameter("suri", tile.getURI());
+                if (request.getParameter("wsid") != null) {
+                    urledit.setParameter("wsid", request.getParameter("wsid"));
+                }
+
+                SWBResourceURLImp urlshare = new SWBResourceURLImp(request, base, wpconfig, SWBResourceURLImp.UrlType_RENDER);
+                //SWBResourceURL urledit = paramRequest.getRenderUrl();
+                urlshare.setParameter("act", "share");
+                //urlshare.setParameter("id", tile.getId());
+                //urlshare.setParameter("suri", tile.getURI());
+                if (request.getParameter("wsid") != null) {
+                    urlshare.setParameter("wsid", request.getParameter("wsid"));
+                }
+
+
         %>
         <form  id="formmos" name="formmos" method="post" dojoType="dijit.form.Form" action="<%=addtiurl%>">
             <%
@@ -1131,6 +1152,12 @@ Document   : view Shelf Recurso Shelf
                                 }
                             }
                         }
+                        urledit.setParameter("id", ltile.getId());
+                        urledit.setParameter("suri", ltile.getURI());
+
+                        urlshare.setParameter("id", ltile.getId());
+                        urlshare.setParameter("suri", ltile.getURI());
+
                         urlrem.setParameter("tiid", ltile.getURI());
                 %>
                 <tr>
@@ -1139,7 +1166,19 @@ Document   : view Shelf Recurso Shelf
                     <td><%=strType%></td>
                     <td><%=strTopic%></td>
                     <td>
-                        <span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urlrem%>';} else return false;">B&nbsp;</a></span>
+                        <%
+                        if(tile.getCreator().equals(usr)){
+                        %>
+                        <span class="icv-compartir"><a href="#" title="compartir" onclick="window.location='<%=urlshare%>';">C&nbsp;</a></span>
+                        <%
+                         } else {
+                        %>
+                        <span class="icv-vacio"></span>
+                        <%
+                         }
+                        %>
+                        <span class="icv-editar"><a href="#" title="editar" onclick="window.location='<%=urledit%>';">E&nbsp;</a></span>
+                        <span class="icv-borrar"><a href="#" title="borrar" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urlrem%>';}">B&nbsp;</a></span>
                     </td>
                 </tr>
                 <%
