@@ -227,7 +227,7 @@ Author     : juan.fernandez y rene.jara
 %>
     <div class="workspace-prevista">
         <h3><a href="<%=wpwscontent.getUrl()%>?wsid=<%=workSpace.getId()%>"><strong><%=workSpace.getTitle()%></strong></a></h3>
-        <p><%=workSpace.getDescription()%></p>
+        <p><%=workSpace.getDescription()!=null?workSpace.getDescription():""%></p> 
         <ul>
             <li><strong>Temas:</strong>
                 <ul>
@@ -668,6 +668,12 @@ Author     : juan.fernandez y rene.jara
                 </thead>
                 <tbody>
                     <%
+                    String wpidconfig = base.getAttribute("idwpavisos","Avisos"); 
+                    WebPage wpavisos = wsite.getWebPage(wpidconfig);
+
+                    String urlaviso = wpavisos.getUrl()+"?act="+SWBResourceURL.Action_ADD;
+                    
+                    
                         String ajaxUrl = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(MyShelf.Mode_AJAX).toString() + "?wsid=" + wsid + "&mode=member";
                         while (itme.hasNext()) {
                             Member mem = itme.next();
@@ -695,6 +701,18 @@ Author     : juan.fernandez y rene.jara
                         %>
                         <td><%=strSelect%></td>
                         <td>
+                            <%
+                            
+                            String urlDirectorio = "/es_mx/conorg/Directorio/_aid/10/_act/add/?idco="+mem.getUser().getId(); 
+                            %>
+                            <span class="icv-compartir"><a href="#" title="agregar colega a mi directorio" onclick="window.location='<%=urlDirectorio%>';">add</a></span>
+                            <span class="icv-mensaje">
+                            <%if(null==wpavisos){%>
+                            &nbsp;
+                            <% } else {%>
+                            <a href="<%=urlaviso%>&usrid=<%=mem.getUser().getId()%>">msg</a>
+                            <% } %>
+                            </span>
                             <span class="icv-borrar">
                                 <a href="#" onclick="if(confirm('¿Deseas eliminar este participante?')){window.location='<%=urldel%>';}">B&nbsp;</a>
                             </span>
