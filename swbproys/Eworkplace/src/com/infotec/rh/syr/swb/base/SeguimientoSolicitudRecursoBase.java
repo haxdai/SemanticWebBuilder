@@ -24,6 +24,7 @@ public abstract class SeguimientoSolicitudRecursoBase extends com.infotec.eworkp
    */
     public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
     public static final org.semanticwb.platform.SemanticProperty intranet_encargadoValidaPresupuesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#encargadoValidaPresupuesto");
+    public static final org.semanticwb.platform.SemanticProperty intranet_fechaRealizaEntrevista=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaRealizaEntrevista");
     public static final org.semanticwb.platform.SemanticProperty intranet_validaAP=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#validaAP");
     public static final org.semanticwb.platform.SemanticProperty intranet_autorizaDirector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#autorizaDirector");
     public static final org.semanticwb.platform.SemanticProperty intranet_archivoSuficiencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#archivoSuficiencia");
@@ -35,6 +36,7 @@ public abstract class SeguimientoSolicitudRecursoBase extends com.infotec.eworkp
     public static final org.semanticwb.platform.SemanticProperty intranet_validaPresupuesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#validaPresupuesto");
     public static final org.semanticwb.platform.SemanticProperty intranet_modificarSolicitud=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#modificarSolicitud");
     public static final org.semanticwb.platform.SemanticProperty intranet_notaOtraConsulta=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#notaOtraConsulta");
+    public static final org.semanticwb.platform.SemanticProperty intranet_fechaEnvioPsicometrico=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaEnvioPsicometrico");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaAltaPresupuesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaAltaPresupuesto");
     public static final org.semanticwb.platform.SemanticProperty intranet_concluyeSeleccionTecnica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#concluyeSeleccionTecnica");
    /**
@@ -491,6 +493,24 @@ public abstract class SeguimientoSolicitudRecursoBase extends com.infotec.eworkp
     }
 
 /**
+* Gets the FechaRealizaEntrevista property
+* @return java.util.Date with the FechaRealizaEntrevista
+*/
+    public java.util.Date getFechaRealizaEntrevista()
+    {
+        return getSemanticObject().getDateProperty(intranet_fechaRealizaEntrevista);
+    }
+
+/**
+* Sets the FechaRealizaEntrevista property
+* @param value long with the FechaRealizaEntrevista
+*/
+    public void setFechaRealizaEntrevista(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(intranet_fechaRealizaEntrevista, value);
+    }
+
+/**
 * Gets the ValidaAP property
 * @return boolean with the ValidaAP
 */
@@ -706,6 +726,24 @@ public abstract class SeguimientoSolicitudRecursoBase extends com.infotec.eworkp
     public void setNotaOtraConsulta(String value)
     {
         getSemanticObject().setProperty(intranet_notaOtraConsulta, value);
+    }
+
+/**
+* Gets the FechaEnvioPsicometrico property
+* @return java.util.Date with the FechaEnvioPsicometrico
+*/
+    public java.util.Date getFechaEnvioPsicometrico()
+    {
+        return getSemanticObject().getDateProperty(intranet_fechaEnvioPsicometrico);
+    }
+
+/**
+* Sets the FechaEnvioPsicometrico property
+* @param value long with the FechaEnvioPsicometrico
+*/
+    public void setFechaEnvioPsicometrico(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(intranet_fechaEnvioPsicometrico, value);
     }
 
 /**
