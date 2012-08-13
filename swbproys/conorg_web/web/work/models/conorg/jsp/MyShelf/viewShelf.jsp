@@ -4,6 +4,9 @@ Document   : view Shelf Recurso Shelf
     Author     : juan.fernandez
 --%>
 
+<%@page import="org.semanticwb.model.SWBModel"%>
+<%@page import="org.semanticwb.model.Label"%>
+<%@page import="org.semanticwb.model.DisplayProperty"%>
 <%@page import="org.semanticwb.model.Traceable"%>
 <%@page import="com.infotec.conorg.Topicable"%>
 <%@page import="org.semanticwb.model.Tagable"%>
@@ -739,6 +742,8 @@ Document   : view Shelf Recurso Shelf
                 
 
                 SWBFormMgr frmgr = new SWBFormMgr(so, null, editMode);
+                SemanticClass scls = so.getSemanticClass();
+                
 
                 GenericObject go = so.createGenericInstance();
                 
@@ -815,48 +820,122 @@ Document   : view Shelf Recurso Shelf
                 if(go instanceof Video){
                     frmgr.addProperty(Video.conorg_videoRights );
                 }
-                
+
+%>
+  <form id="<%=so.getURI()%>/form" class="swbform" action="<%=urlupdate.toString()%>" method="post">
+    <input type="hidden" name="suri" value="<%=so.getURI()%>"/>
+    <input type="hidden" name="scls" value="<%=scls.getURI()%>"/>
+    <input type="hidden" name="smode" value="edit"/>
+    <input type="hidden" name="id" value="<%=so.getURI()%>"/>
+<%
+    if(null != wsid){
+
+%>
+    <input type="hidden" name="wsid" value="<%=wsid%>"/> 
+    <%
+       }
+
+%>
+
+	<fieldset >
+	    <legend></legend>
+	    <table>
+                <%
+                                
                 
                 
                 HashMap<PropertyGroup, TreeSet> hmgroup = frmgr.getGroups();
+                HashMap<String,SemanticProperty> hmorder = new HashMap<String, SemanticProperty>();
                 Iterator<PropertyGroup> itpg = hmgroup.keySet().iterator();
 
                 while (itpg.hasNext()) {
                     PropertyGroup pg = itpg.next();
-                    out.println(pg.getId() + "<br/>");
+                    
+                    //out.println(pg.getId() + "<br/>");
+                    Iterator<SemanticProperty> it = hmgroup.get(pg).iterator();
+                    while(it.hasNext())
+                    {
+                        SemanticProperty prop=it.next();
+                        DisplayProperty dp = (DisplayProperty)(prop.getDisplayProperty().createGenericInstance());
+                        if(dp!=null){
+                            //out.println(dp.getIndex()+ " - "+dp.getPromptMessage());
+                            hmorder.put(""+dp.getIndex(), prop);
+                        }
+                    }
                 }
-
-
-                frmgr.addHiddenParameter("id", suri);
-                if (null != wsid) {
-                    frmgr.addHiddenParameter("wsid", wsid);
+                
+                ArrayList<String> list = new ArrayList(hmorder.keySet());
+                Collections.sort(list);
+                Iterator<String> itstr = list.iterator();
+                while (itstr.hasNext()) {
+                    String key = itstr.next();
+                    SemanticProperty semprop = hmorder.get(key);
+                %>
+                <tr><td width="200px" align="right">
+                        <%=frmgr.renderLabel(request, semprop, SWBFormMgr.MODE_EDIT)%>
+                </td><td>
+                        <%=frmgr.renderElement(request, semprop, SWBFormMgr.MODE_EDIT)%>
+                </td></tr>
+                <%
                 }
-                //frmgr.setType(SWBFormMgr.TYPE_DOJO);
-                frmgr.setAction(urlupdate.toString());
-                frmgr.setLang("es");
-
-                //frmgr.setOnSubmit("enviar('" + suri + "/form');");
-                String boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Cancelar</button>";
+                %>
+                 </table>
+	</fieldset>
+<fieldset><span align="center">
+        <%
+        String boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Cancelar</button>";
                 if(editMode.equals(SWBFormMgr.MODE_VIEW)){
                     boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Regresar</button>";
                 }
-                frmgr.addButton(boton);
+          out.println(boton); 
+          if(editMode.equals(SWBFormMgr.MODE_EDIT)){
+        %>
+    
+    <button dojoType="dijit.form.Button" type="submit">Guardar</button>
+    <%
+       }
+%>
+</span></fieldset>
+</form>
+<%                
+                //frmgr.addHiddenParameter("id", suri);
+                //if (null != wsid) {
+                //    frmgr.addHiddenParameter("wsid", wsid);
+                //}
+                //frmgr.setType(SWBFormMgr.TYPE_DOJO);
+                //frmgr.setAction(urlupdate.toString());
+                //frmgr.setLang("es");
+
+                //frmgr.setOnSubmit("enviar('" + suri + "/form');");
+                //String boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Cancelar</button>";
+                //if(editMode.equals(SWBFormMgr.MODE_VIEW)){
+                //    boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Regresar</button>";
+                //}
+                //frmgr.addButton(boton);
                 //frmgr.addButton(SWBFormButton.newCancelButton());
-                if(editMode.equals(SWBFormMgr.MODE_EDIT)){
-                boton = "<button dojoType=\"dijit.form.Button\" type=\"submit\">Guardar</button>";
-                frmgr.addButton(boton);
-}
+                //if(editMode.equals(SWBFormMgr.MODE_EDIT)){
+                //boton = "<button dojoType=\"dijit.form.Button\" type=\"submit\">Guardar</button>";
+                //frmgr.addButton(boton);
+//}
+            
         %>        
-        <%=frmgr.renderForm(request)%>  
+        <%//=frmgr.renderForm(request)%>  
+        
+        
+        
+        
         <%
 
+        
+        
+        
             if (so.createGenericInstance() instanceof Versionable) {
                 out.println("<h3>Archivo asociado:</h3>");
                 Document doc = null;
                 VersionInfo vl = null;
                 VersionInfo ver = null;
 
-                go = so.createGenericInstance();
+                go = so.createGenericInstance(); 
                 if (go instanceof Document) {
                     doc = (Document) go;
                 }
@@ -1029,18 +1108,6 @@ Document   : view Shelf Recurso Shelf
                 }
             }
 
-            if (so.createGenericInstance() instanceof Tile) {
-
-                tile = (Tile) so.createGenericInstance();
-                String fcreated = (tile.getCreated() != null ? sdf.format(tile.getCreated()) : "---");
-                String fcreator = (tile.getCreator() != null && tile.getCreator().getFullName() != null ? tile.getCreator().getFullName() : "---");
-                String fmod = (tile.getUpdated() != null ? sdf.format(tile.getUpdated()) : "---");
-                String fusrmod = (tile.getModifiedBy() != null && tile.getModifiedBy().getFullName() != null ? tile.getModifiedBy().getFullName() : "---");
-        %>
-        <p>Creado:     <%=fcreated%>  por <%=fcreator%></p>
-        <p>Modificado: <%=fmod%>  por <%=fusrmod%></p> 
-        <%
-            }
             if (tile instanceof Mosaic) {
                 String addtiurl = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD).toString();
                 SWBResourceURLImp urlrem = new SWBResourceURLImp(request, base, wpconfig, SWBResourceURLImp.UrlType_ACTION);
@@ -1189,6 +1256,18 @@ Document   : view Shelf Recurso Shelf
         </table>
         <%
                 }
+                if (so.createGenericInstance() instanceof Tile) {
+
+                tile = (Tile) so.createGenericInstance();
+                String fcreated = (tile.getCreated() != null ? sdf.format(tile.getCreated()) : "---");
+                String fcreator = (tile.getCreator() != null && tile.getCreator().getFullName() != null ? tile.getCreator().getFullName() : "---");
+                String fmod = (tile.getUpdated() != null ? sdf.format(tile.getUpdated()) : "---");
+                String fusrmod = (tile.getModifiedBy() != null && tile.getModifiedBy().getFullName() != null ? tile.getModifiedBy().getFullName() : "---");
+        %>
+        <p>Creado:     <%=fcreated%>  por <%=fcreator%></p>
+        <p>Modificado: <%=fmod%>  por <%=fusrmod%></p> 
+        <%
+            }
             }
         } else if (action.equals("share")) {
             SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
