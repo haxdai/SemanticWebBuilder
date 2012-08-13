@@ -3,6 +3,7 @@ Document   : view WorkSpaces recurso MyShelf
 Created on : 19/06/2012
 Author     : juan.fernandez y rene.jara
 --%>
+<%@page import="org.semanticwb.platform.SemanticProperty"%>
 <%@page import="org.semanticwb.portal.api.*"%>
 <%@page import="org.semanticwb.platform.SemanticOntology"%>
 <%@page import="org.semanticwb.portal.SWBFormButton"%>
@@ -224,10 +225,10 @@ Author     : juan.fernandez y rene.jara
                 alwsp.add(workSpace);
                 x++;
                 if (x > (ps * p) && !(x > (ps * (p + 1)))) {
-%>
+    %>
     <div class="workspace-prevista">
         <h3><a href="<%=wpwscontent.getUrl()%>?wsid=<%=workSpace.getId()%>"><strong><%=workSpace.getTitle()%></strong></a></h3>
-        <p><%=workSpace.getDescription()!=null?workSpace.getDescription():""%></p> 
+        <p><%=workSpace.getDescription() != null ? workSpace.getDescription() : ""%></p> 
         <ul>
             <li><strong>Temas:</strong>
                 <ul>
@@ -403,10 +404,10 @@ Author     : juan.fernandez y rene.jara
                 x++;
                 if (x > (ps * p) && !(x > (ps * (p + 1)))) {
 
-%>
+    %>
     <div class="workspace-prevista">
         <h3><a href="<%=wpwscontent.getUrl()%>?wsid=<%=workSpace.getId()%>"><strong><%=workSpace.getTitle()%></strong></a></h3>
-        <p><%=workSpace.getDescription()%></p>
+        <p><%=workSpace.getDescription() != null ? workSpace.getDescription() : ""%></p> 
     </div>
     <%
                 } else if (x > (ps * (p + 1))) {
@@ -535,17 +536,20 @@ Author     : juan.fernandez y rene.jara
                 formMode = SWBFormMgr.MODE_EDIT;
             }
 
-            SWBFormMgr frmgr = new SWBFormMgr(workSpace.getSemanticObject(), formMode, formMode);
+            SemanticObject so = workSpace.getSemanticObject();
+            SemanticClass scls = so.getSemanticClass();
+
+            SWBFormMgr frmgr = new SWBFormMgr(so, formMode, formMode);
 
             frmgr.clearProperties();
             frmgr.addProperty(Descriptiveable.swb_title);
             frmgr.addProperty(Descriptiveable.swb_description);
             frmgr.addProperty(Tagable.swb_tags);
             //frmgr.addProperty(Activeable.swb_active);
-            frmgr.addProperty(Traceable.swb_created);
-            frmgr.addProperty(Traceable.swb_creator);
-            frmgr.addProperty(Traceable.swb_modifiedBy);
-            frmgr.addProperty(Traceable.swb_updated);
+            //frmgr.addProperty(Traceable.swb_created);
+            //frmgr.addProperty(Traceable.swb_creator);
+            //frmgr.addProperty(Traceable.swb_modifiedBy);
+            //frmgr.addProperty(Traceable.swb_updated);
             frmgr.addProperty(WorkSpace.conorg_hasTopic);
             if (null != wsid) {
                 frmgr.addHiddenParameter("wsid", wsid);
@@ -554,17 +558,90 @@ Author     : juan.fernandez y rene.jara
             frmgr.setAction(urlupdate.toString());
             frmgr.setLang("es");
             String boton = "";
-            if (editMode) {
-                boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + "';return false;\">Cancelar</button>";
-                frmgr.addButton(boton);
-                boton = "<button dojoType=\"dijit.form.Button\" type=\"submit\" >Guardar</button>";
-                frmgr.addButton(boton); //SWBFormButton.newSaveButton()
-            } else {
-                boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + "';return false;\">Regresar</button>";
-                frmgr.addButton(boton);
-            }
-    %>        
-    <%=frmgr.renderForm(request)%>  
+            //if (editMode) {
+            //    boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + "';return false;\">Cancelar</button>";
+            //    frmgr.addButton(boton);
+            //    boton = "<button dojoType=\"dijit.form.Button\" type=\"submit\" >Guardar</button>";
+            //    frmgr.addButton(boton); //SWBFormButton.newSaveButton()
+            //} else {
+            //    boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + "';return false;\">Regresar</button>";
+            //    frmgr.addButton(boton);
+            //}
+%>   
+<form id="<%=so.getURI()%>/form" class="swbform" action="<%=urlupdate.toString()%>" method="post">
+    <input type="hidden" name="suri" value="<%=so.getURI()%>"/>
+    <input type="hidden" name="scls" value="<%=scls.getURI()%>"/>
+    <input type="hidden" name="smode" value="<%=editMode ? "edit" : "view"%>"/>   
+    <%
+        if (null != wsid) {
+
+    %>
+    <input type="hidden" name="wsid" value="<%=wsid%>"/> 
+    <%
+        }
+
+    %>
+
+    <fieldset >
+        <legend></legend>
+        <table>
+            <%
+
+
+
+                HashMap<PropertyGroup, TreeSet> hmgroup = frmgr.getGroups();
+                HashMap<String, SemanticProperty> hmorder = new HashMap<String, SemanticProperty>();
+                Iterator<PropertyGroup> itpg = hmgroup.keySet().iterator();
+
+                while (itpg.hasNext()) {
+                    PropertyGroup pg = itpg.next();
+
+                    //out.println(pg.getId() + "<br/>");
+                    Iterator<SemanticProperty> it = hmgroup.get(pg).iterator();
+                    while (it.hasNext()) {
+                        SemanticProperty prop = it.next();
+                        DisplayProperty dp = (DisplayProperty) (prop.getDisplayProperty().createGenericInstance());
+                        if (dp != null) {
+                            //out.println(dp.getIndex()+ " - "+dp.getPromptMessage());
+                            hmorder.put("" + dp.getIndex(), prop);
+                        }
+                    }
+                }
+
+                ArrayList<String> list = new ArrayList(hmorder.keySet());
+                Collections.sort(list);
+                Iterator<String> itstr = list.iterator();
+                while (itstr.hasNext()) {
+                    String key = itstr.next();
+                    SemanticProperty semprop = hmorder.get(key);
+            %>
+            <tr><td width="200px" align="right">
+                    <%=frmgr.renderLabel(request, semprop, editMode ? SWBFormMgr.MODE_EDIT : SWBFormMgr.MODE_VIEW)%>
+                </td><td>
+                    <%=frmgr.renderElement(request, semprop, editMode ? SWBFormMgr.MODE_EDIT : SWBFormMgr.MODE_VIEW)%>
+                </td></tr>
+                <%
+                    }
+                %>
+        </table>
+    </fieldset>
+    <fieldset><span align="center">
+            <%
+                if (editMode) {
+                    boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + "';return false;\">Cancelar</button>";
+                    out.println(boton);
+                    boton = "<button dojoType=\"dijit.form.Button\" type=\"submit\" >Guardar</button>";
+                    out.println(boton); //SWBFormButton.newSaveButton()
+                } else {
+                    boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + "';return false;\">Regresar</button>";
+                    out.println(boton);
+                }
+
+
+            %>
+        </span></fieldset>
+</form>
+<%//=frmgr.renderForm(request)%>  
 <div>
     <div id="participantes<%=wsid%>" dojoType="dijit.TitlePane" title="Participantes" class="admViewProperties" open="false" duration="150" minSize_="20" splitter_="true" region="bottom">
         <%
@@ -668,12 +745,12 @@ Author     : juan.fernandez y rene.jara
                 </thead>
                 <tbody>
                     <%
-                    String wpidconfig = base.getAttribute("idwpavisos","Avisos"); 
-                    WebPage wpavisos = wsite.getWebPage(wpidconfig);
+                        String wpidconfig = base.getAttribute("idwpavisos", "Avisos");
+                        WebPage wpavisos = wsite.getWebPage(wpidconfig);
 
-                    String urlaviso = wpavisos.getUrl()+"?act="+SWBResourceURL.Action_ADD;
-                    
-                    
+                        String urlaviso = wpavisos.getUrl() + "?act=" + SWBResourceURL.Action_ADD;
+
+
                         String ajaxUrl = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(MyShelf.Mode_AJAX).toString() + "?wsid=" + wsid + "&mode=member";
                         while (itme.hasNext()) {
                             Member mem = itme.next();
@@ -688,7 +765,7 @@ Author     : juan.fernandez y rene.jara
                             urldel.setParameter("mbrid", mem.getId());
                     %>
                     <tr>
-                        
+
                         <td><%=membername%></td>
                         <%
                             SWBResourceURL urlupdmbr2 = paramRequest.getActionUrl();
@@ -702,16 +779,16 @@ Author     : juan.fernandez y rene.jara
                         <td><%=strSelect%></td>
                         <td>
                             <%
-                            
-                            String urlDirectorio = "/es_mx/conorg/Directorio/_aid/10/_act/add/?idco="+mem.getUser().getId(); 
+
+                                String urlDirectorio = "/es_mx/conorg/Directorio/_aid/10/_act/add/?idco=" + mem.getUser().getId();
                             %>
                             <span class="icv-compartir"><a href="#" title="agregar colega a mi directorio" onclick="window.location='<%=urlDirectorio%>';">add</a></span>
                             <span class="icv-mensaje">
-                            <%if(null==wpavisos){%>
-                            &nbsp;
-                            <% } else {%>
-                            <a href="<%=urlaviso%>&usrid=<%=mem.getUser().getId()%>">msg</a>
-                            <% } %>
+                                <%if (null == wpavisos) {%>
+                                &nbsp;
+                                <% } else {%>
+                                <a href="<%=urlaviso%>&usrid=<%=mem.getUser().getId()%>">msg</a>
+                                <% }%>
                             </span>
                             <span class="icv-borrar">
                                 <a href="#" onclick="if(confirm('¿Deseas eliminar este participante?')){window.location='<%=urldel%>';}">B&nbsp;</a>
@@ -1259,7 +1336,7 @@ Author     : juan.fernandez y rene.jara
             <!-- h3>< % =wptitle%></h3 -->
             <%
                 SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
-                SemanticObject so = ont.getSemanticObject(suri);
+                so = ont.getSemanticObject(suri);
                 out.println("<h4>" + MyShelf.getTileTypeName((Tile) (so.createGenericInstance())) + "</h4>");
                 if (so != null) {
                     Tile tile = (Tile) so.createGenericInstance();
@@ -1427,16 +1504,16 @@ Author     : juan.fernandez y rene.jara
                         <td><%=strTopic%></td>
                         <td>
                             <% if (usrlevel >= 2) {
-                                urlshare.setParameter("id", ltile.getId());
-                                urlshare.setParameter("suri", ltile.getURI());
-                                urledit.setParameter("id", ltile.getId());
-                                urledit.setParameter("suri", ltile.getURI());
+                                    urlshare.setParameter("id", ltile.getId());
+                                    urlshare.setParameter("suri", ltile.getURI());
+                                    urledit.setParameter("id", ltile.getId());
+                                    urledit.setParameter("suri", ltile.getURI());
                             %>
                             <span class="icv-compartir"><a href="#" title="copiar referencia al estante" onclick="if(confirm('¿Deseas copiarlo a tú estante?')){window.location='<%=urlshare%>';} else return false;">C&nbsp;</a></span>
                             <span class="icv-editar"><a href="#" onclick="window.location='<%=urledit%>';">E&nbsp;</a></span>
                             <%
-                                 if (usrlevel == 4 || usr.equals(tile.getCreator())) {
-                                     urlrem.setParameter("tiid", ltile.getURI());
+                                if (usrlevel == 4 || usr.equals(tile.getCreator())) {
+                                    urlrem.setParameter("tiid", ltile.getURI());
                             %>
                             <span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urlrem%>';} else return false;">B&nbsp;</a></span>
                             <%  } else {
@@ -1456,7 +1533,7 @@ Author     : juan.fernandez y rene.jara
                 </tbody>
             </table>
             <%
-                    }
+                        }
 
                     }
                     if (so.createGenericInstance() instanceof Versionable) {
@@ -1669,17 +1746,27 @@ Author     : juan.fernandez y rene.jara
             //this.inherited(arguments);
         </script>
     </div>
+
     <%
-        } 
+        }
     %>
 
 </div>
+<%
+
+    String fcreated = (workSpace.getCreated() != null ? sdf.format(workSpace.getCreated()) : "---");
+    String fcreator = (workSpace.getCreator() != null && workSpace.getCreator().getFullName() != null ? workSpace.getCreator().getFullName() : "---");
+    String fmod = (workSpace.getUpdated() != null ? sdf.format(workSpace.getUpdated()) : "---");
+    String fusrmod = (workSpace.getModifiedBy() != null && workSpace.getModifiedBy().getFullName() != null ? workSpace.getModifiedBy().getFullName() : "---");
+%>
+<p>Creado:     <%=fcreated%>  por <%=fcreator%></p>
+<p>Modificado: <%=fmod%>  por <%=fusrmod%></p> 
 <%
         }
     }
 %>
 <%!
-    class orderByFullName implements Comparator<org.semanticwb.model.User> { 
+    class orderByFullName implements Comparator<org.semanticwb.model.User> {
 
         public int compare(org.semanticwb.model.User u1, org.semanticwb.model.User u2) {
             String n1, n2;
