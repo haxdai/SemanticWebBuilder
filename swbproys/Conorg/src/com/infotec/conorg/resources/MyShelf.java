@@ -172,7 +172,7 @@ public class MyShelf extends GenericAdmResource {
         WebSite wsite = response.getWebPage().getWebSite();
         String eventid = request.getParameter("idevent");
         String page = request.getParameter("page");
-
+        String itemName = "elemento";
         SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
         SemanticObject obj = null;
         if (null != id) {
@@ -220,6 +220,9 @@ public class MyShelf extends GenericAdmResource {
                             if (wsid != null) {
                                 response.setRenderParameter("wsid", wsid);
                             }
+                            
+                            itemName = getTileTypeName((Tile) (nso.createGenericInstance()));
+                            
                         } else {
 
                             if (nso.createGenericInstance() instanceof WorkSpace) {
@@ -238,6 +241,7 @@ public class MyShelf extends GenericAdmResource {
                                 //response.setRenderParameter("id", nso.getURI());
                                 //response.setRenderParameter("suri", nso.getURI());
                                 //                                System.out.println(".... member agregado");
+                                itemName = "Espacio de trabajo";
                             } else {
 
                                 //                                System.out.println("Agregando azulejo al WorkSpace");
@@ -259,7 +263,8 @@ public class MyShelf extends GenericAdmResource {
                         }
                     }
                     //}
-                    msg = "Se creó " + classid.substring(classid.indexOf("#") + 1) + " satisfactoriamente.";
+                    
+                    msg = "Se creó " + itemName + " satisfactoriamente.";
                 } catch (Exception e) {
                     log.error("Error al agregar el elemento", e);
                     msg = "Error al crear " + classid.substring(classid.indexOf("#") + 1);
@@ -290,6 +295,7 @@ public class MyShelf extends GenericAdmResource {
                         frmgr.addProperty(Traceable.swb_modifiedBy);
                         frmgr.addProperty(Traceable.swb_updated);
                         frmgr.addProperty(WorkSpace.conorg_hasTopic);
+                        itemName="Espacio de trabajo";
                     }
                     if (gobj instanceof Tile) {
                         frmgr.addProperty(Descriptiveable.swb_title);
@@ -379,12 +385,13 @@ public class MyShelf extends GenericAdmResource {
                             tws.removeTile(ttile);
                         }
                     }
-                    System.out.println("Resumen: " + request.getParameter("documentAbstract"));
+                    //System.out.println("Resumen: " + request.getParameter("documentAbstract"));
 
                     if (nso != null && nso.createGenericInstance() instanceof WorkSpace) {
                         wsid = ((WorkSpace) nso.createGenericInstance()).getId();
                         response.setRenderParameter("act", "");
                         response.setAction("");
+                        itemName="Espacio de trabajo";
                     } else {
                         if ((gobj instanceof Mosaic)) {
                             response.setRenderParameter("act", SWBActionResponse.Action_EDIT);
@@ -392,8 +399,9 @@ public class MyShelf extends GenericAdmResource {
                             response.setRenderParameter("act", "");
                         }
                         response.setAction(SWBActionResponse.Action_EDIT);
+                        itemName=getTileTypeName((Tile)gobj);
                     }
-                    msg = "Se actualizó " + classid.substring(classid.indexOf("#") + 1) + " satisfactoriamente.";
+                    msg = "Se actualizó " + itemName + " satisfactoriamente.";
                 } catch (Exception e) {
                     log.error("Error al actulizar el elemento", e);
                     msg = "Error al actualizar " + classid.substring(classid.indexOf("#") + 1);
@@ -443,9 +451,15 @@ public class MyShelf extends GenericAdmResource {
                         }
                     }
 
-                    if (relacionados == 0) {
+                    if(sobj.createGenericInstance() instanceof WorkSpace){
+                        itemName="Espacio de trabajo";
+                    } else if(sobj.createGenericInstance() instanceof Tile){
+                        itemName=getTileTypeName((Tile)sobj.createGenericInstance());
+                    }
+                    
+                    if (relacionados == 0) {                        
                         sobj.remove();
-                        msg = "Se eliminó " + classid.substring(classid.indexOf("#") + 1) + " satisfactoriamente.";
+                        msg = "Se eliminó " + itemName + " satisfactoriamente.";
                     } else {
                         //System.out.println("Existen adicionalmente "+relacionados+" elementos relacionados al azulejo");
                         if (sobj.createGenericInstance() instanceof Tile) {
@@ -460,7 +474,7 @@ public class MyShelf extends GenericAdmResource {
                                 wspc.removeTile(tileremove);
                             }
                         }
-                        msg = "Se eliminó " + classid.substring(classid.indexOf("#") + 1) + " de la lista satisfactoriamente.";
+                        msg = "Se eliminó " + itemName + " de la lista satisfactoriamente.";
                     }
 
                 } catch (Exception e) {
