@@ -9,6 +9,9 @@
                 <input type="radio" id="usedas1" name="resconf" label="Utilizar para Espacio de Trabajo (WorkSpace):" value="http://www.infotec.com/conorg.owl#WorkSpace" checked="true" />
                 <input type="TEXT" name="numele" label="Número de elementos a mostrar como estrategia:" size="5" jsrequired="true"/>
                 <input type="TEXT" name="numpag" label="Número de elementos a mostrar por paginación:" size="5" jsrequired="true"/>
+                <input type="CHECKBOX" name="chkavisosWSAdd" label="Envio de avisos crear documentos Espacios de Trabajo:" value="true"/>
+                <input type="CHECKBOX" name="chkavisosWSUpdate" label="Envio de avisos actualizar documentos Espacios de Trabajo:" value="true"/>
+                <input type="CHECKBOX" name="chkavisosWSRemove" label="Envio de avisos eliminar documentos Espacios de Trabajo:" value="true"/>
             </fieldset>
             <fieldset >
                 <statictext name="used">Configuración Funcionamiento como estante</statictext>

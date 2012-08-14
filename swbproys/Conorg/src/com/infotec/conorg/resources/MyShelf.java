@@ -5,6 +5,7 @@
 package com.infotec.conorg.resources;
 
 import com.infotec.conorg.*;
+import com.infotec.conorg.utils.MessageUtils;
 import java.io.*;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -156,6 +157,14 @@ public class MyShelf extends GenericAdmResource {
         String suri = request.getParameter("suri");
         String wsid = request.getParameter("wsid");
         String classid = request.getParameter("classid");
+        
+        boolean sendWSadd = Boolean.parseBoolean(getResourceBase().getAttribute("chkavisosWSAdd","false"));
+        boolean sendWSUpdate = Boolean.parseBoolean(getResourceBase().getAttribute("chkavisosWSUpdate","false"));
+        boolean sendWSRemove = Boolean.parseBoolean(getResourceBase().getAttribute("chkavisosWSRemove","false"));
+        
+        
+        
+        
         if (null == action) {
             action = "";
         }
@@ -249,9 +258,16 @@ public class MyShelf extends GenericAdmResource {
                                 WorkSpace workSpace = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
                                 if (null != workSpace) {
 
-                                    workSpace.addTile((Tile) (nso.createGenericInstance()));
-                                    //                                    System.out.println("Tile added.....");
+                                    Tile mytile = (Tile)nso.createGenericInstance();
+                                    workSpace.addTile(mytile);
+                                    //            sendWSadd                       System.out.println("Tile added.....");
+                                    if(sendWSadd){
+                                        Aviso aviso = MessageUtils.createWorkSpaceMessage(usr, workSpace, "Nuevo documento - "+mytile.getTitle(), "Con la siguiente descripción:\n\r"+mytile.getDescription(), wsite);
+                                    }
+                                    
                                 }
+                                
+                                
                                 response.setAction(SWBActionResponse.Action_EDIT);
                                 response.setRenderParameter("act", SWBActionResponse.Action_EDIT);
                                 response.setRenderParameter("id", nso.getURI());
@@ -267,7 +283,7 @@ public class MyShelf extends GenericAdmResource {
                     msg = "Se creó " + itemName + " satisfactoriamente.";
                 } catch (Exception e) {
                     log.error("Error al agregar el elemento", e);
-                    msg = "Error al crear " + classid.substring(classid.indexOf("#") + 1);
+                    msg = "Error al crear " + itemName;
                 }
 
                 response.setRenderParameter("alertmsg", msg);
@@ -400,11 +416,16 @@ public class MyShelf extends GenericAdmResource {
                         }
                         response.setAction(SWBActionResponse.Action_EDIT);
                         itemName=getTileTypeName((Tile)gobj);
+                        if(sendWSUpdate && wsid!=null){
+                            WorkSpace wrkSpc = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
+                            Tile mytile = (Tile)gobj;
+                            Aviso aviso = MessageUtils.createWorkSpaceMessage(usr, wrkSpc, "Actualizó - "+mytile.getTitle(), "Con la siguiente descripción:\n\r"+mytile.getDescription(), wsite);
+                        }
                     }
                     msg = "Se actualizó " + itemName + " satisfactoriamente.";
                 } catch (Exception e) {
                     log.error("Error al actulizar el elemento", e);
-                    msg = "Error al actualizar " + classid.substring(classid.indexOf("#") + 1);
+                    msg = "Error al actualizar " + itemName;
                 }
 
                 response.setRenderParameter("alertmsg", msg);
@@ -455,6 +476,11 @@ public class MyShelf extends GenericAdmResource {
                         itemName="Espacio de trabajo";
                     } else if(sobj.createGenericInstance() instanceof Tile){
                         itemName=getTileTypeName((Tile)sobj.createGenericInstance());
+                        if(sendWSRemove && wsid!=null){
+                            WorkSpace wrkSpc = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
+                            Tile mytile = (Tile)sobj.createGenericInstance();
+                            Aviso aviso = MessageUtils.createWorkSpaceMessage(usr, wrkSpc, "Se Eliminó - "+mytile.getTitle() + " del espacio de trabajo: "+wrkSpc.getTitle() , "Con la siguiente descripción:\n\r"+mytile.getDescription(), wsite);
+                        }
                     }
                     
                     if (relacionados == 0) {                        
@@ -479,7 +505,7 @@ public class MyShelf extends GenericAdmResource {
 
                 } catch (Exception e) {
                     log.error("Error al eliminar el elemento", e);
-                    msg = "Error al eliminar " + classid.substring(classid.indexOf("#") + 1);
+                    msg = "Error al eliminar " + itemName;
                 }
             }
         } else if ("newfile".equals(action)) {
@@ -518,6 +544,11 @@ public class MyShelf extends GenericAdmResource {
 
             if (doc != null) {
                 storeFile(fname, new ByteArrayInputStream(bcont), fcomment, incremento, doc, wsite);
+                if(wsid!=null){
+                    WorkSpace wrkSpc = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
+                    Tile mytile = (Tile)doc;
+                    Aviso aviso = MessageUtils.createWorkSpaceMessage(usr, wrkSpc, "Se agregó archivo - "+mytile.getTitle() + " del espacio de trabajo: "+wrkSpc.getTitle() , "Con la siguiente descripción:\n\r"+mytile.getDescription(), wsite);
+                }
             }
 
             response.setRenderParameter("wsid", wsid);
@@ -679,6 +710,7 @@ public class MyShelf extends GenericAdmResource {
             String tiid = request.getParameter("tiid");
             SemanticObject sobj = ont.getSemanticObject(suri);
             GenericObject gobj = sobj.createGenericInstance();
+            itemName = getTileTypeName((Tile)gobj);
             classid = sobj.getSemanticClass().getClassId();
             if ((gobj instanceof Mosaic)) {
                 Mosaic mosaic = (Mosaic) gobj;
@@ -695,7 +727,7 @@ public class MyShelf extends GenericAdmResource {
             }
             response.setRenderParameter("act", SWBActionResponse.Action_EDIT);
             response.setAction(SWBActionResponse.Action_EDIT);
-            msg = "Se removio " + classid.substring(classid.indexOf("#") + 1) + " satisfactoriamente.";
+            msg = "Se removio " + itemName + " satisfactoriamente.";
             response.setRenderParameter("alertmsg", msg);
             response.setRenderParameter("id", id);
             response.setRenderParameter("suri", suri);
