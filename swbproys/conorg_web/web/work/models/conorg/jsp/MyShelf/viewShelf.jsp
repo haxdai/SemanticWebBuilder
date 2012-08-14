@@ -131,7 +131,7 @@ Document   : view Shelf Recurso Shelf
         action = "";
     }
 
-    SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy hh:mm", new Locale("es"));
+    SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy hh:mm a", new Locale("es"));
 
 
     //String strOrder = "";
