@@ -872,9 +872,9 @@ Document   : view Shelf Recurso Shelf
                     SemanticProperty semprop = hmorder.get(key);
                 %>
                 <tr><td width="200px" align="right">
-                        <%=frmgr.renderLabel(request, semprop, SWBFormMgr.MODE_EDIT)%>
+                        <%=frmgr.renderLabel(request, semprop, editMode)%>
                 </td><td>
-                        <%=frmgr.renderElement(request, semprop, SWBFormMgr.MODE_EDIT)%>
+                        <%=frmgr.renderElement(request, semprop, editMode)%>
                 </td></tr>
                 <%
                 }
