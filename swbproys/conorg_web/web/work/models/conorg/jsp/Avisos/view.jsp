@@ -268,7 +268,7 @@
                             <% }%>
                         </th>
                         <th class="fecha">
-                            <% if (!orderby.equals("date")) {%>
+                            <% if (orderby.equals("date")&&"down".equals(direction)) {%>
                             <strong><a href="<%=urlorder%>&order=date&direction=up">Fecha</a></strong>
                             <% } else {%>
                             <strong><a href="<%=urlorder%>&order=date&direction=down">Fecha</a></strong>
@@ -302,7 +302,7 @@
                         } catch (Exception e) {
                         }
 
-                        //Iterator<GradoAcademico> itcec = itga.iterator();
+                       
                         while (ittil.hasNext()) {
                             Aviso aviso = ittil.next();
 
@@ -420,12 +420,17 @@
                             if (pages > 10) {
                                 SWBResourceURL urlNext = paramRequest.getRenderUrl();
                                 urlNext.setParameter("page", "" + 0);
+                                if(null!=orderby)urlNext.setParameter("order", orderby); 
+                                if(null!=direction)urlNext.setParameter("direction", direction);
+                                
                                 out.println("<a href=\"#\" onclick=\"window.location='" + urlNext + "';\">Ir al inicio</a> ");
                             }
 
                             for (int z = inicia; z < finaliza; z++) {
                                 SWBResourceURL urlNext = paramRequest.getRenderUrl();
                                 urlNext.setParameter("page", "" + z);
+                                if(null!=orderby)urlNext.setParameter("order", orderby); 
+                                if(null!=direction)urlNext.setParameter("direction", direction);
 
                                 if (z != p) {
                                     out.println("<a href=\"#\" onclick=\"window.location='" + urlNext + "';\">" + (z + 1) + "</a> ");
@@ -437,6 +442,8 @@
                             if (pages > 10) {
                                 SWBResourceURL urlNext = paramRequest.getRenderUrl();
                                 urlNext.setParameter("page", "" + (pages - 1));
+                                if(null!=orderby)urlNext.setParameter("order", orderby); 
+                                if(null!=direction)urlNext.setParameter("direction", direction);
                                 out.println("<a href=\"#\" onclick=\"window.location='" + urlNext + "';\">Ir al final</a> ");
                             }
 
