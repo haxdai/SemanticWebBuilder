@@ -52,7 +52,7 @@
                 alert('Para registrarte es necesario que escribas el texto de la imagen.\\nEn caso de no ser claro puedes cambiarlo haciendo clic en <<Cambiar imagen>>.');
             }else{
                 if (!validateReadAgree()){
-                    alert('Para registrarte es necesario que aceptar los terminos y condiciones');
+                    alert('Para registrarte es necesario que aceptar los términos y condiciones');
                 }else{
                    return true;
                     //alert("enviar");
@@ -226,10 +226,10 @@
             </div-->
             <div class="icv-div-grupo">
                 <p class="icv-3col">
-                    <a href="#" onclick="openSplash();return false;">Terminos y condiciones</a>
+                    <a href="#" onclick="openSplash();return false;">Términos y condiciones</a>
                 </p>
                 <p class="icv-3col">
-                    <label for="acept"><b>*</b>Acepto los terminos y condiciones:</label>
+                    <label for="acept"><b>*</b>Acepto los términos y condiciones:</label>
                     <input type="checkbox" name="acept" id="acept" maxlength="8" value="true" dojoType="dijit.form.CheckBox" required="true" promptMessage="promp" invalidMessage="invalid" isValid="return confirm('this.checkbox.value==true')"/>
                 </p>
                 <div class="clearer">&nbsp;</div>

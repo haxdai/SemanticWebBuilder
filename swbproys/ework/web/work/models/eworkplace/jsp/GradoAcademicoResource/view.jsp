@@ -345,7 +345,7 @@
                         <input dojoType="dijit.form.FilteringSelect" value="" autoComplete="true" required="false" store="tipoCarreraStore<%=base.getId()%>" name="sel_Tipo" id="sel_Tipo<%=base.getId()%>" onChange="dijit.byId('sel_Area<%=base.getId()%>').query.tipo = this.value || '*';" />        
                     </p>
                     <p class="icv-3col">
-                        <label for="sel_Area">Area</label>
+                        <label for="sel_Area">Área</label>
                         <input dojoType="dijit.form.FilteringSelect" value="" autoComplete="true" required="false" store="areaCarreraStore<%=base.getId()%>" name="sel_Area" id="sel_Area<%=base.getId()%>" onChange="dijit.byId('sel_Carrera<%=base.getId()%>').query.area = this.value || '*'; dijit.byId('sel_Tipo<%=base.getId()%>').attr('value', (dijit.byId('sel_Area<%=base.getId()%>').item || {tipo: ''}).tipo);" />          <!-- dijit.byId('sel_Carrera<%//=base.getId()%>').attr('value',''); -->
                     </p>
                     <p class="icv-3col">
@@ -487,7 +487,7 @@
                         <input dojoType="dijit.form.FilteringSelect" value="<%=idTipo%>" autoComplete="true" required="false" store="tipoCarreraStore<%=base.getId()%>" name="sel_Tipo" id="sel_Tipo<%=base.getId()%>" onChange="dijit.byId('sel_Area<%=base.getId()%>').query.tipo = this.value || '*';" />        
                     </p>
                     <p class="icv-3col">
-                        <label for="sel_Area">Area</label>
+                        <label for="sel_Area">Área</label>
                         <input dojoType="dijit.form.FilteringSelect" value="<%=idArea%>" autoComplete="true" required="false" store="areaCarreraStore<%=base.getId()%>" name="sel_Area" id="sel_Area<%=base.getId()%>" onChange="dijit.byId('sel_Carrera<%=base.getId()%>').query.area = this.value || '*'; dijit.byId('sel_Tipo<%=base.getId()%>').attr('value', (dijit.byId('sel_Area<%=base.getId()%>').item || {tipo: ''}).tipo);" />          <!-- dijit.byId('sel_Carrera<%//=base.getId()%>').attr('value',''); -->
                     </p>
                     <p class="icv-3col">
