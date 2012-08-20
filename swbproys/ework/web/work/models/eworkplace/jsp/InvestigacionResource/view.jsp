@@ -119,7 +119,7 @@
         <tr>
             <th width="7%" >&nbsp;</th>
             <th width="15%" >Empresa</th>
-            <th width="15%" >Area de investigación</th>
+            <th width="15%" >Área de investigación</th>
             <th width="15%" >Puesto</th>
             <th width="10%" >Teléfono</th>
             <th width="8%" >Año de término</th>
@@ -311,7 +311,7 @@
     <input type="text" name="txtempresa" id="txtempresa" maxlength="150" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese la empresa o institución" regExp="[a-zA-Z0-9\u00C0-\u00FF',. /_-]+"/>
   </p>
     <p class="icv-3col">
-    <label for="txtareainv"><b>*</b>Area de Investigación</label>
+    <label for="txtareainv"><b>*</b>Área de Investigación</label>
     <input type="text" name="txtareainv" id="txtareainv" maxlength="100" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese el área de investigación" regExp="[a-zA-Z0-9\u00C0-\u00FF',. /_-]+"/>
   </p>
     <p class="icv-3col">
@@ -395,7 +395,7 @@
     <input type="text" name="txtempresa" id="txtempresa" maxlength="150" value="<%=inves.getNombreEmpresa()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese la empresa o institución" regExp="[a-zA-Z0-9\u00C0-\u00FF',. /_-]+"/>
   </p>
     <p class="icv-3col">
-    <label for="txtareainv"><b>*</b>Area de Investigación</label>
+    <label for="txtareainv"><b>*</b>Área de Investigación</label>
     <input type="text" name="txtareainv" id="txtareainv" maxlength="100" value="<%=inves.getAreaInvestigacion()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese el área de investigación" regExp="[a-zA-Z0-9\u00C0-\u00FF',. /_-]+"/>
   </p>
     <p class="icv-3col">

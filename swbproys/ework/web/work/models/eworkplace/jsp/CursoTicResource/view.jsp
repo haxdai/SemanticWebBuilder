@@ -318,7 +318,7 @@
     <input type="text" name="nominstitucion" id="nominstitucion" maxlength="150" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese la institucion" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+" />
   </p> 
   <p class="icv-3col">
-    <label for="fechaini"><b>*</b>Pediodo de (Año)</label>
+    <label for="fechaini"><b>*</b>Periodo de (Año)</label>
     <input type="text" name="fechaini" id="fechaini" maxlength="4" dojoType="dijit.form.NumberTextBox" required="true" promptMessage="Ingrese el año de inicio del curso" constraints="{min:1920,max:2020,pattern:'####'}"/>
   </p>
   <div class="clearer">&nbsp;</div>
@@ -389,7 +389,7 @@
     <input type="text" name="nominstitucion" id="nominstitucion" maxlength="150" value="<%=ctic.getNombreInstitucion()%>" dojoType="dijit.form.ValidationTextBox" required="true" promptMessage="Ingrese la institucion" regExp="[a-zA-Z0-9\u00C0-\u00FF' /_-]+"/>
   </p> 
   <p class="icv-3col">
-    <label for="fechaini"><b>*</b>Pediodo de (Año)</label>
+    <label for="fechaini"><b>*</b>Periodo de (Año)</label>
     <input type="text" name="fechaini" id="fechaini" maxlength="4" value="<%=ctic.getInicio()%>" dojoType="dijit.form.NumberTextBox" required="true" promptMessage="Ingrese el año de inicio del curso" constraints="{min:1920,max:2020,pattern:'####'}"/>
   </p>
     <div class="clearer">&nbsp;</div>
