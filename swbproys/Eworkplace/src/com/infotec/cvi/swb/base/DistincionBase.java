@@ -1,10 +1,10 @@
 package com.infotec.cvi.swb.base;
 
 
-public abstract class DistincionBase extends com.infotec.cvi.swb.ExperienciaProfesional implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class DistincionBase extends com.infotec.cvi.swb.ExperienciaProfesional implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
-    public static final org.semanticwb.platform.SemanticProperty intranet_otorgante=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#otorgante");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaDistincion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaDistincion");
+    public static final org.semanticwb.platform.SemanticProperty intranet_otorgante=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#otorgante");
     public static final org.semanticwb.platform.SemanticClass intranet_Distincion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Distincion");
    /**
    * The semantic class that represents the currentObject
@@ -138,57 +138,6 @@ public abstract class DistincionBase extends com.infotec.cvi.swb.ExperienciaProf
     }
 
 /**
-* Gets the Title property
-* @return String with the Title
-*/
-    public String getTitle()
-    {
-        return getSemanticObject().getProperty(swb_title);
-    }
-
-/**
-* Sets the Title property
-* @param value long with the Title
-*/
-    public void setTitle(String value)
-    {
-        getSemanticObject().setProperty(swb_title, value);
-    }
-
-    public String getTitle(String lang)
-    {
-        return getSemanticObject().getProperty(swb_title, null, lang);
-    }
-
-    public String getDisplayTitle(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_title, lang);
-    }
-
-    public void setTitle(String title, String lang)
-    {
-        getSemanticObject().setProperty(swb_title, title, lang);
-    }
-
-/**
-* Gets the Otorgante property
-* @return String with the Otorgante
-*/
-    public String getOtorgante()
-    {
-        return getSemanticObject().getProperty(intranet_otorgante);
-    }
-
-/**
-* Sets the Otorgante property
-* @param value long with the Otorgante
-*/
-    public void setOtorgante(String value)
-    {
-        getSemanticObject().setProperty(intranet_otorgante, value);
-    }
-
-/**
 * Gets the Description property
 * @return String with the Description
 */
@@ -237,5 +186,56 @@ public abstract class DistincionBase extends com.infotec.cvi.swb.ExperienciaProf
     public void setFechaDistincion(java.util.Date value)
     {
         getSemanticObject().setDateProperty(intranet_fechaDistincion, value);
+    }
+
+/**
+* Gets the Title property
+* @return String with the Title
+*/
+    public String getTitle()
+    {
+        return getSemanticObject().getProperty(swb_title);
+    }
+
+/**
+* Sets the Title property
+* @param value long with the Title
+*/
+    public void setTitle(String value)
+    {
+        getSemanticObject().setProperty(swb_title, value);
+    }
+
+    public String getTitle(String lang)
+    {
+        return getSemanticObject().getProperty(swb_title, null, lang);
+    }
+
+    public String getDisplayTitle(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_title, lang);
+    }
+
+    public void setTitle(String title, String lang)
+    {
+        getSemanticObject().setProperty(swb_title, title, lang);
+    }
+
+/**
+* Gets the Otorgante property
+* @return String with the Otorgante
+*/
+    public String getOtorgante()
+    {
+        return getSemanticObject().getProperty(intranet_otorgante);
+    }
+
+/**
+* Sets the Otorgante property
+* @param value long with the Otorgante
+*/
+    public void setOtorgante(String value)
+    {
+        getSemanticObject().setProperty(intranet_otorgante, value);
     }
 }
