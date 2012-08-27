@@ -3,8 +3,8 @@ package com.infotec.cvi.swb.base;
 
 public abstract class InvestigacionBase extends com.infotec.cvi.swb.InvestigacionDocencia 
 {
-    public static final org.semanticwb.platform.SemanticProperty intranet_fechaTermino=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaTermino");
     public static final org.semanticwb.platform.SemanticProperty intranet_sniConacyt=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sniConacyt");
+    public static final org.semanticwb.platform.SemanticProperty intranet_fechaTermino=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaTermino");
     public static final org.semanticwb.platform.SemanticProperty intranet_nombreJefePuesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nombreJefePuesto");
     public static final org.semanticwb.platform.SemanticProperty intranet_nombreEmpresa=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nombreEmpresa");
     public static final org.semanticwb.platform.SemanticProperty intranet_nombrePuesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nombrePuesto");
@@ -97,24 +97,6 @@ public abstract class InvestigacionBase extends com.infotec.cvi.swb.Investigacio
     }
 
 /**
-* Gets the FechaTermino property
-* @return int with the FechaTermino
-*/
-    public int getFechaTermino()
-    {
-        return getSemanticObject().getIntProperty(intranet_fechaTermino);
-    }
-
-/**
-* Sets the FechaTermino property
-* @param value long with the FechaTermino
-*/
-    public void setFechaTermino(int value)
-    {
-        getSemanticObject().setIntProperty(intranet_fechaTermino, value);
-    }
-
-/**
 * Gets the SniConacyt property
 * @return String with the SniConacyt
 */
@@ -130,6 +112,24 @@ public abstract class InvestigacionBase extends com.infotec.cvi.swb.Investigacio
     public void setSniConacyt(String value)
     {
         getSemanticObject().setProperty(intranet_sniConacyt, value);
+    }
+
+/**
+* Gets the FechaTermino property
+* @return int with the FechaTermino
+*/
+    public int getFechaTermino()
+    {
+        return getSemanticObject().getIntProperty(intranet_fechaTermino);
+    }
+
+/**
+* Sets the FechaTermino property
+* @param value long with the FechaTermino
+*/
+    public void setFechaTermino(int value)
+    {
+        getSemanticObject().setIntProperty(intranet_fechaTermino, value);
     }
 
 /**
