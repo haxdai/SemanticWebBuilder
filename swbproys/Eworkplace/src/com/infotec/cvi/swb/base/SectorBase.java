@@ -4,7 +4,7 @@ package com.infotec.cvi.swb.base;
    /**
    * Catálogo utilizado para indicar el Sector en el cual has tenido Experiencia Laboral 
    */
-public abstract class SectorBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class SectorBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
    /**
    * Catálogo utilizado para almacenar las diferentes Unidades Económicas
@@ -116,29 +116,6 @@ public abstract class SectorBase extends com.infotec.cvi.swb.Catalogo implements
             return it;
         }
        /**
-       * Gets all com.infotec.cvi.swb.Sector with a determined UnidadEconomica
-       * @param value UnidadEconomica of the type com.infotec.cvi.swb.UnidadEconomica
-       * @param model Model of the com.infotec.cvi.swb.Sector
-       * @return Iterator with all the com.infotec.cvi.swb.Sector
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.Sector> listSectorByUnidadEconomica(com.infotec.cvi.swb.UnidadEconomica value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Sector> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasUnidadEconomica, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.cvi.swb.Sector with a determined UnidadEconomica
-       * @param value UnidadEconomica of the type com.infotec.cvi.swb.UnidadEconomica
-       * @return Iterator with all the com.infotec.cvi.swb.Sector
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.Sector> listSectorByUnidadEconomica(com.infotec.cvi.swb.UnidadEconomica value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Sector> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasUnidadEconomica,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all com.infotec.cvi.swb.Sector with a determined Creator
        * @param value Creator of the type org.semanticwb.model.User
        * @param model Model of the com.infotec.cvi.swb.Sector
@@ -159,6 +136,29 @@ public abstract class SectorBase extends com.infotec.cvi.swb.Catalogo implements
         public static java.util.Iterator<com.infotec.cvi.swb.Sector> listSectorByCreator(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Sector> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.Sector with a determined UnidadEconomica
+       * @param value UnidadEconomica of the type com.infotec.cvi.swb.UnidadEconomica
+       * @param model Model of the com.infotec.cvi.swb.Sector
+       * @return Iterator with all the com.infotec.cvi.swb.Sector
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.Sector> listSectorByUnidadEconomica(com.infotec.cvi.swb.UnidadEconomica value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Sector> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasUnidadEconomica, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.Sector with a determined UnidadEconomica
+       * @param value UnidadEconomica of the type com.infotec.cvi.swb.UnidadEconomica
+       * @return Iterator with all the com.infotec.cvi.swb.Sector
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.Sector> listSectorByUnidadEconomica(com.infotec.cvi.swb.UnidadEconomica value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Sector> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasUnidadEconomica,value.getSemanticObject(),sclass));
             return it;
         }
     }

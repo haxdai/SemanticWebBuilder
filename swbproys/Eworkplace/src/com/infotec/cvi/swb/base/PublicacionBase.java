@@ -3,8 +3,8 @@ package com.infotec.cvi.swb.base;
 
 public abstract class PublicacionBase extends com.infotec.cvi.swb.InvestigacionDocencia implements org.semanticwb.model.Descriptiveable
 {
-    public static final org.semanticwb.platform.SemanticProperty intranet_publicado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#publicado");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechapublicado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechapublicado");
+    public static final org.semanticwb.platform.SemanticProperty intranet_publicado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#publicado");
     public static final org.semanticwb.platform.SemanticClass intranet_Publicacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Publicacion");
    /**
    * The semantic class that represents the currentObject
@@ -92,24 +92,6 @@ public abstract class PublicacionBase extends com.infotec.cvi.swb.InvestigacionD
     }
 
 /**
-* Gets the Publicado property
-* @return String with the Publicado
-*/
-    public String getPublicado()
-    {
-        return getSemanticObject().getProperty(intranet_publicado);
-    }
-
-/**
-* Sets the Publicado property
-* @param value long with the Publicado
-*/
-    public void setPublicado(String value)
-    {
-        getSemanticObject().setProperty(intranet_publicado, value);
-    }
-
-/**
 * Gets the Fechapublicado property
 * @return int with the Fechapublicado
 */
@@ -191,5 +173,23 @@ public abstract class PublicacionBase extends com.infotec.cvi.swb.InvestigacionD
     public void setDescription(String description, String lang)
     {
         getSemanticObject().setProperty(swb_description, description, lang);
+    }
+
+/**
+* Gets the Publicado property
+* @return String with the Publicado
+*/
+    public String getPublicado()
+    {
+        return getSemanticObject().getProperty(intranet_publicado);
+    }
+
+/**
+* Sets the Publicado property
+* @param value long with the Publicado
+*/
+    public void setPublicado(String value)
+    {
+        getSemanticObject().setProperty(intranet_publicado, value);
     }
 }
