@@ -3,8 +3,8 @@ package com.infotec.eworkplace.swb.base;
 
 public abstract class TelefonoBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Extensible
 {
-    public static final org.semanticwb.platform.SemanticProperty intranet_numero=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#numero");
     public static final org.semanticwb.platform.SemanticProperty intranet_lada=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#lada");
+    public static final org.semanticwb.platform.SemanticProperty intranet_numero=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#numero");
     public static final org.semanticwb.platform.SemanticProperty intranet_tipo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#tipo");
     public static final org.semanticwb.platform.SemanticClass intranet_Telefono=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Telefono");
    /**
@@ -93,6 +93,24 @@ public abstract class TelefonoBase extends org.semanticwb.model.SWBClass impleme
     }
 
 /**
+* Gets the Lada property
+* @return int with the Lada
+*/
+    public int getLada()
+    {
+        return getSemanticObject().getIntProperty(intranet_lada);
+    }
+
+/**
+* Sets the Lada property
+* @param value long with the Lada
+*/
+    public void setLada(int value)
+    {
+        getSemanticObject().setIntProperty(intranet_lada, value);
+    }
+
+/**
 * Gets the Numero property
 * @return int with the Numero
 */
@@ -126,24 +144,6 @@ public abstract class TelefonoBase extends org.semanticwb.model.SWBClass impleme
     public void setExtension(int value)
     {
         getSemanticObject().setIntProperty(intranet_extension, value);
-    }
-
-/**
-* Gets the Lada property
-* @return int with the Lada
-*/
-    public int getLada()
-    {
-        return getSemanticObject().getIntProperty(intranet_lada);
-    }
-
-/**
-* Sets the Lada property
-* @param value long with the Lada
-*/
-    public void setLada(int value)
-    {
-        getSemanticObject().setIntProperty(intranet_lada, value);
     }
 
 /**
