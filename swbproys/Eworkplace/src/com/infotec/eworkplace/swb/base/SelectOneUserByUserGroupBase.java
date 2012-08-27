@@ -3,8 +3,8 @@ package com.infotec.eworkplace.swb.base;
 
 public abstract class SelectOneUserByUserGroupBase extends org.semanticwb.model.SelectOne 
 {
-    public static final org.semanticwb.platform.SemanticProperty intranet_so_userGroupId=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#so_userGroupId");
     public static final org.semanticwb.platform.SemanticProperty intranet_so_roleIds=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#so_roleIds");
+    public static final org.semanticwb.platform.SemanticProperty intranet_so_userGroupId=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#so_userGroupId");
     public static final org.semanticwb.platform.SemanticClass intranet_SelectOneUserByUserGroup=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#SelectOneUserByUserGroup");
    /**
    * The semantic class that represents the currentObject
@@ -86,24 +86,6 @@ public abstract class SelectOneUserByUserGroupBase extends org.semanticwb.model.
     }
 
 /**
-* Gets the FilterUserGroupId property
-* @return String with the FilterUserGroupId
-*/
-    public String getFilterUserGroupId()
-    {
-        return getSemanticObject().getProperty(intranet_so_userGroupId);
-    }
-
-/**
-* Sets the FilterUserGroupId property
-* @param value long with the FilterUserGroupId
-*/
-    public void setFilterUserGroupId(String value)
-    {
-        getSemanticObject().setProperty(intranet_so_userGroupId, value);
-    }
-
-/**
 * Gets the FilterRoleIds property
 * @return String with the FilterRoleIds
 */
@@ -119,5 +101,23 @@ public abstract class SelectOneUserByUserGroupBase extends org.semanticwb.model.
     public void setFilterRoleIds(String value)
     {
         getSemanticObject().setProperty(intranet_so_roleIds, value);
+    }
+
+/**
+* Gets the FilterUserGroupId property
+* @return String with the FilterUserGroupId
+*/
+    public String getFilterUserGroupId()
+    {
+        return getSemanticObject().getProperty(intranet_so_userGroupId);
+    }
+
+/**
+* Sets the FilterUserGroupId property
+* @param value long with the FilterUserGroupId
+*/
+    public void setFilterUserGroupId(String value)
+    {
+        getSemanticObject().setProperty(intranet_so_userGroupId, value);
     }
 }

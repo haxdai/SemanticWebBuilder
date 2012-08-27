@@ -97,24 +97,6 @@ public abstract class JustificacionTelefonoBase extends org.semanticwb.model.SWB
     }
 
 /**
-* Gets the RequiereTelefono property
-* @return boolean with the RequiereTelefono
-*/
-    public boolean isRequiereTelefono()
-    {
-        return getSemanticObject().getBooleanProperty(intranet_requiereTelefono);
-    }
-
-/**
-* Sets the RequiereTelefono property
-* @param value long with the RequiereTelefono
-*/
-    public void setRequiereTelefono(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(intranet_requiereTelefono, value);
-    }
-
-/**
 * Gets the Justificacion property
 * @return String with the Justificacion
 */
@@ -130,5 +112,23 @@ public abstract class JustificacionTelefonoBase extends org.semanticwb.model.SWB
     public void setJustificacion(String value)
     {
         getSemanticObject().setProperty(intranet_justificacion, value);
+    }
+
+/**
+* Gets the RequiereTelefono property
+* @return boolean with the RequiereTelefono
+*/
+    public boolean isRequiereTelefono()
+    {
+        return getSemanticObject().getBooleanProperty(intranet_requiereTelefono);
+    }
+
+/**
+* Sets the RequiereTelefono property
+* @param value long with the RequiereTelefono
+*/
+    public void setRequiereTelefono(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(intranet_requiereTelefono, value);
     }
 }
