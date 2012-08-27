@@ -14,9 +14,9 @@ public abstract class SeguimientoActACDBase extends com.infotec.eworkplace.swb.S
     public static final org.semanticwb.platform.SemanticProperty intranet_hasEvaluacionAutoevaluacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasEvaluacionAutoevaluacion");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasMapaFuncional=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasMapaFuncional");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasDescripcionPerfiles=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasDescripcionPerfiles");
+    public static final org.semanticwb.platform.SemanticProperty intranet_hasEstrategiasPlanDesarrollo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasEstrategiasPlanDesarrollo");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasEstandarCompetencias=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasEstandarCompetencias");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasPonderacionCriterios=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasPonderacionCriterios");
-    public static final org.semanticwb.platform.SemanticProperty intranet_hasEstrategiasPlanDesarrollo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasEstrategiasPlanDesarrollo");
     public static final org.semanticwb.platform.SemanticProperty intranet_folioACD=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#folioACD");
    /**
    * Encapsula las propiedades de seguimiento al proceso ACD de RH
@@ -212,6 +212,29 @@ public abstract class SeguimientoActACDBase extends com.infotec.eworkplace.swb.S
             return it;
         }
        /**
+       * Gets all com.infotec.rh.syr.swb.SeguimientoActACD with a determined EstrategiasPlanDesarrollo
+       * @param value EstrategiasPlanDesarrollo of the type com.infotec.cvi.swb.ActividadesArea
+       * @param model Model of the com.infotec.rh.syr.swb.SeguimientoActACD
+       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActACD
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActACD> listSeguimientoActACDByEstrategiasPlanDesarrollo(com.infotec.cvi.swb.ActividadesArea value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActACD> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasEstrategiasPlanDesarrollo, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.SeguimientoActACD with a determined EstrategiasPlanDesarrollo
+       * @param value EstrategiasPlanDesarrollo of the type com.infotec.cvi.swb.ActividadesArea
+       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActACD
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActACD> listSeguimientoActACDByEstrategiasPlanDesarrollo(com.infotec.cvi.swb.ActividadesArea value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActACD> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasEstrategiasPlanDesarrollo,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all com.infotec.rh.syr.swb.SeguimientoActACD with a determined EstandarCompetencias
        * @param value EstandarCompetencias of the type com.infotec.cvi.swb.ActividadesArea
        * @param model Model of the com.infotec.rh.syr.swb.SeguimientoActACD
@@ -255,29 +278,6 @@ public abstract class SeguimientoActACDBase extends com.infotec.eworkplace.swb.S
         public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActACD> listSeguimientoActACDByPonderacionCriterios(com.infotec.cvi.swb.ActividadesArea value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActACD> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasPonderacionCriterios,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.rh.syr.swb.SeguimientoActACD with a determined EstrategiasPlanDesarrollo
-       * @param value EstrategiasPlanDesarrollo of the type com.infotec.cvi.swb.ActividadesArea
-       * @param model Model of the com.infotec.rh.syr.swb.SeguimientoActACD
-       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActACD
-       */
-
-        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActACD> listSeguimientoActACDByEstrategiasPlanDesarrollo(com.infotec.cvi.swb.ActividadesArea value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActACD> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasEstrategiasPlanDesarrollo, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.rh.syr.swb.SeguimientoActACD with a determined EstrategiasPlanDesarrollo
-       * @param value EstrategiasPlanDesarrollo of the type com.infotec.cvi.swb.ActividadesArea
-       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActACD
-       */
-
-        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActACD> listSeguimientoActACDByEstrategiasPlanDesarrollo(com.infotec.cvi.swb.ActividadesArea value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActACD> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasEstrategiasPlanDesarrollo,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -578,6 +578,71 @@ public abstract class SeguimientoActACDBase extends com.infotec.eworkplace.swb.S
    * @return A GenericIterator with all the com.infotec.cvi.swb.ActividadesArea
    */
 
+    public org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea> listEstrategiasPlanDesarrollos()
+    {
+        return new org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea>(getSemanticObject().listObjectProperties(intranet_hasEstrategiasPlanDesarrollo));
+    }
+
+   /**
+   * Gets true if has a EstrategiasPlanDesarrollo
+   * @param value com.infotec.cvi.swb.ActividadesArea to verify
+   * @return true if the com.infotec.cvi.swb.ActividadesArea exists, false otherwise
+   */
+    public boolean hasEstrategiasPlanDesarrollo(com.infotec.cvi.swb.ActividadesArea value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(intranet_hasEstrategiasPlanDesarrollo,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a EstrategiasPlanDesarrollo
+   * @param value com.infotec.cvi.swb.ActividadesArea to add
+   */
+
+    public void addEstrategiasPlanDesarrollo(com.infotec.cvi.swb.ActividadesArea value)
+    {
+        getSemanticObject().addObjectProperty(intranet_hasEstrategiasPlanDesarrollo, value.getSemanticObject());
+    }
+   /**
+   * Removes all the EstrategiasPlanDesarrollo
+   */
+
+    public void removeAllEstrategiasPlanDesarrollo()
+    {
+        getSemanticObject().removeProperty(intranet_hasEstrategiasPlanDesarrollo);
+    }
+   /**
+   * Removes a EstrategiasPlanDesarrollo
+   * @param value com.infotec.cvi.swb.ActividadesArea to remove
+   */
+
+    public void removeEstrategiasPlanDesarrollo(com.infotec.cvi.swb.ActividadesArea value)
+    {
+        getSemanticObject().removeObjectProperty(intranet_hasEstrategiasPlanDesarrollo,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the EstrategiasPlanDesarrollo
+   * @return a com.infotec.cvi.swb.ActividadesArea
+   */
+    public com.infotec.cvi.swb.ActividadesArea getEstrategiasPlanDesarrollo()
+    {
+         com.infotec.cvi.swb.ActividadesArea ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasEstrategiasPlanDesarrollo);
+         if(obj!=null)
+         {
+             ret=(com.infotec.cvi.swb.ActividadesArea)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Gets all the com.infotec.cvi.swb.ActividadesArea
+   * @return A GenericIterator with all the com.infotec.cvi.swb.ActividadesArea
+   */
+
     public org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea> listEstandarCompetenciases()
     {
         return new org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea>(getSemanticObject().listObjectProperties(intranet_hasEstandarCompetencias));
@@ -697,71 +762,6 @@ public abstract class SeguimientoActACDBase extends com.infotec.eworkplace.swb.S
     {
          com.infotec.cvi.swb.ActividadesArea ret=null;
          org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasPonderacionCriterios);
-         if(obj!=null)
-         {
-             ret=(com.infotec.cvi.swb.ActividadesArea)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Gets all the com.infotec.cvi.swb.ActividadesArea
-   * @return A GenericIterator with all the com.infotec.cvi.swb.ActividadesArea
-   */
-
-    public org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea> listEstrategiasPlanDesarrollos()
-    {
-        return new org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea>(getSemanticObject().listObjectProperties(intranet_hasEstrategiasPlanDesarrollo));
-    }
-
-   /**
-   * Gets true if has a EstrategiasPlanDesarrollo
-   * @param value com.infotec.cvi.swb.ActividadesArea to verify
-   * @return true if the com.infotec.cvi.swb.ActividadesArea exists, false otherwise
-   */
-    public boolean hasEstrategiasPlanDesarrollo(com.infotec.cvi.swb.ActividadesArea value)
-    {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(intranet_hasEstrategiasPlanDesarrollo,value.getSemanticObject());
-        }
-        return ret;
-    }
-   /**
-   * Adds a EstrategiasPlanDesarrollo
-   * @param value com.infotec.cvi.swb.ActividadesArea to add
-   */
-
-    public void addEstrategiasPlanDesarrollo(com.infotec.cvi.swb.ActividadesArea value)
-    {
-        getSemanticObject().addObjectProperty(intranet_hasEstrategiasPlanDesarrollo, value.getSemanticObject());
-    }
-   /**
-   * Removes all the EstrategiasPlanDesarrollo
-   */
-
-    public void removeAllEstrategiasPlanDesarrollo()
-    {
-        getSemanticObject().removeProperty(intranet_hasEstrategiasPlanDesarrollo);
-    }
-   /**
-   * Removes a EstrategiasPlanDesarrollo
-   * @param value com.infotec.cvi.swb.ActividadesArea to remove
-   */
-
-    public void removeEstrategiasPlanDesarrollo(com.infotec.cvi.swb.ActividadesArea value)
-    {
-        getSemanticObject().removeObjectProperty(intranet_hasEstrategiasPlanDesarrollo,value.getSemanticObject());
-    }
-
-   /**
-   * Gets the EstrategiasPlanDesarrollo
-   * @return a com.infotec.cvi.swb.ActividadesArea
-   */
-    public com.infotec.cvi.swb.ActividadesArea getEstrategiasPlanDesarrollo()
-    {
-         com.infotec.cvi.swb.ActividadesArea ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasEstrategiasPlanDesarrollo);
          if(obj!=null)
          {
              ret=(com.infotec.cvi.swb.ActividadesArea)obj.createGenericInstance();

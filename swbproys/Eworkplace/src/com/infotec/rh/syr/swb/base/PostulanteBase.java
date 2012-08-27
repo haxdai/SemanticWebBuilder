@@ -5,13 +5,13 @@ public abstract class PostulanteBase extends org.semanticwb.model.SWBClass imple
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_fuenteInformacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fuenteInformacion");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaEnvioCorreo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaEnvioCorreo");
-    public static final org.semanticwb.platform.SemanticProperty intranet_emailPostulante=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#emailPostulante");
-    public static final org.semanticwb.platform.SemanticProperty intranet_fechaNotificaRegistro=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaNotificaRegistro");
-    public static final org.semanticwb.platform.SemanticProperty intranet_rfcRegistro=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#rfcRegistro");
     public static final org.semanticwb.platform.SemanticProperty intranet_folioFuente=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#folioFuente");
     public static final org.semanticwb.platform.SemanticProperty intranet_inhabilitadoSFP=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#inhabilitadoSFP");
+    public static final org.semanticwb.platform.SemanticProperty intranet_emailPostulante=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#emailPostulante");
+    public static final org.semanticwb.platform.SemanticProperty intranet_fechaNotificaRegistro=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaNotificaRegistro");
     public static final org.semanticwb.platform.SemanticProperty intranet_nombrePostulante=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nombrePostulante");
     public static final org.semanticwb.platform.SemanticProperty intranet_cumplePerfil=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#cumplePerfil");
+    public static final org.semanticwb.platform.SemanticProperty intranet_rfcRegistro=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#rfcRegistro");
     public static final org.semanticwb.platform.SemanticClass intranet_Postulante=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Postulante");
    /**
    * The semantic class that represents the currentObject
@@ -219,78 +219,6 @@ public abstract class PostulanteBase extends org.semanticwb.model.SWBClass imple
     }
 
 /**
-* Gets the Created property
-* @return java.util.Date with the Created
-*/
-    public java.util.Date getCreated()
-    {
-        return getSemanticObject().getDateProperty(swb_created);
-    }
-
-/**
-* Sets the Created property
-* @param value long with the Created
-*/
-    public void setCreated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_created, value);
-    }
-
-/**
-* Gets the EmailPostulante property
-* @return String with the EmailPostulante
-*/
-    public String getEmailPostulante()
-    {
-        return getSemanticObject().getProperty(intranet_emailPostulante);
-    }
-
-/**
-* Sets the EmailPostulante property
-* @param value long with the EmailPostulante
-*/
-    public void setEmailPostulante(String value)
-    {
-        getSemanticObject().setProperty(intranet_emailPostulante, value);
-    }
-
-/**
-* Gets the FechaNotificaRegistro property
-* @return java.util.Date with the FechaNotificaRegistro
-*/
-    public java.util.Date getFechaNotificaRegistro()
-    {
-        return getSemanticObject().getDateProperty(intranet_fechaNotificaRegistro);
-    }
-
-/**
-* Sets the FechaNotificaRegistro property
-* @param value long with the FechaNotificaRegistro
-*/
-    public void setFechaNotificaRegistro(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(intranet_fechaNotificaRegistro, value);
-    }
-
-/**
-* Gets the RfcRegistro property
-* @return String with the RfcRegistro
-*/
-    public String getRfcRegistro()
-    {
-        return getSemanticObject().getProperty(intranet_rfcRegistro);
-    }
-
-/**
-* Sets the RfcRegistro property
-* @param value long with the RfcRegistro
-*/
-    public void setRfcRegistro(String value)
-    {
-        getSemanticObject().setProperty(intranet_rfcRegistro, value);
-    }
-
-/**
 * Gets the FolioFuente property
 * @return String with the FolioFuente
 */
@@ -327,6 +255,24 @@ public abstract class PostulanteBase extends org.semanticwb.model.SWBClass imple
     }
 
 /**
+* Gets the Created property
+* @return java.util.Date with the Created
+*/
+    public java.util.Date getCreated()
+    {
+        return getSemanticObject().getDateProperty(swb_created);
+    }
+
+/**
+* Sets the Created property
+* @param value long with the Created
+*/
+    public void setCreated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_created, value);
+    }
+
+/**
 * Gets the Updated property
 * @return java.util.Date with the Updated
 */
@@ -342,6 +288,42 @@ public abstract class PostulanteBase extends org.semanticwb.model.SWBClass imple
     public void setUpdated(java.util.Date value)
     {
         getSemanticObject().setDateProperty(swb_updated, value);
+    }
+
+/**
+* Gets the EmailPostulante property
+* @return String with the EmailPostulante
+*/
+    public String getEmailPostulante()
+    {
+        return getSemanticObject().getProperty(intranet_emailPostulante);
+    }
+
+/**
+* Sets the EmailPostulante property
+* @param value long with the EmailPostulante
+*/
+    public void setEmailPostulante(String value)
+    {
+        getSemanticObject().setProperty(intranet_emailPostulante, value);
+    }
+
+/**
+* Gets the FechaNotificaRegistro property
+* @return java.util.Date with the FechaNotificaRegistro
+*/
+    public java.util.Date getFechaNotificaRegistro()
+    {
+        return getSemanticObject().getDateProperty(intranet_fechaNotificaRegistro);
+    }
+
+/**
+* Sets the FechaNotificaRegistro property
+* @param value long with the FechaNotificaRegistro
+*/
+    public void setFechaNotificaRegistro(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(intranet_fechaNotificaRegistro, value);
     }
 
 /**
@@ -416,5 +398,23 @@ public abstract class PostulanteBase extends org.semanticwb.model.SWBClass imple
     public void setCumplePerfil(boolean value)
     {
         getSemanticObject().setBooleanProperty(intranet_cumplePerfil, value);
+    }
+
+/**
+* Gets the RfcRegistro property
+* @return String with the RfcRegistro
+*/
+    public String getRfcRegistro()
+    {
+        return getSemanticObject().getProperty(intranet_rfcRegistro);
+    }
+
+/**
+* Sets the RfcRegistro property
+* @param value long with the RfcRegistro
+*/
+    public void setRfcRegistro(String value)
+    {
+        getSemanticObject().setProperty(intranet_rfcRegistro, value);
     }
 }

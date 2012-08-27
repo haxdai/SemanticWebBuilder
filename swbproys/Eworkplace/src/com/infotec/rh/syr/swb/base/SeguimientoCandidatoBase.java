@@ -3,7 +3,14 @@ package com.infotec.rh.syr.swb.base;
 
 public abstract class SeguimientoCandidatoBase extends com.infotec.eworkplace.swb.Seguimiento implements org.semanticwb.model.Traceable
 {
+   /**
+   * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
+   */
+    public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
+    public static final org.semanticwb.platform.SemanticProperty intranet_candidato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#candidato");
+    public static final org.semanticwb.platform.SemanticProperty intranet_entrevistadorTelefonica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#entrevistadorTelefonica");
     public static final org.semanticwb.platform.SemanticProperty intranet_apruebaCompetencias=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#apruebaCompetencias");
+    public static final org.semanticwb.platform.SemanticProperty intranet_notasCompetencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#notasCompetencia");
     public static final org.semanticwb.platform.SemanticProperty intranet_observacionesTecnica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#observacionesTecnica");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaCompetencias=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaCompetencias");
     public static final org.semanticwb.platform.SemanticProperty intranet_candidatoGanador=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#candidatoGanador");
@@ -13,31 +20,26 @@ public abstract class SeguimientoCandidatoBase extends com.infotec.eworkplace.sw
    */
     public static final org.semanticwb.platform.SemanticClass intranet_SolicitudRecurso=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#SolicitudRecurso");
     public static final org.semanticwb.platform.SemanticProperty intranet_solicitudCandidato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#solicitudCandidato");
-    public static final org.semanticwb.platform.SemanticProperty intranet_passBateria=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#passBateria");
-    public static final org.semanticwb.platform.SemanticProperty intranet_notasTecnicoCompetencias=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#notasTecnicoCompetencias");
-    public static final org.semanticwb.platform.SemanticProperty intranet_pasaEntrevistaTelefonica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#pasaEntrevistaTelefonica");
-    public static final org.semanticwb.platform.SemanticProperty intranet_observacionesEntrevistaTelefonica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#observacionesEntrevistaTelefonica");
-    public static final org.semanticwb.platform.SemanticProperty intranet_porcentajeCompetencias=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#porcentajeCompetencias");
-    public static final org.semanticwb.platform.SemanticProperty intranet_viablePsicometrico=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#viablePsicometrico");
-    public static final org.semanticwb.platform.SemanticProperty intranet_apruebaEntrevistaTelefonica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#apruebaEntrevistaTelefonica");
-    public static final org.semanticwb.platform.SemanticProperty intranet_pasaEntrevistaTecnica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#pasaEntrevistaTecnica");
-   /**
-   * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
-   */
-    public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
-    public static final org.semanticwb.platform.SemanticProperty intranet_candidato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#candidato");
-    public static final org.semanticwb.platform.SemanticProperty intranet_entrevistadorTelefonica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#entrevistadorTelefonica");
-    public static final org.semanticwb.platform.SemanticProperty intranet_notasCompetencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#notasCompetencia");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaTecnica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaTecnica");
     public static final org.semanticwb.platform.SemanticProperty intranet_usuarioBateria=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#usuarioBateria");
     public static final org.semanticwb.platform.SemanticProperty intranet_realizoPsicometrico=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#realizoPsicometrico");
+    public static final org.semanticwb.platform.SemanticProperty intranet_passBateria=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#passBateria");
+    public static final org.semanticwb.platform.SemanticProperty intranet_notasTecnicoCompetencias=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#notasTecnicoCompetencias");
+    public static final org.semanticwb.platform.SemanticProperty intranet_pasaEntrevistaTelefonica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#pasaEntrevistaTelefonica");
     public static final org.semanticwb.platform.SemanticProperty intranet_apruebaTecnica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#apruebaTecnica");
     public static final org.semanticwb.platform.SemanticProperty intranet_archivoPsicometrico=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#archivoPsicometrico");
+    public static final org.semanticwb.platform.SemanticProperty intranet_observacionesEntrevistaTelefonica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#observacionesEntrevistaTelefonica");
     public static final org.semanticwb.platform.SemanticProperty intranet_existenPostulantesPsicometrico=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#existenPostulantesPsicometrico");
+    public static final org.semanticwb.platform.SemanticProperty intranet_porcentajeCompetencias=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#porcentajeCompetencias");
     public static final org.semanticwb.platform.SemanticProperty intranet_porcentajeTecnica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#porcentajeTecnica");
+    public static final org.semanticwb.platform.SemanticProperty intranet_fechaEnvioCorreoPsicometrico=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaEnvioCorreoPsicometrico");
     public static final org.semanticwb.platform.SemanticProperty intranet_existenCandidatosTecnica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#existenCandidatosTecnica");
     public static final org.semanticwb.platform.SemanticProperty intranet_porcentajePsicometrico=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#porcentajePsicometrico");
+    public static final org.semanticwb.platform.SemanticProperty intranet_fechaRealizaEntrevista=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaRealizaEntrevista");
+    public static final org.semanticwb.platform.SemanticProperty intranet_viablePsicometrico=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#viablePsicometrico");
+    public static final org.semanticwb.platform.SemanticProperty intranet_apruebaEntrevistaTelefonica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#apruebaEntrevistaTelefonica");
     public static final org.semanticwb.platform.SemanticProperty intranet_entrevistadorCompetencias=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#entrevistadorCompetencias");
+    public static final org.semanticwb.platform.SemanticProperty intranet_pasaEntrevistaTecnica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#pasaEntrevistaTecnica");
     public static final org.semanticwb.platform.SemanticClass intranet_SeguimientoCandidato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#SeguimientoCandidato");
    /**
    * The semantic class that represents the currentObject
@@ -114,52 +116,6 @@ public abstract class SeguimientoCandidatoBase extends com.infotec.eworkplace.sw
             return (getSeguimientoCandidato(id, model)!=null);
         }
        /**
-       * Gets all com.infotec.rh.syr.swb.SeguimientoCandidato with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
-       * @param model Model of the com.infotec.rh.syr.swb.SeguimientoCandidato
-       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoCandidato
-       */
-
-        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoCandidato> listSeguimientoCandidatoByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoCandidato> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.rh.syr.swb.SeguimientoCandidato with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
-       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoCandidato
-       */
-
-        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoCandidato> listSeguimientoCandidatoByModifiedBy(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoCandidato> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.rh.syr.swb.SeguimientoCandidato with a determined SolicitudCandidato
-       * @param value SolicitudCandidato of the type com.infotec.cvi.swb.SolicitudRecurso
-       * @param model Model of the com.infotec.rh.syr.swb.SeguimientoCandidato
-       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoCandidato
-       */
-
-        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoCandidato> listSeguimientoCandidatoBySolicitudCandidato(com.infotec.cvi.swb.SolicitudRecurso value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoCandidato> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_solicitudCandidato, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.rh.syr.swb.SeguimientoCandidato with a determined SolicitudCandidato
-       * @param value SolicitudCandidato of the type com.infotec.cvi.swb.SolicitudRecurso
-       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoCandidato
-       */
-
-        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoCandidato> listSeguimientoCandidatoBySolicitudCandidato(com.infotec.cvi.swb.SolicitudRecurso value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoCandidato> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_solicitudCandidato,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all com.infotec.rh.syr.swb.SeguimientoCandidato with a determined Candidato
        * @param value Candidato of the type org.semanticwb.model.User
        * @param model Model of the com.infotec.rh.syr.swb.SeguimientoCandidato
@@ -203,6 +159,52 @@ public abstract class SeguimientoCandidatoBase extends com.infotec.eworkplace.sw
         public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoCandidato> listSeguimientoCandidatoByEntrevistadorTelefonica(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoCandidato> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_entrevistadorTelefonica,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.SeguimientoCandidato with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * @param model Model of the com.infotec.rh.syr.swb.SeguimientoCandidato
+       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoCandidato
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoCandidato> listSeguimientoCandidatoByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoCandidato> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.SeguimientoCandidato with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoCandidato
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoCandidato> listSeguimientoCandidatoByModifiedBy(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoCandidato> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.SeguimientoCandidato with a determined SolicitudCandidato
+       * @param value SolicitudCandidato of the type com.infotec.cvi.swb.SolicitudRecurso
+       * @param model Model of the com.infotec.rh.syr.swb.SeguimientoCandidato
+       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoCandidato
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoCandidato> listSeguimientoCandidatoBySolicitudCandidato(com.infotec.cvi.swb.SolicitudRecurso value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoCandidato> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_solicitudCandidato, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.SeguimientoCandidato with a determined SolicitudCandidato
+       * @param value SolicitudCandidato of the type com.infotec.cvi.swb.SolicitudRecurso
+       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoCandidato
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoCandidato> listSeguimientoCandidatoBySolicitudCandidato(com.infotec.cvi.swb.SolicitudRecurso value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoCandidato> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_solicitudCandidato,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -261,6 +263,82 @@ public abstract class SeguimientoCandidatoBase extends com.infotec.eworkplace.sw
     {
         super(base);
     }
+   /**
+   * Sets the value for the property Candidato
+   * @param value Candidato to set
+   */
+
+    public void setCandidato(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_candidato, value.getSemanticObject());
+        }else
+        {
+            removeCandidato();
+        }
+    }
+   /**
+   * Remove the value for Candidato property
+   */
+
+    public void removeCandidato()
+    {
+        getSemanticObject().removeProperty(intranet_candidato);
+    }
+
+   /**
+   * Gets the Candidato
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getCandidato()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_candidato);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Sets the value for the property EntrevistadorTelefonica
+   * @param value EntrevistadorTelefonica to set
+   */
+
+    public void setEntrevistadorTelefonica(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_entrevistadorTelefonica, value.getSemanticObject());
+        }else
+        {
+            removeEntrevistadorTelefonica();
+        }
+    }
+   /**
+   * Remove the value for EntrevistadorTelefonica property
+   */
+
+    public void removeEntrevistadorTelefonica()
+    {
+        getSemanticObject().removeProperty(intranet_entrevistadorTelefonica);
+    }
+
+   /**
+   * Gets the EntrevistadorTelefonica
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getEntrevistadorTelefonica()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_entrevistadorTelefonica);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
 
 /**
 * Gets the ApruebaCompetencias property
@@ -278,6 +356,24 @@ public abstract class SeguimientoCandidatoBase extends com.infotec.eworkplace.sw
     public void setApruebaCompetencias(boolean value)
     {
         getSemanticObject().setBooleanProperty(intranet_apruebaCompetencias, value);
+    }
+
+/**
+* Gets the NotasCompetencia property
+* @return String with the NotasCompetencia
+*/
+    public String getNotasCompetencia()
+    {
+        return getSemanticObject().getProperty(intranet_notasCompetencia);
+    }
+
+/**
+* Sets the NotasCompetencia property
+* @param value long with the NotasCompetencia
+*/
+    public void setNotasCompetencia(String value)
+    {
+        getSemanticObject().setProperty(intranet_notasCompetencia, value);
     }
 
 /**
@@ -391,244 +487,6 @@ public abstract class SeguimientoCandidatoBase extends com.infotec.eworkplace.sw
     }
 
 /**
-* Gets the PassBateria property
-* @return String with the PassBateria
-*/
-    public String getPassBateria()
-    {
-        return getSemanticObject().getProperty(intranet_passBateria);
-    }
-
-/**
-* Sets the PassBateria property
-* @param value long with the PassBateria
-*/
-    public void setPassBateria(String value)
-    {
-        getSemanticObject().setProperty(intranet_passBateria, value);
-    }
-
-/**
-* Gets the NotasTecnicoCompetencias property
-* @return String with the NotasTecnicoCompetencias
-*/
-    public String getNotasTecnicoCompetencias()
-    {
-        return getSemanticObject().getProperty(intranet_notasTecnicoCompetencias);
-    }
-
-/**
-* Sets the NotasTecnicoCompetencias property
-* @param value long with the NotasTecnicoCompetencias
-*/
-    public void setNotasTecnicoCompetencias(String value)
-    {
-        getSemanticObject().setProperty(intranet_notasTecnicoCompetencias, value);
-    }
-
-/**
-* Gets the PasaEntrevistaTelefonica property
-* @return boolean with the PasaEntrevistaTelefonica
-*/
-    public boolean isPasaEntrevistaTelefonica()
-    {
-        return getSemanticObject().getBooleanProperty(intranet_pasaEntrevistaTelefonica);
-    }
-
-/**
-* Sets the PasaEntrevistaTelefonica property
-* @param value long with the PasaEntrevistaTelefonica
-*/
-    public void setPasaEntrevistaTelefonica(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(intranet_pasaEntrevistaTelefonica, value);
-    }
-
-/**
-* Gets the ObservacionesEntrevistaTelefonica property
-* @return String with the ObservacionesEntrevistaTelefonica
-*/
-    public String getObservacionesEntrevistaTelefonica()
-    {
-        return getSemanticObject().getProperty(intranet_observacionesEntrevistaTelefonica);
-    }
-
-/**
-* Sets the ObservacionesEntrevistaTelefonica property
-* @param value long with the ObservacionesEntrevistaTelefonica
-*/
-    public void setObservacionesEntrevistaTelefonica(String value)
-    {
-        getSemanticObject().setProperty(intranet_observacionesEntrevistaTelefonica, value);
-    }
-
-/**
-* Gets the PorcentajeCompetencias property
-* @return float with the PorcentajeCompetencias
-*/
-    public float getPorcentajeCompetencias()
-    {
-        return getSemanticObject().getFloatProperty(intranet_porcentajeCompetencias);
-    }
-
-/**
-* Sets the PorcentajeCompetencias property
-* @param value long with the PorcentajeCompetencias
-*/
-    public void setPorcentajeCompetencias(float value)
-    {
-        getSemanticObject().setFloatProperty(intranet_porcentajeCompetencias, value);
-    }
-
-/**
-* Gets the ViablePsicometrico property
-* @return boolean with the ViablePsicometrico
-*/
-    public boolean isViablePsicometrico()
-    {
-        return getSemanticObject().getBooleanProperty(intranet_viablePsicometrico);
-    }
-
-/**
-* Sets the ViablePsicometrico property
-* @param value long with the ViablePsicometrico
-*/
-    public void setViablePsicometrico(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(intranet_viablePsicometrico, value);
-    }
-
-/**
-* Gets the ApruebaEntrevistaTelefonica property
-* @return boolean with the ApruebaEntrevistaTelefonica
-*/
-    public boolean isApruebaEntrevistaTelefonica()
-    {
-        return getSemanticObject().getBooleanProperty(intranet_apruebaEntrevistaTelefonica);
-    }
-
-/**
-* Sets the ApruebaEntrevistaTelefonica property
-* @param value long with the ApruebaEntrevistaTelefonica
-*/
-    public void setApruebaEntrevistaTelefonica(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(intranet_apruebaEntrevistaTelefonica, value);
-    }
-
-/**
-* Gets the PasaEntrevistaTecnica property
-* @return boolean with the PasaEntrevistaTecnica
-*/
-    public boolean isPasaEntrevistaTecnica()
-    {
-        return getSemanticObject().getBooleanProperty(intranet_pasaEntrevistaTecnica);
-    }
-
-/**
-* Sets the PasaEntrevistaTecnica property
-* @param value long with the PasaEntrevistaTecnica
-*/
-    public void setPasaEntrevistaTecnica(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(intranet_pasaEntrevistaTecnica, value);
-    }
-   /**
-   * Sets the value for the property Candidato
-   * @param value Candidato to set
-   */
-
-    public void setCandidato(org.semanticwb.model.User value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(intranet_candidato, value.getSemanticObject());
-        }else
-        {
-            removeCandidato();
-        }
-    }
-   /**
-   * Remove the value for Candidato property
-   */
-
-    public void removeCandidato()
-    {
-        getSemanticObject().removeProperty(intranet_candidato);
-    }
-
-   /**
-   * Gets the Candidato
-   * @return a org.semanticwb.model.User
-   */
-    public org.semanticwb.model.User getCandidato()
-    {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_candidato);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Sets the value for the property EntrevistadorTelefonica
-   * @param value EntrevistadorTelefonica to set
-   */
-
-    public void setEntrevistadorTelefonica(org.semanticwb.model.User value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(intranet_entrevistadorTelefonica, value.getSemanticObject());
-        }else
-        {
-            removeEntrevistadorTelefonica();
-        }
-    }
-   /**
-   * Remove the value for EntrevistadorTelefonica property
-   */
-
-    public void removeEntrevistadorTelefonica()
-    {
-        getSemanticObject().removeProperty(intranet_entrevistadorTelefonica);
-    }
-
-   /**
-   * Gets the EntrevistadorTelefonica
-   * @return a org.semanticwb.model.User
-   */
-    public org.semanticwb.model.User getEntrevistadorTelefonica()
-    {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_entrevistadorTelefonica);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
-    }
-
-/**
-* Gets the NotasCompetencia property
-* @return String with the NotasCompetencia
-*/
-    public String getNotasCompetencia()
-    {
-        return getSemanticObject().getProperty(intranet_notasCompetencia);
-    }
-
-/**
-* Sets the NotasCompetencia property
-* @param value long with the NotasCompetencia
-*/
-    public void setNotasCompetencia(String value)
-    {
-        getSemanticObject().setProperty(intranet_notasCompetencia, value);
-    }
-
-/**
 * Gets the FechaTecnica property
 * @return java.util.Date with the FechaTecnica
 */
@@ -683,6 +541,60 @@ public abstract class SeguimientoCandidatoBase extends com.infotec.eworkplace.sw
     }
 
 /**
+* Gets the PassBateria property
+* @return String with the PassBateria
+*/
+    public String getPassBateria()
+    {
+        return getSemanticObject().getProperty(intranet_passBateria);
+    }
+
+/**
+* Sets the PassBateria property
+* @param value long with the PassBateria
+*/
+    public void setPassBateria(String value)
+    {
+        getSemanticObject().setProperty(intranet_passBateria, value);
+    }
+
+/**
+* Gets the NotasTecnicoCompetencias property
+* @return String with the NotasTecnicoCompetencias
+*/
+    public String getNotasTecnicoCompetencias()
+    {
+        return getSemanticObject().getProperty(intranet_notasTecnicoCompetencias);
+    }
+
+/**
+* Sets the NotasTecnicoCompetencias property
+* @param value long with the NotasTecnicoCompetencias
+*/
+    public void setNotasTecnicoCompetencias(String value)
+    {
+        getSemanticObject().setProperty(intranet_notasTecnicoCompetencias, value);
+    }
+
+/**
+* Gets the PasaEntrevistaTelefonica property
+* @return boolean with the PasaEntrevistaTelefonica
+*/
+    public boolean isPasaEntrevistaTelefonica()
+    {
+        return getSemanticObject().getBooleanProperty(intranet_pasaEntrevistaTelefonica);
+    }
+
+/**
+* Sets the PasaEntrevistaTelefonica property
+* @param value long with the PasaEntrevistaTelefonica
+*/
+    public void setPasaEntrevistaTelefonica(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(intranet_pasaEntrevistaTelefonica, value);
+    }
+
+/**
 * Gets the ApruebaTecnica property
 * @return boolean with the ApruebaTecnica
 */
@@ -719,6 +631,24 @@ public abstract class SeguimientoCandidatoBase extends com.infotec.eworkplace.sw
     }
 
 /**
+* Gets the ObservacionesEntrevistaTelefonica property
+* @return String with the ObservacionesEntrevistaTelefonica
+*/
+    public String getObservacionesEntrevistaTelefonica()
+    {
+        return getSemanticObject().getProperty(intranet_observacionesEntrevistaTelefonica);
+    }
+
+/**
+* Sets the ObservacionesEntrevistaTelefonica property
+* @param value long with the ObservacionesEntrevistaTelefonica
+*/
+    public void setObservacionesEntrevistaTelefonica(String value)
+    {
+        getSemanticObject().setProperty(intranet_observacionesEntrevistaTelefonica, value);
+    }
+
+/**
 * Gets the ExistenPostulantesPsicometrico property
 * @return boolean with the ExistenPostulantesPsicometrico
 */
@@ -737,6 +667,24 @@ public abstract class SeguimientoCandidatoBase extends com.infotec.eworkplace.sw
     }
 
 /**
+* Gets the PorcentajeCompetencias property
+* @return float with the PorcentajeCompetencias
+*/
+    public float getPorcentajeCompetencias()
+    {
+        return getSemanticObject().getFloatProperty(intranet_porcentajeCompetencias);
+    }
+
+/**
+* Sets the PorcentajeCompetencias property
+* @param value long with the PorcentajeCompetencias
+*/
+    public void setPorcentajeCompetencias(float value)
+    {
+        getSemanticObject().setFloatProperty(intranet_porcentajeCompetencias, value);
+    }
+
+/**
 * Gets the PorcentajeTecnica property
 * @return float with the PorcentajeTecnica
 */
@@ -752,6 +700,24 @@ public abstract class SeguimientoCandidatoBase extends com.infotec.eworkplace.sw
     public void setPorcentajeTecnica(float value)
     {
         getSemanticObject().setFloatProperty(intranet_porcentajeTecnica, value);
+    }
+
+/**
+* Gets the FechaEnvioCorreoPsicometrico property
+* @return java.util.Date with the FechaEnvioCorreoPsicometrico
+*/
+    public java.util.Date getFechaEnvioCorreoPsicometrico()
+    {
+        return getSemanticObject().getDateProperty(intranet_fechaEnvioCorreoPsicometrico);
+    }
+
+/**
+* Sets the FechaEnvioCorreoPsicometrico property
+* @param value long with the FechaEnvioCorreoPsicometrico
+*/
+    public void setFechaEnvioCorreoPsicometrico(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(intranet_fechaEnvioCorreoPsicometrico, value);
     }
 
 /**
@@ -788,6 +754,60 @@ public abstract class SeguimientoCandidatoBase extends com.infotec.eworkplace.sw
     public void setPorcentajePsicometrico(float value)
     {
         getSemanticObject().setFloatProperty(intranet_porcentajePsicometrico, value);
+    }
+
+/**
+* Gets the FechaRealizaEntrevista property
+* @return java.util.Date with the FechaRealizaEntrevista
+*/
+    public java.util.Date getFechaRealizaEntrevista()
+    {
+        return getSemanticObject().getDateProperty(intranet_fechaRealizaEntrevista);
+    }
+
+/**
+* Sets the FechaRealizaEntrevista property
+* @param value long with the FechaRealizaEntrevista
+*/
+    public void setFechaRealizaEntrevista(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(intranet_fechaRealizaEntrevista, value);
+    }
+
+/**
+* Gets the ViablePsicometrico property
+* @return boolean with the ViablePsicometrico
+*/
+    public boolean isViablePsicometrico()
+    {
+        return getSemanticObject().getBooleanProperty(intranet_viablePsicometrico);
+    }
+
+/**
+* Sets the ViablePsicometrico property
+* @param value long with the ViablePsicometrico
+*/
+    public void setViablePsicometrico(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(intranet_viablePsicometrico, value);
+    }
+
+/**
+* Gets the ApruebaEntrevistaTelefonica property
+* @return boolean with the ApruebaEntrevistaTelefonica
+*/
+    public boolean isApruebaEntrevistaTelefonica()
+    {
+        return getSemanticObject().getBooleanProperty(intranet_apruebaEntrevistaTelefonica);
+    }
+
+/**
+* Sets the ApruebaEntrevistaTelefonica property
+* @param value long with the ApruebaEntrevistaTelefonica
+*/
+    public void setApruebaEntrevistaTelefonica(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(intranet_apruebaEntrevistaTelefonica, value);
     }
    /**
    * Sets the value for the property EntrevistadorCompetencias
@@ -826,5 +846,23 @@ public abstract class SeguimientoCandidatoBase extends com.infotec.eworkplace.sw
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the PasaEntrevistaTecnica property
+* @return boolean with the PasaEntrevistaTecnica
+*/
+    public boolean isPasaEntrevistaTecnica()
+    {
+        return getSemanticObject().getBooleanProperty(intranet_pasaEntrevistaTecnica);
+    }
+
+/**
+* Sets the PasaEntrevistaTecnica property
+* @param value long with the PasaEntrevistaTecnica
+*/
+    public void setPasaEntrevistaTecnica(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(intranet_pasaEntrevistaTecnica, value);
     }
 }
