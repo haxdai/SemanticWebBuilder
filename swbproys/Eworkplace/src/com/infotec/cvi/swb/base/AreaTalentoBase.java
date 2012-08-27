@@ -3,18 +3,18 @@ package com.infotec.cvi.swb.base;
 
 public abstract class AreaTalentoBase extends com.infotec.cvi.swb.ExperienciaProfesional implements org.semanticwb.model.Traceable
 {
-   /**
-   * Catálogo utilizado para almacenar los tipos de talentos utilizados en Habilidades
-   */
-    public static final org.semanticwb.platform.SemanticClass intranet_TipoTalento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#TipoTalento");
-    public static final org.semanticwb.platform.SemanticProperty intranet_tipoAreaTalento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#tipoAreaTalento");
-    public static final org.semanticwb.platform.SemanticProperty intranet_yearExperienceTalento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#yearExperienceTalento");
     public static final org.semanticwb.platform.SemanticProperty intranet_otraHabilidad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#otraHabilidad");
    /**
    * Catálogo utilizado para indicar las diferentes Habilidades
    */
     public static final org.semanticwb.platform.SemanticClass intranet_Habilidad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Habilidad");
     public static final org.semanticwb.platform.SemanticProperty intranet_habilidad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#habilidad");
+   /**
+   * Catálogo utilizado para almacenar los tipos de talentos utilizados en Habilidades
+   */
+    public static final org.semanticwb.platform.SemanticClass intranet_TipoTalento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#TipoTalento");
+    public static final org.semanticwb.platform.SemanticProperty intranet_tipoAreaTalento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#tipoAreaTalento");
+    public static final org.semanticwb.platform.SemanticProperty intranet_yearExperienceTalento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#yearExperienceTalento");
     public static final org.semanticwb.platform.SemanticClass intranet_AreaTalento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#AreaTalento");
    /**
    * The semantic class that represents the currentObject
@@ -114,29 +114,6 @@ public abstract class AreaTalentoBase extends com.infotec.cvi.swb.ExperienciaPro
             return it;
         }
        /**
-       * Gets all com.infotec.cvi.swb.AreaTalento with a determined TipoAreaTalento
-       * @param value TipoAreaTalento of the type com.infotec.cvi.swb.TipoTalento
-       * @param model Model of the com.infotec.cvi.swb.AreaTalento
-       * @return Iterator with all the com.infotec.cvi.swb.AreaTalento
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.AreaTalento> listAreaTalentoByTipoAreaTalento(com.infotec.cvi.swb.TipoTalento value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.AreaTalento> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_tipoAreaTalento, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.cvi.swb.AreaTalento with a determined TipoAreaTalento
-       * @param value TipoAreaTalento of the type com.infotec.cvi.swb.TipoTalento
-       * @return Iterator with all the com.infotec.cvi.swb.AreaTalento
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.AreaTalento> listAreaTalentoByTipoAreaTalento(com.infotec.cvi.swb.TipoTalento value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.AreaTalento> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_tipoAreaTalento,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all com.infotec.cvi.swb.AreaTalento with a determined Habilidad
        * @param value Habilidad of the type com.infotec.cvi.swb.Habilidad
        * @param model Model of the com.infotec.cvi.swb.AreaTalento
@@ -182,6 +159,29 @@ public abstract class AreaTalentoBase extends com.infotec.cvi.swb.ExperienciaPro
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.AreaTalento> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all com.infotec.cvi.swb.AreaTalento with a determined TipoAreaTalento
+       * @param value TipoAreaTalento of the type com.infotec.cvi.swb.TipoTalento
+       * @param model Model of the com.infotec.cvi.swb.AreaTalento
+       * @return Iterator with all the com.infotec.cvi.swb.AreaTalento
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.AreaTalento> listAreaTalentoByTipoAreaTalento(com.infotec.cvi.swb.TipoTalento value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.AreaTalento> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_tipoAreaTalento, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.AreaTalento with a determined TipoAreaTalento
+       * @param value TipoAreaTalento of the type com.infotec.cvi.swb.TipoTalento
+       * @return Iterator with all the com.infotec.cvi.swb.AreaTalento
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.AreaTalento> listAreaTalentoByTipoAreaTalento(com.infotec.cvi.swb.TipoTalento value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.AreaTalento> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_tipoAreaTalento,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
    /**
@@ -191,62 +191,6 @@ public abstract class AreaTalentoBase extends com.infotec.cvi.swb.ExperienciaPro
     public AreaTalentoBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
-    }
-   /**
-   * Sets the value for the property TipoAreaTalento
-   * @param value TipoAreaTalento to set
-   */
-
-    public void setTipoAreaTalento(com.infotec.cvi.swb.TipoTalento value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(intranet_tipoAreaTalento, value.getSemanticObject());
-        }else
-        {
-            removeTipoAreaTalento();
-        }
-    }
-   /**
-   * Remove the value for TipoAreaTalento property
-   */
-
-    public void removeTipoAreaTalento()
-    {
-        getSemanticObject().removeProperty(intranet_tipoAreaTalento);
-    }
-
-   /**
-   * Gets the TipoAreaTalento
-   * @return a com.infotec.cvi.swb.TipoTalento
-   */
-    public com.infotec.cvi.swb.TipoTalento getTipoAreaTalento()
-    {
-         com.infotec.cvi.swb.TipoTalento ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_tipoAreaTalento);
-         if(obj!=null)
-         {
-             ret=(com.infotec.cvi.swb.TipoTalento)obj.createGenericInstance();
-         }
-         return ret;
-    }
-
-/**
-* Gets the YearExperienceTalento property
-* @return int with the YearExperienceTalento
-*/
-    public int getYearExperienceTalento()
-    {
-        return getSemanticObject().getIntProperty(intranet_yearExperienceTalento);
-    }
-
-/**
-* Sets the YearExperienceTalento property
-* @param value long with the YearExperienceTalento
-*/
-    public void setYearExperienceTalento(int value)
-    {
-        getSemanticObject().setIntProperty(intranet_yearExperienceTalento, value);
     }
 
 /**
@@ -303,5 +247,61 @@ public abstract class AreaTalentoBase extends com.infotec.cvi.swb.ExperienciaPro
              ret=(com.infotec.cvi.swb.Habilidad)obj.createGenericInstance();
          }
          return ret;
+    }
+   /**
+   * Sets the value for the property TipoAreaTalento
+   * @param value TipoAreaTalento to set
+   */
+
+    public void setTipoAreaTalento(com.infotec.cvi.swb.TipoTalento value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_tipoAreaTalento, value.getSemanticObject());
+        }else
+        {
+            removeTipoAreaTalento();
+        }
+    }
+   /**
+   * Remove the value for TipoAreaTalento property
+   */
+
+    public void removeTipoAreaTalento()
+    {
+        getSemanticObject().removeProperty(intranet_tipoAreaTalento);
+    }
+
+   /**
+   * Gets the TipoAreaTalento
+   * @return a com.infotec.cvi.swb.TipoTalento
+   */
+    public com.infotec.cvi.swb.TipoTalento getTipoAreaTalento()
+    {
+         com.infotec.cvi.swb.TipoTalento ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_tipoAreaTalento);
+         if(obj!=null)
+         {
+             ret=(com.infotec.cvi.swb.TipoTalento)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+/**
+* Gets the YearExperienceTalento property
+* @return int with the YearExperienceTalento
+*/
+    public int getYearExperienceTalento()
+    {
+        return getSemanticObject().getIntProperty(intranet_yearExperienceTalento);
+    }
+
+/**
+* Sets the YearExperienceTalento property
+* @param value long with the YearExperienceTalento
+*/
+    public void setYearExperienceTalento(int value)
+    {
+        getSemanticObject().setIntProperty(intranet_yearExperienceTalento, value);
     }
 }

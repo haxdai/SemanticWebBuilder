@@ -4,13 +4,8 @@ package com.infotec.cvi.swb.base;
    /**
    * Catálogo utilizado para los Códigos Postales definidos en México 
    */
-public abstract class CPBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class CPBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
-   /**
-   * Catálogo utilizado para los Municipios de las Entidades Federativas
-   */
-    public static final org.semanticwb.platform.SemanticClass intranet_Municipio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Municipio");
-    public static final org.semanticwb.platform.SemanticProperty intranet_municipioCPInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#municipioCPInv");
    /**
    * Catálogo utilizado para las colonias existentes en México
    */
@@ -19,6 +14,11 @@ public abstract class CPBase extends com.infotec.cvi.swb.Catalogo implements org
    * Lista de Colonias que pertenecen a un mismo Código Postal
    */
     public static final org.semanticwb.platform.SemanticProperty intranet_hasColoniaCP=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasColoniaCP");
+   /**
+   * Catálogo utilizado para los Municipios de las Entidades Federativas
+   */
+    public static final org.semanticwb.platform.SemanticClass intranet_Municipio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Municipio");
+    public static final org.semanticwb.platform.SemanticProperty intranet_municipioCPInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#municipioCPInv");
    /**
    * Catálogo utilizado para los Códigos Postales definidos en México
    */
@@ -121,29 +121,6 @@ public abstract class CPBase extends com.infotec.cvi.swb.Catalogo implements org
             return it;
         }
        /**
-       * Gets all com.infotec.cvi.swb.CP with a determined MunicipioCPInv
-       * @param value MunicipioCPInv of the type com.infotec.cvi.swb.Municipio
-       * @param model Model of the com.infotec.cvi.swb.CP
-       * @return Iterator with all the com.infotec.cvi.swb.CP
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.CP> listCPByMunicipioCPInv(com.infotec.cvi.swb.Municipio value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.CP> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_municipioCPInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.cvi.swb.CP with a determined MunicipioCPInv
-       * @param value MunicipioCPInv of the type com.infotec.cvi.swb.Municipio
-       * @return Iterator with all the com.infotec.cvi.swb.CP
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.CP> listCPByMunicipioCPInv(com.infotec.cvi.swb.Municipio value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.CP> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_municipioCPInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all com.infotec.cvi.swb.CP with a determined Colonia
        * @param value Colonia of the type com.infotec.cvi.swb.Colonia
        * @param model Model of the com.infotec.cvi.swb.CP
@@ -164,6 +141,29 @@ public abstract class CPBase extends com.infotec.cvi.swb.Catalogo implements org
         public static java.util.Iterator<com.infotec.cvi.swb.CP> listCPByColonia(com.infotec.cvi.swb.Colonia value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.CP> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasColoniaCP,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.CP with a determined MunicipioCPInv
+       * @param value MunicipioCPInv of the type com.infotec.cvi.swb.Municipio
+       * @param model Model of the com.infotec.cvi.swb.CP
+       * @return Iterator with all the com.infotec.cvi.swb.CP
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.CP> listCPByMunicipioCPInv(com.infotec.cvi.swb.Municipio value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.CP> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_municipioCPInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.CP with a determined MunicipioCPInv
+       * @param value MunicipioCPInv of the type com.infotec.cvi.swb.Municipio
+       * @return Iterator with all the com.infotec.cvi.swb.CP
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.CP> listCPByMunicipioCPInv(com.infotec.cvi.swb.Municipio value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.CP> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_municipioCPInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -198,44 +198,6 @@ public abstract class CPBase extends com.infotec.cvi.swb.Catalogo implements org
     public CPBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
-    }
-   /**
-   * Sets the value for the property MunicipioCPInv
-   * @param value MunicipioCPInv to set
-   */
-
-    public void setMunicipioCPInv(com.infotec.cvi.swb.Municipio value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(intranet_municipioCPInv, value.getSemanticObject());
-        }else
-        {
-            removeMunicipioCPInv();
-        }
-    }
-   /**
-   * Remove the value for MunicipioCPInv property
-   */
-
-    public void removeMunicipioCPInv()
-    {
-        getSemanticObject().removeProperty(intranet_municipioCPInv);
-    }
-
-   /**
-   * Gets the MunicipioCPInv
-   * @return a com.infotec.cvi.swb.Municipio
-   */
-    public com.infotec.cvi.swb.Municipio getMunicipioCPInv()
-    {
-         com.infotec.cvi.swb.Municipio ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_municipioCPInv);
-         if(obj!=null)
-         {
-             ret=(com.infotec.cvi.swb.Municipio)obj.createGenericInstance();
-         }
-         return ret;
     }
    /**
    * Gets all the com.infotec.cvi.swb.Colonia
@@ -299,6 +261,44 @@ public abstract class CPBase extends com.infotec.cvi.swb.Catalogo implements org
          if(obj!=null)
          {
              ret=(com.infotec.cvi.swb.Colonia)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Sets the value for the property MunicipioCPInv
+   * @param value MunicipioCPInv to set
+   */
+
+    public void setMunicipioCPInv(com.infotec.cvi.swb.Municipio value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_municipioCPInv, value.getSemanticObject());
+        }else
+        {
+            removeMunicipioCPInv();
+        }
+    }
+   /**
+   * Remove the value for MunicipioCPInv property
+   */
+
+    public void removeMunicipioCPInv()
+    {
+        getSemanticObject().removeProperty(intranet_municipioCPInv);
+    }
+
+   /**
+   * Gets the MunicipioCPInv
+   * @return a com.infotec.cvi.swb.Municipio
+   */
+    public com.infotec.cvi.swb.Municipio getMunicipioCPInv()
+    {
+         com.infotec.cvi.swb.Municipio ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_municipioCPInv);
+         if(obj!=null)
+         {
+             ret=(com.infotec.cvi.swb.Municipio)obj.createGenericInstance();
          }
          return ret;
     }

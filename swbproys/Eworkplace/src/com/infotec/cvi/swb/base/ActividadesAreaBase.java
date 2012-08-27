@@ -6,23 +6,23 @@ package com.infotec.cvi.swb.base;
    */
 public abstract class ActividadesAreaBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Solicitable,org.semanticwb.model.Traceable
 {
-    public static final org.semanticwb.platform.SemanticProperty intranet_notaAutorizacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#notaAutorizacion");
-    public static final org.semanticwb.platform.SemanticProperty intranet_fechaValida=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaValida");
-    public static final org.semanticwb.platform.SemanticProperty intranet_FechaAprobación=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#FechaAprobación");
    /**
    * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
    */
     public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
-    public static final org.semanticwb.platform.SemanticProperty intranet_responsableAprobacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#responsableAprobacion");
-    public static final org.semanticwb.platform.SemanticProperty intranet_adjuntarArchivo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#adjuntarArchivo");
-    public static final org.semanticwb.platform.SemanticProperty intranet_notaAprobacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#notaAprobacion");
     public static final org.semanticwb.platform.SemanticProperty intranet_responsableElaboracion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#responsableElaboracion");
     public static final org.semanticwb.platform.SemanticProperty intranet_notaValidacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#notaValidacion");
     public static final org.semanticwb.platform.SemanticProperty intranet_apruebaDocumento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#apruebaDocumento");
     public static final org.semanticwb.platform.SemanticProperty intranet_responsableValida=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#responsableValida");
+    public static final org.semanticwb.platform.SemanticProperty intranet_notaAutorizacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#notaAutorizacion");
     public static final org.semanticwb.platform.SemanticProperty intranet_validaDocumento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#validaDocumento");
+    public static final org.semanticwb.platform.SemanticProperty intranet_fechaValida=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaValida");
+    public static final org.semanticwb.platform.SemanticProperty intranet_FechaAprobación=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#FechaAprobación");
     public static final org.semanticwb.platform.SemanticProperty intranet_FechaAutorización=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#FechaAutorización");
+    public static final org.semanticwb.platform.SemanticProperty intranet_responsableAprobacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#responsableAprobacion");
     public static final org.semanticwb.platform.SemanticProperty intranet_autorizaDocumento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#autorizaDocumento");
+    public static final org.semanticwb.platform.SemanticProperty intranet_adjuntarArchivo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#adjuntarArchivo");
+    public static final org.semanticwb.platform.SemanticProperty intranet_notaAprobacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#notaAprobacion");
    /**
    * Adminsitra las actividades para CCO; DCP, ACD de RH
    */
@@ -102,75 +102,6 @@ public abstract class ActividadesAreaBase extends org.semanticwb.model.SWBClass 
             return (getActividadesArea(id, model)!=null);
         }
        /**
-       * Gets all com.infotec.cvi.swb.ActividadesArea with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
-       * @param model Model of the com.infotec.cvi.swb.ActividadesArea
-       * @return Iterator with all the com.infotec.cvi.swb.ActividadesArea
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.ActividadesArea> listActividadesAreaByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.cvi.swb.ActividadesArea with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
-       * @return Iterator with all the com.infotec.cvi.swb.ActividadesArea
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.ActividadesArea> listActividadesAreaByModifiedBy(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.cvi.swb.ActividadesArea with a determined ResponsableAprobacion
-       * @param value ResponsableAprobacion of the type org.semanticwb.model.User
-       * @param model Model of the com.infotec.cvi.swb.ActividadesArea
-       * @return Iterator with all the com.infotec.cvi.swb.ActividadesArea
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.ActividadesArea> listActividadesAreaByResponsableAprobacion(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_responsableAprobacion, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.cvi.swb.ActividadesArea with a determined ResponsableAprobacion
-       * @param value ResponsableAprobacion of the type org.semanticwb.model.User
-       * @return Iterator with all the com.infotec.cvi.swb.ActividadesArea
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.ActividadesArea> listActividadesAreaByResponsableAprobacion(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_responsableAprobacion,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.cvi.swb.ActividadesArea with a determined UsuarioAutoriza
-       * @param value UsuarioAutoriza of the type org.semanticwb.model.User
-       * @param model Model of the com.infotec.cvi.swb.ActividadesArea
-       * @return Iterator with all the com.infotec.cvi.swb.ActividadesArea
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.ActividadesArea> listActividadesAreaByUsuarioAutoriza(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_usuarioAutoriza, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.cvi.swb.ActividadesArea with a determined UsuarioAutoriza
-       * @param value UsuarioAutoriza of the type org.semanticwb.model.User
-       * @return Iterator with all the com.infotec.cvi.swb.ActividadesArea
-       */
-
-        public static java.util.Iterator<com.infotec.cvi.swb.ActividadesArea> listActividadesAreaByUsuarioAutoriza(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_usuarioAutoriza,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all com.infotec.cvi.swb.ActividadesArea with a determined Solicitante
        * @param value Solicitante of the type org.semanticwb.model.User
        * @param model Model of the com.infotec.cvi.swb.ActividadesArea
@@ -191,6 +122,29 @@ public abstract class ActividadesAreaBase extends org.semanticwb.model.SWBClass 
         public static java.util.Iterator<com.infotec.cvi.swb.ActividadesArea> listActividadesAreaBySolicitante(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_solicitante,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.ActividadesArea with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * @param model Model of the com.infotec.cvi.swb.ActividadesArea
+       * @return Iterator with all the com.infotec.cvi.swb.ActividadesArea
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.ActividadesArea> listActividadesAreaByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.ActividadesArea with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * @return Iterator with all the com.infotec.cvi.swb.ActividadesArea
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.ActividadesArea> listActividadesAreaByModifiedBy(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -240,6 +194,29 @@ public abstract class ActividadesAreaBase extends org.semanticwb.model.SWBClass 
             return it;
         }
        /**
+       * Gets all com.infotec.cvi.swb.ActividadesArea with a determined ResponsableAprobacion
+       * @param value ResponsableAprobacion of the type org.semanticwb.model.User
+       * @param model Model of the com.infotec.cvi.swb.ActividadesArea
+       * @return Iterator with all the com.infotec.cvi.swb.ActividadesArea
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.ActividadesArea> listActividadesAreaByResponsableAprobacion(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_responsableAprobacion, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.ActividadesArea with a determined ResponsableAprobacion
+       * @param value ResponsableAprobacion of the type org.semanticwb.model.User
+       * @return Iterator with all the com.infotec.cvi.swb.ActividadesArea
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.ActividadesArea> listActividadesAreaByResponsableAprobacion(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_responsableAprobacion,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all com.infotec.cvi.swb.ActividadesArea with a determined Creator
        * @param value Creator of the type org.semanticwb.model.User
        * @param model Model of the com.infotec.cvi.swb.ActividadesArea
@@ -262,6 +239,29 @@ public abstract class ActividadesAreaBase extends org.semanticwb.model.SWBClass 
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all com.infotec.cvi.swb.ActividadesArea with a determined UsuarioAutoriza
+       * @param value UsuarioAutoriza of the type org.semanticwb.model.User
+       * @param model Model of the com.infotec.cvi.swb.ActividadesArea
+       * @return Iterator with all the com.infotec.cvi.swb.ActividadesArea
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.ActividadesArea> listActividadesAreaByUsuarioAutoriza(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_usuarioAutoriza, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.ActividadesArea with a determined UsuarioAutoriza
+       * @param value UsuarioAutoriza of the type org.semanticwb.model.User
+       * @return Iterator with all the com.infotec.cvi.swb.ActividadesArea
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.ActividadesArea> listActividadesAreaByUsuarioAutoriza(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_usuarioAutoriza,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
    /**
@@ -271,264 +271,6 @@ public abstract class ActividadesAreaBase extends org.semanticwb.model.SWBClass 
     public ActividadesAreaBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
-    }
-   /**
-   * Sets the value for the property ModifiedBy
-   * @param value ModifiedBy to set
-   */
-
-    public void setModifiedBy(org.semanticwb.model.User value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(swb_modifiedBy, value.getSemanticObject());
-        }else
-        {
-            removeModifiedBy();
-        }
-    }
-   /**
-   * Remove the value for ModifiedBy property
-   */
-
-    public void removeModifiedBy()
-    {
-        getSemanticObject().removeProperty(swb_modifiedBy);
-    }
-
-   /**
-   * Gets the ModifiedBy
-   * @return a org.semanticwb.model.User
-   */
-    public org.semanticwb.model.User getModifiedBy()
-    {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_modifiedBy);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
-    }
-
-/**
-* Gets the Created property
-* @return java.util.Date with the Created
-*/
-    public java.util.Date getCreated()
-    {
-        return getSemanticObject().getDateProperty(swb_created);
-    }
-
-/**
-* Sets the Created property
-* @param value long with the Created
-*/
-    public void setCreated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_created, value);
-    }
-
-/**
-* Gets the NotaAutorizacion property
-* @return String with the NotaAutorizacion
-*/
-    public String getNotaAutorizacion()
-    {
-        return getSemanticObject().getProperty(intranet_notaAutorizacion);
-    }
-
-/**
-* Sets the NotaAutorizacion property
-* @param value long with the NotaAutorizacion
-*/
-    public void setNotaAutorizacion(String value)
-    {
-        getSemanticObject().setProperty(intranet_notaAutorizacion, value);
-    }
-
-/**
-* Gets the FechaValida property
-* @return java.util.Date with the FechaValida
-*/
-    public java.util.Date getFechaValida()
-    {
-        return getSemanticObject().getDateProperty(intranet_fechaValida);
-    }
-
-/**
-* Sets the FechaValida property
-* @param value long with the FechaValida
-*/
-    public void setFechaValida(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(intranet_fechaValida, value);
-    }
-
-/**
-* Gets the FechaAprobación property
-* @return java.util.Date with the FechaAprobación
-*/
-    public java.util.Date getFechaAprobación()
-    {
-        return getSemanticObject().getDateProperty(intranet_FechaAprobación);
-    }
-
-/**
-* Sets the FechaAprobación property
-* @param value long with the FechaAprobación
-*/
-    public void setFechaAprobación(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(intranet_FechaAprobación, value);
-    }
-   /**
-   * Sets the value for the property ResponsableAprobacion
-   * @param value ResponsableAprobacion to set
-   */
-
-    public void setResponsableAprobacion(org.semanticwb.model.User value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(intranet_responsableAprobacion, value.getSemanticObject());
-        }else
-        {
-            removeResponsableAprobacion();
-        }
-    }
-   /**
-   * Remove the value for ResponsableAprobacion property
-   */
-
-    public void removeResponsableAprobacion()
-    {
-        getSemanticObject().removeProperty(intranet_responsableAprobacion);
-    }
-
-   /**
-   * Gets the ResponsableAprobacion
-   * @return a org.semanticwb.model.User
-   */
-    public org.semanticwb.model.User getResponsableAprobacion()
-    {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_responsableAprobacion);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
-    }
-
-/**
-* Gets the ExtensionSolicitante property
-* @return String with the ExtensionSolicitante
-*/
-    public String getExtensionSolicitante()
-    {
-        return getSemanticObject().getProperty(intranet_extensionSolicitante);
-    }
-
-/**
-* Sets the ExtensionSolicitante property
-* @param value long with the ExtensionSolicitante
-*/
-    public void setExtensionSolicitante(String value)
-    {
-        getSemanticObject().setProperty(intranet_extensionSolicitante, value);
-    }
-   /**
-   * Sets the value for the property UsuarioAutoriza
-   * @param value UsuarioAutoriza to set
-   */
-
-    public void setUsuarioAutoriza(org.semanticwb.model.User value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(intranet_usuarioAutoriza, value.getSemanticObject());
-        }else
-        {
-            removeUsuarioAutoriza();
-        }
-    }
-   /**
-   * Remove the value for UsuarioAutoriza property
-   */
-
-    public void removeUsuarioAutoriza()
-    {
-        getSemanticObject().removeProperty(intranet_usuarioAutoriza);
-    }
-
-   /**
-   * Gets the UsuarioAutoriza
-   * @return a org.semanticwb.model.User
-   */
-    public org.semanticwb.model.User getUsuarioAutoriza()
-    {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_usuarioAutoriza);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
-    }
-
-/**
-* Gets the AdjuntarArchivo property
-* @return String with the AdjuntarArchivo
-*/
-    public String getAdjuntarArchivo()
-    {
-        return getSemanticObject().getProperty(intranet_adjuntarArchivo);
-    }
-
-/**
-* Sets the AdjuntarArchivo property
-* @param value long with the AdjuntarArchivo
-*/
-    public void setAdjuntarArchivo(String value)
-    {
-        getSemanticObject().setProperty(intranet_adjuntarArchivo, value);
-    }
-
-/**
-* Gets the NotaAprobacion property
-* @return String with the NotaAprobacion
-*/
-    public String getNotaAprobacion()
-    {
-        return getSemanticObject().getProperty(intranet_notaAprobacion);
-    }
-
-/**
-* Sets the NotaAprobacion property
-* @param value long with the NotaAprobacion
-*/
-    public void setNotaAprobacion(String value)
-    {
-        getSemanticObject().setProperty(intranet_notaAprobacion, value);
-    }
-
-/**
-* Gets the Autoriza property
-* @return String with the Autoriza
-*/
-    public String getAutoriza()
-    {
-        return getSemanticObject().getProperty(intranet_autoriza);
-    }
-
-/**
-* Sets the Autoriza property
-* @param value long with the Autoriza
-*/
-    public void setAutoriza(String value)
-    {
-        getSemanticObject().setProperty(intranet_autoriza, value);
     }
 
 /**
@@ -580,6 +322,44 @@ public abstract class ActividadesAreaBase extends org.semanticwb.model.SWBClass 
     {
          org.semanticwb.model.User ret=null;
          org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_solicitante);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Sets the value for the property ModifiedBy
+   * @param value ModifiedBy to set
+   */
+
+    public void setModifiedBy(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(swb_modifiedBy, value.getSemanticObject());
+        }else
+        {
+            removeModifiedBy();
+        }
+    }
+   /**
+   * Remove the value for ModifiedBy property
+   */
+
+    public void removeModifiedBy()
+    {
+        getSemanticObject().removeProperty(swb_modifiedBy);
+    }
+
+   /**
+   * Gets the ModifiedBy
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getModifiedBy()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_modifiedBy);
          if(obj!=null)
          {
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
@@ -662,6 +442,24 @@ public abstract class ActividadesAreaBase extends org.semanticwb.model.SWBClass 
     }
 
 /**
+* Gets the Created property
+* @return java.util.Date with the Created
+*/
+    public java.util.Date getCreated()
+    {
+        return getSemanticObject().getDateProperty(swb_created);
+    }
+
+/**
+* Sets the Created property
+* @param value long with the Created
+*/
+    public void setCreated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_created, value);
+    }
+
+/**
 * Gets the Updated property
 * @return java.util.Date with the Updated
 */
@@ -733,6 +531,24 @@ public abstract class ActividadesAreaBase extends org.semanticwb.model.SWBClass 
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the NotaAutorizacion property
+* @return String with the NotaAutorizacion
+*/
+    public String getNotaAutorizacion()
+    {
+        return getSemanticObject().getProperty(intranet_notaAutorizacion);
+    }
+
+/**
+* Sets the NotaAutorizacion property
+* @param value long with the NotaAutorizacion
+*/
+    public void setNotaAutorizacion(String value)
+    {
+        getSemanticObject().setProperty(intranet_notaAutorizacion, value);
     }
 
 /**
@@ -808,6 +624,42 @@ public abstract class ActividadesAreaBase extends org.semanticwb.model.SWBClass 
     }
 
 /**
+* Gets the FechaValida property
+* @return java.util.Date with the FechaValida
+*/
+    public java.util.Date getFechaValida()
+    {
+        return getSemanticObject().getDateProperty(intranet_fechaValida);
+    }
+
+/**
+* Sets the FechaValida property
+* @param value long with the FechaValida
+*/
+    public void setFechaValida(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(intranet_fechaValida, value);
+    }
+
+/**
+* Gets the FechaAprobación property
+* @return java.util.Date with the FechaAprobación
+*/
+    public java.util.Date getFechaAprobación()
+    {
+        return getSemanticObject().getDateProperty(intranet_FechaAprobación);
+    }
+
+/**
+* Sets the FechaAprobación property
+* @param value long with the FechaAprobación
+*/
+    public void setFechaAprobación(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(intranet_FechaAprobación, value);
+    }
+
+/**
 * Gets the FechaAutorización property
 * @return java.util.Date with the FechaAutorización
 */
@@ -823,6 +675,44 @@ public abstract class ActividadesAreaBase extends org.semanticwb.model.SWBClass 
     public void setFechaAutorización(java.util.Date value)
     {
         getSemanticObject().setDateProperty(intranet_FechaAutorización, value);
+    }
+   /**
+   * Sets the value for the property ResponsableAprobacion
+   * @param value ResponsableAprobacion to set
+   */
+
+    public void setResponsableAprobacion(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_responsableAprobacion, value.getSemanticObject());
+        }else
+        {
+            removeResponsableAprobacion();
+        }
+    }
+   /**
+   * Remove the value for ResponsableAprobacion property
+   */
+
+    public void removeResponsableAprobacion()
+    {
+        getSemanticObject().removeProperty(intranet_responsableAprobacion);
+    }
+
+   /**
+   * Gets the ResponsableAprobacion
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getResponsableAprobacion()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_responsableAprobacion);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
     }
    /**
    * Sets the value for the property Creator
@@ -882,6 +772,80 @@ public abstract class ActividadesAreaBase extends org.semanticwb.model.SWBClass 
     }
 
 /**
+* Gets the ExtensionSolicitante property
+* @return String with the ExtensionSolicitante
+*/
+    public String getExtensionSolicitante()
+    {
+        return getSemanticObject().getProperty(intranet_extensionSolicitante);
+    }
+
+/**
+* Sets the ExtensionSolicitante property
+* @param value long with the ExtensionSolicitante
+*/
+    public void setExtensionSolicitante(String value)
+    {
+        getSemanticObject().setProperty(intranet_extensionSolicitante, value);
+    }
+   /**
+   * Sets the value for the property UsuarioAutoriza
+   * @param value UsuarioAutoriza to set
+   */
+
+    public void setUsuarioAutoriza(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_usuarioAutoriza, value.getSemanticObject());
+        }else
+        {
+            removeUsuarioAutoriza();
+        }
+    }
+   /**
+   * Remove the value for UsuarioAutoriza property
+   */
+
+    public void removeUsuarioAutoriza()
+    {
+        getSemanticObject().removeProperty(intranet_usuarioAutoriza);
+    }
+
+   /**
+   * Gets the UsuarioAutoriza
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getUsuarioAutoriza()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_usuarioAutoriza);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+/**
+* Gets the AdjuntarArchivo property
+* @return String with the AdjuntarArchivo
+*/
+    public String getAdjuntarArchivo()
+    {
+        return getSemanticObject().getProperty(intranet_adjuntarArchivo);
+    }
+
+/**
+* Sets the AdjuntarArchivo property
+* @param value long with the AdjuntarArchivo
+*/
+    public void setAdjuntarArchivo(String value)
+    {
+        getSemanticObject().setProperty(intranet_adjuntarArchivo, value);
+    }
+
+/**
 * Gets the NombreSolicitante property
 * @return String with the NombreSolicitante
 */
@@ -897,5 +861,41 @@ public abstract class ActividadesAreaBase extends org.semanticwb.model.SWBClass 
     public void setNombreSolicitante(String value)
     {
         getSemanticObject().setProperty(intranet_nombreSolicitante, value);
+    }
+
+/**
+* Gets the NotaAprobacion property
+* @return String with the NotaAprobacion
+*/
+    public String getNotaAprobacion()
+    {
+        return getSemanticObject().getProperty(intranet_notaAprobacion);
+    }
+
+/**
+* Sets the NotaAprobacion property
+* @param value long with the NotaAprobacion
+*/
+    public void setNotaAprobacion(String value)
+    {
+        getSemanticObject().setProperty(intranet_notaAprobacion, value);
+    }
+
+/**
+* Gets the Autoriza property
+* @return String with the Autoriza
+*/
+    public String getAutoriza()
+    {
+        return getSemanticObject().getProperty(intranet_autoriza);
+    }
+
+/**
+* Sets the Autoriza property
+* @param value long with the Autoriza
+*/
+    public void setAutoriza(String value)
+    {
+        getSemanticObject().setProperty(intranet_autoriza, value);
     }
 }
