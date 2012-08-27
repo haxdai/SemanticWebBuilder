@@ -4,21 +4,21 @@ package com.infotec.eworkplace.swb.base;
    /**
    * Encapsula las propiedades relacionadas con un proyecto del ProjectServer 
    */
-public abstract class ProyectoBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class ProyectoBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_nombreContacto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nombreContacto");
     public static final org.semanticwb.platform.SemanticProperty intranet_telefonoContacto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#telefonoContacto");
+    public static final org.semanticwb.platform.SemanticProperty intranet_domicilioProyecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#domicilioProyecto");
    /**
    * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
    */
     public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
     public static final org.semanticwb.platform.SemanticProperty intranet_adminsitradorDelProyecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#adminsitradorDelProyecto");
     public static final org.semanticwb.platform.SemanticProperty intranet_emailContacto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#emailContacto");
-    public static final org.semanticwb.platform.SemanticProperty intranet_numeroProyecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#numeroProyecto");
-    public static final org.semanticwb.platform.SemanticProperty intranet_vigenciaDelContrato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#vigenciaDelContrato");
-    public static final org.semanticwb.platform.SemanticProperty intranet_domicilioProyecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#domicilioProyecto");
     public static final org.semanticwb.platform.SemanticProperty intranet_areaDelProyecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#areaDelProyecto");
     public static final org.semanticwb.platform.SemanticProperty intranet_especialidadDelProyecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#especialidadDelProyecto");
+    public static final org.semanticwb.platform.SemanticProperty intranet_numeroProyecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#numeroProyecto");
+    public static final org.semanticwb.platform.SemanticProperty intranet_vigenciaDelContrato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#vigenciaDelContrato");
     public static final org.semanticwb.platform.SemanticProperty intranet_ubicacionProyecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#ubicacionProyecto");
    /**
    * Encapsula las propiedades relacionadas con un proyecto del ProjectServer
@@ -213,6 +213,24 @@ public abstract class ProyectoBase extends com.infotec.cvi.swb.Catalogo implemen
     {
         getSemanticObject().setProperty(intranet_telefonoContacto, value);
     }
+
+/**
+* Gets the DomicilioProyecto property
+* @return String with the DomicilioProyecto
+*/
+    public String getDomicilioProyecto()
+    {
+        return getSemanticObject().getProperty(intranet_domicilioProyecto);
+    }
+
+/**
+* Sets the DomicilioProyecto property
+* @param value long with the DomicilioProyecto
+*/
+    public void setDomicilioProyecto(String value)
+    {
+        getSemanticObject().setProperty(intranet_domicilioProyecto, value);
+    }
    /**
    * Sets the value for the property AdminsitradorDelProyecto
    * @param value AdminsitradorDelProyecto to set
@@ -271,60 +289,6 @@ public abstract class ProyectoBase extends com.infotec.cvi.swb.Catalogo implemen
     }
 
 /**
-* Gets the NumeroProyecto property
-* @return String with the NumeroProyecto
-*/
-    public String getNumeroProyecto()
-    {
-        return getSemanticObject().getProperty(intranet_numeroProyecto);
-    }
-
-/**
-* Sets the NumeroProyecto property
-* @param value long with the NumeroProyecto
-*/
-    public void setNumeroProyecto(String value)
-    {
-        getSemanticObject().setProperty(intranet_numeroProyecto, value);
-    }
-
-/**
-* Gets the VigenciaDelContrato property
-* @return java.util.Date with the VigenciaDelContrato
-*/
-    public java.util.Date getVigenciaDelContrato()
-    {
-        return getSemanticObject().getDateProperty(intranet_vigenciaDelContrato);
-    }
-
-/**
-* Sets the VigenciaDelContrato property
-* @param value long with the VigenciaDelContrato
-*/
-    public void setVigenciaDelContrato(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(intranet_vigenciaDelContrato, value);
-    }
-
-/**
-* Gets the DomicilioProyecto property
-* @return String with the DomicilioProyecto
-*/
-    public String getDomicilioProyecto()
-    {
-        return getSemanticObject().getProperty(intranet_domicilioProyecto);
-    }
-
-/**
-* Sets the DomicilioProyecto property
-* @param value long with the DomicilioProyecto
-*/
-    public void setDomicilioProyecto(String value)
-    {
-        getSemanticObject().setProperty(intranet_domicilioProyecto, value);
-    }
-
-/**
 * Gets the AreaDelProyecto property
 * @return String with the AreaDelProyecto
 */
@@ -358,6 +322,42 @@ public abstract class ProyectoBase extends com.infotec.cvi.swb.Catalogo implemen
     public void setEspecialidadDelProyecto(String value)
     {
         getSemanticObject().setProperty(intranet_especialidadDelProyecto, value);
+    }
+
+/**
+* Gets the NumeroProyecto property
+* @return String with the NumeroProyecto
+*/
+    public String getNumeroProyecto()
+    {
+        return getSemanticObject().getProperty(intranet_numeroProyecto);
+    }
+
+/**
+* Sets the NumeroProyecto property
+* @param value long with the NumeroProyecto
+*/
+    public void setNumeroProyecto(String value)
+    {
+        getSemanticObject().setProperty(intranet_numeroProyecto, value);
+    }
+
+/**
+* Gets the VigenciaDelContrato property
+* @return java.util.Date with the VigenciaDelContrato
+*/
+    public java.util.Date getVigenciaDelContrato()
+    {
+        return getSemanticObject().getDateProperty(intranet_vigenciaDelContrato);
+    }
+
+/**
+* Sets the VigenciaDelContrato property
+* @param value long with the VigenciaDelContrato
+*/
+    public void setVigenciaDelContrato(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(intranet_vigenciaDelContrato, value);
     }
 
 /**

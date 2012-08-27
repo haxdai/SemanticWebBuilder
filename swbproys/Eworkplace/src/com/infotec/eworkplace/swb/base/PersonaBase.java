@@ -15,39 +15,6 @@ public abstract class PersonaBase extends org.semanticwb.model.SWBClass
    */
     public static final org.semanticwb.platform.SemanticProperty intranet_lugarNacimiento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#lugarNacimiento");
    /**
-   * Almacena el CURP de la persona
-   */
-    public static final org.semanticwb.platform.SemanticProperty intranet_curp=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#curp");
-   /**
-   * Elemento utilizado para almacenr la lista de correo electrónicos personales del usuario
-   */
-    public static final org.semanticwb.platform.SemanticProperty intranet_hasPEmail=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasPEmail");
-   /**
-   * Almacena la cédula de la persona
-   */
-    public static final org.semanticwb.platform.SemanticProperty intranet_cedula=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#cedula");
-   /**
-   * Catálogo utilizado para almacenar las Entidades Federativas utilizadas en Domicilio de la persona
-   */
-    public static final org.semanticwb.platform.SemanticClass intranet_EntidadFederativa=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#EntidadFederativa");
-   /**
-   * Entidad Federativa en donde nació el usuario
-   */
-    public static final org.semanticwb.platform.SemanticProperty intranet_estadoNacimiento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#estadoNacimiento");
-    public static final org.semanticwb.platform.SemanticClass intranet_Familia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Familia");
-   /**
-   * Elemento utilizado para almacenar la lista de tipo Familia del usuario
-   */
-    public static final org.semanticwb.platform.SemanticProperty intranet_hasFamilia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasFamilia");
-   /**
-   * Elemento utilizado para almacenar el nombre de usuario de LinkedIn de la persona
-   */
-    public static final org.semanticwb.platform.SemanticProperty intranet_linkedin=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#linkedin");
-   /**
-   * Indica si la persona tiene FM2 vigente, si es el caso
-   */
-    public static final org.semanticwb.platform.SemanticProperty intranet_FM2=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#FM2");
-   /**
    * Elemento utilizado para almacenar el Id de Twitter de la persona
    */
     public static final org.semanticwb.platform.SemanticProperty intranet_twitter=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#twitter");
@@ -55,6 +22,14 @@ public abstract class PersonaBase extends org.semanticwb.model.SWBClass
    * Alamcena el nombre de usuario de facebook de la persona
    */
     public static final org.semanticwb.platform.SemanticProperty intranet_facebook=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#facebook");
+   /**
+   * Almacena el CURP de la persona
+   */
+    public static final org.semanticwb.platform.SemanticProperty intranet_curp=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#curp");
+   /**
+   * Elemento utilizado para almacenr la lista de correo electrónicos personales del usuario
+   */
+    public static final org.semanticwb.platform.SemanticProperty intranet_hasPEmail=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasPEmail");
    /**
    * Catalogo de paises
    */
@@ -75,6 +50,18 @@ public abstract class PersonaBase extends org.semanticwb.model.SWBClass
    * Elemento utilizado para relacionar Persona con User
    */
     public static final org.semanticwb.platform.SemanticProperty intranet_owner=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#owner");
+   /**
+   * Almacena la cédula de la persona
+   */
+    public static final org.semanticwb.platform.SemanticProperty intranet_cedula=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#cedula");
+   /**
+   * Catálogo utilizado para almacenar las Entidades Federativas utilizadas en Domicilio de la persona
+   */
+    public static final org.semanticwb.platform.SemanticClass intranet_EntidadFederativa=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#EntidadFederativa");
+   /**
+   * Entidad Federativa en donde nació el usuario
+   */
+    public static final org.semanticwb.platform.SemanticProperty intranet_estadoNacimiento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#estadoNacimiento");
     public static final org.semanticwb.platform.SemanticClass intranet_Telefono=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Telefono");
    /**
    * Elemento utilizado para almacenar lista de Telefono relaciondos a la persona
@@ -84,6 +71,11 @@ public abstract class PersonaBase extends org.semanticwb.model.SWBClass
    * Almacena la aceptación de términos de uso del CVI por la persona
    */
     public static final org.semanticwb.platform.SemanticProperty intranet_aceptacionTerminos=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#aceptacionTerminos");
+    public static final org.semanticwb.platform.SemanticClass intranet_Familia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Familia");
+   /**
+   * Elemento utilizado para almacenar la lista de tipo Familia del usuario
+   */
+    public static final org.semanticwb.platform.SemanticProperty intranet_hasFamilia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasFamilia");
    /**
    * Elemento que almacena la información del domicilio de la persona
    */
@@ -97,9 +89,17 @@ public abstract class PersonaBase extends org.semanticwb.model.SWBClass
    */
     public static final org.semanticwb.platform.SemanticProperty intranet_nacimiento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nacimiento");
    /**
+   * Elemento utilizado para almacenar el nombre de usuario de LinkedIn de la persona
+   */
+    public static final org.semanticwb.platform.SemanticProperty intranet_linkedin=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#linkedin");
+   /**
    * Elemento utilizado para almacenar el género del usuario
    */
     public static final org.semanticwb.platform.SemanticProperty intranet_genero=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#genero");
+   /**
+   * Indica si la persona tiene FM2 vigente, si es el caso
+   */
+    public static final org.semanticwb.platform.SemanticProperty intranet_FM2=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#FM2");
    /**
    * Elemento utilizado para almacenar el Id de usuario de Skype de la persona
    */
@@ -206,52 +206,6 @@ public abstract class PersonaBase extends org.semanticwb.model.SWBClass
             return it;
         }
        /**
-       * Gets all com.infotec.eworkplace.swb.Persona with a determined EstadoNacimiento
-       * @param value EstadoNacimiento of the type com.infotec.cvi.swb.EntidadFederativa
-       * @param model Model of the com.infotec.eworkplace.swb.Persona
-       * @return Iterator with all the com.infotec.eworkplace.swb.Persona
-       */
-
-        public static java.util.Iterator<com.infotec.eworkplace.swb.Persona> listPersonaByEstadoNacimiento(com.infotec.cvi.swb.EntidadFederativa value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Persona> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_estadoNacimiento, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.eworkplace.swb.Persona with a determined EstadoNacimiento
-       * @param value EstadoNacimiento of the type com.infotec.cvi.swb.EntidadFederativa
-       * @return Iterator with all the com.infotec.eworkplace.swb.Persona
-       */
-
-        public static java.util.Iterator<com.infotec.eworkplace.swb.Persona> listPersonaByEstadoNacimiento(com.infotec.cvi.swb.EntidadFederativa value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Persona> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_estadoNacimiento,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.eworkplace.swb.Persona with a determined Familia
-       * @param value Familia of the type com.infotec.eworkplace.swb.Familia
-       * @param model Model of the com.infotec.eworkplace.swb.Persona
-       * @return Iterator with all the com.infotec.eworkplace.swb.Persona
-       */
-
-        public static java.util.Iterator<com.infotec.eworkplace.swb.Persona> listPersonaByFamilia(com.infotec.eworkplace.swb.Familia value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Persona> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasFamilia, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.eworkplace.swb.Persona with a determined Familia
-       * @param value Familia of the type com.infotec.eworkplace.swb.Familia
-       * @return Iterator with all the com.infotec.eworkplace.swb.Persona
-       */
-
-        public static java.util.Iterator<com.infotec.eworkplace.swb.Persona> listPersonaByFamilia(com.infotec.eworkplace.swb.Familia value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Persona> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasFamilia,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all com.infotec.eworkplace.swb.Persona with a determined Nacionalidad
        * @param value Nacionalidad of the type org.semanticwb.model.Country
        * @param model Model of the com.infotec.eworkplace.swb.Persona
@@ -298,6 +252,29 @@ public abstract class PersonaBase extends org.semanticwb.model.SWBClass
             return it;
         }
        /**
+       * Gets all com.infotec.eworkplace.swb.Persona with a determined EstadoNacimiento
+       * @param value EstadoNacimiento of the type com.infotec.cvi.swb.EntidadFederativa
+       * @param model Model of the com.infotec.eworkplace.swb.Persona
+       * @return Iterator with all the com.infotec.eworkplace.swb.Persona
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Persona> listPersonaByEstadoNacimiento(com.infotec.cvi.swb.EntidadFederativa value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Persona> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_estadoNacimiento, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.Persona with a determined EstadoNacimiento
+       * @param value EstadoNacimiento of the type com.infotec.cvi.swb.EntidadFederativa
+       * @return Iterator with all the com.infotec.eworkplace.swb.Persona
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Persona> listPersonaByEstadoNacimiento(com.infotec.cvi.swb.EntidadFederativa value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Persona> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_estadoNacimiento,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all com.infotec.eworkplace.swb.Persona with a determined Telefono
        * @param value Telefono of the type com.infotec.eworkplace.swb.Telefono
        * @param model Model of the com.infotec.eworkplace.swb.Persona
@@ -318,6 +295,29 @@ public abstract class PersonaBase extends org.semanticwb.model.SWBClass
         public static java.util.Iterator<com.infotec.eworkplace.swb.Persona> listPersonaByTelefono(com.infotec.eworkplace.swb.Telefono value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Persona> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasTelefono,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.Persona with a determined Familia
+       * @param value Familia of the type com.infotec.eworkplace.swb.Familia
+       * @param model Model of the com.infotec.eworkplace.swb.Persona
+       * @return Iterator with all the com.infotec.eworkplace.swb.Persona
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Persona> listPersonaByFamilia(com.infotec.eworkplace.swb.Familia value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Persona> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasFamilia, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.Persona with a determined Familia
+       * @param value Familia of the type com.infotec.eworkplace.swb.Familia
+       * @return Iterator with all the com.infotec.eworkplace.swb.Persona
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Persona> listPersonaByFamilia(com.infotec.eworkplace.swb.Familia value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Persona> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasFamilia,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -393,6 +393,42 @@ public abstract class PersonaBase extends org.semanticwb.model.SWBClass
     }
 
 /**
+* Gets the Twitter property
+* @return String with the Twitter
+*/
+    public String getTwitter()
+    {
+        return getSemanticObject().getProperty(intranet_twitter);
+    }
+
+/**
+* Sets the Twitter property
+* @param value long with the Twitter
+*/
+    public void setTwitter(String value)
+    {
+        getSemanticObject().setProperty(intranet_twitter, value);
+    }
+
+/**
+* Gets the Facebook property
+* @return String with the Facebook
+*/
+    public String getFacebook()
+    {
+        return getSemanticObject().getProperty(intranet_facebook);
+    }
+
+/**
+* Sets the Facebook property
+* @param value long with the Facebook
+*/
+    public void setFacebook(String value)
+    {
+        getSemanticObject().setProperty(intranet_facebook, value);
+    }
+
+/**
 * Gets the Curp property
 * @return String with the Curp
 */
@@ -435,199 +471,6 @@ public abstract class PersonaBase extends org.semanticwb.model.SWBClass
     public void removePEmail(String value)
     {
         getSemanticObject().removeLiteralProperty(intranet_hasPEmail,new org.semanticwb.platform.SemanticLiteral(value));
-    }
-
-/**
-* Gets the Cedula property
-* @return String with the Cedula
-*/
-    public String getCedula()
-    {
-        return getSemanticObject().getProperty(intranet_cedula);
-    }
-
-/**
-* Sets the Cedula property
-* @param value long with the Cedula
-*/
-    public void setCedula(String value)
-    {
-        getSemanticObject().setProperty(intranet_cedula, value);
-    }
-   /**
-   * Sets the value for the property EstadoNacimiento
-   * @param value EstadoNacimiento to set
-   */
-
-    public void setEstadoNacimiento(com.infotec.cvi.swb.EntidadFederativa value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(intranet_estadoNacimiento, value.getSemanticObject());
-        }else
-        {
-            removeEstadoNacimiento();
-        }
-    }
-   /**
-   * Remove the value for EstadoNacimiento property
-   */
-
-    public void removeEstadoNacimiento()
-    {
-        getSemanticObject().removeProperty(intranet_estadoNacimiento);
-    }
-
-   /**
-   * Gets the EstadoNacimiento
-   * @return a com.infotec.cvi.swb.EntidadFederativa
-   */
-    public com.infotec.cvi.swb.EntidadFederativa getEstadoNacimiento()
-    {
-         com.infotec.cvi.swb.EntidadFederativa ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_estadoNacimiento);
-         if(obj!=null)
-         {
-             ret=(com.infotec.cvi.swb.EntidadFederativa)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Gets all the com.infotec.eworkplace.swb.Familia
-   * @return A GenericIterator with all the com.infotec.eworkplace.swb.Familia
-   */
-
-    public org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Familia> listFamilias()
-    {
-        return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Familia>(getSemanticObject().listObjectProperties(intranet_hasFamilia));
-    }
-
-   /**
-   * Gets true if has a Familia
-   * @param value com.infotec.eworkplace.swb.Familia to verify
-   * @return true if the com.infotec.eworkplace.swb.Familia exists, false otherwise
-   */
-    public boolean hasFamilia(com.infotec.eworkplace.swb.Familia value)
-    {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(intranet_hasFamilia,value.getSemanticObject());
-        }
-        return ret;
-    }
-   /**
-   * Adds a Familia
-   * @param value com.infotec.eworkplace.swb.Familia to add
-   */
-
-    public void addFamilia(com.infotec.eworkplace.swb.Familia value)
-    {
-        getSemanticObject().addObjectProperty(intranet_hasFamilia, value.getSemanticObject());
-    }
-   /**
-   * Removes all the Familia
-   */
-
-    public void removeAllFamilia()
-    {
-        getSemanticObject().removeProperty(intranet_hasFamilia);
-    }
-   /**
-   * Removes a Familia
-   * @param value com.infotec.eworkplace.swb.Familia to remove
-   */
-
-    public void removeFamilia(com.infotec.eworkplace.swb.Familia value)
-    {
-        getSemanticObject().removeObjectProperty(intranet_hasFamilia,value.getSemanticObject());
-    }
-
-   /**
-   * Gets the Familia
-   * @return a com.infotec.eworkplace.swb.Familia
-   */
-    public com.infotec.eworkplace.swb.Familia getFamilia()
-    {
-         com.infotec.eworkplace.swb.Familia ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasFamilia);
-         if(obj!=null)
-         {
-             ret=(com.infotec.eworkplace.swb.Familia)obj.createGenericInstance();
-         }
-         return ret;
-    }
-
-/**
-* Gets the Linkedin property
-* @return String with the Linkedin
-*/
-    public String getLinkedin()
-    {
-        return getSemanticObject().getProperty(intranet_linkedin);
-    }
-
-/**
-* Sets the Linkedin property
-* @param value long with the Linkedin
-*/
-    public void setLinkedin(String value)
-    {
-        getSemanticObject().setProperty(intranet_linkedin, value);
-    }
-
-/**
-* Gets the FM2 property
-* @return boolean with the FM2
-*/
-    public boolean isFM2()
-    {
-        return getSemanticObject().getBooleanProperty(intranet_FM2);
-    }
-
-/**
-* Sets the FM2 property
-* @param value long with the FM2
-*/
-    public void setFM2(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(intranet_FM2, value);
-    }
-
-/**
-* Gets the Twitter property
-* @return String with the Twitter
-*/
-    public String getTwitter()
-    {
-        return getSemanticObject().getProperty(intranet_twitter);
-    }
-
-/**
-* Sets the Twitter property
-* @param value long with the Twitter
-*/
-    public void setTwitter(String value)
-    {
-        getSemanticObject().setProperty(intranet_twitter, value);
-    }
-
-/**
-* Gets the Facebook property
-* @return String with the Facebook
-*/
-    public String getFacebook()
-    {
-        return getSemanticObject().getProperty(intranet_facebook);
-    }
-
-/**
-* Sets the Facebook property
-* @param value long with the Facebook
-*/
-    public void setFacebook(String value)
-    {
-        getSemanticObject().setProperty(intranet_facebook, value);
     }
    /**
    * Sets the value for the property Nacionalidad
@@ -723,6 +566,62 @@ public abstract class PersonaBase extends org.semanticwb.model.SWBClass
          }
          return ret;
     }
+
+/**
+* Gets the Cedula property
+* @return String with the Cedula
+*/
+    public String getCedula()
+    {
+        return getSemanticObject().getProperty(intranet_cedula);
+    }
+
+/**
+* Sets the Cedula property
+* @param value long with the Cedula
+*/
+    public void setCedula(String value)
+    {
+        getSemanticObject().setProperty(intranet_cedula, value);
+    }
+   /**
+   * Sets the value for the property EstadoNacimiento
+   * @param value EstadoNacimiento to set
+   */
+
+    public void setEstadoNacimiento(com.infotec.cvi.swb.EntidadFederativa value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_estadoNacimiento, value.getSemanticObject());
+        }else
+        {
+            removeEstadoNacimiento();
+        }
+    }
+   /**
+   * Remove the value for EstadoNacimiento property
+   */
+
+    public void removeEstadoNacimiento()
+    {
+        getSemanticObject().removeProperty(intranet_estadoNacimiento);
+    }
+
+   /**
+   * Gets the EstadoNacimiento
+   * @return a com.infotec.cvi.swb.EntidadFederativa
+   */
+    public com.infotec.cvi.swb.EntidadFederativa getEstadoNacimiento()
+    {
+         com.infotec.cvi.swb.EntidadFederativa ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_estadoNacimiento);
+         if(obj!=null)
+         {
+             ret=(com.infotec.cvi.swb.EntidadFederativa)obj.createGenericInstance();
+         }
+         return ret;
+    }
    /**
    * Gets all the com.infotec.eworkplace.swb.Telefono
    * @return A GenericIterator with all the com.infotec.eworkplace.swb.Telefono
@@ -807,6 +706,71 @@ public abstract class PersonaBase extends org.semanticwb.model.SWBClass
         getSemanticObject().setProperty(intranet_aceptacionTerminos, value);
     }
    /**
+   * Gets all the com.infotec.eworkplace.swb.Familia
+   * @return A GenericIterator with all the com.infotec.eworkplace.swb.Familia
+   */
+
+    public org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Familia> listFamilias()
+    {
+        return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Familia>(getSemanticObject().listObjectProperties(intranet_hasFamilia));
+    }
+
+   /**
+   * Gets true if has a Familia
+   * @param value com.infotec.eworkplace.swb.Familia to verify
+   * @return true if the com.infotec.eworkplace.swb.Familia exists, false otherwise
+   */
+    public boolean hasFamilia(com.infotec.eworkplace.swb.Familia value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(intranet_hasFamilia,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a Familia
+   * @param value com.infotec.eworkplace.swb.Familia to add
+   */
+
+    public void addFamilia(com.infotec.eworkplace.swb.Familia value)
+    {
+        getSemanticObject().addObjectProperty(intranet_hasFamilia, value.getSemanticObject());
+    }
+   /**
+   * Removes all the Familia
+   */
+
+    public void removeAllFamilia()
+    {
+        getSemanticObject().removeProperty(intranet_hasFamilia);
+    }
+   /**
+   * Removes a Familia
+   * @param value com.infotec.eworkplace.swb.Familia to remove
+   */
+
+    public void removeFamilia(com.infotec.eworkplace.swb.Familia value)
+    {
+        getSemanticObject().removeObjectProperty(intranet_hasFamilia,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the Familia
+   * @return a com.infotec.eworkplace.swb.Familia
+   */
+    public com.infotec.eworkplace.swb.Familia getFamilia()
+    {
+         com.infotec.eworkplace.swb.Familia ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasFamilia);
+         if(obj!=null)
+         {
+             ret=(com.infotec.eworkplace.swb.Familia)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
    * Sets the value for the property Domicilio
    * @param value Domicilio to set
    */
@@ -864,6 +828,24 @@ public abstract class PersonaBase extends org.semanticwb.model.SWBClass
     }
 
 /**
+* Gets the Linkedin property
+* @return String with the Linkedin
+*/
+    public String getLinkedin()
+    {
+        return getSemanticObject().getProperty(intranet_linkedin);
+    }
+
+/**
+* Sets the Linkedin property
+* @param value long with the Linkedin
+*/
+    public void setLinkedin(String value)
+    {
+        getSemanticObject().setProperty(intranet_linkedin, value);
+    }
+
+/**
 * Gets the Genero property
 * @return boolean with the Genero
 */
@@ -879,6 +861,24 @@ public abstract class PersonaBase extends org.semanticwb.model.SWBClass
     public void setGenero(boolean value)
     {
         getSemanticObject().setBooleanProperty(intranet_genero, value);
+    }
+
+/**
+* Gets the FM2 property
+* @return boolean with the FM2
+*/
+    public boolean isFM2()
+    {
+        return getSemanticObject().getBooleanProperty(intranet_FM2);
+    }
+
+/**
+* Sets the FM2 property
+* @param value long with the FM2
+*/
+    public void setFM2(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(intranet_FM2, value);
     }
 
 /**

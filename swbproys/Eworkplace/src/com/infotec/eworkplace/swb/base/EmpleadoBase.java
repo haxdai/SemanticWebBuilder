@@ -9,8 +9,15 @@ public abstract class EmpleadoBase extends org.semanticwb.model.UserTypeDef impl
     public static final org.semanticwb.platform.SemanticProperty intranet_vigencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#vigencia");
     public static final org.semanticwb.platform.SemanticProperty intranet_noe=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#noe");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaIngreso=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaIngreso");
-    public static final org.semanticwb.platform.SemanticProperty intranet_rfc=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#rfc");
+   /**
+   * Catálogo utilizado para indicar el Tipo de contratación
+   */
+    public static final org.semanticwb.platform.SemanticClass intranet_TipoContratacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#TipoContratacion");
+    public static final org.semanticwb.platform.SemanticProperty intranet_tipoContratacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#tipoContratacion");
     public static final org.semanticwb.platform.SemanticProperty intranet_nss=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nss");
+    public static final org.semanticwb.platform.SemanticProperty intranet_sede=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sede");
+    public static final org.semanticwb.platform.SemanticProperty intranet_rfc=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#rfc");
+    public static final org.semanticwb.platform.SemanticProperty intranet_noArea=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#noArea");
     public static final org.semanticwb.platform.SemanticClass intranet_Empleado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Empleado");
    /**
    * The semantic class that represents the currentObject
@@ -80,6 +87,29 @@ public abstract class EmpleadoBase extends org.semanticwb.model.UserTypeDef impl
         {
             return (getEmpleado(id, model)!=null);
         }
+       /**
+       * Gets all com.infotec.eworkplace.swb.Empleado with a determined TipoContratacion
+       * @param value TipoContratacion of the type com.infotec.cvi.swb.TipoContratacion
+       * @param model Model of the com.infotec.eworkplace.swb.Empleado
+       * @return Iterator with all the com.infotec.eworkplace.swb.Empleado
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Empleado> listEmpleadoByTipoContratacion(com.infotec.cvi.swb.TipoContratacion value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Empleado> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_tipoContratacion, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.Empleado with a determined TipoContratacion
+       * @param value TipoContratacion of the type com.infotec.cvi.swb.TipoContratacion
+       * @return Iterator with all the com.infotec.eworkplace.swb.Empleado
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Empleado> listEmpleadoByTipoContratacion(com.infotec.cvi.swb.TipoContratacion value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Empleado> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_tipoContratacion,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
    /**
@@ -144,6 +174,80 @@ public abstract class EmpleadoBase extends org.semanticwb.model.UserTypeDef impl
     {
         getSemanticObject().setDateProperty(intranet_fechaIngreso, value);
     }
+   /**
+   * Sets the value for the property TipoContratacion
+   * @param value TipoContratacion to set
+   */
+
+    public void setTipoContratacion(com.infotec.cvi.swb.TipoContratacion value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_tipoContratacion, value.getSemanticObject());
+        }else
+        {
+            removeTipoContratacion();
+        }
+    }
+   /**
+   * Remove the value for TipoContratacion property
+   */
+
+    public void removeTipoContratacion()
+    {
+        getSemanticObject().removeProperty(intranet_tipoContratacion);
+    }
+
+   /**
+   * Gets the TipoContratacion
+   * @return a com.infotec.cvi.swb.TipoContratacion
+   */
+    public com.infotec.cvi.swb.TipoContratacion getTipoContratacion()
+    {
+         com.infotec.cvi.swb.TipoContratacion ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_tipoContratacion);
+         if(obj!=null)
+         {
+             ret=(com.infotec.cvi.swb.TipoContratacion)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+/**
+* Gets the Nss property
+* @return int with the Nss
+*/
+    public int getNss()
+    {
+        return getSemanticObject().getIntProperty(intranet_nss);
+    }
+
+/**
+* Sets the Nss property
+* @param value long with the Nss
+*/
+    public void setNss(int value)
+    {
+        getSemanticObject().setIntProperty(intranet_nss, value);
+    }
+
+/**
+* Gets the Sede property
+* @return String with the Sede
+*/
+    public String getSede()
+    {
+        return getSemanticObject().getProperty(intranet_sede);
+    }
+
+/**
+* Sets the Sede property
+* @param value long with the Sede
+*/
+    public void setSede(String value)
+    {
+        getSemanticObject().setProperty(intranet_sede, value);
+    }
 
 /**
 * Gets the Rfc property
@@ -164,6 +268,24 @@ public abstract class EmpleadoBase extends org.semanticwb.model.UserTypeDef impl
     }
 
 /**
+* Gets the NoArea property
+* @return String with the NoArea
+*/
+    public String getNoArea()
+    {
+        return getSemanticObject().getProperty(intranet_noArea);
+    }
+
+/**
+* Sets the NoArea property
+* @param value long with the NoArea
+*/
+    public void setNoArea(String value)
+    {
+        getSemanticObject().setProperty(intranet_noArea, value);
+    }
+
+/**
 * Gets the Extension property
 * @return int with the Extension
 */
@@ -179,23 +301,5 @@ public abstract class EmpleadoBase extends org.semanticwb.model.UserTypeDef impl
     public void setExtension(int value)
     {
         getSemanticObject().setIntProperty(intranet_extension, value);
-    }
-
-/**
-* Gets the Nss property
-* @return int with the Nss
-*/
-    public int getNss()
-    {
-        return getSemanticObject().getIntProperty(intranet_nss);
-    }
-
-/**
-* Sets the Nss property
-* @param value long with the Nss
-*/
-    public void setNss(int value)
-    {
-        getSemanticObject().setIntProperty(intranet_nss, value);
     }
 }
