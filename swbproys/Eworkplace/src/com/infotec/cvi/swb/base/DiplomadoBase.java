@@ -4,7 +4,7 @@ package com.infotec.cvi.swb.base;
    /**
    * Contiene el Diplomado que ha cursado la persona 
    */
-public abstract class DiplomadoBase extends org.semanticwb.model.SWBClass implements com.infotec.cvi.swb.Curso,org.semanticwb.model.Descriptiveable,com.infotec.cvi.swb.Institucion
+public abstract class DiplomadoBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,com.infotec.cvi.swb.Institucion,com.infotec.cvi.swb.Curso
 {
    /**
    * Contiene el Diplomado que ha cursado la persona
@@ -96,6 +96,42 @@ public abstract class DiplomadoBase extends org.semanticwb.model.SWBClass implem
     }
 
 /**
+* Gets the Fin property
+* @return int with the Fin
+*/
+    public int getFin()
+    {
+        return getSemanticObject().getIntProperty(intranet_fin);
+    }
+
+/**
+* Sets the Fin property
+* @param value long with the Fin
+*/
+    public void setFin(int value)
+    {
+        getSemanticObject().setIntProperty(intranet_fin, value);
+    }
+
+/**
+* Gets the DocumentoObtenido property
+* @return String with the DocumentoObtenido
+*/
+    public String getDocumentoObtenido()
+    {
+        return getSemanticObject().getProperty(intranet_documentoObtenido);
+    }
+
+/**
+* Sets the DocumentoObtenido property
+* @param value long with the DocumentoObtenido
+*/
+    public void setDocumentoObtenido(String value)
+    {
+        getSemanticObject().setProperty(intranet_documentoObtenido, value);
+    }
+
+/**
 * Gets the Title property
 * @return String with the Title
 */
@@ -126,42 +162,6 @@ public abstract class DiplomadoBase extends org.semanticwb.model.SWBClass implem
     public void setTitle(String title, String lang)
     {
         getSemanticObject().setProperty(swb_title, title, lang);
-    }
-
-/**
-* Gets the Inicio property
-* @return int with the Inicio
-*/
-    public int getInicio()
-    {
-        return getSemanticObject().getIntProperty(intranet_inicio);
-    }
-
-/**
-* Sets the Inicio property
-* @param value long with the Inicio
-*/
-    public void setInicio(int value)
-    {
-        getSemanticObject().setIntProperty(intranet_inicio, value);
-    }
-
-/**
-* Gets the DocumentoObtenido property
-* @return String with the DocumentoObtenido
-*/
-    public String getDocumentoObtenido()
-    {
-        return getSemanticObject().getProperty(intranet_documentoObtenido);
-    }
-
-/**
-* Sets the DocumentoObtenido property
-* @param value long with the DocumentoObtenido
-*/
-    public void setDocumentoObtenido(String value)
-    {
-        getSemanticObject().setProperty(intranet_documentoObtenido, value);
     }
 
 /**
@@ -216,20 +216,20 @@ public abstract class DiplomadoBase extends org.semanticwb.model.SWBClass implem
     }
 
 /**
-* Gets the Fin property
-* @return int with the Fin
+* Gets the Inicio property
+* @return int with the Inicio
 */
-    public int getFin()
+    public int getInicio()
     {
-        return getSemanticObject().getIntProperty(intranet_fin);
+        return getSemanticObject().getIntProperty(intranet_inicio);
     }
 
 /**
-* Sets the Fin property
-* @param value long with the Fin
+* Sets the Inicio property
+* @param value long with the Inicio
 */
-    public void setFin(int value)
+    public void setInicio(int value)
     {
-        getSemanticObject().setIntProperty(intranet_fin, value);
+        getSemanticObject().setIntProperty(intranet_inicio, value);
     }
 }
