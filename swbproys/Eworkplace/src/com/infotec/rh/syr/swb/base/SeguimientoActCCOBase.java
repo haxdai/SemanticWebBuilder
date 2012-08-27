@@ -11,18 +11,6 @@ public abstract class SeguimientoActCCOBase extends com.infotec.eworkplace.swb.S
    */
     public static final org.semanticwb.platform.SemanticClass intranet_ActividadesArea=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#ActividadesArea");
    /**
-   * Bitácora de avances para CCO
-   */
-    public static final org.semanticwb.platform.SemanticProperty intranet_hasBitacoraAvances=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasBitacoraAvances");
-   /**
-   * Reporte final
-   */
-    public static final org.semanticwb.platform.SemanticProperty intranet_hasReporteFinal=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasReporteFinal");
-   /**
-   * Plan de mejora y/o Acción final
-   */
-    public static final org.semanticwb.platform.SemanticProperty intranet_hasPlanMejoraAccionFinal=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasPlanMejoraAccionFinal");
-   /**
    * Reporte general final
    */
     public static final org.semanticwb.platform.SemanticProperty intranet_hasReporteGeneralFinal=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasReporteGeneralFinal");
@@ -30,7 +18,19 @@ public abstract class SeguimientoActCCOBase extends com.infotec.eworkplace.swb.S
    * Plan de mejora y/o Acción final
    */
     public static final org.semanticwb.platform.SemanticProperty intranet_hasPlanMejoraAccionPrevio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasPlanMejoraAccionPrevio");
+   /**
+   * Bitácora de avances para CCO
+   */
+    public static final org.semanticwb.platform.SemanticProperty intranet_hasBitacoraAvances=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasBitacoraAvances");
+   /**
+   * Reporte final
+   */
+    public static final org.semanticwb.platform.SemanticProperty intranet_hasReporteFinal=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasReporteFinal");
     public static final org.semanticwb.platform.SemanticProperty intranet_folioCCO=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#folioCCO");
+   /**
+   * Plan de mejora y/o Acción final
+   */
+    public static final org.semanticwb.platform.SemanticProperty intranet_hasPlanMejoraAccionFinal=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasPlanMejoraAccionFinal");
    /**
    * Lista de requerimientos  para CCO
    */
@@ -141,75 +141,6 @@ public abstract class SeguimientoActCCOBase extends com.infotec.eworkplace.swb.S
             return it;
         }
        /**
-       * Gets all com.infotec.rh.syr.swb.SeguimientoActCCO with a determined BitacoraAvances
-       * @param value BitacoraAvances of the type com.infotec.cvi.swb.ActividadesArea
-       * @param model Model of the com.infotec.rh.syr.swb.SeguimientoActCCO
-       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActCCO
-       */
-
-        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActCCO> listSeguimientoActCCOByBitacoraAvances(com.infotec.cvi.swb.ActividadesArea value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActCCO> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasBitacoraAvances, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.rh.syr.swb.SeguimientoActCCO with a determined BitacoraAvances
-       * @param value BitacoraAvances of the type com.infotec.cvi.swb.ActividadesArea
-       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActCCO
-       */
-
-        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActCCO> listSeguimientoActCCOByBitacoraAvances(com.infotec.cvi.swb.ActividadesArea value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActCCO> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasBitacoraAvances,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.rh.syr.swb.SeguimientoActCCO with a determined ReporteFinal
-       * @param value ReporteFinal of the type com.infotec.cvi.swb.ActividadesArea
-       * @param model Model of the com.infotec.rh.syr.swb.SeguimientoActCCO
-       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActCCO
-       */
-
-        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActCCO> listSeguimientoActCCOByReporteFinal(com.infotec.cvi.swb.ActividadesArea value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActCCO> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasReporteFinal, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.rh.syr.swb.SeguimientoActCCO with a determined ReporteFinal
-       * @param value ReporteFinal of the type com.infotec.cvi.swb.ActividadesArea
-       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActCCO
-       */
-
-        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActCCO> listSeguimientoActCCOByReporteFinal(com.infotec.cvi.swb.ActividadesArea value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActCCO> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasReporteFinal,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.rh.syr.swb.SeguimientoActCCO with a determined PlanMejoraAccionFinal
-       * @param value PlanMejoraAccionFinal of the type com.infotec.cvi.swb.ActividadesArea
-       * @param model Model of the com.infotec.rh.syr.swb.SeguimientoActCCO
-       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActCCO
-       */
-
-        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActCCO> listSeguimientoActCCOByPlanMejoraAccionFinal(com.infotec.cvi.swb.ActividadesArea value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActCCO> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasPlanMejoraAccionFinal, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.rh.syr.swb.SeguimientoActCCO with a determined PlanMejoraAccionFinal
-       * @param value PlanMejoraAccionFinal of the type com.infotec.cvi.swb.ActividadesArea
-       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActCCO
-       */
-
-        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActCCO> listSeguimientoActCCOByPlanMejoraAccionFinal(com.infotec.cvi.swb.ActividadesArea value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActCCO> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasPlanMejoraAccionFinal,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all com.infotec.rh.syr.swb.SeguimientoActCCO with a determined ReporteGeneralFinal
        * @param value ReporteGeneralFinal of the type com.infotec.cvi.swb.ActividadesArea
        * @param model Model of the com.infotec.rh.syr.swb.SeguimientoActCCO
@@ -256,6 +187,52 @@ public abstract class SeguimientoActCCOBase extends com.infotec.eworkplace.swb.S
             return it;
         }
        /**
+       * Gets all com.infotec.rh.syr.swb.SeguimientoActCCO with a determined BitacoraAvances
+       * @param value BitacoraAvances of the type com.infotec.cvi.swb.ActividadesArea
+       * @param model Model of the com.infotec.rh.syr.swb.SeguimientoActCCO
+       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActCCO
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActCCO> listSeguimientoActCCOByBitacoraAvances(com.infotec.cvi.swb.ActividadesArea value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActCCO> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasBitacoraAvances, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.SeguimientoActCCO with a determined BitacoraAvances
+       * @param value BitacoraAvances of the type com.infotec.cvi.swb.ActividadesArea
+       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActCCO
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActCCO> listSeguimientoActCCOByBitacoraAvances(com.infotec.cvi.swb.ActividadesArea value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActCCO> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasBitacoraAvances,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.SeguimientoActCCO with a determined ReporteFinal
+       * @param value ReporteFinal of the type com.infotec.cvi.swb.ActividadesArea
+       * @param model Model of the com.infotec.rh.syr.swb.SeguimientoActCCO
+       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActCCO
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActCCO> listSeguimientoActCCOByReporteFinal(com.infotec.cvi.swb.ActividadesArea value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActCCO> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasReporteFinal, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.SeguimientoActCCO with a determined ReporteFinal
+       * @param value ReporteFinal of the type com.infotec.cvi.swb.ActividadesArea
+       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActCCO
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActCCO> listSeguimientoActCCOByReporteFinal(com.infotec.cvi.swb.ActividadesArea value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActCCO> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasReporteFinal,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all com.infotec.rh.syr.swb.SeguimientoActCCO with a determined Creator
        * @param value Creator of the type org.semanticwb.model.User
        * @param model Model of the com.infotec.rh.syr.swb.SeguimientoActCCO
@@ -276,6 +253,29 @@ public abstract class SeguimientoActCCOBase extends com.infotec.eworkplace.swb.S
         public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActCCO> listSeguimientoActCCOByCreator(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActCCO> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.SeguimientoActCCO with a determined PlanMejoraAccionFinal
+       * @param value PlanMejoraAccionFinal of the type com.infotec.cvi.swb.ActividadesArea
+       * @param model Model of the com.infotec.rh.syr.swb.SeguimientoActCCO
+       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActCCO
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActCCO> listSeguimientoActCCOByPlanMejoraAccionFinal(com.infotec.cvi.swb.ActividadesArea value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActCCO> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasPlanMejoraAccionFinal, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.SeguimientoActCCO with a determined PlanMejoraAccionFinal
+       * @param value PlanMejoraAccionFinal of the type com.infotec.cvi.swb.ActividadesArea
+       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActCCO
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActCCO> listSeguimientoActCCOByPlanMejoraAccionFinal(com.infotec.cvi.swb.ActividadesArea value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActCCO> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasPlanMejoraAccionFinal,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -333,201 +333,6 @@ public abstract class SeguimientoActCCOBase extends com.infotec.eworkplace.swb.S
     public SeguimientoActCCOBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
-    }
-   /**
-   * Gets all the com.infotec.cvi.swb.ActividadesArea
-   * @return A GenericIterator with all the com.infotec.cvi.swb.ActividadesArea
-   */
-
-    public org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea> listBitacoraAvanceses()
-    {
-        return new org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea>(getSemanticObject().listObjectProperties(intranet_hasBitacoraAvances));
-    }
-
-   /**
-   * Gets true if has a BitacoraAvances
-   * @param value com.infotec.cvi.swb.ActividadesArea to verify
-   * @return true if the com.infotec.cvi.swb.ActividadesArea exists, false otherwise
-   */
-    public boolean hasBitacoraAvances(com.infotec.cvi.swb.ActividadesArea value)
-    {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(intranet_hasBitacoraAvances,value.getSemanticObject());
-        }
-        return ret;
-    }
-   /**
-   * Adds a BitacoraAvances
-   * @param value com.infotec.cvi.swb.ActividadesArea to add
-   */
-
-    public void addBitacoraAvances(com.infotec.cvi.swb.ActividadesArea value)
-    {
-        getSemanticObject().addObjectProperty(intranet_hasBitacoraAvances, value.getSemanticObject());
-    }
-   /**
-   * Removes all the BitacoraAvances
-   */
-
-    public void removeAllBitacoraAvances()
-    {
-        getSemanticObject().removeProperty(intranet_hasBitacoraAvances);
-    }
-   /**
-   * Removes a BitacoraAvances
-   * @param value com.infotec.cvi.swb.ActividadesArea to remove
-   */
-
-    public void removeBitacoraAvances(com.infotec.cvi.swb.ActividadesArea value)
-    {
-        getSemanticObject().removeObjectProperty(intranet_hasBitacoraAvances,value.getSemanticObject());
-    }
-
-   /**
-   * Gets the BitacoraAvances
-   * @return a com.infotec.cvi.swb.ActividadesArea
-   */
-    public com.infotec.cvi.swb.ActividadesArea getBitacoraAvances()
-    {
-         com.infotec.cvi.swb.ActividadesArea ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasBitacoraAvances);
-         if(obj!=null)
-         {
-             ret=(com.infotec.cvi.swb.ActividadesArea)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Gets all the com.infotec.cvi.swb.ActividadesArea
-   * @return A GenericIterator with all the com.infotec.cvi.swb.ActividadesArea
-   */
-
-    public org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea> listReporteFinals()
-    {
-        return new org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea>(getSemanticObject().listObjectProperties(intranet_hasReporteFinal));
-    }
-
-   /**
-   * Gets true if has a ReporteFinal
-   * @param value com.infotec.cvi.swb.ActividadesArea to verify
-   * @return true if the com.infotec.cvi.swb.ActividadesArea exists, false otherwise
-   */
-    public boolean hasReporteFinal(com.infotec.cvi.swb.ActividadesArea value)
-    {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(intranet_hasReporteFinal,value.getSemanticObject());
-        }
-        return ret;
-    }
-   /**
-   * Adds a ReporteFinal
-   * @param value com.infotec.cvi.swb.ActividadesArea to add
-   */
-
-    public void addReporteFinal(com.infotec.cvi.swb.ActividadesArea value)
-    {
-        getSemanticObject().addObjectProperty(intranet_hasReporteFinal, value.getSemanticObject());
-    }
-   /**
-   * Removes all the ReporteFinal
-   */
-
-    public void removeAllReporteFinal()
-    {
-        getSemanticObject().removeProperty(intranet_hasReporteFinal);
-    }
-   /**
-   * Removes a ReporteFinal
-   * @param value com.infotec.cvi.swb.ActividadesArea to remove
-   */
-
-    public void removeReporteFinal(com.infotec.cvi.swb.ActividadesArea value)
-    {
-        getSemanticObject().removeObjectProperty(intranet_hasReporteFinal,value.getSemanticObject());
-    }
-
-   /**
-   * Gets the ReporteFinal
-   * @return a com.infotec.cvi.swb.ActividadesArea
-   */
-    public com.infotec.cvi.swb.ActividadesArea getReporteFinal()
-    {
-         com.infotec.cvi.swb.ActividadesArea ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasReporteFinal);
-         if(obj!=null)
-         {
-             ret=(com.infotec.cvi.swb.ActividadesArea)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Gets all the com.infotec.cvi.swb.ActividadesArea
-   * @return A GenericIterator with all the com.infotec.cvi.swb.ActividadesArea
-   */
-
-    public org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea> listPlanMejoraAccionFinals()
-    {
-        return new org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea>(getSemanticObject().listObjectProperties(intranet_hasPlanMejoraAccionFinal));
-    }
-
-   /**
-   * Gets true if has a PlanMejoraAccionFinal
-   * @param value com.infotec.cvi.swb.ActividadesArea to verify
-   * @return true if the com.infotec.cvi.swb.ActividadesArea exists, false otherwise
-   */
-    public boolean hasPlanMejoraAccionFinal(com.infotec.cvi.swb.ActividadesArea value)
-    {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(intranet_hasPlanMejoraAccionFinal,value.getSemanticObject());
-        }
-        return ret;
-    }
-   /**
-   * Adds a PlanMejoraAccionFinal
-   * @param value com.infotec.cvi.swb.ActividadesArea to add
-   */
-
-    public void addPlanMejoraAccionFinal(com.infotec.cvi.swb.ActividadesArea value)
-    {
-        getSemanticObject().addObjectProperty(intranet_hasPlanMejoraAccionFinal, value.getSemanticObject());
-    }
-   /**
-   * Removes all the PlanMejoraAccionFinal
-   */
-
-    public void removeAllPlanMejoraAccionFinal()
-    {
-        getSemanticObject().removeProperty(intranet_hasPlanMejoraAccionFinal);
-    }
-   /**
-   * Removes a PlanMejoraAccionFinal
-   * @param value com.infotec.cvi.swb.ActividadesArea to remove
-   */
-
-    public void removePlanMejoraAccionFinal(com.infotec.cvi.swb.ActividadesArea value)
-    {
-        getSemanticObject().removeObjectProperty(intranet_hasPlanMejoraAccionFinal,value.getSemanticObject());
-    }
-
-   /**
-   * Gets the PlanMejoraAccionFinal
-   * @return a com.infotec.cvi.swb.ActividadesArea
-   */
-    public com.infotec.cvi.swb.ActividadesArea getPlanMejoraAccionFinal()
-    {
-         com.infotec.cvi.swb.ActividadesArea ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasPlanMejoraAccionFinal);
-         if(obj!=null)
-         {
-             ret=(com.infotec.cvi.swb.ActividadesArea)obj.createGenericInstance();
-         }
-         return ret;
     }
    /**
    * Gets all the com.infotec.cvi.swb.ActividadesArea
@@ -659,6 +464,136 @@ public abstract class SeguimientoActCCOBase extends com.infotec.eworkplace.swb.S
          }
          return ret;
     }
+   /**
+   * Gets all the com.infotec.cvi.swb.ActividadesArea
+   * @return A GenericIterator with all the com.infotec.cvi.swb.ActividadesArea
+   */
+
+    public org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea> listBitacoraAvanceses()
+    {
+        return new org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea>(getSemanticObject().listObjectProperties(intranet_hasBitacoraAvances));
+    }
+
+   /**
+   * Gets true if has a BitacoraAvances
+   * @param value com.infotec.cvi.swb.ActividadesArea to verify
+   * @return true if the com.infotec.cvi.swb.ActividadesArea exists, false otherwise
+   */
+    public boolean hasBitacoraAvances(com.infotec.cvi.swb.ActividadesArea value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(intranet_hasBitacoraAvances,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a BitacoraAvances
+   * @param value com.infotec.cvi.swb.ActividadesArea to add
+   */
+
+    public void addBitacoraAvances(com.infotec.cvi.swb.ActividadesArea value)
+    {
+        getSemanticObject().addObjectProperty(intranet_hasBitacoraAvances, value.getSemanticObject());
+    }
+   /**
+   * Removes all the BitacoraAvances
+   */
+
+    public void removeAllBitacoraAvances()
+    {
+        getSemanticObject().removeProperty(intranet_hasBitacoraAvances);
+    }
+   /**
+   * Removes a BitacoraAvances
+   * @param value com.infotec.cvi.swb.ActividadesArea to remove
+   */
+
+    public void removeBitacoraAvances(com.infotec.cvi.swb.ActividadesArea value)
+    {
+        getSemanticObject().removeObjectProperty(intranet_hasBitacoraAvances,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the BitacoraAvances
+   * @return a com.infotec.cvi.swb.ActividadesArea
+   */
+    public com.infotec.cvi.swb.ActividadesArea getBitacoraAvances()
+    {
+         com.infotec.cvi.swb.ActividadesArea ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasBitacoraAvances);
+         if(obj!=null)
+         {
+             ret=(com.infotec.cvi.swb.ActividadesArea)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Gets all the com.infotec.cvi.swb.ActividadesArea
+   * @return A GenericIterator with all the com.infotec.cvi.swb.ActividadesArea
+   */
+
+    public org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea> listReporteFinals()
+    {
+        return new org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea>(getSemanticObject().listObjectProperties(intranet_hasReporteFinal));
+    }
+
+   /**
+   * Gets true if has a ReporteFinal
+   * @param value com.infotec.cvi.swb.ActividadesArea to verify
+   * @return true if the com.infotec.cvi.swb.ActividadesArea exists, false otherwise
+   */
+    public boolean hasReporteFinal(com.infotec.cvi.swb.ActividadesArea value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(intranet_hasReporteFinal,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a ReporteFinal
+   * @param value com.infotec.cvi.swb.ActividadesArea to add
+   */
+
+    public void addReporteFinal(com.infotec.cvi.swb.ActividadesArea value)
+    {
+        getSemanticObject().addObjectProperty(intranet_hasReporteFinal, value.getSemanticObject());
+    }
+   /**
+   * Removes all the ReporteFinal
+   */
+
+    public void removeAllReporteFinal()
+    {
+        getSemanticObject().removeProperty(intranet_hasReporteFinal);
+    }
+   /**
+   * Removes a ReporteFinal
+   * @param value com.infotec.cvi.swb.ActividadesArea to remove
+   */
+
+    public void removeReporteFinal(com.infotec.cvi.swb.ActividadesArea value)
+    {
+        getSemanticObject().removeObjectProperty(intranet_hasReporteFinal,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the ReporteFinal
+   * @return a com.infotec.cvi.swb.ActividadesArea
+   */
+    public com.infotec.cvi.swb.ActividadesArea getReporteFinal()
+    {
+         com.infotec.cvi.swb.ActividadesArea ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasReporteFinal);
+         if(obj!=null)
+         {
+             ret=(com.infotec.cvi.swb.ActividadesArea)obj.createGenericInstance();
+         }
+         return ret;
+    }
 
 /**
 * Gets the FolioCCO property
@@ -676,6 +611,71 @@ public abstract class SeguimientoActCCOBase extends com.infotec.eworkplace.swb.S
     public void setFolioCCO(String value)
     {
         getSemanticObject().setProperty(intranet_folioCCO, value);
+    }
+   /**
+   * Gets all the com.infotec.cvi.swb.ActividadesArea
+   * @return A GenericIterator with all the com.infotec.cvi.swb.ActividadesArea
+   */
+
+    public org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea> listPlanMejoraAccionFinals()
+    {
+        return new org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea>(getSemanticObject().listObjectProperties(intranet_hasPlanMejoraAccionFinal));
+    }
+
+   /**
+   * Gets true if has a PlanMejoraAccionFinal
+   * @param value com.infotec.cvi.swb.ActividadesArea to verify
+   * @return true if the com.infotec.cvi.swb.ActividadesArea exists, false otherwise
+   */
+    public boolean hasPlanMejoraAccionFinal(com.infotec.cvi.swb.ActividadesArea value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(intranet_hasPlanMejoraAccionFinal,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a PlanMejoraAccionFinal
+   * @param value com.infotec.cvi.swb.ActividadesArea to add
+   */
+
+    public void addPlanMejoraAccionFinal(com.infotec.cvi.swb.ActividadesArea value)
+    {
+        getSemanticObject().addObjectProperty(intranet_hasPlanMejoraAccionFinal, value.getSemanticObject());
+    }
+   /**
+   * Removes all the PlanMejoraAccionFinal
+   */
+
+    public void removeAllPlanMejoraAccionFinal()
+    {
+        getSemanticObject().removeProperty(intranet_hasPlanMejoraAccionFinal);
+    }
+   /**
+   * Removes a PlanMejoraAccionFinal
+   * @param value com.infotec.cvi.swb.ActividadesArea to remove
+   */
+
+    public void removePlanMejoraAccionFinal(com.infotec.cvi.swb.ActividadesArea value)
+    {
+        getSemanticObject().removeObjectProperty(intranet_hasPlanMejoraAccionFinal,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the PlanMejoraAccionFinal
+   * @return a com.infotec.cvi.swb.ActividadesArea
+   */
+    public com.infotec.cvi.swb.ActividadesArea getPlanMejoraAccionFinal()
+    {
+         com.infotec.cvi.swb.ActividadesArea ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasPlanMejoraAccionFinal);
+         if(obj!=null)
+         {
+             ret=(com.infotec.cvi.swb.ActividadesArea)obj.createGenericInstance();
+         }
+         return ret;
     }
    /**
    * Gets all the com.infotec.cvi.swb.ActividadesArea

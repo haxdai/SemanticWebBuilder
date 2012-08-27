@@ -15,6 +15,14 @@ public abstract class SeguimientoActDCPBase extends com.infotec.eworkplace.swb.S
    */
     public static final org.semanticwb.platform.SemanticProperty intranet_hasReporteIncidencias=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasReporteIncidencias");
    /**
+   * Justificación técnica
+   */
+    public static final org.semanticwb.platform.SemanticProperty intranet_hasJustificacionTecnica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasJustificacionTecnica");
+   /**
+   * Programa de capacitación
+   */
+    public static final org.semanticwb.platform.SemanticProperty intranet_hasProgramaCapacitacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasProgramaCapacitacion");
+   /**
    * Necesidades de estrategicas y de capacitación
    */
     public static final org.semanticwb.platform.SemanticProperty intranet_hasNecesidadesEstrategicasCapacitacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasNecesidadesEstrategicasCapacitacion");
@@ -27,6 +35,14 @@ public abstract class SeguimientoActDCPBase extends com.infotec.eworkplace.swb.S
    */
     public static final org.semanticwb.platform.SemanticProperty intranet_hasRequisicion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasRequisicion");
    /**
+   * Cuestionario DNC
+   */
+    public static final org.semanticwb.platform.SemanticProperty intranet_hasCuestionarioDNC=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasCuestionarioDNC");
+   /**
+   * Plan de capacitación
+   */
+    public static final org.semanticwb.platform.SemanticProperty intranet_hasPlanCapacitacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasPlanCapacitacion");
+   /**
    * Diagrama de Grantt
    */
     public static final org.semanticwb.platform.SemanticProperty intranet_hasGantt=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasGantt");
@@ -38,27 +54,6 @@ public abstract class SeguimientoActDCPBase extends com.infotec.eworkplace.swb.S
    * Calendario provisional
    */
     public static final org.semanticwb.platform.SemanticProperty intranet_hasCalendarioProvisional=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasCalendarioProvisional");
-    public static final org.semanticwb.platform.SemanticProperty intranet_folioDCP=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#folioDCP");
-   /**
-   * Resultados de evaluación para DCP
-   */
-    public static final org.semanticwb.platform.SemanticProperty intranet_hasResultadosEvaluacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasResultadosEvaluacion");
-   /**
-   * Justificación técnica
-   */
-    public static final org.semanticwb.platform.SemanticProperty intranet_hasJustificacionTecnica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasJustificacionTecnica");
-   /**
-   * Programa de capacitación
-   */
-    public static final org.semanticwb.platform.SemanticProperty intranet_hasProgramaCapacitacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasProgramaCapacitacion");
-   /**
-   * Cuestionario DNC
-   */
-    public static final org.semanticwb.platform.SemanticProperty intranet_hasCuestionarioDNC=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasCuestionarioDNC");
-   /**
-   * Plan de capacitación
-   */
-    public static final org.semanticwb.platform.SemanticProperty intranet_hasPlanCapacitacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasPlanCapacitacion");
    /**
    * Reporte periodico del plan para DCP
    */
@@ -67,6 +62,11 @@ public abstract class SeguimientoActDCPBase extends com.infotec.eworkplace.swb.S
    * Reporte ejecutivo
    */
     public static final org.semanticwb.platform.SemanticProperty intranet_hasReporteEjecutivo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasReporteEjecutivo");
+    public static final org.semanticwb.platform.SemanticProperty intranet_folioDCP=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#folioDCP");
+   /**
+   * Resultados de evaluación para DCP
+   */
+    public static final org.semanticwb.platform.SemanticProperty intranet_hasResultadosEvaluacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasResultadosEvaluacion");
    /**
    * Solicitud de registro para DCP
    */
@@ -196,6 +196,52 @@ public abstract class SeguimientoActDCPBase extends com.infotec.eworkplace.swb.S
             return it;
         }
        /**
+       * Gets all com.infotec.rh.syr.swb.SeguimientoActDCP with a determined JustificacionTecnica
+       * @param value JustificacionTecnica of the type com.infotec.cvi.swb.ActividadesArea
+       * @param model Model of the com.infotec.rh.syr.swb.SeguimientoActDCP
+       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActDCP
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActDCP> listSeguimientoActDCPByJustificacionTecnica(com.infotec.cvi.swb.ActividadesArea value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActDCP> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasJustificacionTecnica, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.SeguimientoActDCP with a determined JustificacionTecnica
+       * @param value JustificacionTecnica of the type com.infotec.cvi.swb.ActividadesArea
+       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActDCP
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActDCP> listSeguimientoActDCPByJustificacionTecnica(com.infotec.cvi.swb.ActividadesArea value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActDCP> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasJustificacionTecnica,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.SeguimientoActDCP with a determined ProgramaCapacitacion
+       * @param value ProgramaCapacitacion of the type com.infotec.cvi.swb.ActividadesArea
+       * @param model Model of the com.infotec.rh.syr.swb.SeguimientoActDCP
+       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActDCP
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActDCP> listSeguimientoActDCPByProgramaCapacitacion(com.infotec.cvi.swb.ActividadesArea value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActDCP> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasProgramaCapacitacion, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.SeguimientoActDCP with a determined ProgramaCapacitacion
+       * @param value ProgramaCapacitacion of the type com.infotec.cvi.swb.ActividadesArea
+       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActDCP
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActDCP> listSeguimientoActDCPByProgramaCapacitacion(com.infotec.cvi.swb.ActividadesArea value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActDCP> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasProgramaCapacitacion,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all com.infotec.rh.syr.swb.SeguimientoActDCP with a determined NecesidadesEstrategicasCapacitacion
        * @param value NecesidadesEstrategicasCapacitacion of the type com.infotec.cvi.swb.ActividadesArea
        * @param model Model of the com.infotec.rh.syr.swb.SeguimientoActDCP
@@ -262,6 +308,52 @@ public abstract class SeguimientoActDCPBase extends com.infotec.eworkplace.swb.S
         public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActDCP> listSeguimientoActDCPByRequisicion(com.infotec.cvi.swb.ActividadesArea value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActDCP> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasRequisicion,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.SeguimientoActDCP with a determined CuestionarioDNC
+       * @param value CuestionarioDNC of the type com.infotec.cvi.swb.ActividadesArea
+       * @param model Model of the com.infotec.rh.syr.swb.SeguimientoActDCP
+       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActDCP
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActDCP> listSeguimientoActDCPByCuestionarioDNC(com.infotec.cvi.swb.ActividadesArea value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActDCP> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasCuestionarioDNC, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.SeguimientoActDCP with a determined CuestionarioDNC
+       * @param value CuestionarioDNC of the type com.infotec.cvi.swb.ActividadesArea
+       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActDCP
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActDCP> listSeguimientoActDCPByCuestionarioDNC(com.infotec.cvi.swb.ActividadesArea value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActDCP> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasCuestionarioDNC,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.SeguimientoActDCP with a determined PlanCapacitacion
+       * @param value PlanCapacitacion of the type com.infotec.cvi.swb.ActividadesArea
+       * @param model Model of the com.infotec.rh.syr.swb.SeguimientoActDCP
+       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActDCP
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActDCP> listSeguimientoActDCPByPlanCapacitacion(com.infotec.cvi.swb.ActividadesArea value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActDCP> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasPlanCapacitacion, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.SeguimientoActDCP with a determined PlanCapacitacion
+       * @param value PlanCapacitacion of the type com.infotec.cvi.swb.ActividadesArea
+       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActDCP
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActDCP> listSeguimientoActDCPByPlanCapacitacion(com.infotec.cvi.swb.ActividadesArea value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActDCP> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasPlanCapacitacion,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -334,121 +426,6 @@ public abstract class SeguimientoActDCPBase extends com.infotec.eworkplace.swb.S
             return it;
         }
        /**
-       * Gets all com.infotec.rh.syr.swb.SeguimientoActDCP with a determined ResultadosEvaluacion
-       * @param value ResultadosEvaluacion of the type com.infotec.cvi.swb.ActividadesArea
-       * @param model Model of the com.infotec.rh.syr.swb.SeguimientoActDCP
-       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActDCP
-       */
-
-        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActDCP> listSeguimientoActDCPByResultadosEvaluacion(com.infotec.cvi.swb.ActividadesArea value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActDCP> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasResultadosEvaluacion, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.rh.syr.swb.SeguimientoActDCP with a determined ResultadosEvaluacion
-       * @param value ResultadosEvaluacion of the type com.infotec.cvi.swb.ActividadesArea
-       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActDCP
-       */
-
-        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActDCP> listSeguimientoActDCPByResultadosEvaluacion(com.infotec.cvi.swb.ActividadesArea value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActDCP> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasResultadosEvaluacion,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.rh.syr.swb.SeguimientoActDCP with a determined JustificacionTecnica
-       * @param value JustificacionTecnica of the type com.infotec.cvi.swb.ActividadesArea
-       * @param model Model of the com.infotec.rh.syr.swb.SeguimientoActDCP
-       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActDCP
-       */
-
-        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActDCP> listSeguimientoActDCPByJustificacionTecnica(com.infotec.cvi.swb.ActividadesArea value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActDCP> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasJustificacionTecnica, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.rh.syr.swb.SeguimientoActDCP with a determined JustificacionTecnica
-       * @param value JustificacionTecnica of the type com.infotec.cvi.swb.ActividadesArea
-       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActDCP
-       */
-
-        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActDCP> listSeguimientoActDCPByJustificacionTecnica(com.infotec.cvi.swb.ActividadesArea value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActDCP> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasJustificacionTecnica,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.rh.syr.swb.SeguimientoActDCP with a determined ProgramaCapacitacion
-       * @param value ProgramaCapacitacion of the type com.infotec.cvi.swb.ActividadesArea
-       * @param model Model of the com.infotec.rh.syr.swb.SeguimientoActDCP
-       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActDCP
-       */
-
-        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActDCP> listSeguimientoActDCPByProgramaCapacitacion(com.infotec.cvi.swb.ActividadesArea value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActDCP> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasProgramaCapacitacion, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.rh.syr.swb.SeguimientoActDCP with a determined ProgramaCapacitacion
-       * @param value ProgramaCapacitacion of the type com.infotec.cvi.swb.ActividadesArea
-       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActDCP
-       */
-
-        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActDCP> listSeguimientoActDCPByProgramaCapacitacion(com.infotec.cvi.swb.ActividadesArea value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActDCP> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasProgramaCapacitacion,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.rh.syr.swb.SeguimientoActDCP with a determined CuestionarioDNC
-       * @param value CuestionarioDNC of the type com.infotec.cvi.swb.ActividadesArea
-       * @param model Model of the com.infotec.rh.syr.swb.SeguimientoActDCP
-       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActDCP
-       */
-
-        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActDCP> listSeguimientoActDCPByCuestionarioDNC(com.infotec.cvi.swb.ActividadesArea value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActDCP> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasCuestionarioDNC, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.rh.syr.swb.SeguimientoActDCP with a determined CuestionarioDNC
-       * @param value CuestionarioDNC of the type com.infotec.cvi.swb.ActividadesArea
-       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActDCP
-       */
-
-        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActDCP> listSeguimientoActDCPByCuestionarioDNC(com.infotec.cvi.swb.ActividadesArea value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActDCP> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasCuestionarioDNC,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.rh.syr.swb.SeguimientoActDCP with a determined PlanCapacitacion
-       * @param value PlanCapacitacion of the type com.infotec.cvi.swb.ActividadesArea
-       * @param model Model of the com.infotec.rh.syr.swb.SeguimientoActDCP
-       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActDCP
-       */
-
-        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActDCP> listSeguimientoActDCPByPlanCapacitacion(com.infotec.cvi.swb.ActividadesArea value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActDCP> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasPlanCapacitacion, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.rh.syr.swb.SeguimientoActDCP with a determined PlanCapacitacion
-       * @param value PlanCapacitacion of the type com.infotec.cvi.swb.ActividadesArea
-       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActDCP
-       */
-
-        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActDCP> listSeguimientoActDCPByPlanCapacitacion(com.infotec.cvi.swb.ActividadesArea value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActDCP> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasPlanCapacitacion,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all com.infotec.rh.syr.swb.SeguimientoActDCP with a determined ReportePeriodico
        * @param value ReportePeriodico of the type com.infotec.cvi.swb.ActividadesArea
        * @param model Model of the com.infotec.rh.syr.swb.SeguimientoActDCP
@@ -515,6 +492,29 @@ public abstract class SeguimientoActDCPBase extends com.infotec.eworkplace.swb.S
         public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActDCP> listSeguimientoActDCPByCreator(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActDCP> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.SeguimientoActDCP with a determined ResultadosEvaluacion
+       * @param value ResultadosEvaluacion of the type com.infotec.cvi.swb.ActividadesArea
+       * @param model Model of the com.infotec.rh.syr.swb.SeguimientoActDCP
+       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActDCP
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActDCP> listSeguimientoActDCPByResultadosEvaluacion(com.infotec.cvi.swb.ActividadesArea value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActDCP> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_hasResultadosEvaluacion, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.SeguimientoActDCP with a determined ResultadosEvaluacion
+       * @param value ResultadosEvaluacion of the type com.infotec.cvi.swb.ActividadesArea
+       * @return Iterator with all the com.infotec.rh.syr.swb.SeguimientoActDCP
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SeguimientoActDCP> listSeguimientoActDCPByResultadosEvaluacion(com.infotec.cvi.swb.ActividadesArea value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SeguimientoActDCP> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasResultadosEvaluacion,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -609,6 +609,136 @@ public abstract class SeguimientoActDCPBase extends com.infotec.eworkplace.swb.S
     {
          com.infotec.cvi.swb.ActividadesArea ret=null;
          org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasReporteIncidencias);
+         if(obj!=null)
+         {
+             ret=(com.infotec.cvi.swb.ActividadesArea)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Gets all the com.infotec.cvi.swb.ActividadesArea
+   * @return A GenericIterator with all the com.infotec.cvi.swb.ActividadesArea
+   */
+
+    public org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea> listJustificacionTecnicas()
+    {
+        return new org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea>(getSemanticObject().listObjectProperties(intranet_hasJustificacionTecnica));
+    }
+
+   /**
+   * Gets true if has a JustificacionTecnica
+   * @param value com.infotec.cvi.swb.ActividadesArea to verify
+   * @return true if the com.infotec.cvi.swb.ActividadesArea exists, false otherwise
+   */
+    public boolean hasJustificacionTecnica(com.infotec.cvi.swb.ActividadesArea value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(intranet_hasJustificacionTecnica,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a JustificacionTecnica
+   * @param value com.infotec.cvi.swb.ActividadesArea to add
+   */
+
+    public void addJustificacionTecnica(com.infotec.cvi.swb.ActividadesArea value)
+    {
+        getSemanticObject().addObjectProperty(intranet_hasJustificacionTecnica, value.getSemanticObject());
+    }
+   /**
+   * Removes all the JustificacionTecnica
+   */
+
+    public void removeAllJustificacionTecnica()
+    {
+        getSemanticObject().removeProperty(intranet_hasJustificacionTecnica);
+    }
+   /**
+   * Removes a JustificacionTecnica
+   * @param value com.infotec.cvi.swb.ActividadesArea to remove
+   */
+
+    public void removeJustificacionTecnica(com.infotec.cvi.swb.ActividadesArea value)
+    {
+        getSemanticObject().removeObjectProperty(intranet_hasJustificacionTecnica,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the JustificacionTecnica
+   * @return a com.infotec.cvi.swb.ActividadesArea
+   */
+    public com.infotec.cvi.swb.ActividadesArea getJustificacionTecnica()
+    {
+         com.infotec.cvi.swb.ActividadesArea ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasJustificacionTecnica);
+         if(obj!=null)
+         {
+             ret=(com.infotec.cvi.swb.ActividadesArea)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Gets all the com.infotec.cvi.swb.ActividadesArea
+   * @return A GenericIterator with all the com.infotec.cvi.swb.ActividadesArea
+   */
+
+    public org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea> listProgramaCapacitacions()
+    {
+        return new org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea>(getSemanticObject().listObjectProperties(intranet_hasProgramaCapacitacion));
+    }
+
+   /**
+   * Gets true if has a ProgramaCapacitacion
+   * @param value com.infotec.cvi.swb.ActividadesArea to verify
+   * @return true if the com.infotec.cvi.swb.ActividadesArea exists, false otherwise
+   */
+    public boolean hasProgramaCapacitacion(com.infotec.cvi.swb.ActividadesArea value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(intranet_hasProgramaCapacitacion,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a ProgramaCapacitacion
+   * @param value com.infotec.cvi.swb.ActividadesArea to add
+   */
+
+    public void addProgramaCapacitacion(com.infotec.cvi.swb.ActividadesArea value)
+    {
+        getSemanticObject().addObjectProperty(intranet_hasProgramaCapacitacion, value.getSemanticObject());
+    }
+   /**
+   * Removes all the ProgramaCapacitacion
+   */
+
+    public void removeAllProgramaCapacitacion()
+    {
+        getSemanticObject().removeProperty(intranet_hasProgramaCapacitacion);
+    }
+   /**
+   * Removes a ProgramaCapacitacion
+   * @param value com.infotec.cvi.swb.ActividadesArea to remove
+   */
+
+    public void removeProgramaCapacitacion(com.infotec.cvi.swb.ActividadesArea value)
+    {
+        getSemanticObject().removeObjectProperty(intranet_hasProgramaCapacitacion,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the ProgramaCapacitacion
+   * @return a com.infotec.cvi.swb.ActividadesArea
+   */
+    public com.infotec.cvi.swb.ActividadesArea getProgramaCapacitacion()
+    {
+         com.infotec.cvi.swb.ActividadesArea ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasProgramaCapacitacion);
          if(obj!=null)
          {
              ret=(com.infotec.cvi.swb.ActividadesArea)obj.createGenericInstance();
@@ -815,6 +945,136 @@ public abstract class SeguimientoActDCPBase extends com.infotec.eworkplace.swb.S
    * @return A GenericIterator with all the com.infotec.cvi.swb.ActividadesArea
    */
 
+    public org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea> listCuestionarioDNCs()
+    {
+        return new org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea>(getSemanticObject().listObjectProperties(intranet_hasCuestionarioDNC));
+    }
+
+   /**
+   * Gets true if has a CuestionarioDNC
+   * @param value com.infotec.cvi.swb.ActividadesArea to verify
+   * @return true if the com.infotec.cvi.swb.ActividadesArea exists, false otherwise
+   */
+    public boolean hasCuestionarioDNC(com.infotec.cvi.swb.ActividadesArea value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(intranet_hasCuestionarioDNC,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a CuestionarioDNC
+   * @param value com.infotec.cvi.swb.ActividadesArea to add
+   */
+
+    public void addCuestionarioDNC(com.infotec.cvi.swb.ActividadesArea value)
+    {
+        getSemanticObject().addObjectProperty(intranet_hasCuestionarioDNC, value.getSemanticObject());
+    }
+   /**
+   * Removes all the CuestionarioDNC
+   */
+
+    public void removeAllCuestionarioDNC()
+    {
+        getSemanticObject().removeProperty(intranet_hasCuestionarioDNC);
+    }
+   /**
+   * Removes a CuestionarioDNC
+   * @param value com.infotec.cvi.swb.ActividadesArea to remove
+   */
+
+    public void removeCuestionarioDNC(com.infotec.cvi.swb.ActividadesArea value)
+    {
+        getSemanticObject().removeObjectProperty(intranet_hasCuestionarioDNC,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the CuestionarioDNC
+   * @return a com.infotec.cvi.swb.ActividadesArea
+   */
+    public com.infotec.cvi.swb.ActividadesArea getCuestionarioDNC()
+    {
+         com.infotec.cvi.swb.ActividadesArea ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasCuestionarioDNC);
+         if(obj!=null)
+         {
+             ret=(com.infotec.cvi.swb.ActividadesArea)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Gets all the com.infotec.cvi.swb.ActividadesArea
+   * @return A GenericIterator with all the com.infotec.cvi.swb.ActividadesArea
+   */
+
+    public org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea> listPlanCapacitacions()
+    {
+        return new org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea>(getSemanticObject().listObjectProperties(intranet_hasPlanCapacitacion));
+    }
+
+   /**
+   * Gets true if has a PlanCapacitacion
+   * @param value com.infotec.cvi.swb.ActividadesArea to verify
+   * @return true if the com.infotec.cvi.swb.ActividadesArea exists, false otherwise
+   */
+    public boolean hasPlanCapacitacion(com.infotec.cvi.swb.ActividadesArea value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(intranet_hasPlanCapacitacion,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a PlanCapacitacion
+   * @param value com.infotec.cvi.swb.ActividadesArea to add
+   */
+
+    public void addPlanCapacitacion(com.infotec.cvi.swb.ActividadesArea value)
+    {
+        getSemanticObject().addObjectProperty(intranet_hasPlanCapacitacion, value.getSemanticObject());
+    }
+   /**
+   * Removes all the PlanCapacitacion
+   */
+
+    public void removeAllPlanCapacitacion()
+    {
+        getSemanticObject().removeProperty(intranet_hasPlanCapacitacion);
+    }
+   /**
+   * Removes a PlanCapacitacion
+   * @param value com.infotec.cvi.swb.ActividadesArea to remove
+   */
+
+    public void removePlanCapacitacion(com.infotec.cvi.swb.ActividadesArea value)
+    {
+        getSemanticObject().removeObjectProperty(intranet_hasPlanCapacitacion,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the PlanCapacitacion
+   * @return a com.infotec.cvi.swb.ActividadesArea
+   */
+    public com.infotec.cvi.swb.ActividadesArea getPlanCapacitacion()
+    {
+         com.infotec.cvi.swb.ActividadesArea ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasPlanCapacitacion);
+         if(obj!=null)
+         {
+             ret=(com.infotec.cvi.swb.ActividadesArea)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Gets all the com.infotec.cvi.swb.ActividadesArea
+   * @return A GenericIterator with all the com.infotec.cvi.swb.ActividadesArea
+   */
+
     public org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea> listGantts()
     {
         return new org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea>(getSemanticObject().listObjectProperties(intranet_hasGantt));
@@ -1005,349 +1265,6 @@ public abstract class SeguimientoActDCPBase extends com.infotec.eworkplace.swb.S
          }
          return ret;
     }
-
-/**
-* Gets the FolioDCP property
-* @return String with the FolioDCP
-*/
-    public String getFolioDCP()
-    {
-        return getSemanticObject().getProperty(intranet_folioDCP);
-    }
-
-/**
-* Sets the FolioDCP property
-* @param value long with the FolioDCP
-*/
-    public void setFolioDCP(String value)
-    {
-        getSemanticObject().setProperty(intranet_folioDCP, value);
-    }
-   /**
-   * Gets all the com.infotec.cvi.swb.ActividadesArea
-   * @return A GenericIterator with all the com.infotec.cvi.swb.ActividadesArea
-   */
-
-    public org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea> listResultadosEvaluacions()
-    {
-        return new org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea>(getSemanticObject().listObjectProperties(intranet_hasResultadosEvaluacion));
-    }
-
-   /**
-   * Gets true if has a ResultadosEvaluacion
-   * @param value com.infotec.cvi.swb.ActividadesArea to verify
-   * @return true if the com.infotec.cvi.swb.ActividadesArea exists, false otherwise
-   */
-    public boolean hasResultadosEvaluacion(com.infotec.cvi.swb.ActividadesArea value)
-    {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(intranet_hasResultadosEvaluacion,value.getSemanticObject());
-        }
-        return ret;
-    }
-   /**
-   * Adds a ResultadosEvaluacion
-   * @param value com.infotec.cvi.swb.ActividadesArea to add
-   */
-
-    public void addResultadosEvaluacion(com.infotec.cvi.swb.ActividadesArea value)
-    {
-        getSemanticObject().addObjectProperty(intranet_hasResultadosEvaluacion, value.getSemanticObject());
-    }
-   /**
-   * Removes all the ResultadosEvaluacion
-   */
-
-    public void removeAllResultadosEvaluacion()
-    {
-        getSemanticObject().removeProperty(intranet_hasResultadosEvaluacion);
-    }
-   /**
-   * Removes a ResultadosEvaluacion
-   * @param value com.infotec.cvi.swb.ActividadesArea to remove
-   */
-
-    public void removeResultadosEvaluacion(com.infotec.cvi.swb.ActividadesArea value)
-    {
-        getSemanticObject().removeObjectProperty(intranet_hasResultadosEvaluacion,value.getSemanticObject());
-    }
-
-   /**
-   * Gets the ResultadosEvaluacion
-   * @return a com.infotec.cvi.swb.ActividadesArea
-   */
-    public com.infotec.cvi.swb.ActividadesArea getResultadosEvaluacion()
-    {
-         com.infotec.cvi.swb.ActividadesArea ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasResultadosEvaluacion);
-         if(obj!=null)
-         {
-             ret=(com.infotec.cvi.swb.ActividadesArea)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Gets all the com.infotec.cvi.swb.ActividadesArea
-   * @return A GenericIterator with all the com.infotec.cvi.swb.ActividadesArea
-   */
-
-    public org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea> listJustificacionTecnicas()
-    {
-        return new org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea>(getSemanticObject().listObjectProperties(intranet_hasJustificacionTecnica));
-    }
-
-   /**
-   * Gets true if has a JustificacionTecnica
-   * @param value com.infotec.cvi.swb.ActividadesArea to verify
-   * @return true if the com.infotec.cvi.swb.ActividadesArea exists, false otherwise
-   */
-    public boolean hasJustificacionTecnica(com.infotec.cvi.swb.ActividadesArea value)
-    {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(intranet_hasJustificacionTecnica,value.getSemanticObject());
-        }
-        return ret;
-    }
-   /**
-   * Adds a JustificacionTecnica
-   * @param value com.infotec.cvi.swb.ActividadesArea to add
-   */
-
-    public void addJustificacionTecnica(com.infotec.cvi.swb.ActividadesArea value)
-    {
-        getSemanticObject().addObjectProperty(intranet_hasJustificacionTecnica, value.getSemanticObject());
-    }
-   /**
-   * Removes all the JustificacionTecnica
-   */
-
-    public void removeAllJustificacionTecnica()
-    {
-        getSemanticObject().removeProperty(intranet_hasJustificacionTecnica);
-    }
-   /**
-   * Removes a JustificacionTecnica
-   * @param value com.infotec.cvi.swb.ActividadesArea to remove
-   */
-
-    public void removeJustificacionTecnica(com.infotec.cvi.swb.ActividadesArea value)
-    {
-        getSemanticObject().removeObjectProperty(intranet_hasJustificacionTecnica,value.getSemanticObject());
-    }
-
-   /**
-   * Gets the JustificacionTecnica
-   * @return a com.infotec.cvi.swb.ActividadesArea
-   */
-    public com.infotec.cvi.swb.ActividadesArea getJustificacionTecnica()
-    {
-         com.infotec.cvi.swb.ActividadesArea ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasJustificacionTecnica);
-         if(obj!=null)
-         {
-             ret=(com.infotec.cvi.swb.ActividadesArea)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Gets all the com.infotec.cvi.swb.ActividadesArea
-   * @return A GenericIterator with all the com.infotec.cvi.swb.ActividadesArea
-   */
-
-    public org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea> listProgramaCapacitacions()
-    {
-        return new org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea>(getSemanticObject().listObjectProperties(intranet_hasProgramaCapacitacion));
-    }
-
-   /**
-   * Gets true if has a ProgramaCapacitacion
-   * @param value com.infotec.cvi.swb.ActividadesArea to verify
-   * @return true if the com.infotec.cvi.swb.ActividadesArea exists, false otherwise
-   */
-    public boolean hasProgramaCapacitacion(com.infotec.cvi.swb.ActividadesArea value)
-    {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(intranet_hasProgramaCapacitacion,value.getSemanticObject());
-        }
-        return ret;
-    }
-   /**
-   * Adds a ProgramaCapacitacion
-   * @param value com.infotec.cvi.swb.ActividadesArea to add
-   */
-
-    public void addProgramaCapacitacion(com.infotec.cvi.swb.ActividadesArea value)
-    {
-        getSemanticObject().addObjectProperty(intranet_hasProgramaCapacitacion, value.getSemanticObject());
-    }
-   /**
-   * Removes all the ProgramaCapacitacion
-   */
-
-    public void removeAllProgramaCapacitacion()
-    {
-        getSemanticObject().removeProperty(intranet_hasProgramaCapacitacion);
-    }
-   /**
-   * Removes a ProgramaCapacitacion
-   * @param value com.infotec.cvi.swb.ActividadesArea to remove
-   */
-
-    public void removeProgramaCapacitacion(com.infotec.cvi.swb.ActividadesArea value)
-    {
-        getSemanticObject().removeObjectProperty(intranet_hasProgramaCapacitacion,value.getSemanticObject());
-    }
-
-   /**
-   * Gets the ProgramaCapacitacion
-   * @return a com.infotec.cvi.swb.ActividadesArea
-   */
-    public com.infotec.cvi.swb.ActividadesArea getProgramaCapacitacion()
-    {
-         com.infotec.cvi.swb.ActividadesArea ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasProgramaCapacitacion);
-         if(obj!=null)
-         {
-             ret=(com.infotec.cvi.swb.ActividadesArea)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Gets all the com.infotec.cvi.swb.ActividadesArea
-   * @return A GenericIterator with all the com.infotec.cvi.swb.ActividadesArea
-   */
-
-    public org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea> listCuestionarioDNCs()
-    {
-        return new org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea>(getSemanticObject().listObjectProperties(intranet_hasCuestionarioDNC));
-    }
-
-   /**
-   * Gets true if has a CuestionarioDNC
-   * @param value com.infotec.cvi.swb.ActividadesArea to verify
-   * @return true if the com.infotec.cvi.swb.ActividadesArea exists, false otherwise
-   */
-    public boolean hasCuestionarioDNC(com.infotec.cvi.swb.ActividadesArea value)
-    {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(intranet_hasCuestionarioDNC,value.getSemanticObject());
-        }
-        return ret;
-    }
-   /**
-   * Adds a CuestionarioDNC
-   * @param value com.infotec.cvi.swb.ActividadesArea to add
-   */
-
-    public void addCuestionarioDNC(com.infotec.cvi.swb.ActividadesArea value)
-    {
-        getSemanticObject().addObjectProperty(intranet_hasCuestionarioDNC, value.getSemanticObject());
-    }
-   /**
-   * Removes all the CuestionarioDNC
-   */
-
-    public void removeAllCuestionarioDNC()
-    {
-        getSemanticObject().removeProperty(intranet_hasCuestionarioDNC);
-    }
-   /**
-   * Removes a CuestionarioDNC
-   * @param value com.infotec.cvi.swb.ActividadesArea to remove
-   */
-
-    public void removeCuestionarioDNC(com.infotec.cvi.swb.ActividadesArea value)
-    {
-        getSemanticObject().removeObjectProperty(intranet_hasCuestionarioDNC,value.getSemanticObject());
-    }
-
-   /**
-   * Gets the CuestionarioDNC
-   * @return a com.infotec.cvi.swb.ActividadesArea
-   */
-    public com.infotec.cvi.swb.ActividadesArea getCuestionarioDNC()
-    {
-         com.infotec.cvi.swb.ActividadesArea ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasCuestionarioDNC);
-         if(obj!=null)
-         {
-             ret=(com.infotec.cvi.swb.ActividadesArea)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Gets all the com.infotec.cvi.swb.ActividadesArea
-   * @return A GenericIterator with all the com.infotec.cvi.swb.ActividadesArea
-   */
-
-    public org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea> listPlanCapacitacions()
-    {
-        return new org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea>(getSemanticObject().listObjectProperties(intranet_hasPlanCapacitacion));
-    }
-
-   /**
-   * Gets true if has a PlanCapacitacion
-   * @param value com.infotec.cvi.swb.ActividadesArea to verify
-   * @return true if the com.infotec.cvi.swb.ActividadesArea exists, false otherwise
-   */
-    public boolean hasPlanCapacitacion(com.infotec.cvi.swb.ActividadesArea value)
-    {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(intranet_hasPlanCapacitacion,value.getSemanticObject());
-        }
-        return ret;
-    }
-   /**
-   * Adds a PlanCapacitacion
-   * @param value com.infotec.cvi.swb.ActividadesArea to add
-   */
-
-    public void addPlanCapacitacion(com.infotec.cvi.swb.ActividadesArea value)
-    {
-        getSemanticObject().addObjectProperty(intranet_hasPlanCapacitacion, value.getSemanticObject());
-    }
-   /**
-   * Removes all the PlanCapacitacion
-   */
-
-    public void removeAllPlanCapacitacion()
-    {
-        getSemanticObject().removeProperty(intranet_hasPlanCapacitacion);
-    }
-   /**
-   * Removes a PlanCapacitacion
-   * @param value com.infotec.cvi.swb.ActividadesArea to remove
-   */
-
-    public void removePlanCapacitacion(com.infotec.cvi.swb.ActividadesArea value)
-    {
-        getSemanticObject().removeObjectProperty(intranet_hasPlanCapacitacion,value.getSemanticObject());
-    }
-
-   /**
-   * Gets the PlanCapacitacion
-   * @return a com.infotec.cvi.swb.ActividadesArea
-   */
-    public com.infotec.cvi.swb.ActividadesArea getPlanCapacitacion()
-    {
-         com.infotec.cvi.swb.ActividadesArea ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasPlanCapacitacion);
-         if(obj!=null)
-         {
-             ret=(com.infotec.cvi.swb.ActividadesArea)obj.createGenericInstance();
-         }
-         return ret;
-    }
    /**
    * Gets all the com.infotec.cvi.swb.ActividadesArea
    * @return A GenericIterator with all the com.infotec.cvi.swb.ActividadesArea
@@ -1472,6 +1389,89 @@ public abstract class SeguimientoActDCPBase extends com.infotec.eworkplace.swb.S
     {
          com.infotec.cvi.swb.ActividadesArea ret=null;
          org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasReporteEjecutivo);
+         if(obj!=null)
+         {
+             ret=(com.infotec.cvi.swb.ActividadesArea)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+/**
+* Gets the FolioDCP property
+* @return String with the FolioDCP
+*/
+    public String getFolioDCP()
+    {
+        return getSemanticObject().getProperty(intranet_folioDCP);
+    }
+
+/**
+* Sets the FolioDCP property
+* @param value long with the FolioDCP
+*/
+    public void setFolioDCP(String value)
+    {
+        getSemanticObject().setProperty(intranet_folioDCP, value);
+    }
+   /**
+   * Gets all the com.infotec.cvi.swb.ActividadesArea
+   * @return A GenericIterator with all the com.infotec.cvi.swb.ActividadesArea
+   */
+
+    public org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea> listResultadosEvaluacions()
+    {
+        return new org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ActividadesArea>(getSemanticObject().listObjectProperties(intranet_hasResultadosEvaluacion));
+    }
+
+   /**
+   * Gets true if has a ResultadosEvaluacion
+   * @param value com.infotec.cvi.swb.ActividadesArea to verify
+   * @return true if the com.infotec.cvi.swb.ActividadesArea exists, false otherwise
+   */
+    public boolean hasResultadosEvaluacion(com.infotec.cvi.swb.ActividadesArea value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(intranet_hasResultadosEvaluacion,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a ResultadosEvaluacion
+   * @param value com.infotec.cvi.swb.ActividadesArea to add
+   */
+
+    public void addResultadosEvaluacion(com.infotec.cvi.swb.ActividadesArea value)
+    {
+        getSemanticObject().addObjectProperty(intranet_hasResultadosEvaluacion, value.getSemanticObject());
+    }
+   /**
+   * Removes all the ResultadosEvaluacion
+   */
+
+    public void removeAllResultadosEvaluacion()
+    {
+        getSemanticObject().removeProperty(intranet_hasResultadosEvaluacion);
+    }
+   /**
+   * Removes a ResultadosEvaluacion
+   * @param value com.infotec.cvi.swb.ActividadesArea to remove
+   */
+
+    public void removeResultadosEvaluacion(com.infotec.cvi.swb.ActividadesArea value)
+    {
+        getSemanticObject().removeObjectProperty(intranet_hasResultadosEvaluacion,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the ResultadosEvaluacion
+   * @return a com.infotec.cvi.swb.ActividadesArea
+   */
+    public com.infotec.cvi.swb.ActividadesArea getResultadosEvaluacion()
+    {
+         com.infotec.cvi.swb.ActividadesArea ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_hasResultadosEvaluacion);
          if(obj!=null)
          {
              ret=(com.infotec.cvi.swb.ActividadesArea)obj.createGenericInstance();
