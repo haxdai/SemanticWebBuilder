@@ -73,34 +73,36 @@ if(asigned == null) {
     return;
 }
 
-    //Obtención de objetos de datos
-    SolicitudRecurso sr = null;
-    SeguimientoSolicitudRecurso ssr = null;
-    org.semanticwb.process.schema.File archivoSol = null;
-    Iterator<ItemAwareReference> it = foi.listHeraquicalItemAwareReference().iterator();
-    while (it.hasNext()) {
-        ItemAwareReference ref = it.next();
-        SWBClass obj = ref.getProcessObject();
-        if (ref.getItemAware().getName().equals(varSolicitud)) {
-            sr = (SolicitudRecurso)obj;
-        }
-        if (ref.getItemAware().getName().equals(varSeguimiento)) {
-            ssr = (SeguimientoSolicitudRecurso)obj;
-        }
-        if (ref.getItemAware().getName().equals(varArchivoSolicitud)) {
-            archivoSol = (org.semanticwb.process.schema.File)obj;
-        }
+//Obtención de objetos de datos
+SolicitudRecurso sr = null;
+SeguimientoSolicitudRecurso ssr = null;
+org.semanticwb.process.schema.File archivoSol = null;
+Iterator<ItemAwareReference> it = foi.listHeraquicalItemAwareReference().iterator();
+while (it.hasNext()) {
+    ItemAwareReference ref = it.next();
+    SWBClass obj = ref.getProcessObject();
+    if (ref.getItemAware().getName().equals(varSolicitud)) {
+        sr = (SolicitudRecurso)obj;
     }
+    if (ref.getItemAware().getName().equals(varSeguimiento)) {
+        ssr = (SeguimientoSolicitudRecurso)obj;
+    }
+    if (ref.getItemAware().getName().equals(varArchivoSolicitud)) {
+        archivoSol = (org.semanticwb.process.schema.File)obj;
+    }
+}
 
-    //Creación e inicialización del formulario de procesos
-    SWBProcessFormMgr mgr = new SWBProcessFormMgr(foi);
-    mgr.setAction(paramRequest.getActionUrl().setAction("process").toString());
-    mgr.clearProperties();
-    
-    SWBResourceURL urlact = paramRequest.getActionUrl();
-    urlact.setAction("process");
+//Creación e inicialización del formulario de procesos
+SWBProcessFormMgr mgr = new SWBProcessFormMgr(foi);
+mgr.setAction(paramRequest.getActionUrl().setAction("process").toString());
+mgr.clearProperties();
 
-    SWBProcessFormMgr fmgr = new SWBProcessFormMgr(foi);
+SWBResourceURL urlact = paramRequest.getActionUrl();
+urlact.setAction("process");
+
+SWBProcessFormMgr fmgr = new SWBProcessFormMgr(foi);
+SimpleDateFormat sdfDojo = new SimpleDateFormat("yyyy-MM-dd");
+String now = sdfDojo.format(new Date(System.currentTimeMillis()));
     %>
     <script>
         dojo.require("dijit.Dialog");
@@ -230,7 +232,7 @@ if(asigned == null) {
                                                 <tr>
                                                     <td><%=nombre%></td>
                                                     <td>
-                                                        <input id="recDate<%=po.getId()%>" type="text" value ="<%=_date%>" dojoType="dijit.form.DateTextBox" name="<%=SeguimientoCandidato.intranet_fechaCompetencias.getPropId()%>" onChange="updDate('<%=po.getId()%>',getDateValue(dijit.byId('recDate<%=po.getId()%>')));">
+                                                        <input id="recDate<%=po.getId()%>" type="text" value ="<%=_date%>" dojoType="dijit.form.DateTextBox" name="<%=SeguimientoCandidato.intranet_fechaCompetencias.getPropId()%>" onChange="updDate('<%=po.getId()%>',getDateValue(dijit.byId('recDate<%=po.getId()%>')));" constraints="{min:'<%=now%>'}">
                                                         <input id="recTime<%=po.getId()%>" type="text" value ="<%=_time%>" dojoType="dijit.form.TimeTextBox" onChange="updTime('<%=po.getId()%>',getTimeValue(dijit.byId('recTime<%=po.getId()%>')));"/>
                                                     </td>
                                                 </tr>
