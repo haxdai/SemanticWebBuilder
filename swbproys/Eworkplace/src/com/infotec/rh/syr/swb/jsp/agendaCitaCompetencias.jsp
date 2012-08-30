@@ -101,6 +101,8 @@ SWBResourceURL urlact = paramRequest.getActionUrl();
 urlact.setAction("process");
 
 SWBProcessFormMgr fmgr = new SWBProcessFormMgr(foi);
+SimpleDateFormat sdfDojo = new SimpleDateFormat("yyyy-MM-dd");
+String now = sdfDojo.format(new Date(System.currentTimeMillis()));
     %>
     <script>
         dojo.require("dijit.Dialog");
@@ -231,7 +233,7 @@ SWBProcessFormMgr fmgr = new SWBProcessFormMgr(foi);
                                                 <tr>
                                                     <td><%=nombre%></td>
                                                     <td>
-                                                        <input id="recDate<%=po.getId()%>" type="text" value ="<%=_date%>" dojoType="dijit.form.DateTextBox" name="<%=SeguimientoCandidato.intranet_fechaCompetencias.getPropId()%>" onChange="updDate('<%=po.getId()%>',getDateValue(dijit.byId('recDate<%=po.getId()%>')));">
+                                                        <input id="recDate<%=po.getId()%>" type="text" value ="<%=_date%>" dojoType="dijit.form.DateTextBox" name="<%=SeguimientoCandidato.intranet_fechaCompetencias.getPropId()%>" onChange="updDate('<%=po.getId()%>',getDateValue(dijit.byId('recDate<%=po.getId()%>')));" constraints="{min:'<%=now%>'}">
                                                         <input id="recTime<%=po.getId()%>" type="text" value ="<%=_time%>" dojoType="dijit.form.TimeTextBox" onChange="updTime('<%=po.getId()%>',getTimeValue(dijit.byId('recTime<%=po.getId()%>')));"/>
                                                     </td>
                                                 </tr>

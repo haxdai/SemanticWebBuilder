@@ -98,6 +98,8 @@ SWBResourceURL urlact = paramRequest.getActionUrl();
 urlact.setAction("process");
 
 SWBProcessFormMgr fmgr = new SWBProcessFormMgr(foi);
+SimpleDateFormat sdfDojo = new SimpleDateFormat("yyyy-MM-dd");
+String now = sdfDojo.format(new Date(System.currentTimeMillis()));
 %>
 <%=SWBForms.DOJO_REQUIRED%>
 <script>
@@ -179,7 +181,7 @@ SWBProcessFormMgr fmgr = new SWBProcessFormMgr(foi);
                                             %>
                                             <tr>
                                                 <td><%=nombre%></td>
-                                                <td><input id="recDate<%=po.getId()%>" type="text" value ="<%=fecRecep%>" dojoType="dijit.form.DateTextBox" name="<%=Postulante.intranet_fechaNotificaRegistro.getPropId()%>" onChange="updDate('<%=po.getId()%>',getDateValue(dijit.byId('recDate<%=po.getId()%>')));"></td>
+                                                <td><input id="recDate<%=po.getId()%>" type="text" value ="<%=fecRecep%>" dojoType="dijit.form.DateTextBox" name="<%=Postulante.intranet_fechaNotificaRegistro.getPropId()%>" onChange="updDate('<%=po.getId()%>',getDateValue(dijit.byId('recDate<%=po.getId()%>')));" constraints="{min:'<%=now%>'}"></td>
                                                 <td><input id="rfc<%=po.getId()%>" type="text" value="<%=rfc%>" dojoType="dijit.form.ValidationTextBox" name="<%=Postulante.intranet_rfcRegistro.getPropId()%>" onBlur="updRFC('<%=po.getId()%>',dijit.byId('rfc<%=po.getId()%>').value);"/></td>
                                             </tr>
                                             <%
