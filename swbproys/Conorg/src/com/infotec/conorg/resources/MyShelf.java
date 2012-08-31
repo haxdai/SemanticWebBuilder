@@ -262,7 +262,7 @@ public class MyShelf extends GenericAdmResource {
                                     workSpace.addTile(mytile);
                                     //            sendWSadd                       System.out.println("Tile added.....");
                                     if(sendWSadd){
-                                        Aviso aviso = MessageUtils.createWorkSpaceMessage(usr, workSpace, "Nuevo documento - "+mytile.getTitle(), "Con la siguiente descripción:\n\r"+mytile.getDescription(), wsite);
+                                        Aviso aviso = MessageUtils.createWorkSpaceMessage(usr, workSpace, "Nuevo documento - "+mytile.getTitle(), "Con la siguiente descripción:\n\r"+(mytile.getDescription()!=null?mytile.getDescription():""), wsite);
                                     }
                                     
                                 }
@@ -419,7 +419,7 @@ public class MyShelf extends GenericAdmResource {
                         if(sendWSUpdate && wsid!=null){
                             WorkSpace wrkSpc = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
                             Tile mytile = (Tile)gobj;
-                            Aviso aviso = MessageUtils.createWorkSpaceMessage(usr, wrkSpc, "Actualizó - "+mytile.getTitle(), "Con la siguiente descripción:\n\r"+mytile.getDescription(), wsite);
+                            Aviso aviso = MessageUtils.createWorkSpaceMessage(usr, wrkSpc, "Actualizó - "+mytile.getTitle(), "Con la siguiente descripción:\n\r"+(mytile.getDescription()!=null?mytile.getDescription():""), wsite);
                         }
                     }
                     msg = "Se actualizó " + itemName + " satisfactoriamente.";
@@ -479,7 +479,7 @@ public class MyShelf extends GenericAdmResource {
                         if(sendWSRemove && wsid!=null){
                             WorkSpace wrkSpc = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
                             Tile mytile = (Tile)sobj.createGenericInstance();
-                            Aviso aviso = MessageUtils.createWorkSpaceMessage(usr, wrkSpc, "Se Eliminó - "+mytile.getTitle() + " del espacio de trabajo: "+wrkSpc.getTitle() , "Con la siguiente descripción:\n\r"+mytile.getDescription(), wsite);
+                            Aviso aviso = MessageUtils.createWorkSpaceMessage(usr, wrkSpc, "Se Eliminó - "+mytile.getTitle() + " del espacio de trabajo: "+wrkSpc.getTitle() , "Con la siguiente descripción:\n\r"+(mytile.getDescription()!=null?mytile.getDescription():""), wsite);
                         }
                     }
                     
@@ -949,7 +949,7 @@ public class MyShelf extends GenericAdmResource {
     public static String getSelecTypeMember(String membertype, String options) {
         StringBuffer ret = new StringBuffer();
         ret.append("<select dojoType=\"dijit.form.FilteringSelect\" name=\"mbrtype\" " + options + ">");
-        ret.append("<option value=\"" + USRLEVEL_MIEMBRO + "\"");
+        ret.append("<option value=\"" + USRLEVEL_NO_MIEMBRO + "\"");
         if (membertype.equals(USRLEVEL_NO_MIEMBRO)) {
             ret.append("selected");
         }
