@@ -208,7 +208,7 @@ String now = sdfDojo.format(new Date(System.currentTimeMillis()));
                                             Iterator<SeguimientoCandidato> it_seg = SeguimientoCandidato.ClassMgr.listSeguimientoCandidatoByCandidato(po, site);
                                             while (it_seg.hasNext()) {
                                                 SeguimientoCandidato seg = it_seg.next();
-                                                if (seg.getSolicitudCandidato().equals(sr)) {
+                                                if (seg.getSolicitudCandidato()!= null && seg.getSolicitudCandidato().equals(sr)) {
                                                     sc = seg;
                                                     break;
                                                 }
