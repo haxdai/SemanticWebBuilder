@@ -42,17 +42,19 @@ if ("process".equals(aresponse.getAction())) {
                 Iterator<SeguimientoCandidato> it_seg = SeguimientoCandidato.ClassMgr.listSeguimientoCandidatoByCandidato(usr, aresponse.getWebPage().getWebSite());
                 while (it_seg.hasNext()) {
                     SeguimientoCandidato seg = it_seg.next();
-                    if (seg.getSolicitudCandidato().equals(sr)) {
+                    if (seg.getSolicitudCandidato() != null && seg.getSolicitudCandidato().equals(sr)) {
                         sc = seg;
                         break;
                     }
                 }
-                
                 if (sc == null) {
                     sc = SeguimientoCandidato.ClassMgr.createSeguimientoCandidato(aresponse.getWebPage().getWebSite());
                 }
-                sc.setCandidato(usr);
-                sc.setSolicitudCandidato(sr);
+                
+                if (sc != null) {
+                    sc.setCandidato(usr);
+                    sc.setSolicitudCandidato(sr);
+                }
                 if (!sr.hasCandidato(usr)) sr.addCandidato(usr);
             }
         }
