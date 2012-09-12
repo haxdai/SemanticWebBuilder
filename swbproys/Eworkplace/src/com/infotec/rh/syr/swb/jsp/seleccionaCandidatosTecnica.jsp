@@ -148,8 +148,8 @@ SWBProcessFormMgr fmgr = new SWBProcessFormMgr(foi);
                                 <thead>
                                     <tr>
                                         <th>Nombre del candidato</th>
-                                        <th>Porcentaje de apego psicométrica</th>
-                                        <th>Porcentaje de apego competencias</th>
+                                        <th>Calificaci&oacute;n en psicométrico</th>
+                                        <th>Calificaci&oacute;n competencias</th>
                                         <th>Continua entrevista t&eacute;cnica</th>
                                     </tr>
                                 </thead>
