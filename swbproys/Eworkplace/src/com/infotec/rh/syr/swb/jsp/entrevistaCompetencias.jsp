@@ -164,9 +164,9 @@ if (paramRequest.getCallMethod() == SWBParamRequest.Call_DIRECT) {
                                 </td>
                             </tr>
                             <tr>
-                                <td width="200px" align="right"><label for="title">Porcentaje de apego</label>
+                                <td width="200px" align="right"><label for="title">Calificaci&oacute;n</label>
                                 <td>
-                                    <input type="text" name="apego" required="true" dojoType="dijit.form.ValidationTextBox" value="<%=sc.getPorcentajeCompetencias()%>" />
+                                    <input type="text" name="apego" regexp="\d{1,2}(\.\d{0,2})?" required="true" dojoType="dijit.form.ValidationTextBox" value="<%=sc.getPorcentajeCompetencias()%>" />
                                 </td>
                             </tr>
                             <tr>
