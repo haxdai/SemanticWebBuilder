@@ -165,7 +165,7 @@ if (paramRequest.getCallMethod() == SWBParamRequest.Call_DIRECT) {
                                 </td>
                             </tr>
                             <tr>
-                                <td width="200px" align="right"><label for="title">Porcentaje de apego</label>
+                                <td width="200px" align="right"><label for="title">Calificaci&oacute;n</label>
                                 <td>
                                     <input type="text" name="apego" required="true" dojoType="dijit.form.ValidationTextBox" value="<%=sc.getPorcentajeTecnica()%>" />
                                 </td>
@@ -266,7 +266,7 @@ if (paramRequest.getCallMethod() == SWBParamRequest.Call_DIRECT) {
                                             <th>Nombre del candidato</th>
                                             <th>Fecha / hora de entrevista</th>
                                             <th>Aprob&oacute; entrevista</th>
-                                            <th>Porcentaje de apego</th>
+                                            <th>Calificaci&oacute;n</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
