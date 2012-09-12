@@ -93,6 +93,7 @@ while (it.hasNext()) {
 
 //Manejo de peticiones directas
 if (paramRequest.getCallMethod() == SWBParamRequest.Call_DIRECT) {
+    response.setContentType("text/html; charset=UTF-8");
     String act = paramRequest.getAction();
     String ret = "";
     
