@@ -1,12 +1,16 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class VacacionesBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Solicitable
+public abstract class VacacionesBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Solicitable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaInicioVacaciones=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaInicioVacaciones");
     public static final org.semanticwb.platform.SemanticProperty intranet_periodo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#periodo");
     public static final org.semanticwb.platform.SemanticProperty intranet_nombreTitular=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nombreTitular");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaRegreso=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaRegreso");
+   /**
+   * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
+   */
+    public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
     public static final org.semanticwb.platform.SemanticProperty intranet_nombreJefe=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nombreJefe");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaFinVacaciones=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaFinVacaciones");
     public static final org.semanticwb.platform.SemanticClass intranet_Vacaciones=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Vacaciones");
@@ -99,6 +103,29 @@ public abstract class VacacionesBase extends org.semanticwb.model.SWBClass imple
         public static java.util.Iterator<com.infotec.eworkplace.swb.Vacaciones> listVacacionesBySolicitante(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Vacaciones> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_solicitante,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.Vacaciones with a determined NombreJefe
+       * @param value NombreJefe of the type org.semanticwb.model.User
+       * @param model Model of the com.infotec.eworkplace.swb.Vacaciones
+       * @return Iterator with all the com.infotec.eworkplace.swb.Vacaciones
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Vacaciones> listVacacionesByNombreJefe(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Vacaciones> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_nombreJefe, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.Vacaciones with a determined NombreJefe
+       * @param value NombreJefe of the type org.semanticwb.model.User
+       * @return Iterator with all the com.infotec.eworkplace.swb.Vacaciones
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.Vacaciones> listVacacionesByNombreJefe(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Vacaciones> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_nombreJefe,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -228,6 +255,39 @@ public abstract class VacacionesBase extends org.semanticwb.model.SWBClass imple
     }
 
 /**
+* Gets the Description property
+* @return String with the Description
+*/
+    public String getDescription()
+    {
+        return getSemanticObject().getProperty(swb_description);
+    }
+
+/**
+* Sets the Description property
+* @param value long with the Description
+*/
+    public void setDescription(String value)
+    {
+        getSemanticObject().setProperty(swb_description, value);
+    }
+
+    public String getDescription(String lang)
+    {
+        return getSemanticObject().getProperty(swb_description, null, lang);
+    }
+
+    public String getDisplayDescription(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_description, lang);
+    }
+
+    public void setDescription(String description, String lang)
+    {
+        getSemanticObject().setProperty(swb_description, description, lang);
+    }
+
+/**
 * Gets the Periodo property
 * @return int with the Periodo
 */
@@ -334,23 +394,76 @@ public abstract class VacacionesBase extends org.semanticwb.model.SWBClass imple
     {
         getSemanticObject().setProperty(intranet_folio, value);
     }
+   /**
+   * Sets the value for the property NombreJefe
+   * @param value NombreJefe to set
+   */
 
-/**
-* Gets the NombreJefe property
-* @return String with the NombreJefe
-*/
-    public String getNombreJefe()
+    public void setNombreJefe(org.semanticwb.model.User value)
     {
-        return getSemanticObject().getProperty(intranet_nombreJefe);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_nombreJefe, value.getSemanticObject());
+        }else
+        {
+            removeNombreJefe();
+        }
+    }
+   /**
+   * Remove the value for NombreJefe property
+   */
+
+    public void removeNombreJefe()
+    {
+        getSemanticObject().removeProperty(intranet_nombreJefe);
+    }
+
+   /**
+   * Gets the NombreJefe
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getNombreJefe()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_nombreJefe);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
-* Sets the NombreJefe property
-* @param value long with the NombreJefe
+* Gets the Title property
+* @return String with the Title
 */
-    public void setNombreJefe(String value)
+    public String getTitle()
     {
-        getSemanticObject().setProperty(intranet_nombreJefe, value);
+        return getSemanticObject().getProperty(swb_title);
+    }
+
+/**
+* Sets the Title property
+* @param value long with the Title
+*/
+    public void setTitle(String value)
+    {
+        getSemanticObject().setProperty(swb_title, value);
+    }
+
+    public String getTitle(String lang)
+    {
+        return getSemanticObject().getProperty(swb_title, null, lang);
+    }
+
+    public String getDisplayTitle(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_title, lang);
+    }
+
+    public void setTitle(String title, String lang)
+    {
+        getSemanticObject().setProperty(swb_title, title, lang);
     }
 
 /**
