@@ -1,6 +1,6 @@
 package com.infotec.eworkplace.swb.base;
 
-public interface SolicitableBase extends org.semanticwb.model.GenericObject
+public interface SolicitableBase extends org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_numeroEmpleado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#numeroEmpleado");
    /**
