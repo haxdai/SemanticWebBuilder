@@ -1,7 +1,7 @@
 package com.infotec.rh.syr.swb.base;
 
 
-public abstract class SeguimientoCandidatoBase extends com.infotec.eworkplace.swb.Seguimiento implements org.semanticwb.model.Traceable
+public abstract class SeguimientoCandidatoBase extends com.infotec.eworkplace.swb.Seguimiento implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
    /**
    * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
