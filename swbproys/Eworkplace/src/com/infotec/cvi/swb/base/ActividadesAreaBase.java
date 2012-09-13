@@ -4,7 +4,7 @@ package com.infotec.cvi.swb.base;
    /**
    * Adminsitra las actividades para CCO; DCP, ACD de RH 
    */
-public abstract class ActividadesAreaBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Solicitable,org.semanticwb.model.Traceable
+public abstract class ActividadesAreaBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Solicitable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
    /**
    * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
@@ -442,6 +442,24 @@ public abstract class ActividadesAreaBase extends org.semanticwb.model.SWBClass 
     }
 
 /**
+* Gets the Updated property
+* @return java.util.Date with the Updated
+*/
+    public java.util.Date getUpdated()
+    {
+        return getSemanticObject().getDateProperty(swb_updated);
+    }
+
+/**
+* Sets the Updated property
+* @param value long with the Updated
+*/
+    public void setUpdated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_updated, value);
+    }
+
+/**
 * Gets the Created property
 * @return java.util.Date with the Created
 */
@@ -460,21 +478,36 @@ public abstract class ActividadesAreaBase extends org.semanticwb.model.SWBClass 
     }
 
 /**
-* Gets the Updated property
-* @return java.util.Date with the Updated
+* Gets the Description property
+* @return String with the Description
 */
-    public java.util.Date getUpdated()
+    public String getDescription()
     {
-        return getSemanticObject().getDateProperty(swb_updated);
+        return getSemanticObject().getProperty(swb_description);
     }
 
 /**
-* Sets the Updated property
-* @param value long with the Updated
+* Sets the Description property
+* @param value long with the Description
 */
-    public void setUpdated(java.util.Date value)
+    public void setDescription(String value)
     {
-        getSemanticObject().setDateProperty(swb_updated, value);
+        getSemanticObject().setProperty(swb_description, value);
+    }
+
+    public String getDescription(String lang)
+    {
+        return getSemanticObject().getProperty(swb_description, null, lang);
+    }
+
+    public String getDisplayDescription(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_description, lang);
+    }
+
+    public void setDescription(String description, String lang)
+    {
+        getSemanticObject().setProperty(swb_description, description, lang);
     }
 
 /**
@@ -751,6 +784,39 @@ public abstract class ActividadesAreaBase extends org.semanticwb.model.SWBClass 
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the Title property
+* @return String with the Title
+*/
+    public String getTitle()
+    {
+        return getSemanticObject().getProperty(swb_title);
+    }
+
+/**
+* Sets the Title property
+* @param value long with the Title
+*/
+    public void setTitle(String value)
+    {
+        getSemanticObject().setProperty(swb_title, value);
+    }
+
+    public String getTitle(String lang)
+    {
+        return getSemanticObject().getProperty(swb_title, null, lang);
+    }
+
+    public String getDisplayTitle(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_title, lang);
+    }
+
+    public void setTitle(String title, String lang)
+    {
+        getSemanticObject().setProperty(swb_title, title, lang);
     }
 
 /**
