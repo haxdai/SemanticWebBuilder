@@ -1103,12 +1103,12 @@ Author     : juan.fernandez y rene.jara
                         <td>
                             <% if (usrlevel >= 2) {
                             %>
-                            <span class="icv-compartir"><a href="#" title="copiar referencia al estante" onclick="if(confirm('¿Deseas copiarlo a tú estante?')){window.location='<%=urlshare%>';} else return false;">C&nbsp;</a></span>
-                            <span class="icv-editar"><a href="#" onclick="window.location='<%=urledit%>';">E&nbsp;</a></span>
+                            <span class="icv-compartir"><a href="#" title="Copiar referencia al estante" onclick="if(confirm('¿Deseas copiarlo a tú estante?')){window.location='<%=urlshare%>';} else return false;">C&nbsp;</a></span>
+                            <span class="icv-editar"><a href="#" title="Editar" onclick="window.location='<%=urledit%>';">E&nbsp;</a></span>
                             <%
                                 if (usrlevel == 4 || usr.equals(tile.getCreator())) {
                             %>
-                            <span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';} else return false;">B&nbsp;</a></span>
+                            <span class="icv-borrar"><a href="#" title="Borrar" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';} else return false;">B&nbsp;</a></span>
                             <%  } else {
                                         out.println("<span class=\"icv-vacio\"></span>");
                                     }
@@ -1382,6 +1382,8 @@ Author     : juan.fernandez y rene.jara
                         frmgr.addProperty(Document.conorg_documentPublisher);
                         frmgr.addProperty(Document.conorg_documentURL);
                         frmgr.addProperty(Document.conorg_documentYear);
+                        frmgr.addProperty(Document.conorg_hasAuthor);
+                        frmgr.addProperty(Document.conorg_hasEditors);
 
                     }
 
