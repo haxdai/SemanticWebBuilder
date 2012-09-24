@@ -469,6 +469,8 @@ Document   : view Shelf Recurso Shelf
                         if (request.getParameter("wsid") != null) {
                             urlshare.setParameter("wsid", request.getParameter("wsid"));
                         }
+                        
+                        // revisar para ver el elemento desde aquí
                 %>
                 <tr>
 
@@ -765,7 +767,8 @@ Document   : view Shelf Recurso Shelf
                     frmgr.addProperty(Document.conorg_documentPublisher);
                     frmgr.addProperty(Document.conorg_documentURL);
                     frmgr.addProperty(Document.conorg_documentYear);
-                   
+                    frmgr.addProperty(Document.conorg_hasAuthor);
+                    frmgr.addProperty(Document.conorg_hasEditors);
                 }
                 
                 if(go instanceof Contact){
