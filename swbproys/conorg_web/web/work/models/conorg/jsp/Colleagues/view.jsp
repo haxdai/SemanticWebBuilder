@@ -77,16 +77,16 @@
             %>
         <tr>
       <td class="dir-foto"><%=usrCo.getFullName()%></td>
-      <td><span class="icv-mail"><a href="<%=usrCo.getEmail()!=null?"mailto:"+usrCo.getEmail():""%>"><%=usrCo.getEmail()!=null?usrCo.getEmail():""%></a></span></td>
+      <td><span class="icv-mail"><a href="<%=usrCo.getEmail()!=null?"mailto:"+usrCo.getEmail():""%>" title="Enviar correo" ><%=usrCo.getEmail()!=null?usrCo.getEmail():""%></a></span></td>
       <td><span class="icv-mensaje">
       <%if(null==wpavisos){%>
       &nbsp;
       <% } else {%>
-      <a href="<%=urlaviso%>&usrid=<%=usrCo.getId()%>">msg</a>
+      <a href="<%=urlaviso%>&usrid=<%=usrCo.getId()%>" title="Dejar aviso" >msg</a>
       <% } %>
       </span>
       </td>
-      <td><span class="icv-borrar"><a onclick_="" title="borrar" href="<%=remUrl%>?idco=<%=usrCo.getId()%>">Borrar</a></span></td>
+      <td><span class="icv-borrar"><a onclick_="" title="Borrar" href="<%=remUrl%>?idco=<%=usrCo.getId()%>">Borrar</a></span></td>
       </tr>
         <%
          }

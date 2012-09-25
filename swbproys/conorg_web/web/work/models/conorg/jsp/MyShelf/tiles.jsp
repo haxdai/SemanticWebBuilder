@@ -129,8 +129,8 @@
             %>
             <tr>
                 <td>
-                    <span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">B&nbsp;</a></span>
-                    <span class="icv-editar"><a href="#" onclick="window.location='<%=urledit%>';">E&nbsp;</a></span></td>
+                    <span class="icv-borrar"><a href="#" title="Borrar" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">B&nbsp;</a></span>
+                    <span class="icv-editar"><a href="#" title="Editar" onclick="window.location='<%=urledit%>';">E&nbsp;</a></span></td>
                 <td><%=strTitle%></td>
                 <td><%=strDate%></td>
                 <td><%=strType%></td>
@@ -273,7 +273,7 @@
     </script>
     <h3><%=wptitle%></h3>
     <form  id="form1sc" name="form1ct" method="post" dojoType="dijit.form.Form" action="<%=urladd%>">
-        <label for="">Tipo de elemento tile(azulejo) a añadir:</label>
+        <label for="">Tipo de elemento Azulejo a añadir:</label>
         <select name="sclass" onchange="loadForm('<%=ajaxUrl%>&classid='+this.value)" >
             <option value="-1">Selecciona....</option>
             <optgroup title="Documento" label="Documento">

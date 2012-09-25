@@ -145,7 +145,7 @@ Author     : juan.fernandez y rene.jara
 
 <div id="conorg-add">
     <form dojoType="dijit.form.Form" action="<%=urladd%>" method="post"> 
-        <button dojoType="dijit.form.Button" type="submit" name="addButton" >Añadir workspace</button>
+        <button dojoType="dijit.form.Button" type="submit" name="addButton" >Añadir Espacio de trabajo</button>
     </form>
 </div>
 <%
@@ -209,7 +209,7 @@ Author     : juan.fernandez y rene.jara
         itperws = WorkSpace.ClassMgr.listWorkSpaces(wsite);
 %>
 <div>
-    <p class="ws-mios">Mis workspaces</p>
+    <p class="ws-mios">Mis Espacios de trabajo</p>
     <%
         int ps = numPages;
         long l = 0;// = intSize;
@@ -259,6 +259,11 @@ Author     : juan.fernandez y rene.jara
                     </li>
                     <%
                             } else {
+%>
+                    <li>
+                        <a href="<%=wpwscontent.getUrl()%>?wsid=<%=workSpace.getId()%>">Ver más</a>
+                    </li>
+<%
                                 break;
                             }
                         }
@@ -280,6 +285,11 @@ Author     : juan.fernandez y rene.jara
                     </li>
                     <%
                             } else {
+%>
+                    <li>
+                        <a href="<%=wpwscontent.getUrl()%>?wsid=<%=workSpace.getId()%>">Ver más</a>
+                    </li>
+<%                                
                                 break;
                             }
                         }
@@ -387,7 +397,7 @@ Author     : juan.fernandez y rene.jara
         itpubws = WorkSpace.ClassMgr.listWorkSpaces(wsite);
     %>
 <div >
-    <p class="ws-otros">Otros workspaces</p>
+    <p class="ws-otros">Otros Espacios de trabajo</p>
     <%
         //ps = numPages;
         l = 0;// = intSize;
@@ -792,7 +802,7 @@ Author     : juan.fernandez y rene.jara
                                 <% }%>
                             </span>
                             <span class="icv-borrar">
-                                <a href="#" onclick="if(confirm('¿Deseas eliminar este participante?')){window.location='<%=urldel%>';}">B&nbsp;</a>
+                                <a href="#" title="Borrar" onclick="if(confirm('¿Deseas eliminar este participante?')){window.location='<%=urldel%>';}">B&nbsp;</a>
                             </span>
                         </td>
                     </tr>
@@ -943,7 +953,7 @@ Author     : juan.fernandez y rene.jara
                     }
                 %> 
 
-                <label for="">Tipo de elemento tile(azulejo) a añadir:</label>
+                <label for="">Tipo de elemento Azulejo a añadir:</label>
                 <select name="classid" _onchange="loadForm('<%//=ajaxUrl%>&classid='+this.value)" >
                     <option value="-1">Selecciona....</option>
                     <optgroup title="Documento" label="Documento">
@@ -1096,20 +1106,31 @@ Author     : juan.fernandez y rene.jara
 
                     <tr>
 
+                            <% if (usrlevel >= 2) {
+                            %>
+                        <td class="<%=MyShelf.getClassIconTile(tile)%>" onclick="window.location='<%=urledit%>';"><%=strTitle%></td>
+                        <td onclick="window.location='<%=urledit%>';"><%=strDate%></td>
+                        <td onclick="window.location='<%=urledit%>';"><%=strType%></td>
+                        <td onclick="window.location='<%=urledit%>';"><%=strTopic%></td>
+                            <% }else{
+                            %>
                         <td class="<%=MyShelf.getClassIconTile(tile)%>"><%=strTitle%></td>
                         <td><%=strDate%></td>
                         <td><%=strType%></td>
                         <td><%=strTopic%></td>
+                            <% }
+                            %>
                         <td>
                             <% if (usrlevel >= 2) {
                             %>
                             <span class="icv-compartir"><a href="#" title="Copiar referencia al estante" onclick="if(confirm('¿Deseas copiarlo a tú estante?')){window.location='<%=urlshare%>';} else return false;">C&nbsp;</a></span>
                             <span class="icv-editar"><a href="#" title="Editar" onclick="window.location='<%=urledit%>';">E&nbsp;</a></span>
                             <%
-                                if (usrlevel == 4 || usr.equals(tile.getCreator())) {
+                                    if (usrlevel == 4 || usr.equals(tile.getCreator())) {
                             %>
                             <span class="icv-borrar"><a href="#" title="Borrar" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';} else return false;">B&nbsp;</a></span>
-                            <%  } else {
+                            <%
+                                    } else {
                                         out.println("<span class=\"icv-vacio\"></span>");
                                     }
 
@@ -1263,7 +1284,7 @@ Author     : juan.fernandez y rene.jara
             </script>
             <!-- h3>< % =wptitle%></h3 -->
             <form  dojoType="dijit.form.Form" id="form1sc" name="form1sc" method="post" dojoType="dijit.form.Form" action="<%=urladd%>">
-                <label for="">Tipo de elemento tile(azulejo) a añadir:</label>
+                <label for="">Tipo de elemento Azulejo a añadir:</label>
                 <select name="sclass" onchange="loadForm('<%=ajaxUrl%>&classid='+this.value)" >
                     <option value="-1">Selecciona....</option>
                     <optgroup title="Documento" label="Documento">
@@ -1589,7 +1610,7 @@ Author     : juan.fernandez y rene.jara
                     }
                 %>
                 <input type="hidden" name="suri" value="<%=tile.getURI()%>"/>
-                <label for="">Tile(azulejo) del workspace a añadir:</label>
+                <label for="">Azulejo del Espacio de trabajo a añadir:</label>
                 <select name="tiid">
                     <option value="-1">Selecciona....</option>
                     <%
@@ -1662,26 +1683,36 @@ Author     : juan.fernandez y rene.jara
                                     }
                                 }
                             }
+                            urlshare.setParameter("id", ltile.getId());
+                            urlshare.setParameter("suri", ltile.getURI());
+                            urledit.setParameter("id", ltile.getId());
+                            urledit.setParameter("suri", ltile.getURI());
                     %>
                     <tr>
+                            <% if (usrlevel >= 2) {
+                            %>
+                        <td class="<%=MyShelf.getClassIconTile(ltile)%>" onclick="window.location='<%=urledit%>';"><%=strTitle%></td>
+                        <td onclick="window.location='<%=urledit%>';"><%=strDate%></td>
+                        <td onclick="window.location='<%=urledit%>';"><%=strType%></td>
+                        <td onclick="window.location='<%=urledit%>';"><%=strTopic%></td>
+                            <% }else {
+                            %>
                         <td class="<%=MyShelf.getClassIconTile(ltile)%>"><%=strTitle%></td>
                         <td><%=strDate%></td>
                         <td><%=strType%></td>
                         <td><%=strTopic%></td>
+                            <% }
+                            %>
                         <td>
                             <% if (usrlevel >= 2) {
-                                    urlshare.setParameter("id", ltile.getId());
-                                    urlshare.setParameter("suri", ltile.getURI());
-                                    urledit.setParameter("id", ltile.getId());
-                                    urledit.setParameter("suri", ltile.getURI());
                             %>
                             <span class="icv-compartir"><a href="#" title="copiar referencia al estante" onclick="if(confirm('¿Deseas copiarlo a tú estante?')){window.location='<%=urlshare%>';} else return false;">C&nbsp;</a></span>
-                            <span class="icv-editar"><a href="#" onclick="window.location='<%=urledit%>';">E&nbsp;</a></span>
+                            <span class="icv-editar"><a href="#" title="Editar" onclick="window.location='<%=urledit%>';">E&nbsp;</a></span>
                             <%
                                 if (usrlevel == 4 || usr.equals(tile.getCreator())) {
                                     urlrem.setParameter("tiid", ltile.getURI());
                             %>
-                            <span class="icv-borrar"><a href="#" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urlrem%>';} else return false;">B&nbsp;</a></span>
+                            <span class="icv-borrar"><a href="#" title="Borrar" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urlrem%>';} else return false;">B&nbsp;</a></span>
                             <%  } else {
                                         out.println("<span class=\"icv-vacio\"></span>");
                                     }

@@ -322,7 +322,7 @@ Document   : view Shelf Recurso Shelf
             -->
         </script>
         <form  id="form1sc" name="form1ct" method="post" dojoType="dijit.form.Form" action="<%=urladd%>">
-            <label for="">Tipo de elemento tile(azulejo) a añadir:</label>
+            <label for="">Tipo de elemento Azulejo a añadir:</label>
             <select name="classid" _onchange="loadForm('<%//=ajaxUrl%>&classid='+this.value)" >
                 <option value="-1">Selecciona....</option>
                 <optgroup title="Documento" label="Documento">
@@ -474,15 +474,15 @@ Document   : view Shelf Recurso Shelf
                 %>
                 <tr>
 
-                    <td class="<%=MyShelf.getClassIconTile(tile)%>"><%=strTitle%></td>
-                    <td><%=strDate%></td>
-                    <td><%=strType%></td>
-                    <td><%=strTopic%></td>
+                    <td class="<%=MyShelf.getClassIconTile(tile)%>" onclick="window.location='<%=urledit%>';"><%=strTitle%></td>
+                    <td onclick="window.location='<%=urledit%>';"><%=strDate%></td>
+                    <td onclick="window.location='<%=urledit%>';"><%=strType%></td>
+                    <td onclick="window.location='<%=urledit%>';"><%=strTopic%></td>
                     <td>
                         <%
                         if(tile.getCreator().equals(usr)){
                         %>
-                        <span class="icv-compartir"><a href="#" title="compartir" onclick="window.location='<%=urlshare%>';">C&nbsp;</a></span>
+                        <span class="icv-compartir"><a href="#" title="Compartir" onclick="window.location='<%=urlshare%>';">C&nbsp;</a></span>
                         <%
                          } else {
                         %>
@@ -490,8 +490,8 @@ Document   : view Shelf Recurso Shelf
                         <%
                          }
                         %>
-                        <span class="icv-editar"><a href="#" title="editar" onclick="window.location='<%=urledit%>';">E&nbsp;</a></span>
-                        <span class="icv-borrar"><a href="#" title="borrar" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">B&nbsp;</a></span>
+                        <span class="icv-editar"><a href="#" title="Editar" onclick="window.location='<%=urledit%>';">E&nbsp;</a></span>
+                        <span class="icv-borrar"><a href="#" title="Borrar" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">B&nbsp;</a></span>
                     </td>
                 </tr>
                 <%
@@ -627,7 +627,7 @@ Document   : view Shelf Recurso Shelf
             -->
         </script>
         <form  id="form1sc" name="form1ct" method="post" dojoType="dijit.form.Form" action="<%=urladd%>">
-            <label for="">Tipo de elemento tile(azulejo) a añadir:</label>
+            <label for="">Tipo de elemento Azulejo a añadir:</label>
             <select name="sclass" onchange="loadForm('<%=ajaxUrl%>&classid='+this.value)" >
                 <option value="-1">Selecciona....</option>
                 <optgroup title="Documento" label="Documento">
@@ -1154,7 +1154,7 @@ Document   : view Shelf Recurso Shelf
             <input type="hidden" name="suri" value="<%=tile.getURI()%>"/>
             <input type="hidden" name="msid" value=""/>
 
-            <label for="">Tile(azulejo) del estante a añadir:</label>
+            <label for="">Azulejo del estante a añadir:</label>
             <select name="tiid">
                 <option value="-1">Selecciona....</option>
                 <%
@@ -1231,15 +1231,15 @@ Document   : view Shelf Recurso Shelf
                         urlrem.setParameter("tiid", ltile.getURI());
                 %>
                 <tr>
-                    <td class="<%=MyShelf.getClassIconTile(ltile)%>"><%=strTitle%></td>
-                    <td><%=strDate%></td>
-                    <td><%=strType%></td>
-                    <td><%=strTopic%></td>
+                    <td class="<%=MyShelf.getClassIconTile(ltile)%>" onclick="window.location='<%=urledit%>';"><%=strTitle%></td>
+                    <td onclick="window.location='<%=urledit%>';"><%=strDate%></td>
+                    <td onclick="window.location='<%=urledit%>';"><%=strType%></td>
+                    <td onclick="window.location='<%=urledit%>';"><%=strTopic%></td>
                     <td>
                         <%
                         if(tile.getCreator().equals(usr)){
                         %>
-                        <span class="icv-compartir"><a href="#" title="compartir" onclick="window.location='<%=urlshare%>';">C&nbsp;</a></span>
+                        <span class="icv-compartir"><a href="#" title="Compartir" onclick="window.location='<%=urlshare%>';">C&nbsp;</a></span>
                         <%
                          } else {
                         %>
@@ -1247,8 +1247,8 @@ Document   : view Shelf Recurso Shelf
                         <%
                          }
                         %>
-                        <span class="icv-editar"><a href="#" title="editar" onclick="window.location='<%=urledit%>';">E&nbsp;</a></span>
-                        <span class="icv-borrar"><a href="#" title="borrar" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urlrem%>';}">B&nbsp;</a></span>
+                        <span class="icv-editar"><a href="#" title="Editar" onclick="window.location='<%=urledit%>';">E&nbsp;</a></span>
+                        <span class="icv-borrar"><a href="#" title="Borrar" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urlrem%>';}">B&nbsp;</a></span>
                     </td>
                 </tr>
                 <%

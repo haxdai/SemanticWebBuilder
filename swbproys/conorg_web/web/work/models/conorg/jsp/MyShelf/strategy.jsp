@@ -20,7 +20,7 @@ Author     : rene.jara
             alwsp = new ArrayList();
             itperws = WorkSpace.ClassMgr.listWorkSpaces(wsite);
 %>
-<div style="float: left">
+<!--div style="float: left"-->
     <ul>
         <%
             int count = 0;
@@ -30,9 +30,9 @@ Author     : rene.jara
                 count++;
                 if (count <= numele) {
         %>
-        <li>
-            <div><a href="<%=wpwscontent.getUrl()%>?wsid=<%=workSpace.getId()%>"><%=workSpace.getTitle()%></a></div>
-            <div>Descripción:<%=workSpace.getDescription()%></div>
+        <li class="wssi">
+            <a href="<%=wpwscontent.getUrl()%>?wsid=<%=workSpace.getId()%>"><%=workSpace.getTitle()%></a><br/>
+            Descripción:<%=workSpace.getDescription()%>
         </li>
         <%
                 } else {
@@ -41,11 +41,12 @@ Author     : rene.jara
             }
         %>
     </ul>
-</div>
+<!--/div-->
+<div class="tab-work-div">&nbsp;</div>
 <%
             itpubws = WorkSpace.ClassMgr.listWorkSpaces(wsite);
 %>
-<div style="float: left">
+<!--div style="float: left"-->
     <ul>
         <%
             count = 0;
@@ -55,9 +56,11 @@ Author     : rene.jara
                     count++;
                     if (count <= numele) {
         %>
-        <li>
-            <div><a href="<%=wpwscontent.getUrl()%>?wsid=<%=workSpace.getId()%>"><%=workSpace.getTitle()%></a></div>
-            <div>Descripción:<%=workSpace.getDescription()%></div>
+        <li class="wsno">
+            <!--div><a href="<%=wpwscontent.getUrl()%>?wsid=<%=workSpace.getId()%>"-->
+            <span><%=workSpace.getTitle()%></span><br/>
+            <!--/a></div-->
+            Descripción:<%=workSpace.getDescription()%>
         </li>
         <%
                     } else {
@@ -67,4 +70,4 @@ Author     : rene.jara
             }
         %>
     </ul>
-</div>
+<!--/div-->
