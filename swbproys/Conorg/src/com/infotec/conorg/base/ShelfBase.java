@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class ShelfBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable,com.infotec.conorg.Tileable
+public abstract class ShelfBase extends org.semanticwb.model.SWBClass implements com.infotec.conorg.Tileable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
    /**
    * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.

@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class ReportBase extends com.infotec.conorg.Document implements org.semanticwb.model.Calendarable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable,com.infotec.conorg.Topicable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Versionable
+public abstract class ReportBase extends com.infotec.conorg.Document implements org.semanticwb.model.Calendarable,org.semanticwb.model.Traceable,com.infotec.conorg.Topicable,org.semanticwb.model.Versionable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable
 {
     public static final org.semanticwb.platform.SemanticProperty conorg_reportVersion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#reportVersion");
     public static final org.semanticwb.platform.SemanticClass conorg_Report=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#Report");
@@ -146,52 +146,6 @@ public abstract class ReportBase extends com.infotec.conorg.Document implements 
         public static java.util.Iterator<com.infotec.conorg.Report> listReportByActualVersion(org.semanticwb.model.VersionInfo value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.conorg.Report> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_actualVersion,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.conorg.Report with a determined Editors
-       * @param value Editors of the type com.infotec.conorg.Editors
-       * @param model Model of the com.infotec.conorg.Report
-       * @return Iterator with all the com.infotec.conorg.Report
-       */
-
-        public static java.util.Iterator<com.infotec.conorg.Report> listReportByEditors(com.infotec.conorg.Editors value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.conorg.Report> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(conorg_hasEditors, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.conorg.Report with a determined Editors
-       * @param value Editors of the type com.infotec.conorg.Editors
-       * @return Iterator with all the com.infotec.conorg.Report
-       */
-
-        public static java.util.Iterator<com.infotec.conorg.Report> listReportByEditors(com.infotec.conorg.Editors value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.conorg.Report> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(conorg_hasEditors,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.conorg.Report with a determined Author
-       * @param value Author of the type com.infotec.conorg.Author
-       * @param model Model of the com.infotec.conorg.Report
-       * @return Iterator with all the com.infotec.conorg.Report
-       */
-
-        public static java.util.Iterator<com.infotec.conorg.Report> listReportByAuthor(com.infotec.conorg.Author value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.conorg.Report> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(conorg_hasAuthor, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.conorg.Report with a determined Author
-       * @param value Author of the type com.infotec.conorg.Author
-       * @return Iterator with all the com.infotec.conorg.Report
-       */
-
-        public static java.util.Iterator<com.infotec.conorg.Report> listReportByAuthor(com.infotec.conorg.Author value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.conorg.Report> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(conorg_hasAuthor,value.getSemanticObject(),sclass));
             return it;
         }
        /**
