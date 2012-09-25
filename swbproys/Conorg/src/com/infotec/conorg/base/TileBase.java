@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class TileBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Calendarable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable,com.infotec.conorg.Topicable,org.semanticwb.model.Descriptiveable
+public abstract class TileBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Calendarable,org.semanticwb.model.Traceable,com.infotec.conorg.Topicable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable
 {
     public static final org.semanticwb.platform.SemanticClass conorg_Tile=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#Tile");
    /**

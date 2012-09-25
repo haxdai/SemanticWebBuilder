@@ -783,7 +783,7 @@ public class MyShelf extends GenericAdmResource {
         doc.setActualVersion(v);
         doc.setLastVersion(v);
 
-        File file = new File(SWBPortal.getWorkPath() + doc.getWorkPath() + "/" + ver);
+        java.io.File file = new java.io.File(SWBPortal.getWorkPath() + doc.getWorkPath() + "/" + ver);
         file.mkdirs();
         return new FileOutputStream(SWBPortal.getWorkPath() + doc.getWorkPath() + "/" + ver + "/" + name);
     }

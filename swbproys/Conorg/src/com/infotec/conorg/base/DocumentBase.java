@@ -1,19 +1,17 @@
 package com.infotec.conorg.base;
 
 
-public abstract class DocumentBase extends com.infotec.conorg.Tile implements org.semanticwb.model.Calendarable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable,com.infotec.conorg.Topicable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Versionable
+public abstract class DocumentBase extends com.infotec.conorg.Tile implements org.semanticwb.model.Calendarable,org.semanticwb.model.Traceable,com.infotec.conorg.Topicable,org.semanticwb.model.Versionable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable
 {
+    public static final org.semanticwb.platform.SemanticProperty conorg_editors=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#editors");
     public static final org.semanticwb.platform.SemanticProperty conorg_documentPages=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#documentPages");
     public static final org.semanticwb.platform.SemanticProperty conorg_documentCity=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#documentCity");
     public static final org.semanticwb.platform.SemanticProperty conorg_documentAbstract=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#documentAbstract");
     public static final org.semanticwb.platform.SemanticProperty conorg_documentYear=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#documentYear");
-    public static final org.semanticwb.platform.SemanticClass conorg_Editors=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#Editors");
-    public static final org.semanticwb.platform.SemanticProperty conorg_hasEditors=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#hasEditors");
     public static final org.semanticwb.platform.SemanticProperty conorg_documentCountry=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#documentCountry");
     public static final org.semanticwb.platform.SemanticProperty conorg_documentPublisher=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#documentPublisher");
     public static final org.semanticwb.platform.SemanticProperty conorg_documentURL=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#documentURL");
-    public static final org.semanticwb.platform.SemanticClass conorg_Author=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#Author");
-    public static final org.semanticwb.platform.SemanticProperty conorg_hasAuthor=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#hasAuthor");
+    public static final org.semanticwb.platform.SemanticProperty conorg_author=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#author");
     public static final org.semanticwb.platform.SemanticProperty conorg_documentEdition=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#documentEdition");
     public static final org.semanticwb.platform.SemanticProperty conorg_documentFormat=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#documentFormat");
     public static final org.semanticwb.platform.SemanticClass conorg_Document=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#Document");
@@ -161,52 +159,6 @@ public abstract class DocumentBase extends com.infotec.conorg.Tile implements or
             return it;
         }
        /**
-       * Gets all com.infotec.conorg.Document with a determined Editors
-       * @param value Editors of the type com.infotec.conorg.Editors
-       * @param model Model of the com.infotec.conorg.Document
-       * @return Iterator with all the com.infotec.conorg.Document
-       */
-
-        public static java.util.Iterator<com.infotec.conorg.Document> listDocumentByEditors(com.infotec.conorg.Editors value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.conorg.Document> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(conorg_hasEditors, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.conorg.Document with a determined Editors
-       * @param value Editors of the type com.infotec.conorg.Editors
-       * @return Iterator with all the com.infotec.conorg.Document
-       */
-
-        public static java.util.Iterator<com.infotec.conorg.Document> listDocumentByEditors(com.infotec.conorg.Editors value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.conorg.Document> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(conorg_hasEditors,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.conorg.Document with a determined Author
-       * @param value Author of the type com.infotec.conorg.Author
-       * @param model Model of the com.infotec.conorg.Document
-       * @return Iterator with all the com.infotec.conorg.Document
-       */
-
-        public static java.util.Iterator<com.infotec.conorg.Document> listDocumentByAuthor(com.infotec.conorg.Author value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.conorg.Document> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(conorg_hasAuthor, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.conorg.Document with a determined Author
-       * @param value Author of the type com.infotec.conorg.Author
-       * @return Iterator with all the com.infotec.conorg.Document
-       */
-
-        public static java.util.Iterator<com.infotec.conorg.Document> listDocumentByAuthor(com.infotec.conorg.Author value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.conorg.Document> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(conorg_hasAuthor,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all com.infotec.conorg.Document with a determined Calendar
        * @param value Calendar of the type org.semanticwb.model.Calendar
        * @param model Model of the com.infotec.conorg.Document
@@ -284,6 +236,24 @@ public abstract class DocumentBase extends com.infotec.conorg.Tile implements or
     public DocumentBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+/**
+* Gets the Editors property
+* @return String with the Editors
+*/
+    public String getEditors()
+    {
+        return getSemanticObject().getProperty(conorg_editors);
+    }
+
+/**
+* Sets the Editors property
+* @param value long with the Editors
+*/
+    public void setEditors(String value)
+    {
+        getSemanticObject().setProperty(conorg_editors, value);
     }
    /**
    * Sets the value for the property ActualVersion
@@ -395,71 +365,6 @@ public abstract class DocumentBase extends com.infotec.conorg.Tile implements or
     {
         getSemanticObject().setProperty(conorg_documentYear, value);
     }
-   /**
-   * Gets all the com.infotec.conorg.Editors
-   * @return A GenericIterator with all the com.infotec.conorg.Editors
-   */
-
-    public org.semanticwb.model.GenericIterator<com.infotec.conorg.Editors> listEditorses()
-    {
-        return new org.semanticwb.model.GenericIterator<com.infotec.conorg.Editors>(getSemanticObject().listObjectProperties(conorg_hasEditors));
-    }
-
-   /**
-   * Gets true if has a Editors
-   * @param value com.infotec.conorg.Editors to verify
-   * @return true if the com.infotec.conorg.Editors exists, false otherwise
-   */
-    public boolean hasEditors(com.infotec.conorg.Editors value)
-    {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(conorg_hasEditors,value.getSemanticObject());
-        }
-        return ret;
-    }
-   /**
-   * Adds a Editors
-   * @param value com.infotec.conorg.Editors to add
-   */
-
-    public void addEditors(com.infotec.conorg.Editors value)
-    {
-        getSemanticObject().addObjectProperty(conorg_hasEditors, value.getSemanticObject());
-    }
-   /**
-   * Removes all the Editors
-   */
-
-    public void removeAllEditors()
-    {
-        getSemanticObject().removeProperty(conorg_hasEditors);
-    }
-   /**
-   * Removes a Editors
-   * @param value com.infotec.conorg.Editors to remove
-   */
-
-    public void removeEditors(com.infotec.conorg.Editors value)
-    {
-        getSemanticObject().removeObjectProperty(conorg_hasEditors,value.getSemanticObject());
-    }
-
-   /**
-   * Gets the Editors
-   * @return a com.infotec.conorg.Editors
-   */
-    public com.infotec.conorg.Editors getEditors()
-    {
-         com.infotec.conorg.Editors ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(conorg_hasEditors);
-         if(obj!=null)
-         {
-             ret=(com.infotec.conorg.Editors)obj.createGenericInstance();
-         }
-         return ret;
-    }
 
 /**
 * Gets the DocumentCountry property
@@ -514,70 +419,23 @@ public abstract class DocumentBase extends com.infotec.conorg.Tile implements or
     {
         getSemanticObject().setProperty(conorg_documentURL, value);
     }
-   /**
-   * Gets all the com.infotec.conorg.Author
-   * @return A GenericIterator with all the com.infotec.conorg.Author
-   */
 
-    public org.semanticwb.model.GenericIterator<com.infotec.conorg.Author> listAuthors()
+/**
+* Gets the Author property
+* @return String with the Author
+*/
+    public String getAuthor()
     {
-        return new org.semanticwb.model.GenericIterator<com.infotec.conorg.Author>(getSemanticObject().listObjectProperties(conorg_hasAuthor));
+        return getSemanticObject().getProperty(conorg_author);
     }
 
-   /**
-   * Gets true if has a Author
-   * @param value com.infotec.conorg.Author to verify
-   * @return true if the com.infotec.conorg.Author exists, false otherwise
-   */
-    public boolean hasAuthor(com.infotec.conorg.Author value)
+/**
+* Sets the Author property
+* @param value long with the Author
+*/
+    public void setAuthor(String value)
     {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(conorg_hasAuthor,value.getSemanticObject());
-        }
-        return ret;
-    }
-   /**
-   * Adds a Author
-   * @param value com.infotec.conorg.Author to add
-   */
-
-    public void addAuthor(com.infotec.conorg.Author value)
-    {
-        getSemanticObject().addObjectProperty(conorg_hasAuthor, value.getSemanticObject());
-    }
-   /**
-   * Removes all the Author
-   */
-
-    public void removeAllAuthor()
-    {
-        getSemanticObject().removeProperty(conorg_hasAuthor);
-    }
-   /**
-   * Removes a Author
-   * @param value com.infotec.conorg.Author to remove
-   */
-
-    public void removeAuthor(com.infotec.conorg.Author value)
-    {
-        getSemanticObject().removeObjectProperty(conorg_hasAuthor,value.getSemanticObject());
-    }
-
-   /**
-   * Gets the Author
-   * @return a com.infotec.conorg.Author
-   */
-    public com.infotec.conorg.Author getAuthor()
-    {
-         com.infotec.conorg.Author ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(conorg_hasAuthor);
-         if(obj!=null)
-         {
-             ret=(com.infotec.conorg.Author)obj.createGenericInstance();
-         }
-         return ret;
+        getSemanticObject().setProperty(conorg_author, value);
     }
 
 /**

@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class ReferenceBase extends com.infotec.conorg.Document implements org.semanticwb.model.Calendarable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable,com.infotec.conorg.Topicable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Versionable
+public abstract class ReferenceBase extends com.infotec.conorg.Document implements org.semanticwb.model.Calendarable,org.semanticwb.model.Traceable,com.infotec.conorg.Topicable,org.semanticwb.model.Versionable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable
 {
     public static final org.semanticwb.platform.SemanticClass conorg_Reference=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#Reference");
    /**
@@ -145,52 +145,6 @@ public abstract class ReferenceBase extends com.infotec.conorg.Document implemen
         public static java.util.Iterator<com.infotec.conorg.Reference> listReferenceByActualVersion(org.semanticwb.model.VersionInfo value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.conorg.Reference> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_actualVersion,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.conorg.Reference with a determined Editors
-       * @param value Editors of the type com.infotec.conorg.Editors
-       * @param model Model of the com.infotec.conorg.Reference
-       * @return Iterator with all the com.infotec.conorg.Reference
-       */
-
-        public static java.util.Iterator<com.infotec.conorg.Reference> listReferenceByEditors(com.infotec.conorg.Editors value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.conorg.Reference> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(conorg_hasEditors, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.conorg.Reference with a determined Editors
-       * @param value Editors of the type com.infotec.conorg.Editors
-       * @return Iterator with all the com.infotec.conorg.Reference
-       */
-
-        public static java.util.Iterator<com.infotec.conorg.Reference> listReferenceByEditors(com.infotec.conorg.Editors value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.conorg.Reference> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(conorg_hasEditors,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.conorg.Reference with a determined Author
-       * @param value Author of the type com.infotec.conorg.Author
-       * @param model Model of the com.infotec.conorg.Reference
-       * @return Iterator with all the com.infotec.conorg.Reference
-       */
-
-        public static java.util.Iterator<com.infotec.conorg.Reference> listReferenceByAuthor(com.infotec.conorg.Author value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.conorg.Reference> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(conorg_hasAuthor, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.conorg.Reference with a determined Author
-       * @param value Author of the type com.infotec.conorg.Author
-       * @return Iterator with all the com.infotec.conorg.Reference
-       */
-
-        public static java.util.Iterator<com.infotec.conorg.Reference> listReferenceByAuthor(com.infotec.conorg.Author value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.conorg.Reference> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(conorg_hasAuthor,value.getSemanticObject(),sclass));
             return it;
         }
        /**

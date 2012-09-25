@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class AudioBase extends com.infotec.conorg.Document implements org.semanticwb.model.Calendarable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable,com.infotec.conorg.Topicable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Versionable
+public abstract class AudioBase extends com.infotec.conorg.Document implements org.semanticwb.model.Calendarable,org.semanticwb.model.Traceable,com.infotec.conorg.Topicable,org.semanticwb.model.Versionable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable
 {
     public static final org.semanticwb.platform.SemanticClass conorg_Audio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#Audio");
    /**
@@ -145,52 +145,6 @@ public abstract class AudioBase extends com.infotec.conorg.Document implements o
         public static java.util.Iterator<com.infotec.conorg.Audio> listAudioByActualVersion(org.semanticwb.model.VersionInfo value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.conorg.Audio> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_actualVersion,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.conorg.Audio with a determined Editors
-       * @param value Editors of the type com.infotec.conorg.Editors
-       * @param model Model of the com.infotec.conorg.Audio
-       * @return Iterator with all the com.infotec.conorg.Audio
-       */
-
-        public static java.util.Iterator<com.infotec.conorg.Audio> listAudioByEditors(com.infotec.conorg.Editors value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.conorg.Audio> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(conorg_hasEditors, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.conorg.Audio with a determined Editors
-       * @param value Editors of the type com.infotec.conorg.Editors
-       * @return Iterator with all the com.infotec.conorg.Audio
-       */
-
-        public static java.util.Iterator<com.infotec.conorg.Audio> listAudioByEditors(com.infotec.conorg.Editors value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.conorg.Audio> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(conorg_hasEditors,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.conorg.Audio with a determined Author
-       * @param value Author of the type com.infotec.conorg.Author
-       * @param model Model of the com.infotec.conorg.Audio
-       * @return Iterator with all the com.infotec.conorg.Audio
-       */
-
-        public static java.util.Iterator<com.infotec.conorg.Audio> listAudioByAuthor(com.infotec.conorg.Author value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.conorg.Audio> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(conorg_hasAuthor, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.conorg.Audio with a determined Author
-       * @param value Author of the type com.infotec.conorg.Author
-       * @return Iterator with all the com.infotec.conorg.Audio
-       */
-
-        public static java.util.Iterator<com.infotec.conorg.Audio> listAudioByAuthor(com.infotec.conorg.Author value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.conorg.Audio> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(conorg_hasAuthor,value.getSemanticObject(),sclass));
             return it;
         }
        /**
