@@ -30,7 +30,7 @@ Author     : rene.jara
             ArrayList alwsp = new ArrayList();
 %>
 <!--div style="float: left"-->
-<p class="ws-mios">Mis workspaces</p>
+<p class="ws-mios">Mis Espacios de trabajo</p>
     <ul>
         <%
             int count = 0;
@@ -55,15 +55,18 @@ Author     : rene.jara
                 }
             }
         %>
-    <!--/ul>
-</div-->
-     <div class="tab-work-div">&nbsp;</div>
-     <p class="ws-otros">Otros workspaces</p>
+    </ul>
+<!--/div-->
+
+      <p class="vertodos"><a href="<%=wpwscontent.getUrl()%>">Ver todos</a></p>
+     <!--div class="tab-work-div">&nbsp;</div-->
+
+     <p class="ws-otros">Otros Espacios de trabajo</p>
 <%
             Iterator<WorkSpace> itpubws = WorkSpace.ClassMgr.listWorkSpaces(wsite);
 %>
-<!--div style="float: left">
-    <ul-->
+<!--div style="float: left"-->
+    <ul>
         <%
             count = 0;
             while (itpubws.hasNext()) {
@@ -84,4 +87,5 @@ Author     : rene.jara
             }
         %>
     </ul>
+        <p class="vertodos"><a href="<%=wpwscontent.getUrl()%>">Ver todos</a></p>
 <!--/div-->
