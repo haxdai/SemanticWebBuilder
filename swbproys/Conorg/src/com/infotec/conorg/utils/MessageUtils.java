@@ -8,9 +8,16 @@ import com.infotec.conorg.Aviso;
 import com.infotec.conorg.Member;
 import com.infotec.conorg.WorkSpace;
 import com.infotec.conorg.resources.MyShelf;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeSet;
+import javax.mail.internet.InternetAddress;
+import org.semanticwb.Logger;
+import org.semanticwb.SWBPlatform;
+import org.semanticwb.SWBUtils;
+import org.semanticwb.model.Resource;
 import org.semanticwb.model.SWBComparator;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebSite;
@@ -21,6 +28,8 @@ import org.semanticwb.model.WebSite;
  * @author juan.fernandez
  */
 public class MessageUtils {
+
+    public static final Logger log = SWBUtils.getLogger(MessageUtils.class);
 
     /**
      * Envio de aviso a usuario
@@ -107,7 +116,9 @@ public class MessageUtils {
      * @return iterador de avisos de un espacio de trabajo o workspace
      */
     public static Iterator<Aviso> getWorkSpaceMessages(WorkSpace wrkSpc, WebSite wsite) {
-        if(wrkSpc==null) return null;
+        if (wrkSpc == null) {
+            return null;
+        }
         return Aviso.ClassMgr.listAvisoByToWorkSpace(wrkSpc, wsite);
     }
 
@@ -120,12 +131,12 @@ public class MessageUtils {
      */
     public static Iterator<Aviso> getCommunityMessages(WebSite wsite) {
 
-        HashMap<String,Aviso> hmavisos = new HashMap<String,Aviso>();
+        HashMap<String, Aviso> hmavisos = new HashMap<String, Aviso>();
         Iterator<Aviso> itaviso = Aviso.ClassMgr.listAvisos(wsite);
         while (itaviso.hasNext()) {
             Aviso aviso = itaviso.next();
             if (!aviso.listToUsers().hasNext() && aviso.getToUser() == null && aviso.getToWorkSpace() == null) {
-                hmavisos.put(aviso.getId(),aviso);
+                hmavisos.put(aviso.getId(), aviso);
             }
         }
 
@@ -152,48 +163,48 @@ public class MessageUtils {
     public static Iterator<Aviso> getOrderedMessagesByTitle(Iterator<Aviso> ite, String lang) {
         return SWBComparator.sortByDisplayName(ite, lang);
     }
-    
-    public static Iterator<Aviso> getAllUserMessages(User user, WebSite wsite){
-        
-        HashMap<String,Aviso> hmAvisos = new HashMap<String,Aviso>();
+
+    public static Iterator<Aviso> getAllUserMessages(User user, WebSite wsite) {
+
+        HashMap<String, Aviso> hmAvisos = new HashMap<String, Aviso>();
         //System.out.println("===> Community msg");
         Iterator<Aviso> itcomm = getCommunityMessages(wsite);
         while (itcomm.hasNext()) {
             Aviso aviso = itcomm.next();
             //System.out.println("aviso added (community)");
-            hmAvisos.put(aviso.getId(),aviso);
+            hmAvisos.put(aviso.getId(), aviso);
         }
         //System.out.println("===> user msg");
-        Iterator<Aviso> itusr = getUserMessages(user,wsite);
+        Iterator<Aviso> itusr = getUserMessages(user, wsite);
         while (itusr.hasNext()) {
             Aviso aviso = itusr.next();
             //System.out.println("aviso added (user)");
-            hmAvisos.put(aviso.getId(),aviso);
+            hmAvisos.put(aviso.getId(), aviso);
         }
-        
+
         //System.out.println("===> ws msg");
-        Iterator<WorkSpace> itws = getUserWorkSpaces(user,wsite);
+        Iterator<WorkSpace> itws = getUserWorkSpaces(user, wsite);
         while (itws.hasNext()) {
             WorkSpace workSpace = itws.next();
             //System.out.println("revisando ws: "+workSpace.getId());
-            Iterator<Aviso> itaws = getWorkSpaceMessages(workSpace,wsite);
+            Iterator<Aviso> itaws = getWorkSpaceMessages(workSpace, wsite);
             while (itaws.hasNext()) {
                 //System.out.println(" .... revisando avisos del ws");
                 Aviso aviso = itaws.next();
                 //System.out.println("aviso added (ws)");
-                hmAvisos.put(aviso.getId(),aviso);
+                hmAvisos.put(aviso.getId(), aviso);
             }
-            
-        }     
+
+        }
         //System.out.println("fin get all msg <===");
 
-        
+
         return hmAvisos.values().iterator();
     }
-    
+
     // membresias del usuario a los diferentes ws
-    public static Iterator<WorkSpace> getUserWorkSpaces(User usr, WebSite wsite){
-           //System.out.println("revisando miembro con wspcsss");
+    public static Iterator<WorkSpace> getUserWorkSpaces(User usr, WebSite wsite) {
+        //System.out.println("revisando miembro con wspcsss");
         Iterator<Member> itmem = Member.ClassMgr.listMemberByUser(usr, wsite);
         HashMap<WorkSpace, Member> hmmem = new HashMap<WorkSpace, Member>();
         while (itmem.hasNext()) {
@@ -209,8 +220,62 @@ public class MessageUtils {
                         wspace.addMember(wsmember);
                     }
                 }
-            } 
+            }
         }
         return hmmem.keySet().iterator();
+    }
+
+    public static boolean sendWorkSpaceChangesEmail2Suscribers(WorkSpace wspace, String email_admin, String subject, String msg_content) {
+
+        boolean ret = Boolean.FALSE;
+        try {
+            //envia correo electrónico del administrador a los usuarios suscritos al espacio de trabajo.
+            InternetAddress emailAdmin = new InternetAddress();
+            emailAdmin.setAddress(email_admin);
+            ArrayList<InternetAddress> arr = new ArrayList();
+            arr.add(emailAdmin);
+
+            Iterator<User> itusr = wspace.listSubscriberses();
+            ArrayList<InternetAddress> arrBCC = new ArrayList<InternetAddress>();
+            while (itusr.hasNext()) {
+                User user = itusr.next();
+                try {
+                    InternetAddress intAddr = new InternetAddress();
+                    intAddr.setAddress(user.getEmail());
+                    arrBCC.add(intAddr);
+                } catch (Exception e) {
+                    log.error("Error al obtener el correo electrónico del usuario: " + user.getLogin(), e);
+                }
+            }
+
+//                String dataEmail = "<h2>Propuesta nuevo tema - "+wsite.getTitle()+"</h2>"
+//                        + "<table><tr><td><h3>Título del Tema:</h3></td><td><h3>" + temaTitle + "</h3></td></tr>"
+//                        + "<tr><td><h3>Descripción:</h3></td><td><h3>" + temaDescr + "</h3></td></tr>"
+//                        + "<tr><td colspan=\"2\">&nbsp;</td></tr>"
+//                        + "<tr><td colspan=\"2\">&nbsp;</td></tr>"
+//                        + "<tr><td colspan=\"2\">&nbsp;</td></tr>"
+//                        + "<tr><td colspan=\"2\" align=\"center\"><h3>Datos Solicitante:</h3></td></tr>"
+//                        + "<tr><td colspan=\"2\">&nbsp;</td></tr>"
+//                        + "<tr><td>Nombre:</td><td>" + user.getFullName() + "</td></tr>"
+//                        + "<tr><td>Correo electrónico:</td><td><a href=\"mailto:" + user.getEmail() + "\">" + user.getEmail() + "</a></td></tr>"
+//                        + "<tr><td>Fecha Solicitud:</td><td>" + sdf.format(new Date(System.currentTimeMillis())) + "</td></tr>"
+//                        + "<tr><td colspan=\"2\">&nbsp;</td></tr></table>";
+
+            String dataEmail = msg_content;
+
+            String userName ="Administrador del sistema CONORG";
+            String asunto = subject;
+            String tipo = "text/html";
+            String login = SWBPlatform.getEnv("swb/smtpUser");
+            String pass = SWBPlatform.getEnv("swb/smtpPassword");
+
+            SWBUtils.EMAIL.sendBGEmail(email_admin, userName, arr, null, arrBCC, asunto, tipo, dataEmail, login, pass, null);
+            ret = Boolean.TRUE;
+        } catch (Exception e) {
+            log.error("Error al enviar por correo electrónico los cambios del espacio de trabajo a los usuarios suscritos.", e);
+            ret = Boolean.FALSE;
+            
+        }
+        return ret;
     }
 }
