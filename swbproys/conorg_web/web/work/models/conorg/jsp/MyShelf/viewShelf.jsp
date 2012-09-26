@@ -767,8 +767,8 @@ Document   : view Shelf Recurso Shelf
                     frmgr.addProperty(Document.conorg_documentPublisher);
                     frmgr.addProperty(Document.conorg_documentURL);
                     frmgr.addProperty(Document.conorg_documentYear);
-                    frmgr.addProperty(Document.conorg_hasAuthor);
-                    frmgr.addProperty(Document.conorg_hasEditors);
+                    frmgr.addProperty(Document.conorg_author);
+                    frmgr.addProperty(Document.conorg_editors);
                 }
                 
                 if(go instanceof Contact){
