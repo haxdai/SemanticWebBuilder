@@ -330,6 +330,8 @@ public class MyShelf extends GenericAdmResource {
                         frmgr.addProperty(Document.conorg_documentPublisher);
                         frmgr.addProperty(Document.conorg_documentURL);
                         frmgr.addProperty(Document.conorg_documentYear);
+                        frmgr.addProperty(Document.conorg_author);
+                        frmgr.addProperty(Document.conorg_editors);
 
                     }
 
@@ -920,6 +922,8 @@ public class MyShelf extends GenericAdmResource {
             ret = "Reporte";
         } else if (tile instanceof Video) {
             ret = "Video";
+        } else if (tile instanceof com.infotec.conorg.File) {
+            ret = "Archivo";
         } else if (tile instanceof Document) {
             ret = "Documento";
         }
@@ -1012,6 +1016,8 @@ public class MyShelf extends GenericAdmResource {
             ret = "rep";
         } else if (tile instanceof Video) {
             ret = "vid";
+        } else if (tile instanceof com.infotec.conorg.File) {
+            ret = "doc";
         } else if (tile instanceof Document) {
             ret = "doc";
         }
