@@ -9,6 +9,7 @@ import com.infotec.conorg.utils.MessageUtils;
 import java.io.*;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
@@ -157,18 +158,17 @@ public class MyShelf extends GenericAdmResource {
         String suri = request.getParameter("suri");
         String wsid = request.getParameter("wsid");
         String classid = request.getParameter("classid");
-        
-        boolean sendWSadd = Boolean.parseBoolean(getResourceBase().getAttribute("chkavisosWSAdd","false"));
-        boolean sendWSUpdate = Boolean.parseBoolean(getResourceBase().getAttribute("chkavisosWSUpdate","false"));
-        boolean sendWSRemove = Boolean.parseBoolean(getResourceBase().getAttribute("chkavisosWSRemove","false"));
-        
-        
-        
-        
+        String errormsg = "";
+
+        boolean sendWSadd = Boolean.parseBoolean(getResourceBase().getAttribute("chkavisosWSAdd", "false"));
+        boolean sendWSUpdate = Boolean.parseBoolean(getResourceBase().getAttribute("chkavisosWSUpdate", "false"));
+        boolean sendWSRemove = Boolean.parseBoolean(getResourceBase().getAttribute("chkavisosWSRemove", "false"));
+
         if (null == action) {
             action = "";
         }
 
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
         String confClass = getResourceBase().getAttribute(MyShelf.RES_CONF, "http://www.infotec.com/conorg.owl#Shelf");
         boolean isShelf = Boolean.TRUE;
         if (confClass.equals(Shelf.conorg_Shelf.getURI())) {
@@ -229,9 +229,9 @@ public class MyShelf extends GenericAdmResource {
                             if (wsid != null) {
                                 response.setRenderParameter("wsid", wsid);
                             }
-                            
+
                             itemName = getTileTypeName((Tile) (nso.createGenericInstance()));
-                            
+
                         } else {
 
                             if (nso.createGenericInstance() instanceof WorkSpace) {
@@ -258,16 +258,33 @@ public class MyShelf extends GenericAdmResource {
                                 WorkSpace workSpace = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
                                 if (null != workSpace) {
 
-                                    Tile mytile = (Tile)nso.createGenericInstance();
+                                    Tile mytile = (Tile) nso.createGenericInstance();
                                     workSpace.addTile(mytile);
                                     //            sendWSadd                       System.out.println("Tile added.....");
-                                    if(sendWSadd){
-                                        Aviso aviso = MessageUtils.createWorkSpaceMessage(usr, workSpace, "Nuevo documento - "+mytile.getTitle(), "Con la siguiente descripción:\n\r"+(mytile.getDescription()!=null?mytile.getDescription():""), wsite);
+                                    if (sendWSadd) {
+                                        Aviso aviso = MessageUtils.createWorkSpaceMessage(usr, workSpace, "Nuevo documento - " + mytile.getTitle(), "Con la siguiente descripción:\n\r" + (mytile.getDescription() != null ? mytile.getDescription() : ""), wsite);
+                                        String email_admin = SWBPlatform.getEnv("conorg/adminEmail","webbuilder@infotec.com.mx");
+                                        String htmlMsg = "<h2>Aviso nuevo azulejo (Tile) en el Espacio de Trabajo - " + workSpace.getTitle() + "</h2>"
+                                                + "<table><tr><td><h4>Título del Azulejo(Tile):</h4></td><td><h3>" + mytile.getTitle() + "</h3></td></tr>"
+                                                + "<tr><td><h4>Descripción:</h4></td><td><h3>" + (mytile.getDescription() != null ? mytile.getDescription() : "") + "</h3></td></tr>"
+                                                + "<tr><td><h4>Tipo:</h4></td><td><h3>" + getTileTypeName(mytile) + "</h3></td></tr>"
+                                                + "<tr><td colspan=\"2\">&nbsp;</td></tr>"
+                                                + "<tr><td colspan=\"2\">&nbsp;</td></tr>"
+                                                + "<tr><td colspan=\"2\" align=\"center\"><h3>Datos del usuario que agregó azulejo (Tile):</h3></td></tr>"
+                                                + "<tr><td colspan=\"2\">&nbsp;</td></tr>"
+                                                + "<tr><td>Nombre:</td><td>" + usr.getFullName() + "</td></tr>"
+                                                + "<tr><td>Correo electrónico:</td><td><a href=\"mailto:" + usr.getEmail() + "\">" + usr.getEmail() + "</a></td></tr>"
+                                                + "<tr><td>Fecha:</td><td>" + sdf.format(new Date(System.currentTimeMillis())) + "</td></tr>"
+                                                + "<tr><td colspan=\"2\">&nbsp;</td></tr></table>";
+
+                                        if (!MessageUtils.sendWorkSpaceChangesEmail2Suscribers(workSpace, email_admin, "Aviso cambios en Espacio de Trabajo - " + workSpace.getTitle(), htmlMsg)) {
+                                            errormsg = "(No se pudo enviar notificación de agregado de nuevo archivo por correo electrónico.)";
+                                        }
                                     }
-                                    
+
                                 }
-                                
-                                
+
+
                                 response.setAction(SWBActionResponse.Action_EDIT);
                                 response.setRenderParameter("act", SWBActionResponse.Action_EDIT);
                                 response.setRenderParameter("id", nso.getURI());
@@ -279,7 +296,7 @@ public class MyShelf extends GenericAdmResource {
                         }
                     }
                     //}
-                    
+
                     msg = "Se creó " + itemName + " satisfactoriamente.";
                 } catch (Exception e) {
                     log.error("Error al agregar el elemento", e);
@@ -311,7 +328,7 @@ public class MyShelf extends GenericAdmResource {
                         frmgr.addProperty(Traceable.swb_modifiedBy);
                         frmgr.addProperty(Traceable.swb_updated);
                         frmgr.addProperty(WorkSpace.conorg_hasTopic);
-                        itemName="Espacio de trabajo";
+                        itemName = "Espacio de trabajo";
                     }
                     if (gobj instanceof Tile) {
                         frmgr.addProperty(Descriptiveable.swb_title);
@@ -409,7 +426,7 @@ public class MyShelf extends GenericAdmResource {
                         wsid = ((WorkSpace) nso.createGenericInstance()).getId();
                         response.setRenderParameter("act", "");
                         response.setAction("");
-                        itemName="Espacio de trabajo";
+                        itemName = "Espacio de trabajo";
                     } else {
                         if ((gobj instanceof Mosaic)) {
                             response.setRenderParameter("act", SWBActionResponse.Action_EDIT);
@@ -417,14 +434,31 @@ public class MyShelf extends GenericAdmResource {
                             response.setRenderParameter("act", "");
                         }
                         response.setAction(SWBActionResponse.Action_EDIT);
-                        itemName=getTileTypeName((Tile)gobj);
-                        if(sendWSUpdate && wsid!=null){
+                        itemName = getTileTypeName((Tile) gobj);
+                        if (sendWSUpdate && wsid != null) {
                             WorkSpace wrkSpc = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
-                            Tile mytile = (Tile)gobj;
-                            Aviso aviso = MessageUtils.createWorkSpaceMessage(usr, wrkSpc, "Actualizó - "+mytile.getTitle(), "Con la siguiente descripción:\n\r"+(mytile.getDescription()!=null?mytile.getDescription():""), wsite);
+                            Tile mytile = (Tile) gobj;
+                            Aviso aviso = MessageUtils.createWorkSpaceMessage(usr, wrkSpc, "Actualizó - " + mytile.getTitle(), "Con la siguiente descripción:\n\r" + (mytile.getDescription() != null ? mytile.getDescription() : ""), wsite);
+                            String email_admin = SWBPlatform.getEnv("conorg/adminEmail","webbuilder@infotec.com.mx");
+                            String htmlMsg = "<h2>Aviso de modificación del Espacio de Trabajo - " + wrkSpc.getTitle() + "</h2>"
+                                    + "<table><tr><td><h4>Título del Azulejo(Tile):</h4></td><td><h3>" + mytile.getTitle() + "</h3></td></tr>"
+                                    + "<tr><td><h4>Descripción:</h4></td><td><h3>" + (mytile.getDescription() != null ? mytile.getDescription() : "") + "</h3></td></tr>"
+                                    + "<tr><td><h4>Tipo:</h4></td><td><h3>" + getTileTypeName(mytile) + "</h3></td></tr>"
+                                    + "<tr><td colspan=\"2\">&nbsp;</td></tr>"
+                                    + "<tr><td colspan=\"2\">&nbsp;</td></tr>"
+                                    + "<tr><td colspan=\"2\" align=\"center\"><h3>Datos del modificante:</h3></td></tr>"
+                                    + "<tr><td colspan=\"2\">&nbsp;</td></tr>"
+                                    + "<tr><td>Nombre:</td><td>" + usr.getFullName() + "</td></tr>"
+                                    + "<tr><td>Correo electrónico:</td><td><a href=\"mailto:" + usr.getEmail() + "\">" + usr.getEmail() + "</a></td></tr>"
+                                    + "<tr><td>Fecha Modificación:</td><td>" + sdf.format(mytile.getUpdated()) + "</td></tr>"
+                                    + "<tr><td colspan=\"2\">&nbsp;</td></tr></table>";
+
+                            if (!MessageUtils.sendWorkSpaceChangesEmail2Suscribers(wrkSpc, email_admin, "Aviso cambios en Espacio de Trabajo - " + wrkSpc.getTitle(), htmlMsg)) {
+                                errormsg = "(No se pudo enviar notificación de cambios por correo electrónico.)";
+                            }
                         }
                     }
-                    msg = "Se actualizó " + itemName + " satisfactoriamente.";
+                    msg = "Se actualizó " + itemName + " satisfactoriamente.\n\r" + errormsg;
                 } catch (Exception e) {
                     log.error("Error al actulizar el elemento", e);
                     msg = "Error al actualizar " + itemName;
@@ -474,18 +508,35 @@ public class MyShelf extends GenericAdmResource {
                         }
                     }
 
-                    if(sobj.createGenericInstance() instanceof WorkSpace){
-                        itemName="Espacio de trabajo";
-                    } else if(sobj.createGenericInstance() instanceof Tile){
-                        itemName=getTileTypeName((Tile)sobj.createGenericInstance());
-                        if(sendWSRemove && wsid!=null){
+                    if (sobj.createGenericInstance() instanceof WorkSpace) {
+                        itemName = "Espacio de trabajo";
+                    } else if (sobj.createGenericInstance() instanceof Tile) {
+                        itemName = getTileTypeName((Tile) sobj.createGenericInstance());
+                        if (sendWSRemove && wsid != null) {
                             WorkSpace wrkSpc = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
-                            Tile mytile = (Tile)sobj.createGenericInstance();
-                            Aviso aviso = MessageUtils.createWorkSpaceMessage(usr, wrkSpc, "Se Eliminó - "+mytile.getTitle() + " del espacio de trabajo: "+wrkSpc.getTitle() , "Con la siguiente descripción:\n\r"+(mytile.getDescription()!=null?mytile.getDescription():""), wsite);
+                            Tile mytile = (Tile) sobj.createGenericInstance();
+                            Aviso aviso = MessageUtils.createWorkSpaceMessage(usr, wrkSpc, "Se Eliminó - " + mytile.getTitle() + " del espacio de trabajo: " + wrkSpc.getTitle(), "Con la siguiente descripción:\n\r" + (mytile.getDescription() != null ? mytile.getDescription() : ""), wsite);
+                            String email_admin = SWBPlatform.getEnv("conorg/adminEmail","webbuilder@infotec.com.mx");
+                            String htmlMsg = "<h2>Aviso de eliminación en el Espacio de Trabajo - " + wrkSpc.getTitle() + "</h2>"
+                                    + "<table><tr><td><h4>Título del Azulejo(Tile):</h4></td><td><h3>" + mytile.getTitle() + "</h3></td></tr>"
+                                    + "<tr><td><h4>Descripción:</h4></td><td><h3>" + (mytile.getDescription() != null ? mytile.getDescription() : "") + "</h3></td></tr>"
+                                    + "<tr><td><h4>Tipo:</h4></td><td><h3>" + getTileTypeName(mytile) + "</h3></td></tr>"
+                                    + "<tr><td colspan=\"2\">&nbsp;</td></tr>"
+                                    + "<tr><td colspan=\"2\">&nbsp;</td></tr>"
+                                    + "<tr><td colspan=\"2\" align=\"center\"><h3>Datos del usuario que eliminó el azulejo(Tile):</h3></td></tr>"
+                                    + "<tr><td colspan=\"2\">&nbsp;</td></tr>"
+                                    + "<tr><td>Nombre:</td><td>" + usr.getFullName() + "</td></tr>"
+                                    + "<tr><td>Correo electrónico:</td><td><a href=\"mailto:" + usr.getEmail() + "\">" + usr.getEmail() + "</a></td></tr>"
+                                    + "<tr><td>Fecha:</td><td>" + sdf.format(new Date(System.currentTimeMillis())) + "</td></tr>"
+                                    + "<tr><td colspan=\"2\">&nbsp;</td></tr></table>";
+
+                            if (!MessageUtils.sendWorkSpaceChangesEmail2Suscribers(wrkSpc, email_admin, "Aviso cambios en Espacio de Trabajo - " + wrkSpc.getTitle(), htmlMsg)) {
+                                errormsg = "(No se pudo enviar notificación de eliminación de azulejo por correo electrónico.)";
+                            }
                         }
                     }
-                    
-                    if (relacionados == 0) {                        
+
+                    if (relacionados == 0) {
                         sobj.remove();
                         msg = "Se eliminó " + itemName + " satisfactoriamente.";
                     } else {
@@ -546,10 +597,28 @@ public class MyShelf extends GenericAdmResource {
 
             if (doc != null) {
                 storeFile(fname, new ByteArrayInputStream(bcont), fcomment, incremento, doc, wsite);
-                if(wsid!=null){
+                if (wsid != null) {
                     WorkSpace wrkSpc = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
-                    Tile mytile = (Tile)doc;
-                    Aviso aviso = MessageUtils.createWorkSpaceMessage(usr, wrkSpc, "Se agregó archivo - "+mytile.getTitle() + " del espacio de trabajo: "+wrkSpc.getTitle() , "Con la siguiente descripción:\n\r"+mytile.getDescription(), wsite);
+                    Tile mytile = (Tile) doc;
+                    Aviso aviso = MessageUtils.createWorkSpaceMessage(usr, wrkSpc, "Se agregó nueva versión de archivo - " + mytile.getTitle() + " del espacio de trabajo: " + wrkSpc.getTitle(), "Con la siguiente descripción:\n\r" + mytile.getDescription(), wsite);
+
+                    String email_admin = SWBPlatform.getEnv("conorg/adminEmail","webbuilder@infotec.com.mx");
+                    String htmlMsg = "<h2>Aviso nueva versión de archivo en el Espacio de Trabajo - " + wrkSpc.getTitle() + "</h2>"
+                            + "<table><tr><td><h4>Título del Azulejo(Tile):</h4></td><td><h3>" + mytile.getTitle() + "</h3></td></tr>"
+                            + "<tr><td><h4>Descripción:</h4></td><td><h3>" + (mytile.getDescription() != null ? mytile.getDescription() : "") + "</h3></td></tr>"
+                            + "<tr><td><h4>Tipo:</h4></td><td><h3>" + getTileTypeName(mytile) + "</h3></td></tr>"
+                            + "<tr><td colspan=\"2\">&nbsp;</td></tr>"
+                            + "<tr><td colspan=\"2\">&nbsp;</td></tr>"
+                            + "<tr><td colspan=\"2\" align=\"center\"><h3>Datos del usuario que agregó versión del archivo:</h3></td></tr>"
+                            + "<tr><td colspan=\"2\">&nbsp;</td></tr>"
+                            + "<tr><td>Nombre:</td><td>" + usr.getFullName() + "</td></tr>"
+                            + "<tr><td>Correo electrónico:</td><td><a href=\"mailto:" + usr.getEmail() + "\">" + usr.getEmail() + "</a></td></tr>"
+                            + "<tr><td>Fecha:</td><td>" + sdf.format(new Date(System.currentTimeMillis())) + "</td></tr>"
+                            + "<tr><td colspan=\"2\">&nbsp;</td></tr></table>";
+
+                    if (!MessageUtils.sendWorkSpaceChangesEmail2Suscribers(wrkSpc, email_admin, "Aviso cambios en Espacio de Trabajo - " + wrkSpc.getTitle(), htmlMsg)) {
+                        errormsg = "(No se pudo enviar notificación de agregado de nuevo archivo por correo electrónico.)";
+                    }
                 }
             }
 
@@ -712,7 +781,7 @@ public class MyShelf extends GenericAdmResource {
             String tiid = request.getParameter("tiid");
             SemanticObject sobj = ont.getSemanticObject(suri);
             GenericObject gobj = sobj.createGenericInstance();
-            itemName = getTileTypeName((Tile)gobj);
+            itemName = getTileTypeName((Tile) gobj);
             classid = sobj.getSemanticClass().getClassId();
             if ((gobj instanceof Mosaic)) {
                 Mosaic mosaic = (Mosaic) gobj;
@@ -736,7 +805,31 @@ public class MyShelf extends GenericAdmResource {
             if (null != wsid) {
                 response.setRenderParameter("wsid", wsid);
             }
+        } else if ("suscribe".equals(action)) {
+            String isSuscribe = request.getParameter("isSuscribe");
+            WorkSpace wspc = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
+            try {
+                if (wspc != null) {
+                    if (null == isSuscribe) {
+                        if (wspc.hasSubscribers(usr)) {
+                            wspc.removeSubscribers(usr);
+                            response.setRenderParameter("alertmsg", "Se quitó la suscripción a notificaciones de cambios via correo electrónico del Espacio de Trabajo - " + wspc.getTitle());
+                        }
+                    } else if ("1".equals(isSuscribe)) {
+                        if (!wspc.hasSubscribers(usr)) {
+                            wspc.addSubscribers(usr);
+                            response.setRenderParameter("alertmsg", "Se agregó la suscripción a notificaciones de cambios via correo electrónico al Espacio de Trabajo - " + wspc.getTitle());
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                log.error("Error al actualizar la suscripción a las notificaciones de correo electrónico del usuario al Espacio de trabajo.", e);
+                response.setRenderParameter("alertmsg", "Error al actualizar suscripción a las notificaciones de correo electrónico del usuario al Espacio de trabajo - " + wsid);
+            }
+
+            response.setRenderParameter("wsid", wsid);
         }
+
 
         if (id != null) {
             response.setRenderParameter("id", id);
