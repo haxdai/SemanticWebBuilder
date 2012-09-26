@@ -62,7 +62,7 @@ public class Temas extends GenericAdmResource {
         }
 
         User user = response.getUser();
-        String email_admin = base.getAttribute("email_admin", "juan.fernandez@infotec.com.mx");
+        String email_admin = SWBPlatform.getEnv("af/adminEmail", "webbuilder@infotec.com.mx");
 
         if (null != user && (SWBResourceURL.Action_ADD.equals(action) || SWBResourceURL.Action_EDIT.equals(action))) {
             String temaTitle = request.getParameter("nomTema");
