@@ -23,6 +23,7 @@
                 <input type="TEXT" name="wpworkspace" label="Id de la sección del Espacio de Trabajo(WorkSpace):" size="20" jsrequired="true"/>
                 <input type="TEXT" name="nummem" label="Número de miembros a mostrar en el Espacio de Trabajo (WorkSpace):" size="5" jsrequired="true"/>
                 <input type="TEXT" name="numtil" label="Número de azulejos a mostrar en el Espacio de Trabajo (WorkSpace):" size="5" jsrequired="true"/>
+                 <input type="TEXT" name="idwpavisos" label="Id de la sección de Avisos:" size="20" jsrequired="true"/>
             </fieldset>
 
  
