@@ -985,7 +985,33 @@ Author     : juan.fernandez y rene.jara
                     &nbsp;
                 </span>
             </div>
+                <%
+                        SWBResourceURLImp urlsus = new SWBResourceURLImp(request, base, wpconfig, SWBResourceURLImp.UrlType_ACTION);
+                        urlsus.setAction("suscribe");
+                        if (request.getParameter("wsid") != null) {
+                            urlsus.setParameter("wsid", request.getParameter("wsid"));
+                        }
 
+                        String isSuscribe="";
+                        if(workSpace.hasSubscribers(usr)){
+                            isSuscribe="checked";
+                        }
+                %>
+                <script type="text/javascript">
+                <!--
+                function sendSus() {
+                    var objd=dojo.byId("isSuscribe");
+                    if(objd.checked)
+                    {
+                        window.location='<%=urlsus%>&isSuscribe=1';
+                    }else {
+                        window.location='<%=urlsus%>';
+                    }
+                    return false;
+                }
+                -->
+            </script>
+                <div class="suscribir"><label for="isSuscribe">Suscribirme a este Espacio de trabajo</label><input name="isSuscribe" id="isSuscribe" type="checkbox" onclick="sendSus();return false;" value="1" <%=isSuscribe%>/></div>
             <table class="conorg-table estante-vista">
 
                 <thead>
