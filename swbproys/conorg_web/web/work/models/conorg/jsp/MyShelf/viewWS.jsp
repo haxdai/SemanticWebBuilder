@@ -258,12 +258,12 @@ Author     : juan.fernandez y rene.jara
                         <%=mem.getUser().getFullName() + " - " + mem.getMemberType()%>
                     </li>
                     <%
-                            } else {
-%>
+                    } else {
+                    %>
                     <li>
                         <a href="<%=wpwscontent.getUrl()%>?wsid=<%=workSpace.getId()%>">Ver más</a>
                     </li>
-<%
+                    <%
                                 break;
                             }
                         }
@@ -284,12 +284,12 @@ Author     : juan.fernandez y rene.jara
                         <%=tile.getTitle()%>
                     </li>
                     <%
-                            } else {
-%>
+                    } else {
+                    %>
                     <li>
                         <a href="<%=wpwscontent.getUrl()%>?wsid=<%=workSpace.getId()%>">Ver más</a>
                     </li>
-<%                                
+                    <%
                                 break;
                             }
                         }
@@ -517,11 +517,21 @@ Author     : juan.fernandez y rene.jara
         %>
     </p></div>
     <%
-    } else if (wsid != null) {
+    } else if (wsid != null) {    //MOSTRANDO DETALLE DEL ESPACIO DE TRABAJO
         // con wsid != null
 
         //System.out.println("===================================================================");
         WorkSpace workSpace = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
+
+        if (workSpace.getParent() == null) {
+            if (!workSpace.isActive()) {
+                workSpace.setActive(Boolean.TRUE);
+            }
+            WebPage wpparent = wsite.getWebPage("workspace");
+            if (wpparent != null) {
+                workSpace.setParent(wpparent);
+            }
+        }
 
         intSize = SWBUtils.Collections.sizeOf(workSpace.listTiles());
         Iterator<Tile> ittil = workSpace.listTiles();
@@ -569,6 +579,7 @@ Author     : juan.fernandez y rene.jara
             frmgr.setAction(urlupdate.toString());
             frmgr.setLang("es");
             String boton = "";
+
             //if (editMode) {
             //    boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + "';return false;\">Cancelar</button>";
             //    frmgr.addButton(boton);
@@ -578,28 +589,73 @@ Author     : juan.fernandez y rene.jara
             //    boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + "';return false;\">Regresar</button>";
             //    frmgr.addButton(boton);
             //}
+            WebPage wp_wiki = wsite.getWebPage(workSpace.getId() + "_wiki");
+            WebPage wp_foro = wsite.getWebPage(workSpace.getId() + "_forum");
+
+//revisar nivel de usuario del espacio de trabajo para que pueda activar el wiki o el foro, y nivel de usuario para utilizarlo                  
+            if (usrlevel >= 2) {
+
+                if (wp_wiki != null || wp_foro != null || usrlevel >= 3) {
+    %>
+<div class="wikiforo">
+    <%       }
+        if (wp_wiki != null) {
+    %>  
+    <div class="wiki">
+        <a href="<%=wp_wiki.getUrl()%>" >Wiki</a>
+    </div>
+    <%
+    } else if (usrlevel >= 3) {
+        SWBResourceURL url = null;
+
+        url = paramRequest.getActionUrl();
+        url.setParameter("wsid", workSpace.getId());
+        url.setAction("addWiki");
+
+    %>
+    <div class="wiki">
+        <a href="<%=url.toString()%>" >Wiki</a> 
+    </div>
+    <%
+        }
+        if (wp_foro != null) {
     %>   
+    <div class="foro">
+        <a href="<%=wp_foro.getUrl()%>" >Foro</a>
+    </div>
+    <%
+    } else if (usrlevel >= 3) {
+        SWBResourceURL urlf = null;
+        urlf = paramRequest.getActionUrl();
+        urlf.setParameter("wsid", workSpace.getId());
+        urlf.setAction("addForo");
+    %>
+    <div class="foro">     
+        <a href="<%=urlf.toString()%>" >Foro</a> 
+    </div>
+    <%
+        }
+        if (wp_wiki != null || wp_foro != null || usrlevel >= 3) {
+    %>
+</div>
+<%        }
+    }    // nivel de usuario
+%>
 <form id="<%=so.getURI()%>/form" class="swbform" action="<%=urlupdate.toString()%>" method="post">
     <input type="hidden" name="suri" value="<%=so.getURI()%>"/>
     <input type="hidden" name="scls" value="<%=scls.getURI()%>"/>
     <input type="hidden" name="smode" value="<%=editMode ? "edit" : "view"%>"/>   
     <%
         if (null != wsid) {
-
     %>
     <input type="hidden" name="wsid" value="<%=wsid%>"/> 
     <%
         }
-
     %>
-
     <fieldset >
         <legend></legend>
         <table>
             <%
-
-
-
                 HashMap<PropertyGroup, TreeSet> hmgroup = frmgr.getGroups();
                 HashMap<String, SemanticProperty> hmorder = new HashMap<String, SemanticProperty>();
                 Iterator<PropertyGroup> itpg = hmgroup.keySet().iterator();
@@ -985,19 +1041,19 @@ Author     : juan.fernandez y rene.jara
                     &nbsp;
                 </span>
             </div>
-                <%
-                        SWBResourceURLImp urlsus = new SWBResourceURLImp(request, base, wpconfig, SWBResourceURLImp.UrlType_ACTION);
-                        urlsus.setAction("suscribe");
-                        if (request.getParameter("wsid") != null) {
-                            urlsus.setParameter("wsid", request.getParameter("wsid"));
-                        }
+            <%
+                SWBResourceURLImp urlsus = new SWBResourceURLImp(request, base, wpconfig, SWBResourceURLImp.UrlType_ACTION);
+                urlsus.setAction("suscribe");
+                if (request.getParameter("wsid") != null) {
+                    urlsus.setParameter("wsid", request.getParameter("wsid"));
+                }
 
-                        String isSuscribe="";
-                        if(workSpace.hasSubscribers(usr)){
-                            isSuscribe="checked";
-                        }
-                %>
-                <script type="text/javascript">
+                String isSuscribe = "";
+                if (workSpace.hasSubscribers(usr)) {
+                    isSuscribe = "checked";
+                }
+            %>
+            <script type="text/javascript">
                 <!--
                 function sendSus() {
                     var objd=dojo.byId("isSuscribe");
@@ -1011,7 +1067,7 @@ Author     : juan.fernandez y rene.jara
                 }
                 -->
             </script>
-                <div class="suscribir"><label for="isSuscribe">Suscribirme a este Espacio de trabajo</label><input name="isSuscribe" id="isSuscribe" type="checkbox" onclick="sendSus();return false;" value="1" <%=isSuscribe%>/></div>
+            <div class="suscribir"><label for="isSuscribe">Suscribirme a este Espacio de trabajo</label><input name="isSuscribe" id="isSuscribe" type="checkbox" onclick="sendSus();return false;" value="1" <%=isSuscribe%>/></div>
             <table class="conorg-table estante-vista">
 
                 <thead>
@@ -1132,27 +1188,27 @@ Author     : juan.fernandez y rene.jara
 
                     <tr>
 
-                            <% if (usrlevel >= 2) {
-                            %>
+                        <% if (usrlevel >= 2) {
+                        %>
                         <td class="<%=MyShelf.getClassIconTile(tile)%>" onclick="window.location='<%=urledit%>';"><%=strTitle%></td>
                         <td onclick="window.location='<%=urledit%>';"><%=strDate%></td>
                         <td onclick="window.location='<%=urledit%>';"><%=strType%></td>
                         <td onclick="window.location='<%=urledit%>';"><%=strTopic%></td>
-                            <% }else{
-                            %>
+                        <% } else {
+                        %>
                         <td class="<%=MyShelf.getClassIconTile(tile)%>"><%=strTitle%></td>
                         <td><%=strDate%></td>
                         <td><%=strType%></td>
                         <td><%=strTopic%></td>
-                            <% }
-                            %>
+                        <% }
+                        %>
                         <td>
                             <% if (usrlevel >= 2) {
                             %>
                             <span class="icv-compartir"><a href="#" title="Copiar referencia al estante" onclick="if(confirm('¿Deseas copiarlo a tú estante?')){window.location='<%=urlshare%>';} else return false;">C&nbsp;</a></span>
                             <span class="icv-editar"><a href="#" title="Editar" onclick="window.location='<%=urledit%>';">E&nbsp;</a></span>
                             <%
-                                    if (usrlevel == 4 || usr.equals(tile.getCreator())) {
+                                if (usrlevel == 4 || usr.equals(tile.getCreator())) {
                             %>
                             <span class="icv-borrar"><a href="#" title="Borrar" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';} else return false;">B&nbsp;</a></span>
                             <%
@@ -1510,90 +1566,89 @@ Author     : juan.fernandez y rene.jara
 
                     String frmAction = "";
                     String frmSMODE = "view";
-                     if (usrlevel == 4 || usr.equals(tile.getCreator())) {
-                       frmAction =urlupdate.toString();
-                       frmSMODE = "edit";
-                                          }
-                    
+                    if (usrlevel == 4 || usr.equals(tile.getCreator())) {
+                        frmAction = urlupdate.toString();
+                        frmSMODE = "edit";
+                    }
+
             %>        
             <%//=frmgr.renderForm(request)%>  
             <form id="<%=so.getURI()%>/form" class="swbform" action="<%=frmAction%>" method="post">
-    <input type="hidden" name="suri" value="<%=so.getURI()%>"/>
-    <input type="hidden" name="scls" value="<%=scls.getURI()%>"/>
-    <input type="hidden" name="smode" value="<%=frmSMODE%>"/>
-    <input type="hidden" name="id" value="<%=so.getURI()%>"/>
-<%
-    if(null != wsid){
-
-%>
-    <input type="hidden" name="wsid" value="<%=wsid%>"/> 
-    <%
-       }
-
-%>
-
-	<fieldset >
-	    <legend></legend>
-	    <table>
+                <input type="hidden" name="suri" value="<%=so.getURI()%>"/>
+                <input type="hidden" name="scls" value="<%=scls.getURI()%>"/>
+                <input type="hidden" name="smode" value="<%=frmSMODE%>"/>
+                <input type="hidden" name="id" value="<%=so.getURI()%>"/>
                 <%
-                                
-                
-                
-                hmgroup = frmgr.getGroups();
-                hmorder = new HashMap<String, SemanticProperty>();
-                itpg = hmgroup.keySet().iterator();
+                    if (null != wsid) {
 
-                while (itpg.hasNext()) {
-                    PropertyGroup pg = itpg.next();
-                    
-                    //out.println(pg.getId() + "<br/>");
-                    Iterator<SemanticProperty> it = hmgroup.get(pg).iterator();
-                    while(it.hasNext())
-                    {
-                        SemanticProperty prop=it.next();
-                        DisplayProperty dp = (DisplayProperty)(prop.getDisplayProperty().createGenericInstance());
-                        if(dp!=null){
-                            //out.println(dp.getIndex()+ " - "+dp.getPromptMessage());
-                            hmorder.put(""+dp.getIndex(), prop);
-                        }
-                    }
-                }
-                
-                list = new ArrayList(hmorder.keySet());
-                Collections.sort(list);
-                itstr = list.iterator();
-                while (itstr.hasNext()) {
-                    String key = itstr.next();
-                    SemanticProperty semprop = hmorder.get(key);
                 %>
-                <tr><td width="200px" align="right">
-                        <%=frmgr.renderLabel(request, semprop, SWBFormMgr.MODE_EDIT)%>
-                </td><td>
-                        <%=frmgr.renderElement(request, semprop, SWBFormMgr.MODE_EDIT)%>
-                </td></tr>
+                <input type="hidden" name="wsid" value="<%=wsid%>"/> 
                 <%
-                }
-                %>
-                 </table>
-	</fieldset>
-<fieldset><span align="center">
-        <%
-       
-
- if (usrlevel == 4 || usr.equals(tile.getCreator())) {
-                        //frmgr.setAction(urlupdate.toString());
-                        boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Cancelar</button>";
-                        out.println(boton); 
-                        boton = "<button dojoType=\"dijit.form.Button\" type=\"submit\">Guardar</button>";
-                        out.println(boton); 
-                        //frmgr.addButton(SWBFormButton.newSaveButton());
-                    } else {
-                        boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Regresar</button>";
-                        out.println(boton); 
                     }
-          %>
-</span></fieldset>
-</form>
+
+                %>
+
+                <fieldset >
+                    <legend></legend>
+                    <table>
+                        <%
+
+
+
+                            hmgroup = frmgr.getGroups();
+                            hmorder = new HashMap<String, SemanticProperty>();
+                            itpg = hmgroup.keySet().iterator();
+
+                            while (itpg.hasNext()) {
+                                PropertyGroup pg = itpg.next();
+
+                                //out.println(pg.getId() + "<br/>");
+                                Iterator<SemanticProperty> it = hmgroup.get(pg).iterator();
+                                while (it.hasNext()) {
+                                    SemanticProperty prop = it.next();
+                                    DisplayProperty dp = (DisplayProperty) (prop.getDisplayProperty().createGenericInstance());
+                                    if (dp != null) {
+                                        //out.println(dp.getIndex()+ " - "+dp.getPromptMessage());
+                                        hmorder.put("" + dp.getIndex(), prop);
+                                    }
+                                }
+                            }
+
+                            list = new ArrayList(hmorder.keySet());
+                            Collections.sort(list);
+                            itstr = list.iterator();
+                            while (itstr.hasNext()) {
+                                String key = itstr.next();
+                                SemanticProperty semprop = hmorder.get(key);
+                        %>
+                        <tr><td width="200px" align="right">
+                                <%=frmgr.renderLabel(request, semprop, SWBFormMgr.MODE_EDIT)%>
+                            </td><td>
+                                <%=frmgr.renderElement(request, semprop, SWBFormMgr.MODE_EDIT)%>
+                            </td></tr>
+                            <%
+                                }
+                            %>
+                    </table>
+                </fieldset>
+                <fieldset><span align="center">
+                        <%
+
+
+                            if (usrlevel == 4 || usr.equals(tile.getCreator())) {
+                                //frmgr.setAction(urlupdate.toString());
+                                boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Cancelar</button>";
+                                out.println(boton);
+                                boton = "<button dojoType=\"dijit.form.Button\" type=\"submit\">Guardar</button>";
+                                out.println(boton);
+                                //frmgr.addButton(SWBFormButton.newSaveButton());
+                            } else {
+                                boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Regresar</button>";
+                                out.println(boton);
+                            }
+                        %>
+                    </span></fieldset>
+            </form>
             <%
                 if (tile instanceof Mosaic) {
                     String addtiurl = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD).toString();
@@ -1715,20 +1770,20 @@ Author     : juan.fernandez y rene.jara
                             urledit.setParameter("suri", ltile.getURI());
                     %>
                     <tr>
-                            <% if (usrlevel >= 2) {
-                            %>
+                        <% if (usrlevel >= 2) {
+                        %>
                         <td class="<%=MyShelf.getClassIconTile(ltile)%>" onclick="window.location='<%=urledit%>';"><%=strTitle%></td>
                         <td onclick="window.location='<%=urledit%>';"><%=strDate%></td>
                         <td onclick="window.location='<%=urledit%>';"><%=strType%></td>
                         <td onclick="window.location='<%=urledit%>';"><%=strTopic%></td>
-                            <% }else {
-                            %>
+                        <% } else {
+                        %>
                         <td class="<%=MyShelf.getClassIconTile(ltile)%>"><%=strTitle%></td>
                         <td><%=strDate%></td>
                         <td><%=strType%></td>
                         <td><%=strTopic%></td>
-                            <% }
-                            %>
+                        <% }
+                        %>
                         <td>
                             <% if (usrlevel >= 2) {
                             %>
