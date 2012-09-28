@@ -834,6 +834,133 @@ public class MyShelf extends GenericAdmResource {
             }
 
             response.setRenderParameter("wsid", wsid);
+        }  else if ("addWiki".equals(action)) {
+            WorkSpace wspc = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
+            String idtemplate = getResourceBase().getAttribute("idtemplate","0");
+            String idindex = getResourceBase().getAttribute("idindex","0");
+            String title = "Wiki";
+            String description = "Wiki del espacio de trabajo "+wspc.getTitle();
+            //String idnewwp = title; //SWBPlatform.getIDGenerator().getID(title, null);
+            String idnewwp = wspc.getId()+"_wiki";
+
+            try {
+                WebPage wp = wsite.getWebPage(idnewwp);
+//                int i = 1;
+//                if (wp != null) {
+//                    
+//                    idnewwp = wspc.getId()+"_" + idnewwp;
+//                }
+               // wp = wsite.getWebPage(idnewwp);
+
+                if (wp == null&&idtemplate!=null&&idindex!=null) {
+                    wp = wsite.createWebPage(idnewwp);
+
+                    wp.setTitle(title);
+                    wp.setDescription(description);
+                    wp.setSortName(title);
+                    wp.setActive(Boolean.TRUE);
+                    wp.setParent(wspc);
+
+                    // se agrega plantilla para mostrar wiki
+                    Template plantilla = Template.ClassMgr.getTemplate(idtemplate, wsite);
+                    TemplateRef temref = TemplateRef.ClassMgr.createTemplateRef(wsite);
+                    temref.setActive(Boolean.TRUE);
+                    temref.setTemplate(plantilla);
+                    temref.setInherit(TemplateRef.INHERIT_ACTUALANDCHILDS);
+                     temref.setPriority(2);
+                    
+                    wp.addTemplateRef(temref);
+                    
+                    // se agrega plantilla para mostrar indice del wiki
+//                    Template plantillaIndex = Template.ClassMgr.getTemplate(idindex, wsite);
+//                    TemplateRef temrefindex = TemplateRef.ClassMgr.createTemplateRef(wsite);
+//                    temrefindex.setActive(Boolean.TRUE);
+//                    temrefindex.setTemplate(plantillaIndex);
+//                    temrefindex.setInherit(TemplateRef.INHERIT_ACTUAL);
+//                    temrefindex.setPriority(2);
+//                    
+//                    wp.addTemplateRef(temrefindex);
+                    
+//                    ResourceType resType = ResourceType.ClassMgr.getResourceType("TematicIndexXSL", wsite);
+//                    
+//                    Resource res = wsite.createResource();
+//                    res.setResourceType(resType);
+//                    res.setTitle("Indice Wiki");
+//                    res.setActive(Boolean.TRUE);
+//
+//                    res.setAttribute("pageBase", wspc.getId());
+//
+//                    res.updateAttributesToDB();
+//                    wp.addResource(res);
+
+//                    SWBResourceURLImp url = new SWBResourceURLImp(request, res, wp, SWBResourceURL.UrlType_RENDER);
+//                    response.sendRedirect(url.toString());
+                    response.setRenderParameter("alertmsg", "Se activó Wiki correctamente.");
+                }
+            } catch (Exception e) {
+                log.error("Error al agregar carpeta al repositorio de documentos.",e);
+                response.setRenderParameter("alertmsg", "Error al activar el Wiki del Espacio de Trabajo.");
+            }
+             if (null != wsid) {
+                response.setRenderParameter("wsid", wsid);
+            }
+        }  else if ("addForo".equals(action)) {
+             WorkSpace wspc = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
+            String idtemplate = getResourceBase().getAttribute("idtemplate","0");
+            String idindex = getResourceBase().getAttribute("idindex","0");
+            String title = "Foro";
+            String description = "Foro del espacio de trabajo "+wspc.getTitle();
+            //String idnewwp = title; //SWBPlatform.getIDGenerator().getID(title, null);
+            String idnewwp = wspc.getId()+"_forum";
+
+            try {
+
+                WebPage wp = wsite.getWebPage(idnewwp);
+
+                if (wp == null&&idtemplate!=null&&idindex!=null) {
+                    wp = wsite.createWebPage(idnewwp);
+
+                    wp.setTitle(title);
+                    wp.setDescription(description);
+                    wp.setSortName(title);
+                    wp.setActive(Boolean.TRUE);
+                    wp.setParent(wspc);
+
+                    // se agrega plantilla para mostrar foro
+
+                    Template plantillaIndex = Template.ClassMgr.getTemplate(idindex, wsite);
+                    TemplateRef temrefindex = TemplateRef.ClassMgr.createTemplateRef(wsite);
+                    temrefindex.setActive(Boolean.TRUE);
+                    temrefindex.setTemplate(plantillaIndex);
+                    temrefindex.setInherit(TemplateRef.INHERIT_ACTUAL);
+                    temrefindex.setPriority(2);
+                    
+                    wp.addTemplateRef(temrefindex);
+                    
+                    ResourceType resType = ResourceType.ClassMgr.getResourceType("Forum", wsite);
+                    
+                    Resource res = wsite.createResource();
+                    res.setResourceType(resType);
+                    res.setTitle("Foro Espacio de trabajo");
+                    res.setActive(Boolean.TRUE);
+
+                    //res.setAttribute("pageBase", wspc.getId());
+
+                    res.updateAttributesToDB();
+                    wp.addResource(res);
+
+//                    SWBResourceURLImp url = new SWBResourceURLImp(request, res, wp, SWBResourceURL.UrlType_RENDER);
+//                    response.sendRedirect(url.toString());
+                    response.setRenderParameter("alertmsg", "Se activó Foro correctamente.");
+                }
+            } catch (Exception e) {
+                log.error("Error al agregar activar el foro.",e);
+                response.setRenderParameter("alertmsg", "Error al activar el Foro del Espacio de Trabajo.");
+            }
+             if (null != wsid) {
+                response.setRenderParameter("wsid", wsid);
+            }
+            
         }
 
 
