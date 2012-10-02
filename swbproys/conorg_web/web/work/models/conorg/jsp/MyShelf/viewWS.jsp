@@ -1187,13 +1187,36 @@ Author     : juan.fernandez y rene.jara
                     %>
 
                     <tr>
-
-                        <% if (usrlevel >= 2) {
+                        <%
+                        String urllast="";
+                        if (usrlevel >= 2) {
+                            if(tile instanceof Versionable && tile instanceof Document){
+        //                        Document doc = null;
+                                VersionInfo vl = null;
+                                VersionInfo ver = null;
+                                vl = ((Document)tile).getLastVersion();
+                                if (null != vl) {
+                                ver = vl;
+                                    /*while (ver.getPreviousVersion() != null) { //
+                                        ver = ver.getPreviousVersion();
+                                    }*/
+                                    //if (ver != null) {
+                                        SWBResourceURL urlview = paramRequest.getRenderUrl();
+                                        urlview.setCallMethod(SWBResourceURL.Call_DIRECT);
+                                        urlview.setParameter("fid", ((Document)tile).getURI());
+                                        urlview.setMode(MyShelf.MODE_GETFILE);
+                                        urlview.setParameter("verNum", "" + ver.getVersionNumber());
+                                        urllast=urlview.toString();
+                                    //}
+                                }
+                            }
+                        }
+                        if(!urllast.equals("")){
                         %>
-                        <td class="<%=MyShelf.getClassIconTile(tile)%>" onclick="window.location='<%=urledit%>';"><%=strTitle%></td>
-                        <td onclick="window.location='<%=urledit%>';"><%=strDate%></td>
-                        <td onclick="window.location='<%=urledit%>';"><%=strType%></td>
-                        <td onclick="window.location='<%=urledit%>';"><%=strTopic%></td>
+                        <td class="<%=MyShelf.getClassIconTile(tile)%>" onclick="window.location='<%=urllast%>';"><%=strTitle%></td>
+                        <td onclick="window.location='<%=urllast%>';"><%=strDate%></td>
+                        <td onclick="window.location='<%=urllast%>';"><%=strType%></td>
+                        <td onclick="window.location='<%=urllast%>';"><%=strTopic%></td>
                         <% } else {
                         %>
                         <td class="<%=MyShelf.getClassIconTile(tile)%>"><%=strTitle%></td>
@@ -1770,12 +1793,36 @@ Author     : juan.fernandez y rene.jara
                             urledit.setParameter("suri", ltile.getURI());
                     %>
                     <tr>
-                        <% if (usrlevel >= 2) {
+                        <%
+                        String urllast="";
+                        if (usrlevel >= 2) {
+                            if(tile instanceof Versionable && tile instanceof Document){
+        //                        Document doc = null;
+                                VersionInfo vl = null;
+                                VersionInfo ver = null;
+                                vl = ((Document)tile).getLastVersion();
+                                if (null != vl) {
+                                ver = vl;
+                                    /*while (ver.getPreviousVersion() != null) { //
+                                        ver = ver.getPreviousVersion();
+                                    }*/
+                                    //if (ver != null) {
+                                        SWBResourceURL urlview = paramRequest.getRenderUrl();
+                                        urlview.setCallMethod(SWBResourceURL.Call_DIRECT);
+                                        urlview.setParameter("fid", ((Document)tile).getURI());
+                                        urlview.setMode(MyShelf.MODE_GETFILE);
+                                        urlview.setParameter("verNum", "" + ver.getVersionNumber());
+                                        urllast=urlview.toString();
+                                    //}
+                                }
+                            }
+                        }
+                        if(!urllast.equals("")){
                         %>
-                        <td class="<%=MyShelf.getClassIconTile(ltile)%>" onclick="window.location='<%=urledit%>';"><%=strTitle%></td>
-                        <td onclick="window.location='<%=urledit%>';"><%=strDate%></td>
-                        <td onclick="window.location='<%=urledit%>';"><%=strType%></td>
-                        <td onclick="window.location='<%=urledit%>';"><%=strTopic%></td>
+                        <td class="<%=MyShelf.getClassIconTile(ltile)%>" onclick="window.location='<%=urllast%>';"><%=strTitle%></td>
+                        <td onclick="window.location='<%=urllast%>';"><%=strDate%></td>
+                        <td onclick="window.location='<%=urllast%>';"><%=strType%></td>
+                        <td onclick="window.location='<%=urllast%>';"><%=strTopic%></td>
                         <% } else {
                         %>
                         <td class="<%=MyShelf.getClassIconTile(ltile)%>"><%=strTitle%></td>
