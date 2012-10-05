@@ -122,10 +122,11 @@ public class Currency extends com.infotec.eworkplace.swb.formelements.base.Curre
 
         try
         {
-            double dvalue=Double.parseDouble(value);
-            value=CURRENCY.format(dvalue);
+            double dvalue = Double.parseDouble(value);
+            value = CURRENCY.format(dvalue);
+
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             log.trace(e);
         }
@@ -230,11 +231,15 @@ public class Currency extends com.infotec.eworkplace.swb.formelements.base.Curre
 
         try
         {
-            float ivalue=Float.parseFloat(value);
-            if(ivalue<0)
+            float ivalue = Float.parseFloat(value);
+            if (!this.isCurrencyCero())
             {
-                throw new FormValidateException("El valor no puede ser negativo o cero");
+                if (ivalue <= 0)
+                {
+                    throw new FormValidateException("El valor no puede ser negativo o cero");
+                }
             }
+
 
         }
         catch (NumberFormatException pe)
