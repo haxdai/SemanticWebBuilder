@@ -2,12 +2,13 @@ package com.infotec.eworkplace.swb.formelements.base;
 
 
    /**
-   * Caja de texto para capturar porcentajes 
+   * Percent texto box 
    */
 public abstract class PercentBase extends org.semanticwb.model.base.FormElementBase 
 {
+    public static final org.semanticwb.platform.SemanticProperty intraxf_percentCero=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet/formelements#percentCero");
    /**
-   * Caja de texto para capturar porcentajes
+   * Percent texto box
    */
     public static final org.semanticwb.platform.SemanticClass intraxf_Percent=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet/formelements#Percent");
    /**
@@ -87,6 +88,24 @@ public abstract class PercentBase extends org.semanticwb.model.base.FormElementB
     public PercentBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+/**
+* Gets the PercentCero property
+* @return boolean with the PercentCero
+*/
+    public boolean isPercentCero()
+    {
+        return getSemanticObject().getBooleanProperty(intraxf_percentCero);
+    }
+
+/**
+* Sets the PercentCero property
+* @param value long with the PercentCero
+*/
+    public void setPercentCero(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(intraxf_percentCero, value);
     }
 
     public void remove()
