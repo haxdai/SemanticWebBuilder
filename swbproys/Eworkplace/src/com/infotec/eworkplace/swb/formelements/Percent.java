@@ -13,17 +13,19 @@ import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticProperty;
 import org.semanticwb.platform.SemanticVocabulary;
 
-
-   /**
-   * Caja de texto para capturar porcentajes 
-   */
-public class Percent extends com.infotec.eworkplace.swb.formelements.base.PercentBase 
+/**
+ * Caja de texto para capturar porcentajes
+ */
+public class Percent extends com.infotec.eworkplace.swb.formelements.base.PercentBase
 {
+
     static Logger log = SWBUtils.getLogger(Percent.class);
+
     public Percent(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
     }
+
     @Override
     public String renderElement(HttpServletRequest request, SemanticObject obj, SemanticProperty prop, String propName, String type,
             String mode, String lang)
@@ -113,11 +115,11 @@ public class Percent extends com.infotec.eworkplace.swb.formelements.base.Percen
 
         try
         {
-            value=value.replace("%", "").trim();
-            int dvalue=Integer.parseInt(value);
-            value=dvalue+"%";
+            value = value.replace("%", "").trim();
+            int dvalue = Integer.parseInt(value);
+            value = dvalue + "%";
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             log.trace(e);
         }
@@ -129,7 +131,7 @@ public class Percent extends com.infotec.eworkplace.swb.formelements.base.Percen
 //      }
         if (mode.equals("edit") || mode.equals("create"))
         {
-            ret.append("<input name=\"").append(name).append("\" maxlength=\"").append((getNdigits()+1)).append("\" size=\"").append(getNdigits() + 1).append("\" value=\"").append(value).append("\"");
+            ret.append("<input name=\"").append(name).append("\" maxlength=\"").append((getNdigits() + 1)).append("\" size=\"").append(getNdigits() + 1).append("\" value=\"").append(value).append("\"");
 
             if (DOJO)
             {
@@ -190,7 +192,6 @@ public class Percent extends com.infotec.eworkplace.swb.formelements.base.Percen
         return ret.toString();
     }
 
-    
     public int getNdigits()
     {
         return 3;
@@ -221,11 +222,20 @@ public class Percent extends com.infotec.eworkplace.swb.formelements.base.Percen
 
         try
         {
-            value=value.replace("%", "").trim();
-            int ivalue=Integer.parseInt(value);
-            if(ivalue<=0 || ivalue>100)
+            value = value.replace("%", "").trim();
+            int ivalue = Integer.parseInt(value);
+            if (!isPercentCero())
             {
-                throw new FormValidateException("El valor es incorrecto, debe ser del 1 al 100%");
+                if (ivalue <= 0)
+                {
+                    throw new FormValidateException("El valor es incorrecto, debe ser mayor a 0%");
+                }
+            }
+
+
+            if (ivalue > 100)
+            {
+                throw new FormValidateException("El valor es incorrecto, debe ser menor al 100%");
             }
 
         }
@@ -258,7 +268,7 @@ public class Percent extends com.infotec.eworkplace.swb.formelements.base.Percen
             }
             else
             {
-                value=value.replace("%", "").trim();
+                value = value.replace("%", "").trim();
                 try
                 {
                     int fvalue = Integer.parseInt(value);

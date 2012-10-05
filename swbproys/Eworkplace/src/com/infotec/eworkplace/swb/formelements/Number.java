@@ -226,10 +226,13 @@ public class Number extends com.infotec.eworkplace.swb.formelements.base.NumberB
 
         try
         {
-            int ivalue=Integer.parseInt(value);
-            if(ivalue<=0)
+            int ivalue = Integer.parseInt(value);
+            if (!this.isNumberCero())
             {
-                throw new FormValidateException("El valor es incorrecto, no puede ser negativo o cero");
+                if (ivalue <= 0)
+                {
+                    throw new FormValidateException("El valor es incorrecto, no puede ser negativo o cero");
+                }
             }
 
         }
@@ -282,7 +285,7 @@ public class Number extends com.infotec.eworkplace.swb.formelements.base.NumberB
 
     private String getFormat()
     {
-        StringBuilder format = new StringBuilder();        
+        StringBuilder format = new StringBuilder();
         format.append("\\d{1,").append(getNdigits()).append("}");
         return format.toString();
     }
