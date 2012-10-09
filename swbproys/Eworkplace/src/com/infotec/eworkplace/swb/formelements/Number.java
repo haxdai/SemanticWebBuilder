@@ -289,4 +289,19 @@ public class Number extends com.infotec.eworkplace.swb.formelements.base.NumberB
         format.append("\\d{1,").append(getNdigits()).append("}");
         return format.toString();
     }
+
+    @Override
+    public void validate(HttpServletRequest request, SemanticObject obj, SemanticProperty prop) throws FormValidateException
+    {
+        String name=prop.getName();
+        this.validate(request, obj, prop, name);
+    }
+
+    @Override
+    public String renderElement(HttpServletRequest request, SemanticObject obj, SemanticProperty prop, String type, String mode, String lang)
+    {
+        String name=prop.getName();
+        return this.renderElement(request, obj, prop, name, type, mode, lang);
+
+    }
 }
