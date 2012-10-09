@@ -62,13 +62,13 @@ if ("process".equals(aresponse.getAction())) {
             }
         }
         
-        if (request.getParameter("donePsico") != null) {
+        if (request.getParameter("donePsico") != null && request.getParameter("donePsico").trim().equals("true")) {
             sc.setRealizoPsicometrico(true);
         } else {
             sc.setRealizoPsicometrico(false);
         }
         
-        if (request.getParameter("viable") != null) {
+        if (request.getParameter("viable") != null  && request.getParameter("viable").trim().equals("true")) {
             sc.setViablePsicometrico(true);
         } else {
             sc.setViablePsicometrico(false);
