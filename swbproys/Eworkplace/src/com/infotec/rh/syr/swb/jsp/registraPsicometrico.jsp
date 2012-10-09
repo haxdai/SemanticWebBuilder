@@ -137,19 +137,21 @@ if (paramRequest.getCallMethod() == SWBParamRequest.Call_DIRECT) {
                             <tr>
                                 <td width="200px" align="right"><label for="title">Realiz&oacute; prueba psicom&eacute;trica</label>
                                 <td>
-                                    <input type="checkbox" <%=sc.isRealizoPsicometrico()?"checked":""%> name="donePsico"/>
+                                    <input type="radio" value="true" <%=sc.isRealizoPsicometrico()?"checked":""%> name="donePsico"/><label>Si</label>
+                                    <input type="radio" value="false" <%=sc.isRealizoPsicometrico()?"":"checked"%> name="donePsico"/><label>No</label>
                                 </td>
                             </tr>
                             <tr>
                                 <td width="200px" align="right"><label for="title">Candidato viable</label>
                                 <td>
-                                    <input type="checkbox" <%=sc.isViablePsicometrico()?"checked":""%> name="viable"/>
+                                    <input type="radio" value="true" <%=sc.isViablePsicometrico()?"checked":""%> name="viable"/><label>Si</label>
+                                    <input type="radio" value="false" <%=sc.isViablePsicometrico()?"":"checked"%> name="viable"/><label>No</label>
                                 </td>
                             </tr>
                             <tr>
                                 <td width="200px" align="right"><label for="title">Calificaci&oacute;n</label>
                                 <td>
-                                    <input type="text" name="apego" regexp="\d{1,2}(\.\d{0,2})?" required="true" dojoType="dijit.form.ValidationTextBox" value="<%=sc.getPorcentajePsicometrico()%>" />
+                                    <input type="text" name="apego" regexp="\d{1,3}(\.\d{0,2})?" required="true" dojoType="dijit.form.ValidationTextBox" value="<%=sc.getPorcentajePsicometrico()%>" />
                                 </td>
                             </tr>
                         </table>
