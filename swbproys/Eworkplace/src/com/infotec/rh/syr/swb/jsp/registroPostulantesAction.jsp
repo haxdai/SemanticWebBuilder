@@ -53,10 +53,13 @@ if ("process".equals(aresponse.getAction())) {
         Postulante pos = (Postulante) sobj.createGenericInstance();
         pos.setNombrePostulante(request.getParameter(Postulante.intranet_nombrePostulante.getName()));
         pos.setEmailPostulante(request.getParameter(Postulante.intranet_emailPostulante.getName()));
-        if (request.getParameter(Postulante.intranet_cumplePerfil.getName()) != null) {
+        
+        String flag1 = request.getParameter(Postulante.intranet_cumplePerfil.getName());
+        String flag2 = request.getParameter(Postulante.intranet_inhabilitadoSFP.getName());
+        if (flag1 != null && (flag1.trim().equals("true") || flag1.trim().equals(""))) {
             pos.setCumplePerfil(true);
         }
-        if (request.getParameter(Postulante.intranet_inhabilitadoSFP.getName()) != null) {
+        if (flag2 != null && (flag2.trim().equals("true") || flag2.trim().equals(""))) {
             pos.setInhabilitadoSFP(true);
         }
         sr.addPostulante(pos);
