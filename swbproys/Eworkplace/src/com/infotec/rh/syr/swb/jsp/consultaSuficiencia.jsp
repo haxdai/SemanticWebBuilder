@@ -363,8 +363,9 @@ if (paramRequest.getCallMethod() == SWBParamRequest.Call_DIRECT) {
             periodo = dojo.byId('periodo_<%=foi.getId()%>').value;
             
             if (sueldo == "" || sueldo == "undefined") sueldo = 0;
-            if (periodo == "" || periodo == "undefined") periodo = 0;
-            
+            if (sueldo.indexOf("$") != -1) sueldo = sueldo.replace("$", "").trim();
+            if (periodo == "" || periodo == "undefined") periodo = 0; 
+           
             dojo.byId('monto_<%=foi.getId()%>').value = sueldo * periodo;
         }
     </script>
