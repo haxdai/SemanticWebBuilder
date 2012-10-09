@@ -63,7 +63,7 @@ if ("process".equals(aresponse.getAction())) {
             }
         }
         
-        if (request.getParameter("aprueba") != null) {
+        if (request.getParameter("aprueba") != null && request.getParameter("aprueba").trim().equals("true")) {
             sc.setApruebaEntrevistaTelefonica(true);
         } else {
             sc.setApruebaEntrevistaTelefonica(false);
