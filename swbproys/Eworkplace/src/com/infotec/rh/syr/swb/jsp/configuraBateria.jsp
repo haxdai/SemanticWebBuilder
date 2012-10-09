@@ -16,10 +16,12 @@
 <%@page import="org.semanticwb.portal.SWBForms"%>
 <%@page import="org.semanticwb.portal.SWBFormMgr"%>
 <%@page import="org.semanticwb.model.SWBClass"%>
+<%@page import="org.semanticwb.model.FormElement"%>
 <%@page import="org.semanticwb.process.model.ItemAwareReference"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="org.semanticwb.platform.SemanticProperty"%>
+<%@page import="org.semanticwb.platform.SemanticObject"%>
 <%@page import="org.semanticwb.platform.SemanticClass"%>
 <%@page import="org.semanticwb.process.model.SWBProcessFormMgr"%>
 <%@page import="java.util.Date"%>
@@ -311,7 +313,15 @@ if (paramRequest.getCallMethod() == SWBParamRequest.Call_DIRECT) {
                     <tr>
                         <td width="200px" align="right"><label for="title"><%=fmgr.renderLabel(request, org.semanticwb.process.schema.Boolean.swps_booleanValue, varCondicion, SWBFormMgr.MODE_VIEW)%></label>
                         <td>
-                        <%=fmgr.renderElement(request, varCondicion, org.semanticwb.process.schema.Boolean.swps_booleanValue, SWBFormMgr.MODE_EDIT)%>
+                            <%
+                            SemanticObject sofe = ont.getSemanticObject("http://www.semanticwebbuilder.org/swb4/xforms/ontology#BooleanElement_1");
+                            if (null != sofe) {
+                                FormElement frme = (FormElement) sofe.createGenericInstance();
+                                %><%=fmgr.renderElement(request, varCondicion, org.semanticwb.process.schema.Boolean.swps_booleanValue, frme, SWBFormMgr.MODE_EDIT)%><%
+                            } else {
+                                %><%=fmgr.renderElement(request, varCondicion, org.semanticwb.process.schema.Boolean.swps_booleanValue, SWBFormMgr.MODE_EDIT)%><%
+                            }
+                            %>
                         </td>
                     </tr>
                 </table>
