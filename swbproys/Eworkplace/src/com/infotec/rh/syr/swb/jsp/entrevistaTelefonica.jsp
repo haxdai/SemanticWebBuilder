@@ -156,7 +156,8 @@ if (paramRequest.getCallMethod() == SWBParamRequest.Call_DIRECT) {
                             <tr>
                                 <td width="200px" align="right"><label for="title">El candidato aprueba la entrevista</label>
                                 <td>
-                                    <input type="checkbox" <%=sc.isApruebaEntrevistaTelefonica()?"checked":""%> name="aprueba"/>
+                                    <input type="radio" value="true" <%=sc.isApruebaEntrevistaTelefonica()?"checked":""%> name="aprueba"/><label>Si</label>
+                                    <input type="radio" value="false" <%=sc.isApruebaEntrevistaTelefonica()?"":"checked"%> name="aprueba"/><label>No</label>
                                 </td>
                             </tr>
                             <tr>
