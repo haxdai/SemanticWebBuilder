@@ -16,6 +16,7 @@ import org.semanticwb.model.FormValidateException;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticProperty;
 import org.semanticwb.platform.SemanticVocabulary;
+import org.semanticwb.portal.SWBFormMgr;
 
 public class Currency extends com.infotec.eworkplace.swb.formelements.base.CurrencyBase
 {
@@ -206,20 +207,9 @@ public class Currency extends com.infotec.eworkplace.swb.formelements.base.Curre
         return format;
     }
 
-    @Override
-    public void validate(HttpServletRequest request, SemanticObject obj, SemanticProperty prop) throws FormValidateException
-    {
-        String name=prop.getName();
-        this.validate(request, obj, prop, name);
-    }
+    
 
-    @Override
-    public String renderElement(HttpServletRequest request, SemanticObject obj, SemanticProperty prop, String type, String mode, String lang)
-    {
-        String name=prop.getName();
-        return this.renderElement(request, obj, prop, name, type, mode, lang);
-
-    }
+    
     
 
     @Override
@@ -267,12 +257,7 @@ public class Currency extends com.infotec.eworkplace.swb.formelements.base.Curre
 
     }
 
-    @Override
-    public void process(HttpServletRequest request, SemanticObject obj, SemanticProperty prop)
-    {
-        String name = prop.getName();
-        this.process(request, obj, prop, name);
-    }
+    
 
     @Override
     public void process(HttpServletRequest request, SemanticObject obj, SemanticProperty prop, String propName)
