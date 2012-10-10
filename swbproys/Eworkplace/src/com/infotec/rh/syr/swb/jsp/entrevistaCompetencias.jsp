@@ -160,13 +160,14 @@ if (paramRequest.getCallMethod() == SWBParamRequest.Call_DIRECT) {
                             <tr>
                                 <td width="200px" align="right"><label for="title">El candidato aprueba la entrevista</label>
                                 <td>
-                                    <input type="checkbox" dojoType="dijit.form.CheckBox" <%=sc.isApruebaCompetencias()?"checked":""%> name="aprueba"/>
+                                    <input type="radio" value="true" <%=sc.isApruebaCompetencias()?"checked":""%> name="aprueba"/><label>Si</label>
+                                    <input type="radio" value="false" <%=sc.isApruebaCompetencias()?"":"checked"%> name="aprueba"/><label>No</label>
                                 </td>
                             </tr>
                             <tr>
                                 <td width="200px" align="right"><label for="title">Calificaci&oacute;n</label>
                                 <td>
-                                    <input type="text" name="apego" regexp="\d{1,2}(\.\d{0,2})?" required="true" dojoType="dijit.form.ValidationTextBox" value="<%=sc.getPorcentajeCompetencias()%>" />
+                                    <input type="text" name="apego" regexp="\d{1,3}(\.\d{0,2})?" required="true" dojoType="dijit.form.ValidationTextBox" value="<%=sc.getPorcentajeCompetencias()%>" />
                                 </td>
                             </tr>
                             <tr>
