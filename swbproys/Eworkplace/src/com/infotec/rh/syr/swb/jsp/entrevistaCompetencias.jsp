@@ -339,11 +339,11 @@ if (paramRequest.getCallMethod() == SWBParamRequest.Call_DIRECT) {
                             %>
                         </td>
                     </tr>
-                    <tr>
+                    <!--tr>
                         <td width="200px" align="right"><label for="title"><%=fmgr.renderLabel(request, org.semanticwb.process.schema.Boolean.swps_booleanValue, varPregunta, SWBFormMgr.MODE_VIEW)%></label>
                         <td>
                         <%=fmgr.renderElement(request, varPregunta, org.semanticwb.process.schema.Boolean.swps_booleanValue, SWBFormMgr.MODE_EDIT)%>
-                        </td>
+                        </td-->
                     </tr>
                 </table>
             </fieldset>
