@@ -74,7 +74,7 @@ if ("process".equals(aresponse.getAction())) {
                 break;
             }
         }
-        if (request.getParameter("aprueba") != null) {
+        if (request.getParameter("aprueba") != null && request.getParameter("aprueba").trim().equals("true")) {
             sc.setApruebaTecnica(true);
         } else {
             sc.setApruebaTecnica(false);
