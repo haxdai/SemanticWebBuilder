@@ -245,12 +245,7 @@ public class Number extends com.infotec.eworkplace.swb.formelements.base.NumberB
 
     }
 
-    @Override
-    public void process(HttpServletRequest request, SemanticObject obj, SemanticProperty prop)
-    {
-        String name = prop.getName();
-        this.process(request, obj, prop, name);
-    }
+
 
     @Override
     public void process(HttpServletRequest request, SemanticObject obj, SemanticProperty prop, String propName)
@@ -290,18 +285,7 @@ public class Number extends com.infotec.eworkplace.swb.formelements.base.NumberB
         return format.toString();
     }
 
-    @Override
-    public void validate(HttpServletRequest request, SemanticObject obj, SemanticProperty prop) throws FormValidateException
-    {
-        String name=prop.getName();
-        this.validate(request, obj, prop, name);
-    }
 
-    @Override
-    public String renderElement(HttpServletRequest request, SemanticObject obj, SemanticProperty prop, String type, String mode, String lang)
-    {
-        String name=prop.getName();
-        return this.renderElement(request, obj, prop, name, type, mode, lang);
 
-    }
+
 }
