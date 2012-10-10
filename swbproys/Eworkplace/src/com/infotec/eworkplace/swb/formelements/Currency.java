@@ -123,8 +123,11 @@ public class Currency extends com.infotec.eworkplace.swb.formelements.base.Curre
 
         try
         {
-            double dvalue = Double.parseDouble(value);
-            value = CURRENCY.format(dvalue);
+            if (!value.isEmpty())
+            {
+                double dvalue = Double.parseDouble(value);
+                value = CURRENCY.format(dvalue);
+            }
 
         }
         catch (Exception e)
@@ -207,11 +210,6 @@ public class Currency extends com.infotec.eworkplace.swb.formelements.base.Curre
         return format;
     }
 
-    
-
-    
-    
-
     @Override
     public void validate(HttpServletRequest request, SemanticObject obj, SemanticProperty prop, String propName) throws FormValidateException
     {
@@ -256,8 +254,6 @@ public class Currency extends com.infotec.eworkplace.swb.formelements.base.Curre
 
 
     }
-
-    
 
     @Override
     public void process(HttpServletRequest request, SemanticObject obj, SemanticProperty prop, String propName)
