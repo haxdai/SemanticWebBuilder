@@ -100,6 +100,10 @@ public class UserInformation
         return jefeInmediato;
     }
 
+    public void setSimpleJefeInmediato(String loginJefeInmediato)
+    {
+        this.jefeInmediato=loginJefeInmediato;
+    }
     public void setJefeInmediato(String loginJefeInmediato)
     {
         if (loginJefeInmediato == null)
