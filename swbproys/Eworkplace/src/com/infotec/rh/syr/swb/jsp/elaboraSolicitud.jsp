@@ -1,3 +1,6 @@
+<%@page import="org.semanticwb.model.FormElement"%>
+<%@page import="com.infotec.eworkplace.swb.formelements.Currency"%>
+<%@page import="org.semanticwb.platform.SemanticObject"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.infotec.cvi.swb.Habilidad"%>
 <%@page import="com.infotec.cvi.swb.TipoTalento"%>
@@ -274,7 +277,15 @@ if (paramRequest.getCallMethod() == SWBParamRequest.Call_DIRECT) {
                     <tr>
                         <td width="200px" align="right"><label for="title"><%=fmgr.renderLabel(request, SolicitudRecurso.intranet_salarioMin, varSolicitud, SWBFormMgr.MODE_VIEW)%></label></td>
                         <td>
-                            <input type="text" value="<%=sr.getSalarioMin()%>" dojoType="dijit.form.ValidationTextBox" onBlur="validaMinimo();" id="salarioMin_<%=foi.getId()%>" name="<%=varSolicitud+"."+SolicitudRecurso.intranet_salarioMin.getName()%>" required="true" style="width:300px"/>
+                            <%
+                            String regexp = "\\d(\\.\\d{0,2})?";
+                            SemanticObject sofe = ont.getSemanticObject("http://www.infotec.com.mx/intranet#CurrencySueldo");
+                            if (null != sofe) {
+                                FormElement frme = (FormElement) sofe.createGenericInstance();
+                                regexp = ((Currency)frme).getFormat();
+                            }
+                            %>
+                            <input type="text" value="<%=sr.getSalarioMin()%>" regExp="<%=regexp%>" dojoType="dijit.form.ValidationTextBox" onBlur="validaMinimo();" id="salarioMin_<%=foi.getId()%>" name="<%=varSolicitud+"."+SolicitudRecurso.intranet_salarioMin.getName()%>" required="true" style="width:300px"/>
                         </td>
                     </tr>
                     <tr>
@@ -427,8 +438,9 @@ if (paramRequest.getCallMethod() == SWBParamRequest.Call_DIRECT) {
             var min = dojo.byId('salarioMin_<%=foi.getId()%>').value;
             var max = <%=sr.getSalarioMax()%>;
             if (min == "" || min== "undefined") min = 0;
+            console.log()
 
-            if (min < 0 || min >= max) dojo.byId('salarioMin_<%=foi.getId()%>').value = 0;
+            if (min < 0 || min >= max) dojo.byId('salarioMin_<%=foi.getId()%>').value = max;
             if (min <= 0) {
                 return false;
             } else {
