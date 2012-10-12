@@ -695,6 +695,24 @@ public class Services
         }
     }
 
+    public void removeField(String login, FIELD field) throws ServiceException
+    {
+        try
+        {
+            DirContext ctx = AuthenticateLP(login);
+
+            Attribute att = new BasicAttribute(getName(field));
+            Attributes atts = new BasicAttributes(true);
+            atts.put(att);
+            String cn = getCNFromLogin(login);
+            ctx.modifyAttributes(cn, DirContext.REMOVE_ATTRIBUTE, atts);
+        }
+        catch (Exception e)
+        {
+            throw new ServiceException("No se pueden eliminar el atributo " + field.toString() + " para usuario " + login, e);
+        }
+    }
+
     public void modifyTipoContratacion(String login, TIPO_CONTRATACION tipo) throws ServiceException
     {
         if (tipo == null)
@@ -922,7 +940,7 @@ public class Services
 
         try
         {
-            UserInformation info=s.getUserInformation(login);
+            UserInformation info = s.getUserInformation(login);
             s.getLoginByCURP("logv7312187c8hdfrnc03");
             s.removeNoEmpleado(login);
         }
@@ -1352,7 +1370,7 @@ public class Services
         UserInformation user = null;
         try
         {
-            dir=AuthenticateLP();
+            dir = AuthenticateLP();
             Attributes atts = dir.getAttributes(cn);
             user = new UserInformation();
             user.setLogin(login);
@@ -1424,7 +1442,7 @@ public class Services
                 if (token.startsWith("OU="))
                 {
                     String OU = token.substring(3).trim();
-                    String cnou = getCNOU(OU)+","+props.getProperty("base","");
+                    String cnou = getCNOU(OU) + "," + props.getProperty("base", "");
                     if (dir.getAttributes(cnou) != null && dir.getAttributes(cnou).get("description") != null && dir.getAttributes(cnou).get("description").get() != null)
                     {
                         String description = dir.getAttributes(cnou).get("description").get().toString();
@@ -1440,12 +1458,12 @@ public class Services
             {
                 String cnManager = atts.get(getName(FIELD.JEFE_INMEDIATO)).get().toString();
                 String loginManager = dir.getAttributes(cnManager).get(seekField).toString();
-                if(loginManager!=null)
+                if (loginManager != null)
                 {
-                    int pos=loginManager.indexOf(":");
-                    if(pos!=-1)
+                    int pos = loginManager.indexOf(":");
+                    if (pos != -1)
                     {
-                        loginManager=loginManager.substring(pos+1).trim();
+                        loginManager = loginManager.substring(pos + 1).trim();
                     }
                 }
                 user.setSimpleJefeInmediato(loginManager);
@@ -1478,17 +1496,16 @@ public class Services
         catch (Exception e)
         {
             throw new ServiceException("No se puede obtener el user information de " + login, e);
-        }
-        finally
+        } finally
         {
             try
             {
                 dir.close();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 log.error(e);
-                
+
             }
         }
         return user;
