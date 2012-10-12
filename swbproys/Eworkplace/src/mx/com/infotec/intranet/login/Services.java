@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Properties;
+import java.util.StringTokenizer;
 import javax.naming.Context;
 import javax.naming.NameClassPair;
 import javax.naming.NamingEnumeration;
@@ -190,6 +191,39 @@ public class Services
 
 
             name = ((SearchResult) answers.next()).getAttributes().get("distinguishedName").toString();
+        }
+        catch (Exception e)
+        {
+            log.error(e);
+        } finally
+        {
+            dir.close();
+        }
+        return name;
+    }
+
+    private String getCNOU(String OU) throws Exception
+    {
+        String name = null;
+        DirContext dir = null;
+        try
+        {
+            dir = AuthenticateLP();
+            Attributes matchAttrs = new BasicAttributes(true); // ignore case
+            matchAttrs.put(new BasicAttribute("objectClass", "organizationalUnit"));
+            NamingEnumeration answers = null;
+
+            SearchControls ctls = new SearchControls();
+            ctls.setReturningAttributes(new String[]
+                    {
+                        "*"
+                    });
+            ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
+            answers = dir.search(props.getProperty("base", ""),
+                    "(&(objectClass=organizationalUnit)(ou=" + OU + "))", ctls);
+
+
+            name = ((SearchResult) answers.next()).getName();
         }
         catch (Exception e)
         {
@@ -888,6 +922,7 @@ public class Services
 
         try
         {
+            UserInformation info=s.getUserInformation(login);
             s.getLoginByCURP("logv7312187c8hdfrnc03");
             s.removeNoEmpleado(login);
         }
@@ -1308,5 +1343,154 @@ public class Services
             return 3;
         }
 
+    }
+
+    public UserInformation getUserInformation(String login) throws ServiceException
+    {
+        String cn = getCNFromLogin(login);
+        DirContext dir = null;
+        UserInformation user = null;
+        try
+        {
+            dir=AuthenticateLP();
+            Attributes atts = dir.getAttributes(cn);
+            user = new UserInformation();
+            user.setLogin(login);
+            if (atts.get(getName(FIELD.PRIMER_NOMBRE)) != null && atts.get(getName(FIELD.PRIMER_NOMBRE)).get() != null)
+            {
+                user.setPrimerNombre(atts.get(getName(FIELD.PRIMER_NOMBRE)).get().toString());
+            }
+            if (atts.get(getName(FIELD.SEGUNDO_NOMBRE)) != null && atts.get(getName(FIELD.SEGUNDO_NOMBRE)).get() != null)
+            {
+                user.setSegundoNombre(atts.get(getName(FIELD.SEGUNDO_NOMBRE)).get().toString());
+            }
+            if (atts.get(getName(FIELD.PRIMER_APELLIDO)) != null && atts.get(getName(FIELD.PRIMER_APELLIDO)).get() != null)
+            {
+                user.setpApellido(atts.get(getName(FIELD.PRIMER_APELLIDO)).get().toString());
+            }
+            if (atts.get(getName(FIELD.SEGUNDO_APELLIDO)) != null && atts.get(getName(FIELD.SEGUNDO_APELLIDO)).get() != null)
+            {
+                user.setsApellido(atts.get(getName(FIELD.SEGUNDO_APELLIDO)).get().toString());
+            }
+            if (atts.get(getName(FIELD.EMAIL)) != null && atts.get(getName(FIELD.EMAIL)).get() != null)
+            {
+                user.setEmail(atts.get(getName(FIELD.EMAIL)).get().toString());
+            }
+            if (atts.get(getName(FIELD.RFC)) != null && atts.get(getName(FIELD.RFC)).get() != null)
+            {
+                user.setRFC(atts.get(getName(FIELD.RFC)).get().toString());
+            }
+            if (atts.get(getName(FIELD.CURP)) != null && atts.get(getName(FIELD.CURP)).get() != null)
+            {
+                user.setCurp(atts.get(getName(FIELD.CURP)).get().toString());
+            }
+            if (atts.get(getName(FIELD.SEDE)) != null && atts.get(getName(FIELD.SEDE)).get() != null)
+            {
+                user.setSede(atts.get(getName(FIELD.SEDE)).get().toString());
+            }
+            if (atts.get(getName(FIELD.ESPECIALIDAD)) != null && atts.get(getName(FIELD.ESPECIALIDAD)).get() != null)
+            {
+                user.setEspecialidad(Integer.parseInt(atts.get(getName(FIELD.ESPECIALIDAD)).get().toString()));
+            }
+            if (atts.get(getName(FIELD.NO_EMPLEADO)) != null && atts.get(getName(FIELD.NO_EMPLEADO)).get() != null)
+            {
+                user.setNoempleado(Integer.parseInt(atts.get(getName(FIELD.NO_EMPLEADO)).get().toString()));
+            }
+            if (atts.get(getName(FIELD.PROYECTO)) != null && atts.get(getName(FIELD.PROYECTO)).get() != null)
+            {
+                user.setProyecto(Integer.parseInt(atts.get(getName(FIELD.PROYECTO)).get().toString()));
+            }
+            if (atts.get(getName(FIELD.PUESTO_FUNCION)) != null && atts.get(getName(FIELD.PUESTO_FUNCION)).get() != null)
+            {
+                user.setPuestoFuncion(atts.get(getName(FIELD.PUESTO_FUNCION)).get().toString());
+            }
+            if (atts.get(getName(FIELD.TIPO_CONTRATACION)) != null && atts.get(getName(FIELD.TIPO_CONTRATACION)).get() != null)
+            {
+                String stipo = atts.get(getName(FIELD.TIPO_CONTRATACION)).get().toString().replace(' ', '_');
+                TIPO_CONTRATACION tipo = TIPO_CONTRATACION.valueOf(stipo);
+                user.setTipoContratacion(tipo);
+            }
+
+            if (atts.get(getName(FIELD.GENERO)) != null && atts.get(getName(FIELD.GENERO)).get() != null)
+            {
+                String sgenero = atts.get(getName(FIELD.GENERO)).get().toString().toUpperCase();
+                GENERO tipo = GENERO.valueOf(sgenero);
+                user.setGenero(tipo);
+            }
+            StringTokenizer st = new StringTokenizer(cn, ",");
+            while (st.hasMoreTokens())
+            {
+                String token = st.nextToken();
+                if (token.startsWith("OU="))
+                {
+                    String OU = token.substring(3).trim();
+                    String cnou = getCNOU(OU)+","+props.getProperty("base","");
+                    if (dir.getAttributes(cnou) != null && dir.getAttributes(cnou).get("description") != null && dir.getAttributes(cnou).get("description").get() != null)
+                    {
+                        String description = dir.getAttributes(cnou).get("description").get().toString();
+                        if (!description.isEmpty())
+                        {
+                            user.setArea(Integer.parseInt(description));
+                        }
+                    }
+                    break;
+                }
+            }
+            if (atts.get(getName(FIELD.JEFE_INMEDIATO)) != null && atts.get(getName(FIELD.JEFE_INMEDIATO)).get() != null)
+            {
+                String cnManager = atts.get(getName(FIELD.JEFE_INMEDIATO)).get().toString();
+                String loginManager = dir.getAttributes(cnManager).get(seekField).toString();
+                if(loginManager!=null)
+                {
+                    int pos=loginManager.indexOf(":");
+                    if(pos!=-1)
+                    {
+                        loginManager=loginManager.substring(pos+1).trim();
+                    }
+                }
+                user.setSimpleJefeInmediato(loginManager);
+
+            }
+
+            /*userInformation.setLogin(login);
+            userInformation.setEmail("victor.lorenzana@infotec.com.mx");
+            userInformation.setPrimerNombre("Víctor");
+            userInformation.setSegundoNombre("Hugo");
+            userInformation.setpApellido("Lorenzana");
+            userInformation.setsApellido("González");
+            userInformation.setTipoContratacion(TIPO_CONTRATACION.Nómina_Institucional);
+            userInformation.setPuestoFuncion("Consultor");
+            userInformation.setRFC("logv7312187c8");
+            userInformation.setCurp("logv7312187c8hdfrnc03");
+            userInformation.setEspecialidad(1);
+
+            //
+            userInformation.setJefeInmediatoByRFC("WISM7611203L6");
+            userInformation.setJefeInmediatoByCURP("WISM761120MNERZR08");
+            userInformation.setJefeInmediato("sandra.varela");
+            userInformation.setNoempleado(679);
+            userInformation.setProyecto(52);
+            userInformation.setSede("INFOTEC");
+            userInformation.setArea(72);
+            userInformation.setGenero(GENERO.HOMBRE);*/
+
+        }
+        catch (Exception e)
+        {
+            throw new ServiceException("No se puede obtener el user information de " + login, e);
+        }
+        finally
+        {
+            try
+            {
+                dir.close();
+            }
+            catch(Exception e)
+            {
+                log.error(e);
+                
+            }
+        }
+        return user;
     }
 }
