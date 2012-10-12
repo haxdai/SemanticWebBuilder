@@ -126,6 +126,48 @@ public class Services
         return new StringBuffer().append("uid=").append(username).append(",").append(ou).toString();
     }
 
+    public String getLoginByCURP(String curp) throws Exception
+    {
+        String name = null;
+        DirContext dir = null;
+        try
+        {
+            dir = AuthenticateLP();
+            Attributes matchAttrs = new BasicAttributes(true); // ignore case
+            matchAttrs.put(new BasicAttribute("objectClass", userObjectClass));
+            NamingEnumeration answers = null;
+
+            SearchControls ctls = new SearchControls();
+            ctls.setReturningAttributes(new String[]
+                    {
+                        "*"
+                    });
+            ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
+            answers = dir.search(props.getProperty("base", ""),
+                    "(&(objectClass=" + userObjectClass + ")(" + getName(FIELD.CURP) + "=" + curp + "))", ctls);
+
+
+
+            name = ((SearchResult) answers.next()).getAttributes().get(seekField).toString();
+            if (name != null)
+            {
+                int pos = name.indexOf(":");
+                if (pos != -1)
+                {
+                    name = name.substring(pos + 1).trim();
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            log.error(e);
+        } finally
+        {
+            dir.close();
+        }
+        return name;
+    }
+
     private String getOU(String area) throws Exception
     {
         String name = null;
@@ -607,11 +649,11 @@ public class Services
             DirContext ctx = AuthenticateLP(login);
             //ModificationItem[] items = new ModificationItem[1];
             Attribute att = new BasicAttribute(getName(FIELD.NO_EMPLEADO));
-            Attributes atts=new BasicAttributes(true);
+            Attributes atts = new BasicAttributes(true);
             atts.put(att);
             //items[0] = new ModificationItem(DirContext.REMOVE_ATTRIBUTE, att);
             String cn = getCNFromLogin(login);
-            ctx.modifyAttributes(cn,DirContext.REMOVE_ATTRIBUTE, atts);
+            ctx.modifyAttributes(cn, DirContext.REMOVE_ATTRIBUTE, atts);
         }
         catch (Exception e)
         {
@@ -846,11 +888,12 @@ public class Services
 
         try
         {
+            s.getLoginByCURP("logv7312187c8hdfrnc03");
             s.removeNoEmpleado(login);
         }
-        catch(Exception e)
+        catch (Exception e)
         {
-            log.error(e);            
+            log.error(e);
         }
 
         userInformation = new UserInformation();
