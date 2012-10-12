@@ -1,4 +1,7 @@
 
+<%@page import="com.infotec.eworkplace.swb.formelements.Currency"%>
+<%@page import="org.semanticwb.model.FormElement"%>
+<%@page import="org.semanticwb.platform.SemanticObject"%>
 <%@page import="org.semanticwb.model.SWBClass"%>
 <%@page import="org.semanticwb.process.model.ItemAwareReference"%>
 <%@page import="com.infotec.rh.syr.swb.SeguimientoSolicitudRecurso"%>
@@ -230,8 +233,16 @@ if (paramRequest.getCallMethod() == SWBParamRequest.Call_DIRECT) {
                     </tr>
                     <tr>
                         <td width="200px" align="right"><label for="title"><%=fmgr.renderLabel(request, SolicitudRecurso.intranet_sueldoBruto, varSolicitud, SWBFormMgr.MODE_VIEW)%></label></td>
+                        <%
+                        String regexp = "\\d(\\.\\d{0,2})?";
+                        SemanticObject sofe = ont.getSemanticObject("http://www.infotec.com.mx/intranet#CurrencySueldo");
+                        if (null != sofe) {
+                            FormElement frme = (FormElement) sofe.createGenericInstance();
+                            regexp = ((Currency)frme).getFormat();
+                        }
+                        %>
                         <td>
-                            <input type="text" value="<%=sr.getSueldoBruto()%>" dojoType="dijit.form.ValidationTextBox" onBlur="calcMontoTotal();" id="sueldo_<%=foi.getId()%>" name="<%=varSolicitud+"."+SolicitudRecurso.intranet_sueldoBruto.getName()%>" required="true" style="width:300px"/>
+                            <input type="text" value="<%=sr.getSueldoBruto()%>" regExp="<%=regexp%>" dojoType="dijit.form.ValidationTextBox" onBlur="calcMontoTotal();" id="sueldo_<%=foi.getId()%>" name="<%=varSolicitud+"."+SolicitudRecurso.intranet_sueldoBruto.getName()%>" required="true" style="width:300px"/>
                         </td>
                     </tr>
                     <tr>
