@@ -938,16 +938,16 @@ public class Services
 
         String login = "victor.lorenzana";
 
-        try
-        {
-            UserInformation info = s.getUserInformation(login);
-            s.getLoginByCURP("logv7312187c8hdfrnc03");
-            s.removeNoEmpleado(login);
-        }
-        catch (Exception e)
-        {
-            log.error(e);
-        }
+//        try
+//        {
+//            UserInformation info = s.getUserInformation(login);
+//            s.getLoginByCURP("logv7312187c8hdfrnc03");
+//            s.removeNoEmpleado(login);
+//        }
+//        catch (Exception e)
+//        {
+//            log.error(e);
+//        }
 
         userInformation = new UserInformation();
         userInformation.setLogin(login);
