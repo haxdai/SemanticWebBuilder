@@ -188,7 +188,7 @@ public class Number extends com.infotec.eworkplace.swb.formelements.base.NumberB
         {
             String uridefault = SemanticVocabulary.SWB_PROP_DEFAULTVALUE;
             SemanticProperty defaultProp = this.getSemanticObject().getModel().getSemanticProperty(uridefault);
-            String value = CurrencyBase.intraxf_format.getSemanticObject().getProperty(defaultProp);
+            String value = Number.intraxf_ndigits.getSemanticObject().getProperty(defaultProp);
             try
             {
                 ndigits = Integer.parseInt(value);
