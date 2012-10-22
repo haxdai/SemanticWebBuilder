@@ -483,4 +483,20 @@ public class UserInformation
     {
         return sApellido;
     }
+
+    public TIPO_CONTRATACION getTipoContratacion()
+    {
+        if(tipoContratacion==null)
+        {
+            return null;
+        }
+        else
+        {
+            return TIPO_CONTRATACION.valueOf(tipoContratacion);
+        }
+    }
+    public String getPuestoFuncion()
+    {
+        return puestoFuncion;
+    }
 }
