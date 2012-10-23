@@ -126,6 +126,11 @@ public abstract class SeguimientoBase extends org.semanticwb.model.SWBClass impl
         }
     }
 
+    public static SeguimientoBase.ClassMgr getSeguimientoClassMgr()
+    {
+        return new SeguimientoBase.ClassMgr();
+    }
+
    /**
    * Constructs a SeguimientoBase with a SemanticObject
    * @param base The SemanticObject with the properties for the Seguimiento

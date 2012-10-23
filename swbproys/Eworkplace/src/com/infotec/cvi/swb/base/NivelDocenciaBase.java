@@ -4,7 +4,7 @@ package com.infotec.cvi.swb.base;
    /**
    * Catálogo utilizado para indicar el nivel en el cual se a impartido cursos en Docencia 
    */
-public abstract class NivelDocenciaBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+public abstract class NivelDocenciaBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
    /**
    * Catálogo utilizado para indicar el nivel en el cual se a impartido cursos en Docencia
@@ -130,6 +130,11 @@ public abstract class NivelDocenciaBase extends com.infotec.cvi.swb.Catalogo imp
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.NivelDocencia> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
+    }
+
+    public static NivelDocenciaBase.ClassMgr getNivelDocenciaClassMgr()
+    {
+        return new NivelDocenciaBase.ClassMgr();
     }
 
    /**

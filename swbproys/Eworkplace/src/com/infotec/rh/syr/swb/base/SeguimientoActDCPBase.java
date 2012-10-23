@@ -542,6 +542,11 @@ public abstract class SeguimientoActDCPBase extends com.infotec.eworkplace.swb.S
         }
     }
 
+    public static SeguimientoActDCPBase.ClassMgr getSeguimientoActDCPClassMgr()
+    {
+        return new SeguimientoActDCPBase.ClassMgr();
+    }
+
    /**
    * Constructs a SeguimientoActDCPBase with a SemanticObject
    * @param base The SemanticObject with the properties for the SeguimientoActDCP

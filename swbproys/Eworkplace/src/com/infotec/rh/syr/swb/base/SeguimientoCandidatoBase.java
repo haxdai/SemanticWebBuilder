@@ -12,6 +12,7 @@ public abstract class SeguimientoCandidatoBase extends com.infotec.eworkplace.sw
     public static final org.semanticwb.platform.SemanticProperty intranet_apruebaCompetencias=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#apruebaCompetencias");
     public static final org.semanticwb.platform.SemanticProperty intranet_notasCompetencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#notasCompetencia");
     public static final org.semanticwb.platform.SemanticProperty intranet_observacionesTecnica=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#observacionesTecnica");
+    public static final org.semanticwb.platform.SemanticProperty intranet_filePsicometrico=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#filePsicometrico");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaCompetencias=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaCompetencias");
     public static final org.semanticwb.platform.SemanticProperty intranet_candidatoGanador=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#candidatoGanador");
     public static final org.semanticwb.platform.SemanticProperty intranet_notaExperienciaCompetencias=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#notaExperienciaCompetencias");
@@ -255,6 +256,11 @@ public abstract class SeguimientoCandidatoBase extends com.infotec.eworkplace.sw
         }
     }
 
+    public static SeguimientoCandidatoBase.ClassMgr getSeguimientoCandidatoClassMgr()
+    {
+        return new SeguimientoCandidatoBase.ClassMgr();
+    }
+
    /**
    * Constructs a SeguimientoCandidatoBase with a SemanticObject
    * @param base The SemanticObject with the properties for the SeguimientoCandidato
@@ -392,6 +398,24 @@ public abstract class SeguimientoCandidatoBase extends com.infotec.eworkplace.sw
     public void setObservacionesTecnica(String value)
     {
         getSemanticObject().setProperty(intranet_observacionesTecnica, value);
+    }
+
+/**
+* Gets the FilePsicometrico property
+* @return String with the FilePsicometrico
+*/
+    public String getFilePsicometrico()
+    {
+        return getSemanticObject().getProperty(intranet_filePsicometrico);
+    }
+
+/**
+* Sets the FilePsicometrico property
+* @param value long with the FilePsicometrico
+*/
+    public void setFilePsicometrico(String value)
+    {
+        getSemanticObject().setProperty(intranet_filePsicometrico, value);
     }
 
 /**

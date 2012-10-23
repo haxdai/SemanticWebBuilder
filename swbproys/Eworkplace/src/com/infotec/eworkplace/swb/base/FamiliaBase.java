@@ -106,6 +106,11 @@ public abstract class FamiliaBase extends org.semanticwb.model.SWBClass implemen
         }
     }
 
+    public static FamiliaBase.ClassMgr getFamiliaClassMgr()
+    {
+        return new FamiliaBase.ClassMgr();
+    }
+
    /**
    * Constructs a FamiliaBase with a SemanticObject
    * @param base The SemanticObject with the properties for the Familia

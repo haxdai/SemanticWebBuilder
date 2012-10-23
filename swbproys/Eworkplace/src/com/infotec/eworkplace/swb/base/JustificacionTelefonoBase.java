@@ -87,6 +87,11 @@ public abstract class JustificacionTelefonoBase extends org.semanticwb.model.SWB
         }
     }
 
+    public static JustificacionTelefonoBase.ClassMgr getJustificacionTelefonoClassMgr()
+    {
+        return new JustificacionTelefonoBase.ClassMgr();
+    }
+
    /**
    * Constructs a JustificacionTelefonoBase with a SemanticObject
    * @param base The SemanticObject with the properties for the JustificacionTelefono
@@ -94,24 +99,6 @@ public abstract class JustificacionTelefonoBase extends org.semanticwb.model.SWB
     public JustificacionTelefonoBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
-    }
-
-/**
-* Gets the Justificacion property
-* @return String with the Justificacion
-*/
-    public String getJustificacion()
-    {
-        return getSemanticObject().getProperty(intranet_justificacion);
-    }
-
-/**
-* Sets the Justificacion property
-* @param value long with the Justificacion
-*/
-    public void setJustificacion(String value)
-    {
-        getSemanticObject().setProperty(intranet_justificacion, value);
     }
 
 /**
@@ -130,5 +117,23 @@ public abstract class JustificacionTelefonoBase extends org.semanticwb.model.SWB
     public void setRequiereTelefono(boolean value)
     {
         getSemanticObject().setBooleanProperty(intranet_requiereTelefono, value);
+    }
+
+/**
+* Gets the Justificacion property
+* @return String with the Justificacion
+*/
+    public String getJustificacion()
+    {
+        return getSemanticObject().getProperty(intranet_justificacion);
+    }
+
+/**
+* Sets the Justificacion property
+* @param value long with the Justificacion
+*/
+    public void setJustificacion(String value)
+    {
+        getSemanticObject().setProperty(intranet_justificacion, value);
     }
 }

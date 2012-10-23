@@ -74,6 +74,11 @@ public abstract class TarjetaAccesoBase extends org.semanticwb.model.SWBClass
         }
     }
 
+    public static TarjetaAccesoBase.ClassMgr getTarjetaAccesoClassMgr()
+    {
+        return new TarjetaAccesoBase.ClassMgr();
+    }
+
    /**
    * Constructs a TarjetaAccesoBase with a SemanticObject
    * @param base The SemanticObject with the properties for the TarjetaAcceso

@@ -4,7 +4,7 @@ package com.infotec.rh.syr.swb.base;
    /**
    * Encapsula la información relacionada con un capítulo presupuestal 
    */
-public abstract class CapituloPresupuestoBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+public abstract class CapituloPresupuestoBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
    /**
    * Encapsula la información relacionada con una partida presupuestal
@@ -158,6 +158,11 @@ public abstract class CapituloPresupuestoBase extends com.infotec.cvi.swb.Catalo
             org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.CapituloPresupuesto> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasPartidaPresupuesto,value.getSemanticObject(),sclass));
             return it;
         }
+    }
+
+    public static CapituloPresupuestoBase.ClassMgr getCapituloPresupuestoClassMgr()
+    {
+        return new CapituloPresupuestoBase.ClassMgr();
     }
 
    /**

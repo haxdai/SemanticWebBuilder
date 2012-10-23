@@ -86,6 +86,11 @@ public abstract class CertificacionBase extends org.semanticwb.model.SWBClass
         }
     }
 
+    public static CertificacionBase.ClassMgr getCertificacionClassMgr()
+    {
+        return new CertificacionBase.ClassMgr();
+    }
+
    /**
    * Constructs a CertificacionBase with a SemanticObject
    * @param base The SemanticObject with the properties for the Certificacion

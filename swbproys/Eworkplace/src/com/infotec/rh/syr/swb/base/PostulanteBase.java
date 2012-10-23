@@ -135,6 +135,11 @@ public abstract class PostulanteBase extends org.semanticwb.model.SWBClass imple
         }
     }
 
+    public static PostulanteBase.ClassMgr getPostulanteClassMgr()
+    {
+        return new PostulanteBase.ClassMgr();
+    }
+
    /**
    * Constructs a PostulanteBase with a SemanticObject
    * @param base The SemanticObject with the properties for the Postulante

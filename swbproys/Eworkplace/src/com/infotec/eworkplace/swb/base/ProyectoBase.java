@@ -4,7 +4,7 @@ package com.infotec.eworkplace.swb.base;
    /**
    * Encapsula las propiedades relacionadas con un proyecto del ProjectServer 
    */
-public abstract class ProyectoBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+public abstract class ProyectoBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_nombreContacto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nombreContacto");
     public static final org.semanticwb.platform.SemanticProperty intranet_telefonoContacto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#telefonoContacto");
@@ -15,6 +15,7 @@ public abstract class ProyectoBase extends com.infotec.cvi.swb.Catalogo implemen
     public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
     public static final org.semanticwb.platform.SemanticProperty intranet_adminsitradorDelProyecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#adminsitradorDelProyecto");
     public static final org.semanticwb.platform.SemanticProperty intranet_emailContacto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#emailContacto");
+    public static final org.semanticwb.platform.SemanticProperty intranet_activo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#activo");
     public static final org.semanticwb.platform.SemanticProperty intranet_areaDelProyecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#areaDelProyecto");
     public static final org.semanticwb.platform.SemanticProperty intranet_especialidadDelProyecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#especialidadDelProyecto");
     public static final org.semanticwb.platform.SemanticProperty intranet_numeroProyecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#numeroProyecto");
@@ -169,6 +170,11 @@ public abstract class ProyectoBase extends com.infotec.cvi.swb.Catalogo implemen
         }
     }
 
+    public static ProyectoBase.ClassMgr getProyectoClassMgr()
+    {
+        return new ProyectoBase.ClassMgr();
+    }
+
    /**
    * Constructs a ProyectoBase with a SemanticObject
    * @param base The SemanticObject with the properties for the Proyecto
@@ -286,6 +292,24 @@ public abstract class ProyectoBase extends com.infotec.cvi.swb.Catalogo implemen
     public void setEmailContacto(String value)
     {
         getSemanticObject().setProperty(intranet_emailContacto, value);
+    }
+
+/**
+* Gets the Activo property
+* @return boolean with the Activo
+*/
+    public boolean isActivo()
+    {
+        return getSemanticObject().getBooleanProperty(intranet_activo);
+    }
+
+/**
+* Sets the Activo property
+* @param value long with the Activo
+*/
+    public void setActivo(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(intranet_activo, value);
     }
 
 /**

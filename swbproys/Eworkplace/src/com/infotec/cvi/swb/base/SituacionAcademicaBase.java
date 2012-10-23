@@ -4,7 +4,7 @@ package com.infotec.cvi.swb.base;
    /**
    * Catálogo utilizado para indicar la Situación Académica del Grado Académico 
    */
-public abstract class SituacionAcademicaBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+public abstract class SituacionAcademicaBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
    /**
    * Catálogo utilizado para indicar la Situación Académica del Grado Académico
@@ -130,6 +130,11 @@ public abstract class SituacionAcademicaBase extends com.infotec.cvi.swb.Catalog
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.SituacionAcademica> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
+    }
+
+    public static SituacionAcademicaBase.ClassMgr getSituacionAcademicaClassMgr()
+    {
+        return new SituacionAcademicaBase.ClassMgr();
     }
 
    /**

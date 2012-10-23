@@ -83,6 +83,11 @@ public abstract class TelefonoBase extends org.semanticwb.model.SWBClass impleme
         }
     }
 
+    public static TelefonoBase.ClassMgr getTelefonoClassMgr()
+    {
+        return new TelefonoBase.ClassMgr();
+    }
+
    /**
    * Constructs a TelefonoBase with a SemanticObject
    * @param base The SemanticObject with the properties for the Telefono

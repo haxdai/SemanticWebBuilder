@@ -4,7 +4,7 @@ package com.infotec.cvi.swb.base;
    /**
    * Catálogo utilizado para Arquitecto de Sistemas 
    */
-public abstract class ArqSistemaBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+public abstract class ArqSistemaBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
    /**
    * Catálogo utilizado para Arquitecto de Sistemas
@@ -130,6 +130,11 @@ public abstract class ArqSistemaBase extends com.infotec.cvi.swb.Catalogo implem
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.ArqSistema> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
+    }
+
+    public static ArqSistemaBase.ClassMgr getArqSistemaClassMgr()
+    {
+        return new ArqSistemaBase.ClassMgr();
     }
 
    /**

@@ -4,7 +4,7 @@ package com.infotec.cvi.swb.base;
    /**
    * Catálogo utilizado para Emprendedor 
    */
-public abstract class EmprendedorBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+public abstract class EmprendedorBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
    /**
    * Catálogo utilizado para Emprendedor
@@ -130,6 +130,11 @@ public abstract class EmprendedorBase extends com.infotec.cvi.swb.Catalogo imple
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Emprendedor> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
+    }
+
+    public static EmprendedorBase.ClassMgr getEmprendedorClassMgr()
+    {
+        return new EmprendedorBase.ClassMgr();
     }
 
    /**

@@ -262,6 +262,11 @@ public abstract class SeguimientoSolicitudRecursoBase extends com.infotec.eworkp
         }
     }
 
+    public static SeguimientoSolicitudRecursoBase.ClassMgr getSeguimientoSolicitudRecursoClassMgr()
+    {
+        return new SeguimientoSolicitudRecursoBase.ClassMgr();
+    }
+
    /**
    * Constructs a SeguimientoSolicitudRecursoBase with a SemanticObject
    * @param base The SemanticObject with the properties for the SeguimientoSolicitudRecurso

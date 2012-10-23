@@ -4,7 +4,7 @@ package com.infotec.cvi.swb.base;
    /**
    * Catálogo utilizado para las areas que agrupan a las carreras 
    */
-public abstract class AreaCarreraBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+public abstract class AreaCarreraBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
    /**
    * Catálogo utilizado para las carreras utilizadas para la captura de Grado Académico
@@ -186,6 +186,11 @@ public abstract class AreaCarreraBase extends com.infotec.cvi.swb.Catalogo imple
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.AreaCarrera> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_tipoCarreraInv,value.getSemanticObject(),sclass));
             return it;
         }
+    }
+
+    public static AreaCarreraBase.ClassMgr getAreaCarreraClassMgr()
+    {
+        return new AreaCarreraBase.ClassMgr();
     }
 
    /**

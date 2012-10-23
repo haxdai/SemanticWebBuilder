@@ -4,7 +4,7 @@ package com.infotec.cvi.swb.base;
    /**
    * Catálogo utilizado para los Códigos Postales definidos en México 
    */
-public abstract class CPBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+public abstract class CPBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
    /**
    * Catálogo utilizado para las colonias existentes en México
@@ -189,6 +189,11 @@ public abstract class CPBase extends com.infotec.cvi.swb.Catalogo implements org
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.CP> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
+    }
+
+    public static CPBase.ClassMgr getCPClassMgr()
+    {
+        return new CPBase.ClassMgr();
     }
 
    /**

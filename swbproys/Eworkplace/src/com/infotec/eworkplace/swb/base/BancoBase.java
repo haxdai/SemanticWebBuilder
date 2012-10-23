@@ -1,7 +1,7 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class BancoBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+public abstract class BancoBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticClass intranet_Banco=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Banco");
    /**
@@ -124,6 +124,11 @@ public abstract class BancoBase extends com.infotec.cvi.swb.Catalogo implements 
             org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.Banco> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
+    }
+
+    public static BancoBase.ClassMgr getBancoClassMgr()
+    {
+        return new BancoBase.ClassMgr();
     }
 
    /**

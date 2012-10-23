@@ -2,7 +2,7 @@ package com.infotec.eworkplace.swb.formelements.base;
 
 
    /**
-   * Caja de texto para capturar moneda, guarda el valor como decimal 
+   * Currency text box, the data is stored as decimal 
    */
 public abstract class CurrencyBase extends org.semanticwb.model.base.FormElementBase 
 {
@@ -12,7 +12,7 @@ public abstract class CurrencyBase extends org.semanticwb.model.base.FormElement
    */
     public static final org.semanticwb.platform.SemanticProperty intraxf_format=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet/formelements#format");
    /**
-   * Caja de texto para capturar moneda, guarda el valor como decimal
+   * Currency text box, the data is stored as decimal
    */
     public static final org.semanticwb.platform.SemanticClass intraxf_Currency=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet/formelements#Currency");
    /**

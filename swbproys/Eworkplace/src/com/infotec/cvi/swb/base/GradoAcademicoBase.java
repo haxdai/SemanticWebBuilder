@@ -170,6 +170,11 @@ public abstract class GradoAcademicoBase extends org.semanticwb.model.SWBClass i
         }
     }
 
+    public static GradoAcademicoBase.ClassMgr getGradoAcademicoClassMgr()
+    {
+        return new GradoAcademicoBase.ClassMgr();
+    }
+
    /**
    * Constructs a GradoAcademicoBase with a SemanticObject
    * @param base The SemanticObject with the properties for the GradoAcademico

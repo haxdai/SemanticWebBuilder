@@ -4,7 +4,7 @@ package com.infotec.cvi.swb.base;
    /**
    * Catálogo utilizado para almacenar los diferentes Estudios Superiores 
    */
-public abstract class EstudiosBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+public abstract class EstudiosBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
    /**
    * Catálogo utilizado para las areas que agrupan a las carreras de los Estudios Superiores
@@ -161,6 +161,11 @@ public abstract class EstudiosBase extends com.infotec.cvi.swb.Catalogo implemen
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Estudios> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
+    }
+
+    public static EstudiosBase.ClassMgr getEstudiosClassMgr()
+    {
+        return new EstudiosBase.ClassMgr();
     }
 
    /**

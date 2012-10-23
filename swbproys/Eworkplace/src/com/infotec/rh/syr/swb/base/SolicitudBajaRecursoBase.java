@@ -194,6 +194,11 @@ public abstract class SolicitudBajaRecursoBase extends org.semanticwb.model.SWBC
         }
     }
 
+    public static SolicitudBajaRecursoBase.ClassMgr getSolicitudBajaRecursoClassMgr()
+    {
+        return new SolicitudBajaRecursoBase.ClassMgr();
+    }
+
    /**
    * Constructs a SolicitudBajaRecursoBase with a SemanticObject
    * @param base The SemanticObject with the properties for the SolicitudBajaRecurso

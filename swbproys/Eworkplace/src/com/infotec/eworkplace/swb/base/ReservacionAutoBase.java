@@ -134,6 +134,11 @@ public abstract class ReservacionAutoBase extends org.semanticwb.model.SWBClass 
         }
     }
 
+    public static ReservacionAutoBase.ClassMgr getReservacionAutoClassMgr()
+    {
+        return new ReservacionAutoBase.ClassMgr();
+    }
+
    /**
    * Constructs a ReservacionAutoBase with a SemanticObject
    * @param base The SemanticObject with the properties for the ReservacionAuto

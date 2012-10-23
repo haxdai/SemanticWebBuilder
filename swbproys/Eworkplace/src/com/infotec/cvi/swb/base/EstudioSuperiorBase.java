@@ -143,6 +143,11 @@ public abstract class EstudioSuperiorBase extends org.semanticwb.model.SWBClass 
         }
     }
 
+    public static EstudioSuperiorBase.ClassMgr getEstudioSuperiorClassMgr()
+    {
+        return new EstudioSuperiorBase.ClassMgr();
+    }
+
    /**
    * Constructs a EstudioSuperiorBase with a SemanticObject
    * @param base The SemanticObject with the properties for the EstudioSuperior

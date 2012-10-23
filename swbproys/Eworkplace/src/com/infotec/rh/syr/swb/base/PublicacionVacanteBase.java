@@ -163,6 +163,11 @@ public abstract class PublicacionVacanteBase extends org.semanticwb.model.SWBCla
         }
     }
 
+    public static PublicacionVacanteBase.ClassMgr getPublicacionVacanteClassMgr()
+    {
+        return new PublicacionVacanteBase.ClassMgr();
+    }
+
    /**
    * Constructs a PublicacionVacanteBase with a SemanticObject
    * @param base The SemanticObject with the properties for the PublicacionVacante

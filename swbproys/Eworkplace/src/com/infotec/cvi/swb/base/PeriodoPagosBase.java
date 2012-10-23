@@ -126,6 +126,11 @@ public abstract class PeriodoPagosBase extends com.infotec.cvi.swb.Catalogo impl
         }
     }
 
+    public static PeriodoPagosBase.ClassMgr getPeriodoPagosClassMgr()
+    {
+        return new PeriodoPagosBase.ClassMgr();
+    }
+
    /**
    * Constructs a PeriodoPagosBase with a SemanticObject
    * @param base The SemanticObject with the properties for the PeriodoPagos

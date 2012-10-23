@@ -98,6 +98,11 @@ public abstract class CandidatoBase extends org.semanticwb.model.SWBClass implem
         }
     }
 
+    public static CandidatoBase.ClassMgr getCandidatoClassMgr()
+    {
+        return new CandidatoBase.ClassMgr();
+    }
+
    /**
    * Constructs a CandidatoBase with a SemanticObject
    * @param base The SemanticObject with the properties for the Candidato

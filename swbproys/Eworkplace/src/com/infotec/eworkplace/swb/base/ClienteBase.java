@@ -74,6 +74,11 @@ public abstract class ClienteBase extends org.semanticwb.model.SWBClass
         }
     }
 
+    public static ClienteBase.ClassMgr getClienteClassMgr()
+    {
+        return new ClienteBase.ClassMgr();
+    }
+
    /**
    * Constructs a ClienteBase with a SemanticObject
    * @param base The SemanticObject with the properties for the Cliente
