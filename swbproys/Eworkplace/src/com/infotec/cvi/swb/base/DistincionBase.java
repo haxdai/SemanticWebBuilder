@@ -128,6 +128,11 @@ public abstract class DistincionBase extends com.infotec.cvi.swb.ExperienciaProf
         }
     }
 
+    public static DistincionBase.ClassMgr getDistincionClassMgr()
+    {
+        return new DistincionBase.ClassMgr();
+    }
+
    /**
    * Constructs a DistincionBase with a SemanticObject
    * @param base The SemanticObject with the properties for the Distincion

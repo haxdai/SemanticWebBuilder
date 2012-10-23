@@ -210,6 +210,11 @@ public abstract class SWProfileBase extends org.semanticwb.model.SWBClass implem
         }
     }
 
+    public static SWProfileBase.ClassMgr getSWProfileClassMgr()
+    {
+        return new SWProfileBase.ClassMgr();
+    }
+
    /**
    * Constructs a SWProfileBase with a SemanticObject
    * @param base The SemanticObject with the properties for the SWProfile

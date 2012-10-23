@@ -128,6 +128,11 @@ public abstract class SolicitudMantenimientoBase extends org.semanticwb.model.SW
         }
     }
 
+    public static SolicitudMantenimientoBase.ClassMgr getSolicitudMantenimientoClassMgr()
+    {
+        return new SolicitudMantenimientoBase.ClassMgr();
+    }
+
    /**
    * Constructs a SolicitudMantenimientoBase with a SemanticObject
    * @param base The SemanticObject with the properties for the SolicitudMantenimiento

@@ -111,6 +111,11 @@ public abstract class DocenciaBase extends com.infotec.cvi.swb.InvestigacionDoce
         }
     }
 
+    public static DocenciaBase.ClassMgr getDocenciaClassMgr()
+    {
+        return new DocenciaBase.ClassMgr();
+    }
+
    /**
    * Constructs a DocenciaBase with a SemanticObject
    * @param base The SemanticObject with the properties for the Docencia

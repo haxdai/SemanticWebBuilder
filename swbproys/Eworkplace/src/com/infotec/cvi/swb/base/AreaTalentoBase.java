@@ -184,6 +184,11 @@ public abstract class AreaTalentoBase extends com.infotec.cvi.swb.ExperienciaPro
         }
     }
 
+    public static AreaTalentoBase.ClassMgr getAreaTalentoClassMgr()
+    {
+        return new AreaTalentoBase.ClassMgr();
+    }
+
    /**
    * Constructs a AreaTalentoBase with a SemanticObject
    * @param base The SemanticObject with the properties for the AreaTalento

@@ -74,6 +74,11 @@ public abstract class TarjetonEstacionamientoBase extends org.semanticwb.model.S
         }
     }
 
+    public static TarjetonEstacionamientoBase.ClassMgr getTarjetonEstacionamientoClassMgr()
+    {
+        return new TarjetonEstacionamientoBase.ClassMgr();
+    }
+
    /**
    * Constructs a TarjetonEstacionamientoBase with a SemanticObject
    * @param base The SemanticObject with the properties for the TarjetonEstacionamiento

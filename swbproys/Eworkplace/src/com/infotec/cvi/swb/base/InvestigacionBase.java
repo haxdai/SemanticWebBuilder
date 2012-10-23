@@ -87,6 +87,11 @@ public abstract class InvestigacionBase extends com.infotec.cvi.swb.Investigacio
         }
     }
 
+    public static InvestigacionBase.ClassMgr getInvestigacionClassMgr()
+    {
+        return new InvestigacionBase.ClassMgr();
+    }
+
    /**
    * Constructs a InvestigacionBase with a SemanticObject
    * @param base The SemanticObject with the properties for the Investigacion

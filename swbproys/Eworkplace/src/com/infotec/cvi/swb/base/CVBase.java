@@ -589,6 +589,11 @@ public abstract class CVBase extends org.semanticwb.model.SWBClass implements or
         }
     }
 
+    public static CVBase.ClassMgr getCVClassMgr()
+    {
+        return new CVBase.ClassMgr();
+    }
+
    /**
    * Constructs a CVBase with a SemanticObject
    * @param base The SemanticObject with the properties for the CV

@@ -81,6 +81,11 @@ public abstract class JustificacionCelularBase extends org.semanticwb.model.SWBC
         }
     }
 
+    public static JustificacionCelularBase.ClassMgr getJustificacionCelularClassMgr()
+    {
+        return new JustificacionCelularBase.ClassMgr();
+    }
+
    /**
    * Constructs a JustificacionCelularBase with a SemanticObject
    * @param base The SemanticObject with the properties for the JustificacionCelular

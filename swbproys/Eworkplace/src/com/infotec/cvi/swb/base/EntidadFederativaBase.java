@@ -4,7 +4,7 @@ package com.infotec.cvi.swb.base;
    /**
    * Catálogo utilizado para almacenar las Entidades Federativas utilizadas en Domicilio de la persona 
    */
-public abstract class EntidadFederativaBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+public abstract class EntidadFederativaBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
    /**
    * Catálogo utilizado para los Municipios de las Entidades Federativas
@@ -155,6 +155,11 @@ public abstract class EntidadFederativaBase extends com.infotec.cvi.swb.Catalogo
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.EntidadFederativa> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_hasMunicipios,value.getSemanticObject(),sclass));
             return it;
         }
+    }
+
+    public static EntidadFederativaBase.ClassMgr getEntidadFederativaClassMgr()
+    {
+        return new EntidadFederativaBase.ClassMgr();
     }
 
    /**

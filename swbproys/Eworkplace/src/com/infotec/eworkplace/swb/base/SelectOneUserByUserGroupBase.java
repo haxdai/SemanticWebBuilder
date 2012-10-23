@@ -76,6 +76,11 @@ public abstract class SelectOneUserByUserGroupBase extends org.semanticwb.model.
         }
     }
 
+    public static SelectOneUserByUserGroupBase.ClassMgr getSelectOneUserByUserGroupClassMgr()
+    {
+        return new SelectOneUserByUserGroupBase.ClassMgr();
+    }
+
    /**
    * Constructs a SelectOneUserByUserGroupBase with a SemanticObject
    * @param base The SemanticObject with the properties for the SelectOneUserByUserGroup

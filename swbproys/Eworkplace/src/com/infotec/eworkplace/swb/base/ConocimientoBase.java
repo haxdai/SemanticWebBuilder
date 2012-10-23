@@ -74,6 +74,11 @@ public abstract class ConocimientoBase extends org.semanticwb.model.SWBClass
         }
     }
 
+    public static ConocimientoBase.ClassMgr getConocimientoClassMgr()
+    {
+        return new ConocimientoBase.ClassMgr();
+    }
+
    /**
    * Constructs a ConocimientoBase with a SemanticObject
    * @param base The SemanticObject with the properties for the Conocimiento

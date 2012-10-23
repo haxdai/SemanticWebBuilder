@@ -181,6 +181,11 @@ public abstract class DocumentoProbatorioBase extends org.semanticwb.model.SWBCl
         }
     }
 
+    public static DocumentoProbatorioBase.ClassMgr getDocumentoProbatorioClassMgr()
+    {
+        return new DocumentoProbatorioBase.ClassMgr();
+    }
+
    /**
    * Constructs a DocumentoProbatorioBase with a SemanticObject
    * @param base The SemanticObject with the properties for the DocumentoProbatorio

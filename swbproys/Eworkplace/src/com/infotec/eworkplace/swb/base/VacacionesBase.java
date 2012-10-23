@@ -153,6 +153,11 @@ public abstract class VacacionesBase extends org.semanticwb.model.SWBClass imple
         }
     }
 
+    public static VacacionesBase.ClassMgr getVacacionesClassMgr()
+    {
+        return new VacacionesBase.ClassMgr();
+    }
+
    /**
    * Constructs a VacacionesBase with a SemanticObject
    * @param base The SemanticObject with the properties for the Vacaciones

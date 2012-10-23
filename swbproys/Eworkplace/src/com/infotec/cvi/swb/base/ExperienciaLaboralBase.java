@@ -184,6 +184,11 @@ public abstract class ExperienciaLaboralBase extends com.infotec.cvi.swb.Experie
         }
     }
 
+    public static ExperienciaLaboralBase.ClassMgr getExperienciaLaboralClassMgr()
+    {
+        return new ExperienciaLaboralBase.ClassMgr();
+    }
+
    /**
    * Constructs a ExperienciaLaboralBase with a SemanticObject
    * @param base The SemanticObject with the properties for the ExperienciaLaboral

@@ -4,7 +4,7 @@ package com.infotec.cvi.swb.base;
    /**
    * Catálogo  utilizado para almacenar las diferentes vigencias de certificado. 
    */
-public abstract class VigenciaCertificadoBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+public abstract class VigenciaCertificadoBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
    /**
    * Catálogo  utilizado para almacenar las diferentes vigencias de certificado.
@@ -124,6 +124,11 @@ public abstract class VigenciaCertificadoBase extends com.infotec.cvi.swb.Catalo
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.VigenciaCertificado> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
+    }
+
+    public static VigenciaCertificadoBase.ClassMgr getVigenciaCertificadoClassMgr()
+    {
+        return new VigenciaCertificadoBase.ClassMgr();
     }
 
    /**

@@ -345,6 +345,11 @@ public abstract class PersonaBase extends org.semanticwb.model.SWBClass
         }
     }
 
+    public static PersonaBase.ClassMgr getPersonaClassMgr()
+    {
+        return new PersonaBase.ClassMgr();
+    }
+
    /**
    * Constructs a PersonaBase with a SemanticObject
    * @param base The SemanticObject with the properties for the Persona

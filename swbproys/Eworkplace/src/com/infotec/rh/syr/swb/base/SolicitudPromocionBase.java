@@ -298,6 +298,11 @@ public abstract class SolicitudPromocionBase extends org.semanticwb.model.SWBCla
         }
     }
 
+    public static SolicitudPromocionBase.ClassMgr getSolicitudPromocionClassMgr()
+    {
+        return new SolicitudPromocionBase.ClassMgr();
+    }
+
    /**
    * Constructs a SolicitudPromocionBase with a SemanticObject
    * @param base The SemanticObject with the properties for the SolicitudPromocion

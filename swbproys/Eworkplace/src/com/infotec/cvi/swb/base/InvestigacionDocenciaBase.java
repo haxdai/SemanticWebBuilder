@@ -86,6 +86,11 @@ public abstract class InvestigacionDocenciaBase extends org.semanticwb.model.SWB
         }
     }
 
+    public static InvestigacionDocenciaBase.ClassMgr getInvestigacionDocenciaClassMgr()
+    {
+        return new InvestigacionDocenciaBase.ClassMgr();
+    }
+
    /**
    * Constructs a InvestigacionDocenciaBase with a SemanticObject
    * @param base The SemanticObject with the properties for the InvestigacionDocencia

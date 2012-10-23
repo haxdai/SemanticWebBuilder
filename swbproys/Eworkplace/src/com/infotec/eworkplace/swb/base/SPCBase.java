@@ -74,6 +74,11 @@ public abstract class SPCBase extends org.semanticwb.model.SWBClass
         }
     }
 
+    public static SPCBase.ClassMgr getSPCClassMgr()
+    {
+        return new SPCBase.ClassMgr();
+    }
+
    /**
    * Constructs a SPCBase with a SemanticObject
    * @param base The SemanticObject with the properties for the SPC

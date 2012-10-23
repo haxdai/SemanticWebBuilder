@@ -326,6 +326,11 @@ public abstract class SeguimientoActCCOBase extends com.infotec.eworkplace.swb.S
         }
     }
 
+    public static SeguimientoActCCOBase.ClassMgr getSeguimientoActCCOClassMgr()
+    {
+        return new SeguimientoActCCOBase.ClassMgr();
+    }
+
    /**
    * Constructs a SeguimientoActCCOBase with a SemanticObject
    * @param base The SemanticObject with the properties for the SeguimientoActCCO

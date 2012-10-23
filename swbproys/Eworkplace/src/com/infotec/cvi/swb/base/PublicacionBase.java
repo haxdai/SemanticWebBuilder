@@ -3,8 +3,8 @@ package com.infotec.cvi.swb.base;
 
 public abstract class PublicacionBase extends com.infotec.cvi.swb.InvestigacionDocencia implements org.semanticwb.model.Descriptiveable
 {
-    public static final org.semanticwb.platform.SemanticProperty intranet_fechapublicado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechapublicado");
     public static final org.semanticwb.platform.SemanticProperty intranet_publicado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#publicado");
+    public static final org.semanticwb.platform.SemanticProperty intranet_fechapublicado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechapublicado");
     public static final org.semanticwb.platform.SemanticClass intranet_Publicacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Publicacion");
    /**
    * The semantic class that represents the currentObject
@@ -82,6 +82,11 @@ public abstract class PublicacionBase extends com.infotec.cvi.swb.InvestigacionD
         }
     }
 
+    public static PublicacionBase.ClassMgr getPublicacionClassMgr()
+    {
+        return new PublicacionBase.ClassMgr();
+    }
+
    /**
    * Constructs a PublicacionBase with a SemanticObject
    * @param base The SemanticObject with the properties for the Publicacion
@@ -89,57 +94,6 @@ public abstract class PublicacionBase extends com.infotec.cvi.swb.InvestigacionD
     public PublicacionBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
-    }
-
-/**
-* Gets the Fechapublicado property
-* @return int with the Fechapublicado
-*/
-    public int getFechapublicado()
-    {
-        return getSemanticObject().getIntProperty(intranet_fechapublicado);
-    }
-
-/**
-* Sets the Fechapublicado property
-* @param value long with the Fechapublicado
-*/
-    public void setFechapublicado(int value)
-    {
-        getSemanticObject().setIntProperty(intranet_fechapublicado, value);
-    }
-
-/**
-* Gets the Title property
-* @return String with the Title
-*/
-    public String getTitle()
-    {
-        return getSemanticObject().getProperty(swb_title);
-    }
-
-/**
-* Sets the Title property
-* @param value long with the Title
-*/
-    public void setTitle(String value)
-    {
-        getSemanticObject().setProperty(swb_title, value);
-    }
-
-    public String getTitle(String lang)
-    {
-        return getSemanticObject().getProperty(swb_title, null, lang);
-    }
-
-    public String getDisplayTitle(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_title, lang);
-    }
-
-    public void setTitle(String title, String lang)
-    {
-        getSemanticObject().setProperty(swb_title, title, lang);
     }
 
 /**
@@ -191,5 +145,56 @@ public abstract class PublicacionBase extends com.infotec.cvi.swb.InvestigacionD
     public void setPublicado(String value)
     {
         getSemanticObject().setProperty(intranet_publicado, value);
+    }
+
+/**
+* Gets the Fechapublicado property
+* @return int with the Fechapublicado
+*/
+    public int getFechapublicado()
+    {
+        return getSemanticObject().getIntProperty(intranet_fechapublicado);
+    }
+
+/**
+* Sets the Fechapublicado property
+* @param value long with the Fechapublicado
+*/
+    public void setFechapublicado(int value)
+    {
+        getSemanticObject().setIntProperty(intranet_fechapublicado, value);
+    }
+
+/**
+* Gets the Title property
+* @return String with the Title
+*/
+    public String getTitle()
+    {
+        return getSemanticObject().getProperty(swb_title);
+    }
+
+/**
+* Sets the Title property
+* @param value long with the Title
+*/
+    public void setTitle(String value)
+    {
+        getSemanticObject().setProperty(swb_title, value);
+    }
+
+    public String getTitle(String lang)
+    {
+        return getSemanticObject().getProperty(swb_title, null, lang);
+    }
+
+    public String getDisplayTitle(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_title, lang);
+    }
+
+    public void setTitle(String title, String lang)
+    {
+        getSemanticObject().setProperty(swb_title, title, lang);
     }
 }

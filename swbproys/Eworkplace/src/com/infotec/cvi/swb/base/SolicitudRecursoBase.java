@@ -4,7 +4,7 @@ package com.infotec.cvi.swb.base;
    /**
    * Elemento que contiene la información del perfil del usuario requerido 
    */
-public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Solicitable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Solicitable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
    /**
    * Catálogo utilizado para indicar el grado de avance del Estudio
@@ -31,8 +31,8 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaInicioContrato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaInicioContrato");
     public static final org.semanticwb.platform.SemanticProperty intranet_conocimientoTecnico=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#conocimientoTecnico");
     public static final org.semanticwb.platform.SemanticProperty intranet_personalIndirecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#personalIndirecto");
-    public static final org.semanticwb.platform.SemanticProperty intranet_sueldoBruto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sueldoBruto");
     public static final org.semanticwb.platform.SemanticProperty intranet_candidatoSeleccionado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#candidatoSeleccionado");
+    public static final org.semanticwb.platform.SemanticProperty intranet_sueldoBruto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sueldoBruto");
     public static final org.semanticwb.platform.SemanticProperty intranet_salarioMin=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#salarioMin");
     public static final org.semanticwb.platform.SemanticProperty intranet_entrevistador=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#entrevistador");
    /**
@@ -603,6 +603,11 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
         }
     }
 
+    public static SolicitudRecursoBase.ClassMgr getSolicitudRecursoClassMgr()
+    {
+        return new SolicitudRecursoBase.ClassMgr();
+    }
+
    /**
    * Constructs a SolicitudRecursoBase with a SemanticObject
    * @param base The SemanticObject with the properties for the SolicitudRecurso
@@ -1061,24 +1066,6 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
     {
         getSemanticObject().setIntProperty(intranet_personalIndirecto, value);
     }
-
-/**
-* Gets the SueldoBruto property
-* @return float with the SueldoBruto
-*/
-    public float getSueldoBruto()
-    {
-        return getSemanticObject().getFloatProperty(intranet_sueldoBruto);
-    }
-
-/**
-* Sets the SueldoBruto property
-* @param value long with the SueldoBruto
-*/
-    public void setSueldoBruto(float value)
-    {
-        getSemanticObject().setFloatProperty(intranet_sueldoBruto, value);
-    }
    /**
    * Sets the value for the property CandidatoSeleccionado
    * @param value CandidatoSeleccionado to set
@@ -1116,6 +1103,24 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the SueldoBruto property
+* @return float with the SueldoBruto
+*/
+    public float getSueldoBruto()
+    {
+        return getSemanticObject().getFloatProperty(intranet_sueldoBruto);
+    }
+
+/**
+* Sets the SueldoBruto property
+* @param value long with the SueldoBruto
+*/
+    public void setSueldoBruto(float value)
+    {
+        getSemanticObject().setFloatProperty(intranet_sueldoBruto, value);
     }
 
 /**

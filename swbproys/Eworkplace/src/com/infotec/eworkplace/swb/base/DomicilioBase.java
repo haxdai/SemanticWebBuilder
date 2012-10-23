@@ -230,6 +230,11 @@ public abstract class DomicilioBase extends org.semanticwb.model.SWBClass
         }
     }
 
+    public static DomicilioBase.ClassMgr getDomicilioClassMgr()
+    {
+        return new DomicilioBase.ClassMgr();
+    }
+
    /**
    * Constructs a DomicilioBase with a SemanticObject
    * @param base The SemanticObject with the properties for the Domicilio

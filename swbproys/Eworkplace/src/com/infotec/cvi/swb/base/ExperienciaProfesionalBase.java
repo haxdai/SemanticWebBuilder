@@ -132,6 +132,11 @@ public abstract class ExperienciaProfesionalBase extends org.semanticwb.model.SW
         }
     }
 
+    public static ExperienciaProfesionalBase.ClassMgr getExperienciaProfesionalClassMgr()
+    {
+        return new ExperienciaProfesionalBase.ClassMgr();
+    }
+
    /**
    * Constructs a ExperienciaProfesionalBase with a SemanticObject
    * @param base The SemanticObject with the properties for the ExperienciaProfesional

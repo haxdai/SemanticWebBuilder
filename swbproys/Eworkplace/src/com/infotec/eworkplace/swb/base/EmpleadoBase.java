@@ -142,6 +142,11 @@ public abstract class EmpleadoBase extends org.semanticwb.model.UserTypeDef impl
         }
     }
 
+    public static EmpleadoBase.ClassMgr getEmpleadoClassMgr()
+    {
+        return new EmpleadoBase.ClassMgr();
+    }
+
    /**
    * Constructs a EmpleadoBase with a SemanticObject
    * @param base The SemanticObject with the properties for the Empleado

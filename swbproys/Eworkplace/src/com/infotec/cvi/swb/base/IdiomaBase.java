@@ -198,6 +198,11 @@ public abstract class IdiomaBase extends org.semanticwb.model.SWBClass
         }
     }
 
+    public static IdiomaBase.ClassMgr getIdiomaClassMgr()
+    {
+        return new IdiomaBase.ClassMgr();
+    }
+
    /**
    * Constructs a IdiomaBase with a SemanticObject
    * @param base The SemanticObject with the properties for the Idioma

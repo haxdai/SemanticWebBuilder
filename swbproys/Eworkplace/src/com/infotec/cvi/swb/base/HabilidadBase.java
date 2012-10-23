@@ -4,7 +4,7 @@ package com.infotec.cvi.swb.base;
    /**
    * Catálogo utilizado para indicar las diferentes Habilidades 
    */
-public abstract class HabilidadBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+public abstract class HabilidadBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
    /**
    * Catálogo utilizado para almacenar los tipos de talentos utilizados en Habilidades
@@ -161,6 +161,11 @@ public abstract class HabilidadBase extends com.infotec.cvi.swb.Catalogo impleme
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.Habilidad> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
+    }
+
+    public static HabilidadBase.ClassMgr getHabilidadClassMgr()
+    {
+        return new HabilidadBase.ClassMgr();
     }
 
    /**

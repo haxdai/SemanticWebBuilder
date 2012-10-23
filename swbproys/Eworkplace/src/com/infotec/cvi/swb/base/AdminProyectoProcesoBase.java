@@ -4,7 +4,7 @@ package com.infotec.cvi.swb.base;
    /**
    * Catálogo utilizado para Administrador de procesos o proyectos 
    */
-public abstract class AdminProyectoProcesoBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+public abstract class AdminProyectoProcesoBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
    /**
    * Catálogo utilizado para Administrador de procesos o proyectos
@@ -130,6 +130,11 @@ public abstract class AdminProyectoProcesoBase extends com.infotec.cvi.swb.Catal
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.AdminProyectoProceso> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
+    }
+
+    public static AdminProyectoProcesoBase.ClassMgr getAdminProyectoProcesoClassMgr()
+    {
+        return new AdminProyectoProcesoBase.ClassMgr();
     }
 
    /**
