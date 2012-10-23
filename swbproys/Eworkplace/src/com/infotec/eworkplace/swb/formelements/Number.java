@@ -206,46 +206,47 @@ public class Number extends com.infotec.eworkplace.swb.formelements.base.NumberB
     {
         String format = getFormat();
         Pattern pattern = Pattern.compile(format);
-        if (request.getParameter(propName) == null)
-        {
-            throw new FormValidateException("El valor es incorrecto");
-        }
+//        if (request.getParameter(propName) == null)
+//        {
+//            throw new FormValidateException("El valor es incorrecto");
+//        }
         String value = request.getParameter(propName);
-        if (value == null || value.isEmpty())
+//        if (value == null || value.isEmpty())
+//        {
+//            throw new FormValidateException("El valor es incorrecto");
+//        }
+        if (value != null && !value.trim().isEmpty())
         {
-            throw new FormValidateException("El valor es incorrecto");
-        }
-        Matcher matcher = pattern.matcher(value);
-        if (!matcher.matches())
-        {
-            throw new FormValidateException("El valor es incorrecto");
-        }
-
-
-        //value = value.replace(",", "").replace("$", "").trim();
-
-        try
-        {
-            int ivalue = Integer.parseInt(value);
-            if (!this.isNumberCero())
+            value=value.trim();
+            Matcher matcher = pattern.matcher(value);
+            if (!matcher.matches())
             {
-                if (ivalue <= 0)
-                {
-                    throw new FormValidateException("El valor es incorrecto, no puede ser negativo o cero");
-                }
+                throw new FormValidateException("El valor es incorrecto");
             }
 
-        }
-        catch (NumberFormatException pe)
-        {
 
-            throw new FormValidateException("El valor es incorrecto");
-        }
+            //value = value.replace(",", "").replace("$", "").trim();
 
+            try
+            {
+                int ivalue = Integer.parseInt(value);
+                if (!this.isNumberCero())
+                {
+                    if (ivalue <= 0)
+                    {
+                        throw new FormValidateException("El valor es incorrecto, no puede ser negativo o cero");
+                    }
+                }
+
+            }
+            catch (NumberFormatException pe)
+            {
+
+                throw new FormValidateException("El valor es incorrecto");
+            }
+        }
 
     }
-
-
 
     @Override
     public void process(HttpServletRequest request, SemanticObject obj, SemanticProperty prop, String propName)
@@ -284,8 +285,4 @@ public class Number extends com.infotec.eworkplace.swb.formelements.base.NumberB
         format.append("\\d{1,").append(getNdigits()).append("}");
         return format.toString();
     }
-
-
-
-
 }
