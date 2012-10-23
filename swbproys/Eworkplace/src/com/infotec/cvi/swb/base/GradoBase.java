@@ -4,7 +4,7 @@ package com.infotec.cvi.swb.base;
    /**
    * Catálogo utilizado para indicar el Grado Académico alcanzado. 
    */
-public abstract class GradoBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+public abstract class GradoBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Sortable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
    /**
    * Catálogo utilizado para indicar el Grado Académico alcanzado.
@@ -132,6 +132,11 @@ public abstract class GradoBase extends com.infotec.cvi.swb.Catalogo implements 
         }
     }
 
+    public static GradoBase.ClassMgr getGradoClassMgr()
+    {
+        return new GradoBase.ClassMgr();
+    }
+
    /**
    * Constructs a GradoBase with a SemanticObject
    * @param base The SemanticObject with the properties for the Grado
@@ -139,5 +144,23 @@ public abstract class GradoBase extends com.infotec.cvi.swb.Catalogo implements 
     public GradoBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+/**
+* Gets the Index property
+* @return int with the Index
+*/
+    public int getIndex()
+    {
+        return getSemanticObject().getIntProperty(swb_index);
+    }
+
+/**
+* Sets the Index property
+* @param value long with the Index
+*/
+    public void setIndex(int value)
+    {
+        getSemanticObject().setIntProperty(swb_index, value);
     }
 }
