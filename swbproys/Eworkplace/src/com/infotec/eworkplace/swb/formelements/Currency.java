@@ -3,7 +3,6 @@ package com.infotec.eworkplace.swb.formelements;
 import com.infotec.eworkplace.swb.formelements.base.CurrencyBase;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.text.ParseException;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,7 +15,6 @@ import org.semanticwb.model.FormValidateException;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticProperty;
 import org.semanticwb.platform.SemanticVocabulary;
-import org.semanticwb.portal.SWBFormMgr;
 
 public class Currency extends com.infotec.eworkplace.swb.formelements.base.CurrencyBase
 {
@@ -260,7 +258,7 @@ public class Currency extends com.infotec.eworkplace.swb.formelements.base.Curre
     {
         try
         {
-            validate(request, obj, prop);
+            validate(request, obj, prop, propName);
             String value = request.getParameter(propName);
             if (value == null || value.isEmpty())
             {
