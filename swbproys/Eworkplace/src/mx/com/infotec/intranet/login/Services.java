@@ -5,6 +5,7 @@
 package mx.com.infotec.intranet.login;
 
 import com.infotec.cvi.swb.TipoContratacion;
+import com.infotec.cvi.swb.util.UtilsCVI;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.EnumMap;
@@ -305,23 +306,27 @@ public class Services
                 LDAPManager manager = new LDAPManager(props.getProperty("url"), principal, password);
                 String domain = getDomain();
                 manager.addUser(domain, user.getLogin(), givenName, user.getPApellido(), user.getLogin(), ou, apellidos, displayName, sAMAccountname, atts);
-                /*try
+                try
                 {
-                WebSite site = WebSite.ClassMgr.getWebSite(intranetID);
-                if (site != null)
-                {
-                UserRepository repo = site.getUserRepository();
-                org.semanticwb.model.User userRepo = repo.createUser();
-                userRepo.setLogin(user.getLogin());
+                    WebSite siteIntranet = WebSite.ClassMgr.getWebSite(intranetID);
+                    WebSite siteExtranet = WebSite.ClassMgr.getWebSite(extranetWebSiteID);
+                    if (siteIntranet != null&& siteExtranet!=null)
+                    {
+                        UserRepository repo = siteIntranet.getUserRepository();
+                        org.semanticwb.model.User userRepo = repo.createUser();
+                        userRepo.setLogin(user.getLogin());
 
-                // llamar rutina de rana
-
-                }
+                        org.semanticwb.model.User userCand = siteExtranet.getUserRepository().getUserByLogin(candidateLogin);
+//                        org.semanticwb.model.User usIntranet = siteIntranet.getUserRepository().getUserByLogin(user.getLogin());
+                        if(userCand!=null&&userRepo!=null){
+                            UtilsCVI.copyUser(userCand, siteExtranet, userRepo, siteIntranet);
+                        }
+                    }
                 }
                 catch (Exception e)
                 {
                 log.error(e);
-                }*/
+                }
 
             }
             catch (Exception e)
