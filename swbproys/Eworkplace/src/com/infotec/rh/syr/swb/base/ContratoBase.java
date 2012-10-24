@@ -23,6 +23,7 @@ public abstract class ContratoBase extends org.semanticwb.model.SWBClass impleme
     public static final org.semanticwb.platform.SemanticProperty intranet_FechaEnvioContrato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#FechaEnvioContrato");
     public static final org.semanticwb.platform.SemanticProperty intranet_numEmpleado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#numEmpleado");
     public static final org.semanticwb.platform.SemanticProperty intranet_clabeInterbancaria=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#clabeInterbancaria");
+    public static final org.semanticwb.platform.SemanticProperty intranet_RFC=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#RFC");
     public static final org.semanticwb.platform.SemanticProperty intranet_seguridadSocial=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#seguridadSocial");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaEntregaRH=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaEntregaRH");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaIngresoInfotec=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaIngresoInfotec");
@@ -746,6 +747,24 @@ public abstract class ContratoBase extends org.semanticwb.model.SWBClass impleme
     public void setClabeInterbancaria(int value)
     {
         getSemanticObject().setIntProperty(intranet_clabeInterbancaria, value);
+    }
+
+/**
+* Gets the RFC property
+* @return String with the RFC
+*/
+    public String getRFC()
+    {
+        return getSemanticObject().getProperty(intranet_RFC);
+    }
+
+/**
+* Sets the RFC property
+* @param value long with the RFC
+*/
+    public void setRFC(String value)
+    {
+        getSemanticObject().setProperty(intranet_RFC, value);
     }
 
 /**

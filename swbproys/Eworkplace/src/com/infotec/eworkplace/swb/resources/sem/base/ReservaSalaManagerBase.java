@@ -3,12 +3,12 @@ package com.infotec.eworkplace.swb.resources.sem.base;
 
 public abstract class ReservaSalaManagerBase extends org.semanticwb.portal.api.GenericSemResource 
 {
-    public static final org.semanticwb.platform.SemanticClass swb_Role=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#Role");
-    public static final org.semanticwb.platform.SemanticProperty intranet_editAccess=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#editAccess");
     public static final org.semanticwb.platform.SemanticClass intranet_ReservacionSala=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#ReservacionSala");
     public static final org.semanticwb.platform.SemanticProperty intranet_hasReservacionSala=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasReservacionSala");
     public static final org.semanticwb.platform.SemanticClass swb_Resource=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#Resource");
     public static final org.semanticwb.platform.SemanticProperty swb_semanticResourceInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#semanticResourceInv");
+    public static final org.semanticwb.platform.SemanticClass swb_Role=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#Role");
+    public static final org.semanticwb.platform.SemanticProperty intranet_editAccess=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#editAccess");
     public static final org.semanticwb.platform.SemanticClass intranet_ReservaSalaManager=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#ReservaSalaManager");
     public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#ReservaSalaManager");
 
@@ -42,44 +42,6 @@ public abstract class ReservaSalaManagerBase extends org.semanticwb.portal.api.G
     {
         if(obj==null)return false;
         return hashCode()==obj.hashCode();
-    }
-   /**
-   * Sets the value for the property EditAccess
-   * @param value EditAccess to set
-   */
-
-    public void setEditAccess(org.semanticwb.model.Role value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(intranet_editAccess, value.getSemanticObject());
-        }else
-        {
-            removeEditAccess();
-        }
-    }
-   /**
-   * Remove the value for EditAccess property
-   */
-
-    public void removeEditAccess()
-    {
-        getSemanticObject().removeProperty(intranet_editAccess);
-    }
-
-   /**
-   * Gets the EditAccess
-   * @return a org.semanticwb.model.Role
-   */
-    public org.semanticwb.model.Role getEditAccess()
-    {
-         org.semanticwb.model.Role ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_editAccess);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.Role)obj.createGenericInstance();
-         }
-         return ret;
     }
    /**
    * Gets all the com.infotec.eworkplace.swb.ReservacionSala
@@ -181,6 +143,44 @@ public abstract class ReservaSalaManagerBase extends org.semanticwb.portal.api.G
          if(obj!=null)
          {
              ret=(org.semanticwb.model.Resource)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Sets the value for the property EditAccess
+   * @param value EditAccess to set
+   */
+
+    public void setEditAccess(org.semanticwb.model.Role value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_editAccess, value.getSemanticObject());
+        }else
+        {
+            removeEditAccess();
+        }
+    }
+   /**
+   * Remove the value for EditAccess property
+   */
+
+    public void removeEditAccess()
+    {
+        getSemanticObject().removeProperty(intranet_editAccess);
+    }
+
+   /**
+   * Gets the EditAccess
+   * @return a org.semanticwb.model.Role
+   */
+    public org.semanticwb.model.Role getEditAccess()
+    {
+         org.semanticwb.model.Role ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_editAccess);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.Role)obj.createGenericInstance();
          }
          return ret;
     }
