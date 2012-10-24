@@ -17,16 +17,17 @@ public abstract class SolicitudPromocionBase extends org.semanticwb.model.SWBCla
     public static final org.semanticwb.platform.SemanticClass intranet_SolicitudRecurso=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#SolicitudRecurso");
     public static final org.semanticwb.platform.SemanticProperty intranet_solicitudRecursoPromocion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#solicitudRecursoPromocion");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaInicioNuevoPuesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaInicioNuevoPuesto");
+   /**
+   * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
+   */
+    public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
+    public static final org.semanticwb.platform.SemanticProperty intranet_autorizaDAA=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#autorizaDAA");
     public static final org.semanticwb.platform.SemanticProperty intranet_sueldoBrutoPropuesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sueldoBrutoPropuesto");
    /**
    * Catálogo utilizado para indicar el Tipo de promoción
    */
     public static final org.semanticwb.platform.SemanticClass intranet_TipoPromocion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#TipoPromocion");
     public static final org.semanticwb.platform.SemanticProperty intranet_tipoPromocion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#tipoPromocion");
-   /**
-   * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
-   */
-    public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
     public static final org.semanticwb.platform.SemanticProperty intranet_autorizaDirectorPromocion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#autorizaDirectorPromocion");
     public static final org.semanticwb.platform.SemanticProperty intranet_recursoPromocionar=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#recursoPromocionar");
    /**
@@ -179,6 +180,29 @@ public abstract class SolicitudPromocionBase extends org.semanticwb.model.SWBCla
         public static java.util.Iterator<com.infotec.rh.syr.swb.SolicitudPromocion> listSolicitudPromocionBySolicitudRecursoPromocion(com.infotec.cvi.swb.SolicitudRecurso value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SolicitudPromocion> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_solicitudRecursoPromocion,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.SolicitudPromocion with a determined AutorizaDAA
+       * @param value AutorizaDAA of the type org.semanticwb.model.User
+       * @param model Model of the com.infotec.rh.syr.swb.SolicitudPromocion
+       * @return Iterator with all the com.infotec.rh.syr.swb.SolicitudPromocion
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SolicitudPromocion> listSolicitudPromocionByAutorizaDAA(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SolicitudPromocion> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_autorizaDAA, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.SolicitudPromocion with a determined AutorizaDAA
+       * @param value AutorizaDAA of the type org.semanticwb.model.User
+       * @return Iterator with all the com.infotec.rh.syr.swb.SolicitudPromocion
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.SolicitudPromocion> listSolicitudPromocionByAutorizaDAA(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.SolicitudPromocion> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_autorizaDAA,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -619,6 +643,44 @@ public abstract class SolicitudPromocionBase extends org.semanticwb.model.SWBCla
     public void setFechaInicioNuevoPuesto(java.util.Date value)
     {
         getSemanticObject().setDateProperty(intranet_fechaInicioNuevoPuesto, value);
+    }
+   /**
+   * Sets the value for the property AutorizaDAA
+   * @param value AutorizaDAA to set
+   */
+
+    public void setAutorizaDAA(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_autorizaDAA, value.getSemanticObject());
+        }else
+        {
+            removeAutorizaDAA();
+        }
+    }
+   /**
+   * Remove the value for AutorizaDAA property
+   */
+
+    public void removeAutorizaDAA()
+    {
+        getSemanticObject().removeProperty(intranet_autorizaDAA);
+    }
+
+   /**
+   * Gets the AutorizaDAA
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getAutorizaDAA()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_autorizaDAA);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**

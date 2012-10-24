@@ -31,8 +31,8 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaInicioContrato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaInicioContrato");
     public static final org.semanticwb.platform.SemanticProperty intranet_conocimientoTecnico=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#conocimientoTecnico");
     public static final org.semanticwb.platform.SemanticProperty intranet_personalIndirecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#personalIndirecto");
-    public static final org.semanticwb.platform.SemanticProperty intranet_candidatoSeleccionado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#candidatoSeleccionado");
     public static final org.semanticwb.platform.SemanticProperty intranet_sueldoBruto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#sueldoBruto");
+    public static final org.semanticwb.platform.SemanticProperty intranet_candidatoSeleccionado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#candidatoSeleccionado");
     public static final org.semanticwb.platform.SemanticProperty intranet_salarioMin=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#salarioMin");
     public static final org.semanticwb.platform.SemanticProperty intranet_entrevistador=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#entrevistador");
    /**
@@ -51,6 +51,7 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
     public static final org.semanticwb.platform.SemanticClass intranet_PartidaPresupuesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#PartidaPresupuesto");
     public static final org.semanticwb.platform.SemanticProperty intranet_partidaSuficiencia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#partidaSuficiencia");
     public static final org.semanticwb.platform.SemanticProperty intranet_periodoContrato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#periodoContrato");
+    public static final org.semanticwb.platform.SemanticProperty intranet_autorizaDirAd=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#autorizaDirAd");
    /**
    * Catálogo utilizado para indicar el Tipo de contratación
    */
@@ -415,6 +416,29 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
         public static java.util.Iterator<com.infotec.cvi.swb.SolicitudRecurso> listSolicitudRecursoByPartidaSuficiencia(com.infotec.rh.syr.swb.PartidaPresupuesto value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.SolicitudRecurso> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_partidaSuficiencia,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.SolicitudRecurso with a determined AutorizaDirAd
+       * @param value AutorizaDirAd of the type org.semanticwb.model.User
+       * @param model Model of the com.infotec.cvi.swb.SolicitudRecurso
+       * @return Iterator with all the com.infotec.cvi.swb.SolicitudRecurso
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.SolicitudRecurso> listSolicitudRecursoByAutorizaDirAd(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.SolicitudRecurso> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_autorizaDirAd, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.cvi.swb.SolicitudRecurso with a determined AutorizaDirAd
+       * @param value AutorizaDirAd of the type org.semanticwb.model.User
+       * @return Iterator with all the com.infotec.cvi.swb.SolicitudRecurso
+       */
+
+        public static java.util.Iterator<com.infotec.cvi.swb.SolicitudRecurso> listSolicitudRecursoByAutorizaDirAd(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.SolicitudRecurso> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_autorizaDirAd,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -1066,6 +1090,24 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
     {
         getSemanticObject().setIntProperty(intranet_personalIndirecto, value);
     }
+
+/**
+* Gets the SueldoBruto property
+* @return float with the SueldoBruto
+*/
+    public float getSueldoBruto()
+    {
+        return getSemanticObject().getFloatProperty(intranet_sueldoBruto);
+    }
+
+/**
+* Sets the SueldoBruto property
+* @param value long with the SueldoBruto
+*/
+    public void setSueldoBruto(float value)
+    {
+        getSemanticObject().setFloatProperty(intranet_sueldoBruto, value);
+    }
    /**
    * Sets the value for the property CandidatoSeleccionado
    * @param value CandidatoSeleccionado to set
@@ -1103,24 +1145,6 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
          }
          return ret;
-    }
-
-/**
-* Gets the SueldoBruto property
-* @return float with the SueldoBruto
-*/
-    public float getSueldoBruto()
-    {
-        return getSemanticObject().getFloatProperty(intranet_sueldoBruto);
-    }
-
-/**
-* Sets the SueldoBruto property
-* @param value long with the SueldoBruto
-*/
-    public void setSueldoBruto(float value)
-    {
-        getSemanticObject().setFloatProperty(intranet_sueldoBruto, value);
     }
 
 /**
@@ -1363,6 +1387,44 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
     public void setPeriodoContrato(float value)
     {
         getSemanticObject().setFloatProperty(intranet_periodoContrato, value);
+    }
+   /**
+   * Sets the value for the property AutorizaDirAd
+   * @param value AutorizaDirAd to set
+   */
+
+    public void setAutorizaDirAd(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_autorizaDirAd, value.getSemanticObject());
+        }else
+        {
+            removeAutorizaDirAd();
+        }
+    }
+   /**
+   * Remove the value for AutorizaDirAd property
+   */
+
+    public void removeAutorizaDirAd()
+    {
+        getSemanticObject().removeProperty(intranet_autorizaDirAd);
+    }
+
+   /**
+   * Gets the AutorizaDirAd
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getAutorizaDirAd()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_autorizaDirAd);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
     }
    /**
    * Sets the value for the property Contratacion
