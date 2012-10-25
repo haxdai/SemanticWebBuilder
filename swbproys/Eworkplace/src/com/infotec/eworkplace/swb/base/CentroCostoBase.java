@@ -1,0 +1,142 @@
+package com.infotec.eworkplace.swb.base;
+
+
+public abstract class CentroCostoBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+{
+    public static final org.semanticwb.platform.SemanticClass intranet_CentroCosto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#CentroCosto");
+   /**
+   * The semantic class that represents the currentObject
+   */
+    public static final org.semanticwb.platform.SemanticClass sclass=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#CentroCosto");
+
+    public static class ClassMgr
+    {
+       /**
+       * Returns a list of CentroCosto for a model
+       * @param model Model to find
+       * @return Iterator of com.infotec.eworkplace.swb.CentroCosto
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.CentroCosto> listCentroCostos(org.semanticwb.model.SWBModel model)
+        {
+            java.util.Iterator it=model.getSemanticObject().getModel().listInstancesOfClass(sclass);
+            return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.CentroCosto>(it, true);
+        }
+       /**
+       * Returns a list of com.infotec.eworkplace.swb.CentroCosto for all models
+       * @return Iterator of com.infotec.eworkplace.swb.CentroCosto
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.CentroCosto> listCentroCostos()
+        {
+            java.util.Iterator it=sclass.listInstances();
+            return new org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.CentroCosto>(it, true);
+        }
+
+        public static com.infotec.eworkplace.swb.CentroCosto createCentroCosto(org.semanticwb.model.SWBModel model)
+        {
+            long id=model.getSemanticObject().getModel().getCounter(sclass);
+            return com.infotec.eworkplace.swb.CentroCosto.ClassMgr.createCentroCosto(String.valueOf(id), model);
+        }
+       /**
+       * Gets a com.infotec.eworkplace.swb.CentroCosto
+       * @param id Identifier for com.infotec.eworkplace.swb.CentroCosto
+       * @param model Model of the com.infotec.eworkplace.swb.CentroCosto
+       * @return A com.infotec.eworkplace.swb.CentroCosto
+       */
+        public static com.infotec.eworkplace.swb.CentroCosto getCentroCosto(String id, org.semanticwb.model.SWBModel model)
+        {
+            return (com.infotec.eworkplace.swb.CentroCosto)model.getSemanticObject().getModel().getGenericObject(model.getSemanticObject().getModel().getObjectUri(id,sclass),sclass);
+        }
+       /**
+       * Create a com.infotec.eworkplace.swb.CentroCosto
+       * @param id Identifier for com.infotec.eworkplace.swb.CentroCosto
+       * @param model Model of the com.infotec.eworkplace.swb.CentroCosto
+       * @return A com.infotec.eworkplace.swb.CentroCosto
+       */
+        public static com.infotec.eworkplace.swb.CentroCosto createCentroCosto(String id, org.semanticwb.model.SWBModel model)
+        {
+            return (com.infotec.eworkplace.swb.CentroCosto)model.getSemanticObject().getModel().createGenericObject(model.getSemanticObject().getModel().getObjectUri(id,sclass),sclass);
+        }
+       /**
+       * Remove a com.infotec.eworkplace.swb.CentroCosto
+       * @param id Identifier for com.infotec.eworkplace.swb.CentroCosto
+       * @param model Model of the com.infotec.eworkplace.swb.CentroCosto
+       */
+        public static void removeCentroCosto(String id, org.semanticwb.model.SWBModel model)
+        {
+            model.getSemanticObject().getModel().removeSemanticObject(model.getSemanticObject().getModel().getObjectUri(id,sclass));
+        }
+       /**
+       * Returns true if exists a com.infotec.eworkplace.swb.CentroCosto
+       * @param id Identifier for com.infotec.eworkplace.swb.CentroCosto
+       * @param model Model of the com.infotec.eworkplace.swb.CentroCosto
+       * @return true if the com.infotec.eworkplace.swb.CentroCosto exists, false otherwise
+       */
+
+        public static boolean hasCentroCosto(String id, org.semanticwb.model.SWBModel model)
+        {
+            return (getCentroCosto(id, model)!=null);
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.CentroCosto with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * @param model Model of the com.infotec.eworkplace.swb.CentroCosto
+       * @return Iterator with all the com.infotec.eworkplace.swb.CentroCosto
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.CentroCosto> listCentroCostoByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.CentroCosto> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.CentroCosto with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * @return Iterator with all the com.infotec.eworkplace.swb.CentroCosto
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.CentroCosto> listCentroCostoByModifiedBy(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.CentroCosto> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.CentroCosto with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @param model Model of the com.infotec.eworkplace.swb.CentroCosto
+       * @return Iterator with all the com.infotec.eworkplace.swb.CentroCosto
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.CentroCosto> listCentroCostoByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.CentroCosto> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.eworkplace.swb.CentroCosto with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @return Iterator with all the com.infotec.eworkplace.swb.CentroCosto
+       */
+
+        public static java.util.Iterator<com.infotec.eworkplace.swb.CentroCosto> listCentroCostoByCreator(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.eworkplace.swb.CentroCosto> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+    }
+
+    public static CentroCostoBase.ClassMgr getCentroCostoClassMgr()
+    {
+        return new CentroCostoBase.ClassMgr();
+    }
+
+   /**
+   * Constructs a CentroCostoBase with a SemanticObject
+   * @param base The SemanticObject with the properties for the CentroCosto
+   */
+    public CentroCostoBase(org.semanticwb.platform.SemanticObject base)
+    {
+        super(base);
+    }
+}
