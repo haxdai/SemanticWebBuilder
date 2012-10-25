@@ -33,13 +33,10 @@ Author     : rene.jara
 <%@page import="static com.infotec.cvi.swb.resources.reports.ImprimirCV.Mode_PDF" %>
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/>
 <%
-//String repositoryId = paramRequest.getWebPage().getWebSite().getUserRepository().getId();
-//System.out.println("*****************");
             WebSite ws = paramRequest.getWebPage().getWebSite();
             User user=null;
             boolean showMenu=true;
             String userId=request.getParameter("id");
-//System.out.println("userid:"+userId);
             if (userId!=null&&!userId.equals("")){
                 UserRepository ur = ws.getUserRepository();
                 user = ur.getUser(userId);
@@ -48,7 +45,6 @@ Author     : rene.jara
             if (user==null){
                 user = paramRequest.getUser();
             }
-//System.out.println("user:"+user);
             Persona persona = Persona.ClassMgr.getPersona(user.getId(), ws);
             Candidato candidato = Candidato.ClassMgr.getCandidato(user.getId(), ws);
             CV cv = CV.ClassMgr.getCV(user.getId(), ws);
@@ -64,7 +60,7 @@ Author     : rene.jara
             String gender = "";
             String state = "";
             String nationality = "";
-            boolean fm2 = false;
+            String fm2 = "";
             String sLabor = "";
             String availability = "";
             String email = "";
@@ -99,9 +95,11 @@ Author     : rene.jara
                 if (persona.getNacionalidad() != null) {
                     nationality = persona.getNacionalidad().getTitle();
                 }
-//                if (persona.isFM2() != null) {
-                fm2 = persona.isFM2();
-//                }
+                if(persona.getNacionalidad() != null&&
+                        persona.getNacionalidad().getId().equals("mx")&&
+                        persona.isFM2()){
+                    fm2=" (FM2 vigente)";
+                }
                 if (persona.getFacebook() != null) {
                     facebook = persona.getFacebook();
                 }
@@ -166,7 +164,7 @@ Author     : rene.jara
         <li><%=birthday.equals("") ? "" : birthday + ", "%>
             <%=state.equals("") ? "" : state + ", "%>
             <%=nationality%>
-            <%=fm2 ? " (FM2 vigente)" : ""%>
+            <%=fm2%>
             <%=nationality.equals("") ? "" : ", "%>
             <%=gender%></li>
         <li><%=sLabor.equals("") ? "" : sLabor + ", "%>
