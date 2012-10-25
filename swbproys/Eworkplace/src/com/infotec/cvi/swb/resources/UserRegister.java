@@ -83,7 +83,7 @@ public class UserRegister extends GenericAdmResource {
                 if( !SWBUtils.EMAIL.isValidEmailAddress(email) ) {
                     msg.append(response.getLocaleString("msgErrInvalidEmail")).append(",");
                 }
-                if( pwd==null || cpwd==null || pwd.isEmpty() || cpwd.isEmpty() || !pwd.equals(cpwd) ) {
+                if( pwd==null || cpwd==null || pwd.isEmpty() || cpwd.isEmpty() || !pwd.equals(cpwd) || login.equals(pwd) ) {
                     msg.append(response.getLocaleString("msgErrPasswordRequired")).append(",");
                 }
 //                if(ur.getUserByLogin(login)!=null || ur.getUserByEmail(email)!=null) {
