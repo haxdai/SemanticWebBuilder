@@ -16,8 +16,6 @@ public abstract class ProyectoBase extends com.infotec.cvi.swb.Catalogo implemen
     public static final org.semanticwb.platform.SemanticProperty intranet_adminsitradorDelProyecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#adminsitradorDelProyecto");
     public static final org.semanticwb.platform.SemanticProperty intranet_emailContacto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#emailContacto");
     public static final org.semanticwb.platform.SemanticProperty intranet_activo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#activo");
-    public static final org.semanticwb.platform.SemanticProperty intranet_areaDelProyecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#areaDelProyecto");
-    public static final org.semanticwb.platform.SemanticProperty intranet_especialidadDelProyecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#especialidadDelProyecto");
     public static final org.semanticwb.platform.SemanticProperty intranet_numeroProyecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#numeroProyecto");
     public static final org.semanticwb.platform.SemanticProperty intranet_vigenciaDelContrato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#vigenciaDelContrato");
     public static final org.semanticwb.platform.SemanticProperty intranet_ubicacionProyecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#ubicacionProyecto");
@@ -310,42 +308,6 @@ public abstract class ProyectoBase extends com.infotec.cvi.swb.Catalogo implemen
     public void setActivo(boolean value)
     {
         getSemanticObject().setBooleanProperty(intranet_activo, value);
-    }
-
-/**
-* Gets the AreaDelProyecto property
-* @return String with the AreaDelProyecto
-*/
-    public String getAreaDelProyecto()
-    {
-        return getSemanticObject().getProperty(intranet_areaDelProyecto);
-    }
-
-/**
-* Sets the AreaDelProyecto property
-* @param value long with the AreaDelProyecto
-*/
-    public void setAreaDelProyecto(String value)
-    {
-        getSemanticObject().setProperty(intranet_areaDelProyecto, value);
-    }
-
-/**
-* Gets the EspecialidadDelProyecto property
-* @return String with the EspecialidadDelProyecto
-*/
-    public String getEspecialidadDelProyecto()
-    {
-        return getSemanticObject().getProperty(intranet_especialidadDelProyecto);
-    }
-
-/**
-* Sets the EspecialidadDelProyecto property
-* @param value long with the EspecialidadDelProyecto
-*/
-    public void setEspecialidadDelProyecto(String value)
-    {
-        getSemanticObject().setProperty(intranet_especialidadDelProyecto, value);
     }
 
 /**
