@@ -2,7 +2,8 @@
 Document   : userData
 Created on : 31/01/2012, 06:54:51 PM
 Author     : rene.jara
---%><%@page import="com.infotec.cvi.swb.resources.UserPersonalData"%>
+--%><%@page import="com.infotec.cvi.swb.CV"%>
+<%@page import="com.infotec.cvi.swb.resources.UserPersonalData"%>
 <%@page import="com.infotec.cvi.swb.EntidadFederativa"%>
 <%@page import="com.infotec.cvi.swb.Municipio"%>
 <%@page import="com.infotec.cvi.swb.Colonia"%>
@@ -27,6 +28,12 @@ Author     : rene.jara
             String repositoryId = ws.getUserRepository().getId();
             Persona persona = Persona.ClassMgr.getPersona(user.getId(), ws);
             Candidato candidato = Candidato.ClassMgr.getCandidato(user.getId(), ws);
+            CV cv = CV.ClassMgr.getCV(user.getId(), ws);
+            if(cv!=null){
+                if(cv.getPersona()==null&&persona!=null){
+                    cv.setPersona(persona);
+                }
+            }
             Domicilio domicilio;
 
             String curp = "";
