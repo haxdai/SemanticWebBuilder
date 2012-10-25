@@ -4,7 +4,7 @@ package com.infotec.cvi.swb.base;
    /**
    * Catálogo utilizado para indicar el Grado Académico alcanzado. 
    */
-public abstract class GradoBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Sortable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class GradoBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Sortable
 {
    /**
    * Catálogo utilizado para indicar el Grado Académico alcanzado.
