@@ -4,18 +4,16 @@
  */
 package mx.com.infotec.intranet.login;
 
-import com.infotec.cvi.swb.TipoContratacion;
 import com.infotec.cvi.swb.util.UtilsCVI;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.StringTokenizer;
 import javax.naming.Context;
-import javax.naming.NameClassPair;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
@@ -29,7 +27,6 @@ import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
-import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.UserRepository;
 import org.semanticwb.model.WebSite;
 
@@ -126,6 +123,48 @@ public class Services
     private String getUserDN(String username, String ou)
     {
         return new StringBuffer().append("uid=").append(username).append(",").append(ou).toString();
+    }
+
+    public String getLoginByRFC(String rfc) throws Exception
+    {
+        String name = null;
+        DirContext dir = null;
+        try
+        {
+            dir = AuthenticateLP();
+            Attributes matchAttrs = new BasicAttributes(true); // ignore case
+            matchAttrs.put(new BasicAttribute("objectClass", userObjectClass));
+            NamingEnumeration answers = null;
+
+            SearchControls ctls = new SearchControls();
+            ctls.setReturningAttributes(new String[]
+                    {
+                        "*"
+                    });
+            ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
+            answers = dir.search(props.getProperty("base", ""),
+                    "(&(objectClass=" + userObjectClass + ")(" + getName(FIELD.RFC) + "=" + rfc + "))", ctls);
+
+
+
+            name = ((SearchResult) answers.next()).getAttributes().get(seekField).toString();
+            if (name != null)
+            {
+                int pos = name.indexOf(":");
+                if (pos != -1)
+                {
+                    name = name.substring(pos + 1).trim();
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            log.error(e);
+        } finally
+        {
+            dir.close();
+        }
+        return name;
     }
 
     public String getLoginByCURP(String curp) throws Exception
@@ -310,7 +349,7 @@ public class Services
                 {
                     WebSite siteIntranet = WebSite.ClassMgr.getWebSite(intranetID);
                     WebSite siteExtranet = WebSite.ClassMgr.getWebSite(extranetWebSiteID);
-                    if (siteIntranet != null&& siteExtranet!=null)
+                    if (siteIntranet != null && siteExtranet != null)
                     {
                         UserRepository repo = siteIntranet.getUserRepository();
                         org.semanticwb.model.User userRepo = repo.createUser();
@@ -318,14 +357,15 @@ public class Services
 
                         org.semanticwb.model.User userCand = siteExtranet.getUserRepository().getUserByLogin(candidateLogin);
 //                        org.semanticwb.model.User usIntranet = siteIntranet.getUserRepository().getUserByLogin(user.getLogin());
-                        if(userCand!=null&&userRepo!=null){
+                        if (userCand != null && userRepo != null)
+                        {
                             UtilsCVI.copyUser(userCand, siteExtranet, userRepo, siteIntranet);
                         }
                     }
                 }
                 catch (Exception e)
                 {
-                log.error(e);
+                    log.error(e);
                 }
 
             }
@@ -341,7 +381,7 @@ public class Services
         }
     }
 
-    public void removeUserByRFC(String rfc) throws ServiceException
+    public void removeUserByRFC(String rfc, String site) throws ServiceException
     {
         String ou = getCNFromRFC(rfc);
         try
@@ -352,8 +392,12 @@ public class Services
             String principal = props.getProperty("principal", PRINCIPAL);
             String password = props.getProperty("credential", PASSWORD);
             LDAPManager manager = new LDAPManager(host, PORT, principal, password);
+            String login = getLoginByRFC(rfc);
             manager.setOU(ou);
             manager.deleteUser(ou);
+            removeUserFromSite(site, login);
+
+
 
 
         }
@@ -363,7 +407,7 @@ public class Services
         }
     }
 
-    public void removeUserByCURP(String curp) throws ServiceException
+    public void removeUserByCURP(String curp, String site) throws ServiceException
     {
         String ou = getCNFromCURP(curp);
         try
@@ -374,10 +418,10 @@ public class Services
             String principal = props.getProperty("principal", PRINCIPAL);
             String password = props.getProperty("credential", PASSWORD);
             LDAPManager manager = new LDAPManager(host, PORT, principal, password);
+            String login = getLoginByCURP(curp);
             manager.setOU(ou);
             manager.deleteUser(ou);
-
-
+            removeUserFromSite(site, login);
         }
         catch (Exception e)
         {
@@ -385,7 +429,27 @@ public class Services
         }
     }
 
-    public void remove(String login) throws ServiceException
+    private void removeUserFromSite(String siteId, String login)
+    {
+        WebSite site = WebSite.ClassMgr.getWebSite(siteId);
+        if (site != null)
+        {
+            UserRepository rep = site.getUserRepository();
+            Iterator<org.semanticwb.model.User> users = rep.listUsers();
+            while (users.hasNext())
+            {
+                org.semanticwb.model.User user = users.next();
+                if (user.getLogin().equals(login))
+                {
+                    user.remove();
+                    break;
+                }
+            }
+
+        }
+    }
+
+    public void remove(String login, String site) throws ServiceException
     {
 
         String ou = getCNFromLogin(login);
@@ -399,6 +463,7 @@ public class Services
             LDAPManager manager = new LDAPManager(host, PORT, principal, password);
             manager.setOU(ou);
             manager.deleteUser(ou);
+            removeUserFromSite(site, login);
 
 
         }
@@ -943,6 +1008,15 @@ public class Services
 
         String login = "victor.lorenzana";
 
+        try
+        {
+            Integer valur=s.getAreaAdscripcion("jose.tamayo");
+            System.out.println("value");
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 //        try
 //        {
 //            UserInformation info = s.getUserInformation(login);
@@ -1514,5 +1588,58 @@ public class Services
             }
         }
         return user;
+    }
+
+    public Integer getAreaAdscripcion(String login) throws ServiceException
+    {
+        Integer lastNumber = null;
+        String cn = getCNFromLogin(login);
+        if (cn != null)
+        {
+            StringTokenizer st = new StringTokenizer(cn, ",");
+
+            while (st.hasMoreTokens())
+            {
+                String token = st.nextToken();
+                if (token.startsWith("OU="))
+                {
+                    String OU = token.substring(3).trim();
+                    DirContext dir = null;
+                    try
+                    {
+                        String cnOU = getCNOU(OU)+","+props.getProperty("base","");
+
+                        dir = AuthenticateLP();
+                        Attribute att = dir.getAttributes(cnOU).get("description");
+                        if (att != null)
+                        {
+                            Object value = att.get();
+                            if (value != null)
+                            {
+                                lastNumber = Integer.parseInt(value.toString());
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        throw new ServiceException("No se puede obtener atributos de OU : " + OU, e);
+                    } finally
+                    {
+                        if (dir != null)
+                        {
+                            try
+                            {
+                                dir.close();
+                            }
+                            catch (Exception e)
+                            {
+                                log.error(e);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return lastNumber;
     }
 }
