@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class MosaicBase extends com.infotec.conorg.Tile implements org.semanticwb.model.Tagable,org.semanticwb.model.Descriptiveable,com.infotec.conorg.Tileable,org.semanticwb.model.Calendarable,org.semanticwb.model.Traceable,com.infotec.conorg.Topicable
+public abstract class MosaicBase extends com.infotec.conorg.Tile implements org.semanticwb.model.Indexable,com.infotec.conorg.Tileable,org.semanticwb.model.Traceable,com.infotec.conorg.Topicable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Calendarable
 {
     public static final org.semanticwb.platform.SemanticClass conorg_Mosaic=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#Mosaic");
    /**
@@ -193,6 +193,11 @@ public abstract class MosaicBase extends com.infotec.conorg.Tile implements org.
             org.semanticwb.model.GenericIterator<com.infotec.conorg.Mosaic> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(conorg_hasTile,value.getSemanticObject(),sclass));
             return it;
         }
+    }
+
+    public static MosaicBase.ClassMgr getMosaicClassMgr()
+    {
+        return new MosaicBase.ClassMgr();
     }
 
    /**

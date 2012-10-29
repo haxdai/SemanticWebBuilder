@@ -134,6 +134,11 @@ public abstract class MemberBase extends org.semanticwb.model.SWBClass
         }
     }
 
+    public static MemberBase.ClassMgr getMemberClassMgr()
+    {
+        return new MemberBase.ClassMgr();
+    }
+
    /**
    * Constructs a MemberBase with a SemanticObject
    * @param base The SemanticObject with the properties for the Member
