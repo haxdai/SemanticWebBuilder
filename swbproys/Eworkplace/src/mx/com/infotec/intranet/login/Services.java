@@ -445,7 +445,7 @@ public class Services
                 org.semanticwb.model.User user = users.next();
                 if (user.getLogin().equals(login))
                 {
-                    user.remove();
+                    user.setActive(false);
                     break;
                 }
             }
