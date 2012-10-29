@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class PlaceBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.FilterableClass,org.semanticwb.model.Undeleteable,org.semanticwb.model.Activeable,org.semanticwb.model.Countryable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Localeable,org.semanticwb.model.Indexable,org.semanticwb.model.OntologyDepable,org.semanticwb.model.Traceable,org.semanticwb.model.Filterable,org.semanticwb.model.Trashable
+public abstract class PlaceBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.Trashable,org.semanticwb.model.Countryable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Undeleteable,org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.OntologyDepable,org.semanticwb.model.Indexable,org.semanticwb.model.Localeable,org.semanticwb.model.Filterable,org.semanticwb.model.Traceable,org.semanticwb.model.FilterableNode
 {
     public static final org.semanticwb.platform.SemanticClass conorg_WorkSpace=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#WorkSpace");
     public static final org.semanticwb.platform.SemanticProperty conorg_hasWorkSpace=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#hasWorkSpace");
@@ -368,6 +368,11 @@ public abstract class PlaceBase extends org.semanticwb.model.WebSite implements 
             org.semanticwb.model.GenericIterator<com.infotec.conorg.Place> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasModelProperty,value.getSemanticObject(),sclass));
             return it;
         }
+    }
+
+    public static PlaceBase.ClassMgr getPlaceClassMgr()
+    {
+        return new PlaceBase.ClassMgr();
     }
 
    /**

@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class URLBase extends com.infotec.conorg.Tile implements org.semanticwb.model.Tagable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Calendarable,org.semanticwb.model.Traceable,com.infotec.conorg.Topicable
+public abstract class URLBase extends com.infotec.conorg.Tile implements org.semanticwb.model.Indexable,org.semanticwb.model.Traceable,com.infotec.conorg.Topicable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Calendarable
 {
     public static final org.semanticwb.platform.SemanticProperty conorg_url=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#url");
     public static final org.semanticwb.platform.SemanticClass conorg_URL=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#URL");
@@ -171,6 +171,11 @@ public abstract class URLBase extends com.infotec.conorg.Tile implements org.sem
             org.semanticwb.model.GenericIterator<com.infotec.conorg.URL> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
+    }
+
+    public static URLBase.ClassMgr getURLClassMgr()
+    {
+        return new URLBase.ClassMgr();
     }
 
    /**

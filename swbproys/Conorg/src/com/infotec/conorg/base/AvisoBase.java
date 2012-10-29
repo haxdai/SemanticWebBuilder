@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class AvisoBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+public abstract class AvisoBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
    /**
    * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
@@ -201,6 +201,11 @@ public abstract class AvisoBase extends org.semanticwb.model.SWBClass implements
             org.semanticwb.model.GenericIterator<com.infotec.conorg.Aviso> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(conorg_toWorkSpace,value.getSemanticObject(),sclass));
             return it;
         }
+    }
+
+    public static AvisoBase.ClassMgr getAvisoClassMgr()
+    {
+        return new AvisoBase.ClassMgr();
     }
 
    /**

@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class TileBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Tagable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Calendarable,org.semanticwb.model.Traceable,com.infotec.conorg.Topicable
+public abstract class TileBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Indexable,org.semanticwb.model.Traceable,com.infotec.conorg.Topicable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Calendarable
 {
     public static final org.semanticwb.platform.SemanticClass conorg_Tile=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#Tile");
    /**
@@ -172,6 +172,11 @@ public abstract class TileBase extends org.semanticwb.model.SWBClass implements 
         }
     }
 
+    public static TileBase.ClassMgr getTileClassMgr()
+    {
+        return new TileBase.ClassMgr();
+    }
+
    /**
    * Constructs a TileBase with a SemanticObject
    * @param base The SemanticObject with the properties for the Tile
@@ -179,6 +184,24 @@ public abstract class TileBase extends org.semanticwb.model.SWBClass implements 
     public TileBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+/**
+* Gets the Indexable property
+* @return boolean with the Indexable
+*/
+    public boolean isIndexable()
+    {
+        return getSemanticObject().getBooleanProperty(swb_indexable);
+    }
+
+/**
+* Sets the Indexable property
+* @param value long with the Indexable
+*/
+    public void setIndexable(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(swb_indexable, value);
     }
    /**
    * Sets the value for the property ModifiedBy

@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class VideoBase extends com.infotec.conorg.Document implements org.semanticwb.model.Tagable,org.semanticwb.model.Versionable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Calendarable,org.semanticwb.model.Traceable,com.infotec.conorg.Topicable
+public abstract class VideoBase extends com.infotec.conorg.Document implements org.semanticwb.model.Indexable,org.semanticwb.model.Versionable,org.semanticwb.model.Traceable,com.infotec.conorg.Topicable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Calendarable
 {
     public static final org.semanticwb.platform.SemanticProperty conorg_videoRights=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#videoRights");
     public static final org.semanticwb.platform.SemanticClass conorg_Video=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#Video");
@@ -217,6 +217,11 @@ public abstract class VideoBase extends com.infotec.conorg.Document implements o
             org.semanticwb.model.GenericIterator<com.infotec.conorg.Video> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_lastVersion,value.getSemanticObject(),sclass));
             return it;
         }
+    }
+
+    public static VideoBase.ClassMgr getVideoClassMgr()
+    {
+        return new VideoBase.ClassMgr();
     }
 
    /**

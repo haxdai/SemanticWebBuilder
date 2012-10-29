@@ -76,6 +76,11 @@ public abstract class AuthorBase extends org.semanticwb.model.SWBClass
         }
     }
 
+    public static AuthorBase.ClassMgr getAuthorClassMgr()
+    {
+        return new AuthorBase.ClassMgr();
+    }
+
    /**
    * Constructs a AuthorBase with a SemanticObject
    * @param base The SemanticObject with the properties for the Author

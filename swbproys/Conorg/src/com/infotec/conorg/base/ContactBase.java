@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class ContactBase extends com.infotec.conorg.Tile implements org.semanticwb.model.Tagable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Calendarable,org.semanticwb.model.Traceable,com.infotec.conorg.Topicable
+public abstract class ContactBase extends com.infotec.conorg.Tile implements org.semanticwb.model.Indexable,org.semanticwb.model.Traceable,com.infotec.conorg.Topicable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Calendarable
 {
     public static final org.semanticwb.platform.SemanticProperty conorg_contactOfficePhone=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#contactOfficePhone");
     public static final org.semanticwb.platform.SemanticProperty conorg_contactExperienceArea=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#contactExperienceArea");
@@ -184,6 +184,11 @@ public abstract class ContactBase extends com.infotec.conorg.Tile implements org
             org.semanticwb.model.GenericIterator<com.infotec.conorg.Contact> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
+    }
+
+    public static ContactBase.ClassMgr getContactClassMgr()
+    {
+        return new ContactBase.ClassMgr();
     }
 
    /**

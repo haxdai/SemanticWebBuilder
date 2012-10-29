@@ -102,6 +102,11 @@ public abstract class ColleagueBase extends org.semanticwb.model.UserTypeDef
         }
     }
 
+    public static ColleagueBase.ClassMgr getColleagueClassMgr()
+    {
+        return new ColleagueBase.ClassMgr();
+    }
+
    /**
    * Constructs a ColleagueBase with a SemanticObject
    * @param base The SemanticObject with the properties for the Colleague

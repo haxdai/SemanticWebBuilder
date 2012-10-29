@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class ReportBase extends com.infotec.conorg.Document implements org.semanticwb.model.Tagable,org.semanticwb.model.Versionable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Calendarable,org.semanticwb.model.Traceable,com.infotec.conorg.Topicable
+public abstract class ReportBase extends com.infotec.conorg.Document implements org.semanticwb.model.Indexable,org.semanticwb.model.Versionable,org.semanticwb.model.Traceable,com.infotec.conorg.Topicable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Calendarable
 {
     public static final org.semanticwb.platform.SemanticProperty conorg_reportVersion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#reportVersion");
     public static final org.semanticwb.platform.SemanticClass conorg_Report=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#Report");
@@ -217,6 +217,11 @@ public abstract class ReportBase extends com.infotec.conorg.Document implements 
             org.semanticwb.model.GenericIterator<com.infotec.conorg.Report> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_lastVersion,value.getSemanticObject(),sclass));
             return it;
         }
+    }
+
+    public static ReportBase.ClassMgr getReportClassMgr()
+    {
+        return new ReportBase.ClassMgr();
     }
 
    /**

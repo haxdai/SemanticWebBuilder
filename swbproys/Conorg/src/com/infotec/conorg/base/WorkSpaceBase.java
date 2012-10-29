@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class WorkSpaceBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Tagable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Countryable,org.semanticwb.model.Referensable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Calendarable,com.infotec.conorg.Topicable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Indexable,org.semanticwb.model.Hiddenable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Rankable,org.semanticwb.model.Filterable,org.semanticwb.model.Trashable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Resourceable,org.semanticwb.model.Activeable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Expirable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.TemplateRefable,com.infotec.conorg.Tileable,org.semanticwb.model.Localeable,org.semanticwb.model.MetaTagable,org.semanticwb.model.RuleRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Searchable,org.semanticwb.model.Traceable,org.semanticwb.model.Viewable
+public abstract class WorkSpaceBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Countryable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Activeable,org.semanticwb.model.Viewable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Calendarable,org.semanticwb.model.MetaTagable,org.semanticwb.model.Indexable,org.semanticwb.model.Referensable,com.infotec.conorg.Tileable,org.semanticwb.model.Traceable,com.infotec.conorg.Topicable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Tagable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.RuleRefable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Trashable,org.semanticwb.model.Expirable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Rankable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Searchable,org.semanticwb.model.Localeable,org.semanticwb.model.Filterable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Resourceable,org.semanticwb.model.RoleRefable
 {
    /**
    * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
@@ -685,6 +685,11 @@ public abstract class WorkSpaceBase extends org.semanticwb.model.WebPage impleme
             org.semanticwb.model.GenericIterator<com.infotec.conorg.WorkSpace> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(conorg_hasTile,value.getSemanticObject(),sclass));
             return it;
         }
+    }
+
+    public static WorkSpaceBase.ClassMgr getWorkSpaceClassMgr()
+    {
+        return new WorkSpaceBase.ClassMgr();
     }
 
    /**
