@@ -358,8 +358,13 @@ public class Services
                         UserRepository repo = siteIntranet.getUserRepository();
                         org.semanticwb.model.User userRepo = repo.createUser();
                         userRepo.setLogin(user.getLogin());
-                        userRepo.setActive(true);                        
-                        userRepo.setFirstName(user.getPrimerNombre());
+                        userRepo.setActive(true);
+                        String name=user.getPrimerNombre();
+                        if(user.getSegundoNombre()!=null)
+                        {
+                            name+=" "+user.getSegundoNombre();
+                        }
+                        userRepo.setFirstName(name);
                         userRepo.setLastName(user.getPApellido());
                         userRepo.setSecondLastName(user.getSApellido());
                         org.semanticwb.model.User userCand = siteExtranet.getUserRepository().getUserByLogin(candidateLogin);
