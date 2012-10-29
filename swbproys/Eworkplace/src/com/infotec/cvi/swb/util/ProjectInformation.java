@@ -4,33 +4,50 @@
  */
 package com.infotec.cvi.swb.util;
 
+import com.infotec.eworkplace.swb.Proyecto;
 import java.util.Date;
 
 /**
  *
  * @author carlos.ramos
  */
-class ProjectInformation {
+public class ProjectInformation {
     private String titulo;
     private String numero;
     private boolean activo;
 
-    ProjectInformation(String titulo, String numero, Date vigencia){
+    public ProjectInformation(String titulo, String numero, Date vigencia){
         this.titulo = titulo;
         this.numero = numero;
         activo = vigencia.after(new Date());
     }
 
-    boolean isActive() {
+    public boolean isActive() {
         return activo;
     }
 
-    String getTitulo() {
+    public String getTitulo() {
         return titulo;
     }
 
-    String getNumero() {
+    public String getNumero() {
         return numero;
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj) {
+	    return true;
+	}
+	if (obj instanceof ProjectInformation) {
+            ProjectInformation another = (ProjectInformation)obj;
+            return this.numero.equals(another.getNumero());
+        }
+        else if(obj instanceof Proyecto) {
+            Proyecto another = (Proyecto)obj;
+            return this.numero.equals(another.getNumeroProyecto());
+        }
+	return false;
     }
 
     @Override
