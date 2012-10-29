@@ -1604,27 +1604,27 @@ public class Services
         try
         {
             dir = AuthenticateLP();
-            String ou="Corporativo";
-            String cnPrincipal=props.get("principal").toString();
-            int pos=cnPrincipal.lastIndexOf("OU=");
-            if(pos!=-1)
+            String ou = "Corporativo";
+            String cnPrincipal = props.get("principal").toString();
+            int pos = cnPrincipal.lastIndexOf("OU=");
+            if (pos != -1)
             {
-                cnPrincipal=cnPrincipal.substring(pos+3);
+                cnPrincipal = cnPrincipal.substring(pos + 3);
             }
-            pos=cnPrincipal.indexOf(",");
-            if(pos!=-1)
+            pos = cnPrincipal.indexOf(",");
+            if (pos != -1)
             {
-                ou=cnPrincipal.substring(0,pos).trim();
+                ou = cnPrincipal.substring(0, pos).trim();
             }
 
 
-            
+
             String cn = getCNOU(ou) + "," + props.getProperty("base", "");
             Object obj = dir.lookup(cn);
             if (obj != null)
             {
                 if (obj instanceof DirContext)
-                {                    
+                {
                     Attributes matchAttrs = new BasicAttributes(true); // ignore case
                     matchAttrs.put(new BasicAttribute("objectClass", "organizationalUnit"));
                     NamingEnumeration answers = null;
@@ -1725,7 +1725,7 @@ public class Services
                         String cnOU = getCNOU(OU) + "," + props.getProperty("base", "");
 
                         dir = AuthenticateLP();
-                        
+
                         Attribute att = dir.getAttributes(cnOU).get("description");
                         if (att != null)
                         {
@@ -1750,7 +1750,7 @@ public class Services
 
 
 
-                        
+
                     }
                     catch (Exception e)
                     {
