@@ -358,8 +358,7 @@ public class Services
                         UserRepository repo = siteIntranet.getUserRepository();
                         org.semanticwb.model.User userRepo = repo.createUser();
                         userRepo.setLogin(user.getLogin());
-                        userRepo.setActive(true);
-                        
+                        userRepo.setActive(true);                        
                         userRepo.setFirstName(user.getPrimerNombre());
                         userRepo.setLastName(user.getPApellido());
                         userRepo.setSecondLastName(user.getSApellido());
