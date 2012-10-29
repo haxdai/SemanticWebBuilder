@@ -6,10 +6,14 @@ package mx.com.infotec.intranet.login;
 
 import com.infotec.cvi.swb.util.UtilsCVI;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.StringTokenizer;
@@ -1010,8 +1014,11 @@ public class Services
 
         try
         {
-            Integer valur=s.getAreaAdscripcion("jose.tamayo");
-            System.out.println("value");
+            s.getAdscripciones("jose.tamayo");
+            s.getAdscripciones();
+
+            Integer value = s.getAreaAdscripcion("jose.tamayo");
+            System.out.println("area: " + value);
         }
         catch (Exception e)
         {
@@ -1590,6 +1597,193 @@ public class Services
         return user;
     }
 
+    public List<Area> getAdscripciones() throws ServiceException
+    {
+        ArrayList<Area> areas = new ArrayList<Area>();
+        DirContext dir = null;
+        try
+        {
+            dir = AuthenticateLP();
+            String ou="Corporativo";
+            String cnPrincipal=props.get("principal").toString();
+            int pos=cnPrincipal.lastIndexOf("OU=");
+            if(pos!=-1)
+            {
+                cnPrincipal=cnPrincipal.substring(pos+3);
+            }
+            pos=cnPrincipal.indexOf(",");
+            if(pos!=-1)
+            {
+                ou=cnPrincipal.substring(0,pos).trim();
+            }
+
+
+            
+            String cn = getCNOU(ou) + "," + props.getProperty("base", "");
+            Object obj = dir.lookup(cn);
+            if (obj != null)
+            {
+                if (obj instanceof DirContext)
+                {                    
+                    Attributes matchAttrs = new BasicAttributes(true); // ignore case
+                    matchAttrs.put(new BasicAttribute("objectClass", "organizationalUnit"));
+                    NamingEnumeration answers = null;
+
+                    SearchControls ctls = new SearchControls();
+                    ctls.setReturningAttributes(new String[]
+                            {
+                                "*"
+                            });
+                    ctls.setSearchScope(SearchControls.ONELEVEL_SCOPE);
+                    answers = dir.search(cn,
+                            "(&(objectClass=organizationalUnit))", ctls);
+                    while (answers.hasMore())
+                    {
+                        SearchResult result = (SearchResult) answers.next();
+                        Area area = new Area();
+
+                        Object descr = result.getAttributes().get("description");
+                        if (descr != null)
+                        {
+
+                            String value = descr.toString();
+                            pos = value.indexOf(":");
+                            if (pos != -1)
+                            {
+                                value = value.substring(pos + 1).trim();
+                            }
+                            try
+                            {
+                                Integer ivalue = Integer.parseInt(value);
+                                area.area = ivalue;
+
+                            }
+                            catch (NumberFormatException nfe)
+                            {
+                                log.trace(nfe);
+                            }
+
+
+                        }
+
+                        Object displayName = result.getAttributes().get("name");
+                        if (displayName != null)
+                        {
+
+                            String value = displayName.toString();
+                            pos = value.indexOf(":");
+                            if (pos != -1)
+                            {
+                                value = value.substring(pos + 1).trim();
+                            }
+                            area.titulo = value;
+                        }
+                        areas.add(area);
+                    }
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            throw new ServiceException("No se puede obtener lista de OU", e);
+        } finally
+        {
+            if (dir != null)
+            {
+                try
+                {
+                    dir.close();
+                }
+                catch (Exception e)
+                {
+                    log.error(e);
+                }
+            }
+        }
+
+        return areas;
+    }
+
+    public List<Area> getAdscripciones(String login) throws ServiceException
+    {
+        ArrayList<Area> areas = new ArrayList<Area>();
+        Integer lastNumber = null;
+        String cn = getCNFromLogin(login);
+        if (cn != null)
+        {
+            StringTokenizer st = new StringTokenizer(cn, ",");
+
+            while (st.hasMoreTokens())
+            {
+                String token = st.nextToken();
+                if (token.startsWith("OU="))
+                {
+                    String OU = token.substring(3).trim();
+                    DirContext dir = null;
+                    try
+                    {
+                        String cnOU = getCNOU(OU) + "," + props.getProperty("base", "");
+
+                        dir = AuthenticateLP();
+                        
+                        Attribute att = dir.getAttributes(cnOU).get("description");
+                        if (att != null)
+                        {
+                            Area area = new Area();
+                            Object value = att.get();
+                            if (value != null)
+                            {
+                                lastNumber = Integer.parseInt(value.toString());
+                                area.area = lastNumber;
+                            }
+                            att = dir.getAttributes(cnOU).get("name");
+                            if (att != null)
+                            {
+                                value = att.get();
+                                if (value != null)
+                                {
+                                    area.titulo = value.toString();
+                                }
+                            }
+                            areas.add(area);
+                        }
+
+
+
+                        
+                    }
+                    catch (Exception e)
+                    {
+                        throw new ServiceException("No se puede obtener atributos de OU : " + OU, e);
+                    } finally
+                    {
+                        if (dir != null)
+                        {
+                            try
+                            {
+                                dir.close();
+                            }
+                            catch (Exception e)
+                            {
+                                log.error(e);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        Collections.sort(areas, new Comparator<Area>()
+        {
+
+            @Override
+            public int compare(Area o1, Area o2)
+            {
+                return o1.titulo.compareToIgnoreCase(o2.titulo);
+            }
+        });
+        return areas;
+    }
+
     public Integer getAreaAdscripcion(String login) throws ServiceException
     {
         Integer lastNumber = null;
@@ -1607,7 +1801,7 @@ public class Services
                     DirContext dir = null;
                     try
                     {
-                        String cnOU = getCNOU(OU)+","+props.getProperty("base","");
+                        String cnOU = getCNOU(OU) + "," + props.getProperty("base", "");
 
                         dir = AuthenticateLP();
                         Attribute att = dir.getAttributes(cnOU).get("description");
