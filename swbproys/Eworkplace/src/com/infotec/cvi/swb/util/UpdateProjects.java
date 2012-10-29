@@ -31,10 +31,20 @@ public class UpdateProjects {
     private WebSite wsite;
     
     public UpdateProjects(String wsiteId) throws Exception {
+        this(wsiteId, null, null);
+    }
+    
+    public UpdateProjects(String wsiteId, String update) throws Exception {
+        this(wsiteId, update, null);
+    }
+    
+    public UpdateProjects(String wsiteId, String update, String dbConnectionPoolName) throws Exception {
         wsite = WebSite.ClassMgr.getWebSite(wsiteId);
         if(wsite == null) {
             throw new Exception("WebSite with Id:"+wsiteId+" is invalid");
         }
+        
+        
         StringBuilder query = new StringBuilder();
         query.append("SELECT ");
         query.append("proj.ProjectName ");
@@ -43,26 +53,8 @@ public class UpdateProjects {
         query.append(",CONVERT(varchar,proj.ProjectFinishDate,103) as fecha_Fin ");
         query.append("FROM ProjectServer_Reporting_4.dbo.MSP_EpmProject_UserView AS proj ");
         query.append("order by proj.[ID. Proyecto] ");
-        update = query.toString();
-        dbConnectionPoolName = "sp";
-    }
-    
-    public UpdateProjects(String wsiteId, String update) throws Exception {
-        wsite = WebSite.ClassMgr.getWebSite(wsiteId);
-        if(wsite == null) {
-            throw new Exception("WebSite with Id:"+wsiteId+" is invalid");
-        }
-        this.update = update;
-        dbConnectionPoolName = "sp";
-    }
-    
-    public UpdateProjects(String wsiteId, String update, String dbConnectionPoolName) throws Exception {
-        wsite = WebSite.ClassMgr.getWebSite(wsiteId);
-        if(wsite == null) {
-            throw new Exception("WebSite with Id:"+wsiteId+" is invalid");
-        }
-        this.update = update;
-        this.dbConnectionPoolName = dbConnectionPoolName;
+        this.update = update==null?query.toString():update;
+        this.dbConnectionPoolName = dbConnectionPoolName==null?"ps":dbConnectionPoolName;
     }
     
     public String getUpdate() {
@@ -74,7 +66,7 @@ public class UpdateProjects {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         DBConnectionPool cp = SWBUtils.DB.getPool(dbConnectionPoolName);
         if(cp==null) {
-            throw new Exception("Connecton pool \"ps\" no exists. Check for connection pool \"ps\" in db.properties file");
+            throw new Exception("Connecton pool \""+dbConnectionPoolName+"\" no exists. Check for connection pool \""+dbConnectionPoolName+"\" in db.properties file");
         }
         Connection con = cp.getConnection();
         if(con==null){
@@ -132,26 +124,30 @@ public class UpdateProjects {
     }
     
     public void update() throws Exception {
-        List<ProjectInformation> proyectos = listFromProjectServer();
+System.out.println("\n\n----------\nUpdating...");
+        List<ProjectInformation> projInfos = listFromProjectServer();
         
-        boolean projectFound;
+        int idx;
         List<Proyecto> semproys = SWBUtils.Collections.copyIterator(Proyecto.ClassMgr.listProyectos(wsite));
-        for(ProjectInformation proyInfo : proyectos) {
-            projectFound = false;
-            Iterator<Proyecto> it = semproys.iterator();
-            while(it.hasNext()) {
-                Proyecto semproy = it.next();
-                if(proyInfo.getNumero().equals(semproy.getNumeroProyecto())) {
-                    semproy.setActivo(proyInfo.isActive());
-                    projectFound = semproys.remove(semproy);
-                    break;
-                }
+        for(ProjectInformation projInfo : projInfos) {
+System.out.println("\n+++\nproyInfo="+projInfo.toString());
+            idx = semproys.indexOf(projInfo);
+System.out.println("Proyecto con indice="+idx);
+            if(idx >= 0)
+            {
+System.out.println("actualizando proyecto...");
+                Proyecto proyecto = semproys.remove(idx);
+                proyecto.setActivo(projInfo.isActive());
+System.out.println("proyecto "+proyecto.getTitle()+" actualizado.");
             }
-            if(!projectFound) {
-                Proyecto np = Proyecto.ClassMgr.createProyecto(wsite);
-                np.setTitle(proyInfo.getTitulo());
-                np.setNumeroProyecto(proyInfo.getNumero());
-                np.setActivo(proyInfo.isActive());
+            else
+            {
+System.out.println("proyecto no encontrado. creando nuevo...");
+                Proyecto nuevo = Proyecto.ClassMgr.createProyecto(wsite);
+                nuevo.setTitle(projInfo.getTitulo());
+                nuevo.setNumeroProyecto(projInfo.getNumero());
+                nuevo.setActivo(projInfo.isActive());
+System.out.println("proeycto creado.");
             }
         }
     }
