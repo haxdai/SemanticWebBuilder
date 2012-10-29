@@ -62,7 +62,7 @@ public class Report {
     }
     
     public String getArea() {
-        return solicitud.getProyectoAsignado().getAreaDelProyecto();
+        return "";//solicitud.getProyectoAsignado().getAreaDelProyecto();
     }
     
     public String getTipoContratacion() {
