@@ -74,6 +74,11 @@ public abstract class EditorsBase extends com.infotec.conorg.Author
         }
     }
 
+    public static EditorsBase.ClassMgr getEditorsClassMgr()
+    {
+        return new EditorsBase.ClassMgr();
+    }
+
    /**
    * Constructs a EditorsBase with a SemanticObject
    * @param base The SemanticObject with the properties for the Editors
