@@ -1,3 +1,4 @@
+<%@page import="mx.com.infotec.intranet.login.Services"%>
 <%@page import="com.infotec.cvi.swb.Habilidad"%>
 <%@page import="com.infotec.cvi.swb.TipoTalento"%>
 <%@page import="com.infotec.rh.syr.swb.SeguimientoSolicitudRecurso"%>
@@ -35,17 +36,7 @@ if (paramRequest.getCallMethod() == SWBParamRequest.Call_DIRECT) {
     String act = paramRequest.getAction();
     String ret = "No disponible";
     
-    if (act.equals("GETAP") || act.equals("GETPA") || act.equals("GETPE")) {
-        response.setContentType("text/html; charset=UTF-8");
-        String pUri = request.getParameter("pUri");
-        Proyecto proy = (Proyecto)ont.getGenericObject(pUri);
-        
-        if (proy != null) {
-            if (act.equals("GETAP") && proy.getAdminsitradorDelProyecto() != null) ret = proy.getAdminsitradorDelProyecto().getFullName();
-            if (act.equals("GETPA") && proy.getAreaDelProyecto() != null) ret = proy.getAreaDelProyecto();
-            if (act.equals("GETPE") && proy.getEspecialidadDelProyecto() != null) ret = proy.getEspecialidadDelProyecto();
-        } 
-    } else if (act.equals("GETHABS")) {
+    if (act.equals("GETHABS")) {
         //response.setContentType("text/x-json; charset=UTF-8");
         String capUri = request.getParameter("cUri");
         
@@ -136,8 +127,18 @@ if (paramRequest.getCallMethod() == SWBParamRequest.Call_DIRECT) {
     mgr.addProperty(SolicitudRecurso.intranet_certificaciones, varSolicitud, SWBFormMgr.MODE_EDIT);
     mgr.addProperty(SolicitudRecurso.intranet_hasCompetenciaReq, varSolicitud, SWBFormMgr.MODE_EDIT);
     mgr.addProperty(SolicitudRecurso.intranet_notaSolicitud, varSolicitud, SWBFormMgr.MODE_EDIT);
+    mgr.addProperty(SolicitudRecurso.intranet_centroDeCosto, varSolicitud, SWBFormMgr.MODE_EDIT);
+    mgr.addProperty(SolicitudRecurso.intranet_especialidadRecurso, varSolicitud, SWBFormMgr.MODE_EDIT);
     
     SWBProcessFormMgr fmgr = new SWBProcessFormMgr(foi);
+
+    Services services = new Services();
+    String jefe = "No dsponible";
+    if (services.getUserInformation(user.getLogin()) != null) {
+        if (services.getUserInformation(user.getLogin()).getJefeInmediato() != null) {
+            jefe = services.getUserInformation(user.getLogin()).getJefeInmediato();
+        }
+    }
     %>
     <%=SWBForms.DOJO_REQUIRED%>
     <div id="processForm">
@@ -167,13 +168,13 @@ if (paramRequest.getCallMethod() == SWBParamRequest.Call_DIRECT) {
                     <tr>
                         <td width="200px" align="right"><label for="title">&Aacute;rea de adscripci&oacute;n</label>
                         <td>
-                            <span><%=foi.getProcessInstance().getCreator().getUserGroup().getTitle()%></span>
+                            <span><%=services.getAreaAdscripcion(foi.getProcessInstance().getCreator().getLogin())%></span>
                         </td>
                     </tr>
                     <tr>
                         <td width="200px" align="right"><label for="title">Jefe inmediato</label>
                         <td>
-                            <span>Jefe inmediato</span>
+                            <span><%=jefe%></span>
                         </td>
                     </tr>
                     <tr>
@@ -196,15 +197,15 @@ if (paramRequest.getCallMethod() == SWBParamRequest.Call_DIRECT) {
                         </td>
                     </tr>
                     <tr>
-                        <td width="200px" align="right"><label for="title"><%=fmgr.renderLabel(request, Proyecto.intranet_areaDelProyecto, varSolicitud, SWBFormMgr.MODE_VIEW)%></label></td>
+                        <td width="200px" align="right"><label for="title"><%=fmgr.renderLabel(request, SolicitudRecurso.intranet_centroDeCosto, varSolicitud, SWBFormMgr.MODE_VIEW)%></label></td>
                         <td>
-                            <span><%=sr.getProyectoAsignado().getAreaDelProyecto()%></span>
+                            <%=fmgr.renderElement(request, varSolicitud, SolicitudRecurso.intranet_centroDeCosto, SWBFormMgr.MODE_VIEW)%>
                         </td>
                     </tr>
                     <tr>
-                        <td width="200px" align="right"><label for="title"><%=fmgr.renderLabel(request, Proyecto.intranet_especialidadDelProyecto, varSolicitud, SWBFormMgr.MODE_VIEW)%></label></td>
+                        <td width="200px" align="right"><label for="title"><%=fmgr.renderLabel(request, SolicitudRecurso.intranet_especialidadRecurso, varSolicitud, SWBFormMgr.MODE_VIEW)%></label></td>
                         <td>
-                            <span><%=sr.getProyectoAsignado().getEspecialidadDelProyecto()%></span>
+                            <%=fmgr.renderElement(request, varSolicitud, SolicitudRecurso.intranet_especialidadRecurso, SWBFormMgr.MODE_VIEW)%>
                         </td>
                     </tr>
                     <tr>
