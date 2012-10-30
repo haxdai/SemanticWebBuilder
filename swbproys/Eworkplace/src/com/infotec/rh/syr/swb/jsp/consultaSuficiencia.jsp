@@ -1,4 +1,5 @@
 
+<%@page import="mx.com.infotec.intranet.login.Services"%>
 <%@page import="com.infotec.eworkplace.swb.formelements.Currency"%>
 <%@page import="org.semanticwb.model.FormElement"%>
 <%@page import="org.semanticwb.platform.SemanticObject"%>
@@ -35,15 +36,13 @@ if (paramRequest.getCallMethod() == SWBParamRequest.Call_DIRECT) {
     String act = paramRequest.getAction();
     String ret = "No disponible";
     
-    if (act.equals("GETAP") || act.equals("GETPA") || act.equals("GETPE")) {
+    if (act.equals("GETAP")) {
         response.setContentType("text/html; charset=UTF-8");
         String pUri = request.getParameter("pUri");
         Proyecto proy = (Proyecto)ont.getGenericObject(pUri);
         
         if (proy != null) {
             if (act.equals("GETAP") && proy.getAdminsitradorDelProyecto() != null) ret = proy.getAdminsitradorDelProyecto().getFullName();
-            if (act.equals("GETPA") && proy.getAreaDelProyecto() != null) ret = proy.getAreaDelProyecto();
-            if (act.equals("GETPE") && proy.getEspecialidadDelProyecto() != null) ret = proy.getEspecialidadDelProyecto();
         } 
     } else if (act.equals("GETPART")) {
         response.setContentType("text/html; charset=UTF-8");
@@ -133,11 +132,15 @@ if (paramRequest.getCallMethod() == SWBParamRequest.Call_DIRECT) {
     mgr.addProperty(SolicitudRecurso.intranet_periodoContrato, varSolicitud, SWBFormMgr.MODE_EDIT);
     mgr.addProperty(SolicitudRecurso.intranet_montoTotal, varSolicitud, SWBFormMgr.MODE_EDIT);
     mgr.addProperty(SolicitudRecurso.intranet_notaSolicitud, varSolicitud, SWBFormMgr.MODE_EDIT);
+    mgr.addProperty(SolicitudRecurso.intranet_centroDeCosto, varSolicitud, SWBFormMgr.MODE_EDIT);
+    mgr.addProperty(SolicitudRecurso.intranet_especialidadRecurso, varSolicitud, SWBFormMgr.MODE_EDIT);
     
     SWBProcessFormMgr fmgr = new SWBProcessFormMgr(foi);
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
     SimpleDateFormat sdfDojo = new SimpleDateFormat("yyyy-MM-dd");
     String year = sdf.format(new Date(System.currentTimeMillis()));
+
+    Services services = new Services();
     %>
     <%=SWBForms.DOJO_REQUIRED%>
     <div id="processForm">
@@ -155,7 +158,7 @@ if (paramRequest.getCallMethod() == SWBParamRequest.Call_DIRECT) {
                     <tr>
                         <td width="200px" align="right"><label for="title">&Aacute;rea de adscripci&oacute;n</label>
                         <td>
-                            <span><%=foi.getProcessInstance().getCreator().getUserGroup().getTitle()%></span>
+                            <span><%=services.getAreaAdscripcion(user.getLogin())%></span>
                         </td>
                     </tr>
                     <tr>
@@ -166,7 +169,9 @@ if (paramRequest.getCallMethod() == SWBParamRequest.Call_DIRECT) {
                                 Iterator<Proyecto> proyectos = Proyecto.ClassMgr.listProyectos(site);
                                 while (proyectos.hasNext()) {
                                     Proyecto proy = proyectos.next();
-                                    %><option value="<%=proy.getURI()%>" <%=(sr.getProyectoAsignado() != null && sr.getProyectoAsignado().equals(proy))?"selected":""%>><%=proy.getNombreNumero()%></option><%
+                                    if (proy.isValid()) {
+                                        %><option value="<%=proy.getURI()%>" <%=(sr.getProyectoAsignado() != null && sr.getProyectoAsignado().equals(proy))?"selected":""%>><%=proy.getNombreNumero()%></option><%
+                                    }
                                 }
                                 %>
                             </select>
@@ -191,15 +196,15 @@ if (paramRequest.getCallMethod() == SWBParamRequest.Call_DIRECT) {
                         </td>
                     </tr>
                     <tr>
-                        <td width="200px" align="right"><label for="title"><%=fmgr.renderLabel(request, Proyecto.intranet_areaDelProyecto, varSolicitud, SWBFormMgr.MODE_VIEW)%></label></td>
+                        <td width="200px" align="right"><label for="title"><%=fmgr.renderLabel(request, SolicitudRecurso.intranet_centroDeCosto, varSolicitud, SWBFormMgr.MODE_VIEW)%></label></td>
                         <td>
-                            <span id="proyecto_Area<%=foi.getId()%>">No disponible</span>
+                            <%=fmgr.renderElement(request, varSolicitud, SolicitudRecurso.intranet_centroDeCosto, SWBFormMgr.MODE_EDIT)%>
                         </td>
                     </tr>
                     <tr>
-                        <td width="200px" align="right"><label for="title"><%=fmgr.renderLabel(request, Proyecto.intranet_especialidadDelProyecto, varSolicitud, SWBFormMgr.MODE_VIEW)%></label></td>
+                        <td width="200px" align="right"><label for="title"><%=fmgr.renderLabel(request, SolicitudRecurso.intranet_especialidadRecurso, varSolicitud, SWBFormMgr.MODE_VIEW)%></label></td>
                         <td>
-                            <span id="proyecto_Especialidad<%=foi.getId()%>">No disponible</span>
+                            <%=fmgr.renderElement(request, varSolicitud, SolicitudRecurso.intranet_especialidadRecurso, SWBFormMgr.MODE_EDIT)%>
                         </td>
                     </tr>
                     <tr>
@@ -351,12 +356,8 @@ if (paramRequest.getCallMethod() == SWBParamRequest.Call_DIRECT) {
         function updateProjectFields(pUri) {
             <%
             SWBResourceURL apUrl = paramRequest.getRenderUrl().setCallMethod(SWBParamRequest.Call_DIRECT).setAction("GETAP");
-            SWBResourceURL paUrl = paramRequest.getRenderUrl().setCallMethod(SWBParamRequest.Call_DIRECT).setAction("GETPA");
-            SWBResourceURL peUrl = paramRequest.getRenderUrl().setCallMethod(SWBParamRequest.Call_DIRECT).setAction("GETPE");
             %>
             updateTextValueAjax("proyecto_AP<%=foi.getId()%>", '<%=apUrl%>', '?pUri=', pUri);
-            updateTextValueAjax("proyecto_Area<%=foi.getId()%>", '<%=paUrl%>', '?pUri=', pUri);
-            updateTextValueAjax("proyecto_Especialidad<%=foi.getId()%>", '<%=peUrl%>', '?pUri=', pUri);
         }
         
         function updatePartidas(cUri) {
