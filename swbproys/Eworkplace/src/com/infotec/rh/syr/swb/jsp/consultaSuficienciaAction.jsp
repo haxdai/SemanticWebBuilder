@@ -30,6 +30,8 @@ if ("process".equals(aresponse.getAction())) {
     mgr.addProperty(SolicitudRecurso.intranet_fechaFinContrato, varSolicitud, SWBFormMgr.MODE_EDIT);
     mgr.addProperty(SolicitudRecurso.intranet_periodoContrato, varSolicitud, SWBFormMgr.MODE_EDIT);
     mgr.addProperty(SolicitudRecurso.intranet_montoTotal, varSolicitud, SWBFormMgr.MODE_EDIT);
+    mgr.addProperty(SolicitudRecurso.intranet_centroDeCosto, varSolicitud, SWBFormMgr.MODE_EDIT);
+    mgr.addProperty(SolicitudRecurso.intranet_especialidadRecurso, varSolicitud, SWBFormMgr.MODE_EDIT);
     mgr.addProperty(SeguimientoSolicitudRecurso.intranet_notaConsultaPresupuesto, varSeguimiento, SWBFormMgr.MODE_EDIT);
     
     aresponse.setRenderParameter("suri", suri);
