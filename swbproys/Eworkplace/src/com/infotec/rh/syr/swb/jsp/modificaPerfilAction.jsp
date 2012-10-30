@@ -36,6 +36,8 @@ if ("process".equals(aresponse.getAction())) {
     mgr.addProperty(SolicitudRecurso.intranet_certificaciones, varSolicitud, SWBFormMgr.MODE_EDIT);
     mgr.addProperty(SolicitudRecurso.intranet_hasCompetenciaReq, varSolicitud, SWBFormMgr.MODE_EDIT);
     mgr.addProperty(SolicitudRecurso.intranet_notaSolicitud, varSolicitud, SWBFormMgr.MODE_EDIT);
+    mgr.addProperty(SolicitudRecurso.intranet_centroDeCosto, varSolicitud, SWBFormMgr.MODE_EDIT);
+    mgr.addProperty(SolicitudRecurso.intranet_especialidadRecurso, varSolicitud, SWBFormMgr.MODE_EDIT);
     
     aresponse.setRenderParameter("suri", suri);
     try {
