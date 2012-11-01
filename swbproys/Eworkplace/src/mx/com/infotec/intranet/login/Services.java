@@ -359,10 +359,10 @@ public class Services
                         org.semanticwb.model.User userRepo = repo.createUser();
                         userRepo.setLogin(user.getLogin());
                         userRepo.setActive(true);
-                        String name=user.getPrimerNombre();
-                        if(user.getSegundoNombre()!=null)
+                        String name = user.getPrimerNombre();
+                        if (user.getSegundoNombre() != null)
                         {
-                            name+=" "+user.getSegundoNombre();
+                            name += " " + user.getSegundoNombre();
                         }
                         userRepo.setFirstName(name);
                         userRepo.setLastName(user.getPApellido());
@@ -1018,10 +1018,11 @@ public class Services
 
         UserInformation userInformation = new UserInformation();
 
-        String login = "victor.lorenzana";
+        String login = "sergio.carrera";
 
         try
         {
+            String ext=s.getNoExtension(login);
             s.getAdscripciones("jose.tamayo");
             s.getAdscripciones();
 
@@ -1519,7 +1520,7 @@ public class Services
             if (atts.get(getName(FIELD.TIPO_CONTRATACION)) != null && atts.get(getName(FIELD.TIPO_CONTRATACION)).get() != null)
             {
                 String stipo = atts.get(getName(FIELD.TIPO_CONTRATACION)).get().toString().replace(' ', '_');
-                if("Institucional".equalsIgnoreCase(stipo))
+                if ("Institucional".equalsIgnoreCase(stipo))
                 {
                     user.setTipoContratacion(TIPO_CONTRATACION.Nómina_Institucional);
                 }
@@ -1528,7 +1529,7 @@ public class Services
                     TIPO_CONTRATACION tipo = TIPO_CONTRATACION.valueOf(stipo);
                     user.setTipoContratacion(tipo);
                 }
-                
+
             }
 
             if (atts.get(getName(FIELD.GENERO)) != null && atts.get(getName(FIELD.GENERO)).get() != null)
@@ -1851,5 +1852,25 @@ public class Services
             }
         }
         return lastNumber;
+    }
+
+    public String getNoExtension(String login) throws ServiceException
+    {
+        String cn = getCNFromLogin(login);
+        try
+        {
+            DirContext dir = AuthenticateLP();
+            Attributes atts=dir.getAttributes(cn);
+            Attribute att=atts.get(getName(FIELD.EXT_TEL));
+            if(att!=null && att.get()!=null)
+            {
+                return att.get().toString();
+            }
+        }
+        catch (Exception e)
+        {
+            throw new ServiceException("No se puede obtener el no. de extensión", e);
+        }
+        return null;
     }
 }
