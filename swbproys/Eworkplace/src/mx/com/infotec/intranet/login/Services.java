@@ -1519,8 +1519,16 @@ public class Services
             if (atts.get(getName(FIELD.TIPO_CONTRATACION)) != null && atts.get(getName(FIELD.TIPO_CONTRATACION)).get() != null)
             {
                 String stipo = atts.get(getName(FIELD.TIPO_CONTRATACION)).get().toString().replace(' ', '_');
-                TIPO_CONTRATACION tipo = TIPO_CONTRATACION.valueOf(stipo);
-                user.setTipoContratacion(tipo);
+                if("Institucional".equalsIgnoreCase(stipo))
+                {
+                    user.setTipoContratacion(TIPO_CONTRATACION.Nómina_Institucional);
+                }
+                else
+                {
+                    TIPO_CONTRATACION tipo = TIPO_CONTRATACION.valueOf(stipo);
+                    user.setTipoContratacion(tipo);
+                }
+                
             }
 
             if (atts.get(getName(FIELD.GENERO)) != null && atts.get(getName(FIELD.GENERO)).get() != null)
