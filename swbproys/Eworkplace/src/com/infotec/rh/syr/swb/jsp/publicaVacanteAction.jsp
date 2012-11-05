@@ -47,13 +47,14 @@ if ("process".equals(aresponse.getAction())) {
     String ssrUri = request.getParameter("ssr");
     SeguimientoSolicitudRecurso ssr = (SeguimientoSolicitudRecurso) ont.getGenericObject(ssrUri);
     SWBFormMgr mgr = new SWBFormMgr(PublicacionVacante.sclass, aresponse.getWebPage().getWebSite().getSemanticObject(), null);
+    mgr.addProperty(PublicacionVacante.intranet_archivoPublicacion);
+    mgr.addProperty(PublicacionVacante.intranet_bolsaTrabajo);
+    mgr.addProperty(PublicacionVacante.intranet_fechaPublicacion);
+    mgr.addProperty(PublicacionVacante.intranet_folioPublicacion);
+    
     try {
         SemanticObject sobj = mgr.processForm(request);
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        PublicacionVacante pv = (PublicacionVacante) sobj.createGenericInstance();
-        pv.setArchivoPublicacion(request.getParameter(PublicacionVacante.intranet_archivoPublicacion.getName()));
-        pv.setFolioPublicacion(request.getParameter(PublicacionVacante.intranet_folioPublicacion.getName()));
-        pv.setFechaPublicacion(df.parse(request.getParameter(PublicacionVacante.intranet_fechaPublicacion.getName())));
+        PublicacionVacante pv = (PublicacionVacante)sobj.createGenericInstance();
         ssr.addPublicacionVacante(pv);
         request.getSession(true).setAttribute("msg", "reload");
     } catch (Exception e) {
