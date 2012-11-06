@@ -135,7 +135,7 @@ System.out.println("Proyecto con indice="+idx);
             {
 System.out.println("actualizando proyecto...");
                 Proyecto proyecto = semproys.remove(idx);
-                proyecto.setActivo(projInfo.isActive());
+                proyecto.setActive(projInfo.isActive());
 System.out.println("proyecto "+proyecto.getTitle()+" actualizado.");
             }
             else
@@ -144,7 +144,7 @@ System.out.println("proyecto no encontrado. creando nuevo...");
                 Proyecto nuevo = Proyecto.ClassMgr.createProyecto(wsite);
                 nuevo.setTitle(projInfo.getTitulo());
                 nuevo.setNumeroProyecto(projInfo.getNumero());
-                nuevo.setActivo(projInfo.isActive());
+                nuevo.setActive(projInfo.isActive());
 System.out.println("proeycto creado.");
             }
         }
