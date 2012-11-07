@@ -59,6 +59,8 @@ public abstract class ContratoBase extends org.semanticwb.model.SWBClass impleme
     public static final org.semanticwb.platform.SemanticProperty intranet_presentaDeclaracion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#presentaDeclaracion");
     public static final org.semanticwb.platform.SemanticProperty intranet_requiereKit=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#requiereKit");
     public static final org.semanticwb.platform.SemanticProperty intranet_cargoAutorizasolicitudContrato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#cargoAutorizasolicitudContrato");
+    public static final org.semanticwb.platform.SemanticClass intranet_NivelEstudioContrato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#NivelEstudioContrato");
+    public static final org.semanticwb.platform.SemanticProperty intranet_nivelEstudioContrato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nivelEstudioContrato");
     public static final org.semanticwb.platform.SemanticProperty intranet_folioContrato=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#folioContrato");
    /**
    * Encapsula las propiedades de la generación del contrato
@@ -366,6 +368,29 @@ public abstract class ContratoBase extends org.semanticwb.model.SWBClass impleme
         public static java.util.Iterator<com.infotec.rh.syr.swb.Contrato> listContratoBySolicitudPromocionContrato(com.infotec.rh.syr.swb.SolicitudPromocion value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.Contrato> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_solicitudPromocionContrato,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.Contrato with a determined NivelEstudioContrato
+       * @param value NivelEstudioContrato of the type com.infotec.eworkplace.swb.NivelEstudioContrato
+       * @param model Model of the com.infotec.rh.syr.swb.Contrato
+       * @return Iterator with all the com.infotec.rh.syr.swb.Contrato
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.Contrato> listContratoByNivelEstudioContrato(com.infotec.eworkplace.swb.NivelEstudioContrato value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.Contrato> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_nivelEstudioContrato, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.rh.syr.swb.Contrato with a determined NivelEstudioContrato
+       * @param value NivelEstudioContrato of the type com.infotec.eworkplace.swb.NivelEstudioContrato
+       * @return Iterator with all the com.infotec.rh.syr.swb.Contrato
+       */
+
+        public static java.util.Iterator<com.infotec.rh.syr.swb.Contrato> listContratoByNivelEstudioContrato(com.infotec.eworkplace.swb.NivelEstudioContrato value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.rh.syr.swb.Contrato> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_nivelEstudioContrato,value.getSemanticObject(),sclass));
             return it;
         }
     }
@@ -1314,6 +1339,44 @@ public abstract class ContratoBase extends org.semanticwb.model.SWBClass impleme
     public void setCargoAutorizasolicitudContrato(String value)
     {
         getSemanticObject().setProperty(intranet_cargoAutorizasolicitudContrato, value);
+    }
+   /**
+   * Sets the value for the property NivelEstudioContrato
+   * @param value NivelEstudioContrato to set
+   */
+
+    public void setNivelEstudioContrato(com.infotec.eworkplace.swb.NivelEstudioContrato value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(intranet_nivelEstudioContrato, value.getSemanticObject());
+        }else
+        {
+            removeNivelEstudioContrato();
+        }
+    }
+   /**
+   * Remove the value for NivelEstudioContrato property
+   */
+
+    public void removeNivelEstudioContrato()
+    {
+        getSemanticObject().removeProperty(intranet_nivelEstudioContrato);
+    }
+
+   /**
+   * Gets the NivelEstudioContrato
+   * @return a com.infotec.eworkplace.swb.NivelEstudioContrato
+   */
+    public com.infotec.eworkplace.swb.NivelEstudioContrato getNivelEstudioContrato()
+    {
+         com.infotec.eworkplace.swb.NivelEstudioContrato ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_nivelEstudioContrato);
+         if(obj!=null)
+         {
+             ret=(com.infotec.eworkplace.swb.NivelEstudioContrato)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**

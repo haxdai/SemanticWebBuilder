@@ -1,7 +1,7 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class SalaBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable,com.infotec.eworkplace.swb.Placeable
+public abstract class SalaBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Placeable,org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_tieneProyector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#tieneProyector");
    /**
