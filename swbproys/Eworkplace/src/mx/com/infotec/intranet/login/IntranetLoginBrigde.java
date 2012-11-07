@@ -417,6 +417,12 @@ public class IntranetLoginBrigde extends ExtUserRepInt
 
                 try
                 {
+
+                    int pos=ext.indexOf(" ");
+                    if(pos!=-1)
+                    {
+                        ext=ext.substring(0,pos).trim();
+                    }
                     Integer iext = Integer.valueOf(ext);
                     ru.setExtendedAttribute(prop, iext);
                 }
