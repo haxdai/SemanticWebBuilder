@@ -754,23 +754,26 @@ public class IntranetLoginBrigde extends ExtUserRepInt
                     try
                     {
                         String title = getNameOU(OU);
-                        pos = title.indexOf(":");
-                        if (pos != -1)
+                        if (title != null)
                         {
-                            title = title.substring(pos + 1).trim();
+                            pos = title.indexOf(":");
+                            if (pos != -1)
+                            {
+                                title = title.substring(pos + 1).trim();
+                            }
+                            UserGroup ougroup = checkUserGroup(OU, title, userRep);
+                            if (lastOU != null)
+                            {
+                                String titleLastOU = getNameOU(lastOU);
+                                UserGroup lastOUGroup = checkUserGroup(lastOU, titleLastOU, userRep);
+                                lastOUGroup.setParent(ougroup);
+                            }
+                            if (lastOU == null)
+                            {
+                                asignUserGroup(ougroup, ru);
+                            }
+                            lastOU = OU;
                         }
-                        UserGroup ougroup = checkUserGroup(OU, title, userRep);
-                        if (lastOU != null)
-                        {
-                            String titleLastOU = getNameOU(lastOU);
-                            UserGroup lastOUGroup = checkUserGroup(lastOU, titleLastOU, userRep);
-                            lastOUGroup.setParent(ougroup);
-                        }
-                        if (lastOU == null)
-                        {
-                            asignUserGroup(ougroup, ru);
-                        }
-                        lastOU = OU;
                     }
                     catch (Exception e)
                     {
