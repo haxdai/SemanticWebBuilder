@@ -511,6 +511,10 @@ public class IntranetLoginBrigde extends ExtUserRepInt
                 Boolean gender = GENERO.getGenero(tipo);
                 persona.setGenero(gender);
             }
+            else
+            {
+                log.error("El usuario " + ru.getLogin() + " no tiene genero en el DA");
+            }
 
         }
         catch (Exception e)
@@ -525,9 +529,16 @@ public class IntranetLoginBrigde extends ExtUserRepInt
         //tipo de contratación
         try
         {
-
-            String curp = attrs.get("extensionattribute5").get().toString();
-            persona.setCurp(curp);
+            Attribute att = attrs.get("extensionattribute5");
+            if (att != null && att.get() != null)
+            {
+                String curp = att.get().toString();
+                persona.setCurp(curp);
+            }
+            else
+            {
+                log.error("El usuario " + ru.getLogin() + " no tiene curp en el DA");
+            }
         }
         catch (Exception e)
         {
@@ -556,6 +567,10 @@ public class IntranetLoginBrigde extends ExtUserRepInt
                 {
                     log.error(e);
                 }
+            }
+            else
+            {
+                log.error("El usuario " + ru.getLogin() + " no tiene rfc en el DA");
             }
         }
         catch (Exception e)
