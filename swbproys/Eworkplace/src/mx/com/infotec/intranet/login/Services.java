@@ -1014,6 +1014,9 @@ public class Services
 
     public static void main(String[] args)
     {
+
+
+        int value2 = Integer.parseInt("01");
         Services s = new Services();
 
         UserInformation userInformation = new UserInformation();
@@ -1022,7 +1025,7 @@ public class Services
 
         try
         {
-            String ext=s.getNoExtension(login);
+            String ext = s.getNoExtension(login);
             s.getAdscripciones("jose.tamayo");
             s.getAdscripciones();
 
@@ -1503,7 +1506,13 @@ public class Services
             }
             if (atts.get(getName(FIELD.ESPECIALIDAD)) != null && atts.get(getName(FIELD.ESPECIALIDAD)).get() != null)
             {
-                user.setEspecialidad(Integer.parseInt(atts.get(getName(FIELD.ESPECIALIDAD)).get().toString()));
+                String esp = atts.get(getName(FIELD.ESPECIALIDAD)).get().toString();
+                int pos = esp.indexOf(" ");
+                if (pos != -1)
+                {
+                    esp = esp.substring(0, pos).trim();
+                }
+                user.setEspecialidad(Integer.parseInt(esp));
             }
             if (atts.get(getName(FIELD.NO_EMPLEADO)) != null && atts.get(getName(FIELD.NO_EMPLEADO)).get() != null)
             {
@@ -1860,9 +1869,9 @@ public class Services
         try
         {
             DirContext dir = AuthenticateLP();
-            Attributes atts=dir.getAttributes(cn);
-            Attribute att=atts.get(getName(FIELD.EXT_TEL));
-            if(att!=null && att.get()!=null)
+            Attributes atts = dir.getAttributes(cn);
+            Attribute att = atts.get(getName(FIELD.EXT_TEL));
+            if (att != null && att.get() != null)
             {
                 return att.get().toString();
             }
