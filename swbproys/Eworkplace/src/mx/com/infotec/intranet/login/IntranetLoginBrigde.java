@@ -505,7 +505,7 @@ public class IntranetLoginBrigde extends ExtUserRepInt
         try
         {
             Attribute att = attrs.get("extensionattribute7");
-            if (att != null && att.get()!=null)
+            if (att != null && att.get() != null)
             {
                 String tipo = att.get().toString();
                 Boolean gender = GENERO.getGenero(tipo);
@@ -541,17 +541,21 @@ public class IntranetLoginBrigde extends ExtUserRepInt
         //tipo de contratación
         try
         {
-            String rfc = attrs.get("extensionattribute6").get().toString();
+            Attribute att = attrs.get("extensionattribute6");
+            if (att != null && att.get() != null)
+            {
+                String rfc = att.get().toString();
 
-            final String uri = INTRANETURI + "rfc";
-            SemanticProperty prop = ru.getSemanticObject().getModel().getSemanticProperty(uri);
-            try
-            {
-                ru.setExtendedAttribute(prop, rfc);
-            }
-            catch (Exception e)
-            {
-                log.error(e);
+                final String uri = INTRANETURI + "rfc";
+                SemanticProperty prop = ru.getSemanticObject().getModel().getSemanticProperty(uri);
+                try
+                {
+                    ru.setExtendedAttribute(prop, rfc);
+                }
+                catch (Exception e)
+                {
+                    log.error(e);
+                }
             }
         }
         catch (Exception e)
