@@ -14,6 +14,7 @@ import java.util.StringTokenizer;
 import javax.naming.Context;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
+import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.BasicAttribute;
 import javax.naming.directory.BasicAttributes;
@@ -22,7 +23,6 @@ import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
 import org.semanticwb.Logger;
-import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.GenericIterator;
 import org.semanticwb.model.SWBContext;
@@ -418,10 +418,10 @@ public class IntranetLoginBrigde extends ExtUserRepInt
                 try
                 {
 
-                    int pos=ext.indexOf(" ");
-                    if(pos!=-1)
+                    int pos = ext.indexOf(" ");
+                    if (pos != -1)
                     {
-                        ext=ext.substring(0,pos).trim();
+                        ext = ext.substring(0, pos).trim();
                     }
                     Integer iext = Integer.valueOf(ext);
                     ru.setExtendedAttribute(prop, iext);
@@ -504,10 +504,14 @@ public class IntranetLoginBrigde extends ExtUserRepInt
         //tipo de contratación
         try
         {
-            String tipo = attrs.get("extensionattribute7").get().toString();
+            Attribute att = attrs.get("extensionattribute7");
+            if (att != null && att.get()!=null)
+            {
+                String tipo = att.get().toString();
+                Boolean gender = GENERO.getGenero(tipo);
+                persona.setGenero(gender);
+            }
 
-            Boolean gender = GENERO.getGenero(tipo);
-            persona.setGenero(gender);
         }
         catch (Exception e)
         {
