@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class ResourceBase extends com.infotec.conorg.Tile implements org.semanticwb.model.Indexable,org.semanticwb.model.Traceable,com.infotec.conorg.Topicable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Resourceable,org.semanticwb.model.Tagable,org.semanticwb.model.Calendarable
+public abstract class ResourceBase extends com.infotec.conorg.Tile implements org.semanticwb.model.Resourceable,com.infotec.conorg.Topicable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Indexable,org.semanticwb.model.Traceable,org.semanticwb.model.Calendarable
 {
     public static final org.semanticwb.platform.SemanticClass conorg_Resource=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#Resource");
    /**
@@ -191,6 +191,29 @@ public abstract class ResourceBase extends com.infotec.conorg.Tile implements or
         public static java.util.Iterator<com.infotec.conorg.Resource> listResourceByResource(org.semanticwb.model.Resource value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.conorg.Resource> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasResource,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Resource with a determined Resource
+       * @param value Resource of the type org.semanticwb.model.Resource
+       * @param model Model of the com.infotec.conorg.Resource
+       * @return Iterator with all the com.infotec.conorg.Resource
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Resource> listResourceByResource(org.semanticwb.model.Resource value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Resource> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(conorg_resource, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Resource with a determined Resource
+       * @param value Resource of the type org.semanticwb.model.Resource
+       * @return Iterator with all the com.infotec.conorg.Resource
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Resource> listResourceByResource(org.semanticwb.model.Resource value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Resource> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(conorg_resource,value.getSemanticObject(),sclass));
             return it;
         }
     }

@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class MosaicBase extends com.infotec.conorg.Tile implements org.semanticwb.model.Indexable,com.infotec.conorg.Tileable,org.semanticwb.model.Traceable,com.infotec.conorg.Topicable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Calendarable
+public abstract class MosaicBase extends com.infotec.conorg.Tile implements com.infotec.conorg.Topicable,com.infotec.conorg.Tileable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Indexable,org.semanticwb.model.Traceable,org.semanticwb.model.Calendarable
 {
     public static final org.semanticwb.platform.SemanticClass conorg_Mosaic=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#Mosaic");
    /**
@@ -168,6 +168,29 @@ public abstract class MosaicBase extends com.infotec.conorg.Tile implements org.
         public static java.util.Iterator<com.infotec.conorg.Mosaic> listMosaicByCreator(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.conorg.Mosaic> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Mosaic with a determined Resource
+       * @param value Resource of the type org.semanticwb.model.Resource
+       * @param model Model of the com.infotec.conorg.Mosaic
+       * @return Iterator with all the com.infotec.conorg.Mosaic
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Mosaic> listMosaicByResource(org.semanticwb.model.Resource value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Mosaic> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(conorg_resource, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Mosaic with a determined Resource
+       * @param value Resource of the type org.semanticwb.model.Resource
+       * @return Iterator with all the com.infotec.conorg.Mosaic
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Mosaic> listMosaicByResource(org.semanticwb.model.Resource value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Mosaic> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(conorg_resource,value.getSemanticObject(),sclass));
             return it;
         }
        /**
