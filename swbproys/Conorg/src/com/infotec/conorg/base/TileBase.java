@@ -1,8 +1,13 @@
 package com.infotec.conorg.base;
 
 
-public abstract class TileBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Indexable,org.semanticwb.model.Traceable,com.infotec.conorg.Topicable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Calendarable
+public abstract class TileBase extends org.semanticwb.model.SWBClass implements com.infotec.conorg.Topicable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Indexable,org.semanticwb.model.Traceable,org.semanticwb.model.Calendarable
 {
+   /**
+   * Un recurso es un componente en una Página Web con el cual el usuario tiene interacción
+   */
+    public static final org.semanticwb.platform.SemanticClass swb_Resource=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#Resource");
+    public static final org.semanticwb.platform.SemanticProperty conorg_resource=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#resource");
     public static final org.semanticwb.platform.SemanticClass conorg_Tile=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#Tile");
    /**
    * The semantic class that represents the currentObject
@@ -168,6 +173,29 @@ public abstract class TileBase extends org.semanticwb.model.SWBClass implements 
         public static java.util.Iterator<com.infotec.conorg.Tile> listTileByCreator(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.conorg.Tile> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Tile with a determined Resource
+       * @param value Resource of the type org.semanticwb.model.Resource
+       * @param model Model of the com.infotec.conorg.Tile
+       * @return Iterator with all the com.infotec.conorg.Tile
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Tile> listTileByResource(org.semanticwb.model.Resource value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Tile> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(conorg_resource, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Tile with a determined Resource
+       * @param value Resource of the type org.semanticwb.model.Resource
+       * @return Iterator with all the com.infotec.conorg.Tile
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Tile> listTileByResource(org.semanticwb.model.Resource value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Tile> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(conorg_resource,value.getSemanticObject(),sclass));
             return it;
         }
     }
@@ -543,5 +571,43 @@ public abstract class TileBase extends org.semanticwb.model.SWBClass implements 
     public void setTags(String tags, String lang)
     {
         getSemanticObject().setProperty(swb_tags, tags, lang);
+    }
+   /**
+   * Sets the value for the property Resource
+   * @param value Resource to set
+   */
+
+    public void setResource(org.semanticwb.model.Resource value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(conorg_resource, value.getSemanticObject());
+        }else
+        {
+            removeResource();
+        }
+    }
+   /**
+   * Remove the value for Resource property
+   */
+
+    public void removeResource()
+    {
+        getSemanticObject().removeProperty(conorg_resource);
+    }
+
+   /**
+   * Gets the Resource
+   * @return a org.semanticwb.model.Resource
+   */
+    public org.semanticwb.model.Resource getResource()
+    {
+         org.semanticwb.model.Resource ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(conorg_resource);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.Resource)obj.createGenericInstance();
+         }
+         return ret;
     }
 }

@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class ReferenceBase extends com.infotec.conorg.Document implements org.semanticwb.model.Indexable,org.semanticwb.model.Versionable,org.semanticwb.model.Traceable,com.infotec.conorg.Topicable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Calendarable
+public abstract class ReferenceBase extends com.infotec.conorg.Document implements com.infotec.conorg.Topicable,org.semanticwb.model.Versionable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Indexable,org.semanticwb.model.Traceable,org.semanticwb.model.Calendarable
 {
     public static final org.semanticwb.platform.SemanticClass conorg_Reference=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#Reference");
    /**
@@ -191,6 +191,29 @@ public abstract class ReferenceBase extends com.infotec.conorg.Document implemen
         public static java.util.Iterator<com.infotec.conorg.Reference> listReferenceByCreator(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.conorg.Reference> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Reference with a determined Resource
+       * @param value Resource of the type org.semanticwb.model.Resource
+       * @param model Model of the com.infotec.conorg.Reference
+       * @return Iterator with all the com.infotec.conorg.Reference
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Reference> listReferenceByResource(org.semanticwb.model.Resource value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Reference> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(conorg_resource, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.Reference with a determined Resource
+       * @param value Resource of the type org.semanticwb.model.Resource
+       * @return Iterator with all the com.infotec.conorg.Reference
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.Reference> listReferenceByResource(org.semanticwb.model.Resource value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.Reference> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(conorg_resource,value.getSemanticObject(),sclass));
             return it;
         }
        /**
