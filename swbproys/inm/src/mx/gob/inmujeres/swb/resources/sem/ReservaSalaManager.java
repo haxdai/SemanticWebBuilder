@@ -17,6 +17,7 @@ import javax.servlet.http.*;
 import mx.gob.inmujeres.swb.Sala;
 import mx.gob.inmujeres.swb.ApartadoSala;
 
+import mx.gob.inmujeres.swb.Montaje;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
@@ -199,37 +200,6 @@ System.out.println("processAction....");
                 setRenderParameter(request, response);
                 return;
             }
-
-
-//            ApartadoSala.TipoReunion tpmeet; 
-//            try {
-//                tpmeet = ApartadoSala.TipoReunion.valueOf(request.getParameter("tpmeet"));
-//            }catch(Exception e) {
-//                response.setRenderParameter("alertmsg", response.getLocaleString("msgErrMeetTypeMissing"));
-//                setRenderParameter(request, response);
-//                return;
-//            }
-            
-//            ApartadoSala.Horario tmsrvc = null;
-//            String hrsrvc = null;
-//            if(ApartadoSala.TipoReunion.Externa == tpmeet) {
-//                try {
-//                    tmsrvc = ApartadoSala.Horario.valueOf(request.getParameter("tmsrvc"));
-//                }catch(Exception e) {
-//                    response.setRenderParameter("alertmsg", response.getLocaleString("msgErrCafeServiceMissing"));
-//                    setRenderParameter(request, response);
-//                    return;
-//                }
-//                
-//                if(ApartadoSala.Horario.Receso == tmsrvc) {
-//                    hrsrvc = SWBUtils.XML.replaceXMLChars(request.getParameter("hrsrvc"));
-//                    if(hrsrvc.isEmpty()) {
-//                        response.setRenderParameter("alertmsg", "10 ..."+response.getLocaleString("msgErrCafeServiceMissing"));
-//                        setRenderParameter(request, response);
-//                        return;
-//                    }
-//                }
-//            }
             
             int turnout=0, toi=0, toa=0;
             try {
@@ -252,7 +222,7 @@ System.out.println("processAction....");
                 setRenderParameter(request, response);
                 return;
             }
-            if(sala.getCapacidad()<turnout) {
+            if(turnout>sala.getCapacidad()) {
                 response.setRenderParameter("alertmsg", response.getLocaleString("msgErrTurnOutMismatch"));
                 setRenderParameter(request, response);
                 return;
@@ -266,9 +236,11 @@ System.out.println("processAction....");
 //                reservation.setExtension("");
 //                reservation.setFolioSolicitud("");
             reservation.setTitle(mtv);
-            reservation.setMontaje(null);
-//                reservation.setObservaciones("");
-            reservation.setOtroApoyo("");
+            if(Montaje.ClassMgr.hasMontaje(request.getParameter("mnt"), model))
+            {
+                reservation.setMontaje(Montaje.ClassMgr.getMontaje(request.getParameter("mnt"), model));
+            }
+            reservation.setObservaciones(request.getParameter("obs"));
             reservation.setParticipantesInmujeres(toi);
             reservation.setParticipantesOtros(toa);
             reservation.setRequiereAgua(request.getParameter("h2o")!=null);    
@@ -622,15 +594,6 @@ System.out.println("processAction....");
         html.append("  <p><span class=\"blueCalTit\">Otros:</span></p>");
         html.append("  <label for=\"toa\"></label><input type=\"text\" name=\"toa\" id=\"toa\" value=\""+(request.getParameter("toa")==null?"":request.getParameter("toa"))+"\" size=\"10\" maxlength=\"3\" dojoType=\"dijit.form.ValidationTextBox\" required=\"true\" promptMessage=\"Asistentes\" invalidMessage=\"El valor es incorrecto\" regExp=\"\\d{1,3}\" trim=\"true\" />");
         html.append(" </div>");
-        
-        /*html.append(" <div class=\"salas4Cols salas-tipo\">");
-        html.append("  <p><span class=\"blueCalTit\">Tipo de reuni&oacute;n:</span></p>");
-        html.append("  <ul>");
-        html.append("   <li><label for=\"meetsng\">Interna <input  type=\"radio\" name=\"tpmeet\" id=\"meetsng\"  value=\""+ApartadoSala.TipoReunion.Interna+"\" onclick=\"collapse('_tpcf_')\" "+(request.getParameter("tpmeet")==null?"checked=\"checked\"":(request.getParameter("tpmeet").equals(ApartadoSala.TipoReunion.Interna.name())?"checked=\"checked\"":""))+" /></label></li>");
-        html.append("   <li><label for=\"meetspcl\">Externa <input type=\"radio\" name=\"tpmeet\" id=\"meetspcl\" value=\""+ApartadoSala.TipoReunion.Externa+"\" onclick=\"expande('_tpcf_')\" "+(request.getParameter("tpmeet")==null?"":(request.getParameter("tpmeet").equals(ApartadoSala.TipoReunion.Externa.name())?"checked=\"checked\"":""))+" /></label></li>");
-        html.append("  </ul>");
-        html.append(" </div>");
-        html.append(" <div class=\"clear\">&nbsp;</div>");*/
         html.append("</fieldset>");
         
         html.append(" <div id=\"salas-motivo\">");
@@ -655,41 +618,42 @@ System.out.println("processAction....");
         html.append("  <p><span class=\"blueCalTit\">Cafetería:</span></p>");
         html.append("  <div id=\"_tpcf_detalle\">");
         html.append("   <ul>");
-//        html.append("    <li class=\"cafe_cfsbl\"><input type=\"checkbox\" name=\"cfslb\" id=\"cfslb\" value=\"true\" "+(request.getParameter("cfslb")==null?"":"checked=\"checked\"")+" /><label for=\"cfslb\">Café soluble</label></li>");
         html.append("    <li class=\"cafe_cfgrn\"><input type=\"checkbox\" name=\"cfgrn\" id=\"cfgrn\" value=\"true\" "+(request.getParameter("cfgrn")==null?"":"checked=\"checked\"")+" /><label for=\"cfgrn\">Café</label></li>");
         html.append("    <li class=\"cafe_h2o\"><input type=\"checkbox\" name=\"h2o\" id=\"h2o\" value=\"true\" "+(request.getParameter("h2o")==null?"":"checked=\"checked\"")+" /><label for=\"h2o\">Agua</label></li>");
         html.append("    <li class=\"cafe_sds\"><input type=\"checkbox\" name=\"te\" id=\"te\" value=\"true\" "+(request.getParameter("sds")==null?"":"checked=\"checked\"")+" /><label for=\"sds\">Té</label></li>");
         html.append("    <li class=\"cafe_cks\"><input type=\"checkbox\" name=\"cks\" id=\"cks\" value=\"true\" "+(request.getParameter("cks")==null?"":"checked=\"checked\"")+" /><label for=\"cks\">Galletas</label></li>");
         html.append("   </ul>");
         html.append("  </div>");
-//        html.append("  <div id=\"_tpcf_hora\">");
-//        html.append("   <p>Horario del servicio: </p>");
-//        html.append("   <ul>");
-//        html.append("    <li class=\"cafe_allsrvc\"><label for=\"allsrvc\">Durante</label> <input type=\"radio\" name=\"tmsrvc\" id=\"allsrvc\" value=\""+ApartadoSala.Horario.Durante+"\" onclick=\"collapse('_tmsrvc_')\" "+(request.getParameter("tmsrvc")==null?"checked=\"checked\"":(request.getParameter("tmsrvc").equals(ApartadoSala.Horario.Durante.name())?"checked=\"checked\"":""))+" /></li>");
-//        html.append("    <li class=\"cafe_brksrvc\"><label for=\"brksrvc\">Receso</label> <input type=\"radio\" name=\"tmsrvc\" id=\"brksrvc\" value=\""+ApartadoSala.Horario.Receso+"\" onclick=\"expande('_tmsrvc_')\" "+(request.getParameter("tmsrvc")==null?"":(request.getParameter("tmsrvc").equals(ApartadoSala.Horario.Receso.name())?"checked=\"checked\"":""))+" /></li>");
-//        html.append("   </ul>");
-//        html.append("   <div id=\"_tmsrvc_\">");
-//        html.append("    <p><label for=\"hrsrvc\">Horario del servicio: <input type=\"text\" name=\"hrsrvc\" id=\"hrsrvc\" value=\""+(request.getParameter("hrsrvc")==null?"":request.getParameter("hrsrvc"))+"\" /></label></p>");
-//        html.append("   </div>");
-//        html.append("  </div>");
         html.append(" </div>");
         
         html.append(" <div>");
         html.append("  <p><span class=\"blueCalTit\">Montaje:</span></p>");
-        html.append("  <select name=\"mntg\" id=\"mntg\" dojoType=\"dijit.form.FilteringSelect\" required=\"false\" promptMessage=\"Selecciona un tipo de montaje\" invalidMessage=\"El montaje es requerida\">");
-        html.append("    <option value=\"\">Escuela</option>");
-        html.append("    <option value=\"\">Auditorio</option>");
-        html.append("    <option value=\"\">Herradura</option>");
-        html.append("    <option value=\"\">Con presidium</option>");
+        html.append("  <select name=\"mnt\" id=\"mnt\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\" promptMessage=\"Selecciona un tipo de montaje\" invalidMessage=\"El montaje es requerida\">");
+        Iterator<Montaje> montajes = Montaje.ClassMgr.listMontajes(getResourceBase().getWebSite());
+        Montaje montaje;
+        while(montajes.hasNext())
+        {
+            montaje = montajes.next();
+            html.append("   <option value=\""+montaje.getId()+"\" "+(montaje.getId().equals(request.getParameter("sl"))?"selected=\"selected\"":"")+">"+montaje.getDisplayTitle(locale.getLanguage())+"</option>");
+
+        }
         html.append("  </select>");
-        html.append(" </div>");
+        html.append(" </div>\n");
+        
+        html.append(" <div>\n");
+        html.append("  <p><span class=\"blueCalTit\">Observaciones:</span></p>\n");
+        html.append("  <label for=\"obs\"></label><textarea name=\"obs\" id=\"obs\" dojoType=\"ValidationTextarea\" required=\"false\" promptMessage=\"Observaciones\" class=\"datosCal\">"+(request.getParameter("obs")==null?"":request.getParameter("obs").trim())+"</textarea>\n");
+        html.append(" </div>\n");
+        
         html.append(" <div class=\"clear\">&nbsp;</div>");
         
         
         html.append("  <p>");
         String backUrl = getTaskInboxUrl(getFlowNodeInstance(request.getParameter("suri")));
         if(backUrl!=null)
+        {
             html.append("   <a href=\""+backUrl+"\" title=\"Regresar\" class=\"backCal\">Regresar</a>");
+        }
         html.append("   <a href=\"javascript:dojo.byId('_rs_').reset()\" title=\"Limpiar formulario\" class=\"resetCal\">Limpiar</a>");
         html.append("   <a href=\"javascript:if(validateFrm())dojo.byId('_rs_').submit()\" class=\"soliCal\">Solicitar</a>");
         html.append("  </p>");
