@@ -17,6 +17,7 @@ public abstract class DesempenioBase extends org.semanticwb.model.SWBClass imple
     public static final org.semanticwb.platform.SemanticProperty inm_motivo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#motivo");
     public static final org.semanticwb.platform.SemanticProperty inm_folio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#folio");
     public static final org.semanticwb.platform.SemanticProperty inm_justificacionObjetivoRelacionado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#justificacionObjetivoRelacionado");
+    public static final org.semanticwb.platform.SemanticProperty inm_anio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#anio");
     public static final org.semanticwb.platform.SemanticProperty inm_acuerdos=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#acuerdos");
     public static final org.semanticwb.platform.SemanticClass inm_Trimestre=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#Trimestre");
     public static final org.semanticwb.platform.SemanticProperty inm_trimestreAnioAplicar=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#trimestreAnioAplicar");
@@ -102,6 +103,144 @@ public abstract class DesempenioBase extends org.semanticwb.model.SWBClass imple
         public static boolean hasDesempenio(String id, org.semanticwb.model.SWBModel model)
         {
             return (getDesempenio(id, model)!=null);
+        }
+       /**
+       * Gets all mx.gob.inmujeres.swb.Desempenio with a determined DatosEvaluado
+       * @param value DatosEvaluado of the type org.semanticwb.model.User
+       * @param model Model of the mx.gob.inmujeres.swb.Desempenio
+       * @return Iterator with all the mx.gob.inmujeres.swb.Desempenio
+       */
+
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Desempenio> listDesempenioByDatosEvaluado(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Desempenio> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_datosEvaluado, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all mx.gob.inmujeres.swb.Desempenio with a determined DatosEvaluado
+       * @param value DatosEvaluado of the type org.semanticwb.model.User
+       * @return Iterator with all the mx.gob.inmujeres.swb.Desempenio
+       */
+
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Desempenio> listDesempenioByDatosEvaluado(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Desempenio> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_datosEvaluado,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all mx.gob.inmujeres.swb.Desempenio with a determined NivelGestion
+       * @param value NivelGestion of the type mx.gob.inmujeres.swb.TipoNivelGestion
+       * @param model Model of the mx.gob.inmujeres.swb.Desempenio
+       * @return Iterator with all the mx.gob.inmujeres.swb.Desempenio
+       */
+
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Desempenio> listDesempenioByNivelGestion(mx.gob.inmujeres.swb.TipoNivelGestion value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Desempenio> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_nivelGestion, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all mx.gob.inmujeres.swb.Desempenio with a determined NivelGestion
+       * @param value NivelGestion of the type mx.gob.inmujeres.swb.TipoNivelGestion
+       * @return Iterator with all the mx.gob.inmujeres.swb.Desempenio
+       */
+
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Desempenio> listDesempenioByNivelGestion(mx.gob.inmujeres.swb.TipoNivelGestion value)
+        {
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Desempenio> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_nivelGestion,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all mx.gob.inmujeres.swb.Desempenio with a determined TrimestreAnioAplicar
+       * @param value TrimestreAnioAplicar of the type mx.gob.inmujeres.swb.Trimestre
+       * @param model Model of the mx.gob.inmujeres.swb.Desempenio
+       * @return Iterator with all the mx.gob.inmujeres.swb.Desempenio
+       */
+
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Desempenio> listDesempenioByTrimestreAnioAplicar(mx.gob.inmujeres.swb.Trimestre value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Desempenio> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_trimestreAnioAplicar, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all mx.gob.inmujeres.swb.Desempenio with a determined TrimestreAnioAplicar
+       * @param value TrimestreAnioAplicar of the type mx.gob.inmujeres.swb.Trimestre
+       * @return Iterator with all the mx.gob.inmujeres.swb.Desempenio
+       */
+
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Desempenio> listDesempenioByTrimestreAnioAplicar(mx.gob.inmujeres.swb.Trimestre value)
+        {
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Desempenio> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_trimestreAnioAplicar,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all mx.gob.inmujeres.swb.Desempenio with a determined Medida
+       * @param value Medida of the type mx.gob.inmujeres.swb.TipoMedida
+       * @param model Model of the mx.gob.inmujeres.swb.Desempenio
+       * @return Iterator with all the mx.gob.inmujeres.swb.Desempenio
+       */
+
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Desempenio> listDesempenioByMedida(mx.gob.inmujeres.swb.TipoMedida value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Desempenio> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_medida, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all mx.gob.inmujeres.swb.Desempenio with a determined Medida
+       * @param value Medida of the type mx.gob.inmujeres.swb.TipoMedida
+       * @return Iterator with all the mx.gob.inmujeres.swb.Desempenio
+       */
+
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Desempenio> listDesempenioByMedida(mx.gob.inmujeres.swb.TipoMedida value)
+        {
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Desempenio> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_medida,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all mx.gob.inmujeres.swb.Desempenio with a determined CuestionarioAplicado
+       * @param value CuestionarioAplicado of the type mx.gob.inmujeres.swb.Cuestionario
+       * @param model Model of the mx.gob.inmujeres.swb.Desempenio
+       * @return Iterator with all the mx.gob.inmujeres.swb.Desempenio
+       */
+
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Desempenio> listDesempenioByCuestionarioAplicado(mx.gob.inmujeres.swb.Cuestionario value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Desempenio> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_cuestionarioAplicado, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all mx.gob.inmujeres.swb.Desempenio with a determined CuestionarioAplicado
+       * @param value CuestionarioAplicado of the type mx.gob.inmujeres.swb.Cuestionario
+       * @return Iterator with all the mx.gob.inmujeres.swb.Desempenio
+       */
+
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Desempenio> listDesempenioByCuestionarioAplicado(mx.gob.inmujeres.swb.Cuestionario value)
+        {
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Desempenio> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_cuestionarioAplicado,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all mx.gob.inmujeres.swb.Desempenio with a determined DatosEvaluador
+       * @param value DatosEvaluador of the type org.semanticwb.model.User
+       * @param model Model of the mx.gob.inmujeres.swb.Desempenio
+       * @return Iterator with all the mx.gob.inmujeres.swb.Desempenio
+       */
+
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Desempenio> listDesempenioByDatosEvaluador(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Desempenio> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_datosEvaluador, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all mx.gob.inmujeres.swb.Desempenio with a determined DatosEvaluador
+       * @param value DatosEvaluador of the type org.semanticwb.model.User
+       * @return Iterator with all the mx.gob.inmujeres.swb.Desempenio
+       */
+
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Desempenio> listDesempenioByDatosEvaluador(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Desempenio> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_datosEvaluador,value.getSemanticObject(),sclass));
+            return it;
         }
     }
 
@@ -352,6 +491,24 @@ public abstract class DesempenioBase extends org.semanticwb.model.SWBClass imple
     public void setJustificacionObjetivoRelacionado(String value)
     {
         getSemanticObject().setProperty(inm_justificacionObjetivoRelacionado, value);
+    }
+
+/**
+* Gets the Anio property
+* @return int with the Anio
+*/
+    public int getAnio()
+    {
+        return getSemanticObject().getIntProperty(inm_anio);
+    }
+
+/**
+* Sets the Anio property
+* @param value long with the Anio
+*/
+    public void setAnio(int value)
+    {
+        getSemanticObject().setIntProperty(inm_anio, value);
     }
 
 /**
