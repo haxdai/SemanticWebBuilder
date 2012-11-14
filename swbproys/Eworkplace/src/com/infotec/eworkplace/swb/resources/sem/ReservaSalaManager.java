@@ -589,16 +589,18 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
             }
         }
         reset(next, today.get(Calendar.HOUR_OF_DAY), 59);
-         for(; h<22; h++) {
+        /*for(; h<22; h++) {
             html.append("\n<option value=\""+(h*60)+"\">"+HHmm.format(today.getTime())+"</option>");
             today.add(Calendar.MINUTE, 30);
-//            html.append("\n<option value=\""+(h*60+30)+"\">"+HHmm.format(today.getTime())+"</option>");
             fh.append("\n<option value=\""+(h*60+59)+"\">"+HHmm.format(next.getTime()) +"</option>");
             next.add(Calendar.MINUTE, 30);
-//            fh.append("\n<option value=\""+(h*60+59)+"\">"+HHmm.format(next.getTime()) +"</option>");
-//            today.add(Calendar.MINUTE, 30);
-//            next.add(Calendar.MINUTE, 30);
             h = today.get(Calendar.HOUR_OF_DAY);
+        }*/
+        for(int minute=h*60; minute<1290; minute+=30) {
+            html.append("\n<option value=\""+minute+"\">"+HHmm.format(today.getTime())+"</option>");
+            today.add(Calendar.MINUTE, 30);
+            fh.append("\n<option value=\""+(minute+59)+"\">"+HHmm.format(next.getTime()) +"</option>");
+            next.add(Calendar.MINUTE, 30);
         }
         html.append("\n  </select>");
         html.append("\n  <label for=\"fh\">a: </label>");
