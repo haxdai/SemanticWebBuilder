@@ -570,12 +570,11 @@ System.out.println("2.fh="+fh);
             }
         }
         reset(next, today.get(Calendar.HOUR_OF_DAY), 59);
-         for(; h<22; h++) {
-            html.append("\n<option value=\""+(h*60)+"\">"+HHmm.format(today.getTime())+"</option>");
+        for(int m=h*60; m<1290; m+=30) {
+            html.append("\n<option value=\""+m+"\">"+HHmm.format(today.getTime())+"</option>");
             today.add(Calendar.MINUTE, 30);
-            fh.append("\n<option value=\""+(h*60+59)+"\">"+HHmm.format(next.getTime()) +"</option>");
+            fh.append("\n<option value=\""+(m+59)+"\">"+HHmm.format(next.getTime()) +"</option>");
             next.add(Calendar.MINUTE, 30);
-            h = today.get(Calendar.HOUR_OF_DAY);
         }
         html.append("\n  </select>");
         html.append("\n  <label for=\"fh\">a: </label>");
