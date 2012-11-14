@@ -6,61 +6,21 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
     public static final org.semanticwb.platform.SemanticProperty inm_calificacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#calificacion");
     public static final org.semanticwb.platform.SemanticClass inm_TipoRespuesta=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#TipoRespuesta");
    /**
-   * Respuesta
-   */
-    public static final org.semanticwb.platform.SemanticProperty inm_r19=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#r19");
-   /**
-   * Respuesta
-   */
-    public static final org.semanticwb.platform.SemanticProperty inm_r18=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#r18");
-   /**
-   * Respuesta
-   */
-    public static final org.semanticwb.platform.SemanticProperty inm_r17=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#r17");
-   /**
-   * Respuesta
-   */
-    public static final org.semanticwb.platform.SemanticProperty inm_r16=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#r16");
-   /**
-   * REspuesta
-   */
-    public static final org.semanticwb.platform.SemanticProperty inm_r15=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#r15");
-   /**
    * Pregunta
    */
     public static final org.semanticwb.platform.SemanticProperty inm_p20=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#p20");
-   /**
-   * Respuesta
-   */
-    public static final org.semanticwb.platform.SemanticProperty inm_r14=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#r14");
    /**
    * Pregunta
    */
     public static final org.semanticwb.platform.SemanticProperty inm_p21=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#p21");
    /**
-   * Respuesta
+   * Pregunta
    */
-    public static final org.semanticwb.platform.SemanticProperty inm_r13=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#r13");
-   /**
-   * Respuesta
-   */
-    public static final org.semanticwb.platform.SemanticProperty inm_r12=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#r12");
-   /**
-   * Respuesta
-   */
-    public static final org.semanticwb.platform.SemanticProperty inm_r11=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#r11");
-   /**
-   * Respuesta
-   */
-    public static final org.semanticwb.platform.SemanticProperty inm_r10=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#r10");
+    public static final org.semanticwb.platform.SemanticProperty inm_p27=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#p27");
    /**
    * Respuesta ideal
    */
     public static final org.semanticwb.platform.SemanticProperty inm_rI07=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#rI07");
-   /**
-   * Pregunta
-   */
-    public static final org.semanticwb.platform.SemanticProperty inm_p27=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#p27");
    /**
    * Respuesta ideal
    */
@@ -70,17 +30,13 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
    */
     public static final org.semanticwb.platform.SemanticProperty inm_p26=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#p26");
    /**
-   * Respuesta ideal
-   */
-    public static final org.semanticwb.platform.SemanticProperty inm_rI05=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#rI05");
-   /**
    * Pregunta
    */
     public static final org.semanticwb.platform.SemanticProperty inm_p29=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#p29");
    /**
    * Respuesta ideal
    */
-    public static final org.semanticwb.platform.SemanticProperty inm_rI06=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#rI06");
+    public static final org.semanticwb.platform.SemanticProperty inm_rI05=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#rI05");
    /**
    * Pregunta
    */
@@ -88,7 +44,7 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
    /**
    * Respuesta ideal
    */
-    public static final org.semanticwb.platform.SemanticProperty inm_rI03=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#rI03");
+    public static final org.semanticwb.platform.SemanticProperty inm_rI06=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#rI06");
    /**
    * Pregunta
    */
@@ -96,7 +52,7 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
    /**
    * Respuesta ideal
    */
-    public static final org.semanticwb.platform.SemanticProperty inm_rI04=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#rI04");
+    public static final org.semanticwb.platform.SemanticProperty inm_rI03=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#rI03");
    /**
    * Pregunta
    */
@@ -104,68 +60,28 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
    /**
    * Respuesta ideal
    */
-    public static final org.semanticwb.platform.SemanticProperty inm_rI01=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#rI01");
+    public static final org.semanticwb.platform.SemanticProperty inm_rI04=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#rI04");
    /**
    * Pregunta
    */
     public static final org.semanticwb.platform.SemanticProperty inm_p25=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#p25");
-    public static final org.semanticwb.platform.SemanticProperty inm_rI02=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#rI02");
+   /**
+   * Respuesta ideal
+   */
+    public static final org.semanticwb.platform.SemanticProperty inm_rI01=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#rI01");
    /**
    * Pregunta
    */
     public static final org.semanticwb.platform.SemanticProperty inm_p24=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#p24");
-   /**
-   * Respuesta
-   */
-    public static final org.semanticwb.platform.SemanticProperty inm_r29=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#r29");
-   /**
-   * Respuesta
-   */
-    public static final org.semanticwb.platform.SemanticProperty inm_r28=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#r28");
-   /**
-   * Respuesta
-   */
-    public static final org.semanticwb.platform.SemanticProperty inm_r25=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#r25");
-   /**
-   * Respuesta
-   */
-    public static final org.semanticwb.platform.SemanticProperty inm_r24=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#r24");
+    public static final org.semanticwb.platform.SemanticProperty inm_rI02=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#rI02");
    /**
    * Pregunta
    */
     public static final org.semanticwb.platform.SemanticProperty inm_p10=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#p10");
    /**
-   * Respuesta
-   */
-    public static final org.semanticwb.platform.SemanticProperty inm_r27=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#r27");
-   /**
-   * Respuesta
-   */
-    public static final org.semanticwb.platform.SemanticProperty inm_r26=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#r26");
-   /**
-   * Respuesta
-   */
-    public static final org.semanticwb.platform.SemanticProperty inm_r21=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#r21");
-   /**
    * Respuesta ideal
    */
     public static final org.semanticwb.platform.SemanticProperty inm_rI09=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#rI09");
-   /**
-   * Respuesta
-   */
-    public static final org.semanticwb.platform.SemanticProperty inm_r20=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#r20");
-   /**
-   * Respuesta
-   */
-    public static final org.semanticwb.platform.SemanticProperty inm_r23=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#r23");
-   /**
-   * Respuesta
-   */
-    public static final org.semanticwb.platform.SemanticProperty inm_r22=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#r22");
-   /**
-   * Respuesta ideal
-   */
-    public static final org.semanticwb.platform.SemanticProperty inm_rI16=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#rI16");
    /**
    * Pregunta
    */
@@ -173,7 +89,7 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
    /**
    * Respuesta ideal
    */
-    public static final org.semanticwb.platform.SemanticProperty inm_rI17=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#rI17");
+    public static final org.semanticwb.platform.SemanticProperty inm_rI16=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#rI16");
    /**
    * Pregunta
    */
@@ -181,7 +97,7 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
    /**
    * Respuesta ideal
    */
-    public static final org.semanticwb.platform.SemanticProperty inm_rI18=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#rI18");
+    public static final org.semanticwb.platform.SemanticProperty inm_rI17=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#rI17");
    /**
    * Pregunta
    */
@@ -189,11 +105,15 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
    /**
    * Respuesta ideal
    */
-    public static final org.semanticwb.platform.SemanticProperty inm_rI19=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#rI19");
+    public static final org.semanticwb.platform.SemanticProperty inm_rI18=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#rI18");
    /**
    * Pregunta
    */
     public static final org.semanticwb.platform.SemanticProperty inm_p15=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#p15");
+   /**
+   * Respuesta ideal
+   */
+    public static final org.semanticwb.platform.SemanticProperty inm_rI19=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#rI19");
    /**
    * Pregunta
    */
@@ -243,25 +163,9 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
    */
     public static final org.semanticwb.platform.SemanticProperty inm_p08=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#p08");
    /**
-   * Respuesta
-   */
-    public static final org.semanticwb.platform.SemanticProperty inm_r04=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#r04");
-   /**
    * Pregunta
    */
     public static final org.semanticwb.platform.SemanticProperty inm_p09=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#p09");
-   /**
-   * Respuesta
-   */
-    public static final org.semanticwb.platform.SemanticProperty inm_r05=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#r05");
-   /**
-   * Respuesta
-   */
-    public static final org.semanticwb.platform.SemanticProperty inm_r02=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#r02");
-   /**
-   * Respuesta
-   */
-    public static final org.semanticwb.platform.SemanticProperty inm_r03=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#r03");
    /**
    * Respuesta ideal
    */
@@ -270,7 +174,6 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
    * Respuesta ideal
    */
     public static final org.semanticwb.platform.SemanticProperty inm_rI21=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#rI21");
-    public static final org.semanticwb.platform.SemanticProperty inm_r01=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#r01");
    /**
    * Respuesta ideal
    */
@@ -304,10 +207,6 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
    */
     public static final org.semanticwb.platform.SemanticProperty inm_rI23=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#rI23");
    /**
-   * Respuesta
-   */
-    public static final org.semanticwb.platform.SemanticProperty inm_r08=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#r08");
-   /**
    * Pregunta
    */
     public static final org.semanticwb.platform.SemanticProperty inm_p04=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#p04");
@@ -315,10 +214,6 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
    * Respuesta ideal
    */
     public static final org.semanticwb.platform.SemanticProperty inm_rI29=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#rI29");
-   /**
-   * Respuesta
-   */
-    public static final org.semanticwb.platform.SemanticProperty inm_r09=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#r09");
    /**
    * Pregunta
    */
@@ -328,25 +223,17 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
    */
     public static final org.semanticwb.platform.SemanticProperty inm_rI28=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#rI28");
    /**
-   * Respuesta
-   */
-    public static final org.semanticwb.platform.SemanticProperty inm_r06=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#r06");
-   /**
    * Pregunta
    */
     public static final org.semanticwb.platform.SemanticProperty inm_p06=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#p06");
    /**
-   * Respuesta ideal
-   */
-    public static final org.semanticwb.platform.SemanticProperty inm_rI27=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#rI27");
-   /**
-   * Respuesta
-   */
-    public static final org.semanticwb.platform.SemanticProperty inm_r07=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#r07");
-   /**
    * Pregunta
    */
     public static final org.semanticwb.platform.SemanticProperty inm_p07=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#p07");
+   /**
+   * Respuesta ideal
+   */
+    public static final org.semanticwb.platform.SemanticProperty inm_rI27=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#rI27");
     public static final org.semanticwb.platform.SemanticProperty inm_grupo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#grupo");
     public static final org.semanticwb.platform.SemanticProperty inm_anioCuestionario=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#anioCuestionario");
     public static final org.semanticwb.platform.SemanticProperty inm_subgrupo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#subgrupo");
@@ -427,647 +314,670 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
             return (getCuestionario(id, model)!=null);
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R19
-       * @param value R19 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P20
+       * @param value P20 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @param model Model of the mx.gob.inmujeres.swb.Cuestionario
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR19(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP20(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_r19, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_p20, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R19
-       * @param value R19 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P20
+       * @param value P20 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR19(mx.gob.inmujeres.swb.TipoRespuesta value)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP20(mx.gob.inmujeres.swb.TipoRespuesta value)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_r19,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_p20,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R18
-       * @param value R18 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P21
+       * @param value P21 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @param model Model of the mx.gob.inmujeres.swb.Cuestionario
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR18(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP21(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_r18, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_p21, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R18
-       * @param value R18 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P21
+       * @param value P21 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR18(mx.gob.inmujeres.swb.TipoRespuesta value)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP21(mx.gob.inmujeres.swb.TipoRespuesta value)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_r18,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_p21,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R17
-       * @param value R17 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P27
+       * @param value P27 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @param model Model of the mx.gob.inmujeres.swb.Cuestionario
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR17(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP27(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_r17, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_p27, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R17
-       * @param value R17 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P27
+       * @param value P27 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR17(mx.gob.inmujeres.swb.TipoRespuesta value)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP27(mx.gob.inmujeres.swb.TipoRespuesta value)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_r17,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_p27,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R16
-       * @param value R16 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P26
+       * @param value P26 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @param model Model of the mx.gob.inmujeres.swb.Cuestionario
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR16(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP26(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_r16, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_p26, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R16
-       * @param value R16 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P26
+       * @param value P26 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR16(mx.gob.inmujeres.swb.TipoRespuesta value)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP26(mx.gob.inmujeres.swb.TipoRespuesta value)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_r16,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_p26,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R15
-       * @param value R15 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P29
+       * @param value P29 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @param model Model of the mx.gob.inmujeres.swb.Cuestionario
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR15(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP29(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_r15, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_p29, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R15
-       * @param value R15 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P29
+       * @param value P29 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR15(mx.gob.inmujeres.swb.TipoRespuesta value)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP29(mx.gob.inmujeres.swb.TipoRespuesta value)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_r15,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_p29,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R14
-       * @param value R14 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P28
+       * @param value P28 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @param model Model of the mx.gob.inmujeres.swb.Cuestionario
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR14(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP28(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_r14, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_p28, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R14
-       * @param value R14 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P28
+       * @param value P28 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR14(mx.gob.inmujeres.swb.TipoRespuesta value)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP28(mx.gob.inmujeres.swb.TipoRespuesta value)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_r14,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_p28,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R13
-       * @param value R13 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P23
+       * @param value P23 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @param model Model of the mx.gob.inmujeres.swb.Cuestionario
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR13(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP23(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_r13, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_p23, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R13
-       * @param value R13 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P23
+       * @param value P23 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR13(mx.gob.inmujeres.swb.TipoRespuesta value)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP23(mx.gob.inmujeres.swb.TipoRespuesta value)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_r13,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_p23,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R12
-       * @param value R12 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P22
+       * @param value P22 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @param model Model of the mx.gob.inmujeres.swb.Cuestionario
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR12(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP22(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_r12, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_p22, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R12
-       * @param value R12 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P22
+       * @param value P22 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR12(mx.gob.inmujeres.swb.TipoRespuesta value)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP22(mx.gob.inmujeres.swb.TipoRespuesta value)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_r12,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_p22,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R11
-       * @param value R11 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P25
+       * @param value P25 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @param model Model of the mx.gob.inmujeres.swb.Cuestionario
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR11(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP25(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_r11, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_p25, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R11
-       * @param value R11 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P25
+       * @param value P25 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR11(mx.gob.inmujeres.swb.TipoRespuesta value)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP25(mx.gob.inmujeres.swb.TipoRespuesta value)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_r11,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_p25,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R10
-       * @param value R10 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P24
+       * @param value P24 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @param model Model of the mx.gob.inmujeres.swb.Cuestionario
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR10(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP24(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_r10, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_p24, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R10
-       * @param value R10 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P24
+       * @param value P24 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR10(mx.gob.inmujeres.swb.TipoRespuesta value)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP24(mx.gob.inmujeres.swb.TipoRespuesta value)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_r10,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_p24,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R29
-       * @param value R29 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P10
+       * @param value P10 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @param model Model of the mx.gob.inmujeres.swb.Cuestionario
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR29(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP10(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_r29, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_p10, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R29
-       * @param value R29 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P10
+       * @param value P10 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR29(mx.gob.inmujeres.swb.TipoRespuesta value)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP10(mx.gob.inmujeres.swb.TipoRespuesta value)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_r29,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_p10,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R28
-       * @param value R28 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P18
+       * @param value P18 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @param model Model of the mx.gob.inmujeres.swb.Cuestionario
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR28(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP18(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_r28, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_p18, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R28
-       * @param value R28 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P18
+       * @param value P18 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR28(mx.gob.inmujeres.swb.TipoRespuesta value)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP18(mx.gob.inmujeres.swb.TipoRespuesta value)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_r28,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_p18,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R25
-       * @param value R25 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P17
+       * @param value P17 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @param model Model of the mx.gob.inmujeres.swb.Cuestionario
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR25(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP17(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_r25, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_p17, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R25
-       * @param value R25 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P17
+       * @param value P17 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR25(mx.gob.inmujeres.swb.TipoRespuesta value)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP17(mx.gob.inmujeres.swb.TipoRespuesta value)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_r25,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_p17,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R24
-       * @param value R24 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P16
+       * @param value P16 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @param model Model of the mx.gob.inmujeres.swb.Cuestionario
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR24(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP16(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_r24, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_p16, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R24
-       * @param value R24 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P16
+       * @param value P16 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR24(mx.gob.inmujeres.swb.TipoRespuesta value)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP16(mx.gob.inmujeres.swb.TipoRespuesta value)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_r24,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_p16,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R27
-       * @param value R27 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P15
+       * @param value P15 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @param model Model of the mx.gob.inmujeres.swb.Cuestionario
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR27(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP15(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_r27, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_p15, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R27
-       * @param value R27 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P15
+       * @param value P15 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR27(mx.gob.inmujeres.swb.TipoRespuesta value)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP15(mx.gob.inmujeres.swb.TipoRespuesta value)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_r27,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_p15,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R26
-       * @param value R26 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P14
+       * @param value P14 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @param model Model of the mx.gob.inmujeres.swb.Cuestionario
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR26(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP14(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_r26, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_p14, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R26
-       * @param value R26 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P14
+       * @param value P14 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR26(mx.gob.inmujeres.swb.TipoRespuesta value)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP14(mx.gob.inmujeres.swb.TipoRespuesta value)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_r26,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_p14,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R21
-       * @param value R21 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P13
+       * @param value P13 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @param model Model of the mx.gob.inmujeres.swb.Cuestionario
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR21(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP13(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_r21, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_p13, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R21
-       * @param value R21 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P13
+       * @param value P13 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR21(mx.gob.inmujeres.swb.TipoRespuesta value)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP13(mx.gob.inmujeres.swb.TipoRespuesta value)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_r21,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_p13,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R20
-       * @param value R20 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P12
+       * @param value P12 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @param model Model of the mx.gob.inmujeres.swb.Cuestionario
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR20(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP12(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_r20, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_p12, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R20
-       * @param value R20 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P12
+       * @param value P12 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR20(mx.gob.inmujeres.swb.TipoRespuesta value)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP12(mx.gob.inmujeres.swb.TipoRespuesta value)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_r20,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_p12,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R23
-       * @param value R23 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P11
+       * @param value P11 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @param model Model of the mx.gob.inmujeres.swb.Cuestionario
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR23(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP11(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_r23, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_p11, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R23
-       * @param value R23 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P11
+       * @param value P11 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR23(mx.gob.inmujeres.swb.TipoRespuesta value)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP11(mx.gob.inmujeres.swb.TipoRespuesta value)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_r23,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_p11,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R22
-       * @param value R22 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P19
+       * @param value P19 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @param model Model of the mx.gob.inmujeres.swb.Cuestionario
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR22(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP19(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_r22, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_p19, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R22
-       * @param value R22 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P19
+       * @param value P19 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR22(mx.gob.inmujeres.swb.TipoRespuesta value)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP19(mx.gob.inmujeres.swb.TipoRespuesta value)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_r22,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_p19,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R04
-       * @param value R04 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P08
+       * @param value P08 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @param model Model of the mx.gob.inmujeres.swb.Cuestionario
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR04(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP08(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_r04, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_p08, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R04
-       * @param value R04 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P08
+       * @param value P08 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR04(mx.gob.inmujeres.swb.TipoRespuesta value)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP08(mx.gob.inmujeres.swb.TipoRespuesta value)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_r04,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_p08,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R05
-       * @param value R05 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P09
+       * @param value P09 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @param model Model of the mx.gob.inmujeres.swb.Cuestionario
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR05(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP09(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_r05, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_p09, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R05
-       * @param value R05 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P09
+       * @param value P09 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR05(mx.gob.inmujeres.swb.TipoRespuesta value)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP09(mx.gob.inmujeres.swb.TipoRespuesta value)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_r05,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_p09,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R02
-       * @param value R02 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P01
+       * @param value P01 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @param model Model of the mx.gob.inmujeres.swb.Cuestionario
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR02(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP01(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_r02, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_p01, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R02
-       * @param value R02 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P01
+       * @param value P01 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR02(mx.gob.inmujeres.swb.TipoRespuesta value)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP01(mx.gob.inmujeres.swb.TipoRespuesta value)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_r02,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_p01,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R03
-       * @param value R03 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P02
+       * @param value P02 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @param model Model of the mx.gob.inmujeres.swb.Cuestionario
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR03(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP02(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_r03, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_p02, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R03
-       * @param value R03 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P02
+       * @param value P02 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR03(mx.gob.inmujeres.swb.TipoRespuesta value)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP02(mx.gob.inmujeres.swb.TipoRespuesta value)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_r03,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_p02,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R08
-       * @param value R08 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P03
+       * @param value P03 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @param model Model of the mx.gob.inmujeres.swb.Cuestionario
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR08(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP03(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_r08, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_p03, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R08
-       * @param value R08 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P03
+       * @param value P03 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR08(mx.gob.inmujeres.swb.TipoRespuesta value)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP03(mx.gob.inmujeres.swb.TipoRespuesta value)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_r08,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_p03,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R09
-       * @param value R09 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P04
+       * @param value P04 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @param model Model of the mx.gob.inmujeres.swb.Cuestionario
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR09(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP04(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_r09, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_p04, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R09
-       * @param value R09 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P04
+       * @param value P04 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR09(mx.gob.inmujeres.swb.TipoRespuesta value)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP04(mx.gob.inmujeres.swb.TipoRespuesta value)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_r09,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_p04,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R06
-       * @param value R06 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P05
+       * @param value P05 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @param model Model of the mx.gob.inmujeres.swb.Cuestionario
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR06(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP05(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_r06, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_p05, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R06
-       * @param value R06 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P05
+       * @param value P05 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR06(mx.gob.inmujeres.swb.TipoRespuesta value)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP05(mx.gob.inmujeres.swb.TipoRespuesta value)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_r06,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_p05,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R07
-       * @param value R07 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P06
+       * @param value P06 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @param model Model of the mx.gob.inmujeres.swb.Cuestionario
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR07(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP06(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_r07, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_p06, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined R07
-       * @param value R07 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P06
+       * @param value P06 of the type mx.gob.inmujeres.swb.TipoRespuesta
        * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByR07(mx.gob.inmujeres.swb.TipoRespuesta value)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP06(mx.gob.inmujeres.swb.TipoRespuesta value)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_r07,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_p06,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P07
+       * @param value P07 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * @param model Model of the mx.gob.inmujeres.swb.Cuestionario
+       * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
+       */
+
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP07(mx.gob.inmujeres.swb.TipoRespuesta value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_p07, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined P07
+       * @param value P07 of the type mx.gob.inmujeres.swb.TipoRespuesta
+       * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
+       */
+
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByP07(mx.gob.inmujeres.swb.TipoRespuesta value)
+        {
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_p07,value.getSemanticObject(),sclass));
             return it;
         }
     }
@@ -1104,37 +1014,37 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
         getSemanticObject().setProperty(inm_calificacion, value);
     }
    /**
-   * Sets the value for the property R19
-   * @param value R19 to set
+   * Sets the value for the property P20
+   * @param value P20 to set
    */
 
-    public void setR19(mx.gob.inmujeres.swb.TipoRespuesta value)
+    public void setP20(mx.gob.inmujeres.swb.TipoRespuesta value)
     {
         if(value!=null)
         {
-            getSemanticObject().setObjectProperty(inm_r19, value.getSemanticObject());
+            getSemanticObject().setObjectProperty(inm_p20, value.getSemanticObject());
         }else
         {
-            removeR19();
+            removeP20();
         }
     }
    /**
-   * Remove the value for R19 property
+   * Remove the value for P20 property
    */
 
-    public void removeR19()
+    public void removeP20()
     {
-        getSemanticObject().removeProperty(inm_r19);
+        getSemanticObject().removeProperty(inm_p20);
     }
 
    /**
-   * Gets the R19
+   * Gets the P20
    * @return a mx.gob.inmujeres.swb.TipoRespuesta
    */
-    public mx.gob.inmujeres.swb.TipoRespuesta getR19()
+    public mx.gob.inmujeres.swb.TipoRespuesta getP20()
     {
          mx.gob.inmujeres.swb.TipoRespuesta ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_r19);
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_p20);
          if(obj!=null)
          {
              ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
@@ -1142,37 +1052,37 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
          return ret;
     }
    /**
-   * Sets the value for the property R18
-   * @param value R18 to set
+   * Sets the value for the property P21
+   * @param value P21 to set
    */
 
-    public void setR18(mx.gob.inmujeres.swb.TipoRespuesta value)
+    public void setP21(mx.gob.inmujeres.swb.TipoRespuesta value)
     {
         if(value!=null)
         {
-            getSemanticObject().setObjectProperty(inm_r18, value.getSemanticObject());
+            getSemanticObject().setObjectProperty(inm_p21, value.getSemanticObject());
         }else
         {
-            removeR18();
+            removeP21();
         }
     }
    /**
-   * Remove the value for R18 property
+   * Remove the value for P21 property
    */
 
-    public void removeR18()
+    public void removeP21()
     {
-        getSemanticObject().removeProperty(inm_r18);
+        getSemanticObject().removeProperty(inm_p21);
     }
 
    /**
-   * Gets the R18
+   * Gets the P21
    * @return a mx.gob.inmujeres.swb.TipoRespuesta
    */
-    public mx.gob.inmujeres.swb.TipoRespuesta getR18()
+    public mx.gob.inmujeres.swb.TipoRespuesta getP21()
     {
          mx.gob.inmujeres.swb.TipoRespuesta ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_r18);
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_p21);
          if(obj!=null)
          {
              ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
@@ -1180,339 +1090,37 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
          return ret;
     }
    /**
-   * Sets the value for the property R17
-   * @param value R17 to set
+   * Sets the value for the property P27
+   * @param value P27 to set
    */
 
-    public void setR17(mx.gob.inmujeres.swb.TipoRespuesta value)
+    public void setP27(mx.gob.inmujeres.swb.TipoRespuesta value)
     {
         if(value!=null)
         {
-            getSemanticObject().setObjectProperty(inm_r17, value.getSemanticObject());
+            getSemanticObject().setObjectProperty(inm_p27, value.getSemanticObject());
         }else
         {
-            removeR17();
+            removeP27();
         }
     }
    /**
-   * Remove the value for R17 property
+   * Remove the value for P27 property
    */
 
-    public void removeR17()
+    public void removeP27()
     {
-        getSemanticObject().removeProperty(inm_r17);
+        getSemanticObject().removeProperty(inm_p27);
     }
 
    /**
-   * Gets the R17
+   * Gets the P27
    * @return a mx.gob.inmujeres.swb.TipoRespuesta
    */
-    public mx.gob.inmujeres.swb.TipoRespuesta getR17()
+    public mx.gob.inmujeres.swb.TipoRespuesta getP27()
     {
          mx.gob.inmujeres.swb.TipoRespuesta ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_r17);
-         if(obj!=null)
-         {
-             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Sets the value for the property R16
-   * @param value R16 to set
-   */
-
-    public void setR16(mx.gob.inmujeres.swb.TipoRespuesta value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(inm_r16, value.getSemanticObject());
-        }else
-        {
-            removeR16();
-        }
-    }
-   /**
-   * Remove the value for R16 property
-   */
-
-    public void removeR16()
-    {
-        getSemanticObject().removeProperty(inm_r16);
-    }
-
-   /**
-   * Gets the R16
-   * @return a mx.gob.inmujeres.swb.TipoRespuesta
-   */
-    public mx.gob.inmujeres.swb.TipoRespuesta getR16()
-    {
-         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_r16);
-         if(obj!=null)
-         {
-             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Sets the value for the property R15
-   * @param value R15 to set
-   */
-
-    public void setR15(mx.gob.inmujeres.swb.TipoRespuesta value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(inm_r15, value.getSemanticObject());
-        }else
-        {
-            removeR15();
-        }
-    }
-   /**
-   * Remove the value for R15 property
-   */
-
-    public void removeR15()
-    {
-        getSemanticObject().removeProperty(inm_r15);
-    }
-
-   /**
-   * Gets the R15
-   * @return a mx.gob.inmujeres.swb.TipoRespuesta
-   */
-    public mx.gob.inmujeres.swb.TipoRespuesta getR15()
-    {
-         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_r15);
-         if(obj!=null)
-         {
-             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
-         }
-         return ret;
-    }
-
-/**
-* Gets the P20 property
-* @return String with the P20
-*/
-    public String getP20()
-    {
-        return getSemanticObject().getProperty(inm_p20);
-    }
-
-/**
-* Sets the P20 property
-* @param value long with the P20
-*/
-    public void setP20(String value)
-    {
-        getSemanticObject().setProperty(inm_p20, value);
-    }
-   /**
-   * Sets the value for the property R14
-   * @param value R14 to set
-   */
-
-    public void setR14(mx.gob.inmujeres.swb.TipoRespuesta value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(inm_r14, value.getSemanticObject());
-        }else
-        {
-            removeR14();
-        }
-    }
-   /**
-   * Remove the value for R14 property
-   */
-
-    public void removeR14()
-    {
-        getSemanticObject().removeProperty(inm_r14);
-    }
-
-   /**
-   * Gets the R14
-   * @return a mx.gob.inmujeres.swb.TipoRespuesta
-   */
-    public mx.gob.inmujeres.swb.TipoRespuesta getR14()
-    {
-         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_r14);
-         if(obj!=null)
-         {
-             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
-         }
-         return ret;
-    }
-
-/**
-* Gets the P21 property
-* @return String with the P21
-*/
-    public String getP21()
-    {
-        return getSemanticObject().getProperty(inm_p21);
-    }
-
-/**
-* Sets the P21 property
-* @param value long with the P21
-*/
-    public void setP21(String value)
-    {
-        getSemanticObject().setProperty(inm_p21, value);
-    }
-   /**
-   * Sets the value for the property R13
-   * @param value R13 to set
-   */
-
-    public void setR13(mx.gob.inmujeres.swb.TipoRespuesta value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(inm_r13, value.getSemanticObject());
-        }else
-        {
-            removeR13();
-        }
-    }
-   /**
-   * Remove the value for R13 property
-   */
-
-    public void removeR13()
-    {
-        getSemanticObject().removeProperty(inm_r13);
-    }
-
-   /**
-   * Gets the R13
-   * @return a mx.gob.inmujeres.swb.TipoRespuesta
-   */
-    public mx.gob.inmujeres.swb.TipoRespuesta getR13()
-    {
-         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_r13);
-         if(obj!=null)
-         {
-             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Sets the value for the property R12
-   * @param value R12 to set
-   */
-
-    public void setR12(mx.gob.inmujeres.swb.TipoRespuesta value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(inm_r12, value.getSemanticObject());
-        }else
-        {
-            removeR12();
-        }
-    }
-   /**
-   * Remove the value for R12 property
-   */
-
-    public void removeR12()
-    {
-        getSemanticObject().removeProperty(inm_r12);
-    }
-
-   /**
-   * Gets the R12
-   * @return a mx.gob.inmujeres.swb.TipoRespuesta
-   */
-    public mx.gob.inmujeres.swb.TipoRespuesta getR12()
-    {
-         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_r12);
-         if(obj!=null)
-         {
-             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Sets the value for the property R11
-   * @param value R11 to set
-   */
-
-    public void setR11(mx.gob.inmujeres.swb.TipoRespuesta value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(inm_r11, value.getSemanticObject());
-        }else
-        {
-            removeR11();
-        }
-    }
-   /**
-   * Remove the value for R11 property
-   */
-
-    public void removeR11()
-    {
-        getSemanticObject().removeProperty(inm_r11);
-    }
-
-   /**
-   * Gets the R11
-   * @return a mx.gob.inmujeres.swb.TipoRespuesta
-   */
-    public mx.gob.inmujeres.swb.TipoRespuesta getR11()
-    {
-         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_r11);
-         if(obj!=null)
-         {
-             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Sets the value for the property R10
-   * @param value R10 to set
-   */
-
-    public void setR10(mx.gob.inmujeres.swb.TipoRespuesta value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(inm_r10, value.getSemanticObject());
-        }else
-        {
-            removeR10();
-        }
-    }
-   /**
-   * Remove the value for R10 property
-   */
-
-    public void removeR10()
-    {
-        getSemanticObject().removeProperty(inm_r10);
-    }
-
-   /**
-   * Gets the R10
-   * @return a mx.gob.inmujeres.swb.TipoRespuesta
-   */
-    public mx.gob.inmujeres.swb.TipoRespuesta getR10()
-    {
-         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_r10);
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_p27);
          if(obj!=null)
          {
              ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
@@ -1539,24 +1147,6 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
     }
 
 /**
-* Gets the P27 property
-* @return String with the P27
-*/
-    public String getP27()
-    {
-        return getSemanticObject().getProperty(inm_p27);
-    }
-
-/**
-* Sets the P27 property
-* @param value long with the P27
-*/
-    public void setP27(String value)
-    {
-        getSemanticObject().setProperty(inm_p27, value);
-    }
-
-/**
 * Gets the RI08 property
 * @return int with the RI08
 */
@@ -1573,41 +1163,43 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
     {
         getSemanticObject().setIntProperty(inm_rI08, value);
     }
+   /**
+   * Sets the value for the property P26
+   * @param value P26 to set
+   */
 
-/**
-* Gets the P26 property
-* @return String with the P26
-*/
-    public String getP26()
+    public void setP26(mx.gob.inmujeres.swb.TipoRespuesta value)
     {
-        return getSemanticObject().getProperty(inm_p26);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(inm_p26, value.getSemanticObject());
+        }else
+        {
+            removeP26();
+        }
+    }
+   /**
+   * Remove the value for P26 property
+   */
+
+    public void removeP26()
+    {
+        getSemanticObject().removeProperty(inm_p26);
     }
 
-/**
-* Sets the P26 property
-* @param value long with the P26
-*/
-    public void setP26(String value)
+   /**
+   * Gets the P26
+   * @return a mx.gob.inmujeres.swb.TipoRespuesta
+   */
+    public mx.gob.inmujeres.swb.TipoRespuesta getP26()
     {
-        getSemanticObject().setProperty(inm_p26, value);
-    }
-
-/**
-* Gets the RI05 property
-* @return int with the RI05
-*/
-    public int getRI05()
-    {
-        return getSemanticObject().getIntProperty(inm_rI05);
-    }
-
-/**
-* Sets the RI05 property
-* @param value long with the RI05
-*/
-    public void setRI05(int value)
-    {
-        getSemanticObject().setIntProperty(inm_rI05, value);
+         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_p26);
+         if(obj!=null)
+         {
+             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
@@ -1642,23 +1234,99 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
     {
         getSemanticObject().setProperty(swb_title, title, lang);
     }
+   /**
+   * Sets the value for the property P29
+   * @param value P29 to set
+   */
 
-/**
-* Gets the P29 property
-* @return String with the P29
-*/
-    public String getP29()
+    public void setP29(mx.gob.inmujeres.swb.TipoRespuesta value)
     {
-        return getSemanticObject().getProperty(inm_p29);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(inm_p29, value.getSemanticObject());
+        }else
+        {
+            removeP29();
+        }
+    }
+   /**
+   * Remove the value for P29 property
+   */
+
+    public void removeP29()
+    {
+        getSemanticObject().removeProperty(inm_p29);
+    }
+
+   /**
+   * Gets the P29
+   * @return a mx.gob.inmujeres.swb.TipoRespuesta
+   */
+    public mx.gob.inmujeres.swb.TipoRespuesta getP29()
+    {
+         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_p29);
+         if(obj!=null)
+         {
+             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
-* Sets the P29 property
-* @param value long with the P29
+* Gets the RI05 property
+* @return int with the RI05
 */
-    public void setP29(String value)
+    public int getRI05()
     {
-        getSemanticObject().setProperty(inm_p29, value);
+        return getSemanticObject().getIntProperty(inm_rI05);
+    }
+
+/**
+* Sets the RI05 property
+* @param value long with the RI05
+*/
+    public void setRI05(int value)
+    {
+        getSemanticObject().setIntProperty(inm_rI05, value);
+    }
+   /**
+   * Sets the value for the property P28
+   * @param value P28 to set
+   */
+
+    public void setP28(mx.gob.inmujeres.swb.TipoRespuesta value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(inm_p28, value.getSemanticObject());
+        }else
+        {
+            removeP28();
+        }
+    }
+   /**
+   * Remove the value for P28 property
+   */
+
+    public void removeP28()
+    {
+        getSemanticObject().removeProperty(inm_p28);
+    }
+
+   /**
+   * Gets the P28
+   * @return a mx.gob.inmujeres.swb.TipoRespuesta
+   */
+    public mx.gob.inmujeres.swb.TipoRespuesta getP28()
+    {
+         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_p28);
+         if(obj!=null)
+         {
+             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
@@ -1678,23 +1346,43 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
     {
         getSemanticObject().setIntProperty(inm_rI06, value);
     }
+   /**
+   * Sets the value for the property P23
+   * @param value P23 to set
+   */
 
-/**
-* Gets the P28 property
-* @return String with the P28
-*/
-    public String getP28()
+    public void setP23(mx.gob.inmujeres.swb.TipoRespuesta value)
     {
-        return getSemanticObject().getProperty(inm_p28);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(inm_p23, value.getSemanticObject());
+        }else
+        {
+            removeP23();
+        }
+    }
+   /**
+   * Remove the value for P23 property
+   */
+
+    public void removeP23()
+    {
+        getSemanticObject().removeProperty(inm_p23);
     }
 
-/**
-* Sets the P28 property
-* @param value long with the P28
-*/
-    public void setP28(String value)
+   /**
+   * Gets the P23
+   * @return a mx.gob.inmujeres.swb.TipoRespuesta
+   */
+    public mx.gob.inmujeres.swb.TipoRespuesta getP23()
     {
-        getSemanticObject().setProperty(inm_p28, value);
+         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_p23);
+         if(obj!=null)
+         {
+             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
@@ -1714,23 +1402,43 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
     {
         getSemanticObject().setIntProperty(inm_rI03, value);
     }
+   /**
+   * Sets the value for the property P22
+   * @param value P22 to set
+   */
 
-/**
-* Gets the P23 property
-* @return String with the P23
-*/
-    public String getP23()
+    public void setP22(mx.gob.inmujeres.swb.TipoRespuesta value)
     {
-        return getSemanticObject().getProperty(inm_p23);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(inm_p22, value.getSemanticObject());
+        }else
+        {
+            removeP22();
+        }
+    }
+   /**
+   * Remove the value for P22 property
+   */
+
+    public void removeP22()
+    {
+        getSemanticObject().removeProperty(inm_p22);
     }
 
-/**
-* Sets the P23 property
-* @param value long with the P23
-*/
-    public void setP23(String value)
+   /**
+   * Gets the P22
+   * @return a mx.gob.inmujeres.swb.TipoRespuesta
+   */
+    public mx.gob.inmujeres.swb.TipoRespuesta getP22()
     {
-        getSemanticObject().setProperty(inm_p23, value);
+         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_p22);
+         if(obj!=null)
+         {
+             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
@@ -1750,23 +1458,43 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
     {
         getSemanticObject().setIntProperty(inm_rI04, value);
     }
+   /**
+   * Sets the value for the property P25
+   * @param value P25 to set
+   */
 
-/**
-* Gets the P22 property
-* @return String with the P22
-*/
-    public String getP22()
+    public void setP25(mx.gob.inmujeres.swb.TipoRespuesta value)
     {
-        return getSemanticObject().getProperty(inm_p22);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(inm_p25, value.getSemanticObject());
+        }else
+        {
+            removeP25();
+        }
+    }
+   /**
+   * Remove the value for P25 property
+   */
+
+    public void removeP25()
+    {
+        getSemanticObject().removeProperty(inm_p25);
     }
 
-/**
-* Sets the P22 property
-* @param value long with the P22
-*/
-    public void setP22(String value)
+   /**
+   * Gets the P25
+   * @return a mx.gob.inmujeres.swb.TipoRespuesta
+   */
+    public mx.gob.inmujeres.swb.TipoRespuesta getP25()
     {
-        getSemanticObject().setProperty(inm_p22, value);
+         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_p25);
+         if(obj!=null)
+         {
+             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
@@ -1786,23 +1514,43 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
     {
         getSemanticObject().setIntProperty(inm_rI01, value);
     }
+   /**
+   * Sets the value for the property P24
+   * @param value P24 to set
+   */
 
-/**
-* Gets the P25 property
-* @return String with the P25
-*/
-    public String getP25()
+    public void setP24(mx.gob.inmujeres.swb.TipoRespuesta value)
     {
-        return getSemanticObject().getProperty(inm_p25);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(inm_p24, value.getSemanticObject());
+        }else
+        {
+            removeP24();
+        }
+    }
+   /**
+   * Remove the value for P24 property
+   */
+
+    public void removeP24()
+    {
+        getSemanticObject().removeProperty(inm_p24);
     }
 
-/**
-* Sets the P25 property
-* @param value long with the P25
-*/
-    public void setP25(String value)
+   /**
+   * Gets the P24
+   * @return a mx.gob.inmujeres.swb.TipoRespuesta
+   */
+    public mx.gob.inmujeres.swb.TipoRespuesta getP24()
     {
-        getSemanticObject().setProperty(inm_p25, value);
+         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_p24);
+         if(obj!=null)
+         {
+             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
@@ -1822,302 +1570,38 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
     {
         getSemanticObject().setIntProperty(inm_rI02, value);
     }
-
-/**
-* Gets the P24 property
-* @return String with the P24
-*/
-    public String getP24()
-    {
-        return getSemanticObject().getProperty(inm_p24);
-    }
-
-/**
-* Sets the P24 property
-* @param value long with the P24
-*/
-    public void setP24(String value)
-    {
-        getSemanticObject().setProperty(inm_p24, value);
-    }
    /**
-   * Sets the value for the property R29
-   * @param value R29 to set
+   * Sets the value for the property P10
+   * @param value P10 to set
    */
 
-    public void setR29(mx.gob.inmujeres.swb.TipoRespuesta value)
+    public void setP10(mx.gob.inmujeres.swb.TipoRespuesta value)
     {
         if(value!=null)
         {
-            getSemanticObject().setObjectProperty(inm_r29, value.getSemanticObject());
+            getSemanticObject().setObjectProperty(inm_p10, value.getSemanticObject());
         }else
         {
-            removeR29();
+            removeP10();
         }
     }
    /**
-   * Remove the value for R29 property
+   * Remove the value for P10 property
    */
 
-    public void removeR29()
+    public void removeP10()
     {
-        getSemanticObject().removeProperty(inm_r29);
+        getSemanticObject().removeProperty(inm_p10);
     }
 
    /**
-   * Gets the R29
+   * Gets the P10
    * @return a mx.gob.inmujeres.swb.TipoRespuesta
    */
-    public mx.gob.inmujeres.swb.TipoRespuesta getR29()
+    public mx.gob.inmujeres.swb.TipoRespuesta getP10()
     {
          mx.gob.inmujeres.swb.TipoRespuesta ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_r29);
-         if(obj!=null)
-         {
-             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Sets the value for the property R28
-   * @param value R28 to set
-   */
-
-    public void setR28(mx.gob.inmujeres.swb.TipoRespuesta value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(inm_r28, value.getSemanticObject());
-        }else
-        {
-            removeR28();
-        }
-    }
-   /**
-   * Remove the value for R28 property
-   */
-
-    public void removeR28()
-    {
-        getSemanticObject().removeProperty(inm_r28);
-    }
-
-   /**
-   * Gets the R28
-   * @return a mx.gob.inmujeres.swb.TipoRespuesta
-   */
-    public mx.gob.inmujeres.swb.TipoRespuesta getR28()
-    {
-         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_r28);
-         if(obj!=null)
-         {
-             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Sets the value for the property R25
-   * @param value R25 to set
-   */
-
-    public void setR25(mx.gob.inmujeres.swb.TipoRespuesta value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(inm_r25, value.getSemanticObject());
-        }else
-        {
-            removeR25();
-        }
-    }
-   /**
-   * Remove the value for R25 property
-   */
-
-    public void removeR25()
-    {
-        getSemanticObject().removeProperty(inm_r25);
-    }
-
-   /**
-   * Gets the R25
-   * @return a mx.gob.inmujeres.swb.TipoRespuesta
-   */
-    public mx.gob.inmujeres.swb.TipoRespuesta getR25()
-    {
-         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_r25);
-         if(obj!=null)
-         {
-             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Sets the value for the property R24
-   * @param value R24 to set
-   */
-
-    public void setR24(mx.gob.inmujeres.swb.TipoRespuesta value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(inm_r24, value.getSemanticObject());
-        }else
-        {
-            removeR24();
-        }
-    }
-   /**
-   * Remove the value for R24 property
-   */
-
-    public void removeR24()
-    {
-        getSemanticObject().removeProperty(inm_r24);
-    }
-
-   /**
-   * Gets the R24
-   * @return a mx.gob.inmujeres.swb.TipoRespuesta
-   */
-    public mx.gob.inmujeres.swb.TipoRespuesta getR24()
-    {
-         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_r24);
-         if(obj!=null)
-         {
-             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
-         }
-         return ret;
-    }
-
-/**
-* Gets the P10 property
-* @return String with the P10
-*/
-    public String getP10()
-    {
-        return getSemanticObject().getProperty(inm_p10);
-    }
-
-/**
-* Sets the P10 property
-* @param value long with the P10
-*/
-    public void setP10(String value)
-    {
-        getSemanticObject().setProperty(inm_p10, value);
-    }
-   /**
-   * Sets the value for the property R27
-   * @param value R27 to set
-   */
-
-    public void setR27(mx.gob.inmujeres.swb.TipoRespuesta value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(inm_r27, value.getSemanticObject());
-        }else
-        {
-            removeR27();
-        }
-    }
-   /**
-   * Remove the value for R27 property
-   */
-
-    public void removeR27()
-    {
-        getSemanticObject().removeProperty(inm_r27);
-    }
-
-   /**
-   * Gets the R27
-   * @return a mx.gob.inmujeres.swb.TipoRespuesta
-   */
-    public mx.gob.inmujeres.swb.TipoRespuesta getR27()
-    {
-         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_r27);
-         if(obj!=null)
-         {
-             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Sets the value for the property R26
-   * @param value R26 to set
-   */
-
-    public void setR26(mx.gob.inmujeres.swb.TipoRespuesta value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(inm_r26, value.getSemanticObject());
-        }else
-        {
-            removeR26();
-        }
-    }
-   /**
-   * Remove the value for R26 property
-   */
-
-    public void removeR26()
-    {
-        getSemanticObject().removeProperty(inm_r26);
-    }
-
-   /**
-   * Gets the R26
-   * @return a mx.gob.inmujeres.swb.TipoRespuesta
-   */
-    public mx.gob.inmujeres.swb.TipoRespuesta getR26()
-    {
-         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_r26);
-         if(obj!=null)
-         {
-             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Sets the value for the property R21
-   * @param value R21 to set
-   */
-
-    public void setR21(mx.gob.inmujeres.swb.TipoRespuesta value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(inm_r21, value.getSemanticObject());
-        }else
-        {
-            removeR21();
-        }
-    }
-   /**
-   * Remove the value for R21 property
-   */
-
-    public void removeR21()
-    {
-        getSemanticObject().removeProperty(inm_r21);
-    }
-
-   /**
-   * Gets the R21
-   * @return a mx.gob.inmujeres.swb.TipoRespuesta
-   */
-    public mx.gob.inmujeres.swb.TipoRespuesta getR21()
-    {
-         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_r21);
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_p10);
          if(obj!=null)
          {
              ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
@@ -2143,113 +1627,37 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
         getSemanticObject().setIntProperty(inm_rI09, value);
     }
    /**
-   * Sets the value for the property R20
-   * @param value R20 to set
+   * Sets the value for the property P18
+   * @param value P18 to set
    */
 
-    public void setR20(mx.gob.inmujeres.swb.TipoRespuesta value)
+    public void setP18(mx.gob.inmujeres.swb.TipoRespuesta value)
     {
         if(value!=null)
         {
-            getSemanticObject().setObjectProperty(inm_r20, value.getSemanticObject());
+            getSemanticObject().setObjectProperty(inm_p18, value.getSemanticObject());
         }else
         {
-            removeR20();
+            removeP18();
         }
     }
    /**
-   * Remove the value for R20 property
+   * Remove the value for P18 property
    */
 
-    public void removeR20()
+    public void removeP18()
     {
-        getSemanticObject().removeProperty(inm_r20);
+        getSemanticObject().removeProperty(inm_p18);
     }
 
    /**
-   * Gets the R20
+   * Gets the P18
    * @return a mx.gob.inmujeres.swb.TipoRespuesta
    */
-    public mx.gob.inmujeres.swb.TipoRespuesta getR20()
+    public mx.gob.inmujeres.swb.TipoRespuesta getP18()
     {
          mx.gob.inmujeres.swb.TipoRespuesta ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_r20);
-         if(obj!=null)
-         {
-             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Sets the value for the property R23
-   * @param value R23 to set
-   */
-
-    public void setR23(mx.gob.inmujeres.swb.TipoRespuesta value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(inm_r23, value.getSemanticObject());
-        }else
-        {
-            removeR23();
-        }
-    }
-   /**
-   * Remove the value for R23 property
-   */
-
-    public void removeR23()
-    {
-        getSemanticObject().removeProperty(inm_r23);
-    }
-
-   /**
-   * Gets the R23
-   * @return a mx.gob.inmujeres.swb.TipoRespuesta
-   */
-    public mx.gob.inmujeres.swb.TipoRespuesta getR23()
-    {
-         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_r23);
-         if(obj!=null)
-         {
-             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Sets the value for the property R22
-   * @param value R22 to set
-   */
-
-    public void setR22(mx.gob.inmujeres.swb.TipoRespuesta value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(inm_r22, value.getSemanticObject());
-        }else
-        {
-            removeR22();
-        }
-    }
-   /**
-   * Remove the value for R22 property
-   */
-
-    public void removeR22()
-    {
-        getSemanticObject().removeProperty(inm_r22);
-    }
-
-   /**
-   * Gets the R22
-   * @return a mx.gob.inmujeres.swb.TipoRespuesta
-   */
-    public mx.gob.inmujeres.swb.TipoRespuesta getR22()
-    {
-         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_r22);
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_p18);
          if(obj!=null)
          {
              ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
@@ -2274,23 +1682,43 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
     {
         getSemanticObject().setIntProperty(inm_rI16, value);
     }
+   /**
+   * Sets the value for the property P17
+   * @param value P17 to set
+   */
 
-/**
-* Gets the P18 property
-* @return String with the P18
-*/
-    public String getP18()
+    public void setP17(mx.gob.inmujeres.swb.TipoRespuesta value)
     {
-        return getSemanticObject().getProperty(inm_p18);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(inm_p17, value.getSemanticObject());
+        }else
+        {
+            removeP17();
+        }
+    }
+   /**
+   * Remove the value for P17 property
+   */
+
+    public void removeP17()
+    {
+        getSemanticObject().removeProperty(inm_p17);
     }
 
-/**
-* Sets the P18 property
-* @param value long with the P18
-*/
-    public void setP18(String value)
+   /**
+   * Gets the P17
+   * @return a mx.gob.inmujeres.swb.TipoRespuesta
+   */
+    public mx.gob.inmujeres.swb.TipoRespuesta getP17()
     {
-        getSemanticObject().setProperty(inm_p18, value);
+         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_p17);
+         if(obj!=null)
+         {
+             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
@@ -2310,23 +1738,43 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
     {
         getSemanticObject().setIntProperty(inm_rI17, value);
     }
+   /**
+   * Sets the value for the property P16
+   * @param value P16 to set
+   */
 
-/**
-* Gets the P17 property
-* @return String with the P17
-*/
-    public String getP17()
+    public void setP16(mx.gob.inmujeres.swb.TipoRespuesta value)
     {
-        return getSemanticObject().getProperty(inm_p17);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(inm_p16, value.getSemanticObject());
+        }else
+        {
+            removeP16();
+        }
+    }
+   /**
+   * Remove the value for P16 property
+   */
+
+    public void removeP16()
+    {
+        getSemanticObject().removeProperty(inm_p16);
     }
 
-/**
-* Sets the P17 property
-* @param value long with the P17
-*/
-    public void setP17(String value)
+   /**
+   * Gets the P16
+   * @return a mx.gob.inmujeres.swb.TipoRespuesta
+   */
+    public mx.gob.inmujeres.swb.TipoRespuesta getP16()
     {
-        getSemanticObject().setProperty(inm_p17, value);
+         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_p16);
+         if(obj!=null)
+         {
+             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
@@ -2346,23 +1794,43 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
     {
         getSemanticObject().setIntProperty(inm_rI18, value);
     }
+   /**
+   * Sets the value for the property P15
+   * @param value P15 to set
+   */
 
-/**
-* Gets the P16 property
-* @return String with the P16
-*/
-    public String getP16()
+    public void setP15(mx.gob.inmujeres.swb.TipoRespuesta value)
     {
-        return getSemanticObject().getProperty(inm_p16);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(inm_p15, value.getSemanticObject());
+        }else
+        {
+            removeP15();
+        }
+    }
+   /**
+   * Remove the value for P15 property
+   */
+
+    public void removeP15()
+    {
+        getSemanticObject().removeProperty(inm_p15);
     }
 
-/**
-* Sets the P16 property
-* @param value long with the P16
-*/
-    public void setP16(String value)
+   /**
+   * Gets the P15
+   * @return a mx.gob.inmujeres.swb.TipoRespuesta
+   */
+    public mx.gob.inmujeres.swb.TipoRespuesta getP15()
     {
-        getSemanticObject().setProperty(inm_p16, value);
+         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_p15);
+         if(obj!=null)
+         {
+             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
@@ -2382,41 +1850,43 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
     {
         getSemanticObject().setIntProperty(inm_rI19, value);
     }
+   /**
+   * Sets the value for the property P14
+   * @param value P14 to set
+   */
 
-/**
-* Gets the P15 property
-* @return String with the P15
-*/
-    public String getP15()
+    public void setP14(mx.gob.inmujeres.swb.TipoRespuesta value)
     {
-        return getSemanticObject().getProperty(inm_p15);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(inm_p14, value.getSemanticObject());
+        }else
+        {
+            removeP14();
+        }
+    }
+   /**
+   * Remove the value for P14 property
+   */
+
+    public void removeP14()
+    {
+        getSemanticObject().removeProperty(inm_p14);
     }
 
-/**
-* Sets the P15 property
-* @param value long with the P15
-*/
-    public void setP15(String value)
+   /**
+   * Gets the P14
+   * @return a mx.gob.inmujeres.swb.TipoRespuesta
+   */
+    public mx.gob.inmujeres.swb.TipoRespuesta getP14()
     {
-        getSemanticObject().setProperty(inm_p15, value);
-    }
-
-/**
-* Gets the P14 property
-* @return String with the P14
-*/
-    public String getP14()
-    {
-        return getSemanticObject().getProperty(inm_p14);
-    }
-
-/**
-* Sets the P14 property
-* @param value long with the P14
-*/
-    public void setP14(String value)
-    {
-        getSemanticObject().setProperty(inm_p14, value);
+         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_p14);
+         if(obj!=null)
+         {
+             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
@@ -2436,23 +1906,43 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
     {
         getSemanticObject().setIntProperty(inm_rI12, value);
     }
+   /**
+   * Sets the value for the property P13
+   * @param value P13 to set
+   */
 
-/**
-* Gets the P13 property
-* @return String with the P13
-*/
-    public String getP13()
+    public void setP13(mx.gob.inmujeres.swb.TipoRespuesta value)
     {
-        return getSemanticObject().getProperty(inm_p13);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(inm_p13, value.getSemanticObject());
+        }else
+        {
+            removeP13();
+        }
+    }
+   /**
+   * Remove the value for P13 property
+   */
+
+    public void removeP13()
+    {
+        getSemanticObject().removeProperty(inm_p13);
     }
 
-/**
-* Sets the P13 property
-* @param value long with the P13
-*/
-    public void setP13(String value)
+   /**
+   * Gets the P13
+   * @return a mx.gob.inmujeres.swb.TipoRespuesta
+   */
+    public mx.gob.inmujeres.swb.TipoRespuesta getP13()
     {
-        getSemanticObject().setProperty(inm_p13, value);
+         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_p13);
+         if(obj!=null)
+         {
+             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
@@ -2490,23 +1980,43 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
     {
         getSemanticObject().setIntProperty(inm_rI14, value);
     }
+   /**
+   * Sets the value for the property P12
+   * @param value P12 to set
+   */
 
-/**
-* Gets the P12 property
-* @return String with the P12
-*/
-    public String getP12()
+    public void setP12(mx.gob.inmujeres.swb.TipoRespuesta value)
     {
-        return getSemanticObject().getProperty(inm_p12);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(inm_p12, value.getSemanticObject());
+        }else
+        {
+            removeP12();
+        }
+    }
+   /**
+   * Remove the value for P12 property
+   */
+
+    public void removeP12()
+    {
+        getSemanticObject().removeProperty(inm_p12);
     }
 
-/**
-* Sets the P12 property
-* @param value long with the P12
-*/
-    public void setP12(String value)
+   /**
+   * Gets the P12
+   * @return a mx.gob.inmujeres.swb.TipoRespuesta
+   */
+    public mx.gob.inmujeres.swb.TipoRespuesta getP12()
     {
-        getSemanticObject().setProperty(inm_p12, value);
+         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_p12);
+         if(obj!=null)
+         {
+             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
@@ -2526,23 +2036,43 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
     {
         getSemanticObject().setIntProperty(inm_rI15, value);
     }
+   /**
+   * Sets the value for the property P11
+   * @param value P11 to set
+   */
 
-/**
-* Gets the P11 property
-* @return String with the P11
-*/
-    public String getP11()
+    public void setP11(mx.gob.inmujeres.swb.TipoRespuesta value)
     {
-        return getSemanticObject().getProperty(inm_p11);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(inm_p11, value.getSemanticObject());
+        }else
+        {
+            removeP11();
+        }
+    }
+   /**
+   * Remove the value for P11 property
+   */
+
+    public void removeP11()
+    {
+        getSemanticObject().removeProperty(inm_p11);
     }
 
-/**
-* Sets the P11 property
-* @param value long with the P11
-*/
-    public void setP11(String value)
+   /**
+   * Gets the P11
+   * @return a mx.gob.inmujeres.swb.TipoRespuesta
+   */
+    public mx.gob.inmujeres.swb.TipoRespuesta getP11()
     {
-        getSemanticObject().setProperty(inm_p11, value);
+         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_p11);
+         if(obj!=null)
+         {
+             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
@@ -2580,130 +2110,38 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
     {
         getSemanticObject().setIntProperty(inm_rI11, value);
     }
-
-/**
-* Gets the P19 property
-* @return String with the P19
-*/
-    public String getP19()
-    {
-        return getSemanticObject().getProperty(inm_p19);
-    }
-
-/**
-* Sets the P19 property
-* @param value long with the P19
-*/
-    public void setP19(String value)
-    {
-        getSemanticObject().setProperty(inm_p19, value);
-    }
-
-/**
-* Gets the P08 property
-* @return String with the P08
-*/
-    public String getP08()
-    {
-        return getSemanticObject().getProperty(inm_p08);
-    }
-
-/**
-* Sets the P08 property
-* @param value long with the P08
-*/
-    public void setP08(String value)
-    {
-        getSemanticObject().setProperty(inm_p08, value);
-    }
    /**
-   * Sets the value for the property R04
-   * @param value R04 to set
+   * Sets the value for the property P19
+   * @param value P19 to set
    */
 
-    public void setR04(mx.gob.inmujeres.swb.TipoRespuesta value)
+    public void setP19(mx.gob.inmujeres.swb.TipoRespuesta value)
     {
         if(value!=null)
         {
-            getSemanticObject().setObjectProperty(inm_r04, value.getSemanticObject());
+            getSemanticObject().setObjectProperty(inm_p19, value.getSemanticObject());
         }else
         {
-            removeR04();
+            removeP19();
         }
     }
    /**
-   * Remove the value for R04 property
+   * Remove the value for P19 property
    */
 
-    public void removeR04()
+    public void removeP19()
     {
-        getSemanticObject().removeProperty(inm_r04);
+        getSemanticObject().removeProperty(inm_p19);
     }
 
    /**
-   * Gets the R04
+   * Gets the P19
    * @return a mx.gob.inmujeres.swb.TipoRespuesta
    */
-    public mx.gob.inmujeres.swb.TipoRespuesta getR04()
+    public mx.gob.inmujeres.swb.TipoRespuesta getP19()
     {
          mx.gob.inmujeres.swb.TipoRespuesta ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_r04);
-         if(obj!=null)
-         {
-             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
-         }
-         return ret;
-    }
-
-/**
-* Gets the P09 property
-* @return String with the P09
-*/
-    public String getP09()
-    {
-        return getSemanticObject().getProperty(inm_p09);
-    }
-
-/**
-* Sets the P09 property
-* @param value long with the P09
-*/
-    public void setP09(String value)
-    {
-        getSemanticObject().setProperty(inm_p09, value);
-    }
-   /**
-   * Sets the value for the property R05
-   * @param value R05 to set
-   */
-
-    public void setR05(mx.gob.inmujeres.swb.TipoRespuesta value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(inm_r05, value.getSemanticObject());
-        }else
-        {
-            removeR05();
-        }
-    }
-   /**
-   * Remove the value for R05 property
-   */
-
-    public void removeR05()
-    {
-        getSemanticObject().removeProperty(inm_r05);
-    }
-
-   /**
-   * Gets the R05
-   * @return a mx.gob.inmujeres.swb.TipoRespuesta
-   */
-    public mx.gob.inmujeres.swb.TipoRespuesta getR05()
-    {
-         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_r05);
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_p19);
          if(obj!=null)
          {
              ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
@@ -2711,37 +2149,37 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
          return ret;
     }
    /**
-   * Sets the value for the property R02
-   * @param value R02 to set
+   * Sets the value for the property P08
+   * @param value P08 to set
    */
 
-    public void setR02(mx.gob.inmujeres.swb.TipoRespuesta value)
+    public void setP08(mx.gob.inmujeres.swb.TipoRespuesta value)
     {
         if(value!=null)
         {
-            getSemanticObject().setObjectProperty(inm_r02, value.getSemanticObject());
+            getSemanticObject().setObjectProperty(inm_p08, value.getSemanticObject());
         }else
         {
-            removeR02();
+            removeP08();
         }
     }
    /**
-   * Remove the value for R02 property
+   * Remove the value for P08 property
    */
 
-    public void removeR02()
+    public void removeP08()
     {
-        getSemanticObject().removeProperty(inm_r02);
+        getSemanticObject().removeProperty(inm_p08);
     }
 
    /**
-   * Gets the R02
+   * Gets the P08
    * @return a mx.gob.inmujeres.swb.TipoRespuesta
    */
-    public mx.gob.inmujeres.swb.TipoRespuesta getR02()
+    public mx.gob.inmujeres.swb.TipoRespuesta getP08()
     {
          mx.gob.inmujeres.swb.TipoRespuesta ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_r02);
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_p08);
          if(obj!=null)
          {
              ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
@@ -2749,37 +2187,37 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
          return ret;
     }
    /**
-   * Sets the value for the property R03
-   * @param value R03 to set
+   * Sets the value for the property P09
+   * @param value P09 to set
    */
 
-    public void setR03(mx.gob.inmujeres.swb.TipoRespuesta value)
+    public void setP09(mx.gob.inmujeres.swb.TipoRespuesta value)
     {
         if(value!=null)
         {
-            getSemanticObject().setObjectProperty(inm_r03, value.getSemanticObject());
+            getSemanticObject().setObjectProperty(inm_p09, value.getSemanticObject());
         }else
         {
-            removeR03();
+            removeP09();
         }
     }
    /**
-   * Remove the value for R03 property
+   * Remove the value for P09 property
    */
 
-    public void removeR03()
+    public void removeP09()
     {
-        getSemanticObject().removeProperty(inm_r03);
+        getSemanticObject().removeProperty(inm_p09);
     }
 
    /**
-   * Gets the R03
+   * Gets the P09
    * @return a mx.gob.inmujeres.swb.TipoRespuesta
    */
-    public mx.gob.inmujeres.swb.TipoRespuesta getR03()
+    public mx.gob.inmujeres.swb.TipoRespuesta getP09()
     {
          mx.gob.inmujeres.swb.TipoRespuesta ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_r03);
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_p09);
          if(obj!=null)
          {
              ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
@@ -2821,44 +2259,6 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
     public void setRI21(int value)
     {
         getSemanticObject().setIntProperty(inm_rI21, value);
-    }
-   /**
-   * Sets the value for the property R01
-   * @param value R01 to set
-   */
-
-    public void setR01(mx.gob.inmujeres.swb.TipoRespuesta value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(inm_r01, value.getSemanticObject());
-        }else
-        {
-            removeR01();
-        }
-    }
-   /**
-   * Remove the value for R01 property
-   */
-
-    public void removeR01()
-    {
-        getSemanticObject().removeProperty(inm_r01);
-    }
-
-   /**
-   * Gets the R01
-   * @return a mx.gob.inmujeres.swb.TipoRespuesta
-   */
-    public mx.gob.inmujeres.swb.TipoRespuesta getR01()
-    {
-         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_r01);
-         if(obj!=null)
-         {
-             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
-         }
-         return ret;
     }
 
 /**
@@ -2929,23 +2329,43 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
     {
         getSemanticObject().setIntProperty(inm_rI26, value);
     }
+   /**
+   * Sets the value for the property P01
+   * @param value P01 to set
+   */
 
-/**
-* Gets the P01 property
-* @return String with the P01
-*/
-    public String getP01()
+    public void setP01(mx.gob.inmujeres.swb.TipoRespuesta value)
     {
-        return getSemanticObject().getProperty(inm_p01);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(inm_p01, value.getSemanticObject());
+        }else
+        {
+            removeP01();
+        }
+    }
+   /**
+   * Remove the value for P01 property
+   */
+
+    public void removeP01()
+    {
+        getSemanticObject().removeProperty(inm_p01);
     }
 
-/**
-* Sets the P01 property
-* @param value long with the P01
-*/
-    public void setP01(String value)
+   /**
+   * Gets the P01
+   * @return a mx.gob.inmujeres.swb.TipoRespuesta
+   */
+    public mx.gob.inmujeres.swb.TipoRespuesta getP01()
     {
-        getSemanticObject().setProperty(inm_p01, value);
+         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_p01);
+         if(obj!=null)
+         {
+             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
@@ -2983,41 +2403,81 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
     {
         getSemanticObject().setIntProperty(inm_rI24, value);
     }
+   /**
+   * Sets the value for the property P02
+   * @param value P02 to set
+   */
 
-/**
-* Gets the P02 property
-* @return String with the P02
-*/
-    public String getP02()
+    public void setP02(mx.gob.inmujeres.swb.TipoRespuesta value)
     {
-        return getSemanticObject().getProperty(inm_p02);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(inm_p02, value.getSemanticObject());
+        }else
+        {
+            removeP02();
+        }
+    }
+   /**
+   * Remove the value for P02 property
+   */
+
+    public void removeP02()
+    {
+        getSemanticObject().removeProperty(inm_p02);
     }
 
-/**
-* Sets the P02 property
-* @param value long with the P02
-*/
-    public void setP02(String value)
+   /**
+   * Gets the P02
+   * @return a mx.gob.inmujeres.swb.TipoRespuesta
+   */
+    public mx.gob.inmujeres.swb.TipoRespuesta getP02()
     {
-        getSemanticObject().setProperty(inm_p02, value);
+         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_p02);
+         if(obj!=null)
+         {
+             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Sets the value for the property P03
+   * @param value P03 to set
+   */
+
+    public void setP03(mx.gob.inmujeres.swb.TipoRespuesta value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(inm_p03, value.getSemanticObject());
+        }else
+        {
+            removeP03();
+        }
+    }
+   /**
+   * Remove the value for P03 property
+   */
+
+    public void removeP03()
+    {
+        getSemanticObject().removeProperty(inm_p03);
     }
 
-/**
-* Gets the P03 property
-* @return String with the P03
-*/
-    public String getP03()
+   /**
+   * Gets the P03
+   * @return a mx.gob.inmujeres.swb.TipoRespuesta
+   */
+    public mx.gob.inmujeres.swb.TipoRespuesta getP03()
     {
-        return getSemanticObject().getProperty(inm_p03);
-    }
-
-/**
-* Sets the P03 property
-* @param value long with the P03
-*/
-    public void setP03(String value)
-    {
-        getSemanticObject().setProperty(inm_p03, value);
+         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_p03);
+         if(obj!=null)
+         {
+             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
@@ -3038,60 +2498,42 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
         getSemanticObject().setIntProperty(inm_rI23, value);
     }
    /**
-   * Sets the value for the property R08
-   * @param value R08 to set
+   * Sets the value for the property P04
+   * @param value P04 to set
    */
 
-    public void setR08(mx.gob.inmujeres.swb.TipoRespuesta value)
+    public void setP04(mx.gob.inmujeres.swb.TipoRespuesta value)
     {
         if(value!=null)
         {
-            getSemanticObject().setObjectProperty(inm_r08, value.getSemanticObject());
+            getSemanticObject().setObjectProperty(inm_p04, value.getSemanticObject());
         }else
         {
-            removeR08();
+            removeP04();
         }
     }
    /**
-   * Remove the value for R08 property
+   * Remove the value for P04 property
    */
 
-    public void removeR08()
+    public void removeP04()
     {
-        getSemanticObject().removeProperty(inm_r08);
+        getSemanticObject().removeProperty(inm_p04);
     }
 
    /**
-   * Gets the R08
+   * Gets the P04
    * @return a mx.gob.inmujeres.swb.TipoRespuesta
    */
-    public mx.gob.inmujeres.swb.TipoRespuesta getR08()
+    public mx.gob.inmujeres.swb.TipoRespuesta getP04()
     {
          mx.gob.inmujeres.swb.TipoRespuesta ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_r08);
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_p04);
          if(obj!=null)
          {
              ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
          }
          return ret;
-    }
-
-/**
-* Gets the P04 property
-* @return String with the P04
-*/
-    public String getP04()
-    {
-        return getSemanticObject().getProperty(inm_p04);
-    }
-
-/**
-* Sets the P04 property
-* @param value long with the P04
-*/
-    public void setP04(String value)
-    {
-        getSemanticObject().setProperty(inm_p04, value);
     }
 
 /**
@@ -3112,60 +2554,42 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
         getSemanticObject().setIntProperty(inm_rI29, value);
     }
    /**
-   * Sets the value for the property R09
-   * @param value R09 to set
+   * Sets the value for the property P05
+   * @param value P05 to set
    */
 
-    public void setR09(mx.gob.inmujeres.swb.TipoRespuesta value)
+    public void setP05(mx.gob.inmujeres.swb.TipoRespuesta value)
     {
         if(value!=null)
         {
-            getSemanticObject().setObjectProperty(inm_r09, value.getSemanticObject());
+            getSemanticObject().setObjectProperty(inm_p05, value.getSemanticObject());
         }else
         {
-            removeR09();
+            removeP05();
         }
     }
    /**
-   * Remove the value for R09 property
+   * Remove the value for P05 property
    */
 
-    public void removeR09()
+    public void removeP05()
     {
-        getSemanticObject().removeProperty(inm_r09);
+        getSemanticObject().removeProperty(inm_p05);
     }
 
    /**
-   * Gets the R09
+   * Gets the P05
    * @return a mx.gob.inmujeres.swb.TipoRespuesta
    */
-    public mx.gob.inmujeres.swb.TipoRespuesta getR09()
+    public mx.gob.inmujeres.swb.TipoRespuesta getP05()
     {
          mx.gob.inmujeres.swb.TipoRespuesta ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_r09);
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_p05);
          if(obj!=null)
          {
              ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
          }
          return ret;
-    }
-
-/**
-* Gets the P05 property
-* @return String with the P05
-*/
-    public String getP05()
-    {
-        return getSemanticObject().getProperty(inm_p05);
-    }
-
-/**
-* Sets the P05 property
-* @param value long with the P05
-*/
-    public void setP05(String value)
-    {
-        getSemanticObject().setProperty(inm_p05, value);
     }
 
 /**
@@ -3186,60 +2610,80 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
         getSemanticObject().setIntProperty(inm_rI28, value);
     }
    /**
-   * Sets the value for the property R06
-   * @param value R06 to set
+   * Sets the value for the property P06
+   * @param value P06 to set
    */
 
-    public void setR06(mx.gob.inmujeres.swb.TipoRespuesta value)
+    public void setP06(mx.gob.inmujeres.swb.TipoRespuesta value)
     {
         if(value!=null)
         {
-            getSemanticObject().setObjectProperty(inm_r06, value.getSemanticObject());
+            getSemanticObject().setObjectProperty(inm_p06, value.getSemanticObject());
         }else
         {
-            removeR06();
+            removeP06();
         }
     }
    /**
-   * Remove the value for R06 property
+   * Remove the value for P06 property
    */
 
-    public void removeR06()
+    public void removeP06()
     {
-        getSemanticObject().removeProperty(inm_r06);
+        getSemanticObject().removeProperty(inm_p06);
     }
 
    /**
-   * Gets the R06
+   * Gets the P06
    * @return a mx.gob.inmujeres.swb.TipoRespuesta
    */
-    public mx.gob.inmujeres.swb.TipoRespuesta getR06()
+    public mx.gob.inmujeres.swb.TipoRespuesta getP06()
     {
          mx.gob.inmujeres.swb.TipoRespuesta ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_r06);
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_p06);
          if(obj!=null)
          {
              ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
          }
          return ret;
     }
+   /**
+   * Sets the value for the property P07
+   * @param value P07 to set
+   */
 
-/**
-* Gets the P06 property
-* @return String with the P06
-*/
-    public String getP06()
+    public void setP07(mx.gob.inmujeres.swb.TipoRespuesta value)
     {
-        return getSemanticObject().getProperty(inm_p06);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(inm_p07, value.getSemanticObject());
+        }else
+        {
+            removeP07();
+        }
+    }
+   /**
+   * Remove the value for P07 property
+   */
+
+    public void removeP07()
+    {
+        getSemanticObject().removeProperty(inm_p07);
     }
 
-/**
-* Sets the P06 property
-* @param value long with the P06
-*/
-    public void setP06(String value)
+   /**
+   * Gets the P07
+   * @return a mx.gob.inmujeres.swb.TipoRespuesta
+   */
+    public mx.gob.inmujeres.swb.TipoRespuesta getP07()
     {
-        getSemanticObject().setProperty(inm_p06, value);
+         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_p07);
+         if(obj!=null)
+         {
+             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
@@ -3258,62 +2702,6 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
     public void setRI27(int value)
     {
         getSemanticObject().setIntProperty(inm_rI27, value);
-    }
-   /**
-   * Sets the value for the property R07
-   * @param value R07 to set
-   */
-
-    public void setR07(mx.gob.inmujeres.swb.TipoRespuesta value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(inm_r07, value.getSemanticObject());
-        }else
-        {
-            removeR07();
-        }
-    }
-   /**
-   * Remove the value for R07 property
-   */
-
-    public void removeR07()
-    {
-        getSemanticObject().removeProperty(inm_r07);
-    }
-
-   /**
-   * Gets the R07
-   * @return a mx.gob.inmujeres.swb.TipoRespuesta
-   */
-    public mx.gob.inmujeres.swb.TipoRespuesta getR07()
-    {
-         mx.gob.inmujeres.swb.TipoRespuesta ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_r07);
-         if(obj!=null)
-         {
-             ret=(mx.gob.inmujeres.swb.TipoRespuesta)obj.createGenericInstance();
-         }
-         return ret;
-    }
-
-/**
-* Gets the P07 property
-* @return String with the P07
-*/
-    public String getP07()
-    {
-        return getSemanticObject().getProperty(inm_p07);
-    }
-
-/**
-* Sets the P07 property
-* @param value long with the P07
-*/
-    public void setP07(String value)
-    {
-        getSemanticObject().setProperty(inm_p07, value);
     }
 
 /**
