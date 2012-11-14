@@ -570,10 +570,10 @@ System.out.println("2.fh="+fh);
             }
         }
         reset(next, today.get(Calendar.HOUR_OF_DAY), 59);
-        for(int m=h*60; m<1290; m+=30) {
-            html.append("\n<option value=\""+m+"\">"+HHmm.format(today.getTime())+"</option>");
+        for(int minute=h*60; minute<1290; minute+=30) {
+            html.append("\n<option value=\""+minute+"\">"+HHmm.format(today.getTime())+"</option>");
             today.add(Calendar.MINUTE, 30);
-            fh.append("\n<option value=\""+(m+59)+"\">"+HHmm.format(next.getTime()) +"</option>");
+            fh.append("\n<option value=\""+(minute+59)+"\">"+HHmm.format(next.getTime()) +"</option>");
             next.add(Calendar.MINUTE, 30);
         }
         html.append("\n  </select>");
@@ -732,11 +732,6 @@ System.out.println("2.fh="+fh);
     private void renderReservations(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setContentType("text/html; charset=utf-8");
         
-//Iterator<ApartadoSala> reservations = ApartadoSala.ClassMgr.listApartadoSalas((SWBModel)getSemanticObject().getModel().getModelObject().createGenericInstance());
-//while(reservations.hasNext()) {
-// reservations.next().remove();
-//}
-        
         Resource base = getResourceBase();
         User user = paramRequest.getUser();
         String lang = user.getLanguage();
@@ -763,7 +758,6 @@ System.out.println("2.fh="+fh);
                 salas.remove(sala);
         }
         out.println(getCalendar(request, paramRequest, locale));
-//        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         out.println("<table id=\"mainTableCal\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
         out.println("<thead>");
         out.println(" <tr class=\"trCalSalas\">");
@@ -787,9 +781,13 @@ System.out.println("2.fh="+fh);
             out.println("  <td rowspan=\"2\" class=\"theHoursCal\"><p>"+HHmm.format(today.getTime())+"</p></td>");
             for(Sala sala:salas) {
                 if(sala.isReservada(begin.getTime(), end.getTime()))
+                {
                     out.println("  <td class=\"x sltc trCal1\">&nbsp;</td>");
+                }
                 else
+                {
                     out.println("  <td class=\"sltc trCal1\">&nbsp;</td>");
+                }
             }
             out.println(" </tr>");
             out.println(" <tr>");
