@@ -109,19 +109,21 @@ public class ReservaSalaManager extends mx.gob.inmujeres.swb.resources.sem.base.
         response.setRenderParameter("fd", request.getParameter("fd"));
         response.setRenderParameter("sh", request.getParameter("sh"));
         response.setRenderParameter("fh", request.getParameter("fh"));
-        response.setRenderParameter("turnout", request.getParameter("turnout"));
-        response.setRenderParameter("tpmeet", request.getParameter("tpmeet"));
-        response.setRenderParameter("cfslb", request.getParameter("cfslb"));
+        response.setRenderParameter("toi", request.getParameter("toi"));
+        response.setRenderParameter("toa", request.getParameter("toa"));
         response.setRenderParameter("cfgrn", request.getParameter("cfgrn"));
         response.setRenderParameter("h2o", request.getParameter("h2o"));
-        response.setRenderParameter("sds", request.getParameter("sds"));
+        response.setRenderParameter("te", request.getParameter("te"));
         response.setRenderParameter("cks", request.getParameter("cks"));
-        response.setRenderParameter("tmsrvc", request.getParameter("tmsrvc"));
-        response.setRenderParameter("hrsrvc", request.getParameter("hrsrvc"));
+        response.setRenderParameter("osrv", request.getParameter("osrv"));
         response.setRenderParameter("mtv", request.getParameter("mtv"));
+        response.setRenderParameter("obs", request.getParameter("obs"));
+        response.setRenderParameter("rf", request.getParameter("rf"));
+        response.setRenderParameter("prsnf", request.getParameter("prsnf"));
+        response.setRenderParameter("snd", request.getParameter("snd"));
         response.setRenderParameter("prjctr", request.getParameter("prjctr"));
-        response.setRenderParameter("pcs", request.getParameter("pcs"));
-        response.setRenderParameter("osrvcs", request.getParameter("osrvcs"));
+        response.setRenderParameter("scr", request.getParameter("scr"));
+        response.setRenderParameter("os", request.getParameter("os"));
     }
     
     @Override
@@ -140,7 +142,7 @@ public class ReservaSalaManager extends mx.gob.inmujeres.swb.resources.sem.base.
             GregorianCalendar current = (GregorianCalendar)session.getAttribute("cur");
             
             Locale locale = new Locale(user.getLanguage(),(user.getCountry()==null?"MX":user.getCountry()));
-System.out.println("processAction....");
+System.out.println("---------------------------\nprocessAction....");
             Sala sala = null;
             try {
                 sala = Sala.ClassMgr.getSala(request.getParameter("sl"), model);
@@ -159,18 +161,21 @@ System.out.println("processAction....");
             try {
                 sh = Integer.parseInt(request.getParameter("sh"));
                 fh = Integer.parseInt(request.getParameter("fh"));
+System.out.println("1.sh="+sh);
+System.out.println("1.fh="+fh);                
             }catch(Exception e) {
                 response.setRenderParameter("alertmsg", response.getLocaleString("msgErrHourMismatch"));
                 setRenderParameter(request, response);
                 return;
             }
-
             fh += 30;
             if(fh-sh<MIN_TIME) {
                 response.setRenderParameter("alertmsg", response.getLocaleString("msgErrHourMismatch"));
                 setRenderParameter(request, response);
                 return;
             }
+System.out.println("2.sh="+sh);
+System.out.println("2.fh="+fh);
 
             GregorianCalendar csd = new GregorianCalendar(locale), cfd = null;
             try {
@@ -227,39 +232,33 @@ System.out.println("processAction....");
                 setRenderParameter(request, response);
                 return;
             }
-//            if(!sala.isReservada(csd, cfd)) {
-            ApartadoSala reservation = ApartadoSala.ClassMgr.createApartadoSala(model);
-            reservation.setSala(sala);
-            reservation.setFechaInicio(csd.getTime());
-            reservation.setFechaFin(cfd.getTime());
+            if(!sala.isReservada(csd, cfd)) {
+                ApartadoSala reservation = ApartadoSala.ClassMgr.createApartadoSala(model);
+                reservation.setSala(sala);
+                reservation.setFechaInicio(csd.getTime());
+                reservation.setFechaFin(cfd.getTime());
+                reservation.setTitle(mtv);
+                if(Montaje.ClassMgr.hasMontaje(request.getParameter("mnt"), model))
+                {
+                    reservation.setMontaje(Montaje.ClassMgr.getMontaje(request.getParameter("mnt"), model));
+                }
+                reservation.setParticipantesInmujeres(toi);
+                reservation.setParticipantesOtros(toa);
+                reservation.setRequiereAgua(request.getParameter("h2o")!=null);    
+                reservation.setRequiereCafe(request.getParameter("cfgrn")!=null);
+                reservation.setRequiereGalletas(request.getParameter("cks")!=null);
+                reservation.setRequiereTe(true);
+                reservation.setServicioAdicional(SWBUtils.XML.replaceXMLChars(request.getParameter("osrv")));
 
-//                reservation.setExtension("");
-//                reservation.setFolioSolicitud("");
-            reservation.setTitle(mtv);
-            if(Montaje.ClassMgr.hasMontaje(request.getParameter("mnt"), model))
-            {
-                reservation.setMontaje(Montaje.ClassMgr.getMontaje(request.getParameter("mnt"), model));
-            }
-            reservation.setObservaciones(request.getParameter("obs"));
-            reservation.setParticipantesInmujeres(toi);
-            reservation.setParticipantesOtros(toa);
-            reservation.setRequiereAgua(request.getParameter("h2o")!=null);    
-            reservation.setRequiereCafe(request.getParameter("cfgrn")!=null);
-            reservation.setRequiereGalletas(request.getParameter("cks")!=null);
-            reservation.setRequierePantalla(true);
-            reservation.setRequierePersonificadores(true);
-            reservation.setRequierePodium(true);
-            reservation.setRequiereProyector(request.getParameter("prjctr")!=null);
-            reservation.setRequiereRotafolio(true);
-            reservation.setRequiereSonido(true);
-            reservation.setRequiereTe(true);
-            reservation.setServicioAdicional("");
-//                reservation.setUnidadResponsable(null);
-//                reservation.setVoboJefeDirecto("");
-                //}
-                
+                reservation.setRequiereRotafolio(request.getParameter("rf")!=null);
+                reservation.setRequierePersonificadores(request.getParameter("prsnf")!=null);
+                reservation.setRequierePantalla(request.getParameter("snd")!=null);
+                reservation.setRequiereProyector(request.getParameter("prjctr")!=null);
+                reservation.setRequiereSonido(request.getParameter("scr")!=null);
+                reservation.setOtroApoyo(SWBUtils.XML.replaceXMLChars(request.getParameter("os"))); 
+                reservation.setObservaciones(SWBUtils.XML.replaceXMLChars(request.getParameter("obs")));   
                 response.setRenderParameter("alertmsg", response.getLocaleString("msgReservationDoneOk"));
-                
+
                 //Obtener la instancia de la tarea -inicia
                 FlowNodeInstance fni = getFlowNodeInstance(request.getParameter("suri"));
                 if (fni != null) {
@@ -272,11 +271,11 @@ System.out.println("processAction....");
                         response.sendRedirect(url);
                     }
                 }
-//            }else {
-//                response.setRenderParameter("alertmsg", response.getLocaleString("msgErrReservationMismatch"));
-//                setRenderParameter(request, response);
-//                return;
-//            }
+            }else {
+                response.setRenderParameter("alertmsg", response.getLocaleString("msgErrReservationMismatch"));
+                setRenderParameter(request, response);
+                return;
+            }
         }
     }
     
@@ -610,6 +609,7 @@ System.out.println("processAction....");
         html.append("   <li class=\"prjctr\"><input type=\"checkbox\" name=\"snd\" id=\"snd\" value=\"1\" "+(request.getParameter("snd")==null?"":"checked=\"checked\"")+" /><label for=\"rf\">Sonido</label></li>");
         html.append("   <li class=\"prjctr\"><input type=\"checkbox\" name=\"prjctr\" id=\"prjctr\" value=\"1\" "+(request.getParameter("prjctr")==null?"":"checked=\"checked\"")+" /><label for=\"prjctr\">Proyector</label></li>");
         html.append("   <li class=\"pcs\"><input type=\"checkbox\" name=\"scr\" id=\"scr\" value=\"1\" "+(request.getParameter("scr")==null?"":"checked=\"checked\"")+" /><label for=\"scr\">Pantalla</label></li>");
+        html.append("   <li class=\"pcs\"><label for=\"os\">Otro:</label><input type=\"text\" name=\"os\" id=\"os\" value=\""+(request.getParameter("os")==null?"":request.getParameter("os"))+"\" dojoType=\"dijit.form.ValidationTextBox\" required=\"false\" promptMessage=\"Otro apoyo requerido\" trim=\"true\" /></li>");
         html.append("  </ul>");        
         html.append(" </div>");
         html.append(" <div class=\"clear\">&nbsp;</div>");
@@ -620,8 +620,9 @@ System.out.println("processAction....");
         html.append("   <ul>");
         html.append("    <li class=\"cafe_cfgrn\"><input type=\"checkbox\" name=\"cfgrn\" id=\"cfgrn\" value=\"true\" "+(request.getParameter("cfgrn")==null?"":"checked=\"checked\"")+" /><label for=\"cfgrn\">Café</label></li>");
         html.append("    <li class=\"cafe_h2o\"><input type=\"checkbox\" name=\"h2o\" id=\"h2o\" value=\"true\" "+(request.getParameter("h2o")==null?"":"checked=\"checked\"")+" /><label for=\"h2o\">Agua</label></li>");
-        html.append("    <li class=\"cafe_sds\"><input type=\"checkbox\" name=\"te\" id=\"te\" value=\"true\" "+(request.getParameter("sds")==null?"":"checked=\"checked\"")+" /><label for=\"sds\">Té</label></li>");
+        html.append("    <li class=\"cafe_sds\"><input type=\"checkbox\" name=\"te\" id=\"te\" value=\"true\" "+(request.getParameter("te")==null?"":"checked=\"checked\"")+" /><label for=\"te\">Té</label></li>");
         html.append("    <li class=\"cafe_cks\"><input type=\"checkbox\" name=\"cks\" id=\"cks\" value=\"true\" "+(request.getParameter("cks")==null?"":"checked=\"checked\"")+" /><label for=\"cks\">Galletas</label></li>");
+        html.append("    <li class=\"cafe_cks\"><label for=\"osrv\">Otro servicio:</label><input type=\"text\" name=\"osrv\" id=\"osrv\" value=\""+(request.getParameter("osrv")==null?"":request.getParameter("osrv"))+"\" dojoType=\"dijit.form.ValidationTextBox\" required=\"false\" promptMessage=\"Otro servicio requerido\" trim=\"true\" /></li>");
         html.append("   </ul>");
         html.append("  </div>");
         html.append(" </div>");
@@ -1006,7 +1007,6 @@ System.out.println("processAction....");
         to.setRequiereGalletas(from.isRequiereGalletas());
         to.setRequierePantalla(from.isRequierePantalla());
         to.setRequierePersonificadores(from.isRequierePersonificadores());
-        to.setRequierePodium(from.isRequierePodium());
         to.setRequiereProyector(from.isRequiereProyector());
         to.setRequiereRotafolio(from.isRequiereRotafolio());
         to.setRequiereSonido(from.isRequiereSonido());
