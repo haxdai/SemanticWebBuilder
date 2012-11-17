@@ -142,7 +142,6 @@ public class ReservaSalaManager extends mx.gob.inmujeres.swb.resources.sem.base.
             GregorianCalendar current = (GregorianCalendar)session.getAttribute("cur");
             
             Locale locale = new Locale(user.getLanguage(),(user.getCountry()==null?"MX":user.getCountry()));
-System.out.println("---------------------------\nprocessAction....");
             Sala sala = null;
             try {
                 sala = Sala.ClassMgr.getSala(request.getParameter("sl"), model);
@@ -161,8 +160,6 @@ System.out.println("---------------------------\nprocessAction....");
             try {
                 sh = Integer.parseInt(request.getParameter("sh"));
                 fh = Integer.parseInt(request.getParameter("fh"));
-System.out.println("1.sh="+sh);
-System.out.println("1.fh="+fh);                
             }catch(Exception e) {
                 response.setRenderParameter("alertmsg", response.getLocaleString("msgErrHourMismatch"));
                 setRenderParameter(request, response);
@@ -174,8 +171,6 @@ System.out.println("1.fh="+fh);
                 setRenderParameter(request, response);
                 return;
             }
-System.out.println("2.sh="+sh);
-System.out.println("2.fh="+fh);
 
             GregorianCalendar csd = new GregorianCalendar(locale), cfd = null;
             try {
