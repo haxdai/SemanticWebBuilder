@@ -163,6 +163,9 @@ public class SWProfileManager extends GenericAdmResource {
             if(profile==null) {
                 profile = SWProfile.ClassMgr.createSWProfile(user.getId(), wsite);
             }
+            //out.println("creator="+profile.getCreator().getLogin());
+            //out.println("user="+user.getLogin());
+            //out.println("user.equals(profile.getCreator())="+user.equals(profile.getCreator()));
             if( user.equals(profile.getCreator()) ) {
                 final String urlLogout = SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+wsite.getId()+"/"+wsite.getHomePage().getId()+"/_lang/"+user.getLanguage();
                 final String pimg;
