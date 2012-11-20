@@ -165,6 +165,10 @@ public class IntranetLoginBrigde extends ExtUserRepInt
             profile = SWProfile.ClassMgr.createSWProfile(ru.getId(), parentWebSite);
             profile.setCreator(ru);
         }
+        else
+        {
+            profile.setCreator(ru);
+        }
         // debe agregar los campos restantes
 
         /**
