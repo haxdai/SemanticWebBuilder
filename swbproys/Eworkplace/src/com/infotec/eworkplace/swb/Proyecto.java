@@ -1,6 +1,6 @@
 package com.infotec.eworkplace.swb;
 
-import com.infotec.cvi.swb.util.ProjectInformation;
+import com.infotec.rh.syr.reports.utils.ProjectInformation;
 
 
 public class Proyecto extends com.infotec.eworkplace.swb.base.ProyectoBase 
