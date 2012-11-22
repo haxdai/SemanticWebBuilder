@@ -87,7 +87,10 @@ public class Services
         this.seekField = props.getProperty("seekField", "sAmAccountName");
         try
         {
-            URL url=new URL(props.getProperty("url"));
+            String _url=props.getProperty("url");
+            log.error("url: "+_url);
+            _url=_url.replace("ldap", "http");
+            URL url=new URL(_url);
             HOST=url.getHost();
 
         }
@@ -1025,7 +1028,7 @@ public class Services
     {
 
 
-        int value2 = Integer.parseInt("01");
+        
         Services s = new Services();
 
         UserInformation userInformation = new UserInformation();
