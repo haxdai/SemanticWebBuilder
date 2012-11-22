@@ -41,7 +41,7 @@ import org.semanticwb.model.WebSite;
 public class Services
 {
 
-    private static final String HOST = "192.168.105.126";
+    private static String HOST = "192.168.105.126";
     private static final String PASSWORD = "123456";
     private static final int PORT = 389;
     public static final EnumMap<FIELD, String> names = new EnumMap(FIELD.class);
@@ -85,7 +85,16 @@ public class Services
         props = SWBUtils.TEXT.getPropertyFile("/genericLDAP.properties");
         this.userObjectClass = props.getProperty("userObjectClass", "person");
         this.seekField = props.getProperty("seekField", "sAmAccountName");
+        try
+        {
+            URL url=new URL(props.getProperty("url"));
+            HOST=url.getHost();
 
+        }
+        catch(Exception e)
+        {
+
+        }
     }
 
     public static String getName(FIELD field)
