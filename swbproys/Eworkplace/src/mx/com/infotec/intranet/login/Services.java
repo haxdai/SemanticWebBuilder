@@ -43,7 +43,7 @@ public class Services
 
     private static String HOST = "192.168.105.126";
     private static final String PASSWORD = "123456";
-    private static final int PORT = 389;
+    private static int PORT = 389;
     public static final EnumMap<FIELD, String> names = new EnumMap(FIELD.class);
     static Logger log = SWBUtils.getLogger(Services.class);
     private static final String BASE = "DC=wininfotec,DC=com,DC=mx";
@@ -82,22 +82,23 @@ public class Services
 
     public Services()
     {
-        props = SWBUtils.TEXT.getPropertyFile("/genericLDAP.properties");
-        this.userObjectClass = props.getProperty("userObjectClass", "person");
-        this.seekField = props.getProperty("seekField", "sAmAccountName");
-        try
-        {
-            String _url=props.getProperty("url");
-            log.error("url: "+_url);
-            _url=_url.replace("ldap", "http");
-            URL url=new URL(_url);
-            HOST=url.getHost();
-
-        }
-        catch(Exception e)
-        {
-            log.error(e);
-        }
+//        props = SWBUtils.TEXT.getPropertyFile("/genericLDAP.properties");
+//        this.userObjectClass = props.getProperty("userObjectClass", "person");
+//        this.seekField = props.getProperty("seekField", "sAmAccountName");
+//        try
+//        {
+//            String _url=props.getProperty("url");
+//            log.error("url: "+_url);
+//            _url=_url.replace("ldap", "http");
+//            URL url=new URL(_url);
+//            HOST=url.getHost();
+//
+//        }
+//        catch(Exception e)
+//        {
+//            log.error(e);
+//        }
+        this("/genericLDAP.properties");
     }
 
     public Services(String pathProperties)
@@ -112,6 +113,11 @@ public class Services
             _url=_url.replace("ldap", "http");
             URL url=new URL(_url);
             HOST=url.getHost();
+            int port=url.getPort();
+            if(port!=-1)
+            {
+                PORT=port;
+            }
 
         }
         catch(Exception e)
