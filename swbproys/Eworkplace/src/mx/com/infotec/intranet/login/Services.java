@@ -93,7 +93,7 @@ public class Services
         }
         catch(Exception e)
         {
-
+            log.error(e);
         }
     }
 
