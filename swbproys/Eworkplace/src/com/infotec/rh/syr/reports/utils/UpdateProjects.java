@@ -25,7 +25,7 @@ import org.semanticwb.model.WebSite;
  */
 public class UpdateProjects {
     private static Logger log = SWBUtils.getLogger(UpdateProjects.class);
-    private String update;
+    private String updateSqlStmt;
     private String dbConnectionPoolName;
     private WebSite wsite;
     
@@ -33,11 +33,11 @@ public class UpdateProjects {
         this(wsiteId, null, null);
     }
     
-    public UpdateProjects(String wsiteId, String update) throws Exception {
-        this(wsiteId, update, null);
+    public UpdateProjects(String wsiteId, String updateSqlStmt) throws Exception {
+        this(wsiteId, updateSqlStmt, null);
     }
     
-    public UpdateProjects(String wsiteId, String update, String dbConnectionPoolName) throws Exception {
+    public UpdateProjects(String wsiteId, String updateSqlStmt, String dbConnectionPoolName) throws Exception {
         wsite = WebSite.ClassMgr.getWebSite(wsiteId);
         if(wsite == null) {
             throw new Exception("WebSite with Id:"+wsiteId+" is invalid");
@@ -52,12 +52,12 @@ public class UpdateProjects {
         query.append(",CONVERT(varchar,proj.ProjectFinishDate,103) as fecha_Fin ");
         query.append("FROM ProjectServer_Reporting_4.dbo.MSP_EpmProject_UserView AS proj ");
         query.append("order by proj.[ID. Proyecto] ");
-        this.update = update==null?query.toString():update;
+        this.updateSqlStmt = updateSqlStmt==null?query.toString():updateSqlStmt;
         this.dbConnectionPoolName = dbConnectionPoolName==null?"ps":dbConnectionPoolName;
     }
     
     public String getUpdate() {
-        return update;
+        return updateSqlStmt;
     }
     
     private List<ProjectInformation> listFromProjectServer() throws Exception {
@@ -79,7 +79,7 @@ public class UpdateProjects {
             if(stmt==null) {
                 throw new Exception("Statement null");
             }            
-            rs = stmt.executeQuery(update);
+            rs = stmt.executeQuery(updateSqlStmt);
             ProjectInformation proyInfo;
             Date vigencia;
             while (rs.next()) {

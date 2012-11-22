@@ -95,10 +95,10 @@ public abstract class NumberToLetterConverter {
         // Descompone el ultimo trio de unidades
         int cientos = Integer.parseInt(String.valueOf(getDigitAt( splitNumber[0], 2)) + String.valueOf(getDigitAt(splitNumber[0], 1)) + String.valueOf(getDigitAt(splitNumber[0], 0)));
         if (cientos == 1)
-            converted.append("UN");
+            converted.append("UN ");
 
         if (millon + miles + cientos == 0)
-            converted.append("CERO");
+            converted.append("CERO ");
         if (cientos > 1)
             converted.append(convertNumber(String.valueOf(cientos)));
 
@@ -167,10 +167,10 @@ public abstract class NumberToLetterConverter {
         // Descompone el ultimo trio de unidades
         int cientos = Integer.parseInt(String.valueOf(getDigitAt( splitNumber[0], 2)) + String.valueOf(getDigitAt(splitNumber[0], 1)) + String.valueOf(getDigitAt(splitNumber[0], 0)));
         if (cientos == 1)
-            converted.append("UN");
+            converted.append("UN ");
 
         if (millon + miles + cientos == 0)
-            converted.append("CERO");
+            converted.append("CERO ");
         if (cientos > 1)
             converted.append(convertNumber(String.valueOf(cientos)));
 
@@ -240,10 +240,10 @@ public abstract class NumberToLetterConverter {
         // Descompone el ultimo trio de unidades
         int cientos = Integer.parseInt(String.valueOf(getDigitAt( splitNumber[0], 2)) + String.valueOf(getDigitAt(splitNumber[0], 1)) + String.valueOf(getDigitAt(splitNumber[0], 0)));
         if (cientos == 1)
-            converted.append("UN");
+            converted.append("UN ");
 
         if (millon + miles + cientos == 0)
-            converted.append("CERO");
+            converted.append("CERO ");
         if (cientos > 1)
             converted.append(convertNumber(String.valueOf(cientos)));
 
