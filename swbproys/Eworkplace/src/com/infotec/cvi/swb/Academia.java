@@ -14,7 +14,7 @@ public class Academia extends com.infotec.cvi.swb.base.AcademiaBase
     }
         
     public String getDisciplina() {
-        String disciplina = "Sin estudios";
+        String disciplina = "no aplica";
                     
         TreeMap<Integer, SWBClass> estudios = new TreeMap();
         
@@ -41,29 +41,19 @@ public class Academia extends com.infotec.cvi.swb.base.AcademiaBase
                 GradoAcademico obj = (GradoAcademico)itso.next();
                 estudios.put(obj.getGrado().getIndex()+obj.getSituacionAcademica().getIndex(),obj);
             }
-            SWBClass swbclass = estudios.get(estudios.lastKey());
-            GradoAcademico obj = (GradoAcademico)swbclass;
-            disciplina = obj.getCarrera().getAreaCarrera().getTitle();
+            try {
+                SWBClass swbclass = estudios.get(estudios.lastKey());
+                GradoAcademico obj = (GradoAcademico)swbclass;
+                disciplina = obj.getCarrera().getAreaCarrera().getTitle();
+            }catch(NoSuchElementException nse) {
+            }catch(Exception e) {
+            }
             return disciplina;
         }
         return disciplina;
-        
-//        try
-//        {
-//            SWBClass swbclass = estudios.get(estudios.lastKey());
-//            if( swbclass instanceof EstudioSuperior )
-//            {
-//                EstudioSuperior obj = (EstudioSuperior)swbclass;
-//                maxNivelEstudios = obj.getOtroEstudio()==null ? obj.getEstudiosSuperiores().getAreaEstudio().getTitle()+" "+obj.getEstudiosSuperiores().getTitle() : obj.getOtroEstudio(); 
-//            }else if( swbclass instanceof GradoAcademico )
-//            {
-//                GradoAcademico obj = (GradoAcademico)swbclass;
-//                maxNivelEstudios = obj.getCarrera().getTitle();
-//            }
 //        }catch(NoSuchElementException nse)
 //        {
 //        }catch(Exception e){}
-//        return maxNivelEstudios;
     }
     
     public String getMaxNivelEstudios() {
