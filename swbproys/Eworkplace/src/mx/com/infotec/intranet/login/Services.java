@@ -42,7 +42,7 @@ public class Services
 {
 
     private static String HOST = "192.168.105.126";
-    private static final String PASSWORD = "123456";
+    private static String PASSWORD = "123456";
     private static int PORT = 389;
     public static final EnumMap<FIELD, String> names = new EnumMap(FIELD.class);
     static Logger log = SWBUtils.getLogger(Services.class);
@@ -106,6 +106,7 @@ public class Services
         props = SWBUtils.TEXT.getPropertyFile(pathProperties);
         this.userObjectClass = props.getProperty("userObjectClass", "person");
         this.seekField = props.getProperty("seekField", "sAmAccountName");
+        this.PASSWORD=props.getProperty("credential");
         try
         {
             String _url=props.getProperty("url");
@@ -160,6 +161,48 @@ public class Services
         {
             throw new ServiceException("El rfc ya existe: " + login, login);
         }
+    }
+
+    private Integer getNumArea(String token) throws ServiceException
+    {
+        Integer lastNumber=null;
+        if (token.startsWith("OU="))
+        {
+            String OU = token.substring(3).trim();
+            DirContext dir = null;
+            try
+            {
+                String cnOU = getCNOU(OU) + "," + props.getProperty("base", "");
+                dir = AuthenticateLP();
+                Attribute att = dir.getAttributes(cnOU).get("description");
+                if (att != null)
+                {
+                    Object value = att.get();
+                    if (value != null)
+                    {
+                        lastNumber = Integer.parseInt(value.toString());
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new ServiceException("No se puede obtener atributos de OU : " + OU, e);
+            } finally
+            {
+                if (dir != null)
+                {
+                    try
+                    {
+                        dir.close();
+                    }
+                    catch (Exception e)
+                    {
+                        log.error(e);
+                    }
+                }
+            }
+        }
+        return lastNumber;
     }
 
     private String getUserDN(String username, String ou)
@@ -1059,16 +1102,14 @@ public class Services
 
         UserInformation userInformation = new UserInformation();
 
-        String login = "sergio.carrera";
+        String login = "luis.valeriano";
 
         try
         {
-            String ext = s.getNoExtension(login);
-            s.getAdscripciones("jose.tamayo");
-            s.getAdscripciones();
+            Integer area = s.getAreaAdscripcion(login);
+            System.out.println("area: "+area);
 
-            Integer value = s.getAreaAdscripcion("jose.tamayo");
-            System.out.println("area: " + value);
+            
         }
         catch (Exception e)
         {
@@ -1389,7 +1430,8 @@ public class Services
     {
         Hashtable env = new Hashtable();
         env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
-        env.put(Context.PROVIDER_URL, props.getProperty("url", "ldap://" + HOST + ":" + PORT));
+        String ip=props.getProperty("url", "ldap://" + HOST + ":" + PORT);
+        env.put(Context.PROVIDER_URL, ip);
         env.put(Context.SECURITY_AUTHENTICATION, "simple");
         String cn = getCNFromLogin(login);
         env.put(Context.SECURITY_PRINCIPAL, cn); // specify the username
@@ -1466,8 +1508,9 @@ public class Services
     {
         Hashtable env = new Hashtable();
         env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
+        String url=props.getProperty("url", "ldap://" + HOST + ":" + PORT);
         //env.put(Context.PROVIDER_URL, props.getProperty("url", "ldap://" + HOST + ":" + PORT));
-        env.put(Context.PROVIDER_URL, props.getProperty("url", "ldap://" + HOST + ":" + PORT));
+        env.put(Context.PROVIDER_URL, url);
         env.put(Context.SECURITY_AUTHENTICATION, "simple");
         env.put(Context.SECURITY_PRINCIPAL, props.getProperty("principal", PRINCIPAL)); // specify the username
         env.put(Context.SECURITY_CREDENTIALS, props.getProperty("password", PASSWORD));
@@ -1859,42 +1902,10 @@ public class Services
             while (st.hasMoreTokens())
             {
                 String token = st.nextToken();
-                if (token.startsWith("OU="))
+                lastNumber = getNumArea(token);
+                if(lastNumber!=null)
                 {
-                    String OU = token.substring(3).trim();
-                    DirContext dir = null;
-                    try
-                    {
-                        String cnOU = getCNOU(OU) + "," + props.getProperty("base", "");
-
-                        dir = AuthenticateLP();
-                        Attribute att = dir.getAttributes(cnOU).get("description");
-                        if (att != null)
-                        {
-                            Object value = att.get();
-                            if (value != null)
-                            {
-                                lastNumber = Integer.parseInt(value.toString());
-                            }
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        throw new ServiceException("No se puede obtener atributos de OU : " + OU, e);
-                    } finally
-                    {
-                        if (dir != null)
-                        {
-                            try
-                            {
-                                dir.close();
-                            }
-                            catch (Exception e)
-                            {
-                                log.error(e);
-                            }
-                        }
-                    }
+                    return lastNumber;
                 }
             }
         }
