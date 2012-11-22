@@ -100,6 +100,26 @@ public class Services
         }
     }
 
+    public Services(String pathProperties)
+    {
+        props = SWBUtils.TEXT.getPropertyFile(pathProperties);
+        this.userObjectClass = props.getProperty("userObjectClass", "person");
+        this.seekField = props.getProperty("seekField", "sAmAccountName");
+        try
+        {
+            String _url=props.getProperty("url");
+            log.error("url: "+_url);
+            _url=_url.replace("ldap", "http");
+            URL url=new URL(_url);
+            HOST=url.getHost();
+
+        }
+        catch(Exception e)
+        {
+            log.error(e);
+        }
+    }
+
     public static String getName(FIELD field)
     {
         if (names.containsKey(field))
