@@ -14,8 +14,15 @@ import com.infotec.cvi.swb.Grado;
 import com.infotec.cvi.swb.GradoAcademico;
 import com.infotec.cvi.swb.SolicitudRecurso;
 import com.infotec.cvi.swb.TipoEstudio;
+import com.infotec.rh.syr.reports.utils.DateArithmetic;
+import com.infotec.rh.syr.reports.utils.NumberToLetterConverter;
 import com.infotec.rh.syr.swb.Contrato;
 import com.infotec.rh.syr.swb.SeguimientoSolicitudRecurso;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.NumberFormat;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.SWBComparator;
 import org.semanticwb.model.User;
@@ -28,171 +35,152 @@ import mx.com.infotec.intranet.login.UserInformation;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
+import org.semanticwb.Logger;
 
 public class Report {
+    private static Logger log = SWBUtils.getLogger(Report.class);
+    
     Instance instance;
-    User solicitante;
-    CV cv;
+    User candidato;
     SolicitudRecurso solicitud;
     SeguimientoSolicitudRecurso seguimiento;
     Contrato contrato;
-    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat MM = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat MMM = new SimpleDateFormat("dd/MMM/yyyy");
+    SimpleDateFormat MMMM = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy");
+    NumberFormat currency = NumberFormat.getCurrencyInstance(Locale.getAvailableLocales()[53]); // "es_MX"
     WebSite webSite;
     UserInformation userInfo;
+    Services service;
     
-    public Report(final Instance instance, final SeguimientoSolicitudRecurso seguimiento, final Contrato contrato) throws Exception
+    public Report(final Instance instance) throws Exception
     {
+        webSite = instance.getProcessInstance().getProcessType().getProcessWebPage().getWebSite();
+        service = new Services();
+    }
+    
+    public boolean exportToFile(final SeguimientoSolicitudRecurso seguimiento, final Contrato contrato) throws Exception {
         this.seguimiento = seguimiento;
-        this.solicitud = seguimiento.getSolicitudRecurso();
+        solicitud = seguimiento.getSolicitudRecurso();
         this.contrato = contrato;
-        solicitante = solicitud.getCandidatoSeleccionado();
-        cv = CV.ClassMgr.getCV(solicitante.getId(), instance.getProcessInstance().getProcessType().getProcessWebPage().getWebSite());
-        Services s = new Services();
-        userInfo = s.getUserInformation(solicitante.getLogin());
-    }
-    
-    public String getFechaRecepcionSolicitud() {
-        return sdf.format(seguimiento.getFechaRecepcionSolicitud());
-    }
-    
-    public String getFolioMemo() {
-        return solicitud.getFolio();
-    }
-    
-    public String getArea() {
-        return "";//solicitud.getProyectoAsignado().getAreaDelProyecto();
-    }
-    
-    public String getTipoContratacion() {
-        return solicitud.getContratacion().getTitle();
-    }
-    
-    public String getObservaciones() {
-        return contrato.getObservacionesContrato();
-    }
-    
-    public String getFolioContrato() {
-        return contrato.getFolioContrato();
-    }
-    
-    public String getReferenciaContratacion() {
-        return contrato.getReferenciaContratacion();
-    }
-    
-    public String getEstatusContrato() {
-        return contrato.getEstatusContrato();
-    }
-    
-    public int getNumeroEmpleado() {
-        return contrato.getNumEmpleado();
-    }
-    
-    public String getNombreCompleto() {
-        return solicitante.getFullName();
-    }
-    
-    public String getRFC() {
-        return userInfo.getRFC();
-    }
-    
-    public String getCURP() {
-        return userInfo.getCURP();
-    }
-    
-    public String getConstanciaEstudios() {
-        return this.contrato.getDocumentosPresentados();
-    }
-    
-    public String getMaxNivelEstudios() {
-        String maxNivelEstudios = "--";
+        candidato = solicitud.getCandidato();
+        CV cv = CV.ClassMgr.getCV(candidato.getId(), webSite);
+        //userInfo = service.getUserInformation(candidato.getLogin());
         
-        List sortables = new ArrayList();
-        Iterator itso = cv.getAcademia().listEstudioSuperiors();
-        while(itso.hasNext())
-        {
-            EstudioSuperior obj = (EstudioSuperior)itso.next();        
-            sortables.add(obj.getEstudiosSuperiores().getAreaEstudio().getDisciplinaInv().getTipoEstudioInv());            
+        StringBuilder info = new StringBuilder();
+        info.append(MMM.format(solicitud.getFechaInicioContrato()));
+        info.append(MMM.format(seguimiento.getFechaRecepcionSolicitud()));
+        info.append(solicitud.getFolio());
+        info.append(solicitud.getAdscripcionSolicitante());
+        info.append(solicitud.getContratacion().getTitle());
+        info.append(contrato.getObservacionesContrato());
+        info.append(contrato.getFolioContrato());
+        info.append(contrato.getReferenciaContratacion());
+        info.append(contrato.getEstatusContrato());
+        info.append(contrato.getNumEmpleado());
+        info.append(candidato.getFullName());
+        info.append(contrato.getRFC());
+        info.append(cv.getPersona().getCurp());
+        info.append(contrato.getDocumentosPresentados());
+        info.append(cv.getAcademia().getMaxNivelEstudios());
+        info.append(cv.getAcademia().getDisciplina());
+        info.append(cv.getAcademia().getCarrera());
+        info.append(cv.getPersona().getDomicilio().toString());
+        info.append(contrato.getClabeInterbancaria());
+        info.append(contrato.getBanco().getTitle());
+        info.append(contrato.getSeguridadSocial());
+        info.append(MMMM.format(solicitud.getFechaInicioContrato()));
+        info.append(MMMM.format(solicitud.getFechaFinContrato()));
+        int rangeMonths = DateArithmetic.rangeOfMonthsBetweenDates(solicitud.getFechaInicioContrato(), solicitud.getFechaFinContrato());
+        info.append(rangeMonths);
+        info.append(NumberToLetterConverter.convertNumberToLetter(rangeMonths));
+        info.append(MMM.format(solicitud.getFechaInicioContrato()));
+        info.append(",");
+        info.append(",");
+        info.append(contrato.getNumeroPagos());
+        info.append(contrato.getPeriodoPagos().getTitle());
+        info.append(currency.format(solicitud.getSueldoBruto()));
+        info.append(NumberToLetterConverter.convertNumberToLetter(solicitud.getSueldoBruto(), "Pesos", "Centavos"));
+        info.append(",");
+        float pagoTotal = contrato.getNumeroPagos()*solicitud.getSueldoBruto();
+        info.append(currency.format(pagoTotal));
+        info.append(NumberToLetterConverter.convertNumberToLetter(pagoTotal, "Pesos", "Centavos"));
+        info.append(contrato.getSedeRecurso().getTitle());
+        info.append(solicitud.getProyectoAsignado().getNumeroProyecto());
+        info.append(solicitud.getProyectoAsignado().getTitle());
+        info.append(solicitud.getProyectoAsignado().getTitle());
+        info.append("to do");
+        info.append(solicitud.getAdscripcionSolicitante());
+        info.append(solicitud.getAutoriza());
+        info.append(contrato.getCargoAutorizasolicitudContrato());
+        info.append(solicitud.getSolicitante().getFullName());
+        info.append(solicitud.getCapituloSuficiencia().getTitle());
+        info.append(contrato.isPresentaDeclaracion()?"Si":"No");
+        info.append(",");
+        info.append(",");
+        info.append(",");
+        info.append(contrato.getFileConstanciaSFP());
+        info.append(",");
+        info.append(",");
+        info.append(solicitud.getFuncionPrincipal());
+        info.append(solicitud.getContratacion().getTitle());
+        info.append(solicitud.getContratacion().getTitle());
+        info.append(candidato.getLastName());
+        info.append(candidato.getSecondLastName());
+        info.append(candidato.getFirstName());
+        info.append(contrato.getRFC().substring(0, 11));
+        info.append(",");
+        info.append(MM.format(cv.getPersona().getNacimiento()));
+        info.append(DateArithmetic.getYear(cv.getPersona().getNacimiento()));
+        info.append(DateArithmetic.rangeOfYearsBetweenDates(cv.getPersona().getNacimiento(), new Date()));
+        info.append(cv.getPersona().isGenero()?"H":"M");
+        info.append(cv.getPersona().isGenero()?"El":"La");
+        info.append(cv.getPersona().getEstadoNacimiento().getTitle());
+        info.append(cv.getPersona().getLugarNacimiento().getTitle());
+        info.append(cv.getPersona().getNacionalidad().getTitle());
+        info.append(MMMM.format(contrato.getFechaEntregaRH()));
+        try {
+            write(info.toString());
+            return true;
+        }catch(Exception e) {
+            log.error(e);
+            return false;
         }
-        itso = cv.getAcademia().listGradoAcademicos();
-        while(itso.hasNext())
+    }
+    
+    private boolean write(final String info) throws Exception {
+        boolean res = false;
+        BufferedWriter bfw = null;
+        final String path = SWBUtils.getApplicationPath()+"/work/models/"+instance.getProcessInstance().getProcessType().getProcessWebPage().getWebSiteId()+"/data/procesos/contratos/"+contrato.getId()+".csv";
+        try
         {
-            GradoAcademico obj = (GradoAcademico)itso.next();
-            sortables.add(obj.getGrado());
+            File fichero = new File(path);
+            FileWriter fstream = new FileWriter(fichero);
+            bfw = new BufferedWriter(fstream);
+            bfw.write(info);
+            res = true;
         }
-        itso = SWBComparator.sortSortableObject(sortables.iterator());
-        sortables = SWBUtils.Collections.copyIterator(itso);
-        Collections.reverse(sortables);
-        if(!sortables.isEmpty())
+        /*catch (Exception e)
         {
-            if( sortables.get(0) instanceof TipoEstudio )
+            System.err.println("Error: " + e.getMessage());
+            log.error(e);
+        }*/      
+        finally
+        {
+            if(bfw!=null)
             {
-                maxNivelEstudios = ((TipoEstudio)sortables.get(0)).getTitle();
+                try {
+                    bfw.close();
+                }catch(IOException ioe) {
+                }
             }
-            else if( sortables.get(0) instanceof Grado )
-            {
-                maxNivelEstudios = ((Grado)sortables.get(0)).getTitle();
-            }
+            bfw = null;
         }
-        
-                
-        /*List sorables = new ArrayList();
-        Iterator itso = webSite.getSemanticModel().listInstancesOfClass(Sortable.swb_Sortable);
-        Sortable sortable;
-        GenericObject gobj;
-        while(itso.hasNext()) {
-            SemanticObject sobj = (SemanticObject)itso.next();        
-            gobj = sobj.getGenericInstance();
-            if( gobj instanceof Grado || gobj instanceof TipoEstudio) {
-                sortable = (Sortable)gobj;
-                System.out.println("sortable="+sortable);
-                sortables.add(sortable);
-            }
-        }
-        itso = SWBComparator.sortSortableObject(sortables.iterator());
-        sortables = SWBUtils.Collections.copyIterator(itso);
-        if(!sortables.isEmpty())
-            maxNivelEstudios = ((Catalogo)sortables.get(sortables.size()-1)).getTitle();*/
-        return maxNivelEstudios;
-    }
-    
-    public String getConocimientos() {
-        StringBuilder conocimientos = new StringBuilder();
-        Iterator<EstudioSuperior> it = cv.getAcademia().listEstudioSuperiors();
-        while(it.hasNext())
-        {
-            EstudioSuperior es = it.next();
-            conocimientos.append(es.getEstudiosSuperiores().getAreaEstudio().getDisciplinaInv().getTitle());
-            conocimientos.append(" ");
-            conocimientos.append(es.getEstudiosSuperiores().getAreaEstudio().getTitle());
-            conocimientos.append(" ");
-        }
-        return conocimientos.toString();
-    }
-    
-    public String getProfesion() {
-        StringBuilder profesion = new StringBuilder();
-        Iterator<GradoAcademico> it = cv.getAcademia().listGradoAcademicos();
-        while(it.hasNext())
-        {
-            GradoAcademico ga = it.next();
-            profesion.append(ga.getCarrera().getTitle());
-            profesion.append(" ");
-        }
-        return profesion.toString();
-    }
-    
-    int getCveInterbancaria() {
-        return this.contrato.getClabeInterbancaria();
-    }
-    
-    String getBanco() {
-        return this.contrato.getBanco().getTitle();
-    }
-    
-    String getNSS() {
-        return "NSS";
+        return res;
     }
 }
 

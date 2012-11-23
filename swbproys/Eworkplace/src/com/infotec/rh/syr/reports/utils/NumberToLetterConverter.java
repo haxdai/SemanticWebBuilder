@@ -247,15 +247,18 @@ public abstract class NumberToLetterConverter {
         if (cientos > 1)
             converted.append(convertNumber(String.valueOf(cientos)));
 
-        converted.append(" PESOS");
+        //converted.append(" PESOS");
 
         // Descompone los centavos
         int centavos = Integer.parseInt(String.valueOf(getDigitAt( splitNumber[1], 2)) + String.valueOf(getDigitAt(splitNumber[1], 1)) + String.valueOf(getDigitAt(splitNumber[1], 0)));
-        if (centavos == 1)
-            converted.append(" CON UN CENTAVO");
-        else if (centavos > 1)
-            converted.append(" CON " + convertNumber(String.valueOf(centavos)) + "CENTAVOS");
-
+        if (centavos == 1) {
+            //converted.append(" CON UN CENTAVO");
+            converted.append(" CON UN CENTESIMO");
+        }
+        else if (centavos > 1) {
+            //converted.append(" CON " + convertNumber(String.valueOf(centavos)) + "CENTAVOS");
+            converted.append(" CON " + convertNumber(String.valueOf(centavos)) + "DECIMALES");
+        }
         return converted.toString();
     }
 
