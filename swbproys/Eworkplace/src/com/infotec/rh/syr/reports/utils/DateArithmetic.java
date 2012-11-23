@@ -15,7 +15,7 @@ import java.util.Locale;
  */
 public class DateArithmetic {
     
-    public static int RangeOfMonthsBetweenDates(Date start, Date end)
+    public static int rangeOfMonthsBetweenDates(Date start, Date end)
     {
         GregorianCalendar ci = new GregorianCalendar();
         ci.setTime(start);
@@ -27,7 +27,18 @@ public class DateArithmetic {
         return rango;
     }
     
-    public static int RangeOfMonthsBetweenDates(Date start, Date end, Locale locale)
+    public static int rangeOfYearsBetweenDates(Date start, Date end)
+    {
+        GregorianCalendar ci = new GregorianCalendar();
+        ci.setTime(start);
+        GregorianCalendar cf = new GregorianCalendar();
+        cf.setTime(end);
+        
+        int range = cf.get(Calendar.YEAR)-ci.get(Calendar.YEAR);
+        return range;
+    }
+    
+    public static int rangeOfMonthsBetweenDates(Date start, Date end, Locale locale)
     {
         GregorianCalendar ci = new GregorianCalendar(locale);
         ci.setTime(start);
@@ -37,5 +48,12 @@ public class DateArithmetic {
         int yearRange = cf.get(Calendar.YEAR)-ci.get(Calendar.YEAR);
         int rango = 12 * yearRange + cf.get(Calendar.MONTH) - ci.get(Calendar.MONTH);
         return rango;
+    }
+    
+    public static int getYear(Date date)
+    {
+        GregorianCalendar cf = new GregorianCalendar();
+        cf.setTime(date);
+        return cf.get(Calendar.YEAR);
     }
 }
