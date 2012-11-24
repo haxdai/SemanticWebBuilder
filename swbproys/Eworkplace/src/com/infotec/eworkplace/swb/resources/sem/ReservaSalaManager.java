@@ -770,7 +770,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         
         Iterator<Sala> isalas = Sala.ClassMgr.listSalas(base.getWebSite());        
         isalas = SWBComparator.sortByDisplayName(isalas, lang);
-        final List<Sala> salas = SWBUtils.Collections.copyIterator(isalas);
+        List<Sala> salas = SWBUtils.Collections.copyIterator(isalas);
         for(Sala sala:salas) {
             if(!user.haveAccess(sala) || !sala.isActive())
                 salas.remove(sala);
@@ -890,7 +890,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         }
         Iterator<Sala> isalas = Sala.ClassMgr.listSalas(base.getWebSite());        
         isalas = SWBComparator.sortByDisplayName(isalas, lang);
-        final List<Sala> salas = SWBUtils.Collections.copyIterator(isalas);
+        List<Sala> salas = SWBUtils.Collections.copyIterator(isalas);
         for(Sala sala:salas) {
             if(!user.haveAccess(sala) || !sala.isActive())
                 salas.remove(sala);
