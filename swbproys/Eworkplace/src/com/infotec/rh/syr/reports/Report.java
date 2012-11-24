@@ -9,11 +9,7 @@ package com.infotec.rh.syr.reports;
  * @author carlos.ramos
  */
 import com.infotec.cvi.swb.CV;
-import com.infotec.cvi.swb.EstudioSuperior;
-import com.infotec.cvi.swb.Grado;
-import com.infotec.cvi.swb.GradoAcademico;
 import com.infotec.cvi.swb.SolicitudRecurso;
-import com.infotec.cvi.swb.TipoEstudio;
 import com.infotec.rh.syr.reports.utils.DateArithmetic;
 import com.infotec.rh.syr.reports.utils.NumberToLetterConverter;
 import com.infotec.rh.syr.swb.Contrato;
@@ -24,7 +20,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.NumberFormat;
 import org.semanticwb.SWBUtils;
-import org.semanticwb.model.SWBComparator;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.process.model.Instance;
@@ -33,13 +28,11 @@ import mx.com.infotec.intranet.login.Services;
 import mx.com.infotec.intranet.login.UserInformation;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 import org.semanticwb.Logger;
+import org.semanticwb.model.SWBContext;
+import org.semanticwb.model.base.SWBContextBase;
 
 public class Report {
     private static Logger log = SWBUtils.getLogger(Report.class);
@@ -49,99 +42,116 @@ public class Report {
     SolicitudRecurso solicitud;
     SeguimientoSolicitudRecurso seguimiento;
     Contrato contrato;
-    SimpleDateFormat MM = new SimpleDateFormat("dd/MM/yyyy");
-    SimpleDateFormat MMM = new SimpleDateFormat("dd/MMM/yyyy");
-    SimpleDateFormat MMMM = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy");
-    NumberFormat currency = NumberFormat.getCurrencyInstance(Locale.getAvailableLocales()[53]); // "es_MX"
+    SimpleDateFormat MM;
+    SimpleDateFormat MMM;
+    SimpleDateFormat MMMM;
+    NumberFormat currency;
     WebSite webSite;
     UserInformation userInfo;
     Services service;
     
     public Report(final Instance instance) throws Exception
     {
+        this(instance, Locale.getAvailableLocales()[53]); //es_MX
+    }
+    
+    public Report(final Instance instance, Locale locale) throws Exception
+    {
+        this.instance = instance;
         webSite = instance.getProcessInstance().getProcessType().getProcessWebPage().getWebSite();
         service = new Services();
+        
+        MM = new SimpleDateFormat("dd/MM/yyyy", locale);
+        MMM = new SimpleDateFormat("dd/MMM/yyyy", locale);
+        MMMM = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy", locale);
+        currency = NumberFormat.getCurrencyInstance(locale);
     }
     
     public boolean exportToFile(final SeguimientoSolicitudRecurso seguimiento, final Contrato contrato) throws Exception {
+        return exportToFile(seguimiento, contrato, ";");
+    }
+    
+    public boolean exportToFile(final SeguimientoSolicitudRecurso seguimiento, final Contrato contrato, String delimitador) throws Exception {
         this.seguimiento = seguimiento;
         solicitud = seguimiento.getSolicitudRecurso();
-        this.contrato = contrato;
-        candidato = solicitud.getCandidato();
-        CV cv = CV.ClassMgr.getCV(candidato.getId(), webSite);
-        //userInfo = service.getUserInformation(candidato.getLogin());
+        if(delimitador==null)
+            delimitador = ";";
         
+        this.contrato = contrato;
+        candidato = solicitud.getCandidatoSeleccionado();
+        CV cv = CV.getCVClassMgr().getCV(candidato.getId(), webSite);
+        //userInfo = service.getUserInformation(candidato.getLogin());
         StringBuilder info = new StringBuilder();
-        info.append(MMM.format(solicitud.getFechaInicioContrato()));
-        info.append(MMM.format(seguimiento.getFechaRecepcionSolicitud()));
-        info.append(solicitud.getFolio());
-        info.append(solicitud.getAdscripcionSolicitante());
-        info.append(solicitud.getContratacion().getTitle());
-        info.append(contrato.getObservacionesContrato());
-        info.append(contrato.getFolioContrato());
-        info.append(contrato.getReferenciaContratacion());
-        info.append(contrato.getEstatusContrato());
-        info.append(contrato.getNumEmpleado());
-        info.append(candidato.getFullName());
-        info.append(contrato.getRFC());
-        info.append(cv.getPersona().getCurp());
-        info.append(contrato.getDocumentosPresentados());
-        info.append(cv.getAcademia().getMaxNivelEstudios());
-        info.append(cv.getAcademia().getDisciplina());
-        info.append(cv.getAcademia().getCarrera());
-        info.append(cv.getPersona().getDomicilio().toString());
-        info.append(contrato.getClabeInterbancaria());
-        info.append(contrato.getBanco().getTitle());
-        info.append(contrato.getSeguridadSocial());
-        info.append(MMMM.format(solicitud.getFechaInicioContrato()));
-        info.append(MMMM.format(solicitud.getFechaFinContrato()));
+        info.append(MMM.format(solicitud.getFechaInicioContrato())).append(delimitador);
+        info.append(MMM.format(seguimiento.getFechaRecepcionSolicitud())).append(delimitador);
+        info.append(solicitud.getFolio()).append(delimitador);
+        info.append(solicitud.getAdscripcionSolicitante()).append(delimitador);
+        info.append(solicitud.getContratacion().getTitle()).append(delimitador);
+        info.append(contrato.getObservacionesContrato()).append(delimitador);
+        info.append(contrato.getFolioContrato()).append(delimitador);
+        info.append(contrato.getReferenciaContratacion()).append(delimitador);
+        info.append(contrato.getEstatusContrato()).append(delimitador);
+        info.append(contrato.getNumEmpleado()).append(delimitador);
+        info.append(candidato.getFullName()).append(delimitador);
+        info.append(contrato.getRFC()).append(delimitador);
+        info.append(cv.getPersona().getCurp()).append(delimitador);
+        info.append(contrato.getDocumentosPresentados()).append(delimitador);
+        info.append(cv.getAcademia().getMaxNivelEstudios()).append(delimitador);
+        info.append(cv.getAcademia().getDisciplina()).append(delimitador);
+        info.append(cv.getAcademia().getCarrera()).append(delimitador);
+        info.append(cv.getPersona().getDomicilio().toString()).append(delimitador);
+        info.append(contrato.getClabeInterbancaria()).append(delimitador);
+        info.append(contrato.getBanco().getTitle()).append(delimitador);
+        info.append(contrato.getSeguridadSocial()).append(delimitador);
+        info.append(MMMM.format(solicitud.getFechaInicioContrato())).append(delimitador);
+        info.append(MMMM.format(solicitud.getFechaFinContrato())).append(delimitador);
         int rangeMonths = DateArithmetic.rangeOfMonthsBetweenDates(solicitud.getFechaInicioContrato(), solicitud.getFechaFinContrato());
-        info.append(rangeMonths);
-        info.append(NumberToLetterConverter.convertNumberToLetter(rangeMonths));
-        info.append(MMM.format(solicitud.getFechaInicioContrato()));
-        info.append(",");
-        info.append(",");
-        info.append(contrato.getNumeroPagos());
-        info.append(contrato.getPeriodoPagos().getTitle());
-        info.append(currency.format(solicitud.getSueldoBruto()));
-        info.append(NumberToLetterConverter.convertNumberToLetter(solicitud.getSueldoBruto(), "Pesos", "Centavos"));
-        info.append(",");
+        info.append(rangeMonths).append(delimitador);
+        info.append(NumberToLetterConverter.convertNumberToLetter(rangeMonths)).append(delimitador);
+        info.append(MMM.format(solicitud.getFechaInicioContrato())).append(delimitador);
+        info.append(delimitador);
+        info.append(delimitador);
+        info.append(contrato.getNumeroPagos()).append(delimitador);
+        info.append(contrato.getPeriodoPagos().getTitle()).append(delimitador);
+        info.append(currency.format(solicitud.getSueldoBruto())).append(delimitador);
+        info.append(NumberToLetterConverter.convertNumberToLetter(solicitud.getSueldoBruto(), "Pesos", "Centavos")).append(delimitador);
+        info.append(delimitador);
         float pagoTotal = contrato.getNumeroPagos()*solicitud.getSueldoBruto();
-        info.append(currency.format(pagoTotal));
-        info.append(NumberToLetterConverter.convertNumberToLetter(pagoTotal, "Pesos", "Centavos"));
-        info.append(contrato.getSedeRecurso().getTitle());
-        info.append(solicitud.getProyectoAsignado().getNumeroProyecto());
-        info.append(solicitud.getProyectoAsignado().getTitle());
-        info.append(solicitud.getProyectoAsignado().getTitle());
-        info.append("to do");
-        info.append(solicitud.getAdscripcionSolicitante());
-        info.append(solicitud.getAutoriza());
-        info.append(contrato.getCargoAutorizasolicitudContrato());
-        info.append(solicitud.getSolicitante().getFullName());
-        info.append(solicitud.getCapituloSuficiencia().getTitle());
-        info.append(contrato.isPresentaDeclaracion()?"Si":"No");
-        info.append(",");
-        info.append(",");
-        info.append(",");
-        info.append(contrato.getFileConstanciaSFP());
-        info.append(",");
-        info.append(",");
-        info.append(solicitud.getFuncionPrincipal());
-        info.append(solicitud.getContratacion().getTitle());
-        info.append(solicitud.getContratacion().getTitle());
-        info.append(candidato.getLastName());
-        info.append(candidato.getSecondLastName());
-        info.append(candidato.getFirstName());
-        info.append(contrato.getRFC().substring(0, 11));
-        info.append(",");
-        info.append(MM.format(cv.getPersona().getNacimiento()));
-        info.append(DateArithmetic.getYear(cv.getPersona().getNacimiento()));
-        info.append(DateArithmetic.rangeOfYearsBetweenDates(cv.getPersona().getNacimiento(), new Date()));
-        info.append(cv.getPersona().isGenero()?"H":"M");
-        info.append(cv.getPersona().isGenero()?"El":"La");
-        info.append(cv.getPersona().getEstadoNacimiento().getTitle());
-        info.append(cv.getPersona().getLugarNacimiento().getTitle());
-        info.append(cv.getPersona().getNacionalidad().getTitle());
+        info.append(currency.format(pagoTotal)).append(delimitador);
+        info.append(NumberToLetterConverter.convertNumberToLetter(pagoTotal, "Pesos", "Centavos")).append(delimitador);
+        info.append(contrato.getSedeRecurso().getTitle()).append(delimitador);
+        info.append(solicitud.getProyectoAsignado().getNumeroProyecto()).append(delimitador);
+        info.append(solicitud.getProyectoAsignado().getTitle()).append(delimitador);
+        info.append(solicitud.getProyectoAsignado().getTitle()).append(delimitador);
+        info.append("to do").append(delimitador);
+        info.append(solicitud.getAdscripcionSolicitante()).append(delimitador);
+        info.append(solicitud.getAutoriza()).append(delimitador);
+        info.append(contrato.getCargoAutorizasolicitudContrato()).append(delimitador);
+        info.append(solicitud.getSolicitante().getFullName()).append(delimitador);
+        info.append(solicitud.getCapituloSuficiencia().getTitle()).append(delimitador);
+        info.append(contrato.isPresentaDeclaracion()?"Si":"No").append(delimitador);
+        info.append(delimitador);
+        info.append(delimitador);
+        info.append(delimitador);
+        info.append(contrato.getFileConstanciaSFP()).append(delimitador);
+        info.append(delimitador);
+        info.append(delimitador);
+        info.append(solicitud.getFuncionPrincipal()).append(delimitador);
+        info.append(solicitud.getContratacion().getTitle()).append(delimitador);
+        info.append(solicitud.getContratacion().getTitle()).append(delimitador);
+        info.append(candidato.getLastName()).append(delimitador);
+        info.append(candidato.getSecondLastName()).append(delimitador);
+        info.append(candidato.getFirstName()).append(delimitador);
+        info.append(contrato.getRFC().substring(0, 11)).append(delimitador);
+        info.append(delimitador);
+        info.append(MM.format(cv.getPersona().getNacimiento())).append(delimitador);
+        info.append(DateArithmetic.getYear(cv.getPersona().getNacimiento())).append(delimitador);
+        info.append(DateArithmetic.rangeOfYearsBetweenDates(cv.getPersona().getNacimiento(), new Date())).append(delimitador);
+        info.append(cv.getPersona().isGenero()?"H":"M").append(delimitador);
+        info.append(cv.getPersona().isGenero()?"El":"La").append(delimitador);
+        info.append(cv.getPersona().getEstadoNacimiento().getTitle()).append(delimitador);
+        info.append(cv.getPersona().getLugarNacimiento()==null?"-":cv.getPersona().getLugarNacimiento().getTitle()).append(delimitador);
+        info.append(cv.getPersona().getNacionalidad()==null?"-":cv.getPersona().getNacionalidad().getTitle()).append(delimitador);
         info.append(MMMM.format(contrato.getFechaEntregaRH()));
         try {
             write(info.toString());
@@ -156,13 +166,19 @@ public class Report {
         boolean res = false;
         BufferedWriter bfw = null;
         final String path = SWBUtils.getApplicationPath()+"/work/models/"+instance.getProcessInstance().getProcessType().getProcessWebPage().getWebSiteId()+"/data/procesos/contratos/"+contrato.getId()+".csv";
+System.out.println("path="+path);
         try
         {
             File fichero = new File(path);
+System.out.println("1");
             FileWriter fstream = new FileWriter(fichero);
+System.out.println("2");
             bfw = new BufferedWriter(fstream);
+System.out.println("3");
             bfw.write(info);
+System.out.println("4");
             res = true;
+System.out.println("5");
         }
         /*catch (Exception e)
         {
