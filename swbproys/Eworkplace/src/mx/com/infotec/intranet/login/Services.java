@@ -1133,7 +1133,7 @@ public class Services
         userInformation.setSegundoNombre("Hugo");
         userInformation.setpApellido("Lorenzana");
         userInformation.setsApellido("González");
-        userInformation.setTipoContratacion(TIPO_CONTRATACION.Nómina_Institucional);
+        userInformation.setTipoContratacion(TIPO_CONTRATACION.Nomina_Institucional);
         userInformation.setPuestoFuncion("Consultor");
         userInformation.setRFC("logv7312187c8");
         userInformation.setCurp("logv7312187c8hdfrnc03");
@@ -1531,7 +1531,7 @@ public class Services
         {
             return 1;
         }
-        else if (desc.equalsIgnoreCase(TIPO_CONTRATACION.Nómina_Institucional.toString()))
+        else if (desc.equalsIgnoreCase(TIPO_CONTRATACION.Nomina_Institucional.toString()))
         {
             return 2;
         }
@@ -1612,11 +1612,11 @@ public class Services
                 String stipo = atts.get(getName(FIELD.TIPO_CONTRATACION)).get().toString().replace(' ', '_');
                 if ("Institucional".equalsIgnoreCase(stipo))
                 {
-                    user.setTipoContratacion(TIPO_CONTRATACION.Nómina_Institucional);
+                    user.setTipoContratacion(TIPO_CONTRATACION.Nomina_Institucional);
                 }
                 else
                 {
-                    TIPO_CONTRATACION tipo = TIPO_CONTRATACION.valueOf(stipo);
+                    TIPO_CONTRATACION tipo = TIPO_CONTRATACION.valueOf(stipo.replace('ó', 'o'));
                     user.setTipoContratacion(tipo);
                 }
 

@@ -27,6 +27,11 @@ public class UserInformation
     private Integer noempleado, area, especialidad, proyecto;
     private String sede, jefeInmediato, email;
     private GENERO genero;
+    
+    public String getFullName()
+    {
+        return (nombre==null?"":nombre) +" "+ (segundoNombre==null?"":segundoNombre) + (pApellido==null?"":pApellido) +" "+ (sApellido==null?"":sApellido); 
+    }
 
     public UserInformation()
     {
@@ -492,7 +497,7 @@ public class UserInformation
         }
         else
         {
-            return TIPO_CONTRATACION.valueOf(tipoContratacion);
+            return TIPO_CONTRATACION.valueOf(tipoContratacion.replace('ó', 'o'));            
         }
     }
     public String getPuestoFuncion()
