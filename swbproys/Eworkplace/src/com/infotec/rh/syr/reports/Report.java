@@ -166,19 +166,13 @@ public class Report {
         boolean res = false;
         BufferedWriter bfw = null;
         final String path = SWBUtils.getApplicationPath()+"/work/models/"+instance.getProcessInstance().getProcessType().getProcessWebPage().getWebSiteId()+"/data/procesos/contratos/"+contrato.getId()+".csv";
-System.out.println("path="+path);
         try
         {
             File fichero = new File(path);
-System.out.println("1");
             FileWriter fstream = new FileWriter(fichero);
-System.out.println("2");
             bfw = new BufferedWriter(fstream);
-System.out.println("3");
             bfw.write(info);
-System.out.println("4");
             res = true;
-System.out.println("5");
         }
         /*catch (Exception e)
         {
