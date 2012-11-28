@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class ManualBase extends com.infotec.conorg.Document implements com.infotec.conorg.Topicable,org.semanticwb.model.Versionable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Indexable,org.semanticwb.model.Traceable,org.semanticwb.model.Calendarable
+public abstract class ManualBase extends com.infotec.conorg.Document implements org.semanticwb.model.Descriptiveable,com.infotec.conorg.Topicable,org.semanticwb.model.Versionable,org.semanticwb.model.Traceable,org.semanticwb.model.Searchable,org.semanticwb.model.Tagable,org.semanticwb.model.Indexable,org.semanticwb.model.Calendarable
 {
     public static final org.semanticwb.platform.SemanticProperty conorg_manualVersion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#manualVersion");
     public static final org.semanticwb.platform.SemanticClass conorg_Manual=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#Manual");

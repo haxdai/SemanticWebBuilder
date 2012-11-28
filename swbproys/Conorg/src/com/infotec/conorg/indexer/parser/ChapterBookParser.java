@@ -5,7 +5,6 @@
 package com.infotec.conorg.indexer.parser;
 
 import com.infotec.conorg.Document;
-import com.infotec.conorg.Tile;
 import com.infotec.conorg.Topic;
 import com.infotec.conorg.WorkSpace;
 import java.util.HashMap;
@@ -13,7 +12,6 @@ import java.util.Iterator;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.Resource;
-import org.semanticwb.model.ResourceType;
 import org.semanticwb.model.Resourceable;
 import org.semanticwb.model.Searchable;
 import org.semanticwb.model.WebPage;
@@ -24,9 +22,9 @@ import org.semanticwb.portal.indexer.parser.GenericParser;
  *
  * @author juan.fernandez
  */
-public class DocumentParser extends GenericParser {
+public class ChapterBookParser  extends GenericParser {
 
-    private static Logger log = SWBUtils.getLogger(DocumentParser.class);
+    private static Logger log = SWBUtils.getLogger(ChapterBookParser.class);
     public static String CONFIG_IDSHELF = "wpshelf";
     public static String CONFIG_IDWORKSPACE = "wpworkspace";
     public static String CONFIG_SHELF = "http://www.infotec.com/conorg.owl#Shelf";
@@ -46,6 +44,7 @@ public class DocumentParser extends GenericParser {
     @Override
     public String getIndexTitle(Searchable gen) {
         String ret = ((Document) gen).getTitle();
+        //System.out.println("CHAPTERBOOK: index title");
         //Indexar el nombre del autor
         if (((Document) gen).getCreator() != null) {
             ret += "\n" + ((Document) gen).getCreator().getFullName();
@@ -106,18 +105,18 @@ public class DocumentParser extends GenericParser {
         arg.put("language", lang);
         Document doc = (Document)gen;
         Resource res = doc.getResource();
-        if(res !=null) ret = ((WebPage)res.getResourceable()).getPath(arg);
+        if(res!=null)  ret = ((WebPage)res.getResourceable()).getPath(arg);
         return ret;
     }
 
     @Override
     public String getType(Searchable gen) {
-        return "document";
+        return "chapterbook";
     }
 
     @Override
     public String getTypeDisplayLabel(Searchable gen) {
-        return "Documento";
+        return "Capítulo libro";
     }
 
         @Override
@@ -134,8 +133,9 @@ public class DocumentParser extends GenericParser {
         WebPage ret = null;
         Resource res = repFile.getResource();
         
-        if(res!=null) ret =((WebPage)res.getResourceable());
-
+       if(res!=null) ret =((WebPage)res.getResourceable());
+               
+        
         return ret;
     }
 }
