@@ -7,12 +7,12 @@ import org.semanticwb.portal.indexer.SWBIndexer;
 
 public class Tile extends com.infotec.conorg.base.TileBase 
 {
-    static {
-        SWBIndexer index=SWBPortal.getIndexMgr().getDefaultIndexer();
-        if(index!=null) {
-            index.registerParser(Tile.class, new TileParser());
-        }
-    }
+//    static {
+//        SWBIndexer index=SWBPortal.getIndexMgr().getDefaultIndexer();
+//        if(index!=null) {
+//            index.registerParser(Tile.class, new TileParser());
+//        }
+//    }
     public Tile(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
