@@ -32,6 +32,23 @@ import org.semanticwb.portal.api.*;
  */
 public class MyShelf extends GenericAdmResource {
 
+//    static {
+//        System.out.println("Revisando indices");
+//        SWBIndexer index=SWBPortal.getIndexMgr().getDefaultIndexer();
+//        if(index!=null) {
+//            System.out.println("registrando indices");
+//            index.registerParser(Document.class, new DocumentParser());
+//            index.registerParser(Tile.class, new TileParser());
+//            index.registerParser(Article.class, new ArticleParser());
+//            index.registerParser(Audio.class, new AudioParser());
+//            index.registerParser(Book.class, new BookParser());
+//            index.registerParser(ChapterBook.class, new ChapterBookParser());
+//            index.registerParser(Video.class, new VideoParser());
+//            index.registerParser(WorkSpace.class, new WorkSpaceParser());
+//            
+//            
+//        }
+//    }
     public static final Logger log = SWBUtils.getLogger(MyShelf.class);
     public static final SimpleDateFormat format = new SimpleDateFormat("dd/MMM/yy hh:mm");
     public static final String Mode_AJAX = "ajax";
@@ -209,10 +226,18 @@ public class MyShelf extends GenericAdmResource {
                             String str_lid = "" + lid;
                             nso = wsite.getSemanticObject().getModel().createSemanticObject(wsite.getSemanticObject().getModel().getObjectUri(str_lid, scls), scls);
                             nso.setProperty(Descriptiveable.swb_title, strTitle);
+                            nso.setBooleanProperty(Indexable.swb_indexable, Boolean.TRUE);
+                            if(nso.createGenericInstance() instanceof Tile){
+                                ((Tile)nso.createGenericInstance()).setResource(getResourceBase());
+                            }
                         }
                     } else {
                         frmgr = new SWBFormMgr(scls, wsite.getSemanticObject().getModel().getModelObject(), SWBFormMgr.MODE_CREATE);
                         nso = frmgr.processForm(request);
+                        nso.setBooleanProperty(Indexable.swb_indexable, Boolean.TRUE);
+                        if(nso.createGenericInstance() instanceof Tile){
+                                ((Tile)nso.createGenericInstance()).setResource(getResourceBase());
+                        }
                     }
 
                     if (nso != null) {
@@ -223,6 +248,7 @@ public class MyShelf extends GenericAdmResource {
                                 myshelf.setOwner(usr);
                             }
                             myshelf.addTile((Tile) (nso.createGenericInstance()));
+                            ((Tile) (nso.createGenericInstance())).setResource(getResourceBase());
                             response.setRenderParameter("act", SWBActionResponse.Action_EDIT);
                             response.setRenderParameter("id", nso.getURI());
                             response.setRenderParameter("suri", nso.getURI());
@@ -235,6 +261,7 @@ public class MyShelf extends GenericAdmResource {
                         } else {
 
                             if (nso.createGenericInstance() instanceof WorkSpace) {
+                                 ((WorkSpace) (nso.createGenericInstance())).setResource(getResourceBase());
                                 //System.out.println("Creando workspace");
                                 //                                System.out.println("Creando miembro del ws");
                                 Member member = Member.ClassMgr.createMember(wsite);
@@ -256,10 +283,13 @@ public class MyShelf extends GenericAdmResource {
                                 //                                System.out.println("Agregando azulejo al WorkSpace");
                                 // agregar el tile al workspace
                                 WorkSpace workSpace = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
+                                 workSpace.setResource(getResourceBase());
                                 if (null != workSpace) {
 
                                     Tile mytile = (Tile) nso.createGenericInstance();
+                                    mytile.setResource(getResourceBase());
                                     workSpace.addTile(mytile);
+                                    if(mytile!=null&&mytile.getResource()!=null) mytile.setResource(getResourceBase());
                                     //            sendWSadd                       System.out.println("Tile added.....");
                                     if (sendWSadd) {
                                         Aviso aviso = MessageUtils.createWorkSpaceMessage(usr, workSpace, "Nuevo documento - " + mytile.getTitle(), "Con la siguiente descripción:\n\r" + (mytile.getDescription() != null ? mytile.getDescription() : ""), wsite);
@@ -410,9 +440,12 @@ public class MyShelf extends GenericAdmResource {
                         nso = frmgr.processForm(request);
                     } else if ((gobj instanceof Mosaic)) {
                         Mosaic mosaic = (Mosaic) gobj;
+                        if(mosaic.getResource()==null) mosaic.setResource(getResourceBase());
                         SemanticObject tobj = ont.getSemanticObject(tiid);
                         Tile ttile = (Tile) tobj.createGenericInstance();
+                        if(ttile.getResource()==null) ttile.setResource(getResourceBase());
                         mosaic.addTile(ttile);
+                        
                         if (isShelf) {
                             Shelf tms = Shelf.ClassMgr.getShelf(usr.getId(), wsite);
                             tms.removeTile(ttile);
@@ -436,9 +469,10 @@ public class MyShelf extends GenericAdmResource {
                         }
                         response.setAction(SWBActionResponse.Action_EDIT);
                         itemName = getTileTypeName((Tile) gobj);
-                        if (wsid != null) {
+                        if (wsid != null&&wsid.trim().length()>0) {
                             WorkSpace wrkSpc = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
                             Tile mytile = (Tile) gobj;
+                            if(null==mytile.getResource()) mytile.setResource(getResourceBase());
                             if (sendWSUpdate) {
                                 Aviso aviso = MessageUtils.createWorkSpaceMessage(usr, wrkSpc, "Actualizó - " + mytile.getTitle(), "Con la siguiente descripción:\n\r" + (mytile.getDescription() != null ? mytile.getDescription() : ""), wsite);
                             }
@@ -602,7 +636,7 @@ public class MyShelf extends GenericAdmResource {
 
             if (doc != null) {
                 storeFile(fname, new ByteArrayInputStream(bcont), fcomment, incremento, doc, wsite);
-                if (wsid != null) {
+                if (wsid != null&&wsid.trim().length()>0) {
                     WorkSpace wrkSpc = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
                     Tile mytile = (Tile) doc;
                     if (sendWSUpdate) {

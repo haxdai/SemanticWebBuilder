@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class DocumentBase extends com.infotec.conorg.Tile implements com.infotec.conorg.Topicable,org.semanticwb.model.Versionable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Indexable,org.semanticwb.model.Traceable,org.semanticwb.model.Calendarable
+public abstract class DocumentBase extends com.infotec.conorg.Tile implements org.semanticwb.model.Descriptiveable,com.infotec.conorg.Topicable,org.semanticwb.model.Versionable,org.semanticwb.model.Traceable,org.semanticwb.model.Searchable,org.semanticwb.model.Tagable,org.semanticwb.model.Indexable,org.semanticwb.model.Calendarable
 {
     public static final org.semanticwb.platform.SemanticProperty conorg_editors=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#editors");
     public static final org.semanticwb.platform.SemanticProperty conorg_documentPages=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#documentPages");

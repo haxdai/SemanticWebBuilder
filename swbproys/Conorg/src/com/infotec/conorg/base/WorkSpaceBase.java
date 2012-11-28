@@ -1,13 +1,18 @@
 package com.infotec.conorg.base;
 
 
-public abstract class WorkSpaceBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Activeable,org.semanticwb.model.Filterable,org.semanticwb.model.RoleRefable,com.infotec.conorg.Topicable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Viewable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Searchable,org.semanticwb.model.Localeable,org.semanticwb.model.Expirable,org.semanticwb.model.MetaTagable,org.semanticwb.model.Rankable,org.semanticwb.model.Traceable,org.semanticwb.model.Indexable,org.semanticwb.model.FilterableClass,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Trashable,org.semanticwb.model.Resourceable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Undeleteable,com.infotec.conorg.Tileable,org.semanticwb.model.Countryable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Calendarable
+public abstract class WorkSpaceBase extends org.semanticwb.model.WebPage implements org.semanticwb.model.Filterable,org.semanticwb.model.RoleRefable,com.infotec.conorg.Topicable,org.semanticwb.model.Traceable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Viewable,org.semanticwb.model.MetaTagable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.RuleRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Searchable,org.semanticwb.model.Localeable,org.semanticwb.model.Expirable,org.semanticwb.model.Rankable,org.semanticwb.model.Indexable,org.semanticwb.model.Trashable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Activeable,org.semanticwb.model.Tagable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Resourceable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Undeleteable,com.infotec.conorg.Tileable,org.semanticwb.model.Countryable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Calendarable
 {
    /**
    * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
    */
     public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
     public static final org.semanticwb.platform.SemanticProperty conorg_hasSubscribers=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#hasSubscribers");
+   /**
+   * Un recurso es un componente en una Página Web con el cual el usuario tiene interacción
+   */
+    public static final org.semanticwb.platform.SemanticClass swb_Resource=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#Resource");
+    public static final org.semanticwb.platform.SemanticProperty conorg_resourceWS=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#resourceWS");
     public static final org.semanticwb.platform.SemanticClass conorg_Place=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#Place");
     public static final org.semanticwb.platform.SemanticProperty conorg_placeInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com/conorg.owl#placeInv");
     public static final org.semanticwb.platform.SemanticClass conorg_Member=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com/conorg.owl#Member");
@@ -223,6 +228,29 @@ public abstract class WorkSpaceBase extends org.semanticwb.model.WebPage impleme
         public static java.util.Iterator<com.infotec.conorg.WorkSpace> listWorkSpaceBySubscribers(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.conorg.WorkSpace> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(conorg_hasSubscribers,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.WorkSpace with a determined Resource
+       * @param value Resource of the type org.semanticwb.model.Resource
+       * @param model Model of the com.infotec.conorg.WorkSpace
+       * @return Iterator with all the com.infotec.conorg.WorkSpace
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.WorkSpace> listWorkSpaceByResource(org.semanticwb.model.Resource value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.WorkSpace> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(conorg_resourceWS, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.conorg.WorkSpace with a determined Resource
+       * @param value Resource of the type org.semanticwb.model.Resource
+       * @return Iterator with all the com.infotec.conorg.WorkSpace
+       */
+
+        public static java.util.Iterator<com.infotec.conorg.WorkSpace> listWorkSpaceByResource(org.semanticwb.model.Resource value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.conorg.WorkSpace> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(conorg_resourceWS,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -462,7 +490,7 @@ public abstract class WorkSpaceBase extends org.semanticwb.model.WebPage impleme
        * @return Iterator with all the com.infotec.conorg.WorkSpace
        */
 
-        public static java.util.Iterator<com.infotec.conorg.WorkSpace> listWorkSpaceByResource(org.semanticwb.model.Resource value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<com.infotec.conorg.WorkSpace> listWorkSpacesByResource(org.semanticwb.model.Resource value,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<com.infotec.conorg.WorkSpace> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasResource, value.getSemanticObject(),sclass));
             return it;
@@ -473,7 +501,7 @@ public abstract class WorkSpaceBase extends org.semanticwb.model.WebPage impleme
        * @return Iterator with all the com.infotec.conorg.WorkSpace
        */
 
-        public static java.util.Iterator<com.infotec.conorg.WorkSpace> listWorkSpaceByResource(org.semanticwb.model.Resource value)
+        public static java.util.Iterator<com.infotec.conorg.WorkSpace> listWorkSpacesByResource(org.semanticwb.model.Resource value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.conorg.WorkSpace> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasResource,value.getSemanticObject(),sclass));
             return it;
@@ -827,6 +855,44 @@ public abstract class WorkSpaceBase extends org.semanticwb.model.WebPage impleme
          if(obj!=null)
          {
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Sets the value for the property Resource
+   * @param value Resource to set
+   */
+
+    public void setResource(org.semanticwb.model.Resource value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(conorg_resourceWS, value.getSemanticObject());
+        }else
+        {
+            removeResource();
+        }
+    }
+   /**
+   * Remove the value for Resource property
+   */
+
+    public void removeResource()
+    {
+        getSemanticObject().removeProperty(conorg_resourceWS);
+    }
+
+   /**
+   * Gets the Resource
+   * @return a org.semanticwb.model.Resource
+   */
+    public org.semanticwb.model.Resource getResource()
+    {
+         org.semanticwb.model.Resource ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(conorg_resourceWS);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.Resource)obj.createGenericInstance();
          }
          return ret;
     }
