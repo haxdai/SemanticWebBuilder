@@ -4,13 +4,18 @@
  */
 package com.infotec.conorg.indexer.parser;
 
+import com.infotec.conorg.Tile;
 import com.infotec.conorg.Topic;
 import com.infotec.conorg.WorkSpace;
 import java.util.HashMap;
 import java.util.Iterator;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
+import org.semanticwb.model.Resource;
+import org.semanticwb.model.Resourceable;
 import org.semanticwb.model.Searchable;
+import org.semanticwb.model.WebPage;
+import org.semanticwb.model.WebSite;
 import org.semanticwb.portal.indexer.parser.GenericParser;
 
 /**
@@ -20,6 +25,11 @@ import org.semanticwb.portal.indexer.parser.GenericParser;
 public class WorkSpaceParser extends GenericParser {
 
     private static Logger log = SWBUtils.getLogger(WorkSpaceParser.class);
+    public static String CONFIG_IDSHELF = "wpshelf";
+    public static String CONFIG_IDWORKSPACE = "wpworkspace";
+    public static String CONFIG_SHELF = "http://www.infotec.com/conorg.owl#Shelf";
+    public static String CONFIG_WORKSPACE = "http://www.infotec.com/conorg.owl#WorkSpace";
+    public static String CONFIG_AS = "resconf";
 
     @Override
     public boolean canIndex(Searchable gen) {
@@ -35,6 +45,7 @@ public class WorkSpaceParser extends GenericParser {
     public String getIndexTitle(Searchable gen) {
         String ret = ((WorkSpace) gen).getTitle();
         //Indexar el nombre del autor
+        //System.out.println("WORKSPACE: Indexando título");
         if (((WorkSpace) gen).getCreator() != null) {
             ret += "\n" + ((WorkSpace) gen).getCreator().getFullName();
         }
@@ -56,7 +67,22 @@ public class WorkSpaceParser extends GenericParser {
 
     @Override
     public String getUrl(Searchable gen) {
-        return ((WorkSpace) gen).getUrl() + "?wsid=" + ((WorkSpace) gen).getId();
+        WorkSpace doc = (WorkSpace)gen;
+        Resource res = doc.getResource();
+
+        //System.out.println("ws res:"+res==null?"null":res.getId());
+        String urlDoc = null; // ((WebPage)res.getResourceable()).getUrl();
+        
+        String strConfig = res.getAttribute(CONFIG_AS,CONFIG_SHELF);
+        String strIDWorkSpace = res.getAttribute(CONFIG_IDWORKSPACE);
+        if(CONFIG_WORKSPACE.equals(strConfig)&&null!=strIDWorkSpace){
+             urlDoc = doc.getWebSite().getWebPage(strIDWorkSpace).getUrl();
+        } else {
+            urlDoc = doc.getUrl();
+        }
+        urlDoc +="/_rid/"+res.getId()+"?wsid="+doc.getId();    
+        
+        return urlDoc;
     }
 
     @Override

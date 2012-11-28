@@ -1,7 +1,7 @@
 package com.infotec.conorg.base;
 
 
-public abstract class TileBase extends org.semanticwb.model.SWBClass implements com.infotec.conorg.Topicable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Indexable,org.semanticwb.model.Traceable,org.semanticwb.model.Calendarable
+public abstract class TileBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,com.infotec.conorg.Topicable,org.semanticwb.model.Traceable,org.semanticwb.model.Searchable,org.semanticwb.model.Tagable,org.semanticwb.model.Indexable,org.semanticwb.model.Calendarable
 {
    /**
    * Un recurso es un componente en una Página Web con el cual el usuario tiene interacción
