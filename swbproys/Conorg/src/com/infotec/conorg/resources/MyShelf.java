@@ -283,13 +283,17 @@ public class MyShelf extends GenericAdmResource {
                                 //                                System.out.println("Agregando azulejo al WorkSpace");
                                 // agregar el tile al workspace
                                 WorkSpace workSpace = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
-                                 workSpace.setResource(getResourceBase());
+                                 if(workSpace.getResource()==null) {
+                                     workSpace.setResource(getResourceBase());
+                                 }
                                 if (null != workSpace) {
 
                                     Tile mytile = (Tile) nso.createGenericInstance();
-                                    mytile.setResource(getResourceBase());
+                                    
                                     workSpace.addTile(mytile);
-                                    if(mytile!=null&&mytile.getResource()!=null) mytile.setResource(getResourceBase());
+                                    if(mytile!=null&&mytile.getResource()==null) {
+                                        mytile.setResource(getResourceBase());
+                                    }
                                     //            sendWSadd                       System.out.println("Tile added.....");
                                     if (sendWSadd) {
                                         Aviso aviso = MessageUtils.createWorkSpaceMessage(usr, workSpace, "Nuevo documento - " + mytile.getTitle(), "Con la siguiente descripción:\n\r" + (mytile.getDescription() != null ? mytile.getDescription() : ""), wsite);
@@ -440,10 +444,14 @@ public class MyShelf extends GenericAdmResource {
                         nso = frmgr.processForm(request);
                     } else if ((gobj instanceof Mosaic)) {
                         Mosaic mosaic = (Mosaic) gobj;
-                        if(mosaic.getResource()==null) mosaic.setResource(getResourceBase());
+                        if(mosaic.getResource()==null) {
+                            mosaic.setResource(getResourceBase());
+                        }
                         SemanticObject tobj = ont.getSemanticObject(tiid);
                         Tile ttile = (Tile) tobj.createGenericInstance();
-                        if(ttile.getResource()==null) ttile.setResource(getResourceBase());
+                        if(ttile.getResource()==null) {
+                            ttile.setResource(getResourceBase());
+                        }
                         mosaic.addTile(ttile);
                         
                         if (isShelf) {
@@ -472,7 +480,9 @@ public class MyShelf extends GenericAdmResource {
                         if (wsid != null&&wsid.trim().length()>0) {
                             WorkSpace wrkSpc = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
                             Tile mytile = (Tile) gobj;
-                            if(null==mytile.getResource()) mytile.setResource(getResourceBase());
+                            if(null==mytile.getResource()) {
+                                mytile.setResource(getResourceBase());
+                            }
                             if (sendWSUpdate) {
                                 Aviso aviso = MessageUtils.createWorkSpaceMessage(usr, wrkSpc, "Actualizó - " + mytile.getTitle(), "Con la siguiente descripción:\n\r" + (mytile.getDescription() != null ? mytile.getDescription() : ""), wsite);
                             }
