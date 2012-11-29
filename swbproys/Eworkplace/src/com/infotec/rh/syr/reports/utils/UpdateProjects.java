@@ -4,7 +4,6 @@
  */
 package com.infotec.rh.syr.reports.utils;
 
-import com.infotec.rh.syr.reports.utils.ProjectInformation;
 import com.infotec.eworkplace.swb.Proyecto;
 import java.sql.Connection;
 import java.sql.ResultSet;
