@@ -297,7 +297,7 @@ public class IntranetLoginBrigde extends ExtUserRepInt
         while (groups.hasNext())
         {
             UserGroup group = groups.next();
-            if (group.getId().startsWith("OU:"))
+            if (group.getId()!=null && group.getId().startsWith("OU:"))
             {
                 ru.removeUserGroup(group);
             }
