@@ -427,9 +427,9 @@ public class Services
                 Map<String, String> atts = user.getMapAttributes();
                 String sAMAccountname = user.getLogin();
 
-                LDAPManager manager = new LDAPManager(props.getProperty("url"), principal, password);
+                LDAPManager ldaqManager = new LDAPManager(props.getProperty("url"), principal, password);
                 String domain = getDomain();
-                manager.addUser(domain, user.getLogin(), givenName, user.getPApellido(), user.getLogin(), ou, apellidos, displayName, sAMAccountname, atts);
+                ldaqManager.addUser(domain, user.getLogin(), givenName, user.getPApellido(), user.getLogin(), ou, apellidos, displayName, sAMAccountname, atts);
                 try
                 {
                     WebSite siteIntranet = WebSite.ClassMgr.getWebSite(intranetID);
