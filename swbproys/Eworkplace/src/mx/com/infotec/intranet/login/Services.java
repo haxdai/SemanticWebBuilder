@@ -1106,6 +1106,7 @@ public class Services
 
         try
         {
+            s.getUserInformation(login);
             Integer area = s.getAreaAdscripcion(login);
             System.out.println("area: "+area);
 
@@ -1512,8 +1513,10 @@ public class Services
         //env.put(Context.PROVIDER_URL, props.getProperty("url", "ldap://" + HOST + ":" + PORT));
         env.put(Context.PROVIDER_URL, url);
         env.put(Context.SECURITY_AUTHENTICATION, "simple");
-        env.put(Context.SECURITY_PRINCIPAL, props.getProperty("principal", PRINCIPAL)); // specify the username
-        env.put(Context.SECURITY_CREDENTIALS, props.getProperty("password", PASSWORD));
+        String principal=props.getProperty("principal", PRINCIPAL);
+        String password=props.getProperty("password", PASSWORD);
+        env.put(Context.SECURITY_PRINCIPAL, principal); // specify the username
+        env.put(Context.SECURITY_CREDENTIALS, password);
         try
         {
             DirContext ctx = new InitialDirContext(env);
