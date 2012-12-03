@@ -183,16 +183,17 @@ public class Autentificacion extends ExtUserRepInt{
     }
 
     
-
-//metodo que devuelve una lista de usuarios subordinados al loggeado
+ String atributo;
+ //metodo que devuelve una lista de usuarios subordinados al loggeado
      public List getSubordinados(String login)
     {
         DirContext dir = null;
-       
+         
 
         try
         {
             dir = AuthenticateLP();
+           
             Attributes matchAttrs = new BasicAttributes(true); // ignore case
             matchAttrs.put(new BasicAttribute("objectClass", userObjectClass));
            //recuperar una enumeracion con todos los atributos
@@ -206,12 +207,18 @@ public class Autentificacion extends ExtUserRepInt{
 
              answers = dir.search(props.getProperty("base", ""),
                     "(&(objectClass=" + userObjectClass + "))", ctls); //recibe nombre, filtro y un search
-               
+             
                    while(answers.hasMore()){
                     
                       javax.naming.directory.Attributes attss = ((SearchResult) answers.next()).getAttributes();
+                       if(attss.get("manager")!= null){
+                       atributo = attss.get("manager").get().toString();
+                   
+                        atributo = "";
+                       }else{
 
-                       String atributo = attss.get("manager").get().toString();
+                       atributo ="";
+                       }
 
                        if(atributo.equals(login)){
                         dependen.add(attss);
