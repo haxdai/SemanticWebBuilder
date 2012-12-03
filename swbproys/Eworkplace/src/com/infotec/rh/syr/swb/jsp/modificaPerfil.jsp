@@ -23,6 +23,24 @@
 <%@page import="org.semanticwb.platform.SemanticOntology"%>
 <%@page import="org.semanticwb.portal.api.SWBResourceURL"%>
 <%@page import="org.semanticwb.portal.api.SWBParamRequest"%>
+
+<%!
+private String getAdscriptionAreaName(int adscriptionNumber, WebSite model) {
+    String ret = String.valueOf(adscriptionNumber);
+    boolean found = false;
+    
+    Iterator<CentroCosto> areas = CentroCosto.ClassMgr.listCentroCostos(model);
+    while(areas.hasNext() && !found) {
+        CentroCosto area = areas.next();
+        if (area.getNumeroArea().trim().equals(ret)) {
+            ret = area.getTitle();
+            found = true;
+        }
+    }
+    return ret;
+}
+%>
+
 <%
 SWBParamRequest paramRequest = (SWBParamRequest) request.getAttribute("paramRequest");
 User user = paramRequest.getUser();
@@ -168,7 +186,7 @@ if (paramRequest.getCallMethod() == SWBParamRequest.Call_DIRECT) {
                     <tr>
                         <td width="200px" align="right"><label for="title">&Aacute;rea de adscripci&oacute;n</label>
                         <td>
-                            <span><%=services.getAreaAdscripcion(foi.getProcessInstance().getCreator().getLogin())%></span>
+                            <span><%=getAdscriptionAreaName(services.getAreaAdscripcion(foi.getProcessInstance().getCreator().getLogin()), site)%></span>
                         </td>
                     </tr>
                     <tr>
