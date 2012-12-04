@@ -2,11 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package mx.gob.inmujeres.swb.resources.sem.base;
-
-
-
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,106 +27,80 @@ import org.semanticwb.SWBUtils;
 import org.semanticwb.model.User;
 import org.semanticwb.model.UserRepository;
 import org.semanticwb.security.auth.ExtUserRepInt;
+
 /**
  *
  * @author gabriela.rosales
  */
+public class Autentificacion extends ExtUserRepInt {
 
-public class Autentificacion extends ExtUserRepInt{
-
-    NamingEnumeration answers = null;
-    List dependen = new ArrayList();
-    /** The user rep. */
     protected UserRepository userRep;
-    /** The props. */
     protected Properties props;
-    /** The seek field. */
     protected String seekField;
-    /** The user object class. */
     protected String userObjectClass;
-    /** The field first name. */
     protected String fieldFirstName;
-    /** The field last name. */
     protected String fieldLastName;
-    /** The field middle name. */
     protected String fieldMiddleName;
-    /** The field email. */
     protected String fieldEmail;
-    /** The value language. */
     protected String valueLanguage;
-    private static final String INTRANETURI = "http://www.infotec.com.mx/intranet#";
     private static final String BASE = "dc=maxcrc,dc=com";
     private static final String PRINCIPAL = "cn=manager,dc=maxcrc,dc=com";
     private static final String HOST = "localhost";
     private static final String PASSWORD = "secret";
     private static final int PORT = 389;
-    static Logger log = SWBUtils.getLogger(Autentificacion.class);
-       List datos = new ArrayList();
-      
+    static Logger log = SWBUtils.getLogger(Autentificacion.class); 
+    NamingEnumeration answers = null;
 
-    public Autentificacion()
-    {     
+ 
+
+    public Autentificacion() {
         props = SWBUtils.TEXT.getPropertyFile("/genericLDAP.properties"); //archivo de configuracion externa
         this.userObjectClass = props.getProperty("userObjectClass", "person"); //clase objeto para buscar usuario
         this.seekField = props.getProperty("seekField", "sAmAccountName");// campo llave para busqueda
 
     }
 
-    public Autentificacion(UserRepository UserRep, Properties props)
-    {
-        this.userRep = UserRep;
-        this.props = props;
-        this.seekField = props.getProperty("seekField", "uid");
-        this.userObjectClass = props.getProperty("userObjectClass", "inetPerson");
-        this.fieldFirstName = props.getProperty("fieldFirstName", "givenName");
-        this.fieldLastName = props.getProperty("fieldLastName", "sn");
-        this.fieldMiddleName = props.getProperty("fieldMiddleName", "null");
-        this.fieldEmail = props.getProperty("fieldEmail", "mail");
-        this.valueLanguage = props.getProperty("valueLanguage", "");
-    }
+    //Devuelve una lista con los 5 campos del usuario loggeado
+    public List getCamposLogin(String login) {
 
-   
-  
-
-  javax.naming.directory.Attributes atts = null;
-  List<String> imprimir = new ArrayList<String>() ;
-
-  //Devuelve una lista con los 5 campos del usuario loggeado
-     public List uniqueUser(String login)
-    {
-         
         DirContext dir = null;
+        List<String> imprimir = new ArrayList<String>();
+        javax.naming.directory.Attributes atts = null;
         String nombre = "";
-        String nombre1 ="";
-        String nombre2="";
+        String nombre1 = "";
+        String nombre2 = "";
         String noEmpleado = "";
         String areaAdscripcion = "";
-        String puesto ="";
-        String nivel ="";
-        String extension ="";
+        String puesto = "";
+        String nivel = "";
+        String extension = "";
 
-        
-        try
-        {
+        List<String> datos = new ArrayList<String>();
+            datos.add("Nombre");
+            datos.add("No. Empleado");
+            datos.add("Area Adscripción");
+            datos.add("Puesto");
+            datos.add("Nivel");
+            datos.add("Extension");
+
+
+        try {
             dir = AuthenticateLP();
-            Attributes matchAttrs = new BasicAttributes(true); // ignore case
-            matchAttrs.put(new BasicAttribute("objectClass", userObjectClass));
-          //recuperar una enumeracion con todos los atributos
+
             SearchControls ctls = new SearchControls(); //metodo de java, recuperar, peticion de atributos
-            ctls.setReturningAttributes(new String[]
-                    {
+            ctls.setReturningAttributes(new String[]{
                         "*"
                     });
             ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
             answers = dir.search(props.getProperty("base", ""),
                     "(&(objectClass=" + userObjectClass + ")(" + seekField + "=" + login + "))", ctls); //recibe nombre, filtro y un search
-                     
-           
+
+
             atts = ((SearchResult) answers.next()).getAttributes();
-          
-            nombre1 =  atts.get("givenName").get().toString();
-            nombre2 =  atts.get("sn").get().toString();
-            nombre = nombre1+" "+nombre2;
+
+            nombre1 = atts.get("givenName").get().toString();
+            nombre2 = atts.get("sn").get().toString();
+            nombre = nombre1 + " " + nombre2;
             noEmpleado = atts.get("initials").get().toString();
             areaAdscripcion = atts.get("departmentNumber").get().toString();
             puesto = atts.get("title").get().toString();
@@ -144,239 +114,161 @@ public class Autentificacion extends ExtUserRepInt{
             imprimir.add(nivel);
             imprimir.add(extension);
 
+            Iterator i = imprimir.iterator();
 
-              Iterator ii = imprimir.iterator();
-
-            datos.add("Nombre");
-            datos.add("No. Empleado");
-            datos.add("Area Adscripción");
-            datos.add("Puesto");
-            datos.add("Nivel");
-            datos.add("Extension");
-
-            while (ii.hasNext()) {
+            while (i.hasNext()) {
                 for (int x = 0; x < datos.size(); x++) {
-                    System.out.println(datos.get(x) + ":" + " " + ii.next() + "\n");
-                    }
+                    System.out.println(datos.get(x) + ":" + " " + i.next() + "\n");
+                }
             }
-
-
-
-
-
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             log.error(e);
-        } finally
-        {
-            try
-            {
+        } finally {
+            try {
                 dir.close();
-            }
-            catch (Exception e2)
-            {
+            } catch (Exception e2) {
                 log.error(e2);
             }
         }
         return imprimir;
     }
 
-    
- String atributo;
- //metodo que devuelve una lista de usuarios subordinados al loggeado
-     public List getSubordinados(String login)
-    {
+    //metodo que devuelve una lista de usuarios subordinados al loggeado
+    public void getSubordinados(String login) {
         DirContext dir = null;
-         
+        String atributo = null;
+        String atributoManager;
+        int posicionCnLogin;
+        String cnLoginComparar = null;
+        List<Attributes> dependen = new ArrayList<Attributes>();
 
-        try
-        {
+        try {
             dir = AuthenticateLP();
-           
-            Attributes matchAttrs = new BasicAttributes(true); // ignore case
-            matchAttrs.put(new BasicAttribute("objectClass", userObjectClass));
-           //recuperar una enumeracion con todos los atributos
 
             SearchControls ctls = new SearchControls(); //metodo de java, recuperar, peticion de atributos
-            ctls.setReturningAttributes(new String[]
-                    {
+            ctls.setReturningAttributes(new String[]{
                         "*"
                     });
             ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
 
-             answers = dir.search(props.getProperty("base", ""),
+            answers = dir.search(props.getProperty("base", ""),
                     "(&(objectClass=" + userObjectClass + "))", ctls); //recibe nombre, filtro y un search
-             
-                   while(answers.hasMore()){
+
+            while (answers.hasMore()) {
+
+                javax.naming.directory.Attributes attss = ((SearchResult) answers.next()).getAttributes();
+           
+                if (attss.get("manager") != null) {
+                    atributoManager = attss.get("manager").get().toString();
+                    int posicion = obtenerUltimaPosicion(atributoManager);
+                    atributo = atributoManager.substring(3, posicion);
                     
-                      javax.naming.directory.Attributes attss = ((SearchResult) answers.next()).getAttributes();
-                       if(attss.get("manager")!= null){
-                       atributo = attss.get("manager").get().toString();
+                    String cnLogin = getCNFromLogin(login);
+
+                    posicionCnLogin = obtenerUltimaPosicion(cnLogin);
+
+                    cnLoginComparar = cnLogin.substring(3, posicionCnLogin);
                    
-                        atributo = "";
-                       }else{
-
-                       atributo ="";
-                       }
-
-                       if(atributo.equals(login)){
+                }
+                 if (cnLoginComparar.equals(atributo)) {
                         dependen.add(attss);
-                       }
-
-                   }
-
-
+                    }
+            }
 
             Iterator iterator = dependen.iterator();
 
-
-           System.out.println("Subordinados");
-         while( iterator.hasNext() ) {
-
-
+            System.out.println("Subordinados:");
+            while (iterator.hasNext()) {
                 Attributes xx = (Attributes) iterator.next(); //Obtengo el elemento contenido
-                              System.out.print(xx.get("givenName").get() + " " + xx.get("sn").get());
-                              System.out.println();
-
-
-}
-
-             
-        }
-        catch (Exception e)
-        {
-            log.error(e);
-        } finally
-        {
-            try
-            {
-                dir.close();
+                System.out.print(xx.get("givenName").get() + " " + xx.get("sn").get());
+                System.out.println();
             }
-            catch (Exception e2)
-            {
+        } catch (Exception e) {
+            log.error(e);
+        } finally {
+            try {
+                dir.close();
+            } catch (Exception e2) {
                 log.error(e2);
             }
         }
-        return dependen;
+
     }
 
-   
+    public int obtenerUltimaPosicion(String cadena) {
+        char c;
+        int i;
+        int z = 0;
 
-    private DirContext AuthenticateLP() throws NamingException
-    {
-
-            Hashtable env = new Hashtable();
-            env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
-            env.put(Context.PROVIDER_URL, props.getProperty("url", "ldap://" + HOST + ":" + PORT));
-            env.put(Context.SECURITY_AUTHENTICATION, "simple");
-            env.put(Context.SECURITY_PRINCIPAL, props.getProperty("principal", PRINCIPAL)); // specify the username
-            env.put(Context.SECURITY_CREDENTIALS, props.getProperty("credential", PASSWORD));
-            DirContext ctx = new InitialDirContext(env);
-            return ctx;
-
-        
-       
+        for (i = 0; i < cadena.length(); i++) {
+            c = cadena.charAt(i);
+            if (c == 44) {
+                z = i;
+                break;
+            }
+        }
+        return z;
     }
 
-    
-    @Override
-    public boolean validateCredential(String login, Object credential)
-    {
-        return AuthenticateLP(login, credential);
-    }
+    private DirContext AuthenticateLP() throws NamingException {
 
-    private boolean AuthenticateLP(String login, Object credential)
-    {
         Hashtable env = new Hashtable();
-        env.put(Context.INITIAL_CONTEXT_FACTORY,
-                props.getProperty("factory", "com.sun.jndi.ldap.LdapCtxFactory"));
-        env.put(Context.PROVIDER_URL, props.getProperty("url", "ldap://localhost"));
-
-        env.put(Context.SECURITY_PRINCIPAL, getCNFromLogin(login));
-
-        env.put(Context.SECURITY_CREDENTIALS, credential);
-        try
-        {
-            DirContext ctx = new InitialDirContext(env);
-            ctx.close();
-        }
-        catch (NamingException e)
-        {
-            return false;
-        }
-        return true;
+        env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
+        env.put(Context.PROVIDER_URL, props.getProperty("url", "ldap://" + HOST + ":" + PORT));
+        env.put(Context.SECURITY_AUTHENTICATION, "simple");
+        env.put(Context.SECURITY_PRINCIPAL, props.getProperty("principal", PRINCIPAL)); // specify the username
+        env.put(Context.SECURITY_CREDENTIALS, props.getProperty("credential", PASSWORD));
+        DirContext ctx = new InitialDirContext(env);
+        return ctx;
     }
 
-
-    public static void main(String args[]) throws IOException{
-        String login ="jaki";
-
-         Autentificacion i = new Autentificacion();
-         i.uniqueUser(login);
-
-         i.getSubordinados(login);
-
-
-
-   }
-
-  private String getCNFromLogin(String login)
-    {
+    private String getCNFromLogin(String login) {
         DirContext dir = null;
         NamingEnumeration answers = null;
-        try
-        {
-
+        try {
             dir = AuthenticateLP();
-
             SearchControls ctls = new SearchControls();
             ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
             String name = props.getProperty("base", BASE);
             answers = dir.search(name, "(&(objectClass=" + userObjectClass + ")(" + seekField + "=" + login + "))", ctls);
             return ((SearchResult) answers.next()).getName() + "," + props.getProperty("base", BASE);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        } finally
-        {
-            if (dir != null)
-            {
-                try
-                {
+        } catch (Exception e) {
+               log.error(e);
+        } finally {
+            if (dir != null) {
+                try {
                     dir.close();
-                }
-                catch (Exception e)
-                {
+                } catch (Exception e) {
+                       log.error(e);
                 }
             }
         }
         return null;
     }
 
-
-
-
-
-
-
     @Override
-    public void syncUsers()
-    {
-        
+    public void syncUsers() {
     }
- 
 
     @Override
     public boolean syncUser(String string, User user) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
+    public boolean validateCredential(String login, Object credential) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
 
+    
+    public static void main(String args[]) throws IOException {
+        String login = "ana";
+
+        Autentificacion i = new Autentificacion();
+        i.getCamposLogin(login);
+        i.getSubordinados(login);
 
 
-
+    }
 }
-
