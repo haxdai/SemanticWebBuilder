@@ -214,7 +214,7 @@ public class Autentificacion
         Autentificacion i = new Autentificacion();
         
         UserLogin u= i.getCamposLogin(login);
-       System.out.println(u.toString());
+       System.out.println(u);
 
 
 
