@@ -70,7 +70,7 @@ public class Autentificacion
             SearchControls ctls = new SearchControls(); //metodo de java, recuperar, peticion de atributos
             ctls.setReturningAttributes(new String[]
                     {
-                         "departmentNumber,telephoneNumber,description,initials,title,givenName,sn"
+                         "*"
                     });
             ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
             NamingEnumeration<SearchResult> answers = dir.search(props.getProperty("base", ""),
@@ -79,22 +79,22 @@ public class Autentificacion
 
             atts =  answers.next().getAttributes();
 
-            if(atts.get("departmentNumber").get().toString()!=null){
+            if(atts.get("departmentNumber").get()!=null){
             userLogin.setAreaAdscripcion(atts.get("departmentNumber").get().toString());
             }
-            if(atts.get("telephoneNumber").get().toString()!=null){
+            if(atts.get("telephoneNumber").get()!=null){
             userLogin.setExtension(atts.get("telephoneNumber").get().toString());
             }
-            if(atts.get("description").get().toString()!=null){
+            if(atts.get("description").get()!=null){
             userLogin.setNivel(atts.get("description").get().toString());
             }
-            if(atts.get("initials").get().toString()!=null){
+            if(atts.get("initials").get()!=null){
             userLogin.setNoEmpleado(atts.get("initials").get().toString());
             }
-            if(atts.get("title").get().toString()!=null){
+            if(atts.get("title").get()!=null){
             userLogin.setPuesto(atts.get("title").get().toString());
             }
-            if(atts.get("givenName").get().toString()!=null){
+            if(atts.get("givenName").get()!=null){
             userLogin.setNombre(atts.get("givenName").get().toString()+" "+atts.get("sn").get().toString());
             }
         }
