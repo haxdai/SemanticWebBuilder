@@ -73,7 +73,7 @@ public class UserLogin {
 
     @Override
     public String toString() {
-        return "Usuario: " +" "+ "Nombre=" +" "+ nombre +" "+ "Numero de Empleado=" +" "+ noEmpleado + " "+"Area Adscripcion=" +" "+ areaAdscripcion + " "+"Puesto=" +" "+ puesto +" "+ "Nivel=" + " "+nivel +" "+ "Extension=" + " "+extension;
+        return "Usuario: " +" "+ "Nombre=" +" "+ nombre +", "+ "Numero de Empleado=" +" "+ noEmpleado + ", "+"Area Adscripcion=" +" "+ areaAdscripcion + ", "+"Puesto=" +" "+ puesto +", "+ "Nivel=" + " "+nivel +", "+ "Extension=" + " "+extension;
     }
 
     public String getPuesto() {
