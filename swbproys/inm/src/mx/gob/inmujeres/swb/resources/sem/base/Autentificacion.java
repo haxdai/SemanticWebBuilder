@@ -123,7 +123,8 @@ public class Autentificacion {
                 SearchResult result = answers.next();         
 
                 if (result.getAttributes().get(seekField) != null) {
-                   UserSubordinado us   = new UserSubordinado(result.getAttributes().get("uid").get().toString(),result.getAttributes().get("givenName").get().toString() + " "+result.getAttributes().get("sn").get().toString());
+                   UserSubordinado us   = new UserSubordinado(result.getAttributes().get("uid").get().toString(),
+                                                              result.getAttributes().get("givenName").get().toString() + " "+result.getAttributes().get("sn").get().toString());
                    getSubordinados.add(us);
 
                 }
