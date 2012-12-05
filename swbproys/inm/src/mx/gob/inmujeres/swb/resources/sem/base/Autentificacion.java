@@ -137,7 +137,7 @@ public class Autentificacion
                 SearchResult result=answers.next();
                 if(result.getAttributes().get(seekField)!=null)
                 {
-                    String loginSubordinado=result.getAttributes().get(seekField).toString();
+                    String loginSubordinado=result.getAttributes().get(seekField).get().toString();
                     getSubordinados.add(loginSubordinado);
                 }
             }
@@ -209,10 +209,10 @@ public class Autentificacion
 
     public static void main(String args[]) throws IOException
     {
-        String login = "ana";
+        String login = "sandra.varela";
 
         Autentificacion i = new Autentificacion();
-        
+        i.getSubordinados(login);
         UserLogin u= i.getCamposLogin(login);
        System.out.println(u);
 
