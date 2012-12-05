@@ -31,11 +31,6 @@ public class Autentificacion
     protected Properties props;
     protected String seekField;
     protected String userObjectClass;
-    protected String fieldFirstName;
-    protected String fieldLastName;
-    protected String fieldMiddleName;
-    protected String fieldEmail;
-    protected String valueLanguage;
     private static final String BASE = "dc=maxcrc,dc=com";
     private static final String PRINCIPAL = "cn=manager,dc=maxcrc,dc=com";
     private static final String HOST = "localhost";
@@ -75,27 +70,48 @@ public class Autentificacion
             SearchControls ctls = new SearchControls(); //metodo de java, recuperar, peticion de atributos
             ctls.setReturningAttributes(new String[]
                     {
-                         "*"
+                         "departmentNumber,telephoneNumber,description,initials,title,givenName,sn"
                     });
             ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
-            NamingEnumeration answers = dir.search(props.getProperty("base", ""),
+            NamingEnumeration<SearchResult> answers = dir.search(props.getProperty("base", ""),
                     "(&(objectClass=" + userObjectClass + ")(" + seekField + "=" + login + "))", ctls); //recibe nombre, filtro y un search
 
 
-            atts = ((SearchResult) answers.next()).getAttributes();
-    
+            atts =  answers.next().getAttributes();
+
+            if(atts.get("departmentNumber").get().toString()!=null){
             userLogin.setAreaAdscripcion(atts.get("departmentNumber").get().toString());
+            }
+            if(atts.get("telephoneNumber").get().toString()!=null){
             userLogin.setExtension(atts.get("telephoneNumber").get().toString());
+            }
+            if(atts.get("description").get().toString()!=null){
             userLogin.setNivel(atts.get("description").get().toString());
+            }
+            if(atts.get("initials").get().toString()!=null){
             userLogin.setNoEmpleado(atts.get("initials").get().toString());
+            }
+            if(atts.get("title").get().toString()!=null){
             userLogin.setPuesto(atts.get("title").get().toString());
+            }
+            if(atts.get("givenName").get().toString()!=null){
             userLogin.setNombre(atts.get("givenName").get().toString()+" "+atts.get("sn").get().toString());
-       
+            }
         }
         catch (Exception e)
         {
             log.error(e);
-        } 
+        } finally
+        {
+            try
+            {
+                dir.close();
+            }
+            catch (Exception e2)
+            {
+                log.error(e2);
+            }
+        }
         return userLogin;
     }
 
@@ -197,9 +213,9 @@ public class Autentificacion
 
         Autentificacion i = new Autentificacion();
         
-     UserLogin u= i.getCamposLogin(login);
+        UserLogin u= i.getCamposLogin(login);
        System.out.println(u.toString());
-       // i.getSubordinados(login);
+
 
 
     }
