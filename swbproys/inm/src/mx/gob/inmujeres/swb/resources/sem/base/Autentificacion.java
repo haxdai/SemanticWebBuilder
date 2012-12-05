@@ -7,6 +7,7 @@ package mx.gob.inmujeres.swb.resources.sem.base;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import javax.naming.Context;
@@ -24,8 +25,7 @@ import org.semanticwb.model.UserRepository;
  *
  * @author gabriela.rosales
  */
-public class Autentificacion
-{
+public class Autentificacion {
 
     protected UserRepository userRep;
     protected Properties props;
@@ -39,16 +39,14 @@ public class Autentificacion
     static Logger log = SWBUtils.getLogger(Autentificacion.class);
     //NamingEnumeration answers = null;
 
-    public Autentificacion()
-    {
+    public Autentificacion() {
         props = SWBUtils.TEXT.getPropertyFile("/genericLDAP.properties"); //archivo de configuracion externa
         this.userObjectClass = props.getProperty("userObjectClass", "person"); //clase objeto para buscar usuario
         this.seekField = props.getProperty("seekField", "sAmAccountName");// campo llave para busqueda
 
     }
 
-     public Autentificacion(String properties)
-    {
+    public Autentificacion(String properties) {
         props = SWBUtils.TEXT.getPropertyFile(properties); //archivo de configuracion externa
         this.userObjectClass = props.getProperty("userObjectClass", "person"); //clase objeto para buscar usuario
         this.seekField = props.getProperty("seekField", "sAmAccountName");// campo llave para busqueda
@@ -56,59 +54,50 @@ public class Autentificacion
     }
 
     //Devuelve una lista con los 5 campos del usuario loggeado
-    public UserLogin getCamposLogin(String login)
-    {
+    public UserLogin getCamposLogin(String login) {
 
         DirContext dir = null;
         javax.naming.directory.Attributes atts = null;
         UserLogin userLogin = new UserLogin();
 
-        try
-        {
+        try {
             dir = AuthenticateLP();
 
             SearchControls ctls = new SearchControls(); //metodo de java, recuperar, peticion de atributos
-            ctls.setReturningAttributes(new String[]
-                    {
-                         "*"
+            ctls.setReturningAttributes(new String[]{
+                        "*"
                     });
             ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
             NamingEnumeration<SearchResult> answers = dir.search(props.getProperty("base", ""),
                     "(&(objectClass=" + userObjectClass + ")(" + seekField + "=" + login + "))", ctls); //recibe nombre, filtro y un search
 
 
-            atts =  answers.next().getAttributes();
+            atts = answers.next().getAttributes();
 
-            if(atts.get("departmentNumber").get()!=null){
-            userLogin.setAreaAdscripcion(atts.get("departmentNumber").get().toString());
+            if (atts.get("departmentNumber").get() != null) {
+                userLogin.setAreaAdscripcion(atts.get("departmentNumber").get().toString());
             }
-            if(atts.get("telephoneNumber").get()!=null){
-            userLogin.setExtension(atts.get("telephoneNumber").get().toString());
+            if (atts.get("telephoneNumber").get() != null) {
+                userLogin.setExtension(atts.get("telephoneNumber").get().toString());
             }
-            if(atts.get("description").get()!=null){
-            userLogin.setNivel(atts.get("description").get().toString());
+            if (atts.get("description").get() != null) {
+                userLogin.setNivel(atts.get("description").get().toString());
             }
-            if(atts.get("initials").get()!=null){
-            userLogin.setNoEmpleado(atts.get("initials").get().toString());
+            if (atts.get("initials").get() != null) {
+                userLogin.setNoEmpleado(atts.get("initials").get().toString());
             }
-            if(atts.get("title").get()!=null){
-            userLogin.setPuesto(atts.get("title").get().toString());
+            if (atts.get("title").get() != null) {
+                userLogin.setPuesto(atts.get("title").get().toString());
             }
-            if(atts.get("givenName").get()!=null){
-            userLogin.setNombre(atts.get("givenName").get().toString()+" "+atts.get("sn").get().toString());
+            if (atts.get("givenName").get() != null) {
+                userLogin.setNombre(atts.get("givenName").get().toString() + " " + atts.get("sn").get().toString());
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             log.error(e);
-        } finally
-        {
-            try
-            {
+        } finally {
+            try {
                 dir.close();
-            }
-            catch (Exception e2)
-            {
+            } catch (Exception e2) {
                 log.error(e2);
             }
         }
@@ -116,54 +105,42 @@ public class Autentificacion
     }
 
     //metodo que devuelve una lista de usuarios subordinados al loggeado
-    public List<String> getSubordinados(String login)
-    {
-        List<String> getSubordinados = new ArrayList<String>();
+    public List<UserSubordinado> getSubordinados(String login) {
+        List<UserSubordinado> getSubordinados = new ArrayList<UserSubordinado>();
         DirContext dir = null;
-        try
-        {
+        try {
             dir = AuthenticateLP();
             String cn = getCNFromLogin(login);
-            NamingEnumeration<SearchResult> answers=null;
+            NamingEnumeration<SearchResult> answers = null;
             SearchControls ctls = new SearchControls();
-            ctls.setReturningAttributes(new String[]
-                    {
-                        seekField
+            ctls.setReturningAttributes(new String[]{
+                        "*"
                     });
             ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
-            answers = dir.search(props.getProperty("base", ""),"(&(objectClass=" + userObjectClass + ")(manager="+ cn +"))", ctls);
-            while(answers.hasMore())
-            {
-                SearchResult result=answers.next();
-                if(result.getAttributes().get(seekField)!=null)
-                {
-                    String loginSubordinado=result.getAttributes().get(seekField).get().toString();
-                    getSubordinados.add(loginSubordinado);
+            answers = dir.search(props.getProperty("base", ""), "(&(objectClass=" + userObjectClass + ")(manager=" + cn + "))", ctls);
+
+            while (answers.hasMore()) {
+                SearchResult result = answers.next();         
+
+                if (result.getAttributes().get(seekField) != null) {
+                   UserSubordinado us   = new UserSubordinado(result.getAttributes().get("uid").get().toString(),result.getAttributes().get("givenName").get().toString() + " "+result.getAttributes().get("sn").get().toString());
+                   getSubordinados.add(us);
+
                 }
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             log.error(e);
-        } finally
-        {
-            try
-            {
+        } finally {
+            try {
                 dir.close();
-            }
-            catch (Exception e2)
-            {
+            } catch (Exception e2) {
                 log.error(e2);
             }
         }
         return getSubordinados;
     }
-   
-    
 
-    private DirContext AuthenticateLP() throws NamingException
-    {
-
+    private DirContext AuthenticateLP() throws NamingException {
         Hashtable env = new Hashtable();
         env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
         env.put(Context.PROVIDER_URL, props.getProperty("url", "ldap://" + HOST + ":" + PORT));
@@ -174,32 +151,23 @@ public class Autentificacion
         return ctx;
     }
 
-    private String getCNFromLogin(String login)
-    {
+    private String getCNFromLogin(String login) {
         DirContext dir = null;
         NamingEnumeration answers = null;
-        try
-        {
+        try {
             dir = AuthenticateLP();
             SearchControls ctls = new SearchControls();
             ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
             String name = props.getProperty("base", BASE);
             answers = dir.search(name, "(&(objectClass=" + userObjectClass + ")(" + seekField + "=" + login + "))", ctls);
             return ((SearchResult) answers.next()).getName() + "," + props.getProperty("base", BASE);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             log.error(e);
-        } finally
-        {
-            if (dir != null)
-            {
-                try
-                {
+        } finally {
+            if (dir != null) {
+                try {
                     dir.close();
-                }
-                catch (Exception e)
-                {
+                } catch (Exception e) {
                     log.error(e);
                 }
             }
@@ -207,15 +175,19 @@ public class Autentificacion
         return null;
     }
 
-    public static void main(String args[]) throws IOException
-    {
-        String login = "sandra.varela";
+    public static void main(String args[]) throws IOException {
+        String login = "jaki";
+
 
         Autentificacion i = new Autentificacion();
-        i.getSubordinados(login);
-        UserLogin u= i.getCamposLogin(login);
-       System.out.println(u);
+        List<UserSubordinado> us = new ArrayList<UserSubordinado>();
+        us = i.getSubordinados(login);
+      
+        Iterator ii = us.iterator();
 
+        while (ii.hasNext()) {
+            System.out.println(ii.next());
+        }
 
 
     }
