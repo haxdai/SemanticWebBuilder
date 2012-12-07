@@ -6,6 +6,9 @@ package com.infotec.conorg.indexer.parser;
 
 import com.infotec.conorg.Book;
 import com.infotec.conorg.Document;
+import com.infotec.conorg.Member;
+import com.infotec.conorg.Shelf;
+import com.infotec.conorg.Tile;
 import com.infotec.conorg.Topic;
 import com.infotec.conorg.WorkSpace;
 import java.util.HashMap;
@@ -15,6 +18,7 @@ import org.semanticwb.SWBUtils;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.Resourceable;
 import org.semanticwb.model.Searchable;
+import org.semanticwb.model.User;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.portal.indexer.parser.GenericParser;
@@ -42,6 +46,40 @@ public class BookParser  extends GenericParser {
         return ((Book) gen).getDescription();
     }
 
+        @Override
+    public boolean canUserView(Searchable gen, User user) {
+       Tile doc = (Tile)gen;
+        Resource res = doc.getResource();
+        WebSite wsite = res.getWebSite();
+
+        String strConfig = res.getAttribute(CONFIG_AS,CONFIG_SHELF);
+        String strIDShelf = res.getAttribute(CONFIG_IDSHELF);
+
+         Shelf shelf = Shelf.ClassMgr.getShelf(user.getId(), wsite);
+        
+        boolean haveAccess = Boolean.FALSE;
+        if(CONFIG_SHELF.equals(strConfig)&&null!=strIDShelf){
+             if(shelf.hasTile(doc)) haveAccess = Boolean.TRUE;
+        }
+         if(CONFIG_WORKSPACE.equals(strConfig)){
+            Iterator<WorkSpace> itws = WorkSpace.ClassMgr.listWorkSpaceByTile(doc);
+            while (itws.hasNext()) {
+                WorkSpace workSpace = itws.next();
+                Iterator<Member> itmem = workSpace.listMembers();
+                while (itmem.hasNext()) {
+                    Member member = itmem.next();
+                    if(member.getUser().equals(user)){
+                        haveAccess = Boolean.TRUE;
+                        break;
+                    }
+                }
+                 if(haveAccess) break;
+            }
+        }
+
+        return haveAccess;
+    }
+    
     @Override
     public String getIndexTitle(Searchable gen) {
         String ret = ((Book) gen).getTitle();
