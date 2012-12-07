@@ -8,9 +8,11 @@ import com.infotec.conorg.Contact;
 import com.infotec.conorg.Document;
 import com.infotec.conorg.Image;
 import com.infotec.conorg.Manual;
+import com.infotec.conorg.Member;
 import com.infotec.conorg.Mosaic;
 import com.infotec.conorg.Presentation;
 import com.infotec.conorg.Report;
+import com.infotec.conorg.Shelf;
 import com.infotec.conorg.Tile;
 import com.infotec.conorg.Topic;
 import com.infotec.conorg.URL;
@@ -23,6 +25,7 @@ import org.semanticwb.SWBUtils;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.Resourceable;
 import org.semanticwb.model.Searchable;
+import org.semanticwb.model.User;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.portal.indexer.parser.GenericParser;
@@ -74,6 +77,49 @@ public class TileParser extends GenericParser {
         return ((Tile)gen).getDescription();
     }
 
+    @Override
+    public boolean canUserView(Searchable gen, User user) {
+       Tile doc = (Tile)gen;
+        Resource res = doc.getResource();
+        WebSite wsite = res.getWebSite();
+        Resourceable resable =((WebPage)res.getResourceable());
+        String urlDoc = ((WebPage)res.getResourceable()).getUrl();
+        
+        String strConfig = res.getAttribute(CONFIG_AS,CONFIG_SHELF);
+        String strIDShelf = res.getAttribute(CONFIG_IDSHELF);
+        String strIDWorkSpace = res.getAttribute(CONFIG_IDWORKSPACE);
+        
+         Shelf shelf = Shelf.ClassMgr.getShelf(user.getId(), wsite);
+         
+         shelf.hasTile(doc);
+        
+        boolean haveAccess = Boolean.FALSE;
+        if(CONFIG_SHELF.equals(strConfig)&&null!=strIDShelf){
+             urlDoc = wsite.getWebPage(strIDShelf).getUrl();
+             haveAccess = Boolean.TRUE;
+        }
+         if(CONFIG_WORKSPACE.equals(strConfig)){
+            Iterator<WorkSpace> itws = WorkSpace.ClassMgr.listWorkSpaceByTile(doc);
+            while (itws.hasNext()) {
+                WorkSpace workSpace = itws.next();
+                Iterator<Member> itmem = workSpace.listMembers();
+                while (itmem.hasNext()) {
+                    Member member = itmem.next();
+                    if(member.getUser().equals(user)){
+                        haveAccess = Boolean.TRUE;
+                        break;
+                    }
+                }
+                 urlDoc += "&wsid=" + workSpace.getId();
+                 if(haveAccess) break;
+            }
+           
+        }
+
+        return haveAccess;
+    }
+
+    
     
     @Override
     public String getUrl(Searchable gen) {
