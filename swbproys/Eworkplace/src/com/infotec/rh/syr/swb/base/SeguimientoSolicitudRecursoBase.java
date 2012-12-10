@@ -4,7 +4,7 @@ package com.infotec.rh.syr.swb.base;
    /**
    * Encapsula las propiedades de seguimiento a una solicitud de recursos humanos 
    */
-public abstract class SeguimientoSolicitudRecursoBase extends com.infotec.eworkplace.swb.Seguimiento implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class SeguimientoSolicitudRecursoBase extends com.infotec.eworkplace.swb.Seguimiento implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_validaRH=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#validaRH");
     public static final org.semanticwb.platform.SemanticProperty intranet_concluyeSeleccionCompetencias=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#concluyeSeleccionCompetencias");
