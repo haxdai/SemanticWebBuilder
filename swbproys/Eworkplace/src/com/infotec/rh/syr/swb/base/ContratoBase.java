@@ -758,20 +758,20 @@ public abstract class ContratoBase extends org.semanticwb.model.SWBClass impleme
 
 /**
 * Gets the ClabeInterbancaria property
-* @return int with the ClabeInterbancaria
+* @return String with the ClabeInterbancaria
 */
-    public int getClabeInterbancaria()
+    public String getClabeInterbancaria()
     {
-        return getSemanticObject().getIntProperty(intranet_clabeInterbancaria);
+        return getSemanticObject().getProperty(intranet_clabeInterbancaria);
     }
 
 /**
 * Sets the ClabeInterbancaria property
 * @param value long with the ClabeInterbancaria
 */
-    public void setClabeInterbancaria(int value)
+    public void setClabeInterbancaria(String value)
     {
-        getSemanticObject().setIntProperty(intranet_clabeInterbancaria, value);
+        getSemanticObject().setProperty(intranet_clabeInterbancaria, value);
     }
 
 /**
