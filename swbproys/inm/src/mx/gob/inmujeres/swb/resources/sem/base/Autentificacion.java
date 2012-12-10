@@ -74,22 +74,22 @@ public class Autentificacion {
 
             atts = answers.next().getAttributes();
 
-            if (atts.get("departmentNumber").get() != null) {
+            if (atts.get("departmentNumber")!=null && atts.get("departmentNumber").get() != null) {
                 userLogin.setAreaAdscripcion(atts.get("departmentNumber").get().toString());
             }
-            if (atts.get("telephoneNumber").get() != null) {
+            if (atts.get("telephoneNumber")!=null && atts.get("telephoneNumber").get() != null) {
                 userLogin.setExtension(atts.get("telephoneNumber").get().toString());
             }
-            if (atts.get("description").get() != null) {
+            if (atts.get("description")!=null && atts.get("description").get() != null) {
                 userLogin.setNivel(atts.get("description").get().toString());
             }
-            if (atts.get("initials").get() != null) {
+            if (atts.get("initials")!=null && atts.get("initials").get() != null) {
                 userLogin.setNoEmpleado(atts.get("initials").get().toString());
             }
-            if (atts.get("title").get() != null) {
+            if (atts.get("title")!=null && atts.get("title").get() != null) {
                 userLogin.setPuesto(atts.get("title").get().toString());
             }
-            if (atts.get("givenName").get() != null) {
+            if (atts.get("givenName")!=null && atts.get("givenName").get() != null) {
                 userLogin.setNombre(atts.get("givenName").get().toString() + " " + atts.get("sn").get().toString());
             }
         } catch (Exception e) {
