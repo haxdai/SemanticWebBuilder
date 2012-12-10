@@ -562,23 +562,23 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
         }
        /**
        * Gets all com.infotec.cvi.swb.SolicitudRecurso with a determined CentroDeCosto
-       * @param value CentroDeCosto of the type com.infotec.rh.syr.swb.CentroCosto
+       * @param value CentroDeCosto of the type com.infotec.eworkplace.swb.CentroCosto
        * @param model Model of the com.infotec.cvi.swb.SolicitudRecurso
        * @return Iterator with all the com.infotec.cvi.swb.SolicitudRecurso
        */
 
-        public static java.util.Iterator<com.infotec.cvi.swb.SolicitudRecurso> listSolicitudRecursoByCentroDeCosto(com.infotec.rh.syr.swb.CentroCosto value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<com.infotec.cvi.swb.SolicitudRecurso> listSolicitudRecursoByCentroDeCosto(com.infotec.eworkplace.swb.CentroCosto value,org.semanticwb.model.SWBModel model)
         {
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.SolicitudRecurso> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(intranet_centroDeCosto, value.getSemanticObject(),sclass));
             return it;
         }
        /**
        * Gets all com.infotec.cvi.swb.SolicitudRecurso with a determined CentroDeCosto
-       * @param value CentroDeCosto of the type com.infotec.rh.syr.swb.CentroCosto
+       * @param value CentroDeCosto of the type com.infotec.eworkplace.swb.CentroCosto
        * @return Iterator with all the com.infotec.cvi.swb.SolicitudRecurso
        */
 
-        public static java.util.Iterator<com.infotec.cvi.swb.SolicitudRecurso> listSolicitudRecursoByCentroDeCosto(com.infotec.rh.syr.swb.CentroCosto value)
+        public static java.util.Iterator<com.infotec.cvi.swb.SolicitudRecurso> listSolicitudRecursoByCentroDeCosto(com.infotec.eworkplace.swb.CentroCosto value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.cvi.swb.SolicitudRecurso> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(intranet_centroDeCosto,value.getSemanticObject(),sclass));
             return it;
@@ -1839,7 +1839,7 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
    * @param value CentroDeCosto to set
    */
 
-    public void setCentroDeCosto(com.infotec.rh.syr.swb.CentroCosto value)
+    public void setCentroDeCosto(com.infotec.eworkplace.swb.CentroCosto value)
     {
         if(value!=null)
         {
@@ -1860,15 +1860,15 @@ public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass
 
    /**
    * Gets the CentroDeCosto
-   * @return a com.infotec.rh.syr.swb.CentroCosto
+   * @return a com.infotec.eworkplace.swb.CentroCosto
    */
-    public com.infotec.rh.syr.swb.CentroCosto getCentroDeCosto()
+    public com.infotec.eworkplace.swb.CentroCosto getCentroDeCosto()
     {
-         com.infotec.rh.syr.swb.CentroCosto ret=null;
+         com.infotec.eworkplace.swb.CentroCosto ret=null;
          org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(intranet_centroDeCosto);
          if(obj!=null)
          {
-             ret=(com.infotec.rh.syr.swb.CentroCosto)obj.createGenericInstance();
+             ret=(com.infotec.eworkplace.swb.CentroCosto)obj.createGenericInstance();
          }
          return ret;
     }

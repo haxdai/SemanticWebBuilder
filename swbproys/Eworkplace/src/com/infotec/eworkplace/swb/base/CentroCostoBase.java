@@ -3,6 +3,8 @@ package com.infotec.eworkplace.swb.base;
 
 public abstract class CentroCostoBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
+    public static final org.semanticwb.platform.SemanticProperty intranet_titularArea=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#titularArea");
+    public static final org.semanticwb.platform.SemanticProperty intranet_numeroArea=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#numeroArea");
     public static final org.semanticwb.platform.SemanticClass intranet_CentroCosto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#CentroCosto");
    /**
    * The semantic class that represents the currentObject
@@ -138,5 +140,41 @@ public abstract class CentroCostoBase extends com.infotec.cvi.swb.Catalogo imple
     public CentroCostoBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+/**
+* Gets the TitularArea property
+* @return String with the TitularArea
+*/
+    public String getTitularArea()
+    {
+        return getSemanticObject().getProperty(intranet_titularArea);
+    }
+
+/**
+* Sets the TitularArea property
+* @param value long with the TitularArea
+*/
+    public void setTitularArea(String value)
+    {
+        getSemanticObject().setProperty(intranet_titularArea, value);
+    }
+
+/**
+* Gets the NumeroArea property
+* @return String with the NumeroArea
+*/
+    public String getNumeroArea()
+    {
+        return getSemanticObject().getProperty(intranet_numeroArea);
+    }
+
+/**
+* Sets the NumeroArea property
+* @param value long with the NumeroArea
+*/
+    public void setNumeroArea(String value)
+    {
+        getSemanticObject().setProperty(intranet_numeroArea, value);
     }
 }
