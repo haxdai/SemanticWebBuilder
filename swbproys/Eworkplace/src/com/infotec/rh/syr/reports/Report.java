@@ -48,7 +48,7 @@ public class Report {
     SimpleDateFormat MMMM;
     NumberFormat currency;
     WebSite webSite;
-    UserInformation userInfo;
+    //UserInformation userInfo;
     Services service;
     
     public Report(final Instance instance) throws Exception
