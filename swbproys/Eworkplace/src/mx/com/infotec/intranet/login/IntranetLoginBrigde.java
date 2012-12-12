@@ -950,7 +950,8 @@ public class IntranetLoginBrigde extends ExtUserRepInt
             ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
             String name = props.getProperty("base", BASE);
             answers = dir.search(name, "(&(objectClass=" + userObjectClass + ")(" + seekField + "=" + login + "))", ctls);
-            return answers.next().getName() + "," + props.getProperty("base", BASE);
+            String nameUser=answers.next().getName();
+            return nameUser + "," + props.getProperty("base", BASE);
         }
         catch (Exception e)
         {
