@@ -251,7 +251,7 @@ public class IntranetLoginBrigde extends ExtUserRepInt
             dir = AuthenticateLP();
             Attributes matchAttrs = new BasicAttributes(true); // ignore case
             matchAttrs.put(new BasicAttribute("objectClass", userObjectClass));
-            NamingEnumeration answers = null;
+            NamingEnumeration<SearchResult> answers = null;
 
             SearchControls ctls = new SearchControls();
             ctls.setReturningAttributes(new String[]
@@ -264,7 +264,7 @@ public class IntranetLoginBrigde extends ExtUserRepInt
 
 
 
-            javax.naming.directory.Attributes atts = ((SearchResult) answers.next()).getAttributes();
+            javax.naming.directory.Attributes atts = answers.next().getAttributes();
             if (!ru.getUserRepository().hasUser(login))
             {
                 user = ru.getUserRepository().createUser(login);
@@ -593,7 +593,7 @@ public class IntranetLoginBrigde extends ExtUserRepInt
             dir = AuthenticateLP();
             Attributes matchAttrs = new BasicAttributes(true); // ignore case
             matchAttrs.put(new BasicAttribute("objectClass", userObjectClass));
-            NamingEnumeration answers = null;
+            NamingEnumeration<SearchResult> answers = null;
 
             SearchControls ctls = new SearchControls();
             ctls.setReturningAttributes(new String[]
@@ -605,7 +605,7 @@ public class IntranetLoginBrigde extends ExtUserRepInt
                     "(&(objectClass=" + userObjectClass + ")(distinguishedName=" + cn + "))", ctls);
 
 
-            name = ((SearchResult) answers.next()).getAttributes().get(seekField).toString();
+            name =  answers.next().getAttributes().get(seekField).toString();
         }
         catch (Exception e)
         {
@@ -626,7 +626,7 @@ public class IntranetLoginBrigde extends ExtUserRepInt
             dir = AuthenticateLP();
             Attributes matchAttrs = new BasicAttributes(true); // ignore case
             matchAttrs.put(new BasicAttribute("objectClass", "organizationalUnit"));
-            NamingEnumeration answers = null;
+            NamingEnumeration<SearchResult> answers = null;
 
             SearchControls ctls = new SearchControls();
             ctls.setReturningAttributes(new String[]
@@ -638,7 +638,7 @@ public class IntranetLoginBrigde extends ExtUserRepInt
                     "(&(objectClass=organizationalUnit)(ou=" + OU + "))", ctls);
 
 
-            name = ((SearchResult) answers.next()).getAttributes().get("name").toString();
+            name = answers.next().getAttributes().get("name").toString();
         }
         catch (Exception e)
         {
@@ -659,7 +659,7 @@ public class IntranetLoginBrigde extends ExtUserRepInt
             dir = AuthenticateLP();
             Attributes matchAttrs = new BasicAttributes(true); // ignore case
             matchAttrs.put(new BasicAttribute("objectClass", "organizationalUnit"));
-            NamingEnumeration answers = null;
+            NamingEnumeration<SearchResult> answers = null;
 
             SearchControls ctls = new SearchControls();
             ctls.setReturningAttributes(new String[]
@@ -671,7 +671,7 @@ public class IntranetLoginBrigde extends ExtUserRepInt
                     "(&(objectClass=organizationalUnit)(ou=" + OU + "))", ctls);
             if (answers.hasMore())
             {
-                SearchResult result = (SearchResult) answers.next();
+                SearchResult result = answers.next();
                 if (result != null && result.getAttributes().get("description") != null)
                 {
                     name = result.getAttributes().get("description").toString();
@@ -1115,11 +1115,11 @@ public class IntranetLoginBrigde extends ExtUserRepInt
     {
         try
         {
-            NamingEnumeration ne = getUserList();
+            NamingEnumeration<SearchResult> ne = getUserList();
             String currLog;
             while (ne.hasMore())
             {
-                SearchResult sr = (SearchResult) ne.next();
+                SearchResult sr = ne.next();
                 currLog = (String) sr.getAttributes().get(seekField).get();
                 userRep.getUserByLogin(currLog);
             }
@@ -1147,13 +1147,7 @@ public class IntranetLoginBrigde extends ExtUserRepInt
                 });
         ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
         answers = ctx.search(props.getProperty("base", ""),
-                "objectClass=" + userObjectClass, ctls);
-
-        /*SearchControls ctls = new SearchControls();
-        ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
-        NamingEnumeration answers = ctx.search(DBUser.getInstance(repository).getProperty("container", ""),
-        "objectClass=WBPerson"
-        , ctls);*/
+                "objectClass=" + userObjectClass, ctls);        
         ctx.close();
         return answers;
     }
