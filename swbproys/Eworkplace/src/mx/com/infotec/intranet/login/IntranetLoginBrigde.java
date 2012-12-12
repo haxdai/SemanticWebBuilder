@@ -940,7 +940,7 @@ public class IntranetLoginBrigde extends ExtUserRepInt
     private String getCNFromLogin(String login)
     {
         DirContext dir = null;
-        NamingEnumeration answers = null;
+        NamingEnumeration<SearchResult> answers = null;
         try
         {
 
@@ -950,7 +950,7 @@ public class IntranetLoginBrigde extends ExtUserRepInt
             ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
             String name = props.getProperty("base", BASE);
             answers = dir.search(name, "(&(objectClass=" + userObjectClass + ")(" + seekField + "=" + login + "))", ctls);
-            return ((SearchResult) answers.next()).getName() + "," + props.getProperty("base", BASE);
+            return answers.next().getName() + "," + props.getProperty("base", BASE);
         }
         catch (Exception e)
         {
