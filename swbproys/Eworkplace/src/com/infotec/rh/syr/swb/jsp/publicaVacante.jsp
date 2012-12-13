@@ -117,6 +117,7 @@ SWBResourceURL urlact = paramRequest.getActionUrl();
 urlact.setAction("process");
 
 SWBProcessFormMgr fmgr = new SWBProcessFormMgr(foi);
+Services services = new Services();
 %>
 <%=SWBForms.DOJO_REQUIRED%>
 <div id="processForm">
