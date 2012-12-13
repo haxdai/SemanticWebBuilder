@@ -1,3 +1,4 @@
+<%@page import="com.infotec.eworkplace.swb.CentroCosto"%>
 <%@page import="org.semanticwb.SWBPortal"%>
 <%@page import="org.semanticwb.platform.SemanticObject"%>
 <%@page import="org.semanticwb.process.model.UserTask"%>
