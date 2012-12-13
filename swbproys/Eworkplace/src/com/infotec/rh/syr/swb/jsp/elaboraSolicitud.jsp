@@ -1,3 +1,4 @@
+<%@page import="com.infotec.eworkplace.swb.CentroCosto"%>
 <%@page import="mx.com.infotec.intranet.login.Services"%>
 <%@page import="org.semanticwb.model.FormElement"%>
 <%@page import="com.infotec.eworkplace.swb.formelements.Currency"%>
