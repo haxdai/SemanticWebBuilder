@@ -1,3 +1,4 @@
+<%@page import="com.infotec.eworkplace.swb.CentroCosto"%>
 <%@page import="com.infotec.rh.syr.swb.SeguimientoSolicitudRecurso"%>
 <%@page import="com.infotec.rh.syr.swb.PartidaPresupuesto"%>
 <%@page import="com.infotec.rh.syr.swb.CapituloPresupuesto"%>
