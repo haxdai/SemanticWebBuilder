@@ -106,22 +106,22 @@ public class Services
         props = SWBUtils.TEXT.getPropertyFile(pathProperties);
         this.userObjectClass = props.getProperty("userObjectClass", "person");
         this.seekField = props.getProperty("seekField", "sAmAccountName");
-        this.PASSWORD=props.getProperty("credential");
+        this.PASSWORD = props.getProperty("credential");
         try
         {
-            String _url=props.getProperty("url");
-            log.error("url: "+_url);
-            _url=_url.replace("ldap", "http");
-            URL url=new URL(_url);
-            HOST=url.getHost();
-            int port=url.getPort();
-            if(port!=-1)
+            String _url = props.getProperty("url");
+            log.error("url: " + _url);
+            _url = _url.replace("ldap", "http");
+            URL url = new URL(_url);
+            HOST = url.getHost();
+            int port = url.getPort();
+            if (port != -1)
             {
-                PORT=port;
+                PORT = port;
             }
 
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             log.error(e);
         }
@@ -165,7 +165,7 @@ public class Services
 
     private Integer getNumArea(String token) throws ServiceException
     {
-        Integer lastNumber=null;
+        Integer lastNumber = null;
         if (token.startsWith("OU="))
         {
             String OU = token.substring(3).trim();
@@ -1097,20 +1097,22 @@ public class Services
     {
 
 
-        
+
         Services s = new Services();
 
         UserInformation userInformation = new UserInformation();
 
-        String login = "luis.valeriano";
+        String login = "corinna.tobon";
 
         try
         {
+            Area value=s.getDireccionAdscripcion(login);
+            System.out.println("Area: "+value.area);
             s.getUserInformation(login);
             Integer area = s.getAreaAdscripcion(login);
-            System.out.println("area: "+area);
+            System.out.println("area: " + area);
 
-            
+
         }
         catch (Exception e)
         {
@@ -1431,7 +1433,7 @@ public class Services
     {
         Hashtable env = new Hashtable();
         env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
-        String ip=props.getProperty("url", "ldap://" + HOST + ":" + PORT);
+        String ip = props.getProperty("url", "ldap://" + HOST + ":" + PORT);
         env.put(Context.PROVIDER_URL, ip);
         env.put(Context.SECURITY_AUTHENTICATION, "simple");
         String cn = getCNFromLogin(login);
@@ -1509,12 +1511,12 @@ public class Services
     {
         Hashtable env = new Hashtable();
         env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
-        String url=props.getProperty("url", "ldap://" + HOST + ":" + PORT);
+        String url = props.getProperty("url", "ldap://" + HOST + ":" + PORT);
         //env.put(Context.PROVIDER_URL, props.getProperty("url", "ldap://" + HOST + ":" + PORT));
         env.put(Context.PROVIDER_URL, url);
         env.put(Context.SECURITY_AUTHENTICATION, "simple");
-        String principal=props.getProperty("principal", PRINCIPAL);
-        String password=props.getProperty("password", PASSWORD);
+        String principal = props.getProperty("principal", PRINCIPAL);
+        String password = props.getProperty("password", PASSWORD);
         env.put(Context.SECURITY_PRINCIPAL, principal); // specify the username
         env.put(Context.SECURITY_CREDENTIALS, password);
         try
@@ -1906,7 +1908,7 @@ public class Services
             {
                 String token = st.nextToken();
                 lastNumber = getNumArea(token);
-                if(lastNumber!=null)
+                if (lastNumber != null)
                 {
                     return lastNumber;
                 }
@@ -1931,6 +1933,23 @@ public class Services
         catch (Exception e)
         {
             throw new ServiceException("No se puede obtener el no. de extensión", e);
+        }
+        return null;
+    }
+
+    public Area getDireccionAdscripcion(String login)
+    {
+        try
+        {
+            List<Area> values = getAdscripciones(login);
+            if (!values.isEmpty())
+            {
+                return values.get(0);
+            }
+        }
+        catch (Exception e)
+        {
+            log.error(e);
         }
         return null;
     }
