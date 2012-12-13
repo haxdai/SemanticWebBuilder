@@ -1067,7 +1067,8 @@ public class IntranetLoginBrigde extends ExtUserRepInt
                 props.getProperty("factory", "com.sun.jndi.ldap.LdapCtxFactory"));
         env.put(Context.PROVIDER_URL, props.getProperty("url", "ldap://localhost"));
 
-        env.put(Context.SECURITY_PRINCIPAL, getCNFromLogin(login));
+        //env.put(Context.SECURITY_PRINCIPAL, getCNFromLogin(login));
+        env.put(Context.SECURITY_PRINCIPAL, login);
 
         env.put(Context.SECURITY_CREDENTIALS, credential);
         try
