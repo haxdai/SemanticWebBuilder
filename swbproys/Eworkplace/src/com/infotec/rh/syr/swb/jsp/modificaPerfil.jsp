@@ -1,3 +1,4 @@
+<%@page import="com.infotec.eworkplace.swb.CentroCosto"%>
 <%@page import="mx.com.infotec.intranet.login.Services"%>
 <%@page import="com.infotec.cvi.swb.Habilidad"%>
 <%@page import="com.infotec.cvi.swb.TipoTalento"%>
