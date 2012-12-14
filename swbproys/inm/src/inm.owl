@@ -964,6 +964,7 @@
     <rdfs:domain rdf:resource="#ApartadoSala"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="requierePodium">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
     <rdfs:domain rdf:resource="#ApartadoSala"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="servicioAdicional">
