@@ -7,12 +7,12 @@ package mx.gob.inmujeres.swb.base;
 public abstract class SalaBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Activeable
 {
     public static final org.semanticwb.platform.SemanticProperty inm_tienePantalla=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#tienePantalla");
-    public static final org.semanticwb.platform.SemanticProperty inm_capacidad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#capacidad");
-    public static final org.semanticwb.platform.SemanticProperty inm_ubicacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#ubicacion");
-    public static final org.semanticwb.platform.SemanticProperty inm_requiereCarpa=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#requiereCarpa");
     public static final org.semanticwb.platform.SemanticProperty inm_tieneMultimedia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#tieneMultimedia");
-    public static final org.semanticwb.platform.SemanticProperty inm_tieneWifi=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#tieneWifi");
     public static final org.semanticwb.platform.SemanticProperty inm_tieneProyector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#tieneProyector");
+    public static final org.semanticwb.platform.SemanticProperty inm_ubicacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#ubicacion");
+    public static final org.semanticwb.platform.SemanticProperty inm_capacidad=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#capacidad");
+    public static final org.semanticwb.platform.SemanticProperty inm_requiereCarpa=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#requiereCarpa");
+    public static final org.semanticwb.platform.SemanticProperty inm_tieneWifi=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#tieneWifi");
    /**
    * Representa una sala de juntas
    */
@@ -126,6 +126,42 @@ public abstract class SalaBase extends org.semanticwb.model.SWBClass implements 
     }
 
 /**
+* Gets the TieneMultimedia property
+* @return boolean with the TieneMultimedia
+*/
+    public boolean isTieneMultimedia()
+    {
+        return getSemanticObject().getBooleanProperty(inm_tieneMultimedia);
+    }
+
+/**
+* Sets the TieneMultimedia property
+* @param value long with the TieneMultimedia
+*/
+    public void setTieneMultimedia(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(inm_tieneMultimedia, value);
+    }
+
+/**
+* Gets the TieneProyector property
+* @return boolean with the TieneProyector
+*/
+    public boolean isTieneProyector()
+    {
+        return getSemanticObject().getBooleanProperty(inm_tieneProyector);
+    }
+
+/**
+* Sets the TieneProyector property
+* @param value long with the TieneProyector
+*/
+    public void setTieneProyector(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(inm_tieneProyector, value);
+    }
+
+/**
 * Gets the Title property
 * @return String with the Title
 */
@@ -156,6 +192,24 @@ public abstract class SalaBase extends org.semanticwb.model.SWBClass implements 
     public void setTitle(String title, String lang)
     {
         getSemanticObject().setProperty(swb_title, title, lang);
+    }
+
+/**
+* Gets the Ubicacion property
+* @return String with the Ubicacion
+*/
+    public String getUbicacion()
+    {
+        return getSemanticObject().getProperty(inm_ubicacion);
+    }
+
+/**
+* Sets the Ubicacion property
+* @param value long with the Ubicacion
+*/
+    public void setUbicacion(String value)
+    {
+        getSemanticObject().setProperty(inm_ubicacion, value);
     }
 
 /**
@@ -192,6 +246,24 @@ public abstract class SalaBase extends org.semanticwb.model.SWBClass implements 
     }
 
 /**
+* Gets the Active property
+* @return boolean with the Active
+*/
+    public boolean isActive()
+    {
+        return getSemanticObject().getBooleanProperty(swb_active);
+    }
+
+/**
+* Sets the Active property
+* @param value long with the Active
+*/
+    public void setActive(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(swb_active, value);
+    }
+
+/**
 * Gets the Capacidad property
 * @return int with the Capacidad
 */
@@ -207,24 +279,6 @@ public abstract class SalaBase extends org.semanticwb.model.SWBClass implements 
     public void setCapacidad(int value)
     {
         getSemanticObject().setIntProperty(inm_capacidad, value);
-    }
-
-/**
-* Gets the Ubicacion property
-* @return String with the Ubicacion
-*/
-    public String getUbicacion()
-    {
-        return getSemanticObject().getProperty(inm_ubicacion);
-    }
-
-/**
-* Sets the Ubicacion property
-* @param value long with the Ubicacion
-*/
-    public void setUbicacion(String value)
-    {
-        getSemanticObject().setProperty(inm_ubicacion, value);
     }
 
 /**
@@ -246,24 +300,6 @@ public abstract class SalaBase extends org.semanticwb.model.SWBClass implements 
     }
 
 /**
-* Gets the TieneMultimedia property
-* @return boolean with the TieneMultimedia
-*/
-    public boolean isTieneMultimedia()
-    {
-        return getSemanticObject().getBooleanProperty(inm_tieneMultimedia);
-    }
-
-/**
-* Sets the TieneMultimedia property
-* @param value long with the TieneMultimedia
-*/
-    public void setTieneMultimedia(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(inm_tieneMultimedia, value);
-    }
-
-/**
 * Gets the TieneWifi property
 * @return boolean with the TieneWifi
 */
@@ -279,41 +315,5 @@ public abstract class SalaBase extends org.semanticwb.model.SWBClass implements 
     public void setTieneWifi(boolean value)
     {
         getSemanticObject().setBooleanProperty(inm_tieneWifi, value);
-    }
-
-/**
-* Gets the Active property
-* @return boolean with the Active
-*/
-    public boolean isActive()
-    {
-        return getSemanticObject().getBooleanProperty(swb_active);
-    }
-
-/**
-* Sets the Active property
-* @param value long with the Active
-*/
-    public void setActive(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(swb_active, value);
-    }
-
-/**
-* Gets the TieneProyector property
-* @return boolean with the TieneProyector
-*/
-    public boolean isTieneProyector()
-    {
-        return getSemanticObject().getBooleanProperty(inm_tieneProyector);
-    }
-
-/**
-* Sets the TieneProyector property
-* @param value long with the TieneProyector
-*/
-    public void setTieneProyector(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(inm_tieneProyector, value);
     }
 }
