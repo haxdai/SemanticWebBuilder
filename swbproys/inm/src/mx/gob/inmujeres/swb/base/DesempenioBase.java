@@ -9,13 +9,8 @@ public abstract class DesempenioBase extends org.semanticwb.model.SWBClass imple
    */
     public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
     public static final org.semanticwb.platform.SemanticProperty inm_datosEvaluado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#datosEvaluado");
-    public static final org.semanticwb.platform.SemanticClass inm_TipoNivelGestion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#TipoNivelGestion");
-    public static final org.semanticwb.platform.SemanticProperty inm_nivelGestion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#nivelGestion");
     public static final org.semanticwb.platform.SemanticProperty inm_tiempoRelacionLaboral=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#tiempoRelacionLaboral");
-    public static final org.semanticwb.platform.SemanticProperty inm_metas=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#metas");
     public static final org.semanticwb.platform.SemanticProperty inm_nombreCurso=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#nombreCurso");
-    public static final org.semanticwb.platform.SemanticProperty inm_motivo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#motivo");
-    public static final org.semanticwb.platform.SemanticProperty inm_folio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#folio");
     public static final org.semanticwb.platform.SemanticProperty inm_justificacionObjetivoRelacionado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#justificacionObjetivoRelacionado");
     public static final org.semanticwb.platform.SemanticProperty inm_anio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#anio");
     public static final org.semanticwb.platform.SemanticProperty inm_acuerdos=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#acuerdos");
@@ -26,8 +21,12 @@ public abstract class DesempenioBase extends org.semanticwb.model.SWBClass imple
     public static final org.semanticwb.platform.SemanticProperty inm_medida=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#medida");
     public static final org.semanticwb.platform.SemanticProperty inm_evaluadoEvaluada=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#evaluadoEvaluada");
     public static final org.semanticwb.platform.SemanticProperty inm_evaluadorEvaluadora=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#evaluadorEvaluadora");
-    public static final org.semanticwb.platform.SemanticClass inm_Cuestionario=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#Cuestionario");
     public static final org.semanticwb.platform.SemanticProperty inm_cuestionarioAplicado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#cuestionarioAplicado");
+    public static final org.semanticwb.platform.SemanticClass inm_TipoNivelGestion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#TipoNivelGestion");
+    public static final org.semanticwb.platform.SemanticProperty inm_nivelGestion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#nivelGestion");
+    public static final org.semanticwb.platform.SemanticProperty inm_metas=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#metas");
+    public static final org.semanticwb.platform.SemanticProperty inm_motivo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#motivo");
+    public static final org.semanticwb.platform.SemanticProperty inm_folio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#folio");
     public static final org.semanticwb.platform.SemanticProperty inm_datosEvaluador=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#datosEvaluador");
     public static final org.semanticwb.platform.SemanticClass inm_Desempenio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#Desempenio");
    /**
@@ -128,29 +127,6 @@ public abstract class DesempenioBase extends org.semanticwb.model.SWBClass imple
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Desempenio with a determined NivelGestion
-       * @param value NivelGestion of the type mx.gob.inmujeres.swb.TipoNivelGestion
-       * @param model Model of the mx.gob.inmujeres.swb.Desempenio
-       * @return Iterator with all the mx.gob.inmujeres.swb.Desempenio
-       */
-
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Desempenio> listDesempenioByNivelGestion(mx.gob.inmujeres.swb.TipoNivelGestion value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Desempenio> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_nivelGestion, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all mx.gob.inmujeres.swb.Desempenio with a determined NivelGestion
-       * @param value NivelGestion of the type mx.gob.inmujeres.swb.TipoNivelGestion
-       * @return Iterator with all the mx.gob.inmujeres.swb.Desempenio
-       */
-
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Desempenio> listDesempenioByNivelGestion(mx.gob.inmujeres.swb.TipoNivelGestion value)
-        {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Desempenio> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_nivelGestion,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all mx.gob.inmujeres.swb.Desempenio with a determined TrimestreAnioAplicar
        * @param value TrimestreAnioAplicar of the type mx.gob.inmujeres.swb.Trimestre
        * @param model Model of the mx.gob.inmujeres.swb.Desempenio
@@ -197,26 +173,26 @@ public abstract class DesempenioBase extends org.semanticwb.model.SWBClass imple
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Desempenio with a determined CuestionarioAplicado
-       * @param value CuestionarioAplicado of the type mx.gob.inmujeres.swb.Cuestionario
+       * Gets all mx.gob.inmujeres.swb.Desempenio with a determined NivelGestion
+       * @param value NivelGestion of the type mx.gob.inmujeres.swb.TipoNivelGestion
        * @param model Model of the mx.gob.inmujeres.swb.Desempenio
        * @return Iterator with all the mx.gob.inmujeres.swb.Desempenio
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Desempenio> listDesempenioByCuestionarioAplicado(mx.gob.inmujeres.swb.Cuestionario value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Desempenio> listDesempenioByNivelGestion(mx.gob.inmujeres.swb.TipoNivelGestion value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Desempenio> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_cuestionarioAplicado, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Desempenio> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_nivelGestion, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Desempenio with a determined CuestionarioAplicado
-       * @param value CuestionarioAplicado of the type mx.gob.inmujeres.swb.Cuestionario
+       * Gets all mx.gob.inmujeres.swb.Desempenio with a determined NivelGestion
+       * @param value NivelGestion of the type mx.gob.inmujeres.swb.TipoNivelGestion
        * @return Iterator with all the mx.gob.inmujeres.swb.Desempenio
        */
 
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Desempenio> listDesempenioByCuestionarioAplicado(mx.gob.inmujeres.swb.Cuestionario value)
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Desempenio> listDesempenioByNivelGestion(mx.gob.inmujeres.swb.TipoNivelGestion value)
         {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Desempenio> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_cuestionarioAplicado,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Desempenio> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_nivelGestion,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -313,77 +289,6 @@ public abstract class DesempenioBase extends org.semanticwb.model.SWBClass imple
          }
          return ret;
     }
-   /**
-   * Sets the value for the property NivelGestion
-   * @param value NivelGestion to set
-   */
-
-    public void setNivelGestion(mx.gob.inmujeres.swb.TipoNivelGestion value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(inm_nivelGestion, value.getSemanticObject());
-        }else
-        {
-            removeNivelGestion();
-        }
-    }
-   /**
-   * Remove the value for NivelGestion property
-   */
-
-    public void removeNivelGestion()
-    {
-        getSemanticObject().removeProperty(inm_nivelGestion);
-    }
-
-   /**
-   * Gets the NivelGestion
-   * @return a mx.gob.inmujeres.swb.TipoNivelGestion
-   */
-    public mx.gob.inmujeres.swb.TipoNivelGestion getNivelGestion()
-    {
-         mx.gob.inmujeres.swb.TipoNivelGestion ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_nivelGestion);
-         if(obj!=null)
-         {
-             ret=(mx.gob.inmujeres.swb.TipoNivelGestion)obj.createGenericInstance();
-         }
-         return ret;
-    }
-
-/**
-* Gets the Description property
-* @return String with the Description
-*/
-    public String getDescription()
-    {
-        return getSemanticObject().getProperty(swb_description);
-    }
-
-/**
-* Sets the Description property
-* @param value long with the Description
-*/
-    public void setDescription(String value)
-    {
-        getSemanticObject().setProperty(swb_description, value);
-    }
-
-    public String getDescription(String lang)
-    {
-        return getSemanticObject().getProperty(swb_description, null, lang);
-    }
-
-    public String getDisplayDescription(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_description, lang);
-    }
-
-    public void setDescription(String description, String lang)
-    {
-        getSemanticObject().setProperty(swb_description, description, lang);
-    }
 
 /**
 * Gets the TiempoRelacionLaboral property
@@ -404,24 +309,6 @@ public abstract class DesempenioBase extends org.semanticwb.model.SWBClass imple
     }
 
 /**
-* Gets the Metas property
-* @return String with the Metas
-*/
-    public String getMetas()
-    {
-        return getSemanticObject().getProperty(inm_metas);
-    }
-
-/**
-* Sets the Metas property
-* @param value long with the Metas
-*/
-    public void setMetas(String value)
-    {
-        getSemanticObject().setProperty(inm_metas, value);
-    }
-
-/**
 * Gets the NombreCurso property
 * @return String with the NombreCurso
 */
@@ -437,42 +324,6 @@ public abstract class DesempenioBase extends org.semanticwb.model.SWBClass imple
     public void setNombreCurso(String value)
     {
         getSemanticObject().setProperty(inm_nombreCurso, value);
-    }
-
-/**
-* Gets the Motivo property
-* @return String with the Motivo
-*/
-    public String getMotivo()
-    {
-        return getSemanticObject().getProperty(inm_motivo);
-    }
-
-/**
-* Sets the Motivo property
-* @param value long with the Motivo
-*/
-    public void setMotivo(String value)
-    {
-        getSemanticObject().setProperty(inm_motivo, value);
-    }
-
-/**
-* Gets the Folio property
-* @return String with the Folio
-*/
-    public String getFolio()
-    {
-        return getSemanticObject().getProperty(inm_folio);
-    }
-
-/**
-* Sets the Folio property
-* @param value long with the Folio
-*/
-    public void setFolio(String value)
-    {
-        getSemanticObject().setProperty(inm_folio, value);
     }
 
 /**
@@ -692,42 +543,129 @@ public abstract class DesempenioBase extends org.semanticwb.model.SWBClass imple
         getSemanticObject().setProperty(inm_evaluadorEvaluadora, value);
     }
    /**
-   * Sets the value for the property CuestionarioAplicado
-   * @param value CuestionarioAplicado to set
+   * Sets the value for the property NivelGestion
+   * @param value NivelGestion to set
    */
 
-    public void setCuestionarioAplicado(mx.gob.inmujeres.swb.Cuestionario value)
+    public void setNivelGestion(mx.gob.inmujeres.swb.TipoNivelGestion value)
     {
         if(value!=null)
         {
-            getSemanticObject().setObjectProperty(inm_cuestionarioAplicado, value.getSemanticObject());
+            getSemanticObject().setObjectProperty(inm_nivelGestion, value.getSemanticObject());
         }else
         {
-            removeCuestionarioAplicado();
+            removeNivelGestion();
         }
     }
    /**
-   * Remove the value for CuestionarioAplicado property
+   * Remove the value for NivelGestion property
    */
 
-    public void removeCuestionarioAplicado()
+    public void removeNivelGestion()
     {
-        getSemanticObject().removeProperty(inm_cuestionarioAplicado);
+        getSemanticObject().removeProperty(inm_nivelGestion);
     }
 
    /**
-   * Gets the CuestionarioAplicado
-   * @return a mx.gob.inmujeres.swb.Cuestionario
+   * Gets the NivelGestion
+   * @return a mx.gob.inmujeres.swb.TipoNivelGestion
    */
-    public mx.gob.inmujeres.swb.Cuestionario getCuestionarioAplicado()
+    public mx.gob.inmujeres.swb.TipoNivelGestion getNivelGestion()
     {
-         mx.gob.inmujeres.swb.Cuestionario ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_cuestionarioAplicado);
+         mx.gob.inmujeres.swb.TipoNivelGestion ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_nivelGestion);
          if(obj!=null)
          {
-             ret=(mx.gob.inmujeres.swb.Cuestionario)obj.createGenericInstance();
+             ret=(mx.gob.inmujeres.swb.TipoNivelGestion)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the Description property
+* @return String with the Description
+*/
+    public String getDescription()
+    {
+        return getSemanticObject().getProperty(swb_description);
+    }
+
+/**
+* Sets the Description property
+* @param value long with the Description
+*/
+    public void setDescription(String value)
+    {
+        getSemanticObject().setProperty(swb_description, value);
+    }
+
+    public String getDescription(String lang)
+    {
+        return getSemanticObject().getProperty(swb_description, null, lang);
+    }
+
+    public String getDisplayDescription(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_description, lang);
+    }
+
+    public void setDescription(String description, String lang)
+    {
+        getSemanticObject().setProperty(swb_description, description, lang);
+    }
+
+/**
+* Gets the Metas property
+* @return String with the Metas
+*/
+    public String getMetas()
+    {
+        return getSemanticObject().getProperty(inm_metas);
+    }
+
+/**
+* Sets the Metas property
+* @param value long with the Metas
+*/
+    public void setMetas(String value)
+    {
+        getSemanticObject().setProperty(inm_metas, value);
+    }
+
+/**
+* Gets the Motivo property
+* @return String with the Motivo
+*/
+    public String getMotivo()
+    {
+        return getSemanticObject().getProperty(inm_motivo);
+    }
+
+/**
+* Sets the Motivo property
+* @param value long with the Motivo
+*/
+    public void setMotivo(String value)
+    {
+        getSemanticObject().setProperty(inm_motivo, value);
+    }
+
+/**
+* Gets the Folio property
+* @return String with the Folio
+*/
+    public String getFolio()
+    {
+        return getSemanticObject().getProperty(inm_folio);
+    }
+
+/**
+* Sets the Folio property
+* @param value long with the Folio
+*/
+    public void setFolio(String value)
+    {
+        getSemanticObject().setProperty(inm_folio, value);
     }
    /**
    * Sets the value for the property DatosEvaluador
