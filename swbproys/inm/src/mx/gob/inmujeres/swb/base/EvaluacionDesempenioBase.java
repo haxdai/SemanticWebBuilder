@@ -3,11 +3,11 @@ package mx.gob.inmujeres.swb.base;
 
 public abstract class EvaluacionDesempenioBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable
 {
-    public static final org.semanticwb.platform.SemanticProperty inm_reporteMetas=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#reporteMetas");
     public static final org.semanticwb.platform.SemanticClass inm_Desempenio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#Desempenio");
     public static final org.semanticwb.platform.SemanticProperty inm_desempeño=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#desempeño");
-    public static final org.semanticwb.platform.SemanticProperty inm_reporteResultadosDnc=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#reporteResultadosDnc");
     public static final org.semanticwb.platform.SemanticProperty inm_reporteResultadosCuestionarios=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#reporteResultadosCuestionarios");
+    public static final org.semanticwb.platform.SemanticProperty inm_reporteMetas=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#reporteMetas");
+    public static final org.semanticwb.platform.SemanticProperty inm_reporteResultadosDnc=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#reporteResultadosDnc");
     public static final org.semanticwb.platform.SemanticProperty inm_reporteResultadosRetro=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#reporteResultadosRetro");
     public static final org.semanticwb.platform.SemanticClass inm_EvaluacionDesempenio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#EvaluacionDesempenio");
    /**
@@ -122,24 +122,6 @@ public abstract class EvaluacionDesempenioBase extends org.semanticwb.model.SWBC
     {
         super(base);
     }
-
-/**
-* Gets the ReporteMetas property
-* @return String with the ReporteMetas
-*/
-    public String getReporteMetas()
-    {
-        return getSemanticObject().getProperty(inm_reporteMetas);
-    }
-
-/**
-* Sets the ReporteMetas property
-* @param value long with the ReporteMetas
-*/
-    public void setReporteMetas(String value)
-    {
-        getSemanticObject().setProperty(inm_reporteMetas, value);
-    }
    /**
    * Sets the value for the property Desempeño
    * @param value Desempeño to set
@@ -180,6 +162,42 @@ public abstract class EvaluacionDesempenioBase extends org.semanticwb.model.SWBC
     }
 
 /**
+* Gets the ReporteResultadosCuestionarios property
+* @return String with the ReporteResultadosCuestionarios
+*/
+    public String getReporteResultadosCuestionarios()
+    {
+        return getSemanticObject().getProperty(inm_reporteResultadosCuestionarios);
+    }
+
+/**
+* Sets the ReporteResultadosCuestionarios property
+* @param value long with the ReporteResultadosCuestionarios
+*/
+    public void setReporteResultadosCuestionarios(String value)
+    {
+        getSemanticObject().setProperty(inm_reporteResultadosCuestionarios, value);
+    }
+
+/**
+* Gets the ReporteMetas property
+* @return String with the ReporteMetas
+*/
+    public String getReporteMetas()
+    {
+        return getSemanticObject().getProperty(inm_reporteMetas);
+    }
+
+/**
+* Sets the ReporteMetas property
+* @param value long with the ReporteMetas
+*/
+    public void setReporteMetas(String value)
+    {
+        getSemanticObject().setProperty(inm_reporteMetas, value);
+    }
+
+/**
 * Gets the Title property
 * @return String with the Title
 */
@@ -213,6 +231,24 @@ public abstract class EvaluacionDesempenioBase extends org.semanticwb.model.SWBC
     }
 
 /**
+* Gets the ReporteResultadosDnc property
+* @return String with the ReporteResultadosDnc
+*/
+    public String getReporteResultadosDnc()
+    {
+        return getSemanticObject().getProperty(inm_reporteResultadosDnc);
+    }
+
+/**
+* Sets the ReporteResultadosDnc property
+* @param value long with the ReporteResultadosDnc
+*/
+    public void setReporteResultadosDnc(String value)
+    {
+        getSemanticObject().setProperty(inm_reporteResultadosDnc, value);
+    }
+
+/**
 * Gets the Description property
 * @return String with the Description
 */
@@ -243,42 +279,6 @@ public abstract class EvaluacionDesempenioBase extends org.semanticwb.model.SWBC
     public void setDescription(String description, String lang)
     {
         getSemanticObject().setProperty(swb_description, description, lang);
-    }
-
-/**
-* Gets the ReporteResultadosDnc property
-* @return String with the ReporteResultadosDnc
-*/
-    public String getReporteResultadosDnc()
-    {
-        return getSemanticObject().getProperty(inm_reporteResultadosDnc);
-    }
-
-/**
-* Sets the ReporteResultadosDnc property
-* @param value long with the ReporteResultadosDnc
-*/
-    public void setReporteResultadosDnc(String value)
-    {
-        getSemanticObject().setProperty(inm_reporteResultadosDnc, value);
-    }
-
-/**
-* Gets the ReporteResultadosCuestionarios property
-* @return String with the ReporteResultadosCuestionarios
-*/
-    public String getReporteResultadosCuestionarios()
-    {
-        return getSemanticObject().getProperty(inm_reporteResultadosCuestionarios);
-    }
-
-/**
-* Sets the ReporteResultadosCuestionarios property
-* @param value long with the ReporteResultadosCuestionarios
-*/
-    public void setReporteResultadosCuestionarios(String value)
-    {
-        getSemanticObject().setProperty(inm_reporteResultadosCuestionarios, value);
     }
 
 /**
