@@ -1447,13 +1447,13 @@ public class Services
     }
 
     
-    private DirContext AuthenticateLP(String cn, String password) throws ServiceException
+    private DirContext AuthenticateLP(String login, String password) throws ServiceException
     {
         Hashtable env = new Hashtable();
         env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
         env.put(Context.PROVIDER_URL, props.getProperty("url", "ldap://" + HOST + ":" + PORT));
         env.put(Context.SECURITY_AUTHENTICATION, "simple");
-        env.put(Context.SECURITY_PRINCIPAL, cn); // specify the username
+        env.put(Context.SECURITY_PRINCIPAL, login); // specify the username
         env.put(Context.SECURITY_CREDENTIALS, password);
         try
         {
@@ -1462,7 +1462,7 @@ public class Services
         }
         catch (NamingException e)
         {
-            throw new ServiceException("No se puede autenticar al usuario " + cn, e);
+            throw new ServiceException("No se puede autenticar al usuario " + login, e);
         }
     }
 
