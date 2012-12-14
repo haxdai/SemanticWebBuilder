@@ -1097,6 +1097,7 @@ public class IntranetLoginBrigde extends ExtUserRepInt
         return null;
     }
 
+    
     private boolean AuthenticateLP(String login, Object credential)
     {
         Hashtable env = new Hashtable();
