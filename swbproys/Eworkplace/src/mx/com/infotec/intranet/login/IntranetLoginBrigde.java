@@ -1119,6 +1119,7 @@ public class IntranetLoginBrigde extends ExtUserRepInt
         }
         catch (NamingException e)
         {
+            log.error("Error al logear usuario: "+login,e);
             return false;
         }
         return true;
