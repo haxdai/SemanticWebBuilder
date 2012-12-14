@@ -4,7 +4,7 @@ package mx.gob.inmujeres.swb.base;
    /**
    * Representa una reservación de una sala de juntas 
    */
-public abstract class ApartadoSalaBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+public abstract class ApartadoSalaBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticProperty inm_observaciones=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#observaciones");
     public static final org.semanticwb.platform.SemanticProperty inm_voboJefeDirecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#voboJefeDirecto");
@@ -31,6 +31,7 @@ public abstract class ApartadoSalaBase extends org.semanticwb.model.SWBClass imp
    * Café incluye: crema, azúcar, vasos, cucharas y servilletas
    */
     public static final org.semanticwb.platform.SemanticProperty inm_requiereCafe=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#requiereCafe");
+    public static final org.semanticwb.platform.SemanticProperty inm_requierePodium=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#requierePodium");
     public static final org.semanticwb.platform.SemanticProperty inm_requiereAgua=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#requiereAgua");
     public static final org.semanticwb.platform.SemanticProperty inm_requierePersonificadores=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#requierePersonificadores");
     public static final org.semanticwb.platform.SemanticProperty inm_archivoApartado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#archivoApartado");
@@ -728,6 +729,24 @@ public abstract class ApartadoSalaBase extends org.semanticwb.model.SWBClass imp
     public void setRequiereCafe(boolean value)
     {
         getSemanticObject().setBooleanProperty(inm_requiereCafe, value);
+    }
+
+/**
+* Gets the RequierePodium property
+* @return boolean with the RequierePodium
+*/
+    public boolean isRequierePodium()
+    {
+        return getSemanticObject().getBooleanProperty(inm_requierePodium);
+    }
+
+/**
+* Sets the RequierePodium property
+* @param value long with the RequierePodium
+*/
+    public void setRequierePodium(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(inm_requierePodium, value);
     }
 
 /**
