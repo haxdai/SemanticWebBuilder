@@ -297,7 +297,7 @@ public class IntranetLoginBrigde extends ExtUserRepInt
         while (groups.hasNext())
         {
             UserGroup group = groups.next();
-            if (group!=null && group.getId()!=null && group.getId().startsWith("OU:"))
+            if (group != null && group.getId() != null && group.getId().startsWith("OU:"))
             {
                 ru.removeUserGroup(group);
             }
@@ -605,7 +605,7 @@ public class IntranetLoginBrigde extends ExtUserRepInt
                     "(&(objectClass=" + userObjectClass + ")(distinguishedName=" + cn + "))", ctls);
 
 
-            name =  answers.next().getAttributes().get(seekField).toString();
+            name = answers.next().getAttributes().get(seekField).toString();
         }
         catch (Exception e)
         {
@@ -950,7 +950,7 @@ public class IntranetLoginBrigde extends ExtUserRepInt
             ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
             String name = props.getProperty("base", BASE);
             answers = dir.search(name, "(&(objectClass=" + userObjectClass + ")(" + seekField + "=" + login + "))", ctls);
-            String nameUser=answers.next().getName();
+            String nameUser = answers.next().getName();
             return nameUser + "," + props.getProperty("base", BASE);
         }
         catch (Exception e)
@@ -1060,6 +1060,43 @@ public class IntranetLoginBrigde extends ExtUserRepInt
         return AuthenticateLP(login, credential);
     }
 
+    public String getPrincipalNameFromLogin(String login)
+    {
+        DirContext dir = null;
+        NamingEnumeration answers = null;
+        try
+        {
+
+            dir = AuthenticateLP();
+
+            SearchControls ctls = new SearchControls();
+            ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
+            String name = props.getProperty("base", BASE);
+            answers = dir.search(name, "(&(objectClass=" + userObjectClass + ")(" + seekField + "=" + login + "))", ctls);
+            if (answers.hasMoreElements())
+            {
+                return ((SearchResult) answers.next()).getAttributes().get("userPrincipalName").get().toString();
+            }
+        }
+        catch (Exception e)
+        {
+            log.error(e);
+        } finally
+        {
+            if (dir != null)
+            {
+                try
+                {
+                    dir.close();
+                }
+                catch (Exception e)
+                {
+                }
+            }
+        }
+        return null;
+    }
+
     private boolean AuthenticateLP(String login, Object credential)
     {
         Hashtable env = new Hashtable();
@@ -1067,7 +1104,7 @@ public class IntranetLoginBrigde extends ExtUserRepInt
                 props.getProperty("factory", "com.sun.jndi.ldap.LdapCtxFactory"));
         env.put(Context.PROVIDER_URL, props.getProperty("url", "ldap://localhost"));
 
-        env.put(Context.SECURITY_PRINCIPAL, getCNFromLogin(login));
+        env.put(Context.SECURITY_PRINCIPAL, getPrincipalNameFromLogin(login));
         //env.put(Context.SECURITY_PRINCIPAL, login);
 
         env.put(Context.SECURITY_CREDENTIALS, credential);
@@ -1148,7 +1185,7 @@ public class IntranetLoginBrigde extends ExtUserRepInt
                 });
         ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
         answers = ctx.search(props.getProperty("base", ""),
-                "objectClass=" + userObjectClass, ctls);        
+                "objectClass=" + userObjectClass, ctls);
         ctx.close();
         return answers;
     }
