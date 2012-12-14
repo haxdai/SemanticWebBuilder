@@ -1043,6 +1043,10 @@ public class IntranetLoginBrigde extends ExtUserRepInt
                 ret = true;
             }
         }
+        catch (ServiceException ex)
+        {
+            log.debug("Error Syncing a User: " + login, ex);
+        }
         catch (NamingException ex)
         {
             log.debug("Error Syncing a User: " + login, ex);
@@ -1120,9 +1124,9 @@ public class IntranetLoginBrigde extends ExtUserRepInt
         return true;
     }
 
-    public Attributes getUserAttributes(String login) throws NamingException
+    public Attributes getUserAttributes(String login) throws NamingException, ServiceException
     {
-        DirContext ctx = new InitialDirContext(getPropertiesHash());
+        DirContext ctx = AuthenticateLP();
         String[] attrIDs =
         {
             "*"
