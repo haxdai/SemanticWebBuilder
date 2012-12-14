@@ -6,42 +6,42 @@ package mx.gob.inmujeres.swb.base;
    */
 public abstract class ApartadoSalaBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
-    public static final org.semanticwb.platform.SemanticProperty inm_observaciones=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#observaciones");
     public static final org.semanticwb.platform.SemanticProperty inm_voboJefeDirecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#voboJefeDirecto");
-    public static final org.semanticwb.platform.SemanticProperty inm_fechaInicio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#fechaInicio");
     public static final org.semanticwb.platform.SemanticProperty inm_requiereRotafolio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#requiereRotafolio");
-   /**
-   * Representa una sala de juntas
-   */
-    public static final org.semanticwb.platform.SemanticClass inm_Sala=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#Sala");
-    public static final org.semanticwb.platform.SemanticProperty inm_sala=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#sala");
     public static final org.semanticwb.platform.SemanticClass inm_UnidadResponsable=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#UnidadResponsable");
     public static final org.semanticwb.platform.SemanticProperty inm_unidadResponsable=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#unidadResponsable");
-    public static final org.semanticwb.platform.SemanticProperty inm_requiereProyector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#requiereProyector");
     public static final org.semanticwb.platform.SemanticProperty inm_participantesInmujeres=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#participantesInmujeres");
-    public static final org.semanticwb.platform.SemanticProperty inm_requiereSonido=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#requiereSonido");
-    public static final org.semanticwb.platform.SemanticClass inm_Montaje=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#Montaje");
-    public static final org.semanticwb.platform.SemanticProperty inm_montaje=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#montaje");
     public static final org.semanticwb.platform.SemanticProperty inm_fechaFin=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#fechaFin");
     public static final org.semanticwb.platform.SemanticProperty inm_participantesOtros=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#participantesOtros");
     public static final org.semanticwb.platform.SemanticProperty inm_servicioAdicional=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#servicioAdicional");
-    public static final org.semanticwb.platform.SemanticProperty inm_requiereGalletas=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#requiereGalletas");
-    public static final org.semanticwb.platform.SemanticProperty inm_requiereTe=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#requiereTe");
    /**
    * Café incluye: crema, azúcar, vasos, cucharas y servilletas
    */
     public static final org.semanticwb.platform.SemanticProperty inm_requiereCafe=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#requiereCafe");
-    public static final org.semanticwb.platform.SemanticProperty inm_requierePodium=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#requierePodium");
     public static final org.semanticwb.platform.SemanticProperty inm_requiereAgua=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#requiereAgua");
-    public static final org.semanticwb.platform.SemanticProperty inm_requierePersonificadores=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#requierePersonificadores");
-    public static final org.semanticwb.platform.SemanticProperty inm_archivoApartado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#archivoApartado");
-    public static final org.semanticwb.platform.SemanticProperty inm_folioSolicitud=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#folioSolicitud");
     public static final org.semanticwb.platform.SemanticProperty inm_otroApoyo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#otroApoyo");
    /**
    * extensión telefónica
    */
     public static final org.semanticwb.platform.SemanticProperty inm_extension=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#extension");
     public static final org.semanticwb.platform.SemanticProperty inm_requierePantalla=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#requierePantalla");
+    public static final org.semanticwb.platform.SemanticProperty inm_observaciones=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#observaciones");
+    public static final org.semanticwb.platform.SemanticProperty inm_fechaInicio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#fechaInicio");
+   /**
+   * Representa una sala de juntas
+   */
+    public static final org.semanticwb.platform.SemanticClass inm_Sala=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#Sala");
+    public static final org.semanticwb.platform.SemanticProperty inm_sala=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#sala");
+    public static final org.semanticwb.platform.SemanticProperty inm_requiereProyector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#requiereProyector");
+    public static final org.semanticwb.platform.SemanticProperty inm_requiereSonido=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#requiereSonido");
+    public static final org.semanticwb.platform.SemanticClass inm_Montaje=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#Montaje");
+    public static final org.semanticwb.platform.SemanticProperty inm_montaje=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#montaje");
+    public static final org.semanticwb.platform.SemanticProperty inm_requiereGalletas=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#requiereGalletas");
+    public static final org.semanticwb.platform.SemanticProperty inm_requiereTe=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#requiereTe");
+    public static final org.semanticwb.platform.SemanticProperty inm_requierePodium=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#requierePodium");
+    public static final org.semanticwb.platform.SemanticProperty inm_requierePersonificadores=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#requierePersonificadores");
+    public static final org.semanticwb.platform.SemanticProperty inm_archivoApartado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#archivoApartado");
+    public static final org.semanticwb.platform.SemanticProperty inm_folioSolicitud=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#folioSolicitud");
    /**
    * Representa una reservación de una sala de juntas
    */
@@ -244,42 +244,6 @@ public abstract class ApartadoSalaBase extends org.semanticwb.model.SWBClass imp
     }
 
 /**
-* Gets the Observaciones property
-* @return String with the Observaciones
-*/
-    public String getObservaciones()
-    {
-        return getSemanticObject().getProperty(inm_observaciones);
-    }
-
-/**
-* Sets the Observaciones property
-* @param value long with the Observaciones
-*/
-    public void setObservaciones(String value)
-    {
-        getSemanticObject().setProperty(inm_observaciones, value);
-    }
-
-/**
-* Gets the Updated property
-* @return java.util.Date with the Updated
-*/
-    public java.util.Date getUpdated()
-    {
-        return getSemanticObject().getDateProperty(swb_updated);
-    }
-
-/**
-* Sets the Updated property
-* @param value long with the Updated
-*/
-    public void setUpdated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_updated, value);
-    }
-
-/**
 * Gets the Created property
 * @return java.util.Date with the Created
 */
@@ -295,39 +259,6 @@ public abstract class ApartadoSalaBase extends org.semanticwb.model.SWBClass imp
     public void setCreated(java.util.Date value)
     {
         getSemanticObject().setDateProperty(swb_created, value);
-    }
-
-/**
-* Gets the Description property
-* @return String with the Description
-*/
-    public String getDescription()
-    {
-        return getSemanticObject().getProperty(swb_description);
-    }
-
-/**
-* Sets the Description property
-* @param value long with the Description
-*/
-    public void setDescription(String value)
-    {
-        getSemanticObject().setProperty(swb_description, value);
-    }
-
-    public String getDescription(String lang)
-    {
-        return getSemanticObject().getProperty(swb_description, null, lang);
-    }
-
-    public String getDisplayDescription(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_description, lang);
-    }
-
-    public void setDescription(String description, String lang)
-    {
-        getSemanticObject().setProperty(swb_description, description, lang);
     }
 
 /**
@@ -349,24 +280,6 @@ public abstract class ApartadoSalaBase extends org.semanticwb.model.SWBClass imp
     }
 
 /**
-* Gets the FechaInicio property
-* @return java.util.Date with the FechaInicio
-*/
-    public java.util.Date getFechaInicio()
-    {
-        return getSemanticObject().getDateProperty(inm_fechaInicio);
-    }
-
-/**
-* Sets the FechaInicio property
-* @param value long with the FechaInicio
-*/
-    public void setFechaInicio(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(inm_fechaInicio, value);
-    }
-
-/**
 * Gets the RequiereRotafolio property
 * @return boolean with the RequiereRotafolio
 */
@@ -382,44 +295,6 @@ public abstract class ApartadoSalaBase extends org.semanticwb.model.SWBClass imp
     public void setRequiereRotafolio(boolean value)
     {
         getSemanticObject().setBooleanProperty(inm_requiereRotafolio, value);
-    }
-   /**
-   * Sets the value for the property Sala
-   * @param value Sala to set
-   */
-
-    public void setSala(mx.gob.inmujeres.swb.Sala value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(inm_sala, value.getSemanticObject());
-        }else
-        {
-            removeSala();
-        }
-    }
-   /**
-   * Remove the value for Sala property
-   */
-
-    public void removeSala()
-    {
-        getSemanticObject().removeProperty(inm_sala);
-    }
-
-   /**
-   * Gets the Sala
-   * @return a mx.gob.inmujeres.swb.Sala
-   */
-    public mx.gob.inmujeres.swb.Sala getSala()
-    {
-         mx.gob.inmujeres.swb.Sala ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_sala);
-         if(obj!=null)
-         {
-             ret=(mx.gob.inmujeres.swb.Sala)obj.createGenericInstance();
-         }
-         return ret;
     }
    /**
    * Sets the value for the property UnidadResponsable
@@ -461,24 +336,6 @@ public abstract class ApartadoSalaBase extends org.semanticwb.model.SWBClass imp
     }
 
 /**
-* Gets the RequiereProyector property
-* @return boolean with the RequiereProyector
-*/
-    public boolean isRequiereProyector()
-    {
-        return getSemanticObject().getBooleanProperty(inm_requiereProyector);
-    }
-
-/**
-* Sets the RequiereProyector property
-* @param value long with the RequiereProyector
-*/
-    public void setRequiereProyector(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(inm_requiereProyector, value);
-    }
-
-/**
 * Gets the ParticipantesInmujeres property
 * @return int with the ParticipantesInmujeres
 */
@@ -494,6 +351,326 @@ public abstract class ApartadoSalaBase extends org.semanticwb.model.SWBClass imp
     public void setParticipantesInmujeres(int value)
     {
         getSemanticObject().setIntProperty(inm_participantesInmujeres, value);
+    }
+
+/**
+* Gets the FechaFin property
+* @return java.util.Date with the FechaFin
+*/
+    public java.util.Date getFechaFin()
+    {
+        return getSemanticObject().getDateProperty(inm_fechaFin);
+    }
+
+/**
+* Sets the FechaFin property
+* @param value long with the FechaFin
+*/
+    public void setFechaFin(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(inm_fechaFin, value);
+    }
+
+/**
+* Gets the ParticipantesOtros property
+* @return int with the ParticipantesOtros
+*/
+    public int getParticipantesOtros()
+    {
+        return getSemanticObject().getIntProperty(inm_participantesOtros);
+    }
+
+/**
+* Sets the ParticipantesOtros property
+* @param value long with the ParticipantesOtros
+*/
+    public void setParticipantesOtros(int value)
+    {
+        getSemanticObject().setIntProperty(inm_participantesOtros, value);
+    }
+
+/**
+* Gets the ServicioAdicional property
+* @return String with the ServicioAdicional
+*/
+    public String getServicioAdicional()
+    {
+        return getSemanticObject().getProperty(inm_servicioAdicional);
+    }
+
+/**
+* Sets the ServicioAdicional property
+* @param value long with the ServicioAdicional
+*/
+    public void setServicioAdicional(String value)
+    {
+        getSemanticObject().setProperty(inm_servicioAdicional, value);
+    }
+
+/**
+* Gets the Title property
+* @return String with the Title
+*/
+    public String getTitle()
+    {
+        return getSemanticObject().getProperty(swb_title);
+    }
+
+/**
+* Sets the Title property
+* @param value long with the Title
+*/
+    public void setTitle(String value)
+    {
+        getSemanticObject().setProperty(swb_title, value);
+    }
+
+    public String getTitle(String lang)
+    {
+        return getSemanticObject().getProperty(swb_title, null, lang);
+    }
+
+    public String getDisplayTitle(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_title, lang);
+    }
+
+    public void setTitle(String title, String lang)
+    {
+        getSemanticObject().setProperty(swb_title, title, lang);
+    }
+
+/**
+* Gets the RequiereCafe property
+* @return boolean with the RequiereCafe
+*/
+    public boolean isRequiereCafe()
+    {
+        return getSemanticObject().getBooleanProperty(inm_requiereCafe);
+    }
+
+/**
+* Sets the RequiereCafe property
+* @param value long with the RequiereCafe
+*/
+    public void setRequiereCafe(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(inm_requiereCafe, value);
+    }
+
+/**
+* Gets the RequiereAgua property
+* @return boolean with the RequiereAgua
+*/
+    public boolean isRequiereAgua()
+    {
+        return getSemanticObject().getBooleanProperty(inm_requiereAgua);
+    }
+
+/**
+* Sets the RequiereAgua property
+* @param value long with the RequiereAgua
+*/
+    public void setRequiereAgua(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(inm_requiereAgua, value);
+    }
+
+/**
+* Gets the OtroApoyo property
+* @return String with the OtroApoyo
+*/
+    public String getOtroApoyo()
+    {
+        return getSemanticObject().getProperty(inm_otroApoyo);
+    }
+
+/**
+* Sets the OtroApoyo property
+* @param value long with the OtroApoyo
+*/
+    public void setOtroApoyo(String value)
+    {
+        getSemanticObject().setProperty(inm_otroApoyo, value);
+    }
+
+/**
+* Gets the Extension property
+* @return String with the Extension
+*/
+    public String getExtension()
+    {
+        return getSemanticObject().getProperty(inm_extension);
+    }
+
+/**
+* Sets the Extension property
+* @param value long with the Extension
+*/
+    public void setExtension(String value)
+    {
+        getSemanticObject().setProperty(inm_extension, value);
+    }
+
+/**
+* Gets the RequierePantalla property
+* @return boolean with the RequierePantalla
+*/
+    public boolean isRequierePantalla()
+    {
+        return getSemanticObject().getBooleanProperty(inm_requierePantalla);
+    }
+
+/**
+* Sets the RequierePantalla property
+* @param value long with the RequierePantalla
+*/
+    public void setRequierePantalla(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(inm_requierePantalla, value);
+    }
+
+/**
+* Gets the Observaciones property
+* @return String with the Observaciones
+*/
+    public String getObservaciones()
+    {
+        return getSemanticObject().getProperty(inm_observaciones);
+    }
+
+/**
+* Sets the Observaciones property
+* @param value long with the Observaciones
+*/
+    public void setObservaciones(String value)
+    {
+        getSemanticObject().setProperty(inm_observaciones, value);
+    }
+
+/**
+* Gets the Updated property
+* @return java.util.Date with the Updated
+*/
+    public java.util.Date getUpdated()
+    {
+        return getSemanticObject().getDateProperty(swb_updated);
+    }
+
+/**
+* Sets the Updated property
+* @param value long with the Updated
+*/
+    public void setUpdated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_updated, value);
+    }
+
+/**
+* Gets the Description property
+* @return String with the Description
+*/
+    public String getDescription()
+    {
+        return getSemanticObject().getProperty(swb_description);
+    }
+
+/**
+* Sets the Description property
+* @param value long with the Description
+*/
+    public void setDescription(String value)
+    {
+        getSemanticObject().setProperty(swb_description, value);
+    }
+
+    public String getDescription(String lang)
+    {
+        return getSemanticObject().getProperty(swb_description, null, lang);
+    }
+
+    public String getDisplayDescription(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_description, lang);
+    }
+
+    public void setDescription(String description, String lang)
+    {
+        getSemanticObject().setProperty(swb_description, description, lang);
+    }
+
+/**
+* Gets the FechaInicio property
+* @return java.util.Date with the FechaInicio
+*/
+    public java.util.Date getFechaInicio()
+    {
+        return getSemanticObject().getDateProperty(inm_fechaInicio);
+    }
+
+/**
+* Sets the FechaInicio property
+* @param value long with the FechaInicio
+*/
+    public void setFechaInicio(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(inm_fechaInicio, value);
+    }
+   /**
+   * Sets the value for the property Sala
+   * @param value Sala to set
+   */
+
+    public void setSala(mx.gob.inmujeres.swb.Sala value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(inm_sala, value.getSemanticObject());
+        }else
+        {
+            removeSala();
+        }
+    }
+   /**
+   * Remove the value for Sala property
+   */
+
+    public void removeSala()
+    {
+        getSemanticObject().removeProperty(inm_sala);
+    }
+
+   /**
+   * Gets the Sala
+   * @return a mx.gob.inmujeres.swb.Sala
+   */
+    public mx.gob.inmujeres.swb.Sala getSala()
+    {
+         mx.gob.inmujeres.swb.Sala ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_sala);
+         if(obj!=null)
+         {
+             ret=(mx.gob.inmujeres.swb.Sala)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+/**
+* Gets the RequiereProyector property
+* @return boolean with the RequiereProyector
+*/
+    public boolean isRequiereProyector()
+    {
+        return getSemanticObject().getBooleanProperty(inm_requiereProyector);
+    }
+
+/**
+* Sets the RequiereProyector property
+* @param value long with the RequiereProyector
+*/
+    public void setRequiereProyector(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(inm_requiereProyector, value);
     }
 
 /**
@@ -550,60 +727,6 @@ public abstract class ApartadoSalaBase extends org.semanticwb.model.SWBClass imp
              ret=(mx.gob.inmujeres.swb.Montaje)obj.createGenericInstance();
          }
          return ret;
-    }
-
-/**
-* Gets the FechaFin property
-* @return java.util.Date with the FechaFin
-*/
-    public java.util.Date getFechaFin()
-    {
-        return getSemanticObject().getDateProperty(inm_fechaFin);
-    }
-
-/**
-* Sets the FechaFin property
-* @param value long with the FechaFin
-*/
-    public void setFechaFin(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(inm_fechaFin, value);
-    }
-
-/**
-* Gets the ParticipantesOtros property
-* @return int with the ParticipantesOtros
-*/
-    public int getParticipantesOtros()
-    {
-        return getSemanticObject().getIntProperty(inm_participantesOtros);
-    }
-
-/**
-* Sets the ParticipantesOtros property
-* @param value long with the ParticipantesOtros
-*/
-    public void setParticipantesOtros(int value)
-    {
-        getSemanticObject().setIntProperty(inm_participantesOtros, value);
-    }
-
-/**
-* Gets the ServicioAdicional property
-* @return String with the ServicioAdicional
-*/
-    public String getServicioAdicional()
-    {
-        return getSemanticObject().getProperty(inm_servicioAdicional);
-    }
-
-/**
-* Sets the ServicioAdicional property
-* @param value long with the ServicioAdicional
-*/
-    public void setServicioAdicional(String value)
-    {
-        getSemanticObject().setProperty(inm_servicioAdicional, value);
     }
    /**
    * Sets the value for the property Creator
@@ -663,39 +786,6 @@ public abstract class ApartadoSalaBase extends org.semanticwb.model.SWBClass imp
     }
 
 /**
-* Gets the Title property
-* @return String with the Title
-*/
-    public String getTitle()
-    {
-        return getSemanticObject().getProperty(swb_title);
-    }
-
-/**
-* Sets the Title property
-* @param value long with the Title
-*/
-    public void setTitle(String value)
-    {
-        getSemanticObject().setProperty(swb_title, value);
-    }
-
-    public String getTitle(String lang)
-    {
-        return getSemanticObject().getProperty(swb_title, null, lang);
-    }
-
-    public String getDisplayTitle(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_title, lang);
-    }
-
-    public void setTitle(String title, String lang)
-    {
-        getSemanticObject().setProperty(swb_title, title, lang);
-    }
-
-/**
 * Gets the RequiereTe property
 * @return boolean with the RequiereTe
 */
@@ -714,24 +804,6 @@ public abstract class ApartadoSalaBase extends org.semanticwb.model.SWBClass imp
     }
 
 /**
-* Gets the RequiereCafe property
-* @return boolean with the RequiereCafe
-*/
-    public boolean isRequiereCafe()
-    {
-        return getSemanticObject().getBooleanProperty(inm_requiereCafe);
-    }
-
-/**
-* Sets the RequiereCafe property
-* @param value long with the RequiereCafe
-*/
-    public void setRequiereCafe(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(inm_requiereCafe, value);
-    }
-
-/**
 * Gets the RequierePodium property
 * @return boolean with the RequierePodium
 */
@@ -747,24 +819,6 @@ public abstract class ApartadoSalaBase extends org.semanticwb.model.SWBClass imp
     public void setRequierePodium(boolean value)
     {
         getSemanticObject().setBooleanProperty(inm_requierePodium, value);
-    }
-
-/**
-* Gets the RequiereAgua property
-* @return boolean with the RequiereAgua
-*/
-    public boolean isRequiereAgua()
-    {
-        return getSemanticObject().getBooleanProperty(inm_requiereAgua);
-    }
-
-/**
-* Sets the RequiereAgua property
-* @param value long with the RequiereAgua
-*/
-    public void setRequiereAgua(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(inm_requiereAgua, value);
     }
 
 /**
@@ -819,59 +873,5 @@ public abstract class ApartadoSalaBase extends org.semanticwb.model.SWBClass imp
     public void setFolioSolicitud(String value)
     {
         getSemanticObject().setProperty(inm_folioSolicitud, value);
-    }
-
-/**
-* Gets the OtroApoyo property
-* @return String with the OtroApoyo
-*/
-    public String getOtroApoyo()
-    {
-        return getSemanticObject().getProperty(inm_otroApoyo);
-    }
-
-/**
-* Sets the OtroApoyo property
-* @param value long with the OtroApoyo
-*/
-    public void setOtroApoyo(String value)
-    {
-        getSemanticObject().setProperty(inm_otroApoyo, value);
-    }
-
-/**
-* Gets the Extension property
-* @return String with the Extension
-*/
-    public String getExtension()
-    {
-        return getSemanticObject().getProperty(inm_extension);
-    }
-
-/**
-* Sets the Extension property
-* @param value long with the Extension
-*/
-    public void setExtension(String value)
-    {
-        getSemanticObject().setProperty(inm_extension, value);
-    }
-
-/**
-* Gets the RequierePantalla property
-* @return boolean with the RequierePantalla
-*/
-    public boolean isRequierePantalla()
-    {
-        return getSemanticObject().getBooleanProperty(inm_requierePantalla);
-    }
-
-/**
-* Sets the RequierePantalla property
-* @param value long with the RequierePantalla
-*/
-    public void setRequierePantalla(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(inm_requierePantalla, value);
     }
 }
