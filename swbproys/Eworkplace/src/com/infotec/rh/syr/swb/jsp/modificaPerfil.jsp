@@ -242,19 +242,19 @@ if (paramRequest.getCallMethod() == SWBParamRequest.Call_DIRECT) {
                     <tr>
                         <td width="200px" align="right"><label for="title"><%=fmgr.renderLabel(request, Proyecto.intranet_ubicacionProyecto, varSolicitud, SWBFormMgr.MODE_VIEW)%></label></td>
                         <td>
-                            <span><%=sr.getProyectoAsignado().getUbicacionProyecto()%></span>
+                            <span><%=sr.getProyectoAsignado().getUbicacionProyecto()==null?"":sr.getProyectoAsignado().getUbicacionProyecto()%></span>
                         </td>
                     </tr>
                     <tr>
                         <td width="200px" align="right"><label for="title"><%=fmgr.renderLabel(request, Proyecto.intranet_telefonoContacto, varSolicitud, SWBFormMgr.MODE_VIEW)%></label></td>
                         <td>
-                            <span><%=sr.getProyectoAsignado().getTelefonoContacto()%></span>
+                            <span><%=sr.getProyectoAsignado().getTelefonoContacto()==null?"":sr.getProyectoAsignado().getTelefonoContacto()%></span>
                         </td>
                     </tr>
                     <tr>
                         <td width="200px" align="right"><label for="title"><%=fmgr.renderLabel(request, Proyecto.intranet_emailContacto, varSolicitud, SWBFormMgr.MODE_VIEW)%></label></td>
                         <td>
-                            <span><%=sr.getProyectoAsignado().getEmailContacto()%></span>
+                            <span><%=sr.getProyectoAsignado().getEmailContacto()==null?"":sr.getProyectoAsignado().getEmailContacto()%></span>
                         </td>
                     </tr>
                     <tr><td colspan="2"><b>Datos del perfil solicitado</b></td></tr>
