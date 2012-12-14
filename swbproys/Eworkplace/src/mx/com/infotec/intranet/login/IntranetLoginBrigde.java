@@ -955,7 +955,7 @@ public class IntranetLoginBrigde extends ExtUserRepInt
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            log.error(e);
         } finally
         {
             if (dir != null)
@@ -1097,7 +1097,6 @@ public class IntranetLoginBrigde extends ExtUserRepInt
         return null;
     }
 
-    
     private boolean AuthenticateLP(String login, Object credential)
     {
         Hashtable env = new Hashtable();
