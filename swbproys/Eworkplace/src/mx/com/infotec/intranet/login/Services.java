@@ -1126,7 +1126,7 @@ public class Services
 
     public void login(String login, String password) throws ServiceException
     {
-        String cn = getCNFromLogin(login);
+        String cn = getPrincipalNameFromLogin(login);
         AuthenticateLP(cn, password);
     }
 
