@@ -3,6 +3,7 @@ package mx.gob.inmujeres.swb.base;
 
 public abstract class TipoRespuestaBase extends mx.gob.inmujeres.swb.Catalogo implements org.semanticwb.model.Descriptiveable
 {
+    public static final org.semanticwb.platform.SemanticProperty inm_valor=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#valor");
     public static final org.semanticwb.platform.SemanticClass inm_TipoRespuesta=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#TipoRespuesta");
    /**
    * The semantic class that represents the currentObject
@@ -92,5 +93,23 @@ public abstract class TipoRespuestaBase extends mx.gob.inmujeres.swb.Catalogo im
     public TipoRespuestaBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+/**
+* Gets the Valor property
+* @return int with the Valor
+*/
+    public int getValor()
+    {
+        return getSemanticObject().getIntProperty(inm_valor);
+    }
+
+/**
+* Sets the Valor property
+* @param value long with the Valor
+*/
+    public void setValor(int value)
+    {
+        getSemanticObject().setIntProperty(inm_valor, value);
     }
 }
