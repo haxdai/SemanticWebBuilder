@@ -1131,6 +1131,10 @@ public class IntranetLoginBrigde extends ExtUserRepInt
 
         String cn = getCNFromLogin(login);
         //System.out.println("CN:" + cn);
+        if(cn==null)
+        {
+            log.error("Error al buscar usuario cn nulo para login: "+login);
+        }
         answer = ctx.getAttributes(cn, attrIDs);
 
         ctx.close();
