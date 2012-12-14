@@ -172,9 +172,11 @@ public class ReservaSalaManager extends mx.gob.inmujeres.swb.resources.sem.base.
                 return;
             }
 
-            GregorianCalendar csd = new GregorianCalendar(locale), cfd = null;
+            //GregorianCalendar csd = new GregorianCalendar(locale), cfd = null;
+            GregorianCalendar csd = new GregorianCalendar(locale), cfd = new GregorianCalendar(locale);
             try {
                 csd.setTime(current.getTime());
+                cfd.setTime(current.getTime());
             }catch(Exception e) {
                 response.setRenderParameter("alertmsg", response.getLocaleString("msgErrHourMismatch"));
                 setRenderParameter(request, response);
@@ -183,15 +185,15 @@ public class ReservaSalaManager extends mx.gob.inmujeres.swb.resources.sem.base.
 
             reset(csd);
             csd.set(Calendar.MINUTE, sh);            
-            try {
-                Date fd = dateDojo.parse(request.getParameter("fd"));
-                cfd = new GregorianCalendar(locale);
-            cfd.setTime(fd);
-            }catch(ParseException e) {
-                response.setRenderParameter("alertmsg", "5 ..."+response.getLocaleString("msgErrHourMismatch"));
-                setRenderParameter(request, response);
-                return;
-            }
+//            try {
+//                Date fd = dateDojo.parse(request.getParameter("fd"));
+//                cfd = new GregorianCalendar(locale);
+//                cfd.setTime(fd);
+//            }catch(ParseException e) {
+//                response.setRenderParameter("alertmsg", "5 ..."+response.getLocaleString("msgErrHourMismatch"));
+//                setRenderParameter(request, response);
+//                return;
+//            }
             reset(cfd);
             cfd.set(Calendar.MINUTE, fh);
             String mtv = SWBUtils.XML.replaceXMLChars(request.getParameter("mtv"));
@@ -233,6 +235,7 @@ public class ReservaSalaManager extends mx.gob.inmujeres.swb.resources.sem.base.
                 reservation.setFechaInicio(csd.getTime());
                 reservation.setFechaFin(cfd.getTime());
                 reservation.setTitle(mtv);
+                reservation.setDescription(mtv);
                 if(Montaje.ClassMgr.hasMontaje(request.getParameter("mnt"), model))
                 {
                     reservation.setMontaje(Montaje.ClassMgr.getMontaje(request.getParameter("mnt"), model));
@@ -247,6 +250,7 @@ public class ReservaSalaManager extends mx.gob.inmujeres.swb.resources.sem.base.
 
                 reservation.setRequiereRotafolio(request.getParameter("rf")!=null);
                 reservation.setRequierePersonificadores(request.getParameter("prsnf")!=null);
+                reservation.setRequierePodium(request.getParameter("pdm")!=null);
                 reservation.setRequierePantalla(request.getParameter("snd")!=null);
                 reservation.setRequiereProyector(request.getParameter("prjctr")!=null);
                 reservation.setRequiereSonido(request.getParameter("scr")!=null);
@@ -540,9 +544,10 @@ public class ReservaSalaManager extends mx.gob.inmujeres.swb.resources.sem.base.
         html.append(" </div>");
         html.append(" <div class=\"salas4Cols salas-fecha\">");
         html.append("  <p><span class=\"blueCalTit\">Fecha de reservaci&oacute;n:</span></p>");
-        html.append("     <label for=\"sd\">Del: </label><input type=\"text\" name=\"sd\" id=\"sd\" value=\""+sdf.format(current.getTime())+"\" dojoType=\"dijit.form.ValidationTextBox\" readonly=\"readonly\" />");
-        final GregorianCalendar lastDateOfYear = new GregorianCalendar(current.get(Calendar.YEAR),11,31,22,0,0);
-        html.append("     <label for=\"fd\">al: </label><input type=\"text\" name=\"fd\" id=\"fd\" value=\""+(request.getParameter("fd")==null?dateDojo.format(current.getTime()):request.getParameter("fd"))+"\" dojoType=\"dijit.form.DateTextBox\" constraints=\"{min:'"+dateDojo.format(current.getTime())+"',max:'"+dateDojo.format(lastDateOfYear.getTime())+"',datePattern:'dd/MMM/yyyy'}\"  required=\"true\" trim=\"true\" promptMessage=\"formato de la fecha dd/MM/yyyy\" invalidMessage=\"Invalid date\" />");
+//        html.append("     <label for=\"sd\">Del: </label><input type=\"text\" name=\"sd\" id=\"sd\" value=\""+sdf.format(current.getTime())+"\" dojoType=\"dijit.form.ValidationTextBox\" readonly=\"readonly\" />");
+        html.append("     <input type=\"text\" name=\"sd\" id=\"sd\" value=\""+sdf.format(current.getTime())+"\" dojoType=\"dijit.form.ValidationTextBox\" readonly=\"readonly\" />");
+//        final GregorianCalendar lastDateOfYear = new GregorianCalendar(current.get(Calendar.YEAR),11,31,22,0,0);
+//        html.append("     <label for=\"fd\">al: </label><input type=\"text\" name=\"fd\" id=\"fd\" value=\""+(request.getParameter("fd")==null?dateDojo.format(current.getTime()):request.getParameter("fd"))+"\" dojoType=\"dijit.form.DateTextBox\" constraints=\"{min:'"+dateDojo.format(current.getTime())+"',max:'"+dateDojo.format(lastDateOfYear.getTime())+"',datePattern:'dd/MMM/yyyy'}\"  required=\"true\" trim=\"true\" promptMessage=\"formato de la fecha dd/MM/yyyy\" invalidMessage=\"Invalid date\" />");
         html.append(" </div>");
         html.append("\n <div class=\"salas4Cols salas-hora\">");
         html.append("\n  <p><span class=\"blueCalTit\">Horario de reservaci&oacute;n:</span></p>");
@@ -590,7 +595,7 @@ public class ReservaSalaManager extends mx.gob.inmujeres.swb.resources.sem.base.
         html.append("</fieldset>");
         
         html.append(" <div id=\"salas-motivo\">");
-        html.append("  <p><span class=\"blueCalTit\">Nombre de la reuni&oacute;n:</span></p>");
+        html.append("  <p><span class=\"blueCalTit\">Motivo de la reuni&oacute;n:</span></p>");
         html.append("  <label for=\"mtv\"></label><input type=\"text\" name=\"mtv\" id=\"mtv\" value=\""+(request.getParameter("mtv")==null?"":request.getParameter("mtv"))+"\" dojoType=\"dijit.form.ValidationTextBox\" required=\"true\" promptMessage=\"Nombre de la reunión\" invalidMessage=\"El  nombre de la reunón es requerido\" trim=\"true\" />");
         html.append(" </div>");
         
