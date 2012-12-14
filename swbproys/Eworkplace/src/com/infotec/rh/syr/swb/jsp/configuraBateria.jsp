@@ -131,13 +131,13 @@ if (paramRequest.getCallMethod() == SWBParamRequest.Call_DIRECT) {
                             <tr>
                                 <td width="200px" align="right"><label for="title">Nombre del postulante</label></td>
                                 <td>
-                                    <%=candidato.getFullName()%>
+                                    <%=candidato.getFullName()==null?"":candidato.getFullName()%>
                                 </td>
                             </tr>
                             <tr>
                                 <td width="200px" align="right"><label for="title">Crreo electr&oacute;nico</label>
                                 <td>
-                                    <%=candidato.getEmail()%>
+                                    <%=candidato.getEmail()==null?"":candidato.getEmail()%>
                                 </td>
                             </tr>
                             <tr>
