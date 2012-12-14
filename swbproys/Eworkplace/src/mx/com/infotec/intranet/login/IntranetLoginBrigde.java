@@ -1131,9 +1131,9 @@ public class IntranetLoginBrigde extends ExtUserRepInt
 
         String cn = getCNFromLogin(login);
         //System.out.println("CN:" + cn);
-        if(cn==null)
+        if (cn == null)
         {
-            log.error("Error al buscar usuario cn nulo para login: "+login);
+            log.error("Error al buscar usuario cn nulo para login: " + login);
         }
         answer = ctx.getAttributes(cn, attrIDs);
 
@@ -1147,8 +1147,8 @@ public class IntranetLoginBrigde extends ExtUserRepInt
         env.put(Context.INITIAL_CONTEXT_FACTORY,
                 props.getProperty("factory", "com.sun.jndi.ldap.LdapCtxFactory"));
         env.put(Context.PROVIDER_URL, props.getProperty("url", "ldap://localhost"));
-        env.put(Context.SECURITY_PRINCIPAL, props.getProperty("principal", ""));
-        env.put(Context.SECURITY_CREDENTIALS, props.getProperty("credential", ""));
+        env.put(Context.SECURITY_PRINCIPAL, props.getProperty("principal", PRINCIPAL));
+        env.put(Context.SECURITY_CREDENTIALS, props.getProperty("credential", PASSWORD));
         return env;
     }
 
