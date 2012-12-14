@@ -758,7 +758,7 @@ public class Services
     {
         try
         {
-            DirContext ctx = AuthenticateLP(login);
+            DirContext ctx = AuthenticateLP();
             ModificationItem[] items = new ModificationItem[values.size()];
             int i = 0;
             for (String key : values.keySet())
@@ -843,7 +843,7 @@ public class Services
     {
         try
         {
-            DirContext ctx = AuthenticateLP(login);
+            DirContext ctx = AuthenticateLP();
             //ModificationItem[] items = new ModificationItem[1];
             Attribute att = new BasicAttribute(getName(FIELD.NO_EMPLEADO));
             Attributes atts = new BasicAttributes(true);
@@ -862,7 +862,7 @@ public class Services
     {
         try
         {
-            DirContext ctx = AuthenticateLP(login);
+            DirContext ctx = AuthenticateLP();
 
             Attribute att = new BasicAttribute(getName(field));
             Attributes atts = new BasicAttributes(true);
@@ -997,6 +997,43 @@ public class Services
         return null;
     }
 
+    public String getPrincipalNameFromLogin(String login)
+    {
+        DirContext dir = null;
+        NamingEnumeration answers = null;
+        try
+        {
+
+            dir = AuthenticateLP();
+
+            SearchControls ctls = new SearchControls();
+            ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
+            String name = props.getProperty("base", BASE);
+            answers = dir.search(name, "(&(objectClass=" + userObjectClass + ")(" + seekField + "=" + login + "))", ctls);
+            if (answers.hasMoreElements())
+            {
+                return ((SearchResult) answers.next()).getAttributes().get("userPrincipalName").get().toString();
+            }
+        }
+        catch (Exception e)
+        {
+            log.error(e);
+        } finally
+        {
+            if (dir != null)
+            {
+                try
+                {
+                    dir.close();
+                }
+                catch (Exception e)
+                {
+                }
+            }
+        }
+        return null;
+    }
+
     private String getDomain()
     {
         DirContext dir = null;
@@ -1096,13 +1133,23 @@ public class Services
     public static void main(String[] args)
     {
 
-
+        String login = "luis.valeriano";
 
         Services s = new Services();
+        try
+        {
+
+            //String cn=s.getCNFromLogin("victor.lorenzana");
+            s.authenticateUser(login,"temporal");
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
 
         UserInformation userInformation = new UserInformation();
 
-        String login = "corinna.tobon";
+        
 
         try
         {
@@ -1324,7 +1371,7 @@ public class Services
         {
             throw new ServiceException("El login es nulo, no se puede modificar el usuario");
         }
-        DirContext ctx = AuthenticateLP(login);
+        DirContext ctx = AuthenticateLP();
         // agrega el usuario
         try
         {
@@ -1355,79 +1402,9 @@ public class Services
         }
     }
 
-    private void modify(String login, FIELD field, Boolean value) throws ServiceException
-    {
-        if (login == null)
-        {
-            throw new ServiceException("El login es nulo, no se puede modificar el usuario");
-        }
-        DirContext ctx = AuthenticateLP(login);
-        // agrega el usuario
-        try
-        {
-            String name = getCNFromLogin(login);
-            ModificationItem[] items = new ModificationItem[1];
-            BasicAttribute att = new BasicAttribute(Services.getName(field));
-            att.add(value);
-            items[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, att);
-            ctx.modifyAttributes(name, items);
-        }
-        catch (NamingException e)
-        {
-            throw new ServiceException("No se puede agregar el usuario", e, login);
-        } finally
-        {
-            if (ctx != null)
-            {
-                try
-                {
-                    ctx.close();
-                }
-                catch (Exception e)
-                {
-                    log.error(e);
+  
 
-                }
-            }
-        }
-    }
-
-    private void modify(String login, FIELD field, Integer value) throws ServiceException
-    {
-        if (login == null)
-        {
-            throw new ServiceException("El login es nulo, no se puede modificar el usuario");
-        }
-        DirContext ctx = AuthenticateLP(login);
-        // agrega el usuario
-        try
-        {
-            String name = getCNFromLogin(login);
-            ModificationItem[] items = new ModificationItem[1];
-            BasicAttribute att = new BasicAttribute(Services.getName(field));
-            att.add(value);
-            items[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, att);
-            ctx.modifyAttributes(name, items);
-        }
-        catch (NamingException e)
-        {
-            throw new ServiceException("No se puede agregar el usuario", e, login);
-        } finally
-        {
-            if (ctx != null)
-            {
-                try
-                {
-                    ctx.close();
-                }
-                catch (Exception e)
-                {
-                    log.error(e);
-
-                }
-            }
-        }
-    }
+  
 
     public boolean authenticateUser(String login, Object credential)
     {
@@ -1436,7 +1413,7 @@ public class Services
         String ip = props.getProperty("url", "ldap://" + HOST + ":" + PORT);
         env.put(Context.PROVIDER_URL, ip);
         env.put(Context.SECURITY_AUTHENTICATION, "simple");
-        String cn = getCNFromLogin(login);
+        String cn = getPrincipalNameFromLogin(login);
         env.put(Context.SECURITY_PRINCIPAL, cn); // specify the username
         env.put(Context.SECURITY_CREDENTIALS, credential);
         try
@@ -1469,25 +1446,7 @@ public class Services
         return answer;
     }
 
-    private DirContext AuthenticateLP(String login) throws ServiceException
-    {
-        Hashtable env = new Hashtable();
-        env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
-        env.put(Context.PROVIDER_URL, props.getProperty("url", "ldap://" + HOST + ":" + PORT));
-        env.put(Context.SECURITY_AUTHENTICATION, "simple");
-        env.put(Context.SECURITY_PRINCIPAL, props.getProperty("principal", PRINCIPAL)); // specify the username
-        env.put(Context.SECURITY_CREDENTIALS, props.getProperty("password", PASSWORD));
-        try
-        {
-            DirContext ctx = new InitialDirContext(env);
-            return ctx;
-        }
-        catch (NamingException e)
-        {
-            throw new ServiceException(null, e, login);
-        }
-    }
-
+    
     private DirContext AuthenticateLP(String cn, String password) throws ServiceException
     {
         Hashtable env = new Hashtable();
