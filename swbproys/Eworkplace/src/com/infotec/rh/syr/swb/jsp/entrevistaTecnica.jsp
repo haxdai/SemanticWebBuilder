@@ -166,9 +166,9 @@ if (paramRequest.getCallMethod() == SWBParamRequest.Call_DIRECT) {
                                 </td>
                             </tr>
                             <tr>
-                                <td width="200px" align="right"><label for="title">Calificaci&oacute;n</label>
+                                <td width="200px" align="right"><label for="title">Calificaci&oacute;n(%)</label>
                                 <td>
-                                    <input type="text" regexp="\d{1,3}(\.\d{0,2})?" name="apego" required="true" dojoType="dijit.form.ValidationTextBox" value="<%=sc.getPorcentajeTecnica()%>" />
+                                    <input type="text" isValid="return validaPorcentaje(this.value)" regexp="\d{1,3}(\.\d{1,2})?" name="apego" required="true" dojoType="dijit.form.ValidationTextBox" value="<%=sc.getPorcentajeTecnica()%>" />
                                 </td>
                             </tr>
                         </table>
@@ -226,6 +226,19 @@ if (paramRequest.getCallMethod() == SWBParamRequest.Call_DIRECT) {
             %>
             var url = "<%=modDate%>" + "&po=" + postId + "&val=" + val;
             window.location = url;
+        }
+        function validaPorcentaje(val) {
+            //return true;
+          var temp = val;
+          //if (val.indexOf("%")!=-1) {
+          //    temp = val.replace("%","");
+              //console.log(temp+"::");
+          //}
+          if(temp <= 100) {
+            return true;
+          }
+          
+          return false;
         }
     </script>
     <%=SWBForms.DOJO_REQUIRED%>
