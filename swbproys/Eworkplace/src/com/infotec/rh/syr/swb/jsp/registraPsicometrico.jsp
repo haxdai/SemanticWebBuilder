@@ -1,3 +1,6 @@
+<%@page import="com.infotec.eworkplace.swb.formelements.Percent"%>
+<%@page import="org.semanticwb.model.FormElement"%>
+<%@page import="org.semanticwb.platform.SemanticObject"%>
 <%@page import="com.infotec.eworkplace.swb.Telefono"%>
 <%@page import="com.infotec.eworkplace.swb.Persona"%>
 <%@page import="com.infotec.rh.syr.swb.SeguimientoCandidato"%>
@@ -116,7 +119,7 @@ if (paramRequest.getCallMethod() == SWBParamRequest.Call_DIRECT) {
             %>
             <%=SWBForms.DOJO_REQUIRED%>
             <div id="processForm">
-                <form id="<%=foi.getId()%>/formEntrevista" dojoType="dijit.form.Form" class="swbform" action="<%=actUrl%>" method="post">
+                <form id="<%=foi.getId()%>/formEntrevista" dojoType="dijit.form.Form" name="mainForm" class="swbform" action="<%=actUrl%>" method="post">
                     <input type="hidden" name="suri" value="<%=suri%>"/>
                     <input type="hidden" name="po" value="<%=candidato.getId()%>"/>
                     <input type="hidden" name="sr" value="<%=sr.getId()%>"/>
@@ -149,9 +152,9 @@ if (paramRequest.getCallMethod() == SWBParamRequest.Call_DIRECT) {
                                 </td>
                             </tr>
                             <tr>
-                                <td width="200px" align="right"><label for="title">Calificaci&oacute;n</label>
+                                <td width="200px" align="right"><label for="title">Calificaci&oacute;n (%)</label>
                                 <td>
-                                    <input type="text" name="apego" regexp="\d{1,3}(\.\d{0,2})?" required="true" dojoType="dijit.form.ValidationTextBox" value="<%=sc.getPorcentajePsicometrico()%>" />
+                                    <input type="text" name="apego" isValid="return validaPorcentaje(this.value)" regexp="\d{1,3}(\.\d{1,2})?" required="true" dojoType="dijit.form.ValidationTextBox" value="<%=sc.getPorcentajePsicometrico()%>" />
                                 </td>
                             </tr>
                         </table>
@@ -196,6 +199,19 @@ if (paramRequest.getCallMethod() == SWBParamRequest.Call_DIRECT) {
         
         function doAction(url) {
             window.location = url;
+        }
+        function validaPorcentaje(val) {
+            //return true;
+          var temp = val;
+          //if (val.indexOf("%")!=-1) {
+          //    temp = val.replace("%","");
+              //console.log(temp+"::");
+          //}
+          if(temp <= 100) {
+            return true;
+          }
+          
+          return false;
         }
     </script>
     <%=SWBForms.DOJO_REQUIRED%>
