@@ -258,6 +258,7 @@ public class ReservaSalaManager extends mx.gob.inmujeres.swb.resources.sem.base.
                 reservation.setObservaciones(SWBUtils.XML.replaceXMLChars(request.getParameter("obs")));   
                 response.setRenderParameter("alertmsg", response.getLocaleString("msgReservationDoneOk"));
 
+System.out.println("suri="+request.getParameter("suri"));
                 //Obtener la instancia de la tarea -inicia
                 FlowNodeInstance fni = getFlowNodeInstance(request.getParameter("suri"));
                 if (fni != null) {
@@ -670,7 +671,9 @@ public class ReservaSalaManager extends mx.gob.inmujeres.swb.resources.sem.base.
         
         HttpSession session = request.getSession(true);
         GregorianCalendar current = (GregorianCalendar)session.getAttribute("cur");
-        
+System.out.println("getCalendar....");
+System.out.println("suri="+request.getParameter("suri"));
+System.out.println("----------------------");
         SWBResourceURL url = paramRequest.getRenderUrl().setMode(Mode_ROLL).setParameter("suri", request.getParameter("suri"));
         
         html.append("\n<div id=\"dayselectorCal\">");
