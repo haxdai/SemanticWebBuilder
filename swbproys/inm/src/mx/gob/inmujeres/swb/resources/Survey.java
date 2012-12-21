@@ -18,6 +18,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import mx.gob.inmujeres.swb.Cuestionario;
+import mx.gob.inmujeres.swb.Desempenio;
 import mx.gob.inmujeres.swb.EvaluacionCuestionario;
 import mx.gob.inmujeres.swb.Grupo;
 import mx.gob.inmujeres.swb.Nivel;
@@ -151,8 +152,6 @@ public class Survey extends GenericResource
         return existsGrupo;
     }
 
-    
-
     private void checkpreguntas(WebSite site)
     {
         // borra cuestionarios
@@ -183,41 +182,43 @@ public class Survey extends GenericResource
             deletesubGrupo(subGrupo, site);
         }
         grupo.removeAllSubGroup();
-        
+
     }
-    private void checkEvaluaciones(Pregunta pregunta,WebSite site)
+
+    private void checkEvaluaciones(Pregunta pregunta, WebSite site)
     {
-        Iterator<EvaluacionCuestionario> evaluaciones=EvaluacionCuestionario.ClassMgr.listEvaluacionCuestionarios(site);
-        while(evaluaciones.hasNext())
+        Iterator<EvaluacionCuestionario> evaluaciones = EvaluacionCuestionario.ClassMgr.listEvaluacionCuestionarios(site);
+        while (evaluaciones.hasNext())
         {
-            EvaluacionCuestionario evaluacion=evaluaciones.next();
-            Iterator<Respuesta> respuestas=evaluacion.listRespuestases();
-            while(respuestas.hasNext())
+            EvaluacionCuestionario evaluacion = evaluaciones.next();
+            Iterator<Respuesta> respuestas = evaluacion.listRespuestases();
+            while (respuestas.hasNext())
             {
-                Respuesta respuesta=respuestas.next();
-                if(respuesta.getPregunta().equals(pregunta))
+                Respuesta respuesta = respuestas.next();
+                if (respuesta.getPregunta().equals(pregunta))
                 {
                     respuesta.remove();
                 }
             }
-            respuestas=evaluacion.listRespuestases();
-            if(!respuestas.hasNext())
+            respuestas = evaluacion.listRespuestases();
+            if (!respuestas.hasNext())
             {
                 evaluacion.remove();
             }
         }
     }
+
     private void deletesubGrupo(SubGrupo subGrupo, WebSite site)
     {
         Iterator<Pregunta> preguntas = Pregunta.ClassMgr.listPreguntaBySubgrupo(subGrupo, site);
         while (preguntas.hasNext())
         {
-            Pregunta pregunta=preguntas.next();
+            Pregunta pregunta = preguntas.next();
             checkEvaluaciones(pregunta, site);
             pregunta.remove();
         }
         subGrupo.remove();
-        
+
     }
 
     private void deleteObject(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
@@ -245,7 +246,7 @@ public class Survey extends GenericResource
             // borra subgrupos
             SubGrupo grupo = (SubGrupo) gi;
             deletesubGrupo(grupo, site);
-        }        
+        }
         if (obj != null)
         {
             obj.remove();
@@ -256,16 +257,16 @@ public class Survey extends GenericResource
         {
             mode = request.getParameter("view");
         }
-        String[] parameters=request.getParameterValues("parameter");
-        if(parameters!=null && parameters.length>0)
+        String[] parameters = request.getParameterValues("parameter");
+        if (parameters != null && parameters.length > 0)
         {
-            for(String name : parameters)
+            for (String name : parameters)
             {
-                String value=request.getParameter("name");
-                if(value!=null)
+                String value = request.getParameter("name");
+                if (value != null)
                 {
                     response.setRenderParameter(name, value);
-                    
+
                 }
             }
         }
@@ -585,9 +586,9 @@ public class Survey extends GenericResource
             response.setMode(Survey.MODE_ERROR);
             return;
         }
-        Autentificacion aut=new Autentificacion();
+        Autentificacion aut = new Autentificacion();
         String nivelId = aut.getCamposLogin(evaluado.getLogin()).getNivel();
-        if(nivelId==null)
+        if (nivelId == null)
         {
             response.setRenderParameter("error", "El usuario evaluado no tiene nivel");
             response.setMode(Survey.MODE_ERROR);
@@ -674,6 +675,7 @@ public class Survey extends GenericResource
 
 
         // guarda resultados despues de la validación
+        int iAnio = Calendar.getInstance().get(Calendar.YEAR);
         String anio = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
         String id = evaluado.getId() + "_" + evaluador.getId() + "_" + anio;
         if (EvaluacionCuestionario.ClassMgr.hasEvaluacionCuestionario(id, site))
@@ -682,10 +684,30 @@ public class Survey extends GenericResource
             response.setMode(Survey.MODE_ERROR);
             return;
         }
+        Desempenio desempenio = null;
+        Iterator<Desempenio> desempenios = Desempenio.ClassMgr.listDesempenioByEvaluado(evaluador, site);
+        while (desempenios.hasNext())
+        {
+            Desempenio test = desempenios.next();
+            if (test.getEvaluado() != null && test.getEvaluado().equals(evaluado) && iAnio == test.getAnio())
+            {
+                desempenio = test;
+            }
+        }
         EvaluacionCuestionario cuestionario = EvaluacionCuestionario.ClassMgr.createEvaluacionCuestionario(id, site);
-        cuestionario.setEvaluado(evaluado);
-        cuestionario.setEvaluador(evaluador);
-        cuestionario.setFechaevaluacion(new Date());
+        if (desempenio != null)
+        {
+            desempenio.setCuestionarioAplicado(cuestionario);
+        }
+        else
+        {
+            response.setRenderParameter("error", "No se encontro el objeto desempenio asociado al evaluador, evaludo y año");
+            response.setMode(Survey.MODE_ERROR);
+            return;
+        }
+//        cuestionario.setEvaluado(evaluado);
+//        cuestionario.setEvaluador(evaluador);
+//        cuestionario.setFechaevaluacion(new Date());
         for (String idPregunta : respuestas.keySet())
         {
             String idScore = respuestas.get(idPregunta);

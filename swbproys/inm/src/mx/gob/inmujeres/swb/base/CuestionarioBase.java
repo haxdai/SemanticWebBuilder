@@ -3,10 +3,10 @@ package mx.gob.inmujeres.swb.base;
 
 public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass 
 {
-    public static final org.semanticwb.platform.SemanticClass inm_Pregunta=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#Pregunta");
-    public static final org.semanticwb.platform.SemanticProperty inm_hasPreguntas=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#hasPreguntas");
     public static final org.semanticwb.platform.SemanticClass inm_Nivel=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#Nivel");
     public static final org.semanticwb.platform.SemanticProperty inm_nivel=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#nivel");
+    public static final org.semanticwb.platform.SemanticClass inm_Pregunta=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#Pregunta");
+    public static final org.semanticwb.platform.SemanticProperty inm_hasPreguntas=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#hasPreguntas");
     public static final org.semanticwb.platform.SemanticClass inm_Cuestionario=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#Cuestionario");
    /**
    * The semantic class that represents the currentObject
@@ -83,29 +83,6 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass
             return (getCuestionario(id, model)!=null);
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined Preguntas
-       * @param value Preguntas of the type mx.gob.inmujeres.swb.Pregunta
-       * @param model Model of the mx.gob.inmujeres.swb.Cuestionario
-       * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
-       */
-
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByPreguntas(mx.gob.inmujeres.swb.Pregunta value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_hasPreguntas, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined Preguntas
-       * @param value Preguntas of the type mx.gob.inmujeres.swb.Pregunta
-       * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
-       */
-
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByPreguntas(mx.gob.inmujeres.swb.Pregunta value)
-        {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_hasPreguntas,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined Nivel
        * @param value Nivel of the type mx.gob.inmujeres.swb.Nivel
        * @param model Model of the mx.gob.inmujeres.swb.Cuestionario
@@ -128,6 +105,29 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass
             org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_nivel,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined Preguntas
+       * @param value Preguntas of the type mx.gob.inmujeres.swb.Pregunta
+       * @param model Model of the mx.gob.inmujeres.swb.Cuestionario
+       * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
+       */
+
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByPreguntas(mx.gob.inmujeres.swb.Pregunta value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_hasPreguntas, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all mx.gob.inmujeres.swb.Cuestionario with a determined Preguntas
+       * @param value Preguntas of the type mx.gob.inmujeres.swb.Pregunta
+       * @return Iterator with all the mx.gob.inmujeres.swb.Cuestionario
+       */
+
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Cuestionario> listCuestionarioByPreguntas(mx.gob.inmujeres.swb.Pregunta value)
+        {
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Cuestionario> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_hasPreguntas,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
     public static CuestionarioBase.ClassMgr getCuestionarioClassMgr()
@@ -142,6 +142,44 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass
     public CuestionarioBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+   /**
+   * Sets the value for the property Nivel
+   * @param value Nivel to set
+   */
+
+    public void setNivel(mx.gob.inmujeres.swb.Nivel value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(inm_nivel, value.getSemanticObject());
+        }else
+        {
+            removeNivel();
+        }
+    }
+   /**
+   * Remove the value for Nivel property
+   */
+
+    public void removeNivel()
+    {
+        getSemanticObject().removeProperty(inm_nivel);
+    }
+
+   /**
+   * Gets the Nivel
+   * @return a mx.gob.inmujeres.swb.Nivel
+   */
+    public mx.gob.inmujeres.swb.Nivel getNivel()
+    {
+         mx.gob.inmujeres.swb.Nivel ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_nivel);
+         if(obj!=null)
+         {
+             ret=(mx.gob.inmujeres.swb.Nivel)obj.createGenericInstance();
+         }
+         return ret;
     }
    /**
    * Gets all the mx.gob.inmujeres.swb.Pregunta
@@ -205,44 +243,6 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass
          if(obj!=null)
          {
              ret=(mx.gob.inmujeres.swb.Pregunta)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Sets the value for the property Nivel
-   * @param value Nivel to set
-   */
-
-    public void setNivel(mx.gob.inmujeres.swb.Nivel value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(inm_nivel, value.getSemanticObject());
-        }else
-        {
-            removeNivel();
-        }
-    }
-   /**
-   * Remove the value for Nivel property
-   */
-
-    public void removeNivel()
-    {
-        getSemanticObject().removeProperty(inm_nivel);
-    }
-
-   /**
-   * Gets the Nivel
-   * @return a mx.gob.inmujeres.swb.Nivel
-   */
-    public mx.gob.inmujeres.swb.Nivel getNivel()
-    {
-         mx.gob.inmujeres.swb.Nivel ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_nivel);
-         if(obj!=null)
-         {
-             ret=(mx.gob.inmujeres.swb.Nivel)obj.createGenericInstance();
          }
          return ret;
     }

@@ -11,9 +11,12 @@ import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import mx.gob.inmujeres.swb.CursoEvaluacion;
 import mx.gob.inmujeres.swb.Desempenio;
+import mx.gob.inmujeres.swb.MetaEvaluacion;
 import mx.gob.inmujeres.swb.TipoMedida;
 import mx.gob.inmujeres.swb.Trimestre;
+import mx.gob.inmujeres.swb.base.MetaEvaluacionBase.ClassMgr;
 import mx.gob.inmujeres.swb.resources.sem.base.Autentificacion;
 import mx.gob.inmujeres.swb.resources.sem.base.UserSubordinado;
 import org.semanticwb.Logger;
@@ -87,7 +90,16 @@ public class DNC extends GenericResource
                 response.setMode(MODE_ERROR);
                 return;
             }
-            Trimestre trimestre = Trimestre.ClassMgr.getTrimestre(idTrimestre, site);
+            Trimestre trimestre = null;
+            Iterator<Trimestre> trimestres= Trimestre.ClassMgr.listTrimestres();
+            while(trimestres.hasNext())
+            {
+                Trimestre t= trimestres.next();
+                if(t.getId().equalsIgnoreCase(idTrimestre))
+                {
+                    trimestre=t;
+                }
+            }
             if (trimestre == null)
             {
                 response.setRenderParameter("error", "Trimestre no encontrado");
@@ -95,21 +107,28 @@ public class DNC extends GenericResource
                 return;
             }
             int anio = Calendar.getInstance().get(Calendar.YEAR);
-            Desempenio evaluacion=null;
-            Iterator<Desempenio> evaluaciones=Desempenio.ClassMgr.listDesempenioByDatosEvaluador(evaluador,site);
-            while(evaluaciones.hasNext())
+            Desempenio evaluacion = null;
+            Iterator<Desempenio> evaluaciones = Desempenio.ClassMgr.listDesempenioByEvaluador(evaluador, site);
+            while (evaluaciones.hasNext())
             {
-                Desempenio evaluacion_temp=evaluaciones.next();
-                if(evaluacion_temp.getAnio()==anio && evaluacion_temp.getEvaluadoEvaluada()!=null && evaluacion_temp.getDatosEvaluado().equals(evaluado))
+                Desempenio evaluacion_temp = evaluaciones.next();
+                if (evaluacion_temp.getAnio() == anio && evaluacion_temp.getEvaluadoEvaluada() != null && evaluacion_temp.getEvaluado().equals(evaluado))
                 {
-                    evaluacion=evaluacion_temp;
+                    evaluacion = evaluacion_temp;
                 }
             }
-            if(evaluacion==null)
+            if (evaluacion == null)
             {
-                evaluacion=Desempenio.ClassMgr.createDesempenio(site);
+                evaluacion = Desempenio.ClassMgr.createDesempenio(site);
                 evaluacion.setAnio(anio);
+                evaluacion.setEvaluado(evaluado);
+                evaluacion.setEvaluador(evaluador);
             }
+            CursoEvaluacion cursoEvaluacion = CursoEvaluacion.ClassMgr.createCursoEvaluacion(site);
+            cursoEvaluacion.setNombreCurso(curso);
+            cursoEvaluacion.setJustificacionObjetivoRelacionado(objetivo);
+            cursoEvaluacion.setTrimestreAnioAplicar(trimestre);
+            evaluacion.addCursos(cursoEvaluacion);
 
 
         }
@@ -148,13 +167,45 @@ public class DNC extends GenericResource
                 response.setMode(MODE_ERROR);
                 return;
             }
-            TipoMedida medida = TipoMedida.ClassMgr.getTipoMedida(idmedida, site);
+            TipoMedida medida = null;
+            Iterator<TipoMedida> medidas= TipoMedida.ClassMgr.listTipoMedidas();
+            while(medidas.hasNext())
+            {
+                TipoMedida t=medidas.next();
+                if(t.getId().equalsIgnoreCase(idmedida))
+                {
+                    medida=t;
+                }
+            }
             if (medida == null)
             {
                 response.setRenderParameter("error", "Tipo de medida no encontrada");
                 response.setMode(MODE_ERROR);
                 return;
             }
+            int anio = Calendar.getInstance().get(Calendar.YEAR);
+            Desempenio evaluacion = null;
+            Iterator<Desempenio> evaluaciones = Desempenio.ClassMgr.listDesempenioByEvaluador(evaluador, site);
+            while (evaluaciones.hasNext())
+            {
+                Desempenio evaluacion_temp = evaluaciones.next();
+                if (evaluacion_temp.getAnio() == anio && evaluacion_temp.getEvaluado() != null && evaluacion_temp.getEvaluado().equals(evaluado))
+                {
+                    evaluacion = evaluacion_temp;
+                }
+            }
+            if (evaluacion == null)
+            {
+                evaluacion = Desempenio.ClassMgr.createDesempenio(site);
+                evaluacion.setEvaluado(evaluado);
+                evaluacion.setEvaluador(evaluador);
+                evaluacion.setAnio(anio);
+            }
+
+            MetaEvaluacion metaEvaluacion = MetaEvaluacion.ClassMgr.createMetaEvaluacion(site);
+            metaEvaluacion.setMeta(meta);
+            metaEvaluacion.setMedida(medida);
+            evaluacion.addMetas(metaEvaluacion);
 
         }
         else
@@ -165,17 +216,53 @@ public class DNC extends GenericResource
         }
     }
 
+    public void deleteMeta(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
+    {
+        WebSite site = response.getWebPage().getWebSite();
+        String idMeta = request.getParameter("idmeta");
+        MetaEvaluacion meta = ClassMgr.getMetaEvaluacion(idMeta, site);
+        if (meta != null)
+        {
+            meta.remove();
+
+        }
+    }
+
+    public void deleteCurso(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
+    {
+        WebSite site = response.getWebPage().getWebSite();
+        String idCurso = request.getParameter("idcurso");
+        CursoEvaluacion curso = CursoEvaluacion.ClassMgr.getCursoEvaluacion(idCurso, site);
+        if (curso != null)
+        {
+            curso.remove();
+
+        }
+    }
+
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
     {
-        if (request.getParameter("addcurso") != null)
+        if (request.getParameter("curso") != null)
         {
             addCurso(request, response);
 
         }
-        if (request.getParameter("addmeta") != null)
+
+        if (request.getParameter("meta") != null)
         {
             addMeta(request, response);
+
+        }
+        if (request.getParameter("idmeta") != null)
+        {
+            deleteMeta(request, response);
+
+        }
+
+        if (request.getParameter("idcurso") != null)
+        {
+            deleteCurso(request, response);
 
         }
     }
