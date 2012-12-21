@@ -27,6 +27,7 @@ import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
+import org.semanticwb.portal.api.SWBResourceURL;
 
 /**
  *
@@ -112,7 +113,7 @@ public class DNC extends GenericResource
             while (evaluaciones.hasNext())
             {
                 Desempenio evaluacion_temp = evaluaciones.next();
-                if (evaluacion_temp.getAnio() == anio && evaluacion_temp.getEvaluadoEvaluada() != null && evaluacion_temp.getEvaluado().equals(evaluado))
+                if (evaluacion_temp.getAnio() == anio && evaluacion_temp.getEvaluado() != null && evaluacion_temp.getEvaluado().equals(evaluado))
                 {
                     evaluacion = evaluacion_temp;
                 }
@@ -246,23 +247,27 @@ public class DNC extends GenericResource
         if (request.getParameter("curso") != null)
         {
             addCurso(request, response);
-
+            response.setMode(SWBResourceURL.Mode_VIEW);
+            
         }
 
         if (request.getParameter("meta") != null)
         {
             addMeta(request, response);
+            response.setMode(SWBResourceURL.Mode_VIEW);
 
         }
         if (request.getParameter("idmeta") != null)
         {
             deleteMeta(request, response);
+            response.setMode(SWBResourceURL.Mode_VIEW);
 
         }
 
         if (request.getParameter("idcurso") != null)
         {
             deleteCurso(request, response);
+            response.setMode(SWBResourceURL.Mode_VIEW);
 
         }
     }
