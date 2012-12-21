@@ -179,26 +179,18 @@ public class SelectOneUserByUserGroup extends com.infotec.eworkplace.swb.base.Se
                 } else if (isUserRepository()) {
                     SemanticModel model = getModel();
                     SWBModel      m     = (SWBModel) model.getModelObject().createGenericInstance();
-                    
-                    //Si es un submodelo, obtener el modelo principal
-                    if (m.getParentWebSite() != null) m = m.getParentWebSite();
-                    
+
                     if (m instanceof WebSite) {
                         m     = ((WebSite) m).getUserRepository();
                         model = m.getSemanticObject().getModel();
                     }
-                    
+
                     it = SWBComparator.sortSermanticObjects(lang, model.listInstancesOfClass(cls));
                 } else {
                     SemanticModel model = getModel();
                     SWBModel      m     = (SWBModel) model.getModelObject().createGenericInstance();
-                    
-                    if (m instanceof UserRepository) 
-                    {                    
-                        SWBModel p=m.getParentWebSite();
-                        if(p!=null)m=p;
-                        model = m.getSemanticObject().getModel();
-                    }
+                    if(m.getParentWebSite()!=null)m=m.getParentWebSite();                    
+                    model = m.getSemanticModel();
                     
                     it = SWBComparator.sortSermanticObjects(firstNameComp, model.listInstancesOfClass(cls));
                 }
@@ -244,41 +236,63 @@ public class SelectOneUserByUserGroup extends com.infotec.eworkplace.swb.base.Se
                 if (value == null) {
                     value = obj.getProperty(prop);
                 }
+                
+                if (mode.equals("edit") || mode.equals("create")) {
+                    ret.append("<select name=\"" + name + "\"");
 
-                ret.append("<select name=\"" + name + "\"");
-
-                if (DOJO) {
-                    ret.append(" dojoType=\"dijit.form.FilteringSelect\" autoComplete=\"true\" invalidMessage=\""
-                               + imsg + "\"");
-                }
-
-                ret.append(" " + ext + ">");
-
-                StringTokenizer st = new StringTokenizer(selectValues, "|");
-
-                while (st.hasMoreTokens()) {
-                    String tok = st.nextToken();
-                    int    ind = tok.indexOf(':');
-                    String id  = tok;
-                    String val = tok;
-
-                    if (ind > 0) {
-                        id  = tok.substring(0, ind);
-                        val = tok.substring(ind + 1);
+                    if (DOJO) {
+                        ret.append(" dojoType=\"dijit.form.FilteringSelect\" autoComplete=\"true\" invalidMessage=\""
+                                + imsg + "\"");
                     }
 
-                    ret.append("<option value=\"" + id + "\" ");
+                    ret.append(" " + ext + ">");
 
-                    if (id.equals(value)) {
-                        ret.append("selected");
+                    StringTokenizer st = new StringTokenizer(selectValues, "|");
+
+                    while (st.hasMoreTokens()) {
+                        String tok = st.nextToken();
+                        int    ind = tok.indexOf(':');
+                        String id  = tok;
+                        String val = tok;
+
+                        if (ind > 0) {
+                            id  = tok.substring(0, ind);
+                            val = tok.substring(ind + 1);
+                        }
+
+                        ret.append("<option value=\"" + id + "\" ");
+
+                        if (id.equals(value)) {
+                            ret.append("selected");
+                        }
+
+                        ret.append(">" + val + "</option>");
                     }
 
-                    ret.append(">" + val + "</option>");
-                }
+                    ret.append("</select>");
+                } else if (mode.equals("view")) {
+                    StringTokenizer st = new StringTokenizer(selectValues, "|");
 
-                ret.append("</select>");
+                    while (st.hasMoreTokens()) {
+                        String tok = st.nextToken();
+                        int    ind = tok.indexOf(':');
+                        String id  = tok;
+                        String val = tok;
+
+                        if (ind > 0) {
+                            id  = tok.substring(0, ind);
+                            val = tok.substring(ind + 1);
+                        }
+
+                        if (id.equals(value)) {
+                            ret.append("<span _id=\"" + name + "\" name=\"" + name + "\">" + val + "</span>");
+                            break;
+                        }
+                    }
+                }
             }
         }
+
         return ret.toString();
     }
 
