@@ -118,44 +118,6 @@ public abstract class SubGrupoBase extends org.semanticwb.model.SWBClass impleme
     {
         super(base);
     }
-   /**
-   * Sets the value for the property Grupo
-   * @param value Grupo to set
-   */
-
-    public void setGrupo(mx.gob.inmujeres.swb.Grupo value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(inm_inGrupo, value.getSemanticObject());
-        }else
-        {
-            removeGrupo();
-        }
-    }
-   /**
-   * Remove the value for Grupo property
-   */
-
-    public void removeGrupo()
-    {
-        getSemanticObject().removeProperty(inm_inGrupo);
-    }
-
-   /**
-   * Gets the Grupo
-   * @return a mx.gob.inmujeres.swb.Grupo
-   */
-    public mx.gob.inmujeres.swb.Grupo getGrupo()
-    {
-         mx.gob.inmujeres.swb.Grupo ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_inGrupo);
-         if(obj!=null)
-         {
-             ret=(mx.gob.inmujeres.swb.Grupo)obj.createGenericInstance();
-         }
-         return ret;
-    }
 
 /**
 * Gets the Title property
@@ -221,5 +183,43 @@ public abstract class SubGrupoBase extends org.semanticwb.model.SWBClass impleme
     public void setDescription(String description, String lang)
     {
         getSemanticObject().setProperty(swb_description, description, lang);
+    }
+   /**
+   * Sets the value for the property Grupo
+   * @param value Grupo to set
+   */
+
+    public void setGrupo(mx.gob.inmujeres.swb.Grupo value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(inm_inGrupo, value.getSemanticObject());
+        }else
+        {
+            removeGrupo();
+        }
+    }
+   /**
+   * Remove the value for Grupo property
+   */
+
+    public void removeGrupo()
+    {
+        getSemanticObject().removeProperty(inm_inGrupo);
+    }
+
+   /**
+   * Gets the Grupo
+   * @return a mx.gob.inmujeres.swb.Grupo
+   */
+    public mx.gob.inmujeres.swb.Grupo getGrupo()
+    {
+         mx.gob.inmujeres.swb.Grupo ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_inGrupo);
+         if(obj!=null)
+         {
+             ret=(mx.gob.inmujeres.swb.Grupo)obj.createGenericInstance();
+         }
+         return ret;
     }
 }
