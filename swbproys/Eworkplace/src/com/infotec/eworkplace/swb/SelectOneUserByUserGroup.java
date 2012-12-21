@@ -179,7 +179,7 @@ public class SelectOneUserByUserGroup extends com.infotec.eworkplace.swb.base.Se
                 } else if (isUserRepository()) {
                     SemanticModel model = getModel();
                     SWBModel      m     = (SWBModel) model.getModelObject().createGenericInstance();
-
+                    //System.out.println("Modelo inicial:"+m.getId());
                     if (m instanceof WebSite) {
                         m     = ((WebSite) m).getUserRepository();
                         model = m.getSemanticObject().getModel();
@@ -190,6 +190,7 @@ public class SelectOneUserByUserGroup extends com.infotec.eworkplace.swb.base.Se
                             model = m.getSemanticObject().getModel();
                         }
                     }
+                    //System.out.println("Modelo final:"+m.getId());
 
                     it = SWBComparator.sortSermanticObjects(lang, model.listInstancesOfClass(cls));
                 } else {
@@ -222,7 +223,11 @@ public class SelectOneUserByUserGroup extends com.infotec.eworkplace.swb.base.Se
                                 }
                                 if (isUserRepository()) {
                                     User user = (User)sob.createGenericInstance();
-                                    ret.append(">" + user.getFullName() + "</option>");
+                                    if (user.getFullName() != null && !user.getFullName().trim().equals("")) {
+                                        ret.append(">" + user.getFullName() + "</option>");
+                                    } else {
+                                        ret.append(">" + sob.getDisplayName(lang) + "</option>");
+                                    }
                                 } else {
                                     ret.append(">" + sob.getDisplayName(lang) + "</option>");
                                 }
