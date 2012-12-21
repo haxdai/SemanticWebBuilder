@@ -183,6 +183,12 @@ public class SelectOneUserByUserGroup extends com.infotec.eworkplace.swb.base.Se
                     if (m instanceof WebSite) {
                         m     = ((WebSite) m).getUserRepository();
                         model = m.getSemanticObject().getModel();
+                    } else {
+                      m = m.getParentWebSite();  
+                        if (m instanceof WebSite) {
+                            m     = ((WebSite) m).getUserRepository();
+                            model = m.getSemanticObject().getModel();
+                        }
                     }
 
                     it = SWBComparator.sortSermanticObjects(lang, model.listInstancesOfClass(cls));
