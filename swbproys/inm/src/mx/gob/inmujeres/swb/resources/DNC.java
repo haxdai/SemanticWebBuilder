@@ -92,13 +92,13 @@ public class DNC extends GenericResource
                 return;
             }
             Trimestre trimestre = null;
-            Iterator<Trimestre> trimestres= Trimestre.ClassMgr.listTrimestres();
-            while(trimestres.hasNext())
+            Iterator<Trimestre> trimestres = Trimestre.ClassMgr.listTrimestres();
+            while (trimestres.hasNext())
             {
-                Trimestre t= trimestres.next();
-                if(t.getId().equalsIgnoreCase(idTrimestre))
+                Trimestre t = trimestres.next();
+                if (t.getId().equalsIgnoreCase(idTrimestre))
                 {
-                    trimestre=t;
+                    trimestre = t;
                 }
             }
             if (trimestre == null)
@@ -169,13 +169,13 @@ public class DNC extends GenericResource
                 return;
             }
             TipoMedida medida = null;
-            Iterator<TipoMedida> medidas= TipoMedida.ClassMgr.listTipoMedidas();
-            while(medidas.hasNext())
+            Iterator<TipoMedida> medidas = TipoMedida.ClassMgr.listTipoMedidas();
+            while (medidas.hasNext())
             {
-                TipoMedida t=medidas.next();
-                if(t.getId().equalsIgnoreCase(idmedida))
+                TipoMedida t = medidas.next();
+                if (t.getId().equalsIgnoreCase(idmedida))
                 {
-                    medida=t;
+                    medida = t;
                 }
             }
             if (medida == null)
@@ -248,7 +248,7 @@ public class DNC extends GenericResource
         {
             addCurso(request, response);
             response.setMode(SWBResourceURL.Mode_VIEW);
-            
+
         }
 
         if (request.getParameter("meta") != null)
