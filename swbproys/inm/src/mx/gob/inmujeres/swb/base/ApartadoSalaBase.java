@@ -4,9 +4,10 @@ package mx.gob.inmujeres.swb.base;
    /**
    * Representa una reservación de una sala de juntas 
    */
-public abstract class ApartadoSalaBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class ApartadoSalaBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
     public static final org.semanticwb.platform.SemanticProperty inm_observaciones=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#observaciones");
+    public static final org.semanticwb.platform.SemanticProperty inm_motivoReunion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#motivoReunion");
     public static final org.semanticwb.platform.SemanticProperty inm_voboJefeDirecto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#voboJefeDirecto");
     public static final org.semanticwb.platform.SemanticProperty inm_fechaInicio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#fechaInicio");
     public static final org.semanticwb.platform.SemanticProperty inm_requiereRotafolio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#requiereRotafolio");
@@ -328,6 +329,24 @@ public abstract class ApartadoSalaBase extends org.semanticwb.model.SWBClass imp
     public void setDescription(String description, String lang)
     {
         getSemanticObject().setProperty(swb_description, description, lang);
+    }
+
+/**
+* Gets the MotivoReunion property
+* @return String with the MotivoReunion
+*/
+    public String getMotivoReunion()
+    {
+        return getSemanticObject().getProperty(inm_motivoReunion);
+    }
+
+/**
+* Sets the MotivoReunion property
+* @param value long with the MotivoReunion
+*/
+    public void setMotivoReunion(String value)
+    {
+        getSemanticObject().setProperty(inm_motivoReunion, value);
     }
 
 /**
