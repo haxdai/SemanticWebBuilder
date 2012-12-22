@@ -76,6 +76,7 @@
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
   </rdf:Description>
   <rdf:Description rdf:about="#EvaluacionCuestionario">
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
     <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
@@ -250,6 +251,7 @@
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
   </rdf:Description>
   <rdf:Description rdf:about="#EvaluacionDesempenio">
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
     <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
@@ -562,6 +564,7 @@
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
   </rdf:Description>
   <rdf:Description rdf:about="#Desempenio">
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
     <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
@@ -973,6 +976,7 @@
     <rdf:type rdf:resource="#Trimestre"/>
   </rdf:Description>
   <rdf:Description rdf:about="#Cuestionario">
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
     <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
@@ -1026,6 +1030,7 @@
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
   </rdf:Description>
   <rdf:Description rdf:about="#CursoEvaluacion">
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
     <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
     <rdfs:label xml:lang="es">Administra los cursos</rdfs:label>
