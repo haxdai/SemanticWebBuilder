@@ -3,11 +3,9 @@ package mx.gob.inmujeres.swb.resources.sem;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URLDecoder;
-import java.text.ParseException;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
@@ -86,6 +84,12 @@ public class ReservaSalaManager extends mx.gob.inmujeres.swb.resources.sem.base.
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setContentType("text/html; charset=utf-8");
+log.info("doView....");
+log.info("suri="+request.getParameter("suri"));
+log.info("----------------------");        
+System.out.println("doView....");
+System.out.println("suri="+request.getParameter("suri"));
+System.out.println("----------------------");   
 //        if(userCanEdit(user)) {
 //            out.println("<div><a href=\"#\" title=\"\">Reservar una sala</a></div>");
 //            com.infotec.eworkplace.swb.Date date = com.infotec.eworkplace.swb.Date.ClassMgr.getDate(dateId, base.getWebSite());
@@ -105,6 +109,7 @@ public class ReservaSalaManager extends mx.gob.inmujeres.swb.resources.sem.base.
     }
     
     private void setRenderParameter(HttpServletRequest request, SWBActionResponse response) {
+        response.setRenderParameter("suri", request.getParameter("suri"));
         response.setRenderParameter("sl", request.getParameter("sl"));
         response.setRenderParameter("fd", request.getParameter("fd"));
         response.setRenderParameter("sh", request.getParameter("sh"));
@@ -128,7 +133,8 @@ public class ReservaSalaManager extends mx.gob.inmujeres.swb.resources.sem.base.
     
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
-        response.setRenderParameter("suri", request.getParameter("suri"));
+        //response.setRenderParameter("suri", request.getParameter("suri"));
+System.out.println("....processAction...");        
         User user = response.getUser();
         if(!user.isSigned())
             return;
@@ -136,7 +142,7 @@ public class ReservaSalaManager extends mx.gob.inmujeres.swb.resources.sem.base.
         Resource base = getResourceBase();
         WebSite model = base.getWebSite();
         String action = response.getAction();
-
+System.out.println("action="+action);
         if(SWBResourceURL.Action_ADD.equals(action)) {
             HttpSession session = request.getSession(true);
             GregorianCalendar current = (GregorianCalendar)session.getAttribute("cur");
@@ -234,8 +240,9 @@ public class ReservaSalaManager extends mx.gob.inmujeres.swb.resources.sem.base.
                 reservation.setSala(sala);
                 reservation.setFechaInicio(csd.getTime());
                 reservation.setFechaFin(cfd.getTime());
-                reservation.setTitle(mtv);
+                reservation.setTitle(mtv);                
                 reservation.setDescription(mtv);
+                reservation.setMotivoReunion(mtv);
                 if(Montaje.ClassMgr.hasMontaje(request.getParameter("mnt"), model))
                 {
                     reservation.setMontaje(Montaje.ClassMgr.getMontaje(request.getParameter("mnt"), model));
@@ -258,16 +265,30 @@ public class ReservaSalaManager extends mx.gob.inmujeres.swb.resources.sem.base.
                 reservation.setObservaciones(SWBUtils.XML.replaceXMLChars(request.getParameter("obs")));   
                 response.setRenderParameter("alertmsg", response.getLocaleString("msgReservationDoneOk"));
 
-System.out.println("suri="+request.getParameter("suri"));
+System.out.println("processAction.");
+String suri;
+suri = request.getParameter("suri");
+//try {
+//    suri = URLDecoder.decode(request.getParameter("suri"), "UTF-8");
+//}catch(UnsupportedEncodingException ue) {
+//    suri = request.getParameter("suri");
+//}
+log.info("processAction. suri="+suri);
                 //Obtener la instancia de la tarea -inicia
-                FlowNodeInstance fni = getFlowNodeInstance(request.getParameter("suri"));
+                FlowNodeInstance fni = getFlowNodeInstance(suri);
+System.out.println("fni="+fni);
+log.info("fni="+fni);
                 if (fni != null) {
                     //Enviar los datos a process
                     LinkReserva(reservation, fni);
                     String url = getTaskInboxUrl(fni);
+System.out.println("url="+url);
+log.info("url="+url);
                     //Cerrar la tarea
                     fni.close(user, Instance.ACTION_ACCEPT);
                     if (url != null) {
+System.out.println("sendRedirect");
+log.info("sendRedirect");
                         response.sendRedirect(url);
                     }
                 }
@@ -296,9 +317,9 @@ System.out.println("suri="+request.getParameter("suri"));
         }
 
         
-        String uri = SWBUtils.XML.replaceXMLChars(request.getParameter("sl"));
-        //String uri = request.getParameter("sl");
-        uri = URLDecoder.decode(uri, "UTF-8");
+//        String uri = SWBUtils.XML.replaceXMLChars(request.getParameter("sl"));
+        String uri = request.getParameter("sl");
+        //uri = URLDecoder.decode(uri, "UTF-8");
         Sala sala = null;
         try {
             sala = (Sala)SemanticObject.createSemanticObject(uri).createGenericInstance();
@@ -528,7 +549,25 @@ System.out.println("suri="+request.getParameter("suri"));
         GregorianCalendar current = (GregorianCalendar)session.getAttribute("cur");
         
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MMM/yyyy", locale);
+        //SWBResourceURL url = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD).setParameter("suri", request.getParameter("suri"));
+//        SWBResourceURL url;
+        String suri;
+        suri = request.getParameter("suri");
+        
+System.out.println("getForm...");        
+System.out.println("suri="+suri);
         SWBResourceURL url = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD).setParameter("suri", request.getParameter("suri"));
+//        try {
+//            suri = URLDecoder.decode(request.getParameter("suri"), "UTF-8");
+//        }catch(UnsupportedEncodingException ue) {
+//            suri = request.getParameter("suri");
+//        }
+//        url = paramRequest.getRenderUrl().setMode(Mode_ROLL).setParameter("suri", suri);
+//        try {
+//            url = paramRequest.getRenderUrl().setMode(Mode_ROLL).setParameter("suri", URLEncoder.encode(suri, "UTF-8"));
+//        }catch(UnsupportedEncodingException ue) {
+//            url = paramRequest.getRenderUrl().setMode(Mode_ROLL).setParameter("suri", request.getParameter("suri").replaceAll("#", "%23"));
+//        }
         html.append("<form id=\"_rs_\" method=\"post\" dojoType=\"dijit.form.Form\" action=\""+url.toString()+"\">");
         html.append("<div id=\"mainPop\">");
         html.append(" <p id=\"popTop\"></p>");
@@ -650,6 +689,14 @@ System.out.println("suri="+request.getParameter("suri"));
         
         
         html.append("  <p>");
+//        SWBResourceURL url;
+//        try {
+//            url = paramRequest.getRenderUrl().setMode(Mode_ROLL).setParameter("suri", URLEncoder.encode(request.getParameter("suri"), "UTF-8"));
+//        }catch(UnsupportedEncodingException ue) {
+//            url = paramRequest.getRenderUrl().setMode(Mode_ROLL).setParameter("suri", request.getParameter("suri").replaceAll("#", "%23"));
+//        }
+System.out.println("getTaskInboxUrl... suri="+request.getParameter("suri"));     
+System.out.println("--------------------");
         String backUrl = getTaskInboxUrl(getFlowNodeInstance(request.getParameter("suri")));
         if(backUrl!=null)
         {
@@ -671,11 +718,23 @@ System.out.println("suri="+request.getParameter("suri"));
         
         HttpSession session = request.getSession(true);
         GregorianCalendar current = (GregorianCalendar)session.getAttribute("cur");
-System.out.println("getCalendar....");
+System.out.println("inicia getCalendar....");
 System.out.println("suri="+request.getParameter("suri"));
-System.out.println("----------------------");
-        SWBResourceURL url = paramRequest.getRenderUrl().setMode(Mode_ROLL).setParameter("suri", request.getParameter("suri"));
-        
+
+        SWBResourceURL url;
+//        String suri;
+//        try {
+//            suri = URLDecoder.decode(request.getParameter("suri"), "UTF-8");
+//        }catch(UnsupportedEncodingException ue) {
+//            suri = request.getParameter("suri");
+////        }
+//        try {
+        GenericObject sobj = SemanticObject.getSemanticObject(request.getParameter("suri")).createGenericInstance();
+            url = paramRequest.getRenderUrl().setMode(Mode_ROLL).setParameter("suri", sobj.getSemanticObject().getEncodedURI());
+//        }catch(UnsupportedEncodingException ue) {
+//            url = paramRequest.getRenderUrl().setMode(Mode_ROLL).setParameter("suri", suri);
+//        }
+System.out.println("url con suri="+url);
         html.append("\n<div id=\"dayselectorCal\">");
         html.append("\n <p class=\"disponibilidadSalas\">Disponibilidad de salas</p>");
         url.setParameter(Rel, Roll_DATE);
@@ -727,6 +786,8 @@ System.out.println("----------------------");
                 html.append("</li>");
             }
         }
+System.out.println("url al final="+url);
+System.out.println("----------------------");        
         html.append("\n </ul>");
         html.append("\n</div>");        
         return html.toString();
@@ -750,7 +811,7 @@ System.out.println("----------------------");
             current = (GregorianCalendar)session.getAttribute("cur");
         }
         
-        out.println(getScript(request, paramRequest, locale));       
+//        out.println(getScript(request, paramRequest, locale));       
         out.println("<div id=\"apartadoSalas\">");
         
         Iterator<Sala> isalas = Sala.ClassMgr.listSalas(base.getWebSite());        
