@@ -1103,6 +1103,10 @@ public class IntranetLoginBrigde extends ExtUserRepInt
 
     private boolean AuthenticateLP(String login, Object credential)
     {
+        if (credential == null || credential.toString().trim().equals(""))
+        {
+            return false;
+        }
         Hashtable env = new Hashtable();
         env.put(Context.INITIAL_CONTEXT_FACTORY,
                 props.getProperty("factory", "com.sun.jndi.ldap.LdapCtxFactory"));
@@ -1119,7 +1123,7 @@ public class IntranetLoginBrigde extends ExtUserRepInt
         }
         catch (NamingException e)
         {
-            log.error("Error al logear usuario: "+login,e);
+            log.error("Error al logear usuario: " + login, e);
             return false;
         }
         return true;
