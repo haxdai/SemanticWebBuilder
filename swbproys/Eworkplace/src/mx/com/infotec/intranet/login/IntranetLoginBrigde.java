@@ -1105,7 +1105,16 @@ public class IntranetLoginBrigde extends ExtUserRepInt
     {
         if (credential == null || credential.toString().trim().equals(""))
         {
+            log.error("credential: "+credential+" login: "+login);
+            
             return false;
+        }
+        if (credential instanceof char[])
+        {
+            if(((char[])credential).length==0)
+            {
+                 return false;
+            }
         }
         Hashtable env = new Hashtable();
         env.put(Context.INITIAL_CONTEXT_FACTORY,
