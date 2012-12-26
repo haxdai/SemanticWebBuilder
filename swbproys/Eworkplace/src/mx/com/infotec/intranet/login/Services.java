@@ -1130,31 +1130,34 @@ public class Services
         AuthenticateLP(cn, password);
     }
 
+    
     public static void main(String[] args)
     {
 
-        String login = "luis.valeriano";
+        String login = "victor.lorenzana";
 
         Services s = new Services();
         try
         {
 
             //String cn=s.getCNFromLogin("victor.lorenzana");
-            s.authenticateUser(login,"temporal");
+            s.authenticateUser(login, "");
+            s.getUserAttributes(login);
+
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
 
         UserInformation userInformation = new UserInformation();
 
-        
+
 
         try
         {
-            Area value=s.getDireccionAdscripcion(login);
-            System.out.println("Area: "+value.area);
+            Area value = s.getDireccionAdscripcion(login);
+            System.out.println("Area: " + value.area);
             s.getUserInformation(login);
             Integer area = s.getAreaAdscripcion(login);
             System.out.println("area: " + area);
@@ -1402,10 +1405,6 @@ public class Services
         }
     }
 
-  
-
-  
-
     public boolean authenticateUser(String login, Object credential)
     {
         Hashtable env = new Hashtable();
@@ -1446,9 +1445,12 @@ public class Services
         return answer;
     }
 
-    
     private DirContext AuthenticateLP(String login, String password) throws ServiceException
     {
+        if(password==null || password.trim().equals(""))
+        {
+            throw new ServiceException("Password vácio para usuario: " + login);
+        }
         Hashtable env = new Hashtable();
         env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
         env.put(Context.PROVIDER_URL, props.getProperty("url", "ldap://" + HOST + ":" + PORT));
