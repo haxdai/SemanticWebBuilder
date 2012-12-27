@@ -771,9 +771,9 @@ public class Survey extends GenericResource
 
             SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
             foi = (FlowNodeInstance) ont.getGenericObject(suri);
-            foi.close(paramRequest.getUser());
-            ProcessInstance pInstance = foi.getProcessInstance();
-            pInstance.close(paramRequest.getUser(), ProcessInstance.ACTION_ACCEPT);
+            foi.close(paramRequest.getUser(),ProcessInstance.ACTION_ACCEPT);
+            /*ProcessInstance pInstance = foi.getProcessInstance();
+            pInstance.close(paramRequest.getUser(), ProcessInstance.ACTION_ACCEPT);*/
             String redirect = null;
 
 
