@@ -11,6 +11,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.servlet.RequestDispatcher;
@@ -43,6 +44,8 @@ import org.semanticwb.portal.api.SWBResourceURL;
 import org.semanticwb.process.model.FlowNodeInstance;
 import org.semanticwb.process.model.ItemAwareReference;
 import org.semanticwb.process.model.ProcessInstance;
+import org.semanticwb.process.model.SWBProcessMgr;
+import org.semanticwb.process.model.UserTask;
 
 /**
  *
@@ -704,11 +707,11 @@ public class Survey extends GenericResource
                 log.error("parametro: " + obj.getItemAware().getName());
                 if ("EvaluacionDes".equalsIgnoreCase(obj.getItemAware().getName()))
                 {
-                    desempenio=(Desempenio) obj.getProcessObject();
+                    desempenio = (Desempenio) obj.getProcessObject();
                 }
             }
         }
-        
+
         response.setRenderParameter("suri", suri);
         EvaluacionCuestionario cuestionario = EvaluacionCuestionario.ClassMgr.createEvaluacionCuestionario(id, site);
         if (desempenio != null)
@@ -758,6 +761,46 @@ public class Survey extends GenericResource
 
     }
 
+    public void finish(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
+    {
+        String suri = request.getParameter("suri");
+        System.out.println("finish: "+suri);
+        FlowNodeInstance foi = null;
+        if (suri != null && !suri.equals(""))
+        {
+
+            SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
+            foi = (FlowNodeInstance) ont.getGenericObject(suri);
+            foi.close(paramRequest.getUser());
+            ProcessInstance pInstance = foi.getProcessInstance();
+            pInstance.close(paramRequest.getUser(), ProcessInstance.ACTION_ACCEPT);
+            String redirect = null;
+
+
+            if (foi.getFlowNodeType() instanceof UserTask && ((UserTask) foi.getFlowNodeType()).isLinkNextUserTask())
+            {
+                List<FlowNodeInstance> arr = SWBProcessMgr.getActiveUserTaskInstances(foi.getProcessInstance(), paramRequest.getUser());
+                if (arr.size() > 0)
+                {
+                    redirect = arr.get(0).getUserTaskUrl();
+                }
+                else
+                {
+                    redirect = foi.getUserTaskInboxUrl();
+                }
+            }
+            else
+            {
+                redirect = foi.getUserTaskInboxUrl();
+            }
+            if (redirect != null)
+            {
+                response.sendRedirect(redirect);
+            }
+
+        }
+    }
+
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
     {
@@ -792,6 +835,8 @@ public class Survey extends GenericResource
             addScore(request, response);
         }
 
+        
+
         if (request.getParameter("uri") != null && !"".equalsIgnoreCase(request.getParameter("uri").trim()))
         {
             if ("delete".equalsIgnoreCase(request.getParameter("mode")))
@@ -810,6 +855,11 @@ public class Survey extends GenericResource
         if (SWBResourceURL.Mode_VIEW.equals(paramRequest.getMode()))
         {
             doView(request, response, paramRequest);
+            return;
+        }
+        if ("finish".equals(paramRequest.getMode()))
+        {
+            finish(request, response, paramRequest);
             return;
         }
         if (SWBResourceURL.Mode_ADMHLP.equals(paramRequest.getMode()))
