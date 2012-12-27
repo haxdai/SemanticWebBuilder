@@ -7,7 +7,6 @@ package mx.gob.inmujeres.swb.resources;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -28,17 +27,22 @@ import mx.gob.inmujeres.swb.Score;
 import mx.gob.inmujeres.swb.SubGrupo;
 import mx.gob.inmujeres.swb.resources.sem.base.Autentificacion;
 import org.semanticwb.Logger;
+import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.GenericIterator;
 import org.semanticwb.model.GenericObject;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.platform.SemanticObject;
+import org.semanticwb.platform.SemanticOntology;
 import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.api.SWBResourceURL;
+import org.semanticwb.process.model.FlowNodeInstance;
+import org.semanticwb.process.model.ItemAwareReference;
+import org.semanticwb.process.model.ProcessInstance;
 
 /**
  *
@@ -685,15 +689,27 @@ public class Survey extends GenericResource
             return;
         }
         Desempenio desempenio = null;
-        Iterator<Desempenio> desempenios = Desempenio.ClassMgr.listDesempenioByEvaluado(evaluador, site);
-        while (desempenios.hasNext())
+        String suri = request.getParameter("suri");
+        FlowNodeInstance foi = null;
+        SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
+        foi = (FlowNodeInstance) ont.getGenericObject(suri);
+        ProcessInstance pInstance = foi.getProcessInstance();
+        Iterator<ItemAwareReference> dataObjs = pInstance.listAllItemAwareReferences();
+
+        while (dataObjs.hasNext())
         {
-            Desempenio test = desempenios.next();
-            if (test.getEvaluado() != null && test.getEvaluado().equals(evaluado) && iAnio == test.getAnio())
+            ItemAwareReference obj = dataObjs.next();
+            if (obj != null)
             {
-                desempenio = test;
+                log.error("parametro: " + obj.getItemAware().getName());
+                if ("EvaluacionDes".equalsIgnoreCase(obj.getItemAware().getName()))
+                {
+                    desempenio=(Desempenio) obj.getProcessObject();
+                }
             }
         }
+        
+        response.setRenderParameter("suri", suri);
         EvaluacionCuestionario cuestionario = EvaluacionCuestionario.ClassMgr.createEvaluacionCuestionario(id, site);
         if (desempenio != null)
         {
