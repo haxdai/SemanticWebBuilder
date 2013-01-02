@@ -14,6 +14,7 @@ import com.infotec.eworkplace.swb.ReservacionSala;
 import com.infotec.eworkplace.swb.Sala;
 import java.net.URLDecoder;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.semanticwb.Logger;
@@ -771,9 +772,17 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         Iterator<Sala> isalas = Sala.ClassMgr.listSalas(base.getWebSite());        
         isalas = SWBComparator.sortByDisplayName(isalas, lang);
         List<Sala> salas = SWBUtils.Collections.copyIterator(isalas);
+        List<Sala> _remove=new ArrayList<Sala>();
         for(Sala sala:salas) {
             if(!user.haveAccess(sala) || !sala.isActive())
-                salas.remove(sala);
+                //salas.remove(sala);
+                _remove.add(sala);
+
+        }
+        for(Sala _sala : _remove)
+        {
+            salas.remove(_sala);
+            
         }
         out.println(getCalendar(request, paramRequest, locale));
 //        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
