@@ -900,9 +900,18 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         Iterator<Sala> isalas = Sala.ClassMgr.listSalas(base.getWebSite());        
         isalas = SWBComparator.sortByDisplayName(isalas, lang);
         List<Sala> salas = SWBUtils.Collections.copyIterator(isalas);
+
+        ArrayList<Sala> _remove=new ArrayList<Sala>();
+
         for(Sala sala:salas) {
             if(!user.haveAccess(sala) || !sala.isActive())
-                salas.remove(sala);
+                //salas.remove(sala);
+                _remove.add(sala);
+
+        }
+        for(Sala _sala : _remove)
+        {
+            salas.remove(_sala);
         }
         out.println(getCalendar(request, paramRequest, locale));
 //        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
