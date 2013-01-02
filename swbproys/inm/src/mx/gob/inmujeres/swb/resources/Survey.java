@@ -764,7 +764,7 @@ public class Survey extends GenericResource
     public void finish(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
         String suri = request.getParameter("suri");
-        System.out.println("finish: "+suri);
+        
         FlowNodeInstance foi = null;
         if (suri != null && !suri.equals(""))
         {
