@@ -20,14 +20,21 @@ import mx.gob.inmujeres.swb.base.MetaEvaluacionBase.ClassMgr;
 import mx.gob.inmujeres.swb.resources.sem.base.Autentificacion;
 import mx.gob.inmujeres.swb.resources.sem.base.UserSubordinado;
 import org.semanticwb.Logger;
+import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebSite;
+import org.semanticwb.platform.SemanticOntology;
 import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.api.SWBResourceURL;
+import org.semanticwb.process.model.FlowNodeInstance;
+import org.semanticwb.process.model.ItemAwareReference;
+import org.semanticwb.process.model.ProcessInstance;
+import org.semanticwb.process.model.SWBProcessMgr;
+import org.semanticwb.process.model.UserTask;
 
 /**
  *
@@ -61,6 +68,61 @@ public class DNC extends GenericResource
         {
             log.error(e);
         }
+    }
+
+
+     public void finish(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
+    {
+        String suri = request.getParameter("suri");
+
+        FlowNodeInstance foi = null;
+        if (suri != null && !suri.equals(""))
+        {
+
+            SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
+            foi = (FlowNodeInstance) ont.getGenericObject(suri);
+            foi.close(paramRequest.getUser(),ProcessInstance.ACTION_ACCEPT);
+            /*ProcessInstance pInstance = foi.getProcessInstance();
+            pInstance.close(paramRequest.getUser(), ProcessInstance.ACTION_ACCEPT);*/
+            String redirect = null;
+
+
+            if (foi.getFlowNodeType() instanceof UserTask && ((UserTask) foi.getFlowNodeType()).isLinkNextUserTask())
+            {
+                List<FlowNodeInstance> arr = SWBProcessMgr.getActiveUserTaskInstances(foi.getProcessInstance(), paramRequest.getUser());
+                if (arr.size() > 0)
+                {
+                    redirect = arr.get(0).getUserTaskUrl();
+                }
+                else
+                {
+                    redirect = foi.getUserTaskInboxUrl();
+                }
+            }
+            else
+            {
+                redirect = foi.getUserTaskInboxUrl();
+            }
+            if (redirect != null)
+            {
+                response.sendRedirect(redirect);
+            }
+
+        }
+    }
+    @Override
+    public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
+    {
+        if ("finish".equals(paramRequest.getMode()))
+        {
+            finish(request, response, paramRequest);
+            return;
+        }
+        else
+        {
+            super.processRequest(request,response,paramRequest);
+        }
+
     }
 
     public void addCurso(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
@@ -107,17 +169,35 @@ public class DNC extends GenericResource
                 response.setMode(MODE_ERROR);
                 return;
             }
+            String suri = request.getParameter("suri");
+            FlowNodeInstance foi = null;
             int anio = Calendar.getInstance().get(Calendar.YEAR);
             Desempenio evaluacion = null;
-            Iterator<Desempenio> evaluaciones = Desempenio.ClassMgr.listDesempenioByEvaluador(evaluador, site);
-            while (evaluaciones.hasNext())
+
+            if (suri != null && !suri.equals(""))
             {
-                Desempenio evaluacion_temp = evaluaciones.next();
-                if (evaluacion_temp.getAnio() == anio && evaluacion_temp.getEvaluado() != null && evaluacion_temp.getEvaluado().equals(evaluado))
+                response.setRenderParameter("suri", suri);
+                SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
+                foi = (FlowNodeInstance) ont.getGenericObject(suri);
+                ProcessInstance pInstance = foi.getProcessInstance();
+                Iterator<ItemAwareReference> dataObjs = pInstance.listAllItemAwareReferences();
+
+                while (dataObjs.hasNext())
                 {
-                    evaluacion = evaluacion_temp;
+                    ItemAwareReference obj = dataObjs.next();
+                    if (obj != null)
+                    {
+
+                        if ("EvaluacionDes".equalsIgnoreCase(obj.getItemAware().getName()))
+                        {
+                            evaluacion=((Desempenio) obj.getProcessObject());
+                            evaluado = ((Desempenio) obj.getProcessObject()).getEvaluado();
+                        }
+                    }
                 }
             }
+
+
             if (evaluacion == null)
             {
                 evaluacion = Desempenio.ClassMgr.createDesempenio(site);
@@ -185,14 +265,31 @@ public class DNC extends GenericResource
                 return;
             }
             int anio = Calendar.getInstance().get(Calendar.YEAR);
+            String suri = request.getParameter("suri");
+            FlowNodeInstance foi = null;
+
             Desempenio evaluacion = null;
-            Iterator<Desempenio> evaluaciones = Desempenio.ClassMgr.listDesempenioByEvaluador(evaluador, site);
-            while (evaluaciones.hasNext())
+
+            if (suri != null && !suri.equals(""))
             {
-                Desempenio evaluacion_temp = evaluaciones.next();
-                if (evaluacion_temp.getAnio() == anio && evaluacion_temp.getEvaluado() != null && evaluacion_temp.getEvaluado().equals(evaluado))
+                response.setRenderParameter("suri", suri);
+                SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
+                foi = (FlowNodeInstance) ont.getGenericObject(suri);
+                ProcessInstance pInstance = foi.getProcessInstance();
+                Iterator<ItemAwareReference> dataObjs = pInstance.listAllItemAwareReferences();
+
+                while (dataObjs.hasNext())
                 {
-                    evaluacion = evaluacion_temp;
+                    ItemAwareReference obj = dataObjs.next();
+                    if (obj != null)
+                    {
+
+                        if ("EvaluacionDes".equalsIgnoreCase(obj.getItemAware().getName()))
+                        {
+                            evaluacion=((Desempenio) obj.getProcessObject());
+                            evaluado = ((Desempenio) obj.getProcessObject()).getEvaluado();
+                        }
+                    }
                 }
             }
             if (evaluacion == null)
