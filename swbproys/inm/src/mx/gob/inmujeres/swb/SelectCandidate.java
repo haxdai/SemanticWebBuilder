@@ -1,5 +1,6 @@
 package mx.gob.inmujeres.swb;
 
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -28,7 +29,9 @@ import org.semanticwb.platform.SemanticProperty;
  */
 public class SelectCandidate extends mx.gob.inmujeres.swb.base.SelectCandidateBase
 {
-static Logger log = SWBUtils.getLogger(SelectCandidate.class);
+
+    static Logger log = SWBUtils.getLogger(SelectCandidate.class);
+
     public SelectCandidate(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
@@ -46,24 +49,53 @@ static Logger log = SWBUtils.getLogger(SelectCandidate.class);
         return true;
     }
 
+    private boolean isEvaluado(User evaluado)
+    {
+        boolean isEvaluado = false;
+        User evaluador = SWBContext.getSessionUser();
+        int anio = Calendar.getInstance().get(Calendar.YEAR);
+        Iterator<EvaluacionDesempenio> values = EvaluacionDesempenio.ClassMgr.listEvaluacionDesempenios();
+        while (values.hasNext())
+        {
+            EvaluacionDesempenio evaluacionDesempenio = values.next();
+            Desempenio desempenio = evaluacionDesempenio.getDesempeño();
+            if (desempenio != null)
+            {
+                if (evaluador.equals(desempenio.getEvaluador()) && evaluado.equals(desempenio.getEvaluado()) && anio == desempenio.getAnio())
+                {
+                    if (evaluacionDesempenio.getStatus() == 0)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return isEvaluado;
+    }
+
     @Override
     public boolean filterObject(HttpServletRequest request, SemanticObject obj, SemanticObject filter, SemanticProperty prop, String propName, String type, String mode, String lang)
     {
 
 
         User evaluador = SWBContext.getSessionUser();
-        
+
         String login = evaluador.getLogin();
         Autentificacion aut = new Autentificacion();
         List<UserSubordinado> subordinados = aut.getSubordinados(login);
-        
+
         GenericObject go = filter.createGenericInstance();
-        
+
         if (go instanceof User)
         {
             User user = (User) go;
-            
-            return isSubordinado(user, subordinados);
+
+            return isSubordinado(user, subordinados) && !isEvaluado(user);
         }
         else
         {
@@ -78,20 +110,20 @@ static Logger log = SWBUtils.getLogger(SelectCandidate.class);
             String mode, String lang)
     {
         User evaluador = SWBContext.getSessionUser();
-       
+
         String login = evaluador.getLogin();
         Autentificacion aut = new Autentificacion();
         List<UserSubordinado> subordinados = aut.getSubordinados(login);
-        for(UserSubordinado subordinado : subordinados)
+        for (UserSubordinado subordinado : subordinados)
         {
             try
             {
-            evaluador.getUserRepository().getUserByLogin(subordinado.getLogin());
+                evaluador.getUserRepository().getUserByLogin(subordinado.getLogin());
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                log.error("Error cargando subordinados login: "+subordinado.getLogin(),e);
-                
+                log.error("Error cargando subordinados login: " + subordinado.getLogin(), e);
+
             }
         }
         if (obj == null)
