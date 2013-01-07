@@ -277,12 +277,13 @@ public class CreacionFiltradoUsuarios extends ExtUserRepInt {
             answers = dir.search(name, "(&(objectClass=" + userObjectClass + ")(" + seekField + "=" + login + "))", ctls);
             return ((SearchResult) answers.next()).getName() + "," + props.getProperty("base", BASE);
         } catch (Exception e) {
-            e.printStackTrace();
+           log.error(e);
         } finally {
             if (dir != null) {
                 try {
                     dir.close();
                 } catch (Exception e) {
+                       log.error(e);
                 }
             }
         }
@@ -349,7 +350,7 @@ public class CreacionFiltradoUsuarios extends ExtUserRepInt {
 
             }
         } catch (NamingException ex) {
-            log.debug("Error Syncing a User: " + login, ex);
+              log.error(ex);
         }
 
         return ret;
@@ -575,6 +576,7 @@ public class CreacionFiltradoUsuarios extends ExtUserRepInt {
                 ru.setLanguage((String) attrs.get(valueLanguage).get());
             }
         } catch (Exception ne) {
+               log.error(ne);
         }
 
     }
