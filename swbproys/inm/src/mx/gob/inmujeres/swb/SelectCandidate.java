@@ -29,7 +29,10 @@ import org.semanticwb.platform.SemanticProperty;
  */
 public class SelectCandidate extends mx.gob.inmujeres.swb.base.SelectCandidateBase
 {
+    static
+    {
 
+    }
     static Logger log = SWBUtils.getLogger(SelectCandidate.class);
 
     public SelectCandidate(org.semanticwb.platform.SemanticObject base)
@@ -43,10 +46,10 @@ public class SelectCandidate extends mx.gob.inmujeres.swb.base.SelectCandidateBa
         {
             if (userSubordinado.getLogin().equals(candidato.getLogin()))
             {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     private boolean isEvaluado(User evaluador, User evaluado)
@@ -54,24 +57,29 @@ public class SelectCandidate extends mx.gob.inmujeres.swb.base.SelectCandidateBa
         boolean isEvaluado = false;
         
         int anio = Calendar.getInstance().get(Calendar.YEAR);
-
+        
         Iterator<EvaluacionDesempenio> values = EvaluacionDesempenio.ClassMgr.listEvaluacionDesempenios();
         while (values.hasNext())
         {
             EvaluacionDesempenio evaluacionDesempenio = values.next();
-            Desempenio desempenio = evaluacionDesempenio.getDesempeño();
-            if (desempenio != null)
+            //if (evaluacionDesempenio.isValid())
             {
-                System.out.println("desempeño encontrado");
-                if (evaluador.equals(desempenio.getEvaluador()) && evaluado.equals(desempenio.getEvaluado()) && anio == desempenio.getAnio())
+                
+                
+                Desempenio desempenio = evaluacionDesempenio.getDesempeño();
+                if (desempenio != null)
                 {
-                    if (evaluacionDesempenio.getStatus() == 0)
+                    System.out.println("desempeño encontrado");
+                    if (evaluador.equals(desempenio.getEvaluador()) && evaluado.equals(desempenio.getEvaluado()) && anio == desempenio.getAnio())
                     {
-                        return false;
-                    }
-                    else
-                    {
-                        return true;
+                        if (evaluacionDesempenio.getStatus() == 0)
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            return true;
+                        }
                     }
                 }
             }
@@ -86,7 +94,7 @@ public class SelectCandidate extends mx.gob.inmujeres.swb.base.SelectCandidateBa
 
 
         User evaluador = SWBContext.getSessionUser();
-        
+
         String login = evaluador.getLogin();
         Autentificacion aut = new Autentificacion();
         List<UserSubordinado> subordinados = aut.getSubordinados(login);
@@ -97,8 +105,22 @@ public class SelectCandidate extends mx.gob.inmujeres.swb.base.SelectCandidateBa
         {
             User user = (User) go;
 
-            //return isSubordinado(user, subordinados) && !isEvaluado(evaluador,user);
-            return isSubordinado(user, subordinados);// && !isEvaluado(user);
+            if(isSubordinado(user, subordinados))
+            {
+                if(! isEvaluado(evaluador, user))
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                return true;
+            }
+            //return isSubordinado(user, subordinados);// && !isEvaluado(user);
 
         }
         else
@@ -120,15 +142,15 @@ public class SelectCandidate extends mx.gob.inmujeres.swb.base.SelectCandidateBa
         //List<UserSubordinado> subordinados = aut.getSubordinados(login);
         /*for (UserSubordinado subordinado : subordinados)
         {
-            try
-            {
-                evaluador.getUserRepository().getUserByLogin(subordinado.getLogin());
-            }
-            catch (Exception e)
-            {
-                log.error("Error cargando subordinados login: " + subordinado.getLogin(), e);
+        try
+        {
+        evaluador.getUserRepository().getUserByLogin(subordinado.getLogin());
+        }
+        catch (Exception e)
+        {
+        log.error("Error cargando subordinados login: " + subordinado.getLogin(), e);
 
-            }
+        }
         }*/
         if (obj == null)
         {
