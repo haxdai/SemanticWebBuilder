@@ -49,11 +49,12 @@ public class SelectCandidate extends mx.gob.inmujeres.swb.base.SelectCandidateBa
         return true;
     }
 
-    private boolean isEvaluado(User evaluado)
+    private boolean isEvaluado(User evaluador, User evaluado)
     {
         boolean isEvaluado = false;
-        User evaluador = SWBContext.getSessionUser();
+        
         int anio = Calendar.getInstance().get(Calendar.YEAR);
+
         Iterator<EvaluacionDesempenio> values = EvaluacionDesempenio.ClassMgr.listEvaluacionDesempenios();
         while (values.hasNext())
         {
@@ -61,6 +62,7 @@ public class SelectCandidate extends mx.gob.inmujeres.swb.base.SelectCandidateBa
             Desempenio desempenio = evaluacionDesempenio.getDesempeño();
             if (desempenio != null)
             {
+                System.out.println("desempeño encontrado");
                 if (evaluador.equals(desempenio.getEvaluador()) && evaluado.equals(desempenio.getEvaluado()) && anio == desempenio.getAnio())
                 {
                     if (evaluacionDesempenio.getStatus() == 0)
@@ -84,7 +86,7 @@ public class SelectCandidate extends mx.gob.inmujeres.swb.base.SelectCandidateBa
 
 
         User evaluador = SWBContext.getSessionUser();
-
+        
         String login = evaluador.getLogin();
         Autentificacion aut = new Autentificacion();
         List<UserSubordinado> subordinados = aut.getSubordinados(login);
@@ -95,7 +97,9 @@ public class SelectCandidate extends mx.gob.inmujeres.swb.base.SelectCandidateBa
         {
             User user = (User) go;
 
-            return isSubordinado(user, subordinados) && !isEvaluado(user);
+            //return isSubordinado(user, subordinados) && !isEvaluado(evaluador,user);
+            return isSubordinado(user, subordinados);// && !isEvaluado(user);
+
         }
         else
         {
@@ -109,12 +113,12 @@ public class SelectCandidate extends mx.gob.inmujeres.swb.base.SelectCandidateBa
     public String renderElement(HttpServletRequest request, SemanticObject obj, SemanticProperty prop, String propName, String type,
             String mode, String lang)
     {
-        User evaluador = SWBContext.getSessionUser();
+        //User evaluador = SWBContext.getSessionUser();
 
-        String login = evaluador.getLogin();
-        Autentificacion aut = new Autentificacion();
-        List<UserSubordinado> subordinados = aut.getSubordinados(login);
-        for (UserSubordinado subordinado : subordinados)
+        //String login = evaluador.getLogin();
+        //Autentificacion aut = new Autentificacion();
+        //List<UserSubordinado> subordinados = aut.getSubordinados(login);
+        /*for (UserSubordinado subordinado : subordinados)
         {
             try
             {
@@ -125,7 +129,7 @@ public class SelectCandidate extends mx.gob.inmujeres.swb.base.SelectCandidateBa
                 log.error("Error cargando subordinados login: " + subordinado.getLogin(), e);
 
             }
-        }
+        }*/
         if (obj == null)
         {
             obj = new SemanticObject();
@@ -145,7 +149,7 @@ public class SelectCandidate extends mx.gob.inmujeres.swb.base.SelectCandidateBa
             DOJO = true;
         }
 
-        StringBuffer ret = new StringBuffer();
+        StringBuilder ret = new StringBuilder();
         String name = propName;
         String label = prop.getDisplayName(lang);
         SemanticObject sobj = prop.getDisplayProperty();
