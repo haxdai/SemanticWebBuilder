@@ -13,6 +13,7 @@ import javax.servlet.http.*;
 import com.infotec.eworkplace.swb.ReservacionSala;
 import com.infotec.eworkplace.swb.Sala;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -130,7 +131,6 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         User user = response.getUser();
         if(!user.isSigned())
             return;
-        
         Resource base = getResourceBase();
         WebSite model = base.getWebSite();
         String action = response.getAction();
@@ -548,8 +548,9 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         GregorianCalendar current = (GregorianCalendar)session.getAttribute("cur");
         
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MMM/yyyy", locale);
-        SWBResourceURL url = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD).setParameter("suri", request.getParameter("suri"));
+        SWBResourceURL url = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD);
         html.append("<form id=\"_rs_\" method=\"post\" dojoType=\"dijit.form.Form\" action=\""+url.toString()+"\">");
+        html.append("<input type=\"hidden\" name=\"suri\" value=\"" + request.getParameter("suri") + "\"/>");
         html.append("<div id=\"mainPop\">");
         html.append(" <p id=\"popTop\"></p>");
         html.append(" <div id=\"popMiddle\">");
@@ -684,28 +685,27 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         
         HttpSession session = request.getSession(true);
         GregorianCalendar current = (GregorianCalendar)session.getAttribute("cur");
-        
         SWBResourceURL url = paramRequest.getRenderUrl().setMode(Mode_ROLL).setParameter("suri", request.getParameter("suri"));
         
         html.append("\n<div id=\"dayselectorCal\">");
         html.append("\n <p class=\"disponibilidadSalas\">Disponibilidad de salas</p>");
         url.setParameter(Rel, Roll_DATE);
         url.setParameter(Roll, Roll_LEFT);
-        html.append("\n <p><a href=\"javascript:location.href='"+url+"'\" class=\"salasAtras\">atr&aacute;s</a></p>");
+        html.append("\n <p><a href=\"javascript:window.location='"+url+"'\" class=\"salasAtras\">atr&aacute;s</a></p>");
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE d 'de' MMMM", locale);
         html.append("\n <p id=\"current\" class=\"dayAndMonth\">"+sdf.format(current.getTime())+"</p>");
         url.setParameter(Roll, Roll_RIGHT);
-        html.append("\n <p><a href=\"javascript:location.href='"+url+"'\" class=\"salasAdelante\">adelante</a></p>");
+        html.append("\n <p><a href=\"javascript:window.location='"+url+"'\" class=\"salasAdelante\">adelante</a></p>");
         html.append("\n</div>");
         
         html.append("\n<div id=\"salasCal\">");
         url.setParameter(Rel, Roll_MONTH);
         url.setParameter(Roll, Roll_LEFT);
-        html.append("\n <a href=\"javascript:location.href='"+url+"'\" class=\"salasAtras\">atr&aacute;s</a>");
+        html.append("\n <a href=\"\" onclick=\"javascript:location.href='"+url+"'; return false;\" class=\"salasAtras\">atr&aacute;s</a>");
         sdf = new SimpleDateFormat("MMMM yyyy", locale);
         html.append("\n <span id=\"month\" class=\"salasMonthYear\">"+sdf.format(current.getTime()) +"</span>");
         url.setParameter(Roll, Roll_RIGHT);
-        html.append("\n <a href=\"javascript:location.href='"+url+"'\" class=\"salasAdelante\">adelante</a>");
+        html.append("\n <a href=\"\" onclick=\"javascript:location.href='"+url+"'; return false;\" class=\"salasAdelante\">adelante</a>");
         html.append("\n <ul class=\"daysTop\">");
         html.append("\n  <li>D</li>");
         html.append("\n  <li>L</li>");
@@ -728,7 +728,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
                 html.append("\n<li>");
                 if( loopCounter>=firstDay && dayCounter<=daysInMonth ) {
                     url.setParameter(Roll, sdf.format(ci.getTime()));
-                    html.append("<a href=\"javascript:location.href='"+url+"'\">");
+                    html.append("<a href=\"\" onclick=\"javascript:location.href='"+url+"'; return false;\">");
                     html.append(sdf.format(ci.getTime())+"</a>");
                     
                     ci.add(GregorianCalendar.DAY_OF_MONTH, 1);
