@@ -596,24 +596,25 @@ System.out.println("suri="+suri);
         StringBuilder fh = new StringBuilder();
         Calendar today = Calendar.getInstance();
         Calendar next = Calendar.getInstance();
-        int h;
+        float h;
         if(today.get(Calendar.HOUR_OF_DAY)<START_HOUR || current.get(Calendar.DAY_OF_YEAR)>today.get(Calendar.DAY_OF_YEAR)) {
             reset(today, START_HOUR, 0);
             h = START_HOUR;
         }else {
             h = current.get(Calendar.HOUR_OF_DAY);
             if(current.get(Calendar.MINUTE)<30) {
-                reset(today, h, 30);
+                reset(today, (int)h, 30);
+                h+=0.5;
             }else {
                 h++;
-                reset(today, h, 0);
+                reset(today, (int)h, 0);
             }
         }
         reset(next, today.get(Calendar.HOUR_OF_DAY), 59);
-        for(int minute=h*60; minute<1290; minute+=30) {
-            html.append("\n<option value=\""+minute+"\">"+HHmm.format(today.getTime())+"</option>");
+        for(float minute=h*60; minute<1290; minute+=30) {
+            html.append("\n<option value=\""+(int)minute+"\">"+HHmm.format(today.getTime())+"</option>");
             today.add(Calendar.MINUTE, 30);
-            fh.append("\n<option value=\""+(minute+59)+"\">"+HHmm.format(next.getTime()) +"</option>");
+            fh.append("\n<option value=\""+((int)minute+59)+"\">"+HHmm.format(next.getTime()) +"</option>");
             next.add(Calendar.MINUTE, 30);
         }
         html.append("\n  </select>");
