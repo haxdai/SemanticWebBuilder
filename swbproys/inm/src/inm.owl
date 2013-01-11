@@ -1203,6 +1203,7 @@
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_observacion">
+    <rdfs:label xml:lang="es">Observación</rdfs:label>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
     <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextArea_Description"/>
   </rdf:Description>
