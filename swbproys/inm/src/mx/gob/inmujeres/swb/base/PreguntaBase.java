@@ -1,13 +1,13 @@
 package mx.gob.inmujeres.swb.base;
 
 
-public abstract class PreguntaBase extends org.semanticwb.model.SWBClass 
+public abstract class PreguntaBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable
 {
-    public static final org.semanticwb.platform.SemanticClass inm_SubGrupo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#SubGrupo");
-    public static final org.semanticwb.platform.SemanticProperty inm_subgrupo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#subgrupo");
     public static final org.semanticwb.platform.SemanticProperty inm_texto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#texto");
     public static final org.semanticwb.platform.SemanticClass inm_Nivel=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#Nivel");
     public static final org.semanticwb.platform.SemanticProperty inm_hasNiveles=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#hasNiveles");
+    public static final org.semanticwb.platform.SemanticClass inm_SubGrupo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#SubGrupo");
+    public static final org.semanticwb.platform.SemanticProperty inm_subgrupo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#subgrupo");
     public static final org.semanticwb.platform.SemanticClass inm_Score=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#Score");
     public static final org.semanticwb.platform.SemanticProperty inm_scoreMax=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#scoreMax");
     public static final org.semanticwb.platform.SemanticClass inm_Pregunta=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#Pregunta");
@@ -86,29 +86,6 @@ public abstract class PreguntaBase extends org.semanticwb.model.SWBClass
             return (getPregunta(id, model)!=null);
         }
        /**
-       * Gets all mx.gob.inmujeres.swb.Pregunta with a determined Subgrupo
-       * @param value Subgrupo of the type mx.gob.inmujeres.swb.SubGrupo
-       * @param model Model of the mx.gob.inmujeres.swb.Pregunta
-       * @return Iterator with all the mx.gob.inmujeres.swb.Pregunta
-       */
-
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Pregunta> listPreguntaBySubgrupo(mx.gob.inmujeres.swb.SubGrupo value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Pregunta> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_subgrupo, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all mx.gob.inmujeres.swb.Pregunta with a determined Subgrupo
-       * @param value Subgrupo of the type mx.gob.inmujeres.swb.SubGrupo
-       * @return Iterator with all the mx.gob.inmujeres.swb.Pregunta
-       */
-
-        public static java.util.Iterator<mx.gob.inmujeres.swb.Pregunta> listPreguntaBySubgrupo(mx.gob.inmujeres.swb.SubGrupo value)
-        {
-            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Pregunta> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_subgrupo,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all mx.gob.inmujeres.swb.Pregunta with a determined Niveles
        * @param value Niveles of the type mx.gob.inmujeres.swb.Nivel
        * @param model Model of the mx.gob.inmujeres.swb.Pregunta
@@ -129,6 +106,29 @@ public abstract class PreguntaBase extends org.semanticwb.model.SWBClass
         public static java.util.Iterator<mx.gob.inmujeres.swb.Pregunta> listPreguntaByNiveles(mx.gob.inmujeres.swb.Nivel value)
         {
             org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Pregunta> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_hasNiveles,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all mx.gob.inmujeres.swb.Pregunta with a determined Subgrupo
+       * @param value Subgrupo of the type mx.gob.inmujeres.swb.SubGrupo
+       * @param model Model of the mx.gob.inmujeres.swb.Pregunta
+       * @return Iterator with all the mx.gob.inmujeres.swb.Pregunta
+       */
+
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Pregunta> listPreguntaBySubgrupo(mx.gob.inmujeres.swb.SubGrupo value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Pregunta> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_subgrupo, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all mx.gob.inmujeres.swb.Pregunta with a determined Subgrupo
+       * @param value Subgrupo of the type mx.gob.inmujeres.swb.SubGrupo
+       * @return Iterator with all the mx.gob.inmujeres.swb.Pregunta
+       */
+
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Pregunta> listPreguntaBySubgrupo(mx.gob.inmujeres.swb.SubGrupo value)
+        {
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Pregunta> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_subgrupo,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -169,43 +169,38 @@ public abstract class PreguntaBase extends org.semanticwb.model.SWBClass
     {
         super(base);
     }
-   /**
-   * Sets the value for the property Subgrupo
-   * @param value Subgrupo to set
-   */
 
-    public void setSubgrupo(mx.gob.inmujeres.swb.SubGrupo value)
+/**
+* Gets the Description property
+* @return String with the Description
+*/
+    public String getDescription()
     {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(inm_subgrupo, value.getSemanticObject());
-        }else
-        {
-            removeSubgrupo();
-        }
-    }
-   /**
-   * Remove the value for Subgrupo property
-   */
-
-    public void removeSubgrupo()
-    {
-        getSemanticObject().removeProperty(inm_subgrupo);
+        return getSemanticObject().getProperty(swb_description);
     }
 
-   /**
-   * Gets the Subgrupo
-   * @return a mx.gob.inmujeres.swb.SubGrupo
-   */
-    public mx.gob.inmujeres.swb.SubGrupo getSubgrupo()
+/**
+* Sets the Description property
+* @param value long with the Description
+*/
+    public void setDescription(String value)
     {
-         mx.gob.inmujeres.swb.SubGrupo ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_subgrupo);
-         if(obj!=null)
-         {
-             ret=(mx.gob.inmujeres.swb.SubGrupo)obj.createGenericInstance();
-         }
-         return ret;
+        getSemanticObject().setProperty(swb_description, value);
+    }
+
+    public String getDescription(String lang)
+    {
+        return getSemanticObject().getProperty(swb_description, null, lang);
+    }
+
+    public String getDisplayDescription(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_description, lang);
+    }
+
+    public void setDescription(String description, String lang)
+    {
+        getSemanticObject().setProperty(swb_description, description, lang);
     }
 
 /**
@@ -289,6 +284,77 @@ public abstract class PreguntaBase extends org.semanticwb.model.SWBClass
              ret=(mx.gob.inmujeres.swb.Nivel)obj.createGenericInstance();
          }
          return ret;
+    }
+   /**
+   * Sets the value for the property Subgrupo
+   * @param value Subgrupo to set
+   */
+
+    public void setSubgrupo(mx.gob.inmujeres.swb.SubGrupo value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(inm_subgrupo, value.getSemanticObject());
+        }else
+        {
+            removeSubgrupo();
+        }
+    }
+   /**
+   * Remove the value for Subgrupo property
+   */
+
+    public void removeSubgrupo()
+    {
+        getSemanticObject().removeProperty(inm_subgrupo);
+    }
+
+   /**
+   * Gets the Subgrupo
+   * @return a mx.gob.inmujeres.swb.SubGrupo
+   */
+    public mx.gob.inmujeres.swb.SubGrupo getSubgrupo()
+    {
+         mx.gob.inmujeres.swb.SubGrupo ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_subgrupo);
+         if(obj!=null)
+         {
+             ret=(mx.gob.inmujeres.swb.SubGrupo)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+/**
+* Gets the Title property
+* @return String with the Title
+*/
+    public String getTitle()
+    {
+        return getSemanticObject().getProperty(swb_title);
+    }
+
+/**
+* Sets the Title property
+* @param value long with the Title
+*/
+    public void setTitle(String value)
+    {
+        getSemanticObject().setProperty(swb_title, value);
+    }
+
+    public String getTitle(String lang)
+    {
+        return getSemanticObject().getProperty(swb_title, null, lang);
+    }
+
+    public String getDisplayTitle(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_title, lang);
+    }
+
+    public void setTitle(String title, String lang)
+    {
+        getSemanticObject().setProperty(swb_title, title, lang);
     }
    /**
    * Sets the value for the property ScoreMax
