@@ -595,7 +595,7 @@ System.out.println("suri="+suri);
         html.append("\n  <select name=\"sh\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\" promptMessage=\"Hora inicial\" invalidMessage=\"La hora inicial de la junta es requerida\">");
         StringBuilder fh = new StringBuilder();
         Calendar today = Calendar.getInstance();
-        Calendar next = Calendar.getInstance();
+        /*Calendar next = Calendar.getInstance();
         float h;
         if(today.get(Calendar.HOUR_OF_DAY)<START_HOUR || current.get(Calendar.DAY_OF_YEAR)>today.get(Calendar.DAY_OF_YEAR)) {
             reset(today, START_HOUR, 0);
@@ -615,6 +615,32 @@ System.out.println("suri="+suri);
             html.append("\n<option value=\""+(int)minute+"\">"+HHmm.format(today.getTime())+"</option>");
             today.add(Calendar.MINUTE, 30);
             fh.append("\n<option value=\""+((int)minute+59)+"\">"+HHmm.format(next.getTime()) +"</option>");
+            next.add(Calendar.MINUTE, 30);
+        }*/
+        int h;
+        int minutes;
+        if(today.get(Calendar.HOUR_OF_DAY)<START_HOUR || current.get(Calendar.DAY_OF_YEAR)>today.get(Calendar.DAY_OF_YEAR)) {
+            reset(today, START_HOUR, 0);
+            h = START_HOUR;
+            minutes = h*60;
+        }else {
+            h = current.get(Calendar.HOUR_OF_DAY);
+            minutes = h*60;
+            if(current.get(Calendar.MINUTE)<30) {
+                reset(today, h, 30);
+                minutes+=30;
+            }else {
+                h++;
+                minutes+=60;
+                reset(today, h, 0);
+            }
+        }
+        Calendar next = (Calendar)today.clone();
+        next.add(Calendar.MINUTE, 59);
+        for(int minute=minutes; minute<1290; minute+=30) {
+            html.append("\n<option value=\""+minute+"\">"+HHmm.format(today.getTime())+"</option>");
+            today.add(Calendar.MINUTE, 30);
+            fh.append("\n<option value=\""+(minute+59)+"\">"+HHmm.format(next.getTime()) +"</option>");
             next.add(Calendar.MINUTE, 30);
         }
         html.append("\n  </select>");
