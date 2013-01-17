@@ -76,26 +76,28 @@ public class DocumentParser extends GenericParser {
          Shelf shelf = Shelf.ClassMgr.getShelf(user.getId(), wsite);
         
         boolean haveAccess = Boolean.FALSE;
-        if(CONFIG_SHELF.equals(strConfig)&&null!=strIDShelf){
+        if(CONFIG_SHELF.equals(strConfig)&&null!=strIDShelf&&user.equals(doc.getCreator())){
              if(shelf.hasTile(doc)) haveAccess = Boolean.TRUE;
         }
-         if(CONFIG_WORKSPACE.equals(strConfig)){
-            Iterator<WorkSpace> itws = WorkSpace.ClassMgr.listWorkSpaceByTile(doc);
-            while (itws.hasNext()) {
-                WorkSpace workSpace = itws.next();
-                Iterator<Member> itmem = workSpace.listMembers();
-                while (itmem.hasNext()) {
-                    Member member = itmem.next();
-                    if(member.getUser().equals(user)){
-                        haveAccess = Boolean.TRUE;
-                        break;
-                    }
-                }
-                 if(haveAccess) break;
-            }
-        }
+         if(CONFIG_WORKSPACE.equals(strConfig)) haveAccess = Boolean.TRUE;
+//            { 
+//            Iterator<WorkSpace> itws = WorkSpace.ClassMgr.listWorkSpaceByTile(doc);
+//            while (itws.hasNext()) {
+//                WorkSpace workSpace = itws.next();
+//                Iterator<Member> itmem = workSpace.listMembers();
+//                while (itmem.hasNext()) {
+//                    Member member = itmem.next();
+//                    if(member.getUser().equals(user)){
+//                        haveAccess = Boolean.TRUE;
+//                        break;
+//                    }
+//                }
+//                 if(haveAccess) break;
+//            }
+//        }
 
         return haveAccess;
+//         return true;
     }
     
     @Override

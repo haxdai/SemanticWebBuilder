@@ -94,29 +94,30 @@ public class TileParser extends GenericParser {
          shelf.hasTile(doc);
         
         boolean haveAccess = Boolean.FALSE;
-        if(CONFIG_SHELF.equals(strConfig)&&null!=strIDShelf){
+        if(CONFIG_SHELF.equals(strConfig)&&null!=strIDShelf&&user.equals(doc.getCreator())){
              urlDoc = wsite.getWebPage(strIDShelf).getUrl();
              haveAccess = Boolean.TRUE;
         }
-         if(CONFIG_WORKSPACE.equals(strConfig)){
-            Iterator<WorkSpace> itws = WorkSpace.ClassMgr.listWorkSpaceByTile(doc);
-            while (itws.hasNext()) {
-                WorkSpace workSpace = itws.next();
-                Iterator<Member> itmem = workSpace.listMembers();
-                while (itmem.hasNext()) {
-                    Member member = itmem.next();
-                    if(member.getUser().equals(user)){
-                        haveAccess = Boolean.TRUE;
-                        break;
-                    }
-                }
-                 urlDoc += "&wsid=" + workSpace.getId();
-                 if(haveAccess) break;
-            }
-           
-        }
-
-        return haveAccess;
+         if(CONFIG_WORKSPACE.equals(strConfig)) haveAccess = Boolean.TRUE;
+//         {
+//            Iterator<WorkSpace> itws = WorkSpace.ClassMgr.listWorkSpaceByTile(doc);
+//            while (itws.hasNext()) {
+//                WorkSpace workSpace = itws.next();
+//                Iterator<Member> itmem = workSpace.listMembers();
+//                while (itmem.hasNext()) {
+//                    Member member = itmem.next();
+//                    if(member.getUser().equals(user)){
+//                        haveAccess = Boolean.TRUE;
+//                        break;
+//                    }
+//                }
+//                 urlDoc += "&wsid=" + workSpace.getId();
+//                 if(haveAccess) break;
+//            }
+//           
+//        }
+return haveAccess;
+//         return true;
     }
 
     
