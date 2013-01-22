@@ -62,7 +62,7 @@
                                 Iterator<AreaTalento> areas = AreaTalento.ClassMgr.listAreaTalentoByTipoAreaTalento(tipo, wsite);
                                 while (areas.hasNext()) {
                                     AreaTalento area = areas.next();
-                                    if (area == null) {
+                                    if (area == null||(area!=null&&area.getCreator()==null)) {
                                         continue;
                                     }
                                     CV cv = CV.ClassMgr.getCV(area.getCreator().getId(), wsite);
@@ -149,7 +149,7 @@
                             Iterator<AreaTalento> areas = AreaTalento.ClassMgr.listAreaTalentoByTipoAreaTalento(tipo, wsite);
                             while (areas.hasNext()) {
                                 AreaTalento area = areas.next();
-                                if (area == null) {
+                                if (area == null||(area!=null&&area.getCreator()==null)) {
                                     continue;
                                 }
                                 CV cv = CV.ClassMgr.getCV(area.getCreator().getId(), wsite);
@@ -237,7 +237,7 @@
                             Iterator<AreaTalento> areas = AreaTalento.ClassMgr.listAreaTalentoByHabilidad(habil, wsite);
                             while (areas.hasNext()) {
                                 AreaTalento area = areas.next();
-                                if (area == null) {
+                                if (area == null||(area!=null&&area.getCreator()==null)) {
                                     continue;
                                 }
                                 CV cv = CV.ClassMgr.getCV(area.getCreator().getId(), wsite);
