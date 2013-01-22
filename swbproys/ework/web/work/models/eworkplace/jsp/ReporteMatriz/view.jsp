@@ -439,7 +439,7 @@
                                         long actualizado = proy.getUpdated().getTime();
                                         if(actualizado<ahora){
                                             ahora = actualizado;
-                                            strRet = proy.getNombreProyecto()+"("+proy.getNumeroProyecto()+")";
+                                            strRet = proy.getTitle()+"("+proy.getNumeroProyecto()+")";   //NombreProyecto()
                                         }
                                     }
                                     return strRet;
