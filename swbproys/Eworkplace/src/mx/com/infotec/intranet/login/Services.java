@@ -1134,14 +1134,14 @@ public class Services
     public static void main(String[] args)
     {
 
-        String login = "victor.lorenzana";
+        String login = "ebenezer.sanchez";
 
         Services s = new Services();
         try
         {
 
             //String cn=s.getCNFromLogin("victor.lorenzana");
-            s.authenticateUser(login, "");
+            s.authenticateUser(login, "Cr1s71n4");
             s.getUserAttributes(login);
 
         }
@@ -1413,7 +1413,9 @@ public class Services
         env.put(Context.PROVIDER_URL, ip);
         env.put(Context.SECURITY_AUTHENTICATION, "simple");
         String cn = getPrincipalNameFromLogin(login);
+        //String cn = getCNFromLogin(login);
         env.put(Context.SECURITY_PRINCIPAL, cn); // specify the username
+       
         env.put(Context.SECURITY_CREDENTIALS, credential);
         try
         {
@@ -1422,7 +1424,7 @@ public class Services
         }
         catch (NamingException e)
         {
-            log.error(e);
+            log.error("ip:"+ip,e);
             return false;
         }
         return true;
