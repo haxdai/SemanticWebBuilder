@@ -37,6 +37,7 @@ import org.semanticwb.portal.api.SWBResourceURL;
 import org.semanticwb.process.model.FlowNodeInstance;
 import org.semanticwb.process.model.Instance;
 import org.semanticwb.process.model.ItemAwareReference;
+import org.semanticwb.process.model.ProcessInstance;
 
 public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem.base.ReservaSalaManagerBase {
     private static Logger log = SWBUtils.getLogger(ReservaSalaManager.class);
@@ -59,6 +60,8 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
     public static final int QUORUM = 5;
     public static final int START_HOUR = 7; // 07:00 hrs
     public static final int START_MIN = 420; // 07:00 hrs en minutos
+    
+    private static String iconClass = "x";
         
     public ReservaSalaManager() {
     }
@@ -250,6 +253,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
             
             if(!sala.isReservada(csd, cfd)) {
                 ReservacionSala reservation = ReservacionSala.ClassMgr.createReservacionSala(model);
+                reservation.setIconClass(getIconClass());
                 reservation.setSala(sala);
                 reservation.setFechaInicio(csd.getTime());
                 reservation.setFechaFinal(cfd.getTime());
@@ -278,6 +282,8 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
                 //Obtener la instancia de la tarea -inicia
                 FlowNodeInstance fni = getFlowNodeInstance(request.getParameter("suri"));
                 if (fni != null) {
+                    ProcessInstance pInstance = fni.getProcessInstance();
+                    reservation.setPId(pInstance.getId());
                     //Enviar los datos a process
                     LinkReserva(reservation, fni);
                     String url = getTaskInboxUrl(fni);
@@ -392,16 +398,15 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         
         ReservacionSala myReservation;
         out.println("<tbody>");
-        for(int i=1; i<=14; i++) {
+        for(int i=1; i<=15; i++) {
             out.println(" <tr>");
             out.println("  <td rowspan=\"2\" class=\"theHoursCal\"><p>"+sdf.format(begin.getTime())+"</p></td>");
             if(wk==1) {
                 for(int k=1; k<=7; k++) {
                     if(k>=dow && k<7) {
-                        //if(sala.isReservada(begin, end)) {
                         myReservation = sala.getReserva(begin, end);
                         if(myReservation!=null) {
-                            out.println("  <td class=\"x sltc trCal1\" title=\""+myReservation.toString()+"\">&nbsp;</td>");
+                            out.println("  <td class=\""+myReservation.getIconClass()+" sltc trCal1\" title=\""+myReservation.toString()+"\">&nbsp;</td>");
                         }else {
                             out.println("  <td class=\"sltc trCal1\">&nbsp;</td>");
                         }
@@ -416,10 +421,9 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
                     if(month<cur.get(Calendar.MONTH) && k<7) {
                         out.println("  <td id=\""+sala.getId()+"___"+cur.getTimeInMillis()+"\" class=\"deactive sltc trCal1\">&nbsp;</td>");
                     }else if(k>1&&k<7) {
-                        //if(sala.isReservada(begin, end)) {
                         myReservation = sala.getReserva(begin, end);
                         if(myReservation!=null) {
-                            out.println("  <td class=\"x sltc trCal1\" title=\""+myReservation.toString()+"\">&nbsp;</td>");
+                            out.println("  <td class=\""+myReservation.getIconClass()+" sltc trCal1\" title=\""+myReservation.toString()+"\">&nbsp;</td>");
                         }else {
                             out.println("  <td class=\"sltc trCal1\">&nbsp;</td>");
                         }
@@ -437,10 +441,9 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
             if(wk==1) {
                 for(int k=1; k<=7; k++) {
                     if(k>=dow && k<7) {
-                        //if(sala.isReservada(begin, end)) {
                         myReservation = sala.getReserva(begin, end);
                         if(myReservation!=null) {
-                            out.println("  <td class=\"x sltc trCal1\" title=\""+myReservation.toString()+"\">&nbsp;</td>");
+                            out.println("  <td class=\""+myReservation.getIconClass()+" sltc trCal1\" title=\""+myReservation.toString()+"\">&nbsp;</td>");
                         }else {
                             out.println("  <td class=\"sltc trCal1\">&nbsp;</td>");
                         }
@@ -455,10 +458,9 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
                     if(month<cur.get(Calendar.MONTH) && k<7) {
                         out.println("  <td title=\"9\" class=\"deactive sltc trCal1\">&nbsp;</td>");
                     }else if(k>1&&k<7) {
-                        //if(sala.isReservada(begin, end)) {
                         myReservation = sala.getReserva(begin, end);
                         if(myReservation!=null) {
-                            out.println("  <td class=\"x sltc trCal1\" title=\""+myReservation.toString()+"\">&nbsp;</td>");
+                            out.println("  <td class=\""+myReservation.getIconClass()+" sltc trCal1\" title=\""+myReservation.toString()+"\">&nbsp;</td>");
                         }else {
                             out.println("  <td class=\"sltc trCal1\">&nbsp;</td>");
                         }
@@ -821,7 +823,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
             for(Sala sala:salas) {
                 myReservation = sala.getReserva(begin.getTime(), end.getTime());
                 if(myReservation!=null) {
-                    out.println("  <td class=\"x sltc trCal1\" title=\""+myReservation.toString()+"\">&nbsp;</td>");
+                    out.println("  <td class=\""+myReservation.getIconClass()+" sltc trCal1\" title=\""+myReservation.toString()+"\">&nbsp;</td>");
                     myReservation = null;
                 }else {
                     out.println("  <td class=\"sltc trCal1\">&nbsp;</td>");
@@ -834,10 +836,8 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
             end.add(Calendar.MINUTE, 30);
             for(Sala sala:salas) {
                 myReservation = sala.getReserva(begin.getTime(), end.getTime());
-                //if(sala.isReservada(begin.getTime(), end.getTime()))
                 if(myReservation!=null) {
-                    //out.println("  <td class=\"x sltc trCal1\">&nbsp;</td>");
-                    out.println("  <td class=\"x sltc trCal1\" title=\""+myReservation.toString()+"\">&nbsp;</td>");
+                    out.println("  <td class=\""+myReservation.getIconClass()+" sltc trCal1\" title=\""+myReservation.toString()+"\">&nbsp;</td>");
                     myReservation = null;
                 }else {
                     out.println("  <td class=\"sltc trCal1\">&nbsp;</td>");
@@ -951,7 +951,8 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         GregorianCalendar end = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
         end.set(Calendar.MINUTE, 449);
         
-        ReservacionSala myReservation;
+        ReservacionSala myReservation, raux=null;
+        String cls = "x";
         out.println("<tbody>");
         for(int i=START_MIN; i<=1260; i+=30) {
             out.println(" <tr>");
@@ -959,10 +960,9 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
             for(Sala sala:salas) {
                 myReservation = sala.getReserva(begin.getTime(), end.getTime());
                 if(myReservation!=null) {
-                //if(sala.isReservada(begin.getTime(), end.getTime()))
-                    //out.println("  <td class=\"x sltc trCal1\">&nbsp;</td>");
-                    out.println("  <td class=\"x sltc trCal1\" title=\""+myReservation.toString()+"\">&nbsp;</td>");
-                    myReservation = null;
+                    out.println("  <td class=\""+myReservation.getIconClass()+" sltc trCal1\" title=\""+myReservation.toString()+"\">&nbsp;</td>");
+                    raux = myReservation;
+                    //myReservation = null;
                 }else {
                     out.println("  <td class=\"sltc trCal1\">&nbsp;</td>");
                 }
@@ -975,9 +975,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
             for(Sala sala:salas) {
                 myReservation = sala.getReserva(begin.getTime(), end.getTime());
                 if(myReservation!=null) {
-                //if(sala.isReservada(begin.getTime(), end.getTime(), myReservation))
-                    //out.println("  <td class=\"x sltc trCal1\">&nbsp;</td>");
-                    out.println("  <td class=\"x sltc trCal1\" title=\""+myReservation.toString()+"\">&nbsp;</td>");
+                    out.println("  <td class=\""+myReservation.getIconClass()+" sltc trCal1\" title=\""+myReservation.toString()+"\">&nbsp;</td>");
                     myReservation = null;
                 }else {
                     out.println("  <td class=\"sltc trCal1\">&nbsp;</td>");
@@ -1118,5 +1116,9 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         }
         return ret;
     }
-
+    
+    private synchronized static String getIconClass() {
+        iconClass = "x".equals(iconClass)?"y":"x";
+        return iconClass;
+    }
 }
