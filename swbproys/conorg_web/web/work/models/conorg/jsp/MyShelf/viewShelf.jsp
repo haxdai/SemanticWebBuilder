@@ -4,6 +4,7 @@ Document   : view Shelf Recurso Shelf
     Author     : juan.fernandez
 --%>
 
+<%@page import="com.sun.xml.internal.ws.api.pipe.Tube"%>
 <%@page import="org.semanticwb.model.SWBModel"%>
 <%@page import="org.semanticwb.model.Label"%>
 <%@page import="org.semanticwb.model.DisplayProperty"%>
@@ -98,7 +99,7 @@ Document   : view Shelf Recurso Shelf
 
 
     Shelf shelf = null;
-    WorkSpace workSpace = null;
+    //WorkSpace workSpace = null;
     long intSize = 0;
     if (isShelf) {
         shelf = Shelf.ClassMgr.getShelf(usr.getId(), wsite);
@@ -107,6 +108,39 @@ Document   : view Shelf Recurso Shelf
             shelf.setOwner(usr);
         }
         intSize = SWBUtils.Collections.sizeOf(shelf.listTiles());
+    }
+
+
+    HashMap<String, Tile> hmtile = new HashMap<String, Tile>();
+    if (request.getParameter("asociarshelftiles") != null && request.getParameter("asociarshelftiles").equals("true")) {
+        Iterator<Shelf> itershelf = Shelf.ClassMgr.listShelfs(wsite);
+        while (itershelf.hasNext()) {
+
+            Shelf elem = itershelf.next();
+            System.out.println("Revisando Shelf...." + elem.getId());
+            Iterator<Tile> itertile = elem.listTiles();
+            while (itertile.hasNext()) {
+
+                Tile tileelem = itertile.next();
+                System.out.println(">>>>>>> revisando tile " + tileelem.getId());
+                if (tileelem.getResource() == null) {
+                    tileelem.setResource(paramRequest.getResourceBase());
+                }
+                hmtile.put(tileelem.getURI(), tileelem);
+            }
+        }
+    }
+
+    if (request.getParameter("iniciar_elem") != null && request.getParameter("iniciar_elem").equals("true")) {
+        Iterator<Tile> itertile = Tile.ClassMgr.listTiles(wsite);
+        while (itertile.hasNext()) {
+
+            Tile tileelem = itertile.next();
+            System.out.println("==== revisando tiles sin recurso asociado.... " + tileelem.getURI() + " -- " + tileelem.getResource());
+            if (hmtile.get(tileelem.getURI()) == null && tileelem.getResource() == null) {
+                tileelem.remove();
+            }
+        }
     }
 
     Iterator<Tile> ittil = shelf.listTiles();
@@ -213,11 +247,12 @@ Document   : view Shelf Recurso Shelf
 
             while (ittil.hasNext()) {
                 Tile tile = ittil.next();
+                if(tile.getResource()==null) tile.setResource(paramRequest.getResourceBase());
+                tile.setIndexable(Boolean.TRUE);
+                if (numtiles == numele) {
+                    break;
+                }
 
-                    if (numtiles == numele) {
-                        break;
-                    }
-                
 
                 /////////////////////////////////
 
@@ -397,6 +432,8 @@ Document   : view Shelf Recurso Shelf
 
                     while (ittil.hasNext()) {
                         Tile tile = ittil.next();
+                        tile.setIndexable(Boolean.TRUE);
+                        if(tile.getResource()==null) tile.setResource(paramRequest.getResourceBase());
 
                         if (paramRequest.getCallMethod() == SWBParamRequest.Call_STRATEGY) {
                             if (numtiles == numele) {
@@ -469,58 +506,57 @@ Document   : view Shelf Recurso Shelf
                         if (request.getParameter("wsid") != null) {
                             urlshare.setParameter("wsid", request.getParameter("wsid"));
                         }
-                        
+
                 %>
                 <tr>
-                        <%
-                        String urllast="";
+                    <%
+                        String urllast = "";
                         //if (usrlevel >= 2) {
-                            if(tile instanceof Versionable && tile instanceof Document){
-        //                        Document doc = null;
-                                VersionInfo vl = null;
-                                VersionInfo ver = null;
-                                vl = ((Document)tile).getLastVersion();
-                                if (null != vl) {
+                        if (tile instanceof Versionable && tile instanceof Document) {
+                            //                        Document doc = null;
+                            VersionInfo vl = null;
+                            VersionInfo ver = null;
+                            vl = ((Document) tile).getLastVersion();
+                            if (null != vl) {
                                 ver = vl;
-                                    /*while (ver.getPreviousVersion() != null) { //
-                                        ver = ver.getPreviousVersion();
-                                    }*/
-                                    //if (ver != null) {
-                                        SWBResourceURL urlview = paramRequest.getRenderUrl();
-                                        urlview.setCallMethod(SWBResourceURL.Call_DIRECT);
-                                        urlview.setParameter("fid", ((Document)tile).getURI());
-                                        urlview.setMode(MyShelf.MODE_GETFILE);
-                                        urlview.setParameter("verNum", "" + ver.getVersionNumber());
-                                        urllast=urlview.toString();
-                                    //}
-                                }
+                                /*while (ver.getPreviousVersion() != null) { //
+                                 ver = ver.getPreviousVersion();
+                                 }*/
+                                //if (ver != null) {
+                                SWBResourceURL urlview = paramRequest.getRenderUrl();
+                                urlview.setCallMethod(SWBResourceURL.Call_DIRECT);
+                                urlview.setParameter("fid", ((Document) tile).getURI());
+                                urlview.setMode(MyShelf.MODE_GETFILE);
+                                urlview.setParameter("verNum", "" + ver.getVersionNumber());
+                                urllast = urlview.toString();
+                                //}
                             }
+                        }
                         //}
-                        if(!urllast.equals("")){
-                        %>
+                        if (!urllast.equals("")) {
+                    %>
                     <td class="<%=MyShelf.getClassIconTile(tile)%>" onclick="window.location='<%=urllast%>';"><%=strTitle%></td>
                     <td onclick="window.location='<%=urllast%>';"><%=strDate%></td>
                     <td onclick="window.location='<%=urllast%>';"><%=strType%></td>
                     <td onclick="window.location='<%=urllast%>';"><%=strTopic%></td>
-                        <% } else {
-                        %>
+                    <% } else {
+                    %>
                     <td class="<%=MyShelf.getClassIconTile(tile)%>"><%=strTitle%></td>
                     <td><%=strDate%></td>
                     <td><%=strType%></td>
                     <td><%=strTopic%></td>
-                        <% }
-                        %>
+                    <% }
+                    %>
                     <td>
                         <%
-                        if(tile.getCreator().equals(usr)){
+                            if (tile.getCreator().equals(usr)) {
                         %>
                         <span class="icv-compartir"><a href="#" title="Compartir" onclick="window.location='<%=urlshare%>';">C&nbsp;</a></span>
                         <%
-                         } else {
+                        } else {
                         %>
                         <span class="icv-vacio"></span>
-                        <%
-                         }
+                        <%                            }
                         %>
                         <span class="icv-editar"><a href="#" title="Editar" onclick="window.location='<%=urledit%>';">E&nbsp;</a></span>
                         <span class="icv-borrar"><a href="#" title="Borrar" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">B&nbsp;</a></span>
@@ -770,26 +806,26 @@ Document   : view Shelf Recurso Shelf
 
                 String editMode = SWBFormMgr.MODE_VIEW;
                 Tile tile = (Tile) (so.createGenericInstance());
-                if(tile.getCreator()!=null&&tile.getCreator().equals(usr)){
+                if (tile.getCreator() != null && tile.getCreator().equals(usr)) {
                     editMode = SWBFormMgr.MODE_EDIT;
                 }
-                
+
 
                 SWBFormMgr frmgr = new SWBFormMgr(so, null, editMode);
                 SemanticClass scls = so.getSemanticClass();
-                
+
 
                 GenericObject go = so.createGenericInstance();
-                
+
                 frmgr.clearProperties();
-                if(go instanceof Tile){
+                if (go instanceof Tile) {
                     frmgr.addProperty(Descriptiveable.swb_title);
                     frmgr.addProperty(Descriptiveable.swb_description);
                     frmgr.addProperty(Tagable.swb_tags);
-                    frmgr.addProperty(Topicable.conorg_hasTopic); 
+                    frmgr.addProperty(Topicable.conorg_hasTopic);
                 }
-                
-                if(go instanceof Document){
+
+                if (go instanceof Document) {
                     frmgr.addProperty(Document.conorg_documentAbstract);
                     frmgr.addProperty(Document.conorg_documentCity);
                     frmgr.addProperty(Document.conorg_documentCountry);
@@ -802,8 +838,8 @@ Document   : view Shelf Recurso Shelf
                     frmgr.addProperty(Document.conorg_author);
                     frmgr.addProperty(Document.conorg_editors);
                 }
-                
-                if(go instanceof Contact){
+
+                if (go instanceof Contact) {
                     frmgr.addProperty(Contact.conorg_contactAddress);
                     frmgr.addProperty(Contact.conorg_contactDegree);
                     frmgr.addProperty(Contact.conorg_contactEmail);
@@ -814,163 +850,161 @@ Document   : view Shelf Recurso Shelf
                     frmgr.addProperty(Contact.conorg_contactMobilePhone);
                     frmgr.addProperty(Contact.conorg_contactOfficePhone);
                     frmgr.addProperty(Contact.conorg_contactOrganization);
-                    frmgr.addProperty(Contact.conorg_contactOrganizationArea); 
+                    frmgr.addProperty(Contact.conorg_contactOrganizationArea);
                     frmgr.addProperty(Contact.conorg_contactOrganizationPosition);
                     frmgr.addProperty(Contact.conorg_contactSocialNetworkId);
                     frmgr.addProperty(Contact.conorg_contactURL);
                 }
-                
-                if(go instanceof URL){
+
+                if (go instanceof URL) {
                     frmgr.addProperty(URL.conorg_url);
                 }
-                
-                if(go instanceof Article){
+
+                if (go instanceof Article) {
                     frmgr.addProperty(Article.conorg_articleISSN);
                     frmgr.addProperty(Article.conorg_articleIssue);
                     frmgr.addProperty(Article.conorg_articleJournal);
-                    frmgr.addProperty(Article.conorg_articleNumber );
-                    frmgr.addProperty(Article.conorg_articleVolume );
-                }
-                
-                if(go instanceof ChapterBook){
-                    frmgr.addProperty(ChapterBook.conorg_chaptherBookTitle );
-                }
-                
-                if(go instanceof Image){
-                    frmgr.addProperty(Image.conorg_imageRights );
-                }
-                
-                if(go instanceof Manual){
-                    frmgr.addProperty(Manual.conorg_manualVersion );
-                }
-                
-                if(go instanceof Presentation){
-                    frmgr.addProperty(Presentation.conorg_presentationVersion );
-                }
-                
-                if(go instanceof Report){
-                    frmgr.addProperty(Report.conorg_reportVersion );
-                }
-                
-                if(go instanceof Video){
-                    frmgr.addProperty(Video.conorg_videoRights );
+                    frmgr.addProperty(Article.conorg_articleNumber);
+                    frmgr.addProperty(Article.conorg_articleVolume);
                 }
 
-%>
-  <form id="<%=so.getURI()%>/form" class="swbform" action="<%=urlupdate.toString()%>" method="post">
-    <input type="hidden" name="suri" value="<%=so.getURI()%>"/>
-    <input type="hidden" name="scls" value="<%=scls.getURI()%>"/>
-    <input type="hidden" name="smode" value="edit"/>
-    <input type="hidden" name="id" value="<%=so.getURI()%>"/>
-<%
-    if(null != wsid){
-
-%>
-    <input type="hidden" name="wsid" value="<%=wsid%>"/> 
-    <%
-       }
-
-%>
-
-	<fieldset >
-	    <legend></legend>
-	    <table>
-                <%
-                                
-                
-                
-                HashMap<PropertyGroup, TreeSet> hmgroup = frmgr.getGroups();
-                HashMap<String,SemanticProperty> hmorder = new HashMap<String, SemanticProperty>();
-                Iterator<PropertyGroup> itpg = hmgroup.keySet().iterator();
-
-                while (itpg.hasNext()) {
-                    PropertyGroup pg = itpg.next();
-                    
-                    //out.println(pg.getId() + "<br/>");
-                    Iterator<SemanticProperty> it = hmgroup.get(pg).iterator();
-                    while(it.hasNext())
-                    {
-                        SemanticProperty prop=it.next();
-                        DisplayProperty dp = (DisplayProperty)(prop.getDisplayProperty().createGenericInstance());
-                        if(dp!=null){
-                            //out.println(dp.getIndex()+ " - "+dp.getPromptMessage());
-                            hmorder.put(""+dp.getIndex(), prop);
-                        }
-                    }
+                if (go instanceof ChapterBook) {
+                    frmgr.addProperty(ChapterBook.conorg_chaptherBookTitle);
                 }
-                
-                ArrayList<String> list = new ArrayList(hmorder.keySet());
-                Collections.sort(list);
-                Iterator<String> itstr = list.iterator();
-                while (itstr.hasNext()) {
-                    String key = itstr.next();
-                    SemanticProperty semprop = hmorder.get(key);
-                %>
-                <tr><td width="200px" align="right">
-                        <%=frmgr.renderLabel(request, semprop, editMode)%>
-                </td><td>
-                        <%=frmgr.renderElement(request, semprop, editMode)%>
-                </td></tr>
-                <%
+
+                if (go instanceof Image) {
+                    frmgr.addProperty(Image.conorg_imageRights);
                 }
-                %>
-                 </table>
-	</fieldset>
-<fieldset><span align="center">
-        <%
-        String boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Cancelar</button>";
-                if(editMode.equals(SWBFormMgr.MODE_VIEW)){
-                    boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Regresar</button>";
+
+                if (go instanceof Manual) {
+                    frmgr.addProperty(Manual.conorg_manualVersion);
                 }
-          out.println(boton); 
-          if(editMode.equals(SWBFormMgr.MODE_EDIT)){
+
+                if (go instanceof Presentation) {
+                    frmgr.addProperty(Presentation.conorg_presentationVersion);
+                }
+
+                if (go instanceof Report) {
+                    frmgr.addProperty(Report.conorg_reportVersion);
+                }
+
+                if (go instanceof Video) {
+                    frmgr.addProperty(Video.conorg_videoRights);
+                }
+
         %>
-    
-    <button dojoType="dijit.form.Button" type="submit">Guardar</button>
-    <%
-       }
-%>
-</span></fieldset>
-</form>
-<%                
-                //frmgr.addHiddenParameter("id", suri);
-                //if (null != wsid) {
-                //    frmgr.addHiddenParameter("wsid", wsid);
-                //}
-                //frmgr.setType(SWBFormMgr.TYPE_DOJO);
-                //frmgr.setAction(urlupdate.toString());
-                //frmgr.setLang("es");
+        <form id="<%=so.getURI()%>/form" class="swbform" action="<%=urlupdate.toString()%>" method="post">
+            <input type="hidden" name="suri" value="<%=so.getURI()%>"/>
+            <input type="hidden" name="scls" value="<%=scls.getURI()%>"/>
+            <input type="hidden" name="smode" value="edit"/>
+            <input type="hidden" name="id" value="<%=so.getURI()%>"/>
+            <%
+                if (null != wsid) {
 
-                //frmgr.setOnSubmit("enviar('" + suri + "/form');");
-                //String boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Cancelar</button>";
-                //if(editMode.equals(SWBFormMgr.MODE_VIEW)){
-                //    boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Regresar</button>";
-                //}
-                //frmgr.addButton(boton);
-                //frmgr.addButton(SWBFormButton.newCancelButton());
-                //if(editMode.equals(SWBFormMgr.MODE_EDIT)){
-                //boton = "<button dojoType=\"dijit.form.Button\" type=\"submit\">Guardar</button>";
-                //frmgr.addButton(boton);
-//}
-            
+            %>
+            <input type="hidden" name="wsid" value="<%=wsid%>"/> 
+            <%
+                }
+
+            %>
+
+            <fieldset >
+                <legend></legend>
+                <table>
+                    <%
+
+
+
+                        HashMap<PropertyGroup, TreeSet> hmgroup = frmgr.getGroups();
+                        HashMap<String, SemanticProperty> hmorder = new HashMap<String, SemanticProperty>();
+                        Iterator<PropertyGroup> itpg = hmgroup.keySet().iterator();
+
+                        while (itpg.hasNext()) {
+                            PropertyGroup pg = itpg.next();
+
+                            //out.println(pg.getId() + "<br/>");
+                            Iterator<SemanticProperty> it = hmgroup.get(pg).iterator();
+                            while (it.hasNext()) {
+                                SemanticProperty prop = it.next();
+                                DisplayProperty dp = (DisplayProperty) (prop.getDisplayProperty().createGenericInstance());
+                                if (dp != null) {
+                                    //out.println(dp.getIndex()+ " - "+dp.getPromptMessage());
+                                    hmorder.put("" + dp.getIndex(), prop);
+                                }
+                            }
+                        }
+
+                        ArrayList<String> list = new ArrayList(hmorder.keySet());
+                        Collections.sort(list);
+                        Iterator<String> itstr = list.iterator();
+                        while (itstr.hasNext()) {
+                            String key = itstr.next();
+                            SemanticProperty semprop = hmorder.get(key);
+                    %>
+                    <tr><td width="200px" align="right">
+                            <%=frmgr.renderLabel(request, semprop, editMode)%>
+                        </td><td>
+                            <%=frmgr.renderElement(request, semprop, editMode)%>
+                        </td></tr>
+                        <%
+                            }
+                        %>
+                </table>
+            </fieldset>
+            <fieldset><span align="center">
+                    <%
+                        String boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Cancelar</button>";
+                        if (editMode.equals(SWBFormMgr.MODE_VIEW)) {
+                            boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Regresar</button>";
+                        }
+                        out.println(boton);
+                        if (editMode.equals(SWBFormMgr.MODE_EDIT)) {
+                    %>
+
+                    <button dojoType="dijit.form.Button" type="submit">Guardar</button>
+                    <%        }
+                    %>
+                </span></fieldset>
+        </form>
+        <%
+            //frmgr.addHiddenParameter("id", suri);
+            //if (null != wsid) {
+            //    frmgr.addHiddenParameter("wsid", wsid);
+            //}
+            //frmgr.setType(SWBFormMgr.TYPE_DOJO);
+            //frmgr.setAction(urlupdate.toString());
+            //frmgr.setLang("es");
+
+            //frmgr.setOnSubmit("enviar('" + suri + "/form');");
+            //String boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Cancelar</button>";
+            //if(editMode.equals(SWBFormMgr.MODE_VIEW)){
+            //    boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Regresar</button>";
+            //}
+            //frmgr.addButton(boton);
+            //frmgr.addButton(SWBFormButton.newCancelButton());
+            //if(editMode.equals(SWBFormMgr.MODE_EDIT)){
+            //boton = "<button dojoType=\"dijit.form.Button\" type=\"submit\">Guardar</button>";
+            //frmgr.addButton(boton);
+            //}
+
         %>        
         <%//=frmgr.renderForm(request)%>  
-        
-        
-        
-        
+
+
+
+
         <%
 
-        
-        
-        
+
+
+
             if (so.createGenericInstance() instanceof Versionable) {
                 out.println("<h3>Archivo asociado:</h3>");
                 Document doc = null;
                 VersionInfo vl = null;
                 VersionInfo ver = null;
 
-                go = so.createGenericInstance(); 
+                go = so.createGenericInstance();
                 if (go instanceof Document) {
                     doc = (Document) go;
                 }
@@ -1263,55 +1297,54 @@ Document   : view Shelf Recurso Shelf
                         urlrem.setParameter("tiid", ltile.getURI());
                 %>
                 <tr>
-<%
-                        String urllast="";
+                    <%
+                        String urllast = "";
                         //if (usrlevel >= 2) {
-                            if(tile instanceof Versionable && tile instanceof Document){
-        //                        Document doc = null;
-                                VersionInfo vl = null;
-                                VersionInfo ver = null;
-                                vl = ((Document)tile).getLastVersion();
-                                if (null != vl) {
+                        if (tile instanceof Versionable && tile instanceof Document) {
+                            //                        Document doc = null;
+                            VersionInfo vl = null;
+                            VersionInfo ver = null;
+                            vl = ((Document) tile).getLastVersion();
+                            if (null != vl) {
                                 ver = vl;
-                                    /*while (ver.getPreviousVersion() != null) { //
-                                        ver = ver.getPreviousVersion();
-                                    }*/
-                                    //if (ver != null) {
-                                        SWBResourceURL urlview = paramRequest.getRenderUrl();
-                                        urlview.setCallMethod(SWBResourceURL.Call_DIRECT);
-                                        urlview.setParameter("fid", ((Document)tile).getURI());
-                                        urlview.setMode(MyShelf.MODE_GETFILE);
-                                        urlview.setParameter("verNum", "" + ver.getVersionNumber());
-                                        urllast=urlview.toString();
-                                    //}
-                                }
+                                /*while (ver.getPreviousVersion() != null) { //
+                                 ver = ver.getPreviousVersion();
+                                 }*/
+                                //if (ver != null) {
+                                SWBResourceURL urlview = paramRequest.getRenderUrl();
+                                urlview.setCallMethod(SWBResourceURL.Call_DIRECT);
+                                urlview.setParameter("fid", ((Document) tile).getURI());
+                                urlview.setMode(MyShelf.MODE_GETFILE);
+                                urlview.setParameter("verNum", "" + ver.getVersionNumber());
+                                urllast = urlview.toString();
+                                //}
                             }
+                        }
                         //}
-                        if(!urllast.equals("")){
-                        %>
+                        if (!urllast.equals("")) {
+                    %>
                     <td class="<%=MyShelf.getClassIconTile(ltile)%>" onclick="window.location='<%=urllast%>';"><%=strTitle%></td>
                     <td onclick="window.location='<%=urllast%>';"><%=strDate%></td>
                     <td onclick="window.location='<%=urllast%>';"><%=strType%></td>
                     <td onclick="window.location='<%=urllast%>';"><%=strTopic%></td>
-                        <% } else {
-                        %>
+                    <% } else {
+                    %>
                     <td class="<%=MyShelf.getClassIconTile(ltile)%>"><%=strTitle%></td>
                     <td><%=strDate%></td>
                     <td><%=strType%></td>
                     <td><%=strTopic%></td>
-                        <% }
-                        %>
+                    <% }
+                    %>
                     <td>
                         <%
-                        if(tile.getCreator().equals(usr)){
+                            if (tile.getCreator().equals(usr)) {
                         %>
                         <span class="icv-compartir"><a href="#" title="Compartir" onclick="window.location='<%=urlshare%>';">C&nbsp;</a></span>
                         <%
-                         } else {
+                        } else {
                         %>
                         <span class="icv-vacio"></span>
-                        <%
-                         }
+                        <%                            }
                         %>
                         <span class="icv-editar"><a href="#" title="Editar" onclick="window.location='<%=urledit%>';">E&nbsp;</a></span>
                         <span class="icv-borrar"><a href="#" title="Borrar" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urlrem%>';}">B&nbsp;</a></span>
@@ -1324,8 +1357,8 @@ Document   : view Shelf Recurso Shelf
             </tbody>
         </table>
         <%
-                }
-                if (so.createGenericInstance() instanceof Tile) {
+            }
+            if (so.createGenericInstance() instanceof Tile) {
 
                 tile = (Tile) so.createGenericInstance();
                 String fcreated = (tile.getCreated() != null ? sdf.format(tile.getCreated()) : "---");
@@ -1336,13 +1369,13 @@ Document   : view Shelf Recurso Shelf
         <p>Creado:     <%=fcreated%>  por <%=fcreator%></p>
         <p>Modificado: <%=fmod%>  por <%=fusrmod%></p> 
         <%
-            }
+                }
             }
         } else if (action.equals("share")) {
             SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
             SemanticObject so = ont.getSemanticObject(suri);
             //out.println("<h4>" + MyShelf.getTileTypeName((Tile) (so.createGenericInstance())) + "</h4>");
-            Tile tile = so!=null&&so.createGenericInstance() instanceof Tile?(Tile)so.createGenericInstance():null; 
+            Tile tile = so != null && so.createGenericInstance() instanceof Tile ? (Tile) so.createGenericInstance() : null;
             if (null != tile) {
                 // membresias del usuario a los diferentes ws
                 Iterator<Member> itmem = Member.ClassMgr.listMemberByUser(usr, wsite);
@@ -1375,14 +1408,14 @@ Document   : view Shelf Recurso Shelf
 
                     Colleague colleague = Colleague.ClassMgr.getColleague(usr.getId(), wsite);
                     Iterator<User> itcol = colleague.listColleagueses();
-                    
-                    
+
+
                     Iterator<WorkSpace> itwspace = hmmem.keySet().iterator();
                     if (itwspace.hasNext() || itcol.hasNext()) {
                         SWBResourceURL urlshare = paramRequest.getActionUrl();
                         urlshare.setAction("share");
                         urlshare.setParameter("act", "share");
-                        
+
 
                 %>
                 <script type="text/javascript">
@@ -1393,10 +1426,10 @@ Document   : view Shelf Recurso Shelf
                         var hayws = false;
                         var valid2 = false;
                         var haycol = false;
-                        <%
+                    <%
                         // validación si existen workspaces
-                        if(itwspace.hasNext()){
-                        %>
+                        if (itwspace.hasNext()) {
+                    %>
                             hayws = true;
                             for(var i = 0; i < forma.workspaceid.options.length; i++) {  
                                 if(forma.workspaceid.options[i].selected) {  
@@ -1404,11 +1437,10 @@ Document   : view Shelf Recurso Shelf
                                     break;  
                                 }  
                             }  
-                        <%
-                        }
+                    <%                            }
                         // validación si existen colegas
-                        if(itcol.hasNext()){
-                        %>
+                        if (itcol.hasNext()) {
+                    %>
                             haycol = true;
                             for(var i = 0; i < forma.contactid.options.length; i++) {  
                                 if(forma.contactid.options[i].selected) {  
@@ -1416,25 +1448,24 @@ Document   : view Shelf Recurso Shelf
                                     break;  
                                 }  
                             }
-                        <%
-                        }
-                        %>
-                        if(valid1 || valid2){
-                            valid = true;
-                        } else {
-                            if(!valid1&&hayws){
-                                alert('Debes de seleccionar por lo menos un Espacio de trabajo para poder compartir.');                                
+                    <%                            }
+                    %>
+                            if(valid1 || valid2){
+                                valid = true;
+                            } else {
+                                if(!valid1&&hayws){
+                                    alert('Debes de seleccionar por lo menos un Espacio de trabajo para poder compartir.');                                
+                                }
+                                if(!valid2&&haycol){
+                                    alert('Debes de seleccionar por lo menos un colega para poder compartir.');                                
+                                }
+                                valid = false;
                             }
-                            if(!valid2&&haycol){
-                                alert('Debes de seleccionar por lo menos un colega para poder compartir.');                                
-                            }
-                            valid = false;
-                        }
                         
-                        return valid;  
+                            return valid;  
  
 
-                    }
+                        }
                 </script>
                 <form method="post" action="<%=urlshare%>" onsubmit="shareSelect(this);">
                     <input type="hidden" name="tileuri" value="<%=suri%>">
@@ -1442,12 +1473,12 @@ Document   : view Shelf Recurso Shelf
                         <tr>
                             <td >Título: </td>
                             <td class="<%=MyShelf.getClassIconTile(tile)%>"><%=strtitle%></td>
-                            
+
                         </tr>
                         <tr>
                             <td>Descripción:</td>
                             <td><%=strdesc%></td>
-                            
+
                         </tr>
                         <tr>
                             <td><label for="workspaceid">Espacios de trabajo:</label></td>
@@ -1469,13 +1500,13 @@ Document   : view Shelf Recurso Shelf
                             <td>
                                 <select name="contactid" multiple size="5">
                                     <%
-                                    
+
                                         while (itcol.hasNext()) {
                                             User usrcol = itcol.next();
                                     %>
                                     <option value="<%=usrcol.getId()%>"><%=usrcol.getFullName()%></option> 
                                     <%
-                                        } 
+                                        }
                                     %>
                                 </select>
                             </td>
