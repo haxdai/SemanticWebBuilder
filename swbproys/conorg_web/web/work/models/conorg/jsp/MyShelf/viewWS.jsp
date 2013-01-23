@@ -48,6 +48,23 @@ Author     : juan.fernandez y rene.jara
         isShelf = Boolean.FALSE;
     }
 
+    if(request.getParameter("asociarworktiles")!=null&&request.getParameter("asociarworktiles").equals("true")){
+        System.out.println("Revisando WrkSpc....");
+        Iterator<WorkSpace> iterws = WorkSpace.ClassMgr.listWorkSpaces(wsite);
+        while (iterws.hasNext()) {
+                WorkSpace wrksp = iterws.next();
+                System.out.println("=======WrkSpc: "+wrksp.getId());
+                Iterator<Tile> itertile = wrksp.listTiles();
+                while (itertile.hasNext()) {
+                        Tile tileelem = itertile.next();
+                         System.out.println("         >>>>>>> revisando tile " + tileelem.getId());
+                         //if(tileelem.getResource()==null) 
+                             tileelem.setResource(paramRequest.getResourceBase());  
+                    }  
+            }
+       }
+    
+    
     long intSize = 0;
 
     String strNumItems = base.getAttribute("numpag", "10");
@@ -73,13 +90,9 @@ Author     : juan.fernandez y rene.jara
     //SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", new Locale("es"));
     SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy hh:mm a", new Locale("es"));
 
-
     //String strOrder = "";
-
     //todo: ordenamiento
 //            list=SWBComparator.sortByCreatedSet(GradoAcademico.ClassMgr.listG(usuario, wsite),false);
-
-
 
     if (request.getParameter("alertmsg") != null) {
         String strMsg = request.getParameter("alertmsg");
@@ -221,6 +234,7 @@ Author     : juan.fernandez y rene.jara
         int x = 0;
         while (itperws.hasNext()) {
             WorkSpace workSpace = itperws.next();
+            if(workSpace.getResource()==null) workSpace.setResource(paramRequest.getResourceBase());
             if (hmmem.get(workSpace) != null) { // revisando si es miembro del ws
 
                 alwsp.add(workSpace);
@@ -277,6 +291,7 @@ Author     : juan.fernandez y rene.jara
                         count = 0;
                         while (itti.hasNext()) {
                             Tile tile = itti.next();
+                            if(tile.getResource()==null) tile.setResource(paramRequest.getResourceBase());
                             count++;
                             if (count <= numtil) {
                     %>
@@ -411,6 +426,7 @@ Author     : juan.fernandez y rene.jara
         // lista de workspace de la comunidad
         while (itpubws.hasNext()) {
             WorkSpace workSpace = itpubws.next();
+            if(workSpace.getResource()==null) workSpace.setResource(paramRequest.getResourceBase());
             if (!alwsp.contains(workSpace)) {
                 x++;
                 if (x > (ps * p) && !(x > (ps * (p + 1)))) {
@@ -522,6 +538,7 @@ Author     : juan.fernandez y rene.jara
 
         //System.out.println("===================================================================");
         WorkSpace workSpace = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
+        if(workSpace.getResource()==null) workSpace.setResource(paramRequest.getResourceBase());
 
         if (workSpace.getParent() == null) {
             if (!workSpace.isActive()) {
@@ -939,6 +956,8 @@ Author     : juan.fernandez y rene.jara
                 <%
                     while (itti.hasNext()) {
                         Tile tile = itti.next();
+                        if(tile.getResource()==null) tile.setResource(paramRequest.getResourceBase());
+                        tile.setIndexable(Boolean.TRUE);
                 %>
                 <tr>
                     <td class="<%=MyShelf.getClassIconTile(tile)%>">
@@ -1111,7 +1130,8 @@ Author     : juan.fernandez y rene.jara
 
                         while (ittil.hasNext()) {
                             Tile tile = ittil.next();
-
+                            if(tile.getResource()==null) tile.setResource(paramRequest.getResourceBase());
+                            tile.setIndexable(Boolean.TRUE);
                             if (paramRequest.getCallMethod() == SWBParamRequest.Call_STRATEGY) {
                                 if (numtiles == numele) {
                                     break;
@@ -1466,6 +1486,7 @@ Author     : juan.fernandez y rene.jara
                 so = ont.getSemanticObject(suri);
                 GenericObject go = so.createGenericInstance();
                 Tile tile = (Tile) so.createGenericInstance();
+                if(tile.getResource()==null) tile.setResource(paramRequest.getResourceBase());
                 out.println("<h4>" + MyShelf.getTileTypeName((Tile) (so.createGenericInstance())) + "</h4>");
                 if (tile != null) {
 
@@ -1722,6 +1743,7 @@ Author     : juan.fernandez y rene.jara
                         Iterator<Tile> itti = workSpace.listTiles();
                         while (itti.hasNext()) {
                             Tile ltile = itti.next();
+                            if(ltile.getResource()==null) ltile.setResource(paramRequest.getResourceBase());
                             if (!ltile.equals(tile)) {
                     %>
                     <option value="<%=ltile.getURI()%>"><%=ltile.getTitle()%></option>
@@ -1763,6 +1785,7 @@ Author     : juan.fernandez y rene.jara
                         Iterator<Tile> itmt = mosaic.listTiles();
                         while (itmt.hasNext()) {
                             Tile ltile = itmt.next();
+                            if(ltile.getResource()==null) ltile.setResource(paramRequest.getResourceBase());
                             String strTitle = "<center>---</center>";
                             String strDate = "<center>---</center>";
                             String strType = "<center>---</center>";
