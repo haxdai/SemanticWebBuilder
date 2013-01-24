@@ -61,7 +61,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
     public static final int START_HOUR = 7; // 07:00 hrs
     public static final int START_MIN = 420; // 07:00 hrs en minutos
     
-    private static String iconClass = "x";
+    private static IconClass iconClass = IconClass.u;
         
     public ReservaSalaManager() {
     }
@@ -253,8 +253,8 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
             
             if(!sala.isReservada(csd, cfd)) {
                 ReservacionSala reservation = ReservacionSala.ClassMgr.createReservacionSala(model);
-                reservation.setIconClass(getIconClass());
                 reservation.setSala(sala);
+                reservation.setIconClass(getIconClass());
                 reservation.setFechaInicio(csd.getTime());
                 reservation.setFechaFinal(cfd.getTime());
                 reservation.setAsistentes(turnout);
@@ -1118,7 +1118,35 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
     }
     
     private synchronized static String getIconClass() {
-        iconClass = "x".equals(iconClass)?"y":"x";
-        return iconClass;
+        iconClass = iconClass.next();
+        return iconClass.getDesc();
+    }
+    
+    enum IconClass {
+        u("u"),
+        v("v"),
+        w("w"),
+        x("x"),
+        y("y"),
+        z("z");
+        private String desc;
+        IconClass(String desc) {
+            this.desc = desc;
+        }
+        String getDesc() {
+            return desc;
+        }
+        IconClass next() {
+            switch(this) {
+                case u: return v;
+                case v: return w;
+                case w: return x;
+                case x: return y;
+                case y: return z;
+                case z: return x;
+                default: return x;
+            }
+        }
+        
     }
 }
