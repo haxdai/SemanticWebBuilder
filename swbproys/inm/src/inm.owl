@@ -9,1542 +9,1544 @@
     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
   xml:base="http://www.bpmninfotec.com/inm" > 
   <rdf:Description rdf:about="#dp_p26">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">¿Cómo calificas a la persona evaluada en su sentido de responsabilidad y compromiso con su trabajo?</rdfs:label>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">¿Cómo calificas a la persona evaluada en su sentido de responsabilidad y compromiso con su trabajo?</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_folioDeSolicitud">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">Folio de solicitud</rdfs:label>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">Folio de solicitud</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
   </rdf:Description>
   <rdf:Description rdf:about="#cuestionarioAplicado">
-    <rdfs:range rdf:resource="#EvaluacionCuestionario"/>
-    <swb:displayProperty rdf:resource="#dp_cuestionarioAplicado"/>
-    <rdfs:domain rdf:resource="#Desempenio"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="#Desempenio"/>
+    <swb:displayProperty rdf:resource="#dp_cuestionarioAplicado"/>
+    <rdfs:range rdf:resource="#EvaluacionCuestionario"/>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_extension">
-    <rdfs:label xml:lang="es">Extensión</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+    <rdfs:label xml:lang="es">Extensión</rdfs:label>
   </rdf:Description>
   <rdf:Description rdf:about="#Montaje">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
-    <rdfs:subClassOf rdf:resource="#Catalogo"/>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
+    <rdfs:subClassOf rdf:resource="#Catalogo"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_fecha">
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DateElement_1"/>
     <rdfs:label xml:lang="es">Fecha de evaluación</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DateElement_1"/>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
   </rdf:Description>
   <rdf:Description rdf:about="#manual">
-    <swb:title xml:lang="es">Manual de organización</swb:title>
     <rdf:type rdf:resource="#InstrumentoG"/>
+    <swb:title xml:lang="es">Manual de organización</swb:title>
   </rdf:Description>
   <rdf:Description rdf:about="#nombreCurso">
-    <rdfs:domain rdf:resource="#CursoEvaluacion"/>
-    <swb:displayProperty rdf:resource="#dp_nombreCurso"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <swb:displayProperty rdf:resource="#dp_nombreCurso"/>
+    <rdfs:domain rdf:resource="#CursoEvaluacion"/>
   </rdf:Description>
   <rdf:Description rdf:about="#evaluadoEvaluada">
-    <swb:displayProperty rdf:resource="#dp_evaluadoEvaluada"/>
-    <rdfs:domain rdf:resource="#Desempenio"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Desempenio"/>
+    <swb:displayProperty rdf:resource="#dp_evaluadoEvaluada"/>
   </rdf:Description>
   <rdf:Description rdf:about="#score">
-    <rdfs:domain rdf:resource="#Score"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:domain rdf:resource="#Score"/>
   </rdf:Description>
   <rdf:Description rdf:about="#TiempoRL">
-    <rdfs:label xml:lang="es">Tiempo de Relación Laboral</rdfs:label>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-    <rdfs:subClassOf rdf:resource="#Catalogo"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="#Catalogo"/>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
+    <rdfs:label xml:lang="es">Tiempo de Relación Laboral</rdfs:label>
   </rdf:Description>
   <rdf:Description rdf:about="#archivoApartado">
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <swb:displayProperty rdf:resource="#dp_archivoApartado"/>
-    <swb:notCodeGeneration rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:notCodeGeneration>
-    <rdfs:domain rdf:resource="#ApartadoSala"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="#ApartadoSala"/>
+    <swb:notCodeGeneration rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:notCodeGeneration>
+    <swb:displayProperty rdf:resource="#dp_archivoApartado"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_tipoMontaje">
-    <rdfs:label xml:lang="es">Tipo de montaje</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModelWithBlank"/>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModelWithBlank"/>
+    <rdfs:label xml:lang="es">Tipo de montaje</rdfs:label>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_tiempoRelacionLaboral">
-    <rdfs:label xml:lang="es">Tiempo de relación laboral</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
+    <rdfs:label xml:lang="es">Tiempo de relación laboral</rdfs:label>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_evaluadorEvaluadora">
-    <rdfs:label xml:lang="es">Evaluador/Evaluadora</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextArea_Description"/>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextArea_Description"/>
+    <rdfs:label xml:lang="es">Evaluador/Evaluadora</rdfs:label>
   </rdf:Description>
   <rdf:Description rdf:about="#EvaluacionCuestionario">
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
   </rdf:Description>
   <rdf:Description rdf:about="#Sala">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Representa una sala de juntas</rdfs:comment>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Activeable"/>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Activeable"/>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Representa una sala de juntas</rdfs:comment>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_HasCursos">
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
     <rdfs:label xml:lang="es">Curso</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
   </rdf:Description>
   <rdf:Description rdf:about="#scorePregunta">
-    <rdfs:domain rdf:resource="#Respuesta"/>
-    <rdfs:range rdf:resource="#Score"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:range rdf:resource="#Score"/>
+    <rdfs:domain rdf:resource="#Respuesta"/>
   </rdf:Description>
   <rdf:Description rdf:about="#programaE">
-    <swb:title xml:lang="es">Programa Especial</swb:title>
     <rdf:type rdf:resource="#InstrumentoG"/>
+    <swb:title xml:lang="es">Programa Especial</swb:title>
   </rdf:Description>
   <rdf:Description rdf:about="#dpProyector">
-    <rdfs:label xml:lang="es">Tiene proyector</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#BooleanElement_1"/>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#BooleanElement_1"/>
+    <rdfs:label xml:lang="es">Tiene proyector</rdfs:label>
   </rdf:Description>
   <rdf:Description rdf:about="#evaluadorEvaluadora">
-    <rdfs:domain rdf:resource="#Desempenio"/>
-    <swb:displayProperty rdf:resource="#dp_evaluadorEvaluadora"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <swb:displayProperty rdf:resource="#dp_evaluadorEvaluadora"/>
+    <rdfs:domain rdf:resource="#Desempenio"/>
   </rdf:Description>
   <rdf:Description rdf:about="#MetaEvaluacion">
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
     <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
   </rdf:Description>
   <rdf:Description rdf:about="#observaciones">
-    <rdfs:domain rdf:resource="#ApartadoSala"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
     <swb:displayProperty rdf:resource="#dp_observacione"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#ApartadoSala"/>
   </rdf:Description>
   <rdf:Description rdf:about="#tiempoRelacionLaboral">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-    <swb:displayProperty rdf:resource="#dp_tiempoRelacionLaboral"/>
-    <rdfs:domain rdf:resource="#Desempenio"/>
     <rdfs:range rdf:resource="#TiempoRL"/>
+    <rdfs:domain rdf:resource="#Desempenio"/>
+    <swb:displayProperty rdf:resource="#dp_tiempoRelacionLaboral"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_p25">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">¿Cómo calificas la actitud y desempeño de la persona evaluada cuando trabaja bajo presión?</rdfs:label>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">¿Cómo calificas la actitud y desempeño de la persona evaluada cuando trabaja bajo presión?</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
   </rdf:Description>
   <rdf:Description rdf:about="#evaluador">
-    <rdfs:domain rdf:resource="#Desempenio"/>
-    <swb:displayProperty rdf:resource="#dp_datosEvaluador"/>
-    <rdfs:range rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#User"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:range rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#User"/>
+    <swb:displayProperty rdf:resource="#dp_datosEvaluador"/>
+    <rdfs:domain rdf:resource="#Desempenio"/>
   </rdf:Description>
   <rdf:Description rdf:about="#valor">
-    <rdfs:domain rdf:resource="#TipoRespuesta"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:domain rdf:resource="#TipoRespuesta"/>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_fechaHoraFinal">
-    <rdfs:label xml:lang="es">Hora final</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TimeElement_1"/>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TimeElement_1"/>
+    <rdfs:label xml:lang="es">Hora final</rdfs:label>
   </rdf:Description>
   <rdf:Description rdf:about="#anioCuestionario">
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
-    <swb:displayProperty rdf:resource="#dp_anioCuestionario"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <swb:displayProperty rdf:resource="#dp_anioCuestionario"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
   </rdf:Description>
   <rdf:Description rdf:about="#pNoSatisfactorio">
-    <swb:displayProperty rdf:resource="#dp_pNoSatisfactorio"/>
-    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:required>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:domain rdf:resource="#MetaEvaluacion"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="#MetaEvaluacion"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:required>
+    <swb:displayProperty rdf:resource="#dp_pNoSatisfactorio"/>
   </rdf:Description>
   <rdf:Description rdf:about="#UnidadResponsable">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
-    <rdfs:subClassOf rdf:resource="#Catalogo"/>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
+    <rdfs:subClassOf rdf:resource="#Catalogo"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
   </rdf:Description>
   <rdf:Description rdf:about="#pg_Desempenio">
-    <rdfs:label xml:lang="es">En caso de evaluador(a) suplente:</rdfs:label>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#PropertyGroup"/>
+    <rdfs:label xml:lang="es">En caso de evaluador(a) suplente:</rdfs:label>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_solicitante">
-    <rdfs:label xml:lang="es">Solicitante</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+    <rdfs:label xml:lang="es">Solicitante</rdfs:label>
   </rdf:Description>
   <rdf:Description rdf:about="#modernizacion">
-    <swb:title xml:lang="es">Modernización de la Gestión Pública</swb:title>
     <rdf:type rdf:resource="#TemasPrograma"/>
+    <swb:title xml:lang="es">Modernización de la Gestión Pública</swb:title>
   </rdf:Description>
   <rdf:Description rdf:about="#voboJefeDirecto">
-    <rdfs:domain rdf:resource="#ApartadoSala"/>
-    <swb:displayProperty rdf:resource="#dp_voboJefeDirecto"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <swb:displayProperty rdf:resource="#dp_voboJefeDirecto"/>
+    <rdfs:domain rdf:resource="#ApartadoSala"/>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_servicioAdicional">
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-    <rdfs:label xml:lang="es">Servicio Adicional</rdfs:label>
     <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+    <rdfs:label xml:lang="es">Servicio Adicional</rdfs:label>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_rI">
-    <rdfs:label xml:lang="es">Respuesta ideal</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+    <rdfs:label xml:lang="es">Respuesta ideal</rdfs:label>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_p28">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">¿Cómo calificas la disposición y motivación de la persona evaluada para colaborar en la realización del trabajo?</rdfs:label>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">¿Cómo calificas la disposición y motivación de la persona evaluada para colaborar en la realización del trabajo?</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
   </rdf:Description>
   <rdf:Description rdf:about="#Cantidad">
-    <rdfs:label xml:lang="es">Cantidad</rdfs:label>
-    <swb:description xml:lang="es">Cantidad</swb:description>
-    <swb:title xml:lang="es">Cantidad</swb:title>
-    <rdfs:comment xml:lang="es">Cantidad</rdfs:comment>
     <rdf:type rdf:resource="#TipoMedida"/>
+    <rdfs:comment xml:lang="es">Cantidad</rdfs:comment>
+    <swb:title xml:lang="es">Cantidad</swb:title>
+    <swb:description xml:lang="es">Cantidad</swb:description>
+    <rdfs:label xml:lang="es">Cantidad</rdfs:label>
   </rdf:Description>
   <rdf:Description rdf:about="#Calidad">
-    <rdfs:label xml:lang="es">Calidad</rdfs:label>
-    <swb:title xml:lang="es">Calidad</swb:title>
-    <rdfs:comment xml:lang="es">Calidad</rdfs:comment>
     <rdf:type rdf:resource="#TipoMedida"/>
+    <rdfs:comment xml:lang="es">Calidad</rdfs:comment>
+    <swb:title xml:lang="es">Calidad</swb:title>
+    <rdfs:label xml:lang="es">Calidad</rdfs:label>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_reporteResultadosCuestionarios">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#fe_DojoFileUpload"/>
-    <rdfs:label xml:lang="es">Reporte resultados cuestionario</rdfs:label>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">Reporte resultados cuestionario</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#fe_DojoFileUpload"/>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_observacionesCuestionario">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextArea_Description"/>
-    <rdfs:label xml:lang="es">Observaciones</rdfs:label>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">Observaciones</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextArea_Description"/>
   </rdf:Description>
   <rdf:Description rdf:about="#texto">
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:domain rdf:resource="#Pregunta"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="#Pregunta"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   </rdf:Description>
   <rdf:Description rdf:about="#reporteResultadosCuestionarios">
-    <swb:displayProperty rdf:resource="#dp_reporteResultadosCuestionarios"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:domain rdf:resource="#EvaluacionDesempenio"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="#EvaluacionDesempenio"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <swb:displayProperty rdf:resource="#dp_reporteResultadosCuestionarios"/>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_reporteMetas">
-    <rdfs:label xml:lang="es">Reporte de metas</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#fe_DojoFileUpload"/>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#fe_DojoFileUpload"/>
+    <rdfs:label xml:lang="es">Reporte de metas</rdfs:label>
   </rdf:Description>
   <rdf:Description rdf:about="#seis_anios">
-    <swb:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">6 a 10 años</swb:title>
     <rdf:type rdf:resource="#TiempoRL"/>
+    <swb:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">6 a 10 años</swb:title>
   </rdf:Description>
   <rdf:Description rdf:about="#unidadResponsable">
-    <rdfs:range rdf:resource="#UnidadResponsable"/>
-    <swb:displayProperty rdf:resource="#dp_unidadResponsable"/>
-    <swb:notCodeGeneration rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:notCodeGeneration>
-    <rdfs:domain rdf:resource="#ApartadoSala"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="#ApartadoSala"/>
+    <swb:notCodeGeneration rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:notCodeGeneration>
+    <swb:displayProperty rdf:resource="#dp_unidadResponsable"/>
+    <rdfs:range rdf:resource="#UnidadResponsable"/>
   </rdf:Description>
   <rdf:Description rdf:about="#status">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:domain rdf:resource="#EvaluacionDesempenio"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
-    <rdfs:label xml:lang="es">Estatus de la evaluación</rdfs:label>
-    <rdfs:label xml:lang="es">Evaluation status</rdfs:label>
     <rdfs:comment xml:lang="es">Almacena el estatus de la evaluación: 0-Por evaluar, 1-En proceso, 2-Evaluado</rdfs:comment>
+    <rdfs:label xml:lang="es">Evaluation status</rdfs:label>
+    <rdfs:label xml:lang="es">Estatus de la evaluación</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    <rdfs:domain rdf:resource="#EvaluacionDesempenio"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_unidadResponsable">
-    <rdfs:label xml:lang="es">Unidad responsable</rdfs:label>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
     <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModelWithBlank"/>
+    <rdfs:label xml:lang="es">Unidad responsable</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_temasPrograma">
+    <rdfs:label xml:lang="es">Temas de programa estratégico</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_p27">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">¿Cómo calificas la motivación y disponibilidad de la persona evaluada para realizar diferentes actividades?</rdfs:label>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">¿Cómo calificas la motivación y disponibilidad de la persona evaluada para realizar diferentes actividades?</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
   </rdf:Description>
   <rdf:Description rdf:about="#EvaluacionDesempenio">
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
-    <rdfs:label xml:lang="es">Evaluación de Desempeño</rdfs:label>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <rdfs:label xml:lang="es">Evaluación de Desempeño</rdfs:label>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
   </rdf:Description>
   <rdf:Description rdf:about="#desarrollo_urbano">
-    <swb:title xml:lang="es">Desarrollo Urbano</swb:title>
     <rdf:type rdf:resource="#TemasPrograma"/>
+    <swb:title xml:lang="es">Desarrollo Urbano</swb:title>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_nombreSuplente">
-    <rdfs:label xml:lang="es">Nombre de suplente</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextArea_Description"/>
-    <swbxf:propGroup rdf:resource="#pg_Desempenio"/>
-    <swb:index rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</swb:index>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swb:index rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</swb:index>
+    <swbxf:propGroup rdf:resource="#pg_Desempenio"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextArea_Description"/>
+    <rdfs:label xml:lang="es">Nombre de suplente</rdfs:label>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_nombreReunion">
-    <rdfs:label xml:lang="es">Nombre de la reunión</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+    <rdfs:label xml:lang="es">Nombre de la reunión</rdfs:label>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_hasPreguntas">
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-    <rdfs:label xml:lang="es">Preguntas</rdfs:label>
     <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#SelectMultipleModelWithBlank"/>
+    <rdfs:label xml:lang="es">Preguntas</rdfs:label>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
   </rdf:Description>
   <rdf:Description rdf:about="#pSatisfactorio">
-    <swb:displayProperty rdf:resource="#dp_pSatisfactorio"/>
-    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:required>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:domain rdf:resource="#MetaEvaluacion"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="#MetaEvaluacion"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:required>
+    <swb:displayProperty rdf:resource="#dp_pSatisfactorio"/>
   </rdf:Description>
   <rdf:Description rdf:about="#pesoMeta">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="#MetaEvaluacion"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:required>
     <swb:displayProperty rdf:resource="#dp_pesoMeta"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_observacione">
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+    <rdfs:label xml:lang="es">Observaciones</rdfs:label>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_metas">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextArea_Description"/>
+    <rdfs:label xml:lang="es">Meta:</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="#tieneMultimedia">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <swb:displayProperty rdf:resource="#dpMultimedia"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#Sala"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_requierePantalla">
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#BooleanElement_1"/>
+    <rdfs:label xml:lang="es">¿Requiere Pantalla?</rdfs:label>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#justificacionObjetivoRelacionado">
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:required>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <swb:displayProperty rdf:resource="#dp_justificacionObjetivoRelacionado"/>
+    <rdfs:domain rdf:resource="#CursoEvaluacion"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#ubicacion">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="#Sala"/>
+    <swb:notCodeGeneration rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:notCodeGeneration>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <swb:displayProperty rdf:resource="#dp_ubicacion"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_p09">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">¿Cómo calificas el desempeño de la persona evaluada en cuanto al cumplimineto de las normas que rigen el comportamiento en el Instituto (asistencia,  puntualidad,  uso de trabajo,  recursos, etc)?</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_nombreCurso">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">Nombre del curso</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextArea_Description"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#hasNiveles">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:range rdf:resource="#Nivel"/>
+    <rdfs:domain rdf:resource="#Pregunta"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#requierePantalla">
+    <swb:displayProperty rdf:resource="#dp_requierePantalla"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#ApartadoSala"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#hasPreguntas">
+    <swb:displayProperty rdf:resource="#dp_hasPreguntas"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="#Cuestionario"/>
+    <rdfs:range rdf:resource="#Pregunta"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#folio">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="#Desempenio"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <swb:displayProperty rdf:resource="#dp_folio"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#hasSubGroup">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:range rdf:resource="#SubGrupo"/>
+    <rdfs:domain rdf:resource="#Grupo"/>
+    <owl:inverseOf rdf:resource="#inGrupo"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_p18">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">¿Cómo consideras a la persona evaluada en su capacidad para tomar decisiones de forma oportuna y de calidad tomando en cuenta a su equipo de trabajo,  al instituto y así mismo(a)?</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_p22">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">¿En qué medida consideras que la persona evaluada domina y lleva a la práctica los conocimientos técnicos de su puesto?</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_justificacionObjetivoRelacionado">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextArea_Description"/>
+    <rdfs:label xml:lang="es">Justificación u objetivo relacionado</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_p08">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">¿Cómo calificas el desempeño de la persona evaluada en cuanto al cumplimiento de sus tareas y objetivos encomendados cuidando tiempo,  forma y precisión?</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_grupo">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">Grupo</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#democracia">
+    <rdf:type rdf:resource="#TemasPrograma"/>
+    <swb:title xml:lang="es">Democracia y Participación Ciudadana</swb:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="#Tiempo">
+    <rdfs:label xml:lang="es">Tiempo</rdfs:label>
+    <rdfs:comment xml:lang="es">Tiempo</rdfs:comment>
+    <swb:title xml:lang="es">Tiempo</swb:title>
+    <rdf:type rdf:resource="#TipoMedida"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_requiereSonido">
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#BooleanElement_1"/>
+    <rdfs:label xml:lang="es">¿Requiere Sonido?</rdfs:label>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#folioSolicitud">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <swb:displayProperty rdf:resource="#dp_folioDeSolicitud"/>
+    <swb:notCodeGeneration rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:notCodeGeneration>
+    <rdfs:domain rdf:resource="#ApartadoSala"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#hasCursos">
+    <rdfs:range rdf:resource="#CursoEvaluacion"/>
+    <swb:displayProperty rdf:resource="#dp_HasCursos"/>
+    <rdfs:domain rdf:resource="#Desempenio"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#TipoRespuesta">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
+    <rdfs:subClassOf rdf:resource="#Catalogo"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#financiamiento">
+    <rdf:type rdf:resource="#TemasPrograma"/>
+    <swb:title xml:lang="es">Financiamiento para el desarrollo</swb:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="#ReservaSalaManager">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SemanticResource"/>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb.resources.sem</swb:classCodePackage>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBSemanticResource"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#hasRespuestas">
+    <swb:displayProperty rdf:resource="#dp_hasRespuestas"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:range rdf:resource="#Respuesta"/>
+    <rdfs:domain rdf:resource="#EvaluacionCuestionario"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#montaje">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="#ApartadoSala"/>
+    <swb:displayProperty rdf:resource="#dp_tipoMontaje"/>
+    <swb:notCodeGeneration rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:notCodeGeneration>
+    <rdfs:range rdf:resource="#Montaje"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_p17">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">¿Cómo calificas a la persona evaluada en su capacidad para lograr acuerdos que favorezcan el cumplimiento de metas de trabajo?</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#Grupo">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_requiereCafe">
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#BooleanElement_1"/>
+    <rdfs:label xml:lang="es">¿Requiere Café?</rdfs:label>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_p21">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">¿Cómo calificas la forma en que la persona evaluada toma en cuenta procedimientos y políticas ya establecidas para llevar a cabo su trabajo de forma satisfactoria?</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#desarrollo_emp">
+    <rdf:type rdf:resource="#TemasPrograma"/>
+    <swb:title xml:lang="es">Desarrollo Empresarial</swb:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="#Pregunta">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#desempeño">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:range rdf:resource="#Desempenio"/>
+    <rdfs:label xml:lang="es">Desempeño</rdfs:label>
+    <swb:displayProperty rdf:resource="#dp_cuestionario"/>
+    <rdfs:domain rdf:resource="#EvaluacionDesempenio"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_p07">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">¿Cómo calificas a la persona evaluada en cuanto a el cumplimiento general de los objetivos y metas de su puesto?</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_requiereTe">
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#BooleanElement_1"/>
+    <rdfs:label xml:lang="es">¿Requiere Té?</rdfs:label>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_voboJefeDirecto">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+    <rdfs:label xml:lang="es">Visto bueno del Jefe directo</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="#once_anios">
+    <rdf:type rdf:resource="#TiempoRL"/>
+    <swb:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">11 a 15 años</swb:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="#participantesInmujeres">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="#ApartadoSala"/>
+    <swb:notCodeGeneration rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:notCodeGeneration>
+    <swb:displayProperty rdf:resource="#dp_participantesInmujeres"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_trimestreAnioAplicar">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModelWithBlank"/>
+    <rdfs:label xml:lang="es">Trimestre del año a aplicar</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="#motivo">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <swb:displayProperty rdf:resource="#dp_motivo"/>
+    <rdfs:domain rdf:resource="#Desempenio"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#CentroCostos">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
+    <rdfs:subClassOf rdf:resource="#Catalogo"/>
+    <rdfs:label xml:lang="es">Centro de Costos</rdfs:label>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_datosEvaluador">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
+    <rdfs:label xml:lang="es">Datos del evaluador</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_evaluadoEvaluada">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextArea_Description"/>
+    <rdfs:label xml:lang="es">Evaluado / Evaluada</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_observaciones">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+    <rdfs:label xml:lang="es">Observaciones</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="#temasPrograma">
+    <swb:displayProperty rdf:resource="#dp_temasPrograma"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="#MetaEvaluacion"/>
+    <rdfs:range rdf:resource="#TemasPrograma"/>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:required>
+  </rdf:Description>
+  <rdf:Description rdf:about="#subgrupo">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="#Pregunta"/>
+    <rdfs:range rdf:resource="#SubGrupo"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_fechaDeSolicitud">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DateElement_1"/>
+    <rdfs:label xml:lang="es">Fecha de solicitud</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_apoyosSolicitados">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
+    <rdfs:label xml:lang="es">Apoyos solicitados</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="#salud">
+    <rdf:type rdf:resource="#TemasPrograma"/>
+    <swb:title xml:lang="es">Salud</swb:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="#tieneWifi">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <swb:displayProperty rdf:resource="#dpWifi"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#Sala"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#migrantes">
+    <rdf:type rdf:resource="#TemasPrograma"/>
+    <swb:title xml:lang="es">Migrantes</swb:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="#ApartadoSala">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Representa una reservación de una sala de juntas</rdfs:comment>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <rdfs:label xml:lang="es">Salas</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#meta">
+    <rdfs:domain rdf:resource="#MetaEvaluacion"/>
+    <swb:displayProperty rdf:resource="#dp_metas"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#derechos_h">
+    <rdf:type rdf:resource="#TemasPrograma"/>
+    <swb:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Derechos Humanos {@es]</swb:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="#pMinimoAceptable">
+    <swb:displayProperty rdf:resource="#dp_pMinimoAceptable"/>
     <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:required>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdfs:domain rdf:resource="#MetaEvaluacion"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
   </rdf:Description>
-  <rdf:Description rdf:about="#dp_observacione">
+  <rdf:Description rdf:about="#dp_participantesInmujeres">
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-    <rdfs:label xml:lang="es">Observaciones</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+    <rdfs:label xml:lang="es">Paticipantes Inmujeres</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_p06">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">¿Cómo calificas a la persona evaluada en su capacidad para la toma de decisiones oportunas?</rdfs:label>
     <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
   </rdf:Description>
-  <rdf:Description rdf:about="#dp_metas">
-    <rdfs:label xml:lang="es">Meta:</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextArea_Description"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#tieneMultimedia">
-    <rdfs:domain rdf:resource="#Sala"/>
+  <rdf:Description rdf:about="#requiereTe">
+    <swb:displayProperty rdf:resource="#dp_requiereTe"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
-    <swb:displayProperty rdf:resource="#dpMultimedia"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_requierePantalla">
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-    <rdfs:label xml:lang="es">¿Requiere Pantalla?</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#BooleanElement_1"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#justificacionObjetivoRelacionado">
-    <rdfs:domain rdf:resource="#CursoEvaluacion"/>
-    <swb:displayProperty rdf:resource="#dp_justificacionObjetivoRelacionado"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#ubicacion">
-    <swb:displayProperty rdf:resource="#dp_ubicacion"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <swb:notCodeGeneration rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:notCodeGeneration>
-    <rdfs:domain rdf:resource="#Sala"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_p09">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">¿Cómo calificas el desempeño de la persona evaluada en cuanto al cumplimineto de las normas que rigen el comportamiento en el Instituto (asistencia,  puntualidad,  uso de trabajo,  recursos, etc)?</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_nombreCurso">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextArea_Description"/>
-    <rdfs:label xml:lang="es">Nombre del curso</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#hasNiveles">
-    <rdfs:domain rdf:resource="#Pregunta"/>
-    <rdfs:range rdf:resource="#Nivel"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#requierePantalla">
     <rdfs:domain rdf:resource="#ApartadoSala"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_p24">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">¿Cómo calificas la capacidad de servicio y seguimiento de la persona evaluada?</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#servicioAdicional">
+    <swb:displayProperty rdf:resource="#dp_servicioAdicional"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <swb:displayProperty rdf:resource="#dp_requierePantalla"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#hasPreguntas">
-    <rdfs:range rdf:resource="#Pregunta"/>
-    <rdfs:domain rdf:resource="#Cuestionario"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-    <swb:displayProperty rdf:resource="#dp_hasPreguntas"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#folio">
-    <swb:displayProperty rdf:resource="#dp_folio"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:domain rdf:resource="#Desempenio"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#hasSubGroup">
-    <owl:inverseOf rdf:resource="#inGrupo"/>
-    <rdfs:domain rdf:resource="#Grupo"/>
-    <rdfs:range rdf:resource="#SubGrupo"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_p18">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">¿Cómo consideras a la persona evaluada en su capacidad para tomar decisiones de forma oportuna y de calidad tomando en cuenta a su equipo de trabajo,  al instituto y así mismo(a)?</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_p22">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">¿En qué medida consideras que la persona evaluada domina y lleva a la práctica los conocimientos técnicos de su puesto?</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_justificacionObjetivoRelacionado">
-    <rdfs:label xml:lang="es">Justificación u objetivo relacionado</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextArea_Description"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_p08">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">¿Cómo calificas el desempeño de la persona evaluada en cuanto al cumplimiento de sus tareas y objetivos encomendados cuidando tiempo,  forma y precisión?</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_grupo">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">Grupo</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#democracia">
-    <swb:title xml:lang="es">Democracia y Participación Ciudadana</swb:title>
-    <rdf:type rdf:resource="#TemasPrograma"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#Tiempo">
-    <rdf:type rdf:resource="#TipoMedida"/>
-    <swb:title xml:lang="es">Tiempo</swb:title>
-    <rdfs:comment xml:lang="es">Tiempo</rdfs:comment>
-    <rdfs:label xml:lang="es">Tiempo</rdfs:label>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_requiereSonido">
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-    <rdfs:label xml:lang="es">¿Requiere Sonido?</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#BooleanElement_1"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#folioSolicitud">
     <rdfs:domain rdf:resource="#ApartadoSala"/>
-    <swb:notCodeGeneration rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:notCodeGeneration>
-    <swb:displayProperty rdf:resource="#dp_folioDeSolicitud"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
   </rdf:Description>
-  <rdf:Description rdf:about="#hasCursos">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-    <rdfs:domain rdf:resource="#Desempenio"/>
-    <swb:displayProperty rdf:resource="#dp_HasCursos"/>
-    <rdfs:range rdf:resource="#CursoEvaluacion"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#TipoRespuesta">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
-    <rdfs:subClassOf rdf:resource="#Catalogo"/>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#financiamiento">
-    <swb:title xml:lang="es">Financiamiento para el desarrollo</swb:title>
-    <rdf:type rdf:resource="#TemasPrograma"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#ReservaSalaManager">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBSemanticResource"/>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb.resources.sem</swb:classCodePackage>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SemanticResource"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#hasRespuestas">
-    <rdfs:domain rdf:resource="#EvaluacionCuestionario"/>
-    <rdfs:range rdf:resource="#Respuesta"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-    <swb:displayProperty rdf:resource="#dp_hasRespuestas"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#montaje">
-    <rdfs:range rdf:resource="#Montaje"/>
-    <swb:notCodeGeneration rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:notCodeGeneration>
-    <swb:displayProperty rdf:resource="#dp_tipoMontaje"/>
-    <rdfs:domain rdf:resource="#ApartadoSala"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_p17">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">¿Cómo calificas a la persona evaluada en su capacidad para lograr acuerdos que favorezcan el cumplimiento de metas de trabajo?</rdfs:label>
+  <rdf:Description rdf:about="#dp_medida">
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#Grupo">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_requiereCafe">
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-    <rdfs:label xml:lang="es">¿Requiere Café?</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#BooleanElement_1"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_p21">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">¿Cómo calificas la forma en que la persona evaluada toma en cuenta procedimientos y políticas ya establecidas para llevar a cabo su trabajo de forma satisfactoria?</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#desarrollo_emp">
-    <swb:title xml:lang="es">Desarrollo Empresarial</swb:title>
-    <rdf:type rdf:resource="#TemasPrograma"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#Pregunta">
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#desempeño">
-    <rdfs:domain rdf:resource="#EvaluacionDesempenio"/>
-    <swb:displayProperty rdf:resource="#dp_cuestionario"/>
-    <rdfs:label xml:lang="es">Desempeño</rdfs:label>
-    <rdfs:range rdf:resource="#Desempenio"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_p07">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">¿Cómo calificas a la persona evaluada en cuanto a el cumplimiento general de los objetivos y metas de su puesto?</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_requiereTe">
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-    <rdfs:label xml:lang="es">¿Requiere Té?</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#BooleanElement_1"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_voboJefeDirecto">
-    <rdfs:label xml:lang="es">Visto bueno del Jefe directo</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#once_anios">
-    <swb:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">11 a 15 años</swb:title>
-    <rdf:type rdf:resource="#TiempoRL"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#participantesInmujeres">
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
-    <swb:displayProperty rdf:resource="#dp_participantesInmujeres"/>
-    <swb:notCodeGeneration rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:notCodeGeneration>
-    <rdfs:domain rdf:resource="#ApartadoSala"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_trimestreAnioAplicar">
-    <rdfs:label xml:lang="es">Trimestre del año a aplicar</rdfs:label>
     <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModelWithBlank"/>
+    <rdfs:label xml:lang="es">Medida</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_calificacion">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">Calificación</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_subgrupo">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">Subgrupo</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#Desempenio">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <rdfs:label xml:lang="es">Desempeño</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#Respuesta">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#equidad">
+    <rdf:type rdf:resource="#TemasPrograma"/>
+    <swb:title xml:lang="es">Equidad de Género</swb:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="#fechaFin">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <swb:notCodeGeneration rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:notCodeGeneration>
+    <swb:displayProperty rdf:resource="#dp_fechaHoraFinal"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <rdfs:domain rdf:resource="#ApartadoSala"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_respuesta">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">Respuesta</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_p19">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">¿Cómo calificas a la persona evaluada en cuanto a la capacidad para responder en tiempo y forma a los requerimientos?</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#cuatro_anios">
+    <rdf:type rdf:resource="#TiempoRL"/>
+    <swb:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">4 años</swb:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="#cultura">
+    <rdf:type rdf:resource="#TemasPrograma"/>
+    <swb:title xml:lang="es">Cultura</swb:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_requierePodium">
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#BooleanElement_1"/>
+    <rdfs:label xml:lang="es">¿Requiere Podium?</rdfs:label>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
   </rdf:Description>
-  <rdf:Description rdf:about="#motivo">
-    <rdfs:domain rdf:resource="#Desempenio"/>
-    <swb:displayProperty rdf:resource="#dp_motivo"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  <rdf:Description rdf:about="#dp_p23">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">¿Cómo calificas a la persona evaluada en su capacidad para planear y organizar sus actividades acorde a las prioridades de trabajo?</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
   </rdf:Description>
-  <rdf:Description rdf:about="#CentroCostos">
+  <rdf:Description rdf:about="#dp_p05">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">¿En qué medida consideras  que la persona evaluada orienta sus actividades y las de su equipo hacia el cumplimiento a resultados?</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_pesoMeta">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+    <rdfs:label xml:lang="es">Peso de la Función, objetivo y/o meta</rdfs:label>
+    <rdfs:comment xml:lang="es">Peso de la Función, objetivo y/o meta</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="#TipoMedida">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
+    <rdfs:subClassOf rdf:resource="#Catalogo"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#requiereCarpa">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <swb:displayProperty rdf:resource="#dpCarpa"/>
+    <swb:defaultValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">false</swb:defaultValue>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:required>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#Sala"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#requiereRotafolio">
+    <swb:displayProperty rdf:resource="#dp_requiereRotafolio"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#ApartadoSala"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_participantesOtros">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+    <rdfs:label xml:lang="es">Participantes otros</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="#requiereProyector">
+    <swb:displayProperty rdf:resource="#dp_requiereProyector"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#ApartadoSala"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_fechaHoraInicio">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TimeElement_1"/>
+    <rdfs:label xml:lang="es">Hora inicio</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="#grupo">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <swb:displayProperty rdf:resource="#dp_grupo"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#Score">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#TipoNivelGestion">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
+    <rdfs:subClassOf rdf:resource="#Catalogo"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_hasMetas">
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
+    <rdfs:label xml:lang="es">Metas</rdfs:label>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#coop">
+    <rdf:type rdf:resource="#TemasPrograma"/>
+    <swb:title xml:lang="es">Cooperación y Desarrollo Internacional</swb:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_motivo">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swb:index rdf:datatype="http://www.w3.org/2001/XMLSchema#int">2</swb:index>
+    <swbxf:propGroup rdf:resource="#pg_Desempenio"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextArea_Description"/>
+    <rdfs:label xml:lang="es">Motivo</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="#Nivel">
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
     <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
-    <rdfs:label xml:lang="es">Centro de Costos</rdfs:label>
-    <rdfs:subClassOf rdf:resource="#Catalogo"/>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
     <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
   </rdf:Description>
-  <rdf:Description rdf:about="#dp_datosEvaluador">
-    <rdfs:label xml:lang="es">Datos del evaluador</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_evaluadoEvaluada">
-    <rdfs:label xml:lang="es">Evaluado / Evaluada</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextArea_Description"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_observaciones">
-    <rdfs:label xml:lang="es">Observaciones</rdfs:label>
+  <rdf:Description rdf:about="#dp_motivoReunion">
+    <rdfs:label xml:lang="es">Motivo de la Reunión</rdfs:label>
     <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
   </rdf:Description>
-  <rdf:Description rdf:about="#temasPrograma">
-    <swb:displayProperty rdf:resource="#dp_temasprogr"/>
-    <rdfs:range rdf:resource="#TemasPrograma"/>
-    <rdfs:domain rdf:resource="#MetaEvaluacion"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#subgrupo">
-    <rdfs:range rdf:resource="#SubGrupo"/>
-    <rdfs:domain rdf:resource="#Pregunta"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_fechaDeSolicitud">
-    <rdfs:label xml:lang="es">Fecha de solicitud</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DateElement_1"/>
+  <rdf:Description rdf:about="#dp_pregunta">
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">Pregunta</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModelWithBlank"/>
   </rdf:Description>
-  <rdf:Description rdf:about="#dp_pMinimo">
+  <rdf:Description rdf:about="#SelectCandidate">
+    <rdfs:label xml:lang="en">Candidate</rdfs:label>
+    <rdfs:label xml:lang="es">Candidato</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#SelectOne"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Seleciona un candidato a evaluar</rdfs:comment>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#FormElement"/>
+    <swb:formElementRange rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#User"/>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_salas1">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
+    <rdfs:label xml:lang="es">Salas</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="#1erTrimester">
+    <rdf:type rdf:resource="#Trimestre"/>
+    <swb:title xml:lang="es">2do Trimestre</swb:title>
+    <rdfs:comment xml:lang="es">2do Trimestre</rdfs:comment>
+    <rdfs:label xml:lang="es">2do Trimestre</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_cuestionario">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">Cuestionario</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_anio">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">Año</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_pSatisfactorio">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:comment xml:lang="es">Parámetro Satisfactorio</rdfs:comment>
+    <rdfs:label xml:lang="es">Parámetro Satisfactorio</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_p03">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">¿Cómo calificas a la persona evaluada para visualizar estrategias claras para el cumplimiento de sus objetivos y para solucionar problemas?</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#desarrollo_reg">
+    <rdf:type rdf:resource="#TemasPrograma"/>
+    <swb:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Desarrollo Regional {@es]</swb:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="#infra">
+    <rdf:type rdf:resource="#TemasPrograma"/>
+    <swb:title xml:lang="es">Infraestructura</swb:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dpCarpa">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#BooleanElement_1"/>
+    <rdfs:label xml:lang="es">Requiere carpa</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dieciseis_anios">
+    <rdf:type rdf:resource="#TiempoRL"/>
+    <swb:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">16 a 20 años</swb:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="#educacion">
+    <rdf:type rdf:resource="#TemasPrograma"/>
+    <swb:title xml:lang="es">Educación</swb:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_p13">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">¿Cómo calificas a la persona evaluada en cuanto a su lealtad y compromiso con la institución y su puesto?</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#ciencia_tec">
+    <rdf:type rdf:resource="#TemasPrograma"/>
+    <swb:title xml:lang="es">Ciencia y Tecnología</swb:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="#familia">
+    <rdf:type rdf:resource="#TemasPrograma"/>
+    <swb:title xml:lang="es">Familia, niños y jóvenes</swb:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="#mas_veinte">
+    <rdf:type rdf:resource="#TiempoRL"/>
+    <swb:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Más de 20 años</swb:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_pMinimoAceptable">
     <rdfs:comment xml:lang="es">Parámetro Mínimo aceptable</rdfs:comment>
     <rdfs:label xml:lang="es">Parámetro Mínimo aceptable</rdfs:label>
     <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
   </rdf:Description>
-  <rdf:Description rdf:about="#dp_apoyosSolicitados">
-    <rdfs:label xml:lang="es">Apoyos solicitados</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#salud">
-    <swb:title xml:lang="es">Salud</swb:title>
-    <rdf:type rdf:resource="#TemasPrograma"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#tieneWifi">
-    <rdfs:domain rdf:resource="#Sala"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
-    <swb:displayProperty rdf:resource="#dpWifi"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#migrantes">
-    <swb:title xml:lang="es">Migrantes</swb:title>
-    <rdf:type rdf:resource="#TemasPrograma"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#ApartadoSala">
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
-    <rdfs:label xml:lang="es">Salas</rdfs:label>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Representa una reservación de una sala de juntas</rdfs:comment>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#meta">
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <swb:displayProperty rdf:resource="#dp_metas"/>
-    <rdfs:domain rdf:resource="#MetaEvaluacion"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#derechos_h">
-    <swb:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Derechos Humanos {@es]</swb:title>
-    <rdf:type rdf:resource="#TemasPrograma"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_participantesInmujeres">
-    <rdfs:label xml:lang="es">Paticipantes Inmujeres</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_p06">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">¿Cómo calificas a la persona evaluada en su capacidad para la toma de decisiones oportunas?</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#requiereTe">
-    <rdfs:domain rdf:resource="#ApartadoSala"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <swb:displayProperty rdf:resource="#dp_requiereTe"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_p24">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">¿Cómo calificas la capacidad de servicio y seguimiento de la persona evaluada?</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#servicioAdicional">
-    <rdfs:domain rdf:resource="#ApartadoSala"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <swb:displayProperty rdf:resource="#dp_servicioAdicional"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_medida">
-    <rdfs:label xml:lang="es">Medida</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModelWithBlank"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_calificacion">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">Calificación</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_instrumento">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
-    <rdfs:label xml:lang="es">Instrumento de gestión del rendimiento de origen</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_subgrupo">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">Subgrupo</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#Desempenio">
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
-    <rdfs:label xml:lang="es">Desempeño</rdfs:label>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#Respuesta">
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#equidad">
-    <swb:title xml:lang="es">Equidad de Género</swb:title>
-    <rdf:type rdf:resource="#TemasPrograma"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#fechaFin">
-    <rdfs:domain rdf:resource="#ApartadoSala"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
-    <swb:displayProperty rdf:resource="#dp_fechaHoraFinal"/>
-    <swb:notCodeGeneration rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:notCodeGeneration>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_respuesta">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
-    <rdfs:label xml:lang="es">Respuesta</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_p19">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">¿Cómo calificas a la persona evaluada en cuanto a la capacidad para responder en tiempo y forma a los requerimientos?</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#cuatro_anios">
-    <swb:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">4 años</swb:title>
-    <rdf:type rdf:resource="#TiempoRL"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#cultura">
-    <swb:title xml:lang="es">Cultura</swb:title>
-    <rdf:type rdf:resource="#TemasPrograma"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_requierePodium">
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-    <rdfs:label xml:lang="es">¿Requiere Podium?</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#BooleanElement_1"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_p23">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">¿Cómo calificas a la persona evaluada en su capacidad para planear y organizar sus actividades acorde a las prioridades de trabajo?</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_p05">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">¿En qué medida consideras  que la persona evaluada orienta sus actividades y las de su equipo hacia el cumplimiento a resultados?</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_pesoMeta">
-    <rdfs:comment xml:lang="es">Peso de la Función, objetivo y/o meta</rdfs:comment>
-    <rdfs:label xml:lang="es">Peso de la Función, objetivo y/o meta</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#TipoMedida">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
-    <rdfs:subClassOf rdf:resource="#Catalogo"/>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#requiereCarpa">
-    <rdfs:domain rdf:resource="#Sala"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
-    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:required>
-    <swb:defaultValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">false</swb:defaultValue>
-    <swb:displayProperty rdf:resource="#dpCarpa"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#requiereRotafolio">
-    <rdfs:domain rdf:resource="#ApartadoSala"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <swb:displayProperty rdf:resource="#dp_requiereRotafolio"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_participantesOtros">
-    <rdfs:label xml:lang="es">Participantes otros</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#requiereProyector">
-    <rdfs:domain rdf:resource="#ApartadoSala"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <swb:displayProperty rdf:resource="#dp_requiereProyector"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_fechaHoraInicio">
-    <rdfs:label xml:lang="es">Hora inicio</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TimeElement_1"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#grupo">
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
-    <swb:displayProperty rdf:resource="#dp_grupo"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#Score">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#TipoNivelGestion">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
-    <rdfs:subClassOf rdf:resource="#Catalogo"/>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_hasMetas">
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-    <rdfs:label xml:lang="es">Metas</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_temasprogr">
-    <rdfs:label xml:lang="es">Temas de programa estratégico</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#coop">
-    <swb:title xml:lang="es">Cooperación y Desarrollo Internacional</swb:title>
-    <rdf:type rdf:resource="#TemasPrograma"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_motivo">
-    <rdfs:label xml:lang="es">Motivo</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextArea_Description"/>
-    <swbxf:propGroup rdf:resource="#pg_Desempenio"/>
-    <swb:index rdf:datatype="http://www.w3.org/2001/XMLSchema#int">2</swb:index>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#Nivel">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_motivoReunion">
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">Motivo de la Reunión</rdfs:label>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_pregunta">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModelWithBlank"/>
-    <rdfs:label xml:lang="es">Pregunta</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#SelectCandidate">
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
-    <swb:formElementRange rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#User"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#FormElement"/>
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Seleciona un candidato a evaluar</rdfs:comment>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#SelectOne"/>
-    <rdfs:label xml:lang="es">Candidato</rdfs:label>
-    <rdfs:label xml:lang="en">Candidate</rdfs:label>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_salas1">
-    <rdfs:label xml:lang="es">Salas</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#1erTrimester">
-    <rdfs:label xml:lang="es">2do Trimestre</rdfs:label>
-    <rdfs:comment xml:lang="es">2do Trimestre</rdfs:comment>
-    <swb:title xml:lang="es">2do Trimestre</swb:title>
-    <rdf:type rdf:resource="#Trimestre"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_cuestionario">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
-    <rdfs:label xml:lang="es">Cuestionario</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_anio">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">Año</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_pSatisfactorio">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">Parámetro Satisfactorio</rdfs:label>
-    <rdfs:comment xml:lang="es">Parámetro Satisfactorio</rdfs:comment>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_p03">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">¿Cómo calificas a la persona evaluada para visualizar estrategias claras para el cumplimiento de sus objetivos y para solucionar problemas?</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#desarrollo_reg">
-    <swb:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Desarrollo Regional {@es]</swb:title>
-    <rdf:type rdf:resource="#TemasPrograma"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#infra">
-    <swb:title xml:lang="es">Infraestructura</swb:title>
-    <rdf:type rdf:resource="#TemasPrograma"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dpCarpa">
-    <rdfs:label xml:lang="es">Requiere carpa</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#BooleanElement_1"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dieciseis_anios">
-    <swb:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">16 a 20 años</swb:title>
-    <rdf:type rdf:resource="#TiempoRL"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#educacion">
-    <swb:title xml:lang="es">Educación</swb:title>
-    <rdf:type rdf:resource="#TemasPrograma"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_p13">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">¿Cómo calificas a la persona evaluada en cuanto a su lealtad y compromiso con la institución y su puesto?</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#ciencia_tec">
-    <swb:title xml:lang="es">Ciencia y Tecnología</swb:title>
-    <rdf:type rdf:resource="#TemasPrograma"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#familia">
-    <swb:title xml:lang="es">Familia, niños y jóvenes</swb:title>
-    <rdf:type rdf:resource="#TemasPrograma"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#mas_veinte">
-    <swb:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Más de 20 años</swb:title>
-    <rdf:type rdf:resource="#TiempoRL"/>
-  </rdf:Description>
   <rdf:Description rdf:about="#dp_nivel">
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-    <rdfs:label xml:lang="es">Nivel</rdfs:label>
     <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
+    <rdfs:label xml:lang="es">Nivel</rdfs:label>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
   </rdf:Description>
   <rdf:Description rdf:about="#trimestreAnioAplicar">
-    <rdfs:domain rdf:resource="#CursoEvaluacion"/>
-    <swb:displayProperty rdf:resource="#dp_trimestreAnioAplicar"/>
-    <rdfs:range rdf:resource="#Trimestre"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:range rdf:resource="#Trimestre"/>
+    <swb:displayProperty rdf:resource="#dp_trimestreAnioAplicar"/>
+    <rdfs:domain rdf:resource="#CursoEvaluacion"/>
   </rdf:Description>
   <rdf:Description rdf:about="#tres_anios">
-    <swb:title xml:lang="es">3 años</swb:title>
     <rdf:type rdf:resource="#TiempoRL"/>
+    <swb:title xml:lang="es">3 años</swb:title>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_p04">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">¿Cómo calificas a la persona evaluada para dirigir e influir en las personas para el logro de los objetivos institucionales y de su área?</rdfs:label>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">¿Cómo calificas a la persona evaluada para dirigir e influir en las personas para el logro de los objetivos institucionales y de su área?</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
   </rdf:Description>
   <rdf:Description rdf:about="#programaN">
-    <swb:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Programa Nacional</swb:title>
+    <swb:title xml:lang="es">Programa Nacional</swb:title>
     <rdf:type rdf:resource="#InstrumentoG"/>
   </rdf:Description>
   <rdf:Description rdf:about="#requiereSonido">
-    <rdfs:domain rdf:resource="#ApartadoSala"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
     <swb:displayProperty rdf:resource="#dp_requiereSonido"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#ApartadoSala"/>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_ubicacion">
-    <rdfs:label xml:lang="es">Ubicación</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+    <rdfs:label xml:lang="es">Ubicación</rdfs:label>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_p14">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">¿En qué medida consideras  que la persona evaluada orienta sus actividades y las de su equipo hacia el cumplimiento a resultados?</rdfs:label>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">¿En qué medida consideras  que la persona evaluada orienta sus actividades y las de su equipo hacia el cumplimiento a resultados?</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
   </rdf:Description>
   <rdf:Description rdf:about="#nombreReunion">
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <swb:displayProperty rdf:resource="#dp_nombreReunion"/>
-    <swb:notCodeGeneration rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:notCodeGeneration>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <swb:notCodeGeneration rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:notCodeGeneration>
+    <swb:displayProperty rdf:resource="#dp_nombreReunion"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   </rdf:Description>
   <rdf:Description rdf:about="#dpCapacidad">
-    <rdfs:label xml:lang="es">Capacidad</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
     <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">Capacidad</rdfs:label>
   </rdf:Description>
   <rdf:Description rdf:about="#reporteResultadosDnc">
-    <swb:displayProperty rdf:resource="#dp_reporteResultadosDnc"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:domain rdf:resource="#EvaluacionDesempenio"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="#EvaluacionDesempenio"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <swb:displayProperty rdf:resource="#dp_reporteResultadosDnc"/>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_pNoSatisfactorio">
-    <rdfs:comment xml:lang="es">Parámetro No Satisfactorio</rdfs:comment>
-    <rdfs:label xml:lang="es">Parámetro No Satisfactorio</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+    <rdfs:label xml:lang="es">Parámetro No Satisfactorio</rdfs:label>
+    <rdfs:comment xml:lang="es">Parámetro No Satisfactorio</rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="#pkg">
-    <swb:prefix rdf:datatype="http://www.w3.org/2001/XMLSchema#string">inm</swb:prefix>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#CodePackage"/>
+    <swb:prefix rdf:datatype="http://www.w3.org/2001/XMLSchema#string">inm</swb:prefix>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.semanticwebbuilder.org/swb4/xforms/ontology#heClass">
     <rdfs:subPropertyOf rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#hasViewProperty"/>
   </rdf:Description>
   <rdf:Description rdf:about="#InstrumentoG">
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
-    <rdfs:label xml:lang="es">Instrumento de gestión del rendimiento de origen</rdfs:label>
-    <rdfs:subClassOf rdf:resource="#Catalogo"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="#Catalogo"/>
+    <rdfs:label xml:lang="es">Instrumento de gestión del rendimiento de origen</rdfs:label>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
   </rdf:Description>
   <rdf:Description rdf:about="#SubGrupo">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_requiereGalletas">
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-    <rdfs:label xml:lang="es">¿Requiere Galletas?</rdfs:label>
     <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#BooleanElement_1"/>
+    <rdfs:label xml:lang="es">¿Requiere Galletas?</rdfs:label>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
   </rdf:Description>
   <rdf:Description rdf:about="#pregunta">
-    <swb:displayProperty rdf:resource="#dp_pregunta"/>
-    <rdfs:range rdf:resource="#Pregunta"/>
-    <rdfs:domain rdf:resource="#Respuesta"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="#Respuesta"/>
+    <rdfs:range rdf:resource="#Pregunta"/>
+    <swb:displayProperty rdf:resource="#dp_pregunta"/>
   </rdf:Description>
   <rdf:Description rdf:about="">
-    <owl:imports rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology"/>
-    <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Created with TopBraid Composer</owl:versionInfo>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Ontology"/>
+    <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Created with TopBraid Composer</owl:versionInfo>
+    <owl:imports rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology"/>
   </rdf:Description>
-  <rdf:Description rdf:about="#dp_cuestionarioAplicado">
-    <rdfs:label xml:lang="es">Cuestionario aplicado</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModelWithBlank"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_acuerdos">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextArea_Description"/>
-    <rdfs:label xml:lang="es">Acuerdos y principales debilidades o necesidades en materia de conocimientos, habilidades, destrezas, o actitudes, que considera deben ser fortalecidas o adquiridas para mejorar el desempeño de la persona evaluada</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#otroApoyo">
-    <rdfs:domain rdf:resource="#ApartadoSala"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <swb:displayProperty rdf:resource="#dp_otroApoyo"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_p01">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">¿Cómo calificas a la persona evaluada en cuanto a sus conocimientos en ortografía y redacción para el desempeño de  sus funciones?</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#Otro">
-    <rdfs:comment xml:lang="es">Otro</rdfs:comment>
-    <rdfs:label xml:lang="es">Otro</rdfs:label>
-    <swb:title xml:lang="es">Otro</swb:title>
-    <rdf:type rdf:resource="#TipoMedida"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_p20">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">¿Cómo calificas la capacidad de la persona evaluada para trabajar de forma coordinada con otras personas para lograr los resultados esperados?</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_p15">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">¿Cómo calificas a la persona evaluada en su capacidad para la toma de decisiones oportunas  y asertivas cuidadando los intereses institucionales?</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#programaM">
-    <swb:title xml:lang="es">Programa de Mejora de la Gestión</swb:title>
-    <rdf:type rdf:resource="#InstrumentoG"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#evaluado">
-    <rdfs:domain rdf:resource="#Desempenio"/>
-    <swb:displayProperty rdf:resource="#dp_datosEvaluado"/>
-    <rdfs:range rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#User"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#tienePantalla">
-    <rdfs:domain rdf:resource="#Sala"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
-    <swb:displayProperty rdf:resource="#dpPantalla"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#grupos">
-    <swb:title xml:lang="es">Grupos Vulnerables</swb:title>
-    <rdf:type rdf:resource="#TemasPrograma"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#transparencia">
-    <swb:title xml:lang="es">Transparencia y Rendición de cuentas</swb:title>
-    <rdf:type rdf:resource="#TemasPrograma"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#Menor_a_1_anio">
-    <swb:title xml:lang="es">Menos de un año</swb:title>
-    <rdf:type rdf:resource="#TiempoRL"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#inGrupo">
-    <swb:propertyCodeName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Grupo</swb:propertyCodeName>
-    <rdfs:range rdf:resource="#Grupo"/>
-    <rdfs:domain rdf:resource="#SubGrupo"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_p02">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">¿Cómo calificas a la persona evaluada en su capacidad para aportar y solicitar sugerencias a los miembros de su equipo sobre la forma de solucionar problemas  lograr los objetivos y mejorar los resultados?</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#capacidad">
-    <rdfs:domain rdf:resource="#Sala"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
-    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:required>
-    <swb:displayProperty rdf:resource="#dpCapacidad"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#observacionesCuestionario">
-    <swb:displayProperty rdf:resource="#dp_observacionesCuestionario"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_reporteResultadosDnc">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#fe_DojoFileUpload"/>
-    <rdfs:label xml:lang="es">Reporte de resultados de DNC</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#cinco_anios">
-    <swb:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">5 años</swb:title>
-    <rdf:type rdf:resource="#TiempoRL"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#TemasPrograma">
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-    <rdfs:label xml:lang="es">Temas de programa estratégico</rdfs:label>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
-    <rdfs:subClassOf rdf:resource="#Catalogo"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#nivel">
-    <rdfs:range rdf:resource="#Nivel"/>
-    <rdfs:domain rdf:resource="#Cuestionario"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-    <swb:displayProperty rdf:resource="#dp_nivel"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_p16">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">¿Cómo calificas a la persona evaluada en su capacidad para monitoriar,  con los integrantes de su equipo, los avances y desviaciones de desempeño del área,  tomando acciones correctivas?</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dpWifi">
-    <rdfs:label xml:lang="es">Tiene internet WiFi</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#BooleanElement_1"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#medio_amb">
-    <swb:title xml:lang="es">Medio Ambiente y Recursos Materiales</swb:title>
-    <rdf:type rdf:resource="#TemasPrograma"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#acuerdos">
-    <swb:displayProperty rdf:resource="#dp_acuerdos"/>
-    <rdfs:domain rdf:resource="#Desempenio"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#orden">
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#requiereGalletas">
-    <rdfs:domain rdf:resource="#ApartadoSala"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <swb:displayProperty rdf:resource="#dp_requiereGalletas"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#tieneProyector">
-    <rdfs:domain rdf:resource="#Sala"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
-    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:required>
-    <swb:displayProperty rdf:resource="#dpProyector"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_requierePersonificadores">
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-    <rdfs:label xml:lang="es">¿Requiere Personificadores?</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#BooleanElement_1"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#poa">
-    <swb:title xml:lang="es">Metas programático presupuestales (POA)</swb:title>
-    <rdf:type rdf:resource="#InstrumentoG"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#nivelGestion">
-    <swb:displayProperty rdf:resource="#dp_nivelGestion"/>
-    <rdfs:domain rdf:resource="#Desempenio"/>
-    <rdfs:range rdf:resource="#TipoNivelGestion"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#motivoReunion">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:domain rdf:resource="#ApartadoSala"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <swb:displayProperty rdf:resource="#dp_motivoReunion"/>
-    <rdfs:label xml:lang="es">Motivo de la reunión</rdfs:label>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_respuestas">
-    <rdfs:label xml:lang="es">Preguntas y respuestas</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#fechaInicio">
-    <rdfs:domain rdf:resource="#ApartadoSala"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
-    <swb:displayProperty rdf:resource="#dp_fechaHoraInicio"/>
-    <swb:notCodeGeneration rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:notCodeGeneration>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_hasRespuestas">
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-    <rdfs:label xml:lang="es">Respuestas</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#SelectMultipleModel"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_nivelGestion">
-    <rdfs:label xml:lang="es">Nivel de gestión</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#sala">
-    <rdfs:domain rdf:resource="#ApartadoSala"/>
-    <rdfs:range rdf:resource="#Sala"/>
-    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:required>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-    <swb:displayProperty rdf:resource="#dp_sala"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#Catalogo">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_requiereProyector">
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-    <rdfs:label xml:lang="es">¿Requiere Proyector?</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#BooleanElement_1"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_p29">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">¿Cómo calificas a la persona evaluada en su capacidad para organizar sus actividades durante el día para dar un buen resultado?</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_anioCuestionario">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">Año cuestionario</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#4toTrimestre">
-    <rdfs:label xml:lang="es">4to Trimestre</rdfs:label>
-    <rdfs:comment xml:lang="es">4to Trimestre</rdfs:comment>
-    <swb:title xml:lang="es">4to Trimestre</swb:title>
-    <rdf:type rdf:resource="#Trimestre"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#programaS">
-    <swb:title xml:lang="es">Programa Sectorial</swb:title>
-    <rdf:type rdf:resource="#InstrumentoG"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#Cuestionario">
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#2doTrimestre">
-    <rdfs:comment xml:lang="es">1er Trimestre</rdfs:comment>
-    <rdfs:label xml:lang="es">1er Trimestre</rdfs:label>
-    <swb:title xml:lang="es">1er Trimestre</swb:title>
-    <rdf:type rdf:resource="#Trimestre"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_reporteResultadosRetro">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#fe_DojoFileUpload"/>
-    <rdfs:label xml:lang="es">Reporte de resultados de retroalimentación</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#nombreSuplente">
-    <swb:displayProperty rdf:resource="#dp_nombreSuplente"/>
-    <rdfs:domain rdf:resource="#Desempenio"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dpMultimedia">
-    <rdfs:label xml:lang="es">Tiene multimedia</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#BooleanElement_1"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_requiereRotafolio">
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-    <rdfs:label xml:lang="es">¿Requiere Rotafolio?</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#BooleanElement_1"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dpPantalla">
-    <rdfs:label xml:lang="es">Tiene pantalla</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#BooleanElement_1"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#poblacion">
-    <swb:title xml:lang="es">Población</swb:title>
-    <rdf:type rdf:resource="#TemasPrograma"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#anio">
-    <rdfs:domain rdf:resource="#Desempenio"/>
-    <swb:displayProperty rdf:resource="#dp_anio"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#participantesOtros">
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
-    <swb:displayProperty rdf:resource="#dp_participantesOtros"/>
-    <swb:notCodeGeneration rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:notCodeGeneration>
-    <rdfs:domain rdf:resource="#ApartadoSala"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#pMinimoaceptable">
-    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:required>
-    <swb:displayProperty rdf:resource="#dp_pMinimo"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:domain rdf:resource="#MetaEvaluacion"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_requiereAgua">
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-    <rdfs:label xml:lang="es">¿Requiere agua?</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#BooleanElement_1"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#CursoEvaluacion">
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
-    <rdfs:label xml:lang="es">Administra los cursos</rdfs:label>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#calificacion">
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <swb:displayProperty rdf:resource="#dp_calificacion"/>
-    <swb:notCodeGeneration rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:notCodeGeneration>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#requierePersonificadores">
-    <rdfs:domain rdf:resource="#ApartadoSala"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <swb:displayProperty rdf:resource="#dp_requierePersonificadores"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#3erTrimeste">
-    <rdfs:label xml:lang="es">3er Trimeste</rdfs:label>
-    <rdfs:comment xml:lang="es">3er Trimeste</rdfs:comment>
-    <swb:title xml:lang="es">3er Trimeste</swb:title>
-    <rdf:type rdf:resource="#Trimestre"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_p10">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">¿Cómo calificas el deempeño de la persona evaluada en cuanto a la motivacion que presenta ante nuevos objetivos de trabajo y retos?</rdfs:label>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#Instrumentog">
-    <swb:displayProperty rdf:resource="#dp_instrumento"/>
+  <rdf:Description rdf:about="#instrumentoG">
+    <swb:displayProperty rdf:resource="#dp_instrumentoG"/>
     <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:required>
     <rdfs:range rdf:resource="#InstrumentoG"/>
     <rdfs:domain rdf:resource="#MetaEvaluacion"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
   </rdf:Description>
-  <rdf:Description rdf:about="#programaR">
-    <swb:title xml:lang="es">Programa Regional</swb:title>
-    <rdf:type rdf:resource="#InstrumentoG"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_cancelaSala">
-    <rdfs:label xml:lang="es">¿Cancela sala?</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+  <rdf:Description rdf:about="#dp_cuestionarioAplicado">
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModelWithBlank"/>
+    <rdfs:label xml:lang="es">Cuestionario aplicado</rdfs:label>
   </rdf:Description>
-  <rdf:Description rdf:about="#dos_anios">
-    <swb:title xml:lang="es">2 años</swb:title>
-    <rdf:type rdf:resource="#TiempoRL"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#medida">
-    <rdfs:domain rdf:resource="#MetaEvaluacion"/>
-    <swb:displayProperty rdf:resource="#dp_medida"/>
-    <rdfs:range rdf:resource="#TipoMedida"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#dp_archivoApartado">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">Archivo apartado</rdfs:label>
+  <rdf:Description rdf:about="#dp_acuerdos">
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">Acuerdos y principales debilidades o necesidades en materia de conocimientos, habilidades, destrezas, o actitudes, que considera deben ser fortalecidas o adquiridas para mejorar el desempeño de la persona evaluada</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextArea_Description"/>
   </rdf:Description>
-  <rdf:Description rdf:about="#requierePodium">
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
-    <rdfs:domain rdf:resource="#ApartadoSala"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <swb:displayProperty rdf:resource="#dp_requierePodium"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#requiereAgua">
-    <rdfs:domain rdf:resource="#ApartadoSala"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <swb:displayProperty rdf:resource="#dp_requiereAgua"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#reglamento">
-    <swb:title xml:lang="es">Reglamento interior</swb:title>
-    <rdf:type rdf:resource="#InstrumentoG"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="#observacion">
-    <swb:displayProperty rdf:resource="#dp_observacion"/>
-    <rdfs:domain rdf:resource="#Cuestionario"/>
+  <rdf:Description rdf:about="#otroApoyo">
+    <swb:displayProperty rdf:resource="#dp_otroApoyo"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#ApartadoSala"/>
   </rdf:Description>
-  <rdf:Description rdf:about="#Trimestre">
+  <rdf:Description rdf:about="#dp_p01">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">¿Cómo calificas a la persona evaluada en cuanto a sus conocimientos en ortografía y redacción para el desempeño de  sus funciones?</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#Otro">
+    <rdf:type rdf:resource="#TipoMedida"/>
+    <swb:title xml:lang="es">Otro</swb:title>
+    <rdfs:label xml:lang="es">Otro</rdfs:label>
+    <rdfs:comment xml:lang="es">Otro</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_p20">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">¿Cómo calificas la capacidad de la persona evaluada para trabajar de forma coordinada con otras personas para lograr los resultados esperados?</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_p15">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">¿Cómo calificas a la persona evaluada en su capacidad para la toma de decisiones oportunas  y asertivas cuidadando los intereses institucionales?</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#programaM">
+    <rdf:type rdf:resource="#InstrumentoG"/>
+    <swb:title xml:lang="es">Programa de Mejora de la Gestión</swb:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="#evaluado">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:range rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#User"/>
+    <swb:displayProperty rdf:resource="#dp_datosEvaluado"/>
+    <rdfs:domain rdf:resource="#Desempenio"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#tienePantalla">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <swb:displayProperty rdf:resource="#dpPantalla"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#Sala"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#grupos">
+    <rdf:type rdf:resource="#TemasPrograma"/>
+    <swb:title xml:lang="es">Grupos Vulnerables</swb:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="#transparencia">
+    <rdf:type rdf:resource="#TemasPrograma"/>
+    <swb:title xml:lang="es">Transparencia y Rendición de cuentas</swb:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="#Menor_a_1_anio">
+    <rdf:type rdf:resource="#TiempoRL"/>
+    <swb:title xml:lang="es">Menos de un año</swb:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="#inGrupo">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="#SubGrupo"/>
+    <rdfs:range rdf:resource="#Grupo"/>
+    <swb:propertyCodeName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Grupo</swb:propertyCodeName>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_p02">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">¿Cómo calificas a la persona evaluada en su capacidad para aportar y solicitar sugerencias a los miembros de su equipo sobre la forma de solucionar problemas  lograr los objetivos y mejorar los resultados?</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#capacidad">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <swb:displayProperty rdf:resource="#dpCapacidad"/>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:required>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:domain rdf:resource="#Sala"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#observacionesCuestionario">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <swb:displayProperty rdf:resource="#dp_observacionesCuestionario"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_reporteResultadosDnc">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">Reporte de resultados de DNC</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#fe_DojoFileUpload"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#cinco_anios">
+    <rdf:type rdf:resource="#TiempoRL"/>
+    <swb:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">5 años</swb:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="#TemasPrograma">
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
     <rdfs:subClassOf rdf:resource="#Catalogo"/>
     <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
+    <rdfs:label xml:lang="es">Temas de programa estratégico</rdfs:label>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
+  </rdf:Description>
+  <rdf:Description rdf:about="#nivel">
+    <swb:displayProperty rdf:resource="#dp_nivel"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="#Cuestionario"/>
+    <rdfs:range rdf:resource="#Nivel"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_p16">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">¿Cómo calificas a la persona evaluada en su capacidad para monitoriar,  con los integrantes de su equipo, los avances y desviaciones de desempeño del área,  tomando acciones correctivas?</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dpWifi">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#BooleanElement_1"/>
+    <rdfs:label xml:lang="es">Tiene internet WiFi</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="#medio_amb">
+    <rdf:type rdf:resource="#TemasPrograma"/>
+    <swb:title xml:lang="es">Medio Ambiente y Recursos Materiales</swb:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="#acuerdos">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Desempenio"/>
+    <swb:displayProperty rdf:resource="#dp_acuerdos"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#orden">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#requiereGalletas">
+    <swb:displayProperty rdf:resource="#dp_requiereGalletas"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#ApartadoSala"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#tieneProyector">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <swb:displayProperty rdf:resource="#dpProyector"/>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:required>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#Sala"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_requierePersonificadores">
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#BooleanElement_1"/>
+    <rdfs:label xml:lang="es">¿Requiere Personificadores?</rdfs:label>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#poa">
+    <rdf:type rdf:resource="#InstrumentoG"/>
+    <swb:title xml:lang="es">Metas programático presupuestales (POA)</swb:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="#nivelGestion">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:range rdf:resource="#TipoNivelGestion"/>
+    <rdfs:domain rdf:resource="#Desempenio"/>
+    <swb:displayProperty rdf:resource="#dp_nivelGestion"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#motivoReunion">
+    <rdfs:label xml:lang="es">Motivo de la reunión</rdfs:label>
+    <swb:displayProperty rdf:resource="#dp_motivoReunion"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#ApartadoSala"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_respuestas">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
+    <rdfs:label xml:lang="es">Preguntas y respuestas</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="#fechaInicio">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <swb:notCodeGeneration rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:notCodeGeneration>
+    <swb:displayProperty rdf:resource="#dp_fechaHoraInicio"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <rdfs:domain rdf:resource="#ApartadoSala"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_hasRespuestas">
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#SelectMultipleModel"/>
+    <rdfs:label xml:lang="es">Respuestas</rdfs:label>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_nivelGestion">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
+    <rdfs:label xml:lang="es">Nivel de gestión</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="#sala">
+    <swb:displayProperty rdf:resource="#dp_sala"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:required>
+    <rdfs:range rdf:resource="#Sala"/>
+    <rdfs:domain rdf:resource="#ApartadoSala"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#Catalogo">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_requiereProyector">
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#BooleanElement_1"/>
+    <rdfs:label xml:lang="es">¿Requiere Proyector?</rdfs:label>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_p29">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">¿Cómo calificas a la persona evaluada en su capacidad para organizar sus actividades durante el día para dar un buen resultado?</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_anioCuestionario">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">Año cuestionario</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#4toTrimestre">
+    <rdf:type rdf:resource="#Trimestre"/>
+    <swb:title xml:lang="es">4to Trimestre</swb:title>
+    <rdfs:comment xml:lang="es">4to Trimestre</rdfs:comment>
+    <rdfs:label xml:lang="es">4to Trimestre</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="#programaS">
+    <rdf:type rdf:resource="#InstrumentoG"/>
+    <swb:title xml:lang="es">Programa Sectorial</swb:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="#Cuestionario">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#2doTrimestre">
+    <rdf:type rdf:resource="#Trimestre"/>
+    <swb:title xml:lang="es">1er Trimestre</swb:title>
+    <rdfs:label xml:lang="es">1er Trimestre</rdfs:label>
+    <rdfs:comment xml:lang="es">1er Trimestre</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_reporteResultadosRetro">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">Reporte de resultados de retroalimentación</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#fe_DojoFileUpload"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#nombreSuplente">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Desempenio"/>
+    <swb:displayProperty rdf:resource="#dp_nombreSuplente"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dpMultimedia">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#BooleanElement_1"/>
+    <rdfs:label xml:lang="es">Tiene multimedia</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_requiereRotafolio">
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#BooleanElement_1"/>
+    <rdfs:label xml:lang="es">¿Requiere Rotafolio?</rdfs:label>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dpPantalla">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#BooleanElement_1"/>
+    <rdfs:label xml:lang="es">Tiene pantalla</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="#poblacion">
+    <rdf:type rdf:resource="#TemasPrograma"/>
+    <swb:title xml:lang="es">Población</swb:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="#anio">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <swb:displayProperty rdf:resource="#dp_anio"/>
+    <rdfs:domain rdf:resource="#Desempenio"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#participantesOtros">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="#ApartadoSala"/>
+    <swb:notCodeGeneration rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:notCodeGeneration>
+    <swb:displayProperty rdf:resource="#dp_participantesOtros"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_requiereAgua">
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#BooleanElement_1"/>
+    <rdfs:label xml:lang="es">¿Requiere agua?</rdfs:label>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#CursoEvaluacion">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
+    <rdfs:label xml:lang="es">Administra los cursos</rdfs:label>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#calificacion">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <swb:notCodeGeneration rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:notCodeGeneration>
+    <swb:displayProperty rdf:resource="#dp_calificacion"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#requierePersonificadores">
+    <swb:displayProperty rdf:resource="#dp_requierePersonificadores"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#ApartadoSala"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#3erTrimeste">
+    <rdf:type rdf:resource="#Trimestre"/>
+    <swb:title xml:lang="es">3er Trimeste</swb:title>
+    <rdfs:comment xml:lang="es">3er Trimeste</rdfs:comment>
+    <rdfs:label xml:lang="es">3er Trimeste</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_p10">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">¿Cómo calificas el deempeño de la persona evaluada en cuanto a la motivacion que presenta ante nuevos objetivos de trabajo y retos?</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#programaR">
+    <rdf:type rdf:resource="#InstrumentoG"/>
+    <swb:title xml:lang="es">Programa Regional</swb:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_cancelaSala">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+    <rdfs:label xml:lang="es">¿Cancela sala?</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dos_anios">
+    <rdf:type rdf:resource="#TiempoRL"/>
+    <swb:title xml:lang="es">2 años</swb:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="#medida">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:range rdf:resource="#TipoMedida"/>
+    <swb:displayProperty rdf:resource="#dp_medida"/>
+    <rdfs:domain rdf:resource="#MetaEvaluacion"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_archivoApartado">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">Archivo apartado</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#requierePodium">
+    <swb:displayProperty rdf:resource="#dp_requierePodium"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="#ApartadoSala"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#requiereAgua">
+    <swb:displayProperty rdf:resource="#dp_requiereAgua"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#ApartadoSala"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#reglamento">
+    <rdf:type rdf:resource="#InstrumentoG"/>
+    <swb:title xml:lang="es">Reglamento interior</swb:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="#observacion">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="#Cuestionario"/>
+    <swb:displayProperty rdf:resource="#dp_observacion"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#Trimestre">
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
+    <rdfs:subClassOf rdf:resource="#Catalogo"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:autogenId>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_observacion">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextArea_Description"/>
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
     <rdfs:label xml:lang="es">Observación</rdfs:label>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextArea_Description"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="#dp_instrumentoG">
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
+    <rdfs:label xml:lang="es">Instrumento de gestión del rendimiento de origen</rdfs:label>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
   </rdf:Description>
   <rdf:Description rdf:about="#extension">
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <swb:displayProperty rdf:resource="#dp_extension"/>
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">extensión telefónica</rdfs:comment>
-    <swb:notCodeGeneration rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:notCodeGeneration>
-    <rdfs:domain rdf:resource="#ApartadoSala"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="#ApartadoSala"/>
+    <swb:notCodeGeneration rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:notCodeGeneration>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">extensión telefónica</rdfs:comment>
+    <swb:displayProperty rdf:resource="#dp_extension"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_folio">
-    <rdfs:label xml:lang="es">Folio</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+    <rdfs:label xml:lang="es">Folio</rdfs:label>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_p11">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">¿Cómo calificas el desempeño de la persona evaluada en cuanto a su habilidad para encontrar soluciones a los obstáculos que arriesgan el cumplimineto de sus metas y objetivos?</rdfs:label>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">¿Cómo calificas el desempeño de la persona evaluada en cuanto a su habilidad para encontrar soluciones a los obstáculos que arriesgan el cumplimineto de sus metas y objetivos?</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
   </rdf:Description>
   <rdf:Description rdf:about="#hasMetas">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-    <rdfs:domain rdf:resource="#Desempenio"/>
-    <swb:displayProperty rdf:resource="#dp_hasMetas"/>
     <rdfs:range rdf:resource="#MetaEvaluacion"/>
+    <swb:displayProperty rdf:resource="#dp_hasMetas"/>
+    <rdfs:domain rdf:resource="#Desempenio"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
   </rdf:Description>
   <rdf:Description rdf:about="#requiereCafe">
-    <rdfs:domain rdf:resource="#ApartadoSala"/>
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Café incluye: crema, azúcar, vasos, cucharas y servilletas</rdfs:comment>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
     <swb:displayProperty rdf:resource="#dp_requiereCafe"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Café incluye: crema, azúcar, vasos, cucharas y servilletas</rdfs:comment>
+    <rdfs:domain rdf:resource="#ApartadoSala"/>
   </rdf:Description>
   <rdf:Description rdf:about="#scoreMax">
-    <rdfs:domain rdf:resource="#Pregunta"/>
-    <rdfs:range rdf:resource="#Score"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:range rdf:resource="#Score"/>
+    <rdfs:domain rdf:resource="#Pregunta"/>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_datosEvaluado">
-    <swbxf:formElement rdf:resource="#Subordinados"/>
-    <rdfs:label xml:lang="es">Datos del evaluado</rdfs:label>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">Datos del evaluado</rdfs:label>
+    <swbxf:formElement rdf:resource="#Subordinados"/>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_sala">
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-    <rdfs:label xml:lang="es">Sala</rdfs:label>
     <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
+    <rdfs:label xml:lang="es">Sala</rdfs:label>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
   </rdf:Description>
   <rdf:Description rdf:about="#reporteMetas">
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <swb:displayProperty rdf:resource="#dp_reporteMetas"/>
-    <rdfs:domain rdf:resource="#EvaluacionDesempenio"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="#EvaluacionDesempenio"/>
+    <swb:displayProperty rdf:resource="#dp_reporteMetas"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_otroApoyo">
-    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Otro apoyo{@es]</rdfs:label>
     <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Otro apoyo{@es]</rdfs:label>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
   </rdf:Description>
   <rdf:Description rdf:about="#un_anio">
-    <swb:title xml:lang="es">1 año</swb:title>
     <rdf:type rdf:resource="#TiempoRL"/>
+    <swb:title xml:lang="es">1 año</swb:title>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_respuestaIdeal">
-    <rdfs:label xml:lang="es">Respuesta ideal</rdfs:label>
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
+    <rdfs:label xml:lang="es">Respuesta ideal</rdfs:label>
   </rdf:Description>
   <rdf:Description rdf:about="#estatuto">
-    <swb:title xml:lang="es">Estatuto Orgánico</swb:title>
     <rdf:type rdf:resource="#InstrumentoG"/>
+    <swb:title xml:lang="es">Estatuto Orgánico</swb:title>
   </rdf:Description>
   <rdf:Description rdf:about="#Subordinados">
-    <rdf:type rdf:resource="#SelectCandidate"/>
-    <swbxf:so_userRepository rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swbxf:so_userRepository>
     <rdfs:label xml:lang="es">Evaluados</rdfs:label>
+    <swbxf:so_userRepository rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swbxf:so_userRepository>
+    <rdf:type rdf:resource="#SelectCandidate"/>
   </rdf:Description>
   <rdf:Description rdf:about="#dp_p12">
-    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
-    <rdfs:label xml:lang="es">¿Cómo calificas a la persona evaluada en su capacidad para aportar y solicitar sugerencias a los miembros de su equipo sobre la forma de solucionar problemas?</rdfs:label>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
+    <rdfs:label xml:lang="es">¿Cómo calificas a la persona evaluada en su capacidad para aportar y solicitar sugerencias a los miembros de su equipo sobre la forma de solucionar problemas?</rdfs:label>
+    <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextBox"/>
   </rdf:Description>
   <rdf:Description rdf:about="#fechaevaluacion">
-    <rdfs:domain rdf:resource="#Desempenio"/>
-    <swb:displayProperty rdf:resource="#dp_fecha"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <swb:displayProperty rdf:resource="#dp_fecha"/>
+    <rdfs:domain rdf:resource="#Desempenio"/>
   </rdf:Description>
   <rdf:Description rdf:about="#reporteResultadosRetro">
-    <swb:displayProperty rdf:resource="#dp_reporteResultadosRetro"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:domain rdf:resource="#EvaluacionDesempenio"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="#EvaluacionDesempenio"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <swb:displayProperty rdf:resource="#dp_reporteResultadosRetro"/>
   </rdf:Description>
 </rdf:RDF>
 
