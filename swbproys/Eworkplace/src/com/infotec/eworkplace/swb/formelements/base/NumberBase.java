@@ -2,14 +2,14 @@ package com.infotec.eworkplace.swb.formelements.base;
 
 
    /**
-   * Text Box to capture number with n digits 
+   * Caja de texto para capturar numero a n digitos 
    */
 public abstract class NumberBase extends org.semanticwb.model.base.FormElementBase 
 {
     public static final org.semanticwb.platform.SemanticProperty intraxf_numberCero=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet/formelements#numberCero");
     public static final org.semanticwb.platform.SemanticProperty intraxf_ndigits=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet/formelements#ndigits");
    /**
-   * Text Box to capture number with n digits
+   * Caja de texto para capturar numero a n digitos
    */
     public static final org.semanticwb.platform.SemanticClass intraxf_Number=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet/formelements#Number");
    /**

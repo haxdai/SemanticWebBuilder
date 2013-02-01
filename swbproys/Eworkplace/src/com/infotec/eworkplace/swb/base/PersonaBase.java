@@ -14,6 +14,7 @@ public abstract class PersonaBase extends org.semanticwb.model.SWBClass
    * Elemento utilizado para almacenar el Municipio en el cual nació la persona
    */
     public static final org.semanticwb.platform.SemanticProperty intranet_lugarNacimiento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#lugarNacimiento");
+    public static final org.semanticwb.platform.SemanticProperty intranet_casado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#casado");
    /**
    * Elemento utilizado para almacenar el Id de Twitter de la persona
    */
@@ -96,6 +97,7 @@ public abstract class PersonaBase extends org.semanticwb.model.SWBClass
    * Elemento utilizado para almacenar el género del usuario
    */
     public static final org.semanticwb.platform.SemanticProperty intranet_genero=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#genero");
+    public static final org.semanticwb.platform.SemanticProperty intranet_hijos=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hijos");
    /**
    * Indica si la persona tiene FM2 vigente, si es el caso
    */
@@ -395,6 +397,24 @@ public abstract class PersonaBase extends org.semanticwb.model.SWBClass
              ret=(com.infotec.cvi.swb.Municipio)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the Casado property
+* @return boolean with the Casado
+*/
+    public boolean isCasado()
+    {
+        return getSemanticObject().getBooleanProperty(intranet_casado);
+    }
+
+/**
+* Sets the Casado property
+* @param value long with the Casado
+*/
+    public void setCasado(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(intranet_casado, value);
     }
 
 /**
@@ -866,6 +886,24 @@ public abstract class PersonaBase extends org.semanticwb.model.SWBClass
     public void setGenero(boolean value)
     {
         getSemanticObject().setBooleanProperty(intranet_genero, value);
+    }
+
+/**
+* Gets the Hijos property
+* @return boolean with the Hijos
+*/
+    public boolean isHijos()
+    {
+        return getSemanticObject().getBooleanProperty(intranet_hijos);
+    }
+
+/**
+* Sets the Hijos property
+* @param value long with the Hijos
+*/
+    public void setHijos(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(intranet_hijos, value);
     }
 
 /**
