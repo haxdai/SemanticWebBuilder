@@ -4,6 +4,7 @@ package com.infotec.eworkplace.swb.base;
 public abstract class FamiliaBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Telefoneable
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_direccion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#direccion");
+    public static final org.semanticwb.platform.SemanticProperty intranet_fechaNacimiento=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaNacimiento");
     public static final org.semanticwb.platform.SemanticProperty intranet_parentesco=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#parentesco");
     public static final org.semanticwb.platform.SemanticProperty intranet_nombre=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#nombre");
     public static final org.semanticwb.platform.SemanticClass intranet_Familia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Familia");
@@ -136,6 +137,24 @@ public abstract class FamiliaBase extends org.semanticwb.model.SWBClass implemen
     public void setDireccion(String value)
     {
         getSemanticObject().setProperty(intranet_direccion, value);
+    }
+
+/**
+* Gets the Nacimiento property
+* @return java.util.Date with the Nacimiento
+*/
+    public java.util.Date getNacimiento()
+    {
+        return getSemanticObject().getDateProperty(intranet_fechaNacimiento);
+    }
+
+/**
+* Sets the Nacimiento property
+* @param value long with the Nacimiento
+*/
+    public void setNacimiento(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(intranet_fechaNacimiento, value);
     }
 
 /**

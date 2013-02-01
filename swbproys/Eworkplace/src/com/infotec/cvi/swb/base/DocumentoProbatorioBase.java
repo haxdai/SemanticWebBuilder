@@ -4,7 +4,7 @@ package com.infotec.cvi.swb.base;
    /**
    * Elemento utilizado para guardar los Documentos Probatorios que respalda la información del CV capturada por el usuario 
    */
-public abstract class DocumentoProbatorioBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Iconable,org.semanticwb.model.Traceable
+public abstract class DocumentoProbatorioBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Iconable
 {
    /**
    * Almacena el nombre del archivo electrónico PDF de la Justificación Técnica

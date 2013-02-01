@@ -2,17 +2,17 @@ package com.infotec.eworkplace.swb.formelements.base;
 
 
    /**
-   * Currency text box, the data is stored as decimal 
+   * Caja de texto para capturar moneda, guarda el valor como decimal 
    */
 public abstract class CurrencyBase extends org.semanticwb.model.base.FormElementBase 
 {
-    public static final org.semanticwb.platform.SemanticProperty intraxf_currencyCero=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet/formelements#currencyCero");
    /**
    * Formato a usar para capturar moneda, no tiene limitante
    */
     public static final org.semanticwb.platform.SemanticProperty intraxf_format=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet/formelements#format");
+    public static final org.semanticwb.platform.SemanticProperty intraxf_currencyCero=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet/formelements#currencyCero");
    /**
-   * Currency text box, the data is stored as decimal
+   * Caja de texto para capturar moneda, guarda el valor como decimal
    */
     public static final org.semanticwb.platform.SemanticClass intraxf_Currency=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet/formelements#Currency");
    /**
@@ -100,24 +100,6 @@ public abstract class CurrencyBase extends org.semanticwb.model.base.FormElement
     }
 
 /**
-* Gets the CurrencyCero property
-* @return boolean with the CurrencyCero
-*/
-    public boolean isCurrencyCero()
-    {
-        return getSemanticObject().getBooleanProperty(intraxf_currencyCero);
-    }
-
-/**
-* Sets the CurrencyCero property
-* @param value long with the CurrencyCero
-*/
-    public void setCurrencyCero(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(intraxf_currencyCero, value);
-    }
-
-/**
 * Gets the Format property
 * @return String with the Format
 */
@@ -133,6 +115,24 @@ public abstract class CurrencyBase extends org.semanticwb.model.base.FormElement
     public void setFormat(String value)
     {
         getSemanticObject().setProperty(intraxf_format, value);
+    }
+
+/**
+* Gets the CurrencyCero property
+* @return boolean with the CurrencyCero
+*/
+    public boolean isCurrencyCero()
+    {
+        return getSemanticObject().getBooleanProperty(intraxf_currencyCero);
+    }
+
+/**
+* Sets the CurrencyCero property
+* @param value long with the CurrencyCero
+*/
+    public void setCurrencyCero(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(intraxf_currencyCero, value);
     }
 
     public void remove()
