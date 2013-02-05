@@ -90,7 +90,7 @@
     }*/
     function isValidThisEmail(){
         var valid=false;
-        var email = dijit.byId( "email" );
+        var email = dijit.byId( "email2" );
         var strEmail = email.getValue();
         if(strEmail!=""){
             //alert(strEmail);
@@ -125,11 +125,20 @@
         return valid;
     }
 
+    function isValidPass() {
+        var valid = false;
+        var passwd = dijit.byId("passwd").getValue();
+        var login = dijit.byId( "login" ).getValue();
+        if(!isEmpty(passwd) && passwd!=login){
+            valid = true;
+        }
+        return valid;
+    }
     function isSamePass() {
         var valid = false;
         var passwd = dijit.byId("passwd").getValue();
         var cpasswd = dijit.byId( "cpasswd" ).getValue();
-        console.log('ps1='+passwd+', ps2='+cpasswd+', e1='+isEmpty(passwd)+', e2='+isEmpty(cpasswd));
+//console.log('ps1='+passwd+', ps2='+cpasswd+', e1='+isEmpty(passwd)+', e2='+isEmpty(cpasswd));
         if(!isEmpty(passwd) && !isEmpty(cpasswd) && passwd==cpasswd){
             valid = true;
         }
@@ -152,7 +161,7 @@
                 (dayobj.getDate()==dayField)&&
                 (dayobj.getFullYear()==yearField)&&
                 (dayobj.getFullYear()>1900)&&
-                (dayobj.getFullYear()<today.getFullYear())){
+                (dayobj<today)){
                 valid=true;
             }
         }
@@ -181,7 +190,7 @@
             <div class="icv-div-grupo">
                 <p class="icv-3col">
                     <label for="email"><b>*</b><%=paramRequest.getLocaleString("lblEmail")%></label>
-                    <input type="text" name="email" id="email" dojoType="dijit.form.ValidationTextBox" value="<%=email%>" maxlength="60" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgEmail")%>" invalidMessage="<%=paramRequest.getLocaleString("lblEmailFault")%>" isValid="return isValidThisEmail()" trim="true"/>
+                    <input type="text" name="email" id="email2" dojoType="dijit.form.ValidationTextBox" value="<%=email%>" maxlength="60" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgEmail")%>" invalidMessage="<%=paramRequest.getLocaleString("lblEmailFault")%>" isValid="return isValidThisEmail()" trim="true"/>
                 </p>
                 <p class="icv-3col">
                     <label for="birthday"><b>*</b><%=paramRequest.getLocaleString("lblBirthday")%></label>
@@ -196,11 +205,11 @@
                 </p>
                 <p class="icv-3col">
                     <label for="passwd"><b>*</b><%=paramRequest.getLocaleString("lblPassword")%></label>
-                    <input type="password" name="passwd" id="passwd" dojoType="dijit.form.ValidationTextBox" value="" maxlength="12" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgPassword")%>" invalidMessage="<%=paramRequest.getLocaleString("lblPasswordFault")%>" trim="true" />
+                    <input type="password" name="passwd" id="passwd" dojoType="dijit.form.ValidationTextBox" value="" maxlength="12" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgPassword")%>" invalidMessage="<%=paramRequest.getLocaleString("lblPasswordFault")%>" isValid="return isValidPass();" trim="true" />
                 </p>
                 <p class="icv-3col">
                     <label for="cpasswd"><b>*</b><%=paramRequest.getLocaleString("lblPasswordConfirm")%></label>
-                    <input type="password" name="cpasswd" id="cpasswd" dojoType="dijit.form.ValidationTextBox" value="" maxlength="12" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgPasswordConfirm")%>" invalidMessage="<%=paramRequest.getLocaleString("lblPasswordConfirmFault")%>"   isValid="return isSamePass();" trim="true" />
+                    <input type="password" name="cpasswd" id="cpasswd" dojoType="dijit.form.ValidationTextBox" value="" maxlength="12" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgPasswordConfirm")%>" invalidMessage="<%=paramRequest.getLocaleString("lblPasswordConfirmFault")%>"  isValid="return isSamePass();" trim="true" />
                 </p>
                 <div class="clearer">&nbsp;</div>
             </div>
