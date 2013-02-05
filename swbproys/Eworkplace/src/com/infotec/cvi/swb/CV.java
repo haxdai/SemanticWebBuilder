@@ -421,7 +421,8 @@ public class CV extends com.infotec.cvi.swb.base.CVBase
                         element.appendChild(dom.createTextNode(el.getEmpresa()));
                         eleLaboral.appendChild(element);
                         element = dom.createElement("inicio");
-                        element.appendChild(dom.createTextNode(sdf.format(el.getFechaIni())));
+                        String fini = el.getFechaIni()!=null?sdf.format(el.getFechaIni()):"";
+                        element.appendChild(dom.createTextNode(fini));
                         eleLaboral.appendChild(element);
                         element = dom.createElement("fin");
                         String ffin = el.getFechaFin()!=null?sdf.format(el.getFechaFin()):"";
