@@ -2,7 +2,8 @@
 Document   : userData
 Created on : 31/01/2012, 06:54:51 PM
 Author     : rene.jara
---%><%@page import="com.infotec.cvi.swb.CV"%>
+--%><%@page import="org.semanticwb.model.SWBComparator"%>
+<%@page import="com.infotec.cvi.swb.CV"%>
 <%@page import="com.infotec.cvi.swb.resources.UserPersonalData"%>
 <%@page import="com.infotec.cvi.swb.EntidadFederativa"%>
 <%@page import="com.infotec.cvi.swb.Municipio"%>
@@ -459,7 +460,8 @@ objf.setAttribute('displayed', 'on');
                     <label for="state"><%=paramRequest.getLocaleString("lblState")%></label>
                     <select name="state" id="state" dojoType="dijit.form.FilteringSelect" required="false" promptMessage=""<%=paramRequest.getLocaleString("promptMsgState")%>">
                             <%
-                                        Iterator<EntidadFederativa> iten = EntidadFederativa.ClassMgr.listEntidadFederativas(ws);
+                                        //Iterator<EntidadFederativa> iten = EntidadFederativa.ClassMgr.listEntidadFederativas(ws);
+                                        Iterator<EntidadFederativa> iten = SWBComparator.sortByDisplayName(EntidadFederativa.ClassMgr.listEntidadFederativas(ws),user.getLanguage());
                                         while (iten.hasNext()) {
                                             EntidadFederativa entidadFederativa = iten.next();%>
                             <option value="<%=entidadFederativa.getId()%>" <%=entidadFederativa.getId().equals(state) ? "selected" : ""%>><%=entidadFederativa.getTitle()%></option>
@@ -475,11 +477,17 @@ objf.setAttribute('displayed', 'on');
                     <label for="nationality"><%=paramRequest.getLocaleString("lblNationality")%></label>
                     <select name="nationality" id="nationality" dojoType="dijit.form.FilteringSelect" required="false" onchange="validateFM2()">
                         <option value="" ><%=paramRequest.getLocaleString("promptMsgNationality")%></option>
-                        <% Iterator<Country> itc = Country.ClassMgr.listCountries(ws);
+                        <% 
+                        //Iterator<Country> itc = Country.ClassMgr.listCountries(ws);
+                        Iterator<Country> itc = SWBComparator.sortByDisplayName(Country.ClassMgr.listCountries(ws),user.getLanguage());
+%>
+                        <option value="mx" <%="mx".equals(nationality) ? "selected" : ""%>>México</option>
+<%
                                     while (itc.hasNext()) {
-                                        Country country = itc.next();%>
+                                        Country country = itc.next();
+                                        if(!country.getId().equals("mx")){ %>
                         <option value="<%=country.getId()%>" <%=country.getId().equals(nationality) ? "selected" : ""%>><%=country.getTitle()%></option>
-                        <%
+                        <%              }
                                     }
                         %>
                     </select>
@@ -574,11 +582,19 @@ objf.setAttribute('displayed', 'on');
                 <p class="icv-3col">
                     <label for="addrCountry">País</label>
                     <select name="addrCountry" id="addrCountry" dojoType="dijit.form.FilteringSelect" required="false" promptMessage="<%=paramRequest.getLocaleString("promptMsgAddrCountry")%>" onchange_="validateAddrCountry()">
-                        <% Iterator<Country> itac = Country.ClassMgr.listCountries(ws);
+                        <% 
+                            //Iterator<Country> itac = Country.ClassMgr.listCountries(ws);
+                        Iterator<Country> itac = SWBComparator.sortByDisplayName(Country.ClassMgr.listCountries(ws),user.getLanguage());
+%>
+                        <option value="mx" <%="mx".equals(addrCountry) ? "selected" : ""%>>México</option>
+<%
                                     while (itac.hasNext()) {
-                                        Country country = itac.next();%>
+                                        Country country = itac.next();
+                                        if(!country.getId().equals("mx")){
+                                        %>
                         <option value="<%=country.getId()%>" <%=country.getId().equals(addrCountry) ? "selected" : ""%>><%=country.getTitle()%></option>
                         <%
+                                        }
                                     }
                         %>
                     </select>
