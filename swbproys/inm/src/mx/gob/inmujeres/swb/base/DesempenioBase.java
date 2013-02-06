@@ -14,6 +14,7 @@ public abstract class DesempenioBase extends org.semanticwb.model.SWBClass imple
     public static final org.semanticwb.platform.SemanticProperty inm_nivelGestion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#nivelGestion");
     public static final org.semanticwb.platform.SemanticClass inm_MetaEvaluacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#MetaEvaluacion");
     public static final org.semanticwb.platform.SemanticProperty inm_hasMetas=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#hasMetas");
+    public static final org.semanticwb.platform.SemanticClass inm_TiempoRL=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#TiempoRL");
     public static final org.semanticwb.platform.SemanticProperty inm_tiempoRelacionLaboral=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#tiempoRelacionLaboral");
     public static final org.semanticwb.platform.SemanticProperty inm_evaluador=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#evaluador");
     public static final org.semanticwb.platform.SemanticProperty inm_motivo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#motivo");
@@ -191,6 +192,29 @@ public abstract class DesempenioBase extends org.semanticwb.model.SWBClass imple
         public static java.util.Iterator<mx.gob.inmujeres.swb.Desempenio> listDesempenioByMetas(mx.gob.inmujeres.swb.MetaEvaluacion value)
         {
             org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Desempenio> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_hasMetas,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all mx.gob.inmujeres.swb.Desempenio with a determined TiempoRelacionLaboral
+       * @param value TiempoRelacionLaboral of the type mx.gob.inmujeres.swb.TiempoRL
+       * @param model Model of the mx.gob.inmujeres.swb.Desempenio
+       * @return Iterator with all the mx.gob.inmujeres.swb.Desempenio
+       */
+
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Desempenio> listDesempenioByTiempoRelacionLaboral(mx.gob.inmujeres.swb.TiempoRL value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Desempenio> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(inm_tiempoRelacionLaboral, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all mx.gob.inmujeres.swb.Desempenio with a determined TiempoRelacionLaboral
+       * @param value TiempoRelacionLaboral of the type mx.gob.inmujeres.swb.TiempoRL
+       * @return Iterator with all the mx.gob.inmujeres.swb.Desempenio
+       */
+
+        public static java.util.Iterator<mx.gob.inmujeres.swb.Desempenio> listDesempenioByTiempoRelacionLaboral(mx.gob.inmujeres.swb.TiempoRL value)
+        {
+            org.semanticwb.model.GenericIterator<mx.gob.inmujeres.swb.Desempenio> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(inm_tiempoRelacionLaboral,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -584,23 +608,43 @@ public abstract class DesempenioBase extends org.semanticwb.model.SWBClass imple
          }
          return ret;
     }
+   /**
+   * Sets the value for the property TiempoRelacionLaboral
+   * @param value TiempoRelacionLaboral to set
+   */
 
-/**
-* Gets the TiempoRelacionLaboral property
-* @return String with the TiempoRelacionLaboral
-*/
-    public String getTiempoRelacionLaboral()
+    public void setTiempoRelacionLaboral(mx.gob.inmujeres.swb.TiempoRL value)
     {
-        return getSemanticObject().getProperty(inm_tiempoRelacionLaboral);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(inm_tiempoRelacionLaboral, value.getSemanticObject());
+        }else
+        {
+            removeTiempoRelacionLaboral();
+        }
+    }
+   /**
+   * Remove the value for TiempoRelacionLaboral property
+   */
+
+    public void removeTiempoRelacionLaboral()
+    {
+        getSemanticObject().removeProperty(inm_tiempoRelacionLaboral);
     }
 
-/**
-* Sets the TiempoRelacionLaboral property
-* @param value long with the TiempoRelacionLaboral
-*/
-    public void setTiempoRelacionLaboral(String value)
+   /**
+   * Gets the TiempoRelacionLaboral
+   * @return a mx.gob.inmujeres.swb.TiempoRL
+   */
+    public mx.gob.inmujeres.swb.TiempoRL getTiempoRelacionLaboral()
     {
-        getSemanticObject().setProperty(inm_tiempoRelacionLaboral, value);
+         mx.gob.inmujeres.swb.TiempoRL ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(inm_tiempoRelacionLaboral);
+         if(obj!=null)
+         {
+             ret=(mx.gob.inmujeres.swb.TiempoRL)obj.createGenericInstance();
+         }
+         return ret;
     }
    /**
    * Sets the value for the property Evaluador
