@@ -12,6 +12,7 @@ import com.infotec.cvi.swb.EntidadFederativa;
 import com.infotec.cvi.swb.Municipio;
 import com.infotec.cvi.swb.base.CVBase;
 import com.infotec.eworkplace.swb.Domicilio;
+import com.infotec.eworkplace.swb.Familia;
 import com.infotec.eworkplace.swb.Persona;
 import com.infotec.eworkplace.swb.Telefono;
 import java.io.*;
@@ -54,6 +55,7 @@ public class UserPersonalData extends GenericAdmResource {
         WebSite ws = wp.getWebSite();
         UserRepository ur = ws.getUserRepository();
         Resource base = getResourceBase();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         if (response.Action_ADD.equals(action) && user.isSigned()) {
             try {
                 boolean complete = true;
@@ -65,8 +67,7 @@ public class UserPersonalData extends GenericAdmResource {
                 Date birthday = null;
                 String strBirthday = request.getParameter("birthday");
                 if (strBirthday != null && !strBirthday.equals("")) {
-                    try {
-                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                    try {                        
                         birthday = sdf.parse(strBirthday);
                     } catch (ParseException ignoredException) {
                     }
@@ -85,6 +86,9 @@ public class UserPersonalData extends GenericAdmResource {
                 String email = request.getParameter("email");
                 String sLabor = request.getParameter("sLabor");
                 String availability = request.getParameter("availability");
+
+                String marital=request.getParameter("marital");;
+                String hasChild=request.getParameter("hasChild");;
 
                 String addrStreet = request.getParameter("addrStreet");
                 String addrNumI = request.getParameter("addrNumI");
@@ -165,9 +169,6 @@ public class UserPersonalData extends GenericAdmResource {
                     }
                 }
 
-
-
-
                 if (curp != null && !curp.equals("") && curp.matches("[a-zA-Z]{4}\\d{6}[a-zA-Z]{6}\\d{2}")) {
                     persona.setCurp(curp);
                 } else {
@@ -200,6 +201,28 @@ public class UserPersonalData extends GenericAdmResource {
                     persona.setFM2(true);
                 } else {
                     persona.setFM2(false);
+                }
+                if (marital.equals("y")) {
+                    persona.setCasado(true);
+                } else if (marital.equals("n")) {
+                    persona.setCasado(false);
+                } else {
+                    complete = false;
+                }
+                if (hasChild.equals("y")) {
+                    persona.setHijos(true);
+                } else if (hasChild.equals("n")) {
+                    persona.setHijos(false);
+                    Iterator<Familia> itf = persona.listFamilias();
+                    while (itf.hasNext()) {
+                        Familia familia = itf.next();
+                        if (familia.getParentesco().equals("son")) {
+                            persona.removeFamilia(familia);
+                            familia.remove();
+                        }
+                    }
+                } else {
+                    complete = false;
                 }
                 Domicilio domicilio = persona.getDomicilio();
                 if (domicilio == null) {
@@ -255,7 +278,7 @@ public class UserPersonalData extends GenericAdmResource {
                 int phoneCount = 0;
                 while (params.hasMoreElements()) {
                     String param = params.nextElement();
-                    if (param.startsWith("phoneNum")) {
+                     if (param.startsWith("phoneNum")) {
                         String phoneId = param.substring(8);
                         int phoneNum = 0;
                         int phoneLada = 0;
@@ -289,6 +312,39 @@ public class UserPersonalData extends GenericAdmResource {
                                         telefono.setTipo(phoneType);
                                     } else {
                                         persona.removeTelefono(telefono);
+                                    }
+                                }
+                            }
+                        }
+                    } else if (param.startsWith("childName")&&persona.isHijos()) {
+                        String childId = param.substring(9);
+                        String childName = request.getParameter("childName" + childId).trim();
+                        String strChildBirth = request.getParameter("childBirth" + childId);
+                        Date childBirth = null;
+                        if (strChildBirth != null && !strChildBirth.equals("")) {
+                            try {
+                                childBirth = sdf.parse(strChildBirth);
+                                } catch (ParseException ignoredException) {
+                            }
+                        }
+                        if (childId.startsWith("_") && !childName.equals("")) {
+                            Familia familia = Familia.ClassMgr.createFamilia(ws);
+                            familia.setNombre(childName);
+                            familia.setNacimiento(childBirth);
+                            familia.setParentesco("son");
+                            persona.addFamilia(familia);
+                        } else if (!childId.startsWith("_")) {
+                            Iterator<Familia> itf = persona.listFamilias();
+                            while (itf.hasNext()) {
+                                Familia familia = itf.next();
+                                if (familia.getId().equals(childId)) {
+                                    if (!childName.equals("")) {
+                                        familia.setNombre(childName);
+                                        familia.setNacimiento(childBirth);
+                                        familia.setParentesco("son");
+                                    } else {
+                                        persona.removeFamilia(familia);
+                                        familia.remove();
                                     }
                                 }
                             }
