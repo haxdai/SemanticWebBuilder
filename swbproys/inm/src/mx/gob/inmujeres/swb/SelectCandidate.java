@@ -62,12 +62,12 @@ public class SelectCandidate extends mx.gob.inmujeres.swb.base.SelectCandidateBa
         while (values.hasNext())
         {
             EvaluacionDesempenio evaluacionDesempenio = values.next();
-            //if (evaluacionDesempenio.isValid())
+            if (evaluacionDesempenio.isValid())
             {
                 
                 
                 Desempenio desempenio = evaluacionDesempenio.getDesempeño();
-                if (desempenio != null)
+                if (desempenio != null && desempenio.isValid())
                 {
                     System.out.println("desempeño encontrado");
                     if (evaluador.equals(desempenio.getEvaluador()) && evaluado.equals(desempenio.getEvaluado()) && anio == desempenio.getAnio())
@@ -96,6 +96,7 @@ public class SelectCandidate extends mx.gob.inmujeres.swb.base.SelectCandidateBa
         User evaluador = SWBContext.getSessionUser();
 
         String login = evaluador.getLogin();
+        //login += "@inmujeres.local";
         Autentificacion aut = new Autentificacion();
         List<UserSubordinado> subordinados = aut.getSubordinados(login);
 
