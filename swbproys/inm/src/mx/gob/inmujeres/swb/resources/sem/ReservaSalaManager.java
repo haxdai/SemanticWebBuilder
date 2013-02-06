@@ -3,7 +3,6 @@ package mx.gob.inmujeres.swb.resources.sem;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -58,6 +57,8 @@ public class ReservaSalaManager extends mx.gob.inmujeres.swb.resources.sem.base.
     public static final int QUORUM = 5;
     public static final int START_HOUR = 7; // 07:00 hrs
     public static final int START_MIN = 420; // 07:00 hrs en minutos
+    
+    private static IconClass iconClass = IconClass.u;
         
     public ReservaSalaManager() {
     }
@@ -238,6 +239,7 @@ System.out.println("action="+action);
             if(!sala.isReservada(csd, cfd)) {
                 ApartadoSala reservation = ApartadoSala.ClassMgr.createApartadoSala(model);
                 reservation.setSala(sala);
+                reservation.setIconClass(getIconClass());
                 reservation.setFechaInicio(csd.getTime());
                 reservation.setFechaFin(cfd.getTime());
                 reservation.setTitle(mtv);                
@@ -1155,5 +1157,38 @@ System.out.println("----------------------");
             }
         }
         return ret;
+    }
+    
+    private synchronized static String getIconClass() {
+        iconClass = iconClass.next();
+        return iconClass.getDesc();
+    }
+    
+    enum IconClass {
+        u("u"),
+        v("v"),
+        w("w"),
+        x("x"),
+        y("y"),
+        z("z");
+        private String desc;
+        IconClass(String desc) {
+            this.desc = desc;
+        }
+        String getDesc() {
+            return desc;
+        }
+        IconClass next() {
+            switch(this) {
+                case u: return v;
+                case v: return w;
+                case w: return x;
+                case x: return y;
+                case y: return z;
+                case z: return x;
+                default: return x;
+            }
+        }
+        
     }
 }
