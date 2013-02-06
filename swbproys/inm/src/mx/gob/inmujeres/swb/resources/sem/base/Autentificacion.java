@@ -13,6 +13,7 @@ import java.util.Properties;
 import javax.naming.Context;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
+import javax.naming.PartialResultException;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchControls;
@@ -129,6 +130,7 @@ public class Autentificacion
         try {
             dir = AuthenticateLP();
             String cn = getCNFromLogin(login);
+            
             NamingEnumeration<SearchResult> answers = null;
             SearchControls ctls = new SearchControls();
             ctls.setReturningAttributes(new String[]{
@@ -165,7 +167,12 @@ public class Autentificacion
 
                 }
             }
-        } catch (Exception e) {
+        }
+        catch(PartialResultException pne)
+        {
+            //log.debug(pne);
+        }
+        catch (Exception e) {
             log.error(e);
         } finally {
             try {
@@ -198,7 +205,12 @@ public class Autentificacion
             String name = props.getProperty("base", BASE);
             answers = dir.search(name, "(&(objectClass=" + userObjectClass + ")(" + seekField + "=" + login + "))", ctls);
             return ((SearchResult) answers.next()).getName() + "," + props.getProperty("base", BASE);
-        } catch (Exception e) {
+             
+        } 
+        catch (PartialResultException ue) {
+            //log.debug(ue);
+        }
+        catch (Exception e) {
             log.error(e);
         } finally {
             if (dir != null) {
@@ -213,7 +225,7 @@ public class Autentificacion
     }
 
  public static void main(String args[]) throws IOException {
-        String login = "jaki";
+        String login = "oscar.gutierrez";
 
 
         Autentificacion i = new Autentificacion();
