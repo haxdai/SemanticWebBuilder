@@ -242,7 +242,7 @@ System.out.println("action="+action);
                 reservation.setIconClass(getIconClass());
                 reservation.setFechaInicio(csd.getTime());
                 reservation.setFechaFin(cfd.getTime());
-                reservation.setTitle(mtv);                
+                reservation.setTitle(mtv);
                 reservation.setDescription(mtv);
                 reservation.setMotivoReunion(mtv);
                 if(Montaje.ClassMgr.hasMontaje(request.getParameter("mnt"), model))
