@@ -6,6 +6,7 @@ package mx.gob.inmujeres.swb.resources;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Iterator;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
@@ -70,18 +71,31 @@ public class Reportes extends GenericResource
             Autentificacion aut = new Autentificacion();
             WebSite site = paramRequest.getWebPage().getWebSite();
             User user = site.getUserRepository().getUser(iduser);
+            
             List<UserSubordinado> subordinados = aut.getSubordinados(user.getLogin());
             
             
             for (UserSubordinado idUser : subordinados)
             {
                 String login = idUser.getLogin();
-                User subordinado = site.getUserRepository().getUserByLogin(login);
+                //User subordinado = site.getUserRepository().getUserByLogin(login);
+                User subordinado=null;
+                Iterator<User> users=site.getUserRepository().listUsers();
+                while(users.hasNext())
+                {
+                    User _user=users.next();
+                    if(login.equals(_user.getLogin()))
+                    {
+                        subordinado=_user;
+                        break;
+                    }
+                }
                 if (subordinado != null)
                 {
                     out.println("<option value=\""+ subordinado.getId() +"\">"+ subordinado.getFullName() +"</option>");
                 }
             }
+            
         }
         out.println("</select>");
         //out.close();
