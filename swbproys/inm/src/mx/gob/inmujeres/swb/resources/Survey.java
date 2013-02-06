@@ -583,7 +583,7 @@ public class Survey extends GenericResource
 
     private void addRespuestas(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
     {
-        WebSite site = response.getWebPage().getWebSite();
+        final WebSite site = response.getWebPage().getWebSite();
         String login = request.getParameter("evaluado");
         User evaluador = response.getUser();
         User evaluado = site.getUserRepository().getUserByLogin(login);
@@ -682,7 +682,7 @@ public class Survey extends GenericResource
 
 
         // guarda resultados despues de la validación
-        int iAnio = Calendar.getInstance().get(Calendar.YEAR);
+        //int iAnio = Calendar.getInstance().get(Calendar.YEAR);
         String anio = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
         String id = evaluado.getId() + "_" + evaluador.getId() + "_" + anio;
         if (EvaluacionCuestionario.ClassMgr.hasEvaluacionCuestionario(id, site))
@@ -713,24 +713,24 @@ public class Survey extends GenericResource
         }
 
         response.setRenderParameter("suri", suri);
-        EvaluacionCuestionario cuestionario = EvaluacionCuestionario.ClassMgr.createEvaluacionCuestionario(id, site);
-        if (desempenio != null)
-        {
-            desempenio.setCuestionarioAplicado(cuestionario);
-        }
-        else
+        if (desempenio == null)
         {
             response.setRenderParameter("error", "No se encontro el objeto desempenio asociado al evaluador, evaludo y año");
             response.setMode(Survey.MODE_ERROR);
             return;
         }
+        EvaluacionCuestionario cuestionario = EvaluacionCuestionario.ClassMgr.createEvaluacionCuestionario(id, site);
+        desempenio.setCuestionarioAplicado(cuestionario);
+
+
 //        cuestionario.setEvaluado(evaluado);
 //        cuestionario.setEvaluador(evaluador);
 //        cuestionario.setFechaevaluacion(new Date());
         for (String idPregunta : respuestas.keySet())
         {
             String idScore = respuestas.get(idPregunta);
-            Respuesta respuesta = Respuesta.ClassMgr.createRespuesta(idPregunta, site);
+            String idPreguntaStored = idPregunta + "_" + evaluado.getId() + "_ " + evaluador.getId() + "_" + anio;
+            Respuesta respuesta = Respuesta.ClassMgr.createRespuesta(idPreguntaStored, site);
             Pregunta pregunta = Pregunta.ClassMgr.getPregunta(idPregunta, site);
             respuesta.setPregunta(pregunta);
             Score score = getScore(idScore, site);
@@ -764,14 +764,14 @@ public class Survey extends GenericResource
     public void finish(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
         String suri = request.getParameter("suri");
-        
+
         FlowNodeInstance foi = null;
         if (suri != null && !suri.equals(""))
         {
 
             SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
             foi = (FlowNodeInstance) ont.getGenericObject(suri);
-            foi.close(paramRequest.getUser(),ProcessInstance.ACTION_ACCEPT);
+            foi.close(paramRequest.getUser(), ProcessInstance.ACTION_ACCEPT);
             /*ProcessInstance pInstance = foi.getProcessInstance();
             pInstance.close(paramRequest.getUser(), ProcessInstance.ACTION_ACCEPT);*/
             String redirect = null;
@@ -835,7 +835,7 @@ public class Survey extends GenericResource
             addScore(request, response);
         }
 
-        
+
 
         if (request.getParameter("uri") != null && !"".equalsIgnoreCase(request.getParameter("uri").trim()))
         {
