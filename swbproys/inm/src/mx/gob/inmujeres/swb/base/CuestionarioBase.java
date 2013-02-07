@@ -7,7 +7,6 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
     public static final org.semanticwb.platform.SemanticProperty inm_nivel=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#nivel");
     public static final org.semanticwb.platform.SemanticClass inm_Pregunta=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#Pregunta");
     public static final org.semanticwb.platform.SemanticProperty inm_hasPreguntas=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#hasPreguntas");
-    public static final org.semanticwb.platform.SemanticProperty inm_observacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#observacion");
     public static final org.semanticwb.platform.SemanticClass inm_Cuestionario=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#Cuestionario");
    /**
    * The semantic class that represents the currentObject
@@ -437,24 +436,6 @@ public abstract class CuestionarioBase extends org.semanticwb.model.SWBClass imp
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
          }
          return ret;
-    }
-
-/**
-* Gets the Observacion property
-* @return String with the Observacion
-*/
-    public String getObservacion()
-    {
-        return getSemanticObject().getProperty(inm_observacion);
-    }
-
-/**
-* Sets the Observacion property
-* @param value long with the Observacion
-*/
-    public void setObservacion(String value)
-    {
-        getSemanticObject().setProperty(inm_observacion, value);
     }
 
 /**
