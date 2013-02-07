@@ -398,6 +398,7 @@ public class Survey extends GenericResource
         String groupoPregunta = request.getParameter("groupoPregunta");
         String sgroupoPregunta = request.getParameter("sgroupoPregunta");
         String pregunta = request.getParameter("pregunta");
+
         String[] niveles = request.getParameterValues("niveles");
         if (groupoPregunta != null && sgroupoPregunta != null && niveles != null && niveles.length > 0 && pregunta != null)
         {
@@ -585,6 +586,13 @@ public class Survey extends GenericResource
     {
         final WebSite site = response.getWebPage().getWebSite();
         String login = request.getParameter("evaluado");
+        String observaciones = request.getParameter("onservaciones");
+        if (observaciones == null || "".equals(observaciones))
+        {
+            response.setRenderParameter("error", "Las observaciones no estan definidas");
+            response.setMode(MODE_ERROR);
+            return;
+        }
         User evaluador = response.getUser();
         User evaluado = site.getUserRepository().getUserByLogin(login);
         if (evaluado == null)
@@ -720,6 +728,7 @@ public class Survey extends GenericResource
             return;
         }
         EvaluacionCuestionario cuestionario = EvaluacionCuestionario.ClassMgr.createEvaluacionCuestionario(id, site);
+        cuestionario.setObservacion(observaciones);
         desempenio.setCuestionarioAplicado(cuestionario);
 
 
