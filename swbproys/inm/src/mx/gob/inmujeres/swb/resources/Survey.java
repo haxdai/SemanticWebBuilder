@@ -586,7 +586,7 @@ public class Survey extends GenericResource
     {
         final WebSite site = response.getWebPage().getWebSite();
         String login = request.getParameter("evaluado");
-        String observaciones = request.getParameter("onservaciones");
+        String observaciones = request.getParameter("observaciones");
         if (observaciones == null || "".equals(observaciones))
         {
             response.setRenderParameter("error", "Las observaciones no estan definidas");
