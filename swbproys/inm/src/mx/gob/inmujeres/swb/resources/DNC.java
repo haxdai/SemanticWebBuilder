@@ -13,7 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import mx.gob.inmujeres.swb.CursoEvaluacion;
 import mx.gob.inmujeres.swb.Desempenio;
+import mx.gob.inmujeres.swb.InstrumentoG;
 import mx.gob.inmujeres.swb.MetaEvaluacion;
+import mx.gob.inmujeres.swb.TemasPrograma;
 import mx.gob.inmujeres.swb.TipoMedida;
 import mx.gob.inmujeres.swb.Trimestre;
 import mx.gob.inmujeres.swb.base.MetaEvaluacionBase.ClassMgr;
@@ -70,8 +72,7 @@ public class DNC extends GenericResource
         }
     }
 
-
-     public void finish(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
+    public void finish(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
         String suri = request.getParameter("suri");
 
@@ -81,7 +82,7 @@ public class DNC extends GenericResource
 
             SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
             foi = (FlowNodeInstance) ont.getGenericObject(suri);
-            foi.close(paramRequest.getUser(),ProcessInstance.ACTION_ACCEPT);
+            foi.close(paramRequest.getUser(), ProcessInstance.ACTION_ACCEPT);
             /*ProcessInstance pInstance = foi.getProcessInstance();
             pInstance.close(paramRequest.getUser(), ProcessInstance.ACTION_ACCEPT);*/
             String redirect = null;
@@ -110,6 +111,7 @@ public class DNC extends GenericResource
 
         }
     }
+
     @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
@@ -120,7 +122,7 @@ public class DNC extends GenericResource
         }
         else
         {
-            super.processRequest(request,response,paramRequest);
+            super.processRequest(request, response, paramRequest);
         }
 
     }
@@ -190,7 +192,7 @@ public class DNC extends GenericResource
 
                         if ("EvaluacionDes".equalsIgnoreCase(obj.getItemAware().getName()))
                         {
-                            evaluacion=((Desempenio) obj.getProcessObject());
+                            evaluacion = ((Desempenio) obj.getProcessObject());
                             evaluado = ((Desempenio) obj.getProcessObject()).getEvaluado();
                         }
                     }
@@ -226,10 +228,39 @@ public class DNC extends GenericResource
         WebSite site = response.getWebPage().getWebSite();
         String meta = request.getParameter("meta");
         String idmedida = request.getParameter("medida");
+        String instrumentoId = request.getParameter("instrumento");
+        String temasId = request.getParameter("temas");
+
+        String satisfactorio = request.getParameter("satisfactorio");
+        String minimo = request.getParameter("minimo");
+        String nosatisfactorio = request.getParameter("nosatisfactorio");
+
+
         String loginEvaluado = request.getParameter("evaluado");
 
-        if (loginEvaluado != null && meta != null && !"".equals(meta.trim()) && !"".equals(idmedida.trim()))
+        if (nosatisfactorio != null && minimo != null && satisfactorio != null && instrumentoId != null && temasId != null && loginEvaluado != null && meta != null && !"".equals(meta.trim()) && !"".equals(idmedida.trim()))
         {
+            TemasPrograma _tema=null;
+            Iterator<TemasPrograma> temas=TemasPrograma.ClassMgr.listTemasProgramas();
+            while(temas.hasNext())
+            {
+                TemasPrograma tema=temas.next();
+                if(tema.getId().equals(temasId))
+                {
+                    _tema=tema;
+                }
+            }
+            InstrumentoG _instrumento=null;
+            Iterator<InstrumentoG> instrumentos=InstrumentoG.ClassMgr.listInstrumentoGs();
+            while(instrumentos.hasNext())
+            {
+                InstrumentoG instrumento=instrumentos.next();
+                if(instrumento.getId().equals(instrumentoId))
+                {
+                    _instrumento=instrumento;
+                }
+            }
+            
             User evaluador = response.getUser();
             Autentificacion aut = new Autentificacion();
             User evaluado = site.getUserRepository().getUserByLogin(loginEvaluado);
@@ -286,7 +317,7 @@ public class DNC extends GenericResource
 
                         if ("EvaluacionDes".equalsIgnoreCase(obj.getItemAware().getName()))
                         {
-                            evaluacion=((Desempenio) obj.getProcessObject());
+                            evaluacion = ((Desempenio) obj.getProcessObject());
                             evaluado = ((Desempenio) obj.getProcessObject()).getEvaluado();
                         }
                     }
@@ -301,8 +332,13 @@ public class DNC extends GenericResource
             }
 
             MetaEvaluacion metaEvaluacion = MetaEvaluacion.ClassMgr.createMetaEvaluacion(site);
+            metaEvaluacion.setInstrumentog(_instrumento);
+            metaEvaluacion.setTemasPrograma(_tema);
             metaEvaluacion.setMeta(meta);
             metaEvaluacion.setMedida(medida);
+            metaEvaluacion.setPSatisfactorio(satisfactorio);
+            metaEvaluacion.setPMinimoaceptable(minimo);
+            metaEvaluacion.setPNoSatisfactorio(nosatisfactorio);
             evaluacion.addMetas(metaEvaluacion);
 
         }
