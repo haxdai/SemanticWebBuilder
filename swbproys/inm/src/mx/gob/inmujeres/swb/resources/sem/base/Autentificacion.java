@@ -105,6 +105,10 @@ public class Autentificacion
             {
                 userLogin.setNombre(atts.get("givenName").get().toString() + " " + atts.get("sn").get().toString());
             }
+            if (atts.get("pager") != null && atts.get("pager").get() != null)
+            {
+                userLogin.setRfc(atts.get("pager").get().toString());
+            }
         }
         catch (Exception e)
         {
