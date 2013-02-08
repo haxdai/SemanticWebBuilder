@@ -273,7 +273,8 @@ public class MyShelf extends GenericAdmResource {
                                 ((WorkSpace) nso.createGenericInstance()).addMember(member);
                                 response.setRenderParameter("wsid", ((WorkSpace) nso.createGenericInstance()).getId());
                                 response.setAction("");
-                                response.setRenderParameter("act", "");
+                                //response.setRenderParameter("act", "");
+                                response.setRenderParameter("act", SWBActionResponse.Action_EDIT);
                                 //response.setRenderParameter("id", nso.getURI());
                                 //response.setRenderParameter("suri", nso.getURI());
                                 //                                System.out.println(".... member agregado");
@@ -466,14 +467,16 @@ public class MyShelf extends GenericAdmResource {
 
                     if (nso != null && nso.createGenericInstance() instanceof WorkSpace) {
                         wsid = ((WorkSpace) nso.createGenericInstance()).getId();
-                        response.setRenderParameter("act", "");
+                        response.setRenderParameter("act", SWBActionResponse.Action_EDIT);
+                        //response.setRenderParameter("act", "");
                         response.setAction("");
                         itemName = "Espacio de trabajo";
                     } else {
                         if ((gobj instanceof Mosaic)) {
                             response.setRenderParameter("act", SWBActionResponse.Action_EDIT);
                         } else {
-                            response.setRenderParameter("act", "");
+                            //response.setRenderParameter("act", "");
+                            response.setRenderParameter("act", SWBActionResponse.Action_EDIT);
                         }
                         response.setAction(SWBActionResponse.Action_EDIT);
                         itemName = getTileTypeName((Tile) gobj);
@@ -823,7 +826,8 @@ public class MyShelf extends GenericAdmResource {
             }
 
 
-            response.setRenderParameter("act", "");
+            //response.setRenderParameter("act", "");
+            response.setRenderParameter("act", SWBActionResponse.Action_EDIT);
             if (wsid != null) {
                 response.setRenderParameter("wsid", wsid);
             }
