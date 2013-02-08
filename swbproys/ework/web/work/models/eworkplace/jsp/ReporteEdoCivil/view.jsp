@@ -214,7 +214,7 @@
                     <%
 
                     } else if ("edocivil".equals(action)) {
-                        String wptitle = "Estado Civil";
+                        String wptitle = "Reporte Genero, Estado Civil, Hijos";
                         String txtCriteria ="";
 
                         String step = "1";
@@ -280,7 +280,7 @@
                             }
                             
                             if(!edadfiltro.equals("0")){
-                                txtCriteria +=", que la edad sea ";
+                                txtCriteria +="y que la edad sea ";
                                 if(edadfiltro.equals("=")){
                                     txtCriteria +=" igual a ";
                                 } else if(edadfiltro.equals("<")){
