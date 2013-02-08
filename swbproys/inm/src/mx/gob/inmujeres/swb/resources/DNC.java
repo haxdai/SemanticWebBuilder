@@ -235,10 +235,12 @@ public class DNC extends GenericResource
         String minimo = request.getParameter("minimo");
         String nosatisfactorio = request.getParameter("nosatisfactorio");
 
+        String peso = request.getParameter("peso");
+
 
         String loginEvaluado = request.getParameter("evaluado");
 
-        if (nosatisfactorio != null && minimo != null && satisfactorio != null && instrumentoId != null && temasId != null && loginEvaluado != null && meta != null && !"".equals(meta.trim()) && !"".equals(idmedida.trim()))
+        if (peso!=null && nosatisfactorio != null && minimo != null && satisfactorio != null && instrumentoId != null && temasId != null && loginEvaluado != null && meta != null && !"".equals(meta.trim()) && !"".equals(idmedida.trim()))
         {
             TemasPrograma _tema=null;
             Iterator<TemasPrograma> temas=TemasPrograma.ClassMgr.listTemasProgramas();
@@ -275,7 +277,7 @@ public class DNC extends GenericResource
             }
             if (!found)
             {
-                response.setRenderParameter("error", "El evaluado no es subordinado del evealuador");
+                response.setRenderParameter("error", "El evaluado no es subordinado del evaluador");
                 response.setMode(MODE_ERROR);
                 return;
             }
@@ -338,6 +340,7 @@ public class DNC extends GenericResource
             metaEvaluacion.setMedida(medida);
             metaEvaluacion.setPSatisfactorio(satisfactorio);
             metaEvaluacion.setPMinimoaceptable(minimo);
+            metaEvaluacion.setPesoMeta(peso);
             metaEvaluacion.setPNoSatisfactorio(nosatisfactorio);
             evaluacion.addMetas(metaEvaluacion);
 
