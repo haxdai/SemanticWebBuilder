@@ -193,7 +193,7 @@
                     <input type="text" name="email" id="email2" dojoType="dijit.form.ValidationTextBox" value="<%=email%>" maxlength="60" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgEmail")%>" invalidMessage="<%=paramRequest.getLocaleString("lblEmailFault")%>" isValid="return isValidThisEmail()" trim="true"/>
                 </p>
                 <p class="icv-3col">
-                    <label for="birthday"><b>*</b><%=paramRequest.getLocaleString("lblBirthday")%></label>
+                    <label for="birthday"><b>*</b><%=paramRequest.getLocaleString("lblBirthday")%>(dd/mm/aaaa)</label>
                     <input type="text" name="birthday" id="birthday" dojoType="dijit.form.ValidationTextBox" value="<%=birthday%>" maxlength="14" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgBirthday")%>" invalidMessage="<%=paramRequest.getLocaleString("lblBirthdayFault")%>" regExp="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" isValid="return isValidDate()" trim="true"/>
                 </p>
                 <div class="clearer">&nbsp;</div>
