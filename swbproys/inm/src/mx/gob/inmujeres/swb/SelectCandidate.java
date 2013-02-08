@@ -68,8 +68,7 @@ public class SelectCandidate extends mx.gob.inmujeres.swb.base.SelectCandidateBa
                 
                 Desempenio desempenio = evaluacionDesempenio.getDesempeño();
                 if (desempenio != null && desempenio.isValid())
-                {
-                    System.out.println("desempeño encontrado");
+                {                    
                     if (evaluador.equals(desempenio.getEvaluador()) && evaluado.equals(desempenio.getEvaluado()) && anio == desempenio.getAnio())
                     {
                         if (evaluacionDesempenio.getStatus() == 0)
