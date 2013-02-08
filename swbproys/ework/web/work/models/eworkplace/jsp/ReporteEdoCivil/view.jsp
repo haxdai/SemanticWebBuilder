@@ -735,7 +735,7 @@
         ret.append("        <table>");
         ret.append("        <caption>");
         ret.append(txttype);
-        ret.append(" que contengan: ");
+        ret.append(" que contengan:<br/> ");
         ret.append(criteria);
         ret.append("        </caption>");
         ret.append("            <thead>");
