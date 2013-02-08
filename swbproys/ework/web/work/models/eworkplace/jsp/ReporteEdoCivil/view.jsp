@@ -757,7 +757,15 @@
             WebPage wpage = wsite.getWebPage("ver_CV");
             ret.append("                 <tr>");
             ret.append("                     <td>");
-            ret.append(usrcv.getFullName());
+            if(usrcv==null) continue;
+            String fullname = usrcv.getFullName();
+            if(fullname==null){
+                fullname = usrcv.getFirstName()!=null?usrcv.getFirstName():"" + usrcv.getLastName()!=null?usrcv.getLastName():"";
+                if(fullname==null||fullname.trim().length()==0){
+                    fullname=usrcv.getLogin();
+                }
+            }
+            ret.append(fullname); 
             ret.append("                     </td>");
             ret.append("<td>");
             if (!export.equals("excel")) {
