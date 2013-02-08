@@ -90,7 +90,7 @@ Author     : rene.jara
                     gender = "Masculino";
                 }
                 if (persona.getNacimiento() != null) {
-                    birthday = sdf.format(persona.getNacimiento());
+                    birthday = persona.getNacimiento()!=null?sdf.format(persona.getNacimiento()):"";
                 }
                 if (persona.getNacionalidad() != null) {
                     nationality = persona.getNacionalidad().getTitle();
@@ -491,7 +491,7 @@ Author     : rene.jara
                             Distincion di = itdi.next();
                             String titulo = di.getTitle();
                             String otorga = di.getOtorgante();
-                            String fecha = sdf.format(di.getFechaDistincion());
+                            String fecha =  di.getFechaDistincion()!=null?sdf.format(di.getFechaDistincion()):"";
                     %>
                     <li><strong><%=titulo%></strong>, <%=otorga%> (<%=fecha%>)</li>
                     <%
