@@ -35,6 +35,7 @@ Author     : rene.jara
                     cv.setPersona(persona);
                 }
             }
+
             Domicilio domicilio;
 
             String curp = "";
@@ -44,6 +45,8 @@ Author     : rene.jara
             String secondLastName = "";
 
             String gender = "";
+            String marital ="";
+            String hasChild ="";
             String birthday = "";
             String state = "";
 
@@ -74,6 +77,8 @@ Author     : rene.jara
             String linkedin = "";
             String twitter = "";
 
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
             if (user.getFirstName() != null) {
                 firstName = user.getFirstName();
             }
@@ -95,8 +100,17 @@ Author     : rene.jara
                 } else {
                     gender = "m";
                 }
+                if (persona.isCasado() == true) {
+                    marital = "y";
+                } else {
+                    marital = "n";
+                }
+                if (persona.isHijos() == true) {
+                    hasChild = "y";
+                } else {
+                    hasChild = "n";
+                }
                 if (persona.getNacimiento() != null) {
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
                     birthday = sdf.format(persona.getNacimiento());
                 }
                 if (persona.getEstadoNacimiento() != null) {
@@ -189,10 +203,13 @@ return true;
 return false;
 }
 }*/
-    function isValidDate() {
+    function isValidDate(objf) {
+//console.log("validDate:"+objf);
         var valid=false;
-        if(dijit.byId("birthday")!=null && !isEmpty(dijit.byId( "birthday" ).getValue())) {
-            var birth = dijit.byId( "birthday" ).getValue().split("/");
+        //if(dijit.byId("birthday")!=null && !isEmpty(dijit.byId( "birthday" ).getValue())) {
+        if(objf!=null && !isEmpty(objf.getValue())) {
+//            var birth = dijit.byId( "birthday" ).getValue().split("/");
+            var birth = objf.getValue().split("/");
             var dayField = birth[0];
             var monthField = birth[1];
             var yearField = birth[2];
@@ -206,7 +223,7 @@ valid = true;
                 (dayobj.getDate()==dayField)&&
                 (dayobj.getFullYear()==yearField)&&
                 (dayobj.getFullYear()>1900)&&
-                (dayobj.getFullYear()<today.getFullYear())){
+                (dayobj<today)){
                 valid=true;
             }
         }
@@ -221,7 +238,6 @@ valid = true;
         }else{
             objf.disabled=false;
         }
-
     }
     /*function validateAddrCountry(){
 alert("addr")
@@ -325,8 +341,35 @@ objf.setAttribute('displayed', 'on');
               handleAs: "text"
           });
       }
-    
     var pc=1;
+    function appendAChild() {
+        var s = '';
+        var parentId='childList';
+        s="<div id=\"childId_"+pc+"\">"+
+            "<div class=\"icv-div-grupo\">"+
+              "<p class=\"icv-3col\">"+
+                "<label for=\"childName_"+pc+"\"><%=paramRequest.getLocaleString("lblChildName")%></label>"+
+                "<input type=\"text\" name=\"childName_"+pc+"\" id=\"childName_"+pc+"\" dojoType=\"dijit.form.ValidationTextBox\" value=\"\" maxlength=\"70\" required=\"true\" promptMessage=\"<%=paramRequest.getLocaleString("promptMsgChildName")%>\" invalidMessage=\"<%=paramRequest.getLocaleString("lblChildNameFault")%>\" trim=\"true\" regExp=\"[a-zA-Z\\u00C0-\\u00FF' ]+\"/>"+
+              "</p>"+
+              "<p class=\"icv-3col\">"+
+                "<label for=\"childBirth_"+pc+"\"><%=paramRequest.getLocaleString("lblChildBirth")%>(dd/mm/aaaa)</label>"+
+                "<input type=\"text\" name=\"childBirth_"+pc+"\" id=\"childBirth_"+pc+"\" class=\"icv-calendario\" dojoType=\"dijit.form.ValidationTextBox\" value=\"\" required=\"true\" promptMessage=\"<%=paramRequest.getLocaleString("promptMsgChildBirth")%>\" invalidMessage=\"<%=paramRequest.getLocaleString("lblChildBirthFault")%>\" regExp=\"(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\\d\\d\" isValid=\"return isValidDate(this)\" trim=\"true\"/>"+
+              "</p>"+
+              "<p class=\"icv-txt\">"+
+                "<a href=\"#\" onclick=\"deleteAChild('_"+pc+"');return false;\">Eliminar</a>"+
+              "</p>"+
+              "<div class=\"clearer borde\">&nbsp;</div>"+
+            "</div>"+
+          "</div>";
+        dojo.place(s, parentId, 'last');
+        dojo.parser.parse(parentId,true);
+        pc++;
+    }
+    function deleteAChild(id) {
+        s="<input type=\"hidden\" name=\"childName"+id+"\" id=\"childName"+id+"\" value=\"\" />";//+
+        dojo.place(s, "childId"+id, 'replace');
+    }
+   
     function appendPhone() {
         var s = '';
         var parentId='phoneList';
@@ -410,8 +453,25 @@ objf.setAttribute('displayed', 'on');
         }
         return valid;
     }
+    function showChild(){
+        var obj1=dojo.byId('childList');
+        var obj2=dojo.byId('childAdd');
+        obj1.style.display = 'block';
+        obj2.style.display = 'block';
+    }
+    function hideChild(){
+        var obj1=dojo.byId('childList');
+        var obj2=dojo.byId('childAdd');
+        obj1.style.display = 'none';
+        obj2.style.display = 'none';
+
+    }
     dojo.addOnLoad(validateFM2);
-    //dojo.addOnLoad(validateAddrCountry);
+<% if (hasChild == "n"){
+%>    dojo.addOnLoad(hideChild);
+<% }
+%>
+
     -->
 </script>
 <div id="icv">
@@ -447,14 +507,14 @@ objf.setAttribute('displayed', 'on');
             <div class="icv-div-grupo">
                 <p class="icv-3col">
                     <label ><%=paramRequest.getLocaleString("lblGender")%></label>
-                    <input type="radio" dojoType="dijit.form.RadioButton" name="gender" id="radioOne" class="icv-radio2" <%=gender == "f" ? "checked" : ""%> value="f"/>
-                    <label for="radioOne" class="icv-label-negro"><%=paramRequest.getLocaleString("lblGenderFem")%></label>
-                    <input type="radio" dojoType="dijit.form.RadioButton" name="gender" id="radioTwo" class="icv-radio2" <%=gender == "m" ? "checked" : ""%> value="m"/>
-                    <label for="radioTwo" class="icv-label-negro"><%=paramRequest.getLocaleString("lblGenderMas")%></label>
+                    <input type="radio" dojoType="dijit.form.RadioButton" name="gender" id="genderFem" class="icv-radio2" <%=gender == "f" ? "checked" : ""%> value="f"/>
+                    <label for="genderFem" class="icv-label-negro"><%=paramRequest.getLocaleString("lblGenderFem")%></label>
+                    <input type="radio" dojoType="dijit.form.RadioButton" name="gender" id="genderMas" class="icv-radio2" <%=gender == "m" ? "checked" : ""%> value="m"/>
+                    <label for="genderMas" class="icv-label-negro"><%=paramRequest.getLocaleString("lblGenderMas")%></label>
                 </p>
                 <p class="icv-3col">
                     <label for="birthday"><b>*</b><%=paramRequest.getLocaleString("lblBirthday")%> (dd/mm/aaaa)</label>
-                    <input type="text" name="birthday" id="birthday" class="icv-calendario" dojoType="dijit.form.ValidationTextBox" value="<%=birthday%>" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgBirthday")%>" invalidMessage="<%=paramRequest.getLocaleString("lblBirthdayFault")%>" regExp="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" trim="true"/>
+                    <input type="text" name="birthday" id="birthday" class="icv-calendario" dojoType="dijit.form.ValidationTextBox" value="<%=birthday%>" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgBirthday")%>" invalidMessage="<%=paramRequest.getLocaleString("lblBirthdayFault")%>" regExp="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" isValid="return isValidDate(this)" trim="true"/>
                 </p>
                 <p class="icv-3col">
                     <label for="state"><%=paramRequest.getLocaleString("lblState")%></label>
@@ -515,25 +575,63 @@ objf.setAttribute('displayed', 'on');
                 </p>
                 <div class="clearer">&nbsp;</div>
             </div>
-            <!--            <div class="icv-div-grupo">
-            <p class="icv-3col">
-            <label for="addrCountry">País</label>
-            <select name="addrCountry" id="addrCountry" dojoType="dijit.form.FilteringSelect" required="false" promptMessage="<%=paramRequest.getLocaleString("promptMsgAddrCountry")%>" onchange="validateAddrCountry()">
-            <% //Iterator<Country> itac = Country.ClassMgr.listCountries(ws);
-            // while (itac.hasNext()) {
-            //Country country = itac.next();%>
-            <option value="<%//=country.getId()%>" <%//=country.getId().equals(addrCountry) ? "selected" : ""%>><%//=country.getTitle()%></option>
-            <%
-            //}
-            %>
-            </select>
-            </p>
-            <p class="icv-3col" id="spAddres">
-            <label for="addres">Direccion</label>
-            <input type="text" name="addres" id="addres" dojoType="dijit.form.ValidationTextBox" value="<%//=addrStreet%>" maxlength="60" promptMessage="<%//=paramRequest.getLocaleString("promptMsgAddres")%>" invalidMessage="<%//=paramRequest.getLocaleString("lblAddresFault")%>" regExp="[a-zA-Z0-9\u00C0-\u00FF'.,\- ]+"  trim="true"/>
-            </p>
-            <div class="clearer">&nbsp;</div>
-            </div>-->
+            <div class="icv-div-grupo">
+                <p class="icv-2col">
+                <label ><%=paramRequest.getLocaleString("lblMarital")%></label>
+                    <input type="radio" dojoType="dijit.form.RadioButton" name="marital" id="maritalN" class="icv-radio2" <%=marital == "n" ? "checked" : ""%> value="n"/>
+                    <label for="maritalN" class="icv-label-negro"><%=paramRequest.getLocaleString("lblMaritalSing")%></label>
+                    <input type="radio" dojoType="dijit.form.RadioButton" name="marital" id="maritalY" class="icv-radio2" <%=marital == "y" ? "checked" : ""%> value="y"/>
+                    <label for="maritalY" class="icv-label-negro"><%=paramRequest.getLocaleString("lblMaritalMarr")%></label>
+                </p>
+                <p class="icv-2col">
+                <label ><%=paramRequest.getLocaleString("lblHasChild")%></label>
+                    <input type="radio" dojoType="dijit.form.RadioButton" name="hasChild" id="hasChildN" class="icv-radio2" <%=hasChild == "n" ? "checked" : ""%> value="n" onchange="showChild()"/>
+                    <label for="hasChildN" class="icv-label-negro"><%=paramRequest.getLocaleString("lblHasChildN")%></label>
+                    <input type="radio" dojoType="dijit.form.RadioButton" name="hasChild" id="hasChildY" class="icv-radio2" <%=hasChild == "y" ? "checked" : ""%> value="y" onchange="hideChild()"/>
+                    <label for="hasChildY" class="icv-label-negro"><%=paramRequest.getLocaleString("lblHasChildY")%></label>
+                </p>
+                <div class="clearer">&nbsp;</div>
+            </div>
+            <div id="childList">
+                <% 
+                            if (persona != null) {
+                                Iterator<Familia> itf = persona.listFamilias();
+                                while (itf.hasNext()) {
+                                    Familia familia = itf.next();
+                                    familia.getNombre();
+                                    String childId = familia.getId();
+                                    String childName = familia.getNombre();
+                                    String childBirth = sdf.format(familia.getNacimiento());
+                                    if(familia.getParentesco().equals("son")){
+                %>
+                <div  id="childId<%=childId%>">
+                    <div class="icv-div-grupo">
+                        <p class="icv-3col">
+                            <label for="childName<%=childId%>"><%=paramRequest.getLocaleString("lblChildName")%></label>
+                            <input type="text" name="childName<%=childId%>" id="childName<%=childId%>" dojoType="dijit.form.ValidationTextBox" value="<%=childName%>" maxlength="70" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgChildName")%>" invalidMessage="<%=paramRequest.getLocaleString("lblChildNameFault")%>" trim="true" regExp="[a-zA-Z\u00C0-\u00FF' ]+"/>
+                        </p>
+                        <p class="icv-3col">
+                            <label for="childBirth<%=childId%>"><%=paramRequest.getLocaleString("lblChildBirth")%>(dd/mm/aaaa)</label>
+                            <input type="text" name="childBirth<%=childId%>" id="childBirth<%=childId%>" class="icv-calendario" dojoType="dijit.form.ValidationTextBox" value="<%=childBirth%>" required="true" promptMessage="<%=paramRequest.getLocaleString("promptMsgChildBirth")%>" invalidMessage="<%=paramRequest.getLocaleString("lblChildBirthFault")%>" regExp="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" isValid="return isValidDate(this)" trim="true"/>
+                        </p>
+                        <p class="icv-txt">
+                            <a href="#" onclick="deleteAChild('<%=childId%>');return false;">Eliminar</a>
+                        </p>
+                        <div class="clearer borde">&nbsp;</div>
+                    </div>
+                </div>
+                <%
+                                    }
+                               }
+                            }
+                %>
+            </div>
+            <div id="childAdd">
+                <div class="icv-div-grupo">
+                    <p class="icv-txt"><a href="#" onclick="appendAChild();return false;">Agregar hijo(a)</a></p>
+                    <div class="clearer borde">&nbsp;</div>
+                </div>
+            </div>
             <div class="icv-div-grupo">
                 <p class="icv-3col">
                     <label for="addrStreet">Calle</label>
