@@ -659,7 +659,7 @@ Author     : juan.fernandez y rene.jara
 <%        }
     }    // nivel de usuario
 %>
-<div id="espaciotrabajo<%=wsid%>" dojoType="dijit.TitlePane" title="Espacio de trabajo - <%=workSpace.getTitle()%>" class="admViewProperties" open="true" duration="150" minSize_="20" splitter_="true" region="bottom">
+<div id="espaciotrabajo<%=wsid%>" dojoType="dijit.TitlePane" title="<%=workSpace.getTitle()%> - ver detalle" class="admViewProperties" open="false" duration="150" minSize_="20" splitter_="true" region="bottom">
 <form id="<%=so.getURI()%>/form" class="swbform" action="<%=urlupdate.toString()%>" method="post">
     <input type="hidden" name="suri" value="<%=so.getURI()%>"/>
     <input type="hidden" name="scls" value="<%=scls.getURI()%>"/>
