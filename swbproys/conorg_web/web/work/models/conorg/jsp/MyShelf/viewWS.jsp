@@ -173,10 +173,11 @@ Author     : juan.fernandez y rene.jara
         //frmgr.setType(SWBFormMgr.TYPE_DOJO);
         frmgr.setAction(urlupdate.toString());
         frmgr.setLang("es");
-        String boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Cancelar</button>";
+        String boton = "<button dojoType=\"dijit.form.Button\" type=\"submit\" >Guardar</button>";
         frmgr.addButton(boton);
-        boton = "<button dojoType=\"dijit.form.Button\" type=\"submit\" >Guardar</button>";
+        boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Cancelar</button>";
         frmgr.addButton(boton);
+        
         //frmgr.addButton(SWBFormButton.newSaveButton());
 %>        
 <%=frmgr.renderForm(request)%>  
@@ -658,6 +659,7 @@ Author     : juan.fernandez y rene.jara
 <%        }
     }    // nivel de usuario
 %>
+<div id="espaciotrabajo<%=wsid%>" dojoType="dijit.TitlePane" title="Espacio de trabajo - <%=workSpace.getTitle()%>" class="admViewProperties" open="true" duration="150" minSize_="20" splitter_="true" region="bottom">
 <form id="<%=so.getURI()%>/form" class="swbform" action="<%=urlupdate.toString()%>" method="post">
     <input type="hidden" name="suri" value="<%=so.getURI()%>"/>
     <input type="hidden" name="scls" value="<%=scls.getURI()%>"/>
@@ -712,10 +714,10 @@ Author     : juan.fernandez y rene.jara
     <fieldset><span align="center">
             <%
                 if (editMode) {
-                    boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + "';return false;\">Cancelar</button>";
-                    out.println(boton);
                     boton = "<button dojoType=\"dijit.form.Button\" type=\"submit\" >Guardar</button>";
                     out.println(boton); //SWBFormButton.newSaveButton()
+                    boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + "';return false;\">Cancelar</button>";
+                    out.println(boton);
                 } else {
                     boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + "';return false;\">Regresar</button>";
                     out.println(boton);
@@ -725,6 +727,38 @@ Author     : juan.fernandez y rene.jara
             %>
         </span></fieldset>
 </form>
+         <script type="dojo/method" event="postCreate" args="" >
+            if(!this.open){
+            this.hideNode.style.display=this.wipeNode.style.display="none";
+            }
+            this._setCss();
+            dojo.setSelectable(this.titleNode,false);
+            dijit.setWaiState(this.containerNode,"labelledby",this.titleNode.id);
+            dijit.setWaiState(this.focusNode,"haspopup","true");
+            var _1=this.hideNode,_2=this.wipeNode;
+            this._wipeIn=dojo.fx.wipeIn({
+            node:this.wipeNode,
+            duration:this.duration,
+            beforeBegin:function(){
+            _1.style.display="";
+            },
+            onEnd:function(){
+            //alert("open");
+            dijit.byId("leftSplit").layout();
+            }
+            });
+            this._wipeOut=dojo.fx.wipeOut({
+            node:this.wipeNode,
+            duration:this.duration,
+            onEnd:function(){
+            _1.style.display="none";
+            //alert("close");");
+            dijit.byId("leftSplit").layout();
+            }
+            });
+            //this.inherited(arguments);
+        </script>
+</div>
 <%//=frmgr.renderForm(request)%>  
 <div>
     <div id="participantes<%=wsid%>" dojoType="dijit.TitlePane" title="Participantes" class="admViewProperties" open="false" duration="150" minSize_="20" splitter_="true" region="bottom">
@@ -1598,10 +1632,11 @@ Author     : juan.fernandez y rene.jara
 
                     if (usrlevel == 4 || usr.equals(tile.getCreator())) {
                         frmgr.setAction(urlupdate.toString());
+                         boton = "<button dojoType=\"dijit.form.Button\" type=\"submit\">Guardar</button>";
+                        frmgr.addButton(boton);
                         boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Cancelar</button>";
                         frmgr.addButton(boton);
-                        boton = "<button dojoType=\"dijit.form.Button\" type=\"submit\">Guardar</button>";
-                        frmgr.addButton(boton);
+                       
                         //frmgr.addButton(SWBFormButton.newSaveButton());
                     } else {
                         boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Regresar</button>";
@@ -1681,10 +1716,11 @@ Author     : juan.fernandez y rene.jara
 
                             if (usrlevel == 4 || usr.equals(tile.getCreator())) {
                                 //frmgr.setAction(urlupdate.toString());
-                                boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Cancelar</button>";
-                                out.println(boton);
                                 boton = "<button dojoType=\"dijit.form.Button\" type=\"submit\">Guardar</button>";
                                 out.println(boton);
+                                boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Cancelar</button>";
+                                out.println(boton);
+                                
                                 //frmgr.addButton(SWBFormButton.newSaveButton());
                             } else {
                                 boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Regresar</button>";
