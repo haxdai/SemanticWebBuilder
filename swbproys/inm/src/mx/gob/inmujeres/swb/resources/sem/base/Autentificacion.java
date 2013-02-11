@@ -133,7 +133,9 @@ public class Autentificacion
         DirContext dir = null;
         try {
             dir = AuthenticateLP();
+            System.out.println("getSubordinados: "+login);
             String cn = getCNFromLogin(login);
+            System.out.println("cn: "+cn);
             
             NamingEnumeration<SearchResult> answers = null;
             SearchControls ctls = new SearchControls();
@@ -150,19 +152,27 @@ public class Autentificacion
 
                 if (result.getAttributes().get(seekField) != null) {
 
-                    if (result.getAttributes().get("uid") !=null && result.getAttributes().get("uid").get() != null) {
-                        uid = result.getAttributes().get("uid").get().toString();
+                    if (result.getAttributes().get(seekField) != null && result.getAttributes().get(seekField).get() != null)
+                    {                       
+                        uid = result.getAttributes().get(seekField).get().toString();
+                        int pos = uid.indexOf("@");
+                        if (pos != -1)
+                        {
+                            uid = uid.substring(0, pos);
+                        }
                     } else {
                         uid = "";
                     }
                     if ( result.getAttributes().get("givenName")!= null && result.getAttributes().get("givenName").get() != null) {
                         givenName = result.getAttributes().get("givenName").get().toString();
+                        
                     } else {
                         givenName = "";
                     }
 
                     if ( result.getAttributes().get("sn")!= null && result.getAttributes().get("sn").get() != null) {
                         sn = result.getAttributes().get("sn").get().toString();
+                        
                     } else {
                         sn = "";
                     }
