@@ -148,7 +148,7 @@ public class SWProfileManager extends GenericAdmResource {
         Resource base = getResourceBase();
         WebSite wsite = base.getWebSite();
         PrintWriter out =  response.getWriter();
-        if(paramRequest.getCallMethod()==paramRequest.Call_STRATEGY) {
+        if(paramRequest.getCallMethod()==SWBParamRequest.Call_STRATEGY) {
 //                SemanticProperty sp = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#miPerfilSL");
 //                SWProfile profile = (SWProfile)user.getExtendedAttribute(sp);
 //                if(profile==null) {
