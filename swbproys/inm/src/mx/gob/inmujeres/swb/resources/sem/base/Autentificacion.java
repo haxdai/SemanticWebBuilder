@@ -204,6 +204,7 @@ public class Autentificacion
         env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
         env.put(Context.PROVIDER_URL, props.getProperty("url", "ldap://" + HOST + ":" + PORT));
         env.put(Context.SECURITY_AUTHENTICATION, "simple");
+        env.put(Context.REFERRAL, "follow");
         env.put(Context.SECURITY_PRINCIPAL, props.getProperty("principal", PRINCIPAL)); // specify the username
         env.put(Context.SECURITY_CREDENTIALS, props.getProperty("credential", PASSWORD));
         DirContext ctx = new InitialDirContext(env);
