@@ -133,9 +133,9 @@ public class Autentificacion
         DirContext dir = null;
         try {
             dir = AuthenticateLP();
-            System.out.println("getSubordinados: "+login);
+            
             String cn = getCNFromLogin(login);
-            System.out.println("cn: "+cn);
+            
             
             NamingEnumeration<SearchResult> answers = null;
             SearchControls ctls = new SearchControls();
@@ -176,6 +176,7 @@ public class Autentificacion
                     } else {
                         sn = "";
                     }
+                    System.out.println("subordinado: "+uid+" manager: "+login);
                     UserSubordinado us = new UserSubordinado(uid, givenName + " " + sn);
                     getSubordinados.add(us);
 
