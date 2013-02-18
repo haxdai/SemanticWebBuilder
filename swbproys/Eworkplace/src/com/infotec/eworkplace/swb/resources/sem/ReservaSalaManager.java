@@ -104,8 +104,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         {
             PrintWriter out = response.getWriter();
             SWBResourceURL url = paramRequest.getRenderUrl();
-            out.println("<p><a class=\"queryBookingMR\" href=\""+url.setMode(Mode_RESUME)+"\" title=\""+paramRequest.getLocaleLogString("lblCheckAvailability")+"\">"+paramRequest.getLocaleLogString("lblCheckAvailability")+"</a></p>");
-            out.println("<p><a class=\"iniBookingMR\" href=\""+url.setMode(SWBResourceURL.Mode_VIEW)+"\" title=\""+paramRequest.getLocaleLogString("lblBookMeetingRoom")+"\">"+paramRequest.getLocaleLogString("lblBookMeetingRoom")+"</a></p>");
+            out.println("<a href=\""+url.setMode(Mode_RESUME)+"\" title=\""+paramRequest.getLocaleLogString("lblCheckAvailability")+"\">"+paramRequest.getLocaleLogString("lblCheckAvailability")+"</a>");
         }
         else
         {
