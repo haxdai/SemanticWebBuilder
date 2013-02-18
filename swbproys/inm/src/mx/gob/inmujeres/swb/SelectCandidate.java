@@ -29,9 +29,9 @@ import org.semanticwb.platform.SemanticProperty;
  */
 public class SelectCandidate extends mx.gob.inmujeres.swb.base.SelectCandidateBase
 {
+
     static
     {
-
     }
     static Logger log = SWBUtils.getLogger(SelectCandidate.class);
 
@@ -55,20 +55,20 @@ public class SelectCandidate extends mx.gob.inmujeres.swb.base.SelectCandidateBa
     private boolean isEvaluado(User evaluador, User evaluado)
     {
         boolean isEvaluado = false;
-        
+
         int anio = Calendar.getInstance().get(Calendar.YEAR);
-        
+
         Iterator<EvaluacionDesempenio> values = EvaluacionDesempenio.ClassMgr.listEvaluacionDesempenios();
         while (values.hasNext())
         {
             EvaluacionDesempenio evaluacionDesempenio = values.next();
             if (evaluacionDesempenio.isValid())
             {
-                
-                
+
+
                 Desempenio desempenio = evaluacionDesempenio.getDesempeño();
                 if (desempenio != null && desempenio.isValid())
-                {                    
+                {
                     if (evaluador.equals(desempenio.getEvaluador()) && evaluado.equals(desempenio.getEvaluado()) && anio == desempenio.getAnio())
                     {
                         if (evaluacionDesempenio.getStatus() == 0)
@@ -90,24 +90,19 @@ public class SelectCandidate extends mx.gob.inmujeres.swb.base.SelectCandidateBa
     @Override
     public boolean filterObject(HttpServletRequest request, SemanticObject obj, SemanticObject filter, SemanticProperty prop, String propName, String type, String mode, String lang)
     {
-
-
         User evaluador = SWBContext.getSessionUser();
-
-        String login = evaluador.getLogin();
-        //login += "@inmujeres.local";
         Autentificacion aut = new Autentificacion();
-        List<UserSubordinado> subordinados = aut.getSubordinados(login);
-
+        List<UserSubordinado> subordinados = aut.getSubordinados(evaluador.getLogin() + "@inmujeres.local");
+        //List<UserSubordinado> subordinados = aut.getSubordinados(evaluador.getLogin());
         GenericObject go = filter.createGenericInstance();
 
         if (go instanceof User)
         {
             User user = (User) go;
 
-            if(isSubordinado(user, subordinados))
+            if (isSubordinado(user, subordinados))
             {
-                if(! isEvaluado(evaluador, user))
+                if (!isEvaluado(evaluador, user))
                 {
                     return false;
                 }
