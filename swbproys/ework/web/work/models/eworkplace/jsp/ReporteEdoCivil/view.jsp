@@ -215,7 +215,7 @@
 
                     } else if ("edocivil".equals(action)) {
                         String wptitle = "Reporte Genero, Estado Civil, Hijos";
-                        String txtCriteria ="";
+                        String txtCriteria = "";
 
                         String step = "1";
                         if (request.getParameter("step") != null) {
@@ -227,29 +227,29 @@
                         if (sexo == null) {
                             sexo = "2"; //indistinto
                         }
-                        txtCriteria ="Genero: ";
-                        if(sexo.equals("0")){
-                            txtCriteria +="Masculino";
-                        } else if(sexo.equals("1")){
-                            txtCriteria +="Femenino";
-                        } else if(sexo.equals("2")){ 
-                            txtCriteria +="Indistinto";
+                        txtCriteria = "Genero: ";
+                        if (sexo.equals("0")) {
+                            txtCriteria += "Masculino";
+                        } else if (sexo.equals("1")) {
+                            txtCriteria += "Femenino";
+                        } else if (sexo.equals("2")) {
+                            txtCriteria += "Indistinto";
                         }
-                        
+
                         String edocivil = request.getParameter("edocivil");
                         if (edocivil == null) {
                             edocivil = "2"; //indistinto
                         }
-                        
-                        txtCriteria +=", Estado Civil: ";
-                        if(edocivil.equals("0")){
-                            txtCriteria +="Soltero";
-                        } else if(edocivil.equals("1")){
-                            txtCriteria +="Casado";
-                        } else if(edocivil.equals("2")){ 
-                            txtCriteria +="Indistinto";
+
+                        txtCriteria += ", Estado Civil: ";
+                        if (edocivil.equals("0")) {
+                            txtCriteria += "Soltero";
+                        } else if (edocivil.equals("1")) {
+                            txtCriteria += "Casado";
+                        } else if (edocivil.equals("2")) {
+                            txtCriteria += "Indistinto";
                         }
-                        
+
                         String hijos = request.getParameter("hijos");
                         if (hijos == null) {
                             hijos = "";
@@ -259,7 +259,7 @@
                         if (numhijos == null) {
                             numhijos = "";
                         }
-                        
+
                         String edadfiltro = request.getParameter("edadfiltro");
                         if (edadfiltro == null) {
                             edadfiltro = "0";
@@ -269,42 +269,42 @@
                             edad = "";
                         }
 
-                         if(hijos.equals("0")){
-                            txtCriteria +=", que no tengan hijos";
-                        } else if(hijos.equals("1")){
-                            
-                            if(!numhijos.equals("")){
-                                txtCriteria +=", que tengan al menos "+numhijos+" hijos ";
+                        if (hijos.equals("0")) {
+                            txtCriteria += ", que no tengan hijos";
+                        } else if (hijos.equals("1")) {
+
+                            if (!numhijos.equals("")) {
+                                txtCriteria += ", que tengan al menos " + numhijos + " hijos ";
                             } else {
-                                txtCriteria +=", que tengan por lo menos un hijo ";
+                                txtCriteria += ", que tengan por lo menos un hijo ";
                             }
-                            
-                            if(!edadfiltro.equals("0")){
-                                txtCriteria +="y que la edad sea ";
-                                if(edadfiltro.equals("=")){
-                                    txtCriteria +=" igual a ";
-                                } else if(edadfiltro.equals("<")){
-                                    txtCriteria +=" menor a ";
-                                } else if(edadfiltro.equals("<=")){
-                                    txtCriteria +=" menor o igual a ";
-                                } else if(edadfiltro.equals(">")){
-                                    txtCriteria +=" mayor a ";
-                                } else if(edadfiltro.equals(">=")){
-                                    txtCriteria +=" mayor o igual a ";
-                                } else if(edadfiltro.equals("<>")){
-                                    txtCriteria +=" diferente a ";
-                                } 
+
+                            if (!edadfiltro.equals("0")) {
+                                txtCriteria += "y que la edad sea ";
+                                if (edadfiltro.equals("=")) {
+                                    txtCriteria += " igual a ";
+                                } else if (edadfiltro.equals("<")) {
+                                    txtCriteria += " menor a ";
+                                } else if (edadfiltro.equals("<=")) {
+                                    txtCriteria += " menor o igual a ";
+                                } else if (edadfiltro.equals(">")) {
+                                    txtCriteria += " mayor a ";
+                                } else if (edadfiltro.equals(">=")) {
+                                    txtCriteria += " mayor o igual a ";
+                                } else if (edadfiltro.equals("<>")) {
+                                    txtCriteria += " diferente a ";
+                                }
                                 txtCriteria += edad + " años";
                             }
-                            
-                        } 
-                        
-                        
+
+                        }
+
+
                         if ("1".equals(step)) {
                             HashMap<String, Persona> hm = new HashMap<String, Persona>(); // cvs encontrados
                             HashMap<String, Persona> hmfiltro = new HashMap<String, Persona>();
                             HashMap<String, String> hmorder = new HashMap<String, String>(); //
-                            
+
 
                             boolean aplica = Boolean.FALSE;
                             long acum = 0, acumno = 0;
@@ -418,9 +418,9 @@
                                                 Familia fam = itfam.next();
                                                 if (fam.getParentesco().equals("son")) {
                                                     boolean cumple = calculaEdad(fam, operador, edad);
-                                                    if(cumple){
+                                                    if (cumple) {
                                                         hmfiltro.put(per.getId(), per);
-                                                        break; 
+                                                        break;
                                                     }
                                                 }
                                             }
@@ -433,8 +433,8 @@
 
                             acum = SWBUtils.Collections.sizeOf(hm.keySet().iterator());
 
-                            if (acum == 0) { 
-%>    
+                            if (acum == 0) {
+                    %>    
                     <p>No se encontraron registros.....</p> 
                     <button type="button" onclick="window.location='<%=wpage.getUrl()%>';">Regresar</button>
                     <%            } else {
@@ -455,11 +455,11 @@
                                 urldetail.setParameter("step", "2");
                                 urldetail.setParameter("act", "edocivil");
                                 //urldetail.setParameter("reptype", "linea");
-                                urldetail.setParameter("sexo",sexo);
+                                urldetail.setParameter("sexo", sexo);
                                 urldetail.setParameter("edocivil", edocivil);
                                 urldetail.setParameter("hijos", hijos);
                                 urldetail.setParameter("numhijos", numhijos);
-                                urldetail.setParameter("edadfiltro",edadfiltro);
+                                urldetail.setParameter("edadfiltro", edadfiltro);
                                 urldetail.setParameter("edad", edad);
 
                             %>
@@ -487,7 +487,7 @@
                             urlExport.setMode(MODE_EXPORT);
                     %>
                     <form action="<%=urlExport.toString()%>" method="post">
-                        
+
                         <input type="hidden" name="act" value="<%=request.getParameter("act")%>">
                         <input type="hidden" name="sexo" value="<%=sexo%>">
                         <input type="hidden" name="edocivil" value="<%=edocivil%>">
@@ -495,7 +495,7 @@
                         <input type="hidden" name="numhijos" value="<%=numhijos%>">
                         <input type="hidden" name="edadfiltro" value="<%=edadfiltro%>">
                         <input type="hidden" name="edad" value="<%=edad%>">
-                        
+
                         <input type="hidden" name="export" value="excel">
                         <%
                             if (request.getParameter("step") != null) {
@@ -521,59 +521,122 @@
                         }
                     } else { //step 2 
 
-                      
-                            HashMap<String, Persona> hm = new HashMap<String, Persona>(); // cvs encontrados
-                            HashMap<String, Persona> hmfiltro = new HashMap<String, Persona>();
-                            HashMap<String, String> hmorder = new HashMap<String, String>(); //
-                            
 
-                            boolean aplica = Boolean.FALSE;
-                            long acum = 0, acumno = 0;
-                            // filtrado por genero
-                            Iterator<Persona> itper = Persona.ClassMgr.listPersonas(wsite);
+                        HashMap<String, Persona> hm = new HashMap<String, Persona>(); // cvs encontrados
+                        HashMap<String, Persona> hmfiltro = new HashMap<String, Persona>();
+                        HashMap<String, String> hmorder = new HashMap<String, String>(); //
+
+
+                        boolean aplica = Boolean.FALSE;
+                        long acum = 0, acumno = 0;
+                        // filtrado por genero
+                        Iterator<Persona> itper = Persona.ClassMgr.listPersonas(wsite);
+                        while (itper.hasNext()) {
+                            Persona per = itper.next();
+                            User usercv = per.getOwner();
+                            if (usercv != null) {
+                                if (!sexo.equals("2")) {  // para saber si se van a contar por genero o no
+                                    if (sexo.equals("1") && per.isGenero()) {  //femenino en true
+                                        hm.put(per.getId(), per);
+                                    } else if (sexo.equals("0") && !per.isGenero()) {  //masculino en false
+                                        hm.put(per.getId(), per);
+                                        hmorder.put(usercv.getFullName() != null ? usercv.getFullName() : usercv.getLogin(), usercv.getId());
+                                    }
+                                } else {  //genero indistinto
+                                    hm.put(per.getId(), per);
+                                    hmorder.put(usercv.getFullName() != null ? usercv.getFullName() : usercv.getLogin(), usercv.getId());
+                                }
+                            }
+                        }
+
+                        // filtro por edo civil
+                        if (!edocivil.equals("2")) {
+                            hmfiltro = new HashMap<String, Persona>();
+                            hmorder = new HashMap<String, String>();
+                            itper = hm.values().iterator();
                             while (itper.hasNext()) {
                                 Persona per = itper.next();
                                 User usercv = per.getOwner();
-                                if (usercv != null) {
-                                    if (!sexo.equals("2")) {  // para saber si se van a contar por genero o no
-                                        if (sexo.equals("1") && per.isGenero()) {  //femenino en true
-                                            hm.put(per.getId(), per);
-                                        } else if (sexo.equals("0") && !per.isGenero()) {  //masculino en false
-                                            hm.put(per.getId(), per);
-                                            hmorder.put(usercv.getFullName() != null ? usercv.getFullName() : usercv.getLogin(), usercv.getId());
-                                        }
-                                    } else {  //genero indistinto
-                                        hm.put(per.getId(), per);
+                                if (edocivil.equals("1")) {
+                                    if (per.isCasado()) {  // está casado
+                                        hmfiltro.put(per.getId(), per);
+                                        hmorder.put(usercv.getFullName() != null ? usercv.getFullName() : usercv.getLogin(), usercv.getId());
+                                    }
+                                } else if (edocivil.equals("0")) {
+                                    if (!per.isCasado()) {  // no está casado
+                                        hmfiltro.put(per.getId(), per);
                                         hmorder.put(usercv.getFullName() != null ? usercv.getFullName() : usercv.getLogin(), usercv.getId());
                                     }
                                 }
                             }
+                            hm = hmfiltro;
+                        }
 
-                            // filtro por edo civil
-                            if (!edocivil.equals("2")) {
-                                hmfiltro = new HashMap<String, Persona>();
-                                hmorder = new HashMap<String, String>();
-                                itper = hm.values().iterator();
-                                while (itper.hasNext()) {
-                                    Persona per = itper.next();
-                                    User usercv = per.getOwner();
-                                    if (edocivil.equals("1")) {
-                                        if (per.isCasado()) {  // está casado
-                                            hmfiltro.put(per.getId(), per);
-                                             hmorder.put(usercv.getFullName() != null ? usercv.getFullName() : usercv.getLogin(), usercv.getId());
+                        // filtro hijos
+                        if (!hijos.equals("")) {
+                            hmfiltro = new HashMap<String, Persona>();
+                            hmorder = new HashMap<String, String>();
+                            itper = hm.values().iterator();
+                            while (itper.hasNext()) {
+                                Persona per = itper.next();
+                                User usercv = per.getOwner();
+                                if (hijos.equals("1")) {  // con hijos
+                                    if (!numhijos.equals("")) {  // con un determinado numero de hijos
+                                        int i_numhijos = 0;
+                                        try {
+                                            i_numhijos = Integer.parseInt(numhijos);
+                                        } catch (Exception e) {
+                                            i_numhijos = 0;
                                         }
-                                    } else if (edocivil.equals("0")) {
-                                        if (!per.isCasado()) {  // no está casado
+                                        if (i_numhijos > 0) {
+                                            int cuentahijos = 0;
+                                            Iterator<Familia> itfam = per.listFamilias();
+                                            while (itfam.hasNext()) {
+                                                Familia fam = itfam.next();
+                                                if (fam.getParentesco().equals("son")) {
+                                                    cuentahijos++;
+                                                }
+                                            }
+                                            if (cuentahijos >= i_numhijos) {  // tiene los hijos solicitados o más
+                                                hmfiltro.put(per.getId(), per);
+                                                hmorder.put(usercv.getFullName() != null ? usercv.getFullName() : usercv.getLogin(), usercv.getId());
+                                            }
+                                        }
+                                    } else {  // usuario que por lo menos con hijos sin importar el numero de hijos
+                                        Iterator<Familia> itfam = per.listFamilias();
+                                        while (itfam.hasNext()) {
+                                            Familia fam = itfam.next();
+                                            if (fam.getParentesco().equals("son")) {  // tiene por lo menos un hijo
+                                                hmfiltro.put(per.getId(), per);
+                                                hmorder.put(usercv.getFullName() != null ? usercv.getFullName() : usercv.getLogin(), usercv.getId());
+                                                break;
+                                            }
+                                        }
+                                    }
+                                } else if (hijos.equals("0")) {  // sin hijos
+                                    Iterator<Familia> itfam = per.listFamilias();
+                                    if (!itfam.hasNext()) {
+                                        hmfiltro.put(per.getId(), per);
+                                        hmorder.put(usercv.getFullName() != null ? usercv.getFullName() : usercv.getLogin(), usercv.getId());
+                                    } else {
+                                        boolean familiar = false;
+                                        while (itfam.hasNext()) {
+                                            Familia fam = itfam.next();
+                                            if (fam.getParentesco().equals("son")) {
+                                                familiar = true;
+                                                break;
+                                            }
+                                        }
+                                        if (!familiar) {  // no tiene familiar que sea hijo o hija
                                             hmfiltro.put(per.getId(), per);
-                                             hmorder.put(usercv.getFullName() != null ? usercv.getFullName() : usercv.getLogin(), usercv.getId());
+                                            hmorder.put(usercv.getFullName() != null ? usercv.getFullName() : usercv.getLogin(), usercv.getId());
                                         }
                                     }
                                 }
-                                hm = hmfiltro;
                             }
+                            hm = hmfiltro;  // filtro hijos
 
-                            // filtro hijos
-                            if (!hijos.equals("")) {
+                            if (!edadfiltro.equals("0") && !edad.equals("")) {
                                 hmfiltro = new HashMap<String, Persona>();
                                 hmorder = new HashMap<String, String>();
                                 itper = hm.values().iterator();
@@ -581,92 +644,29 @@
                                     Persona per = itper.next();
                                     User usercv = per.getOwner();
                                     if (hijos.equals("1")) {  // con hijos
-                                        if (!numhijos.equals("")) {  // con un determinado numero de hijos
-                                            int i_numhijos = 0;
-                                            try {
-                                                i_numhijos = Integer.parseInt(numhijos);
-                                            } catch (Exception e) {
-                                                i_numhijos = 0;
-                                            }
-                                            if (i_numhijos > 0) {
-                                                int cuentahijos = 0;
-                                                Iterator<Familia> itfam = per.listFamilias();
-                                                while (itfam.hasNext()) {
-                                                    Familia fam = itfam.next();
-                                                    if (fam.getParentesco().equals("son")) {
-                                                        cuentahijos++;
-                                                    }
-                                                }
-                                                if (cuentahijos >= i_numhijos) {  // tiene los hijos solicitados o más
-                                                    hmfiltro.put(per.getId(), per);
-                                                     hmorder.put(usercv.getFullName() != null ? usercv.getFullName() : usercv.getLogin(), usercv.getId());
-                                                }
-                                            }
-                                        } else {  // usuario que por lo menos con hijos sin importar el numero de hijos
-                                            Iterator<Familia> itfam = per.listFamilias();
-                                            while (itfam.hasNext()) {
-                                                Familia fam = itfam.next();
-                                                if (fam.getParentesco().equals("son")) {  // tiene por lo menos un hijo
-                                                    hmfiltro.put(per.getId(), per);
-                                                     hmorder.put(usercv.getFullName() != null ? usercv.getFullName() : usercv.getLogin(), usercv.getId());
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                    } else if (hijos.equals("0")) {  // sin hijos
+                                        String operador = edadfiltro;
                                         Iterator<Familia> itfam = per.listFamilias();
-                                        if (!itfam.hasNext()) {
-                                            hmfiltro.put(per.getId(), per);
-                                             hmorder.put(usercv.getFullName() != null ? usercv.getFullName() : usercv.getLogin(), usercv.getId());
-                                        } else {
-                                            boolean familiar = false;
-                                            while (itfam.hasNext()) {
-                                                Familia fam = itfam.next();
-                                                if (fam.getParentesco().equals("son")) {
-                                                    familiar = true;
+                                        while (itfam.hasNext()) {
+                                            Familia fam = itfam.next();
+                                            if (fam.getParentesco().equals("son")) {
+                                                boolean cumple = calculaEdad(fam, operador, edad);
+                                                if (cumple) {
+                                                    hmfiltro.put(per.getId(), per);
+                                                    hmorder.put(usercv.getFullName() != null ? usercv.getFullName() : usercv.getLogin(), usercv.getId());
                                                     break;
                                                 }
                                             }
-                                            if (!familiar) {  // no tiene familiar que sea hijo o hija
-                                                hmfiltro.put(per.getId(), per);
-                                                 hmorder.put(usercv.getFullName() != null ? usercv.getFullName() : usercv.getLogin(), usercv.getId());
-                                            }
                                         }
                                     }
                                 }
-                                hm = hmfiltro;  // filtro hijos
-
-                                if (!edadfiltro.equals("0") && !edad.equals("")) {
-                                    hmfiltro = new HashMap<String, Persona>();
-                                    hmorder = new HashMap<String, String>();
-                                    itper = hm.values().iterator();
-                                    while (itper.hasNext()) {
-                                        Persona per = itper.next();
-                                        User usercv = per.getOwner();
-                                        if (hijos.equals("1")) {  // con hijos
-                                            String operador = edadfiltro;
-                                            Iterator<Familia> itfam = per.listFamilias();
-                                            while (itfam.hasNext()) {
-                                                Familia fam = itfam.next();
-                                                if (fam.getParentesco().equals("son")) {
-                                                    boolean cumple = calculaEdad(fam, operador, edad);
-                                                    if(cumple){
-                                                        hmfiltro.put(per.getId(), per);
-                                                         hmorder.put(usercv.getFullName() != null ? usercv.getFullName() : usercv.getLogin(), usercv.getId());
-                                                        break; 
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                hm = hmfiltro;
                             }
+                            hm = hmfiltro;
+                        }
                         acum = SWBUtils.Collections.sizeOf(hm.keySet().iterator());
                         String reptype = request.getParameter("reptype");
                         String reporte = "";
 
-                         reporte = listReport(hm, hmorder, "Genero, Estado Civil, Hijos", txtCriteria, paramRequest, request);
+                        reporte = listReport(hm, hmorder, "Genero, Estado Civil, Hijos", txtCriteria, paramRequest, request);
 
 
                         out.println(reporte);
@@ -725,6 +725,7 @@
         if (null == export) {
             export = "";
         }
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         WebSite wsite = paramRequest.getWebPage().getWebSite();
         ret.append("<script type=\"text/javascript\">");
         ret.append(" function newWin(url){");
@@ -740,10 +741,12 @@
         ret.append("        </caption>");
         ret.append("            <thead>");
         ret.append("                <tr>");
-        ret.append("                    <th>Usuario</th><th>Detalle</th>");
+        ret.append("                    <th>Usuario</th><th>Casado</th><th>Num. Hijos</th><th>Hijos</th><th>Fecha nacimiento</th><th>Detalle</th>");
         ret.append("                </tr>");
         ret.append("            </thead>");
         ret.append("            <tbody>");
+
+        WebSite ws = paramRequest.getWebPage().getWebSite();
 
         ArrayList<String> list = new ArrayList(hmorder.keySet());
         Collections.sort(list);
@@ -754,18 +757,64 @@
             String keyorder = hmorder.get(key);
 
             User usrcv = wsite.getUserRepository().getUser(keyorder);
+            if(usrcv==null) continue; 
+
+            Persona per = Persona.ClassMgr.getPersona(usrcv.getId(), ws); 
+            if(per==null) per = Persona.ClassMgr.createPersona(usrcv.getId(), ws);
+            String casado = per.isCasado() ? "Sí" : "No";
+            Iterator<Familia> itfam = per.listFamilias();
+            int numhijos = 0;
+            HashMap<String, String> hmsons = new HashMap<String, String>();
+            while (itfam.hasNext()) {
+                Familia myfam = itfam.next();
+                if (null != myfam) {
+                    if (myfam.getParentesco() != null && myfam.getParentesco().equals("son")) {
+                        numhijos++;
+                        hmsons.put(myfam.getNombre(), myfam.getNacimiento() != null ? sdf.format(myfam.getNacimiento()) : "No disponible");
+                    }
+                }
+            }
+
             WebPage wpage = wsite.getWebPage("ver_CV");
             ret.append("                 <tr>");
             ret.append("                     <td>");
-            if(usrcv==null) continue;
+            if (usrcv == null) {
+                continue;
+            }
             String fullname = usrcv.getFullName();
-            if(fullname==null){
-                fullname = usrcv.getFirstName()!=null?usrcv.getFirstName():"" + usrcv.getLastName()!=null?usrcv.getLastName():"";
-                if(fullname==null||fullname.trim().length()==0){
-                    fullname=usrcv.getLogin();
+            if (fullname == null) {
+                fullname = usrcv.getFirstName() != null ? usrcv.getFirstName() : "" + usrcv.getLastName() != null ? usrcv.getLastName() : "";
+                if (fullname == null || fullname.trim().length() == 0) {
+                    fullname = usrcv.getLogin();
                 }
             }
-            ret.append(fullname); 
+            ret.append(fullname);
+            ret.append("                     </td>");
+            ret.append("<td>");  //edo. civil
+            ret.append(casado);
+            ret.append("                     </td>");
+            ret.append("<td>");  // numero de hijos
+            ret.append(numhijos);
+            ret.append("                     </td>");
+            ret.append("<td>");  // nombre de hijos
+            Iterator<String> itson = hmsons.keySet().iterator();
+            while (itson.hasNext()) {
+                String nombre = itson.next();
+                ret.append(nombre);
+                if (itson.hasNext()) {
+                    ret.append("<br/>");
+                }
+            }
+            ret.append("                     </td>");
+            ret.append("<td>");  // fecha de nacimiento de hijos
+            itson = hmsons.keySet().iterator();
+            while (itson.hasNext()) {
+                String nombre = itson.next();
+                ret.append(hmsons.get(nombre));
+                if (itson.hasNext()) {
+                    ret.append("<br/>");
+                }
+            }
             ret.append("                     </td>");
             ret.append("<td>");
             if (!export.equals("excel")) {
