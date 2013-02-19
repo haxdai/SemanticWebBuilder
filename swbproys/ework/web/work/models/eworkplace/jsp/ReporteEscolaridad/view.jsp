@@ -187,7 +187,7 @@
                             if (hm != null && hm.isEmpty() && hmes != null && hmes.isEmpty()) {
                     %>         
                     <p>No se encontraron registros</p>
-                    <button onclick="javascript:history.back(1);" >Regresar</button>
+                    <button onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>';" >Regresar</button>
                     <%} else {
 
                     %>
@@ -347,7 +347,7 @@
                             }
                         %>
                         
-                            <button type="button" onclick="javascript:history.back(1);">Regresar</button>
+                            <button type="button" onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>';">Regresar</button>
                             <button type="submit" >Guardar Excel</button> 
                         </form>
                         <%
@@ -458,7 +458,7 @@
                                 }
                             %>
                             
-                                <button type="button" onclick="javascript:history.back(1);">Regresar</button>
+                                <button type="button" onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>';">Regresar</button>
                                 <button type="submit" >Guardar Excel</button> 
                             </form>
                             <%
@@ -491,7 +491,7 @@
                                     <input type="hidden" name="act" value="<%=action%>"/>
                                     <input type="hidden" name="step" value="2"/>
                                     <label for="search">Poner el nombre del Curso, Diplomado, Certificación ó Curso TIC: </label><input type="text" id="search" name="search" />
-                                    <button onclick="javascript:history.back(1);" >Regresar</button>
+                                    <button onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>';" >Regresar</button>
                                     <button type="submit" onclick="return revisa(this.form)">Buscar</button>  
                                 </form>
                             </div>
@@ -555,7 +555,7 @@
                                 if (acum == 0 && acumtic == 0) {
                             %>         
                             <p>No se encontraron registros</p>
-                            <button type="button" onclick="javascript:history.back(1);">Regresar</button>
+                            <button type="button" onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>';">Regresar</button>
                             <%  } else {
 
                             %>
@@ -657,7 +657,7 @@
                                 %>
 
                               
-                                    <button type="button" onclick="javascript:history.back(1);">Regresar</button>
+                                    <button type="button" onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>';">Regresar</button>
                                     <button type="submit" >Guardar Excel</button> 
                                 </form>
                                 <%
@@ -757,7 +757,7 @@
                                     %>
 
                                     
-                                        <button type="button" onclick="javascript:history.back(1);">Regresar</button>
+                                        <button type="button" onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>';">Regresar</button>
                                         <button type="submit" >Guardar Excel</button> 
                                     </form>
                                     <%
@@ -874,7 +874,7 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-                                        <button onclick="javascript:history.back(1);" >Regresar</button> 
+                                        <button onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>';" >Regresar</button> 
                                         <button type="submit" onclick="return revisa(this.form)" >Buscar</button> 
                                     </form>
                                     <%
@@ -908,7 +908,7 @@
                                         if (acum == 0) {
                                     %>         
                                     <p>No se encontraron registros</p>
-                                    <button onclick="javascript:history.back(1);" >Regresar</button> 
+                                    <button onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>';" >Regresar</button> 
                                     <%  } else {
 
                                     %>
@@ -993,7 +993,7 @@
                                         %>
 
                                        
-                                            <button type="button" onclick="javascript:history.back(1);">Regresar</button>
+                                            <button type="button" onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>';">Regresar</button>
                                             <button type="submit" >Guardar Excel</button> 
                                         </form>
                                         <%
@@ -1057,7 +1057,7 @@
                                             %>
 
                                             
-                                                <button type="button" onclick="javascript:history.back(1);">Regresar</button>
+                                                <button type="button" onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>';">Regresar</button>
                                                 <button type="submit" >Guardar Excel</button> 
                                             </form>
                                             <%

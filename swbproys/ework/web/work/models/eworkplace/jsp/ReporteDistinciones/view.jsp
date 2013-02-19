@@ -124,7 +124,7 @@
                             if (acum == 0 && acumno == 0) {
                     %>    
                     <p>No se encontraron registros.....</p> 
-                    <button type="button" onclick="javascript:history.back(1);">Regresar</button>
+                    <button type="button" onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>';">Regresar</button>
                     <%            } else {
                     %>    
 
@@ -207,7 +207,7 @@
 
                         %>
 
-                        <button type="button" onclick="javascript:history.back(1);">Regresar</button>
+                        <button type="button" onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>';">Regresar</button>
                         <button type="submit" >Guardar Excel</button> 
                     </form>
                     <%
@@ -284,7 +284,7 @@
                             }
                         %>
 
-                        <button type="button" onclick="javascript:history.back(1);">Regresar</button>
+                        <button type="button" onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>';">Regresar</button>
                         <button type="submit" >Guardar Excel</button>
                     </form>
                     <%

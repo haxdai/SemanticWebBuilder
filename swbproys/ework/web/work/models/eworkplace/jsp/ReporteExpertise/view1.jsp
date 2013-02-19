@@ -133,7 +133,7 @@
                     %>
                     <form action="<%=urlExport.toString()%>" method="post">
                         <input type="hidden" name="export" value="excel"/>
-                        <button type="button" onclick="javascript:history.back(1);" >Regresar</button>
+                        <button type="button" onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>';" >Regresar</button>
                         <button type="submit" >Guardar Excel</button>
                     </form>
                     <%
@@ -219,7 +219,7 @@
                     <form action="<%=urlExport.toString()%>" method="post">
                         <input type="hidden" name="export" value="excel"/>
                         <input type="hidden" name="eid" value="<%=tipoTalentoId%>"/>
-                        <button type="button" onclick="javascript:history.back(1);" >Regresar</button>
+                        <button type="button" onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>';" >Regresar</button>
                         <button type="submit" >Guardar Excel</button>
                     </form>
                     <%
@@ -301,7 +301,7 @@
                     <form action="<%=urlExport.toString()%>" method="post">
                         <input type="hidden" name="export" value="excel"/>
                         <input type="hidden" name="sid" value="<%=habilidadId%>"/>
-                        <button type="button" onclick="javascript:history.back(1);" >Regresar</button>
+                        <button type="button" onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>';" >Regresar</button>
                         <button type="submit" >Guardar Excel</button>
                     </form>
                     <%

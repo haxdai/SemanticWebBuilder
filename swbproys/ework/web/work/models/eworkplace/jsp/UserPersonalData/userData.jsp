@@ -822,7 +822,7 @@ objf.setAttribute('displayed', 'on');
             <div class="">
                 <p>
                 <!--input type="button" value="<%=paramRequest.getLocaleString("lblReset")%>"  onclick="history.back()"-->
-                    <input type="submit" value="<%=paramRequest.getLocaleString("lblSave")%>"  onclick="return enviar()"/>
+                    <input type="submit" value="<%=paramRequest.getLocaleString("lblSave")%>"  onlick="return enviar()"/>
                 </p>
             </div>
         </form>
