@@ -176,7 +176,7 @@ getHtml("<%//=ajaxUrl%>?area="+areav, "spCar",true, true);
                 <div class="clearer">&nbsp;</div>
             </div>
             <div class="centro">
-                <input type="button" onclick="javascript:history.back(1)" value="Regresar"/>
+                <input type="button" onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>';" value="Regresar"/>
                 <input type="reset" value="Borrar"/>
                 <input type="submit" onclick="return enviar()" value="Enviar"/>
             </div>
@@ -307,7 +307,7 @@ getHtml("<%//=ajaxUrl%>?area="+areav, "spCar",true, true);
                     url.setParameter("car", strCar);
                     if (!paramRequest.getMode().equals(ReporteCarreraMunicipio.Mode_EXPORT)) {
             %>
-            <button onclick="javascript:history.back(1)" >Regresar</button>
+            <button onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>';" >Regresar</button>
             <button onclick="javascript:location='<%=url%>'; return false;" >Guardar Excel</button>
             <%
                     }
@@ -365,7 +365,7 @@ getHtml("<%//=ajaxUrl%>?area="+areav, "spCar",true, true);
                     url.setParameter("det", "det");
                     if (!paramRequest.getMode().equals(ReporteCarreraMunicipio.Mode_EXPORT)) {
             %>
-            <button onclick="javascript:history.back(1)" >Regresar</button>
+            <button onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>';" >Regresar</button>
             <button onclick="javascript:location='<%=url%>'; return false;" >Guardar Excel</button>
             <%
                     }
