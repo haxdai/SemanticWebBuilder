@@ -158,7 +158,7 @@
                             <div class="clear">&nbsp;</div>
                             <input type="checkbox" name="conArea" value="1" checked onclick="if(!this.checked){this.form.search.disabled='disabled';;}else{this.form.search.disabled='';}"/><label for="search">&nbsp;&nbsp;Poner el Área de Investigación: </label><input type="text" id="search" name="search" /><br/>
                             <input type="checkbox" name="conCurso" value="1" checked onclick="if(!this.checked){this.form.search2.disabled='disabled';;}else{this.form.search2.disabled='';}"/><label for="search2">&nbsp;&nbsp;Poner el Diplomado, Curso o Curso TIC: </label><input type="text" id="search2" name="search2" />
-                            <button onclick="javascript:history.back(1);" >Regresar</button>
+                            <button onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>';" >Regresar</button>
                             <button type="submit" onclick="return revisa(this.form)">Buscar</button>  
                         </form>
                     </div>
@@ -300,7 +300,7 @@
                         if (acum == 0) {
                     %>         
                     <p>No se encontraron registros</p>
-                    <button type="button" onclick="javascript:history.back(1);">Regresar</button>
+                    <button type="button" onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>';">Regresar</button>
                     <%  } else {
 
                     %>
@@ -382,7 +382,7 @@
                         %>
 
 
-                        <button type="button" onclick="javascript:history.back(1);">Regresar</button>
+                        <button type="button" onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>';">Regresar</button>
                         <button type="submit" >Guardar Excel</button> 
                     </form>
                     <%
@@ -583,7 +583,7 @@
                         %>
 
 
-                        <button type="button" onclick="javascript:history.back(1);">Regresar</button>
+                        <button type="button" onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>';">Regresar</button>
                         <button type="submit" >Guardar Excel</button> 
                     </form>
                     <%

@@ -107,7 +107,7 @@ Author     : rene.jara
                 SWBResourceURL url = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(ReporteIdentificacion.Mode_EXPORT).setAction(ReporteIdentificacion.Action_REP_NATIONATITY);
                 if (!paramRequest.getMode().equals(ReporteIdentificacion.Mode_EXPORT)) {
             %>
-            <button onclick="javascript:history.back(1)" >Regresar</button>
+            <button onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>';" >Regresar</button>
             <button onclick="javascript:location='<%=url%>'; return false;" >Guardar Excel</button>
             <%
                 }
@@ -177,7 +177,7 @@ Author     : rene.jara
                 url.setParameter("det", "det");
                 if (!paramRequest.getMode().equals(ReporteIdentificacion.Mode_EXPORT)) {
             %>
-            <button onclick="javascript:history.back(1)" >Regresar</button>
+            <button onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>';" >Regresar</button>
             <button onclick="javascript:location='<%=url%>'; return false;" >Guardar Excel</button>
             <%
                 }

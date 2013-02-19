@@ -131,7 +131,7 @@
                                 </p>
                                 <div class="clearer">&nbsp;</div>
                             </div>
-                            <button onclick="javascript:history.back(1);">Regresar</button>
+                            <button onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>';">Regresar</button>
                             <button type="submit" >Buscar</button>
                         </form>
                     </div>
@@ -192,7 +192,7 @@
                         if (acum == 0) {
                     %>         
                     <p>No se encontraron registros</p>
-                    <button onclick="javascript:history.back(1);">Regresar</button>
+                    <button onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>'">Regresar</button>
                     <%  } else {
 
                         String criteria = "CVI registrados en la base de datos.";
@@ -268,7 +268,7 @@
                             }
                         %>
                         <form action="<%=urlExport.toString()%>">
-                            <button onclick="javascript:history.back(1);">Regresar</button>
+                            <button onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>'">Regresar</button>
                             <button type="submit" >Guardar Excel</button>
                         </form>
                         <%
@@ -372,7 +372,7 @@
                                 }
                             %>
                             <form action="<%=urlExport.toString()%>">
-                                <button onclick="javascript:history.back(1);">Regresar</button>
+                                <button onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>'">Regresar</button>
                                 <button type="submit" >Guardar Excel</button>
                             </form>
                             <%

@@ -205,7 +205,7 @@
                             <div class="clearer">&nbsp;</div>
                         </div>
                         <div class="centro">
-                            <input type="button" onclick="javascript:history.back(1)" value="Regresar"/>
+                            <input type="button" onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>';" value="Regresar"/>
                             <input type="reset" value="Borrar"/>
                             <input type="submit" onclick="return enviar()" value="Enviar"/>
                         </div>

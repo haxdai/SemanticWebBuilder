@@ -112,7 +112,7 @@
                             <input type="hidden" name="act" value="<%=action%>"/>
                             <input type="hidden" name="step" value="2"/>
                             <label for="search">Poner el texto referente a la Habilida y/o funcion principal a buscar: </label><input type="text" id="search" name="search" />
-                            <button type="button" onclick="javascript:history.back(1);" >Regresar</button>
+                            <button type="button" onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>';" >Regresar</button>
                             <button type="submit" onclick="return revisa(this.form)">Buscar</button>  
                         </form>
                     </div>
@@ -169,7 +169,7 @@
                         if (hm.isEmpty() && hmhab.isEmpty() && hmdos.isEmpty()) {
                     %>         
                     <p>No se encontraron registros</p>
-                    <button type="button" onclick="javascript:history.back(1);">Regresar</button>
+                    <button type="button" onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>';">Regresar</button>
                     <%  } else {
 
                     %>
@@ -300,7 +300,7 @@
                             }
                         %>
 
-                        <button type="button" onclick="javascript:history.back(1);">Regresar</button>
+                        <button type="button" onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>';">Regresar</button>
                         <button type="submit" >Guardar Excel</button> 
                     </form>
                     <%
@@ -410,7 +410,7 @@
                         %>
 
 
-                        <button type="button" onclick="javascript:history.back(1);">Regresar</button>
+                        <button type="button" onclick="javascript:location='<%=paramRequest.getWebPage().getUrl()%>';">Regresar</button>
                         <button type="submit" >Guardar Excel</button> 
                     </form>
                     <%
