@@ -133,6 +133,46 @@ Author     : juan.fernandez y rene.jara
     dojo.require("dijit.form.Select");
     dojo.require("dijit.form.NumberTextBox");
 
+function submitFormPortalA(formid)
+      {
+          var obj=dojo.byId(formid);
+          var objd=dijit.byId(formid);
+          var fid=formid;
+          if(!obj && objd) //si la forma esta dentro de un dialog
+          {
+              obj=objd.domNode;
+              fid=obj;
+          }
+          if(!objd || objd.isValid())
+          {
+              dojo.xhrPost({
+                  contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                  url: obj.action,
+                  form: fid,
+                  load: function (data)
+                  {
+                          var panel=getContentPanel(obj);
+                          if(panel)
+                          {
+                              try
+                              {
+                                  var aux=panel.href;
+                                  panel.attr('content',data);
+                                  panel.href=aux;
+                                  if(!panel.suportScripts)runScripts(data);
+                              }catch(e){alert(e.message);}
+                          }
+                  },
+                  error: function (error) {
+                          //alert('Error: ', error);
+                  }
+              });
+          }else
+          {
+              alert("Datos Inválidos...");
+          }
+      }
+      
 </script>
 <%
 
@@ -155,12 +195,13 @@ Author     : juan.fernandez y rene.jara
 %>
 
 
-
+<div class="barra">
 <div id="conorg-add">
-    <form dojoType="dijit.form.Form" action="<%=urladd%>" method="post"> 
-        <button dojoType="dijit.form.Button" type="submit" name="addButton" >Añadir Espacio de trabajo</button>
-    </form>
+    <a href="<%=urladd%>">Añadir Espacio de trabajo</a>
 </div>
+<% if(wsid==null||(wsid!=null&&wsid.trim().length()==0)){%>
+    </div>
+<%}%>
 <%
     if (action.equals(SWBResourceURL.Action_ADD) && actType.equals("addworkspace")) { //
 
@@ -656,6 +697,9 @@ Author     : juan.fernandez y rene.jara
         if (wp_wiki != null || wp_foro != null || usrlevel >= 3) {
     %>
 </div>
+    <% if(wsid!=null&&wsid.trim().length()>0){%> 
+    </div>
+<%}%>
 <%        }
     }    // nivel de usuario
 %>
@@ -1535,6 +1579,7 @@ Author     : juan.fernandez y rene.jara
                     }
 
                     frmgr = new SWBFormMgr(so, null, frmMode);
+                    
                     //frmgr.clearProperties();
                     //frmgr.addProperty(Descriptiveable.swb_title);
                     //frmgr.addProperty(Descriptiveable.swb_description);
@@ -1544,6 +1589,7 @@ Author     : juan.fernandez y rene.jara
                     //frmgr.addProperty(Traceable.swb_modifiedBy);
                     //frmgr.addProperty(Traceable.swb_updated);
                     //frmgr.addProperty(Tile.conorg_hasTopic);
+                    frmgr.setSubmitByAjax(Boolean.TRUE);
 
                     frmgr.clearProperties();
                     if (go instanceof Tile) {
@@ -1652,9 +1698,9 @@ Author     : juan.fernandez y rene.jara
 
             %>        
             <%//=frmgr.renderForm(request)%>  
-            <form id="<%=so.getURI()%>/form" class="swbform" action="<%=frmAction%>" method="post">
+            <form id="<%=so.getURI()%>/form" class="swbform" action="<%=frmAction%>" method="post" onsubmit="submitFormPortalA('<%=so.getURI()%>/form');return false;">
                 <input type="hidden" name="suri" value="<%=so.getURI()%>"/>
-                <input type="hidden" name="scls" value="<%=scls.getURI()%>"/>
+                <input type="hidden" name="scls" value="<%=so.getSemanticClass().getURI()%>"/>
                 <input type="hidden" name="smode" value="<%=frmSMODE%>"/>
                 <input type="hidden" name="id" value="<%=so.getURI()%>"/>
                 <%
@@ -2039,29 +2085,43 @@ Author     : juan.fernandez y rene.jara
                         }
 
                         out.println("<script type=\"text/javascript\" >");
+                        
+                        out.println("function guardaDatosItem() ");
+                        out.println("{ ");
+                        out.println("   alert('guarda datos item........');");
+                        out.println("   submitFormPortalA('"+so.getURI()+"/form');");
+                        out.println("   return false;");
+                        out.println("}");
                         out.println("function valida() ");
                         out.println("{ ");
+                        //out.println("   alert('en valida...');");
+                        out.println("   var pasa = false;");
                         out.println("   if(document.frmnewdoc.ffile.value=='') ");
                         out.println("     { ");
                         out.println("         alert('Defina un archivo'); ");
-                        out.println("         return; ");
-                        out.println("     } ");
+                        out.println("         return false; ");
+                        out.println("     }  ");
 
                         if (null != vl) {
                             out.println("   var filename = document.frmnewdoc.ffile.value;");
                             out.println("   if(filename.indexOf('" + vl.getVersionFile() + "')==-1) ");
                             out.println("     { ");
                             out.println("         alert('Archivo seleccionado inválido. Debe ser " + vl.getVersionFile() + "'); ");
-                            out.println("         return; ");
+                            out.println("         return false; ");
                             out.println("     } ");
                         }
 
-                        out.println("   document.frmnewdoc.submit();");
+                        //out.println("       alert('antes de revisar la forma ...');");
+                        out.println("       if(!guardaDatosItem()){");
+                        out.println("       //alert('datos Item guardados....');");
+                        out.println("    }");
+                        out.println("       document.frmnewdoc.submit();");
+                        out.println("  return false; ");
                         out.println("} ");
                         out.println("</script>");
 
                         out.println("<div id=\"ProcessFile\">");
-                        out.println("<form dojoType=\"dijit.form.Form\" id=\"frmnewdoc\" name=\"frmnewdoc\" method=\"post\" action=\"" + urlnew + "\"  enctype=\"multipart/form-data\" onsubmit=\"valida();return false;\">");
+                        out.println("<form dojoType=\"dijit.form.Form\" id=\"frmnewdoc\" name=\"frmnewdoc\" method=\"post\" action=\"" + urlnew + "\"  enctype=\"multipart/form-data\" >");
                         out.println("<input type=\"hidden\" name=\"fid\" value=\"" + doc.getURI() + "\">");
 
                         out.println("<table>");
@@ -2080,7 +2140,8 @@ Author     : juan.fernandez y rene.jara
                         out.println("<input type=\"file\" name=\"ffile\">");
                         out.println("</td>");
                         out.println("<td colspan=\"2\" align=\"right\">");
-                        out.println("<button dojoType=\"dijit.form.Button\" type=\"submit\" >Agregar</button>");
+
+                        out.println("<button dojoType=\"dijit.form.Button\" type=\"button\" onClick=\"valida();\">Agregar</button>");
                         out.println("</td>");
                         out.println("</tr>");
 
