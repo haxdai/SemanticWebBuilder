@@ -42,6 +42,7 @@ public class Reportes extends GenericResource
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
+        response.setContentType("text/html");
         String siteId = paramRequest.getWebPage().getWebSiteId();
         String mode = MODE_REPORTE_MENU;
         if (paramRequest.getMode() != null)
