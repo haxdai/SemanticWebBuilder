@@ -31,11 +31,9 @@ Author     : juan.fernandez y rene.jara
     int nummem;
     int numtil;
     String wsid = request.getParameter("wsid");
-    System.out.println("wsid:"+wsid); 
     if(wsid!=null&&wsid.equals("null")) wsid = null;
     if(wsid!=null&&wsid.trim().length()==0) wsid = null;
     if(wsid==null) wsid="";
-
     String confClass = base.getAttribute(MyShelf.RES_CONF, "http://www.infotec.com/conorg.owl#Shelf");
     String path = SWBPlatform.getContextPath() + "/swbadmin/images/repositoryfile/";
 
@@ -116,6 +114,7 @@ Role rol = wsite.getUserRepository().getRole(base.getAttribute(MyShelf.ROL_ADMIN
     dojo.require("dijit._Calendar");
     dojo.require("dijit.ProgressBar");
     dojo.require("dijit.TitlePane");
+    dojo.require("dijit.Dialog");
 
     // editor:
     dojo.require("dijit.Editor");
@@ -135,7 +134,7 @@ Role rol = wsite.getUserRepository().getRole(base.getAttribute(MyShelf.ROL_ADMIN
     dojo.require("dojox.form.TimeSpinner");
     dojo.require("dijit.form.ValidationTextBox");
     dojo.require("dijit.layout.ContentPane");
-    dojo.require("dijit.form.Select");
+    //dojo.require("dijit.form.Select");
     dojo.require("dijit.form.NumberTextBox");
 
 function submitFormPortalA(formid)
@@ -179,7 +178,6 @@ function submitFormPortalA(formid)
       }
       
 </script>
-
 <div class="barra">
 <%
 
@@ -199,8 +197,6 @@ function submitFormPortalA(formid)
         //    urladd.setParameter("wsid", request.getParameter("wsid"));
         //}
 
-        
-       
 %>
 
 
@@ -208,9 +204,13 @@ function submitFormPortalA(formid)
 
     <a class="conorg-add" href="<%=urladd%>">Añadir Espacio de trabajo</a>
 
-<% if(wsid.equals("")){%>
+<% 
+    if(wsid.equals("")){
+%>
     </div>
-<%}%>
+<%
+    }
+%>
 <%
     if (action.equals(SWBResourceURL.Action_ADD) && actType.equals("addworkspace")) { //
 
@@ -701,7 +701,7 @@ function submitFormPortalA(formid)
     <%
         }
     
-%> 
+    %>
     </div>
 <%
     }    // nivel de usuario
@@ -1197,7 +1197,7 @@ function submitFormPortalA(formid)
                         if (l == 0) {
                     %>
                     <tr >
-                        <td colspan="6" >No se encontraron registros</td>
+                        <td colspan="6" >No se encontraron azulejos</td>
                     </tr>
                     <%    } else {
 
@@ -1207,7 +1207,7 @@ function submitFormPortalA(formid)
                         } catch (Exception e) {
                         }
                         int numtiles = 0;
-
+                        int cont=1;
 
                         while (ittil.hasNext()) {
                             Tile tile = ittil.next();
@@ -1318,7 +1318,8 @@ function submitFormPortalA(formid)
                         <td onclick="window.location='<%=urllast%>';"><%=strDate%></td>
                         <td onclick="window.location='<%=urllast%>';"><%=strType%></td>
                         <td onclick="window.location='<%=urllast%>';"><%=strTopic%></td>
-                        <% } else {
+                        <%
+                        } else {
                         %>
                         <td class="<%=MyShelf.getClassIconTile(tile)%>"><%=strTitle%></td>
                         <td><%=strDate%></td>
@@ -1327,21 +1328,79 @@ function submitFormPortalA(formid)
                         <% }
                         %>
                         <td>
-                            <% if (usrlevel >= 2) {
+                            <%
+                            if (usrlevel >= 2) {
                             %>
                             <span class="icv-compartir"><a href="#" title="Copiar referencia al estante" onclick="if(confirm('¿Deseas copiarlo a tú estante?')){window.location='<%=urlshare%>';} else return false;">C&nbsp;</a></span>
                             <span class="icv-editar"><a href="#" title="Editar" onclick="window.location='<%=urledit%>';">E&nbsp;</a></span>
                             <%
                                 if (usrlevel == 4 || usr.equals(tile.getCreator())) {
                             %>
-                            <span class="icv-borrar"><a href="#" title="Borrar" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';} else return false;">B&nbsp;</a></span>
+                            <%
+                            boolean canMove = false;
+                            String urlmove = paramRequest.getActionUrl().setAction("movTile").toString();
+                        %>
+                        <div class="aviso-sys" dojoType="dijit.Dialog"  id="msg<%=cont%>" execute="" title="Mover<%//=strTitle%>">
+                            <form id="formmos<%=cont%>" name="formmos" method="post" dojoType="dijit.form.Form" action="<%=urlmove%>">
+                                <%
+                                    if (request.getParameter("wsid") != null) {
+                                %>
+                                <input type="hidden" name="wsid" value="<%=request.getParameter("wsid")%>"/>
+                                <%
+                                    }
+                                %>
+                                <input type="hidden" name="suri" value="<%=tile.getURI()%>"/>
+                                <input type="hidden" name="msid" value=""/>
+                                <select name="muri" dojoType="dijit.form.FilteringSelect">
+                                    <!--option value="-1">Selecciona....</option-->
+                                    <%
+                                        //Iterator<Tile> itti = shelf.listTiles();
+                                        Mosaic mo=null;
+                                        if(tile instanceof Mosaic){
+                                            mo=(Mosaic)tile;
+                                        }
+                                        Iterator<Mosaic> itmo=MyShelf.findMosaics(null,mo,workSpace.listTiles());
+                                        while (itmo.hasNext()) {
+                                            Mosaic lmo = itmo.next();
+                                           // if (lmo != tile) {
+                                    %>
+                                    <option value="<%=lmo.getURI()%>"><%=lmo.getTitle()%></option>
+                                    <%
+                                                canMove = true;
+                                           // }
+                                        }
+                                    %>
+                                </select>
+                                <button dojoType="dijit.form.Button" type="submit">Mover</button>
+                            </form>
+                        </div>
+                        <%
+                            if (canMove) {
+                        %>
+                        <span class="icv-mover"><a href="#" title="Mover"  onclick="dijit.byId('msg<%=cont%>').show()">M&nbsp;</a></span>
+                        <%
+                        } else {
+                        %>
+                        <span class="icv-vacio"></span>
+                        <%
+                           }
+                        %>
+                            <span class="icv-borrar"><a href="#" title="Borrar" onclick="if(confirm('¿Deseas eliminar este azulejo?')){window.location='<%=urldel%>';} else return false;">B&nbsp;</a></span>
                             <%
                                     } else {
-                                        out.println("<span class=\"icv-vacio\"></span>");
+%>
+                                <span class="icv-vacio"></span>
+                                <span class="icv-vacio"></span>
+<%
                                     }
-
                                 } else {
-                                    out.println("<span class=\"icv-vacio\"></span><span class=\"icv-vacio\"></span><span class=\"icv-vacio\"></span>");
+%>
+                                <span class="icv-vacio"></span>
+                                <span class="icv-vacio"></span>
+                                <span class="icv-vacio"></span>
+                                <span class="icv-vacio"></span>
+<%
+
                                 }
                             %>
                         </td>
@@ -1351,7 +1410,7 @@ function submitFormPortalA(formid)
                                 if (paramRequest.getCallMethod() == SWBParamRequest.Call_STRATEGY) {
                                     numtiles++;
                                 }
-
+                                cont++;
                             }
                         }
                     %>
@@ -1520,12 +1579,6 @@ function submitFormPortalA(formid)
                     &nbsp;
                 </span>
             </div>
-
-
-
-
-
-
             <%
             } else if (action.equals(SWBResourceURL.Action_EDIT)) {
                 String id = request.getParameter("id");
@@ -1708,21 +1761,15 @@ function submitFormPortalA(formid)
                 <input type="hidden" name="id" value="<%=so.getURI()%>"/>
                 <%
                     if (null != wsid) {
-
                 %>
                 <input type="hidden" name="wsid" value="<%=wsid%>"/> 
                 <%
                     }
-
                 %>
-
                 <fieldset >
                     <legend></legend>
                     <table>
                         <%
-
-
-
                             hmgroup = frmgr.getGroups();
                             hmorder = new HashMap<String, SemanticProperty>();
                             itpg = hmgroup.keySet().iterator();
@@ -1811,7 +1858,7 @@ function submitFormPortalA(formid)
                     if (wsid != null && !wsid.equals("")) {
 
             %>
-            <form  id="formmos" name="formmos" method="post" dojoType="dijit.form.Form" action="<%=addtiurl%>">
+            <form  id="form1sc" name="form1ct" method="post" dojoType="dijit.form.Form" action="<%=urladd%>">
                 <%
                     if (request.getParameter("wsid") != null) {
                 %>
@@ -1819,24 +1866,46 @@ function submitFormPortalA(formid)
                 <%
                     }
                 %>
-                <input type="hidden" name="suri" value="<%=tile.getURI()%>"/>
-                <label for="">Azulejo del Espacio de trabajo a añadir:</label>
-                <select name="tiid">
-                    <option value="-1">Selecciona....</option>
-                    <%
 
-                        Iterator<Tile> itti = workSpace.listTiles();
-                        while (itti.hasNext()) {
-                            Tile ltile = itti.next();
-                            if(ltile.getResource()==null) ltile.setResource(paramRequest.getResourceBase());
-                            if (!ltile.equals(tile)) {
-                    %>
-                    <option value="<%=ltile.getURI()%>"><%=ltile.getTitle()%></option>
-                    <%
+                <label for="">Tipo de elemento Azulejo a añadir:</label>
+                <select name="classid" _onchange="loadForm('<%//=ajaxUrl%>&classid='+this.value)" >
+                    <option value="-1">Selecciona....</option>
+                    <optgroup title="Documento" label="Documento">
+                        <%
+                        HashMap<String, SemanticClass> hmscdocs = new HashMap<String, SemanticClass>();
+                        HashMap<String, SemanticClass> hmsctile = new HashMap<String, SemanticClass>();
+                        Iterator<SemanticClass> itsc = Document.conorg_Document.listSubClasses();
+                        while (itsc.hasNext()) {
+                            SemanticClass sc = itsc.next();
+                            hmscdocs.put(sc.getURI(), sc);
+                        }
+                        itsc = Tile.conorg_Tile.listSubClasses();
+                        while (itsc.hasNext()) {
+                            SemanticClass sc = itsc.next();
+                            if (hmscdocs.get(sc.getURI()) == null && !sc.getURI().equals(Document.conorg_Document.getURI())) {
+                                hmsctile.put(sc.getURI(), sc);
                             }
+                        }
+                            itsc = hmscdocs.values().iterator();
+                            while (itsc.hasNext()) {
+                                SemanticClass sc = itsc.next();
+                        %>
+                        <option value="<%=sc.getURI()%>"><%=sc.getDisplayName("es")%></option>
+                        <%
+                            }
+                        %>
+                    </optgroup>
+                    <%
+                        itsc = hmsctile.values().iterator();
+                        while (itsc.hasNext()) {
+                            SemanticClass sc = itsc.next();
+                    %>
+                    <option value="<%=sc.getURI()%>"><%=sc.getDisplayName("es")%></option>
+                    <%
                         }
                     %>
                 </select>
+                &nbsp;Título: <input type="text" name="elemTitle"/>
                 <button dojoType="dijit.form.Button" type="submit">Agregar</button>
             </form>
             <div id="classform">
@@ -1863,7 +1932,7 @@ function submitFormPortalA(formid)
                         if (SWBUtils.Collections.sizeOf(mosaic.listTiles()) == 0) {
                     %>
                     <tr >
-                        <td colspan="6" >No se encontraron registros</td>
+                        <td colspan="6" >No se encontraron azulejos</td>
                     </tr>
                     <%} else {
 
@@ -1947,14 +2016,32 @@ function submitFormPortalA(formid)
                             <%
                                 if (usrlevel == 4 || usr.equals(tile.getCreator())) {
                                     urlrem.setParameter("tiid", ltile.getURI());
+                                    SWBResourceURLImp urldel = new SWBResourceURLImp(request, base, wpconfig, SWBResourceURLImp.UrlType_ACTION);
+                                    urldel.setAction(SWBResourceURL.Action_REMOVE);
+                                    urldel.setParameter("id", ltile.getId());
+                                    urldel.setParameter("suri", ltile.getURI());
+                                    if (request.getParameter("wsid") != null) {
+                                        urldel.setParameter("wsid", request.getParameter("wsid"));
+                                    }
+                                    urldel.setParameter("ruri", tile.getURI());
                             %>
-                            <span class="icv-borrar"><a href="#" title="Borrar" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urlrem%>';} else return false;">B&nbsp;</a></span>
-                            <%  } else {
-                                        out.println("<span class=\"icv-vacio\"></span>");
+                            <span class="icv-mover"><a href="#" title="Mover" onclick="if(confirm('¿Deseas mover este azulejo?')){window.location='<%=urlrem%>';} else return false;">M&nbsp;</a></span>
+                            <span class="icv-borrar"><a href="#" title="Borrar" onclick="if(confirm('¿Deseas eliminar este azulejo?')){window.location='<%=urldel%>';} else return false;">B&nbsp;</a></span>
+                            <%
+                                } else {
+                                        %>
+                                <span class="icv-vacio"></span>
+                                <span class="icv-vacio"></span>
+<%
                                     }
 
                                 } else {
-                                    out.println("<span class=\"icv-vacio\"></span><span class=\"icv-vacio\"></span><span class=\"icv-vacio\"></span>");
+                                    %>
+                                <span class="icv-vacio"></span>
+                                <span class="icv-vacio"></span>
+                                <span class="icv-vacio"></span>
+                                <span class="icv-vacio"></span>
+<%
                                 }
                             %>
                         </td>
