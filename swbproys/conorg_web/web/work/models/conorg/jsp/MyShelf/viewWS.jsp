@@ -31,6 +31,11 @@ Author     : juan.fernandez y rene.jara
     int nummem;
     int numtil;
     String wsid = request.getParameter("wsid");
+    System.out.println("wsid:"+wsid); 
+    if(wsid!=null&&wsid.equals("null")) wsid = null;
+    if(wsid!=null&&wsid.trim().length()==0) wsid = null;
+    if(wsid==null) wsid="";
+
     String confClass = base.getAttribute(MyShelf.RES_CONF, "http://www.infotec.com/conorg.owl#Shelf");
     String path = SWBPlatform.getContextPath() + "/swbadmin/images/repositoryfile/";
 
@@ -199,7 +204,7 @@ function submitFormPortalA(formid)
 <div id="conorg-add">
     <a href="<%=urladd%>">Añadir Espacio de trabajo</a>
 </div>
-<% if(wsid==null||(wsid!=null&&wsid.trim().length()==0)){%>
+<% if(wsid.equals("")){%>
     </div>
 <%}%>
 <%
@@ -697,10 +702,11 @@ function submitFormPortalA(formid)
         if (wp_wiki != null || wp_foro != null || usrlevel >= 3) {
     %>
 </div>
-    <% if(wsid!=null&&wsid.trim().length()>0){%> 
-    </div>
-<%}%>
 <%        }
+    if (usr.hasRole(rol)) {
+%> 
+    </div>
+<%}
     }    // nivel de usuario
 %>
 <div id="espaciotrabajo<%=wsid%>" dojoType="dijit.TitlePane" title="<%=workSpace.getTitle()%> - ver detalle" class="admViewProperties" open="false" duration="150" minSize_="20" splitter_="true" region="bottom">
