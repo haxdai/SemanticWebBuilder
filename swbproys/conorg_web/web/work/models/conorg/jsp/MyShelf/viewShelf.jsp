@@ -3,8 +3,6 @@ Document   : view Shelf Recurso Shelf
     Created on : 19/06/2012
     Author     : juan.fernandez
 --%>
-
-<%@page import="com.sun.xml.internal.ws.api.pipe.Tube"%>
 <%@page import="org.semanticwb.model.SWBModel"%>
 <%@page import="org.semanticwb.model.Label"%>
 <%@page import="org.semanticwb.model.DisplayProperty"%>
@@ -192,6 +190,7 @@ Document   : view Shelf Recurso Shelf
     dojo.require("dijit._Calendar");
     dojo.require("dijit.ProgressBar");
     dojo.require("dijit.TitlePane");
+    dojo.require("dijit.Dialog");
 
     // editor:
     dojo.require("dijit.Editor");
@@ -211,7 +210,7 @@ Document   : view Shelf Recurso Shelf
     dojo.require("dojox.form.TimeSpinner");
     dojo.require("dijit.form.ValidationTextBox");
     dojo.require("dijit.layout.ContentPane");
-    dojo.require("dijit.form.Select");
+    //dojo.require("dijit.form.Select");
     dojo.require("dijit.form.NumberTextBox");
     
     -->
@@ -247,7 +246,9 @@ Document   : view Shelf Recurso Shelf
 
             while (ittil.hasNext()) {
                 Tile tile = ittil.next();
-                if(tile.getResource()==null) tile.setResource(paramRequest.getResourceBase());
+                if (tile.getResource() == null) {
+                    tile.setResource(paramRequest.getResourceBase());
+                }
                 tile.setIndexable(Boolean.TRUE);
                 if (numtiles == numele) {
                     break;
@@ -418,7 +419,7 @@ Document   : view Shelf Recurso Shelf
                     if (l == 0) {
                 %>
                 <tr >
-                    <td colspan="5" >No se encontraron registros</td>
+                    <td colspan="5" >No se encontraron azulejos</td>
                 </tr>
                 <%    } else {
 
@@ -428,12 +429,13 @@ Document   : view Shelf Recurso Shelf
                     } catch (Exception e) {
                     }
                     int numtiles = 0;
-
-
+                    int cont=1;
                     while (ittil.hasNext()) {
                         Tile tile = ittil.next();
                         tile.setIndexable(Boolean.TRUE);
-                        if(tile.getResource()==null) tile.setResource(paramRequest.getResourceBase());
+                        if (tile.getResource() == null) {
+                            tile.setResource(paramRequest.getResourceBase());
+                        }
 
                         if (paramRequest.getCallMethod() == SWBParamRequest.Call_STRATEGY) {
                             if (numtiles == numele) {
@@ -539,13 +541,15 @@ Document   : view Shelf Recurso Shelf
                     <td onclick="window.location='<%=urllast%>';"><%=strDate%></td>
                     <td onclick="window.location='<%=urllast%>';"><%=strType%></td>
                     <td onclick="window.location='<%=urllast%>';"><%=strTopic%></td>
-                    <% } else {
+                    <%
+                        } else {
                     %>
                     <td class="<%=MyShelf.getClassIconTile(tile)%>"><%=strTitle%></td>
                     <td><%=strDate%></td>
                     <td><%=strType%></td>
                     <td><%=strTopic%></td>
-                    <% }
+                    <%
+                        }
                     %>
                     <td>
                         <%
@@ -556,17 +560,66 @@ Document   : view Shelf Recurso Shelf
                         } else {
                         %>
                         <span class="icv-vacio"></span>
-                        <%                            }
+                        <%
+                        }
                         %>
                         <span class="icv-editar"><a href="#" title="Editar" onclick="window.location='<%=urledit%>';">E&nbsp;</a></span>
-                        <span class="icv-borrar"><a href="#" title="Borrar" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urldel%>';}">B&nbsp;</a></span>
+                        <%
+                            boolean canMove = false;
+                            String urlmove = paramRequest.getActionUrl().setAction("movTile").toString();
+                        %>
+                        <div class="aviso-sys" dojoType="dijit.Dialog"  id="msg<%=cont%>" execute="" title="Mover<%//=strTitle%>">
+                            <form id="formmos<%=cont%>" name="formmos" method="post" dojoType="dijit.form.Form" action="<%=urlmove%>">
+                                <%
+                                    if (request.getParameter("wsid") != null) {
+                                %>
+                                <input type="hidden" name="wsid" value="<%=request.getParameter("wsid")%>"/>
+                                <%
+                                    }
+                                %>
+                                <input type="hidden" name="suri" value="<%=tile.getURI()%>"/>
+                                <input type="hidden" name="msid" value=""/>
+                                <select name="muri" dojoType="dijit.form.FilteringSelect">
+                                    <!--option value="-1">Selecciona....</option-->
+                                    <%
+                                        //Iterator<Tile> itti = shelf.listTiles();
+                                        Mosaic mo=null;
+                                        if(tile instanceof Mosaic){
+                                            mo=(Mosaic)tile;
+                                        }
+                                        Iterator<Mosaic> itmo=MyShelf.findMosaics(null,mo,shelf.listTiles());
+                                        while (itmo.hasNext()) {
+                                            Mosaic lmo = itmo.next();
+                                           // if (lmo != tile) {
+                                    %>
+                                    <option value="<%=lmo.getURI()%>"><%=lmo.getTitle()%></option>
+                                    <%
+                                                canMove = true;
+                                           // }
+                                        }
+                                    %>
+                                </select>
+                                <button dojoType="dijit.form.Button" type="submit">Mover</button>
+                            </form>
+                        </div>
+                        <%
+                            if (canMove) {
+                        %>
+                        <span class="icv-mover"><a href="#" title="Mover"  onclick="dijit.byId('msg<%=cont%>').show()">M&nbsp;</a></span>
+                        <%
+                        } else {
+                        %>
+                        <span class="icv-vacio"></span>
+                        <%    }
+                        %>
+                        <span class="icv-borrar"><a href="#" title="Borrar" onclick="if(confirm('¿Deseas eliminar este azulejo?')){window.location='<%=urldel%>';}">B&nbsp;</a></span>
                     </td>
                 </tr>
                 <%
                             if (paramRequest.getCallMethod() == SWBParamRequest.Call_STRATEGY) {
                                 numtiles++;
                             }
-
+                            cont++;
                         }
                     }
                 %>
@@ -644,8 +697,8 @@ Document   : view Shelf Recurso Shelf
 
 
                 %>
-            </p></div>
-
+            </p>
+        </div>
         <%
         } else if (action.equals(SWBResourceURL.Action_ADD)) {
 
@@ -749,11 +802,11 @@ Document   : view Shelf Recurso Shelf
             frmgr.setAction(urlupdate.toString());
             frmgr.setLang("es");
 
-            //frmgr.setOnSubmit("enviar('" + suri + "/form');");
-            String boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Cancelar</button>";
+        //frmgr.setOnSubmit("enviar('" + suri + "/form');");
+            String boton = "<button dojoType=\"dijit.form.Button\" type=\"submit\">Guardar</button>";
             frmgr.addButton(boton);
-            //frmgr.addButton(SWBFormButton.newCancelButton());
-            boton = "<button dojoType=\"dijit.form.Button\" type=\"submit\">Guardar</button>";
+
+            boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Cancelar</button>";
             frmgr.addButton(boton);
             //frmgr.addButton(SWBFormButton.newSaveButton());
 %>        
@@ -953,16 +1006,18 @@ Document   : view Shelf Recurso Shelf
             </fieldset>
             <fieldset><span align="center">
                     <%
-                        String boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Cancelar</button>";
-                        if (editMode.equals(SWBFormMgr.MODE_VIEW)) {
-                            boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Regresar</button>";
-                        }
-                        out.println(boton);
                         if (editMode.equals(SWBFormMgr.MODE_EDIT)) {
                     %>
 
                     <button dojoType="dijit.form.Button" type="submit">Guardar</button>
-                    <%        }
+                    <%    }
+                        String boton = "";
+                        if (editMode.equals(SWBFormMgr.MODE_VIEW)) {
+                            boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Regresar</button>";
+                        } else {
+                            boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Cancelar</button>";
+                        }
+                        out.println(boton);
                     %>
                 </span></fieldset>
         </form>
@@ -1206,42 +1261,63 @@ Document   : view Shelf Recurso Shelf
                 if (request.getParameter("wsid") != null) {
                     urlshare.setParameter("wsid", request.getParameter("wsid"));
                 }
-
-
         %>
-        <form  id="formmos" name="formmos" method="post" dojoType="dijit.form.Form" action="<%=addtiurl%>">
-            <%
-                if (request.getParameter("wsid") != null) {
-            %>
-            <input type="hidden" name="wsid" value="<%=request.getParameter("wsid")%>"/>
-            <%
-                }
-            %>
-            <input type="hidden" name="suri" value="<%=tile.getURI()%>"/>
-            <input type="hidden" name="msid" value=""/>
-
-            <label for="">Azulejo del estante a añadir:</label>
-            <select name="tiid">
-                <option value="-1">Selecciona....</option>
-                <%
-                    Iterator<Tile> itti = shelf.listTiles();
-                    while (itti.hasNext()) {
-                        Tile ltile = itti.next();
-                        if (!ltile.equals(tile)) {
-                %>
-                <option value="<%=ltile.getURI()%>"><%=ltile.getTitle()%></option>
-                <%
-                        }
-                    }
-                %>
-            </select>
-            <button dojoType="dijit.form.Button" type="submit">Agregar</button>
-        </form>
         <div id="classform">
             <span id="mgrform">
                 &nbsp;
             </span>
         </div>
+        <%
+            if (tile instanceof Mosaic) {
+                SWBResourceURL addformurl = paramRequest.getActionUrl();
+                addformurl.setAction(SWBResourceURL.Action_ADD);
+                addformurl.setParameter("muri",tile.getURI());
+                HashMap<String, SemanticClass> hmscdocs = new HashMap<String, SemanticClass>();
+                HashMap<String, SemanticClass> hmsctile = new HashMap<String, SemanticClass>();
+                Iterator<SemanticClass> itsc = Document.conorg_Document.listSubClasses();
+                while (itsc.hasNext()) {
+                    SemanticClass sc = itsc.next();
+                    hmscdocs.put(sc.getURI(), sc);
+                }
+                itsc = Tile.conorg_Tile.listSubClasses();
+                while (itsc.hasNext()) {
+                    SemanticClass sc = itsc.next();
+                    if (hmscdocs.get(sc.getURI()) == null && !sc.getURI().equals(Document.conorg_Document.getURI())) {
+                        hmsctile.put(sc.getURI(), sc);
+                    }
+                }
+        %>
+        <form  id="form1sc" name="form1ct" method="post" dojoType="dijit.form.Form" action="<%=addformurl%>">
+            <label for="">Tipo de elemento Azulejo a añadir:</label>
+            <select name="classid" _onchange="loadForm('<%//=ajaxUrl%>&classid='+this.value)" >
+                    <option value="-1">Selecciona....</option>
+                <optgroup title="Documento" label="Documento">
+                    <%
+                        itsc = hmscdocs.values().iterator();
+                        while (itsc.hasNext()) {
+                            SemanticClass sc = itsc.next();
+                    %>
+                    <option value="<%=sc.getURI()%>"><%=sc.getDisplayName("es")%></option>
+                    <%
+                        }
+                    %>
+                </optgroup>
+                <%
+                    itsc = hmsctile.values().iterator();
+                    while (itsc.hasNext()) {
+                        SemanticClass sc = itsc.next();
+                %>
+                <option value="<%=sc.getURI()%>"><%=sc.getDisplayName("es")%></option>
+                <%
+                    }
+                %>
+            </select>
+            &nbsp;Título: <input type="text" name="elemTitle"/>
+            <button dojoType="dijit.form.Button" type="submit">Agregar</button>
+        </form>
+        <%
+            }
+        %>
         <table class="conorg-table estante-vista">
             <thead>
                 <tr>
@@ -1259,7 +1335,7 @@ Document   : view Shelf Recurso Shelf
                     if (SWBUtils.Collections.sizeOf(mosaic.listTiles()) == 0) {
                 %>
                 <tr >
-                    <td colspan="6" >No se encontraron registros</td>
+                    <td colspan="6" >No se encontraron azulejos</td>
                 </tr>
                 <%} else {
                     Iterator<Tile> itmt = mosaic.listTiles();
@@ -1327,13 +1403,23 @@ Document   : view Shelf Recurso Shelf
                     <td onclick="window.location='<%=urllast%>';"><%=strDate%></td>
                     <td onclick="window.location='<%=urllast%>';"><%=strType%></td>
                     <td onclick="window.location='<%=urllast%>';"><%=strTopic%></td>
-                    <% } else {
+                    <%
+                    } else {
                     %>
                     <td class="<%=MyShelf.getClassIconTile(ltile)%>"><%=strTitle%></td>
                     <td><%=strDate%></td>
                     <td><%=strType%></td>
                     <td><%=strTopic%></td>
-                    <% }
+                    <%
+                        }
+                        SWBResourceURLImp urldel = new SWBResourceURLImp(request, base, wpconfig, SWBResourceURLImp.UrlType_ACTION);
+                        urldel.setAction(SWBResourceURL.Action_REMOVE);
+                        urldel.setParameter("id", ltile.getId());
+                        urldel.setParameter("suri", ltile.getURI());
+                        if (request.getParameter("wsid") != null) {
+                            urldel.setParameter("wsid", request.getParameter("wsid"));
+                        }
+                        urldel.setParameter("ruri", tile.getURI());
                     %>
                     <td>
                         <%
@@ -1347,7 +1433,8 @@ Document   : view Shelf Recurso Shelf
                         <%                            }
                         %>
                         <span class="icv-editar"><a href="#" title="Editar" onclick="window.location='<%=urledit%>';">E&nbsp;</a></span>
-                        <span class="icv-borrar"><a href="#" title="Borrar" onclick="if(confirm('¿Deseas eliminar este registro?')){window.location='<%=urlrem%>';}">B&nbsp;</a></span>
+                        <span class="icv-mover"><a href="#" title="Mover" onclick="if(confirm('¿Deseas mover este azulejo?')){window.location='<%=urlrem%>';}">M&nbsp;</a></span>
+                        <span class="icv-borrar"><a href="#" title="Borrar" onclick="if(confirm('¿Deseas eliminar este azulejo?')){window.location='<%=urldel%>';}">B&nbsp;</a></span>
                     </td>
                 </tr>
                 <%
@@ -1400,7 +1487,8 @@ Document   : view Shelf Recurso Shelf
                 String strdesc = tile.getDescription() != null ? tile.getDescription() : "---";
 
         %>
-        <div> <h3>Compartir azulejo</h3>
+        <div>
+            <h3>Compartir azulejo</h3>
             <div>
                 <%
                     SWBResourceURL urlback = paramRequest.getRenderUrl();
@@ -1448,7 +1536,8 @@ Document   : view Shelf Recurso Shelf
                                     break;  
                                 }  
                             }
-                    <%                            }
+                    <%
+		        }
                     %>
                             if(valid1 || valid2){
                                 valid = true;
