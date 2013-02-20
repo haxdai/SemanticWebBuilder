@@ -36,7 +36,7 @@ public class ReservacionSala extends com.infotec.eworkplace.swb.base.Reservacion
         StringBuilder sb = new StringBuilder();
         sb.append(getSala().getDisplayTitle(lang));
         sb.append(", ");
-        sb.append(getPId());
+        sb.append(getFolio());
         sb.append(", ");
         sb.append(sdf.format(getFechaInicio()));
         sb.append(", ");
