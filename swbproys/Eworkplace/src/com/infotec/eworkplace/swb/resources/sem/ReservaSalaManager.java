@@ -281,21 +281,22 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
                 }
                 reservation.setRequiereProyector(request.getParameter("prjctr")!=null);
                 reservation.setRequiereComputo(request.getParameter("pcs")!=null);
-                if(!request.getParameter("osrvcs").isEmpty())
+                if(!request.getParameter("osrvcs").isEmpty()) {
                     reservation.setServiciosAdicionales(request.getParameter("osrvcs").trim());
+                }
                 response.setRenderParameter("alertmsg", response.getLocaleString("msgReservationDoneOk"));
                 
                 //Obtener la instancia de la tarea -inicia
                 FlowNodeInstance fni = getFlowNodeInstance(request.getParameter("suri"));
                 if (fni != null) {
                     ProcessInstance pInstance = fni.getProcessInstance();
-                    reservation.setPId(pInstance.getId());
+                    reservation.setPId(pInstance.getId());                    
                     //Enviar los datos a process
                     LinkReserva(reservation, fni);
                     String url = getTaskInboxUrl(fni);
                     //Cerrar la tarea
                     fni.close(user, Instance.ACTION_ACCEPT);
-                    if (url != null) {
+                    if(url != null) {
                         response.sendRedirect(url);
                     }
                 }
