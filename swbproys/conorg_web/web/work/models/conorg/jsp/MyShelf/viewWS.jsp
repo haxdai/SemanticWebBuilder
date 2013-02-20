@@ -83,7 +83,7 @@ Author     : juan.fernandez y rene.jara
     } catch (Exception e) {
         numPages = 10;
     }
-
+Role rol = wsite.getUserRepository().getRole(base.getAttribute(MyShelf.ROL_ADMIN_ATRIBUTTE, "0"));
     //if (orderby == null) {
     //    orderby = "date";
     //}
@@ -179,13 +179,15 @@ function submitFormPortalA(formid)
       }
       
 </script>
+
+<div class="barra">
 <%
 
     ArrayList alwsp = null;
     Iterator<WorkSpace> itperws = null;
     Iterator<WorkSpace> itpubws = null;
 
-    Role rol = wsite.getUserRepository().getRole(base.getAttribute(MyShelf.ROL_ADMIN_ATRIBUTTE, "0"));
+    
     WebPage wpconfig = wsite.getWebPage(base.getAttribute("wpworkspace", wpage.getId()));
     if (usr.hasRole(rol)) {
 
@@ -197,13 +199,15 @@ function submitFormPortalA(formid)
         //    urladd.setParameter("wsid", request.getParameter("wsid"));
         //}
 
+        
+       
 %>
 
 
-<div class="barra">
-<div id="conorg-add">
-    <a href="<%=urladd%>">Añadir Espacio de trabajo</a>
-</div>
+
+
+    <a class="conorg-add" href="<%=urladd%>">Añadir Espacio de trabajo</a>
+
 <% if(wsid.equals("")){%>
     </div>
 <%}%>
@@ -659,15 +663,12 @@ function submitFormPortalA(formid)
 //revisar nivel de usuario del espacio de trabajo para que pueda activar el wiki o el foro, y nivel de usuario para utilizarlo                  
             if (usrlevel >= 2) {
 
-                if (wp_wiki != null || wp_foro != null || usrlevel >= 3) {
-    %>
-<div class="wikiforo">
-    <%       }
+
         if (wp_wiki != null) {
     %>  
-    <div class="wiki">
-        <a href="<%=wp_wiki.getUrl()%>" >Wiki</a>
-    </div>
+    
+        <a class="wiki" href="<%=wp_wiki.getUrl()%>" >Wiki</a>
+    
     <%
     } else if (usrlevel >= 3) {
         SWBResourceURL url = null;
@@ -677,16 +678,16 @@ function submitFormPortalA(formid)
         url.setAction("addWiki");
 
     %>
-    <div class="wiki">
-        <a href="<%=url.toString()%>" >Wiki</a> 
-    </div>
+    
+        <a class="wiki" href="<%=url.toString()%>" >Wiki</a> 
+   
     <%
         }
         if (wp_foro != null) {
     %>   
-    <div class="foro">
-        <a href="<%=wp_foro.getUrl()%>" >Foro</a>
-    </div>
+    
+        <a class="foro" href="<%=wp_foro.getUrl()%>" >Foro</a>
+    
     <%
     } else if (usrlevel >= 3) {
         SWBResourceURL urlf = null;
@@ -694,19 +695,15 @@ function submitFormPortalA(formid)
         urlf.setParameter("wsid", workSpace.getId());
         urlf.setAction("addForo");
     %>
-    <div class="foro">     
-        <a href="<%=urlf.toString()%>" >Foro</a> 
-    </div>
+        
+        <a class="foro" href="<%=urlf.toString()%>" >Foro</a> 
+   
     <%
         }
-        if (wp_wiki != null || wp_foro != null || usrlevel >= 3) {
-    %>
-</div>
-<%        }
-    if (usr.hasRole(rol)) {
+    
 %> 
     </div>
-<%}
+<%
     }    // nivel de usuario
 %>
 <div id="espaciotrabajo<%=wsid%>" dojoType="dijit.TitlePane" title="<%=workSpace.getTitle()%> - ver detalle" class="admViewProperties" open="false" duration="150" minSize_="20" splitter_="true" region="bottom">
