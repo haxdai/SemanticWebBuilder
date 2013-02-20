@@ -57,10 +57,23 @@ public class Autentificacion
 
     }
 
+    public static String getNivel(String nivel)
+    {
+        StringBuilder sb = new StringBuilder();
+        for (Character _char : nivel.toCharArray())
+        {
+            if (!_char.isDigit(_char))
+            {
+                sb.append(_char);
+            }
+        }
+        return sb.toString();
+    }
+
     //Devuelve una lista con los 5 campos del usuario loggeado
     public UserLogin getCamposLogin(String login)
     {
-
+        String login_user = login + "@inmujeres.local";
         DirContext dir = null;
         javax.naming.directory.Attributes atts = null;
         UserLogin userLogin = new UserLogin();
@@ -76,7 +89,7 @@ public class Autentificacion
                     });
             ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
             NamingEnumeration<SearchResult> answers = dir.search(props.getProperty("base", ""),
-                    "(&(objectClass=" + userObjectClass + ")(" + seekField + "=" + login + "))", ctls); //recibe nombre, filtro y un search
+                    "(&(objectClass=" + userObjectClass + ")(" + seekField + "=" + login_user + "))", ctls); //recibe nombre, filtro y un search
 
 
             atts = answers.next().getAttributes();
@@ -91,7 +104,9 @@ public class Autentificacion
             }
             if (atts.get("description") != null && atts.get("description").get() != null)
             {
-                userLogin.setNivel(atts.get("description").get().toString());
+                String nivel = atts.get("description").get().toString();
+                nivel=getNivel(nivel);
+                userLogin.setNivel(nivel);
             }
             if (atts.get("initials") != null && atts.get("initials").get() != null)
             {
@@ -128,18 +143,21 @@ public class Autentificacion
     }
 
     //metodo que devuelve una lista de usuarios subordinados al loggeado
-   public List<UserSubordinado> getSubordinados(String login) {
+    public List<UserSubordinado> getSubordinados(String login)
+    {
         List<UserSubordinado> getSubordinados = new ArrayList<UserSubordinado>();
         DirContext dir = null;
-        try {
+        try
+        {
             dir = AuthenticateLP();
-            
+
             String cn = getCNFromLogin(login);
-            
-            
+
+
             NamingEnumeration<SearchResult> answers = null;
             SearchControls ctls = new SearchControls();
-            ctls.setReturningAttributes(new String[]{
+            ctls.setReturningAttributes(new String[]
+                    {
                         "*"
                     });
             ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
@@ -147,59 +165,75 @@ public class Autentificacion
             String uid = null;
             String givenName = null;
             String sn = null;
-            while (answers.hasMore()) {
+            while (answers.hasMore())
+            {
                 SearchResult result = answers.next();
 
-                if (result.getAttributes().get(seekField) != null) {
+                if (result.getAttributes().get(seekField) != null)
+                {
 
                     if (result.getAttributes().get(seekField) != null && result.getAttributes().get(seekField).get() != null)
-                    {                       
+                    {
                         uid = result.getAttributes().get(seekField).get().toString();
                         int pos = uid.indexOf("@");
                         if (pos != -1)
                         {
                             uid = uid.substring(0, pos);
                         }
-                    } else {
+                    }
+                    else
+                    {
                         uid = "";
                     }
-                    if ( result.getAttributes().get("givenName")!= null && result.getAttributes().get("givenName").get() != null) {
+                    if (result.getAttributes().get("givenName") != null && result.getAttributes().get("givenName").get() != null)
+                    {
                         givenName = result.getAttributes().get("givenName").get().toString();
-                        
-                    } else {
+
+                    }
+                    else
+                    {
                         givenName = "";
                     }
 
-                    if ( result.getAttributes().get("sn")!= null && result.getAttributes().get("sn").get() != null) {
+                    if (result.getAttributes().get("sn") != null && result.getAttributes().get("sn").get() != null)
+                    {
                         sn = result.getAttributes().get("sn").get().toString();
-                        
-                    } else {
+
+                    }
+                    else
+                    {
                         sn = "";
                     }
-                    System.out.println("subordinado: "+uid+" manager: "+login);
+                    System.out.println("subordinado: " + uid + " manager: " + login);
                     UserSubordinado us = new UserSubordinado(uid, givenName + " " + sn);
                     getSubordinados.add(us);
 
                 }
             }
         }
-        catch(PartialResultException pne)
+        catch (PartialResultException pne)
         {
             //log.debug(pne);
         }
-        catch (Exception e) {
+        catch (Exception e)
+        {
             log.error(e);
-        } finally {
-            try {
+        } finally
+        {
+            try
+            {
                 dir.close();
-            } catch (Exception e2) {
+            }
+            catch (Exception e2)
+            {
                 log.error(e2);
             }
         }
         return getSubordinados;
     }
 
-    private DirContext AuthenticateLP() throws NamingException {
+    private DirContext AuthenticateLP() throws NamingException
+    {
         Hashtable env = new Hashtable();
         env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
         env.put(Context.PROVIDER_URL, props.getProperty("url", "ldap://" + HOST + ":" + PORT));
@@ -211,28 +245,37 @@ public class Autentificacion
         return ctx;
     }
 
-    private String getCNFromLogin(String login) {
+    private String getCNFromLogin(String login)
+    {
         DirContext dir = null;
         NamingEnumeration answers = null;
-        try {
+        try
+        {
             dir = AuthenticateLP();
             SearchControls ctls = new SearchControls();
             ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
             String name = props.getProperty("base", BASE);
             answers = dir.search(name, "(&(objectClass=" + userObjectClass + ")(" + seekField + "=" + login + "))", ctls);
             return ((SearchResult) answers.next()).getName() + "," + props.getProperty("base", BASE);
-             
-        } 
-        catch (PartialResultException ue) {
+
+        }
+        catch (PartialResultException ue)
+        {
             //log.debug(ue);
         }
-        catch (Exception e) {
+        catch (Exception e)
+        {
             log.error(e);
-        } finally {
-            if (dir != null) {
-                try {
+        } finally
+        {
+            if (dir != null)
+            {
+                try
+                {
                     dir.close();
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     log.error(e);
                 }
             }
@@ -240,9 +283,11 @@ public class Autentificacion
         return null;
     }
 
- public static void main(String args[]) throws IOException {
+    public static void main(String args[]) throws IOException
+    {
         String login = "oscar.gutierrez";
-
+            String nivel="pa1";
+            nivel=getNivel(nivel);
 
         Autentificacion i = new Autentificacion();
         List<UserSubordinado> us = new ArrayList<UserSubordinado>();
@@ -250,7 +295,8 @@ public class Autentificacion
 
         Iterator ii = us.iterator();
 
-        while (ii.hasNext()) {
+        while (ii.hasNext())
+        {
             System.out.println(ii.next());
         }
 
