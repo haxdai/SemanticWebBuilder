@@ -160,10 +160,11 @@
                 com.infotec.conorg.Topic topic = itto.next();
                 x++;
                 if (x > (ps * p) && !(x > (ps * (p + 1)))) {
+                    
         %>
         <tr>
             <td><a href="<%=wptocontent.getUrl()%>?toid=<%=topic.getId()%>"><%=topic.getTitle()%></a></td>
-            <td><%=topic.getDescription()%></td>
+            <td><%=(topic.getDescription()!=null||(topic.getDescription()!=null&&!topic.getDescription().equals("null"))?topic.getDescription():"")%></td>
         </tr>
         <%
                 } else if (x > (ps * (p + 1))) {
@@ -249,7 +250,7 @@
     %>
 <div id="temas-wksp">
     <h3><%=topic.getTitle()%></h3>
-    <p><%=topic.getDescription()%></p>
+    <p><%=(topic.getDescription()!=null||(topic.getDescription()!=null&&!topic.getDescription().equals("null"))?topic.getDescription():"")%></p>
     <ul>
         <%
             //Member member=Member.ClassMgr.getMember(user.getId(),wsite);
