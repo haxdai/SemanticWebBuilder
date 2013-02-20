@@ -296,7 +296,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
                     String url = getTaskInboxUrl(fni);
                     //Cerrar la tarea
                     fni.close(user, Instance.ACTION_ACCEPT);
-                    if(url != null) { 
+                    if(url != null) {
                         response.sendRedirect(url);
                     }
                 }
