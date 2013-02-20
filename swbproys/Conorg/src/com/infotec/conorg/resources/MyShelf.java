@@ -9,8 +9,10 @@ import com.infotec.conorg.utils.MessageUtils;
 import java.io.*;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -176,6 +178,7 @@ public class MyShelf extends GenericAdmResource {
         String wsid = request.getParameter("wsid");
         String classid = request.getParameter("classid");
         String errormsg = "";
+        String ruri =request.getParameter("ruri");
 
         boolean sendWSadd = Boolean.parseBoolean(getResourceBase().getAttribute("chkavisosWSAdd", "false"));
         boolean sendWSUpdate = Boolean.parseBoolean(getResourceBase().getAttribute("chkavisosWSUpdate", "false"));
@@ -247,15 +250,28 @@ public class MyShelf extends GenericAdmResource {
                                 myshelf = Shelf.ClassMgr.createShelf(usr.getId(), wsite);
                                 myshelf.setOwner(usr);
                             }
+                            String muri = request.getParameter("muri");
+                            GenericObject gobj=null;
+                            if(muri!=null&& !muri.equals("")){
+                                SemanticObject tobj = ont.getSemanticObject(muri);
+                                gobj = tobj.getGenericInstance();
+                            }
+                            if (gobj!=null && gobj instanceof Mosaic) {
+                                Mosaic mosaic = (Mosaic) gobj;
+                                mosaic.addTile((Tile) (nso.createGenericInstance()));
+                                response.setRenderParameter("act", SWBActionResponse.Action_EDIT);
+                                response.setRenderParameter("id", mosaic.getId());
+                                response.setRenderParameter("suri",mosaic.getURI());
+                            }else{
                             myshelf.addTile((Tile) (nso.createGenericInstance()));
-                            ((Tile) (nso.createGenericInstance())).setResource(getResourceBase());
                             response.setRenderParameter("act", SWBActionResponse.Action_EDIT);
                             response.setRenderParameter("id", nso.getURI());
                             response.setRenderParameter("suri", nso.getURI());
+                            }
                             if (wsid != null) {
                                 response.setRenderParameter("wsid", wsid);
                             }
-
+                            ((Tile) (nso.createGenericInstance())).setResource(getResourceBase());
                             itemName = getTileTypeName((Tile) (nso.createGenericInstance()));
 
                         } else {
@@ -608,6 +624,13 @@ public class MyShelf extends GenericAdmResource {
                         msg = "Se eliminó " + itemName + " de la lista satisfactoriamente.";
                     }
 
+                    if(ruri!=null&&!ruri.equals("")){ 
+                        response.setRenderParameter("act", SWBActionResponse.Action_EDIT);;
+                        response.setRenderParameter("suri", ruri);
+                        if (wsid != null) {
+                            response.setRenderParameter("wsid", wsid);
+                        }
+                    }
                 } catch (Exception e) {
                     log.error("Error al eliminar el elemento", e);
                     msg = "Error al eliminar " + itemName;
@@ -820,8 +843,11 @@ public class MyShelf extends GenericAdmResource {
                     usrShelf = Shelf.ClassMgr.createShelf(usr.getId(), wsite);
                     usrShelf.setOwner(usr);
                 }
-                if (!usrShelf.hasTile(tile)) {
+                if (!existTile(usrShelf.listTiles(), tile)) {
                     usrShelf.addTile(tile);
+                }else{
+                    msg="Ya existe este " + itemName + " en tu estante";
+                    response.setRenderParameter("alertmsg", msg);
                 }
             }
 
@@ -829,6 +855,29 @@ public class MyShelf extends GenericAdmResource {
             //response.setRenderParameter("act", "");
             response.setRenderParameter("act", SWBActionResponse.Action_EDIT);
             if (wsid != null) {
+                response.setRenderParameter("wsid", wsid);
+            }
+        } else if (action.equals("movTile")) {
+                String muri = request.getParameter("muri");
+                SemanticObject sobj = ont.getSemanticObject(suri);
+                SemanticObject tobj = ont.getSemanticObject(muri);
+                GenericObject gobj = tobj.createGenericInstance();
+                if ((gobj instanceof Mosaic)) {
+                    Mosaic mosaic = (Mosaic) gobj;
+                    Tile tile = (Tile) sobj.createGenericInstance();
+                    mosaic.addTile(tile);
+                    if (isShelf) {
+                        Shelf tms = Shelf.ClassMgr.getShelf(usr.getId(), wsite);
+                        tms.removeTile(tile);
+                    } else if (wsid != null && !wsid.equals("")) {
+                        WorkSpace tws = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
+                        tws.removeTile(tile);
+                    }
+                }else{
+                }
+                msg = "Se movio " + itemName + " satisfactoriamente.";
+                response.setRenderParameter("alertmsg", msg);
+                if (null != wsid) {
                 response.setRenderParameter("wsid", wsid);
             }
         } else if (action.equals("remTile")) {
@@ -1296,5 +1345,35 @@ public class MyShelf extends GenericAdmResource {
             ret = "doc";
         }
         return ret;
+    }
+    public static Iterator<Mosaic> findMosaics(List<Mosaic> limo,Mosaic mo, Iterator<Tile> itti){
+        if(limo==null){
+            limo = new ArrayList<Mosaic>();
+        }
+        while (itti.hasNext()) {
+            Tile tile = itti.next();
+            if(tile instanceof Mosaic){
+                if(!limo.contains((Mosaic)tile)&&(!((Mosaic)tile).equals(mo))){
+                    limo.add((Mosaic)tile);
+                    findMosaics(limo,mo,((Mosaic)tile).listTiles());
+                }
+            }
+        }
+        return limo.iterator();
+    }
+    public static boolean existTile(Iterator<Tile> itti, Tile tile){
+        boolean exist=false;
+        if(itti!=null){
+            while (itti.hasNext()) {
+                Tile ltile = itti.next();
+                if(ltile.equals(tile)){
+                    exist=true;
+                }else if(ltile instanceof Mosaic){
+                    exist=existTile(((Mosaic)ltile).listTiles(),tile);
+                }
+                if(exist)break;
+            }
+        }
+        return exist;
     }
 }
