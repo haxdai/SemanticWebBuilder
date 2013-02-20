@@ -46,11 +46,11 @@ public class Back2WorkSpace extends GenericResource {
         WorkSpace wrkspc = null;
         WebSite wsite = wpage.getWebSite();
         WebPage wptmp = wpage;
-        System.out.print("Buscando WorkSpace");
+        //System.out.print("Buscando WorkSpace");
         while(wptmp!=null&&!wptmp.getParent().equals(wsite.getHomePage())){
             wptmp = wptmp.getParent();
             if(wptmp instanceof WorkSpace){
-                System.out.println(" ............... encontrado");
+                //System.out.println(" ............... encontrado");
                 wrkspc = (WorkSpace)wptmp;
                 break;
             }
