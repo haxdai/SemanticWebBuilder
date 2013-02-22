@@ -33,7 +33,7 @@ Author     : juan.fernandez y rene.jara
     String wsid = request.getParameter("wsid");
     if(wsid!=null&&wsid.equals("null")) wsid = null;
     if(wsid!=null&&wsid.trim().length()==0) wsid = null;
-    if(wsid==null) wsid="";
+
     String confClass = base.getAttribute(MyShelf.RES_CONF, "http://www.infotec.com/conorg.owl#Shelf");
     String path = SWBPlatform.getContextPath() + "/swbadmin/images/repositoryfile/";
 
@@ -204,9 +204,7 @@ function submitFormPortalA(formid)
 
     <a class="conorg-add" href="<%=urladd%>">Añadir Espacio de trabajo</a>
 
-<% 
-    if(wsid.equals("")){
-%>
+<% if(wsid==null){%>
     </div>
 <%
     }
@@ -1500,7 +1498,7 @@ function submitFormPortalA(formid)
                 String ajaxUrl = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(MyShelf.Mode_AJAX).toString() + "?wsid=" + wsid + "&mode=tile";
 
                 String wptitle = wpage.getDisplayName(usr.getLanguage());
-                SWBResourceURL urladd = paramRequest.getActionUrl();
+                SWBResourceURL urladd = paramRequest.getActionUrl(); 
                 urladd.setAction(SWBResourceURL.Action_ADD);
                 HashMap<String, SemanticClass> hmscdocs = new HashMap<String, SemanticClass>();
                 HashMap<String, SemanticClass> hmsctile = new HashMap<String, SemanticClass>();
