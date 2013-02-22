@@ -5,6 +5,7 @@
 package mx.gob.inmujeres.swb.resources.sem.base;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -28,7 +29,8 @@ import org.semanticwb.model.UserRepository;
  */
 public class Autentificacion
 {
-
+    //public static final String PREFIX_INMUJERES="@inmujeres.local";
+    public static String PREFIX_INMUJERES="";
     protected UserRepository userRep;
     protected Properties props;
     protected String seekField;
@@ -43,6 +45,26 @@ public class Autentificacion
 
     public Autentificacion()
     {
+        try
+        {
+            String ip=InetAddress.getLocalHost().toString();
+            //System.out.println("ip: "+ip);
+            if(ip.startsWith("gdnps.infotec.com.mx"))
+            {
+                PREFIX_INMUJERES="";
+            }
+            else
+            {
+                PREFIX_INMUJERES="@inmujeres.local";
+            }
+
+        }
+        catch(Exception e)
+        {
+            PREFIX_INMUJERES="@inmujeres.local";
+        }
+        //System.out.println("PREFIX_INMUJERES: "+PREFIX_INMUJERES);
+
         props = SWBUtils.TEXT.getPropertyFile("/genericLDAP.properties"); //archivo de configuracion externa
         this.userObjectClass = props.getProperty("userObjectClass", "person"); //clase objeto para buscar usuario
         this.seekField = props.getProperty("seekField", "sAmAccountName");// campo llave para busqueda
@@ -60,9 +82,13 @@ public class Autentificacion
     public static String getNivel(String nivel)
     {
         StringBuilder sb = new StringBuilder();
+        if(Character.isDigit(nivel.toCharArray()[0]))
+        {            
+            return nivel;
+        }
         for (Character _char : nivel.toCharArray())
         {
-            if (!_char.isDigit(_char))
+            if (!Character.isDigit(_char))
             {
                 sb.append(_char);
             }
@@ -73,7 +99,8 @@ public class Autentificacion
     //Devuelve una lista con los 5 campos del usuario loggeado
     public UserLogin getCamposLogin(String login)
     {
-        String login_user = login + "@inmujeres.local";
+        String login_user = login + PREFIX_INMUJERES;
+        
         DirContext dir = null;
         javax.naming.directory.Attributes atts = null;
         UserLogin userLogin = new UserLogin();
@@ -204,7 +231,7 @@ public class Autentificacion
                     {
                         sn = "";
                     }
-                    System.out.println("subordinado: " + uid + " manager: " + login);
+                    
                     UserSubordinado us = new UserSubordinado(uid, givenName + " " + sn);
                     getSubordinados.add(us);
 
@@ -286,7 +313,7 @@ public class Autentificacion
     public static void main(String args[]) throws IOException
     {
         String login = "oscar.gutierrez";
-            String nivel="pa1";
+            String nivel="27";
             nivel=getNivel(nivel);
 
         Autentificacion i = new Autentificacion();
