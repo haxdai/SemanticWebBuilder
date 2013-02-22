@@ -18,9 +18,12 @@ import mx.gob.inmujeres.swb.MetaEvaluacion;
 import mx.gob.inmujeres.swb.TemasPrograma;
 import mx.gob.inmujeres.swb.TipoMedida;
 import mx.gob.inmujeres.swb.Trimestre;
+import mx.gob.inmujeres.swb.UserExtended;
 import mx.gob.inmujeres.swb.base.MetaEvaluacionBase.ClassMgr;
 import mx.gob.inmujeres.swb.resources.sem.base.Autentificacion;
 import mx.gob.inmujeres.swb.resources.sem.base.UserSubordinado;
+
+
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
@@ -138,12 +141,13 @@ public class DNC extends GenericResource
         if (loginEvaluado != null && curso != null && objetivo != null && idTrimestre != null && !"".equals(curso.trim()) && !"".equals(objetivo.trim()) && !"".equals(idTrimestre.trim()))
         {
             User evaluador = response.getUser();
-            Autentificacion aut = new Autentificacion();
+            UserExtended ext = UserExtended.ClassMgr.getUserExtended(evaluador.getId(), evaluador.getUserRepository());
             User evaluado = site.getUserRepository().getUserByLogin(loginEvaluado);
-            List<UserSubordinado> subordinados = aut.getSubordinados(evaluador.getLogin());
+            Iterator<User> subordinados = ext.listSubordinados();
             boolean found = true;
-            for (UserSubordinado loginsub : subordinados)
+            while(subordinados.hasNext())
             {
+                User loginsub=subordinados.next();
                 if (loginsub.getLogin().equals(evaluado.getLogin()))
                 {
                     found = true;

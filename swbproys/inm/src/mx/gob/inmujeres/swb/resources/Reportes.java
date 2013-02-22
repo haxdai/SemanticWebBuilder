@@ -11,7 +11,7 @@ import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import mx.gob.inmujeres.swb.resources.sem.base.Autentificacion;
+import mx.gob.inmujeres.swb.UserExtended;
 import mx.gob.inmujeres.swb.resources.sem.base.UserSubordinado;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
@@ -65,39 +65,24 @@ public class Reportes extends GenericResource
 
     public void listSubordinados(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
-        PrintWriter out=response.getWriter();
+        PrintWriter out = response.getWriter();
         String iduser = request.getParameter("user");
         out.println("<p>Evaluado:</p><select name=\"evaluado\">");
         if (iduser != null)
         {
-            Autentificacion aut = new Autentificacion();
+
             WebSite site = paramRequest.getWebPage().getWebSite();
             User user = site.getUserRepository().getUser(iduser);
-            
-            List<UserSubordinado> subordinados = aut.getSubordinados(user.getLogin());
-            
-            
-            for (UserSubordinado idUser : subordinados)
+            UserExtended ext = UserExtended.ClassMgr.getUserExtended(user.getId(), user.getUserRepository());
+            Iterator<User> subordinados = ext.listSubordinados();
+
+
+            while (subordinados.hasNext())
             {
-                String login = idUser.getLogin();
-                //User subordinado = site.getUserRepository().getUserByLogin(login);
-                User subordinado=null;
-                Iterator<User> users=site.getUserRepository().listUsers();
-                while(users.hasNext())
-                {
-                    User _user=users.next();
-                    if(login.equals(_user.getLogin()))
-                    {
-                        subordinado=_user;
-                        break;
-                    }
-                }
-                if (subordinado != null)
-                {
-                    out.println("<option value=\""+ subordinado.getId() +"\">"+ subordinado.getFullName() +"</option>");
-                }
+                User subordinado = subordinados.next();
+                out.println("<option value=\"" + subordinado.getId() + "\">" + subordinado.getFullName() + "</option>");
             }
-            
+
         }
         out.println("</select>");
         //out.close();
@@ -111,7 +96,7 @@ public class Reportes extends GenericResource
             listSubordinados(request, response, paramRequest);
             return;
         }
-        else if(MODE_REPORTE_DNC_GENERAL.equals(paramRequest.getMode()) || MODE_REPORTE_STATUS.equals(paramRequest.getMode()) || MODE_REPORTE_RETRO.equals(paramRequest.getMode()) || MODE_REPORTE_METAS.equals(paramRequest.getMode()) || MODE_REPORTE_MENU.equals(paramRequest.getMode()) || MODE_REPORTE_FILTRO.equals(paramRequest.getMode()) || MODE_REPORTE_DNC.equals(paramRequest.getMode()) || MODE_REPORTE_CUESTIONARIO.equals(paramRequest.getMode()))
+        else if (MODE_REPORTE_DNC_GENERAL.equals(paramRequest.getMode()) || MODE_REPORTE_STATUS.equals(paramRequest.getMode()) || MODE_REPORTE_RETRO.equals(paramRequest.getMode()) || MODE_REPORTE_METAS.equals(paramRequest.getMode()) || MODE_REPORTE_MENU.equals(paramRequest.getMode()) || MODE_REPORTE_FILTRO.equals(paramRequest.getMode()) || MODE_REPORTE_DNC.equals(paramRequest.getMode()) || MODE_REPORTE_CUESTIONARIO.equals(paramRequest.getMode()))
         {
             doView(request, response, paramRequest);
             return;
