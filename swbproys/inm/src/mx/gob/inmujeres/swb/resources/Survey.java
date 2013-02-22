@@ -26,7 +26,7 @@ import mx.gob.inmujeres.swb.Pregunta;
 import mx.gob.inmujeres.swb.Respuesta;
 import mx.gob.inmujeres.swb.Score;
 import mx.gob.inmujeres.swb.SubGrupo;
-import mx.gob.inmujeres.swb.resources.sem.base.Autentificacion;
+import mx.gob.inmujeres.swb.UserExtended;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
@@ -601,18 +601,18 @@ public class Survey extends GenericResource
             response.setMode(Survey.MODE_ERROR);
             return;
         }
-        Autentificacion aut = new Autentificacion();
-        String nivelId = aut.getCamposLogin(evaluado.getLogin()).getNivel();
+        UserExtended ext = UserExtended.ClassMgr.getUserExtended(evaluado.getId(), evaluado.getUserRepository());
+        String nivelId=ext.getLevel();
         if (nivelId == null)
         {
             response.setRenderParameter("error", "El usuario evaluado no tiene nivel");
             response.setMode(Survey.MODE_ERROR);
             return;
         }
-        Nivel nivelUsuario = Nivel.ClassMgr.getNivel(nivelId, site);
+        Nivel nivelUsuario = Nivel.ClassMgr.getNivel(nivelId.toLowerCase(), site);
         if (nivelUsuario == null)
         {
-            response.setRenderParameter("error", "El nivel del evaluado es nulo");
+            response.setRenderParameter("error", "El nivel del evaluado es nulo nivelId:"+nivelId);
             response.setMode(Survey.MODE_ERROR);
             return;
         }
