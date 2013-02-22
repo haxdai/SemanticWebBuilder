@@ -137,7 +137,7 @@ Role rol = wsite.getUserRepository().getRole(base.getAttribute(MyShelf.ROL_ADMIN
     //dojo.require("dijit.form.Select");
     dojo.require("dijit.form.NumberTextBox");
 
-function submitFormPortalA(formid)
+        function submitFormPortalA(formid)
       {
           var obj=dojo.byId(formid);
           var objd=dijit.byId(formid);
@@ -2176,7 +2176,7 @@ function submitFormPortalA(formid)
                         
                         out.println("function guardaDatosItem() ");
                         out.println("{ ");
-                        out.println("   alert('guarda datos item........');");
+                        //out.println("   alert('guarda datos item........');");
                         out.println("   submitFormPortalA('"+so.getURI()+"/form');");
                         out.println("   return false;");
                         out.println("}");
@@ -2201,7 +2201,7 @@ function submitFormPortalA(formid)
 
                         //out.println("       alert('antes de revisar la forma ...');");
                         out.println("       if(!guardaDatosItem()){");
-                        out.println("       //alert('datos Item guardados....');");
+                        //out.println("       alert('datos Item guardados....');");
                         out.println("    }");
                         out.println("       document.frmnewdoc.submit();");
                         out.println("  return false; ");
