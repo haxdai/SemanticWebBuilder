@@ -83,10 +83,10 @@ public class ReservaSalaResume extends GenericResource {
         PrintWriter out = response.getWriter();
         
         GregorianCalendar current;
-//        HttpSession session = request.getSession(true);
+        HttpSession session = request.getSession(true);
 //        if(session.getAttribute("cur")==null) {
             current = new GregorianCalendar(locale);
-//            session.setAttribute("cur", current);
+            session.setAttribute("cur", current);
 //        }else {
 //            current = (GregorianCalendar)session.getAttribute("cur");
 //        }
@@ -190,35 +190,36 @@ public class ReservaSalaResume extends GenericResource {
         
         HttpSession session = request.getSession(true);
         GregorianCalendar current = (GregorianCalendar)session.getAttribute("cur");
+        //GregorianCalendar current = new GregorianCalendar(locale);
         SWBResourceURL url = paramRequest.getRenderUrl().setMode(Mode_ROLL).setParameter("suri", request.getParameter("suri"));
         
         html.append("\n<div id=\"dayselectorCal\">");
-        html.append("\n <p class=\"disponibilidadSalas\">"+paramRequest.getLocaleString("lblAvailability")+"</p>");
+        html.append("\n <p class=\"disponibilidadSalas\">").append(paramRequest.getLocaleString("lblAvailability")).append("</p>");
         url.setParameter(Rel, Roll_DATE);
         url.setParameter(Roll, Roll_LEFT);
-        html.append("\n <p><a href=\"javascript:window.location='"+url+"'\" class=\"salasAtras\">atr&aacute;s</a></p>");
+        html.append("\n <p><a href=\"javascript:window.location='").append(url).append("'\" class=\"salasAtras\">atr&aacute;s</a></p>");
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE d 'de' MMMM", locale);
-        html.append("\n <p id=\"current\" class=\"dayAndMonth\">"+sdf.format(current.getTime())+"</p>");
+        html.append("\n <p id=\"current\" class=\"dayAndMonth\">").append(sdf.format(current.getTime())).append("</p>");
         url.setParameter(Roll, Roll_RIGHT);
-        html.append("\n <p><a href=\"javascript:window.location='"+url+"'\" class=\"salasAdelante\">adelante</a></p>");
+        html.append("\n <p><a href=\"javascript:window.location='").append(url).append("'\" class=\"salasAdelante\">adelante</a></p>");
         html.append("\n</div>");
         
         html.append("\n<div id=\"salasCal\">");
         url.setParameter(Rel, Roll_MONTH);
         url.setParameter(Roll, Roll_LEFT);
-        html.append("\n <a href=\"\" onclick=\"javascript:location.href='"+url+"'; return false;\" class=\"salasAtras\">atr&aacute;s</a>");
+        html.append("\n <a href=\"\" onclick=\"javascript:location.href='").append(url).append("'; return false;\" class=\"salasAtras\">atr&aacute;s</a>");
         sdf = new SimpleDateFormat("MMMM yyyy", locale);
-        html.append("\n <span id=\"month\" class=\"salasMonthYear\">"+sdf.format(current.getTime()) +"</span>");
+        html.append("\n <span id=\"month\" class=\"salasMonthYear\">").append(sdf.format(current.getTime())).append("</span>");
         url.setParameter(Roll, Roll_RIGHT);
-        html.append("\n <a href=\"\" onclick=\"javascript:location.href='"+url+"'; return false;\" class=\"salasAdelante\">adelante</a>");
+        html.append("\n <a href=\"\" onclick=\"javascript:location.href='").append(url).append("'; return false;\" class=\"salasAdelante\">adelante</a>");
         html.append("\n <ul class=\"daysTop\">");
-        html.append("\n  <li>"+paramRequest.getLocaleString("lblSundayE")+"</li>");
-        html.append("\n  <li>"+paramRequest.getLocaleString("lblMondayE")+"</li>");
-        html.append("\n  <li>"+paramRequest.getLocaleString("lblThrusdayE")+"</li>");
-        html.append("\n  <li>"+paramRequest.getLocaleString("lblWednesdayE")+"</li>");
-        html.append("\n  <li>"+paramRequest.getLocaleString("lblTuesdayE")+"</li>");
-        html.append("\n  <li>"+paramRequest.getLocaleString("lblFridayE")+"</li>");
-        html.append("\n  <li>"+paramRequest.getLocaleString("lblSaturdayE")+"</li>");
+        html.append("\n  <li>").append(paramRequest.getLocaleString("lblSundayE")).append("</li>");
+        html.append("\n  <li>").append(paramRequest.getLocaleString("lblMondayE")).append("</li>");
+        html.append("\n  <li>").append(paramRequest.getLocaleString("lblThrusdayE")).append("</li>");
+        html.append("\n  <li>").append(paramRequest.getLocaleString("lblWednesdayE")).append("</li>");
+        html.append("\n  <li>").append(paramRequest.getLocaleString("lblTuesdayE")).append("</li>");
+        html.append("\n  <li>").append(paramRequest.getLocaleString("lblFridayE")).append("</li>");
+        html.append("\n  <li>").append(paramRequest.getLocaleString("lblSaturdayE")).append("</li>");
         html.append("\n </ul>");
         int daysInMonth = current.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
         GregorianCalendar ci = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),1,0,0);
