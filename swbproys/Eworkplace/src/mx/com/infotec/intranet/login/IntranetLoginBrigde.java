@@ -9,8 +9,10 @@ import com.infotec.eworkplace.swb.Persona;
 import com.infotec.eworkplace.swb.SWProfile;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
+
 import javax.naming.Context;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
@@ -22,9 +24,14 @@ import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
+import mx.gob.inmujeres.swb.UserExtended;
+import mx.gob.inmujeres.swb.resources.sem.base.Autentificacion;
+import mx.gob.inmujeres.swb.resources.sem.base.UserLogin;
+import mx.gob.inmujeres.swb.resources.sem.base.UserSubordinado;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.GenericIterator;
+import org.semanticwb.model.Role;
 import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.User;
 import org.semanticwb.model.UserGroup;
@@ -80,9 +87,68 @@ public class IntranetLoginBrigde extends ExtUserRepInt
         this.valueLanguage = props.getProperty("valueLanguage", "");
     }
 
+    private User getUser(String login)
+    {
+        Iterator<User> users = userRep.listUsers();
+        while (users.hasNext())
+        {
+            User user = users.next();
+            if (login.equals(user.getLogin()))
+            {
+                return user;
+            }
+        }
+        return null;
+    }
+
     public void loadAttrs2RecUserInit(Attributes attrs, User ru)
     {
 
+        Autentificacion aut = new Autentificacion();
+        String login = ru.getLogin();
+        if (login.indexOf("@") == -1)
+        {
+            //login += "@inmujeres.local";
+        }
+        List<UserSubordinado> subordinados = aut.getSubordinados(login);
+        Role role = userRep.getRole("evaluador");
+        if (role != null)
+        {
+            if (ru.hasRole(role))
+            {
+                ru.removeRole(role);
+
+            }
+
+
+            if (!subordinados.isEmpty())
+            {
+                ru.addRole(role);
+            }
+        }
+        
+
+        UserExtended ext = UserExtended.ClassMgr.getUserExtended(ru.getId(), ru.getUserRepository());
+        if (ext == null)
+        {
+            ext = UserExtended.ClassMgr.createUserExtended(ru.getId(), ru.getUserRepository());
+        }
+        ext.removeAllSubordinado();
+        for (UserSubordinado subordinado : subordinados)
+        {
+            String loginSubordinado = subordinado.getLogin();
+            User userSubordinado = getUser(loginSubordinado);
+            ext.addSubordinado(userSubordinado);
+        }
+        
+        UserLogin info = aut.getCamposLogin(login);
+        
+        ext.setArea(info.getAreaAdscripcion());
+        ext.setExtensionUser(info.getExtension());
+        ext.setLevel(info.getNivel());
+        ext.setNoEmpleado(info.getNoEmpleado());
+        ext.setPuesto(info.getPuesto());
+        ext.setRfc(info.getRfc());
         try
         {
             if (!"null".equals(fieldFirstName))
