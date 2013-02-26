@@ -30,7 +30,8 @@ import org.semanticwb.model.UserRepository;
 public class Autentificacion
 {
     //public static final String PREFIX_INMUJERES="@inmujeres.local";
-    public static String PREFIX_INMUJERES="";
+
+    public static String PREFIX_INMUJERES = "";
     protected UserRepository userRep;
     protected Properties props;
     protected String seekField;
@@ -47,21 +48,21 @@ public class Autentificacion
     {
         try
         {
-            String ip=InetAddress.getLocalHost().toString();
+            String ip = InetAddress.getLocalHost().toString();
             //System.out.println("ip: "+ip);
-            if(ip.startsWith("gdnps.infotec.com.mx"))
+            if (ip.startsWith("gdnps.infotec.com.mx"))
             {
-                PREFIX_INMUJERES="";
+                PREFIX_INMUJERES = "";
             }
             else
             {
-                PREFIX_INMUJERES="@inmujeres.local";
+                PREFIX_INMUJERES = "@inmujeres.local";
             }
 
         }
-        catch(Exception e)
+        catch (Exception e)
         {
-            PREFIX_INMUJERES="@inmujeres.local";
+            PREFIX_INMUJERES = "@inmujeres.local";
         }
         //System.out.println("PREFIX_INMUJERES: "+PREFIX_INMUJERES);
 
@@ -82,8 +83,8 @@ public class Autentificacion
     public static String getNivel(String nivel)
     {
         StringBuilder sb = new StringBuilder();
-        if(Character.isDigit(nivel.toCharArray()[0]))
-        {            
+        if (Character.isDigit(nivel.toCharArray()[0]))
+        {
             return nivel;
         }
         for (Character _char : nivel.toCharArray())
@@ -100,7 +101,7 @@ public class Autentificacion
     public UserLogin getCamposLogin(String login)
     {
         String login_user = login + PREFIX_INMUJERES;
-        
+
         DirContext dir = null;
         javax.naming.directory.Attributes atts = null;
         UserLogin userLogin = new UserLogin();
@@ -118,38 +119,44 @@ public class Autentificacion
             NamingEnumeration<SearchResult> answers = dir.search(props.getProperty("base", ""),
                     "(&(objectClass=" + userObjectClass + ")(" + seekField + "=" + login_user + "))", ctls); //recibe nombre, filtro y un search
 
+            if (answers.hasMoreElements())
+            {
+                atts = answers.next().getAttributes();
 
-            atts = answers.next().getAttributes();
-
-            if (atts.get("departmentNumber") != null && atts.get("departmentNumber").get() != null)
-            {
-                userLogin.setAreaAdscripcion(atts.get("departmentNumber").get().toString());
+                if (atts.get("departmentNumber") != null && atts.get("departmentNumber").get() != null)
+                {
+                    userLogin.setAreaAdscripcion(atts.get("departmentNumber").get().toString());
+                }
+                if (atts.get("telephoneNumber") != null && atts.get("telephoneNumber").get() != null)
+                {
+                    userLogin.setExtension(atts.get("telephoneNumber").get().toString());
+                }
+                if (atts.get("description") != null && atts.get("description").get() != null)
+                {
+                    String nivel = atts.get("description").get().toString();
+                    nivel = getNivel(nivel);
+                    userLogin.setNivel(nivel);
+                }
+                if (atts.get("initials") != null && atts.get("initials").get() != null)
+                {
+                    userLogin.setNoEmpleado(atts.get("initials").get().toString());
+                }
+                if (atts.get("title") != null && atts.get("title").get() != null)
+                {
+                    userLogin.setPuesto(atts.get("title").get().toString());
+                }
+                if (atts.get("givenName") != null && atts.get("givenName").get() != null)
+                {
+                    userLogin.setNombre(atts.get("givenName").get().toString() + " " + atts.get("sn").get().toString());
+                }
+                if (atts.get("pager") != null && atts.get("pager").get() != null)
+                {
+                    userLogin.setRfc(atts.get("pager").get().toString());
+                }
             }
-            if (atts.get("telephoneNumber") != null && atts.get("telephoneNumber").get() != null)
+            else
             {
-                userLogin.setExtension(atts.get("telephoneNumber").get().toString());
-            }
-            if (atts.get("description") != null && atts.get("description").get() != null)
-            {
-                String nivel = atts.get("description").get().toString();
-                nivel=getNivel(nivel);
-                userLogin.setNivel(nivel);
-            }
-            if (atts.get("initials") != null && atts.get("initials").get() != null)
-            {
-                userLogin.setNoEmpleado(atts.get("initials").get().toString());
-            }
-            if (atts.get("title") != null && atts.get("title").get() != null)
-            {
-                userLogin.setPuesto(atts.get("title").get().toString());
-            }
-            if (atts.get("givenName") != null && atts.get("givenName").get() != null)
-            {
-                userLogin.setNombre(atts.get("givenName").get().toString() + " " + atts.get("sn").get().toString());
-            }
-            if (atts.get("pager") != null && atts.get("pager").get() != null)
-            {
-                userLogin.setRfc(atts.get("pager").get().toString());
+                log.error("No se encontro el usuario: login:"+login+" loginuser:"+login_user);
             }
         }
         catch (Exception e)
@@ -231,7 +238,7 @@ public class Autentificacion
                     {
                         sn = "";
                     }
-                    
+
                     UserSubordinado us = new UserSubordinado(uid, givenName + " " + sn);
                     getSubordinados.add(us);
 
@@ -313,8 +320,8 @@ public class Autentificacion
     public static void main(String args[]) throws IOException
     {
         String login = "oscar.gutierrez";
-            String nivel="27";
-            nivel=getNivel(nivel);
+        String nivel = "27";
+        nivel = getNivel(nivel);
 
         Autentificacion i = new Autentificacion();
         List<UserSubordinado> us = new ArrayList<UserSubordinado>();
