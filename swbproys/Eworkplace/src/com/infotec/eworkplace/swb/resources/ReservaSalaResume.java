@@ -8,6 +8,7 @@ import com.infotec.eworkplace.swb.ReservacionSala;
 import com.infotec.eworkplace.swb.Sala;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -23,6 +24,7 @@ import org.semanticwb.SWBUtils;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.SWBComparator;
 import org.semanticwb.model.User;
+import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
@@ -60,6 +62,10 @@ public class ReservaSalaResume extends GenericResource {
         if(Mode_ROLL.equals(mode))
         {
             doRoll(request, response, paramRequest);
+        }
+        else if(Mode_SALA.equals(mode))
+        {
+            doViewSala(request, response, paramRequest);
         }
         else
         {
@@ -186,11 +192,15 @@ public class ReservaSalaResume extends GenericResource {
     
     private String getCalendar(HttpServletRequest request, SWBParamRequest paramRequest, Locale locale) throws SWBResourceException
     {
-        StringBuilder html = new StringBuilder();
-        
+        StringBuilder html = new StringBuilder();        
+        GregorianCalendar current;
         HttpSession session = request.getSession(true);
-        GregorianCalendar current = (GregorianCalendar)session.getAttribute("cur");
-        //GregorianCalendar current = new GregorianCalendar(locale);
+        if(session.getAttribute("cur")==null) {
+            current = new GregorianCalendar(locale);
+        }else {
+            current = (GregorianCalendar)session.getAttribute("cur");
+        }
+
         SWBResourceURL url = paramRequest.getRenderUrl().setMode(Mode_ROLL).setParameter("suri", request.getParameter("suri"));
         
         html.append("\n<div id=\"dayselectorCal\">");
@@ -365,23 +375,187 @@ public class ReservaSalaResume extends GenericResource {
         out.println("</tbody>");
         out.println("</table>");
         out.println("<br class=\"clear\"/>");
-        
-//        if(current.get(Calendar.DAY_OF_YEAR)>=today.get(Calendar.DAY_OF_YEAR)) {
-//            out.println(getScript(request, paramRequest, locale));
-//            out.println(getForm(request, paramRequest, salas, locale));
-//        }
         out.println("</div>");
-//        out.println("<script type=\"text/javascript\">");
-//        out.println("<!--");
-//        out.println(" dojo.addOnLoad(function() {");
-//        out.println(  request.getParameter("tpmeet")==null?"collapse('_tpcf_');":(request.getParameter("tpmeet").equals(ReservacionSala.TipoReunion.Interna.name())?"collapse('_tpcf_');":"expande('_tpcf_');")   );
-//        out.println(  request.getParameter("tmsrvc")==null?"collapse('_tmsrvc_');":(request.getParameter("tmsrvc").equals(ReservacionSala.Horario.Durante.name())?"collapse('_tmsrvc_');":"expande('_tmsrvc_');")   );
-//        if(request.getParameter("alertmsg")!=null && !request.getParameter("alertmsg").isEmpty()) {
-//            out.println( "alert('"+request.getParameter("alertmsg")+"');");
-//        }        
-//        out.println(" });");
-//        out.println("-->");
-//        out.println("</script>");
+    }
+    
+    public void doViewSala(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("text/html; charset=utf-8");
+        
+        PrintWriter out = response.getWriter();
+        User user = paramRequest.getUser();
+        Locale locale = new Locale(user.getLanguage(),(user.getCountry()==null?"MX":user.getCountry()));
+        
+        GregorianCalendar current;
+        HttpSession session = request.getSession(true);
+        if(session.getAttribute("cur")==null) {
+            current = new GregorianCalendar(locale);
+            session.setAttribute("cur", current);
+        }else {
+            current = (GregorianCalendar)session.getAttribute("cur");
+        }
+
+        
+        String uri = SWBUtils.XML.replaceXMLChars(request.getParameter("sl"));
+        //String uri = request.getParameter("sl");
+        uri = URLDecoder.decode(uri, "UTF-8");
+        Sala sala = null;
+        try {
+            sala = (Sala)SemanticObject.createSemanticObject(uri).createGenericInstance();
+        }catch(Exception e) {
+            log.error(e);
+            e.printStackTrace(System.out);
+        }
+        
+        if(sala==null) {
+            out.println("<p>"+paramRequest.getLocaleString("msgErrRoomMismatch")+"</p>");
+            return;
+        }
+        
+        Calendar cur =  Calendar.getInstance(locale);
+        cur.setMinimalDaysInFirstWeek(1);
+        cur.setFirstDayOfWeek(1);
+        cur.setTime(current.getTime());
+        final int month = cur.get(Calendar.MONTH);
+        final int wom = cur.getActualMaximum(Calendar.WEEK_OF_MONTH);
+        final int dow = cur.get(Calendar.DAY_OF_WEEK);
+        cur.add(Calendar.DAY_OF_MONTH, 1-dow);
+        int wk;
+        try {
+            wk = Integer.parseInt(request.getParameter("wk"));
+        }catch(Exception e) {
+            wk = cur.get(Calendar.WEEK_OF_MONTH);
+        }
+        out.println("<div>");
+        
+//        out.println("<div id=\"salas-regresar\">");
+//        out.println(" <a href=\""+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW) +"\" title=\"Regresar\" class=\"backCal\">Regresar</a>");
+//        out.println("</div>");
+        
+        out.println("<div id=\"salas-semanas\">");
+        out.println(" <h3 class=\"sala-h3sala\">"+sala.getDisplayTitle(locale.getLanguage())+"</h3>");
+        out.println(" <h3 class=\"sala-h3semana\">Semana "+wk+"</h3>");
+        out.println("</div>");
+//        if(wk>1)
+//            out.println("<a href=\"#\" title=\"\">anterior</a>");
+//        if(wk<wom)
+//            out.println("&nbsp;<a href=\"#\" title=\"\">siguiente</a>");
+        out.println("<div>");
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd", locale);
+        out.println("<table id=\"mainTableCalSemana\">");
+        out.println("<thead>");
+        out.println(" <tr class=\"trCalSalas\">");
+        out.println("  <th class=\"thCalHora\">Hora</th>");       
+        final int fdcw = cur.get(Calendar.DAY_OF_MONTH);
+        if(wk==1) {
+            for(int k=1; k<=7; k++) {
+                if(k>=dow && k<7)
+                    out.println("  <th>"+sdf.format(cur.getTime())+"</th>");
+                else if(k>1 && k<7)
+                    out.println("  <th class=\"deactive\">"+sdf.format(cur.getTime())+"</th>");
+                cur.add(Calendar.DATE, 1);
+            }
+        }else {
+            for(int k=1; k<=7; k++) {
+                if(month<cur.get(Calendar.MONTH) && k<7)
+                    out.println("  <th class=\"deactive\">"+sdf.format(cur.getTime())+"</th>");
+                else if(k>1 && k<7)
+                    out.println("  <th>"+sdf.format(cur.getTime())+"</th>"); 
+                cur.add(Calendar.DATE, 1);
+            }
+        }
+        out.println(" </tr>");
+        out.println("</thead>");
+        
+        sdf = new SimpleDateFormat("HH:mm");
+        GregorianCalendar begin = new GregorianCalendar(cur.get(Calendar.YEAR),cur.get(Calendar.MONTH),fdcw,0,0,0);
+        begin.set(Calendar.MINUTE, START_MIN);
+        GregorianCalendar end = new GregorianCalendar(cur.get(Calendar.YEAR),cur.get(Calendar.MONTH),fdcw,0,0,0);
+        end.set(Calendar.MINUTE, 449);
+        
+        ReservacionSala myReservation;
+        out.println("<tbody>");
+        for(int i=1; i<=15; i++) {
+            out.println(" <tr>");
+            out.println("  <td rowspan=\"2\" class=\"theHoursCal\"><p>"+sdf.format(begin.getTime())+"</p></td>");
+            if(wk==1) {
+                for(int k=1; k<=7; k++) {
+                    if(k>=dow && k<7) {
+                        myReservation = sala.getReserva(begin, end);
+                        if(myReservation!=null) {
+                            out.println("  <td class=\""+myReservation.getIconClass()+" sltc trCal1\" title=\""+myReservation.toString()+"\">&nbsp;</td>");
+                        }else {
+                            out.println("  <td class=\"sltc trCal1\">&nbsp;</td>");
+                        }
+                    }else if(k>1 && k<7) {
+                        out.println("  <td title=\"3\" class=\"deactive sltc trCal1\">&nbsp;</td>");
+                    }
+                    begin.add(Calendar.DATE, 1);
+                    end.add(Calendar.DATE, 1);
+                }
+            }else {
+                 for(int k=1; k<=7; k++) {
+                    if(month<cur.get(Calendar.MONTH) && k<7) {
+                        out.println("  <td id=\""+sala.getId()+"___"+cur.getTimeInMillis()+"\" class=\"deactive sltc trCal1\">&nbsp;</td>");
+                    }else if(k>1&&k<7) {
+                        myReservation = sala.getReserva(begin, end);
+                        if(myReservation!=null) {
+                            out.println("  <td class=\""+myReservation.getIconClass()+" sltc trCal1\" title=\""+myReservation.toString()+"\">&nbsp;</td>");
+                        }else {
+                            out.println("  <td class=\"sltc trCal1\">&nbsp;</td>");
+                        }
+                    }
+                    begin.add(Calendar.DATE, 1);
+                    end.add(Calendar.DATE, 1);
+                }
+            }
+            out.println(" </tr>");
+            begin.set(Calendar.DAY_OF_MONTH, fdcw);
+            begin.add(Calendar.MINUTE, 30);
+            end.set(Calendar.DAY_OF_MONTH, fdcw);
+            end.add(Calendar.MINUTE, 30);
+            out.println(" <tr>");
+            if(wk==1) {
+                for(int k=1; k<=7; k++) {
+                    if(k>=dow && k<7) {
+                        myReservation = sala.getReserva(begin, end);
+                        if(myReservation!=null) {
+                            out.println("  <td class=\""+myReservation.getIconClass()+" sltc trCal1\" title=\""+myReservation.toString()+"\">&nbsp;</td>");
+                        }else {
+                            out.println("  <td class=\"sltc trCal1\">&nbsp;</td>");
+                        }
+                    }else if(k>1 && k<7) {
+                        out.println("  <td class=\"deactive sltc trCal1\">&nbsp;</td>");
+                    }
+                    begin.add(Calendar.DATE, 1);
+                    end.add(Calendar.DATE, 1);
+                }
+            }else {
+                 for(int k=1; k<=7; k++) {
+                    if(month<cur.get(Calendar.MONTH) && k<7) {
+                        out.println("  <td title=\"9\" class=\"deactive sltc trCal1\">&nbsp;</td>");
+                    }else if(k>1&&k<7) {
+                        myReservation = sala.getReserva(begin, end);
+                        if(myReservation!=null) {
+                            out.println("  <td class=\""+myReservation.getIconClass()+" sltc trCal1\" title=\""+myReservation.toString()+"\">&nbsp;</td>");
+                        }else {
+                            out.println("  <td class=\"sltc trCal1\">&nbsp;</td>");
+                        }
+                    }
+                    begin.add(Calendar.DATE, 1);
+                    end.add(Calendar.DATE, 1);
+                }
+            }
+            out.println(" </tr>");
+            begin.set(Calendar.DAY_OF_MONTH, fdcw);
+            begin.add(Calendar.MINUTE, 30);
+            end.set(Calendar.DAY_OF_MONTH, fdcw);
+            end.add(Calendar.MINUTE, 30);
+        }
+        out.println("</tbody>");
+        out.println("</table>");
+        out.println("<div id=\"salas-regresar\">");
+        out.println(" <a href=\""+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW) +"\" title=\"Regresar\" class=\"backCal\">Regresar</a>");
+        out.println("</div>");
     }
     
     private void reset(Calendar cal, int hour, int minute) {
