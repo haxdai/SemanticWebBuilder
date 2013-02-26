@@ -31,7 +31,7 @@ public class Autentificacion
 {
     //public static final String PREFIX_INMUJERES="@inmujeres.local";
 
-    public static String PREFIX_INMUJERES = "";
+    public static String PREFIX_INMUJERES = "@inmujeres.local";
     protected UserRepository userRep;
     protected Properties props;
     protected String seekField;
@@ -44,8 +44,9 @@ public class Autentificacion
     static Logger log = SWBUtils.getLogger(Autentificacion.class);
     //NamingEnumeration answers = null;
 
-    public Autentificacion()
+    static
     {
+
         try
         {
             String ip = InetAddress.getLocalHost().toString();
@@ -64,6 +65,11 @@ public class Autentificacion
         {
             PREFIX_INMUJERES = "@inmujeres.local";
         }
+    }
+
+    public Autentificacion()
+    {
+
         //System.out.println("PREFIX_INMUJERES: "+PREFIX_INMUJERES);
 
         props = SWBUtils.TEXT.getPropertyFile("/genericLDAP.properties"); //archivo de configuracion externa
@@ -100,7 +106,11 @@ public class Autentificacion
     //Devuelve una lista con los 5 campos del usuario loggeado
     public UserLogin getCamposLogin(String login)
     {
-        String login_user = login + PREFIX_INMUJERES;
+        String login_user = login;
+        if (login.indexOf("@") == -1)
+        {
+            login += PREFIX_INMUJERES;
+        }
 
         DirContext dir = null;
         javax.naming.directory.Attributes atts = null;
@@ -156,7 +166,7 @@ public class Autentificacion
             }
             else
             {
-                log.error("No se encontro el usuario: login:"+login+" loginuser:"+login_user);
+                log.error("No se encontro el usuario: login:" + login + " loginuser:" + login_user);
             }
         }
         catch (Exception e)
