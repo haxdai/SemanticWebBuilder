@@ -2,11 +2,8 @@ package mx.gob.inmujeres.swb;
 
 import java.util.Calendar;
 import java.util.Iterator;
-import java.util.List;
 import java.util.StringTokenizer;
 import javax.servlet.http.HttpServletRequest;
-import mx.gob.inmujeres.swb.resources.sem.base.Autentificacion;
-import mx.gob.inmujeres.swb.resources.sem.base.UserSubordinado;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
@@ -40,10 +37,11 @@ public class SelectCandidate extends mx.gob.inmujeres.swb.base.SelectCandidateBa
         super(base);
     }
 
-    private boolean isSubordinado(User candidato, List<UserSubordinado> subordinados)
+    private boolean isSubordinado(User candidato, Iterator<User> subordinados)
     {
-        for (UserSubordinado userSubordinado : subordinados)
+        while(subordinados.hasNext())
         {
+            User userSubordinado=subordinados.next();
             if (userSubordinado.getLogin().equals(candidato.getLogin()))
             {
                 return true;
@@ -91,8 +89,9 @@ public class SelectCandidate extends mx.gob.inmujeres.swb.base.SelectCandidateBa
     public boolean filterObject(HttpServletRequest request, SemanticObject obj, SemanticObject filter, SemanticProperty prop, String propName, String type, String mode, String lang)
     {
         User evaluador = SWBContext.getSessionUser();
-        Autentificacion aut = new Autentificacion();
-        List<UserSubordinado> subordinados = aut.getSubordinados(evaluador.getLogin() + "@inmujeres.local");
+        UserExtended ext=UserExtended.ClassMgr.getUserExtended(evaluador.getId(), evaluador.getUserRepository());
+        //Autentificacion aut = new Autentificacion();
+        //List<UserSubordinado> subordinados = aut.getSubordinados(evaluador.getLogin() + Autentificacion.PREFIX_INMUJERES);
         //List<UserSubordinado> subordinados = aut.getSubordinados(evaluador.getLogin());
         GenericObject go = filter.createGenericInstance();
 
@@ -100,7 +99,7 @@ public class SelectCandidate extends mx.gob.inmujeres.swb.base.SelectCandidateBa
         {
             User user = (User) go;
 
-            if (isSubordinado(user, subordinados))
+            if (isSubordinado(user, ext.listSubordinados()))
             {
                 if (!isEvaluado(evaluador, user))
                 {
