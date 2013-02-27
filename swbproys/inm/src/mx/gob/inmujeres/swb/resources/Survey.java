@@ -641,7 +641,14 @@ public class Survey extends GenericResource
                 }
                 else
                 {
-                    response.setRenderParameter("error", "El cuestionario fue llenado con preguntas que no corresponde con el nivel, nivel de usuario: "+nivelId+" pregunta: "+pregunta.getId());
+                    StringBuilder sb=new StringBuilder();
+                    Iterator<Nivel> niveles= pregunta.listNiveleses();
+                    while(niveles.hasNext())
+                    {
+                        Nivel _nivel=niveles.next();
+                        sb.append(_nivel.getId()).append(",");
+                    }
+                    response.setRenderParameter("error", "El cuestionario fue llenado con preguntas que no corresponde con el nivel, nivel de usuario: "+nivelId+" pregunta: "+pregunta.getId()+" niveles soportados: "+sb.toString());
                     response.setMode(Survey.MODE_ERROR);
                     return;
                 }
