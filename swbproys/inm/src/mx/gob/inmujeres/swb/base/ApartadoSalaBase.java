@@ -4,7 +4,7 @@ package mx.gob.inmujeres.swb.base;
    /**
    * Representa una reservación de una sala de juntas 
    */
-public abstract class ApartadoSalaBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Iconable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class ApartadoSalaBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,org.semanticwb.model.Iconable
 {
     public static final org.semanticwb.platform.SemanticProperty inm_observaciones=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#observaciones");
     public static final org.semanticwb.platform.SemanticProperty inm_motivoReunion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#motivoReunion");
