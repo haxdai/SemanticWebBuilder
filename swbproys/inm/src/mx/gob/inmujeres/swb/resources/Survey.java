@@ -547,7 +547,7 @@ public class Survey extends GenericResource
         while (niveles.hasNext())
         {
             Nivel nivel = niveles.next();
-            if (nivel.equals(nivelUsuario))
+            if (nivel.getId().toLowerCase().equals(nivelUsuario.getId().toLowerCase()))
             {
                 return true;
             }
