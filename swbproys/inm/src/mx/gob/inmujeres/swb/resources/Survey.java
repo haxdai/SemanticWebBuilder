@@ -641,7 +641,7 @@ public class Survey extends GenericResource
                 }
                 else
                 {
-                    response.setRenderParameter("error", "El cuestionario fue llenado con preguntas que no corresponde con el nivel");
+                    response.setRenderParameter("error", "El cuestionario fue llenado con preguntas que no corresponde con el nivel nivel de usuario: "+nivelId+" pregunta: "+pregunta.getId());
                     response.setMode(Survey.MODE_ERROR);
                     return;
                 }
