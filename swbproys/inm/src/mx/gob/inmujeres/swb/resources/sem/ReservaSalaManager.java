@@ -119,7 +119,7 @@ System.out.println("----------------------");
         response.setRenderParameter("toa", request.getParameter("toa"));
         response.setRenderParameter("cfgrn", request.getParameter("cfgrn"));
         response.setRenderParameter("h2o", request.getParameter("h2o"));
-        response.setRenderParameter("te", request.getParameter("te"));
+        response.setRenderParameter("tea", request.getParameter("tea"));
         response.setRenderParameter("cks", request.getParameter("cks"));
         response.setRenderParameter("osrv", request.getParameter("osrv"));
         response.setRenderParameter("mtv", request.getParameter("mtv"));
@@ -133,9 +133,7 @@ System.out.println("----------------------");
     }
     
     @Override
-    public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
-        //response.setRenderParameter("suri", request.getParameter("suri"));
-System.out.println("....processAction...");        
+    public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {  
         User user = response.getUser();
         if(!user.isSigned())
             return;
@@ -143,7 +141,7 @@ System.out.println("....processAction...");
         Resource base = getResourceBase();
         WebSite model = base.getWebSite();
         String action = response.getAction();
-System.out.println("action="+action);
+        
         if(SWBResourceURL.Action_ADD.equals(action)) {
             HttpSession session = request.getSession(true);
             GregorianCalendar current = (GregorianCalendar)session.getAttribute("cur");
@@ -178,8 +176,7 @@ System.out.println("action="+action);
                 setRenderParameter(request, response);
                 return;
             }
-
-            //GregorianCalendar csd = new GregorianCalendar(locale), cfd = null;
+            
             GregorianCalendar csd = new GregorianCalendar(locale), cfd = new GregorianCalendar(locale);
             try {
                 csd.setTime(current.getTime());
@@ -254,7 +251,7 @@ System.out.println("action="+action);
                 reservation.setRequiereAgua(request.getParameter("h2o")!=null);    
                 reservation.setRequiereCafe(request.getParameter("cfgrn")!=null);
                 reservation.setRequiereGalletas(request.getParameter("cks")!=null);
-                reservation.setRequiereTe(true);
+                reservation.setRequiereTe(request.getParameter("tea")!=null);
                 reservation.setServicioAdicional(SWBUtils.XML.replaceXMLChars(request.getParameter("osrv")));
 
                 reservation.setRequiereRotafolio(request.getParameter("rf")!=null);
@@ -570,7 +567,7 @@ System.out.println("suri="+suri);
 //        }catch(UnsupportedEncodingException ue) {
 //            url = paramRequest.getRenderUrl().setMode(Mode_ROLL).setParameter("suri", request.getParameter("suri").replaceAll("#", "%23"));
 //        }
-        html.append("<form id=\"_rs_\" method=\"post\" dojoType=\"dijit.form.Form\" action=\""+url.toString()+"\">");
+        html.append("<form id=\"_rs_\" method=\"post\" dojoType=\"dijit.form.Form\" action=\"").append(url.toString()).append("\">");
         html.append("<div id=\"mainPop\">");
         html.append(" <p id=\"popTop\"></p>");
         html.append(" <div id=\"popMiddle\">");
@@ -580,14 +577,14 @@ System.out.println("suri="+suri);
         html.append("  <select name=\"sl\" id=\"sl\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\" promptMessage=\"Selecciona una sala\" invalidMessage=\"La sala es requerida\">");
         html.append("   <option value=\"\"></option>");
         for(Sala sala:salas) {
-            html.append("   <option value=\""+sala.getId()+"\" "+(sala.getId().equals(request.getParameter("sl"))?"selected=\"selected\"":"")+">"+sala.getDisplayTitle(locale.getLanguage())+"</option>");
+            html.append("   <option value=\"").append(sala.getId()).append("\" ").append(sala.getId().equals(request.getParameter("sl"))?"selected=\"selected\"":"").append(">").append(sala.getDisplayTitle(locale.getLanguage())).append("</option>");
         }
         html.append("  </select>");
         html.append(" </div>");
         html.append(" <div class=\"salas4Cols salas-fecha\">");
         html.append("  <p><span class=\"blueCalTit\">Fecha de reservaci&oacute;n:</span></p>");
 //        html.append("     <label for=\"sd\">Del: </label><input type=\"text\" name=\"sd\" id=\"sd\" value=\""+sdf.format(current.getTime())+"\" dojoType=\"dijit.form.ValidationTextBox\" readonly=\"readonly\" />");
-        html.append("     <input type=\"text\" name=\"sd\" id=\"sd\" value=\""+sdf.format(current.getTime())+"\" dojoType=\"dijit.form.ValidationTextBox\" readonly=\"readonly\" />");
+        html.append("     <input type=\"text\" name=\"sd\" id=\"sd\" value=\"").append(sdf.format(current.getTime())).append("\" dojoType=\"dijit.form.ValidationTextBox\" readonly=\"readonly\" />");
 //        final GregorianCalendar lastDateOfYear = new GregorianCalendar(current.get(Calendar.YEAR),11,31,22,0,0);
 //        html.append("     <label for=\"fd\">al: </label><input type=\"text\" name=\"fd\" id=\"fd\" value=\""+(request.getParameter("fd")==null?dateDojo.format(current.getTime()):request.getParameter("fd"))+"\" dojoType=\"dijit.form.DateTextBox\" constraints=\"{min:'"+dateDojo.format(current.getTime())+"',max:'"+dateDojo.format(lastDateOfYear.getTime())+"',datePattern:'dd/MMM/yyyy'}\"  required=\"true\" trim=\"true\" promptMessage=\"formato de la fecha dd/MM/yyyy\" invalidMessage=\"Invalid date\" />");
         html.append(" </div>");
@@ -688,7 +685,7 @@ System.out.println("suri="+suri);
         html.append("   <ul>");
         html.append("    <li class=\"cafe_cfgrn\"><input type=\"checkbox\" name=\"cfgrn\" id=\"cfgrn\" value=\"true\" "+(request.getParameter("cfgrn")==null?"":"checked=\"checked\"")+" /><label for=\"cfgrn\">Café</label></li>");
         html.append("    <li class=\"cafe_h2o\"><input type=\"checkbox\" name=\"h2o\" id=\"h2o\" value=\"true\" "+(request.getParameter("h2o")==null?"":"checked=\"checked\"")+" /><label for=\"h2o\">Agua</label></li>");
-        html.append("    <li class=\"cafe_sds\"><input type=\"checkbox\" name=\"te\" id=\"te\" value=\"true\" "+(request.getParameter("te")==null?"":"checked=\"checked\"")+" /><label for=\"te\">Té</label></li>");
+        html.append("    <li class=\"cafe_sds\"><input type=\"checkbox\" name=\"tea\" id=\"tea\" value=\"true\" "+(request.getParameter("tea")==null?"":"checked=\"checked\"")+" /><label for=\"tea\">Té</label></li>");
         html.append("    <li class=\"cafe_cks\"><input type=\"checkbox\" name=\"cks\" id=\"cks\" value=\"true\" "+(request.getParameter("cks")==null?"":"checked=\"checked\"")+" /><label for=\"cks\">Galletas</label></li>");
         html.append("    <li class=\"cafe_cks\"><label for=\"osrv\">Otro servicio:</label><input type=\"text\" name=\"osrv\" id=\"osrv\" value=\""+(request.getParameter("osrv")==null?"":request.getParameter("osrv"))+"\" dojoType=\"dijit.form.ValidationTextBox\" required=\"false\" promptMessage=\"Otro servicio requerido\" trim=\"true\" /></li>");
         html.append("   </ul>");
