@@ -26,7 +26,6 @@ import org.semanticwb.SWBUtils;
 import org.semanticwb.base.util.ImageResizer;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.Resourceable;
-import org.semanticwb.model.Role;
 import org.semanticwb.model.SWBComparator;
 import org.semanticwb.model.User;
 import org.semanticwb.model.UserGroup;
@@ -34,9 +33,6 @@ import org.semanticwb.model.UserGroupable;
 import org.semanticwb.model.UserRepository;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
-import org.semanticwb.platform.SemanticClass;
-import org.semanticwb.platform.SemanticObject;
-import org.semanticwb.platform.SemanticProperty;
 import org.semanticwb.portal.api.GenericAdmResource;
 import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
@@ -57,24 +53,49 @@ public class SWProfileManager extends GenericAdmResource {
     
     public static final String RH_Role = "RH";
     
-    public static final String Mode_ADS = "ads";
+    public static final String Mode_ADS = "ous";
     public static final String Mode_IBSS = "ibss";
     
-    private Role subgerente, gerente, director;
+    //private Role subgerente, gerente, director;
     private UserGroup infotec;
+    private final String ugCorpId = "OU:Corporativo";
     
     private String contentURL;
     public String ibssJsonStore;
+
+    /**
+     * @return the infotec
+     */
+    public UserGroup getInfotec() {
+        return infotec;
+    }
+    
+        
+    @Override
+    public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        final String mode = paramRequest.getMode();
+        if(Mode_ADS.equals(mode))
+            doAds(request, response, paramRequest);
+        else if(Mode_IBSS.equals(mode))
+            doInmediateBoss(request, response, paramRequest);
+//        else if("fam".equals(mode))
+//            doFam(request, response, paramRequest);
+        else if(Mode_CHGPHTO.equals(mode))
+            doChangePhoto(request, response, paramRequest);
+        else if(Mode_VIEWPRFL.equals(mode))
+            doResume(request, response, paramRequest);
+        else
+            super.processRequest(request, response, paramRequest);
+    }
     
     @Override
     public void setResourceBase(Resource res) throws SWBResourceException {
         super.setResourceBase(res);
-        
         UserRepository ur = res.getWebSite().getUserRepository();
-        subgerente = ur.getRole("Subgerente");
-        gerente = ur.getRole("Gerente");
-        director = ur.getRole("Director");
-        infotec = ur.getUserGroup("Empleado_exsitu");
+//        subgerente = ur.getRole("Subgerente");
+//        gerente = ur.getRole("Gerente");
+//        director = ur.getRole("Director");
+        infotec = ur.getUserGroup(ugCorpId);
         
         try {
             JSONObject base = new JSONObject();
@@ -85,7 +106,7 @@ public class SWProfileManager extends GenericAdmResource {
             
             User user;
             UserGroup ug;
-            Iterator<UserGroup> it = infotec.listChilds();
+            Iterator<UserGroup> it = getInfotec().listChilds();
             while(it.hasNext()) {
                 ug = it.next();
                 if(ug==null)
@@ -95,13 +116,13 @@ public class SWProfileManager extends GenericAdmResource {
                     UserGroupable ugble = ugbles.next();
                     if(ugble instanceof User) {
                         user = (User)ugble;
-                        if(user.hasRole(subgerente)||user.hasRole(gerente)||user.hasRole(director)) {
+//                        if(user.hasRole(subgerente)||user.hasRole(gerente)||user.hasRole(director)) {
                             JSONObject jtipo = new JSONObject();
                             items.put(jtipo);
                             jtipo.put("id", user.getId());
                             jtipo.put("name", user.getFullName());
                             jtipo.put("dir", ug.getId());
-                        }
+//                        }
                     }
                 }
             }      
@@ -119,22 +140,91 @@ public class SWProfileManager extends GenericAdmResource {
             }
         }        
     }
+    
+    public void doAds(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("application/json; charset=ISO-8859-1");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
         
-    @Override
-    public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        final String mode = paramRequest.getMode();
-        if(Mode_ADS.equals(mode))
-            doAds(request, response, paramRequest);
-        else if(Mode_IBSS.equals(mode))
-            doInmediateBoss(request, response, paramRequest);
-//        else if("fam".equals(mode))
-//            doFam(request, response, paramRequest);
-        else if(Mode_CHGPHTO.equals(mode))
-            doChangePhoto(request, response, paramRequest);
-        else if(Mode_VIEWPRFL.equals(mode))
-            doResume(request, response, paramRequest);
-        else
-            super.processRequest(request, response, paramRequest);
+        User user = paramRequest.getUser();
+        if(!user.isSigned()) {
+            return;
+        }
+        
+        PrintWriter out = response.getWriter();
+        try {
+            JSONObject base = new JSONObject();
+            base.put("identifier", "id");
+            base.put("label", "name");
+            JSONArray items = new JSONArray();
+            base.put("items", items);
+            UserGroup ug;
+            Iterator<UserGroup> it = getInfotec().listChilds();
+            it = SWBComparator.sortByDisplayName(it, user.getLanguage());
+            while(it.hasNext()) {
+                ug = it.next();
+                if(!user.hasUserGroup(ug)) {
+                    continue;
+                }
+                JSONObject jtipo = new JSONObject();
+                items.put(jtipo);
+                jtipo.put("id", ug.getId());
+                jtipo.put("name", ug.getTitle());
+                break;
+            }
+            out.print(base.toString());
+        } catch (Exception e) {
+            log.error(e);
+            out.println("no data");
+        }
+        out.flush();
+        out.close();
+    }
+    
+    public void doInmediateBoss(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("application/json; charset=ISO-8859-1");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
+        
+        PrintWriter out = response.getWriter();
+        
+//        String ret = "";
+//        try {
+//            JSONObject base = new JSONObject();
+//            base.put("identifier", "id");
+//            base.put("label", "name");
+//            JSONArray items = new JSONArray();
+//            base.put("items", items);
+//            
+//            User user;
+//            UserGroup ug;
+//            Iterator<UserGroup> it = infotec.listChilds();
+//            while(it.hasNext()) {
+//                ug = it.next();
+//                if(ug==null)
+//                    continue;
+//                Iterator<UserGroupable> ugbles = ug.listUsers();
+//                while(ugbles.hasNext()) {
+//                    UserGroupable ugble = ugbles.next();
+//                    if(ugble instanceof User) {
+//                        user = (User)ugble;
+//                        if(user.hasRole(subgerente)||user.hasRole(gerente)||user.hasRole(director)) {
+//                            JSONObject jtipo = new JSONObject();
+//                            items.put(jtipo);
+//                            jtipo.put("id", user.getId());
+//                            jtipo.put("name", user.getFullName());
+//                            jtipo.put("dir", ug.getId());
+//                        }
+//                    }
+//                }
+//            }      
+//            ret = base.toString();
+//        } catch (Exception e) {
+//            log.error(e);
+//        }
+        out.print(ibssJsonStore);
+        out.flush();
+        out.close();
     }
     
     @Override
@@ -419,6 +509,7 @@ public class SWProfileManager extends GenericAdmResource {
         final String path = "/work/models/" + wsite.getId() + "/jsp/" + this.getClass().getSimpleName() + "/editProfile.jsp";
         RequestDispatcher dis = request.getRequestDispatcher(path);
         try {
+            request.setAttribute("this", this);
             request.setAttribute("paramRequest", paramRequest);
             request.setAttribute("contentURL", contentURL);
             dis.include(request, response);
@@ -474,6 +565,7 @@ public class SWProfileManager extends GenericAdmResource {
         }
         else */
         if(SWBResourceURL.Action_EDIT.equals(action)) {
+System.out.println("\n\n\nprocessAction edit............");
             SWProfile profile = SWProfile.ClassMgr.getSWProfile(user.getId(), wsite);
             if( user.equals(profile.getCreator()) ) {
 //            SemanticProperty sp = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#miPerfilSL");
@@ -494,25 +586,32 @@ public class SWProfileManager extends GenericAdmResource {
                     }
                 }
                 else {
+System.out.println("else");
                     try {
                     UserRepository ur = wsite.getUserRepository();
                     Persona persona = Persona.ClassMgr.getPersona(user.getId(), wsite);
                     
                     String email = request.getParameter("email");
+System.out.println("email="+email);
                     if(!SWBUtils.EMAIL.isValidEmailAddress(email)) {
+System.out.println("problemas 1");
                         throw new Exception(response.getLocaleString("promptMsgFaultEmail"));
                     }
-                    if(!"usuario.desconocido@infotec.com.mx".equals(user.getEmail())) { // quitar esta línea después
+System.out.println("paso validacion email");
+//                    if(!"usuario.desconocido@infotec.com.mx".equals(user.getEmail())) { // quitar esta línea después
                         if(ur.getUserByEmail(email)==null) {
+System.out.println("problemas 2");
                             throw new Exception(response.getLocaleString("promptMsgErrNoUser"));
                         }
                         if(ur.getUserByEmail(email)!=null && !user.equals(ur.getUserByEmail(email))) {
+System.out.println("problemas 3");
                             throw new Exception(response.getLocaleString("promptMsgErrSurrogacy"));
                         }
-                    }
+//                    }
                     
                     String pos = SWBUtils.XML.replaceXMLChars(request.getParameter("pos")).trim();
                     if(pos.isEmpty()) {
+System.out.println("problemas 4");
                         throw new Exception(response.getLocaleString("promptMsgFaultPosition"));
                     }
                     String postit = SWBUtils.XML.replaceXMLChars(request.getParameter("postit"));
@@ -532,29 +631,35 @@ public class SWProfileManager extends GenericAdmResource {
                     try {
                         tfo = Integer.parseInt(request.getParameter("tfo"));
                     }catch(Exception e) {
+System.out.println("problemas 5");
                         throw new Exception(response.getLocaleString("promptMsgFaultPhone"));
                     }
                     String loc = SWBUtils.XML.replaceXMLChars(request.getParameter("loc")).trim();
                     if(loc.isEmpty()) {
+System.out.println("problemas 6");
                         throw new Exception(response.getLocaleString("promptMsgFaultLoc"));
                     }
                     String adsId = request.getParameter("ads");
+System.out.println("adsId="+adsId);
                     UserGroup adscription = null;
                     adscription = ur.getUserGroup(adsId);
-
+System.out.println("adscription="+adscription);
                     if(!infotec.hasChild(adscription)) {
+System.out.println("infotec no tiene hijo "+adscription);
                         throw new Exception(response.getLocaleString("promptMsgFaultgDr"));
                     }
                     String ichiefId = request.getParameter("chief");
+System.out.println("ichiefId="+ichiefId);
                     if(ichiefId==null) {
                         throw new Exception(response.getLocaleString("promptMsgFaultIBoss"));
                     }
                     if(ur.getUser(ichiefId)==null) {
+System.out.println("no existe jefe");
                         throw new Exception(response.getLocaleString("promptMsgErrNoUser"));
                     }
-                    if(user.equals(ur.getUser(ichiefId))) {
+                    /*if(user.equals(ur.getUser(ichiefId))) {
                         throw new Exception(response.getLocaleString("promptMsgErrLoopRef"));
-                    }
+                    }*/
                     int xtdr=0;
 
 /*SemanticClass sc = org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Empleado");
@@ -587,6 +692,12 @@ while (list.hasNext()) {
 //                    }catch(Exception e) {
 //                        alertmsg.append(response.getLocaleString("promptMsgFaultPhoneExtDr")).append("\n");
 //                    }
+System.out.println("pos="+pos);
+System.out.println("postit="+postit);
+System.out.println("prsnld="+prsnld);
+System.out.println("gsts="+gsts);
+System.out.println("ideas="+ideas);
+System.out.println("email="+email);
                     profile.setPuesto(pos);
                     profile.setPostit(postit);
                     profile.setMiPersonalidad(prsnld);
@@ -605,6 +716,9 @@ while (list.hasNext()) {
                         }catch(NumberFormatException e) {
                             xtn = 0;
                         }
+System.out.println("ld="+ld);
+System.out.println("tfo="+tfo);
+System.out.println("xtn="+xtn);
                         persona.removeAllTelefonoByTipo(Telefono.TipoTelefono.Trabajo);
                         Telefono tel = Telefono.ClassMgr.createTelefono(wsite);
                         tel.setLada(ld);
@@ -614,11 +728,12 @@ while (list.hasNext()) {
                         persona.addTelefono(tel);
 //                    }catch(Exception nfe) {
 //                    }
+System.out.println("loc="+loc);
                     profile.setUbicacion(loc);
                     profile.setJefeInmediato(ur.getUser(ichiefId));
                     if(!user.hasUserGroup(adscription)) {
                         user.removeAllUserGroup();
-                        user.addUserGroup(infotec);
+                        user.addUserGroup(getInfotec());
                         user.addUserGroup(adscription);
                     }
                     if(request.getParameterValues("mti")!=null && request.getParameterValues("mti").length>0) {
@@ -641,81 +756,6 @@ while (list.hasNext()) {
                 }
             }
         }
-    }
-    
-    public void doAds(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        response.setContentType("application/json; charset=ISO-8859-1");
-        response.setHeader("Cache-Control", "no-cache");
-        response.setHeader("Pragma", "no-cache");
-        
-        PrintWriter out = response.getWriter();
-        WebSite wsite = paramRequest.getWebPage().getWebSite();
-        User user = paramRequest.getUser();
-        String ret = "";
-        try {
-            JSONObject base = new JSONObject();
-            base.put("identifier", "id");
-            base.put("label", "name");
-            JSONArray items = new JSONArray();
-            base.put("items", items);
-            UserGroup ug;
-            Iterator<UserGroup> it = infotec.listChilds();
-            it = SWBComparator.sortByDisplayName(it, user.getLanguage());
-            while(it.hasNext()) {
-                ug = it.next();
-                JSONObject jtipo = new JSONObject();
-                items.put(jtipo);
-                jtipo.put("id", ug.getId());
-                jtipo.put("name", ug.getTitle());
-            }
-            ret = base.toString();
-        } catch (Exception e) {
-            log.error(e);
-        }
-        out.print(ret);
-    }
-    
-    public void doInmediateBoss(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        response.setContentType("application/json; charset=ISO-8859-1");
-        response.setHeader("Cache-Control", "no-cache");
-        response.setHeader("Pragma", "no-cache");
-        
-        PrintWriter out = response.getWriter();
-//        String ret = "";
-//        try {
-//            JSONObject base = new JSONObject();
-//            base.put("identifier", "id");
-//            base.put("label", "name");
-//            JSONArray items = new JSONArray();
-//            base.put("items", items);
-//            
-//            User user;
-//            UserGroup ug;
-//            Iterator<UserGroup> it = infotec.listChilds();
-//            while(it.hasNext()) {
-//                ug = it.next();
-//                if(ug==null)
-//                    continue;
-//                Iterator<UserGroupable> ugbles = ug.listUsers();
-//                while(ugbles.hasNext()) {
-//                    UserGroupable ugble = ugbles.next();
-//                    if(ugble instanceof User) {
-//                        user = (User)ugble;
-//                        if(user.hasRole(subgerente)||user.hasRole(gerente)||user.hasRole(director)) {
-//                            JSONObject jtipo = new JSONObject();
-//                            items.put(jtipo);
-//                            jtipo.put("id", user.getId());
-//                            jtipo.put("name", user.getFullName());
-//                            jtipo.put("dir", ug.getId());
-//                        }
-//                    }
-//                }
-//            }      
-//            ret = base.toString();
-//        } catch (Exception e) {
-//            log.error(e);
-//        }
-        out.print(ibssJsonStore);
     }
     
     public void doFam(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
