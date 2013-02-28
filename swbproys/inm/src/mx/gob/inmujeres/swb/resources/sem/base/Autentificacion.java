@@ -133,9 +133,13 @@ public class Autentificacion
             {
                 atts = answers.next().getAttributes();
 
-                if (atts.get("departmentNumber") != null && atts.get("departmentNumber").get() != null)
+                /*if (atts.get("departmentNumber") != null && atts.get("departmentNumber").get() != null)
                 {
                     userLogin.setAreaAdscripcion(atts.get("departmentNumber").get().toString());
+                }*/
+                if (atts.get("department") != null && atts.get("department").get() != null)
+                {
+                    userLogin.setAreaAdscripcion(atts.get("department").get().toString());
                 }
                 if (atts.get("telephoneNumber") != null && atts.get("telephoneNumber").get() != null)
                 {
