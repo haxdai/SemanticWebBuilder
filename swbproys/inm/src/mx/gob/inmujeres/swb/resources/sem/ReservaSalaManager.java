@@ -87,26 +87,9 @@ public class ReservaSalaManager extends mx.gob.inmujeres.swb.resources.sem.base.
         response.setContentType("text/html; charset=utf-8");
 log.info("doView....");
 log.info("suri="+request.getParameter("suri"));
-log.info("----------------------");        
-System.out.println("doView....");
-System.out.println("suri="+request.getParameter("suri"));
-System.out.println("----------------------");   
-//        if(userCanEdit(user)) {
-//            out.println("<div><a href=\"#\" title=\"\">Reservar una sala</a></div>");
-//            com.infotec.eworkplace.swb.Date date = com.infotec.eworkplace.swb.Date.ClassMgr.getDate(dateId, base.getWebSite());
-//            Iterator<ApartadoSala> reservations = ApartadoSala.ClassMgr.listApartadoSalaByFecha(date, base.getWebSite());
-//            if(reservations.hasNext()) {
-//                while(reservations.hasNext()) {
-//                    ApartadoSala rs = reservations.next();
-//                    if(rs!=null){
-//                        out.println("<p>rs="+rs+"</p>");
-//                    }
-//                }
-//            }else
-//                out.println("<p>no hay reservaciones</p>");
-//        }else {
-            renderReservations(request, response, paramRequest);
-//        }
+log.info("----------------------");
+
+        renderReservations(request, response, paramRequest);
     }
     
     private void setRenderParameter(HttpServletRequest request, SWBActionResponse response) {
