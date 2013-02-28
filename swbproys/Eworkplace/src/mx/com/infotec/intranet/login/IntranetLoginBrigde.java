@@ -895,7 +895,12 @@ public class IntranetLoginBrigde extends ExtUserRepInt
                 String streetAddress = objstreetAddres.get().toString();
                 final String uri = INTRANETURI + "sede";
                 SemanticProperty prop = ru.getSemanticObject().getModel().getSemanticProperty(uri);
-                String nameGroup="st_"+streetAddress.toUpperCase();
+                int pos=streetAddress.indexOf(":");
+                if(pos!=-1)
+                {
+                    streetAddress=streetAddress.substring(pos+1);
+                }
+                String nameGroup="streetAddress_"+streetAddress.toUpperCase();
                 UserGroup streetAddressGroup=UserGroup.ClassMgr.getUserGroup(nameGroup, userRep);
                 if(streetAddressGroup==null)
                 {
@@ -906,7 +911,7 @@ public class IntranetLoginBrigde extends ExtUserRepInt
                 while(groups.hasNext())
                 {
                     UserGroup group=groups.next();
-                    if(group.getId().startsWith("st_"))
+                    if(group.getId().startsWith("streetAddress_"))
                     {
                         delete.add(group);
                     }
