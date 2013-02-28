@@ -159,7 +159,7 @@
           </p>
 <%
         UserRepository ur = wsite.getUserRepository();
-        UserGroup infotec = ur.getUserGroup("Empleado_exsitu");
+        UserGroup infotec = ur.getUserGroup("OU:Corporativo");
         UserGroup adscription = null;
         Iterator<UserGroup> it = infotec.listChilds();
         while(it.hasNext()) {
