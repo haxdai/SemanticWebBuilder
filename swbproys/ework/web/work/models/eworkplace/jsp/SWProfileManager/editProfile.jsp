@@ -13,6 +13,7 @@
 <%@page import="org.semanticwb.portal.api.*"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="static com.infotec.eworkplace.swb.resources.SWProfileManager.*"  %>
+<!--jsp:useBean id="me" scope="request" type="com.infotec.eworkplace.swb.resources.SWProfileManager"/-->
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/>
 <jsp:useBean id="contentURL" scope="request" type="java.lang.String"/>
 <%
@@ -197,7 +198,8 @@ dojo.declare(
           </p>         
 <%
         UserRepository ur = wsite.getUserRepository();
-        UserGroup infotec = ur.getUserGroup("Empleado_exsitu");
+        UserGroup infotec = ur.getUserGroup("OU:Corporativo");
+        //UserGroup infotec = me.getInfotec();
         UserGroup adscription = null;
         Iterator<UserGroup> it = infotec.listChilds();
         while(it.hasNext()) {
@@ -211,11 +213,11 @@ dojo.declare(
         String provisional = "http://comunidad.infotec.com.mx/work/models/eworkplace/jsp/newjsp.jsp";
 %>
           <div dojoType="dojo.data.ItemFileReadStore" jsId="strads" url="<%=urlMando.setMode(Mode_ADS)%>"></div>
-          <!--div dojoType="dojo.data.ItemFileReadStore" jsId="strichief" url="<%=urlMando.setMode(Mode_IBSS)%>"></div-->
-          <div dojoType="dojo.data.ItemFileReadStore" jsId="strichief" url="<%=provisional%>"></div>
+          <div dojoType="dojo.data.ItemFileReadStore" jsId="strichief" url="<%=urlMando.setMode(Mode_IBSS)%>"></div>
+          <!--div dojoType="dojo.data.ItemFileReadStore" jsId="strichief" url="<%=provisional%>"></div-->
           <p class="tercio">
               <label for="ads"><em>*</em><%=paramRequest.getLocaleString("lblDr")%></label>
-              <input name="ads" id="ads" dojoType="dijit.form.FilteringSelect" required="true" value="<%=(request.getParameter("ads")!=null?request.getParameter("ads"):adscription==null?"":adscription.getId())%>" store="strads" onChange="dijit.byId('chief').attr('value','');dijit.byId('chief').query.dir = this.value;" promptMessage="<%=paramRequest.getLocaleString("promptMsgDr")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultDr")%>" />
+              <input name="ads" id="ads" dojoType="dijit.form.FilteringSelect" required="true" value="<%=(request.getParameter("ads")!=null?request.getParameter("ads"):adscription==null?"":adscription.getId())%>" store="strads" onblur="dijit.byId('chief').attr('value','');dijit.byId('chief').query.dir = this.value;" onChange="dijit.byId('chief').attr('value','');dijit.byId('chief').query.dir = this.value;" promptMessage="<%=paramRequest.getLocaleString("promptMsgDr")%>" invalidMessage="<%=paramRequest.getLocaleString("promptMsgFaultDr")%>" />
           </p>
           <p class="tercio">
               <label for="chief"><em>*</em><%=paramRequest.getLocaleString("lblIBoss")%></label>
@@ -236,7 +238,7 @@ dojo.declare(
           <h3><%=paramRequest.getLocaleString("titleITopics")%></h3>
           <em>Te ofrecemos contenidos acordes con tus temas de inter&eacute;s</em>
 <%
-        Iterator<TemaInteres> tis = TemaInteres.ClassMgr.listTemaIntereses(wsite);
+        Iterator<TemaInteres> tis = TemaInteres.ClassMgr.listTemaIntereses();
         if(tis.hasNext()) {
 %>
               <ul>
