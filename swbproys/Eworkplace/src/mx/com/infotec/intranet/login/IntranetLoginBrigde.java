@@ -7,10 +7,12 @@ package mx.com.infotec.intranet.login;
 import com.infotec.cvi.swb.TipoContratacion;
 import com.infotec.eworkplace.swb.Persona;
 import com.infotec.eworkplace.swb.SWProfile;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import javax.naming.Context;
@@ -893,6 +895,30 @@ public class IntranetLoginBrigde extends ExtUserRepInt
                 String streetAddress = objstreetAddres.get().toString();
                 final String uri = INTRANETURI + "sede";
                 SemanticProperty prop = ru.getSemanticObject().getModel().getSemanticProperty(uri);
+                String nameGroup="st_"+streetAddress.toUpperCase();
+                UserGroup streetAddressGroup=UserGroup.ClassMgr.getUserGroup(nameGroup, userRep);
+                if(streetAddressGroup==null)
+                {
+                    streetAddressGroup=UserGroup.ClassMgr.createUserGroup(nameGroup, userRep);
+                }
+                Set<UserGroup> delete=new HashSet<UserGroup>();
+                Iterator<UserGroup> groups=ru.listUserGroups();
+                while(groups.hasNext())
+                {
+                    UserGroup group=groups.next();
+                    if(group.getId().startsWith("st_"))
+                    {
+                        delete.add(group);
+                    }
+                }
+                for(UserGroup grup : delete)
+                {
+                    ru.removeUserGroup(grup);
+                }
+                if(!ru.hasUserGroup(streetAddressGroup))
+                {
+                    ru.addUserGroup(streetAddressGroup);
+                }
                 try
                 {
                     ru.setExtendedAttribute(prop, streetAddress);
