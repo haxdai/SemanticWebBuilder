@@ -155,6 +155,14 @@ public class Autentificacion
                 {
                     userLogin.setNoEmpleado(atts.get("initials").get().toString());
                 }
+                if (atts.get("id_area") != null && atts.get("id_area").get() != null)
+                {
+                    userLogin.setCc(atts.get("id_area").get().toString());
+                }
+                if (atts.get("vc_dsc_ar") != null && atts.get("vc_dsc_ar").get() != null)
+                {
+                    userLogin.setCcDescription(atts.get("vc_dsc_ar").get().toString());
+                }
                 if (atts.get("title") != null && atts.get("title").get() != null)
                 {
                     userLogin.setPuesto(atts.get("title").get().toString());
