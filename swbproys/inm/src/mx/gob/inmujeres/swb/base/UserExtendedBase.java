@@ -8,6 +8,7 @@ public abstract class UserExtendedBase extends org.semanticwb.model.SWBClass
     public static final org.semanticwb.platform.SemanticProperty inm_noEmpleado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#noEmpleado");
     public static final org.semanticwb.platform.SemanticProperty inm_areaAdscripcion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#areaAdscripcion");
     public static final org.semanticwb.platform.SemanticProperty inm_puesto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#puesto");
+    public static final org.semanticwb.platform.SemanticProperty inm_cc=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#cc");
     public static final org.semanticwb.platform.SemanticProperty inm_rfc=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#rfc");
     public static final org.semanticwb.platform.SemanticProperty inm_area=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#area");
    /**
@@ -15,6 +16,7 @@ public abstract class UserExtendedBase extends org.semanticwb.model.SWBClass
    */
     public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
     public static final org.semanticwb.platform.SemanticProperty inm_hasSubordinado=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#hasSubordinado");
+    public static final org.semanticwb.platform.SemanticProperty inm_ccDescription=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#ccDescription");
     public static final org.semanticwb.platform.SemanticClass inm_UserExtended=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#UserExtended");
    /**
    * The semantic class that represents the currentObject
@@ -220,6 +222,24 @@ public abstract class UserExtendedBase extends org.semanticwb.model.SWBClass
     }
 
 /**
+* Gets the Cc property
+* @return String with the Cc
+*/
+    public String getCc()
+    {
+        return getSemanticObject().getProperty(inm_cc);
+    }
+
+/**
+* Sets the Cc property
+* @param value long with the Cc
+*/
+    public void setCc(String value)
+    {
+        getSemanticObject().setProperty(inm_cc, value);
+    }
+
+/**
 * Gets the Rfc property
 * @return String with the Rfc
 */
@@ -318,5 +338,23 @@ public abstract class UserExtendedBase extends org.semanticwb.model.SWBClass
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the CcDescription property
+* @return String with the CcDescription
+*/
+    public String getCcDescription()
+    {
+        return getSemanticObject().getProperty(inm_ccDescription);
+    }
+
+/**
+* Sets the CcDescription property
+* @param value long with the CcDescription
+*/
+    public void setCcDescription(String value)
+    {
+        getSemanticObject().setProperty(inm_ccDescription, value);
     }
 }
