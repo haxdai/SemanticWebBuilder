@@ -18,7 +18,28 @@ public class UserLogin
     private String nivel;
     private String extension;
     private String rfc;
+    private String cc;
 
+    public String getCc()
+    {
+        return cc;
+    }
+
+    public void setCc(String cc)
+    {
+        this.cc = cc;
+    }
+
+    public String getCcDescription()
+    {
+        return ccDescription;
+    }
+
+    public void setCcDescription(String ccDescription)
+    {
+        this.ccDescription = ccDescription;
+    }
+    private String ccDescription;
     public String getRfc()
     {
         return rfc;
