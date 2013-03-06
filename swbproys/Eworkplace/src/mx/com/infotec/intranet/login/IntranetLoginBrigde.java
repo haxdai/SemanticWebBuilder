@@ -10,7 +10,6 @@ import com.infotec.eworkplace.swb.SWProfile;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -26,14 +25,9 @@ import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
-import mx.gob.inmujeres.swb.UserExtended;
-import mx.gob.inmujeres.swb.resources.sem.base.Autentificacion;
-import mx.gob.inmujeres.swb.resources.sem.base.UserLogin;
-import mx.gob.inmujeres.swb.resources.sem.base.UserSubordinado;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.GenericIterator;
-import org.semanticwb.model.Role;
 import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.User;
 import org.semanticwb.model.UserGroup;
@@ -105,8 +99,8 @@ public class IntranetLoginBrigde extends ExtUserRepInt
 
     public void loadAttrs2RecUserInit(Attributes attrs, User ru)
     {
-
-        Autentificacion aut = new Autentificacion();
+        // Cambio inmujeres
+        /*Autentificacion aut = new Autentificacion();
         String login = ru.getLogin();
         if (login.indexOf("@") == -1)
         {
@@ -127,10 +121,10 @@ public class IntranetLoginBrigde extends ExtUserRepInt
             {
                 ru.addRole(role);
             }
-        }
+        }*/
         
-
-        UserExtended ext = UserExtended.ClassMgr.getUserExtended(ru.getId(), ru.getUserRepository());
+        // Cambio inmujeres
+        /*UserExtended ext = UserExtended.ClassMgr.getUserExtended(ru.getId(), ru.getUserRepository());
         if (ext == null)
         {
             ext = UserExtended.ClassMgr.createUserExtended(ru.getId(), ru.getUserRepository());
@@ -153,7 +147,7 @@ public class IntranetLoginBrigde extends ExtUserRepInt
         ext.setLevel(info.getNivel());
         ext.setNoEmpleado(info.getNoEmpleado());
         ext.setPuesto(info.getPuesto());
-        ext.setRfc(info.getRfc());
+        ext.setRfc(info.getRfc());*/
         try
         {
             if (!"null".equals(fieldFirstName))
