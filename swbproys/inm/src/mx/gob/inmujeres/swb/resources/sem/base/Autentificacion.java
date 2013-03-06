@@ -29,6 +29,7 @@ import org.semanticwb.model.UserRepository;
  */
 public class Autentificacion
 {
+    public static String GENERICLDAP_PROPERTIES = "/genericLDAP.properties";
     //public static final String PREFIX_INMUJERES="@inmujeres.local";
 
     public static String PREFIX_INMUJERES = "@inmujeres.local";
@@ -53,19 +54,22 @@ public class Autentificacion
             //System.out.println("ip: "+ip);
             if (ip.startsWith("gdnps.infotec.com.mx"))
             {
+                GENERICLDAP_PROPERTIES="genericLDAPInmujeres.properties";
                 PREFIX_INMUJERES = "";
             }
             else
             {
+                GENERICLDAP_PROPERTIES="/genericLDAP.properties";
                 PREFIX_INMUJERES = "@inmujeres.local";
-                PREFIX_INMUJERES = "";
+                
             }
 
         }
         catch (Exception e)
         {
+            GENERICLDAP_PROPERTIES="/genericLDAP.properties";
             PREFIX_INMUJERES = "@inmujeres.local";
-            PREFIX_INMUJERES = "";
+            
         }
     }
 
@@ -74,7 +78,7 @@ public class Autentificacion
 
         //System.out.println("PREFIX_INMUJERES: "+PREFIX_INMUJERES);
 
-        props = SWBUtils.TEXT.getPropertyFile("/genericLDAP.properties"); //archivo de configuracion externa
+        props = SWBUtils.TEXT.getPropertyFile(GENERICLDAP_PROPERTIES); //archivo de configuracion externa
         this.userObjectClass = props.getProperty("userObjectClass", "person"); //clase objeto para buscar usuario
         this.seekField = props.getProperty("seekField", "sAmAccountName");// campo llave para busqueda
 
