@@ -54,7 +54,7 @@ public class Autentificacion
             //System.out.println("ip: "+ip);
             if (ip.startsWith("gdnps.infotec.com.mx"))
             {
-                GENERICLDAP_PROPERTIES="genericLDAPInmujeres.properties";
+                GENERICLDAP_PROPERTIES="/genericLDAPInmujeres.properties";
                 PREFIX_INMUJERES = "";
             }
             else
