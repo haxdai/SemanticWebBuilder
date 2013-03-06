@@ -709,7 +709,7 @@ public class IntranetLoginBrigde extends ExtUserRepInt
                     "(&(objectClass=organizationalUnit)(ou=" + OU + "))", ctls);
 
 
-            name = answers.next().getAttributes().get("name").toString();
+            name = answers.next().getAttributes().get("name").get().toString();
         }
         catch (Exception e)
         {
