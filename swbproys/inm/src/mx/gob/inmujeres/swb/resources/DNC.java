@@ -85,10 +85,77 @@ public class DNC extends GenericResource
 
             SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
             foi = (FlowNodeInstance) ont.getGenericObject(suri);
-            foi.close(paramRequest.getUser(), ProcessInstance.ACTION_ACCEPT);
-            /*ProcessInstance pInstance = foi.getProcessInstance();
-            pInstance.close(paramRequest.getUser(), ProcessInstance.ACTION_ACCEPT);*/
+
+            Desempenio evaluacion = null;
+            User evaluado = null;
+            ProcessInstance pInstance = foi.getProcessInstance();
+            Iterator<ItemAwareReference> dataObjs = pInstance.listAllItemAwareReferences();
+
+            while (dataObjs.hasNext())
+            {
+                ItemAwareReference obj = dataObjs.next();
+                if (obj != null)
+                {
+
+                    if ("EvaluacionDes".equalsIgnoreCase(obj.getItemAware().getName()))
+                    {
+                        evaluacion = ((Desempenio) obj.getProcessObject());
+                        evaluado = ((Desempenio) obj.getProcessObject()).getEvaluado();
+                    }
+                }
+            }
             String redirect = null;
+            if (evaluado == null || evaluacion == null)
+            {
+                return;
+            }
+            else
+            {
+                Iterator<CursoEvaluacion> cursos = evaluacion.listCursoses();
+                if (!cursos.hasNext())
+                {
+                    String msg = "!Debe capturar por lo menos un curso!";
+                    // no se capturo cursos
+                    SWBResourceURL url = paramRequest.getRenderUrl();
+                    url.setParameter("msg", msg);
+                    url.setParameter("uri", suri);
+                    response.sendRedirect(url.toString());
+                    return;
+                }
+                int imetas = 0;
+                Iterator<MetaEvaluacion> metas = evaluacion.listMetases();
+                while (metas.hasNext())
+                {
+                    metas.next();
+                    imetas++;
+                }
+                if (imetas < 3)
+                {
+                    String msg = "!Debe capturar por lo menos 3 metas!";
+                    // no se capturo cursos
+                    SWBResourceURL url = paramRequest.getRenderUrl();
+                    url.setParameter("msg", msg);
+                    url.setParameter("uri", suri);
+                    response.sendRedirect(url.toString());
+                    return;
+                }
+                if (imetas > 5)
+                {
+                    String msg = "!Debe capturar por máximo 5 metas!";
+                    // no se capturo cursos
+                    SWBResourceURL url = paramRequest.getRenderUrl();
+                    url.setParameter("msg", msg);
+                    url.setParameter("uri", suri);
+                    response.sendRedirect(url.toString());
+                    return;
+                }
+            }
+
+
+
+            foi.close(paramRequest.getUser(), ProcessInstance.ACTION_ACCEPT);
+
+
 
 
             if (foi.getFlowNodeType() instanceof UserTask && ((UserTask) foi.getFlowNodeType()).isLinkNextUserTask())
@@ -145,9 +212,9 @@ public class DNC extends GenericResource
             User evaluado = site.getUserRepository().getUserByLogin(loginEvaluado);
             Iterator<User> subordinados = ext.listSubordinados();
             boolean found = true;
-            while(subordinados.hasNext())
+            while (subordinados.hasNext())
             {
-                User loginsub=subordinados.next();
+                User loginsub = subordinados.next();
                 if (loginsub.getLogin().equals(evaluado.getLogin()))
                 {
                     found = true;
@@ -244,29 +311,29 @@ public class DNC extends GenericResource
 
         String loginEvaluado = request.getParameter("evaluado");
 
-        if (peso!=null && nosatisfactorio != null && minimo != null && satisfactorio != null && instrumentoId != null && temasId != null && loginEvaluado != null && meta != null && !"".equals(meta.trim()) && !"".equals(idmedida.trim()))
+        if (peso != null && nosatisfactorio != null && minimo != null && satisfactorio != null && instrumentoId != null && temasId != null && loginEvaluado != null && meta != null && !"".equals(meta.trim()) && !"".equals(idmedida.trim()))
         {
-            TemasPrograma _tema=null;
-            Iterator<TemasPrograma> temas=TemasPrograma.ClassMgr.listTemasProgramas();
-            while(temas.hasNext())
+            TemasPrograma _tema = null;
+            Iterator<TemasPrograma> temas = TemasPrograma.ClassMgr.listTemasProgramas();
+            while (temas.hasNext())
             {
-                TemasPrograma tema=temas.next();
-                if(tema.getId().equals(temasId))
+                TemasPrograma tema = temas.next();
+                if (tema.getId().equals(temasId))
                 {
-                    _tema=tema;
+                    _tema = tema;
                 }
             }
-            InstrumentoG _instrumento=null;
-            Iterator<InstrumentoG> instrumentos=InstrumentoG.ClassMgr.listInstrumentoGs();
-            while(instrumentos.hasNext())
+            InstrumentoG _instrumento = null;
+            Iterator<InstrumentoG> instrumentos = InstrumentoG.ClassMgr.listInstrumentoGs();
+            while (instrumentos.hasNext())
             {
-                InstrumentoG instrumento=instrumentos.next();
-                if(instrumento.getId().equals(instrumentoId))
+                InstrumentoG instrumento = instrumentos.next();
+                if (instrumento.getId().equals(instrumentoId))
                 {
-                    _instrumento=instrumento;
+                    _instrumento = instrumento;
                 }
             }
-            
+
             User evaluador = response.getUser();
             Autentificacion aut = new Autentificacion();
             User evaluado = site.getUserRepository().getUserByLogin(loginEvaluado);
