@@ -474,6 +474,7 @@ public class DNC extends GenericResource
         {
             deleteMeta(request, response);
             response.setMode(SWBResourceURL.Mode_VIEW);
+            response.setRenderParameter("suri",request.getParameter("suri"));
 
         }
 
@@ -481,6 +482,7 @@ public class DNC extends GenericResource
         {
             deleteCurso(request, response);
             response.setMode(SWBResourceURL.Mode_VIEW);
+            response.setRenderParameter("suri",request.getParameter("suri"));            
 
         }
     }
