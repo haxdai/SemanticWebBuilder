@@ -117,8 +117,10 @@ public class DNC extends GenericResource
                     String msg = "!Debe capturar por lo menos un curso!";
                     // no se capturo cursos
                     SWBResourceURL url = paramRequest.getRenderUrl();
+                    url.setMode(SWBResourceURL.Mode_VIEW);
+                    url.setCallMethod(SWBResourceURL.Call_CONTENT);
                     url.setParameter("msg", msg);
-                    url.setParameter("uri", suri);
+                    url.setParameter("suri", suri);
                     response.sendRedirect(url.toString());
                     return;
                 }
@@ -134,8 +136,10 @@ public class DNC extends GenericResource
                     String msg = "!Debe capturar por lo menos 3 metas!";
                     // no se capturo cursos
                     SWBResourceURL url = paramRequest.getRenderUrl();
+                    url.setMode(SWBResourceURL.Mode_VIEW);
+                    url.setCallMethod(SWBResourceURL.Call_CONTENT);
                     url.setParameter("msg", msg);
-                    url.setParameter("uri", suri);
+                    url.setParameter("suri", suri);
                     response.sendRedirect(url.toString());
                     return;
                 }
@@ -144,8 +148,10 @@ public class DNC extends GenericResource
                     String msg = "!Debe capturar por máximo 5 metas!";
                     // no se capturo cursos
                     SWBResourceURL url = paramRequest.getRenderUrl();
+                    url.setMode(SWBResourceURL.Mode_VIEW);
+                    url.setCallMethod(SWBResourceURL.Call_CONTENT);
                     url.setParameter("msg", msg);
-                    url.setParameter("uri", suri);
+                    url.setParameter("suri", suri);
                     response.sendRedirect(url.toString());
                     return;
                 }
