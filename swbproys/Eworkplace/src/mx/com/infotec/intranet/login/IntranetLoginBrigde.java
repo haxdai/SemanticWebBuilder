@@ -140,7 +140,10 @@ public class IntranetLoginBrigde extends ExtUserRepInt
         {
             String loginSubordinado = subordinado.getLogin();
             User userSubordinado = getUser(loginSubordinado);
-            ext.addSubordinado(userSubordinado);
+            if(userSubordinado!=null)
+            {
+                ext.addSubordinado(userSubordinado);
+            }
         }
         
         UserLogin info = aut.getCamposLogin(login);
