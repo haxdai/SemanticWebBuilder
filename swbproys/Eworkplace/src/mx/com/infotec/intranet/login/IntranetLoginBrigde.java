@@ -903,6 +903,7 @@ public class IntranetLoginBrigde extends ExtUserRepInt
                 {
                     streetAddressGroup=UserGroup.ClassMgr.createUserGroup(nameGroup, userRep);
                 }
+                streetAddressGroup.setTitle(streetAddress.toUpperCase());
                 Set<UserGroup> delete=new HashSet<UserGroup>();
                 Iterator<UserGroup> groups=ru.listUserGroups();
                 while(groups.hasNext())
