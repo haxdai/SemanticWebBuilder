@@ -13,6 +13,7 @@ import javax.servlet.http.*;
 import com.infotec.eworkplace.swb.ReservacionSala;
 import com.infotec.eworkplace.swb.Sala;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -142,8 +143,29 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         Resource base = getResourceBase();
         WebSite model = base.getWebSite();
         String action = response.getAction();
-
-        if(SWBResourceURL.Action_ADD.equals(action)) {
+        
+        if(response.getMode().equals(SWBResourceURL.Mode_EDIT))
+        {
+            ReservacionSala reservation = ReservacionSala.ClassMgr.getReservacionSala(request.getParameter("rid"), model);
+            
+            //Obtener la instancia de la tarea -inicia
+            FlowNodeInstance fni = getFlowNodeInstance(request.getParameter("suri"));
+            if (fni != null) {
+                ProcessInstance pInstance = fni.getProcessInstance();
+//                reservation.setPId(pInstance.getId());                    
+                //Enviar los datos a process
+                LinkReserva(reservation, fni);
+                String url = getTaskInboxUrl(fni);
+                //Cerrar la tarea
+                fni.close(user, Instance.ACTION_ACCEPT);
+                if(url != null) {
+                    response.sendRedirect(url);
+                }
+            }
+            //Obtener la instancia de la tarea -fin
+        }
+        else if(SWBResourceURL.Action_ADD.equals(action))
+        {
             HttpSession session = request.getSession(true);
             GregorianCalendar current = (GregorianCalendar)session.getAttribute("cur");
             
@@ -285,29 +307,53 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
                 if(!request.getParameter("osrvcs").isEmpty()) {
                     reservation.setServiciosAdicionales(request.getParameter("osrvcs").trim());
                 }
-                response.setRenderParameter("alertmsg", response.getLocaleString("msgReservationDoneOk"));
+                
+                response.setRenderParameter("suri", request.getParameter("suri"));
                 
                 //Obtener la instancia de la tarea -inicia
                 FlowNodeInstance fni = getFlowNodeInstance(request.getParameter("suri"));
-                if (fni != null) {
-                    ProcessInstance pInstance = fni.getProcessInstance();
-                    reservation.setPId(pInstance.getId());                    
-                    //Enviar los datos a process
-                    LinkReserva(reservation, fni);
-                    String url = getTaskInboxUrl(fni);
-                    //Cerrar la tarea
-                    fni.close(user, Instance.ACTION_ACCEPT);
-                    if(url != null) {
-                        response.sendRedirect(url);
-                    }
+                if(fni != null) {
+//                    ProcessInstance pInstance = fni.getProcessInstance();
+//                    reservation.setPId(pInstance.getId());
+reservation.setPId(fni.getProcessInstance().getId());
+response.setRenderParameter("alertmsg", response.getLocaleString("msgReservationDoneOk"));
+response.setRenderParameter("rid", reservation.getId());
+response.setMode(SWBResourceURL.Mode_EDIT);
+//                    //Enviar los datos a process
+//                    LinkReserva(reservation, fni);
+//                    String url = getTaskInboxUrl(fni);
+//                    //Cerrar la tarea
+//                    fni.close(user, Instance.ACTION_ACCEPT);
+//                    if(url != null) {
+//                        response.sendRedirect(url);
+//                    }
+                }else {
+                    response.setRenderParameter("alertmsg", response.getLocaleString("msgErrProcess"));
                 }
                 //Obtener la instancia de la tarea -fin
             }else {
                 response.setRenderParameter("alertmsg", response.getLocaleString("msgErrReservationMismatch"));
                 setRenderParameter(request, response);
-                return;
+//                return;
             }
         }
+    }
+
+    @Override
+    public void doEdit(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("text/html; charset=utf-8");
+        
+        PrintWriter out = response.getWriter();
+        out.println("<script type=\"text/javascript\">");
+        out.println("<!--");
+        out.println(" dojo.addOnLoad(function() {");
+        if(request.getParameter("alertmsg")!=null && !request.getParameter("alertmsg").isEmpty()) {
+            out.println(" alert('"+request.getParameter("alertmsg")+"');");
+            out.println(" window.location.href='"+paramRequest.getActionUrl().setParameter("suri", URLEncoder.encode(request.getParameter("suri"), "UTF-8"))+"';");
+        }        
+        out.println(" });");
+        out.println("-->");
+        out.println("</script>");
     }
     
     public void doViewSala(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
