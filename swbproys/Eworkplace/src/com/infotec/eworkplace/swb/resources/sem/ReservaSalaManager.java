@@ -147,11 +147,9 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         if(response.getMode().equals(SWBResourceURL.Mode_EDIT))
         {
             ReservacionSala reservation = ReservacionSala.ClassMgr.getReservacionSala(request.getParameter("rid"), model);
-            
-            //Obtener la instancia de la tarea -inicia
             FlowNodeInstance fni = getFlowNodeInstance(request.getParameter("suri"));
-            if (fni != null) {
-                ProcessInstance pInstance = fni.getProcessInstance();
+            if (reservation!=null && fni!=null) {
+//                ProcessInstance pInstance = fni.getProcessInstance();
 //                reservation.setPId(pInstance.getId());                    
                 //Enviar los datos a process
                 LinkReserva(reservation, fni);
@@ -162,7 +160,11 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
                     response.sendRedirect(url);
                 }
             }
-            //Obtener la instancia de la tarea -fin
+            else
+            {
+                response.setRenderParameter("alertmsg", response.getLocaleString("msgErrProcess"));
+                response.setMode(SWBResourceURL.Mode_VIEW);
+            }
         }
         else if(SWBResourceURL.Action_ADD.equals(action))
         {
@@ -349,7 +351,7 @@ response.setMode(SWBResourceURL.Mode_EDIT);
         out.println(" dojo.addOnLoad(function() {");
         if(request.getParameter("alertmsg")!=null && !request.getParameter("alertmsg").isEmpty()) {
             out.println(" alert('"+request.getParameter("alertmsg")+"');");
-            out.println(" window.location.href='"+paramRequest.getActionUrl().setParameter("suri", URLEncoder.encode(request.getParameter("suri"), "UTF-8"))+"';");
+            out.println(" window.location.href='"+paramRequest.getActionUrl().setParameter("suri", URLEncoder.encode(request.getParameter("suri"), "UTF-8")).setParameter("rid", request.getParameter("rid"))+"';");
         }        
         out.println(" });");
         out.println("-->");
