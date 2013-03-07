@@ -14,16 +14,17 @@ public class Sala extends com.infotec.eworkplace.swb.base.SalaBase
         super(base);
     }
     
-    public boolean isReservada(final Calendar begin, final Calendar end) {
+    public boolean isReservada(final Calendar begin, final Calendar end)
+    {
         return isReservada(begin.getTime(), end.getTime(), end.getTime().getHours(), end.getTime().getMinutes());
     }
     
-    private synchronized boolean isReservada(final java.util.Date begin, final java.util.Date end, final int hours, final int minutes) {
-        boolean isReservada = false;
-        if( begin.getDate()==end.getDate() && begin.getMonth()==end.getMonth() && begin.getYear()==end.getYear() ) {
+    private synchronized boolean isReservada(final java.util.Date begin, final java.util.Date end, final int hours, final int minutes)
+    {
+        if( begin.getDate()==end.getDate() && begin.getMonth()==end.getMonth() && begin.getYear()==end.getYear() )
+        {
             Calendar inicio = Calendar.getInstance();
             Calendar fin = Calendar.getInstance();
-//System.out.println("begin="+begin+", end="+end+", h="+hours+", m="+minutes);
             Iterator<ReservacionSala> reservations = ReservacionSalaBase.ClassMgr.listReservacionSalaBySala(this, (SWBModel)getSemanticObject().getModel().getModelObject().createGenericInstance());
             reservations = SWBComparator.sortByCreated(reservations, false);
             while(reservations.hasNext()) {
@@ -32,12 +33,7 @@ public class Sala extends com.infotec.eworkplace.swb.base.SalaBase
                 fin.setTime(reservation.getFechaInicio());
                 fin.set(Calendar.HOUR_OF_DAY, reservation.getFechaFinal().getHours());
                 fin.set(Calendar.MINUTE, reservation.getFechaFinal().getMinutes());
-//System.out.println("..reservation Inicio()="+reservation.getFechaInicio()+", Final()="+reservation.getFechaFinal());
-//System.out.println("inicio="+inicio.getTime()+", fin="+fin.getTime());
-//System.out.println("fin.getTime().compareTo(reservation.getFechaFinal())="+fin.getTime().compareTo(reservation.getFechaFinal()));
                 while(fin.getTime().compareTo(reservation.getFechaFinal())<=0) {
-//System.out.println("inicio.getTime().compareTo(begin)="+inicio.getTime().compareTo(begin));
-//System.out.println("fin.getTime().compareTo(end)="+fin.getTime().compareTo(end));
                     if( (inicio.getTime().compareTo(begin)<=0 && fin.getTime().compareTo(end)>=0) ||
                         (inicio.getTime().compareTo(begin)>0 && fin.getTime().compareTo(end)<0) ||
                         (begin.compareTo(inicio.getTime())<=0 && end.compareTo(inicio.getTime())>0 && end.compareTo(fin.getTime())<=0) ||
@@ -48,7 +44,9 @@ public class Sala extends com.infotec.eworkplace.swb.base.SalaBase
                     fin.add(Calendar.DATE, 1);
                 }
             }
-        }else {
+        }
+        else
+        {
             Calendar cbegin = Calendar.getInstance();
             cbegin.setTime(begin);
             Calendar cend = Calendar.getInstance();
@@ -58,12 +56,34 @@ public class Sala extends com.infotec.eworkplace.swb.base.SalaBase
 
             Calendar inicio = Calendar.getInstance();
             Calendar fin = Calendar.getInstance();
-
+            
+            ReservacionSala reservation;
             Iterator<ReservacionSala> reservations = ReservacionSalaBase.ClassMgr.listReservacionSalaBySala(this, (SWBModel)getSemanticObject().getModel().getModelObject().createGenericInstance());
             reservations = SWBComparator.sortByCreated(reservations, false);
-            while(reservations.hasNext()) {
-                ReservacionSala reservation = reservations.next();
+            while(reservations.hasNext())
+            {
+                reservation = reservations.next();
+                
+                if(reservation.getFechaFinal().compareTo(begin)<0 || reservation.getFechaInicio().compareTo(end)>=0) {
+                    continue;										
+                }
                 inicio.setTime(reservation.getFechaInicio());
+                fin.setTime(reservation.getFechaInicio());
+                fin.set(java.util.Calendar.HOUR_OF_DAY, reservation.getFechaFinal().getHours());
+                fin.set(java.util.Calendar.MINUTE, reservation.getFechaFinal().getMinutes());
+                while(fin.getTime().compareTo(reservation.getFechaFinal())<=0) {
+                    if(inicio.get(java.util.Calendar.HOUR_OF_DAY)<cend.get(java.util.Calendar.HOUR_OF_DAY) && inicio.get(java.util.Calendar.MINUTE)<cend.get(java.util.Calendar.MINUTE))
+                    {
+                        if(fin.get(java.util.Calendar.HOUR_OF_DAY)>cbegin.get(java.util.Calendar.HOUR_OF_DAY) && fin.get(java.util.Calendar.MINUTE)>cbegin.get(java.util.Calendar.MINUTE)) {
+                            return true;
+                        }
+                    }
+                    cbegin.add(java.util.Calendar.DATE, 1);
+                    cend.add(java.util.Calendar.DATE, 1);
+                    inicio.add(java.util.Calendar.DATE, 1);
+                    fin.add(java.util.Calendar.DATE, 1);
+                }
+                /*inicio.setTime(reservation.getFechaInicio());
                 fin.setTime(reservation.getFechaInicio());
                 fin.set(Calendar.HOUR_OF_DAY, reservation.getFechaFinal().getHours());
                 fin.set(Calendar.MINUTE, reservation.getFechaFinal().getMinutes());
@@ -78,17 +98,19 @@ public class Sala extends com.infotec.eworkplace.swb.base.SalaBase
                     cend.add(Calendar.DATE, 1);
                     inicio.add(Calendar.DATE, 1);
                     fin.add(Calendar.DATE, 1);
-                }
+                }*/
             }
         }
-        return isReservada;
+        return false;
     }
     
-    public ReservacionSala getReserva(final Calendar begin, final Calendar end) {
+    public ReservacionSala getReserva(final Calendar begin, final Calendar end)
+    {
         return getReserva(begin.getTime(), end.getTime(), end.getTime().getHours(), end.getTime().getMinutes());
     }
     
-    private synchronized ReservacionSala getReserva(final java.util.Date begin, final java.util.Date end, final int hours, final int minutes) {
+    private synchronized ReservacionSala getReserva(final java.util.Date begin, final java.util.Date end, final int hours, final int minutes)
+    {
         if( begin.getDate()==end.getDate() && begin.getMonth()==end.getMonth() && begin.getYear()==end.getYear() ) {
             Calendar inicio = Calendar.getInstance();
             Calendar fin = Calendar.getInstance();
