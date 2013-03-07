@@ -56,7 +56,8 @@ public class SWProfileManager extends GenericAdmResource {
     public static final String Mode_ADS = "ous";
     public static final String Mode_IBSS = "ibss";
     
-    //private Role subgerente, gerente, director;
+    private static final String misTareasWebPageId = "Mis_tareas";
+    
     private UserGroup infotec;
     private final String ugCorpId = "OU:Corporativo";
     
@@ -232,8 +233,9 @@ public class SWProfileManager extends GenericAdmResource {
         response.setContentType("text/html; charset=ISO-8859-1");
         
         User user = paramRequest.getUser();
-        if(!user.isSigned())
+        if(!user.isSigned()) {
             return;
+        }
         
         Resource base = getResourceBase();
         WebSite wsite = base.getWebSite();
@@ -287,7 +289,11 @@ public class SWProfileManager extends GenericAdmResource {
                 out.println("    <li class=\"perfil\">");
                 out.println("      <p><a href=\""+contentURL+"?act="+SWBResourceURL.Action_EDIT+"\" title=\"Editar mi perfil\">Editar mi perfil</a></p>");
                 out.println("      <p><a href=\""+SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+wsite.getId()+"/"+wsite.getWebPage("Favoritos").getId()+"/_lang/"+user.getLanguage()+"\" title=\"Ir a mis favoritos\">Mis favoritos</a></p>");
-                out.println("      <p><a href=\""+SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+wsite.getId()+"/Mis_tareas"+"/_lang/"+user.getLanguage()+"\" title=\"Ir a mis solicitudes\">Mis solicitudes</a></p>");
+                WebPage misTareas = wsite.getWebPage(misTareasWebPageId);
+                //if(user.haveAccess(null)) {
+                if(misTareas!=null && user.haveAccess(misTareas)) {
+                    out.println("  <p><a href=\""+SWBPlatform.getContextPath()+"/"+SWBPlatform.getEnv("swb/distributor")+"/"+wsite.getId()+"/Mis_tareas"+"/_lang/"+user.getLanguage()+"\" title=\"Ir a mis solicitudes\">Mis solicitudes</a></p>");
+                }                
                 out.println("      <p><a href=\""+contentURL+"?act="+SWBResourceURL.Action_ADD+"\" title=\"Ver mi perfil\">Ver mi perfil</a></p>");
                 out.println("      <p class=\"salir\"><a href=\""+SWBPlatform.getContextPath()+"/login?wb_logout=true&wb_goto="+urlLogout+"\" title=\"Salir\">Salir</a></p>");
                 out.println("    </li>");
