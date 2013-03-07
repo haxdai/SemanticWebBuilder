@@ -147,10 +147,8 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         if(response.getMode().equals(SWBResourceURL.Mode_EDIT))
         {
             ReservacionSala reservation = ReservacionSala.ClassMgr.getReservacionSala(request.getParameter("rid"), model);
-            FlowNodeInstance fni = getFlowNodeInstance(request.getParameter("suri"));
+            FlowNodeInstance fni = getFlowNodeInstance(URLDecoder.decode(request.getParameter("suri"), "UTF-8"));
             if (reservation!=null && fni!=null) {
-//                ProcessInstance pInstance = fni.getProcessInstance();
-//                reservation.setPId(pInstance.getId());                    
                 //Enviar los datos a process
                 LinkReserva(reservation, fni);
                 String url = getTaskInboxUrl(fni);
@@ -317,10 +315,10 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
                 if(fni != null) {
 //                    ProcessInstance pInstance = fni.getProcessInstance();
 //                    reservation.setPId(pInstance.getId());
-reservation.setPId(fni.getProcessInstance().getId());
-response.setRenderParameter("alertmsg", response.getLocaleString("msgReservationDoneOk"));
-response.setRenderParameter("rid", reservation.getId());
-response.setMode(SWBResourceURL.Mode_EDIT);
+                    reservation.setPId(fni.getProcessInstance().getId());
+                    response.setRenderParameter("alertmsg", response.getLocaleString("msgReservationDoneOk"));
+                    response.setRenderParameter("rid", reservation.getId());
+                    response.setMode(SWBResourceURL.Mode_EDIT);
 //                    //Enviar los datos a process
 //                    LinkReserva(reservation, fni);
 //                    String url = getTaskInboxUrl(fni);
