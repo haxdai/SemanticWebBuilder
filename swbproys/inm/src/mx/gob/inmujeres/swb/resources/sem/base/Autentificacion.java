@@ -161,6 +161,11 @@ public class Autentificacion
                 {
                     userLogin.setNoEmpleado(atts.get("initials").get().toString());
                 }
+
+                if (atts.get("facsimileTelephoneNumber") != null && atts.get("facsimileTelephoneNumber").get() != null)
+                {
+                    userLogin.setCc(atts.get("facsimileTelephoneNumber").get().toString());
+                }
                 
                 
                 if (atts.get("title") != null && atts.get("title").get() != null)
