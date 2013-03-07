@@ -38,7 +38,6 @@ import org.semanticwb.portal.api.SWBResourceURL;
 import org.semanticwb.process.model.FlowNodeInstance;
 import org.semanticwb.process.model.Instance;
 import org.semanticwb.process.model.ItemAwareReference;
-import org.semanticwb.process.model.ProcessInstance;
 
 public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem.base.ReservaSalaManagerBase {
     private static Logger log = SWBUtils.getLogger(ReservaSalaManager.class);
@@ -78,6 +77,11 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
 
     @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        User user = paramRequest.getUser();
+        if(!user.isSigned() || user.haveAccess(this)) {
+            return;
+        }
+        
         String mode = paramRequest.getMode();
         if(Mode_ROLL.equals(mode))
         {
@@ -87,10 +91,6 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         {
             doViewSala(request, response, paramRequest);
         }
-//        else if(Mode_RESUME.equals(mode))
-//        {
-//            doResume(request, response, paramRequest);
-//        }
         else
         {
             super.processRequest(request, response, paramRequest);
@@ -99,19 +99,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-//        response.setContentType("text/html; charset=utf-8");
-        
-//        if(paramRequest.getCallMethod()==SWBParamRequest.Call_STRATEGY)
-//        {
-//            /*PrintWriter out = response.getWriter();
-//            SWBResourceURL url = paramRequest.getRenderUrl();
-//            out.println("<a href=\""+url.setMode(Mode_RESUME)+"\" title=\""+paramRequest.getLocaleString("lblCheckAvailability")+"\">"+paramRequest.getLocaleString("lblCheckAvailability")+"</a>");*/
-//            doResume(request, response, paramRequest);
-//        }
-//        else
-//        {
             renderReservations(request, response, paramRequest);
-//        }
     }
     
     private void setRenderParameter(HttpServletRequest request, SWBActionResponse response) {
@@ -136,10 +124,12 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
     
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
-        response.setRenderParameter("suri", request.getParameter("suri"));
         User user = response.getUser();
-        if(!user.isSigned())
+        if(!user.isSigned() || user.haveAccess(this)) {
             return;
+        }
+        
+        response.setRenderParameter("suri", request.getParameter("suri"));
         Resource base = getResourceBase();
         WebSite model = base.getWebSite();
         String action = response.getAction();
@@ -307,34 +297,19 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
                 if(!request.getParameter("osrvcs").isEmpty()) {
                     reservation.setServiciosAdicionales(request.getParameter("osrvcs").trim());
                 }
-                
-                response.setRenderParameter("suri", request.getParameter("suri"));
-                
-                //Obtener la instancia de la tarea -inicia
+                                
                 FlowNodeInstance fni = getFlowNodeInstance(request.getParameter("suri"));
                 if(fni != null) {
-//                    ProcessInstance pInstance = fni.getProcessInstance();
-//                    reservation.setPId(pInstance.getId());
                     reservation.setPId(fni.getProcessInstance().getId());
                     response.setRenderParameter("alertmsg", response.getLocaleString("msgReservationDoneOk"));
                     response.setRenderParameter("rid", reservation.getId());
                     response.setMode(SWBResourceURL.Mode_EDIT);
-//                    //Enviar los datos a process
-//                    LinkReserva(reservation, fni);
-//                    String url = getTaskInboxUrl(fni);
-//                    //Cerrar la tarea
-//                    fni.close(user, Instance.ACTION_ACCEPT);
-//                    if(url != null) {
-//                        response.sendRedirect(url);
-//                    }
                 }else {
                     response.setRenderParameter("alertmsg", response.getLocaleString("msgErrProcess"));
                 }
-                //Obtener la instancia de la tarea -fin
             }else {
                 response.setRenderParameter("alertmsg", response.getLocaleString("msgErrReservationMismatch"));
                 setRenderParameter(request, response);
-//                return;
             }
         }
     }
