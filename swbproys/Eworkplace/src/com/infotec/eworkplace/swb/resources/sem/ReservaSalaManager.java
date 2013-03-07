@@ -43,7 +43,6 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
     private static Logger log = SWBUtils.getLogger(ReservaSalaManager.class);
     public static final String Mode_ROLL = "roll";
     public static final String Mode_SALA = "sala";
-//    public static final String Mode_RESUME = "resume";
     public static final String Roll_DATE = "date";
     public static final String Roll_MONTH = "month";
     public static final String Rel = "rel";
