@@ -439,7 +439,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
                             out.println("  <td class=\"sltc trCal1\">&nbsp;</td>");
                         }
                     }else if(k>1 && k<7) {
-                        out.println("  <td title=\"3\" class=\"deactive sltc trCal1\">&nbsp;</td>");
+                        out.println("  <td class=\"deactive sltc trCal1\">&nbsp;</td>");
                     }
                     begin.add(Calendar.DATE, 1);
                     end.add(Calendar.DATE, 1);
@@ -484,7 +484,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
             }else {
                  for(int k=1; k<=7; k++) {
                     if(month<cur.get(Calendar.MONTH) && k<7) {
-                        out.println("  <td title=\"9\" class=\"deactive sltc trCal1\">&nbsp;</td>");
+                        out.println("  <td class=\"deactive sltc trCal1\">&nbsp;</td>");
                     }else if(k>1&&k<7) {
                         myReservation = sala.getReserva(begin, end);
                         if(myReservation!=null) {
@@ -822,7 +822,6 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
             
         }
         out.println(getCalendar(request, paramRequest, locale));
-//        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         out.println("<table id=\"mainTableCal\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
         out.println("<thead>");
         out.println(" <tr class=\"trCalSalas\">");

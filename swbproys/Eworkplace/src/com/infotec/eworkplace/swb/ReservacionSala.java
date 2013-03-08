@@ -29,7 +29,8 @@ public class ReservacionSala extends com.infotec.eworkplace.swb.base.Reservacion
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         String lang = SWBContext.getSessionUser().getLanguage();
         Locale locale = new Locale(lang);
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MMM/yy HH:mm", locale);
@@ -50,10 +51,10 @@ public class ReservacionSala extends com.infotec.eworkplace.swb.base.Reservacion
         sb.append(", ");
         sb.append(getTipoReunion());
         if(isRequiereProyector()) {
-            sb.append(", "+SWBUtils.TEXT.getLocaleString("com.infotec.eworkplace.swb.resources.sem.ReservaSalaManager", "lblRequireProjector", locale));
+            sb.append(", ").append(SWBUtils.TEXT.getLocaleString("com.infotec.eworkplace.swb.resources.sem.ReservaSalaManager", "lblRequireProjector", locale));
         }
         if(isRequiereComputo()) {
-            sb.append(", "+SWBUtils.TEXT.getLocaleString("com.infotec.eworkplace.swb.resources.sem.ReservaSalaManager", "lblRequireComputer", locale));
+            sb.append(", ").append(SWBUtils.TEXT.getLocaleString("com.infotec.eworkplace.swb.resources.sem.ReservaSalaManager", "lblRequireComputer", locale));
         }
         return sb.toString();
     }
